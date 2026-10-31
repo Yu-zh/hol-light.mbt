@@ -4014,7 +4014,7 @@ pub fn interior_of_eq() -> @kernel.Thm {
 /// INTERIOR_OF_OPEN_IN
 fn step_196() -> Unit raise {
   let t952 = @meson.meson_tac(@list.List([interior_of_eq()]))
-  interior_of_open_in_c.set(@tactics.prove(@parser.parse_term("forall top s:a->bool. open_in top s ==> top interior_of s = s"), t952))
+  interior_of_open_in_c.set(@tactics.prove(@parser.parse_term("forall top s:Z->bool. open_in top s ==> top interior_of s = s"), t952))
 }
 
 ///|
@@ -60595,7 +60595,7 @@ fn step_1901() -> Unit raise {
   let t26345 = @tactics.match_mp_tac(@simp.rewrite_rule(@list.List([@theorems.imp_conj()]))(neighbourhood_base_at_mono()))
   let t26344 = @simp.rewrite_tac(@list.List([locally_path_connected_at(), locally_connected_at()]))
   let t26347 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t26344), t26345), t26346)
-  locally_path_connected_imp_locally_connected_at_c.set(@tactics.prove(@parser.parse_term("forall top x:a. locally_path_connected_at x top ==> locally_connected_at x top"), t26347))
+  locally_path_connected_imp_locally_connected_at_c.set(@tactics.prove(@parser.parse_term("forall top x:Z. locally_path_connected_at x top ==> locally_connected_at x top"), t26347))
 }
 
 ///|
@@ -60614,7 +60614,7 @@ fn step_1902() -> Unit raise {
   let t26349 = @tactics.match_mp_tac(@simp.rewrite_rule(@list.List([@theorems.imp_conj()]))(neighbourhood_base_at_mono()))
   let t26348 = @simp.rewrite_tac(@list.List([weakly_locally_path_connected_at(), weakly_locally_connected_at()]))
   let t26351 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t26348), t26349), t26350)
-  weakly_locally_path_connected_imp_weakly_locally_connected_at_c.set(@tactics.prove(@parser.parse_term("forall top x:a. weakly_locally_path_connected_at x top\n             ==> weakly_locally_connected_at x top"), t26351))
+  weakly_locally_path_connected_imp_weakly_locally_connected_at_c.set(@tactics.prove(@parser.parse_term("forall top x:Z. weakly_locally_path_connected_at x top\n             ==> weakly_locally_connected_at x top"), t26351))
 }
 
 ///|

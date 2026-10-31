@@ -82982,7 +82982,7 @@ test "Multivariate/flyspeck matches Multivariate/flyspeck.ml" {
       #|  (f : (Cart[Real, Tybit1[Unit]]) -> Cart[Real, Tybit1[Unit]])
       #|  CARD({(b : Cart[Real, Tybit1[Unit]]) - (a : Cart[Real, Tybit1[Unit]]), (c : Cart[Real, Tybit1[Unit]]) - a})
       #|  span({(b : Cart[Real, Tybit1[Unit]]) - (a : Cart[Real, Tybit1[Unit]]), (c : Cart[Real, Tybit1[Unit]]) - a})
-      #|  {x - a:real^x | x = b \\/ x = c} = {b - a,c - a}
+      #|  {x - a:real^B | x = b \\/ x = c} = {b - a,c - a}
       #|  -(a : Cart[Real, Tybit1[Unit]]) + (a + (x : Cart[Real, Tybit1[Unit]])) == x
       #|  IMAGE((x : Cart[Real, Tybit1[Unit]]) => -(a : Cart[Real, Tybit1[Unit]]) + x, {a + (x : Cart[Real, Tybit1[Unit]]) | IN(x, (s : (Cart[Real, Tybit1[Unit]]) -> Bool))}) == IMAGE((x : Cart[Real, Tybit1[Unit]]) => -a + (a + x), s)
       #|  -(a : Cart[Real, Tybit1[Unit]])
