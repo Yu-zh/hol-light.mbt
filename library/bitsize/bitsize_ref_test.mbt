@@ -5605,7 +5605,7 @@ test "Library/bitsize matches Library/bitsize.ml" {
       #|  \226\136\131 i : Num, (n : Num) < EXP(2, i)
       #|  \226\136\128 n : Num, \226\136\128 k : Num, (bitsize(n) <= k) == (n < EXP(2, k))
       #|  \226\136\128 n : Num, n < EXP(2, bitsize(n))
-      #|  forall n k. bitsize n = k <=> n < 2 EXP k /\\ forall j. j < k ==> 2 EXP j <= n
+      #|  \226\136\128 n : Num, \226\136\128 k : Num, (bitsize(n) == k) == (n < EXP(2, k) && (\226\136\128 j : Num, j < k \226\134\146 EXP(2, j) <= n))
       #|  !(2 == 0)
       #|  \226\136\128 n : Num, \226\136\128 k : Num, (bitsize(n) == k) == (\226\136\128 j : Num, (n < EXP(2, j)) == (k <= j))
       #|  \226\136\128 n : Num, (bitsize(n) == 0) == (n == 0)
@@ -5629,20 +5629,20 @@ test "Library/bitsize matches Library/bitsize.ml" {
       #|  \226\136\128 n : Num, (EXP(2, bitsize(n)) <= 2 * n) == !(n == 0)
       #|  \226\136\128 n : Num, !(n == 0) \226\134\146 EXP(2, bitsize(n)) <= 2 * n
       #|  (k : Num) == 0
-      #|  forall n k. k <= bitsize n <=> ~(k = 0) ==> 2 EXP (k - 1) <= n
+      #|  \226\136\128 n : Num, \226\136\128 k : Num, (k <= bitsize(n)) == (!(k == 0) \226\134\146 EXP(2, k - 1) <= n)
       #|  2 * (a : Num) == (b : Num) \226\134\146 (a <= (n : Num)) == (b <= 2 * n)
       #|  (k : Num) == 0
-      #|  forall n k. k <= bitsize n <=> ~(k = 0) ==> 2 EXP k <= 2 * n
+      #|  \226\136\128 n : Num, \226\136\128 k : Num, (k <= bitsize(n)) == (!(k == 0) \226\134\146 EXP(2, k) <= 2 * n)
       #|  ((n : Num) == (k : Num)) == (k <= n && !(k + 1 <= n))
-      #|  forall n k. bitsize n = k <=>\n         n < 2 EXP k /\\ (~(k = 0) ==> 2 EXP k <= 2 * n)
+      #|  \226\136\128 n : Num, \226\136\128 k : Num, (bitsize(n) == k) == (n < EXP(2, k) && (!(k == 0) \226\134\146 EXP(2, k) <= 2 * n))
       #|  2 * ((a : Num) * (b : Num)) == a * (2 * b)
       #|  ((p : Bool) \226\134\146 (q : Bool)) && p \226\134\146 p && q
-      #|  (forall k n. bitsize (2 EXP k * n) = if n = 0 then 0 else k + bitsize n) /\\\n   (forall k n. bitsize (n * 2 EXP k) = if n = 0 then 0 else bitsize n + k)
+      #|  (\226\136\128 k : Num, \226\136\128 n : Num, bitsize(EXP(2, k) * n) == (if n == 0 { 0 } else { k + bitsize(n) })) && (\226\136\128 k : Num, \226\136\128 n : Num, bitsize(n * EXP(2, k)) == (if n == 0 { 0 } else { bitsize(n) + k }))
       #|  bitsize(EXP(2, (k : Num)) * (m : Num))
       #|  ((m : Num) + 1 <= (r : Num)) == (m < r)
       #|  EXP(2, (k : Num)) * ((m : Num) + 1)
       #|  ((p : Bool) \226\134\146 (q : Bool)) && p \226\134\146 p && q
-      #|  (forall k m n. ~(m = 0) /\\ n < 2 EXP k\n            ==> bitsize (2 EXP k * m + n) = k + bitsize m) /\\\n   (forall k m n. ~(m = 0) /\\ n < 2 EXP k\n            ==> bitsize (m * 2 EXP k + n) = k + bitsize m) /\\\n   (forall k m n. ~(m = 0) /\\ n < 2 EXP k\n            ==> bitsize (n + 2 EXP k * m) = k + bitsize m) /\\\n   (forall k m n. ~(m = 0) /\\ n < 2 EXP k\n            ==> bitsize (n + m * 2 EXP k) = k + bitsize m)
+      #|  (\226\136\128 k : Num, \226\136\128 m : Num, \226\136\128 n : Num, !(m == 0) && n < EXP(2, k) \226\134\146 bitsize(EXP(2, k) * m + n) == k + bitsize(m)) && (\226\136\128 k : Num, \226\136\128 m : Num, \226\136\128 n : Num, !(m == 0) && n < EXP(2, k) \226\134\146 bitsize(m * EXP(2, k) + n) == k + bitsize(m)) && (\226\136\128 k : Num, \226\136\128 m : Num, \226\136\128 n : Num, !(m == 0) && n < EXP(2, k) \226\134\146 bitsize(n + EXP(2, k) * m) == k + bitsize(m)) && (\226\136\128 k : Num, \226\136\128 m : Num, \226\136\128 n : Num, !(m == 0) && n < EXP(2, k) \226\134\146 bitsize(n + m * EXP(2, k)) == k + bitsize(m))
       #|  ((a : Num) < (b : Num)) == (a + 1 <= b)
       #|  !((n : Num) <= (k : Num)) \226\134\146 ((j : Num) < n - k) == (k + j < n)
       #|  !((n : Num) <= (k : Num)) \226\134\146 k + (n - k) == n
