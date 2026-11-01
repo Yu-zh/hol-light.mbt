@@ -3882,7 +3882,7 @@ fn step_31() -> Unit raise {
   let t429 = @tactics.first_x_assum(@tactics.match_mp_tac)
   let t428 = @tactics.subgoal_then(
     @parser.parse_term(
-      "forall f:A->B. (forall x:A y:A. P f x /\\ y << G f x ==> y << x)\n         ==> forall x. terminates f x ==> forall y. y << while f x ==> y << x",
+      "forall f:A->B. (forall x:A y:A. P f x /\\ y << G f x ==> y << x)\n         ==> forall x. terminates f x ==> forall y. y << while_ f x ==> y << x",
     ),
     fn(
       x426 : @kernel.Thm,
@@ -3930,7 +3930,7 @@ fn step_31() -> Unit raise {
       @tactics.then_tac(
         @tactics.subgoal_then(
           @parser.parse_term(
-            "forall x:A. terminates (f:A->B) x /\\\n              (forall y:A. (forall z:A. z << y ==> z << x)\n                     ==> (P f y <=> P g y) /\\ (G f y :A = G g y))\n              ==> (while f x :A = while g x)",
+            "forall x:A. terminates (f:A->B) x /\\\n              (forall y:A. (forall z:A. z << y ==> z << x)\n                     ==> (P f y <=> P g y) /\\ (G f y :A = G g y))\n              ==> (while_ f x :A = while_ g x)",
           ),
           fn(
             x420 : @kernel.Thm,
@@ -4084,7 +4084,7 @@ fn step_31() -> Unit raise {
   ])
   let t407 = @tactics.subgoal_then(
     @parser.parse_term(
-      "?f:A->B. forall x. f x = if terminates f x then H f (while f x :A) else anything",
+      "?f:A->B. forall x. f x = if terminates f x then H f (while_ f x :A) else anything",
     ),
     fn(
       x404 : @kernel.Thm,
@@ -4141,7 +4141,7 @@ fn step_31() -> Unit raise {
   ])
   let t402 = @tactics.subgoal_then(
     @parser.parse_term(
-      "?while. forall f:A->B x:A. while f x = if P f x then while f (G f x) else x",
+      "?while_. forall f:A->B x:A. while_ f x = if P f x then while_ f (G f x) else x",
     ),
     fn(
       x401 : @kernel.Thm,

@@ -64,6 +64,8 @@ TERM_RENAMES = {
     # and num_RECURSION put it in theorems every theory uses; realax's fn is
     # an interface alias of the constant dest_nadd, no variable
     'nums.ml': {'fn': 'fn_'},
+    # local to one proof's subgoals: no theorem carries it
+    'wf.ml': {'while': 'while_'},
     'pair.ml': {'fn': 'fn_'},
     'trivia.ml': {'fn': 'fn_'},
     'ind_types.ml': {'fn': 'fn_'},

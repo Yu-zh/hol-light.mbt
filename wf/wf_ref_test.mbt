@@ -705,13 +705,13 @@ test "wf matches wf.ml" {
       #|  \226\136\128 P : (A) -> Bool, \226\136\128 g : (A) -> A, \226\136\128 h : (A) -> B, \226\136\131 f : (A) -> B, \226\136\128 x : A, f(x) == (if P(x) { f(g(x)) } else { h(x) })
       #|  (P : ((A) -> B, A) -> Bool)((f : (A) -> B), (x : A))
       #|  (x : A)
-      #|  forall f:A->B. (forall x:A y:A. P f x /\\ y << G f x ==> y << x)\n         ==> forall x. terminates f x ==> forall y. y << while f x ==> y << x
-      #|  forall x:A. terminates (f:A->B) x /\\\n              (forall y:A. (forall z:A. z << y ==> z << x)\n                     ==> (P f y <=> P g y) /\\ (G f y :A = G g y))\n              ==> (while f x :A = while g x)
+      #|  forall f:A->B. (forall x:A y:A. P f x /\\ y << G f x ==> y << x)\n         ==> forall x. terminates f x ==> forall y. y << while_ f x ==> y << x
+      #|  forall x:A. terminates (f:A->B) x /\\\n              (forall y:A. (forall z:A. z << y ==> z << x)\n                     ==> (P f y <=> P g y) /\\ (G f y :A = G g y))\n              ==> (while_ f x :A = while_ g x)
       #|  ((a : Bool) \226\134\146 (b : Bool) \226\134\146 (c : Bool)) == (b \226\134\146 a \226\134\146 c)
       #|  \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> B, \226\136\128 x : A, (\226\136\128 x : A, \226\136\128 y : A, (P : ((A) -> B, A) -> Bool)(f, x) && (op_lt_lt : (A, A) -> Bool)(y, (G : ((A) -> B, A) -> A)(f, x)) \226\134\146 op_lt_lt(y, x)) && (\226\136\128 y : A, (\226\136\128 z : A, op_lt_lt(z, y) \226\134\146 op_lt_lt(z, x)) \226\134\146 P(f, y) == P(g, y) && G(f, y) == G(g, y)) \226\134\146 (terminates : ((A) -> B, A) -> Bool)(f, x) \226\134\146 terminates(g, x)
       #|  (a : Bool) == (b : Bool) && (a && b \226\134\146 (x : _) == (y : _) && (f : (_) -> _)(x) == (g : (_) -> _)(x)) \226\134\146 (if a { f(x) } else { (d : _) }) == (if b { g(y) } else { d })
-      #|  ?f:A->B. forall x. f x = if terminates f x then H f (while f x :A) else anything
-      #|  ?while. forall f:A->B x:A. while f x = if P f x then while f (G f x) else x
+      #|  ?f:A->B. forall x. f x = if terminates f x then H f (while_ f x :A) else anything
+      #|  ?while_. forall f:A->B x:A. while_ f x = if P f x then while_ f (G f x) else x
       #|  (\226\136\128 x : A, !(P : ((A) -> B, A) -> Bool)((f : (A) -> B), x) \226\134\146 (terminates : ((A) -> B, A) -> Bool)(f, x)) && (\226\136\128 x : A, P(f, x) && terminates(f, (G : ((A) -> B, A) -> A)(f, x)) \226\134\146 terminates(f, x))
       #|  \226\136\128 P : ((A) -> B, A) -> Bool, \226\136\128 G : ((A) -> B, A) -> A, \226\136\128 H : ((A) -> B, A) -> B, WF((op_lt_lt : (A, A) -> Bool)) && (\226\136\128 f : (A) -> B, \226\136\128 g : (A) -> B, \226\136\128 x : A, (\226\136\128 z : A, op_lt_lt(z, x) \226\134\146 f(z) == g(z)) \226\134\146 P(f, x) == P(g, x) && G(f, x) == G(g, x) && H(f, x) == H(g, x)) && (\226\136\128 f : (A) -> B, \226\136\128 g : (A) -> B, \226\136\128 x : A, (\226\136\128 z : A, op_lt_lt(z, x) \226\134\146 f(z) == g(z)) \226\134\146 H(f, x) == H(g, x)) && (\226\136\128 f : (A) -> B, \226\136\128 x : A, \226\136\128 y : A, P(f, x) && op_lt_lt(y, G(f, x)) \226\134\146 op_lt_lt(y, x)) \226\134\146 (\226\136\131 f : (A) -> B, \226\136\128 x : A, f(x) == (if P(f, x) { f(G(f, x)) } else { H(f, x) }))
       #|  (\226\136\128 x : _, (P : (_) -> Bool)(x) \226\134\146 (\226\136\128 y : _, (Q : (_, _) -> Bool)(x, y))) == (\226\136\128 y : _, \226\136\128 x : _, P(x) \226\134\146 Q(x, y))
