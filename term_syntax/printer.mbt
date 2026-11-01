@@ -235,6 +235,17 @@ fn is_constant_name(name : String) -> Bool {
 }
 
 ///|
+/// Whether `t` uses the constant named `name`.
+fn uses_constant(t : @kernel.Term, name : String) -> Bool {
+  match t {
+    Const(n, _) => n == name
+    Var(_, _) => false
+    Comb(f, x) => uses_constant(f, name) || uses_constant(x, name)
+    Abs(v, b) => uses_constant(v, name) || uses_constant(b, name)
+  }
+}
+
+///|
 /// Whether `name` is a symbolic name the syntax writes between backticks:
 /// HOL symbol characters only (no letters, digits, `_`, primes or
 /// backticks), as the lexer's RAWIDENT accepts.
@@ -417,12 +428,17 @@ fn Printer::bind(
     }) ==
     name
   })
-  // a binder named like a constant would be read as that constant
-  // (its occurrences are read as it, by name, whatever they spell)
-  // except T and F: the syntax writes truth and falsity as true and false,
-  // and a binder named T or F binds a variable (a pattern's T is truth, as
-  // in HOL, so a pattern variable named T is renamed: `truth=false`)
-  let truth = truth && (name == "T" || name == "F")
+  // a binder named like a constant binds a variable that shadows the
+  // constant (term_syntax's binder_alias): T and F always, since the syntax
+  // writes truth and falsity as true and false; any other constant that is
+  // no interface name when `body` does not use it, since in the binder's
+  // scope the name means the binder. A pattern's constant names are
+  // constants, as in HOL, so a pattern variable named so is renamed
+  // (`truth=false`), as is a binder named like an interface name
+  let truth = truth &&
+    (name == "T" ||
+    name == "F" ||
+    (names_plain_constant(name) && !uses_constant(body, name)))
   // a binder with a symbolic name no identifier spells is written between
   // backticks (bound occurrences too); a free one has its op_ spelling
   let writable = is_ident(name) || is_raw_name(name)
