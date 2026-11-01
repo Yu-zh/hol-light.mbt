@@ -67,26 +67,54 @@ let fixed_cache : Ref[
     @list.List[(String, @kernel.HolType)],
     @list.List[(String, (String, @kernel.HolType))],
     @list.List[(String, (String, @kernel.HolType))],
+    Array[String],
+    Ref[@list.List[(String, @kernel.HolType)]],
   )?,
 ] = Ref::{ val: None }
+
+///|
+/// Whether `name` is a constant now.
+fn is_constant(name : String) -> Bool {
+  try {
+    ignore(@kernel.get_const_type(name))
+    true
+  } catch {
+    _ => false
+  }
+}
 
 ///|
 /// The interface the term syntax reads names through (see above): every
 /// overload of an overloadable symbol to a constant the interface was ever
 /// given (@preterm.overload_registry) or has now, so that replacing or
-/// reordering entries changes nothing, plus the syntax's own names.
+/// reordering entries changes nothing, plus the syntax's own names. An
+/// overload can be declared before its constant is defined; the view leaves
+/// it out until then, gains it then, and the cache remembers such overloads
+/// and looks at them again only when the constants have changed.
 fn fixed_interface() -> @list.List[(String, (String, @kernel.HolType))] {
   let live = @printer.the_interface.val
   let skeletons = @printer.the_overload_skeletons.val
   let registry = @preterm.overload_registry.val
+  let constants = @kernel.constants()
   match fixed_cache.val {
-    Some((l, sk, reg, view)) if physical_equal(sk, skeletons) &&
+    Some((l, sk, reg, view, pending, seen_constants)) if physical_equal(
+        sk, skeletons,
+      ) &&
       physical_equal(reg, registry) &&
-      (physical_equal(l, live) || physical_equal(view, live)) => return view
+      (physical_equal(l, live) || physical_equal(view, live)) => {
+      if physical_equal(seen_constants.val, constants) {
+        return view
+      }
+      if !pending.iter().any(is_constant) {
+        seen_constants.val = constants
+        return view
+      }
+    }
     _ => ()
   }
   let seen : Map[String, Bool] = Map::new()
   let entries = []
+  let pending = []
   for e in registry.iter().concat(live.iter()) {
     let (sym, (name, ty)) = e
     let key = sym + "\u{0}" + name + "\u{0}" + (@printer.string_of_type(ty) catch { _ => "" })
@@ -94,9 +122,12 @@ fn fixed_interface() -> @list.List[(String, (String, @kernel.HolType))] {
       continue
     }
     seen[key] = true
-    let overloadable = skeletons.iter().any(sk => sk.0 == sym) &&
-      (try { ignore(@kernel.get_const_type(name)); true } catch { _ => false })
-    if overloadable || (fixed_names.contains(sym) && live.iter().any(l => l == e)) {
+    let overloaded = skeletons.iter().any(sk => sk.0 == sym)
+    let defined = is_constant(name)
+    if overloaded && !defined {
+      pending.push(name)
+    }
+    if (overloaded && defined) || (fixed_names.contains(sym) && live.iter().any(l => l == e)) {
       entries.push(e)
     }
   }
@@ -121,7 +152,9 @@ fn fixed_interface() -> @list.List[(String, (String, @kernel.HolType))] {
     }
   })
   let view = @list.List(keyed.map(k => k.1))
-  fixed_cache.val = Some((live, skeletons, registry, view))
+  fixed_cache.val = Some(
+    (live, skeletons, registry, view, pending, Ref::{ val: constants }),
+  )
   view
 }
 
