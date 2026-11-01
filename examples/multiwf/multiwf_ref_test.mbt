@@ -5700,7 +5700,7 @@ test "Examples/multiwf matches Examples/multiwf.ml" {
       #|  (x : (Num) -> A)(SUC(0))
       #|  (x : (Num) -> A)
       #|  (a : A)
-      #|  forall(<<):A->A->bool.\n        WFP(<<) = {a | forall x. (forall n. x(SUC n) << x n) ==> ~(x 0 = a)}
+      #|  \226\136\128 `<<` : (A, A) -> Bool, WFP(`<<`) == {(a : A) | \226\136\128 x : (Num) -> A, (\226\136\128 n : Num, `<<`(x(SUC(n)), x(n))) \226\134\146 !(x(0) == a)}
       #|  (morder : ((_, _) -> Bool, Multiset[_], Multiset[_]) -> Bool)((op_lt_lt : (_, _) -> Bool), (N : Multiset[_]), (M : Multiset[_])) == (\226\136\131 M0 : Multiset[_], \226\136\131 a : _, \226\136\131 K : Multiset[_], M == munion(M0, msing(a)) && N == munion(M0, K) && (\226\136\128 b : _, mmember(b, K) \226\134\146 op_lt_lt(b, a)))
       #|  munion((M0 : Multiset[A]), msing((a : A))) == munion((M1 : Multiset[A]), msing((b : A)))
       #|  (K : Multiset[A])
