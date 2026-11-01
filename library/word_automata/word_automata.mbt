@@ -245,7 +245,7 @@ pub fn reachable_state_tac(
       let th_final = @bool.eqt_elim(@bdd.bdd_imp(bddstate)((pk_1, bdd_final)).1)
       let th_init_p = @bool.genl(vars, th_init)
       let t41 = @drule.match_mp(
-        @class.taut(@parser.parse_term("(p \\/ q <=> r) ==> q ==> r")),
+        @class.taut(@term_syntax.parse_term("((p : Bool) || (q : Bool)) == (r : Bool) → q → r")),
       )(th_fix)
       let t42 = @simp.pure_once_rewrite_rule(
         @list.List([@theorems.left_imp_exists_thm()]),
@@ -1365,7 +1365,7 @@ fn step_15() -> Unit raise {
     let init_p = @basics.mk_gabs(
       btup,
       @basics.subst(
-        @lib.zip(bvs, @lib.map(mk_bit(@parser.parse_term("0")), wvs)),
+        @lib.zip(bvs, @lib.map(mk_bit(@term_syntax.parse_term("0")), wvs)),
         init_,
       ),
     )
