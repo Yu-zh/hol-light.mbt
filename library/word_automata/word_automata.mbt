@@ -80,7 +80,7 @@ fn step_1() -> Unit raise {
   overapproximate_reachable_c.set(
     @tactics.prove(
       @parser.parse_term(
-        "forall init step final invariant.\n        (forall s. init s ==> invariant s) /\\\n        (forall s s'. invariant s /\\ step s s' ==> invariant s') /\\\n        (forall s. invariant s ==> final s)\n        ==> (forall s s':S. init s /\\ RTC step s s' ==> final s')",
+        "forall init step final_ invariant.\n        (forall s. init s ==> invariant s) /\\\n        (forall s s'. invariant s /\\ step s s' ==> invariant s') /\\\n        (forall s. invariant s ==> final_ s)\n        ==> (forall s s':S. init s /\\ RTC step s s' ==> final_ s')",
       ),
       t9,
     ),
@@ -1273,7 +1273,7 @@ fn step_15() -> Unit raise {
   )
   let pth = @tactics.prove(
     @parser.parse_term(
-      "forall step init final b n.\n          (forall s s':S. init s /\\ RTC step s s' ==> final s')\n          ==> init(b 0)\n              ==> (forall i. i + 1 < n ==> step (b i) (b(i+1)))\n                  ==> forall i. i < n ==> final(b i)",
+      "forall step init final_ b n.\n          (forall s s':S. init s /\\ RTC step s s' ==> final_ s')\n          ==> init(b 0)\n              ==> (forall i. i + 1 < n ==> step (b i) (b(i+1)))\n                  ==> forall i. i < n ==> final_(b i)",
     ),
     t135,
   )

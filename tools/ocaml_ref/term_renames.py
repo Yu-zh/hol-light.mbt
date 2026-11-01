@@ -26,6 +26,7 @@ from hol_notation import IDENT
 # upstream file -> {old stem: new stem}
 TERM_RENAMES = {
     'Logic/linear.ml': {'final': 'final_'},
+    'Library/word_automata.ml': {'final': 'final_'},
     '100/fourier.ml': {'is': 'is_'},
     'Autoformalization/carleson.ml': {'enum': 'enum_', 'fn': 'fn_'},
     'Autoformalization/fourier_transform.ml': {'fn': 'fn_'},
