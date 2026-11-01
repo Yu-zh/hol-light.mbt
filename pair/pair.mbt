@@ -965,7 +965,7 @@ fn step_24() -> Unit raise {
   )
   pair_recursion_c.set(
     @tactics.prove(
-      @parser.parse_term("forall PAIR'. ?fn:A#B->C. forall a0 a1. fn (a0,a1) = PAIR' a0 a1"),
+      @parser.parse_term("forall PAIR'. ?fn_:A#B->C. forall a0 a1. fn_ (a0,a1) = PAIR' a0 a1"),
       t72,
     ),
   )

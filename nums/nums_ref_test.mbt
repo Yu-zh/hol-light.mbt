@@ -331,18 +331,18 @@ test "nums matches nums.ml" {
       #|  mk_num(IND_SUC((i : Ind))) == SUC(mk_num(i))
       #|  (i : Ind) => NUM_REP(i) && (P : (Num) -> Bool)(mk_num(i))
       #|  \226\136\128 P : (Num) -> Bool, P(_0) && (\226\136\128 n : Num, P(n) \226\134\146 P(SUC(n))) \226\134\146 (\226\136\128 n : Num, P(n))
-      #|  fn:num->A
-      #|  fn:num->A
+      #|  fn_:num->A
+      #|  fn_:num->A
       #|  (y : A)
       #|  (f : (A, Num) -> A)((y : A), (n : Num))
       #|  (y : A)
       #|  existsunique((y : A) => (PRG : (Num, A) -> Bool)((n : Num), y))
       #|  \226\136\128 n : Num, existsunique((y : A) => (PRG : (Num, A) -> Bool)(n, y))
       #|  PRG _0 e /\\ (forall b:A n:num. PRG n b ==> PRG (SUC n) (f b n))
-      #|  forall(e:A) f. ?!fn. (fn _0 = e) /\\\n                   (forall n. fn (SUC n) = f (fn n) n)
+      #|  forall(e:A) f. ?!fn_. (fn_ _0 = e) /\\\n                   (forall n. fn_ (SUC n) = f (fn_ n) n)
       #|  _0 == 0
       #|  \226\136\128 m : Num, m == 0 || (\226\136\131 n : Num, m == SUC(n))
-      #|  @fn. fn 0 = 0 /\\ (forall n. fn (SUC n) = SUC (SUC(fn n)))
+      #|  @fn_. fn_ 0 = 0 /\\ (forall n. fn_ (SUC n) = SUC (SUC(fn_ n)))
       #|  (m : Num) => (n : Num) => SUC(SUC(m))
       #|  0
       #|  SUC(BIT0((n : Num)))
@@ -362,8 +362,8 @@ test "nums matches nums.ml" {
       #|NUMERAL =  |- (#forall:fun(fun(num,bool),bool) (\n:num. ((#=:fun(num,fun(num,bool)) (#NUMERAL:fun(num,num) n:num)) n:num)))
       #|NOT_SUC =  |- (#forall:fun(fun(num,bool),bool) (\n:num. (#~:fun(bool,bool) ((#=:fun(num,fun(num,bool)) (#SUC:fun(num,num) n:num)) (#NUMERAL:fun(num,num) #_0:num)))))
       #|num_INDUCTION =  |- (#forall:fun(fun(fun(num,bool),bool),bool) (\P:fun(num,bool). ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) (P:fun(num,bool) (#NUMERAL:fun(num,num) #_0:num))) (#forall:fun(fun(num,bool),bool) (\n:num. ((#==>:fun(bool,fun(bool,bool)) (P:fun(num,bool) n:num)) (P:fun(num,bool) (#SUC:fun(num,num) n:num))))))) (#forall:fun(fun(num,bool),bool) (\n:num. (P:fun(num,bool) n:num))))))
-      #|num_Axiom =  |- (#forall:fun(fun('A,bool),bool) (\e:'A. (#forall:fun(fun(fun('A,fun(num,'A)),bool),bool) (\f:fun('A,fun(num,'A)). (#?!:fun(fun(fun(num,'A),bool),bool) (\fn:fun(num,'A). ((#/\:fun(bool,fun(bool,bool)) ((#=:fun('A,fun('A,bool)) (fn:fun(num,'A) (#NUMERAL:fun(num,num) #_0:num))) e:'A)) (#forall:fun(fun(num,bool),bool) (\n:num. ((#=:fun('A,fun('A,bool)) (fn:fun(num,'A) (#SUC:fun(num,num) n:num))) ((f:fun('A,fun(num,'A)) (fn:fun(num,'A) n:num)) n:num)))))))))))
-      #|num_RECURSION =  |- (#forall:fun(fun('A,bool),bool) (\e:'A. (#forall:fun(fun(fun('A,fun(num,'A)),bool),bool) (\f:fun('A,fun(num,'A)). (#?:fun(fun(fun(num,'A),bool),bool) (\fn:fun(num,'A). ((#/\:fun(bool,fun(bool,bool)) ((#=:fun('A,fun('A,bool)) (fn:fun(num,'A) (#NUMERAL:fun(num,num) #_0:num))) e:'A)) (#forall:fun(fun(num,bool),bool) (\n:num. ((#=:fun('A,fun('A,bool)) (fn:fun(num,'A) (#SUC:fun(num,num) n:num))) ((f:fun('A,fun(num,'A)) (fn:fun(num,'A) n:num)) n:num)))))))))))
+      #|num_Axiom =  |- (#forall:fun(fun('A,bool),bool) (\e:'A. (#forall:fun(fun(fun('A,fun(num,'A)),bool),bool) (\f:fun('A,fun(num,'A)). (#?!:fun(fun(fun(num,'A),bool),bool) (\fn_:fun(num,'A). ((#/\:fun(bool,fun(bool,bool)) ((#=:fun('A,fun('A,bool)) (fn_:fun(num,'A) (#NUMERAL:fun(num,num) #_0:num))) e:'A)) (#forall:fun(fun(num,bool),bool) (\n:num. ((#=:fun('A,fun('A,bool)) (fn_:fun(num,'A) (#SUC:fun(num,num) n:num))) ((f:fun('A,fun(num,'A)) (fn_:fun(num,'A) n:num)) n:num)))))))))))
+      #|num_RECURSION =  |- (#forall:fun(fun('A,bool),bool) (\e:'A. (#forall:fun(fun(fun('A,fun(num,'A)),bool),bool) (\f:fun('A,fun(num,'A)). (#?:fun(fun(fun(num,'A),bool),bool) (\fn_:fun(num,'A). ((#/\:fun(bool,fun(bool,bool)) ((#=:fun('A,fun('A,bool)) (fn_:fun(num,'A) (#NUMERAL:fun(num,num) #_0:num))) e:'A)) (#forall:fun(fun(num,bool),bool) (\n:num. ((#=:fun('A,fun('A,bool)) (fn_:fun(num,'A) (#SUC:fun(num,num) n:num))) ((f:fun('A,fun(num,'A)) (fn_:fun(num,'A) n:num)) n:num)))))))))))
       #|num_CASES =  |- (#forall:fun(fun(num,bool),bool) (\m:num. ((#\/:fun(bool,fun(bool,bool)) ((#=:fun(num,fun(num,bool)) m:num) (#NUMERAL:fun(num,num) #_0:num))) (#?:fun(fun(num,bool),bool) (\n:num. ((#=:fun(num,fun(num,bool)) m:num) (#SUC:fun(num,num) n:num)))))))
       #|BIT0_DEF =  |- ((#/\:fun(bool,fun(bool,bool)) ((#=:fun(num,fun(num,bool)) (#BIT0:fun(num,num) (#NUMERAL:fun(num,num) #_0:num))) (#NUMERAL:fun(num,num) #_0:num))) (#forall:fun(fun(num,bool),bool) (\n:num. ((#=:fun(num,fun(num,bool)) (#BIT0:fun(num,num) (#SUC:fun(num,num) n:num))) (#SUC:fun(num,num) (#SUC:fun(num,num) (#BIT0:fun(num,num) n:num)))))))
       #|BIT1_DEF =  |- (#forall:fun(fun(num,bool),bool) (\n:num. ((#=:fun(num,fun(num,bool)) (#BIT1:fun(num,num) n:num)) (#SUC:fun(num,num) (#BIT0:fun(num,num) n:num)))))

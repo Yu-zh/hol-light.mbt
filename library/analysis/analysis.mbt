@@ -53146,7 +53146,7 @@ fn step_427() -> Unit raise {
     ),
   )
   let t5279 = @parser.parse_term(
-    "\\fn (n:num). if P(FST fn,(FST fn + SND fn)/ &2) then\n                        ((FST fn + SND fn)/ &2,SND fn) else\n                        (FST fn,(FST fn + SND fn)/ &2)",
+    "\\fn_ (n:num). if P(FST fn_,(FST fn_ + SND fn_)/ &2) then\n                        ((FST fn_ + SND fn_)/ &2,SND fn_) else\n                        (FST fn_,(FST fn_ + SND fn_)/ &2)",
   )
   let t5280 = @list.List([@term_syntax.parse_term("((a : Real), (b : Real))"), t5279])
   let t5273 = @tactics.x_choose_then(@term_syntax.parse_term("(f : (Num) -> (Real, Real))"))(

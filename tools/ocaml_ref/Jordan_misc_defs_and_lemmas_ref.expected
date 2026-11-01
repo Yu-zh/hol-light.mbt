@@ -6455,7 +6455,7 @@ Jordan/misc_defs_and_lemmas quotations (605):
   (x : Num)
   \226\136\131 t : Num, t == (x : Num) + (y' : Num)
   (p : (Num, Num))
-  fn:num -> (num#num)
+  fn_:num -> (num#num)
   GABS((f : ((Num, Num), Num) -> (Num, Num)) => \226\136\128 a : Num, \226\136\128 b : Num, GEQ(f((a, b)), (n : Num) => if b == 0 { (0, a + (b + 1)) } else { (a + 1, b - 1) }))
   (0, 0)
   COUNTABLE({((x : Num), (y : Num)) | true})

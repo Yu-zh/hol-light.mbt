@@ -3130,9 +3130,9 @@ fn step_29() -> Unit raise {
   let t344 = @tactics.first_assum(@tactics.match_mp_tac)
   let t343 = @tactics.repeat_tac(@tactics.gen_tac)
   let t342 = @simp.asm_rewrite_tac(@list.List([]))
-  let t341 = @tactics.exists_tac(@parser.parse_term("fn:(A)recspace->B"))
+  let t341 = @tactics.exists_tac(@parser.parse_term("fn_:(A)recspace->B"))
   let t340 = @tactics.disch_then(
-    @tactics.x_choose_then(@parser.parse_term("fn:(A)recspace->B"))(fn(
+    @tactics.x_choose_then(@parser.parse_term("fn_:(A)recspace->B"))(fn(
       x339 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
       (
@@ -5047,9 +5047,11 @@ fn step_33() -> Unit raise {
             )
           })(@lib.hd(consindex_4))
           let ranty = @kernel.mk_vartype("Z")
-          let fn_ = @kernel.mk_var("fn", @basics.mk_fun_ty(recty_2, ranty))
+          let fn_ = @kernel.mk_var("fn_", @basics.mk_fun_ty(recty_2, ranty))
+          // one type: make_args makes the name itself, the variable fn_;
+          // more: fn0, fn1, ...
           let fns = @basics.make_args(
-            "fn",
+            if domtys.length() == 1 { "fn_" } else { "fn" },
             @list.List([]),
             @lib.map(
               fn(x597 : @kernel.HolType) -> @kernel.HolType raise {
