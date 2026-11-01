@@ -375,9 +375,7 @@ pub fn f_imp() -> @kernel.Thm {
 fn step_14() -> Unit raise {
   left_and_over_or_c.set(
     @class.taut(
-      @parser.parse_term(
-        "forall t1 t2 t3. t1 /\\ (t2 \\/ t3) <=> t1 /\\ t2 \\/ t1 /\\ t3",
-      ),
+      @term_syntax.parse_term("∀ t1 : Bool, ∀ t2 : Bool, ∀ t3 : Bool, (t1 && (t2 || t3)) == (t1 && t2 || t1 && t3)"),
     ),
   )
 }
@@ -398,9 +396,7 @@ pub fn left_and_over_or() -> @kernel.Thm {
 fn step_15() -> Unit raise {
   right_and_over_or_c.set(
     @class.taut(
-      @parser.parse_term(
-        "forall t1 t2 t3. (t2 \\/ t3) /\\ t1 <=> t2 /\\ t1 \\/ t3 /\\ t1",
-      ),
+      @term_syntax.parse_term("∀ t1 : Bool, ∀ t2 : Bool, ∀ t3 : Bool, ((t2 || t3) && t1) == (t2 && t1 || t3 && t1)"),
     ),
   )
 }
@@ -1032,9 +1028,7 @@ fn step_40() -> Unit raise {
   )
   sub_old_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m. 0 - m = 0) /\\\n                 (forall m n. (SUC m) - n = (if m < n then 0 else SUC(m - n)))",
-      ),
+      @term_syntax.parse_term("(∀ m : Num, 0 - m == 0) && (∀ m : Num, ∀ n : Num, SUC(m) - n == (if m < n { 0 } else { SUC(m - n) }))"),
       t58,
     ),
   )
@@ -9813,9 +9807,7 @@ fn step_158() -> Unit raise {
     t1001,
   ])
   let t979 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall a b c d.\n    (a * b) - (c * d) = ((a * b) - (a * d)) + ((a * d) - (c * d))",
-    ),
+    @term_syntax.parse_term("∀ a : Real, ∀ b : Real, ∀ c : Real, ∀ d : Real, a * b - c * d == a * b - a * d + (a * d - c * d)"),
     fn(
       x976 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -9877,9 +9869,7 @@ fn step_158() -> Unit raise {
   )
   real_lt_mul2_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x1 x2 y1 y2. &0 <= x1 /\\ &0 <= y1 /\\ x1 < x2 /\\ y1 < y2 ==>\n        (x1 * y1) < (x2 * y2)",
-      ),
+      @term_syntax.parse_term("∀ x1 : Real, ∀ x2 : Real, ∀ y1 : Real, ∀ y2 : Real, real_of_num(0) <= x1 && real_of_num(0) <= y1 && x1 < x2 && y1 < y2 → x1 * y1 < x2 * y2"),
       t1003,
     ),
   )
@@ -10010,9 +10000,7 @@ fn step_163() -> Unit raise {
   let t1017 = @simp.rewrite_tac(@list.List([@real.real_inv_mul()]))
   real_inv_mul_weak_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. ~(x = &0) /\\ ~(y = &0) ==>\n             (inv(x * y) = inv(x) * inv(y))",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ y : Real, !(x == real_of_num(0)) && !(y == real_of_num(0)) → inv(x * y) == inv(x) * inv(y)"),
       t1017,
     ),
   )
@@ -10256,9 +10244,7 @@ fn step_166() -> Unit raise {
   )
   real_sub_inv2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. ~(x = &0) /\\ ~(y = &0) ==>\n                (inv(x) - inv(y) = (y - x) / (x * y))",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ y : Real, !(x == real_of_num(0)) && !(y == real_of_num(0)) → inv(x) - inv(y) == (y - x) / (x * y)"),
       t1044,
     ),
   )
@@ -10755,9 +10741,7 @@ fn step_170() -> Unit raise {
   )
   real_le_mul2v_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x1 x2 y1 y2.\n    (& 0) <= x1 /\\ (& 0) <= y1 /\\ x1 <= x2 /\\ y1 <= y2 ==>\n    (x1 * y1) <= (x2 * y2)",
-      ),
+      @term_syntax.parse_term("∀ x1 : Real, ∀ x2 : Real, ∀ y1 : Real, ∀ y2 : Real, real_of_num(0) <= x1 && real_of_num(0) <= y1 && x1 <= x2 && y1 <= y2 → x1 * y1 <= x2 * y2"),
       t1104,
     ),
   )
@@ -12974,9 +12958,7 @@ fn step_182() -> Unit raise {
   )
   real_sumsq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. ((x * x) + (y * y) = &0) <=> (x = &0) /\\ (y = &0)",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ y : Real, (x * x + y * y == real_of_num(0)) == (x == real_of_num(0) && y == real_of_num(0))"),
       t1330,
     ),
   )
@@ -13061,9 +13043,7 @@ fn step_184() -> Unit raise {
   )
   real_div_mul2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x z. ~(x = &0) /\\ ~(z = &0) ==> forall y. y / z = (x * y) / (x * z)",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ z : Real, !(x == real_of_num(0)) && !(z == real_of_num(0)) → (∀ y : Real, y / z == x * y / (x * z))"),
       t1342,
     ),
   )
@@ -14032,9 +14012,7 @@ fn step_194() -> Unit raise {
   )
   abs_lt_mul2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w x y z. abs(w) < y /\\ abs(x) < z ==> abs(w * x) < (y * z)",
-      ),
+      @term_syntax.parse_term("∀ w : Real, ∀ x : Real, ∀ y : Real, ∀ z : Real, abs(w) < y && abs(x) < z → abs(w * x) < y * z"),
       t1455,
     ),
   )
@@ -14791,9 +14769,7 @@ fn step_202() -> Unit raise {
   )
   abs_between_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y d. &0 < d /\\ ((x - d) < y) /\\ (y < (x + d)) <=> abs(y - x) < d",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ y : Real, ∀ d : Real, (real_of_num(0) < d && x - d < y && y < x + d) == (abs(y - x) < d)"),
       t1553,
     ),
   )
@@ -15534,9 +15510,7 @@ fn step_210() -> Unit raise {
   )
   abs_circle_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y h. abs(h) < (abs(y) - abs(x)) ==> abs(x + h) < abs(y)",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ y : Real, ∀ h : Real, abs(h) < abs(y) - abs(x) → abs(x + h) < abs(y)"),
       t1627,
     ),
   )
@@ -16087,9 +16061,7 @@ fn step_213() -> Unit raise {
       @realax.real_add_lid(),
     ]),
   )
-  let t1671 = @parser.parse_term(
-    "(y0 + --x0) + (x0 + --y) = (--x0 + x0) + (y0 + --y)",
-  )
+  let t1671 = @term_syntax.parse_term("(y0 : Real) + -(x0 : Real) + (x0 + -(y : Real)) == -x0 + x0 + (y0 + -y)")
   let t1672 = @tactics.mp_tac(@theorems.ac(@calc_int.real_add_ac())(t1671))
   let t1670 = @simp.pure_rewrite_tac(@list.List([real_not_lt()]))
   let t1701 = @tactics.then_tac(
@@ -16277,9 +16249,7 @@ fn step_213() -> Unit raise {
   )
   abs_between2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x0 x y0 y. x0 < y0 /\\ abs(x - x0) < (y0 - x0) / &2 /\\\n                          abs(y - y0) < (y0 - x0) / &2\n        ==> x < y",
-      ),
+      @term_syntax.parse_term("∀ x0 : Real, ∀ x : Real, ∀ y0 : Real, ∀ y : Real, x0 < y0 && abs(x - x0) < (y0 - x0) / real_of_num(2) && abs(y - y0) < (y0 - x0) / real_of_num(2) → x < y"),
       t1739,
     ),
   )
@@ -16922,9 +16892,7 @@ fn step_225() -> Unit raise {
   )
   pow_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x y. &0 <= x /\\ x <= y ==> (x pow n) <= (y pow n)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Real, ∀ y : Real, real_of_num(0) <= x && x <= y → pow(x, n) <= pow(y, n)"),
       t1817,
     ),
   )
@@ -17345,9 +17313,7 @@ fn step_236() -> Unit raise {
   )
   real_sup_exists_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (?x. P x) /\\ (?z. forall x. P x ==> x < z) ==>\n     (?s. forall y. (?x. P x /\\ y < x) <=> y < s)",
-      ),
+      @term_syntax.parse_term("∀ P : (Real) -> Bool, (∃ x : Real, P(x)) && (∃ z : Real, ∀ x : Real, P(x) → x < z) → (∃ s : Real, ∀ y : Real, (∃ x : Real, P(x) && y < x) == (y < s))"),
       t1872,
     ),
   )
@@ -17369,9 +17335,7 @@ pub fn real_sup_exists() -> @kernel.Thm {
 fn step_237() -> Unit raise {
   sup_def_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "sup s = @a. (forall x. x IN s ==> x <= a) /\\\n              (forall b. (forall x. x IN s ==> x <= b) ==> a <= b)",
-      ),
+      @term_syntax.parse_term("sup((s : (Real) -> Bool)) == select((a : Real) => (∀ x : Real, IN(x, s) → x <= a) && (∀ b : Real, (∀ x : Real, IN(x, s) → x <= b) → a <= b))"),
     ),
   )
 }
@@ -17522,9 +17486,7 @@ fn step_239() -> Unit raise {
   )
   real_sup_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (?x. P x) /\\ (?z. forall x. P x ==> x < z) ==>\n          (forall y. (?x. P x /\\ y < x) <=> y < sup P)",
-      ),
+      @term_syntax.parse_term("∀ P : (Real) -> Bool, (∃ x : Real, P(x)) && (∃ z : Real, ∀ x : Real, P(x) → x < z) → (∀ y : Real, (∃ x : Real, P(x) && y < x) == (y < sup(P)))"),
       t1883,
     ),
   )
@@ -17866,9 +17828,7 @@ fn step_240() -> Unit raise {
   )
   real_sup_ubound_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (?x. P x) /\\ (?z. forall x. P x ==> x < z) ==>\n          (forall y. P y ==> y <= sup P)",
-      ),
+      @term_syntax.parse_term("∀ P : (Real) -> Bool, (∃ x : Real, P(x)) && (∃ z : Real, ∀ x : Real, P(x) → x < z) → (∀ y : Real, P(y) → y <= sup(P))"),
       t1913,
     ),
   )
@@ -18059,9 +18019,7 @@ fn step_241() -> Unit raise {
   )
   setok_le_lt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (?x. P x) /\\ (?z. forall x. P x ==> x <= z) <=>\n       (?x. P x) /\\ (?z. forall x. P x ==> x < z)",
-      ),
+      @term_syntax.parse_term("∀ P : (Real) -> Bool, ((∃ x : Real, P(x)) && (∃ z : Real, ∀ x : Real, P(x) → x <= z)) == ((∃ x : Real, P(x)) && (∃ z : Real, ∀ x : Real, P(x) → x < z))"),
       t1931,
     ),
   )
@@ -18085,9 +18043,7 @@ fn step_242() -> Unit raise {
   )
   real_sup_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (?x. P x) /\\ (?z. forall x. P x ==> x <= z) ==>\n           (forall y. (?x. P x /\\ y < x) <=> y < sup P)",
-      ),
+      @term_syntax.parse_term("∀ P : (Real) -> Bool, (∃ x : Real, P(x)) && (∃ z : Real, ∀ x : Real, P(x) → x <= z) → (∀ y : Real, (∃ x : Real, P(x) && y < x) == (y < sup(P)))"),
       t1932,
     ),
   )
@@ -18111,9 +18067,7 @@ fn step_243() -> Unit raise {
   )
   real_sup_ubound_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (?x. P x) /\\ (?z. forall x. P x ==> x <= z) ==>\n          (forall y. P y ==> y <= sup P)",
-      ),
+      @term_syntax.parse_term("∀ P : (Real) -> Bool, (∃ x : Real, P(x)) && (∃ z : Real, ∀ x : Real, P(x) → x <= z) → (∀ y : Real, P(y) → y <= sup(P))"),
       t1933,
     ),
   )
@@ -19857,9 +19811,7 @@ fn step_246() -> Unit raise {
   )
   real_arch_least_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall y. &0 < y ==> forall x. &0 <= x ==>\n                        ?n. (&n * y) <= x /\\ x < (&(SUC n) * y)",
-      ),
+      @term_syntax.parse_term("∀ y : Real, real_of_num(0) < y → (∀ x : Real, real_of_num(0) <= x → (∃ n : Num, real_of_num(n) * y <= x && x < real_of_num(SUC(n)) * y))"),
       t2060,
     ),
   )
@@ -19884,9 +19836,7 @@ fn step_247() -> Unit raise {
       real_le_mul(),
       real_pos(),
       @calc_rat.real_arith(
-        @parser.parse_term(
-          "&1 + (n + &1) * x <= (&1 + x) * (&1 + n * x) <=> &0 <= n * x * x",
-        ),
+        @term_syntax.parse_term("(real_of_num(1) + ((n : Real) + real_of_num(1)) * (x : Real) <= (real_of_num(1) + x) * (real_of_num(1) + n * x)) == (real_of_num(0) <= n * (x * x))"),
       ),
     ]),
   )
@@ -20156,11 +20106,9 @@ fn step_254() -> Unit raise {
   let t2089 = @simp.asm_rewrite_tac(@list.List([]))
   let t2088 = @tactics.conv_tac(@equal.depth_conv(@pair.gen_beta_conv))
   let t2087 = @tactics.exists_tac(
-    @parser.parse_term("\\(n,m) f. (sm:num->num->(num->real)->real) n m f"),
+    @term_syntax.parse_term("fn { (n, m) => (f : (Num) -> Real) => (sm : (Num, Num, (Num) -> Real) -> Real)(n, m, f) }"),
   )
-  let t2085 = @parser.parse_term(
-    "(forall f n. sm n 0 f = &0) /\\\n     (forall f m n. sm  n (SUC m) f = sm n m f + f(n + m))",
-  )
+  let t2085 = @term_syntax.parse_term("(∀ f : (Num) -> Real, ∀ n : Num, (sm : (Num, Num, (Num) -> Real) -> Real)(n, 0, f) == real_of_num(0)) && (∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, sm(n, SUC(m), f) == sm(n, m, f) + f(n + m))")
   let t2086 = @recursion.prove_recursive_functions_exist(@nums.num_recursion())
   let t2090 = @tactics.then_tac(
     @tactics.then_tac(
@@ -20209,9 +20157,7 @@ fn step_256() -> Unit raise {
   let t2091 = @simp.rewrite_tac(@list.List([sum_def()]))
   sum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(sum(n,0) f = &0) /\\\n   (sum(n,SUC m) f = sum(n,m) f + f(n + m))",
-      ),
+      @term_syntax.parse_term("sum(((n : Num), 0), (f : (Num) -> Real)) == real_of_num(0) && sum((n, SUC((m : Num))), f) == sum((n, m), f) + f(n + m)"),
       t2091,
     ),
   )
@@ -20249,9 +20195,7 @@ fn step_257() -> Unit raise {
     t2102,
   ])
   let t2099 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "FINITE {i | m <= i /\\ i < m + n} /\\\n     {i | m <= i /\\ i < m + SUC n} =\n                (m + n) INSERT {i | m <= i /\\ i < m + n}",
-    ),
+    @term_syntax.parse_term("FINITE({(i : Num) | (m : Num) <= i && i < m + (n : Num)}) && {(i : Num) | m <= i && i < m + SUC(n)} == INSERT(m + n, {(i : Num) | m <= i && i < m + n})"),
     fn(
       x2097 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -20349,9 +20293,7 @@ fn step_257() -> Unit raise {
   )
   psum_sum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. sum(m,n) f = sum {i | m <= i /\\ i < m + n} f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, sum((m, n), f) == sum({(i : Num) | m <= i && i < m + n}, f)"),
       t2104,
     ),
   )
@@ -20437,9 +20379,7 @@ fn step_258() -> Unit raise {
   )
   psum_sum_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. ~(m = 0 /\\ n = 0) ==> sum(m,n) f = sum(m..(m+n)-1) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, !(m == 0 && n == 0) → sum((m, n), f) == sum(op_dot_dot(m, m + n - 1), f)"),
       t2111,
     ),
   )
@@ -20645,9 +20585,7 @@ fn step_262() -> Unit raise {
   )
   sum_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g m n. (forall r. m <= r /\\ r < n + m ==> f(r) <= g(r))\n        ==> (sum(m,n) f <= sum(m,n) g)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, ∀ m : Num, ∀ n : Num, (∀ r : Num, m <= r && r < n + m → f(r) <= g(r)) → sum((m, n), f) <= sum((m, n), g)"),
       t2141,
     ),
   )
@@ -20789,9 +20727,7 @@ fn step_263() -> Unit raise {
   )
   sum_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g m n. (forall r. m <= r /\\ r < (n + m) ==> (f(r) = g(r)))\n        ==> (sum(m,n) f = sum(m,n) g)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, ∀ m : Num, ∀ n : Num, (∀ r : Num, m <= r && r < n + m → f(r) == g(r)) → sum((m, n), f) == sum((m, n), g)"),
       t2153,
     ),
   )
@@ -20876,9 +20812,7 @@ fn step_265() -> Unit raise {
   )
   sum_pos_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n.\n     (forall n. m <= n ==> &0 <= f(n))\n     ==> &0 <= sum(m,n) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, (∀ n : Num, m <= n → real_of_num(0) <= f(n)) → real_of_num(0) <= sum((m, n), f)"),
       t2165,
     ),
   )
@@ -20919,9 +20853,7 @@ fn step_266() -> Unit raise {
   )
   sum_abs_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. abs(sum(m,n) (\\m. abs(f m))) = sum(m,n) (\\m. abs(f m))",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, abs(sum((m, n), (m : Num) => abs(f(m)))) == sum((m, n), (m : Num) => abs(f(m)))"),
       t2171,
     ),
   )
@@ -21107,9 +21039,7 @@ fn step_268() -> Unit raise {
   )
   sum_zero_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f N. (forall n. n >= N ==> (f(n) = &0)) ==>\n         (forall m n. m >= N ==> (sum(m,n) f = &0))",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ N : Num, (∀ n : Num, n >= N → f(n) == real_of_num(0)) → (∀ m : Num, ∀ n : Num, m >= N → sum((m, n), f) == real_of_num(0))"),
       t2194,
     ),
   )
@@ -21139,9 +21069,7 @@ fn step_269() -> Unit raise {
   )
   sum_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g m n. sum(m,n) (\\n. f(n) + g(n)) = sum(m,n) f + sum(m,n) g",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, ∀ m : Num, ∀ n : Num, sum((m, n), (n : Num) => f(n) + g(n)) == sum((m, n), f) + sum((m, n), g)"),
       t2196,
     ),
   )
@@ -21236,9 +21164,7 @@ fn step_272() -> Unit raise {
   let t2205 = @tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t2204)
   sum_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g m n. sum(m,n)(\\n. (f n) - (g n)) = sum(m,n) f - sum(m,n) g",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, ∀ m : Num, ∀ n : Num, sum((m, n), (n : Num) => f(n) - g(n)) == sum((m, n), f) - sum((m, n), g)"),
       t2205,
     ),
   )
@@ -21313,9 +21239,7 @@ fn step_273() -> Unit raise {
   )
   sum_subst_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g m n. (forall p. m <= p /\\ p < (m + n) ==> (f p = g p))\n        ==> (sum(m,n) f = sum(m,n) g)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, ∀ m : Num, ∀ n : Num, (∀ p : Num, m <= p && p < m + n → f(p) == g(p)) → sum((m, n), f) == sum((m, n), g)"),
       t2217,
     ),
   )
@@ -21393,9 +21317,7 @@ fn step_274() -> Unit raise {
   )
   sum_nsub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n f c. sum(0,n) f - (&n * c) = sum(0,n)(\\p. f(p) - c)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ f : (Num) -> Real, ∀ c : Real, sum((0, n), f) - real_of_num(n) * c == sum((0, n), (p : Num) => f(p) - c)"),
       t2224,
     ),
   )
@@ -21492,9 +21414,7 @@ fn step_275() -> Unit raise {
   )
   sum_bound_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f K m n. (forall p. m <= p /\\ p < (m + n) ==> (f(p) <= K))\n        ==> (sum(m,n) f <= (&n * K))",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ K : Real, ∀ m : Num, ∀ n : Num, (∀ p : Num, m <= p && p < m + n → f(p) <= K) → sum((m, n), f) <= real_of_num(n) * K"),
       t2237,
     ),
   )
@@ -21533,9 +21453,7 @@ fn step_276() -> Unit raise {
   )
   sum_group_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n k f. sum(0,n)(\\m. sum(m * k,k) f) = sum(0,n * k) f",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ k : Num, ∀ f : (Num) -> Real, sum((0, n), (m : Num) => sum((m * k, k), f)) == sum((0, n * k), f)"),
       t2241,
     ),
   )
@@ -21668,9 +21586,7 @@ fn step_279() -> Unit raise {
   )
   sum_offset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f n k. sum(0,n)(\\m. f(m + k)) = sum(0,n + k) f - sum(0,k) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ n : Num, ∀ k : Num, sum((0, n), (m : Num) => f(m + k)) == sum((0, n + k), f) - sum((0, k), f)"),
       t2261,
     ),
   )
@@ -21796,9 +21712,7 @@ fn step_282() -> Unit raise {
   )
   sum_cancel_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f n d. sum(n,d) (\\n. f(SUC n) - f(n)) = f(n + d) - f(n)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ n : Num, ∀ d : Num, sum((n, d), (n : Num) => f(SUC(n)) - f(n)) == f(n + d) - f(n)"),
       t2273,
     ),
   )
@@ -21896,9 +21810,7 @@ fn step_283() -> Unit raise {
   )
   sum_horner_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f n x. sum(0,SUC n)(\\i. f(i) * x pow i) =\n           f(0) + x * sum(0,n)(\\i. f(SUC i) * x pow i)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ n : Num, ∀ x : Real, sum((0, SUC(n)), (i : Num) => f(i) * pow(x, i)) == f(0) + x * sum((0, n), (i : Num) => f(SUC(i)) * pow(x, i))"),
       t2289,
     ),
   )
@@ -22046,9 +21958,7 @@ fn step_286() -> Unit raise {
   )
   sum_swap_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m1 n1 m2 n2.\n        sum(m1,n1) (\\a. sum(m2,n2) (\\b. f a b)) =\n        sum(m2,n2) (\\b. sum(m1,n1) (\\a. f a b))",
-      ),
+      @term_syntax.parse_term("∀ f : (Num, Num) -> Real, ∀ m1 : Num, ∀ n1 : Num, ∀ m2 : Num, ∀ n2 : Num, sum((m1, n1), (a : Num) => sum((m2, n2), (b : Num) => f(a, b))) == sum((m2, n2), (b : Num) => sum((m1, n1), (a : Num) => f(a, b)))"),
       t2317,
     ),
   )
@@ -22103,9 +22013,7 @@ fn step_287() -> Unit raise {
   )
   sum_eq_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall r. m <= r /\\ r < m + n ==> (f(r) = &0)) ==> (sum(m,n) f = &0)",
-      ),
+      @term_syntax.parse_term("(∀ r : Num, (m : Num) <= r && r < m + (n : Num) → (f : (Num) -> Real)(r) == real_of_num(0)) → sum((m, n), f) == real_of_num(0)"),
       t2325,
     ),
   )
@@ -22304,9 +22212,7 @@ fn step_288() -> Unit raise {
   )
   sum_moreterms_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n p.\n      n <= p /\\ (forall r. m + n <= r /\\ r < m + p ==> (f(r) = &0))\n      ==> (sum(m,p) f = sum(m,n) f)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ∀ p : Num, n <= p && (∀ r : Num, m + n <= r && r < m + p → (f : (Num) -> Real)(r) == real_of_num(0)) → sum((m, p), f) == sum((m, n), f)"),
       t2349,
     ),
   )
@@ -22341,9 +22247,7 @@ fn step_289() -> Unit raise {
   )
   sum_differences_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n p.\n      n <= p /\\ (forall r. m + n <= r /\\ r < m + p ==> (f(r) = g(r)))\n      ==> (sum(m,p) f - sum(m,n) f = sum(m,p) g - sum(m,n) g)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ∀ p : Num, n <= p && (∀ r : Num, m + n <= r && r < m + p → (f : (Num) -> Real)(r) == (g : (Num) -> Real)(r)) → sum((m, p), f) - sum((m, n), f) == sum((m, p), g) - sum((m, n), g)"),
       t2351,
     ),
   )
@@ -22707,9 +22611,7 @@ fn step_304() -> Unit raise {
   )
   subseta_antisym_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:A->bool. forall Q. P re_subset Q /\\ Q re_subset P <=> (P = Q)",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ Q : (A) -> Bool, (re_subset(P, Q) && re_subset(Q, P)) == (P == Q)"),
       t2370,
     ),
   )
@@ -22880,9 +22782,7 @@ fn step_305() -> Unit raise {
   )
   subseta_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:A->bool. forall Q R. P re_subset Q /\\ Q re_subset R ==> P re_subset R",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ Q : (A) -> Bool, ∀ R : (A) -> Bool, re_subset(P, Q) && re_subset(Q, R) → re_subset(P, R)"),
       t2386,
     ),
   )
@@ -22902,9 +22802,7 @@ pub fn subseta_trans() -> @kernel.Thm {
 fn step_306() -> Unit raise {
   istopology_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "forall L:(A->bool)->bool. istopology L <=>\n            L re_null /\\\n            L re_universe /\\\n     (forall a b. L a /\\ L b ==> L (a re_intersect b)) /\\\n       (forall P. P re_subset L ==> L (re_Union P))",
-      ),
+      @term_syntax.parse_term("∀ L : ((A) -> Bool) -> Bool, (istopology : (((A) -> Bool) -> Bool) -> Bool)(L) == (L(re_null) && L(re_universe) && (∀ a : (A) -> Bool, ∀ b : (A) -> Bool, L(a) && L(b) → L(re_intersect(a, b))) && (∀ P : ((A) -> Bool) -> Bool, re_subset(P, L) → L(re_Union(P))))"),
     ),
   )
 }
@@ -22960,9 +22858,7 @@ fn step_308() -> Unit raise {
   )
   topology_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall L:(A)topology. open(L) re_null /\\\n                   open(L) re_universe /\\\n            (forall x y. open(L) x /\\ open(L) y ==> open(L) (x re_intersect y)) /\\\n              (forall P. P re_subset (open L) ==> open(L) (re_Union P))",
-      ),
+      @term_syntax.parse_term("∀ L : Topology[A], open(L, re_null) && open(L, re_universe) && (∀ x : (A) -> Bool, ∀ y : (A) -> Bool, open(L, x) && open(L, y) → open(L, re_intersect(x, y))) && (∀ P : ((A) -> Bool) -> Bool, re_subset(P, open(L)) → open(L, re_Union(P)))"),
       t2390,
     ),
   )
@@ -22983,9 +22879,7 @@ fn step_309() -> Unit raise {
   let t2391 = @simp.rewrite_tac(@list.List([topology()]))
   topology_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall L:(A)topology. forall P. P re_subset (open L) ==> open(L) (re_Union P)",
-      ),
+      @term_syntax.parse_term("∀ L : Topology[A], ∀ P : ((A) -> Bool) -> Bool, re_subset(P, open(L)) → open(L, re_Union(P))"),
       t2391,
     ),
   )
@@ -23005,9 +22899,7 @@ pub fn topology_union() -> @kernel.Thm {
 fn step_310() -> Unit raise {
   neigh_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "neigh(top)(N,(x:A)) = ?P. open(top) P /\\ P re_subset N /\\ P x",
-      ),
+      @term_syntax.parse_term("(neigh : (Topology[A], ((A) -> Bool, A)) -> Bool)((top : Topology[A]), ((N : (A) -> Bool), (x : A))) == (∃ P : (A) -> Bool, open(top, P) && re_subset(P, N) && P(x))"),
     ),
   )
 }
@@ -23042,9 +22934,7 @@ fn step_311() -> Unit raise {
   )
   open_own_neigh_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall S top. forall x:A. open(top) S /\\ S x ==> neigh(top)(S,x)",
-      ),
+      @term_syntax.parse_term("∀ S : (A) -> Bool, ∀ top : Topology[A], ∀ x : A, open(top, S) && S(x) → neigh(top, (S, x))"),
       t2395,
     ),
   )
@@ -23253,9 +23143,7 @@ fn step_312() -> Unit raise {
   )
   open_unopen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall S top. open(top) S <=>\n           (re_Union (\\P:A->bool. open(top) P /\\ P re_subset S) = S)",
-      ),
+      @term_syntax.parse_term("∀ S : (A) -> Bool, ∀ top : Topology[A], open(top, S) == (re_Union((P : (A) -> Bool) => open(top, P) && re_subset(P, S)) == S)"),
       t2414,
     ),
   )
@@ -23491,9 +23379,7 @@ fn step_313() -> Unit raise {
     ),
     t2449,
   ])
-  let t2424 = @parser.parse_term(
-    "S = re_Union (\\P:A->bool. open(top) P /\\ P re_subset S)",
-  )
+  let t2424 = @term_syntax.parse_term("(S : (A) -> Bool) == re_Union((P : (A) -> Bool) => open((top : Topology[A]), P) && re_subset(P, S))")
   let t2451 = @tactics.thenl(
     @tactics.then_tac(
       @tactics.disch_tac,
@@ -23674,9 +23560,7 @@ fn step_313() -> Unit raise {
   )
   open_subopen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall S top. open(top) S <=>\n           forall x:A. S x ==> ?P. P x /\\ open(top) P /\\ P re_subset S",
-      ),
+      @term_syntax.parse_term("∀ S : (A) -> Bool, ∀ top : Topology[A], open(top, S) == (∀ x : A, S(x) → (∃ P : (A) -> Bool, P(x) && open(top, P) && re_subset(P, S)))"),
       t2453,
     ),
   )
@@ -23960,9 +23844,7 @@ fn step_314() -> Unit raise {
   )
   open_neigh_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall S top. open(top) S = forall x:A. S x ==> ?N. neigh(top)(N,x) /\\ N re_subset S",
-      ),
+      @term_syntax.parse_term("∀ S : (A) -> Bool, ∀ top : Topology[A], open(top, S) == (∀ x : A, S(x) → (∃ N : (A) -> Bool, neigh(top, (N, x)) && re_subset(N, S)))"),
       t2483,
     ),
   )
@@ -24001,9 +23883,7 @@ pub fn closed() -> @kernel.Thm {
 fn step_316() -> Unit raise {
   limpt_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "limpt(top) x S <=>\n      forall N:A->bool. neigh(top)(N,x) ==> ?y. ~(x = y) /\\ S y /\\ N y",
-      ),
+      @term_syntax.parse_term("(limpt : (Topology[A], A, (A) -> Bool) -> Bool)((top : Topology[A]), (x : A), (S : (A) -> Bool)) == (∀ N : (A) -> Bool, neigh(top, (N, x)) → (∃ y : A, !(x == y) && S(y) && N(y)))"),
     ),
   )
 }
@@ -24245,9 +24125,7 @@ fn step_317() -> Unit raise {
   )
   closed_limpt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall top S. closed(top) S <=> (forall x:A. limpt(top) x S ==> S x)",
-      ),
+      @term_syntax.parse_term("∀ top : Topology[A], ∀ S : (A) -> Bool, closed(top, S) == (∀ x : A, limpt(top, x, S) → S(x))"),
       t2511,
     ),
   )
@@ -24267,9 +24145,7 @@ pub fn closed_limpt() -> @kernel.Thm {
 fn step_318() -> Unit raise {
   ismet_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "ismet (m:A#A->real) <=> (forall x y. (m(x,y) = &0) <=> (x = y)) /\\\n                           (forall x y z. m(y,z) <= m(x,y) + m(x,z))",
-      ),
+      @term_syntax.parse_term("(ismet : (((A, A)) -> Real) -> Bool)((m : ((A, A)) -> Real)) == ((∀ x : A, ∀ y : A, (m((x, y)) == real_of_num(0)) == (x == y)) && (∀ x : A, ∀ y : A, ∀ z : A, m((y, z)) <= m((x, y)) + m((x, z))))"),
     ),
   )
 }
@@ -24584,9 +24460,7 @@ fn step_321() -> Unit raise {
   )
   metric_zero_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m:(A)metric. forall x y. ((mdist m)(x,y) = &0) <=> (x = y)",
-      ),
+      @term_syntax.parse_term("∀ m : Metric[A], ∀ x : A, ∀ y : A, (mdist(m, (x, y)) == real_of_num(0)) == (x == y)"),
       t2545,
     ),
   )
@@ -25076,9 +24950,7 @@ fn step_325() -> Unit raise {
   )
   metric_triangle_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m:(A)metric. forall x y z. (mdist m)(x,z) <= (mdist m)(x,y) + (mdist m)(y,z)",
-      ),
+      @term_syntax.parse_term("∀ m : Metric[A], ∀ x : A, ∀ y : A, ∀ z : A, mdist(m, (x, z)) <= mdist(m, (x, y)) + mdist(m, (y, z))"),
       t2608,
     ),
   )
@@ -25147,9 +25019,7 @@ pub fn metric_nz() -> @kernel.Thm {
 fn step_327() -> Unit raise {
   mtop_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "forall m:(A)metric. mtop m =\n    topology(\\S. forall x. S x ==> ?e. &0 < e /\\ (forall y. (mdist m)(x,y) < e ==> S y))",
-      ),
+      @term_syntax.parse_term("∀ m : Metric[A], (mtop : (Metric[A]) -> Topology[A])(m) == topology((S : (A) -> Bool) => ∀ x : A, S(x) → (∃ e : Real, real_of_num(0) < e && (∀ y : A, mdist(m, (x, y)) < e → S(y))))"),
     ),
   )
 }
@@ -26245,9 +26115,7 @@ fn step_328() -> Unit raise {
   )
   mtop_istopology_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m:(A)metric. istopology\n    (\\S. forall x. S x ==> ?e. &0 < e /\\ (forall y. (mdist m)(x,y) < e ==> S y))",
-      ),
+      @term_syntax.parse_term("∀ m : Metric[A], istopology((S : (A) -> Bool) => ∀ x : A, S(x) → (∃ e : Real, real_of_num(0) < e && (∀ y : A, mdist(m, (x, y)) < e → S(y))))"),
       t2721,
     ),
   )
@@ -26287,9 +26155,7 @@ fn step_329() -> Unit raise {
   )
   mtop_open_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m:(A)metric. open(mtop m) S <=>\n      (forall x. S x ==> ?e. &0 < e /\\ (forall y. (mdist m(x,y)) < e ==> S y))",
-      ),
+      @term_syntax.parse_term("∀ m : Metric[A], open(mtop(m), (S : (A) -> Bool)) == (∀ x : A, S(x) → (∃ e : Real, real_of_num(0) < e && (∀ y : A, mdist(m, (x, y)) < e → S(y))))"),
       t2723,
     ),
   )
@@ -26309,9 +26175,7 @@ pub fn mtop_open() -> @kernel.Thm {
 fn step_330() -> Unit raise {
   ball_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "forall m:(A)metric. forall x e. ball(m)(x,e) = \\y. (mdist m)(x,y) < e",
-      ),
+      @term_syntax.parse_term("∀ m : Metric[A], ∀ x : A, ∀ e : Real, (ball : (Metric[A], (A, Real), A) -> Bool)(m, (x, e)) == ((y : A) => mdist(m, (x, y)) < e)"),
     ),
   )
 }
@@ -26460,9 +26324,7 @@ fn step_331() -> Unit raise {
   )
   ball_open_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m:(A)metric. forall x e. &0 < e ==> open(mtop(m))(ball(m)(x,e))",
-      ),
+      @term_syntax.parse_term("∀ m : Metric[A], ∀ x : A, ∀ e : Real, real_of_num(0) < e → open(mtop(m), ball(m, (x, e)))"),
       t2741,
     ),
   )
@@ -26562,9 +26424,7 @@ fn step_332() -> Unit raise {
   )
   ball_neigh_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m:(A)metric. forall x e. &0 < e ==> neigh(mtop(m))(ball(m)(x,e),x)",
-      ),
+      @term_syntax.parse_term("∀ m : Metric[A], ∀ x : A, ∀ e : Real, real_of_num(0) < e → neigh(mtop(m), (ball(m, (x, e)), x))"),
       t2752,
     ),
   )
@@ -27443,9 +27303,7 @@ fn step_333() -> Unit raise {
   )
   mtop_limpt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m:(A)metric. forall x S. limpt(mtop m) x S <=>\n      forall e. &0 < e ==> ?y. ~(x = y) /\\ S y /\\ (mdist m)(x,y) < e",
-      ),
+      @term_syntax.parse_term("∀ m : Metric[A], ∀ x : A, ∀ S : (A) -> Bool, limpt(mtop(m), x, S) == (∀ e : Real, real_of_num(0) < e → (∃ y : A, !(x == y) && S(y) && mdist(m, (x, y)) < e))"),
       t2834,
     ),
   )
@@ -27905,9 +27763,7 @@ fn step_343() -> Unit raise {
   let t2879 = @tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t2878)
   mr1_between1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y z. x < z /\\ (mdist mr1)(x,y) < (z - x) ==> y < z",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ y : Real, ∀ z : Real, x < z && mdist(mr1, (x, y)) < z - x → y < z"),
       t2879,
     ),
   )
@@ -28057,9 +27913,7 @@ fn step_345() -> Unit raise {
 fn step_346() -> Unit raise {
   dorder_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "dorder (g:A->A->bool) <=>\n     forall x y. g x x /\\ g y y ==> ?z. g z z /\\ (forall w. g w z ==> g w x /\\ g w y)",
-      ),
+      @term_syntax.parse_term("(dorder : ((A, A) -> Bool) -> Bool)((g : (A, A) -> Bool)) == (∀ x : A, ∀ y : A, g(x, x) && g(y, y) → (∃ z : A, g(z, z) && (∀ w : A, g(w, z) → g(w, x) && g(w, y))))"),
     ),
   )
 }
@@ -28078,9 +27932,7 @@ pub fn dorder() -> @kernel.Thm {
 fn step_347() -> Unit raise {
   tends_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(s tends l)(top,g) <=>\n      forall N:A->bool. neigh(top)(N,l) ==>\n            ?n:B. g n n /\\ forall m:B. g m n ==> N(s m)",
-      ),
+      @term_syntax.parse_term("(tends : ((B) -> A, A, (Topology[A], (B, B) -> Bool)) -> Bool)((s : (B) -> A), (l : A), ((top : Topology[A]), (g : (B, B) -> Bool))) == (∀ N : (A) -> Bool, neigh(top, (N, l)) → (∃ n : B, g(n, n) && (∀ m : B, g(m, n) → N(s(m)))))"),
     ),
   )
 }
@@ -28099,9 +27951,7 @@ pub fn tends() -> @kernel.Thm {
 fn step_348() -> Unit raise {
   bounded_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "bounded((m:(A)metric),(g:B->B->bool)) f <=>\n      ?k x N. g N N /\\ (forall n. g n N ==> (mdist m)(f(n),x) < k)",
-      ),
+      @term_syntax.parse_term("(bounded : ((Metric[A], (B, B) -> Bool), (B) -> A) -> Bool)(((m : Metric[A]), (g : (B, B) -> Bool)), (f : (B) -> A)) == (∃ k : Real, ∃ x : A, ∃ N : B, g(N, N) && (∀ n : B, g(n, N) → mdist(m, (f(n), x)) < k))"),
     ),
   )
 }
@@ -28120,9 +27970,7 @@ pub fn bounded() -> @kernel.Thm {
 fn step_349() -> Unit raise {
   tendsto_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "tendsto((m:(A)metric),x) y z <=>\n      &0 < (mdist m)(x,y) /\\ (mdist m)(x,y) <= (mdist m)(x,z)",
-      ),
+      @term_syntax.parse_term("(tendsto : ((Metric[A], A), A, A) -> Bool)(((m : Metric[A]), (x : A)), (y : A), (z : A)) == (real_of_num(0) < mdist(m, (x, y)) && mdist(m, (x, y)) <= mdist(m, (x, z)))"),
     ),
   )
 }
@@ -28498,9 +28346,7 @@ fn step_352() -> Unit raise {
   )
   dorder_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g:A->A->bool.\n      dorder g ==>\n        forall P Q. (?n. g n n /\\ (forall m. g m n ==> P m)) /\\\n              (?n. g n n /\\ (forall m. g m n ==> Q m))\n                  ==> (?n. g n n /\\ (forall m. g m n ==> P m /\\ Q m))",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, dorder(g) → (∀ P : (A) -> Bool, ∀ Q : (A) -> Bool, (∃ n : A, g(n, n) && (∀ m : A, g(m, n) → P(m))) && (∃ n : A, g(n, n) && (∀ m : A, g(m, n) → Q(m))) → (∃ n : A, g(n, n) && (∀ m : A, g(m, n) → P(m) && Q(m))))"),
       t2938,
     ),
   )
@@ -29596,9 +29442,7 @@ fn step_355() -> Unit raise {
   )
   mtop_tends_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall d g. forall x:B->A. forall x0. (x --> x0)(mtop(d),g) <=>\n     forall e. &0 < e ==> ?n. g n n /\\ forall m. g m n ==> mdist(d)(x(m),x0) < e",
-      ),
+      @term_syntax.parse_term("∀ d : Metric[A], ∀ g : (B, B) -> Bool, ∀ x : (B) -> A, ∀ x0 : A, tends(x, x0, (mtop(d), g)) == (∀ e : Real, real_of_num(0) < e → (∃ n : B, g(n, n) && (∀ m : B, g(m, n) → mdist(d, (x(m), x0)) < e)))"),
       t3060,
     ),
   )
@@ -30589,9 +30433,7 @@ fn step_356() -> Unit raise {
   )
   mtop_tends_uniq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g d. dorder (g:B->B->bool) ==>\n      (x --> x0)(mtop(d),g) /\\ (x --> x1)(mtop(d),g) ==> (x0:A = x1)",
-      ),
+      @term_syntax.parse_term("∀ g : (B, B) -> Bool, ∀ d : Metric[A], dorder(g) → tends((x : (B) -> A), (x0 : A), (mtop(d), g)) && tends(x, (x1 : A), (mtop(d), g)) → x0 == x1"),
       t3125,
     ),
   )
@@ -30617,9 +30459,7 @@ fn step_357() -> Unit raise {
   let t3127 = @tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t3126)
   seq_tends_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall d:(A)metric. forall x x0. (x --> x0)(mtop(d), (>=) :num->num->bool) <=>\n     forall e. &0 < e ==> ?N. forall n. n >= N ==> mdist(d)(x(n),x0) < e",
-      ),
+      @term_syntax.parse_term("∀ d : Metric[A], ∀ x : (Num) -> A, ∀ x0 : A, tends(x, x0, (mtop(d), op_gt_eq)) == (∀ e : Real, real_of_num(0) < e → (∃ N : Num, ∀ n : Num, n >= N → mdist(d, (x(n), x0)) < e))"),
       t3127,
     ),
   )
@@ -30916,9 +30756,7 @@ fn step_358() -> Unit raise {
   )
   lim_tends_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m1:(A)metric. forall m2:(B)metric. forall f x0 y0.\n      limpt(mtop m1) x0 re_universe ==>\n        ((f --> y0)(mtop(m2),tendsto(m1,x0)) <=>\n          forall e. &0 < e ==>\n            ?d. &0 < d /\\ forall x. &0 < (mdist m1)(x,x0) /\\ (mdist m1)(x,x0) <= d\n                ==> (mdist m2)(f(x),y0) < e)",
-      ),
+      @term_syntax.parse_term("∀ m1 : Metric[A], ∀ m2 : Metric[B], ∀ f : (A) -> B, ∀ x0 : A, ∀ y0 : B, limpt(mtop(m1), x0, re_universe) → tends(f, y0, (mtop(m2), tendsto((m1, x0)))) == (∀ e : Real, real_of_num(0) < e → (∃ d : Real, real_of_num(0) < d && (∀ x : A, real_of_num(0) < mdist(m1, (x, x0)) && mdist(m1, (x, x0)) <= d → mdist(m2, (f(x), y0)) < e)))"),
       t3169,
     ),
   )
@@ -31053,9 +30891,7 @@ fn step_359() -> Unit raise {
   )
   lim_tends2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m1:(A)metric. forall m2:(B)metric. forall f x0 y0.\n      limpt(mtop m1) x0 re_universe ==>\n        ((f --> y0)(mtop(m2),tendsto(m1,x0)) <=>\n          forall e. &0 < e ==>\n            ?d. &0 < d /\\ forall x. &0 < (mdist m1)(x,x0) /\\ (mdist m1)(x,x0) < d ==>\n              (mdist m2)(f(x),y0) < e)",
-      ),
+      @term_syntax.parse_term("∀ m1 : Metric[A], ∀ m2 : Metric[B], ∀ f : (A) -> B, ∀ x0 : A, ∀ y0 : B, limpt(mtop(m1), x0, re_universe) → tends(f, y0, (mtop(m2), tendsto((m1, x0)))) == (∀ e : Real, real_of_num(0) < e → (∃ d : Real, real_of_num(0) < d && (∀ x : A, real_of_num(0) < mdist(m1, (x, x0)) && mdist(m1, (x, x0)) < d → mdist(m2, (f(x), y0)) < e)))"),
       t3187,
     ),
   )
@@ -31361,9 +31197,7 @@ fn step_360() -> Unit raise {
   )
   mr1_bounded_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(g:A->A->bool) f. bounded(mr1,g) f <=>\n        ?k N. g N N /\\ (forall n. g n N ==> abs(f n) < k)",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, ∀ f : (A) -> Real, bounded((mr1, g), f) == (∃ k : Real, ∃ N : A, g(N, N) && (∀ n : A, g(n, N) → abs(f(n)) < k))"),
       t3233,
     ),
   )
@@ -31399,9 +31233,7 @@ fn step_361() -> Unit raise {
   )
   net_null_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g:A->A->bool. forall x x0.\n      (x --> x0)(mtop(mr1),g) <=> ((\\n. x(n) - x0) --> &0)(mtop(mr1),g)",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, ∀ x : (A) -> Real, ∀ x0 : Real, tends(x, x0, (mtop(mr1), g)) == tends((n : A) => x(n) - x0, real_of_num(0), (mtop(mr1), g))"),
       t3237,
     ),
   )
@@ -31575,9 +31407,7 @@ fn step_362() -> Unit raise {
   )
   net_conv_bounded_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g:A->A->bool. forall x x0.\n      (x --> x0)(mtop(mr1),g) ==> bounded(mr1,g) x",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, ∀ x : (A) -> Real, ∀ x0 : Real, tends(x, x0, (mtop(mr1), g)) → bounded((mr1, g), x)"),
       t3256,
     ),
   )
@@ -31958,9 +31788,7 @@ fn step_363() -> Unit raise {
   )
   net_conv_nz_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g:A->A->bool. forall x x0.\n      (x --> x0)(mtop(mr1),g) /\\ ~(x0 = &0) ==>\n        ?N. g N N /\\ (forall n. g n N ==> ~(x n = &0))",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, ∀ x : (A) -> Real, ∀ x0 : Real, tends(x, x0, (mtop(mr1), g)) && !(x0 == real_of_num(0)) → (∃ N : A, g(N, N) && (∀ n : A, g(n, N) → !(x(n) == real_of_num(0))))"),
       t3290,
     ),
   )
@@ -32731,9 +32559,7 @@ fn step_364() -> Unit raise {
   )
   net_conv_ibounded_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g:A->A->bool. forall x x0.\n      (x --> x0)(mtop(mr1),g) /\\ ~(x0 = &0) ==>\n        bounded(mr1,g) (\\n. inv(x n))",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, ∀ x : (A) -> Real, ∀ x0 : Real, tends(x, x0, (mtop(mr1), g)) && !(x0 == real_of_num(0)) → bounded((mr1, g), (n : A) => inv(x(n)))"),
       t3370,
     ),
   )
@@ -33119,9 +32945,7 @@ fn step_365() -> Unit raise {
   )
   net_null_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g:A->A->bool. dorder g ==>\n        forall x y. (x --> &0)(mtop(mr1),g) /\\ (y --> &0)(mtop(mr1),g) ==>\n                ((\\n. x(n) + y(n)) --> &0)(mtop(mr1),g)",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, dorder(g) → (∀ x : (A) -> Real, ∀ y : (A) -> Real, tends(x, real_of_num(0), (mtop(mr1), g)) && tends(y, real_of_num(0), (mtop(mr1), g)) → tends((n : A) => x(n) + y(n), real_of_num(0), (mtop(mr1), g)))"),
       t3410,
     ),
   )
@@ -34185,9 +34009,7 @@ fn step_366() -> Unit raise {
   )
   net_null_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g:A->A->bool. dorder g ==>\n      forall x y. bounded(mr1,g) x /\\ (y --> &0)(mtop(mr1),g) ==>\n              ((\\n. x(n) * y(n)) --> &0)(mtop(mr1),g)",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, dorder(g) → (∀ x : (A) -> Real, ∀ y : (A) -> Real, bounded((mr1, g), x) && tends(y, real_of_num(0), (mtop(mr1), g)) → tends((n : A) => x(n) * y(n), real_of_num(0), (mtop(mr1), g)))"),
       t3510,
     ),
   )
@@ -34830,9 +34652,7 @@ fn step_367() -> Unit raise {
   )
   net_null_cmul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g:A->A->bool. forall k x.\n      (x --> &0)(mtop(mr1),g) ==> ((\\n. k * x(n)) --> &0)(mtop(mr1),g)",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, ∀ k : Real, ∀ x : (A) -> Real, tends(x, real_of_num(0), (mtop(mr1), g)) → tends((n : A) => k * x(n), real_of_num(0), (mtop(mr1), g))"),
       t3571,
     ),
   )
@@ -35005,9 +34825,7 @@ fn step_368() -> Unit raise {
   )
   net_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g:A->A->bool x x0 y y0.\n        dorder g\n        ==> (x --> x0)(mtop(mr1),g) /\\ (y --> y0)(mtop(mr1),g)\n            ==> ((\\n. x(n) + y(n)) --> (x0 + y0))(mtop(mr1),g)",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, ∀ x : (A) -> Real, ∀ x0 : Real, ∀ y : (A) -> Real, ∀ y0 : Real, dorder(g) → tends(x, x0, (mtop(mr1), g)) && tends(y, y0, (mtop(mr1), g)) → tends((n : A) => x(n) + y(n), x0 + y0, (mtop(mr1), g))"),
       t3587,
     ),
   )
@@ -35072,9 +34890,7 @@ fn step_369() -> Unit raise {
   )
   net_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g:A->A->bool x x0.\n        dorder g\n        ==> ((x --> x0)(mtop(mr1),g) <=>\n            ((\\n. --(x n)) --> --x0)(mtop(mr1),g))",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, ∀ x : (A) -> Real, ∀ x0 : Real, dorder(g) → tends(x, x0, (mtop(mr1), g)) == tends((n : A) => -x(n), -x0, (mtop(mr1), g))"),
       t3599,
     ),
   )
@@ -35180,9 +34996,7 @@ fn step_370() -> Unit raise {
   )
   net_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g:A->A->bool x x0 y y0.\n      dorder g\n      ==> (x --> x0)(mtop(mr1),g) /\\ (y --> y0)(mtop(mr1),g)\n          ==> ((\\n. x(n) - y(n)) --> (x0 - y0))(mtop(mr1),g)",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, ∀ x : (A) -> Real, ∀ x0 : Real, ∀ y : (A) -> Real, ∀ y0 : Real, dorder(g) → tends(x, x0, (mtop(mr1), g)) && tends(y, y0, (mtop(mr1), g)) → tends((n : A) => x(n) - y(n), x0 - y0, (mtop(mr1), g))"),
       t3612,
     ),
   )
@@ -35409,9 +35223,7 @@ fn step_371() -> Unit raise {
     @tactics.all_tac,
   ])
   let t3617 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall a b c d. (a * b) - (c * d) = (a * (b - d)) + ((a - c) * d)",
-    ),
+    @term_syntax.parse_term("∀ a : Real, ∀ b : Real, ∀ c : Real, ∀ d : Real, a * b - c * d == a * (b - d) + (a - c) * d"),
     fn(
       x3615 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -35484,9 +35296,7 @@ fn step_371() -> Unit raise {
   )
   net_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g:A->A->bool x y x0 y0.\n        dorder g\n        ==> (x --> x0)(mtop(mr1),g) /\\ (y --> y0)(mtop(mr1),g)\n            ==> ((\\n. x(n) * y(n)) --> (x0 * y0))(mtop(mr1),g)",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, ∀ x : (A) -> Real, ∀ y : (A) -> Real, ∀ x0 : Real, ∀ y0 : Real, dorder(g) → tends(x, x0, (mtop(mr1), g)) && tends(y, y0, (mtop(mr1), g)) → tends((n : A) => x(n) * y(n), x0 * y0, (mtop(mr1), g))"),
       t3658,
     ),
   )
@@ -35677,9 +35487,7 @@ fn step_372() -> Unit raise {
     @tactics.all_tac,
   ])
   let t3776 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "inv(x n) - inv x0 =\n                inv(x n) * inv x0 * (x0 - x(n:A))",
-    ),
+    @term_syntax.parse_term("inv((x : (A) -> Real)((n : A))) - inv((x0 : Real)) == inv(x(n)) * (inv(x0) * (x0 - x(n)))"),
     fn(
       x3773 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -36973,9 +36781,7 @@ fn step_372() -> Unit raise {
   )
   net_inv_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g:A->A->bool x x0.\n        dorder g\n        ==> (x --> x0)(mtop(mr1),g) /\\ ~(x0 = &0)\n            ==> ((\\n. inv(x(n))) --> inv x0)(mtop(mr1),g)",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, ∀ x : (A) -> Real, ∀ x0 : Real, dorder(g) → tends(x, x0, (mtop(mr1), g)) && !(x0 == real_of_num(0)) → tends((n : A) => inv(x(n)), inv(x0), (mtop(mr1), g))"),
       t3814,
     ),
   )
@@ -37079,9 +36885,7 @@ fn step_373() -> Unit raise {
   )
   net_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g:A->A->bool x x0 y y0.\n       dorder g\n       ==> (x --> x0)(mtop(mr1),g) /\\\n           (y --> y0)(mtop(mr1),g) /\\ ~(y0 = &0)\n           ==> ((\\n. x(n) / y(n)) --> (x0 / y0))(mtop(mr1),g)",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, ∀ x : (A) -> Real, ∀ x0 : Real, ∀ y : (A) -> Real, ∀ y0 : Real, dorder(g) → tends(x, x0, (mtop(mr1), g)) && tends(y, y0, (mtop(mr1), g)) && !(y0 == real_of_num(0)) → tends((n : A) => x(n) / y(n), x0 / y0, (mtop(mr1), g))"),
       t3827,
     ),
   )
@@ -37303,9 +37107,7 @@ fn step_374() -> Unit raise {
   )
   net_abs_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x0. (x --> x0)(mtop(mr1),g) ==>\n               ((\\n:A. abs(x n)) --> abs(x0))(mtop(mr1),g)",
-      ),
+      @term_syntax.parse_term("∀ x : (A) -> Real, ∀ x0 : Real, tends(x, x0, (mtop(mr1), (g : (A, A) -> Bool))) → tends((n : A) => abs(x(n)), abs(x0), (mtop(mr1), g))"),
       t3850,
     ),
   )
@@ -37403,9 +37205,7 @@ fn step_375() -> Unit raise {
   )
   net_sum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g. dorder g /\\\n       ((\\x. &0) --> &0)(mtop(mr1),g)\n       ==> forall m n. (forall r. m <= r /\\ r < m + n ==> (f r --> l r)(mtop(mr1),g))\n                 ==> ((\\x. sum(m,n) (\\r. f r x)) --> sum(m,n) l)\n                     (mtop(mr1),g)",
-      ),
+      @term_syntax.parse_term("∀ g : (_, _) -> Bool, dorder(g) && tends((x : _) => real_of_num(0), real_of_num(0), (mtop(mr1), g)) → (∀ m : Num, ∀ n : Num, (∀ r : Num, m <= r && r < m + n → tends((f : (Num, _) -> Real)(r), (l : (Num) -> Real)(r), (mtop(mr1), g))) → tends((x : _) => sum((m, n), (r : Num) => f(r, x)), sum((m, n), l), (mtop(mr1), g)))"),
       t3864,
     ),
   )
@@ -38465,9 +38265,7 @@ fn step_376() -> Unit raise {
   )
   net_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall g:A->A->bool x x0 y y0.\n        dorder g\n        ==> (x --> x0)(mtop(mr1),g) /\\\n            (y --> y0)(mtop(mr1),g) /\\\n            (?N. g N N /\\ forall n. g n N ==> x(n) <= y(n))\n            ==> x0 <= y0",
-      ),
+      @term_syntax.parse_term("∀ g : (A, A) -> Bool, ∀ x : (A) -> Real, ∀ x0 : Real, ∀ y : (A) -> Real, ∀ y0 : Real, dorder(g) → tends(x, x0, (mtop(mr1), g)) && tends(y, y0, (mtop(mr1), g)) && (∃ N : A, g(N, N) && (∀ n : A, g(n, N) → x(n) <= y(n))) → x0 <= y0"),
       t3962,
     ),
   )
@@ -38499,9 +38297,7 @@ fn step_378() -> Unit raise {
 fn step_379() -> Unit raise {
   tends_num_real_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "x tends_num_real x0 <=> (x tends x0)(mtop(mr1), (>=) :num->num->bool)",
-      ),
+      @term_syntax.parse_term("(tends_num_real : ((Num) -> Real, Real) -> Bool)((x : (Num) -> Real), (x0 : Real)) == tends(x, x0, (mtop(mr1), op_gt_eq))"),
     ),
   )
 }
@@ -38556,9 +38352,7 @@ fn step_381() -> Unit raise {
   )
   seq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x0. (x --> x0) <=>\n          forall e. &0 < e ==> ?N. forall n. n >= N ==> abs(x(n) - x0) < e",
-      ),
+      @term_syntax.parse_term("∀ x : (Num) -> Real, ∀ x0 : Real, tends_num_real(x, x0) == (∀ e : Real, real_of_num(0) < e → (∃ N : Num, ∀ n : Num, n >= N → abs(x(n) - x0) < e))"),
       t3972,
     ),
   )
@@ -38617,9 +38411,7 @@ fn step_383() -> Unit raise {
   )
   seq_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x0 y y0. x --> x0 /\\ y --> y0 ==> (\\n. x(n) + y(n)) --> (x0 + y0)",
-      ),
+      @term_syntax.parse_term("∀ x : (Num) -> Real, ∀ x0 : Real, ∀ y : (Num) -> Real, ∀ y0 : Real, tends_num_real(x, x0) && tends_num_real(y, y0) → tends_num_real((n : Num) => x(n) + y(n), x0 + y0)"),
       t3979,
     ),
   )
@@ -38649,9 +38441,7 @@ fn step_384() -> Unit raise {
   )
   seq_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x0 y y0. x --> x0 /\\ y --> y0 ==> (\\n. x(n) * y(n)) --> (x0 * y0)",
-      ),
+      @term_syntax.parse_term("∀ x : (Num) -> Real, ∀ x0 : Real, ∀ y : (Num) -> Real, ∀ y0 : Real, tends_num_real(x, x0) && tends_num_real(y, y0) → tends_num_real((n : Num) => x(n) * y(n), x0 * y0)"),
       t3983,
     ),
   )
@@ -38711,9 +38501,7 @@ fn step_386() -> Unit raise {
   )
   seq_inv_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x0. x --> x0 /\\ ~(x0 = &0) ==> (\\n. inv(x n)) --> inv x0",
-      ),
+      @term_syntax.parse_term("∀ x : (Num) -> Real, ∀ x0 : Real, tends_num_real(x, x0) && !(x0 == real_of_num(0)) → tends_num_real((n : Num) => inv(x(n)), inv(x0))"),
       t3991,
     ),
   )
@@ -38743,9 +38531,7 @@ fn step_387() -> Unit raise {
   )
   seq_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x0 y y0. x --> x0 /\\ y --> y0 ==> (\\n. x(n) - y(n)) --> (x0 - y0)",
-      ),
+      @term_syntax.parse_term("∀ x : (Num) -> Real, ∀ x0 : Real, ∀ y : (Num) -> Real, ∀ y0 : Real, tends_num_real(x, x0) && tends_num_real(y, y0) → tends_num_real((n : Num) => x(n) - y(n), x0 - y0)"),
       t3995,
     ),
   )
@@ -38775,9 +38561,7 @@ fn step_388() -> Unit raise {
   )
   seq_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x0 y y0. x --> x0 /\\ y --> y0 /\\ ~(y0 = &0) ==>\n                  (\\n. x(n) / y(n)) --> (x0 / y0)",
-      ),
+      @term_syntax.parse_term("∀ x : (Num) -> Real, ∀ x0 : Real, ∀ y : (Num) -> Real, ∀ y0 : Real, tends_num_real(x, x0) && tends_num_real(y, y0) && !(y0 == real_of_num(0)) → tends_num_real((n : Num) => x(n) / y(n), x0 / y0)"),
       t3999,
     ),
   )
@@ -38869,9 +38653,7 @@ fn step_391() -> Unit raise {
   )
   seq_sum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f l m n.\n      (forall r. m <= r /\\ r < m + n ==> f r --> l r)\n      ==> (\\k. sum(m,n) (\\r. f r k)) --> sum(m,n) l",
-      ),
+      @term_syntax.parse_term("∀ f : (Num, Num) -> Real, ∀ l : (Num) -> Real, ∀ m : Num, ∀ n : Num, (∀ r : Num, m <= r && r < m + n → tends_num_real(f(r), l(r))) → tends_num_real((k : Num) => sum((m, n), (r : Num) => f(r, k)), sum((m, n), l))"),
       t4010,
     ),
   )
@@ -38902,9 +38684,7 @@ fn step_392() -> Unit raise {
   )
   seq_transform_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t l N. (forall n. N <= n ==> (s n = t n)) /\\ s --> l ==> t --> l",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Real, ∀ t : (Num) -> Real, ∀ l : Real, ∀ N : Num, (∀ n : Num, N <= n → s(n) == t(n)) && tends_num_real(s, l) → tends_num_real(t, l)"),
       t4012,
     ),
   )
@@ -38941,9 +38721,7 @@ pub fn convergent() -> @kernel.Thm {
 fn step_394() -> Unit raise {
   cauchy_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "cauchy f <=> forall e. &0 < e ==>\n        ?N:num. forall m n. m >= N /\\ n >= N ==> abs(f(m) - f(n)) < e",
-      ),
+      @term_syntax.parse_term("(cauchy : ((Num) -> Real) -> Bool)((f : (Num) -> Real)) == (∀ e : Real, real_of_num(0) < e → (∃ N : Num, ∀ m : Num, ∀ n : Num, m >= N && n >= N → abs(f(m) - f(n)) < e))"),
     ),
   )
 }
@@ -39135,9 +38913,7 @@ pub fn seq_lim() -> @kernel.Thm {
 fn step_397() -> Unit raise {
   subseq_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "subseq (f:num->num) <=> forall m n. m < n ==> (f m) < (f n)",
-      ),
+      @term_syntax.parse_term("(subseq : ((Num) -> Num) -> Bool)((f : (Num) -> Num)) == (∀ m : Num, ∀ n : Num, m < n → f(m) < f(n))"),
     ),
   )
 }
@@ -39343,9 +39119,7 @@ pub fn subseq_suc() -> @kernel.Thm {
 fn step_399() -> Unit raise {
   mono_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "mono (f:num->real) <=>\n            (forall m n. m <= n ==> f(m) <= f(n)) \\/\n            (forall m n. m <= n ==> f(m) >= f(n))",
-      ),
+      @term_syntax.parse_term("(mono : ((Num) -> Real) -> Bool)((f : (Num) -> Real)) == ((∀ m : Num, ∀ n : Num, m <= n → f(m) <= f(n)) || (∀ m : Num, ∀ n : Num, m <= n → f(m) >= f(n)))"),
     ),
   )
 }
@@ -39588,9 +39362,7 @@ fn step_400() -> Unit raise {
   )
   mono_suc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f. mono f <=> (forall n. f(SUC n) >= f(n)) \\/ (forall n. f(SUC n) <= f(n))",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, mono(f) == ((∀ n : Num, f(SUC(n)) >= f(n)) || (∀ n : Num, f(SUC(n)) <= f(n)))"),
       t4073,
     ),
   )
@@ -40083,9 +39855,7 @@ fn step_402() -> Unit raise {
   )
   seq_bounded_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. bounded(mr1, (>=)) s <=> ?k. forall n:num. abs(s n) < k",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Real, bounded((mr1, op_gt_eq), s) == (∃ k : Real, ∀ n : Num, abs(s(n)) < k)"),
       t4139,
     ),
   )
@@ -40249,9 +40019,7 @@ fn step_403() -> Unit raise {
   )
   seq_bounded_2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f k K. (forall n:num. k <= f(n) /\\ f(n) <= K) ==> bounded(mr1, (>=)) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ k : Real, ∀ K : Real, (∀ n : Num, k <= f(n) && f(n) <= K) → bounded((mr1, op_gt_eq), f)"),
       t4168,
     ),
   )
@@ -42766,9 +42534,7 @@ fn step_405() -> Unit raise {
   )
   seq_iconv_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f. bounded(mr1, (>=)) f /\\ (forall m n. m >= n ==> f(m) >= f(n))\n           ==> convergent f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, bounded((mr1, op_gt_eq), f) && (∀ m : Num, ∀ n : Num, m >= n → f(m) >= f(n)) → convergent(f)"),
       t4356,
     ),
   )
@@ -42900,9 +42666,7 @@ fn step_407() -> Unit raise {
   )
   seq_neg_bounded_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f. bounded(mr1, (>=))(\\n:num. --(f n)) <=> bounded(mr1, (>=)) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, bounded((mr1, op_gt_eq), (n : Num) => -f(n)) == bounded((mr1, op_gt_eq), f)"),
       t4370,
     ),
   )
@@ -44058,9 +43822,7 @@ fn step_409() -> Unit raise {
     @tactics.all_tac,
   ])
   let t4511 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall n. f(n) >= (SUC N) /\\\n           f(SUC n) > f(n) /\\ s(f n) < s(f(SUC n):num)",
-    ),
+    @term_syntax.parse_term("∀ n : Num, (f : (Num) -> Num)(n) >= SUC((N : Num)) && f(SUC(n)) > f(n) && (s : (Num) -> Real)(f(n)) < s(f(SUC(n)))"),
     fn(
       x4508 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -45166,9 +44928,7 @@ fn step_409() -> Unit raise {
       )
     })(((x4402 : @kernel.Thm) => @bool.spec(t4401, x4402))(x4403))
   })
-  let t4396 = @parser.parse_term(
-    "\\x. \\n:num. @p:num. p > x /\\\n                       (forall m. m >= p ==> (s m) <= (s p))",
-  )
+  let t4396 = @term_syntax.parse_term("(x : Num) => (n : Num) => select((p : Num) => p > x && (∀ m : Num, m >= p → (s : (Num) -> Real)(m) <= s(p)))")
   let t4397 = @list.List([
     @term_syntax.parse_term("select((p : Num) => p > 0 && (∀ m : Num, m >= p → (s : (Num) -> Real)(m) <= s(p)))"),
     t4396,
@@ -45391,9 +45151,7 @@ fn step_410() -> Unit raise {
   )
   seq_sbounded_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (f:num->num). bounded(mr1, (>=)) s ==> bounded(mr1, (>=)) (\\n. s(f n))",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Real, ∀ f : (Num) -> Num, bounded((mr1, op_gt_eq), s) → bounded((mr1, op_gt_eq), (n : Num) => s(f(n)))"),
       t4621,
     ),
   )
@@ -47330,7 +47088,7 @@ fn step_414() -> Unit raise {
     @list.List([dorder_nge(), tends_num_real(), @arith.ge(), @arith.le_refl()]),
   )
   let t4814 = @tactics.mp_tac(
-    @bool.ispec(@parser.parse_term("(>=) :num->num->bool"), net_le()),
+    @bool.ispec(@term_syntax.parse_term("(op_gt_eq : (Num, Num) -> Bool)"), net_le()),
   )
   let t4820 = @tactics.then_tac(
     @tactics.then_tac(
@@ -47341,9 +47099,7 @@ fn step_414() -> Unit raise {
   )
   seq_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g l m. f --> l /\\ g --> m /\\ (?N. forall n. n >= N ==> f(n) <= g(n))\n        ==> l <= m",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, ∀ l : Real, ∀ m : Real, tends_num_real(f, l) && tends_num_real(g, m) && (∃ N : Num, ∀ n : Num, n >= N → f(n) <= g(n)) → l <= m"),
       t4820,
     ),
   )
@@ -47374,9 +47130,7 @@ fn step_415() -> Unit raise {
   )
   seq_le_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g. f --> &0 /\\ (?N. forall n. n >= N ==> abs(g n) <= abs(f n))\n         ==> g --> &0",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, tends_num_real(f, real_of_num(0)) && (∃ N : Num, ∀ n : Num, n >= N → abs(g(n)) <= abs(f(n))) → tends_num_real(g, real_of_num(0))"),
       t4822,
     ),
   )
@@ -48140,9 +47894,7 @@ fn step_419() -> Unit raise {
   )
   seq_inv0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f. (forall y. ?N. forall n. n >= N ==> f(n) > y)\n        ==> (\\n. inv(f n)) --> &0",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, (∀ y : Real, ∃ N : Num, ∀ n : Num, n >= N → f(n) > y) → tends_num_real((n : Num) => inv(f(n)), real_of_num(0))"),
       t4917,
     ),
   )
@@ -48605,9 +48357,7 @@ fn step_420() -> Unit raise {
                                                           @tactics.then_tac(
                                                             @tactics.thenl(
                                                               @tactics.subgoal_then(
-                                                                @parser.parse_term(
-                                                                  "forall n. abs(c) pow n = inv(inv(abs(c) pow n))",
-                                                                ),
+                                                                @term_syntax.parse_term("∀ n : Num, pow(abs((c : Real)), n) == inv(inv(pow(abs(c), n)))"),
                                                                 fn(
                                                                   x4921 : @kernel.Thm,
                                                                 ) -> ((
@@ -49233,9 +48983,7 @@ fn step_423() -> Unit raise {
   )
   seq_subseq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f l. f --> l ==> forall a b. ~(a = 0) ==> (\\n. f(a * n + b)) --> l",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ l : Real, tends_num_real(f, l) → (∀ a : Num, ∀ b : Num, !(a == 0) → tends_num_real((n : Num) => f(a * n + b), l))"),
       t5052,
     ),
   )
@@ -49274,9 +49022,7 @@ fn step_424() -> Unit raise {
   )
   seq_pow_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f l. (f --> l) ==> forall n. (\\i. f(i) pow n) --> l pow n",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ l : Real, tends_num_real(f, l) → (∀ n : Num, tends_num_real((i : Num) => pow(f(i), n), pow(l, n)))"),
       t5056,
     ),
   )
@@ -50560,9 +50306,7 @@ fn step_425() -> Unit raise {
   )
   nest_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g. (forall n. f(SUC n) >= f(n)) /\\\n         (forall n. g(SUC n) <= g(n)) /\\\n         (forall n. f(n) <= g(n)) ==>\n                ?l m. l <= m /\\ ((forall n. f(n) <= l) /\\ f --> l) /\\\n                                ((forall n. m <= g(n)) /\\ g --> m)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, (∀ n : Num, f(SUC(n)) >= f(n)) && (∀ n : Num, g(SUC(n)) <= g(n)) && (∀ n : Num, f(n) <= g(n)) → (∃ l : Real, ∃ m : Real, l <= m && ((∀ n : Num, f(n) <= l) && tends_num_real(f, l)) && (∀ n : Num, m <= g(n)) && tends_num_real(g, m))"),
       t5222,
     ),
   )
@@ -51028,9 +50772,7 @@ fn step_426() -> Unit raise {
   )
   nest_lemma_uniq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g. (forall n. f(SUC n) >= f(n)) /\\\n         (forall n. g(SUC n) <= g(n)) /\\\n         (forall n. f(n) <= g(n)) /\\\n         (\\n. f(n) - g(n)) --> &0 ==>\n                ?l. ((forall n. f(n) <= l) /\\ f --> l) /\\\n                    ((forall n. l <= g(n)) /\\ g --> l)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, (∀ n : Num, f(SUC(n)) >= f(n)) && (∀ n : Num, g(SUC(n)) <= g(n)) && (∀ n : Num, f(n) <= g(n)) && tends_num_real((n : Num) => f(n) - g(n), real_of_num(0)) → (∃ l : Real, ((∀ n : Num, f(n) <= l) && tends_num_real(f, l)) && (∀ n : Num, l <= g(n)) && tends_num_real(g, l))"),
       t5270,
     ),
   )
@@ -51136,9 +50878,7 @@ fn step_427() -> Unit raise {
     @list.List([@equal.gsym(real_half_double())]),
   )
   let t5536 = @tactics.exists_tac(
-    @parser.parse_term(
-      "abs(FST(f(N1 + N2:num)) - l) +\n                abs(SND(f(N1 + N2:num)) - l)",
-    ),
+    @term_syntax.parse_term("abs(FST((f : (Num) -> (Real, Real))((N1 : Num) + (N2 : Num))) - (l : Real)) + abs(SND(f(N1 + N2)) - l)"),
   )
   let t5535 = @tactics.match_mp_tac(@realarith.real_let_trans())
   let t5534 = @simp.asm_rewrite_tac(@list.List([]))
@@ -53574,9 +53314,7 @@ fn step_427() -> Unit raise {
   )
   bolzano_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (forall a b c. a <= b /\\ b <= c /\\ P(a,b) /\\ P(b,c) ==> P(a,c)) /\\\n       (forall x. ?d. &0 < d /\\ forall a b. a <= x /\\ x <= b /\\ (b - a) < d ==> P(a,b))\n      ==> forall a b. a <= b ==> P(a,b)",
-      ),
+      @term_syntax.parse_term("∀ P : ((Real, Real)) -> Bool, (∀ a : Real, ∀ b : Real, ∀ c : Real, a <= b && b <= c && P((a, b)) && P((b, c)) → P((a, c))) && (∀ x : Real, ∃ d : Real, real_of_num(0) < d && (∀ a : Real, ∀ b : Real, a <= x && x <= b && b - a < d → P((a, b)))) → (∀ a : Real, ∀ b : Real, a <= b → P((a, b)))"),
       t5562,
     ),
   )
@@ -53617,9 +53355,7 @@ fn step_428() -> Unit raise {
   )
   bolzano_lemma_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (forall a b c. a <= b /\\ b <= c /\\ P a b /\\ P b c ==> P a c) /\\\n       (forall x. ?d. &0 < d /\\ (forall a b. a <= x /\\ x <= b /\\ b - a < d ==> P a b))\n       ==> forall a b. a <= b ==> P a b",
-      ),
+      @term_syntax.parse_term("∀ P : (Real, Real) -> Bool, (∀ a : Real, ∀ b : Real, ∀ c : Real, a <= b && b <= c && P(a, b) && P(b, c) → P(a, c)) && (∀ x : Real, ∃ d : Real, real_of_num(0) < d && (∀ a : Real, ∀ b : Real, a <= x && x <= b && b - a < d → P(a, b))) → (∀ a : Real, ∀ b : Real, a <= b → P(a, b))"),
       t5566,
     ),
   )
@@ -54601,9 +54337,7 @@ fn step_436() -> Unit raise {
   )
   ser_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f n. (forall m. n <= m ==> (f(m) = &0)) ==>\n        f sums (sum(0,n) f)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ n : Num, (∀ m : Num, n <= m → f(m) == real_of_num(0)) → sums(f, sum((0, n), f))"),
       t5639,
     ),
   )
@@ -54879,9 +54613,7 @@ fn step_437() -> Unit raise {
   )
   ser_pos_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f n. summable f /\\ (forall m. n <= m ==> &0 <= f(m))\n        ==> sum(0,n) f <= suminf f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ n : Num, summable(f) && (∀ m : Num, n <= m → real_of_num(0) <= f(m)) → sum((0, n), f) <= suminf(f)"),
       t5667,
     ),
   )
@@ -54976,9 +54708,7 @@ fn step_438() -> Unit raise {
   )
   ser_pos_lt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f n. summable f /\\ (forall m. n <= m ==> &0 < f(m))\n        ==> sum(0,n) f < suminf f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ n : Num, summable(f) && (∀ m : Num, n <= m → real_of_num(0) < f(m)) → sum((0, n), f) < suminf(f)"),
       t5682,
     ),
   )
@@ -55339,9 +55069,7 @@ fn step_439() -> Unit raise {
   )
   ser_group_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f k. summable f /\\ 0 < k ==>\n          (\\n. sum(n * k,k) f) sums (suminf f)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ k : Num, summable(f) && 0 < k → sums((n : Num) => sum((n * k, k), f), suminf(f))"),
       t5721,
     ),
   )
@@ -55457,9 +55185,7 @@ fn step_440() -> Unit raise {
   )
   ser_pair_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f. summable f ==> (\\n. sum(2 * n,2) f) sums (suminf f)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, summable(f) → sums((n : Num) => sum((2 * n, 2), f), suminf(f))"),
       t5733,
     ),
   )
@@ -56072,9 +55798,7 @@ fn step_441() -> Unit raise {
   )
   ser_offset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f. summable f ==> forall k. (\\n. f(n + k)) sums (suminf f - sum(0,k) f)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, summable(f) → (∀ k : Num, sums((n : Num) => f(n + k), suminf(f) - sum((0, k), f)))"),
       t5769,
     ),
   )
@@ -56301,9 +56025,7 @@ fn step_442() -> Unit raise {
   )
   ser_offset_rev_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f k. summable(\\n. f(n + k)) ==>\n         f sums (sum(0,k) f) + suminf (\\n. f(n + k))",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ k : Num, summable((n : Num) => f(n + k)) → sums(f, sum((0, k), f) + suminf((n : Num) => f(n + k)))"),
       t5793,
     ),
   )
@@ -56499,9 +56221,7 @@ fn step_443() -> Unit raise {
     @tactics.all_tac,
   ])
   let t5902 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(suminf f + (f(n) + f(n + 1))) <=\n                              sum(0,(2 * (SUC N)) + n) f",
-    ),
+    @term_syntax.parse_term("suminf((f : (Num) -> Real)) + (f((n : Num)) + f(n + 1)) <= sum((0, 2 * SUC((N : Num)) + n), f)"),
     fn(
       x5899 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -57654,9 +57374,7 @@ fn step_443() -> Unit raise {
   )
   ser_pos_lt_pair_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f n. summable f /\\\n         (forall d. &0 < (f(n + (2 * d))) +\n               f(n + ((2 * d) + 1)))\n        ==> sum(0,n) f < suminf f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ n : Num, summable(f) && (∀ d : Num, real_of_num(0) < f(n + 2 * d) + f(n + (2 * d + 1))) → sum((0, n), f) < suminf(f)"),
       t5935,
     ),
   )
@@ -57710,9 +57428,7 @@ fn step_444() -> Unit raise {
   )
   ser_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x0 y y0. x sums x0 /\\ y sums y0 ==> (\\n. x(n) + y(n)) sums (x0 + y0)",
-      ),
+      @term_syntax.parse_term("∀ x : (Num) -> Real, ∀ x0 : Real, ∀ y : (Num) -> Real, ∀ y0 : Real, sums(x, x0) && sums(y, y0) → sums((n : Num) => x(n) + y(n), x0 + y0)"),
       t5950,
     ),
   )
@@ -57879,9 +57595,7 @@ fn step_447() -> Unit raise {
   )
   ser_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x0 y y0. x sums x0 /\\ y sums y0 ==> (\\n. x(n) - y(n)) sums (x0 - y0)",
-      ),
+      @term_syntax.parse_term("∀ x : (Num) -> Real, ∀ x0 : Real, ∀ y : (Num) -> Real, ∀ y0 : Real, sums(x, x0) && sums(y, y0) → sums((n : Num) => x(n) - y(n), x0 - y0)"),
       t5970,
     ),
   )
@@ -58166,9 +57880,7 @@ fn step_449() -> Unit raise {
   )
   ser_cauchy_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f. summable f <=>\n          forall e. &0 < e ==> ?N. forall m n. m >= N ==> abs(sum(m,n) f) < e",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, summable(f) == (∀ e : Real, real_of_num(0) < e → (∃ N : Num, ∀ m : Num, ∀ n : Num, m >= N → abs(sum((m, n), f)) < e))"),
       t6008,
     ),
   )
@@ -58862,9 +58574,7 @@ fn step_451() -> Unit raise {
   )
   ser_compar_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g. (?N. forall n. n >= N ==> abs(f(n)) <= g(n)) /\\ summable g ==>\n            summable f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, (∃ N : Num, ∀ n : Num, n >= N → abs(f(n)) <= g(n)) && summable(g) → summable(f)"),
       t6087,
     ),
   )
@@ -58943,9 +58653,7 @@ fn step_452() -> Unit raise {
   )
   ser_compara_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g. (?N. forall n. n >= N ==> abs(f(n)) <= g(n)) /\\ summable g ==>\n            summable (\\k. abs(f k))",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, (∃ N : Num, ∀ n : Num, n >= N → abs(f(n)) <= g(n)) && summable(g) → summable((k : Num) => abs(f(k)))"),
       t6101,
     ),
   )
@@ -59244,9 +58952,7 @@ fn step_453() -> Unit raise {
   )
   ser_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g. (forall n. f(n) <= g(n)) /\\ summable f /\\ summable g\n        ==> suminf f <= suminf g",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, (∀ n : Num, f(n) <= g(n)) && summable(f) && summable(g) → suminf(f) <= suminf(g)"),
       t6131,
     ),
   )
@@ -59356,9 +59062,7 @@ fn step_454() -> Unit raise {
   )
   ser_le2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g. (forall n. abs(f n) <= g(n)) /\\ summable g ==>\n                summable f /\\ suminf f <= suminf g",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, (∀ n : Num, abs(f(n)) <= g(n)) && summable(g) → summable(f) && suminf(f) <= suminf(g)"),
       t6146,
     ),
   )
@@ -60019,9 +59723,7 @@ fn step_456() -> Unit raise {
   )
   ser_abs_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f. summable(\\n. abs(f n)) ==> abs(suminf f) <= suminf(\\n. abs(f n))",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, summable((n : Num) => abs(f(n))) → abs(suminf(f)) <= suminf((n : Num) => abs(f(n)))"),
       t6205,
     ),
   )
@@ -60244,9 +59946,7 @@ fn step_457() -> Unit raise {
   )
   gp_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ~(x = &1) ==>\n        forall n. (sum(0,n) (\\n. x pow n) = ((x pow n) - &1) / (x - &1))",
-      ),
+      @term_syntax.parse_term("∀ x : Real, !(x == real_of_num(1)) → (∀ n : Num, sum((0, n), (n : Num) => pow(x, n)) == (pow(x, n) - real_of_num(1)) / (x - real_of_num(1)))"),
       t6235,
     ),
   )
@@ -60385,9 +60085,7 @@ fn step_458() -> Unit raise {
     @simp.rewrite_tac(@list.List([@theorems.beta_thm()])),
   ])
   let t6259 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(\\n. (\\n. &1 - x pow n) n / (\\n. &1 - x) n) --> &1 / (&1 - x)",
-    ),
+    @term_syntax.parse_term("tends_num_real((n : Num) => ((n : Num) => real_of_num(1) - pow((x : Real), n))(n) / ((n : Num) => real_of_num(1) - x)(n), real_of_num(1) / (real_of_num(1) - x))"),
     fn(
       x6256 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -60545,9 +60243,7 @@ fn step_458() -> Unit raise {
                                                       @tactics.then_tac(
                                                         @tactics.gen_tac,
                                                         @class.asm_cases_tac(
-                                                          @parser.parse_term(
-                                                            "x = &1",
-                                                          ),
+                                                          @term_syntax.parse_term("(x : Real) == real_of_num(1)"),
                                                         ),
                                                       ),
                                                       t6236,
@@ -60833,9 +60529,7 @@ fn step_459() -> Unit raise {
   )
   abs_neg_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall c x y. c <= &0 ==> abs(x) <= c * abs(y) ==> (x = &0)",
-      ),
+      @term_syntax.parse_term("∀ c : Real, ∀ x : Real, ∀ y : Real, c <= real_of_num(0) → abs(x) <= c * abs(y) → x == real_of_num(0)"),
       t6306,
     ),
   )
@@ -61555,9 +61249,7 @@ fn step_460() -> Unit raise {
   )
   ser_ratio_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f c N. c < &1 /\\\n           (forall n. n >= N ==> abs(f(SUC n)) <= c * abs(f(n))) ==>\n       summable f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ c : Real, ∀ N : Num, c < real_of_num(1) && (∀ n : Num, n >= N → abs(f(SUC(n))) <= c * abs(f(n))) → summable(f)"),
       t6394,
     ),
   )
@@ -61971,9 +61663,7 @@ fn step_461() -> Unit raise {
   )
   seq_truncation_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f l n b.\n        f sums l /\\ (forall m. abs(sum(n,m) f) <= b)\n        ==> abs(l - sum(0,n) f) <= b",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ l : Real, ∀ n : Num, ∀ b : Real, sums(f, l) && (∀ m : Num, abs(sum((n, m), f)) <= b) → abs(l - sum((0, n), f)) <= b"),
       t6433,
     ),
   )
@@ -62017,9 +61707,7 @@ fn step_465() -> Unit raise {
 fn step_466() -> Unit raise {
   tends_real_real_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(f tends_real_real l)(x0) <=>\n        (f tends l)(mtop(mr1),tendsto(mr1,x0))",
-      ),
+      @term_syntax.parse_term("(tends_real_real : ((Real) -> Real, Real, Real) -> Bool)((f : (Real) -> Real), (l : Real), (x0 : Real)) == tends(f, l, (mtop(mr1), tendsto((mr1, x0))))"),
     ),
   )
 }
@@ -62081,9 +61769,7 @@ fn step_468() -> Unit raise {
   )
   lim_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f y0 x0. (f --> y0)(x0) <=>\n        forall e. &0 < e ==>\n            ?d. &0 < d /\\ forall x. &0 < abs(x - x0) /\\ abs(x - x0) < d ==>\n                abs(f(x) - y0) < e",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ y0 : Real, ∀ x0 : Real, tends_real_real(f, y0, x0) == (∀ e : Real, real_of_num(0) < e → (∃ d : Real, real_of_num(0) < d && (∀ x : Real, real_of_num(0) < abs(x - x0) && abs(x - x0) < d → abs(f(x) - y0) < e)))"),
       t6445,
     ),
   )
@@ -62325,9 +62011,7 @@ fn step_470() -> Unit raise {
   )
   lim_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g l m. (f --> l)(x) /\\ (g --> m)(x) ==>\n      ((\\x. f(x) + g(x)) --> (l + m))(x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ l : Real, ∀ m : Real, tends_real_real(f, l, (x : Real)) && tends_real_real(g, m, x) → tends_real_real((x : Real) => f(x) + g(x), l + m, x)"),
       t6473,
     ),
   )
@@ -62357,9 +62041,7 @@ fn step_471() -> Unit raise {
   )
   lim_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g l m. (f --> l)(x) /\\ (g --> m)(x) ==>\n      ((\\x. f(x) * g(x)) --> (l * m))(x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ l : Real, ∀ m : Real, tends_real_real(f, l, (x : Real)) && tends_real_real(g, m, x) → tends_real_real((x : Real) => f(x) * g(x), l * m, x)"),
       t6477,
     ),
   )
@@ -62419,9 +62101,7 @@ fn step_473() -> Unit raise {
   )
   lim_inv_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f l. (f --> l)(x) /\\ ~(l = &0) ==>\n        ((\\x. inv(f(x))) --> inv l)(x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ l : Real, tends_real_real(f, l, (x : Real)) && !(l == real_of_num(0)) → tends_real_real((x : Real) => inv(f(x)), inv(l), x)"),
       t6485,
     ),
   )
@@ -62451,9 +62131,7 @@ fn step_474() -> Unit raise {
   )
   lim_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g l m. (f --> l)(x) /\\ (g --> m)(x) ==>\n      ((\\x. f(x) - g(x)) --> (l - m))(x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ l : Real, ∀ m : Real, tends_real_real(f, l, (x : Real)) && tends_real_real(g, m, x) → tends_real_real((x : Real) => f(x) - g(x), l - m, x)"),
       t6489,
     ),
   )
@@ -62483,9 +62161,7 @@ fn step_475() -> Unit raise {
   )
   lim_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g l m. (f --> l)(x) /\\ (g --> m)(x) /\\ ~(m = &0) ==>\n      ((\\x. f(x) / g(x)) --> (l / m))(x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ l : Real, ∀ m : Real, tends_real_real(f, l, (x : Real)) && tends_real_real(g, m, x) && !(m == real_of_num(0)) → tends_real_real((x : Real) => f(x) / g(x), l / m, x)"),
       t6493,
     ),
   )
@@ -62547,9 +62223,7 @@ fn step_477() -> Unit raise {
   )
   lim_sum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f l m n x.\n      (forall r. m <= r /\\ r < m + n ==> (f r --> l r)(x))\n      ==> ((\\x. sum(m,n) (\\r. f r x)) --> sum(m,n) l)(x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num, Real) -> Real, ∀ l : (Num) -> Real, ∀ m : Num, ∀ n : Num, ∀ x : Real, (∀ r : Num, m <= r && r < m + n → tends_real_real(f(r), l(r), x)) → tends_real_real((x : Real) => sum((m, n), (r : Num) => f(r, x)), sum((m, n), l), x)"),
       t6500,
     ),
   )
@@ -62788,9 +62462,7 @@ fn step_480() -> Unit raise {
   )
   lim_equal_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g l x0. (forall x. ~(x = x0) ==> (f x = g x)) ==>\n        ((f --> l)(x0) <=> (g --> l)(x0))",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ l : Real, ∀ x0 : Real, (∀ x : Real, !(x == x0) → f(x) == g(x)) → tends_real_real(f, l, x0) == tends_real_real(g, l, x0)"),
       t6520,
     ),
   )
@@ -63205,9 +62877,7 @@ fn step_481() -> Unit raise {
   )
   lim_transform_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g x0 l. ((\\x. f(x) - g(x)) --> &0)(x0) /\\ (g --> l)(x0)\n        ==> (f --> l)(x0)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ x0 : Real, ∀ l : Real, tends_real_real((x : Real) => f(x) - g(x), real_of_num(0), x0) && tends_real_real(g, l, x0) → tends_real_real(f, l, x0)"),
       t6574,
     ),
   )
@@ -63227,9 +62897,7 @@ pub fn lim_transform() -> @kernel.Thm {
 fn step_482() -> Unit raise {
   diffl_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(f diffl l)(x) <=> ((\\h. (f(x+h) - f(x)) / h) --> l)(&0)",
-      ),
+      @term_syntax.parse_term("(diffl : ((Real) -> Real, Real, Real) -> Bool)((f : (Real) -> Real), (l : Real), (x : Real)) == tends_real_real((h : Real) => (f(x + h) - f(x)) / h, l, real_of_num(0))"),
     ),
   )
 }
@@ -63292,9 +62960,7 @@ fn step_485() -> Unit raise {
   )
   diff_uniq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f l m x. (f diffl l)(x) /\\ (f diffl m)(x) ==> (l = m)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ l : Real, ∀ m : Real, ∀ x : Real, diffl(f, l, x) && diffl(f, m, x) → l == m"),
       t6577,
     ),
   )
@@ -63408,9 +63074,7 @@ fn step_486() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6585 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "((\\h. f(x + h) - f(x)) --> &0)(&0) <=>\n                ((\\h. ((f(x + h) - f(x)) / h) * h) --> &0)(&0)",
-    ),
+    @term_syntax.parse_term("tends_real_real((h : Real) => (f : (Real) -> Real)((x : Real) + h) - f(x), real_of_num(0), real_of_num(0)) == tends_real_real((h : Real) => (f(x + h) - f(x)) / h * h, real_of_num(0), real_of_num(0))"),
     fn(
       x6582 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -63754,9 +63418,7 @@ fn step_490() -> Unit raise {
   )
   cont_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. f contl x /\\ g contl x ==> (\\x. f(x) + g(x)) contl x",
-      ),
+      @term_syntax.parse_term("∀ x : Real, contl((f : (Real) -> Real), x) && contl((g : (Real) -> Real), x) → contl((x : Real) => f(x) + g(x), x)"),
       t6640,
     ),
   )
@@ -63787,9 +63449,7 @@ fn step_491() -> Unit raise {
   )
   cont_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. f contl x /\\ g contl x ==> (\\x. f(x) * g(x)) contl x",
-      ),
+      @term_syntax.parse_term("∀ x : Real, contl((f : (Real) -> Real), x) && contl((g : (Real) -> Real), x) → contl((x : Real) => f(x) * g(x), x)"),
       t6642,
     ),
   )
@@ -63851,9 +63511,7 @@ fn step_493() -> Unit raise {
   )
   cont_inv_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. f contl x /\\ ~(f x = &0) ==> (\\x. inv(f(x))) contl x",
-      ),
+      @term_syntax.parse_term("∀ x : Real, contl((f : (Real) -> Real), x) && !(f(x) == real_of_num(0)) → contl((x : Real) => inv(f(x)), x)"),
       t6646,
     ),
   )
@@ -63884,9 +63542,7 @@ fn step_494() -> Unit raise {
   )
   cont_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. f contl x /\\ g contl x ==> (\\x. f(x) - g(x)) contl x",
-      ),
+      @term_syntax.parse_term("∀ x : Real, contl((f : (Real) -> Real), x) && contl((g : (Real) -> Real), x) → contl((x : Real) => f(x) - g(x), x)"),
       t6648,
     ),
   )
@@ -63917,9 +63573,7 @@ fn step_495() -> Unit raise {
   )
   cont_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. f contl x /\\ g contl x /\\ ~(g x = &0) ==>\n        (\\x. f(x) / g(x)) contl x",
-      ),
+      @term_syntax.parse_term("∀ x : Real, contl((f : (Real) -> Real), x) && contl((g : (Real) -> Real), x) && !(g(x) == real_of_num(0)) → contl((x : Real) => f(x) / g(x), x)"),
       t6650,
     ),
   )
@@ -64617,9 +64271,7 @@ fn step_497() -> Unit raise {
   )
   cont_compose_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g x. f contl x /\\ g contl (f x) ==> (\\x. g(f x)) contl x",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ x : Real, contl(f, x) && contl(g, f(x)) → contl((x : Real) => g(f(x)), x)"),
       t6715,
     ),
   )
@@ -65855,9 +65507,7 @@ fn step_498() -> Unit raise {
     ),
   ])
   let t6738 = @tactics.conv_tac(@equal.once_depth_conv(@pair.gen_beta_conv))
-  let t6736 = @parser.parse_term(
-    "\\(u,v). a <= u /\\ u <= v /\\ v <= b ==> ~(f(u) <= y /\\ y <= f(v))",
-  )
+  let t6736 = @term_syntax.parse_term("fn { (u, v) => (a : Real) <= u && u <= v && v <= (b : Real) → !((f : (Real) -> Real)(u) <= (y : Real) && y <= f(v)) }")
   let t6737 = (fn(
     x6730 : @kernel.Thm,
   ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -67002,9 +66652,7 @@ fn step_498() -> Unit raise {
   )
   ivt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f a b y. a <= b /\\\n             (f(a) <= y /\\ y <= f(b)) /\\\n             (forall x. a <= x /\\ x <= b ==> f contl x)\n        ==> (?x. a <= x /\\ x <= b /\\ (f(x) = y))",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, ∀ y : Real, a <= b && (f(a) <= y && y <= f(b)) && (∀ x : Real, a <= x && x <= b → contl(f, x)) → (∃ x : Real, a <= x && x <= b && f(x) == y)"),
       t6920,
     ),
   )
@@ -67071,9 +66719,7 @@ fn step_499() -> Unit raise {
   )
   ivt2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f a b y. (a <= b) /\\ (f(b) <= y /\\ y <= f(a)) /\\\n             (forall x. a <= x /\\ x <= b ==> f contl x) ==>\n        ?x. a <= x /\\ x <= b /\\ (f(x) = y)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, ∀ y : Real, a <= b && (f(b) <= y && y <= f(a)) && (∀ x : Real, a <= x && x <= b → contl(f, x)) → (∃ x : Real, a <= x && x <= b && f(x) == y)"),
       t6930,
     ),
   )
@@ -67169,9 +66815,7 @@ fn step_501() -> Unit raise {
   )
   diff_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g l m x. (f diffl l)(x) /\\ (g diffl m)(x) ==>\n                   ((\\x. f(x) + g(x)) diffl (l + m))(x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ l : Real, ∀ m : Real, ∀ x : Real, diffl(f, l, x) && diffl(g, m, x) → diffl((x : Real) => f(x) + g(x), l + m, x)"),
       t6945,
     ),
   )
@@ -67248,9 +66892,7 @@ fn step_502() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6958 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall a b c d e. ((a * b) + (c * d)) / e = ((b / e) * a) + ((c / e) * d)",
-    ),
+    @term_syntax.parse_term("∀ a : Real, ∀ b : Real, ∀ c : Real, ∀ d : Real, ∀ e : Real, (a * b + c * d) / e == b / e * a + c / e * d"),
     fn(
       x6956 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -67298,9 +66940,7 @@ fn step_502() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6949 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall a b c d. (a * b) - (c * d) = ((a * b) - (a * d)) + ((a * d) - (c * d))",
-    ),
+    @term_syntax.parse_term("∀ a : Real, ∀ b : Real, ∀ c : Real, ∀ d : Real, a * b - c * d == a * b - a * d + (a * d - c * d)"),
     fn(
       x6947 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -67390,9 +67030,7 @@ fn step_502() -> Unit raise {
   )
   diff_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g l m x. (f diffl l)(x) /\\ (g diffl m)(x) ==>\n                  ((\\x. f(x) * g(x)) diffl ((l * g(x)) + (m * f(x))))(x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ l : Real, ∀ m : Real, ∀ x : Real, diffl(f, l, x) && diffl(g, m, x) → diffl((x : Real) => f(x) * g(x), l * g(x) + m * f(x), x)"),
       t6986,
     ),
   )
@@ -67603,9 +67241,7 @@ fn step_503() -> Unit raise {
   )
   diff_cmul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f c l x. (f diffl l)(x) ==> ((\\x. c * f(x)) diffl (c * l))(x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ c : Real, ∀ l : Real, ∀ x : Real, diffl(f, l, x) → diffl((x : Real) => c * f(x), c * l, x)"),
       t7012,
     ),
   )
@@ -67631,9 +67267,7 @@ fn step_504() -> Unit raise {
   )
   diff_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f l x. (f diffl l)(x) ==> ((\\x. --(f x)) diffl --l)(x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ l : Real, ∀ x : Real, diffl(f, l, x) → diffl((x : Real) => -f(x), -l, x)"),
       t7015,
     ),
   )
@@ -67811,9 +67445,7 @@ fn step_505() -> Unit raise {
   )
   diff_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g l m x. (f diffl l)(x) /\\ (g diffl m)(x) ==>\n                   ((\\x. f(x) - g(x)) diffl (l - m))(x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ l : Real, ∀ m : Real, ∀ x : Real, diffl(f, l, x) && diffl(g, m, x) → diffl((x : Real) => f(x) - g(x), l - m, x)"),
       t7031,
     ),
   )
@@ -68194,9 +67826,7 @@ fn step_506() -> Unit raise {
         @tactics.then_tac(
           @tactics.then_tac(
             @tactics.exists_tac(
-              @parser.parse_term(
-                "\\z. if z = x then l else (f(z) - f(x)) / (z - x)",
-              ),
+              @term_syntax.parse_term("(z : Real) => if z == (x : Real) { (l : Real) } else { ((f : (Real) -> Real)(z) - f(x)) / (z - x) }"),
             ),
             @tactics.beta_tac,
           ),
@@ -68217,9 +67847,7 @@ fn step_506() -> Unit raise {
   )
   diff_carat_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f l x. (f diffl l)(x) <=>\n      ?g. (forall z. f(z) - f(x) = g(z) * (z - x)) /\\ g contl x /\\ (g(x) = l)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ l : Real, ∀ x : Real, diffl(f, l, x) == (∃ g : (Real) -> Real, (∀ z : Real, f(z) - f(x) == g(z) * (z - x)) && contl(g, x) && g(x) == l)"),
       t7072,
     ),
   )
@@ -68571,9 +68199,7 @@ fn step_507() -> Unit raise {
   ])
   let t7085 = @simp.asm_rewrite_tac(@list.List([]))
   let t7084 = @tactics.exists_tac(
-    @parser.parse_term(
-      "\\z. if z = x then l * m else (f(g(z):real) - f(g(x))) / (z - x)",
-    ),
+    @term_syntax.parse_term("(z : Real) => if z == (x : Real) { (l : Real) * (m : Real) } else { ((f : (Real) -> Real)((g : (Real) -> Real)(z)) - f(g(x))) / (z - x) }"),
   )
   let t7083 = @tactics.disch_then(
     @tactics.x_choose_then(@term_syntax.parse_term("(f' : (Real) -> Real)"))(
@@ -68692,9 +68318,7 @@ fn step_507() -> Unit raise {
   )
   diff_chain_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g l m x.\n     (f diffl l)(g x) /\\ (g diffl m)(x) ==> ((\\x. f(g x)) diffl (l * m))(x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ l : Real, ∀ m : Real, ∀ x : Real, diffl(f, l, g(x)) && diffl(g, m, x) → diffl((x : Real) => f(g(x)), l * m, x)"),
       t7125,
     ),
   )
@@ -69130,9 +68754,7 @@ fn step_509() -> Unit raise {
   )
   diff_pow_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x. ((\\x. x pow n) diffl (&n * (x pow (n - 1))))(x)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Real, diffl((x : Real) => pow(x, n), real_of_num(n) * pow(x, n - 1), x)"),
       t7173,
     ),
   )
@@ -70686,9 +70308,7 @@ fn step_510() -> Unit raise {
   )
   diff_xm1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ~(x = &0) ==> ((\\x. inv(x)) diffl (--(inv(x) pow 2)))(x)",
-      ),
+      @term_syntax.parse_term("∀ x : Real, !(x == real_of_num(0)) → diffl((x : Real) => inv(x), -pow(inv(x), 2), x)"),
       t7280,
     ),
   )
@@ -70765,9 +70385,7 @@ fn step_511() -> Unit raise {
   )
   diff_inv_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f l x. (f diffl l)(x) /\\ ~(f(x) = &0) ==>\n        ((\\x. inv(f x)) diffl --(l / (f(x) pow 2)))(x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ l : Real, ∀ x : Real, diffl(f, l, x) && !(f(x) == real_of_num(0)) → diffl((x : Real) => inv(f(x)), -(l / pow(f(x), 2)), x)"),
       t7291,
     ),
   )
@@ -71446,9 +71064,7 @@ fn step_512() -> Unit raise {
   )
   diff_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g l m. (f diffl l)(x) /\\ (g diffl m)(x) /\\ ~(g(x) = &0) ==>\n    ((\\x. f(x) / g(x)) diffl (((l * g(x)) - (m * f(x))) / (g(x) pow 2)))(x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ l : Real, ∀ m : Real, diffl(f, l, (x : Real)) && diffl(g, m, x) && !(g(x) == real_of_num(0)) → diffl((x : Real) => f(x) / g(x), (l * g(x) - m * f(x)) / pow(g(x), 2), x)"),
       t7349,
     ),
   )
@@ -71534,9 +71150,7 @@ fn step_513() -> Unit raise {
   )
   diff_sum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f f' m n x. (forall r. m <= r /\\ r < (m + n)\n                 ==> ((\\x. f r x) diffl (f' r x))(x))\n     ==> ((\\x. sum(m,n)(\\n. f n x)) diffl (sum(m,n) (\\r. f' r x)))(x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num, Real) -> Real, ∀ f' : (Num, Real) -> Real, ∀ m : Num, ∀ n : Num, ∀ x : Real, (∀ r : Num, m <= r && r < m + n → diffl((x : Real) => f(r, x), f'(r, x), x)) → diffl((x : Real) => sum((m, n), (n : Num) => f(n, x)), sum((m, n), (r : Num) => f'(r, x)), x)"),
       t7363,
     ),
   )
@@ -72615,9 +72229,7 @@ fn step_514() -> Unit raise {
     ),
   ])
   let t7372 = @tactics.conv_tac(@equal.once_depth_conv(@pair.gen_beta_conv))
-  let t7370 = @parser.parse_term(
-    "\\(u,v). a <= u /\\ u <= v /\\ v <= b ==>\n               ?M. forall x. u <= x /\\ x <= v ==> f x <= M",
-  )
+  let t7370 = @term_syntax.parse_term("fn { (u, v) => (a : Real) <= u && u <= v && v <= (b : Real) → (∃ M : Real, ∀ x : Real, u <= x && x <= v → (f : (Real) -> Real)(x) <= M) }")
   let t7371 = (fn(
     x7364 : @kernel.Thm,
   ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -73627,9 +73239,7 @@ fn step_514() -> Unit raise {
   )
   cont_bounded_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f a b. (a <= b /\\ forall x. a <= x /\\ x <= b ==> f contl x)\n        ==> ?M. forall x. a <= x /\\ x <= b ==> f(x) <= M",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, a <= b && (∀ x : Real, a <= x && x <= b → contl(f, x)) → (∃ M : Real, ∀ x : Real, a <= x && x <= b → f(x) <= M)"),
       t7551,
     ),
   )
@@ -73650,9 +73260,7 @@ fn step_515() -> Unit raise {
   let t7568 = @simp.asm_simp_tac(
     @list.List([
       @calc_rat.real_arith(
-        @parser.parse_term(
-          "x <= m1 /\\ --x <= m2 ==> abs(x) <= abs(m2) + abs(m1)",
-        ),
+        @term_syntax.parse_term("(x : Real) <= (m1 : Real) && -x <= (m2 : Real) → abs(x) <= abs(m2) + abs(m1)"),
       ),
     ]),
   )
@@ -73723,9 +73331,7 @@ fn step_515() -> Unit raise {
   )
   cont_bounded_abs_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f a b. (forall x. a <= x /\\ x <= b ==> f contl x)\n           ==> ?M. forall x. a <= x /\\ x <= b ==> abs(f(x)) <= M",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, (∀ x : Real, a <= x && x <= b → contl(f, x)) → (∃ M : Real, ∀ x : Real, a <= x && x <= b → abs(f(x)) <= M)"),
       t7569,
     ),
   )
@@ -75046,9 +74652,7 @@ fn step_516() -> Unit raise {
   )
   cont_hassup_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f a b. (a <= b /\\ forall x. a <= x /\\ x <= b ==> f contl x)\n        ==> ?M. (forall x. a <= x /\\ x <= b ==> f(x) <= M) /\\\n                (forall N. N < M ==> ?x. a <= x /\\ x <= b /\\ N < f(x))",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, a <= b && (∀ x : Real, a <= x && x <= b → contl(f, x)) → (∃ M : Real, (∀ x : Real, a <= x && x <= b → f(x) <= M) && (∀ N : Real, N < M → (∃ x : Real, a <= x && x <= b && N < f(x))))"),
       t7680,
     ),
   )
@@ -75566,9 +75170,7 @@ fn step_517() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7753 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall x. a <= x /\\ x <= b ==>\n         inv(k + &1) < inv((\\x. inv(M - (f x))) x)",
-    ),
+    @term_syntax.parse_term("∀ x : Real, (a : Real) <= x && x <= (b : Real) → inv((k : Real) + real_of_num(1)) < inv(((x : Real) => inv((M : Real) - (f : (Real) -> Real)(x)))(x))"),
     fn(
       x7750 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -75646,9 +75248,7 @@ fn step_517() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7743 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall x. a <= x /\\ x <= b ==> (\\x. inv(M - (f x))) x < (k + &1)",
-    ),
+    @term_syntax.parse_term("∀ x : Real, (a : Real) <= x && x <= (b : Real) → ((x : Real) => inv((M : Real) - (f : (Real) -> Real)(x)))(x) < (k : Real) + real_of_num(1)"),
     fn(
       x7740 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -75771,9 +75371,7 @@ fn step_517() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7726 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?k. forall x. a <= x /\\ x <= b ==> (\\x. inv(M - (f x))) x <= k",
-    ),
+    @term_syntax.parse_term("∃ k : Real, ∀ x : Real, (a : Real) <= x && x <= (b : Real) → ((x : Real) => inv((M : Real) - (f : (Real) -> Real)(x)))(x) <= k"),
     fn(
       x7723 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -76241,9 +75839,7 @@ fn step_517() -> Unit raise {
   )
   cont_attains_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f a b. (a <= b /\\ forall x. a <= x /\\ x <= b ==> f contl x)\n        ==> ?M. (forall x. a <= x /\\ x <= b ==> f(x) <= M) /\\\n                (?x. a <= x /\\ x <= b /\\ (f(x) = M))",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, a <= b && (∀ x : Real, a <= x && x <= b → contl(f, x)) → (∃ M : Real, (∀ x : Real, a <= x && x <= b → f(x) <= M) && (∃ x : Real, a <= x && x <= b && f(x) == M))"),
       t7816,
     ),
   )
@@ -76520,9 +76116,7 @@ fn step_518() -> Unit raise {
   )
   cont_attains2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f a b. (a <= b /\\ forall x. a <= x /\\ x <= b ==> f contl x)\n        ==> ?M. (forall x. a <= x /\\ x <= b ==> M <= f(x)) /\\\n                (?x. a <= x /\\ x <= b /\\ (f(x) = M))",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, a <= b && (∀ x : Real, a <= x && x <= b → contl(f, x)) → (∃ M : Real, (∀ x : Real, a <= x && x <= b → M <= f(x)) && (∃ x : Real, a <= x && x <= b && f(x) == M))"),
       t7847,
     ),
   )
@@ -77671,9 +77265,7 @@ fn step_519() -> Unit raise {
   )
   cont_attains_all_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f a b. (a <= b /\\ forall x. a <= x /\\ x <= b ==>  f contl x)\n        ==> ?L M. (forall x. a <= x /\\ x <= b ==> L <= f(x) /\\ f(x) <= M) /\\\n                  forall y. L <= y /\\ y <= M ==> ?x. a <= x /\\ x <= b /\\ (f(x) = y)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, a <= b && (∀ x : Real, a <= x && x <= b → contl(f, x)) → (∃ L : Real, ∃ M : Real, (∀ x : Real, a <= x && x <= b → L <= f(x) && f(x) <= M) && (∀ y : Real, L <= y && y <= M → (∃ x : Real, a <= x && x <= b && f(x) == y)))"),
       t7949,
     ),
   )
@@ -78147,9 +77739,7 @@ fn step_520() -> Unit raise {
   )
   diff_linc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f x l. (f diffl l)(x) /\\ &0 < l ==>\n      ?d. &0 < d /\\ forall h. &0 < h /\\ h < d ==> f(x) < f(x + h)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ x : Real, ∀ l : Real, diffl(f, l, x) && real_of_num(0) < l → (∃ d : Real, real_of_num(0) < d && (∀ h : Real, real_of_num(0) < h && h < d → f(x) < f(x + h)))"),
       t7993,
     ),
   )
@@ -78723,9 +78313,7 @@ fn step_521() -> Unit raise {
   )
   diff_ldec_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f x l. (f diffl l)(x) /\\ l < &0 ==>\n      ?d. &0 < d /\\ forall h. &0 < h /\\ h < d ==> f(x) < f(x - h)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ x : Real, ∀ l : Real, diffl(f, l, x) && l < real_of_num(0) → (∃ d : Real, real_of_num(0) < d && (∀ h : Real, real_of_num(0) < h && h < d → f(x) < f(x - h)))"),
       t8063,
     ),
   )
@@ -80285,9 +79873,7 @@ fn step_522() -> Unit raise {
   )
   diff_lmax_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f x l. (f diffl l)(x) /\\\n           (?d. &0 < d /\\ (forall y. abs(x - y) < d ==> f(y) <= f(x))) ==> (l = &0)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ x : Real, ∀ l : Real, diffl(f, l, x) && (∃ d : Real, real_of_num(0) < d && (∀ y : Real, abs(x - y) < d → f(y) <= f(x))) → l == real_of_num(0)"),
       t8202,
     ),
   )
@@ -80345,9 +79931,7 @@ fn step_523() -> Unit raise {
   )
   diff_lmin_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f x l. (f diffl l)(x) /\\\n           (?d. &0 < d /\\ (forall y. abs(x - y) < d ==> f(x) <= f(y))) ==> (l = &0)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ x : Real, ∀ l : Real, diffl(f, l, x) && (∃ d : Real, real_of_num(0) < d && (∀ y : Real, abs(x - y) < d → f(x) <= f(y))) → l == real_of_num(0)"),
       t8211,
     ),
   )
@@ -80649,9 +80233,7 @@ fn step_524() -> Unit raise {
   )
   diff_lconst_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f x l. (f diffl l)(x) /\\\n         (?d. &0 < d /\\ (forall y. abs(x - y) < d ==> (f(y) = f(x)))) ==> (l = &0)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ x : Real, ∀ l : Real, diffl(f, l, x) && (∃ d : Real, real_of_num(0) < d && (∀ y : Real, abs(x - y) < d → f(y) == f(x))) → l == real_of_num(0)"),
       t8238,
     ),
   )
@@ -80902,9 +80484,7 @@ fn step_525() -> Unit raise {
   )
   interval_lemma_lt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b x. a < x /\\ x < b ==>\n        ?d. &0 < d /\\ forall y. abs(x - y) < d ==> a < y /\\ y < b",
-      ),
+      @term_syntax.parse_term("∀ a : Real, ∀ b : Real, ∀ x : Real, a < x && x < b → (∃ d : Real, real_of_num(0) < d && (∀ y : Real, abs(x - y) < d → a < y && y < b))"),
       t8273,
     ),
   )
@@ -81095,9 +80675,7 @@ fn step_526() -> Unit raise {
   )
   interval_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b x. a < x /\\ x < b ==>\n        ?d. &0 < d /\\ forall y. abs(x - y) < d ==> a <= y /\\ y <= b",
-      ),
+      @term_syntax.parse_term("∀ a : Real, ∀ b : Real, ∀ x : Real, a < x && x < b → (∃ d : Real, real_of_num(0) < d && (∀ y : Real, abs(x - y) < d → a <= y && y <= b))"),
       t8293,
     ),
   )
@@ -81441,9 +81019,7 @@ fn step_527() -> Unit raise {
     t8504,
   ])
   let t8470 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?l. (f diffl l)(x) /\\\n        (?d. &0 < d /\\ (forall y. abs(x - y) < d ==> (f(y) = f(x))))",
-    ),
+    @term_syntax.parse_term("∃ l : Real, diffl((f : (Real) -> Real), l, (x : Real)) && (∃ d : Real, real_of_num(0) < d && (∀ y : Real, abs(x - y) < d → f(y) == f(x)))"),
     fn(
       x8467 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -82441,9 +82017,7 @@ fn step_527() -> Unit raise {
     @tactics.all_tac,
   ])
   let t8375 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?l. (f diffl l)(x2) /\\\n          ?d. &0 < d /\\ (forall y. abs(x2 - y) < d ==> f(x2) <= f(y))",
-    ),
+    @term_syntax.parse_term("∃ l : Real, diffl((f : (Real) -> Real), l, (x2 : Real)) && (∃ d : Real, real_of_num(0) < d && (∀ y : Real, abs(x2 - y) < d → f(x2) <= f(y)))"),
     fn(
       x8372 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -82708,9 +82282,7 @@ fn step_527() -> Unit raise {
     @tactics.all_tac,
   ])
   let t8342 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?l. (f diffl l)(x1) /\\\n          ?d. &0 < d /\\ (forall y. abs(x1 - y) < d ==> f(y) <= f(x1))",
-    ),
+    @term_syntax.parse_term("∃ l : Real, diffl((f : (Real) -> Real), l, (x1 : Real)) && (∃ d : Real, real_of_num(0) < d && (∀ y : Real, abs(x1 - y) < d → f(y) <= f(x1)))"),
     fn(
       x8339 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -83200,9 +82772,7 @@ fn step_527() -> Unit raise {
   )
   rolle_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f a b. a < b /\\\n           (f(a) = f(b)) /\\\n           (forall x. a <= x /\\ x <= b ==> f contl x) /\\\n           (forall x. a < x /\\ x < b ==> f differentiable x)\n        ==> ?z. a < z /\\ z < b /\\ (f diffl &0)(z)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, a < b && f(a) == f(b) && (∀ x : Real, a <= x && x <= b → contl(f, x)) && (∀ x : Real, a < x && x < b → differentiable(f, x)) → (∃ z : Real, a < z && z < b && diffl(f, real_of_num(0), z))"),
       t8508,
     ),
   )
@@ -83415,9 +82985,7 @@ fn step_528() -> Unit raise {
   )
   mvt_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:real->real) a b.\n        (\\x. f(x) - (((f(b) - f(a)) / (b - a)) * x))(a) =\n        (\\x. f(x) - (((f(b) - f(a)) / (b - a)) * x))(b)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, ((x : Real) => f(x) - (f(b) - f(a)) / (b - a) * x)(a) == ((x : Real) => f(x) - (f(b) - f(a)) / (b - a) * x)(b)"),
       t8550,
     ),
   )
@@ -83536,9 +83104,7 @@ fn step_529() -> Unit raise {
     @tactics.all_tac,
   ])
   let t8665 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "((\\x. ((f(b) - f(a)) / (b - a)) * x ) diffl\n                      ((f(b) - f(a)) / (b - a)))(z)",
-    ),
+    @term_syntax.parse_term("diffl((x : Real) => ((f : (Real) -> Real)((b : Real)) - f((a : Real))) / (b - a) * x, (f(b) - f(a)) / (b - a), (z : Real))"),
     fn(
       x8656 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -85106,9 +84672,7 @@ fn step_529() -> Unit raise {
   )
   mvt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f a b. a < b /\\\n           (forall x. a <= x /\\ x <= b ==> f contl x) /\\\n           (forall x. a < x /\\ x < b ==> f differentiable x)\n        ==> ?l z. a < z /\\ z < b /\\ (f diffl l)(z) /\\\n            (f(b) - f(a) = (b - a) * l)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, a < b && (∀ x : Real, a <= x && x <= b → contl(f, x)) && (∀ x : Real, a < x && x < b → differentiable(f, x)) → (∃ l : Real, ∃ z : Real, a < z && z < b && diffl(f, l, z) && f(b) - f(a) == (b - a) * l)"),
       t8683,
     ),
   )
@@ -85137,9 +84701,7 @@ fn step_530() -> Unit raise {
     t8690,
   ])
   let t8687 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?l z. a < z /\\ z < b /\\ (f diffl l) z /\\ (f b - f a = (b - a) * l)",
-    ),
+    @term_syntax.parse_term("∃ l : Real, ∃ z : Real, (a : Real) < z && z < (b : Real) && diffl((f : (Real) -> Real), l, z) && f(b) - f(a) == (b - a) * l"),
     fn(
       x8684 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -85193,9 +84755,7 @@ fn step_530() -> Unit raise {
   )
   mvt_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f f' a b.\n        a < b /\\ (forall x. a <= x /\\ x <= b ==> (f diffl f'(x))(x))\n        ==> ?z. a < z /\\ z < b /\\ (f b - f a = (b - a) * f'(z))",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ f' : (Real) -> Real, ∀ a : Real, ∀ b : Real, a < b && (∀ x : Real, a <= x && x <= b → diffl(f, f'(x), x)) → (∃ z : Real, a < z && z < b && f(b) - f(a) == (b - a) * f'(z))"),
       t8692,
     ),
   )
@@ -86227,9 +85787,7 @@ fn step_531() -> Unit raise {
   )
   diff_isconst_end_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f a b. a < b /\\\n           (forall x. a <= x /\\ x <= b ==> f contl x) /\\\n           (forall x. a < x /\\ x < b ==> (f diffl &0)(x))\n        ==> (f b = f a)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, a < b && (∀ x : Real, a <= x && x <= b → contl(f, x)) && (∀ x : Real, a < x && x < b → diffl(f, real_of_num(0), x)) → f(b) == f(a)"),
       t8763,
     ),
   )
@@ -86419,9 +85977,7 @@ fn step_532() -> Unit raise {
   )
   diff_isconst_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f a b. a < b /\\\n           (forall x. a <= x /\\ x <= b ==> f contl x) /\\\n           (forall x. a < x /\\ x < b ==> (f diffl &0)(x))\n        ==> forall x. a <= x /\\ x <= b ==> (f x = f a)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, a < b && (∀ x : Real, a <= x && x <= b → contl(f, x)) && (∀ x : Real, a < x && x < b → diffl(f, real_of_num(0), x)) → (∀ x : Real, a <= x && x <= b → f(x) == f(a))"),
       t8788,
     ),
   )
@@ -86447,9 +86003,7 @@ fn step_533() -> Unit raise {
   )
   diff_isconst_end_simple_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f a b. a < b /\\\n           (forall x. a <= x /\\ x <= b ==> (f diffl &0)(x))\n        ==> (f b = f a)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, a < b && (∀ x : Real, a <= x && x <= b → diffl(f, real_of_num(0), x)) → f(b) == f(a)"),
       t8791,
     ),
   )
@@ -86692,9 +86246,7 @@ pub fn diff_isconst_all() -> @kernel.Thm {
 fn step_535() -> Unit raise {
   interval_abs_c.set(
     @calc_rat.real_arith(
-      @parser.parse_term(
-        "forall x z d. (x - d) <= z /\\ z <= (x + d) <=> abs(z - x) <= d",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ z : Real, ∀ d : Real, (x - d <= z && z <= x + d) == (abs(z - x) <= d)"),
     ),
   )
 }
@@ -88193,9 +87745,7 @@ fn step_536() -> Unit raise {
   )
   cont_inj_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g x d. &0 < d /\\\n            (forall z. abs(z - x) <= d ==> (g(f(z)) = z)) /\\\n            (forall z. abs(z - x) <= d ==> f contl z) ==>\n     ~(forall z. abs(z - x) <= d ==> f(z) <= f(x))",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ x : Real, ∀ d : Real, real_of_num(0) < d && (∀ z : Real, abs(z - x) <= d → g(f(z)) == z) && (∀ z : Real, abs(z - x) <= d → contl(f, z)) → !(∀ z : Real, abs(z - x) <= d → f(z) <= f(x))"),
       t8950,
     ),
   )
@@ -88307,9 +87857,7 @@ fn step_537() -> Unit raise {
   )
   cont_inj_lemma2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g x d. &0 < d /\\\n            (forall z. abs(z - x) <= d ==> (g(f(z)) = z)) /\\\n            (forall z. abs(z - x) <= d ==> f contl z) ==>\n     ~(forall z. abs(z - x) <= d ==> f(x) <= f(z))",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ x : Real, ∀ d : Real, real_of_num(0) < d && (∀ z : Real, abs(z - x) <= d → g(f(z)) == z) && (∀ z : Real, abs(z - x) <= d → contl(f, z)) → !(∀ z : Real, abs(z - x) <= d → f(x) <= f(z))"),
       t8963,
     ),
   )
@@ -88934,9 +88482,7 @@ fn step_538() -> Unit raise {
   )
   cont_inj_range_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g x d.  &0 < d /\\\n            (forall z. abs(z - x) <= d ==> (g(f(z)) = z)) /\\\n            (forall z. abs(z - x) <= d ==> f contl z) ==>\n        ?e. &0 < e /\\\n            (forall y. abs(y - f(x)) <= e ==> ?z. abs(z - x) <= d /\\ (f z = y))",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ x : Real, ∀ d : Real, real_of_num(0) < d && (∀ z : Real, abs(z - x) <= d → g(f(z)) == z) && (∀ z : Real, abs(z - x) <= d → contl(f, z)) → (∃ e : Real, real_of_num(0) < e && (∀ y : Real, abs(y - f(x)) <= e → (∃ z : Real, abs(z - x) <= d && f(z) == y)))"),
       t9046,
     ),
   )
@@ -89757,9 +89303,7 @@ fn step_539() -> Unit raise {
   )
   cont_inverse_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g x d. &0 < d /\\\n             (forall z. abs(z - x) <= d ==> (g(f(z)) = z)) /\\\n             (forall z. abs(z - x) <= d ==> f contl z)\n        ==> g contl (f x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ x : Real, ∀ d : Real, real_of_num(0) < d && (∀ z : Real, abs(z - x) <= d → g(f(z)) == z) && (∀ z : Real, abs(z - x) <= d → contl(f, z)) → contl(g, f(x))"),
       t9134,
     ),
   )
@@ -90137,9 +89681,7 @@ fn step_540() -> Unit raise {
     @tactics.strip_assume_tac,
   )
   let t9289 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?e. &0 < e /\\\n         forall y. &0 < abs(y - f(x:real)) /\\ abs(y - f(x)) < e\n                    ==> ~((h:real->real)(g(y)) = &0)",
-    ),
+    @term_syntax.parse_term("∃ e : Real, real_of_num(0) < e && (∀ y : Real, real_of_num(0) < abs(y - (f : (Real) -> Real)((x : Real))) && abs(y - f(x)) < e → !((h : (Real) -> Real)((g : (Real) -> Real)(y)) == real_of_num(0)))"),
     t9288,
   )
   let t9286 = @simp.asm_rewrite_tac(@list.List([]))
@@ -90522,9 +90064,7 @@ fn step_540() -> Unit raise {
     @tactics.strip_assume_tac,
   )
   let t9250 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?e. &0 < e /\\\n         forall y. &0 < abs(y - f(x:real)) /\\ abs(y - f(x)) < e ==> (f(g(y)) = y)",
-    ),
+    @term_syntax.parse_term("∃ e : Real, real_of_num(0) < e && (∀ y : Real, real_of_num(0) < abs(y - (f : (Real) -> Real)((x : Real))) && abs(y - f(x)) < e → f((g : (Real) -> Real)(y)) == y)"),
     t9249,
   )
   let t9245 = @simp.asm_rewrite_tac(@list.List([]))
@@ -90568,9 +90108,7 @@ fn step_540() -> Unit raise {
     t9246,
   ])
   let t9236 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "inv((h(g(y))) * (g(y:real) - x)) =\n      inv(h(g(y))) * inv(g(y) - x)",
-    ),
+    @term_syntax.parse_term("inv((h : (Real) -> Real)((g : (Real) -> Real)((y : Real))) * (g(y) - (x : Real))) == inv(h(g(y))) * inv(g(y) - x)"),
     fn(
       x9233 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -90967,9 +90505,7 @@ fn step_540() -> Unit raise {
     ),
   ])
   let t9191 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?e. &0 < e /\\\n                    forall y. &0 < abs(y - f(x:real)) /\\\n                        abs(y - f(x:real)) < e ==>\n                            (f(g(y)) = y) /\\ ~(h(g(y)) = &0)",
-    ),
+    @term_syntax.parse_term("∃ e : Real, real_of_num(0) < e && (∀ y : Real, real_of_num(0) < abs(y - (f : (Real) -> Real)((x : Real))) && abs(y - f(x)) < e → f((g : (Real) -> Real)(y)) == y && !((h : (Real) -> Real)(g(y)) == real_of_num(0)))"),
     @tactics.strip_assume_tac,
   )
   let t9189 = @simp.asm_rewrite_tac(@list.List([]))
@@ -91313,9 +90849,7 @@ fn step_540() -> Unit raise {
   let t9144 = @tactics.repeat_tac(@tactics.conj_tac)
   let t9143 = @simp.asm_rewrite_tac(@list.List([]))
   let t9142 = @tactics.exists_tac(
-    @parser.parse_term(
-      "\\y. if y = f(x) then\n    inv(h(g y)) else (g(y) - g(f(x:real))) / (y - f(x))",
-    ),
+    @term_syntax.parse_term("(y : Real) => if y == (f : (Real) -> Real)((x : Real)) { inv((h : (Real) -> Real)((g : (Real) -> Real)(y))) } else { (g(y) - g(f(x))) / (y - f(x)) }"),
   )
   let t9141 = @tactics.disch_then(
     @tactics.x_choose_then(@term_syntax.parse_term("(h : (Real) -> Real)"))(
@@ -91489,9 +91023,7 @@ fn step_540() -> Unit raise {
   )
   diff_inverse_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g l x d. &0 < d /\\\n               (forall z. abs(z - x) <= d ==> (g(f(z)) = z)) /\\\n               (forall z. abs(z - x) <= d ==> f contl z) /\\\n               (f diffl l)(x) /\\\n               ~(l = &0)\n        ==> (g diffl (inv l))(f x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ l : Real, ∀ x : Real, ∀ d : Real, real_of_num(0) < d && (∀ z : Real, abs(z - x) <= d → g(f(z)) == z) && (∀ z : Real, abs(z - x) <= d → contl(f, z)) && diffl(f, l, x) && !(l == real_of_num(0)) → diffl(g, inv(l), f(x))"),
       t9342,
     ),
   )
@@ -91544,9 +91076,7 @@ fn step_541() -> Unit raise {
   )
   diff_inverse_lt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g l x d. &0 < d /\\\n               (forall z. abs(z - x) < d ==> (g(f(z)) = z)) /\\\n               (forall z. abs(z - x) < d ==> f contl z) /\\\n               (f diffl l)(x) /\\\n               ~(l = &0)\n        ==> (g diffl (inv l))(f x)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ g : (Real) -> Real, ∀ l : Real, ∀ x : Real, ∀ d : Real, real_of_num(0) < d && (∀ z : Real, abs(z - x) < d → g(f(z)) == z) && (∀ z : Real, abs(z - x) < d → contl(f, z)) && diffl(f, l, x) && !(l == real_of_num(0)) → diffl(g, inv(l), f(x))"),
       t9351,
     ),
   )
@@ -92371,9 +91901,7 @@ fn step_542() -> Unit raise {
     @tactics.all_tac,
   ])
   let t9365 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?w. (forall x. a <= x /\\ x <= b ==> f x <= w) /\\\n                    (?x. a <= x /\\ x <= b /\\ (f x = w))",
-    ),
+    @term_syntax.parse_term("∃ w : Real, (∀ x : Real, (a : Real) <= x && x <= (b : Real) → (f : (Real) -> Real)(x) <= w) && (∃ x : Real, a <= x && x <= b && f(x) == w)"),
     fn(
       x9362 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -92535,9 +92063,7 @@ fn step_542() -> Unit raise {
   )
   ivt_derivative_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f f' a b.\n        a <= b /\\\n        (forall x. a <= x /\\ x <= b ==> (f diffl f'(x))(x)) /\\\n        f'(a) > &0 /\\ f'(b) < &0\n        ==> ?z. a < z /\\ z < b /\\ (f'(z) = &0)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ f' : (Real) -> Real, ∀ a : Real, ∀ b : Real, a <= b && (∀ x : Real, a <= x && x <= b → diffl(f, f'(x), x)) && f'(a) > real_of_num(0) && f'(b) < real_of_num(0) → (∃ z : Real, a < z && z < b && f'(z) == real_of_num(0))"),
       t9463,
     ),
   )
@@ -92660,9 +92186,7 @@ fn step_543() -> Unit raise {
   )
   ivt_derivative_pos_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f f' a b y.\n        a <= b /\\\n        (forall x. a <= x /\\ x <= b ==> (f diffl f'(x))(x)) /\\\n        f'(a) > y /\\ f'(b) < y\n        ==> ?z. a < z /\\ z < b /\\ (f'(z) = y)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ f' : (Real) -> Real, ∀ a : Real, ∀ b : Real, ∀ y : Real, a <= b && (∀ x : Real, a <= x && x <= b → diffl(f, f'(x), x)) && f'(a) > y && f'(b) < y → (∃ z : Real, a < z && z < b && f'(z) == y)"),
       t9494,
     ),
   )
@@ -92718,9 +92242,7 @@ fn step_544() -> Unit raise {
   )
   ivt_derivative_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f f' a b y.\n        a <= b /\\\n        (forall x. a <= x /\\ x <= b ==> (f diffl f'(x))(x)) /\\\n        f'(a) < y /\\ f'(b) > y\n        ==> ?z. a < z /\\ z < b /\\ (f'(z) = y)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ f' : (Real) -> Real, ∀ a : Real, ∀ b : Real, ∀ y : Real, a <= b && (∀ x : Real, a <= x && x <= b → diffl(f, f'(x), x)) && f'(a) < y && f'(b) > y → (∃ z : Real, a < z && z < b && f'(z) == y)"),
       t9503,
     ),
   )
@@ -92812,9 +92334,7 @@ fn step_545() -> Unit raise {
   )
   let t9547 = @tactics.match_mp_tac(
     @calc_rat.real_arith(
-      @parser.parse_term(
-        "forall fx sx fx0 sx0 e3.\n        abs(sx - fx) < e3 /\\ abs(sx0 - fx0) < e3 /\\ abs(sx - sx0) < e3 /\\\n        (&3 * e3 = e)\n        ==> abs(fx - fx0) < e",
-      ),
+      @term_syntax.parse_term("∀ fx : Real, ∀ sx : Real, ∀ fx0 : Real, ∀ sx0 : Real, ∀ e3 : Real, abs(sx - fx) < e3 && abs(sx0 - fx0) < e3 && abs(sx - sx0) < e3 && real_of_num(3) * e3 == (e : Real) → abs(fx - fx0) < e"),
     ),
   )
   let t9546 = @tactics.x_gen_tac(@term_syntax.parse_term("(x : Real)"))
@@ -93196,9 +92716,7 @@ fn step_545() -> Unit raise {
   )
   seq_cont_uniform_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s f x0. (forall e. &0 < e\n                 ==> ?N d. &0 < d /\\\n                           forall x n. abs(x - x0) < d /\\ n >= N\n                                 ==> abs(s n x - f(x)) < e) /\\\n            (?N:num. forall n. n >= N ==> (s n) contl x0)\n            ==> f contl x0",
-      ),
+      @term_syntax.parse_term("∀ s : (Num, Real) -> Real, ∀ f : (Real) -> Real, ∀ x0 : Real, (∀ e : Real, real_of_num(0) < e → (∃ N : Num, ∃ d : Real, real_of_num(0) < d && (∀ x : Real, ∀ n : Num, abs(x - x0) < d && n >= N → abs(s(n, x) - f(x)) < e))) && (∃ N : Num, ∀ n : Num, n >= N → contl(s(n), x0)) → contl(f, x0)"),
       t9556,
     ),
   )
@@ -93258,9 +92776,7 @@ fn step_546() -> Unit raise {
   )
   let t9626 = @tactics.match_mp_tac(
     @calc_rat.real_arith(
-      @parser.parse_term(
-        "abs(snm) < e2 /\\ (&2 * e2 = e)\n    ==> abs((sn + snm) - fx) < e2 ==> abs(sn - fx) < e",
-      ),
+      @term_syntax.parse_term("abs((snm : Real)) < (e2 : Real) && real_of_num(2) * e2 == (e : Real) → abs((sn : Real) + snm - (fx : Real)) < e2 → abs(sn - fx) < e"),
     ),
   )
   let t9625 = @simp.once_rewrite_tac(@list.List([@equal.gsym(sum_two())]))
@@ -93861,9 +93377,7 @@ fn step_546() -> Unit raise {
   )
   ser_compara_uniform_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s x0 g.\n        (?N d. &0 < d /\\\n               forall n x. abs(x - x0) < d /\\ n >= N\n                     ==> abs(s x n) <= g n) /\\ summable g\n        ==> ?f d. &0 < d /\\\n                  forall e. &0 < e\n                      ==> ?N. forall x n. abs(x - x0) < d /\\ n >= N\n                                    ==> abs(sum(0,n) (s x) - f(x)) < e",
-      ),
+      @term_syntax.parse_term("∀ s : (Real, Num) -> Real, ∀ x0 : Real, ∀ g : (Num) -> Real, (∃ N : Num, ∃ d : Real, real_of_num(0) < d && (∀ n : Num, ∀ x : Real, abs(x - x0) < d && n >= N → abs(s(x, n)) <= g(n))) && summable(g) → (∃ f : (Real) -> Real, ∃ d : Real, real_of_num(0) < d && (∀ e : Real, real_of_num(0) < e → (∃ N : Num, ∀ x : Real, ∀ n : Num, abs(x - x0) < d && n >= N → abs(sum((0, n), s(x)) - f(x)) < e)))"),
       t9640,
     ),
   )
@@ -93959,9 +93473,7 @@ fn step_547() -> Unit raise {
   )
   ser_compara_uniform_weak_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s x0 g.\n        (?N d. &0 < d /\\\n               forall n x. abs(x - x0) < d /\\ n >= N\n                     ==> abs(s x n) <= g n) /\\ summable g\n        ==> ?f. forall e. &0 < e\n                    ==> ?N d. &0 < d /\\\n                              forall x n. abs(x - x0) < d /\\ n >= N\n                                    ==> abs(sum(0,n) (s x) - f(x)) < e",
-      ),
+      @term_syntax.parse_term("∀ s : (Real, Num) -> Real, ∀ x0 : Real, ∀ g : (Num) -> Real, (∃ N : Num, ∃ d : Real, real_of_num(0) < d && (∀ n : Num, ∀ x : Real, abs(x - x0) < d && n >= N → abs(s(x, n)) <= g(n))) && summable(g) → (∃ f : (Real) -> Real, ∀ e : Real, real_of_num(0) < e → (∃ N : Num, ∃ d : Real, real_of_num(0) < d && (∀ x : Real, ∀ n : Num, abs(x - x0) < d && n >= N → abs(sum((0, n), s(x)) - f(x)) < e)))"),
       t9648,
     ),
   )
@@ -94034,9 +93546,7 @@ fn step_548() -> Unit raise {
   )
   contl_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f x. f contl x <=>\n         forall e. &0 < e ==> ?d. &0 < d /\\ forall x'. abs(x' - x) < d\n                            ==> abs(f(x') - f(x)) < e",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ x : Real, contl(f, x) == (∀ e : Real, real_of_num(0) < e → (∃ d : Real, real_of_num(0) < d && (∀ x' : Real, abs(x' - x) < d → abs(f(x') - f(x)) < e)))"),
       t9653,
     ),
   )
@@ -94061,9 +93571,7 @@ fn step_549() -> Unit raise {
   )
   contl_seq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f x l. f contl l /\\ x tends_num_real l\n\n           ==> (\\n. f(x n)) tends_num_real f(l)",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ x : (Num) -> Real, ∀ l : Real, contl(f, l) && tends_num_real(x, l) → tends_num_real((n : Num) => f(x(n)), f(l))"),
       t9655,
     ),
   )
@@ -94130,9 +93638,7 @@ fn step_550() -> Unit raise {
   )
   sup_interval_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P a b.\n        (?x. a <= x /\\ x <= b /\\ P x)\n        ==> ?s. a <= s /\\ s <= b /\\\n                forall y. y < s <=> (?x. a <= x /\\ x <= b /\\ P x /\\ y < x)",
-      ),
+      @term_syntax.parse_term("∀ P : (Real) -> Bool, ∀ a : Real, ∀ b : Real, (∃ x : Real, a <= x && x <= b && P(x)) → (∃ s : Real, a <= s && s <= b && (∀ y : Real, (y < s) == (∃ x : Real, a <= x && x <= b && P(x) && y < x)))"),
       t9664,
     ),
   )
@@ -94444,16 +93950,12 @@ fn step_551() -> Unit raise {
   )
   let t9772 = @tactics.match_mp_tac(
     @calc_rat.real_arith(
-      @parser.parse_term(
-        "forall r t d d12.\n       ~(x <= r /\\ y <= r) /\\\n      abs(x - y) < d /\\\n      s - d12 < r /\\ t <= s + d /\\\n      x <= t /\\ y <= t /\\ &2 * d12 <= e /\\\n      &2 * d < e ==> abs(x - s) < e /\\ abs(y - s) < e",
-      ),
+      @term_syntax.parse_term("∀ r : Real, ∀ t : Real, ∀ d : Real, ∀ d12 : Real, !((x : Real) <= r && (y : Real) <= r) && abs(x - y) < d && (s : Real) - d12 < r && t <= s + d && x <= t && y <= t && real_of_num(2) * d12 <= (e : Real) && real_of_num(2) * d < e → abs(x - s) < e && abs(y - s) < e"),
     ),
   )
   let t9771 = @tactics.match_mp_tac(
     @kernel.assume_rule(
-      @parser.parse_term(
-        "forall x y. abs(x - s) < d1 /\\ abs(y - s) < d1 ==> abs(f x - f y) < e",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ y : Real, abs(x - (s : Real)) < (d1 : Real) && abs(y - s) < d1 → abs((f : (Real) -> Real)(x) - f(y)) < (e : Real)"),
     ),
   )
   let t9770 = @list.List([
@@ -94998,9 +94500,7 @@ fn step_551() -> Unit raise {
   let t9711 = @tactics.exists_tac(@term_syntax.parse_term("(f : (Real) -> Real)((s : Real))"))
   let t9710 = @tactics.match_mp_tac(
     @calc_rat.real_arith(
-      @parser.parse_term(
-        "forall a. abs(x - a) < e / &2 /\\ abs(y - a) < e / &2 /\\ (&2 * e / &2 = e)\n            ==> abs(x - y) < e",
-      ),
+      @term_syntax.parse_term("∀ a : Real, abs((x : Real) - a) < (e : Real) / real_of_num(2) && abs((y : Real) - a) < e / real_of_num(2) && real_of_num(2) * (e / real_of_num(2)) == e → abs(x - y) < e"),
     ),
   )
   let t9721 = @list.List([
@@ -95035,9 +94535,7 @@ fn step_551() -> Unit raise {
     @tactics.all_tac,
   ])
   let t9709 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall x y. abs(x - s) < d1 /\\ abs(y - s) < d1\n                        ==> abs(f(x) - f(y)) < e",
-    ),
+    @term_syntax.parse_term("∀ x : Real, ∀ y : Real, abs(x - (s : Real)) < (d1 : Real) && abs(y - s) < d1 → abs((f : (Real) -> Real)(x) - f(y)) < (e : Real)"),
     fn(
       x9706 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -95288,9 +94786,7 @@ fn step_551() -> Unit raise {
                                                                           @tactics.then_tac(
                                                                             @tactics.then_tac(
                                                                               @tactics.undisch_tac(
-                                                                                @parser.parse_term(
-                                                                                  "forall x. a <= x /\\ x <= b ==> f contl x",
-                                                                                ),
+                                                                                @term_syntax.parse_term("∀ x : Real, (a : Real) <= x && x <= (b : Real) → contl((f : (Real) -> Real), x)"),
                                                                               ),
                                                                               t9692,
                                                                             ),
@@ -95369,9 +94865,7 @@ fn step_551() -> Unit raise {
     @tactics.all_tac,
   ])
   let t9685 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?t. s < t /\\ ?d. &0 < d /\\\n                                 forall x y. a <= x /\\ x <= t /\\ a <= y /\\ y <= t /\\\n                                       abs(x - y) < d ==> abs(f(x) - f(y)) < e",
-    ),
+    @term_syntax.parse_term("∃ t : Real, (s : Real) < t && (∃ d : Real, real_of_num(0) < d && (∀ x : Real, ∀ y : Real, (a : Real) <= x && x <= t && a <= y && y <= t && abs(x - y) < d → abs((f : (Real) -> Real)(x) - f(y)) < (e : Real)))"),
     fn(
       x9682 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -95528,9 +95022,7 @@ fn step_551() -> Unit raise {
   })
   let t9665 = @tactics.mp_tac(
     @bool.spec(
-      @parser.parse_term(
-        "\\c. ?d. &0 < d /\\\n                       forall x y. a <= x /\\ x <= c /\\\n                             a <= y /\\ y <= c /\\\n                             abs(x - y) < d\n                             ==> abs(f(x) - f(y)) < e",
-      ),
+      @term_syntax.parse_term("(c : Real) => ∃ d : Real, real_of_num(0) < d && (∀ x : Real, ∀ y : Real, (a : Real) <= x && x <= c && a <= y && y <= c && abs(x - y) < d → abs((f : (Real) -> Real)(x) - f(y)) < (e : Real))"),
       sup_interval(),
     ),
   )
@@ -95594,9 +95086,7 @@ fn step_551() -> Unit raise {
   )
   cont_uniform_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f a b. a <= b /\\ (forall x. a <= x /\\ x <= b ==> f contl x)\n           ==> forall e. &0 < e ==> ?d. &0 < d /\\\n                                  forall x y. a <= x /\\ x <= b /\\\n                                        a <= y /\\ y <= b /\\\n                                        abs(x - y) < d\n                                        ==> abs(f(x) - f(y)) < e",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, a <= b && (∀ x : Real, a <= x && x <= b → contl(f, x)) → (∀ e : Real, real_of_num(0) < e → (∃ d : Real, real_of_num(0) < d && (∀ x : Real, ∀ y : Real, a <= x && x <= b && a <= y && y <= b && abs(x - y) < d → abs(f(x) - f(y)) < e)))"),
       t9814,
     ),
   )
@@ -95618,9 +95108,7 @@ fn step_552() -> Unit raise {
     @list.List([
       @realarith.real_lt_trans(),
       @calc_rat.real_arith(
-        @parser.parse_term(
-          "~(a <= x) /\\ a <= y /\\ abs(x - y) < d /\\ d < d1\n      ==> abs(x - a) < d1 /\\ abs(y - a) < d1",
-        ),
+        @term_syntax.parse_term("!((a : Real) <= (x : Real)) && a <= (y : Real) && abs(x - y) < (d : Real) && d < (d1 : Real) → abs(x - a) < d1 && abs(y - a) < d1"),
       ),
     ]),
   )
@@ -95634,9 +95122,7 @@ fn step_552() -> Unit raise {
   let t9874 = @tactics.exists_tac(@term_syntax.parse_term("(f : (Real) -> Real)((a : Real))"))
   let t9873 = @tactics.match_mp_tac(
     @calc_rat.real_arith(
-      @parser.parse_term(
-        "forall a. abs(x - a) < e / &2 /\\ abs(y - a) < e / &2 /\\ (&2 * e / &2 = e)\n          ==> abs(x - y) < e",
-      ),
+      @term_syntax.parse_term("∀ a : Real, abs((x : Real) - a) < (e : Real) / real_of_num(2) && abs((y : Real) - a) < e / real_of_num(2) && real_of_num(2) * (e / real_of_num(2)) == e → abs(x - y) < e"),
     ),
   )
   let t9872 = @list.List([
@@ -95665,9 +95151,7 @@ fn step_552() -> Unit raise {
     @list.List([
       @realarith.real_lt_trans(),
       @calc_rat.real_arith(
-        @parser.parse_term(
-          "x <= b /\\ ~(y <= b) /\\ abs(x - y) < d /\\ d < d1\n      ==> abs(x - b) < d1 /\\ abs(y - b) < d1",
-        ),
+        @term_syntax.parse_term("(x : Real) <= (b : Real) && !((y : Real) <= b) && abs(x - y) < (d : Real) && d < (d1 : Real) → abs(x - b) < d1 && abs(y - b) < d1"),
       ),
     ]),
   )
@@ -95681,9 +95165,7 @@ fn step_552() -> Unit raise {
   let t9869 = @tactics.exists_tac(@term_syntax.parse_term("(f : (Real) -> Real)((b : Real))"))
   let t9868 = @tactics.match_mp_tac(
     @calc_rat.real_arith(
-      @parser.parse_term(
-        "forall a. abs(x - a) < e / &2 /\\ abs(y - a) < e / &2 /\\ (&2 * e / &2 = e)\n          ==> abs(x - y) < e",
-      ),
+      @term_syntax.parse_term("∀ a : Real, abs((x : Real) - a) < (e : Real) / real_of_num(2) && abs((y : Real) - a) < e / real_of_num(2) && real_of_num(2) * (e / real_of_num(2)) == e → abs(x - y) < e"),
     ),
   )
   let t9867 = @list.List([
@@ -96110,9 +95592,7 @@ fn step_552() -> Unit raise {
   )
   cont_uniform_strong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f a b. (forall x. a <= x /\\ x <= b ==> f contl x)\n           ==> forall e. &0 < e\n                   ==> ?d. &0 < d /\\\n                           forall x y. (a <= x /\\ x <= b \\/ a <= y /\\ y <= b) /\\\n                                 abs(x - y) < d\n                                 ==> abs(f(x) - f(y)) < e",
-      ),
+      @term_syntax.parse_term("∀ f : (Real) -> Real, ∀ a : Real, ∀ b : Real, (∀ x : Real, a <= x && x <= b → contl(f, x)) → (∀ e : Real, real_of_num(0) < e → (∃ d : Real, real_of_num(0) < d && (∀ x : Real, ∀ y : Real, (a <= x && x <= b || a <= y && y <= b) && abs(x - y) < d → abs(f(x) - f(y)) < e)))"),
       t9879,
     ),
   )
