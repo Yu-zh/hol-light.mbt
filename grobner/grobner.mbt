@@ -933,9 +933,7 @@ fn step_1() -> Unit raise {
     t203,
   )
   let pth_step = @tactics.prove(
-    @parser.parse_term(
-      "forall(add:A->A->A) (mul:A->A->A) (n0:A).\n          (forall x. mul n0 x = n0) /\\\n          (forall x y z. (add x y = add x z) <=> (y = z)) /\\\n          (forall w x y z. (add (mul w y) (mul x z) = add (mul w z) (mul x y)) <=>\n                     (w = x) \\/ (y = z))\n          ==> (forall a b c d. ~(a = b) /\\ ~(c = d) <=>\n                         ~(add (mul a c) (mul b d) =\n                           add (mul a d) (mul b c))) /\\\n              (forall n a b c d. ~(n = n0)\n                           ==> (a = b) /\\ ~(c = d)\n                               ==> ~(add a (mul n c) = add b (mul n d)))",
-    ),
+    @term_syntax.parse_term("∀ add : (A, A) -> A, ∀ mul : (A, A) -> A, ∀ n0 : A, (∀ x : A, mul(n0, x) == n0) && (∀ x : A, ∀ y : A, ∀ z : A, (add(x, y) == add(x, z)) == (y == z)) && (∀ w : A, ∀ x : A, ∀ y : A, ∀ z : A, (add(mul(w, y), mul(x, z)) == add(mul(w, z), mul(x, y))) == (w == x || y == z)) → (∀ a : A, ∀ b : A, ∀ c : A, ∀ d : A, (!(a == b) && !(c == d)) == !(add(mul(a, c), mul(b, d)) == add(mul(a, d), mul(b, c)))) && (∀ n : A, ∀ a : A, ∀ b : A, ∀ c : A, ∀ d : A, !(n == n0) → a == b && !(c == d) → !(add(a, mul(n, c)) == add(b, mul(n, d))))"),
     t204,
   )
   let final_rule : (@kernel.Thm) -> @kernel.Thm raise = @drule.match_mp(
@@ -2683,9 +2681,7 @@ fn step_2() -> Unit raise {
     t389,
   )
   let pth_evenodd = @tactics.prove(
-    @parser.parse_term(
-      "(EVEN(x) <=> (forall y. ~(x = SUC(2 * y)))) /\\\n     (ODD(x) <=> (forall y. ~(x = 2 * y))) /\\\n     (~EVEN(x) <=> (forall y. ~(x = 2 * y))) /\\\n     (~ODD(x) <=> (forall y. ~(x = SUC(2 * y))))",
-    ),
+    @term_syntax.parse_term("EVEN((x : Num)) == (∀ y : Num, !(x == SUC(2 * y))) && ODD(x) == (∀ y : Num, !(x == 2 * y)) && !EVEN(x) == (∀ y : Num, !(x == 2 * y)) && !ODD(x) == (∀ y : Num, !(x == SUC(2 * y)))"),
     t390,
   )
   fn num_multiply_conv(x391 : Bool, x392 : @kernel.Term) -> @kernel.Thm raise {
@@ -2927,9 +2923,7 @@ fn step_3() -> Unit raise {
     t421,
   )
   let num_integral_lemma = @tactics.prove(
-    @parser.parse_term(
-      "(w = x + d) /\\ (y = z + e)\n     ==> ((w * y + x * z = w * z + x * y) <=> (w = x) \\/ (y = z))",
-    ),
+    @term_syntax.parse_term("(w : Num) == (x : Num) + (d : Num) && (y : Num) == (z : Num) + (e : Num) → (w * y + x * z == w * z + x * y) == (w == x || y == z)"),
     t422,
   )
   let t435 = @meson.asm_meson_tac(
@@ -3041,9 +3035,7 @@ fn step_3() -> Unit raise {
     t435,
   )
   let num_integral = @tactics.prove(
-    @parser.parse_term(
-      "(forall x. 0 * x = 0) /\\\n     (forall x y z. (x + y = x + z) <=> (y = z)) /\\\n     (forall w x y z. (w * y + x * z = w * z + x * y) <=> (w = x) \\/ (y = z))",
-    ),
+    @term_syntax.parse_term("(∀ x : Num, 0 * x == 0) && (∀ x : Num, ∀ y : Num, ∀ z : Num, (x + y == x + z) == (y == z)) && (∀ w : Num, ∀ x : Num, ∀ y : Num, ∀ z : Num, (w * y + x * z == w * z + x * y) == (w == x || y == z))"),
     t436,
   )
   let t437 = @term_syntax.parse_term("EXP")
