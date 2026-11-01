@@ -451,9 +451,7 @@ fn step_23() -> Unit raise {
   )
   digitsum_works_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall B n k.\n    nsum {i | i < k} (\\i. B EXP i * n DIV (B EXP i) MOD B) = n MOD (B EXP k)",
-      ),
+      @term_syntax.parse_term("∀ B : Num, ∀ n : Num, ∀ k : Num, nsum({(i : Num) | i < k}, (i : Num) => EXP(B, i) * MOD(DIV(n, EXP(B, i)), B)) == MOD(n, EXP(B, k))"),
       t16,
     ),
   )
@@ -476,9 +474,7 @@ fn step_24() -> Unit raise {
   let t17 = @simp.simp_tac(@list.List([digitsum_works_gen(), @arith.mod_lt()]))
   digitsum_works_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall B n k.\n        n < B EXP k\n        ==> nsum {i | i < k} (\\i. B EXP i * n DIV (B EXP i) MOD B) = n",
-      ),
+      @term_syntax.parse_term("∀ B : Num, ∀ n : Num, ∀ k : Num, n < EXP(B, k) → nsum({(i : Num) | i < k}, (i : Num) => EXP(B, i) * MOD(DIV(n, EXP(B, i)), B)) == n"),
       t17,
     ),
   )
@@ -536,9 +532,7 @@ fn step_25() -> Unit raise {
   )
   digitsum_bound_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall B b k. (forall i. i < k ==> b i < B)\n           ==> nsum {i | i < k} (\\i. B EXP i * b i) < B EXP k",
-      ),
+      @term_syntax.parse_term("∀ B : Num, ∀ b : (Num) -> Num, ∀ k : Num, (∀ i : Num, i < k → b(i) < B) → nsum({(i : Num) | i < k}, (i : Num) => EXP(B, i) * b(i)) < EXP(B, k)"),
       t22,
     ),
   )
@@ -583,9 +577,7 @@ fn step_26() -> Unit raise {
   )
   digitsum_split_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall B b s n.\n        FINITE s\n        ==> B EXP n * nsum {i | i IN s /\\ n <= i} (\\i. B EXP (i - n) * b i) +\n            nsum {i | i IN s /\\ i < n} (\\i. B EXP i * b i) =\n            nsum s (\\i. B EXP i * b i)",
-      ),
+      @term_syntax.parse_term("∀ B : Num, ∀ b : (Num) -> Num, ∀ s : (Num) -> Bool, ∀ n : Num, FINITE(s) → EXP(B, n) * nsum({(i : Num) | IN(i, s) && n <= i}, (i : Num) => EXP(B, i - n) * b(i)) + nsum({(i : Num) | IN(i, s) && i < n}, (i : Num) => EXP(B, i) * b(i)) == nsum(s, (i : Num) => EXP(B, i) * b(i))"),
       t29,
     ),
   )
@@ -628,9 +620,7 @@ fn step_27() -> Unit raise {
       @iterate.nsum_restrict_set(),
       @meson.meson(
         @list.List([@arith.mult_clauses()]),
-        @parser.parse_term(
-          "(if p then a * b else 0) = a * (if p then b else 0)",
-        ),
+        @term_syntax.parse_term("(if (p : Bool) { (a : Num) * (b : Num) } else { 0 }) == a * (if p { b } else { 0 })"),
       ),
     ]),
   )
@@ -640,9 +630,7 @@ fn step_27() -> Unit raise {
         @simp.once_rewrite_tac(
           @list.List([
             @sets.set_rule(
-              @parser.parse_term(
-                "{x | x IN s /\\ P x} = {x | x IN {y | P y} /\\ x IN s}",
-              ),
+              @term_syntax.parse_term("{(x : _) | IN(x, (s : (_) -> Bool)) && (P : (_) -> Bool)(x)} == {(x : _) | IN(x, {(y : _) | P(y)}) && IN(x, s)}"),
             ),
           ]),
         ),
@@ -738,9 +726,7 @@ fn step_27() -> Unit raise {
     t52,
   )
   let t54 = (
-    @parser.parse_term(
-      "(forall B b s n.\n        FINITE s /\\ (forall i. i IN s ==> b i < B)\n        ==> nsum s (\\i. B EXP i * b i) DIV (B EXP n) =\n            nsum {i | i IN s /\\ n <= i} (\\i. B EXP (i - n) * b i)) /\\\n   (forall B b s n.\n        FINITE s /\\ (forall i. i IN s ==> b i < B)\n        ==> nsum s (\\i. B EXP i * b i) MOD (B EXP n) =\n            nsum {i | i IN s /\\ i < n} (\\i. B EXP i * b i))",
-    ),
+    @term_syntax.parse_term("(∀ B : Num, ∀ b : (Num) -> Num, ∀ s : (Num) -> Bool, ∀ n : Num, FINITE(s) && (∀ i : Num, IN(i, s) → b(i) < B) → DIV(nsum(s, (i : Num) => EXP(B, i) * b(i)), EXP(B, n)) == nsum({(i : Num) | IN(i, s) && n <= i}, (i : Num) => EXP(B, i - n) * b(i))) && (∀ B : Num, ∀ b : (Num) -> Num, ∀ s : (Num) -> Bool, ∀ n : Num, FINITE(s) && (∀ i : Num, IN(i, s) → b(i) < B) → MOD(nsum(s, (i : Num) => EXP(B, i) * b(i)), EXP(B, n)) == nsum({(i : Num) | IN(i, s) && i < n}, (i : Num) => EXP(B, i) * b(i)))"),
     t53,
   )
   let (digitsum_div, digitsum_mod) = @bool.conj_pair(
@@ -791,9 +777,7 @@ fn step_28() -> Unit raise {
   )
   digitsum_mod_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall B b m n.\n        (forall i. i < m ==> b i < B)\n        ==> nsum {i | i < m} (\\i. B EXP i * b i) MOD (B EXP n) =\n            nsum {i | i < MIN m n} (\\i. B EXP i * b i)",
-      ),
+      @term_syntax.parse_term("∀ B : Num, ∀ b : (Num) -> Num, ∀ m : Num, ∀ n : Num, (∀ i : Num, i < m → b(i) < B) → MOD(nsum({(i : Num) | i < m}, (i : Num) => EXP(B, i) * b(i)), EXP(B, n)) == nsum({(i : Num) | i < MIN(m, n)}, (i : Num) => EXP(B, i) * b(i))"),
       t56,
     ),
   )
@@ -844,9 +828,7 @@ fn step_29() -> Unit raise {
     t63,
   ])
   let t61 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "{i:num | i < m /\\ n <= i} = IMAGE (\\i. i + n) {i | i < m - n}",
-    ),
+    @term_syntax.parse_term("{(i : Num) | i < (m : Num) && (n : Num) <= i} == IMAGE((i : Num) => i + n, {(i : Num) | i < m - n})"),
     fn(
       x58 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -906,9 +888,7 @@ fn step_29() -> Unit raise {
   )
   digitsum_div_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall B b m n.\n        (forall i. i < m ==> b i < B)\n        ==> nsum {i | i < m} (\\i. B EXP i * b i) DIV (B EXP n) =\n            nsum {i | i < m - n} (\\i. B EXP i * b(i + n))",
-      ),
+      @term_syntax.parse_term("∀ B : Num, ∀ b : (Num) -> Num, ∀ m : Num, ∀ n : Num, (∀ i : Num, i < m → b(i) < B) → DIV(nsum({(i : Num) | i < m}, (i : Num) => EXP(B, i) * b(i)), EXP(B, n)) == nsum({(i : Num) | i < m - n}, (i : Num) => EXP(B, i) * b(i + n))"),
       t65,
     ),
   )
@@ -998,9 +978,7 @@ fn step_30() -> Unit raise {
   )
   digitsum_div_mod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall B b s n.\n        FINITE s /\\ (forall i. i IN s ==> b i < B)\n        ==> nsum s (\\i. B EXP i * b i) DIV (B EXP n) MOD B =\n            if n IN s then b n else 0",
-      ),
+      @term_syntax.parse_term("∀ B : Num, ∀ b : (Num) -> Num, ∀ s : (Num) -> Bool, ∀ n : Num, FINITE(s) && (∀ i : Num, IN(i, s) → b(i) < B) → MOD(DIV(nsum(s, (i : Num) => EXP(B, i) * b(i)), EXP(B, n)), B) == (if IN(n, s) { b(n) } else { 0 })"),
       t76,
     ),
   )
@@ -1025,9 +1003,7 @@ fn step_31() -> Unit raise {
   )
   digitsum_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall B b c s.\n     FINITE s /\\\n     (forall i. i IN s ==> b i < B) /\\\n     (forall i. i IN s ==> c i < B)\n     ==> (nsum s (\\i. B EXP i * b i) = nsum s (\\i. B EXP i * c i) <=>\n          forall i. i IN s ==> b i = c i)",
-      ),
+      @term_syntax.parse_term("∀ B : Num, ∀ b : (Num) -> Num, ∀ c : (Num) -> Num, ∀ s : (Num) -> Bool, FINITE(s) && (∀ i : Num, IN(i, s) → b(i) < B) && (∀ i : Num, IN(i, s) → c(i) < B) → (nsum(s, (i : Num) => EXP(B, i) * b(i)) == nsum(s, (i : Num) => EXP(B, i) * c(i))) == (∀ i : Num, IN(i, s) → b(i) == c(i))"),
       t77,
     ),
   )
@@ -1353,9 +1329,7 @@ fn step_45() -> Unit raise {
   )
   bitval_or_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b c. bitval(b \\/ c) = (bitval b + bitval c) - bitval b * bitval c",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, ∀ c : Bool, bitval(b || c) == bitval(b) + bitval(c) - bitval(b) * bitval(c)"),
       t99,
     ),
   )
@@ -1380,9 +1354,7 @@ fn step_46() -> Unit raise {
   )
   bitval_iff_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b c. bitval(b <=> c) =\n         (1 + 2 * bitval b * bitval c) - (bitval b + bitval c)",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, ∀ c : Bool, bitval(b == c) == 1 + 2 * (bitval(b) * bitval(c)) - (bitval(b) + bitval(c))"),
       t101,
     ),
   )
@@ -1407,9 +1379,7 @@ fn step_47() -> Unit raise {
   )
   bitval_xor_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b c. bitval(~(b <=> c)) = (bitval b + bitval c) - 2 * bitval b * bitval c",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, ∀ c : Bool, bitval(!(b == c)) == bitval(b) + bitval(c) - 2 * (bitval(b) * bitval(c))"),
       t103,
     ),
   )
@@ -1500,9 +1470,7 @@ fn step_50() -> Unit raise {
   )
   int_bitval_and_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b c. &(bitval(b /\\ c)):int = &(bitval b) * &(bitval c)",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, ∀ c : Bool, int_of_num(bitval(b && c)) == int_of_num(bitval(b)) * int_of_num(bitval(c))"),
       t109,
     ),
   )
@@ -1539,9 +1507,7 @@ fn step_51() -> Unit raise {
   )
   int_bitval_or_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b c. &(bitval(b \\/ c)):int =\n         (&(bitval b) + &(bitval c)) - &(bitval b) * &(bitval c)",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, ∀ c : Bool, int_of_num(bitval(b || c)) == int_of_num(bitval(b)) + int_of_num(bitval(c)) - int_of_num(bitval(b)) * int_of_num(bitval(c))"),
       t114,
     ),
   )
@@ -1578,9 +1544,7 @@ fn step_52() -> Unit raise {
   )
   int_bitval_imp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b c. &(bitval(b ==> c)):int =\n         (&1 - &(bitval b) + &(bitval c)) - (&1 - &(bitval b)) * &(bitval c)",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, ∀ c : Bool, int_of_num(bitval(b → c)) == int_of_num(1) - int_of_num(bitval(b)) + int_of_num(bitval(c)) - (int_of_num(1) - int_of_num(bitval(b))) * int_of_num(bitval(c))"),
       t119,
     ),
   )
@@ -1617,9 +1581,7 @@ fn step_53() -> Unit raise {
   )
   int_bitval_iff_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b c. &(bitval(b <=> c)):int =\n         &1 - ((&(bitval b) + &(bitval c)) - &2 * &(bitval b) * &(bitval c))",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, ∀ c : Bool, int_of_num(bitval(b == c)) == int_of_num(1) - (int_of_num(bitval(b)) + int_of_num(bitval(c)) - int_of_num(2) * (int_of_num(bitval(b)) * int_of_num(bitval(c))))"),
       t124,
     ),
   )
@@ -1647,9 +1609,7 @@ fn step_54() -> Unit raise {
   )
   int_bitval_pow_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b k. &(bitval b) pow k = if k = 0 then &1:int else &(bitval b)",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, ∀ k : Num, pow(int_of_num(bitval(b)), k) == (if k == 0 { int_of_num(1) } else { int_of_num(bitval(b)) })"),
       t127,
     ),
   )
@@ -1955,9 +1915,7 @@ fn step_65() -> Unit raise {
   )
   binary_digitsum_bound_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b k. nsum {i | i < k} (\\i. 2 EXP i * bitval(b i)) < 2 EXP k",
-      ),
+      @term_syntax.parse_term("∀ b : (Num) -> Bool, ∀ k : Num, nsum({(i : Num) | i < k}, (i : Num) => EXP(2, i) * bitval(b(i))) < EXP(2, k)"),
       t151,
     ),
   )
@@ -1980,9 +1938,7 @@ fn step_66() -> Unit raise {
   let t152 = @tactics.match_accept_tac(digitsum_split())
   binary_digitsum_split_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b s n.\n        FINITE s\n        ==> 2 EXP n *\n            nsum {i | i IN s /\\ n <= i} (\\i. 2 EXP (i - n) * bitval(b i)) +\n            nsum {i | i IN s /\\ i < n} (\\i. 2 EXP i * bitval(b i)) =\n            nsum s (\\i. 2 EXP i * bitval(b i))",
-      ),
+      @term_syntax.parse_term("∀ b : (Num) -> Bool, ∀ s : (Num) -> Bool, ∀ n : Num, FINITE(s) → EXP(2, n) * nsum({(i : Num) | IN(i, s) && n <= i}, (i : Num) => EXP(2, i - n) * bitval(b(i))) + nsum({(i : Num) | IN(i, s) && i < n}, (i : Num) => EXP(2, i) * bitval(b(i))) == nsum(s, (i : Num) => EXP(2, i) * bitval(b(i)))"),
       t152,
     ),
   )
@@ -2005,9 +1961,7 @@ fn step_67() -> Unit raise {
   let t153 = @simp.simp_tac(@list.List([digitsum_div(), bitval_bound_alt()]))
   binary_digitsum_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b s n.\n        FINITE s\n        ==> nsum s (\\i. 2 EXP i * bitval(b i)) DIV (2 EXP n) =\n            nsum {i | i IN s /\\ n <= i} (\\i. 2 EXP (i - n) * bitval(b i))",
-      ),
+      @term_syntax.parse_term("∀ b : (Num) -> Bool, ∀ s : (Num) -> Bool, ∀ n : Num, FINITE(s) → DIV(nsum(s, (i : Num) => EXP(2, i) * bitval(b(i))), EXP(2, n)) == nsum({(i : Num) | IN(i, s) && n <= i}, (i : Num) => EXP(2, i - n) * bitval(b(i)))"),
       t153,
     ),
   )
@@ -2030,9 +1984,7 @@ fn step_68() -> Unit raise {
   let t154 = @simp.simp_tac(@list.List([digitsum_mod(), bitval_bound_alt()]))
   binary_digitsum_mod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b s n.\n        FINITE s\n        ==> nsum s (\\i. 2 EXP i * bitval(b i)) MOD (2 EXP n) =\n            nsum {i | i IN s /\\ i < n} (\\i. 2 EXP i * bitval(b i))",
-      ),
+      @term_syntax.parse_term("∀ b : (Num) -> Bool, ∀ s : (Num) -> Bool, ∀ n : Num, FINITE(s) → MOD(nsum(s, (i : Num) => EXP(2, i) * bitval(b(i))), EXP(2, n)) == nsum({(i : Num) | IN(i, s) && i < n}, (i : Num) => EXP(2, i) * bitval(b(i)))"),
       t154,
     ),
   )
@@ -2148,9 +2100,7 @@ fn step_76() -> Unit raise {
 fn step_77() -> Unit raise {
   bit_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "bit i (w:N word) =\n    if i < dimindex(:N) then (bitvector w)$(i + 1)\n    else F",
-      ),
+      @term_syntax.parse_term("(bit : (Num, Word[N]) -> Bool)((i : Num), (w : Word[N])) == (if i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) { (op_dollar : (Cart[Bool, N], Num) -> Bool)((bitvector : (Word[N]) -> Cart[Bool, N])(w), i + 1) } else { false })"),
     ),
   )
 }
@@ -2185,9 +2135,7 @@ fn step_78() -> Unit raise {
   )
   word_eq_bits_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w:N word. v = w <=> forall i. i < dimindex(:N) ==> bit i v = bit i w",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], (v == w) == (∀ i : Num, i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (bit : (Num, Word[N]) -> Bool)(i, v) == (bit : (Num, Word[N]) -> Bool)(i, w))"),
       t163,
     ),
   )
@@ -2252,9 +2200,7 @@ fn step_81() -> Unit raise {
   let t166 = @meson.meson_tac(@list.List([@arith.not_lt(), bit_trivial()]))
   bit_guard_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) i. bit i x <=> i < dimindex(:N) /\\ bit i x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, x) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(i, x))"),
       t166,
     ),
   )
@@ -2293,9 +2239,7 @@ pub fn bits_of_word() -> @kernel.Thm {
 fn step_83() -> Unit raise {
   word_of_bits_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "word_of_bits s:N word = mk_word(lambda i. (i - 1) IN s)",
-      ),
+      @term_syntax.parse_term("(word_of_bits : ((Num) -> Bool) -> Word[N])((s : (Num) -> Bool)) == mk_word(lambda((i : Num) => IN(i - 1, s)))"),
     ),
   )
 }
@@ -2383,9 +2327,7 @@ fn step_85() -> Unit raise {
   )
   bit_word_of_bits_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s i. bit i (word_of_bits s:N word) <=> i < dimindex(:N) /\\ i IN s",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_of_bits : ((Num) -> Bool) -> Word[N])(s)) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && IN(i, s))"),
       t174,
     ),
   )
@@ -2412,9 +2354,7 @@ fn step_86() -> Unit raise {
   )
   word_of_bits_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. word_of_bits s:N word = word_of_bits t <=>\n         forall i. i < dimindex(:N) ==> (i IN s <=> i IN t)",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, ∀ t : (Num) -> Bool, ((word_of_bits : ((Num) -> Bool) -> Word[N])(s) == (word_of_bits : ((Num) -> Bool) -> Word[N])(t)) == (∀ i : Num, i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → IN(i, s) == IN(i, t))"),
       t176,
     ),
   )
@@ -2485,9 +2425,7 @@ fn step_88() -> Unit raise {
   )
   bits_of_word_of_bits_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. bits_of_word(word_of_bits s:N word) = s INTER {i | i < dimindex(:N)}",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, (bits_of_word : (Word[N], Num) -> Bool)((word_of_bits : ((Num) -> Bool) -> Word[N])(s)) == INTER(s, {(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))})"),
       t180,
     ),
   )
@@ -2510,9 +2448,7 @@ fn step_89() -> Unit raise {
   let t181 = @meson.meson_tac(@list.List([word_of_bits_of_word()]))
   bits_of_word_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w:N word. bits_of_word v = bits_of_word w <=> v = w",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], (bits_of_word(v) == bits_of_word(w)) == (v == w)"),
       t181,
     ),
   )
@@ -2564,9 +2500,7 @@ fn step_91() -> Unit raise {
   )
   word_of_bits_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w:N word. w = word_of_bits {i | i < dimindex(:N) /\\ bit i w}",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], w == (word_of_bits : ((Num) -> Bool) -> Word[N])({(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(i, w)})"),
       t184,
     ),
   )
@@ -2634,9 +2568,7 @@ fn step_93() -> Unit raise {
   let t189 = @simp.rewrite_tac(@list.List([@sets.subset(), in_bits_of_word()]))
   bits_of_word_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) (y:N word).\n        bits_of_word x SUBSET bits_of_word y <=> forall i. bit i x ==> bit i y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[N], SUBSET(bits_of_word(x), bits_of_word(y)) == (∀ i : Num, bit(i, x) → bit(i, y))"),
       t189,
     ),
   )
@@ -2661,9 +2593,7 @@ fn step_94() -> Unit raise {
   )
   bits_of_word_subset_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) (y:N word).\n        bits_of_word x SUBSET bits_of_word y <=>\n        forall i. i < dimindex(:M) /\\ bit i x ==> bit i y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[N], (SUBSET : ((Num) -> Bool, (Num) -> Bool) -> Bool)((bits_of_word : (Word[M], Num) -> Bool)(x), (bits_of_word : (Word[N], Num) -> Bool)(y)) == (∀ i : Num, i < (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) && (bit : (Num, Word[M]) -> Bool)(i, x) → (bit : (Num, Word[N]) -> Bool)(i, y))"),
       t190,
     ),
   )
@@ -2692,9 +2622,7 @@ fn step_95() -> Unit raise {
   )
   bits_of_word_subset_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. bits_of_word x SUBSET {i | i < dimindex(:N)}",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (SUBSET : ((Num) -> Bool, (Num) -> Bool) -> Bool)((bits_of_word : (Word[N], Num) -> Bool)(x), {(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))})"),
       t192,
     ),
   )
@@ -2716,9 +2644,7 @@ pub fn bits_of_word_subset_numseg() -> @kernel.Thm {
 fn step_96() -> Unit raise {
   val_def_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "val (w:N word) =\n    nsum {i | i < dimindex(:N)} (\\i. 2 EXP i * bitval(bit i w))",
-      ),
+      @term_syntax.parse_term("(val : (Word[N]) -> Num)((w : Word[N])) == (nsum : ((Num) -> Bool, (Num) -> Num) -> Num)({(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))}, (i : Num) => EXP(2, i) * bitval((bit : (Num, Word[N]) -> Bool)(i, w)))"),
     ),
   )
 }
@@ -2740,9 +2666,7 @@ fn step_97() -> Unit raise {
   )
   val_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word.\n       val(x) = nsum(0..dimindex(:N)-1) (\\i. 2 EXP i * bitval(bit i x))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (val : (Word[N]) -> Num)(x) == (nsum : ((Num) -> Bool, (Num) -> Num) -> Num)(op_dot_dot(0, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1), (i : Num) => EXP(2, i) * bitval((bit : (Num, Word[N]) -> Bool)(i, x)))"),
       t193,
     ),
   )
@@ -2762,9 +2686,7 @@ pub fn val() -> @kernel.Thm {
 fn step_98() -> Unit raise {
   word_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(word:num->N word) n =\n    mk_word(lambda i. ODD(n DIV (2 EXP (i - 1))))",
-      ),
+      @term_syntax.parse_term("(word : (Num) -> Word[N])((n : Num)) == mk_word(lambda((i : Num) => ODD(DIV(n, EXP(2, i - 1)))))"),
     ),
   )
 }
@@ -2804,9 +2726,7 @@ fn step_99() -> Unit raise {
   )
   bit_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall i n. bit i (word n:N word) <=> i < dimindex(:N) /\\ ODD(n DIV (2 EXP i))",
-      ),
+      @term_syntax.parse_term("∀ i : Num, ∀ n : Num, (bit : (Num, Word[N]) -> Bool)(i, (word : (Num) -> Word[N])(n)) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && ODD(DIV(n, EXP(2, i))))"),
       t198,
     ),
   )
@@ -2956,9 +2876,7 @@ fn step_105() -> Unit raise {
   )
   bitval_bit_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall i n. bitval(bit i (word n:N word)) =\n         if i < dimindex(:N) then (n DIV (2 EXP i)) MOD 2 else 0",
-      ),
+      @term_syntax.parse_term("∀ i : Num, ∀ n : Num, bitval((bit : (Num, Word[N]) -> Bool)(i, (word : (Num) -> Word[N])(n))) == (if i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) { MOD(DIV(n, EXP(2, i)), 2) } else { 0 })"),
       t206,
     ),
   )
@@ -3117,9 +3035,7 @@ fn step_107() -> Unit raise {
   )
   val_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. val(word n:N word) = n MOD (2 EXP (dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ n : Num, (val : (Word[N]) -> Num)((word : (Num) -> Word[N])(n)) == MOD(n, EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t225,
     ),
   )
@@ -3149,9 +3065,7 @@ fn step_108() -> Unit raise {
   )
   mod_val_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n k. k <= dimindex(:N) ==> val(word n:N word) MOD 2 EXP k = n MOD 2 EXP k",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ k : Num, k <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → MOD((val : (Word[N]) -> Num)((word : (Num) -> Word[N])(n)), EXP(2, k)) == MOD(n, EXP(2, k))"),
       t228,
     ),
   )
@@ -3172,9 +3086,7 @@ fn step_109() -> Unit raise {
   let t229 = @simp.simp_tac(@list.List([mod_val_word(), @int.divides_mod()]))
   divides_val_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x. n <= dimindex(:N)\n         ==> (2 EXP n divides val(word x:N word) <=> 2 EXP n divides x)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Num, n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → divides(EXP(2, n), (val : (Word[N]) -> Num)((word : (Num) -> Word[N])(x))) == divides(EXP(2, n), x)"),
       t229,
     ),
   )
@@ -3405,9 +3317,7 @@ fn step_118() -> Unit raise {
   let t248 = @simp.simp_tac(@list.List([val_word(), @arith.mod_lt()]))
   val_word_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. n < 2 EXP dimindex(:N) ==> val(word n :(N)word) = n",
-      ),
+      @term_syntax.parse_term("∀ n : Num, n < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) → (val : (Word[N]) -> Num)((word : (Num) -> Word[N])(n)) == n"),
       t248,
     ),
   )
@@ -3498,9 +3408,7 @@ fn step_122() -> Unit raise {
   )
   val_eq_bitval_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w:(N)word b. val w = bitval b <=> w = word(bitval b)",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ b : Bool, (val(w) == bitval(b)) == (w == word(bitval(b)))"),
       t252,
     ),
   )
@@ -3595,9 +3503,7 @@ fn step_126() -> Unit raise {
   )
   word_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. word x:(N)word = word y <=> (x == y) (mod (2 EXP dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, ((word : (Num) -> Word[N])(x) == (word : (Num) -> Word[N])(y)) == op_eq_eq(x, y, mod(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t257,
     ),
   )
@@ -3622,9 +3528,7 @@ fn step_127() -> Unit raise {
   )
   word_eq_imp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. m < 2 EXP dimindex(:N) /\\ n < 2 EXP dimindex(:N)\n         ==> (word m:N word = word n <=> m = n)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, m < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) && n < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) → ((word : (Num) -> Word[N])(m) == (word : (Num) -> Word[N])(n)) == (m == n)"),
       t259,
     ),
   )
@@ -3647,9 +3551,7 @@ fn step_128() -> Unit raise {
   )
   word_eq_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m. m < 2 EXP dimindex(:N) ==> (word m:N word = word 0 <=> m = 0)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, m < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) → ((word : (Num) -> Word[N])(m) == (word : (Num) -> Word[N])(0)) == (m == 0)"),
       t260,
     ),
   )
@@ -3735,9 +3637,7 @@ fn step_132() -> Unit raise {
   let t264 = @meson.meson_tac(@list.List([val_word_eq(), val_bound()]))
   val_word_eq_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. val(word n:N word) = n <=> n < 2 EXP dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ((val : (Word[N]) -> Num)((word : (Num) -> Word[N])(n)) == n) == (n < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t264,
     ),
   )
@@ -3760,9 +3660,7 @@ fn step_133() -> Unit raise {
   )
   forall_val_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (forall x:N word. P (val x) x) <=>\n       forall n. n < 2 EXP dimindex(:N) ==> P n (word n)",
-      ),
+      @term_syntax.parse_term("∀ P : (Num, Word[N]) -> Bool, (∀ x : Word[N], P((val : (Word[N]) -> Num)(x), x)) == (∀ n : Num, n < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) → P(n, (word : (Num) -> Word[N])(n)))"),
       t265,
     ),
   )
@@ -3783,9 +3681,7 @@ fn step_134() -> Unit raise {
   let t266 = @simp.rewrite_tac(@list.List([forall_val_gen()]))
   forall_val_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (forall x:N word. P(val x)) <=> (forall n. n < 2 EXP dimindex(:N) ==> P n)",
-      ),
+      @term_syntax.parse_term("∀ P : (Num) -> Bool, (∀ x : Word[N], P((val : (Word[N]) -> Num)(x))) == (∀ n : Num, n < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) → P(n))"),
       t266,
     ),
   )
@@ -3813,9 +3709,7 @@ fn step_135() -> Unit raise {
   )
   val_cong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(v:N word) (w:N word).\n        (val v == val w) (mod (2 EXP dimindex(:N))) <=> v = w",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], (op_eq_eq : (Num, Num, (Num, Num) -> Bool) -> Bool)((val : (Word[N]) -> Num)(v), (val : (Word[N]) -> Num)(w), (mod : (Num, Num, Num) -> Bool)(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) == (v == w)"),
       t267,
     ),
   )
@@ -3861,9 +3755,7 @@ fn step_137() -> Unit raise {
   )
   val_word_cong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. (val(word x:N word) == x) (mod (2 EXP (dimindex(:N))))",
-      ),
+      @term_syntax.parse_term("∀ x : Num, op_eq_eq((val : (Word[N]) -> Num)((word : (Num) -> Word[N])(x)), x, mod(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t269,
     ),
   )
@@ -3886,9 +3778,7 @@ fn step_138() -> Unit raise {
   )
   val_word_galois_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n. val w = n <=> n < 2 EXP dimindex(:N) /\\ w = word n",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Num, ((val : (Word[N]) -> Num)(w) == n) == (n < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) && w == (word : (Num) -> Word[N])(n))"),
       t270,
     ),
   )
@@ -3913,9 +3803,7 @@ fn step_139() -> Unit raise {
   )
   word_val_galois_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n. word n = w <=> n MOD 2 EXP dimindex(:N) = val w",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Num, ((word : (Num) -> Word[N])(n) == w) == (MOD(n, EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == (val : (Word[N]) -> Num)(w))"),
       t271,
     ),
   )
@@ -4057,9 +3945,7 @@ fn step_140() -> Unit raise {
   )
   divides_val_word_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x. 2 EXP n divides val(word x:N word) <=>\n         if n < dimindex(:N) then 2 EXP n divides x\n         else word x:N word = word 0",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Num, divides(EXP(2, n), (val : (Word[N]) -> Num)((word : (Num) -> Word[N])(x))) == (if n < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) { divides(EXP(2, n), x) } else { (word : (Num) -> Word[N])(x) == (word : (Num) -> Word[N])(0) })"),
       t286,
     ),
   )
@@ -4190,9 +4076,7 @@ fn step_142() -> Unit raise {
   )
   bit_val_mod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) k.\n        bit k x <=> 2 EXP k <= val(x) MOD 2 EXP (k + 1)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, bit(k, x) == (EXP(2, k) <= MOD(val(x), EXP(2, k + 1)))"),
       t304,
     ),
   )
@@ -4248,9 +4132,7 @@ fn step_144() -> Unit raise {
   )
   twice_msb_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "2 EXP dimindex(:N) = 2 * 2 EXP (dimindex(:N) - 1) /\\\n   (&2:int) pow dimindex(:N) = &2 * &2 pow (dimindex(:N) - 1)",
-      ),
+      @term_syntax.parse_term("EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) == 2 * EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) && pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) == int_of_num(2) * pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1)"),
       t308,
     ),
   )
@@ -4278,9 +4160,7 @@ fn step_145() -> Unit raise {
   )
   msb_val_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w:N word. bit (dimindex(:N) - 1) w <=> 2 EXP (dimindex(:N) - 1) <= val w",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, w) == (EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) <= (val : (Word[N]) -> Num)(w))"),
       t309,
     ),
   )
@@ -4303,9 +4183,7 @@ fn step_146() -> Unit raise {
   )
   msb_int_val_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w:N word.\n    bit (dimindex(:N) - 1) w <=> (&2 pow (dimindex(:N) - 1)):int <= &(val w)",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, w) == ((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) <= int_of_num((val : (Word[N]) -> Num)(w)))"),
       t310,
     ),
   )
@@ -4387,9 +4265,7 @@ fn step_147() -> Unit raise {
   )
   bitval_msb_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. bitval(bit (dimindex(:N)-1) x) =\n              val x DIV 2 EXP (dimindex(:N)-1)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], bitval((bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x)) == DIV((val : (Word[N]) -> Num)(x), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1))"),
       t320,
     ),
   )
@@ -4435,9 +4311,7 @@ fn step_148() -> Unit raise {
   )
   block_bits_zero_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) m n.\n        (forall i. m <= i /\\ i < n ==> ~bit i x) <=>\n        (val x MOD 2 EXP n) DIV 2 EXP m = 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ m : Num, ∀ n : Num, (∀ i : Num, m <= i && i < n → !bit(i, x)) == (DIV(MOD(val(x), EXP(2, n)), EXP(2, m)) == 0)"),
       t323,
     ),
   )
@@ -4467,9 +4341,7 @@ fn step_149() -> Unit raise {
   )
   block_bits_zero_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) m n.\n        (forall i. m <= i /\\ i < n ==> ~bit i x) <=>\n        val x MOD 2 EXP n < 2 EXP m",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ m : Num, ∀ n : Num, (∀ i : Num, m <= i && i < n → !bit(i, x)) == (MOD(val(x), EXP(2, n)) < EXP(2, m))"),
       t324,
     ),
   )
@@ -4502,9 +4374,7 @@ fn step_150() -> Unit raise {
   )
   lower_bits_zero_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n. (forall i. i < n ==> ~bit i x) <=> val x MOD 2 EXP n = 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, (∀ i : Num, i < n → !bit(i, x)) == (MOD(val(x), EXP(2, n)) == 0)"),
       t326,
     ),
   )
@@ -4543,9 +4413,7 @@ fn step_151() -> Unit raise {
   )
   upper_bits_zero_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n. (forall i. n <= i ==> ~bit i x) <=> val x < 2 EXP n",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, (∀ i : Num, n <= i → !bit(i, x)) == (val(x) < EXP(2, n))"),
       t332,
     ),
   )
@@ -4575,9 +4443,7 @@ fn step_152() -> Unit raise {
   )
   upper_bits_zero_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n. (forall i. n <= i ==> ~bit i x) <=> val x DIV 2 EXP n = 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, (∀ i : Num, n <= i → !bit(i, x)) == (DIV(val(x), EXP(2, n)) == 0)"),
       t333,
     ),
   )
@@ -4625,9 +4491,7 @@ fn step_153() -> Unit raise {
   )
   val_word_of_bits_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. val(word_of_bits s:N word) =\n       nsum {i | i < dimindex(:N) /\\ i IN s} (\\i. 2 EXP i)",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, (val : (Word[N]) -> Num)((word_of_bits : ((Num) -> Bool) -> Word[N])(s)) == nsum({(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && IN(i, s)}, (i : Num) => EXP(2, i))"),
       t336,
     ),
   )
@@ -4669,9 +4533,7 @@ fn step_154() -> Unit raise {
   )
   word_of_bits_as_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. word_of_bits s:N word =\n       word(nsum {i | i < dimindex(:N) /\\ i IN s} (\\i. 2 EXP i))",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, (word_of_bits : ((Num) -> Bool) -> Word[N])(s) == (word : (Num) -> Word[N])(nsum({(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && IN(i, s)}, (i : Num) => EXP(2, i)))"),
       t340,
     ),
   )
@@ -4835,9 +4697,7 @@ fn step_155() -> Unit raise {
   )
   word_of_bits_as_word_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. FINITE s ==> word_of_bits s:N word = word(nsum s (\\i. 2 EXP i))",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, FINITE(s) → (word_of_bits : ((Num) -> Bool) -> Word[N])(s) == (word : (Num) -> Word[N])(nsum(s, (i : Num) => EXP(2, i)))"),
       t359,
     ),
   )
@@ -4927,9 +4787,7 @@ fn step_157() -> Unit raise {
   )
   val_word_of_bits_sing_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall i. val(word_of_bits {i}:N word) = if i < dimindex(:N) then 2 EXP i else 0",
-      ),
+      @term_syntax.parse_term("∀ i : Num, (val : (Word[N]) -> Num)((word_of_bits : ((Num) -> Bool) -> Word[N])({i})) == (if i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) { EXP(2, i) } else { 0 })"),
       t370,
     ),
   )
@@ -4986,9 +4844,7 @@ fn step_158() -> Unit raise {
   )
   word_of_bits_mask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. word_of_bits {i | i < n}:N word = word(2 EXP n - 1)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, (word_of_bits : ((Num) -> Bool) -> Word[N])({(i : Num) | i < n}) == (word : (Num) -> Word[N])(EXP(2, n) - 1)"),
       t375,
     ),
   )
@@ -5017,9 +4873,7 @@ fn step_159() -> Unit raise {
   )
   bit_mask_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k i. bit i (word(2 EXP k - 1):N word) <=> i < dimindex(:N) /\\ i < k",
-      ),
+      @term_syntax.parse_term("∀ k : Num, ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word : (Num) -> Word[N])(EXP(2, k) - 1)) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && i < k)"),
       t376,
     ),
   )
@@ -5046,9 +4900,7 @@ fn step_160() -> Unit raise {
   )
   bit_word_pow2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k i. bit i (word (2 EXP k):N word) <=> i = k /\\ k < dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ k : Num, ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word : (Num) -> Word[N])(EXP(2, k))) == (i == k && k < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))"),
       t378,
     ),
   )
@@ -5183,9 +5035,7 @@ fn step_165() -> Unit raise {
   )
   bit_word_of_bits_sing_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k i. bit i (word_of_bits {k}:N word) <=> k < dimindex(:N) /\\ i = k",
-      ),
+      @term_syntax.parse_term("∀ k : Num, ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_of_bits : ((Num) -> Bool) -> Word[N])({k})) == (k < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && i == k)"),
       t388,
     ),
   )
@@ -5240,9 +5090,7 @@ fn step_166() -> Unit raise {
   )
   val_mod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) k.\n        val x MOD 2 EXP k = nsum {i | i < k} (\\i. 2 EXP i * bitval(bit i x))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, MOD(val(x), EXP(2, k)) == nsum({(i : Num) | i < k}, (i : Num) => EXP(2, i) * bitval(bit(i, x)))"),
       t395,
     ),
   )
@@ -5329,9 +5177,7 @@ fn step_168() -> Unit raise {
   )
   val_mod_step_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) k.\n      val x MOD 2 EXP (k + 1) = 2 EXP k * bitval(bit k x) + val x MOD 2 EXP k",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, MOD(val(x), EXP(2, k + 1)) == EXP(2, k) * bitval(bit(k, x)) + MOD(val(x), EXP(2, k))"),
       t402,
     ),
   )
@@ -5367,9 +5213,7 @@ fn step_169() -> Unit raise {
   )
   val_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) k.\n        val x DIV 2 EXP k =\n        nsum {i | k <= i /\\ i < dimindex(:N)}\n             (\\i. 2 EXP (i - k) * bitval(bit i x))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, DIV((val : (Word[N]) -> Num)(x), EXP(2, k)) == (nsum : ((Num) -> Bool, (Num) -> Num) -> Num)({(i : Num) | k <= i && i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))}, (i : Num) => EXP(2, i - k) * bitval((bit : (Num, Word[N]) -> Bool)(i, x)))"),
       t407,
     ),
   )
@@ -5410,9 +5254,7 @@ fn step_170() -> Unit raise {
   )
   val_div_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) k.\n        val x DIV 2 EXP k =\n        nsum {i | i < dimindex(:N) - k}\n             (\\i. 2 EXP i * bitval(bit (i + k) x))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, DIV((val : (Word[N]) -> Num)(x), EXP(2, k)) == (nsum : ((Num) -> Bool, (Num) -> Num) -> Num)({(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - k}, (i : Num) => EXP(2, i) * bitval((bit : (Num, Word[N]) -> Bool)(i + k, x)))"),
       t413,
     ),
   )
@@ -5450,9 +5292,7 @@ fn step_171() -> Unit raise {
   )
   val_le_bits_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word).\n        (forall i. i < dimindex(:N) /\\ bit i x ==> bit i y)\n        ==> val x <= val y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (∀ i : Num, i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(i, x) → (bit : (Num, Word[N]) -> Bool)(i, y)) → (val : (Word[N]) -> Num)(x) <= (val : (Word[N]) -> Num)(y)"),
       t418,
     ),
   )
@@ -5475,9 +5315,7 @@ fn step_172() -> Unit raise {
   )
   val_le_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word).\n        bits_of_word x SUBSET bits_of_word y ==> val x <= val y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], SUBSET(bits_of_word(x), bits_of_word(y)) → val(x) <= val(y)"),
       t419,
     ),
   )
@@ -5497,9 +5335,7 @@ pub fn val_le_subset() -> @kernel.Thm {
 fn step_173() -> Unit raise {
   ival_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(ival:N word->int) w =\n    if val(w) < 2 EXP (dimindex(:N) - 1) then &(val w)\n    else &(val w) - &2 pow dimindex(:N)",
-      ),
+      @term_syntax.parse_term("(ival : (Word[N]) -> Int)((w : Word[N])) == (if (val : (Word[N]) -> Num)(w) < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) { int_of_num((val : (Word[N]) -> Num)(w)) } else { int_of_num((val : (Word[N]) -> Num)(w)) - (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) })"),
     ),
   )
 }
@@ -5518,9 +5354,7 @@ pub fn ival() -> @kernel.Thm {
 fn step_174() -> Unit raise {
   iword_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(iword:int->N word) x = word(num_of_int(x rem (&2 pow dimindex(:N))))",
-      ),
+      @term_syntax.parse_term("(iword : (Int) -> Word[N])((x : Int)) == (word : (Num) -> Word[N])(num_of_int(rem(x, (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))))"),
     ),
   )
 }
@@ -5561,9 +5395,7 @@ fn step_176() -> Unit raise {
   )
   int_ival_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w:N word.\n        ival w =\n        if &(val w):int < &2 pow (dimindex(:N) - 1) then &(val w)\n        else &(val w) - &2 pow dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], (ival : (Word[N]) -> Int)(w) == (if int_of_num((val : (Word[N]) -> Num)(w)) < (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) { int_of_num((val : (Word[N]) -> Num)(w)) } else { int_of_num((val : (Word[N]) -> Num)(w)) - (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) })"),
       t420,
     ),
   )
@@ -5642,9 +5474,7 @@ fn step_178() -> Unit raise {
   )
   ival_val_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w:N word.\n    ival w =\n    &(val w) - &2 pow dimindex(:N) * &(bitval(bit (dimindex(:N) - 1) w))",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], (ival : (Word[N]) -> Int)(w) == int_of_num((val : (Word[N]) -> Num)(w)) - (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) * int_of_num(bitval((bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, w)))"),
       t426,
     ),
   )
@@ -5669,9 +5499,7 @@ fn step_179() -> Unit raise {
   )
   val_ival_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w:N word.\n    &(val w) =\n    ival w + &2 pow dimindex(:N) * &(bitval (bit (dimindex (:N) - 1) w))",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], int_of_num((val : (Word[N]) -> Num)(w)) == (ival : (Word[N]) -> Int)(w) + (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) * int_of_num(bitval((bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, w)))"),
       t428,
     ),
   )
@@ -5692,9 +5520,7 @@ fn step_180() -> Unit raise {
   let t429 = @simp.simp_tac(@list.List([ival()]))
   ival_eq_val_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. val(x) < 2 EXP (dimindex(:N)-1) ==> ival x = &(val x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (val : (Word[N]) -> Num)(x) < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) → (ival : (Word[N]) -> Int)(x) == int_of_num((val : (Word[N]) -> Num)(x))"),
       t429,
     ),
   )
@@ -5727,9 +5553,7 @@ fn step_181() -> Unit raise {
   )
   int_val_iword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. &0 <= x /\\ x < &2 pow dimindex(:N) ==> &(val(iword x:N word)) = x",
-      ),
+      @term_syntax.parse_term("∀ x : Int, int_of_num(0) <= x && x < pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) → int_of_num((val : (Word[N]) -> Num)((iword : (Int) -> Word[N])(x))) == x"),
       t431,
     ),
   )
@@ -5831,9 +5655,7 @@ fn step_182() -> Unit raise {
   )
   int_val_iword_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. &(val(iword x:N word)) = x <=>\n       &0 <= x /\\ x < &2 pow dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, (int_of_num((val : (Word[N]) -> Num)((iword : (Int) -> Word[N])(x))) == x) == (int_of_num(0) <= x && x < pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t439,
     ),
   )
@@ -5884,9 +5706,7 @@ fn step_183() -> Unit raise {
   )
   msb_ival_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word).\n        bit (dimindex(:N) - 1) w <=> ival w < &0",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, w) == ((ival : (Word[N]) -> Int)(w) < int_of_num(0))"),
       t444,
     ),
   )
@@ -5988,9 +5808,7 @@ fn step_184() -> Unit raise {
   )
   ival_bound_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w:(N)word.\n        --(&2 pow (dimindex(:N) - 1)) <= ival w /\\\n        ival w < &2 pow (dimindex(:N) - 1)",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], -(pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) <= (ival : (Word[N]) -> Int)(w) && (ival : (Word[N]) -> Int)(w) < (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1)"),
       t454,
     ),
   )
@@ -6068,9 +5886,7 @@ fn step_186() -> Unit raise {
   )
   ival_word_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "ival(word 1:N word) = if dimindex(:N) = 1 then -- &1 else &1",
-      ),
+      @term_syntax.parse_term("(ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(1)) == (if (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) == 1 { -int_of_num(1) } else { int_of_num(1) })"),
       t464,
     ),
   )
@@ -6101,9 +5917,7 @@ fn step_187() -> Unit raise {
   )
   ival_val_cong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word). (ival w == &(val w)) (mod (&2 pow (dimindex(:N))))",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], (op_eq_eq : (Int, Int, (Int, Int) -> Bool) -> Bool)((ival : (Word[N]) -> Int)(w), int_of_num((val : (Word[N]) -> Num)(w)), (mod : (Int, Int, Int) -> Bool)((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t466,
     ),
   )
@@ -6124,9 +5938,7 @@ fn step_188() -> Unit raise {
   let t470 = @simp.rewrite_tac(@list.List([ival_val_cong()]))
   let t469 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "(x:int == x') (mod n) /\\ (y == y') (mod n)\n    ==> ((x == y) (mod n) <=> (x' == y') (mod n))",
-      ),
+      @term_syntax.parse_term("op_eq_eq((x : Int), (x' : Int), mod((n : Int))) && op_eq_eq((y : Int), (y' : Int), mod(n)) → op_eq_eq(x, y, mod(n)) == op_eq_eq(x', y', mod(n))"),
     ),
   )
   let t468 = @tactics.repeat_tac(@tactics.gen_tac)
@@ -6145,9 +5957,7 @@ fn step_188() -> Unit raise {
   )
   ival_cong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(v:N word) (w:N word).\n      (ival v == ival w) (mod (&2 pow (dimindex(:N)))) <=> v = w",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], (op_eq_eq : (Int, Int, (Int, Int) -> Bool) -> Bool)((ival : (Word[N]) -> Int)(v), (ival : (Word[N]) -> Int)(w), (mod : (Int, Int, Int) -> Bool)((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) == (v == w)"),
       t471,
     ),
   )
@@ -6259,9 +6069,7 @@ fn step_191() -> Unit raise {
   )
   ival_eq_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w:N word. ival w = &1 <=> 2 <= dimindex(:N) /\\ w = word 1",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ((ival : (Word[N]) -> Int)(w) == int_of_num(1)) == (2 <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && w == (word : (Num) -> Word[N])(1))"),
       t480,
     ),
   )
@@ -6307,9 +6115,7 @@ fn step_192() -> Unit raise {
   )
   iword_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. iword x:N word = iword y <=> (x == y) (mod (&2 pow (dimindex(:N))))",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, ((iword : (Int) -> Word[N])(x) == (iword : (Int) -> Word[N])(y)) == op_eq_eq(x, y, mod(pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t483,
     ),
   )
@@ -6332,9 +6138,7 @@ fn step_193() -> Unit raise {
   )
   iword_rem_size_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. iword(n rem (&2 pow dimindex(:N))):N word = iword n",
-      ),
+      @term_syntax.parse_term("∀ n : Int, (iword : (Int) -> Word[N])(rem(n, pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) == (iword : (Int) -> Word[N])(n)"),
       t484,
     ),
   )
@@ -6381,17 +6185,13 @@ fn step_194() -> Unit raise {
   ])
   let t487 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "(&(val(word w:N word)):int == &w) (mod n) /\\ (&w:int == z) (mod n)\n    ==> (&(val(word w:N word)) == z) (mod n)",
-      ),
+      @term_syntax.parse_term("op_eq_eq(int_of_num((val : (Word[N]) -> Num)((word : (Num) -> Word[N])((w : Num)))), int_of_num(w), mod((n : Int))) && op_eq_eq(int_of_num(w), (z : Int), mod(n)) → op_eq_eq(int_of_num((val : (Word[N]) -> Num)((word : (Num) -> Word[N])(w))), z, mod(n))"),
     ),
   )
   let t486 = @simp.rewrite_tac(@list.List([iword()]))
   let t485 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "(y:int == z) (mod n) ==> (x == y) (mod n) ==> (x == z) (mod n)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((y : Int), (z : Int), mod((n : Int))) → op_eq_eq((x : Int), y, mod(n)) → op_eq_eq(x, z, mod(n))"),
     ),
   )
   let t492 = @tactics.thenl(
@@ -6420,9 +6220,7 @@ fn step_194() -> Unit raise {
   )
   ival_iword_cong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. (ival(iword x:N word) == x) (mod (&2 pow (dimindex(:N))))",
-      ),
+      @term_syntax.parse_term("∀ x : Int, op_eq_eq((ival : (Word[N]) -> Int)((iword : (Int) -> Word[N])(x)), x, mod(pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t492,
     ),
   )
@@ -6463,9 +6261,7 @@ fn step_195() -> Unit raise {
   )
   val_iword_cong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. (&(val(iword x:N word)) == x) (mod (&2 pow dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Int, op_eq_eq(int_of_num((val : (Word[N]) -> Num)((iword : (Int) -> Word[N])(x))), x, mod(pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t495,
     ),
   )
@@ -6490,17 +6286,13 @@ fn step_196() -> Unit raise {
       @int.int_of_num_pow(),
       @int.num_congruent(),
       @int.integer_rule(
-        @parser.parse_term(
-          "(x:int == y) (mod n) /\\ (y == z) (mod n)\n                          ==> (x == z) (mod n)",
-        ),
+        @term_syntax.parse_term("op_eq_eq((x : Int), (y : Int), mod((n : Int))) && op_eq_eq(y, (z : Int), mod(n)) → op_eq_eq(x, z, mod(n))"),
       ),
     ]),
   )
   ival_word_cong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. (ival(word n:N word) == &n) (mod (&2 pow dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ n : Num, op_eq_eq((ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(n)), int_of_num(n), mod(pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t496,
     ),
   )
@@ -6529,9 +6321,7 @@ fn step_197() -> Unit raise {
   )
   let t499 = @drule.match_mp(
     @int.int_arith(
-      @parser.parse_term(
-        "n:int < e1\n    ==> --e1 <= n /\\ --e1 <= n' /\\ n' < e1 /\\ &2 * e1 = e\n        ==> abs(n' - n) < e",
-      ),
+      @term_syntax.parse_term("(n : Int) < (e1 : Int) → -e1 <= n && -e1 <= (n' : Int) && n' < e1 && int_of_num(2) * e1 == (e : Int) → abs(n' - n) < e"),
     ),
   )
   let t501 = @tactics.first_x_assum(fn(
@@ -6580,9 +6370,7 @@ fn step_197() -> Unit raise {
   )
   ival_iword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. --(&2 pow (dimindex (:N) - 1)) <= n /\\ n < &2 pow (dimindex (:N) - 1)\n       ==> ival(iword n:N word) = n",
-      ),
+      @term_syntax.parse_term("∀ n : Int, -pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) <= n && n < pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) → (ival : (Word[N]) -> Int)((iword : (Int) -> Word[N])(n)) == n"),
       t504,
     ),
   )
@@ -6625,9 +6413,7 @@ fn step_199() -> Unit raise {
   )
   ival_iword_galois_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n.\n        ival w = n <=>\n        --(&2 pow (dimindex(:N) - 1)) <= n /\\\n        n < &2 pow (dimindex(:N) - 1) /\\\n        w = iword n",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Int, ((ival : (Word[N]) -> Int)(w) == n) == (-(pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) <= n && n < (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) && w == (iword : (Int) -> Word[N])(n))"),
       t506,
     ),
   )
@@ -6771,9 +6557,7 @@ fn step_200() -> Unit raise {
   )
   let t517 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "forall m. (x:int == y) (mod m) /\\ n divides m ==> (y == x) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ m : Int, op_eq_eq((x : Int), (y : Int), mod(m)) && divides((n : Int), m) → op_eq_eq(y, x, mod(n))"),
     ),
   )
   let t516 = @simp.simp_tac(@list.List([@int.int_pow_le(), @int.int_pos()]))
@@ -6784,9 +6568,7 @@ fn step_200() -> Unit raise {
   )
   let t512 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "(x:int == y) (mod n) ==> (n divides x <=> n divides y)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((x : Int), (y : Int), mod((n : Int))) → divides(n, x) == divides(n, y)"),
     ),
   )
   let t511 = @simp.rewrite_tac(@list.List([@int.num_divides()]))
@@ -6861,9 +6643,7 @@ fn step_200() -> Unit raise {
   )
   bit_ival_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) i.\n    bit i x <=> i < dimindex(:N) /\\ ~(&2 divides (ival x div &2 pow i))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, x) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && !(divides : (Int, Int) -> Bool)(int_of_num(2), div((ival : (Word[N]) -> Int)(x), (pow : (Int, Num) -> Int)(int_of_num(2), i))))"),
       t538,
     ),
   )
@@ -6971,18 +6751,14 @@ fn step_201() -> Unit raise {
   )
   let t545 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "forall m. (x:int == y) (mod m) /\\ n divides m ==> (x == y) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ m : Int, op_eq_eq((x : Int), (y : Int), mod(m)) && divides((n : Int), m) → op_eq_eq(x, y, mod(n))"),
     ),
   )
   let t544 = @simp.simp_tac(@list.List([@int.int_pow_le(), @int.int_pos()]))
   let t543 = @tactics.match_mp_tac(@int.int_cong_div2())
   let t542 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "(x:int == y) (mod n) ==> (n divides x <=> n divides y)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((x : Int), (y : Int), mod((n : Int))) → divides(n, x) == divides(n, y)"),
     ),
   )
   let t541 = @simp.asm_rewrite_tac(@list.List([]))
@@ -7039,9 +6815,7 @@ fn step_201() -> Unit raise {
   )
   bit_iword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall i x. bit i (iword x:N word) <=>\n         i < dimindex(:N) /\\ ~(&2 divides (x div (&2 pow i)))",
-      ),
+      @term_syntax.parse_term("∀ i : Num, ∀ x : Int, (bit : (Num, Word[N]) -> Bool)(i, (iword : (Int) -> Word[N])(x)) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && !divides(int_of_num(2), div(x, pow(int_of_num(2), i))))"),
       t559,
     ),
   )
@@ -7120,9 +6894,7 @@ fn step_202() -> Unit raise {
   )
   let t562 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "forall n:int. (x == y) (mod n) /\\ m divides n ==> (x == y) (mod m)",
-      ),
+      @term_syntax.parse_term("∀ n : Int, op_eq_eq((x : Int), (y : Int), mod(n)) && divides((m : Int), n) → op_eq_eq(x, y, mod(m))"),
     ),
   )
   let t561 = @simp.rewrite_tac(
@@ -7159,9 +6931,7 @@ fn step_202() -> Unit raise {
   )
   int_rem_ival_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) k.\n        k <= dimindex(:N) ==> (ival w) rem (&2 pow k) = &(val w MOD 2 EXP k)",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ k : Num, k <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → rem((ival : (Word[N]) -> Int)(w), (pow : (Int, Num) -> Int)(int_of_num(2), k)) == int_of_num(MOD((val : (Word[N]) -> Num)(w), EXP(2, k)))"),
       t572,
     ),
   )
@@ -7259,9 +7029,7 @@ fn step_204() -> Unit raise {
   )
   int_rem_ival_iword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x k. k <= dimindex(:N)\n         ==> ival(iword x:N word) rem &2 pow k = x rem &2 pow k",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ k : Num, k <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → rem((ival : (Word[N]) -> Int)((iword : (Int) -> Word[N])(x)), pow(int_of_num(2), k)) == rem(x, pow(int_of_num(2), k))"),
       t582,
     ),
   )
@@ -7286,9 +7054,7 @@ fn step_205() -> Unit raise {
   )
   int_divides_ival_iword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x. n <= dimindex(:N)\n         ==> (&2 pow n divides ival(iword x:N word) <=> &2 pow n divides x)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Int, n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → divides(pow(int_of_num(2), n), (ival : (Word[N]) -> Int)((iword : (Int) -> Word[N])(x))) == divides(pow(int_of_num(2), n), x)"),
       t583,
     ),
   )
@@ -7313,9 +7079,7 @@ fn step_206() -> Unit raise {
   )
   forall_ival_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (forall x:N word. P (ival x) x) <=>\n       (forall n. --(&2 pow (dimindex (:N) - 1)) <= n /\\\n            n < &2 pow (dimindex (:N) - 1)\n            ==> P n (iword n))",
-      ),
+      @term_syntax.parse_term("∀ P : (Int, Word[N]) -> Bool, (∀ x : Word[N], P((ival : (Word[N]) -> Int)(x), x)) == (∀ n : Int, -(pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) <= n && n < (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) → P(n, (iword : (Int) -> Word[N])(n)))"),
       t584,
     ),
   )
@@ -7338,9 +7102,7 @@ fn step_207() -> Unit raise {
   let t585 = @simp.rewrite_tac(@list.List([forall_ival_gen()]))
   forall_ival_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (forall x:N word. P(ival x)) <=>\n       (forall n. --(&2 pow (dimindex (:N) - 1)) <= n /\\\n            n < &2 pow (dimindex (:N) - 1)\n            ==> P n)",
-      ),
+      @term_syntax.parse_term("∀ P : (Int) -> Bool, (∀ x : Word[N], P((ival : (Word[N]) -> Int)(x))) == (∀ n : Int, -(pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) <= n && n < (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) → P(n))"),
       t585,
     ),
   )
@@ -7415,9 +7177,7 @@ fn step_210() -> Unit raise {
   )
   let t590 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "forall m:int. (x == y) (mod m) /\\ n divides m ==> (x == y) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ m : Int, op_eq_eq((x : Int), (y : Int), mod(m)) && divides((n : Int), m) → op_eq_eq(x, y, mod(n))"),
     ),
   )
   let t589 = @simp.rewrite_tac(@list.List([@int.int_rem_eq()]))
@@ -7484,9 +7244,7 @@ fn step_211() -> Unit raise {
   )
   let t603 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "forall m:int. (x == y) (mod m) /\\ n divides m ==> (x == y) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ m : Int, op_eq_eq((x : Int), (y : Int), mod(m)) && divides((n : Int), m) → op_eq_eq(x, y, mod(n))"),
     ),
   )
   let t602 = @simp.rewrite_tac(@list.List([@int.int_rem_eq()]))
@@ -7705,9 +7463,7 @@ fn step_212() -> Unit raise {
   )
   let t618 = @tactics.match_mp_tac(
     @int.int_arith(
-      @parser.parse_term(
-        "&0 <= x /\\ x < p /\\ &0 <= y /\\ y < p\n        ==> abs(x - y:int) < p",
-      ),
+      @term_syntax.parse_term("int_of_num(0) <= (x : Int) && x < (p : Int) && int_of_num(0) <= (y : Int) && y < p → abs(x - y) < p"),
     ),
   )
   let t617 = @simp.asm_rewrite_tac(
@@ -7819,9 +7575,7 @@ fn step_212() -> Unit raise {
   )
   twos_complement_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p k n x:int.\n        (&n == x) (mod (&2 pow (p + k))) /\\\n        n < 2 EXP (p + k) /\\ --(&2 pow p) <= x /\\ x < &2 pow p\n        ==> n DIV 2 EXP p = (2 EXP k - 1) * bitval(x < &0) /\\\n            &n - &2 pow (p + k) * &(bitval(x < &0)) = x",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ k : Num, ∀ n : Num, ∀ x : Int, op_eq_eq(int_of_num(n), x, mod(pow(int_of_num(2), p + k))) && n < EXP(2, p + k) && -pow(int_of_num(2), p) <= x && x < pow(int_of_num(2), p) → DIV(n, EXP(2, p)) == (EXP(2, k) - 1) * bitval(x < int_of_num(0)) && int_of_num(n) - pow(int_of_num(2), p + k) * int_of_num(bitval(x < int_of_num(0))) == x"),
       t641,
     ),
   )
@@ -7982,9 +7736,7 @@ fn step_213() -> Unit raise {
   )
   twos_complement_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p n x:int.\n        (&n == x) (mod (&2 pow p)) /\\\n        ~(p = 0) /\\ n < 2 EXP p /\\\n        --(&2 pow (p - 1)) <= x /\\ x < &2 pow (p - 1)\n        ==> (2 EXP (p - 1) <= n <=> x < &0) /\\\n            n DIV (2 EXP (p - 1)) = bitval(x < &0) /\\\n            &n - &2 pow p * &(bitval(x < &0)) = x",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ n : Num, ∀ x : Int, op_eq_eq(int_of_num(n), x, mod(pow(int_of_num(2), p))) && !(p == 0) && n < EXP(2, p) && -pow(int_of_num(2), p - 1) <= x && x < pow(int_of_num(2), p - 1) → (EXP(2, p - 1) <= n) == (x < int_of_num(0)) && DIV(n, EXP(2, p - 1)) == bitval(x < int_of_num(0)) && int_of_num(n) - pow(int_of_num(2), p) * int_of_num(bitval(x < int_of_num(0))) == x"),
       t659,
     ),
   )
@@ -8205,9 +7957,7 @@ fn step_216() -> Unit raise {
     t681,
   )
   let t683 = (
-    @parser.parse_term(
-      "i = SUC j ==>\n    numbit i (BIT0 n) = numbit j n /\\ numbit i (BIT1 n) = numbit j n",
-    ),
+    @term_syntax.parse_term("(i : Num) == SUC((j : Num)) → numbit(i, BIT0((n : Num))) == numbit(j, n) && numbit(i, BIT1(n)) == numbit(j, n)"),
     t682,
   )
   let (ths0, ths1) = (fn(
@@ -8781,9 +8531,7 @@ fn step_222() -> Unit raise {
   )
   bits_of_num_nsum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. FINITE s ==> bits_of_num (nsum s (\\i. 2 EXP i)) = s",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, FINITE(s) → bits_of_num(nsum(s, (i : Num) => EXP(2, i))) == s"),
       t731,
     ),
   )
@@ -8829,9 +8577,7 @@ fn step_224() -> Unit raise {
   )
   bits_of_num_galois_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n s. bits_of_num n = s <=> FINITE s /\\ nsum s (\\i. 2 EXP i) = n",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ s : (Num) -> Bool, (bits_of_num(n) == s) == (FINITE(s) && nsum(s, (i : Num) => EXP(2, i)) == n)"),
       t733,
     ),
   )
@@ -8872,9 +8618,7 @@ fn step_225() -> Unit raise {
   )
   nsum_bits_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s k. FINITE s\n         ==> nsum s (\\i. 2 EXP i) DIV 2 EXP k =\n             nsum {i | i IN s /\\ k <= i} (\\i. 2 EXP (i - k))",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, ∀ k : Num, FINITE(s) → DIV(nsum(s, (i : Num) => EXP(2, i)), EXP(2, k)) == nsum({(i : Num) | IN(i, s) && k <= i}, (i : Num) => EXP(2, i - k))"),
       t739,
     ),
   )
@@ -8913,9 +8657,7 @@ fn step_226() -> Unit raise {
   )
   nsum_bits_mod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s k. FINITE s\n         ==> nsum s (\\i. 2 EXP i) MOD 2 EXP k =\n             nsum {i | i IN s /\\ i < k} (\\i. 2 EXP i)",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, ∀ k : Num, FINITE(s) → MOD(nsum(s, (i : Num) => EXP(2, i)), EXP(2, k)) == nsum({(i : Num) | IN(i, s) && i < k}, (i : Num) => EXP(2, i))"),
       t745,
     ),
   )
@@ -8936,9 +8678,7 @@ fn step_227() -> Unit raise {
   let t746 = @meson.meson_tac(@list.List([bits_of_num_nsum()]))
   nsum_bits_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. FINITE s /\\ FINITE t\n         ==> (nsum s (\\i. 2 EXP i) = nsum t (\\i. 2 EXP i) <=> s = t)",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, ∀ t : (Num) -> Bool, FINITE(s) && FINITE(t) → (nsum(s, (i : Num) => EXP(2, i)) == nsum(t, (i : Num) => EXP(2, i))) == (s == t)"),
       t746,
     ),
   )
@@ -8977,9 +8717,7 @@ fn step_228() -> Unit raise {
   )
   bitsum_bound_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s k. FINITE s\n         ==> (nsum s (\\i. 2 EXP i) < 2 EXP k <=> s SUBSET {i | i < k})",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, ∀ k : Num, FINITE(s) → (nsum(s, (i : Num) => EXP(2, i)) < EXP(2, k)) == SUBSET(s, {(i : Num) | i < k})"),
       t750,
     ),
   )
@@ -9006,9 +8744,7 @@ fn step_229() -> Unit raise {
   )
   bits_of_num_subset_numseg_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n k. bits_of_num n SUBSET {i | i < k} <=> n < 2 EXP k",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ k : Num, SUBSET(bits_of_num(n), {(i : Num) | i < k}) == (n < EXP(2, k))"),
       t751,
     ),
   )
@@ -9058,9 +8794,7 @@ fn step_230() -> Unit raise {
   )
   bitsum_divides_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s k. FINITE s\n         ==> (2 EXP k divides nsum s (\\i. 2 EXP i) <=>\n              DISJOINT {i | i < k} s)",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, ∀ k : Num, FINITE(s) → divides(EXP(2, k), nsum(s, (i : Num) => EXP(2, i))) == DISJOINT({(i : Num) | i < k}, s)"),
       t756,
     ),
   )
@@ -9087,9 +8821,7 @@ fn step_231() -> Unit raise {
   )
   bits_of_num_disjoint_numseg_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n k. DISJOINT {i | i < k} (bits_of_num n) <=> 2 EXP k divides n",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ k : Num, DISJOINT({(i : Num) | i < k}, bits_of_num(n)) == divides(EXP(2, k), n)"),
       t757,
     ),
   )
@@ -9218,9 +8950,7 @@ fn step_235() -> Unit raise {
   )
   bits_of_num_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n k. bits_of_num (n DIV 2 EXP k) = {i | (k + i) IN bits_of_num n}",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ k : Num, bits_of_num(DIV(n, EXP(2, k))) == {(i : Num) | IN(k + i, bits_of_num(n))}"),
       t765,
     ),
   )
@@ -9251,9 +8981,7 @@ fn step_236() -> Unit raise {
   )
   bits_of_num_mod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n k. bits_of_num (n MOD 2 EXP k) = {i | i IN bits_of_num n /\\ i < k}",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ k : Num, bits_of_num(MOD(n, EXP(2, k))) == {(i : Num) | IN(i, bits_of_num(n)) && i < k}"),
       t766,
     ),
   )
@@ -9295,9 +9023,7 @@ fn step_237() -> Unit raise {
   )
   let t776 = @tactics.match_mp_tac(
     @sets.set_rule(
-      @parser.parse_term(
-        "DISJOINT {i | ~P i} s /\\ (forall i. P i ==> (i IN s <=> Q i))\n    ==> s = {i | P i /\\ Q i}",
-      ),
+      @term_syntax.parse_term("DISJOINT({(i : _) | !(P : (_) -> Bool)(i)}, (s : (_) -> Bool)) && (∀ i : _, P(i) → IN(i, s) == (Q : (_) -> Bool)(i)) → s == {(i : _) | P(i) && Q(i)}"),
     ),
   )
   let t775 = @tactics.repeat_tac(@tactics.gen_tac)
@@ -9349,9 +9075,7 @@ fn step_237() -> Unit raise {
   )
   bits_of_num_mul_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n k. bits_of_num(2 EXP k * n) = {i | k <= i /\\ i - k IN bits_of_num n}) /\\\n   (forall n k. bits_of_num(n * 2 EXP k) = {i | k <= i /\\ i - k IN bits_of_num n})",
-      ),
+      @term_syntax.parse_term("(∀ n : Num, ∀ k : Num, bits_of_num(EXP(2, k) * n) == {(i : Num) | k <= i && IN(i - k, bits_of_num(n))}) && (∀ n : Num, ∀ k : Num, bits_of_num(n * EXP(2, k)) == {(i : Num) | k <= i && IN(i - k, bits_of_num(n))})"),
       t781,
     ),
   )
@@ -9386,9 +9110,7 @@ fn step_238() -> Unit raise {
   )
   bits_of_num_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n k. bits_of_num(2 EXP k * n) = IMAGE (\\i. k + i) (bits_of_num n)) /\\\n   (forall n k. bits_of_num(n * 2 EXP k) = IMAGE (\\i. k + i) (bits_of_num n))",
-      ),
+      @term_syntax.parse_term("(∀ n : Num, ∀ k : Num, bits_of_num(EXP(2, k) * n) == IMAGE((i : Num) => k + i, bits_of_num(n))) && (∀ n : Num, ∀ k : Num, bits_of_num(n * EXP(2, k)) == IMAGE((i : Num) => k + i, bits_of_num(n)))"),
       t784,
     ),
   )
@@ -9424,9 +9146,7 @@ fn step_239() -> Unit raise {
   )
   bits_of_num_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. DISJOINT (bits_of_num m) (bits_of_num n)\n         ==> bits_of_num(m + n) = (bits_of_num m) UNION (bits_of_num n)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, DISJOINT(bits_of_num(m), bits_of_num(n)) → bits_of_num(m + n) == UNION(bits_of_num(m), bits_of_num(n))"),
       t787,
     ),
   )
@@ -9468,9 +9188,7 @@ fn step_240() -> Unit raise {
   )
   disjoint_bits_hilo_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k h l. l < 2 EXP k\n           ==> DISJOINT (bits_of_num(2 EXP k * h)) (bits_of_num l)",
-      ),
+      @term_syntax.parse_term("∀ k : Num, ∀ h : Num, ∀ l : Num, l < EXP(2, k) → DISJOINT(bits_of_num(EXP(2, k) * h), bits_of_num(l))"),
       t792,
     ),
   )
@@ -9522,9 +9240,7 @@ fn step_241() -> Unit raise {
   )
   disjoint_bits_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall k h l. l < 2 EXP k\n            ==> DISJOINT (bits_of_num(2 EXP k * h)) (bits_of_num l)) /\\\n   (forall k h l. l < 2 EXP k\n            ==> DISJOINT (bits_of_num(h * 2 EXP k)) (bits_of_num l)) /\\\n   (forall k h l. l < 2 EXP k\n            ==> DISJOINT (bits_of_num l) (bits_of_num(2 EXP k * h))) /\\\n   (forall k h l. l < 2 EXP k\n            ==> DISJOINT (bits_of_num l) (bits_of_num(h * 2 EXP k))) /\\\n   (forall m n k. DISJOINT (bits_of_num m) (bits_of_num n)\n            ==> DISJOINT (bits_of_num(2 EXP k * m))\n                         (bits_of_num(2 EXP k * n))) /\\\n   (forall m n k. DISJOINT (bits_of_num m) (bits_of_num n)\n            ==> DISJOINT (bits_of_num(m * 2 EXP k))\n                         (bits_of_num(n * 2 EXP k))) /\\\n   (forall m n k. DISJOINT (bits_of_num m) (bits_of_num n)\n            ==> DISJOINT (bits_of_num(m DIV 2 EXP k))\n                         (bits_of_num(n DIV 2 EXP k))) /\\\n   (forall m n k. DISJOINT (bits_of_num m) (bits_of_num n)\n            ==> DISJOINT (bits_of_num(m MOD 2 EXP k))\n                         (bits_of_num(n MOD 2 EXP k)))",
-      ),
+      @term_syntax.parse_term("(∀ k : Num, ∀ h : Num, ∀ l : Num, l < EXP(2, k) → DISJOINT(bits_of_num(EXP(2, k) * h), bits_of_num(l))) && (∀ k : Num, ∀ h : Num, ∀ l : Num, l < EXP(2, k) → DISJOINT(bits_of_num(h * EXP(2, k)), bits_of_num(l))) && (∀ k : Num, ∀ h : Num, ∀ l : Num, l < EXP(2, k) → DISJOINT(bits_of_num(l), bits_of_num(EXP(2, k) * h))) && (∀ k : Num, ∀ h : Num, ∀ l : Num, l < EXP(2, k) → DISJOINT(bits_of_num(l), bits_of_num(h * EXP(2, k)))) && (∀ m : Num, ∀ n : Num, ∀ k : Num, DISJOINT(bits_of_num(m), bits_of_num(n)) → DISJOINT(bits_of_num(EXP(2, k) * m), bits_of_num(EXP(2, k) * n))) && (∀ m : Num, ∀ n : Num, ∀ k : Num, DISJOINT(bits_of_num(m), bits_of_num(n)) → DISJOINT(bits_of_num(m * EXP(2, k)), bits_of_num(n * EXP(2, k)))) && (∀ m : Num, ∀ n : Num, ∀ k : Num, DISJOINT(bits_of_num(m), bits_of_num(n)) → DISJOINT(bits_of_num(DIV(m, EXP(2, k))), bits_of_num(DIV(n, EXP(2, k))))) && (∀ m : Num, ∀ n : Num, ∀ k : Num, DISJOINT(bits_of_num(m), bits_of_num(n)) → DISJOINT(bits_of_num(MOD(m, EXP(2, k))), bits_of_num(MOD(n, EXP(2, k)))))"),
       t797,
     ),
   )
@@ -9559,9 +9275,7 @@ fn step_242() -> Unit raise {
   )
   div_mod_disjoint_bits_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m n. DISJOINT (bits_of_num m) (bits_of_num n)\n          ==> (m + n) DIV 2 EXP k = m DIV 2 EXP k + n DIV 2 EXP k) /\\\n   (forall m n. DISJOINT (bits_of_num m) (bits_of_num n)\n          ==> (m + n) MOD 2 EXP k = m MOD 2 EXP k + n MOD 2 EXP k)",
-      ),
+      @term_syntax.parse_term("(∀ m : Num, ∀ n : Num, DISJOINT(bits_of_num(m), bits_of_num(n)) → DIV(m + n, EXP(2, (k : Num))) == DIV(m, EXP(2, k)) + DIV(n, EXP(2, k))) && (∀ m : Num, ∀ n : Num, DISJOINT(bits_of_num(m), bits_of_num(n)) → MOD(m + n, EXP(2, k)) == MOD(m, EXP(2, k)) + MOD(n, EXP(2, k)))"),
       t799,
     ),
   )
@@ -9590,9 +9304,7 @@ fn step_243() -> Unit raise {
   )
   bits_of_word_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. bits_of_word(word n:N word) =\n       {i | i < dimindex(:N)} INTER bits_of_num n",
-      ),
+      @term_syntax.parse_term("∀ n : Num, (bits_of_word : (Word[N], Num) -> Bool)((word : (Num) -> Word[N])(n)) == INTER({(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))}, bits_of_num(n))"),
       t801,
     ),
   )
@@ -9759,9 +9471,7 @@ fn step_248() -> Unit raise {
   )
   num_shift_add_suc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "num_shift_add (BIT0 a) b (SUC n) = BIT0 (num_shift_add a b n) /\\\n   num_shift_add (BIT1 a) b (SUC n) = BIT1 (num_shift_add a b n)",
-      ),
+      @term_syntax.parse_term("num_shift_add(BIT0((a : Num)), (b : Num), SUC((n : Num))) == BIT0(num_shift_add(a, b, n)) && num_shift_add(BIT1(a), b, SUC(n)) == BIT1(num_shift_add(a, b, n))"),
       t813,
     ),
   )
@@ -9809,9 +9519,7 @@ fn step_249() -> Unit raise {
   )
   num_shift_add_lt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b n i. b < 2 EXP i ==> num_shift_add a b n < 2 EXP (i + n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ b : Num, ∀ n : Num, ∀ i : Num, b < EXP(2, i) → num_shift_add(a, b, n) < EXP(2, i + n)"),
       t818,
     ),
   )
@@ -9870,9 +9578,7 @@ fn step_250() -> Unit raise {
   )
   num_shift_add_mod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "num_shift_add a (b MOD 2 EXP i) n = num_shift_add a b n MOD 2 EXP (i + n)",
-      ),
+      @term_syntax.parse_term("num_shift_add((a : Num), MOD((b : Num), EXP(2, (i : Num))), (n : Num)) == MOD(num_shift_add(a, b, n), EXP(2, i + n))"),
       t827,
     ),
   )
@@ -10126,9 +9832,7 @@ fn step_251() -> Unit raise {
     t850,
   )
   let t852 = (
-    @parser.parse_term(
-      "num_shift_add a b j = e ==> i = SUC j ==>\n    num_shift_add (BIT0 a) b i = BIT0 e /\\\n    num_shift_add (BIT1 a) b i = BIT1 e",
-    ),
+    @term_syntax.parse_term("num_shift_add((a : Num), (b : Num), (j : Num)) == (e : Num) → (i : Num) == SUC(j) → num_shift_add(BIT0(a), b, i) == BIT0(e) && num_shift_add(BIT1(a), b, i) == BIT1(e)"),
     t851,
   )
   let (b0s, b1s) = (fn(x840 : @kernel.Thm) -> (@kernel.Thm, @kernel.Thm) raise {
@@ -10257,9 +9961,7 @@ fn step_251() -> Unit raise {
   }
   let t860 = @simp.rewrite_tac(@list.List([@nums.numeral()]))
   let t861 = (
-    @parser.parse_term(
-      "num_shift_add a b i = e ==>\n     num_shift_add (NUMERAL a) (NUMERAL b) (NUMERAL i) = NUMERAL e",
-    ),
+    @term_syntax.parse_term("num_shift_add((a : Num), (b : Num), (i : Num)) == (e : Num) → num_shift_add(NUMERAL(a), NUMERAL(b), NUMERAL(i)) == NUMERAL(e)"),
     t860,
   )
   let pthn = @bool.undisch(
@@ -10363,9 +10065,7 @@ pub fn word_uint_max() -> @kernel.Thm {
 fn step_253() -> Unit raise {
   word_int_min_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "word_INT_MIN:N word = iword(--(&2 pow (dimindex(:N) - 1)))",
-      ),
+      @term_syntax.parse_term("(word_INT_MIN : Word[N]) == (iword : (Int) -> Word[N])(-(pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1))"),
     ),
   )
 }
@@ -10384,9 +10084,7 @@ pub fn word_int_min() -> @kernel.Thm {
 fn step_254() -> Unit raise {
   word_int_max_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "word_INT_MAX:N word = iword(&2 pow (dimindex(:N) - 1) - &1)",
-      ),
+      @term_syntax.parse_term("(word_INT_MAX : Word[N]) == (iword : (Int) -> Word[N])((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) - int_of_num(1))"),
     ),
   )
 }
@@ -10472,9 +10170,7 @@ fn step_256() -> Unit raise {
   )
   word_int_max_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "word_INT_MAX:N word = word(2 EXP (dimindex(:N) - 1) - 1)",
-      ),
+      @term_syntax.parse_term("(word_INT_MAX : Word[N]) == (word : (Num) -> Word[N])(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) - 1)"),
       t871,
     ),
   )
@@ -10548,9 +10244,7 @@ fn step_258() -> Unit raise {
   )
   ival_word_int_min_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "ival(word_INT_MIN:N word) = --(&2 pow (dimindex(:N) - 1))",
-      ),
+      @term_syntax.parse_term("(ival : (Word[N]) -> Int)((word_INT_MIN : Word[N])) == -pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1)"),
       t878,
     ),
   )
@@ -10590,9 +10284,7 @@ fn step_259() -> Unit raise {
   )
   ival_word_int_max_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "ival(word_INT_MAX:N word) = &2 pow (dimindex(:N) - 1) - &1",
-      ),
+      @term_syntax.parse_term("(ival : (Word[N]) -> Int)((word_INT_MAX : Word[N])) == pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) - int_of_num(1)"),
       t883,
     ),
   )
@@ -10662,9 +10354,7 @@ fn step_261() -> Unit raise {
   )
   ival_bound_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w:N word. ival(word_INT_MIN:N word) <= ival w /\\\n              ival w <= ival(word_INT_MAX:N word)",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], (ival : (Word[N]) -> Int)((word_INT_MIN : Word[N])) <= (ival : (Word[N]) -> Int)(w) && (ival : (Word[N]) -> Int)(w) <= (ival : (Word[N]) -> Int)((word_INT_MAX : Word[N]))"),
       t887,
     ),
   )
@@ -10754,9 +10444,7 @@ fn step_263() -> Unit raise {
   )
   int_val_word_int_min_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "&(val(word_INT_MIN:N word)):int = &2 pow (dimindex(:N) - 1)",
-      ),
+      @term_syntax.parse_term("int_of_num((val : (Word[N]) -> Num)((word_INT_MIN : Word[N]))) == pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1)"),
       t895,
     ),
   )
@@ -10794,9 +10482,7 @@ fn step_264() -> Unit raise {
   )
   word_int_min_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "word_INT_MIN:N word = word_of_bits {dimindex (:N) - 1}",
-      ),
+      @term_syntax.parse_term("(word_INT_MIN : Word[N]) == (word_of_bits : ((Num) -> Bool) -> Word[N])({(dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1})"),
       t897,
     ),
   )
@@ -10828,9 +10514,7 @@ fn step_265() -> Unit raise {
   )
   bit_word_int_min_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall i. bit i (word_INT_MIN:N word) <=> i = dimindex(:N) - 1",
-      ),
+      @term_syntax.parse_term("∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_INT_MIN : Word[N])) == (i == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1)"),
       t899,
     ),
   )
@@ -10852,9 +10536,7 @@ pub fn bit_word_int_min() -> @kernel.Thm {
 fn step_266() -> Unit raise {
   word_saturate_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(word_saturate:num->N word) n =\n        if n > val(word_UINT_MAX:N word) then word_UINT_MAX\n        else word n",
-      ),
+      @term_syntax.parse_term("(word_saturate : (Num) -> Word[N])((n : Num)) == (if n > (val : (Word[N]) -> Num)((word_UINT_MAX : Word[N])) { (word_UINT_MAX : Word[N]) } else { (word : (Num) -> Word[N])(n) })"),
     ),
   )
 }
@@ -10873,9 +10555,7 @@ pub fn word_saturate() -> @kernel.Thm {
 fn step_267() -> Unit raise {
   iword_saturate_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(iword_saturate:int->N word) x =\n        if x < ival(word_INT_MIN:N word) then word_INT_MIN\n        else if x > ival(word_INT_MAX:N word) then word_INT_MAX\n        else iword x",
-      ),
+      @term_syntax.parse_term("(iword_saturate : (Int) -> Word[N])((x : Int)) == (if x < (ival : (Word[N]) -> Int)((word_INT_MIN : Word[N])) { (word_INT_MIN : Word[N]) } else { if x > (ival : (Word[N]) -> Int)((word_INT_MAX : Word[N])) { (word_INT_MAX : Word[N]) } else { (iword : (Int) -> Word[N])(x) } })"),
     ),
   )
 }
@@ -11033,9 +10713,7 @@ fn step_271() -> Unit raise {
   )
   word_popcount_bound_size_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n. val x < 2 EXP n ==> word_popcount x <= n",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, val(x) < EXP(2, n) → word_popcount(x) <= n"),
       t920,
     ),
   )
@@ -11199,9 +10877,7 @@ fn step_276() -> Unit raise {
   )
   word_popcount_nsum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word.\n        word_popcount x = nsum {i | i < dimindex(:N)} (\\i. bitval(bit i x))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word_popcount : (Word[N]) -> Num)(x) == (nsum : ((Num) -> Bool, (Num) -> Num) -> Num)({(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))}, (i : Num) => bitval((bit : (Num, Word[N]) -> Bool)(i, x)))"),
       t930,
     ),
   )
@@ -11232,9 +10908,7 @@ fn step_277() -> Unit raise {
   )
   word_popcount_le_bits_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) (y:N word).\n     (forall i. i < dimindex(:M) /\\ bit i x ==> bit i y)\n     ==> word_popcount x <= word_popcount y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[N], (∀ i : Num, i < (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) && (bit : (Num, Word[M]) -> Bool)(i, x) → (bit : (Num, Word[N]) -> Bool)(i, y)) → (word_popcount : (Word[M]) -> Num)(x) <= (word_popcount : (Word[N]) -> Num)(y)"),
       t932,
     ),
   )
@@ -11259,9 +10933,7 @@ fn step_278() -> Unit raise {
   )
   word_popcount_word_of_bits_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. word_popcount(word_of_bits s:N word) =\n       CARD({i | i < dimindex(:N)} INTER s)",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, (word_popcount : (Word[N]) -> Num)((word_of_bits : ((Num) -> Bool) -> Word[N])(s)) == CARD(INTER({(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))}, s))"),
       t933,
     ),
   )
@@ -11290,9 +10962,7 @@ fn step_279() -> Unit raise {
   )
   word_popcount_word_of_bits_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. s SUBSET {i | i < dimindex(:N)}\n       ==> word_popcount(word_of_bits s:N word) = CARD s",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, SUBSET(s, {(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))}) → (word_popcount : (Word[N]) -> Num)((word_of_bits : ((Num) -> Bool) -> Word[N])(s)) == CARD(s)"),
       t935,
     ),
   )
@@ -11494,9 +11164,7 @@ pub fn word_oddparity_1() -> @kernel.Thm {
 fn step_288() -> Unit raise {
   modular_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "modular op (x:(N)word) (y:(N)word) = word(op (val x) (val y)):(N)word",
-      ),
+      @term_syntax.parse_term("(modular : ((Num, Num) -> Num, Word[N], Word[N]) -> Word[N])((op : (Num, Num) -> Num), (x : Word[N]), (y : Word[N])) == word(op(val(x), val(y)))"),
     ),
   )
 }
@@ -11516,9 +11184,7 @@ fn step_289() -> Unit raise {
   let t943 = @simp.rewrite_tac(@list.List([modular(), val_word()]))
   val_modular_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall op x y:(N)word.\n        val(modular op x y) = (op (val x) (val y)) MOD (2 EXP dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ op : (Num, Num) -> Num, ∀ x : Word[N], ∀ y : Word[N], (val : (Word[N]) -> Num)((modular : ((Num, Num) -> Num, Word[N], Word[N]) -> Word[N])(op, x, y)) == MOD(op((val : (Word[N]) -> Num)(x), (val : (Word[N]) -> Num)(y)), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t943,
     ),
   )
@@ -11543,9 +11209,7 @@ fn step_290() -> Unit raise {
   )
   cong_modular_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall op x y:(N)word.\n       (val(modular op x y) == op (val x) (val y))\n       (mod (2 EXP dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ op : (Num, Num) -> Num, ∀ x : Word[N], ∀ y : Word[N], (op_eq_eq : (Num, Num, (Num, Num) -> Bool) -> Bool)((val : (Word[N]) -> Num)((modular : ((Num, Num) -> Num, Word[N], Word[N]) -> Word[N])(op, x, y)), op((val : (Word[N]) -> Num)(x), (val : (Word[N]) -> Num)(y)), (mod : (Num, Num, Num) -> Bool)(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t945,
     ),
   )
@@ -11565,9 +11229,7 @@ pub fn cong_modular() -> @kernel.Thm {
 fn step_291() -> Unit raise {
   imodular_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "imodular op (x:(N)word) (y:(N)word) =\n        iword(op (ival x) (ival y)):(N)word",
-      ),
+      @term_syntax.parse_term("(imodular : ((Int, Int) -> Int, Word[N], Word[N]) -> Word[N])((op : (Int, Int) -> Int), (x : Word[N]), (y : Word[N])) == iword(op(ival(x), ival(y)))"),
     ),
   )
 }
@@ -11587,9 +11249,7 @@ fn step_292() -> Unit raise {
   let t946 = @simp.rewrite_tac(@list.List([imodular(), ival_iword_cong()]))
   cong_imodular_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall op x y:(N)word.\n       (ival(imodular op x y) == op (ival x) (ival y))\n       (mod (&2 pow (dimindex(:N))))",
-      ),
+      @term_syntax.parse_term("∀ op : (Int, Int) -> Int, ∀ x : Word[N], ∀ y : Word[N], (op_eq_eq : (Int, Int, (Int, Int) -> Bool) -> Bool)((ival : (Word[N]) -> Int)((imodular : ((Int, Int) -> Int, Word[N], Word[N]) -> Word[N])(op, x, y)), op((ival : (Word[N]) -> Int)(x), (ival : (Word[N]) -> Int)(y)), (mod : (Int, Int, Int) -> Bool)((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t946,
     ),
   )
@@ -11609,9 +11269,7 @@ pub fn cong_imodular() -> @kernel.Thm {
 fn step_293() -> Unit raise {
   relational2_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "relational2 r (x:(N)word) (y:(N)word) :bool = r (val x) (val y)",
-      ),
+      @term_syntax.parse_term("(relational2 : ((Num, Num) -> Bool, Word[N], Word[N]) -> Bool)((r : (Num, Num) -> Bool), (x : Word[N]), (y : Word[N])) == r(val(x), val(y))"),
     ),
   )
 }
@@ -11630,9 +11288,7 @@ pub fn relational2() -> @kernel.Thm {
 fn step_294() -> Unit raise {
   irelational2_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "irelational2 r (x:(N)word) (y:(N)word) :bool = r (ival x) (ival y)",
-      ),
+      @term_syntax.parse_term("(irelational2 : ((Int, Int) -> Bool, Word[N], Word[N]) -> Bool)((r : (Int, Int) -> Bool), (x : Word[N]), (y : Word[N])) == r(ival(x), ival(y))"),
     ),
   )
 }
@@ -11651,9 +11307,7 @@ pub fn irelational2() -> @kernel.Thm {
 fn step_295() -> Unit raise {
   bitwise1_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(bitwise1 op:N word->N word) x = mk_word(lambda i. op(bitvector x$i))",
-      ),
+      @term_syntax.parse_term("(bitwise1 : ((Bool) -> Bool, Word[N]) -> Word[N])((op : (Bool) -> Bool), (x : Word[N])) == mk_word(lambda((i : Num) => op(op_dollar(bitvector(x), i))))"),
     ),
   )
 }
@@ -11672,9 +11326,7 @@ pub fn bitwise1() -> @kernel.Thm {
 fn step_296() -> Unit raise {
   bitwise2_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(bitwise2 op:N word->N word->N word) x y =\n        mk_word(lambda i. op (bitvector x$i) (bitvector y$i))",
-      ),
+      @term_syntax.parse_term("(bitwise2 : ((Bool, Bool) -> Bool, Word[N], Word[N]) -> Word[N])((op : (Bool, Bool) -> Bool), (x : Word[N]), (y : Word[N])) == mk_word(lambda((i : Num) => op(op_dollar(bitvector(x), i), op_dollar(bitvector(y), i))))"),
     ),
   )
 }
@@ -11709,9 +11361,7 @@ fn step_297() -> Unit raise {
   )
   bit_bitwise1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall op (x:N word) k.\n        bit k (bitwise1 op x) <=>\n        k < dimindex(:N) /\\ op(bit k x)",
-      ),
+      @term_syntax.parse_term("∀ op : (Bool) -> Bool, ∀ x : Word[N], ∀ k : Num, (bit : (Num, Word[N]) -> Bool)(k, (bitwise1 : ((Bool) -> Bool, Word[N]) -> Word[N])(op, x)) == (k < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && op((bit : (Num, Word[N]) -> Bool)(k, x)))"),
       t950,
     ),
   )
@@ -11747,9 +11397,7 @@ fn step_298() -> Unit raise {
   )
   bit_bitwise2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall op (x:N word) (y:N word) k.\n        bit k (bitwise2 op x y) <=>\n        k < dimindex(:N) /\\ op (bit k x) (bit k y)",
-      ),
+      @term_syntax.parse_term("∀ op : (Bool, Bool) -> Bool, ∀ x : Word[N], ∀ y : Word[N], ∀ k : Num, (bit : (Num, Word[N]) -> Bool)(k, (bitwise2 : ((Bool, Bool) -> Bool, Word[N], Word[N]) -> Word[N])(op, x, y)) == (k < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && op((bit : (Num, Word[N]) -> Bool)(k, x), (bit : (Num, Word[N]) -> Bool)(k, y)))"),
       t954,
     ),
   )
@@ -11787,9 +11435,7 @@ fn step_300() -> Unit raise {
   let t955 = @simp.rewrite_tac(@list.List([word_not(), bit_bitwise1()]))
   bit_word_not_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) k. bit k (word_not x) <=> k < dimindex(:N) /\\ ~bit k x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, (bit : (Num, Word[N]) -> Bool)(k, (word_not : (Word[N]) -> Word[N])(x)) == (k < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && !(bit : (Num, Word[N]) -> Bool)(k, x))"),
       t955,
     ),
   )
@@ -11814,9 +11460,7 @@ fn step_301() -> Unit raise {
   )
   bits_of_word_not_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w:N word. bits_of_word(word_not w) =\n              {i | i < dimindex(:N)} DIFF bits_of_word w",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], (bits_of_word : (Word[N], Num) -> Bool)((word_not : (Word[N]) -> Word[N])(w)) == (DIFF : ((Num) -> Bool, (Num) -> Bool, Num) -> Bool)({(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))}, (bits_of_word : (Word[N], Num) -> Bool)(w))"),
       t957,
     ),
   )
@@ -11849,9 +11493,7 @@ fn step_302() -> Unit raise {
   )
   word_of_bits_diff_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. {i | i < dimindex(:N)} SUBSET s\n         ==> word_of_bits(s DIFF t):N word = word_not(word_of_bits t)",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, ∀ t : (Num) -> Bool, SUBSET({(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))}, s) → (word_of_bits : ((Num) -> Bool) -> Word[N])(DIFF(s, t)) == (word_not : (Word[N]) -> Word[N])((word_of_bits : ((Num) -> Bool) -> Word[N])(t))"),
       t960,
     ),
   )
@@ -11930,9 +11572,7 @@ fn step_303() -> Unit raise {
   )
   val_word_not_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w:N word. val(word_not w) = 2 EXP dimindex(:N) - 1 - val w",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], (val : (Word[N]) -> Num)((word_not : (Word[N]) -> Word[N])(w)) == EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - 1 - (val : (Word[N]) -> Num)(w)"),
       t967,
     ),
   )
@@ -12205,9 +11845,7 @@ fn step_304() -> Unit raise {
   )
   int_val_word_not_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. &(val(word_not x)):int = &2 pow dimindex(:N) - &1 - &(val x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], int_of_num((val : (Word[N]) -> Num)((word_not : (Word[N]) -> Word[N])(x))) == (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - int_of_num(1) - int_of_num((val : (Word[N]) -> Num)(x))"),
       t986,
     ),
   )
@@ -12482,9 +12120,7 @@ fn step_305() -> Unit raise {
   )
   real_val_word_not_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. &(val(word_not x)):real = &2 pow dimindex(:N) - &1 - &(val x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], real_of_num((val : (Word[N]) -> Num)((word_not : (Word[N]) -> Word[N])(x))) == (pow : (Real, Num) -> Real)(real_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - real_of_num(1) - real_of_num((val : (Word[N]) -> Num)(x))"),
       t1005,
     ),
   )
@@ -12565,9 +12201,7 @@ fn step_306() -> Unit raise {
   )
   word_popcount_not_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. word_popcount(word_not x) = dimindex(:N) - word_popcount x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word_popcount : (Word[N]) -> Num)((word_not : (Word[N]) -> Word[N])(x)) == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - (word_popcount : (Word[N]) -> Num)(x)"),
       t1017,
     ),
   )
@@ -12607,9 +12241,7 @@ fn step_308() -> Unit raise {
   let t1018 = @simp.rewrite_tac(@list.List([word_and(), bit_bitwise2()]))
   bit_word_and_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word) k.\n        bit k (word_and x y) <=>\n        k < dimindex(:N) /\\ bit k x /\\ bit k y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ k : Num, (bit : (Num, Word[N]) -> Bool)(k, (word_and : (Word[N], Word[N]) -> Word[N])(x, y)) == (k < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(k, x) && (bit : (Num, Word[N]) -> Bool)(k, y))"),
       t1018,
     ),
   )
@@ -12632,9 +12264,7 @@ fn step_309() -> Unit raise {
   )
   bit_word_and_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) y k. bit k (word_and x y) <=> bit k x /\\ bit k y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ k : Num, bit(k, word_and(x, y)) == (bit(k, x) && bit(k, y))"),
       t1019,
     ),
   )
@@ -12667,9 +12297,7 @@ fn step_310() -> Unit raise {
   )
   bits_of_word_and_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w:N word.\n        bits_of_word(word_and v w) = bits_of_word v INTER bits_of_word w",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], bits_of_word(word_and(v, w)) == INTER(bits_of_word(v), bits_of_word(w))"),
       t1022,
     ),
   )
@@ -12702,9 +12330,7 @@ fn step_311() -> Unit raise {
   )
   word_and_eq_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w:N word.\n        word_and v w = word 0 <=> DISJOINT (bits_of_word v) (bits_of_word w)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], (word_and(v, w) == word(0)) == DISJOINT(bits_of_word(v), bits_of_word(w))"),
       t1024,
     ),
   )
@@ -12735,9 +12361,7 @@ fn step_312() -> Unit raise {
   )
   word_of_bits_inter_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. word_of_bits(s INTER t):N word =\n         word_and (word_of_bits s) (word_of_bits t)",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, ∀ t : (Num) -> Bool, (word_of_bits : ((Num) -> Bool) -> Word[N])(INTER(s, t)) == (word_and : (Word[N], Word[N]) -> Word[N])((word_of_bits : ((Num) -> Bool) -> Word[N])(s), (word_of_bits : ((Num) -> Bool) -> Word[N])(t))"),
       t1027,
     ),
   )
@@ -12778,9 +12402,7 @@ fn step_313() -> Unit raise {
   )
   word_and_word_of_bits_sing_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) k.\n        word_and w (word_of_bits {k}) =\n        if bit k w then word_of_bits {k} else word 0",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ k : Num, word_and(w, word_of_bits({k})) == (if bit(k, w) { word_of_bits({k}) } else { word(0) })"),
       t1030,
     ),
   )
@@ -12821,9 +12443,7 @@ fn step_314() -> Unit raise {
   )
   word_of_bits_sing_and_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) k.\n        word_and (word_of_bits {k}) w =\n        if bit k w then word_of_bits {k} else word 0",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ k : Num, word_and(word_of_bits({k}), w) == (if bit(k, w) { word_of_bits({k}) } else { word(0) })"),
       t1033,
     ),
   )
@@ -12869,9 +12489,7 @@ fn step_315() -> Unit raise {
   )
   word_and_pow2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(x:N word) k.\n        word_and x (word(2 EXP k)) = word(2 EXP k * bitval(bit k x))) /\\\n   (forall(x:N word) k.\n        word_and (word(2 EXP k)) x = word(2 EXP k * bitval(bit k x)))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ k : Num, word_and(x, word(EXP(2, k))) == word(EXP(2, k) * bitval(bit(k, x)))) && (∀ x : Word[N], ∀ k : Num, word_and(word(EXP(2, k)), x) == word(EXP(2, k) * bitval(bit(k, x))))"),
       t1038,
     ),
   )
@@ -12921,9 +12539,7 @@ fn step_316() -> Unit raise {
   )
   val_word_and_pow2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(x:N word) k.\n        val(word_and x (word(2 EXP k))) = 2 EXP k * bitval(bit k x)) /\\\n   (forall(x:N word) k.\n        val(word_and (word(2 EXP k)) x) = 2 EXP k * bitval(bit k x))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ k : Num, val(word_and(x, word(EXP(2, k)))) == EXP(2, k) * bitval(bit(k, x))) && (∀ x : Word[N], ∀ k : Num, val(word_and(word(EXP(2, k)), x)) == EXP(2, k) * bitval(bit(k, x)))"),
       t1045,
     ),
   )
@@ -12963,9 +12579,7 @@ fn step_317() -> Unit raise {
   )
   word_and_pow2_bitval_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(x:N word) k b.\n        word_and x (word(2 EXP k * bitval b)) =\n        word(2 EXP k * bitval(bit k x /\\ b))) /\\\n   (forall(x:N word) k b.\n        word_and (word(2 EXP k * bitval b)) x =\n        word(2 EXP k * bitval(b /\\ bit k x)))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ k : Num, ∀ b : Bool, word_and(x, word(EXP(2, k) * bitval(b))) == word(EXP(2, k) * bitval(bit(k, x) && b))) && (∀ x : Word[N], ∀ k : Num, ∀ b : Bool, word_and(word(EXP(2, k) * bitval(b)), x) == word(EXP(2, k) * bitval(b && bit(k, x))))"),
       t1050,
     ),
   )
@@ -13014,9 +12628,7 @@ fn step_318() -> Unit raise {
   )
   val_word_and_pow2_bitval_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(x:N word) k b.\n        val(word_and x (word(2 EXP k * bitval b))) =\n        2 EXP k * bitval(bit k x /\\ b)) /\\\n   (forall(x:N word) k b.\n        val(word_and (word(2 EXP k * bitval b)) x) =\n        2 EXP k * bitval(b /\\ bit k x))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ k : Num, ∀ b : Bool, val(word_and(x, word(EXP(2, k) * bitval(b)))) == EXP(2, k) * bitval(bit(k, x) && b)) && (∀ x : Word[N], ∀ k : Num, ∀ b : Bool, val(word_and(word(EXP(2, k) * bitval(b)), x)) == EXP(2, k) * bitval(b && bit(k, x)))"),
       t1057,
     ),
   )
@@ -13063,9 +12675,7 @@ fn step_319() -> Unit raise {
   )
   val_word_and_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x y:N word. val(word_and x y) <= val x) /\\\n   (forall x y:N word. val(word_and x y) <= val y)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ y : Word[N], val(word_and(x, y)) <= val(x)) && (∀ x : Word[N], ∀ y : Word[N], val(word_and(x, y)) <= val(y))"),
       t1063,
     ),
   )
@@ -13098,9 +12708,7 @@ fn step_320() -> Unit raise {
   )
   val_word_and_le_min_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. val(word_and x y) <= MIN (val x) (val y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], val(word_and(x, y)) <= MIN(val(x), val(y))"),
       t1065,
     ),
   )
@@ -13130,9 +12738,7 @@ fn step_321() -> Unit raise {
   )
   val_word_and_word_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(x:N word) n. val(word_and x (word n)) <= n) /\\\n   (forall(x:N word) n. val(word_and (word n) x) <= n)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ n : Num, val(word_and(x, word(n))) <= n) && (∀ x : Word[N], ∀ n : Num, val(word_and(word(n), x)) <= n)"),
       t1066,
     ),
   )
@@ -13171,9 +12777,7 @@ fn step_322() -> Unit raise {
   )
   word_popcount_and_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n      word_popcount(word_and x y) <= MIN (word_popcount x) (word_popcount y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_popcount(word_and(x, y)) <= MIN(word_popcount(x), word_popcount(y))"),
       t1070,
     ),
   )
@@ -13213,9 +12817,7 @@ fn step_324() -> Unit raise {
   let t1071 = @simp.rewrite_tac(@list.List([word_or(), bit_bitwise2()]))
   bit_word_or_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word) k.\n        bit k (word_or x y) <=>\n        k < dimindex(:N) /\\ (bit k x \\/ bit k y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ k : Num, (bit : (Num, Word[N]) -> Bool)(k, (word_or : (Word[N], Word[N]) -> Word[N])(x, y)) == (k < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && ((bit : (Num, Word[N]) -> Bool)(k, x) || (bit : (Num, Word[N]) -> Bool)(k, y)))"),
       t1071,
     ),
   )
@@ -13238,9 +12840,7 @@ fn step_325() -> Unit raise {
   )
   bit_word_or_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) y k. bit k (word_or x y) <=> bit k x \\/ bit k y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ k : Num, bit(k, word_or(x, y)) == (bit(k, x) || bit(k, y))"),
       t1072,
     ),
   )
@@ -13273,9 +12873,7 @@ fn step_326() -> Unit raise {
   )
   bits_of_word_or_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w:N word.\n        bits_of_word(word_or v w) = bits_of_word v UNION bits_of_word w",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], bits_of_word(word_or(v, w)) == UNION(bits_of_word(v), bits_of_word(w))"),
       t1075,
     ),
   )
@@ -13308,9 +12906,7 @@ fn step_327() -> Unit raise {
   )
   word_of_bits_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. word_of_bits(s UNION t):N word =\n         word_or (word_of_bits s) (word_of_bits t)",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, ∀ t : (Num) -> Bool, (word_of_bits : ((Num) -> Bool) -> Word[N])(UNION(s, t)) == (word_or : (Word[N], Word[N]) -> Word[N])((word_of_bits : ((Num) -> Bool) -> Word[N])(s), (word_of_bits : ((Num) -> Bool) -> Word[N])(t))"),
       t1078,
     ),
   )
@@ -13338,9 +12934,7 @@ fn step_328() -> Unit raise {
   )
   val_word_or_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x y:N word. val x <= val(word_or x y)) /\\\n   (forall x y:N word. val y <= val(word_or x y))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ y : Word[N], val(x) <= val(word_or(x, y))) && (∀ x : Word[N], ∀ y : Word[N], val(y) <= val(word_or(x, y)))"),
       t1081,
     ),
   )
@@ -13371,9 +12965,7 @@ fn step_329() -> Unit raise {
   )
   val_word_or_le_max_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x y:N word. MAX (val x) (val y) <= val(word_or x y))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], MAX(val(x), val(y)) <= val(word_or(x, y))"),
       t1083,
     ),
   )
@@ -13402,9 +12994,7 @@ fn step_330() -> Unit raise {
   )
   word_popcount_or_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n      word_popcount(word_or x y) <= word_popcount x + word_popcount y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_popcount(word_or(x, y)) <= word_popcount(x) + word_popcount(y)"),
       t1085,
     ),
   )
@@ -13442,9 +13032,7 @@ fn step_331() -> Unit raise {
   )
   word_popcount_or_disjoint_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_and x y = word 0\n        ==> word_popcount(word_or x y) = word_popcount x + word_popcount y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_and(x, y) == word(0) → word_popcount(word_or(x, y)) == word_popcount(x) + word_popcount(y)"),
       t1088,
     ),
   )
@@ -13486,9 +13074,7 @@ fn step_333() -> Unit raise {
   let t1089 = @simp.rewrite_tac(@list.List([word_xor(), bit_bitwise2()]))
   bit_word_xor_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word) k.\n        bit k (word_xor x y) <=>\n        k < dimindex(:N) /\\ ~(bit k x <=> bit k y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ k : Num, (bit : (Num, Word[N]) -> Bool)(k, (word_xor : (Word[N], Word[N]) -> Word[N])(x, y)) == (k < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && !((bit : (Num, Word[N]) -> Bool)(k, x) == (bit : (Num, Word[N]) -> Bool)(k, y)))"),
       t1089,
     ),
   )
@@ -13511,9 +13097,7 @@ fn step_334() -> Unit raise {
   )
   bit_word_xor_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) y k. bit k (word_xor x y) <=> ~(bit k x <=> bit k y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ k : Num, bit(k, word_xor(x, y)) == !(bit(k, x) == bit(k, y))"),
       t1090,
     ),
   )
@@ -13610,9 +13194,7 @@ fn step_335() -> Unit raise {
     @int.arith_tac,
   )
   let t1102 = (
-    @parser.parse_term(
-      "(forall x y:N word. val x + val y = 2 * val(word_and x y) + val(word_xor x y)) /\\\n   (forall x y:N word. val x + val y = val(word_and x y) + val(word_or x y))",
-    ),
+    @term_syntax.parse_term("(∀ x : Word[N], ∀ y : Word[N], val(x) + val(y) == 2 * val(word_and(x, y)) + val(word_xor(x, y))) && (∀ x : Word[N], ∀ y : Word[N], val(x) + val(y) == val(word_and(x, y)) + val(word_or(x, y)))"),
     t1101,
   )
   let (val_word_add_and_xor, val_word_add_and_or) = @bool.conj_pair(
@@ -13660,9 +13242,7 @@ fn step_336() -> Unit raise {
   )
   val_word_or_disjoint_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_and x y = word 0 ==> val(word_or x y) = val x + val y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_and(x, y) == word(0) → val(word_or(x, y)) == val(x) + val(y)"),
       t1105,
     ),
   )
@@ -13695,9 +13275,7 @@ fn step_337() -> Unit raise {
   )
   val_word_or_and_xor_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. val(word_or x y) = val(word_and x y) + val(word_xor x y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], val(word_or(x, y)) == val(word_and(x, y)) + val(word_xor(x, y))"),
       t1107,
     ),
   )
@@ -13731,9 +13309,7 @@ fn step_338() -> Unit raise {
   )
   real_val_word_xor_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. &(val(word_xor x y)):real =\n                (&(val x) + &(val y)) - &2 * &(val(word_and x y))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], real_of_num(val(word_xor(x, y))) == real_of_num(val(x)) + real_of_num(val(y)) - real_of_num(2) * real_of_num(val(word_and(x, y)))"),
       t1109,
     ),
   )
@@ -13773,9 +13349,7 @@ fn step_340() -> Unit raise {
   let t1110 = @simp.rewrite_tac(@list.List([word_add(), val_modular()]))
   val_word_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N) word.\n        val(word_add x y) = (val(x) + val(y)) MOD (2 EXP dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (val : (Word[N]) -> Num)((word_add : (Word[N], Word[N]) -> Word[N])(x, y)) == MOD((val : (Word[N]) -> Num)(x) + (val : (Word[N]) -> Num)(y), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t1110,
     ),
   )
@@ -13798,9 +13372,7 @@ fn step_341() -> Unit raise {
   )
   val_word_add_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N) word.\n        val(word_add x y) =\n        if val x + val y < 2 EXP dimindex(:N) then val x + val y\n        else (val x + val y) - 2 EXP dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (val : (Word[N]) -> Num)((word_add : (Word[N], Word[N]) -> Word[N])(x, y)) == (if (val : (Word[N]) -> Num)(x) + (val : (Word[N]) -> Num)(y) < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) { (val : (Word[N]) -> Num)(x) + (val : (Word[N]) -> Num)(y) } else { (val : (Word[N]) -> Num)(x) + (val : (Word[N]) -> Num)(y) - EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) })"),
       t1111,
     ),
   )
@@ -13848,9 +13420,7 @@ fn step_342() -> Unit raise {
   )
   val_word_adc_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall c x y:(N) word.\n        val(c) < 2\n        ==> val(word_add (word_add x y) c) =\n            if val x + val y + val c < 2 EXP dimindex(:N)\n            then val x + val y + val c\n            else (val x + val y + val c) - 2 EXP dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ c : Word[N], ∀ x : Word[N], ∀ y : Word[N], (val : (Word[N]) -> Num)(c) < 2 → (val : (Word[N]) -> Num)((word_add : (Word[N], Word[N]) -> Word[N])((word_add : (Word[N], Word[N]) -> Word[N])(x, y), c)) == (if (val : (Word[N]) -> Num)(x) + ((val : (Word[N]) -> Num)(y) + (val : (Word[N]) -> Num)(c)) < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) { (val : (Word[N]) -> Num)(x) + ((val : (Word[N]) -> Num)(y) + (val : (Word[N]) -> Num)(c)) } else { (val : (Word[N]) -> Num)(x) + ((val : (Word[N]) -> Num)(y) + (val : (Word[N]) -> Num)(c)) - EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) })"),
       t1118,
     ),
   )
@@ -13897,9 +13467,7 @@ fn step_343() -> Unit raise {
   )
   int_val_word_add_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N) word.\n      &(val(word_add x y)):int =\n      if &(val x) + &(val y):int < &2 pow dimindex(:N) then &(val x) + &(val y)\n      else (&(val x) + &(val y)) - &2 pow dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], int_of_num((val : (Word[N]) -> Num)((word_add : (Word[N], Word[N]) -> Word[N])(x, y))) == (if int_of_num((val : (Word[N]) -> Num)(x)) + int_of_num((val : (Word[N]) -> Num)(y)) < (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) { int_of_num((val : (Word[N]) -> Num)(x)) + int_of_num((val : (Word[N]) -> Num)(y)) } else { int_of_num((val : (Word[N]) -> Num)(x)) + int_of_num((val : (Word[N]) -> Num)(y)) - (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) })"),
       t1123,
     ),
   )
@@ -13922,9 +13490,7 @@ fn step_344() -> Unit raise {
   let t1124 = @simp.rewrite_tac(@list.List([word_add(), cong_modular()]))
   cong_word_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N)word.\n        (val(word_add x y) == val x + val y) (mod (2 EXP dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (op_eq_eq : (Num, Num, (Num, Num) -> Bool) -> Bool)((val : (Word[N]) -> Num)((word_add : (Word[N], Word[N]) -> Word[N])(x, y)), (val : (Word[N]) -> Num)(x) + (val : (Word[N]) -> Num)(y), (mod : (Num, Num, Num) -> Bool)(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t1124,
     ),
   )
@@ -13951,9 +13517,7 @@ fn step_345() -> Unit raise {
   )
   int_cong_word_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n    (&(val(word_add x y)):int == &(val x) + &(val y))\n    (mod (&2 pow dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (op_eq_eq : (Int, Int, (Int, Int) -> Bool) -> Bool)(int_of_num((val : (Word[N]) -> Num)((word_add : (Word[N], Word[N]) -> Word[N])(x, y))), int_of_num((val : (Word[N]) -> Num)(x)) + int_of_num((val : (Word[N]) -> Num)(y)), (mod : (Int, Int, Int) -> Bool)((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t1125,
     ),
   )
@@ -14077,9 +13641,7 @@ fn step_346() -> Unit raise {
   )
   word_add_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. word(x + y):N word = word_add (word x) (word y)",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, (word : (Num) -> Word[N])(x + y) == (word_add : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(x), (word : (Num) -> Word[N])(y))"),
       t1140,
     ),
   )
@@ -14204,9 +13766,7 @@ fn step_347() -> Unit raise {
   )
   icong_word_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N)word.\n        (ival(word_add x y) == ival x + ival y) (mod (&2 pow dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (op_eq_eq : (Int, Int, (Int, Int) -> Bool) -> Bool)((ival : (Word[N]) -> Int)((word_add : (Word[N], Word[N]) -> Word[N])(x, y)), (ival : (Word[N]) -> Int)(x) + (ival : (Word[N]) -> Int)(y), (mod : (Int, Int, Int) -> Bool)((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t1156,
     ),
   )
@@ -14328,9 +13888,7 @@ fn step_348() -> Unit raise {
   )
   iword_int_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. iword(x + y):N word = word_add (iword x) (iword y)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, (iword : (Int) -> Word[N])(x + y) == (word_add : (Word[N], Word[N]) -> Word[N])((iword : (Int) -> Word[N])(x), (iword : (Int) -> Word[N])(y))"),
       t1171,
     ),
   )
@@ -14353,9 +13911,7 @@ fn step_349() -> Unit raise {
       icong_word_add(),
       cong_imodular(),
       @int.integer_rule(
-        @parser.parse_term(
-          "(a:int == b) (mod n) /\\ (c == b) (mod n) ==> (a == c) (mod n)",
-        ),
+        @term_syntax.parse_term("op_eq_eq((a : Int), (b : Int), mod((n : Int))) && op_eq_eq((c : Int), b, mod(n)) → op_eq_eq(a, c, mod(n))"),
       ),
     ]),
   )
@@ -14454,9 +14010,7 @@ fn step_352() -> Unit raise {
   )
   odd_val_word_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. ODD(val(word_add x y)) <=> ~(ODD(val x) <=> ODD(val y))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ODD(val(word_add(x, y))) == !(ODD(val(x)) == ODD(val(y)))"),
       t1177,
     ),
   )
@@ -14485,9 +14039,7 @@ fn step_353() -> Unit raise {
   )
   even_val_word_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. EVEN(val(word_add x y)) <=> (EVEN(val x) <=> EVEN(val y))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], EVEN(val(word_add(x, y))) == (EVEN(val(x)) == EVEN(val(y)))"),
       t1179,
     ),
   )
@@ -14509,9 +14061,7 @@ pub fn even_val_word_add() -> @kernel.Thm {
 fn step_354() -> Unit raise {
   word_sub_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(word_sub:(N)word->(N)word->(N)word) =\n        modular (\\x y. x + (2 EXP dimindex(:N) - y))",
-      ),
+      @term_syntax.parse_term("(word_sub : (Word[N], Word[N]) -> Word[N]) == (modular : ((Num, Num) -> Num, Word[N], Word[N]) -> Word[N])((x : Num) => (y : Num) => x + (EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - y))"),
     ),
   )
 }
@@ -14531,9 +14081,7 @@ fn step_355() -> Unit raise {
   let t1180 = @simp.rewrite_tac(@list.List([word_sub(), val_modular()]))
   val_word_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N) word.\n        val(word_sub x y) =\n        (val(x) + (2 EXP dimindex(:N) - val(y))) MOD (2 EXP dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (val : (Word[N]) -> Num)((word_sub : (Word[N], Word[N]) -> Word[N])(x, y)) == MOD((val : (Word[N]) -> Num)(x) + (EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - (val : (Word[N]) -> Num)(y)), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t1180,
     ),
   )
@@ -14659,9 +14207,7 @@ fn step_356() -> Unit raise {
   )
   val_word_sub_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N) word.\n        val(word_sub x y) =\n        if val y <= val x then val(x) - val(y)\n        else val(x) + (2 EXP dimindex(:N) - val(y))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (val : (Word[N]) -> Num)((word_sub : (Word[N], Word[N]) -> Word[N])(x, y)) == (if (val : (Word[N]) -> Num)(y) <= (val : (Word[N]) -> Num)(x) { (val : (Word[N]) -> Num)(x) - (val : (Word[N]) -> Num)(y) } else { (val : (Word[N]) -> Num)(x) + (EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - (val : (Word[N]) -> Num)(y)) })"),
       t1195,
     ),
   )
@@ -14713,9 +14259,7 @@ fn step_357() -> Unit raise {
   )
   int_val_word_sub_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N) word.\n        &(val(word_sub x y)):int =\n        if &(val y):int <= &(val x) then &(val x) - &(val y)\n        else &(val x) + (&2 pow dimindex(:N) - &(val y))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], int_of_num((val : (Word[N]) -> Num)((word_sub : (Word[N], Word[N]) -> Word[N])(x, y))) == (if int_of_num((val : (Word[N]) -> Num)(y)) <= int_of_num((val : (Word[N]) -> Num)(x)) { int_of_num((val : (Word[N]) -> Num)(x)) - int_of_num((val : (Word[N]) -> Num)(y)) } else { int_of_num((val : (Word[N]) -> Num)(x)) + ((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - int_of_num((val : (Word[N]) -> Num)(y))) })"),
       t1200,
     ),
   )
@@ -14764,9 +14308,7 @@ fn step_358() -> Unit raise {
   )
   cong_word_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N)word.\n        (val(word_sub x y) + val y == val x) (mod (2 EXP dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (op_eq_eq : (Num, Num, (Num, Num) -> Bool) -> Bool)((val : (Word[N]) -> Num)((word_sub : (Word[N], Word[N]) -> Word[N])(x, y)) + (val : (Word[N]) -> Num)(y), (val : (Word[N]) -> Num)(x), (mod : (Num, Num, Num) -> Bool)(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t1206,
     ),
   )
@@ -14795,9 +14337,7 @@ fn step_359() -> Unit raise {
     @simp.rewrite_tac(
       @list.List([
         @int.integer_rule(
-          @parser.parse_term(
-            "(z:int == x - y) (mod n) <=> (z + y == x) (mod n)",
-          ),
+          @term_syntax.parse_term("op_eq_eq((z : Int), (x : Int) - (y : Int), mod((n : Int))) == op_eq_eq(z + y, x, mod(n))"),
         ),
       ]),
     ),
@@ -14805,9 +14345,7 @@ fn step_359() -> Unit raise {
   )
   int_cong_word_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n    (&(val(word_sub x y)):int == &(val x) - &(val y))\n    (mod (&2 pow dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (op_eq_eq : (Int, Int, (Int, Int) -> Bool) -> Bool)(int_of_num((val : (Word[N]) -> Num)((word_sub : (Word[N], Word[N]) -> Word[N])(x, y))), int_of_num((val : (Word[N]) -> Num)(x)) - int_of_num((val : (Word[N]) -> Num)(y)), (mod : (Int, Int, Int) -> Bool)((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t1208,
     ),
   )
@@ -14848,9 +14386,7 @@ fn step_360() -> Unit raise {
   )
   int_val_word_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        &(val(word_sub x y:N word)):int =\n        (&(val x) - &(val y)) rem &2 pow dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], int_of_num((val : (Word[N]) -> Num)((word_sub : (Word[N], Word[N]) -> Word[N])(x, y))) == rem(int_of_num((val : (Word[N]) -> Num)(x)) - int_of_num((val : (Word[N]) -> Num)(y)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t1210,
     ),
   )
@@ -14977,9 +14513,7 @@ fn step_361() -> Unit raise {
   )
   icong_word_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        (ival(word_sub x y) == ival x - ival y) (mod (&2 pow dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (op_eq_eq : (Int, Int, (Int, Int) -> Bool) -> Bool)((ival : (Word[N]) -> Int)((word_sub : (Word[N], Word[N]) -> Word[N])(x, y)), (ival : (Word[N]) -> Int)(x) - (ival : (Word[N]) -> Int)(y), (mod : (Int, Int, Int) -> Bool)((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t1226,
     ),
   )
@@ -15101,9 +14635,7 @@ fn step_362() -> Unit raise {
   )
   iword_int_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. iword(x - y):N word = word_sub (iword x) (iword y)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, (iword : (Int) -> Word[N])(x - y) == (word_sub : (Word[N], Word[N]) -> Word[N])((iword : (Int) -> Word[N])(x), (iword : (Int) -> Word[N])(y))"),
       t1241,
     ),
   )
@@ -15126,9 +14658,7 @@ fn step_363() -> Unit raise {
       icong_word_sub(),
       cong_imodular(),
       @int.integer_rule(
-        @parser.parse_term(
-          "(a:int == b) (mod n) /\\ (c == b) (mod n) ==> (a == c) (mod n)",
-        ),
+        @term_syntax.parse_term("op_eq_eq((a : Int), (b : Int), mod((n : Int))) && op_eq_eq((c : Int), b, mod(n)) → op_eq_eq(a, c, mod(n))"),
       ),
     ]),
   )
@@ -15182,9 +14712,7 @@ fn step_364() -> Unit raise {
   )
   word_sub_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. word(x - y):N word =\n         if y <= x then word_sub (word x) (word y) else word 0",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, (word : (Num) -> Word[N])(x - y) == (if y <= x { (word_sub : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(x), (word : (Num) -> Word[N])(y)) } else { (word : (Num) -> Word[N])(0) })"),
       t1246,
     ),
   )
@@ -15248,9 +14776,7 @@ fn step_366() -> Unit raise {
   )
   odd_val_word_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. ODD(val(word_sub x y)) <=> ~(ODD(val x) <=> ODD(val y))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ODD(val(word_sub(x, y))) == !(ODD(val(x)) == ODD(val(y)))"),
       t1249,
     ),
   )
@@ -15279,9 +14805,7 @@ fn step_367() -> Unit raise {
   )
   even_val_word_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. EVEN(val(word_sub x y)) <=> (EVEN(val x) <=> EVEN(val y))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], EVEN(val(word_sub(x, y))) == (EVEN(val(x)) == EVEN(val(y)))"),
       t1251,
     ),
   )
@@ -15306,9 +14830,7 @@ fn step_368() -> Unit raise {
   )
   val_word_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:(N) word.\n        val(word_neg x) =\n        (2 EXP dimindex(:N) - val(x)) MOD (2 EXP dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (val : (Word[N]) -> Num)((word_neg : (Word[N]) -> Word[N])(x)) == MOD(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - (val : (Word[N]) -> Num)(x), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t1252,
     ),
   )
@@ -15337,9 +14859,7 @@ fn step_369() -> Unit raise {
   )
   val_word_neg_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:(N) word.\n        val(word_neg x) =\n        if val x = 0 then 0 else 2 EXP dimindex(:N) - val(x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (val : (Word[N]) -> Num)((word_neg : (Word[N]) -> Word[N])(x)) == (if (val : (Word[N]) -> Num)(x) == 0 { 0 } else { EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - (val : (Word[N]) -> Num)(x) })"),
       t1254,
     ),
   )
@@ -15379,9 +14899,7 @@ fn step_370() -> Unit raise {
   )
   int_val_word_neg_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word.\n        &(val(word_neg x)):int =\n        if &(val x):int = &0 then &0 else &2 pow dimindex(:N) - &(val x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], int_of_num((val : (Word[N]) -> Num)((word_neg : (Word[N]) -> Word[N])(x))) == (if int_of_num((val : (Word[N]) -> Num)(x)) == int_of_num(0) { int_of_num(0) } else { (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - int_of_num((val : (Word[N]) -> Num)(x)) })"),
       t1257,
     ),
   )
@@ -15421,9 +14939,7 @@ fn step_371() -> Unit raise {
   )
   real_val_word_neg_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word.\n        &(val(word_neg x)):real =\n        if &(val x):real = &0 then &0 else &2 pow dimindex(:N) - &(val x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], real_of_num((val : (Word[N]) -> Num)((word_neg : (Word[N]) -> Word[N])(x))) == (if real_of_num((val : (Word[N]) -> Num)(x)) == real_of_num(0) { real_of_num(0) } else { (pow : (Real, Num) -> Real)(real_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - real_of_num((val : (Word[N]) -> Num)(x)) })"),
       t1260,
     ),
   )
@@ -15465,9 +14981,7 @@ fn step_372() -> Unit raise {
   )
   int_val_word_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. &(val(word_neg x)):int =\n              &2 pow dimindex(:N) * &(bitval(~(x = word 0))) -\n              &(val x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], int_of_num((val : (Word[N]) -> Num)((word_neg : (Word[N]) -> Word[N])(x))) == (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) * int_of_num(bitval(!(x == (word : (Num) -> Word[N])(0)))) - int_of_num((val : (Word[N]) -> Num)(x))"),
       t1263,
     ),
   )
@@ -15511,9 +15025,7 @@ fn step_373() -> Unit raise {
   )
   real_val_word_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. &(val(word_neg x)):real =\n              &2 pow dimindex(:N) * &(bitval(~(x = word 0))) -\n              &(val x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], real_of_num((val : (Word[N]) -> Num)((word_neg : (Word[N]) -> Word[N])(x))) == (pow : (Real, Num) -> Real)(real_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) * real_of_num(bitval(!(x == (word : (Num) -> Word[N])(0)))) - real_of_num((val : (Word[N]) -> Num)(x))"),
       t1266,
     ),
   )
@@ -15540,9 +15052,7 @@ fn step_374() -> Unit raise {
   )
   cong_word_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:(N)word.\n        (val(word_neg x) + val x == 0) (mod (2 EXP dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (op_eq_eq : (Num, Num, (Num, Num) -> Bool) -> Bool)((val : (Word[N]) -> Num)((word_neg : (Word[N]) -> Word[N])(x)) + (val : (Word[N]) -> Num)(x), 0, (mod : (Num, Num, Num) -> Bool)(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t1268,
     ),
   )
@@ -15579,9 +15089,7 @@ fn step_375() -> Unit raise {
   )
   int_cong_word_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. (&(val(word_neg x)):int == -- &(val x))\n              (mod (&2 pow dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (op_eq_eq : (Int, Int, (Int, Int) -> Bool) -> Bool)(int_of_num((val : (Word[N]) -> Num)((word_neg : (Word[N]) -> Word[N])(x))), -int_of_num((val : (Word[N]) -> Num)(x)), (mod : (Int, Int, Int) -> Bool)((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t1270,
     ),
   )
@@ -15610,9 +15118,7 @@ fn step_376() -> Unit raise {
   )
   icong_word_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:(N)word.\n        (ival(word_neg x) == --(ival x)) (mod (&2 pow dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (op_eq_eq : (Int, Int, (Int, Int) -> Bool) -> Bool)((ival : (Word[N]) -> Int)((word_neg : (Word[N]) -> Word[N])(x)), -(ival : (Word[N]) -> Int)(x), (mod : (Int, Int, Int) -> Bool)((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t1272,
     ),
   )
@@ -15691,9 +15197,7 @@ fn step_378() -> Unit raise {
   )
   word_neg_as_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. word_neg x = word_add (word_not x) (word 1)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], word_neg(x) == word_add(word_not(x), word(1))"),
       t1278,
     ),
   )
@@ -15760,9 +15264,7 @@ fn step_379() -> Unit raise {
   )
   word_not_as_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. word_not x = word_sub (word_neg x) (word 1)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], word_not(x) == word_sub(word_neg(x), word(1))"),
       t1284,
     ),
   )
@@ -15787,9 +15289,7 @@ fn step_380() -> Unit raise {
   )
   val_word_neg_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "val(word_neg(word 1:N word)) = 2 EXP dimindex(:N) - 1",
-      ),
+      @term_syntax.parse_term("(val : (Word[N]) -> Num)((word_neg : (Word[N]) -> Word[N])((word : (Num) -> Word[N])(1))) == EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - 1"),
       t1285,
     ),
   )
@@ -16010,9 +15510,7 @@ fn step_387() -> Unit raise {
   let t1299 = @simp.rewrite_tac(@list.List([word_mul(), val_modular()]))
   val_word_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N)word.\n        val(word_mul x y) = (val(x) * val(y)) MOD (2 EXP dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (val : (Word[N]) -> Num)((word_mul : (Word[N], Word[N]) -> Word[N])(x, y)) == MOD((val : (Word[N]) -> Num)(x) * (val : (Word[N]) -> Num)(y), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t1299,
     ),
   )
@@ -16033,9 +15531,7 @@ fn step_388() -> Unit raise {
   let t1300 = @simp.rewrite_tac(@list.List([word_mul(), cong_modular()]))
   cong_word_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N)word.\n        (val(word_mul x y) == val x * val y) (mod (2 EXP dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (op_eq_eq : (Num, Num, (Num, Num) -> Bool) -> Bool)((val : (Word[N]) -> Num)((word_mul : (Word[N], Word[N]) -> Word[N])(x, y)), (val : (Word[N]) -> Num)(x) * (val : (Word[N]) -> Num)(y), (mod : (Num, Num, Num) -> Bool)(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t1300,
     ),
   )
@@ -16062,9 +15558,7 @@ fn step_389() -> Unit raise {
   )
   int_cong_word_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n    (&(val(word_mul x y)):int == &(val x) * &(val y))\n    (mod (&2 pow dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (op_eq_eq : (Int, Int, (Int, Int) -> Bool) -> Bool)(int_of_num((val : (Word[N]) -> Num)((word_mul : (Word[N], Word[N]) -> Word[N])(x, y))), int_of_num((val : (Word[N]) -> Num)(x)) * int_of_num((val : (Word[N]) -> Num)(y)), (mod : (Int, Int, Int) -> Bool)((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t1301,
     ),
   )
@@ -16188,9 +15682,7 @@ fn step_390() -> Unit raise {
   )
   word_mul_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. word(x * y):N word = word_mul (word x) (word y)",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, (word : (Num) -> Word[N])(x * y) == (word_mul : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(x), (word : (Num) -> Word[N])(y))"),
       t1316,
     ),
   )
@@ -16315,9 +15807,7 @@ fn step_391() -> Unit raise {
   )
   icong_word_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N)word.\n        (ival(word_mul x y) == ival x * ival y) (mod (&2 pow dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (op_eq_eq : (Int, Int, (Int, Int) -> Bool) -> Bool)((ival : (Word[N]) -> Int)((word_mul : (Word[N], Word[N]) -> Word[N])(x, y)), (ival : (Word[N]) -> Int)(x) * (ival : (Word[N]) -> Int)(y), (mod : (Int, Int, Int) -> Bool)((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t1332,
     ),
   )
@@ -16439,9 +15929,7 @@ fn step_392() -> Unit raise {
   )
   iword_int_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. iword(x * y):N word = word_mul (iword x) (iword y)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, (iword : (Int) -> Word[N])(x * y) == (word_mul : (Word[N], Word[N]) -> Word[N])((iword : (Int) -> Word[N])(x), (iword : (Int) -> Word[N])(y))"),
       t1347,
     ),
   )
@@ -16464,9 +15952,7 @@ fn step_393() -> Unit raise {
       icong_word_mul(),
       cong_imodular(),
       @int.integer_rule(
-        @parser.parse_term(
-          "(a:int == b) (mod n) /\\ (c == b) (mod n) ==> (a == c) (mod n)",
-        ),
+        @term_syntax.parse_term("op_eq_eq((a : Int), (b : Int), mod((n : Int))) && op_eq_eq((c : Int), b, mod(n)) → op_eq_eq(a, c, mod(n))"),
       ),
     ]),
   )
@@ -16513,9 +15999,7 @@ fn step_394() -> Unit raise {
   )
   odd_val_word_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. ODD(val(word_mul x y)) <=> ODD(val x) /\\ ODD(val y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ODD(val(word_mul(x, y))) == (ODD(val(x)) && ODD(val(y)))"),
       t1351,
     ),
   )
@@ -16544,9 +16028,7 @@ fn step_395() -> Unit raise {
   )
   even_val_word_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. EVEN(val(word_mul x y)) <=> EVEN(val x) \\/ EVEN(val y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], EVEN(val(word_mul(x, y))) == (EVEN(val(x)) || EVEN(val(y)))"),
       t1353,
     ),
   )
@@ -16603,9 +16085,7 @@ fn step_397() -> Unit raise {
   )
   val_word_udiv_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N)word.\n        val(word_udiv x y) = val(x) DIV val(y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], val(word_udiv(x, y)) == DIV(val(x), val(y))"),
       t1358,
     ),
   )
@@ -16660,9 +16140,7 @@ fn step_399() -> Unit raise {
   )
   val_word_umod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N)word.\n        val(word_umod x y) = val(x) MOD val(y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], val(word_umod(x, y)) == MOD(val(x), val(y))"),
       t1363,
     ),
   )
@@ -16734,9 +16212,7 @@ fn step_402() -> Unit raise {
   )
   val_word_umax_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N)word.\n        val(word_umax x y) = MAX (val x) (val y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], val(word_umax(x, y)) == MAX(val(x), val(y))"),
       t1368,
     ),
   )
@@ -16766,9 +16242,7 @@ fn step_403() -> Unit raise {
   )
   word_umax_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. word_umax x y = if val x <= val y then y else x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_umax(x, y) == (if val(x) <= val(y) { y } else { x })"),
       t1370,
     ),
   )
@@ -16816,9 +16290,7 @@ fn step_405() -> Unit raise {
   )
   word_umax_assoc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y z:N word. word_umax x (word_umax y z) = word_umax (word_umax x y) z",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ z : Word[N], word_umax(x, word_umax(y, z)) == word_umax(word_umax(x, y), z)"),
       t1372,
     ),
   )
@@ -16853,9 +16325,7 @@ fn step_406() -> Unit raise {
   )
   ival_word_imax_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N)word.\n        ival(word_imax x y) = max (ival x) (ival y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ival(word_imax(x, y)) == max(ival(x), ival(y))"),
       t1376,
     ),
   )
@@ -16927,9 +16397,7 @@ fn step_409() -> Unit raise {
   )
   val_word_umin_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N)word.\n        val(word_umin x y) = MIN (val x) (val y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], val(word_umin(x, y)) == MIN(val(x), val(y))"),
       t1381,
     ),
   )
@@ -16959,9 +16427,7 @@ fn step_410() -> Unit raise {
   )
   word_umin_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. word_umin x y = if val x <= val y then x else y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_umin(x, y) == (if val(x) <= val(y) { x } else { y })"),
       t1383,
     ),
   )
@@ -17009,9 +16475,7 @@ fn step_412() -> Unit raise {
   )
   word_umin_assoc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y z:N word. word_umin x (word_umin y z) = word_umin (word_umin x y) z",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ z : Word[N], word_umin(x, word_umin(y, z)) == word_umin(word_umin(x, y), z)"),
       t1385,
     ),
   )
@@ -17046,9 +16510,7 @@ fn step_413() -> Unit raise {
   )
   ival_word_imin_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:(N)word.\n        ival(word_imin x y) = min (ival x) (ival y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ival(word_imin(x, y)) == min(ival(x), ival(y))"),
       t1389,
     ),
   )
@@ -17068,9 +16530,7 @@ pub fn ival_word_imin() -> @kernel.Thm {
 fn step_414() -> Unit raise {
   word_shl_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "word_shl (x:(N)word) n = word((val x) * 2 EXP n):(N)word",
-      ),
+      @term_syntax.parse_term("(word_shl : (Word[N], Num) -> Word[N])((x : Word[N]), (n : Num)) == word(val(x) * EXP(2, n))"),
     ),
   )
 }
@@ -17093,9 +16553,7 @@ fn step_415() -> Unit raise {
   let t1391 = @tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t1390)
   val_word_shl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n.\n        val(word_shl x n) = (2 EXP n * val x) MOD (2 EXP dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, (val : (Word[N]) -> Num)((word_shl : (Word[N], Num) -> Word[N])(x, n)) == MOD(EXP(2, n) * (val : (Word[N]) -> Num)(x), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t1391,
     ),
   )
@@ -17124,9 +16582,7 @@ fn step_416() -> Unit raise {
   )
   cong_word_shl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n.\n        (val(word_shl x n) == 2 EXP n * val x) (mod (2 EXP dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, (op_eq_eq : (Num, Num, (Num, Num) -> Bool) -> Bool)((val : (Word[N]) -> Num)((word_shl : (Word[N], Num) -> Word[N])(x, n)), EXP(2, n) * (val : (Word[N]) -> Num)(x), (mod : (Num, Num, Num) -> Bool)(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t1394,
     ),
   )
@@ -17250,9 +16706,7 @@ fn step_417() -> Unit raise {
   )
   icong_word_shl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n.\n        (ival(word_shl x n) == &2 pow n * ival x) (mod (&2 pow dimindex(:N)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, (op_eq_eq : (Int, Int, (Int, Int) -> Bool) -> Bool)((ival : (Word[N]) -> Int)((word_shl : (Word[N], Num) -> Word[N])(x, n)), (pow : (Int, Num) -> Int)(int_of_num(2), n) * (ival : (Word[N]) -> Int)(x), (mod : (Int, Int, Int) -> Bool)((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t1409,
     ),
   )
@@ -17528,9 +16982,7 @@ fn step_418() -> Unit raise {
   )
   bit_word_shl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n i.\n        bit i (word_shl x n) <=>\n        n <= i /\\ i < dimindex(:N) /\\ bit (i - n) x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_shl : (Word[N], Num) -> Word[N])(x, n)) == (n <= i && i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(i - n, x))"),
       t1448,
     ),
   )
@@ -17571,9 +17023,7 @@ fn step_419() -> Unit raise {
   )
   word_shl_word_of_bits_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n.\n        word_shl x n =\n        word_of_bits {i | n <= i /\\ i < dimindex(:N) /\\ bit (i - n) x}",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, (word_shl : (Word[N], Num) -> Word[N])(x, n) == (word_of_bits : ((Num) -> Bool) -> Word[N])({(i : Num) | n <= i && i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(i - n, x)})"),
       t1455,
     ),
   )
@@ -17653,9 +17103,7 @@ fn step_422() -> Unit raise {
   )
   word_shl_trivial_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n.\n       dimindex(:N) <= n ==> word_shl x n = word 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= n → (word_shl : (Word[N], Num) -> Word[N])(x, n) == (word : (Num) -> Word[N])(0)"),
       t1459,
     ),
   )
@@ -17693,9 +17141,7 @@ fn step_423() -> Unit raise {
   )
   word_shl_compose_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) m n. word_shl (word_shl x m) n = word_shl x (m + n)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ m : Num, ∀ n : Num, word_shl(word_shl(x, m), n) == word_shl(x, m + n)"),
       t1464,
     ),
   )
@@ -17744,9 +17190,7 @@ fn step_424() -> Unit raise {
   )
   word_shl_lsb_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word.\n        word_shl x (dimindex(:N) - 1) =\n        if bit 0 x then word(2 EXP (dimindex(:N) - 1)) else word 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word_shl : (Word[N], Num) -> Word[N])(x, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) == (if (bit : (Num, Word[N]) -> Bool)(0, x) { (word : (Num) -> Word[N])(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1)) } else { (word : (Num) -> Word[N])(0) })"),
       t1469,
     ),
   )
@@ -17779,9 +17223,7 @@ fn step_425() -> Unit raise {
   )
   word_shl_lsb_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word.\n        word_shl x (dimindex(:N) - 1) =\n        word(2 EXP (dimindex(:N) - 1) * bitval(bit 0 x))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word_shl : (Word[N], Num) -> Word[N])(x, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) == (word : (Num) -> Word[N])(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) * bitval((bit : (Num, Word[N]) -> Bool)(0, x)))"),
       t1471,
     ),
   )
@@ -17852,9 +17294,7 @@ fn step_427() -> Unit raise {
   )
   word_shl_as_iword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n. word_shl x n = iword(ival x * &2 pow n)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, word_shl(x, n) == iword(ival(x) * pow(int_of_num(2), n))"),
       t1479,
     ),
   )
@@ -17890,9 +17330,7 @@ fn step_428() -> Unit raise {
   )
   word_shl_iword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x n. word_shl (iword x:N word) n = iword(&2 pow n * x)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ n : Num, (word_shl : (Word[N], Num) -> Word[N])((iword : (Int) -> Word[N])(x), n) == (iword : (Int) -> Word[N])(pow(int_of_num(2), n) * x)"),
       t1483,
     ),
   )
@@ -17978,9 +17416,7 @@ fn step_429() -> Unit raise {
   )
   word_mul_expand_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_mul x y =\n        word(nsum {i | i < dimindex(:N)}\n                  (\\i. bitval(bit i x) * val(word_shl y i)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (word_mul : (Word[N], Word[N]) -> Word[N])(x, y) == (word : (Num) -> Word[N])((nsum : ((Num) -> Bool, (Num) -> Num) -> Num)({(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))}, (i : Num) => bitval((bit : (Num, Word[N]) -> Bool)(i, x)) * (val : (Word[N]) -> Num)((word_shl : (Word[N], Num) -> Word[N])(y, i))))"),
       t1503,
     ),
   )
@@ -18002,9 +17438,7 @@ pub fn word_mul_expand() -> @kernel.Thm {
 fn step_430() -> Unit raise {
   word_ushr_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "word_ushr (x:(N)word) n =\n        word((val x) DIV (2 EXP n)):(N)word",
-      ),
+      @term_syntax.parse_term("(word_ushr : (Word[N], Num) -> Word[N])((x : Word[N]), (n : Num)) == word(DIV(val(x), EXP(2, n)))"),
     ),
   )
 }
@@ -18041,9 +17475,7 @@ fn step_431() -> Unit raise {
   )
   val_word_ushr_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n.\n        val(word_ushr x n) = val x DIV (2 EXP n)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, val(word_ushr(x, n)) == DIV(val(x), EXP(2, n))"),
       t1508,
     ),
   )
@@ -18070,9 +17502,7 @@ fn step_432() -> Unit raise {
   )
   word_ushr_eq_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n. word_ushr x n = word 0 <=> val x < 2 EXP n",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, (word_ushr(x, n) == word(0)) == (val(x) < EXP(2, n))"),
       t1510,
     ),
   )
@@ -18140,9 +17570,7 @@ fn step_433() -> Unit raise {
   )
   bit_word_ushr_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n i.\n        bit i (word_ushr x n) <=> bit (i + n) x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, ∀ i : Num, bit(i, word_ushr(x, n)) == bit(i + n, x)"),
       t1519,
     ),
   )
@@ -18183,9 +17611,7 @@ fn step_434() -> Unit raise {
   )
   word_ushr_word_of_bits_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n.\n        word_ushr x n =\n        word_of_bits {i | i < dimindex(:N) /\\ bit (i + n) x}",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, (word_ushr : (Word[N], Num) -> Word[N])(x, n) == (word_of_bits : ((Num) -> Bool) -> Word[N])({(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(i + n, x)})"),
       t1526,
     ),
   )
@@ -18271,9 +17697,7 @@ fn step_437() -> Unit raise {
   )
   word_ushr_compose_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) m n. word_ushr (word_ushr x m) n = word_ushr x (m + n)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ m : Num, ∀ n : Num, word_ushr(word_ushr(x, m), n) == word_ushr(x, m + n)"),
       t1533,
     ),
   )
@@ -18332,9 +17756,7 @@ fn step_438() -> Unit raise {
   )
   word_ushr_msb_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. word_ushr x (dimindex(:N) - 1) =\n              if bit (dimindex(:N) - 1) x then word 1 else word 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word_ushr : (Word[N], Num) -> Word[N])(x, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) == (if (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) { (word : (Num) -> Word[N])(1) } else { (word : (Num) -> Word[N])(0) })"),
       t1539,
     ),
   )
@@ -18359,9 +17781,7 @@ fn step_439() -> Unit raise {
   )
   word_ushr_msb_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. word_ushr x (dimindex(:N) - 1) =\n              word(bitval(bit (dimindex(:N) - 1) x))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word_ushr : (Word[N], Num) -> Word[N])(x, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) == (word : (Num) -> Word[N])(bitval((bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x)))"),
       t1540,
     ),
   )
@@ -18392,9 +17812,7 @@ fn step_440() -> Unit raise {
   )
   word_ushr_msb_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x:N word. word_ushr x (dimindex(:N) - 1) = word 1 <=>\n               bit (dimindex(:N) - 1) x) /\\\n   (forall x:N word. word_ushr x (dimindex(:N) - 1) = word 0 <=>\n               ~bit (dimindex(:N) - 1) x) /\\\n   (forall P (x:N word).\n        (word_ushr x (dimindex(:N) - 1) = if P then word 1 else word 0) <=>\n        (bit (dimindex(:N) - 1) x <=> P)) /\\\n   (forall P (x:N word).\n        (word_ushr x (dimindex(:N) - 1) = if P then word 0 else word 1) <=>\n        (bit (dimindex(:N) - 1) x <=> ~P))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ((word_ushr : (Word[N], Num) -> Word[N])(x, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) == (word : (Num) -> Word[N])(1)) == (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x)) && (∀ x : Word[N], ((word_ushr : (Word[N], Num) -> Word[N])(x, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) == (word : (Num) -> Word[N])(0)) == !(bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x)) && (∀ P : Bool, ∀ x : Word[N], ((word_ushr : (Word[N], Num) -> Word[N])(x, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) == (if P { (word : (Num) -> Word[N])(1) } else { (word : (Num) -> Word[N])(0) })) == ((bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) == P)) && (∀ P : Bool, ∀ x : Word[N], ((word_ushr : (Word[N], Num) -> Word[N])(x, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) == (if P { (word : (Num) -> Word[N])(0) } else { (word : (Num) -> Word[N])(1) })) == ((bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) == !P))"),
       t1543,
     ),
   )
@@ -18432,9 +17850,7 @@ fn step_441() -> Unit raise {
   let t1547 = @simp.simp_tac(
     @list.List([@sets.card_image_le(), finite_bits_of_word()]),
   )
-  let t1545 = @parser.parse_term(
-    "CARD (IMAGE (\\i. n + i) (bits_of_word (x:N word)))",
-  )
+  let t1545 = @term_syntax.parse_term("CARD(IMAGE((i : Num) => (n : Num) + i, bits_of_word((x : Word[N]))))")
   let t1546 = @tactics.trans_tac(@arith.le_trans())(t1545)
   let t1544 = @simp.rewrite_tac(@list.List([word_popcount()]))
   let t1554 = @tactics.then_tac(
@@ -18473,9 +17889,7 @@ fn step_441() -> Unit raise {
   )
   word_popcount_shl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n. word_popcount(word_shl x n) <= word_popcount x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, word_popcount(word_shl(x, n)) <= word_popcount(x)"),
       t1554,
     ),
   )
@@ -18513,9 +17927,7 @@ fn step_442() -> Unit raise {
   let t1558 = @simp.simp_tac(
     @list.List([@sets.card_image_le(), finite_bits_of_word()]),
   )
-  let t1556 = @parser.parse_term(
-    "CARD (IMAGE (\\i. i - n) (bits_of_word (x:N word)))",
-  )
+  let t1556 = @term_syntax.parse_term("CARD(IMAGE((i : Num) => i - (n : Num), bits_of_word((x : Word[N]))))")
   let t1557 = @tactics.trans_tac(@arith.le_trans())(t1556)
   let t1555 = @simp.rewrite_tac(@list.List([word_popcount()]))
   let t1565 = @tactics.then_tac(
@@ -18554,9 +17966,7 @@ fn step_442() -> Unit raise {
   )
   word_popcount_ushr_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n. word_popcount(word_ushr x n) <= word_popcount x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, word_popcount(word_ushr(x, n)) <= word_popcount(x)"),
       t1565,
     ),
   )
@@ -18578,9 +17988,7 @@ pub fn word_popcount_ushr() -> @kernel.Thm {
 fn step_443() -> Unit raise {
   word_ishr_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(word_ishr:N word ->num->N word) x n = iword((ival x) div (&2 pow n))",
-      ),
+      @term_syntax.parse_term("(word_ishr : (Word[N], Num) -> Word[N])((x : Word[N]), (n : Num)) == iword(div(ival(x), pow(int_of_num(2), n)))"),
     ),
   )
 }
@@ -18603,9 +18011,7 @@ fn step_444() -> Unit raise {
   let t1571 = @tactics.match_mp_tac(@int.int_le_rmul())
   let t1570 = @tactics.match_mp_tac(
     @int.int_arith(
-      @parser.parse_term(
-        "&1 * a:int <= t * a\n    ==> --a <= x /\\ x < a ==> t * --a <= x /\\ x < t * a",
-      ),
+      @term_syntax.parse_term("int_of_num(1) * (a : Int) <= (t : Int) * a → -a <= (x : Int) && x < a → t * -a <= x && x < t * a"),
     ),
   )
   let t1569 = @tactics.mp_tac(
@@ -18637,9 +18043,7 @@ fn step_444() -> Unit raise {
   )
   ival_word_ishr_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n. ival(word_ishr x n) = (ival x) div (&2 pow n)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, ival(word_ishr(x, n)) == div(ival(x), pow(int_of_num(2), n))"),
       t1573,
     ),
   )
@@ -18679,9 +18083,7 @@ fn step_445() -> Unit raise {
   )
   word_ishr_eq_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n.\n        word_ishr x n = word 0 <=> &0 <= ival x /\\ ival x < &2 pow n",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, (word_ishr(x, n) == word(0)) == (int_of_num(0) <= ival(x) && ival(x) < pow(int_of_num(2), n))"),
       t1576,
     ),
   )
@@ -18724,9 +18126,7 @@ fn step_446() -> Unit raise {
               @simp.rewrite_tac(
                 @list.List([
                   @int.int_arith(
-                    @parser.parse_term(
-                      "-- &1:int <= x /\\ x < &1 <=> x = -- &1 \\/ x = &0",
-                    ),
+                    @term_syntax.parse_term("(-int_of_num(1) <= (x : Int) && x < int_of_num(1)) == (x == -int_of_num(1) || x == int_of_num(0))"),
                   ),
                 ]),
               ),
@@ -18759,9 +18159,7 @@ fn step_446() -> Unit raise {
     t1609,
   ])
   let t1601 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "-- &1 <= ival(w:N word) div &2 pow (i + n) /\\\n    ival(w:N word) div &2 pow (i + n) < &1",
-    ),
+    @term_syntax.parse_term("-int_of_num(1) <= div(ival((w : Word[N])), pow(int_of_num(2), (i : Num) + (n : Num))) && div(ival(w), pow(int_of_num(2), i + n)) < int_of_num(1)"),
     fn(
       x1598 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -18897,9 +18295,7 @@ fn step_446() -> Unit raise {
   let t1587 = @tactics.match_mp_tac(@int.int_pow_mono())
   let t1586 = @tactics.match_mp_tac(
     @int.int_arith(
-      @parser.parse_term(
-        "a:int <= b ==> --a <= x /\\ x < a ==> --b <= x /\\ x < b",
-      ),
+      @term_syntax.parse_term("(a : Int) <= (b : Int) → -a <= (x : Int) && x < a → -b <= x && x < b"),
     ),
   )
   let t1589 = @list.List([
@@ -18921,9 +18317,7 @@ fn step_446() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1585 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "--(&2 pow (i + n)) <= ival(w:N word) /\\ ival w < &2 pow (i + n)",
-    ),
+    @term_syntax.parse_term("-pow(int_of_num(2), (i : Num) + (n : Num)) <= ival((w : Word[N])) && ival(w) < pow(int_of_num(2), i + n)"),
     @tactics.strip_assume_tac,
   )
   let t1584 = @simp.rewrite_tac(
@@ -19001,9 +18395,7 @@ fn step_446() -> Unit raise {
   )
   bit_word_ishr_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n i.\n        bit i (word_ishr w n) <=>\n        if i + n < dimindex(:N) then bit (i + n) w\n        else i < dimindex(:N) /\\ bit (dimindex(:N) - 1) w",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Num, ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_ishr : (Word[N], Num) -> Word[N])(w, n)) == (if i + n < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) { (bit : (Num, Word[N]) -> Bool)(i + n, w) } else { i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, w) })"),
       t1611,
     ),
   )
@@ -19058,9 +18450,7 @@ fn step_447() -> Unit raise {
   )
   word_ishr_word_of_bits_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n.\n        word_ishr x n =\n        word_of_bits {i | if i < dimindex(:N) - n then bit (i + n) x\n                          else bit (dimindex(:N) - 1) x}",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, (word_ishr : (Word[N], Num) -> Word[N])(x, n) == (word_of_bits : ((Num) -> Bool) -> Word[N])({(i : Num) | if i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n { (bit : (Num, Word[N]) -> Bool)(i + n, x) } else { (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) }})"),
       t1620,
     ),
   )
@@ -19149,9 +18539,7 @@ fn step_450() -> Unit raise {
   )
   word_ishr_compose_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) m n. word_ishr (word_ishr x m) n = word_ishr x (m + n)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ m : Num, ∀ n : Num, word_ishr(word_ishr(x, m), n) == word_ishr(x, m + n)"),
       t1626,
     ),
   )
@@ -19182,9 +18570,7 @@ fn step_451() -> Unit raise {
   )
   word_ishr_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) y n. ival x = &2 pow n * y ==> word_ishr x n = iword y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Int, ∀ n : Num, ival(x) == pow(int_of_num(2), n) * y → word_ishr(x, n) == iword(y)"),
       t1627,
     ),
   )
@@ -19308,9 +18694,7 @@ fn step_452() -> Unit raise {
   )
   ival_word_ishr_shl_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n (x:N word) y.\n        ival(word_ishr (word_shl x n) n) = y <=>\n        ival(word_shl x n) = &2 pow n * y",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Word[N], ∀ y : Int, (ival(word_ishr(word_shl(x, n), n)) == y) == (ival(word_shl(x, n)) == pow(int_of_num(2), n) * y)"),
       t1639,
     ),
   )
@@ -19332,9 +18716,7 @@ pub fn ival_word_ishr_shl_unique() -> @kernel.Thm {
 fn step_453() -> Unit raise {
   word_ror_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(word_ror:N word->num->N word) w n =\n        word_of_bits {i | bit ((i + n) MOD dimindex(:N)) w}",
-      ),
+      @term_syntax.parse_term("(word_ror : (Word[N], Num) -> Word[N])((w : Word[N]), (n : Num)) == (word_of_bits : ((Num) -> Bool) -> Word[N])({(i : Num) | (bit : (Num, Word[N]) -> Bool)(MOD(i + n, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))), w)})"),
     ),
   )
 }
@@ -19353,9 +18735,7 @@ pub fn word_ror() -> @kernel.Thm {
 fn step_454() -> Unit raise {
   word_rol_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(word_rol:N word->num->N word) w n =\n        word_of_bits {i | bit (num_of_int((&i - &n) rem &(dimindex(:N)))) w}",
-      ),
+      @term_syntax.parse_term("(word_rol : (Word[N], Num) -> Word[N])((w : Word[N]), (n : Num)) == (word_of_bits : ((Num) -> Bool) -> Word[N])({(i : Num) | (bit : (Num, Word[N]) -> Bool)(num_of_int(rem(int_of_num(i) - int_of_num(n), int_of_num((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))), w)})"),
     ),
   )
 }
@@ -19375,9 +18755,7 @@ fn step_455() -> Unit raise {
   let t1663 = @simp.rewrite_tac(@list.List([@int.int_rem_mod_self()]))
   let t1662 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "(k:int == n) (mod d)\n    ==> (i + n == i - (d - k)) (mod d)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((k : Int), (n : Int), mod((d : Int))) → op_eq_eq((i : Int) + n, i - (d - k), mod(d))"),
     ),
   )
   let t1660 = @equal.gsym(@int.int_of_num_add())
@@ -19662,9 +19040,7 @@ fn step_455() -> Unit raise {
   )
   word_ror_rol_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n.\n        word_ror w n = word_rol w (dimindex(:N) - n MOD dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Num, (word_ror : (Word[N], Num) -> Word[N])(w, n) == (word_rol : (Word[N], Num) -> Word[N])(w, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - MOD(n, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t1664,
     ),
   )
@@ -19694,9 +19070,7 @@ fn step_456() -> Unit raise {
   )
   let t1688 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "(k:int == n) (mod d)\n    ==> (i - n == i + (d - k)) (mod d)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((k : Int), (n : Int), mod((d : Int))) → op_eq_eq((i : Int) - n, i + (d - k), mod(d))"),
     ),
   )
   let t1687 = @simp.simp_tac(
@@ -20014,9 +19388,7 @@ fn step_456() -> Unit raise {
   )
   word_rol_ror_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n.\n        word_rol w n = word_ror w (dimindex(:N) - n MOD dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Num, (word_rol : (Word[N], Num) -> Word[N])(w, n) == (word_ror : (Word[N], Num) -> Word[N])(w, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - MOD(n, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t1691,
     ),
   )
@@ -20039,9 +19411,7 @@ fn step_457() -> Unit raise {
   let t1699 = @simp.simp_tac(@list.List([@int.cong_v1()]))
   let t1696 = @drule.match_mp(
     @int.number_rule(
-      @parser.parse_term(
-        "(m == n) (mod d) ==> forall i:num. (i + m == i + n) (mod d)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((m : Num), (n : Num), mod((d : Num))) → (∀ i : Num, op_eq_eq(i + m, i + n, mod(d)))"),
     ),
   )
   let t1698 = @tactics.first_assum(fn(
@@ -20122,9 +19492,7 @@ fn step_457() -> Unit raise {
   )
   word_ror_periodic_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) m n.\n        (m == n) (mod dimindex(:N)) ==> word_ror w m = word_ror w n",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ m : Num, ∀ n : Num, (op_eq_eq : (Num, Num, (Num, Num) -> Bool) -> Bool)(m, n, (mod : (Num, Num, Num) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) → (word_ror : (Word[N], Num) -> Word[N])(w, m) == (word_ror : (Word[N], Num) -> Word[N])(w, n)"),
       t1700,
     ),
   )
@@ -20156,9 +19524,7 @@ fn step_458() -> Unit raise {
   )
   word_ror_mod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n. word_ror w n = word_ror w (n MOD dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Num, (word_ror : (Word[N], Num) -> Word[N])(w, n) == (word_ror : (Word[N], Num) -> Word[N])(w, MOD(n, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t1704,
     ),
   )
@@ -20225,9 +19591,7 @@ fn step_459() -> Unit raise {
   )
   word_ror_eq_self_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n. dimindex(:N) divides n ==> word_ror w n = w",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Num, (divides : (Num, Num) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), n) → (word_ror : (Word[N], Num) -> Word[N])(w, n) == w"),
       t1713,
     ),
   )
@@ -20275,9 +19639,7 @@ fn step_461() -> Unit raise {
   let t1716 = @simp.simp_tac(@list.List([@int.cong_v1(), word_rol_ror_gen()]))
   word_rol_periodic_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) m n.\n        (m == n) (mod dimindex(:N)) ==> word_rol w m = word_rol w n",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ m : Num, ∀ n : Num, (op_eq_eq : (Num, Num, (Num, Num) -> Bool) -> Bool)(m, n, (mod : (Num, Num, Num) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) → (word_rol : (Word[N], Num) -> Word[N])(w, m) == (word_rol : (Word[N], Num) -> Word[N])(w, n)"),
       t1716,
     ),
   )
@@ -20309,9 +19671,7 @@ fn step_462() -> Unit raise {
   )
   word_rol_mod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n. word_rol w n = word_rol w (n MOD dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Num, (word_rol : (Word[N], Num) -> Word[N])(w, n) == (word_rol : (Word[N], Num) -> Word[N])(w, MOD(n, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t1720,
     ),
   )
@@ -20358,9 +19718,7 @@ fn step_463() -> Unit raise {
   )
   word_rol_eq_self_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n. dimindex(:N) divides n ==> word_rol w n = w",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Num, (divides : (Num, Num) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), n) → (word_rol : (Word[N], Num) -> Word[N])(w, n) == w"),
       t1726,
     ),
   )
@@ -20432,9 +19790,7 @@ fn step_465() -> Unit raise {
   )
   word_ror_rol_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n.\n        n <= dimindex(:N) ==> word_ror w n = word_rol w (dimindex(:N) - n)",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Num, n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_ror : (Word[N], Num) -> Word[N])(w, n) == (word_rol : (Word[N], Num) -> Word[N])(w, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n)"),
       t1733,
     ),
   )
@@ -20479,9 +19835,7 @@ fn step_466() -> Unit raise {
   )
   word_rol_ror_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n.\n        n <= dimindex(:N) ==> word_rol w n = word_ror w (dimindex(:N) - n)",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Num, n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_rol : (Word[N], Num) -> Word[N])(w, n) == (word_ror : (Word[N], Num) -> Word[N])(w, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n)"),
       t1738,
     ),
   )
@@ -20569,9 +19923,7 @@ fn step_467() -> Unit raise {
   )
   word_ror_shifts_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n.\n        n <= dimindex(:N)\n        ==> word_ror w n =\n            word_or (word_ushr w n) (word_shl w (dimindex(:N) - n))",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Num, n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_ror : (Word[N], Num) -> Word[N])(w, n) == (word_or : (Word[N], Word[N]) -> Word[N])((word_ushr : (Word[N], Num) -> Word[N])(w, n), (word_shl : (Word[N], Num) -> Word[N])(w, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n))"),
       t1751,
     ),
   )
@@ -20618,9 +19970,7 @@ fn step_468() -> Unit raise {
   )
   word_rol_shifts_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n.\n        n <= dimindex(:N)\n        ==> word_rol w n =\n            word_or (word_shl w n) (word_ushr w (dimindex(:N) - n))",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Num, n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_rol : (Word[N], Num) -> Word[N])(w, n) == (word_or : (Word[N], Word[N]) -> Word[N])((word_shl : (Word[N], Num) -> Word[N])(w, n), (word_ushr : (Word[N], Num) -> Word[N])(w, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n))"),
       t1756,
     ),
   )
@@ -20711,9 +20061,7 @@ fn step_469() -> Unit raise {
   )
   bit_word_ror_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n i.\n        bit i (word_ror w n) =\n        if i + n MOD dimindex(:N) < dimindex(:N)\n        then bit (i + n MOD dimindex(:N)) w\n        else i < dimindex(:N) /\\\n             bit ((i + n MOD dimindex(:N)) - dimindex(:N)) w",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Num, ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_ror : (Word[N], Num) -> Word[N])(w, n)) == (if i + MOD(n, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) { (bit : (Num, Word[N]) -> Bool)(i + MOD(n, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))), w) } else { i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(i + MOD(n, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), w) })"),
       t1768,
     ),
   )
@@ -20797,9 +20145,7 @@ fn step_470() -> Unit raise {
   )
   bit_word_rol_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) n i.\n        bit i (word_rol w n) =\n        if i < n MOD dimindex(:N)\n        then bit (i + (dimindex(:N) - n MOD dimindex(:N))) w\n        else i < dimindex(:N) /\\ bit (i - n MOD dimindex(:N)) w",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ n : Num, ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_rol : (Word[N], Num) -> Word[N])(w, n)) == (if i < MOD(n, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) { (bit : (Num, Word[N]) -> Bool)(i + ((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - MOD(n, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), w) } else { i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(i - MOD(n, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))), w) })"),
       t1781,
     ),
   )
@@ -20836,9 +20182,7 @@ fn step_471() -> Unit raise {
   )
   word_ror_compose_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) m n. word_ror (word_ror x m) n = word_ror x (m + n)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ m : Num, ∀ n : Num, word_ror(word_ror(x, m), n) == word_ror(x, m + n)"),
       t1785,
     ),
   )
@@ -20869,9 +20213,7 @@ fn step_472() -> Unit raise {
   let t1790 = @simp.rewrite_tac(
     @list.List([
       @int.integer_rule(
-        @parser.parse_term(
-          "((n - a) + (n - b):int == (n - c)) (mod n) <=> (a + b == c) (mod n)",
-        ),
+        @term_syntax.parse_term("op_eq_eq((n : Int) - (a : Int) + (n - (b : Int)), n - (c : Int), mod(n)) == op_eq_eq(a + b, c, mod(n))"),
       ),
     ]),
   )
@@ -20917,9 +20259,7 @@ fn step_472() -> Unit raise {
   )
   word_rol_compose_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) m n. word_rol (word_rol x m) n = word_rol x (m + n)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ m : Num, ∀ n : Num, word_rol(word_rol(x, m), n) == word_rol(x, m + n)"),
       t1793,
     ),
   )
@@ -21314,9 +20654,7 @@ fn step_473() -> Unit raise {
   )
   val_word_ror_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) k.\n     k <= dimindex(:N)\n     ==> val(word_ror w k) =\n         2 EXP (dimindex(:N) - k) * val w MOD 2 EXP k + val w DIV 2 EXP k",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ k : Num, k <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (val : (Word[N]) -> Num)((word_ror : (Word[N], Num) -> Word[N])(w, k)) == EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - k) * MOD((val : (Word[N]) -> Num)(w), EXP(2, k)) + DIV((val : (Word[N]) -> Num)(w), EXP(2, k))"),
       t1825,
     ),
   )
@@ -21355,9 +20693,7 @@ fn step_474() -> Unit raise {
   )
   val_word_rol_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) k.\n        k <= dimindex(:N)\n        ==> val(word_rol w k) =\n            2 EXP k * val w MOD 2 EXP (dimindex(:N) - k) +\n            val w DIV 2 EXP (dimindex(:N) - k)",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ k : Num, k <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (val : (Word[N]) -> Num)((word_rol : (Word[N], Num) -> Word[N])(w, k)) == EXP(2, k) * MOD((val : (Word[N]) -> Num)(w), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - k)) + DIV((val : (Word[N]) -> Num)(w), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - k))"),
       t1829,
     ),
   )
@@ -21695,9 +21031,7 @@ fn step_491() -> Unit raise {
     t1839,
   )
   let val_word_add_rem = @tactics.prove(
-    @parser.parse_term(
-      "forall x y:N word.\n          &(val(word_add x y)) rem (&2 pow dimindex(:N)) =\n          ((&(val x) rem (&2 pow dimindex(:N))) +\n           (&(val y) rem (&2 pow dimindex(:N)))) rem (&2 pow dimindex(:N))",
-    ),
+    @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], rem(int_of_num((val : (Word[N]) -> Num)((word_add : (Word[N], Word[N]) -> Word[N])(x, y))), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(rem(int_of_num((val : (Word[N]) -> Num)(x)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) + rem(int_of_num((val : (Word[N]) -> Num)(y)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t1840,
   )
   let t1842 = @simp.rewrite_tac(@list.List([]))
@@ -21716,9 +21050,7 @@ fn step_491() -> Unit raise {
     t1842,
   )
   let val_word_sub_rem = @tactics.prove(
-    @parser.parse_term(
-      "forall x y:N word.\n          &(val(word_sub x y)) rem (&2 pow dimindex(:N)) =\n          ((&(val x) rem (&2 pow dimindex(:N))) -\n           (&(val y) rem (&2 pow dimindex(:N)))) rem (&2 pow dimindex(:N))",
-    ),
+    @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], rem(int_of_num((val : (Word[N]) -> Num)((word_sub : (Word[N], Word[N]) -> Word[N])(x, y))), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(rem(int_of_num((val : (Word[N]) -> Num)(x)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) - rem(int_of_num((val : (Word[N]) -> Num)(y)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t1843,
   )
   let t1845 = @simp.rewrite_tac(@list.List([]))
@@ -21737,9 +21069,7 @@ fn step_491() -> Unit raise {
     t1845,
   )
   let val_word_neg_rem = @tactics.prove(
-    @parser.parse_term(
-      "forall x:N word.\n          &(val(word_neg x)) rem (&2 pow dimindex(:N)) =\n          (--(&(val x) rem (&2 pow dimindex(:N)))) rem (&2 pow dimindex(:N))",
-    ),
+    @term_syntax.parse_term("∀ x : Word[N], rem(int_of_num((val : (Word[N]) -> Num)((word_neg : (Word[N]) -> Word[N])(x))), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(-rem(int_of_num((val : (Word[N]) -> Num)(x)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t1846,
   )
   let t1849 = @tactics.conv_tac(@int.integer_rule)
@@ -21756,9 +21086,7 @@ fn step_491() -> Unit raise {
     t1849,
   )
   let val_word_not_rem = @tactics.prove(
-    @parser.parse_term(
-      "forall x:N word.\n          &(val(word_not x)) rem (&2 pow dimindex(:N)) =\n          (--(&(val x) rem (&2 pow dimindex(:N)) + &1))\n          rem (&2 pow dimindex(:N))",
-    ),
+    @term_syntax.parse_term("∀ x : Word[N], rem(int_of_num((val : (Word[N]) -> Num)((word_not : (Word[N]) -> Word[N])(x))), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(-(rem(int_of_num((val : (Word[N]) -> Num)(x)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) + int_of_num(1)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t1850,
   )
   let t1852 = @simp.rewrite_tac(@list.List([]))
@@ -21777,18 +21105,14 @@ fn step_491() -> Unit raise {
     t1852,
   )
   let val_word_mul_rem = @tactics.prove(
-    @parser.parse_term(
-      "forall x y:N word.\n          &(val(word_mul x y)) rem (&2 pow dimindex(:N)) =\n          ((&(val x) rem (&2 pow dimindex(:N))) *\n           (&(val y) rem (&2 pow dimindex(:N)))) rem (&2 pow dimindex(:N))",
-    ),
+    @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], rem(int_of_num((val : (Word[N]) -> Num)((word_mul : (Word[N], Word[N]) -> Word[N])(x, y))), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(rem(int_of_num((val : (Word[N]) -> Num)(x)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) * rem(int_of_num((val : (Word[N]) -> Num)(y)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t1853,
   )
   let t1854 = @simp.rewrite_tac(
     @list.List([@int.int_rem_eq(), val_iword_cong()]),
   )
   let val_iword_rem = @tactics.prove(
-    @parser.parse_term(
-      "forall x. &(val(iword x:N word)) rem (&2 pow dimindex(:N)) =\n         x rem (&2 pow dimindex(:N))",
-    ),
+    @term_syntax.parse_term("∀ x : Int, rem(int_of_num((val : (Word[N]) -> Num)((iword : (Int) -> Word[N])(x))), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(x, pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t1854,
   )
   let t1855 = @simp.rewrite_tac(@list.List([@arith.mod_mod_refl()]))
@@ -21799,9 +21123,7 @@ fn step_491() -> Unit raise {
     t1855,
   )
   let val_word_rem = @tactics.prove(
-    @parser.parse_term(
-      "forall n. &(val(word n:N word)) rem (&2 pow dimindex(:N)) =\n         &n rem (&2 pow dimindex(:N))",
-    ),
+    @term_syntax.parse_term("∀ n : Num, rem(int_of_num((val : (Word[N]) -> Num)((word : (Num) -> Word[N])(n))), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(int_of_num(n), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t1856,
   )
   let t1859 = @simp.rewrite_tac(@list.List([]))
@@ -21820,9 +21142,7 @@ fn step_491() -> Unit raise {
     t1859,
   )
   let val_word_shl_rem = @tactics.prove(
-    @parser.parse_term(
-      "forall(x:N word) n.\n      &(val(word_shl x n)) rem (&2 pow dimindex(:N)) =\n      (&2 pow n * &(val x) rem (&2 pow dimindex(:N)))\n      rem (&2 pow dimindex(:N))",
-    ),
+    @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, rem(int_of_num((val : (Word[N]) -> Num)((word_shl : (Word[N], Num) -> Word[N])(x, n))), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem((pow : (Int, Num) -> Int)(int_of_num(2), n) * rem(int_of_num((val : (Word[N]) -> Num)(x)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t1860,
   )
   let t1863 = @simp.rewrite_tac(@list.List([]))
@@ -21836,9 +21156,7 @@ fn step_491() -> Unit raise {
     t1863,
   )
   let int_of_numop_rem = @tactics.prove(
-    @parser.parse_term(
-      "&(x + y) rem (&2 pow dimindex(:N)) =\n     (&x rem (&2 pow dimindex(:N)) +\n      &y rem (&2 pow dimindex(:N))) rem (&2 pow dimindex(:N)) /\\\n     &(x * y) rem (&2 pow dimindex(:N)) =\n     (&x rem (&2 pow dimindex(:N)) *\n      &y rem (&2 pow dimindex(:N))) rem (&2 pow dimindex(:N))",
-    ),
+    @term_syntax.parse_term("rem(int_of_num((x : Num) + (y : Num)), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(rem(int_of_num(x), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) + rem(int_of_num(y), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) && rem(int_of_num(x * y), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(rem(int_of_num(x), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) * rem(int_of_num(y), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t1864,
   )
   let t1865 = @simp.rewrite_tac(@list.List([]))
@@ -21847,9 +21165,7 @@ fn step_491() -> Unit raise {
     t1865,
   )
   let int_of_intop_rem = @tactics.prove(
-    @parser.parse_term(
-      "(x + y) rem (&2 pow dimindex(:N)) =\n     (x rem (&2 pow dimindex(:N)) +\n      y rem (&2 pow dimindex(:N))) rem (&2 pow dimindex(:N)) /\\\n     (x - y) rem (&2 pow dimindex(:N)) =\n     (x rem (&2 pow dimindex(:N)) -\n      y rem (&2 pow dimindex(:N))) rem (&2 pow dimindex(:N)) /\\\n     (x * y) rem (&2 pow dimindex(:N)) =\n     (x rem (&2 pow dimindex(:N)) *\n      y rem (&2 pow dimindex(:N))) rem (&2 pow dimindex(:N))",
-    ),
+    @term_syntax.parse_term("rem((x : Int) + (y : Int), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(rem(x, pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) + rem(y, pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) && rem(x - y, pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(rem(x, pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) - rem(y, pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) && rem(x * y, pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(rem(x, pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) * rem(y, pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t1866,
   )
   let t1867 = @simp.rewrite_tac(@list.List([]))
@@ -21858,9 +21174,7 @@ fn step_491() -> Unit raise {
     t1867,
   )
   let int_of_neg_rem = @tactics.prove(
-    @parser.parse_term(
-      "(--x) rem (&2 pow dimindex(:N)) =\n     (--(x rem (&2 pow dimindex(:N)))) rem (&2 pow dimindex(:N))",
-    ),
+    @term_syntax.parse_term("rem(-(x : Int), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(-rem(x, pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t1868,
   )
   let t1869 = @simp.rewrite_tac(@list.List([]))
@@ -21869,18 +21183,14 @@ fn step_491() -> Unit raise {
     t1869,
   )
   let int_rem_rem_refl = @tactics.prove(
-    @parser.parse_term(
-      "(x rem (&2 pow dimindex(:N))) rem (&2 pow dimindex(:N)) =\n     x rem (&2 pow dimindex(:N))",
-    ),
+    @term_syntax.parse_term("rem(rem((x : Int), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(x, pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t1870,
   )
   let t1871 = @simp.rewrite_tac(
     @list.List([@int.int_rem_eq(), ival_val_cong()]),
   )
   let ival_val_rem = @tactics.prove(
-    @parser.parse_term(
-      "forall x:N word. ival x rem (&2 pow dimindex(:N)) =\n                &(val x) rem (&2 pow dimindex(:N))",
-    ),
+    @term_syntax.parse_term("∀ x : Word[N], rem((ival : (Word[N]) -> Int)(x), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(int_of_num((val : (Word[N]) -> Num)(x)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t1871,
   )
   let t1878 = @simp.rewrite_tac(@list.List([]))
@@ -21919,9 +21229,7 @@ fn step_491() -> Unit raise {
     t1878,
   )
   let topth = @tactics.prove(
-    @parser.parse_term(
-      "(forall v w:N word.\n          v = w <=>\n          &(val v) rem (&2 pow dimindex(:N)) =\n          &(val w) rem (&2 pow dimindex(:N))) /\\\n     (forall(v:N word) (w:N word).\n          val v = val w <=>\n          &(val v) rem (&2 pow dimindex(:N)) =\n          &(val w) rem (&2 pow dimindex(:N))) /\\\n     (forall(v:N word) (w:N word).\n          val v MOD 2 EXP dimindex(:N) = val w MOD 2 EXP dimindex(:N) <=>\n          &(val v) rem (&2 pow dimindex(:N)) =\n          &(val w) rem (&2 pow dimindex(:N))) /\\\n     (forall(v:N word) (w:N word).\n          (val v == val w) (mod (2 EXP dimindex(:N))) <=>\n          &(val v) rem (&2 pow dimindex(:N)) =\n          &(val w) rem (&2 pow dimindex(:N))) /\\\n     (forall(v:N word) (w:N word).\n          &(val v):int = &(val w) <=>\n          &(val v) rem (&2 pow dimindex(:N)) =\n          &(val w) rem (&2 pow dimindex(:N))) /\\\n     (forall(v:N word) (w:N word).\n          &(val v) rem (&2 pow dimindex(:N)) =\n          &(val w) rem (&2 pow dimindex(:N)) <=>\n          &(val v) rem (&2 pow dimindex(:N)) =\n          &(val w) rem (&2 pow dimindex(:N))) /\\\n     (forall(v:N word) (w:N word).\n          (&(val v):int == &(val w)) (mod (&2 pow dimindex(:N))) <=>\n          &(val v) rem (&2 pow dimindex(:N)) =\n          &(val w) rem (&2 pow dimindex(:N))) /\\\n     (forall(v:N word) (w:N word).\n          ival v = ival w <=>\n          &(val v) rem (&2 pow dimindex(:N)) =\n          &(val w) rem (&2 pow dimindex(:N))) /\\\n     (forall(v:N word) (w:N word).\n          ival v rem (&2 pow dimindex(:N)) =\n          ival w rem (&2 pow dimindex(:N)) <=>\n          &(val v) rem (&2 pow dimindex(:N)) =\n          &(val w) rem (&2 pow dimindex(:N))) /\\\n     (forall(v:N word) (w:N word).\n          (ival v == ival w) (mod (&2 pow dimindex(:N))) <=>\n          &(val v) rem (&2 pow dimindex(:N)) =\n          &(val w) rem (&2 pow dimindex(:N)))",
-    ),
+    @term_syntax.parse_term("(∀ v : Word[N], ∀ w : Word[N], (v == w) == (rem(int_of_num((val : (Word[N]) -> Num)(v)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(int_of_num((val : (Word[N]) -> Num)(w)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))) && (∀ v : Word[N], ∀ w : Word[N], ((val : (Word[N]) -> Num)(v) == (val : (Word[N]) -> Num)(w)) == (rem(int_of_num((val : (Word[N]) -> Num)(v)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(int_of_num((val : (Word[N]) -> Num)(w)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))) && (∀ v : Word[N], ∀ w : Word[N], (MOD((val : (Word[N]) -> Num)(v), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == MOD((val : (Word[N]) -> Num)(w), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) == (rem(int_of_num((val : (Word[N]) -> Num)(v)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(int_of_num((val : (Word[N]) -> Num)(w)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))) && (∀ v : Word[N], ∀ w : Word[N], (op_eq_eq : (Num, Num, (Num, Num) -> Bool) -> Bool)((val : (Word[N]) -> Num)(v), (val : (Word[N]) -> Num)(w), (mod : (Num, Num, Num) -> Bool)(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) == (rem(int_of_num((val : (Word[N]) -> Num)(v)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(int_of_num((val : (Word[N]) -> Num)(w)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))) && (∀ v : Word[N], ∀ w : Word[N], (int_of_num((val : (Word[N]) -> Num)(v)) == int_of_num((val : (Word[N]) -> Num)(w))) == (rem(int_of_num((val : (Word[N]) -> Num)(v)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(int_of_num((val : (Word[N]) -> Num)(w)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))) && (∀ v : Word[N], ∀ w : Word[N], (rem(int_of_num((val : (Word[N]) -> Num)(v)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(int_of_num((val : (Word[N]) -> Num)(w)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) == (rem(int_of_num((val : (Word[N]) -> Num)(v)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(int_of_num((val : (Word[N]) -> Num)(w)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))) && (∀ v : Word[N], ∀ w : Word[N], (op_eq_eq : (Int, Int, (Int, Int) -> Bool) -> Bool)(int_of_num((val : (Word[N]) -> Num)(v)), int_of_num((val : (Word[N]) -> Num)(w)), (mod : (Int, Int, Int) -> Bool)((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) == (rem(int_of_num((val : (Word[N]) -> Num)(v)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(int_of_num((val : (Word[N]) -> Num)(w)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))) && (∀ v : Word[N], ∀ w : Word[N], ((ival : (Word[N]) -> Int)(v) == (ival : (Word[N]) -> Int)(w)) == (rem(int_of_num((val : (Word[N]) -> Num)(v)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(int_of_num((val : (Word[N]) -> Num)(w)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))) && (∀ v : Word[N], ∀ w : Word[N], (rem((ival : (Word[N]) -> Int)(v), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem((ival : (Word[N]) -> Int)(w), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) == (rem(int_of_num((val : (Word[N]) -> Num)(v)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(int_of_num((val : (Word[N]) -> Num)(w)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))) && (∀ v : Word[N], ∀ w : Word[N], (op_eq_eq : (Int, Int, (Int, Int) -> Bool) -> Bool)((ival : (Word[N]) -> Int)(v), (ival : (Word[N]) -> Int)(w), (mod : (Int, Int, Int) -> Bool)((pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) == (rem(int_of_num((val : (Word[N]) -> Num)(v)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == rem(int_of_num((val : (Word[N]) -> Num)(w)), (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))))"),
     t1879,
   )
   let conv_special : (@kernel.Term) -> @kernel.Thm raise = @simp.gen_rewrite_conv(
@@ -22048,9 +21356,7 @@ fn step_492() -> Unit raise {
     t1896,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "forall k. (x == &0) (mod (&2 pow dimindex(:N))) <=>\n         (--k * &(val(word_not(word 0:N word))) + (x - k):int == &0)\n         (mod (&2 pow dimindex(:N)))",
-    ),
+    @term_syntax.parse_term("∀ k : Int, op_eq_eq((x : Int), int_of_num(0), mod(pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) == op_eq_eq(-k * int_of_num((val : (Word[N]) -> Num)((word_not : (Word[N]) -> Word[N])((word : (Num) -> Word[N])(0)))) + (x - k), int_of_num(0), mod(pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
     t1897,
   )
   let t1935 = @simp.rewrite_tac(@list.List([]))
@@ -22211,9 +21517,7 @@ fn step_492() -> Unit raise {
                 },
                 @list.List([
                   @int.integer_rule(
-                    @parser.parse_term(
-                      "(x:int == y) (mod n) <=> (x - y == &0) (mod n)",
-                    ),
+                    @term_syntax.parse_term("op_eq_eq((x : Int), (y : Int), mod((n : Int))) == op_eq_eq(x - y, int_of_num(0), mod(n))"),
                   ),
                 ]),
               ),
@@ -22501,9 +21805,7 @@ fn step_493() -> Unit raise {
   let t1961 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([]),
-      @parser.parse_term(
-        "(forall i. i < dimindex(:N) ==> (P i <=> Q i))\n        ==> ((forall i. i < dimindex(:N) ==> P i) <=>\n             (forall i. i < dimindex(:N) ==> Q i))",
-      ),
+      @term_syntax.parse_term("(∀ i : Num, i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (P : (Num) -> Bool)(i) == (Q : (Num) -> Bool)(i)) → (∀ i : Num, i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → P(i)) == (∀ i : Num, i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → Q(i))"),
     ),
   )
   let t1962 = @tactics.try_tac(
@@ -22511,9 +21813,7 @@ fn step_493() -> Unit raise {
       @tactics.match_mp_tac(
         @meson.meson(
           @list.List([]),
-          @parser.parse_term(
-            "(forall i. i < dimindex(:N) ==> P i ==> Q i)\n        ==> (forall i. i < dimindex(:N) ==> P i)\n             ==> (forall i. i < dimindex(:N) ==> Q i)",
-          ),
+          @term_syntax.parse_term("(∀ i : Num, i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (P : (Num) -> Bool)(i) → (Q : (Num) -> Bool)(i)) → (∀ i : Num, i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → P(i)) → (∀ i : Num, i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → Q(i))"),
         ),
       ),
       t1961,
@@ -22529,9 +21829,7 @@ fn step_493() -> Unit raise {
     @list.List([
       @meson.meson(
         @list.List([]),
-        @parser.parse_term(
-          "(forall i. i < dimindex(:N) ==> P i) /\\\n             (forall i. i < dimindex(:N) ==> Q i) <=>\n             (forall i. i < dimindex(:N) ==> P i /\\ Q i)",
-        ),
+        @term_syntax.parse_term("((∀ i : Num, i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (P : (Num) -> Bool)(i)) && (∀ i : Num, i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (Q : (Num) -> Bool)(i))) == (∀ i : Num, i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → P(i) && Q(i))"),
       ),
     ]),
   )
@@ -23015,9 +22313,7 @@ fn step_498() -> Unit raise {
     t2005,
   )
   let pth_mod = @tactics.prove(
-    @parser.parse_term(
-      "forall(x:N word) k.\n           val x MOD 2 EXP k =\n           if k = 0 then 0\n           else nsum (0..k-1) (\\i. 2 EXP i * bitval(bit i x))",
-    ),
+    @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, MOD(val(x), EXP(2, k)) == (if k == 0 { 0 } else { nsum(op_dot_dot(0, k - 1), (i : Num) => EXP(2, i) * bitval(bit(i, x))) })"),
     t2006,
   )
   let t2009 = @simp.simp_tac(
@@ -23044,9 +22340,7 @@ fn step_498() -> Unit raise {
     t2009,
   )
   let pth_div = @tactics.prove(
-    @parser.parse_term(
-      "forall(x:N word) k.\n           val x DIV 2 EXP k =\n           nsum (k..dimindex(:N)-1) (\\i. 2 EXP (i - k) * bitval(bit i x))",
-    ),
+    @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, DIV((val : (Word[N]) -> Num)(x), EXP(2, k)) == (nsum : ((Num) -> Bool, (Num) -> Num) -> Num)(op_dot_dot(k, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1), (i : Num) => EXP(2, i - k) * bitval((bit : (Num, Word[N]) -> Bool)(i, x)))"),
     t2010,
   )
   let t2011 = @equal.land_conv(
@@ -23162,9 +22456,7 @@ fn step_500() -> Unit raise {
   )
   val_word_zx_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. val((word_zx:(M)word->(N)word) x) = val x MOD 2 EXP dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], (val : (Word[N]) -> Num)((word_zx : (Word[M]) -> Word[N])(x)) == MOD(val(x), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t2021,
     ),
   )
@@ -23205,9 +22497,7 @@ fn step_501() -> Unit raise {
   )
   val_word_zx_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. dimindex(:M) <= dimindex(:N)\n       ==> val((word_zx:(M)word->(N)word) x) = val x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (val : (Word[N]) -> Num)((word_zx : (Word[M]) -> Word[N])(x)) == (val : (Word[M]) -> Num)(x)"),
       t2028,
     ),
   )
@@ -23245,9 +22535,7 @@ fn step_502() -> Unit raise {
   )
   word_zx_zx_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. dimindex(:M) <= dimindex(:N)\n       ==> (word_zx:N word->M word) ((word_zx:M word->N word) x) = x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_zx : (Word[N]) -> Word[M])((word_zx : (Word[M]) -> Word[N])(x)) == x"),
       t2032,
     ),
   )
@@ -23320,9 +22608,7 @@ fn step_505() -> Unit raise {
   )
   word_zx_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. (word_zx:M word->N word) (word n) = word (n MOD 2 EXP dimindex(:M))",
-      ),
+      @term_syntax.parse_term("∀ n : Num, (word_zx : (Word[M]) -> Word[N])((word : (Num) -> Word[M])(n)) == (word : (Num) -> Word[N])(MOD(n, EXP(2, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)))))"),
       t2035,
     ),
   )
@@ -23354,9 +22640,7 @@ fn step_506() -> Unit raise {
   )
   word_zx_word_simple_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. dimindex(:N) <= dimindex(:M)\n       ==> word_zx(word n:M word):N word = word n",
-      ),
+      @term_syntax.parse_term("∀ n : Num, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) → (word_zx : (Word[M]) -> Word[N])((word : (Num) -> Word[M])(n)) == (word : (Num) -> Word[N])(n)"),
       t2037,
     ),
   )
@@ -23436,9 +22720,7 @@ fn step_508() -> Unit raise {
   )
   word_zx_bitval_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b. (word_zx:M word->N word) (word(bitval b)) = word(bitval b)",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, (word_zx : (Word[M]) -> Word[N])((word : (Num) -> Word[M])(bitval(b))) == (word : (Num) -> Word[N])(bitval(b))"),
       t2041,
     ),
   )
@@ -23552,9 +22834,7 @@ fn step_509() -> Unit raise {
   )
   bit_word_zx_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x i. bit i ((word_zx:M word->N word) x) <=>\n         i < dimindex(:N) /\\ bit i x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_zx : (Word[M]) -> Word[N])(x)) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && bit(i, x))"),
       t2053,
     ),
   )
@@ -23585,9 +22865,7 @@ fn step_510() -> Unit raise {
   )
   word_zx_and_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) (y:M word).\n        word_zx(word_and x y):N word =\n        word_and (word_zx x) (word_zx y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[M], (word_zx : (Word[M]) -> Word[N])(word_and(x, y)) == (word_and : (Word[N], Word[N]) -> Word[N])((word_zx : (Word[M]) -> Word[N])(x), (word_zx : (Word[M]) -> Word[N])(y))"),
       t2056,
     ),
   )
@@ -23618,9 +22896,7 @@ fn step_511() -> Unit raise {
   )
   word_zx_or_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) (y:M word).\n        word_zx(word_or x y):N word =\n        word_or (word_zx x) (word_zx y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[M], (word_zx : (Word[M]) -> Word[N])(word_or(x, y)) == (word_or : (Word[N], Word[N]) -> Word[N])((word_zx : (Word[M]) -> Word[N])(x), (word_zx : (Word[M]) -> Word[N])(y))"),
       t2059,
     ),
   )
@@ -23651,9 +22927,7 @@ fn step_512() -> Unit raise {
   )
   word_zx_xor_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) (y:M word).\n        word_zx(word_xor x y):N word =\n        word_xor (word_zx x) (word_zx y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[M], (word_zx : (Word[M]) -> Word[N])(word_xor(x, y)) == (word_xor : (Word[N], Word[N]) -> Word[N])((word_zx : (Word[M]) -> Word[N])(x), (word_zx : (Word[M]) -> Word[N])(y))"),
       t2062,
     ),
   )
@@ -23692,9 +22966,7 @@ fn step_513() -> Unit raise {
   )
   word_zx_not_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:M word.\n        dimindex(:N) <= dimindex(:M)\n        ==> word_zx(word_not x):N word = word_not(word_zx x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) → (word_zx : (Word[M]) -> Word[N])((word_not : (Word[M]) -> Word[M])(x)) == (word_not : (Word[N]) -> Word[N])((word_zx : (Word[M]) -> Word[N])(x))"),
       t2067,
     ),
   )
@@ -23736,9 +23008,7 @@ fn step_514() -> Unit raise {
   )
   word_zx_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) (y:M word).\n        dimindex(:N) <= dimindex(:M)\n        ==> word_zx(word_add x y):N word =\n            word_add (word_zx x) (word_zx y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[M], (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) → (word_zx : (Word[M]) -> Word[N])((word_add : (Word[M], Word[M]) -> Word[M])(x, y)) == (word_add : (Word[N], Word[N]) -> Word[N])((word_zx : (Word[M]) -> Word[N])(x), (word_zx : (Word[M]) -> Word[N])(y))"),
       t2071,
     ),
   )
@@ -23780,9 +23050,7 @@ fn step_515() -> Unit raise {
   )
   word_zx_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) (y:M word).\n        dimindex(:N) <= dimindex(:M)\n        ==> word_zx(word_mul x y):N word =\n            word_mul (word_zx x) (word_zx y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[M], (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) → (word_zx : (Word[M]) -> Word[N])((word_mul : (Word[M], Word[M]) -> Word[M])(x, y)) == (word_mul : (Word[N], Word[N]) -> Word[N])((word_zx : (Word[M]) -> Word[N])(x), (word_zx : (Word[M]) -> Word[N])(y))"),
       t2075,
     ),
   )
@@ -23805,9 +23073,7 @@ fn step_516() -> Unit raise {
   )
   word_zx_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:M word.\n        dimindex(:N) <= dimindex(:M)\n        ==> word_zx(word_neg x):N word = word_neg(word_zx x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) → (word_zx : (Word[M]) -> Word[N])((word_neg : (Word[M]) -> Word[M])(x)) == (word_neg : (Word[N]) -> Word[N])((word_zx : (Word[M]) -> Word[N])(x))"),
       t2076,
     ),
   )
@@ -23836,9 +23102,7 @@ fn step_517() -> Unit raise {
   )
   word_zx_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) (y:M word).\n        dimindex(:N) <= dimindex(:M)\n        ==> word_zx(word_sub x y):N word =\n            word_sub (word_zx x) (word_zx y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[M], (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) → (word_zx : (Word[M]) -> Word[N])((word_sub : (Word[M], Word[M]) -> Word[M])(x, y)) == (word_sub : (Word[N], Word[N]) -> Word[N])((word_zx : (Word[M]) -> Word[N])(x), (word_zx : (Word[M]) -> Word[N])(y))"),
       t2078,
     ),
   )
@@ -23880,9 +23144,7 @@ fn step_518() -> Unit raise {
   )
   word_zx_shl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) n.\n        dimindex(:N) <= dimindex(:M)\n        ==> word_zx(word_shl x n):N word =\n            word_shl (word_zx x) n",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ n : Num, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) → (word_zx : (Word[M]) -> Word[N])((word_shl : (Word[M], Num) -> Word[M])(x, n)) == (word_shl : (Word[N], Num) -> Word[N])((word_zx : (Word[M]) -> Word[N])(x), n)"),
       t2082,
     ),
   )
@@ -23923,9 +23185,7 @@ fn step_520() -> Unit raise {
   let t2087 = @tactics.match_mp_tac(@int.int_pow_mono())
   let t2086 = @tactics.match_mp_tac(
     @int.int_arith(
-      @parser.parse_term(
-        "m:int <= n ==> --m <= x /\\ x < m ==> --n <= x /\\ x < n",
-      ),
+      @term_syntax.parse_term("(m : Int) <= (n : Int) → -m <= (x : Int) && x < m → -n <= x && x < n"),
     ),
   )
   let t2085 = @tactics.mp_tac(
@@ -23954,9 +23214,7 @@ fn step_520() -> Unit raise {
   )
   ival_word_sx_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. dimindex(:M) <= dimindex(:N)\n       ==> ival((word_sx:(M)word->(N)word) x) = ival x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (ival : (Word[N]) -> Int)((word_sx : (Word[M]) -> Word[N])(x)) == (ival : (Word[M]) -> Int)(x)"),
       t2089,
     ),
   )
@@ -23986,9 +23244,7 @@ fn step_521() -> Unit raise {
   )
   word_sx_sx_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. dimindex(:M) <= dimindex(:N)\n       ==> (word_sx:N word->M word) ((word_sx:M word->N word) x) = x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_sx : (Word[N]) -> Word[M])((word_sx : (Word[M]) -> Word[N])(x)) == x"),
       t2093,
     ),
   )
@@ -24147,9 +23403,7 @@ fn step_524() -> Unit raise {
   )
   word_sx_zx_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. dimindex(:N) <= dimindex(:M)\n       ==> (word_sx:M word->N word) x = word_zx x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) → (word_sx : (Word[M]) -> Word[N])(x) == (word_zx : (Word[M]) -> Word[N])(x)"),
       t2108,
     ),
   )
@@ -24169,9 +23423,7 @@ pub fn word_sx_zx() -> @kernel.Thm {
 fn step_525() -> Unit raise {
   word_sxfrom_c.set(
     @define.define_(
-      @parser.parse_term(
-        "word_sxfrom n (x:N word) =\n  word_ishr (word_shl x (dimindex(:N) - 1 - n)) (dimindex(:N) - 1 - n)",
-      ),
+      @term_syntax.parse_term("(word_sxfrom : (Num, Word[N]) -> Word[N])((n : Num), (x : Word[N])) == (word_ishr : (Word[N], Num) -> Word[N])((word_shl : (Word[N], Num) -> Word[N])(x, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1 - n), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1 - n)"),
     ),
   )
 }
@@ -24282,9 +23534,7 @@ fn step_526() -> Unit raise {
   )
   bit_word_sxfrom_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n i (x:N word).\n        bit i (word_sxfrom n x) <=> i < dimindex(:N) /\\ bit (MIN n i) x",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ i : Num, ∀ x : Word[N], (bit : (Num, Word[N]) -> Bool)(i, (word_sxfrom : (Num, Word[N]) -> Word[N])(n, x)) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(MIN(n, i), x))"),
       t2118,
     ),
   )
@@ -24305,9 +23555,7 @@ pub fn bit_word_sxfrom() -> @kernel.Thm {
 /// IVAL_WORD_SXFROM_UNIQUE
 fn step_527() -> Unit raise {
   let t2128 = @int.integer_rule(
-    @parser.parse_term(
-      "(a * x:int == a * y) (mod (a * b)) <=>\n               a = &0 \\/ (x == y) (mod b)",
-    ),
+    @term_syntax.parse_term("op_eq_eq((a : Int) * (x : Int), a * (y : Int), mod(a * (b : Int))) == (a == int_of_num(0) || op_eq_eq(x, y, mod(b)))"),
   )
   let t2129 = @simp.simp_tac(
     @list.List([
@@ -24379,9 +23627,7 @@ fn step_527() -> Unit raise {
     }
   })
   let t2127 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(&2:int) pow (dimindex(:N) - 1) =\n    &2 pow (dimindex(:N) - 1 - k) * &2 pow k /\\\n   (&2:int) pow dimindex(:N) =\n    &2 pow (dimindex(:N) - 1 - k) * &2 pow (k + 1)",
-    ),
+    @term_syntax.parse_term("pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) == pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1 - (k : Num)) * pow(int_of_num(2), k) && pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) == pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1 - k) * pow(int_of_num(2), k + 1)"),
     t2126,
   )
   let t2122 = @simp.rewrite_tac(@list.List([iword_eq()]))
@@ -24414,9 +23660,7 @@ fn step_527() -> Unit raise {
   )
   ival_word_sxfrom_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) k x.\n        k < dimindex(:N)\n        ==> (ival(word_sxfrom k w) = x <=>\n             --(&2 pow k) <= x /\\ x < &2 pow k /\\\n             (ival w == x) (mod (&2 pow (k + 1))))",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ k : Num, ∀ x : Int, k < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → ((ival : (Word[N]) -> Int)((word_sxfrom : (Num, Word[N]) -> Word[N])(k, w)) == x) == (-(pow : (Int, Num) -> Int)(int_of_num(2), k) <= x && x < (pow : (Int, Num) -> Int)(int_of_num(2), k) && (op_eq_eq : (Int, Int, (Int, Int) -> Bool) -> Bool)((ival : (Word[N]) -> Int)(w), x, (mod : (Int, Int, Int) -> Bool)((pow : (Int, Num) -> Int)(int_of_num(2), k + 1))))"),
       t2131,
     ),
   )
@@ -24438,9 +23682,7 @@ pub fn ival_word_sxfrom_unique() -> @kernel.Thm {
 fn step_528() -> Unit raise {
   word_cand_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(word_cand:N word->N word->N word) x y =\n        if ~(x = word 0) /\\ ~(y = word 0) then word 1 else word 0",
-      ),
+      @term_syntax.parse_term("(word_cand : (Word[N], Word[N]) -> Word[N])((x : Word[N]), (y : Word[N])) == (if !(x == word(0)) && !(y == word(0)) { word(1) } else { word(0) })"),
     ),
   )
 }
@@ -24459,9 +23701,7 @@ pub fn word_cand() -> @kernel.Thm {
 fn step_529() -> Unit raise {
   word_cor_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(word_cor:N word->N word->N word) x y =\n        if ~(x = word 0) \\/ ~(y = word 0) then word 1 else word 0",
-      ),
+      @term_syntax.parse_term("(word_cor : (Word[N], Word[N]) -> Word[N])((x : Word[N]), (y : Word[N])) == (if !(x == word(0)) || !(y == word(0)) { word(1) } else { word(0) })"),
     ),
   )
 }
@@ -24485,9 +23725,7 @@ fn step_530() -> Unit raise {
   )
   word_cand_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_cand x y = if x = word 0 \\/ y = word 0 then word 0 else word 1",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_cand(x, y) == (if x == word(0) || y == word(0) { word(0) } else { word(1) })"),
       t2133,
     ),
   )
@@ -24512,9 +23750,7 @@ fn step_531() -> Unit raise {
   )
   word_cor_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_cor x y = if x = word 0 /\\ y = word 0 then word 0 else word 1",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_cor(x, y) == (if x == word(0) && y == word(0) { word(0) } else { word(1) })"),
       t2135,
     ),
   )
@@ -24539,9 +23775,7 @@ fn step_532() -> Unit raise {
   )
   word_cand_ne_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        ~(word_cand x y = word 0) <=> ~(x = word 0) /\\ ~(y = word 0)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], !(word_cand(x, y) == word(0)) == (!(x == word(0)) && !(y == word(0)))"),
       t2137,
     ),
   )
@@ -24566,9 +23800,7 @@ fn step_533() -> Unit raise {
   )
   word_cor_ne_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        ~(word_cor x y = word 0) <=> ~(x = word 0) \\/ ~(y = word 0)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], !(word_cor(x, y) == word(0)) == (!(x == word(0)) || !(y == word(0)))"),
       t2139,
     ),
   )
@@ -24593,9 +23825,7 @@ fn step_534() -> Unit raise {
   )
   word_cand_eq_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_cand x y = word 0 <=> x = word 0 \\/ y = word 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (word_cand(x, y) == word(0)) == (x == word(0) || y == word(0))"),
       t2141,
     ),
   )
@@ -24620,9 +23850,7 @@ fn step_535() -> Unit raise {
   )
   word_cor_eq_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_cor x y = word 0 <=> x = word 0 /\\ y = word 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (word_cor(x, y) == word(0)) == (x == word(0) && y == word(0))"),
       t2143,
     ),
   )
@@ -24651,9 +23879,7 @@ fn step_536() -> Unit raise {
   )
   val_word_cand_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        val(word_cand x y) =\n        if ~(val x = 0) /\\ ~(val y = 0) then 1 else 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], val(word_cand(x, y)) == (if !(val(x) == 0) && !(val(y) == 0) { 1 } else { 0 })"),
       t2146,
     ),
   )
@@ -24682,9 +23908,7 @@ fn step_537() -> Unit raise {
   )
   val_word_cor_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        val(word_cor x y) =\n        if ~(val x = 0) \\/ ~(val y = 0) then 1 else 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], val(word_cor(x, y)) == (if !(val(x) == 0) || !(val(y) == 0) { 1 } else { 0 })"),
       t2149,
     ),
   )
@@ -24713,9 +23937,7 @@ fn step_538() -> Unit raise {
   )
   bit_word_cand_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall i x y:N word.\n        bit i (word_cand x y) <=> i = 0 /\\ ~(x = word 0) /\\ ~(y = word 0)",
-      ),
+      @term_syntax.parse_term("∀ i : Num, ∀ x : Word[N], ∀ y : Word[N], bit(i, word_cand(x, y)) == (i == 0 && !(x == word(0)) && !(y == word(0)))"),
       t2152,
     ),
   )
@@ -24744,9 +23966,7 @@ fn step_539() -> Unit raise {
   )
   bit_word_cor_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall i x y:N word.\n        bit i (word_cor x y) <=> i = 0 /\\ (~(x = word 0) \\/ ~(y = word 0))",
-      ),
+      @term_syntax.parse_term("∀ i : Num, ∀ x : Word[N], ∀ y : Word[N], bit(i, word_cor(x, y)) == (i == 0 && (!(x == word(0)) || !(y == word(0))))"),
       t2155,
     ),
   )
@@ -24766,9 +23986,7 @@ pub fn bit_word_cor() -> @kernel.Thm {
 fn step_540() -> Unit raise {
   word_join_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(word_join:(M)word->(N)word->(P)word) v w =\n        word(2 EXP dimindex(:N) * val v + val w)",
-      ),
+      @term_syntax.parse_term("(word_join : (Word[M], Word[N]) -> Word[P])((v : Word[M]), (w : Word[N])) == (word : (Num) -> Word[P])(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) * (val : (Word[M]) -> Num)(v) + (val : (Word[N]) -> Num)(w))"),
     ),
   )
 }
@@ -24788,9 +24006,7 @@ fn step_541() -> Unit raise {
   let t2156 = @simp.rewrite_tac(@list.List([word_join(), val_word()]))
   val_word_join_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w. val((word_join:(M)word->(N)word->(P)word) v w) =\n         (2 EXP dimindex(:N) * val v + val w) MOD 2 EXP dimindex(:P)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[M], ∀ w : Word[N], (val : (Word[P]) -> Num)((word_join : (Word[M], Word[N]) -> Word[P])(v, w)) == MOD(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) * (val : (Word[M]) -> Num)(v) + (val : (Word[N]) -> Num)(w), EXP(2, (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool))))"),
       t2156,
     ),
   )
@@ -25193,9 +24409,7 @@ fn step_542() -> Unit raise {
   )
   bit_word_join_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall e h l i.\n        l < 2 EXP e\n        ==> (ODD ((2 EXP e * h + l) DIV 2 EXP i) <=>\n             if i < e then ODD(l DIV 2 EXP i) else ODD(h DIV 2 EXP (i - e)))",
-      ),
+      @term_syntax.parse_term("∀ e : Num, ∀ h : Num, ∀ l : Num, ∀ i : Num, l < EXP(2, e) → ODD(DIV(EXP(2, e) * h + l, EXP(2, i))) == (if i < e { ODD(DIV(l, EXP(2, i))) } else { ODD(DIV(h, EXP(2, i - e))) })"),
       t2191,
     ),
   )
@@ -25237,9 +24451,7 @@ fn step_543() -> Unit raise {
   )
   bit_word_join_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w i.\n        bit i ((word_join:(M)word->(N)word->(P)word) v w) <=>\n        i < dimindex(:P) /\\\n        (if i < dimindex(:N) then bit i w else bit (i - dimindex(:N)) v)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[M], ∀ w : Word[N], ∀ i : Num, (bit : (Num, Word[P]) -> Bool)(i, (word_join : (Word[M], Word[N]) -> Word[P])(v, w)) == (i < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) && (if i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) { (bit : (Num, Word[N]) -> Bool)(i, w) } else { (bit : (Num, Word[M]) -> Bool)(i - (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), v) }))"),
       t2197,
     ),
   )
@@ -25303,9 +24515,7 @@ fn step_544() -> Unit raise {
     ),
     t2213,
   ])
-  let t2205 = @parser.parse_term(
-    "2 EXP dimindex(:N) * (2 EXP dimindex(:M) - 1) + 2 EXP dimindex(:N)",
-  )
+  let t2205 = @term_syntax.parse_term("EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) * (EXP(2, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))) - 1) + EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))")
   let t2206 = @tactics.trans_tac(@arith.lte_trans())(t2205)
   let t2204 = @tactics.first_x_assum(fn(
     x2203 : @kernel.Thm,
@@ -25395,9 +24605,7 @@ fn step_544() -> Unit raise {
   )
   val_word_join_simple_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w.\n        dimindex(:M) + dimindex(:N) = dimindex(:P)\n        ==> val((word_join:(M)word->(N)word->(P)word) v w) =\n            2 EXP dimindex(:N) * val v + val w",
-      ),
+      @term_syntax.parse_term("∀ v : Word[M], ∀ w : Word[N], (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) + (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) == (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) → (val : (Word[P]) -> Num)((word_join : (Word[M], Word[N]) -> Word[P])(v, w)) == EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) * (val : (Word[M]) -> Num)(v) + (val : (Word[N]) -> Num)(w)"),
       t2215,
     ),
   )
@@ -25455,9 +24663,7 @@ fn step_545() -> Unit raise {
   )
   word_join_not_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w. dimindex(:P) <= dimindex(:M) + dimindex(:N)\n         ==> (word_join:(M)word->(N)word->(P)word) (word_not v) (word_not w) =\n             word_not(word_join v w)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[M], ∀ w : Word[N], (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) + (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_join : (Word[M], Word[N]) -> Word[P])((word_not : (Word[M]) -> Word[M])(v), (word_not : (Word[N]) -> Word[N])(w)) == (word_not : (Word[P]) -> Word[P])((word_join : (Word[M], Word[N]) -> Word[P])(v, w))"),
       t2222,
     ),
   )
@@ -25477,9 +24683,7 @@ pub fn word_join_not() -> @kernel.Thm {
 fn step_546() -> Unit raise {
   word_subword_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "word_subword (w:M word) (pos,len):N word =\n        word((val w DIV (2 EXP pos)) MOD (2 EXP len))",
-      ),
+      @term_syntax.parse_term("(word_subword : (Word[M], (Num, Num)) -> Word[N])((w : Word[M]), ((pos : Num), (len : Num))) == word(MOD(DIV(val(w), EXP(2, pos)), EXP(2, len)))"),
     ),
   )
 }
@@ -25501,9 +24705,7 @@ fn step_547() -> Unit raise {
   )
   val_word_subword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall pos len w:M word.\n        val(word_subword w (pos,len):N word) =\n        (val w DIV (2 EXP pos)) MOD (2 EXP (MIN len (dimindex(:N))))",
-      ),
+      @term_syntax.parse_term("∀ pos : Num, ∀ len : Num, ∀ w : Word[M], (val : (Word[N]) -> Num)((word_subword : (Word[M], (Num, Num)) -> Word[N])(w, (pos, len))) == MOD(DIV(val(w), EXP(2, pos)), EXP(2, MIN(len, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
       t2223,
     ),
   )
@@ -25533,9 +24735,7 @@ fn step_548() -> Unit raise {
   )
   val_word_subword_dimindex_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall pos w:M word.\n        val(word_subword w (pos,dimindex(:N)):N word) =\n        (val w DIV (2 EXP pos)) MOD (2 EXP dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ pos : Num, ∀ w : Word[M], (val : (Word[N]) -> Num)((word_subword : (Word[M], (Num, Num)) -> Word[N])(w, (pos, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) == MOD(DIV(val(w), EXP(2, pos)), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t2226,
     ),
   )
@@ -25560,9 +24760,7 @@ fn step_549() -> Unit raise {
   )
   val_word_subword_simple_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w:M word.\n        val(word_subword w (0,dimindex(:N)):N word) =\n        val w MOD (2 EXP dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ w : Word[M], (val : (Word[N]) -> Num)((word_subword : (Word[M], (Num, Num)) -> Word[N])(w, (0, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) == MOD(val(w), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t2227,
     ),
   )
@@ -25615,9 +24813,7 @@ fn step_550() -> Unit raise {
   )
   word_subword_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n pos len.\n        pos + len <= dimindex(:N)\n        ==> word_subword (word n:N word) (pos,len) =\n            word((n DIV 2 EXP pos) MOD 2 EXP len)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ pos : Num, ∀ len : Num, pos + len <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_subword : (Word[N], (Num, Num)) -> Word[_])((word : (Num) -> Word[N])(n), (pos, len)) == (word : (Num) -> Word[_])(MOD(DIV(n, EXP(2, pos)), EXP(2, len)))"),
       t2230,
     ),
   )
@@ -25794,9 +24990,7 @@ fn step_551() -> Unit raise {
   )
   bit_word_subword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall pos len (w:M word) i.\n        bit i (word_subword w (pos,len):N word) <=>\n        i < MIN len (dimindex(:N)) /\\ bit (pos + i) w",
-      ),
+      @term_syntax.parse_term("∀ pos : Num, ∀ len : Num, ∀ w : Word[M], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_subword : (Word[M], (Num, Num)) -> Word[N])(w, (pos, len))) == (i < MIN(len, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) && bit(pos + i, w))"),
       t2255,
     ),
   )
@@ -26038,9 +25232,7 @@ fn step_553() -> Unit raise {
   )
   word_subword_join_self_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) k.\n        k <= dimindex(:N)\n        ==> word_subword (word_join w w:(N tybit0)word) (k,dimindex(:N)) =\n            word_ror w k",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ k : Num, k <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_subword : (Word[Tybit0[N]], (Num, Num)) -> Word[N])((word_join : (Word[N], Word[N]) -> Word[Tybit0[N]])(w, w), (k, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == (word_ror : (Word[N], Num) -> Word[N])(w, k)"),
       t2275,
     ),
   )
@@ -26083,9 +25275,7 @@ fn step_554() -> Unit raise {
   )
   let t2280 = @tactics.match_mp_tac(
     @int.arith_rule(
-      @parser.parse_term(
-        "e * h + e * 1 <= e * e /\\ l < e ==> e * h + l < e * e",
-      ),
+      @term_syntax.parse_term("(e : Num) * (h : Num) + e * 1 <= e * e && (l : Num) < e → e * h + l < e * e"),
     ),
   )
   let t2284 = @list.List([
@@ -26104,9 +25294,7 @@ fn step_554() -> Unit raise {
   let t2278 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([@arith.mod_lt()]),
-      @parser.parse_term(
-        "forall e. x < e /\\ x MOD e MOD m = x MOD e MOD n ==> x MOD m = x MOD n",
-      ),
+      @term_syntax.parse_term("∀ e : Num, (x : Num) < e && MOD(MOD(x, e), (m : Num)) == MOD(MOD(x, e), (n : Num)) → MOD(x, m) == MOD(x, n)"),
     ),
   )
   let t2277 = @simp.rewrite_tac(
@@ -26147,9 +25335,7 @@ fn step_554() -> Unit raise {
   )
   val_word_subword_join_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:N word) (l:N word) n m.\n        m <= dimindex(:N)\n        ==> val(word_subword (word_join h l:(N tybit0)word) (n,m) :N word) =\n            ((2 EXP dimindex(:N) * val h + val l) DIV 2 EXP n) MOD 2 EXP m",
-      ),
+      @term_syntax.parse_term("∀ h : Word[N], ∀ l : Word[N], ∀ n : Num, ∀ m : Num, m <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (val : (Word[N]) -> Num)((word_subword : (Word[Tybit0[N]], (Num, Num)) -> Word[N])((word_join : (Word[N], Word[N]) -> Word[Tybit0[N]])(h, l), (n, m))) == MOD(DIV(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) * (val : (Word[N]) -> Num)(h) + (val : (Word[N]) -> Num)(l), EXP(2, n)), EXP(2, m))"),
       t2285,
     ),
   )
@@ -26208,9 +25394,7 @@ fn step_555() -> Unit raise {
   )
   word_subword_join_lower_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:M word) (l:N word) pos len.\n        pos + len <= dimindex(:N) /\\ dimindex(:N) <= dimindex(:P)\n        ==> word_subword (word_join (h:M word) (l:N word):P word)\n                         (pos,len):Q word =\n            word_subword l (pos,len)",
-      ),
+      @term_syntax.parse_term("∀ h : Word[M], ∀ l : Word[N], ∀ pos : Num, ∀ len : Num, pos + len <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) → (word_subword : (Word[P], (Num, Num)) -> Word[Q])((word_join : (Word[M], Word[N]) -> Word[P])(h, l), (pos, len)) == (word_subword : (Word[N], (Num, Num)) -> Word[Q])(l, (pos, len))"),
       t2291,
     ),
   )
@@ -26272,9 +25456,7 @@ fn step_556() -> Unit raise {
   )
   word_subword_join_upper_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:M word) (l:N word) pos len.\n        dimindex(:N) <= pos /\\ pos + len <= dimindex(:P)\n        ==> word_subword (word_join (h:M word) (l:N word):P word)\n                         (pos,len):Q word =\n            word_subword h (pos - dimindex(:N),len)",
-      ),
+      @term_syntax.parse_term("∀ h : Word[M], ∀ l : Word[N], ∀ pos : Num, ∀ len : Num, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= pos && pos + len <= (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) → (word_subword : (Word[P], (Num, Num)) -> Word[Q])((word_join : (Word[M], Word[N]) -> Word[P])(h, l), (pos, len)) == (word_subword : (Word[M], (Num, Num)) -> Word[Q])(h, (pos - (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), len))"),
       t2298,
     ),
   )
@@ -26396,9 +25578,7 @@ fn step_557() -> Unit raise {
   )
   word_subword_subword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) pos1 len1 pos2 len2.\n        len1 <= dimindex(:N) /\\ dimindex(:N) <= dimindex(:M)\n        ==> word_subword (word_subword x (pos1,len1):N word)\n                         (pos2,len2):P word =\n            word_subword x (pos1+pos2,MIN len2 (len1-pos2))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ pos1 : Num, ∀ len1 : Num, ∀ pos2 : Num, ∀ len2 : Num, len1 <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) → (word_subword : (Word[N], (Num, Num)) -> Word[P])((word_subword : (Word[M], (Num, Num)) -> Word[N])(x, (pos1, len1)), (pos2, len2)) == (word_subword : (Word[M], (Num, Num)) -> Word[P])(x, (pos1 + pos2, MIN(len2, len1 - pos2)))"),
       t2310,
     ),
   )
@@ -26432,9 +25612,7 @@ fn step_558() -> Unit raise {
   )
   word_subword_trivial_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n. dimindex(:N) <= n ==> word_subword x (0,n) = x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= n → (word_subword : (Word[N], (Num, Num)) -> Word[N])(x, (0, n)) == x"),
       t2313,
     ),
   )
@@ -26459,9 +25637,7 @@ fn step_559() -> Unit raise {
   )
   word_subword_dimindex_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) k.\n        word_subword x (k,dimindex(:M)):M word = word_zx(word_ushr x k)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, (word_subword : (Word[N], (Num, Num)) -> Word[M])(x, (k, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)))) == (word_zx : (Word[N]) -> Word[M])(word_ushr(x, k))"),
       t2314,
     ),
   )
@@ -26486,9 +25662,7 @@ fn step_560() -> Unit raise {
   )
   word_zx_subword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word). word_zx x:M word = word_subword x (0,dimindex(:M))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word_zx : (Word[N]) -> Word[M])(x) == (word_subword : (Word[N], (Num, Num)) -> Word[M])(x, (0, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))))"),
       t2315,
     ),
   )
@@ -26535,9 +25709,7 @@ fn step_561() -> Unit raise {
         @tactics.then_tac(
           @tactics.match_mp_tac(
             @int.arith_rule(
-              @parser.parse_term(
-                "d < e /\\ e * (m + 1) <= e * k ==> e * m + d < k * e",
-              ),
+              @term_syntax.parse_term("(d : Num) < (e : Num) && e * ((m : Num) + 1) <= e * (k : Num) → e * m + d < k * e"),
             ),
           ),
           t2325,
@@ -26578,9 +25750,7 @@ fn step_561() -> Unit raise {
     t2323,
   ])
   let t2322 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "2 EXP dimindex(:N) = 2 EXP k * 2 EXP (dimindex(:N) - k)",
-    ),
+    @term_syntax.parse_term("EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) == EXP(2, (k : Num)) * EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - k)"),
     fn(
       x2319 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -26656,9 +25826,7 @@ fn step_561() -> Unit raise {
   )
   val_word_subword_join_full_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:N word) (l:N word) k.\n       k <= dimindex(:N)\n       ==> val(word_subword (word_join h l:(N tybit0)word)\n                            (k,dimindex(:N)) :N word) =\n           2 EXP (dimindex(:N) - k) * val h MOD 2 EXP k + val l DIV (2 EXP k)",
-      ),
+      @term_syntax.parse_term("∀ h : Word[N], ∀ l : Word[N], ∀ k : Num, k <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (val : (Word[N]) -> Num)((word_subword : (Word[Tybit0[N]], (Num, Num)) -> Word[N])((word_join : (Word[N], Word[N]) -> Word[Tybit0[N]])(h, l), (k, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) == EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - k) * MOD((val : (Word[N]) -> Num)(h), EXP(2, k)) + DIV((val : (Word[N]) -> Num)(l), EXP(2, k))"),
       t2332,
     ),
   )
@@ -26704,9 +25872,7 @@ fn step_562() -> Unit raise {
   )
   word_subword_join_as_ushr_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) k.\n      word_subword (word_join (word 0:N word) x:((N)tybit0)word)\n                   (k,dimindex(:N)) =\n      word_ushr x k",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, (word_subword : (Word[Tybit0[N]], (Num, Num)) -> Word[N])((word_join : (Word[N], Word[N]) -> Word[Tybit0[N]])((word : (Num) -> Word[N])(0), x), (k, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == (word_ushr : (Word[N], Num) -> Word[N])(x, k)"),
       t2338,
     ),
   )
@@ -26745,9 +25911,7 @@ fn step_563() -> Unit raise {
     t2346,
   ])
   let t2345 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "2 EXP dimindex(:N) = 2 EXP k * 2 EXP (dimindex(:N) - k)",
-    ),
+    @term_syntax.parse_term("EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) == EXP(2, (k : Num)) * EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - k)"),
     fn(
       x2342 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -26823,9 +25987,7 @@ fn step_563() -> Unit raise {
   )
   word_subword_join_as_shl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) k.\n        k <= dimindex(:N)\n        ==> word_subword (word_join x (word 0:N word):((N)tybit0)word)\n                         (k,dimindex(:N)) =\n            word_shl x (dimindex(:N) - k)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, k <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_subword : (Word[Tybit0[N]], (Num, Num)) -> Word[N])((word_join : (Word[N], Word[N]) -> Word[Tybit0[N]])(x, (word : (Num) -> Word[N])(0)), (k, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == (word_shl : (Word[N], Num) -> Word[N])(x, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - k)"),
       t2348,
     ),
   )
@@ -27032,9 +26194,7 @@ fn step_564() -> Unit raise {
   )
   word_subword_as_ushr_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) k l.\n        dimindex(:N) <= k + l ==> word_subword x (k,l) = word_ushr x k",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, ∀ l : Num, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= k + l → (word_subword : (Word[N], (Num, Num)) -> Word[N])(x, (k, l)) == (word_ushr : (Word[N], Num) -> Word[N])(x, k)"),
       t2363,
     ),
   )
@@ -27065,9 +26225,7 @@ fn step_565() -> Unit raise {
   )
   word_ushr_as_subword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) k. word_ushr x k = word_subword x (k,dimindex (:N) - k)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, (word_ushr : (Word[N], Num) -> Word[N])(x, k) == (word_subword : (Word[N], (Num, Num)) -> Word[N])(x, (k, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - k))"),
       t2366,
     ),
   )
@@ -27124,9 +26282,7 @@ fn step_566() -> Unit raise {
   )
   word_shl_subword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) d l.\n        dimindex(:N) <= l + d\n        ==> word_shl (word_subword x (0,l)) d = word_shl x d",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ d : Num, ∀ l : Num, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= l + d → (word_shl : (Word[N], Num) -> Word[N])((word_subword : (Word[N], (Num, Num)) -> Word[N])(x, (0, l)), d) == (word_shl : (Word[N], Num) -> Word[N])(x, d)"),
       t2374,
     ),
   )
@@ -27159,9 +26315,7 @@ fn step_567() -> Unit raise {
   )
   word_subword_and_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) y pos len.\n        word_subword (word_and x y) (pos,len) :N word =\n        word_and (word_subword x (pos,len)) (word_subword y (pos,len))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[M], ∀ pos : Num, ∀ len : Num, (word_subword : (Word[M], (Num, Num)) -> Word[N])(word_and(x, y), (pos, len)) == (word_and : (Word[N], Word[N]) -> Word[N])((word_subword : (Word[M], (Num, Num)) -> Word[N])(x, (pos, len)), (word_subword : (Word[M], (Num, Num)) -> Word[N])(y, (pos, len)))"),
       t2377,
     ),
   )
@@ -27194,9 +26348,7 @@ fn step_568() -> Unit raise {
   )
   word_subword_or_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) y pos len.\n        word_subword (word_or x y) (pos,len) :N word =\n        word_or (word_subword x (pos,len)) (word_subword y (pos,len))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[M], ∀ pos : Num, ∀ len : Num, (word_subword : (Word[M], (Num, Num)) -> Word[N])(word_or(x, y), (pos, len)) == (word_or : (Word[N], Word[N]) -> Word[N])((word_subword : (Word[M], (Num, Num)) -> Word[N])(x, (pos, len)), (word_subword : (Word[M], (Num, Num)) -> Word[N])(y, (pos, len)))"),
       t2380,
     ),
   )
@@ -27229,9 +26381,7 @@ fn step_569() -> Unit raise {
   )
   word_subword_xor_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) y pos len.\n        word_subword (word_xor x y) (pos,len) :N word =\n        word_xor (word_subword x (pos,len))\n                 (word_subword y (pos,len))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[M], ∀ pos : Num, ∀ len : Num, (word_subword : (Word[M], (Num, Num)) -> Word[N])(word_xor(x, y), (pos, len)) == (word_xor : (Word[N], Word[N]) -> Word[N])((word_subword : (Word[M], (Num, Num)) -> Word[N])(x, (pos, len)), (word_subword : (Word[M], (Num, Num)) -> Word[N])(y, (pos, len)))"),
       t2383,
     ),
   )
@@ -27289,9 +26439,7 @@ fn step_570() -> Unit raise {
   )
   word_subword_not_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) pos len.\n        dimindex(:N) <= len /\\ pos + len <= dimindex(:M)\n        ==> word_subword (word_not x) (pos,len):N word =\n            word_not (word_subword x (pos,len))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ pos : Num, ∀ len : Num, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= len && pos + len <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) → (word_subword : (Word[M], (Num, Num)) -> Word[N])((word_not : (Word[M]) -> Word[M])(x), (pos, len)) == (word_not : (Word[N]) -> Word[N])((word_subword : (Word[M], (Num, Num)) -> Word[N])(x, (pos, len)))"),
       t2388,
     ),
   )
@@ -27396,9 +26544,7 @@ fn step_571() -> Unit raise {
   )
   word_subword_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        dimindex(:M) = len /\\ pos + len <= dimindex(:N) /\\\n        val x MOD 2 EXP pos + val y MOD 2 EXP pos < 2 EXP pos\n        ==> word_subword (word_add x y) (pos,len):M word =\n            word_add (word_subword x (pos,len))\n                     (word_subword y (pos,len))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) == (len : Num) && (pos : Num) + len <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && MOD((val : (Word[N]) -> Num)(x), EXP(2, pos)) + MOD((val : (Word[N]) -> Num)(y), EXP(2, pos)) < EXP(2, pos) → (word_subword : (Word[N], (Num, Num)) -> Word[M])((word_add : (Word[N], Word[N]) -> Word[N])(x, y), (pos, len)) == (word_add : (Word[M], Word[M]) -> Word[M])((word_subword : (Word[N], (Num, Num)) -> Word[M])(x, (pos, len)), (word_subword : (Word[N], (Num, Num)) -> Word[M])(y, (pos, len)))"),
       t2399,
     ),
   )
@@ -27446,9 +26592,7 @@ fn step_572() -> Unit raise {
   )
   word_subword_as_iword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(w:N word) pos len.\n        pos + len <= dimindex(:N)\n        ==> word_subword w (pos,len):M word =\n            iword((ival w div &2 pow pos) rem &2 pow len)",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ pos : Num, ∀ len : Num, pos + len <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_subword : (Word[N], (Num, Num)) -> Word[M])(w, (pos, len)) == (iword : (Int) -> Word[M])(rem(div((ival : (Word[N]) -> Int)(w), (pow : (Int, Num) -> Int)(int_of_num(2), pos)), (pow : (Int, Num) -> Int)(int_of_num(2), len)))"),
       t2404,
     ),
   )
@@ -27487,9 +26631,7 @@ fn step_573() -> Unit raise {
   )
   word_subword_iword_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x pos len.\n        pos + len <= dimindex(:N)\n        ==> word_subword (iword x:N word) (pos,len):M word =\n            iword((x div &2 pow pos) rem &2 pow len)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ pos : Num, ∀ len : Num, pos + len <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_subword : (Word[N], (Num, Num)) -> Word[M])((iword : (Int) -> Word[N])(x), (pos, len)) == (iword : (Int) -> Word[M])(rem(div(x, pow(int_of_num(2), pos)), pow(int_of_num(2), len)))"),
       t2408,
     ),
   )
@@ -27528,9 +26670,7 @@ fn step_574() -> Unit raise {
   )
   word_subword_iword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x pos len.\n        pos + len <= dimindex(:N)\n        ==> word_subword (iword x:N word) (pos,len):N word =\n            iword((x div &2 pow pos) rem &2 pow len)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ pos : Num, ∀ len : Num, pos + len <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_subword : (Word[N], (Num, Num)) -> Word[N])((iword : (Int) -> Word[N])(x), (pos, len)) == (iword : (Int) -> Word[N])(rem(div(x, pow(int_of_num(2), pos)), pow(int_of_num(2), len)))"),
       t2412,
     ),
   )
@@ -27559,9 +26699,7 @@ fn step_575() -> Unit raise {
   ])
   let t2416 = @tactics.match_mp_tac(
     @class.taut(
-      @parser.parse_term(
-        "(p <=> p') /\\ (p /\\ p' ==> (q <=> q')) ==> (p /\\ q <=> p' /\\ q')",
-      ),
+      @term_syntax.parse_term("(p : Bool) == (p' : Bool) && (p && p' → (q : Bool) == (q' : Bool)) → (p && q) == (p' && q')"),
     ),
   )
   let t2415 = @simp.rewrite_tac(@list.List([@theorems.conj_assoc()]))
@@ -27598,9 +26736,7 @@ fn step_575() -> Unit raise {
   )
   word_subword_as_ushr_shl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) pos len.\n        pos + len <= dimindex(:N)\n        ==> word_subword x (pos,len):N word =\n            word_ushr (word_shl x (dimindex(:N) - (pos + len)))\n                      (dimindex(:N) - len)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ pos : Num, ∀ len : Num, pos + len <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_subword : (Word[N], (Num, Num)) -> Word[N])(x, (pos, len)) == (word_ushr : (Word[N], Num) -> Word[N])((word_shl : (Word[N], Num) -> Word[N])(x, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - (pos + len)), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - len)"),
       t2418,
     ),
   )
@@ -27632,9 +26768,7 @@ fn step_576() -> Unit raise {
   )
   let t2422 = @tactics.match_mp_tac(
     @class.taut(
-      @parser.parse_term(
-        "(p <=> p') /\\ (p /\\ p' ==> (q <=> q')) ==> (p /\\ q <=> p' /\\ q')",
-      ),
+      @term_syntax.parse_term("(p : Bool) == (p' : Bool) && (p && p' → (q : Bool) == (q' : Bool)) → (p && q) == (p' && q')"),
     ),
   )
   let t2421 = @simp.rewrite_tac(@list.List([@theorems.conj_assoc()]))
@@ -27672,9 +26806,7 @@ fn step_576() -> Unit raise {
   )
   word_sxfrom_subword_as_ishr_shl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) pos len.\n        pos + len <= dimindex(:N) /\\ 0 < len\n        ==> word_sxfrom (len-1) (word_subword x (pos,len)):N word =\n            word_ishr (word_shl x (dimindex(:N) - (pos + len)))\n                      (dimindex(:N) - len)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ pos : Num, ∀ len : Num, pos + len <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && 0 < len → (word_sxfrom : (Num, Word[N]) -> Word[N])(len - 1, (word_subword : (Word[N], (Num, Num)) -> Word[N])(x, (pos, len))) == (word_ishr : (Word[N], Num) -> Word[N])((word_shl : (Word[N], Num) -> Word[N])(x, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - (pos + len)), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - len)"),
       t2424,
     ),
   )
@@ -27923,9 +27055,7 @@ fn step_577() -> Unit raise {
   )
   val_expand_subwords_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k m (x:N word).\n        dimindex(:M) = k /\\ dimindex(:N) = k * m\n        ==> nsum {i | i < m}\n                 (\\i.  2 EXP (k * i) *\n                       val(word_subword x (k * i,k):M word)) =\n            val x",
-      ),
+      @term_syntax.parse_term("∀ k : Num, ∀ m : Num, ∀ x : Word[N], (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) == k && (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) == k * m → (nsum : ((Num) -> Bool, (Num) -> Num) -> Num)({(i : Num) | i < m}, (i : Num) => EXP(2, k * i) * (val : (Word[M]) -> Num)((word_subword : (Word[N], (Num, Num)) -> Word[M])(x, (k * i, k)))) == (val : (Word[N]) -> Num)(x)"),
       t2456,
     ),
   )
@@ -28118,9 +27248,7 @@ fn step_578() -> Unit raise {
     @tactics.all_tac,
   ])
   let t2460 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall i. i < m ==> val(word_subword (x:N word) (k * i,k):M word) < 2 EXP k",
-    ),
+    @term_syntax.parse_term("∀ i : Num, i < (m : Num) → (val : (Word[M]) -> Num)((word_subword : (Word[N], (Num, Num)) -> Word[M])((x : Word[N]), ((k : Num) * i, k))) < EXP(2, k)"),
     fn(
       x2457 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -28201,9 +27329,7 @@ fn step_578() -> Unit raise {
   )
   val_subwords_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k m f (x:N word).\n        dimindex(:M) = k /\\ dimindex(:N) = k * m\n        ==> ((forall i. i < m ==> val(word_subword x (k * i,k):M word) = f i) <=>\n             (forall i. i < m ==> f i < 2 EXP k) /\\\n             val x = nsum {i | i < m} (\\i.  2 EXP (k * i) * f i))",
-      ),
+      @term_syntax.parse_term("∀ k : Num, ∀ m : Num, ∀ f : (Num) -> Num, ∀ x : Word[N], (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) == k && (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) == k * m → (∀ i : Num, i < m → (val : (Word[M]) -> Num)((word_subword : (Word[N], (Num, Num)) -> Word[M])(x, (k * i, k))) == f(i)) == ((∀ i : Num, i < m → f(i) < EXP(2, k)) && (val : (Word[N]) -> Num)(x) == (nsum : ((Num) -> Bool, (Num) -> Num) -> Num)({(i : Num) | i < m}, (i : Num) => EXP(2, k * i) * f(i)))"),
       t2480,
     ),
   )
@@ -28368,9 +27494,7 @@ fn step_579() -> Unit raise {
   )
   word_subwords_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k m f (x:N word).\n        dimindex(:M) = k /\\ dimindex(:N) = k * m\n        ==> ((forall i. i < m ==> val(word_subword x (k * i,k):M word) = f i) <=>\n             (forall i. i < m ==> f i < 2 EXP k) /\\\n             word(nsum {i | i < m} (\\i.  2 EXP (k * i) * f i)) = x)",
-      ),
+      @term_syntax.parse_term("∀ k : Num, ∀ m : Num, ∀ f : (Num) -> Num, ∀ x : Word[N], (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) == k && (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) == k * m → (∀ i : Num, i < m → (val : (Word[M]) -> Num)((word_subword : (Word[N], (Num, Num)) -> Word[M])(x, (k * i, k))) == f(i)) == ((∀ i : Num, i < m → f(i) < EXP(2, k)) && (word : (Num) -> Word[N])((nsum : ((Num) -> Bool, (Num) -> Num) -> Num)({(i : Num) | i < m}, (i : Num) => EXP(2, k * i) * f(i))) == x)"),
       t2495,
     ),
   )
@@ -28392,9 +27516,7 @@ pub fn word_subwords_eq() -> @kernel.Thm {
 fn step_580() -> Unit raise {
   word_insert_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(word_insert:N word->num#num->M word->P word) x (pos,len) x' =\n        word(2 EXP (pos + len) * val x DIV 2 EXP (pos + len) +\n             2 EXP pos * val x' MOD 2 EXP len +\n             val x MOD 2 EXP pos)",
-      ),
+      @term_syntax.parse_term("(word_insert : (Word[N], (Num, Num), Word[M]) -> Word[P])((x : Word[N]), ((pos : Num), (len : Num)), (x' : Word[M])) == word(EXP(2, pos + len) * DIV(val(x), EXP(2, pos + len)) + (EXP(2, pos) * MOD(val(x'), EXP(2, len)) + MOD(val(x), EXP(2, pos))))"),
     ),
   )
 }
@@ -28422,9 +27544,7 @@ fn step_581() -> Unit raise {
   let t2508 = @simp.rewrite_tac(@list.List([@equal.gsym(@int.cong_v1())]))
   let t2507 = @simp.rewrite_tac(@list.List([@arith.odd_mod()]))
   let t2505 = @int.arith_rule(
-    @parser.parse_term(
-      "~(i:num < pos + len) ==> (pos + len) + i - pos - len = i",
-    ),
+    @term_syntax.parse_term("!((i : Num) < (pos : Num) + (len : Num)) → pos + len + (i - pos - len) == i"),
   )
   let t2506 = @simp.asm_simp_tac(
     @list.List([@arith.div_div(), @equal.gsym(@arith.exp_add()), t2505]),
@@ -28438,9 +27558,7 @@ fn step_581() -> Unit raise {
   let t2503 = @simp.asm_simp_tac(
     @list.List([
       @int.arith_rule(
-        @parser.parse_term(
-          "~(i:num < pos) ==> (i - pos < len <=> i < pos + len)",
-        ),
+        @term_syntax.parse_term("!((i : Num) < (pos : Num)) → (i - pos < (len : Num)) == (i < pos + len)"),
       ),
     ]),
   )
@@ -28528,9 +27646,7 @@ fn step_581() -> Unit raise {
   )
   bit_word_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (x':M word) pos len i.\n        bit i (word_insert x (pos,len) x':P word) <=>\n        i < dimindex(:P) /\\\n        (if pos <= i /\\ i < pos + len then bit (i - pos) x' else bit i x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ x' : Word[M], ∀ pos : Num, ∀ len : Num, ∀ i : Num, (bit : (Num, Word[P]) -> Bool)(i, (word_insert : (Word[N], (Num, Num), Word[M]) -> Word[P])(x, (pos, len), x')) == (i < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) && (if pos <= i && i < pos + len { bit(i - pos, x') } else { bit(i, x) }))"),
       t2513,
     ),
   )
@@ -28672,9 +27788,7 @@ fn step_582() -> Unit raise {
   )
   word_subword_insert_outer_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) (y:N word) pos1 len1 pos2 len2.\n        pos2 + len2 <= dimindex(:P) /\\\n        (pos2 + len2 <= pos1 \\/ pos1 + len1 <= pos2)\n        ==> word_subword (word_insert x (pos1,len1) y:P word)\n                         (pos2,len2):Q word =\n            word_subword x (pos2,len2)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[N], ∀ pos1 : Num, ∀ len1 : Num, ∀ pos2 : Num, ∀ len2 : Num, pos2 + len2 <= (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) && (pos2 + len2 <= pos1 || pos1 + len1 <= pos2) → (word_subword : (Word[P], (Num, Num)) -> Word[Q])((word_insert : (Word[M], (Num, Num), Word[N]) -> Word[P])(x, (pos1, len1), y), (pos2, len2)) == (word_subword : (Word[M], (Num, Num)) -> Word[Q])(x, (pos2, len2))"),
       t2528,
     ),
   )
@@ -28837,9 +27951,7 @@ fn step_583() -> Unit raise {
   )
   word_subword_insert_inner_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) (y:N word) pos1 len1 pos2 len2.\n        pos2 + len2 <= dimindex(:P) /\\\n        pos1 <= pos2 /\\ pos2 + len2 <= pos1 + len1\n        ==> word_subword (word_insert x (pos1,len1) y:P word)\n                         (pos2,len2):Q word =\n            word_subword y (pos2-pos1,len2)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[N], ∀ pos1 : Num, ∀ len1 : Num, ∀ pos2 : Num, ∀ len2 : Num, pos2 + len2 <= (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) && pos1 <= pos2 && pos2 + len2 <= pos1 + len1 → (word_subword : (Word[P], (Num, Num)) -> Word[Q])((word_insert : (Word[M], (Num, Num), Word[N]) -> Word[P])(x, (pos1, len1), y), (pos2, len2)) == (word_subword : (Word[N], (Num, Num)) -> Word[Q])(y, (pos2 - pos1, len2))"),
       t2546,
     ),
   )
@@ -28861,9 +27973,7 @@ pub fn word_subword_insert_inner() -> @kernel.Thm {
 fn step_584() -> Unit raise {
   word_duplicate_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(word_duplicate:M word->N word) x =\n  word_of_bits {i | bit (i MOD dimindex(:M)) x}",
-      ),
+      @term_syntax.parse_term("(word_duplicate : (Word[M]) -> Word[N])((x : Word[M])) == (word_of_bits : ((Num) -> Bool) -> Word[N])({(i : Num) | (bit : (Num, Word[M]) -> Bool)(MOD(i, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))), x)})"),
     ),
   )
 }
@@ -28885,9 +27995,7 @@ fn step_585() -> Unit raise {
   )
   bit_word_duplicate_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:M word) i.\n        bit i (word_duplicate x:N word) <=>\n        i < dimindex(:N) /\\ bit (i MOD dimindex(:M)) x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_duplicate : (Word[M]) -> Word[N])(x)) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[M]) -> Bool)(MOD(i, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))), x))"),
       t2547,
     ),
   )
@@ -28983,9 +28091,7 @@ fn step_587() -> Unit raise {
   )
   word_duplicate_double_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:M word. (word_duplicate:((M)tybit0)word->N word) (word_join x x) =\n              word_duplicate x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], (word_duplicate : (Word[Tybit0[M]]) -> Word[N])(word_join(x, x)) == (word_duplicate : (Word[M]) -> Word[N])(x)"),
       t2556,
     ),
   )
@@ -29064,9 +28170,7 @@ fn step_588() -> Unit raise {
   )
   word_subword_duplicate_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x pos len.\n        pos MOD dimindex(:M) + len <= dimindex(:M) /\\\n        pos + len <= dimindex(:N)\n        ==> word_subword ((word_duplicate:M word->N word) x) (pos,len):P word =\n            word_subword x (pos MOD dimindex(:M),len)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ pos : Num, ∀ len : Num, MOD(pos, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))) + len <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) && pos + len <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_subword : (Word[N], (Num, Num)) -> Word[P])((word_duplicate : (Word[M]) -> Word[N])(x), (pos, len)) == (word_subword : (Word[M], (Num, Num)) -> Word[P])(x, (MOD(pos, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))), len))"),
       t2566,
     ),
   )
@@ -29142,9 +28246,7 @@ fn step_589() -> Unit raise {
   )
   word_subword_duplicate_duplicate_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x pos len.\n        pos MOD dimindex(:M) = 0 /\\ dimindex(:P) <= len /\\\n        pos + len <= dimindex(:N)\n        ==> word_subword ((word_duplicate:M word->N word) x) (pos,len):P word =\n            word_duplicate x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ pos : Num, ∀ len : Num, MOD(pos, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))) == 0 && (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) <= len && pos + len <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_subword : (Word[N], (Num, Num)) -> Word[P])((word_duplicate : (Word[M]) -> Word[N])(x), (pos, len)) == (word_duplicate : (Word[M]) -> Word[P])(x)"),
       t2575,
     ),
   )
@@ -29364,9 +28466,7 @@ fn step_590() -> Unit raise {
     ),
     t2627,
   ])
-  let t2590 = @parser.parse_term(
-    "nsum {i | i < k} (\\i. 2 EXP (dimindex(:M) * i) * val(x:M word))",
-  )
+  let t2590 = @term_syntax.parse_term("(nsum : ((Num) -> Bool, (Num) -> Num) -> Num)({(i : Num) | i < (k : Num)}, (i : Num) => EXP(2, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) * i) * (val : (Word[M]) -> Num)((x : Word[M])))")
   let t2591 = @tactics.trans_tac(@theorems.eq_trans())(t2590)
   let t2588 = @simp.asm_simp_tac(
     @list.List([
@@ -29397,9 +28497,7 @@ fn step_590() -> Unit raise {
   let t2586 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([@arith.mod_mod_refl()]),
-      @parser.parse_term(
-        "y MOD n = y' /\\ x = x' ==> x = y ==> y' MOD n = x' MOD n",
-      ),
+      @term_syntax.parse_term("MOD((y : Num), (n : Num)) == (y' : Num) && (x : Num) == (x' : Num) → x == y → MOD(y', n) == MOD(x', n)"),
     ),
   )
   let t2585 = @list.List([
@@ -29422,9 +28520,7 @@ fn step_590() -> Unit raise {
   )
   let t2580 = @term_syntax.parse_term("{(i : Num) | i < (k : Num)}")
   let t2581 = @term_syntax.parse_term("{(i : Num) | i < (k : Num) * (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))}")
-  let t2582 = @parser.parse_term(
-    "\\i. 2 EXP i * bitval (bit (i MOD dimindex(:M)) (x:M word))",
-  )
+  let t2582 = @term_syntax.parse_term("(i : Num) => EXP(2, i) * bitval((bit : (Num, Word[M]) -> Bool)(MOD(i, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))), (x : Word[M])))")
   let t2583 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([
@@ -29481,9 +28577,7 @@ fn step_590() -> Unit raise {
   )
   val_word_duplicate_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x k. dimindex(:N) <= k * dimindex(:M)\n         ==> val((word_duplicate:M word->N word) x) =\n             ((2 EXP (k * dimindex(:M)) - 1) DIV (2 EXP dimindex(:M) - 1) *\n              val x) MOD 2 EXP dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ k : Num, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= k * (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) → (val : (Word[N]) -> Num)((word_duplicate : (Word[M]) -> Word[N])(x)) == MOD(DIV(EXP(2, k * (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))) - 1, EXP(2, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))) - 1) * (val : (Word[M]) -> Num)(x), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t2629,
     ),
   )
@@ -29516,9 +28610,7 @@ fn step_591() -> Unit raise {
   )
   word_duplicate_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m k. dimindex(:N) <= k * dimindex(:M)\n         ==> (word_duplicate:M word->N word)(word m) =\n             word((2 EXP (k * dimindex(:M)) - 1) DIV\n                  (2 EXP dimindex(:M) - 1) * m MOD 2 EXP dimindex(:M))",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ k : Num, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= k * (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) → (word_duplicate : (Word[M]) -> Word[N])((word : (Num) -> Word[M])(m)) == (word : (Num) -> Word[N])(DIV(EXP(2, k * (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))) - 1, EXP(2, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))) - 1) * MOD(m, EXP(2, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)))))"),
       t2631,
     ),
   )
@@ -29582,9 +28674,7 @@ fn step_592() -> Unit raise {
   )
   word_subword_zx_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x pos len.\n        MIN (pos + dimindex(:P)) (dimindex(:M)) <= dimindex(:N)\n        ==> word_subword ((word_zx:M word->N word) x) (pos,len):P word =\n               word_subword x (pos,len)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ pos : Num, ∀ len : Num, MIN(pos + (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)), (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_subword : (Word[N], (Num, Num)) -> Word[P])((word_zx : (Word[M]) -> Word[N])(x), (pos, len)) == (word_subword : (Word[M], (Num, Num)) -> Word[P])(x, (pos, len))"),
       t2638,
     ),
   )
@@ -29629,9 +28719,7 @@ fn step_593() -> Unit raise {
   )
   word_subword_zx_trivial_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x pos len.\n        MIN (dimindex(:M)) (dimindex(:N)) <= pos\n        ==> word_subword ((word_zx:M word->N word) x) (pos,len):P word =\n            word 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ pos : Num, ∀ len : Num, MIN((dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) <= pos → (word_subword : (Word[N], (Num, Num)) -> Word[P])((word_zx : (Word[M]) -> Word[N])(x), (pos, len)) == (word : (Num) -> Word[P])(0)"),
       t2642,
     ),
   )
@@ -29899,9 +28987,7 @@ fn step_595() -> Unit raise {
     t2666,
   )
   let lemma = @tactics.prove(
-    @parser.parse_term(
-      "2 EXP i <= (2 EXP i * b + x) MOD 2 EXP (i + 1) <=>\n     (EVEN b <=> 2 EXP i <= x MOD (2 EXP (i + 1)))",
-    ),
+    @term_syntax.parse_term("(EXP(2, (i : Num)) <= MOD(EXP(2, i) * (b : Num) + (x : Num), EXP(2, i + 1))) == (EVEN(b) == (EXP(2, i) <= MOD(x, EXP(2, i + 1))))"),
     t2667,
   )
   let t2720 = @simp.rewrite_tac(
@@ -30087,9 +29173,7 @@ fn step_595() -> Unit raise {
       val_mod_step(),
       lemma,
       @int.arith_rule(
-        @parser.parse_term(
-          "(k * b + x) + (k * c + y):num = k * (b + c) + x + y",
-        ),
+        @term_syntax.parse_term("(k : Num) * (b : Num) + (x : Num) + (k * (c : Num) + (y : Num)) == k * (b + c) + (x + y)"),
       ),
     ]),
   )
@@ -30245,9 +29329,7 @@ fn step_595() -> Unit raise {
   )
   bit_word_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x (y:N word) i.\n        bit i (word_add x y) <=>\n        i < dimindex(:N) /\\\n        ((bit i x <=> bit i y) <=>\n         ~(i = 0) /\\\n         (bit (i - 1) x /\\ bit (i - 1) y \\/\n          (bit (i - 1) x \\/ bit (i - 1) y) /\\\n          ~(bit (i - 1) (word_add x y))))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_add : (Word[N], Word[N]) -> Word[N])(x, y)) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && ((bit : (Num, Word[N]) -> Bool)(i, x) == (bit : (Num, Word[N]) -> Bool)(i, y)) == (!(i == 0) && ((bit : (Num, Word[N]) -> Bool)(i - 1, x) && (bit : (Num, Word[N]) -> Bool)(i - 1, y) || ((bit : (Num, Word[N]) -> Bool)(i - 1, x) || (bit : (Num, Word[N]) -> Bool)(i - 1, y)) && !(bit : (Num, Word[N]) -> Bool)(i - 1, (word_add : (Word[N], Word[N]) -> Word[N])(x, y)))))"),
       t2723,
     ),
   )
@@ -30304,9 +29386,7 @@ fn step_596() -> Unit raise {
   let t2724 = @simp.rewrite_tac(
     @list.List([
       word_rule(
-        @parser.parse_term(
-          "word_sub x y:N word = word_not(word_add (word_not x) y)",
-        ),
+        @term_syntax.parse_term("word_sub((x : Word[N]), (y : Word[N])) == word_not(word_add(word_not(x), y))"),
       ),
     ]),
   )
@@ -30331,9 +29411,7 @@ fn step_596() -> Unit raise {
   )
   bit_word_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x (y:N word) i.\n        bit i (word_sub x y) <=>\n        i < dimindex(:N) /\\\n        ((bit i x <=> bit i y) <=>\n         ~(i = 0) /\\\n         (~bit (i - 1) x /\\ bit (i - 1) y \\/\n          (~bit (i - 1) x \\/ bit (i - 1) y) /\\\n          bit (i - 1) (word_sub x y)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_sub : (Word[N], Word[N]) -> Word[N])(x, y)) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && ((bit : (Num, Word[N]) -> Bool)(i, x) == (bit : (Num, Word[N]) -> Bool)(i, y)) == (!(i == 0) && (!(bit : (Num, Word[N]) -> Bool)(i - 1, x) && (bit : (Num, Word[N]) -> Bool)(i - 1, y) || (!(bit : (Num, Word[N]) -> Bool)(i - 1, x) || (bit : (Num, Word[N]) -> Bool)(i - 1, y)) && (bit : (Num, Word[N]) -> Bool)(i - 1, (word_sub : (Word[N], Word[N]) -> Word[N])(x, y)))))"),
       t2738,
     ),
   )
@@ -30379,9 +29457,7 @@ fn step_597() -> Unit raise {
   )
   bit_word_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) i.\n        bit i (word_neg x) <=>\n        i < dimindex(:N) /\\\n        (bit i x <=> i = 0 \\/ ~bit (i - 1) x /\\ ~bit (i - 1) (word_neg x))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_neg : (Word[N]) -> Word[N])(x)) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(i, x) == (i == 0 || !(bit : (Num, Word[N]) -> Bool)(i - 1, x) && !(bit : (Num, Word[N]) -> Bool)(i - 1, (word_neg : (Word[N]) -> Word[N])(x))))"),
       t2746,
     ),
   )
@@ -30423,9 +29499,7 @@ fn step_598() -> Unit raise {
   )
   bit_word_add_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x (y:N word).\n        bit 0 (word_add x y) <=> ~(bit 0 x <=> bit 0 y)) /\\\n   (forall x (y:N word) i.\n        bit (i + 1) (word_add x y) <=>\n        i + 1 < dimindex(:N) /\\\n        ((bit (i + 1) x <=> bit (i + 1) y) <=>\n         (bit i x /\\ bit i y \\/\n          (bit i x \\/ bit i y) /\\ ~(bit i (word_add x y)))))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ y : Word[N], (bit : (Num, Word[N]) -> Bool)(0, (word_add : (Word[N], Word[N]) -> Word[N])(x, y)) == !((bit : (Num, Word[N]) -> Bool)(0, x) == (bit : (Num, Word[N]) -> Bool)(0, y))) && (∀ x : Word[N], ∀ y : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i + 1, (word_add : (Word[N], Word[N]) -> Word[N])(x, y)) == (i + 1 < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && ((bit : (Num, Word[N]) -> Bool)(i + 1, x) == (bit : (Num, Word[N]) -> Bool)(i + 1, y)) == ((bit : (Num, Word[N]) -> Bool)(i, x) && (bit : (Num, Word[N]) -> Bool)(i, y) || ((bit : (Num, Word[N]) -> Bool)(i, x) || (bit : (Num, Word[N]) -> Bool)(i, y)) && !(bit : (Num, Word[N]) -> Bool)(i, (word_add : (Word[N], Word[N]) -> Word[N])(x, y)))))"),
       t2752,
     ),
   )
@@ -30469,9 +29543,7 @@ fn step_599() -> Unit raise {
   )
   bit_word_sub_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x (y:N word).\n        bit 0 (word_sub x y) <=> ~(bit 0 x <=> bit 0 y)) /\\\n   (forall x (y:N word) i.\n        bit (i + 1) (word_sub x y) <=>\n        i + 1 < dimindex(:N) /\\\n        ((bit (i + 1) x <=> bit (i + 1) y) <=>\n         (~bit i x /\\ bit i y \\/\n          (~bit i x \\/ bit i y) /\\ bit i (word_sub x y))))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ y : Word[N], (bit : (Num, Word[N]) -> Bool)(0, (word_sub : (Word[N], Word[N]) -> Word[N])(x, y)) == !((bit : (Num, Word[N]) -> Bool)(0, x) == (bit : (Num, Word[N]) -> Bool)(0, y))) && (∀ x : Word[N], ∀ y : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i + 1, (word_sub : (Word[N], Word[N]) -> Word[N])(x, y)) == (i + 1 < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && ((bit : (Num, Word[N]) -> Bool)(i + 1, x) == (bit : (Num, Word[N]) -> Bool)(i + 1, y)) == (!(bit : (Num, Word[N]) -> Bool)(i, x) && (bit : (Num, Word[N]) -> Bool)(i, y) || (!(bit : (Num, Word[N]) -> Bool)(i, x) || (bit : (Num, Word[N]) -> Bool)(i, y)) && (bit : (Num, Word[N]) -> Bool)(i, (word_sub : (Word[N], Word[N]) -> Word[N])(x, y)))))"),
       t2758,
     ),
   )
@@ -30515,9 +29587,7 @@ fn step_600() -> Unit raise {
   )
   bit_word_neg_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(x:N word).\n        bit 0 (word_neg x) = bit 0 x) /\\\n   (forall(x:N word) i.\n        bit (i + 1) (word_neg x) <=>\n        i + 1 < dimindex(:N) /\\\n        (bit (i + 1) x <=> ~bit i x /\\ ~bit i (word_neg x)))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], (bit : (Num, Word[N]) -> Bool)(0, (word_neg : (Word[N]) -> Word[N])(x)) == (bit : (Num, Word[N]) -> Bool)(0, x)) && (∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i + 1, (word_neg : (Word[N]) -> Word[N])(x)) == (i + 1 < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(i + 1, x) == (!(bit : (Num, Word[N]) -> Bool)(i, x) && !(bit : (Num, Word[N]) -> Bool)(i, (word_neg : (Word[N]) -> Word[N])(x)))))"),
       t2764,
     ),
   )
@@ -30577,9 +29647,7 @@ fn step_601() -> Unit raise {
   )
   le_val_mod_step_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word) i.\n        (val x MOD 2 EXP (i + 1)) <= (val y MOD 2 EXP (i + 1)) <=>\n        ~bit i x /\\ bit i y \\/\n        (bit i x <=> bit i y) /\\ val x MOD 2 EXP i <= val y MOD 2 EXP i",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ i : Num, (MOD(val(x), EXP(2, i + 1)) <= MOD(val(y), EXP(2, i + 1))) == (!bit(i, x) && bit(i, y) || bit(i, x) == bit(i, y) && MOD(val(x), EXP(2, i)) <= MOD(val(y), EXP(2, i)))"),
       t2773,
     ),
   )
@@ -30639,9 +29707,7 @@ fn step_602() -> Unit raise {
   )
   lt_val_mod_step_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word) i.\n        (val x MOD 2 EXP (i + 1)) < (val y MOD 2 EXP (i + 1)) <=>\n        ~bit i x /\\ bit i y \\/\n        (bit i x <=> bit i y) /\\ val x MOD 2 EXP i < val y MOD 2 EXP i",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ i : Num, (MOD(val(x), EXP(2, i + 1)) < MOD(val(y), EXP(2, i + 1))) == (!bit(i, x) && bit(i, y) || bit(i, x) == bit(i, y) && MOD(val(x), EXP(2, i)) < MOD(val(y), EXP(2, i)))"),
       t2782,
     ),
   )
@@ -30664,9 +29730,7 @@ fn step_603() -> Unit raise {
   let t2783 = @tactics.conv_tac(word_rule)
   word_add_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x:N word. word_add x (word 0) = x) /\\\n   (forall x:N word. word_add (word 0) x = x)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], word_add(x, word(0)) == x) && (∀ x : Word[N], word_add(word(0), x) == x)"),
       t2783,
     ),
   )
@@ -30708,9 +29772,7 @@ fn step_605() -> Unit raise {
   let t2785 = @tactics.conv_tac(word_rule)
   word_add_assoc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y z:N word. word_add x (word_add y z) =\n                  word_add (word_add x y) z",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ z : Word[N], word_add(x, word_add(y, z)) == word_add(word_add(x, y), z)"),
       t2785,
     ),
   )
@@ -30731,9 +29793,7 @@ fn step_606() -> Unit raise {
   let t2786 = @tactics.conv_tac(word_rule)
   word_add_ac_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "word_add x y = word_add y x /\\\n   word_add (word_add x y) z = word_add x (word_add y z) /\\\n   word_add x (word_add y z) = word_add y (word_add x z)",
-      ),
+      @term_syntax.parse_term("word_add((x : Word[_]), (y : Word[_])) == word_add(y, x) && word_add(word_add(x, y), (z : Word[_])) == word_add(x, word_add(y, z)) && word_add(x, word_add(y, z)) == word_add(y, word_add(x, z))"),
       t2786,
     ),
   )
@@ -30754,9 +29814,7 @@ fn step_607() -> Unit raise {
   let t2787 = @tactics.conv_tac(word_rule)
   word_mul_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x:N word. word_mul x (word 0) = word 0) /\\\n   (forall x:N word. word_mul (word 0) x = word 0)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], word_mul(x, word(0)) == word(0)) && (∀ x : Word[N], word_mul(word(0), x) == word(0))"),
       t2787,
     ),
   )
@@ -30798,9 +29856,7 @@ fn step_609() -> Unit raise {
   let t2789 = @tactics.conv_tac(word_rule)
   word_mul_assoc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y z:N word. word_mul x (word_mul y z) =\n                  word_mul (word_mul x y) z",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ z : Word[N], word_mul(x, word_mul(y, z)) == word_mul(word_mul(x, y), z)"),
       t2789,
     ),
   )
@@ -30821,9 +29877,7 @@ fn step_610() -> Unit raise {
   let t2790 = @tactics.conv_tac(word_rule)
   word_mul_ac_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "word_mul x y = word_mul y x /\\\n   word_mul (word_mul x y) z = word_mul x (word_mul y z) /\\\n   word_mul x (word_mul y z) = word_mul y (word_mul x z)",
-      ),
+      @term_syntax.parse_term("word_mul((x : Word[_]), (y : Word[_])) == word_mul(y, x) && word_mul(word_mul(x, y), (z : Word[_])) == word_mul(x, word_mul(y, z)) && word_mul(x, word_mul(y, z)) == word_mul(y, word_mul(x, z))"),
       t2790,
     ),
   )
@@ -31048,9 +30102,7 @@ fn step_621() -> Unit raise {
   let t2801 = @tactics.conv_tac(word_bitwise_rule)
   word_and_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x:N word. word_and x (word 0) = word 0) /\\\n   (forall x:N word. word_and (word 0) x = word 0)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], word_and(x, word(0)) == word(0)) && (∀ x : Word[N], word_and(word(0), x) == word(0))"),
       t2801,
     ),
   )
@@ -31071,9 +30123,7 @@ fn step_622() -> Unit raise {
   let t2802 = @tactics.conv_tac(word_bitwise_rule)
   word_and_not0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x:N word. word_and x (word_not(word 0)) = x) /\\\n   (forall x:N word. word_and (word_not(word 0)) x = x)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], word_and(x, word_not(word(0))) == x) && (∀ x : Word[N], word_and(word_not(word(0)), x) == x)"),
       t2802,
     ),
   )
@@ -31115,9 +30165,7 @@ fn step_624() -> Unit raise {
   let t2804 = @tactics.conv_tac(word_bitwise_rule)
   word_and_assoc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y z:N word. word_and x (word_and y z) = word_and (word_and x y) z",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ z : Word[N], word_and(x, word_and(y, z)) == word_and(word_and(x, y), z)"),
       t2804,
     ),
   )
@@ -31156,9 +30204,7 @@ fn step_626() -> Unit raise {
   let t2806 = @tactics.conv_tac(word_bitwise_rule)
   word_or_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x:N word. word_or x (word 0) = x) /\\\n   (forall x:N word. word_or (word 0) x = x)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], word_or(x, word(0)) == x) && (∀ x : Word[N], word_or(word(0), x) == x)"),
       t2806,
     ),
   )
@@ -31179,9 +30225,7 @@ fn step_627() -> Unit raise {
   let t2807 = @tactics.conv_tac(word_bitwise_rule)
   word_or_not0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x:N word. word_or x (word_not(word 0)) = word_not(word 0)) /\\\n   (forall x:N word. word_or (word_not(word 0)) x = word_not(word 0))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], word_or(x, word_not(word(0))) == word_not(word(0))) && (∀ x : Word[N], word_or(word_not(word(0)), x) == word_not(word(0)))"),
       t2807,
     ),
   )
@@ -31223,9 +30267,7 @@ fn step_629() -> Unit raise {
   let t2809 = @tactics.conv_tac(word_bitwise_rule)
   word_or_assoc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y z:N word. word_or x (word_or y z) = word_or (word_or x y) z",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ z : Word[N], word_or(x, word_or(y, z)) == word_or(word_or(x, y), z)"),
       t2809,
     ),
   )
@@ -31246,9 +30288,7 @@ fn step_630() -> Unit raise {
   let t2810 = @tactics.conv_tac(word_bitwise_rule)
   word_or_eq_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. word_or x y = word 0 <=> x = word 0 /\\ y = word 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (word_or(x, y) == word(0)) == (x == word(0) && y == word(0))"),
       t2810,
     ),
   )
@@ -31269,9 +30309,7 @@ fn step_631() -> Unit raise {
   let t2811 = @tactics.conv_tac(word_bitwise_rule)
   word_not_and_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. word_not(word_and x y) = word_or (word_not x) (word_not y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_not(word_and(x, y)) == word_or(word_not(x), word_not(y))"),
       t2811,
     ),
   )
@@ -31292,9 +30330,7 @@ fn step_632() -> Unit raise {
   let t2812 = @tactics.conv_tac(word_bitwise_rule)
   word_not_or_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. word_not(word_or x y) = word_and (word_not x) (word_not y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_not(word_or(x, y)) == word_and(word_not(x), word_not(y))"),
       t2812,
     ),
   )
@@ -31336,9 +30372,7 @@ fn step_634() -> Unit raise {
   let t2814 = @tactics.conv_tac(word_bitwise_rule)
   word_xor_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x:N word. word_xor x (word 0) = x) /\\\n   (forall x:N word. word_xor (word 0) x = x)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], word_xor(x, word(0)) == x) && (∀ x : Word[N], word_xor(word(0), x) == x)"),
       t2814,
     ),
   )
@@ -31359,9 +30393,7 @@ fn step_635() -> Unit raise {
   let t2815 = @tactics.conv_tac(word_bitwise_rule)
   word_xor_not_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x y:N word. word_xor (word_not x) y = word_not(word_xor x y)) /\\\n   (forall x y:N word. word_xor x (word_not y) = word_not(word_xor x y))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ y : Word[N], word_xor(word_not(x), y) == word_not(word_xor(x, y))) && (∀ x : Word[N], ∀ y : Word[N], word_xor(x, word_not(y)) == word_not(word_xor(x, y)))"),
       t2815,
     ),
   )
@@ -31382,9 +30414,7 @@ fn step_636() -> Unit raise {
   let t2816 = @simp.rewrite_tac(@list.List([word_xor_not(), word_xor_0()]))
   word_xor_not0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x:N word. word_xor x (word_not(word 0)) = word_not x) /\\\n   (forall x:N word. word_xor (word_not(word 0)) x = word_not x)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], word_xor(x, word_not(word(0))) == word_not(x)) && (∀ x : Word[N], word_xor(word_not(word(0)), x) == word_not(x))"),
       t2816,
     ),
   )
@@ -31447,9 +30477,7 @@ fn step_639() -> Unit raise {
   let t2819 = @tactics.conv_tac(word_bitwise_rule)
   word_xor_assoc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y z:N word. word_xor x (word_xor y z) = word_xor (word_xor x y) z",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ z : Word[N], word_xor(x, word_xor(y, z)) == word_xor(word_xor(x, y), z)"),
       t2819,
     ),
   )
@@ -31484,9 +30512,7 @@ fn step_640() -> Unit raise {
                 @simp.rewrite_tac(
                   @list.List([
                     word_bitwise_rule(
-                      @parser.parse_term(
-                        "word_and (word 1:N word) x = word_and x (word 1)",
-                      ),
+                      @term_syntax.parse_term("word_and(word(1), (x : Word[N])) == word_and(x, word(1))"),
                     ),
                   ]),
                 ),
@@ -31506,9 +30532,7 @@ fn step_640() -> Unit raise {
   )
   word_and_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x:N word. word_and x (word 1) = if bit 0 x then word 1 else word 0) /\\\n   (forall x:N word. word_and (word 1) x = if bit 0 x then word 1 else word 0)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], word_and(x, word(1)) == (if bit(0, x) { word(1) } else { word(0) })) && (∀ x : Word[N], word_and(word(1), x) == (if bit(0, x) { word(1) } else { word(0) }))"),
       t2825,
     ),
   )
@@ -31533,9 +30557,7 @@ fn step_641() -> Unit raise {
   )
   word_and_1_bitval_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x:N word. word_and (word 1) x = word(bitval(bit 0 x))) /\\\n   (forall x:N word. word_and x (word 1) = word(bitval(bit 0 x)))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], word_and(word(1), x) == word(bitval(bit(0, x)))) && (∀ x : Word[N], word_and(x, word(1)) == word(bitval(bit(0, x))))"),
       t2827,
     ),
   )
@@ -31571,9 +30593,7 @@ fn step_642() -> Unit raise {
   )
   word_not_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. word_not(word_neg x) = word_sub x (word 1)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], word_not(word_neg(x)) == word_sub(x, word(1))"),
       t2829,
     ),
   )
@@ -31598,9 +30618,7 @@ fn step_643() -> Unit raise {
   )
   word_not_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_not(word_sub x y) = word_add (word_not x) y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_not(word_sub(x, y)) == word_add(word_not(x), y)"),
       t2831,
     ),
   )
@@ -31625,9 +30643,7 @@ fn step_644() -> Unit raise {
   )
   word_not_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_not(word_add x y) = word_add (word_not x) (word_neg y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_not(word_add(x, y)) == word_add(word_not(x), word_neg(y))"),
       t2833,
     ),
   )
@@ -31685,9 +30701,7 @@ fn step_646() -> Unit raise {
   )
   val_eq_max_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. val x = 2 EXP dimindex(:N) - 1 <=> x = word_not(word 0)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ((val : (Word[N]) -> Num)(x) == EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - 1) == (x == (word_not : (Word[N]) -> Word[N])((word : (Num) -> Word[N])(0)))"),
       t2836,
     ),
   )
@@ -31712,9 +30726,7 @@ fn step_647() -> Unit raise {
   )
   val_eq_max_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. val x = 2 EXP dimindex(:N) - 1 <=> word_not x = word 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ((val : (Word[N]) -> Num)(x) == EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - 1) == ((word_not : (Word[N]) -> Word[N])(x) == (word : (Num) -> Word[N])(0))"),
       t2838,
     ),
   )
@@ -31735,9 +30747,7 @@ fn step_648() -> Unit raise {
   let t2839 = @simp.rewrite_tac(@list.List([word_neg_1(), val_eq_max_alt()]))
   val_eq_max_mask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. val x = 2 EXP dimindex(:N) - 1 <=> x = word_neg(word 1)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ((val : (Word[N]) -> Num)(x) == EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - 1) == (x == (word_neg : (Word[N]) -> Word[N])((word : (Num) -> Word[N])(1)))"),
       t2839,
     ),
   )
@@ -31760,9 +30770,7 @@ fn step_649() -> Unit raise {
   let t2840 = @simp.rewrite_tac(@list.List([val_eq_0(), word_or_eq_0()]))
   val_word_or_eq_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. val(word_or x y) = 0 <=> val x = 0 /\\ val y = 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (val(word_or(x, y)) == 0) == (val(x) == 0 && val(y) == 0)"),
       t2840,
     ),
   )
@@ -31789,9 +30797,7 @@ fn step_650() -> Unit raise {
   )
   val_word_and_eq_max_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        val(word_and x y) = 2 EXP dimindex(:N) - 1 <=>\n        val x = 2 EXP dimindex(:N) - 1 /\\\n        val y = 2 EXP dimindex(:N) - 1",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ((val : (Word[N]) -> Num)((word_and : (Word[N], Word[N]) -> Word[N])(x, y)) == EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - 1) == ((val : (Word[N]) -> Num)(x) == EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - 1 && (val : (Word[N]) -> Num)(y) == EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - 1)"),
       t2842,
     ),
   )
@@ -31840,9 +30846,7 @@ fn step_651() -> Unit raise {
   )
   word_shl_and_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(v:N word) w n.\n        word_shl (word_and v w) n =\n        word_and (word_shl v n) (word_shl w n)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], ∀ n : Num, word_shl(word_and(v, w), n) == word_and(word_shl(v, n), word_shl(w, n))"),
       t2849,
     ),
   )
@@ -31895,9 +30899,7 @@ fn step_652() -> Unit raise {
   )
   word_ushr_and_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(v:N word) w n.\n        word_ushr (word_and v w) n =\n        word_and (word_ushr v n) (word_ushr w n)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], ∀ n : Num, word_ushr(word_and(v, w), n) == word_and(word_ushr(v, n), word_ushr(w, n))"),
       t2857,
     ),
   )
@@ -31944,9 +30946,7 @@ fn step_653() -> Unit raise {
   )
   word_shl_or_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(v:N word) w n.\n        word_shl (word_or v w) n =\n        word_or (word_shl v n) (word_shl w n)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], ∀ n : Num, word_shl(word_or(v, w), n) == word_or(word_shl(v, n), word_shl(w, n))"),
       t2864,
     ),
   )
@@ -31999,9 +30999,7 @@ fn step_654() -> Unit raise {
   )
   word_ushr_or_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(v:N word) w n.\n        word_ushr (word_or v w) n =\n        word_or (word_ushr v n) (word_ushr w n)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], ∀ n : Num, word_ushr(word_or(v, w), n) == word_or(word_ushr(v, n), word_ushr(w, n))"),
       t2872,
     ),
   )
@@ -32048,9 +31046,7 @@ fn step_655() -> Unit raise {
   )
   word_shl_xor_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(v:N word) w n.\n        word_shl (word_xor v w) n =\n        word_xor (word_shl v n) (word_shl w n)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], ∀ n : Num, word_shl(word_xor(v, w), n) == word_xor(word_shl(v, n), word_shl(w, n))"),
       t2879,
     ),
   )
@@ -32103,9 +31099,7 @@ fn step_656() -> Unit raise {
   )
   word_ushr_xor_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(v:N word) w n.\n        word_ushr (word_xor v w) n =\n        word_xor (word_ushr v n) (word_ushr w n)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], ∀ n : Num, word_ushr(word_xor(v, w), n) == word_xor(word_ushr(v, n), word_ushr(w, n))"),
       t2887,
     ),
   )
@@ -32150,9 +31144,7 @@ fn step_657() -> Unit raise {
   )
   word_add_xor_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_add x y = word_add (word_shl (word_and x y) 1) (word_xor x y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_add(x, y) == word_add(word_shl(word_and(x, y), 1), word_xor(x, y))"),
       t2891,
     ),
   )
@@ -32199,9 +31191,7 @@ fn step_658() -> Unit raise {
   )
   word_add_or_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. word_add x y = word_add (word_and x y) (word_or x y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_add(x, y) == word_add(word_and(x, y), word_or(x, y))"),
       t2895,
     ),
   )
@@ -32235,9 +31225,7 @@ fn step_659() -> Unit raise {
   )
   word_or_xor_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. word_or x y = word_add (word_and x y) (word_xor x y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_or(x, y) == word_add(word_and(x, y), word_xor(x, y))"),
       t2899,
     ),
   )
@@ -32265,9 +31253,7 @@ fn step_660() -> Unit raise {
   )
   word_add_or_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. word_add x y = word_or x y <=> word_and x y = word 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (word_add(x, y) == word_or(x, y)) == (word_and(x, y) == word(0))"),
       t2902,
     ),
   )
@@ -32292,9 +31278,7 @@ fn step_661() -> Unit raise {
   )
   word_or_xor_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. word_or x y = word_xor x y <=> word_and x y = word 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (word_or(x, y) == word_xor(x, y)) == (word_and(x, y) == word(0))"),
       t2904,
     ),
   )
@@ -32315,9 +31299,7 @@ fn step_662() -> Unit raise {
   let t2905 = @simp.rewrite_tac(@list.List([word_add_or_eq()]))
   word_add_or_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. word_and x y = word 0 ==> word_add x y = word_or x y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_and(x, y) == word(0) → word_add(x, y) == word_or(x, y)"),
       t2905,
     ),
   )
@@ -32338,9 +31320,7 @@ fn step_663() -> Unit raise {
   let t2906 = @simp.rewrite_tac(@list.List([word_or_xor_eq()]))
   word_or_xor_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. word_and x y = word 0 ==> word_or x y = word_xor x y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_and(x, y) == word(0) → word_or(x, y) == word_xor(x, y)"),
       t2906,
     ),
   )
@@ -32370,9 +31350,7 @@ fn step_664() -> Unit raise {
   )
   word_add_xor_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. word_and x y = word 0 ==> word_add x y = word_xor x y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_and(x, y) == word(0) → word_add(x, y) == word_xor(x, y)"),
       t2910,
     ),
   )
@@ -32395,9 +31373,7 @@ fn step_665() -> Unit raise {
   )
   word_popcount_add_disjoint_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_and x y = word 0\n        ==> word_popcount(word_add x y) = word_popcount x + word_popcount y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_and(x, y) == word(0) → word_popcount(word_add(x, y)) == word_popcount(x) + word_popcount(y)"),
       t2911,
     ),
   )
@@ -32433,9 +31409,7 @@ fn step_666() -> Unit raise {
   )
   word_popcount_xor_and_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_popcount(word_xor x y) + word_popcount(word_and x y) =\n        word_popcount(word_or x y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_popcount(word_xor(x, y)) + word_popcount(word_and(x, y)) == word_popcount(word_or(x, y))"),
       t2915,
     ),
   )
@@ -32474,9 +31448,7 @@ fn step_667() -> Unit raise {
   )
   word_popcount_or_and_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_popcount(word_or x y) + word_popcount(word_and x y) =\n        word_popcount x + word_popcount y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_popcount(word_or(x, y)) + word_popcount(word_and(x, y)) == word_popcount(x) + word_popcount(y)"),
       t2917,
     ),
   )
@@ -32517,9 +31489,7 @@ fn step_668() -> Unit raise {
   )
   word_popcount_xor_and2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_popcount(word_xor x y) + 2 * word_popcount(word_and x y) =\n        word_popcount x + word_popcount y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_popcount(word_xor(x, y)) + 2 * word_popcount(word_and(x, y)) == word_popcount(x) + word_popcount(y)"),
       t2923,
     ),
   )
@@ -32544,9 +31514,7 @@ fn step_669() -> Unit raise {
   )
   word_popcount_xor_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n      word_popcount(word_xor x y) <= word_popcount x + word_popcount y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_popcount(word_xor(x, y)) <= word_popcount(x) + word_popcount(y)"),
       t2924,
     ),
   )
@@ -32831,9 +31799,7 @@ fn step_670() -> Unit raise {
   )
   word_sub_xor_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_and (word_not x) y = word 0 ==> word_sub x y = word_xor x y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_and(word_not(x), y) == word(0) → word_sub(x, y) == word_xor(x, y)"),
       t2945,
     ),
   )
@@ -32854,9 +31820,7 @@ fn step_671() -> Unit raise {
   let t2946 = @simp.simp_tac(@list.List([word_sub_xor()]))
   word_xor_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_and (word_not x) y = word 0 ==> word_xor x y = word_sub x y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_and(word_not(x), y) == word(0) → word_xor(x, y) == word_sub(x, y)"),
       t2946,
     ),
   )
@@ -32897,9 +31861,7 @@ fn step_672() -> Unit raise {
   )
   word_sub_mask_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k (x:N word).\n        val x < 2 EXP k\n        ==> word_sub (word(2 EXP k - 1)) x = word_xor (word(2 EXP k - 1)) x",
-      ),
+      @term_syntax.parse_term("∀ k : Num, ∀ x : Word[N], val(x) < EXP(2, k) → word_sub(word(EXP(2, k) - 1), x) == word_xor(word(EXP(2, k) - 1), x)"),
       t2950,
     ),
   )
@@ -32922,9 +31884,7 @@ fn step_673() -> Unit raise {
   let t2951 = @simp.simp_tac(@list.List([word_sub_mask_word()]))
   word_xor_mask_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k (x:N word).\n        val x < 2 EXP k\n        ==> word_xor (word(2 EXP k - 1)) x = word_sub (word(2 EXP k - 1)) x",
-      ),
+      @term_syntax.parse_term("∀ k : Num, ∀ x : Word[N], val(x) < EXP(2, k) → word_xor(word(EXP(2, k) - 1), x) == word_sub(word(EXP(2, k) - 1), x)"),
       t2951,
     ),
   )
@@ -32984,9 +31944,7 @@ fn step_674() -> Unit raise {
   )
   word_xor_int_min_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w:N word. word_xor word_INT_MIN w = word_add word_INT_MIN w",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], word_xor(word_INT_MIN, w) == word_add(word_INT_MIN, w)"),
       t2956,
     ),
   )
@@ -33020,9 +31978,7 @@ fn step_675() -> Unit raise {
   )
   word_bitval_not_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b. word(bitval(~b)) = word_sub (word 1) (word(bitval b))",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, (word : (Num) -> Word[_])(bitval(!b)) == (word_sub : (Word[_], Word[_]) -> Word[_])((word : (Num) -> Word[_])(1), (word : (Num) -> Word[_])(bitval(b)))"),
       t2959,
     ),
   )
@@ -33272,9 +32228,7 @@ fn step_677() -> Unit raise {
     @int.asm_arith_tac,
   )
   let t2987 = (
-    @parser.parse_term(
-      "(forall(x:N word) i.\n        bit i (word_neg x) <=>\n        i < dimindex(:N) /\\\n        (if ?j. j < i /\\ bit j x then ~(bit i x) else bit i x)) /\\\n   (forall(x:N word) i.\n        bit i (word_add x (word 1)) <=>\n        i < dimindex(:N) /\\\n        (if ?j. j < i /\\ ~(bit j x) then bit i x else ~(bit i x))) /\\\n   (forall(x:N word) i.\n        bit i (word_sub x (word 1)) <=>\n        i < dimindex(:N) /\\\n        (if ?j. j < i /\\ bit j x then bit i x else ~(bit i x)))",
-    ),
+    @term_syntax.parse_term("(∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_neg : (Word[N]) -> Word[N])(x)) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (if (∃ j : Num, j < i && (bit : (Num, Word[N]) -> Bool)(j, x)) { !(bit : (Num, Word[N]) -> Bool)(i, x) } else { (bit : (Num, Word[N]) -> Bool)(i, x) }))) && (∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_add : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(1))) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (if (∃ j : Num, j < i && !(bit : (Num, Word[N]) -> Bool)(j, x)) { (bit : (Num, Word[N]) -> Bool)(i, x) } else { !(bit : (Num, Word[N]) -> Bool)(i, x) }))) && (∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_sub : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(1))) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (if (∃ j : Num, j < i && (bit : (Num, Word[N]) -> Bool)(j, x)) { (bit : (Num, Word[N]) -> Bool)(i, x) } else { !(bit : (Num, Word[N]) -> Bool)(i, x) })))"),
     t2986,
   )
   match
@@ -33332,9 +32286,7 @@ fn step_678() -> Unit raise {
   )
   bit_word_and_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) i.\n        bit i (word_and x (word_neg x)) <=>\n        bit i x /\\ forall j. j < i ==> ~(bit j x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ i : Num, bit(i, word_and(x, word_neg(x))) == (bit(i, x) && (∀ j : Num, j < i → !bit(j, x)))"),
       t2989,
     ),
   )
@@ -33361,9 +32313,7 @@ fn step_679() -> Unit raise {
   )
   bit_word_or_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) i.\n        bit i (word_or x (word_neg x)) <=>\n        i < dimindex(:N) /\\ ?j. j <= i /\\ bit j x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_or : (Word[N], Word[N]) -> Word[N])(x, (word_neg : (Word[N]) -> Word[N])(x))) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (∃ j : Num, j <= i && (bit : (Num, Word[N]) -> Bool)(j, x)))"),
       t2991,
     ),
   )
@@ -33390,9 +32340,7 @@ fn step_680() -> Unit raise {
   )
   bit_word_xor_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) i.\n        bit i (word_xor x (word_neg x)) <=>\n        i < dimindex(:N) /\\ ?j. j < i /\\ bit j x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_xor : (Word[N], Word[N]) -> Word[N])(x, (word_neg : (Word[N]) -> Word[N])(x))) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (∃ j : Num, j < i && (bit : (Num, Word[N]) -> Bool)(j, x)))"),
       t2993,
     ),
   )
@@ -33419,9 +32367,7 @@ fn step_681() -> Unit raise {
   )
   bit_word_and_add_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) i.\n        bit i (word_and x (word_add x (word 1))) <=>\n        bit i x /\\ ?j. j < i /\\ ~bit j x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ i : Num, bit(i, word_and(x, word_add(x, word(1)))) == (bit(i, x) && (∃ j : Num, j < i && !bit(j, x)))"),
       t2995,
     ),
   )
@@ -33448,9 +32394,7 @@ fn step_682() -> Unit raise {
   )
   bit_word_and_sub_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) i.\n        bit i (word_and x (word_sub x (word 1))) <=>\n        bit i x /\\ ?j. j < i /\\ bit j x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ i : Num, bit(i, word_and(x, word_sub(x, word(1)))) == (bit(i, x) && (∃ j : Num, j < i && bit(j, x)))"),
       t2997,
     ),
   )
@@ -33477,9 +32421,7 @@ fn step_683() -> Unit raise {
   )
   bit_word_or_add_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) i.\n        bit i (word_or x (word_add x (word 1))) <=>\n        i < dimindex(:N) /\\\n        (bit i x \\/ forall j. j < i ==> bit j x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_or : (Word[N], Word[N]) -> Word[N])(x, (word_add : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(1)))) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && ((bit : (Num, Word[N]) -> Bool)(i, x) || (∀ j : Num, j < i → (bit : (Num, Word[N]) -> Bool)(j, x))))"),
       t2999,
     ),
   )
@@ -33506,9 +32448,7 @@ fn step_684() -> Unit raise {
   )
   bit_word_or_sub_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) i.\n        bit i (word_or x (word_sub x (word 1))) <=>\n        i < dimindex(:N) /\\\n        (bit i x \\/ forall j. j < i ==> ~bit j x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_or : (Word[N], Word[N]) -> Word[N])(x, (word_sub : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(1)))) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && ((bit : (Num, Word[N]) -> Bool)(i, x) || (∀ j : Num, j < i → !(bit : (Num, Word[N]) -> Bool)(j, x))))"),
       t3001,
     ),
   )
@@ -33535,9 +32475,7 @@ fn step_685() -> Unit raise {
   )
   bit_word_xor_add_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) i.\n        bit i (word_xor x (word_add x (word 1))) <=>\n        i < dimindex(:N) /\\ forall j. j < i ==> bit j x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_xor : (Word[N], Word[N]) -> Word[N])(x, (word_add : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(1)))) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (∀ j : Num, j < i → (bit : (Num, Word[N]) -> Bool)(j, x)))"),
       t3003,
     ),
   )
@@ -33564,9 +32502,7 @@ fn step_686() -> Unit raise {
   )
   bit_word_xor_sub_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) i.\n        bit i (word_xor x (word_sub x (word 1))) <=>\n        i < dimindex(:N) /\\ forall j. j < i ==> ~(bit j x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_xor : (Word[N], Word[N]) -> Word[N])(x, (word_sub : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(1)))) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (∀ j : Num, j < i → !(bit : (Num, Word[N]) -> Bool)(j, x)))"),
       t3005,
     ),
   )
@@ -33600,9 +32536,7 @@ fn step_687() -> Unit raise {
   )
   bit_word_and_not_sub_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) i.\n        bit i (word_and (word_not x) (word_sub x (word 1))) <=>\n        i < dimindex(:N) /\\ forall j. j <= i ==> ~(bit j x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_and : (Word[N], Word[N]) -> Word[N])((word_not : (Word[N]) -> Word[N])(x), (word_sub : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(1)))) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (∀ j : Num, j <= i → !(bit : (Num, Word[N]) -> Bool)(j, x)))"),
       t3007,
     ),
   )
@@ -33631,9 +32565,7 @@ fn step_688() -> Unit raise {
   )
   bit_word_and_not_add_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) i.\n        bit i (word_and (word_not x) (word_add x (word 1))) <=>\n        i < dimindex(:N) /\\\n         ~(bit i x) /\\ forall j. j < i ==> bit j x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_and : (Word[N], Word[N]) -> Word[N])((word_not : (Word[N]) -> Word[N])(x), (word_add : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(1)))) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && !(bit : (Num, Word[N]) -> Bool)(i, x) && (∀ j : Num, j < i → (bit : (Num, Word[N]) -> Bool)(j, x)))"),
       t3009,
     ),
   )
@@ -33668,9 +32600,7 @@ fn step_689() -> Unit raise {
   let t3019 = @tactics.repeat_tac(@tactics.conj_tac)
   let t3018 = @tactics.match_mp_tac(
     @class.taut(
-      @parser.parse_term(
-        "(p <=> s) /\\ (q <=> F) /\\ r ==> (p \\/ q <=> r /\\ s)",
-      ),
+      @term_syntax.parse_term("(p : Bool) == (s : Bool) && (q : Bool) == false && (r : Bool) → (p || q) == (r && s)"),
     ),
   )
   let t3017 = @simp.asm_simp_tac(
@@ -33773,9 +32703,7 @@ fn step_689() -> Unit raise {
   )
   word_or_shl_ushr_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:N word) l m n.\n        m + n = dimindex(:N)\n        ==> word_or (word_shl h m) (word_ushr l n) =\n            word_zx (word_ushr (word_join h l:(N tybit0)word) n)",
-      ),
+      @term_syntax.parse_term("∀ h : Word[N], ∀ l : Word[N], ∀ m : Num, ∀ n : Num, m + n == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_or : (Word[N], Word[N]) -> Word[N])((word_shl : (Word[N], Num) -> Word[N])(h, m), (word_ushr : (Word[N], Num) -> Word[N])(l, n)) == (word_zx : (Word[Tybit0[N]]) -> Word[N])((word_ushr : (Word[Tybit0[N]], Num) -> Word[Tybit0[N]])((word_join : (Word[N], Word[N]) -> Word[Tybit0[N]])(h, l), n))"),
       t3022,
     ),
   )
@@ -33802,9 +32730,7 @@ fn step_690() -> Unit raise {
   )
   word_or_ushr_shl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:N word) l m n.\n        m + n = dimindex(:N)\n        ==> word_or (word_ushr l m) (word_shl h n) =\n            word_zx (word_ushr (word_join h l:(N tybit0)word) m)",
-      ),
+      @term_syntax.parse_term("∀ h : Word[N], ∀ l : Word[N], ∀ m : Num, ∀ n : Num, m + n == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_or : (Word[N], Word[N]) -> Word[N])((word_ushr : (Word[N], Num) -> Word[N])(l, m), (word_shl : (Word[N], Num) -> Word[N])(h, n)) == (word_zx : (Word[Tybit0[N]]) -> Word[N])((word_ushr : (Word[Tybit0[N]], Num) -> Word[Tybit0[N]])((word_join : (Word[N], Word[N]) -> Word[Tybit0[N]])(h, l), m))"),
       t3024,
     ),
   )
@@ -34119,9 +33045,7 @@ fn step_691() -> Unit raise {
   )
   word_add_shl_ushr_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:N word) l m n.\n        m + n = dimindex(:N)\n        ==> word_add (word_shl h m) (word_ushr l n) =\n            word_zx (word_ushr (word_join h l:(N tybit0)word) n)",
-      ),
+      @term_syntax.parse_term("∀ h : Word[N], ∀ l : Word[N], ∀ m : Num, ∀ n : Num, m + n == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_add : (Word[N], Word[N]) -> Word[N])((word_shl : (Word[N], Num) -> Word[N])(h, m), (word_ushr : (Word[N], Num) -> Word[N])(l, n)) == (word_zx : (Word[Tybit0[N]]) -> Word[N])((word_ushr : (Word[Tybit0[N]], Num) -> Word[Tybit0[N]])((word_join : (Word[N], Word[N]) -> Word[Tybit0[N]])(h, l), n))"),
       t3046,
     ),
   )
@@ -34148,9 +33072,7 @@ fn step_692() -> Unit raise {
   )
   word_add_ushr_shl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:N word) l m n.\n        m + n = dimindex(:N)\n        ==> word_add (word_ushr l m) (word_shl h n) =\n            word_zx (word_ushr (word_join h l:(N tybit0)word) m)",
-      ),
+      @term_syntax.parse_term("∀ h : Word[N], ∀ l : Word[N], ∀ m : Num, ∀ n : Num, m + n == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_add : (Word[N], Word[N]) -> Word[N])((word_ushr : (Word[N], Num) -> Word[N])(l, m), (word_shl : (Word[N], Num) -> Word[N])(h, n)) == (word_zx : (Word[Tybit0[N]]) -> Word[N])((word_ushr : (Word[Tybit0[N]], Num) -> Word[Tybit0[N]])((word_join : (Word[N], Word[N]) -> Word[Tybit0[N]])(h, l), m))"),
       t3048,
     ),
   )
@@ -34177,9 +33099,7 @@ fn step_693() -> Unit raise {
   )
   word_mask_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p. word_neg(word(bitval p)) = if p then word_neg(word 1) else word 0",
-      ),
+      @term_syntax.parse_term("∀ p : Bool, (word_neg : (Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(p))) == (if p { (word_neg : (Word[_]) -> Word[_])((word : (Num) -> Word[_])(1)) } else { (word : (Num) -> Word[_])(0) })"),
       t3050,
     ),
   )
@@ -34200,9 +33120,7 @@ fn step_694() -> Unit raise {
   let t3051 = @simp.rewrite_tac(@list.List([word_mask_alt(), word_neg_1()]))
   word_mask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p. word_neg(word(bitval p)) = if p then word_not(word 0) else word 0",
-      ),
+      @term_syntax.parse_term("∀ p : Bool, (word_neg : (Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(p))) == (if p { (word_not : (Word[_]) -> Word[_])((word : (Num) -> Word[_])(0)) } else { (word : (Num) -> Word[_])(0) })"),
       t3051,
     ),
   )
@@ -34232,9 +33150,7 @@ fn step_695() -> Unit raise {
   )
   bit_word_mask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p i. bit i (word_neg(word(bitval p)):N word) <=> i < dimindex(:N) /\\ p",
-      ),
+      @term_syntax.parse_term("∀ p : Bool, ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_neg : (Word[N]) -> Word[N])((word : (Num) -> Word[N])(bitval(p)))) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && p)"),
       t3054,
     ),
   )
@@ -34271,9 +33187,7 @@ fn step_696() -> Unit raise {
   )
   word_ishr_msb_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. word_ishr x (dimindex(:N) - 1) =\n              word_neg(word(bitval(bit (dimindex(:N) - 1) x)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word_ishr : (Word[N], Num) -> Word[N])(x, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) == (word_neg : (Word[N]) -> Word[N])((word : (Num) -> Word[N])(bitval((bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x))))"),
       t3057,
     ),
   )
@@ -34299,9 +33213,7 @@ fn step_697() -> Unit raise {
   )
   word_not_mask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p. word_not(word_neg(word(bitval p))) = word_neg(word(bitval(~p)))",
-      ),
+      @term_syntax.parse_term("∀ p : Bool, (word_not : (Word[_]) -> Word[_])((word_neg : (Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(p)))) == (word_neg : (Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(!p)))"),
       t3060,
     ),
   )
@@ -34334,9 +33246,7 @@ fn step_698() -> Unit raise {
   )
   word_and_mask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall p x. word_and (word_neg(word(bitval p))) x =\n          if p then x else word 0) /\\\n   (forall p x. word_and x (word_neg(word(bitval p))) =\n          if p then x else word 0)",
-      ),
+      @term_syntax.parse_term("(∀ p : Bool, ∀ x : Word[_], word_and(word_neg(word(bitval(p))), x) == (if p { x } else { word(0) })) && (∀ p : Bool, ∀ x : Word[_], word_and(x, word_neg(word(bitval(p)))) == (if p { x } else { word(0) }))"),
       t3064,
     ),
   )
@@ -34369,9 +33279,7 @@ fn step_699() -> Unit raise {
   )
   word_or_mask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall p x. word_or (word_neg(word(bitval p))) x =\n          if p then word_neg(word(bitval p)) else x) /\\\n   (forall p x. word_or x (word_neg(word(bitval p))) =\n          if p then word_neg(word(bitval p)) else x)",
-      ),
+      @term_syntax.parse_term("(∀ p : Bool, ∀ x : Word[_], word_or(word_neg(word(bitval(p))), x) == (if p { word_neg(word(bitval(p))) } else { x })) && (∀ p : Bool, ∀ x : Word[_], word_or(x, word_neg(word(bitval(p)))) == (if p { word_neg(word(bitval(p))) } else { x }))"),
       t3068,
     ),
   )
@@ -34404,9 +33312,7 @@ fn step_700() -> Unit raise {
   )
   word_xor_mask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall p x. word_xor (word_neg(word(bitval p))) x =\n          if p then word_not x else x) /\\\n   (forall p x. word_xor x (word_neg(word(bitval p))) =\n          if p then word_not x else x)",
-      ),
+      @term_syntax.parse_term("(∀ p : Bool, ∀ x : Word[_], word_xor(word_neg(word(bitval(p))), x) == (if p { word_not(x) } else { x })) && (∀ p : Bool, ∀ x : Word[_], word_xor(x, word_neg(word(bitval(p)))) == (if p { word_not(x) } else { x }))"),
       t3072,
     ),
   )
@@ -34435,9 +33341,7 @@ fn step_701() -> Unit raise {
   )
   word_neg_and_mask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall b x. word_neg (word_and (word_neg(word(bitval b))) x) =\n          word_and (word_neg(word(bitval b))) (word_neg x)) /\\\n   (forall b x. word_neg (word_and x (word_neg(word(bitval b)))) =\n          word_and (word_neg x) (word_neg(word(bitval b))))",
-      ),
+      @term_syntax.parse_term("(∀ b : Bool, ∀ x : Word[_], word_neg(word_and(word_neg(word(bitval(b))), x)) == word_and(word_neg(word(bitval(b))), word_neg(x))) && (∀ b : Bool, ∀ x : Word[_], word_neg(word_and(x, word_neg(word(bitval(b))))) == word_and(word_neg(x), word_neg(word(bitval(b)))))"),
       t3075,
     ),
   )
@@ -34471,9 +33375,7 @@ fn step_702() -> Unit raise {
   )
   word_and_masks_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p q. word_and (word_neg(word(bitval p))) (word_neg(word(bitval q))) =\n         word_neg(word(bitval(p /\\ q)))",
-      ),
+      @term_syntax.parse_term("∀ p : Bool, ∀ q : Bool, (word_and : (Word[_], Word[_]) -> Word[_])((word_neg : (Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(p))), (word_neg : (Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(q)))) == (word_neg : (Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(p && q)))"),
       t3077,
     ),
   )
@@ -34505,9 +33407,7 @@ fn step_703() -> Unit raise {
   )
   word_or_masks_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p q. word_or (word_neg(word(bitval p))) (word_neg(word(bitval q))) =\n         word_neg(word(bitval(p \\/ q)))",
-      ),
+      @term_syntax.parse_term("∀ p : Bool, ∀ q : Bool, (word_or : (Word[_], Word[_]) -> Word[_])((word_neg : (Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(p))), (word_neg : (Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(q)))) == (word_neg : (Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(p || q)))"),
       t3079,
     ),
   )
@@ -34539,9 +33439,7 @@ fn step_704() -> Unit raise {
   )
   word_xor_masks_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p q. word_xor (word_neg(word(bitval p))) (word_neg(word(bitval q))) =\n         word_neg(word(bitval(~(p <=> q))))",
-      ),
+      @term_syntax.parse_term("∀ p : Bool, ∀ q : Bool, (word_xor : (Word[_], Word[_]) -> Word[_])((word_neg : (Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(p))), (word_neg : (Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(q)))) == (word_neg : (Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(!(p == q))))"),
       t3081,
     ),
   )
@@ -34573,9 +33471,7 @@ fn step_705() -> Unit raise {
   )
   word_and_conditions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p q. word_and (word(bitval p)) (word(bitval q)) =\n         word(bitval(p /\\ q))",
-      ),
+      @term_syntax.parse_term("∀ p : Bool, ∀ q : Bool, (word_and : (Word[_], Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(p)), (word : (Num) -> Word[_])(bitval(q))) == (word : (Num) -> Word[_])(bitval(p && q))"),
       t3083,
     ),
   )
@@ -34609,9 +33505,7 @@ fn step_706() -> Unit raise {
   )
   word_or_conditions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p q. word_or (word(bitval p)) (word(bitval q)) =\n         word(bitval(p \\/ q))",
-      ),
+      @term_syntax.parse_term("∀ p : Bool, ∀ q : Bool, (word_or : (Word[_], Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(p)), (word : (Num) -> Word[_])(bitval(q))) == (word : (Num) -> Word[_])(bitval(p || q))"),
       t3085,
     ),
   )
@@ -34645,9 +33539,7 @@ fn step_707() -> Unit raise {
   )
   word_xor_conditions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p q. word_xor (word(bitval p)) (word(bitval q)) =\n         word(bitval(~(p <=> q)))",
-      ),
+      @term_syntax.parse_term("∀ p : Bool, ∀ q : Bool, (word_xor : (Word[_], Word[_]) -> Word[_])((word : (Num) -> Word[_])(bitval(p)), (word : (Num) -> Word[_])(bitval(q))) == (word : (Num) -> Word[_])(bitval(!(p == q)))"),
       t3087,
     ),
   )
@@ -34693,9 +33585,7 @@ fn step_708() -> Unit raise {
   )
   val_word_mask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b. val(word_neg(word(bitval b):N word)) =\n       (2 EXP dimindex(:N) - 1) * bitval b",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, (val : (Word[N]) -> Num)((word_neg : (Word[N]) -> Word[N])((word : (Num) -> Word[N])(bitval(b)))) == (EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - 1) * bitval(b)"),
       t3090,
     ),
   )
@@ -34720,9 +33610,7 @@ fn step_709() -> Unit raise {
   )
   let t3092 = @tactics.match_mp_tac(
     @int.int_arith(
-      @parser.parse_term(
-        "&0:int <= x /\\ x <= &1 /\\ &2 pow 0 <= e ==> --e <= --x /\\ --x < e",
-      ),
+      @term_syntax.parse_term("int_of_num(0) <= (x : Int) && x <= int_of_num(1) && pow(int_of_num(2), 0) <= (e : Int) → -e <= -x && -x < e"),
     ),
   )
   let t3091 = @tactics.match_mp_tac(ival_iword())
@@ -34752,9 +33640,7 @@ fn step_709() -> Unit raise {
   )
   ival_word_mask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b. ival(word_neg(word(bitval b):N word)) = --(&(bitval b))",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, (ival : (Word[N]) -> Int)((word_neg : (Word[N]) -> Word[N])((word : (Num) -> Word[N])(bitval(b)))) == -int_of_num(bitval(b))"),
       t3096,
     ),
   )
@@ -34796,9 +33682,7 @@ fn step_710() -> Unit raise {
   )
   int_val_word_mask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b. &(val(word_neg(word(bitval b):N word))):int =\n       (&2 pow dimindex(:N) - &1) * &(bitval b)",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, int_of_num((val : (Word[N]) -> Num)((word_neg : (Word[N]) -> Word[N])((word : (Num) -> Word[N])(bitval(b))))) == (pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - int_of_num(1)) * int_of_num(bitval(b))"),
       t3098,
     ),
   )
@@ -34842,9 +33726,7 @@ fn step_711() -> Unit raise {
   )
   real_val_word_mask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b. &(val(word_neg(word(bitval b):N word))):real =\n       (&2 pow dimindex(:N) - &1) * &(bitval b)",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, real_of_num((val : (Word[N]) -> Num)((word_neg : (Word[N]) -> Word[N])((word : (Num) -> Word[N])(bitval(b))))) == (pow(real_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) - real_of_num(1)) * real_of_num(bitval(b))"),
       t3100,
     ),
   )
@@ -34897,9 +33779,7 @@ fn step_712() -> Unit raise {
   )
   word_mul_expand_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_mul x y =\n        word(nsum {i | i < dimindex(:N)}\n                  (\\i. val(word_and (word_neg(word(bitval(bit i x))))\n                                    (word_shl y i))))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (word_mul : (Word[N], Word[N]) -> Word[N])(x, y) == (word : (Num) -> Word[N])((nsum : ((Num) -> Bool, (Num) -> Num) -> Num)({(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))}, (i : Num) => (val : (Word[N]) -> Num)((word_and : (Word[N], Word[N]) -> Word[N])((word_neg : (Word[N]) -> Word[N])((word : (Num) -> Word[N])(bitval((bit : (Num, Word[N]) -> Bool)(i, x)))), (word_shl : (Word[N], Num) -> Word[N])(y, i)))))"),
       t3106,
     ),
   )
@@ -35040,9 +33920,7 @@ fn step_713() -> Unit raise {
                             @tactics.then_tac(
                               @tactics.gen_tac,
                               @class.asm_cases_tac(
-                                @parser.parse_term(
-                                  "dimindex(:N) <= dimindex(:M)",
-                                ),
+                                @term_syntax.parse_term("(dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))"),
                               ),
                             ),
                             t3107,
@@ -35321,9 +34199,7 @@ fn step_713() -> Unit raise {
   )
   word_sx_zx_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. (word_sx:M word->N word) x =\n       word_or (word_shl (word_neg(word(bitval(bit (dimindex(:M)-1) x))))\n                         (dimindex(:M)))\n               (word_zx x)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], (word_sx : (Word[M]) -> Word[N])(x) == (word_or : (Word[N], Word[N]) -> Word[N])((word_shl : (Word[N], Num) -> Word[N])((word_neg : (Word[N]) -> Word[N])((word : (Num) -> Word[N])(bitval((bit : (Num, Word[M]) -> Bool)((dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) - 1, x)))), (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))), (word_zx : (Word[M]) -> Word[N])(x))"),
       t3136,
     ),
   )
@@ -35368,9 +34244,7 @@ fn step_714() -> Unit raise {
     @list.List([
       @cart.dimindex_nonzero(),
       @int.arith_rule(
-        @parser.parse_term(
-          "~(n = 0) ==> MIN i (n - 1) = if i < n then i else n - 1",
-        ),
+        @term_syntax.parse_term("!((n : Num) == 0) → MIN((i : Num), n - 1) == (if i < n { i } else { n - 1 })"),
       ),
     ]),
   )
@@ -35410,9 +34284,7 @@ fn step_714() -> Unit raise {
   )
   bit_word_sx_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x i. bit i ((word_sx:M word->N word) x) <=>\n         i < dimindex(:N) /\\ bit (MIN i (dimindex(:M) - 1)) x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_sx : (Word[M]) -> Word[N])(x)) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[M]) -> Bool)(MIN(i, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) - 1), x))"),
       t3146,
     ),
   )
@@ -35470,9 +34342,7 @@ fn step_715() -> Unit raise {
   )
   val_word_and_mask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) k.\n        val(word_and x (word_of_bits {i | i < k})) = val x MOD (2 EXP k)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, val(word_and(x, word_of_bits({(i : Num) | i < k}))) == MOD(val(x), EXP(2, k))"),
       t3153,
     ),
   )
@@ -35536,9 +34406,7 @@ fn step_716() -> Unit raise {
   )
   ival_word_and_mask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) k.\n        k < dimindex(:N)\n        ==> ival(word_and x (word_of_bits {i | i < k})) =\n            ival x rem (&2 pow k)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, k < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (ival : (Word[N]) -> Int)((word_and : (Word[N], Word[N]) -> Word[N])(x, (word_of_bits : ((Num) -> Bool) -> Word[N])({(i : Num) | i < k}))) == rem((ival : (Word[N]) -> Int)(x), (pow : (Int, Num) -> Int)(int_of_num(2), k))"),
       t3161,
     ),
   )
@@ -35563,9 +34431,7 @@ fn step_717() -> Unit raise {
   )
   val_word_and_mask_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x k. val(word_and x (word(2 EXP k - 1))) = val x MOD 2 EXP k",
-      ),
+      @term_syntax.parse_term("∀ x : Word[_], ∀ k : Num, val(word_and(x, word(EXP(2, k) - 1))) == MOD(val(x), EXP(2, k))"),
       t3162,
     ),
   )
@@ -35645,9 +34511,7 @@ fn step_718() -> Unit raise {
   )
   word_and_mask_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(x:N word) k.\n        word_and x (word(2 EXP k - 1)) = word(val x MOD 2 EXP k)) /\\\n   (forall(x:N word) k.\n        word_and (word(2 EXP k - 1)) x = word(val x MOD 2 EXP k))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ k : Num, word_and(x, word(EXP(2, k) - 1)) == word(MOD(val(x), EXP(2, k)))) && (∀ x : Word[N], ∀ k : Num, word_and(word(EXP(2, k) - 1), x) == word(MOD(val(x), EXP(2, k))))"),
       t3177,
     ),
   )
@@ -35928,9 +34792,7 @@ fn step_719() -> Unit raise {
   )
   val_word_and_not_mask_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) k.\n        val(word_and x (word_not(word(2 EXP k - 1)))) =\n        2 EXP k * val x DIV 2 EXP k",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ k : Num, val(word_and(x, word_not(word(EXP(2, k) - 1)))) == EXP(2, k) * DIV(val(x), EXP(2, k))"),
       t3199,
     ),
   )
@@ -36004,9 +34866,7 @@ fn step_720() -> Unit raise {
   )
   word_and_not_mask_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(x:N word) k.\n        word_and x (word_not(word(2 EXP k - 1))) =\n        word(2 EXP k * val x DIV 2 EXP k)) /\\\n   (forall(x:N word) k.\n        word_and (word_not(word(2 EXP k - 1))) x =\n        word(2 EXP k * val x DIV 2 EXP k))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ k : Num, word_and(x, word_not(word(EXP(2, k) - 1))) == word(EXP(2, k) * DIV(val(x), EXP(2, k)))) && (∀ x : Word[N], ∀ k : Num, word_and(word_not(word(EXP(2, k) - 1)), x) == word(EXP(2, k) * DIV(val(x), EXP(2, k))))"),
       t3213,
     ),
   )
@@ -36046,9 +34906,7 @@ fn step_721() -> Unit raise {
   )
   word_bitmask_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k. word_of_bits {i | i < k}:N word =\n       word_sub (word_of_bits {k}) (word 1)",
-      ),
+      @term_syntax.parse_term("∀ k : Num, (word_of_bits : ((Num) -> Bool) -> Word[N])({(i : Num) | i < k}) == (word_sub : (Word[N], Word[N]) -> Word[N])((word_of_bits : ((Num) -> Bool) -> Word[N])({k}), (word : (Num) -> Word[N])(1))"),
       t3216,
     ),
   )
@@ -36084,9 +34942,7 @@ fn step_722() -> Unit raise {
   )
   mask_word_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k. word_sub (word(2 EXP k)) (word 1):N word = word(2 EXP k - 1)",
-      ),
+      @term_syntax.parse_term("∀ k : Num, (word_sub : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(EXP(2, k)), (word : (Num) -> Word[N])(1)) == (word : (Num) -> Word[N])(EXP(2, k) - 1)"),
       t3219,
     ),
   )
@@ -36112,9 +34968,7 @@ fn step_723() -> Unit raise {
   )
   word_and_mask_words_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall j k. word_and (word(2 EXP j - 1)) (word(2 EXP k - 1)):N word =\n         word(2 EXP MIN j k - 1)",
-      ),
+      @term_syntax.parse_term("∀ j : Num, ∀ k : Num, (word_and : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(EXP(2, j) - 1), (word : (Num) -> Word[N])(EXP(2, k) - 1)) == (word : (Num) -> Word[N])(EXP(2, MIN(j, k)) - 1)"),
       t3220,
     ),
   )
@@ -36142,9 +34996,7 @@ fn step_724() -> Unit raise {
   )
   word_or_mask_words_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall j k. word_or (word(2 EXP j - 1)) (word(2 EXP k - 1)):N word =\n         word(2 EXP MAX j k - 1)",
-      ),
+      @term_syntax.parse_term("∀ j : Num, ∀ k : Num, (word_or : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(EXP(2, j) - 1), (word : (Num) -> Word[N])(EXP(2, k) - 1)) == (word : (Num) -> Word[N])(EXP(2, MAX(j, k)) - 1)"),
       t3221,
     ),
   )
@@ -36172,9 +35024,7 @@ fn step_725() -> Unit raise {
   )
   word_ushr_mask_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k i. k <= dimindex(:N)\n         ==> word_ushr (word(2 EXP k - 1):N word) i = word(2 EXP (k - i) - 1)",
-      ),
+      @term_syntax.parse_term("∀ k : Num, ∀ i : Num, k <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (word_ushr : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(EXP(2, k) - 1), i) == (word : (Num) -> Word[N])(EXP(2, k - i) - 1)"),
       t3222,
     ),
   )
@@ -36196,9 +35046,7 @@ pub fn word_ushr_mask_word() -> @kernel.Thm {
 fn step_726() -> Unit raise {
   word_ctz_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "word_ctz (a:N word) =\n        if a = word 0 then dimindex(:N) else minimal i. bit i a",
-      ),
+      @term_syntax.parse_term("(word_ctz : (Word[N]) -> Num)((a : Word[N])) == (if a == (word : (Num) -> Word[N])(0) { (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) } else { minimal((i : Num) => (bit : (Num, Word[N]) -> Bool)(i, a)) })"),
     ),
   )
 }
@@ -36217,9 +35065,7 @@ pub fn word_ctz() -> @kernel.Thm {
 fn step_727() -> Unit raise {
   word_clz_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "word_clz (a:N word) = dimindex(:N) - minimal m. forall i. m <= i ==> ~bit i a",
-      ),
+      @term_syntax.parse_term("(word_clz : (Word[N]) -> Num)((a : Word[N])) == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - minimal((m : Num) => ∀ i : Num, m <= i → !(bit : (Num, Word[N]) -> Bool)(i, a))"),
     ),
   )
 }
@@ -36284,9 +35130,7 @@ fn step_728() -> Unit raise {
   )
   word_clz_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. word_clz x = dimindex (:N) - (minimal m. val x < 2 EXP m)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word_clz : (Word[N]) -> Num)(x) == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - minimal((m : Num) => (val : (Word[N]) -> Num)(x) < EXP(2, m))"),
       t3229,
     ),
   )
@@ -36553,9 +35397,7 @@ fn step_730() -> Unit raise {
   )
   word_le_ctz_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        n <= word_ctz a <=> n <= dimindex(:N) /\\ forall i. bit i a ==> n <= i",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, (n <= (word_ctz : (Word[N]) -> Num)(a)) == (n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, a) → n <= i))"),
       t3250,
     ),
   )
@@ -36601,9 +35443,7 @@ fn step_731() -> Unit raise {
   )
   word_ctz_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        word_ctz a <= n <=> n < dimindex(:N) ==> ?i. i <= n /\\ bit i a",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, ((word_ctz : (Word[N]) -> Num)(a) <= n) == (n < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (∃ i : Num, i <= n && (bit : (Num, Word[N]) -> Bool)(i, a)))"),
       t3258,
     ),
   )
@@ -36715,9 +35555,7 @@ fn step_735() -> Unit raise {
   )
   word_ctz_lt_dimindex_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a:N word. word_ctz a < dimindex(:N) <=> ~(a = word 0)",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ((word_ctz : (Word[N]) -> Num)(a) < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) == !(a == (word : (Num) -> Word[N])(0))"),
       t3265,
     ),
   )
@@ -36820,9 +35658,7 @@ fn step_737() -> Unit raise {
   )
   word_ctz_unique_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        word_ctz a = n <=>\n        n <= dimindex(:N) /\\\n        (n < dimindex(:N) ==> bit n a) /\\\n        (forall i. i < n ==> ~bit i a)",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, ((word_ctz : (Word[N]) -> Num)(a) == n) == (n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (n < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (bit : (Num, Word[N]) -> Bool)(n, a)) && (∀ i : Num, i < n → !(bit : (Num, Word[N]) -> Bool)(i, a)))"),
       t3280,
     ),
   )
@@ -36847,9 +35683,7 @@ fn step_738() -> Unit raise {
   )
   word_ctz_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        n < dimindex(:N)\n        ==> (word_ctz a = n <=> bit n a /\\ forall i. i < n ==> ~bit i a)",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, n < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → ((word_ctz : (Word[N]) -> Num)(a) == n) == ((bit : (Num, Word[N]) -> Bool)(n, a) && (∀ i : Num, i < n → !(bit : (Num, Word[N]) -> Bool)(i, a)))"),
       t3281,
     ),
   )
@@ -36929,9 +35763,7 @@ fn step_739() -> Unit raise {
   )
   word_le_ctz_val_mod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        n <= word_ctz a <=>\n        n <= dimindex(:N) /\\ val a MOD 2 EXP n = 0",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, (n <= (word_ctz : (Word[N]) -> Num)(a)) == (n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && MOD((val : (Word[N]) -> Num)(a), EXP(2, n)) == 0)"),
       t3296,
     ),
   )
@@ -36960,9 +35792,7 @@ fn step_740() -> Unit raise {
   )
   word_le_ctz_val_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        n <= word_ctz a <=>\n        n <= dimindex(:N) /\\ 2 EXP n divides val a",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, (n <= (word_ctz : (Word[N]) -> Num)(a)) == (n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (divides : (Num, Num) -> Bool)(EXP(2, n), (val : (Word[N]) -> Num)(a)))"),
       t3298,
     ),
   )
@@ -37077,9 +35907,7 @@ fn step_741() -> Unit raise {
   )
   let t3305 = @drule.match_mp(
     @int.arith_rule(
-      @parser.parse_term(
-        "a MOD p = n\n                ==> forall e. a MOD p <= a ==> a < 2 EXP e ==> n < 2 EXP e",
-      ),
+      @term_syntax.parse_term("MOD((a : Num), (p : Num)) == (n : Num) → (∀ e : Num, MOD(a, p) <= a → a < EXP(2, e) → n < EXP(2, e))"),
     ),
   )
   let t3302 = @term_syntax.parse_term("(dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))")
@@ -37212,9 +36040,7 @@ fn step_741() -> Unit raise {
   )
   word_ctz_unique_val_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        val a MOD (2 EXP (n + 1)) = 2 EXP n\n        ==> word_ctz a = n",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, MOD(val(a), EXP(2, n + 1)) == EXP(2, n) → word_ctz(a) == n"),
       t3323,
     ),
   )
@@ -37287,9 +36113,7 @@ fn step_743() -> Unit raise {
   )
   word_size_sub_clz_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word).\n        dimindex(:N) - word_clz(a) = (minimal m. forall i. m <= i ==> ~bit i a)",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - (word_clz : (Word[N]) -> Num)(a) == minimal((m : Num) => ∀ i : Num, m <= i → !(bit : (Num, Word[N]) -> Bool)(i, a))"),
       t3332,
     ),
   )
@@ -37347,9 +36171,7 @@ fn step_745() -> Unit raise {
       @arith.not_le(),
       @meson.meson(
         @list.List([@arith.le_refl(), @arith.lte_trans()]),
-        @parser.parse_term(
-          "(?m:num. m <= n /\\ forall i. P i ==> i < m) <=> (forall i. P i ==> i < n)",
-        ),
+        @term_syntax.parse_term("(∃ m : Num, m <= (n : Num) && (∀ i : Num, (P : (Num) -> Bool)(i) → i < m)) == (∀ i : Num, P(i) → i < n)"),
       ),
     ]),
   )
@@ -37414,9 +36236,7 @@ fn step_745() -> Unit raise {
     @int.asm_arith_tac,
     @simp.rewrite_tac(@list.List([word_size_sub_clz()])),
   ])
-  let t3337 = @parser.parse_term(
-    "dimindex(:N) - word_clz(a:N word) <= dimindex(:N) - n",
-  )
+  let t3337 = @term_syntax.parse_term("(dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - (word_clz : (Word[N]) -> Num)((a : Word[N])) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - (n : Num)")
   let t3338 = @tactics.trans_tac(@theorems.eq_trans())(t3337)
   let t3335 = @meson.asm_meson_tac(
     @list.List([word_clz_le_dimindex(), @arith.le_trans()]),
@@ -37619,9 +36439,7 @@ fn step_745() -> Unit raise {
   )
   word_le_clz_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        n <= word_clz(a) <=>\n        n <= dimindex(:N) /\\ forall i. bit i a ==> i + n < dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, (n <= (word_clz : (Word[N]) -> Num)(a)) == (n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, a) → i + n < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t3359,
     ),
   )
@@ -37681,9 +36499,7 @@ fn step_746() -> Unit raise {
   )
   word_clz_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        word_clz(a) <= n <=>\n        n < dimindex(:N) ==> ?i. dimindex(:N) <= i + n + 1 /\\ bit i a",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, ((word_clz : (Word[N]) -> Num)(a) <= n) == (n < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (∃ i : Num, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= i + (n + 1) && (bit : (Num, Word[N]) -> Bool)(i, a)))"),
       t3370,
     ),
   )
@@ -37741,9 +36557,7 @@ fn step_747() -> Unit raise {
   )
   word_clz_lbound_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) i. bit i a ==> word_clz(a) + i < dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, a) → (word_clz : (Word[N]) -> Num)(a) + i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))"),
       t3377,
     ),
   )
@@ -37771,9 +36585,7 @@ fn step_748() -> Unit raise {
   )
   word_clz_lbound_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) i. bit i a ==> word_clz(a) < dimindex(:N) - i",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, a) → (word_clz : (Word[N]) -> Num)(a) < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - i"),
       t3378,
     ),
   )
@@ -37840,9 +36652,7 @@ fn step_750() -> Unit raise {
   )
   word_clz_lt_dimindex_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a:N word. word_clz a < dimindex(:N) <=> ~(a = word 0)",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ((word_clz : (Word[N]) -> Num)(a) < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) == !(a == (word : (Num) -> Word[N])(0))"),
       t3382,
     ),
   )
@@ -37893,9 +36703,7 @@ fn step_751() -> Unit raise {
     @list.List([
       @meson.meson(
         @list.List([bit_trivial()]),
-        @parser.parse_term(
-          "bit i (a:N word) <=> ~(dimindex(:N) <= i) /\\ bit i a",
-        ),
+        @term_syntax.parse_term("(bit : (Num, Word[N]) -> Bool)((i : Num), (a : Word[N])) == (!((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= i) && (bit : (Num, Word[N]) -> Bool)(i, a))"),
       ),
     ]),
   )
@@ -37929,9 +36737,7 @@ fn step_751() -> Unit raise {
   )
   word_clz_eq_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a:N word. word_clz a = 0 <=> bit (dimindex(:N) - 1) a",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ((word_clz : (Word[N]) -> Num)(a) == 0) == (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, a)"),
       t3394,
     ),
   )
@@ -37967,9 +36773,7 @@ fn step_752() -> Unit raise {
   )
   word_clz_decomp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a:N word.\n        word_clz(a) + (minimal m. forall i. m <= i ==> ~bit i a) = dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], (word_clz : (Word[N]) -> Num)(a) + minimal((m : Num) => ∀ i : Num, m <= i → !(bit : (Num, Word[N]) -> Bool)(i, a)) == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))"),
       t3398,
     ),
   )
@@ -37996,9 +36800,7 @@ fn step_753() -> Unit raise {
       @cart.dimindex_ge_1(),
       @theorems.unwind_thm2(),
       @int.arith_rule(
-        @parser.parse_term(
-          "N <= i + n + 1 /\\ i + n < N <=> 1 <= N /\\ n < N /\\ i = N - n - 1",
-        ),
+        @term_syntax.parse_term("((N : Num) <= (i : Num) + ((n : Num) + 1) && i + n < N) == (1 <= N && n < N && i == N - n - 1)"),
       ),
     ]),
   )
@@ -38029,9 +36831,7 @@ fn step_753() -> Unit raise {
         @drule.match_mp(
           @meson.meson(
             @list.List([]),
-            @parser.parse_term(
-              "(forall i. bit i a ==> P i)\n             ==> (forall i. bit i a <=> P i /\\ bit i a)",
-            ),
+            @term_syntax.parse_term("(∀ i : Num, bit(i, (a : Word[_])) → (P : (Num) -> Bool)(i)) → (∀ i : Num, bit(i, a) == (P(i) && bit(i, a)))"),
           ),
         )(th),
       ]),
@@ -38117,9 +36917,7 @@ fn step_753() -> Unit raise {
   )
   word_clz_unique_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        word_clz a = n <=>\n        n <= dimindex(:N) /\\\n        (n < dimindex(:N) ==> bit (dimindex(:N) - n - 1) a) /\\\n        (forall i. dimindex(:N) - n <= i ==> ~bit i a)",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, ((word_clz : (Word[N]) -> Num)(a) == n) == (n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (n < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n - 1, a)) && (∀ i : Num, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n <= i → !(bit : (Num, Word[N]) -> Bool)(i, a)))"),
       t3416,
     ),
   )
@@ -38144,9 +36942,7 @@ fn step_754() -> Unit raise {
   )
   word_clz_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        n < dimindex(:N)\n        ==> (word_clz a = n <=>\n             bit (dimindex(:N) - n - 1) a /\\\n             forall i. dimindex(:N) - n <= i ==> ~bit i a)",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, n < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → ((word_clz : (Word[N]) -> Num)(a) == n) == ((bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n - 1, a) && (∀ i : Num, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n <= i → !(bit : (Num, Word[N]) -> Bool)(i, a)))"),
       t3417,
     ),
   )
@@ -38323,9 +37119,7 @@ fn step_755() -> Unit raise {
       @list.List([@arith.div_eq_0(), @arith.exp_eq_0(), @calc_num.arith_eq()]),
     ),
   ])
-  let t3421 = @parser.parse_term(
-    "val(a:N word) DIV 2 EXP (dimindex(:N) - n) = 0",
-  )
+  let t3421 = @term_syntax.parse_term("DIV((val : (Word[N]) -> Num)((a : Word[N])), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - (n : Num))) == 0")
   let t3422 = @tactics.trans_tac(@theorems.eq_trans())(t3421)
   let t3420 = @simp.asm_rewrite_tac(@list.List([]))
   let t3419 = @class.asm_cases_tac(@term_syntax.parse_term("(n : Num) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))"))
@@ -38605,9 +37399,7 @@ fn step_755() -> Unit raise {
   )
   word_le_clz_val_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        n <= word_clz a <=>\n        n <= dimindex(:N) /\\ val a < 2 EXP (dimindex(:N) - n)",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, (n <= (word_clz : (Word[N]) -> Num)(a)) == (n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (val : (Word[N]) -> Num)(a) < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n))"),
       t3456,
     ),
   )
@@ -38645,9 +37437,7 @@ fn step_756() -> Unit raise {
     t3464,
   ])
   let t3463 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "2 EXP dimindex(:N) = 2 EXP n * 2 EXP (dimindex(:N) - n)",
-    ),
+    @term_syntax.parse_term("EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) == EXP(2, (n : Num)) * EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n)"),
     fn(
       x3460 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -38713,9 +37503,7 @@ fn step_756() -> Unit raise {
   )
   word_le_clz_val_mult_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        n <= word_clz a <=>\n        n <= dimindex(:N) /\\ 2 EXP n * val a < 2 EXP dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, (n <= (word_clz : (Word[N]) -> Num)(a)) == (n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && EXP(2, n) * (val : (Word[N]) -> Num)(a) < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t3466,
     ),
   )
@@ -38745,9 +37533,7 @@ fn step_757() -> Unit raise {
   )
   word_le_clz_val_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        n <= word_clz a <=>\n        n <= dimindex(:N) /\\ val a DIV (2 EXP (dimindex(:N) - n)) = 0",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, (n <= (word_clz : (Word[N]) -> Num)(a)) == (n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && DIV((val : (Word[N]) -> Num)(a), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n)) == 0)"),
       t3467,
     ),
   )
@@ -38884,9 +37670,7 @@ fn step_758() -> Unit raise {
   )
   val_bound_clz_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        2 EXP n * val a < 2 EXP dimindex(:N) <=>\n        a = word 0 \\/ n <= word_clz a",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, (EXP(2, n) * (val : (Word[N]) -> Num)(a) < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) == (a == (word : (Num) -> Word[N])(0) || n <= (word_clz : (Word[N]) -> Num)(a))"),
       t3480,
     ),
   )
@@ -38927,9 +37711,7 @@ fn step_759() -> Unit raise {
     @list.List([bit_val(), @arith.exp_add(), @equal.gsym(@arith.div_div())]),
   )
   let t3487 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "i = (dimindex (:N) - n - 1) + SUC(i - (dimindex(:N) - n))",
-    ),
+    @term_syntax.parse_term("(i : Num) == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - (n : Num) - 1 + SUC(i - ((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n))"),
     fn(
       x3484 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -39025,9 +37807,7 @@ fn step_759() -> Unit raise {
   )
   word_clz_unique_val_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:N word) n.\n        n < dimindex(:N) /\\\n        val a DIV (2 EXP (dimindex(:N) - n - 1)) = 1\n        ==> word_clz a = n",
-      ),
+      @term_syntax.parse_term("∀ a : Word[N], ∀ n : Num, n < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && DIV((val : (Word[N]) -> Num)(a), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n - 1)) == 1 → (word_clz : (Word[N]) -> Num)(a) == n"),
       t3496,
     ),
   )
@@ -39073,9 +37853,7 @@ fn step_760() -> Unit raise {
   )
   word_ctz_bit_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k. word_ctz (word_of_bits {k}:N word) = MIN k (dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ k : Num, (word_ctz : (Word[N]) -> Num)((word_of_bits : ((Num) -> Bool) -> Word[N])({k})) == MIN(k, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))"),
       t3499,
     ),
   )
@@ -39115,9 +37893,7 @@ fn step_761() -> Unit raise {
   )
   word_clz_bit_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k. word_clz (word_of_bits {k}:N word) =\n       if k < dimindex(:N) then dimindex(:N) - 1 - k else dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ k : Num, (word_clz : (Word[N]) -> Num)((word_of_bits : ((Num) -> Bool) -> Word[N])({k})) == (if k < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) { (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1 - k } else { (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) })"),
       t3501,
     ),
   )
@@ -39156,9 +37932,7 @@ fn step_762() -> Unit raise {
   )
   word_ctz_mask_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k. word_ctz (word(2 EXP k - 1):N word) = if k = 0 then dimindex(:N) else 0",
-      ),
+      @term_syntax.parse_term("∀ k : Num, (word_ctz : (Word[N]) -> Num)((word : (Num) -> Word[N])(EXP(2, k) - 1)) == (if k == 0 { (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) } else { 0 })"),
       t3506,
     ),
   )
@@ -39184,9 +37958,7 @@ fn step_763() -> Unit raise {
   )
   word_clz_mask_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k. word_clz (word(2 EXP k - 1):N word) = dimindex(:N) - k",
-      ),
+      @term_syntax.parse_term("∀ k : Num, (word_clz : (Word[N]) -> Num)((word : (Num) -> Word[N])(EXP(2, k) - 1)) == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - k"),
       t3507,
     ),
   )
@@ -39224,9 +37996,7 @@ fn step_764() -> Unit raise {
   )
   word_and_neg_ctz_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. word_and x (word_neg x) = word_of_bits {word_ctz x}",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], word_and(x, word_neg(x)) == word_of_bits({word_ctz(x)})"),
       t3510,
     ),
   )
@@ -39266,9 +38036,7 @@ fn step_765() -> Unit raise {
   )
   word_xor_sub_1_ctz_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word.\n        word_xor x (word_sub x (word 1)) =\n        word(2 EXP (word_ctz x + 1) - 1)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], word_xor(x, word_sub(x, word(1))) == word(EXP(2, word_ctz(x) + 1) - 1)"),
       t3513,
     ),
   )
@@ -39307,9 +38075,7 @@ fn step_766() -> Unit raise {
   )
   word_and_not_sub_1_ctz_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word.\n        word_and (word_not x) (word_sub x (word 1)) =\n        word(2 EXP word_ctz x - 1)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], word_and(word_not(x), word_sub(x, word(1))) == word(EXP(2, word_ctz(x)) - 1)"),
       t3516,
     ),
   )
@@ -39334,9 +38100,7 @@ fn step_767() -> Unit raise {
   )
   word_ctz_emulation_rev_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word.\n        word_clz(word_and (word_not x) (word_sub x (word 1))) =\n        dimindex(:N) - word_ctz x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word_clz : (Word[N]) -> Num)((word_and : (Word[N], Word[N]) -> Word[N])((word_not : (Word[N]) -> Word[N])(x), (word_sub : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(1)))) == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - (word_ctz : (Word[N]) -> Num)(x)"),
       t3517,
     ),
   )
@@ -39371,9 +38135,7 @@ fn step_768() -> Unit raise {
   )
   word_ctz_emulation_and_neg_rev_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word.\n     word_clz(word_and x (word_neg x)) =\n     if x = word 0 then dimindex(:N) else dimindex(:N) - 1 - word_ctz x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word_clz : (Word[N]) -> Num)((word_and : (Word[N], Word[N]) -> Word[N])(x, (word_neg : (Word[N]) -> Word[N])(x))) == (if x == (word : (Num) -> Word[N])(0) { (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) } else { (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1 - (word_ctz : (Word[N]) -> Num)(x) })"),
       t3519,
     ),
   )
@@ -39404,9 +38166,7 @@ fn step_769() -> Unit raise {
   )
   word_ctz_emulation_xor_sub_1_rev_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word.\n    word_clz(word_xor x (word_sub x (word 1))) = dimindex(:N) - 1 - word_ctz x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word_clz : (Word[N]) -> Num)((word_xor : (Word[N], Word[N]) -> Word[N])(x, (word_sub : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(1)))) == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1 - (word_ctz : (Word[N]) -> Num)(x)"),
       t3520,
     ),
   )
@@ -39436,9 +38196,7 @@ fn step_770() -> Unit raise {
         @tactics.gen_tac,
         @tactics.match_mp_tac(
           @int.arith_rule(
-            @parser.parse_term(
-              "t:num <= n /\\ l <= n /\\ l = n - t ==> t = n - l",
-            ),
+            @term_syntax.parse_term("(t : Num) <= (n : Num) && (l : Num) <= n && l == n - t → t == n - l"),
           ),
         ),
       ),
@@ -39448,9 +38206,7 @@ fn step_770() -> Unit raise {
   )
   word_ctz_emulation_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word.\n        word_ctz x =\n        dimindex(:N) - word_clz(word_and (word_not x) (word_sub x (word 1)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word_ctz : (Word[N]) -> Num)(x) == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - (word_clz : (Word[N]) -> Num)((word_and : (Word[N], Word[N]) -> Word[N])((word_not : (Word[N]) -> Word[N])(x), (word_sub : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(1))))"),
       t3523,
     ),
   )
@@ -39495,9 +38251,7 @@ fn step_771() -> Unit raise {
   )
   word_ctz_emulation_and_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word.\n        word_ctz x =\n        if x = word 0 then dimindex(:N)\n        else dimindex(:N) - 1 - word_clz(word_and x (word_neg x))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word_ctz : (Word[N]) -> Num)(x) == (if x == (word : (Num) -> Word[N])(0) { (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) } else { (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1 - (word_clz : (Word[N]) -> Num)((word_and : (Word[N], Word[N]) -> Word[N])(x, (word_neg : (Word[N]) -> Word[N])(x))) })"),
       t3527,
     ),
   )
@@ -39542,9 +38296,7 @@ fn step_772() -> Unit raise {
   )
   word_ctz_emulation_xor_sub_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word.\n        word_ctz x =\n        if x = word 0 then dimindex(:N)\n        else dimindex(:N) - 1 - word_clz(word_xor x (word_sub x (word 1)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word_ctz : (Word[N]) -> Num)(x) == (if x == (word : (Num) -> Word[N])(0) { (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) } else { (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1 - (word_clz : (Word[N]) -> Num)((word_xor : (Word[N], Word[N]) -> Word[N])(x, (word_sub : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(1)))) })"),
       t3531,
     ),
   )
@@ -39581,9 +38333,7 @@ fn step_773() -> Unit raise {
   )
   word_clz_imp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word).\n        (forall i. i < dimindex(:N) /\\ bit i x ==> bit i y)\n        ==> word_clz y <= word_clz x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (∀ i : Num, i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(i, x) → (bit : (Num, Word[N]) -> Bool)(i, y)) → (word_clz : (Word[N]) -> Num)(y) <= (word_clz : (Word[N]) -> Num)(x)"),
       t3535,
     ),
   )
@@ -39625,9 +38375,7 @@ fn step_774() -> Unit raise {
   let t3536 = @simp.rewrite_tac(
     @list.List([
       @int.arith_rule(
-        @parser.parse_term(
-          "p = MIN m n <=> p <= m /\\ p <= n /\\ (m <= p \\/ n <= p)",
-        ),
+        @term_syntax.parse_term("((p : Num) == MIN((m : Num), (n : Num))) == (p <= m && p <= n && (m <= p || n <= p))"),
       ),
     ]),
   )
@@ -39652,9 +38400,7 @@ fn step_774() -> Unit raise {
   )
   word_clz_or_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) y. word_clz (word_or x y) = MIN (word_clz x) (word_clz y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_clz(word_or(x, y)) == MIN(word_clz(x), word_clz(y))"),
       t3542,
     ),
   )
@@ -39689,9 +38435,7 @@ fn step_775() -> Unit raise {
   )
   word_ctz_imp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word).\n        (forall i. i < dimindex(:N) /\\ bit i x ==> bit i y)\n        ==> word_ctz y <= word_ctz x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (∀ i : Num, i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(i, x) → (bit : (Num, Word[N]) -> Bool)(i, y)) → (word_ctz : (Word[N]) -> Num)(y) <= (word_ctz : (Word[N]) -> Num)(x)"),
       t3546,
     ),
   )
@@ -39733,9 +38477,7 @@ fn step_776() -> Unit raise {
   let t3547 = @simp.rewrite_tac(
     @list.List([
       @int.arith_rule(
-        @parser.parse_term(
-          "p = MIN m n <=> p <= m /\\ p <= n /\\ (m <= p \\/ n <= p)",
-        ),
+        @term_syntax.parse_term("((p : Num) == MIN((m : Num), (n : Num))) == (p <= m && p <= n && (m <= p || n <= p))"),
       ),
     ]),
   )
@@ -39760,9 +38502,7 @@ fn step_776() -> Unit raise {
   )
   word_ctz_or_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) y. word_ctz (word_or x y) = MIN (word_ctz x) (word_ctz y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_ctz(word_or(x, y)) == MIN(word_ctz(x), word_ctz(y))"),
       t3553,
     ),
   )
@@ -39796,9 +38536,7 @@ fn step_777() -> Unit raise {
   )
   word_clz_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word). val x <= val y ==> word_clz y <= word_clz x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], val(x) <= val(y) → word_clz(y) <= word_clz(x)"),
       t3556,
     ),
   )
@@ -40011,9 +38749,7 @@ fn step_778() -> Unit raise {
   )
   word_ctz_emulation_popcount_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word.\n        word_ctz x =\n        word_popcount(word_and (word_not x) (word_sub x (word 1)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], word_ctz(x) == word_popcount(word_and(word_not(x), word_sub(x, word(1))))"),
       t3582,
     ),
   )
@@ -40035,9 +38771,7 @@ pub fn word_ctz_emulation_popcount() -> @kernel.Thm {
 fn step_779() -> Unit raise {
   word_reversefields_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(word_reversefields:num->(N)word->(N)word) (b:num) w =\n  word_of_bits\n    { i | i < dimindex(:N) /\\\n          bit (if i < b * dimindex(:N) DIV b\n               then b * (dimindex(:N) DIV b - 1 - i DIV b) + i MOD b\n               else i) w}",
-      ),
+      @term_syntax.parse_term("(word_reversefields : (Num, Word[N]) -> Word[N])((b : Num), (w : Word[N])) == (word_of_bits : ((Num) -> Bool) -> Word[N])({(i : Num) | i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(if i < b * DIV((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), b) { b * (DIV((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), b) - 1 - DIV(i, b)) + MOD(i, b) } else { i }, w)})"),
     ),
   )
 }
@@ -40070,9 +38804,7 @@ fn step_780() -> Unit raise {
   )
   bit_word_reversefields_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:(N)word) b i.\n        bit i (word_reversefields b x) <=>\n        i < dimindex(:N) /\\\n        bit (if i < b * dimindex(:N) DIV b\n             then b * (dimindex(:N) DIV b - 1 - i DIV b) + i MOD b\n             else i) x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ b : Num, ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_reversefields : (Num, Word[N]) -> Word[N])(b, x)) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(if i < b * DIV((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), b) { b * (DIV((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), b) - 1 - DIV(i, b)) + MOD(i, b) } else { i }, x))"),
       t3586,
     ),
   )
@@ -40176,9 +38908,7 @@ fn step_781() -> Unit raise {
             @tactics.then_tac(
               @tactics.match_mp_tac(
                 @int.arith_rule(
-                  @parser.parse_term(
-                    "m < n /\\ n * (x + 1) <= n * q ==> n * x + m < n * q",
-                  ),
+                  @term_syntax.parse_term("(m : Num) < (n : Num) && n * ((x : Num) + 1) <= n * (q : Num) → n * x + m < n * q"),
                 ),
               ),
               t3600,
@@ -40321,9 +39051,7 @@ fn step_781() -> Unit raise {
   )
   word_reversefields_reversefields_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:(N)word) b. word_reversefields b (word_reversefields b x) = x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ b : Num, word_reversefields(b, word_reversefields(b, x)) == x"),
       t3619,
     ),
   )
@@ -40362,9 +39090,7 @@ fn step_782() -> Unit raise {
   )
   bit_reversefields_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) i.\n        bit i (word_reversefields 1 x) <=>\n        i < dimindex(:N) /\\ bit (dimindex(:N) - 1 - i) x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ i : Num, (bit : (Num, Word[N]) -> Bool)(i, (word_reversefields : (Num, Word[N]) -> Word[N])(1, x)) == (i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1 - i, x))"),
       t3623,
     ),
   )
@@ -40520,9 +39246,7 @@ fn step_783() -> Unit raise {
                                       @arith.le_refl(),
                                       @arith.le_antisym(),
                                     ]),
-                                    @parser.parse_term(
-                                      "a = b <=> forall x:num. x <= a <=> x <= b",
-                                    ),
+                                    @term_syntax.parse_term("((a : Num) == (b : Num)) == (∀ x : Num, (x <= a) == (x <= b))"),
                                   ),
                                 ]),
                               ),
@@ -40555,9 +39279,7 @@ fn step_783() -> Unit raise {
   )
   word_ctz_reversefields_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. word_ctz(word_reversefields 1 x) = word_clz x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], word_ctz(word_reversefields(1, x)) == word_clz(x)"),
       t3641,
     ),
   )
@@ -40582,9 +39304,7 @@ fn step_784() -> Unit raise {
   )
   word_clz_reversefields_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. word_clz(word_reversefields 1 x) = word_ctz x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], word_clz(word_reversefields(1, x)) == word_ctz(x)"),
       t3642,
     ),
   )
@@ -40625,9 +39345,7 @@ fn step_785() -> Unit raise {
   let t3645 = @simp.simp_tac(
     @list.List([
       @int.arith_rule(
-        @parser.parse_term(
-          "c + n < N ==> N - MIN N (c + n) - 1 + n = N - c - 1",
-        ),
+        @term_syntax.parse_term("(c : Num) + (n : Num) < (N : Num) → N - MIN(N, c + n) - 1 + n == N - c - 1"),
       ),
     ]),
   )
@@ -40679,9 +39397,7 @@ fn step_785() -> Unit raise {
   )
   word_clz_ushr_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n.\n        word_clz (word_ushr x n) = MIN (dimindex(:N)) (word_clz x + n)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, (word_clz : (Word[N]) -> Num)((word_ushr : (Word[N], Num) -> Word[N])(x, n)) == MIN((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), (word_clz : (Word[N]) -> Num)(x) + n)"),
       t3652,
     ),
   )
@@ -40750,9 +39466,7 @@ fn step_786() -> Unit raise {
   )
   word_shl_as_ushr_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n.\n        word_shl x n =\n        word_reversefields 1 (word_ushr (word_reversefields 1 x) n)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, word_shl(x, n) == word_reversefields(1, word_ushr(word_reversefields(1, x), n))"),
       t3660,
     ),
   )
@@ -40777,9 +39491,7 @@ fn step_787() -> Unit raise {
   )
   word_ushr_as_shl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n.\n        word_ushr x n =\n        word_reversefields 1 (word_shl (word_reversefields 1 x) n)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, word_ushr(x, n) == word_reversefields(1, word_shl(word_reversefields(1, x), n))"),
       t3661,
     ),
   )
@@ -40813,9 +39525,7 @@ fn step_788() -> Unit raise {
   )
   word_ctz_shl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) n.\n        word_ctz (word_shl x n) = MIN (dimindex(:N)) (word_ctz x + n)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ n : Num, (word_ctz : (Word[N]) -> Num)((word_shl : (Word[N], Num) -> Word[N])(x, n)) == MIN((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), (word_ctz : (Word[N]) -> Num)(x) + n)"),
       t3664,
     ),
   )
@@ -40835,9 +39545,7 @@ pub fn word_ctz_shl() -> @kernel.Thm {
 fn step_789() -> Unit raise {
   word_bytereverse_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(word_bytereverse\n    :((((N)tybit0)tybit0)tybit0)word->((((N)tybit0)tybit0)tybit0)word) x =\n  word_of_bits { i | i < 8 * dimindex(:N) /\\\n                     bit (8 * (dimindex(:N) - 1 - i DIV 8) + i MOD 8) x}",
-      ),
+      @term_syntax.parse_term("(word_bytereverse : (Word[Tybit0[Tybit0[Tybit0[N]]]]) -> Word[Tybit0[Tybit0[Tybit0[N]]]])((x : Word[Tybit0[Tybit0[Tybit0[N]]]])) == (word_of_bits : ((Num) -> Bool) -> Word[Tybit0[Tybit0[Tybit0[N]]]])({(i : Num) | i < 8 * (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[Tybit0[Tybit0[Tybit0[N]]]]) -> Bool)(8 * ((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1 - DIV(i, 8)) + MOD(i, 8), x)})"),
     ),
   )
 }
@@ -40875,9 +39583,7 @@ fn step_790() -> Unit raise {
   )
   bit_word_bytereverse_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:((((N)tybit0)tybit0)tybit0)word) i.\n        bit i (word_bytereverse x) <=>\n        i < 8 * dimindex(:N) /\\\n        bit (8 * (dimindex(:N) - 1 - i DIV 8) + i MOD 8) x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[Tybit0[Tybit0[Tybit0[N]]]], ∀ i : Num, (bit : (Num, Word[Tybit0[Tybit0[Tybit0[N]]]]) -> Bool)(i, (word_bytereverse : (Word[Tybit0[Tybit0[Tybit0[N]]]]) -> Word[Tybit0[Tybit0[Tybit0[N]]]])(x)) == (i < 8 * (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[Tybit0[Tybit0[Tybit0[N]]]]) -> Bool)(8 * ((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1 - DIV(i, 8)) + MOD(i, 8), x))"),
       t3668,
     ),
   )
@@ -40911,9 +39617,7 @@ fn step_791() -> Unit raise {
   let t3672 = @simp.asm_simp_tac(
     @list.List([
       @int.arith_rule(
-        @parser.parse_term(
-          "i < 8 * n ==> 8 * (n - 1 - i DIV 8) + i MOD 8 < 8 * n",
-        ),
+        @term_syntax.parse_term("(i : Num) < 8 * (n : Num) → 8 * (n - 1 - DIV(i, 8)) + MOD(i, 8) < 8 * n"),
       ),
     ]),
   )
@@ -40958,9 +39662,7 @@ fn step_791() -> Unit raise {
   )
   word_bytereverse_bytereverse_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:((((N)tybit0)tybit0)tybit0)word).\n        word_bytereverse(word_bytereverse x) = x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[Tybit0[Tybit0[Tybit0[N]]]], word_bytereverse(word_bytereverse(x)) == x"),
       t3675,
     ),
   )
@@ -41041,9 +39743,7 @@ pub fn word_bytereverse_reversefields() -> @kernel.Thm {
 fn step_793() -> Unit raise {
   word_pmul_c.set(
     @define.define_(
-      @parser.parse_term(
-        "(word_pmul:M word->N word->P word) x y =\n  word_of_bits {k | ODD(CARD {i | i <= k /\\ bit i x /\\ bit (k - i) y})}",
-      ),
+      @term_syntax.parse_term("(word_pmul : (Word[M], Word[N]) -> Word[P])((x : Word[M]), (y : Word[N])) == word_of_bits({(k : Num) | ODD(CARD({(i : Num) | i <= k && bit(i, x) && bit(k - i, y)}))})"),
     ),
   )
 }
@@ -41065,9 +39765,7 @@ fn step_794() -> Unit raise {
   )
   bit_word_pmul_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y k. bit k ((word_pmul:M word->N word->P word) x y) <=>\n           k < dimindex(:P) /\\\n           ODD(CARD {i | i <= k /\\ bit i x /\\ bit (k - i) y})",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[N], ∀ k : Num, (bit : (Num, Word[P]) -> Bool)(k, (word_pmul : (Word[M], Word[N]) -> Word[P])(x, y)) == (k < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) && ODD(CARD({(i : Num) | i <= k && bit(i, x) && bit(k - i, y)})))"),
       t3683,
     ),
   )
@@ -41120,9 +39818,7 @@ fn step_795() -> Unit raise {
   )
   bit_word_pmul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y k. bit k ((word_pmul:M word->N word->P word) x y) <=>\n           k < dimindex(:P) /\\\n           ODD(nsum (0..k) (\\i. bitval(bit i x) * bitval(bit (k - i) y)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[N], ∀ k : Num, (bit : (Num, Word[P]) -> Bool)(k, (word_pmul : (Word[M], Word[N]) -> Word[P])(x, y)) == (k < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) && ODD(nsum(op_dot_dot(0, k), (i : Num) => bitval(bit(i, x)) * bitval(bit(k - i, y)))))"),
       t3689,
     ),
   )
@@ -41153,9 +39849,7 @@ fn step_796() -> Unit raise {
   )
   bitval_bit_word_pmul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y k. bitval(bit k ((word_pmul:M word->N word->P word) x y)) =\n           if k < dimindex(:P)\n           then nsum(0..k) (\\i. bitval(bit i x) * bitval(bit (k - i) y)) MOD 2\n           else 0",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[N], ∀ k : Num, bitval((bit : (Num, Word[P]) -> Bool)(k, (word_pmul : (Word[M], Word[N]) -> Word[P])(x, y))) == (if k < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) { MOD(nsum(op_dot_dot(0, k), (i : Num) => bitval(bit(i, x)) * bitval(bit(k - i, y))), 2) } else { 0 })"),
       t3692,
     ),
   )
@@ -41188,9 +39882,7 @@ fn step_797() -> Unit raise {
   )
   word_pmul_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall y. (word_pmul:M word->N word->P word) (word 0) y = word 0) /\\\n   (forall x. (word_pmul:M word->N word->P word) x (word 0) = word 0)",
-      ),
+      @term_syntax.parse_term("(∀ y : Word[N], (word_pmul : (Word[M], Word[N]) -> Word[P])(word(0), y) == (word : (Num) -> Word[P])(0)) && (∀ x : Word[M], (word_pmul : (Word[M], Word[N]) -> Word[P])(x, word(0)) == (word : (Num) -> Word[P])(0))"),
       t3693,
     ),
   )
@@ -41296,9 +39988,7 @@ fn step_798() -> Unit raise {
   )
   word_pmul_xor_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x y z. (word_pmul:M word->N word->P word) (word_xor x y) z =\n            word_xor (word_pmul x z) (word_pmul y z)) /\\\n   (forall x y z. (word_pmul:M word->N word->P word) x (word_xor y z) =\n            word_xor (word_pmul x y) (word_pmul x z))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[M], ∀ y : Word[M], ∀ z : Word[N], (word_pmul : (Word[M], Word[N]) -> Word[P])(word_xor(x, y), z) == (word_xor : (Word[P], Word[P]) -> Word[P])((word_pmul : (Word[M], Word[N]) -> Word[P])(x, z), (word_pmul : (Word[M], Word[N]) -> Word[P])(y, z))) && (∀ x : Word[M], ∀ y : Word[N], ∀ z : Word[N], (word_pmul : (Word[M], Word[N]) -> Word[P])(x, word_xor(y, z)) == (word_xor : (Word[P], Word[P]) -> Word[P])((word_pmul : (Word[M], Word[N]) -> Word[P])(x, y), (word_pmul : (Word[M], Word[N]) -> Word[P])(x, z)))"),
       t3708,
     ),
   )
@@ -41379,9 +40069,7 @@ fn step_799() -> Unit raise {
   )
   word_pmul_zx_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x y. word_pmul (word_zx x:P word) y =\n          (word_pmul:M word->N word->P word) x y) /\\\n   (forall x y. word_pmul x (word_zx y:P word) =\n          (word_pmul:M word->N word->P word) x y)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[M], ∀ y : Word[N], (word_pmul : (Word[P], Word[N]) -> Word[P])((word_zx : (Word[M]) -> Word[P])(x), y) == (word_pmul : (Word[M], Word[N]) -> Word[P])(x, y)) && (∀ x : Word[M], ∀ y : Word[N], (word_pmul : (Word[M], Word[P]) -> Word[P])(x, (word_zx : (Word[N]) -> Word[P])(y)) == (word_pmul : (Word[M], Word[N]) -> Word[P])(x, y))"),
       t3718,
     ),
   )
@@ -41544,9 +40232,7 @@ fn step_800() -> Unit raise {
   )
   word_pmul_step_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. (word_pmul:M word->N word->N word) x y =\n         word_xor (if bit 0 x then y else word 0)\n                  (word_pmul (word_ushr x 1) (word_shl y 1))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[N], word_pmul(x, y) == word_xor(if bit(0, x) { y } else { word(0) }, word_pmul(word_ushr(x, 1), word_shl(y, 1)))"),
       t3741,
     ),
   )
@@ -41616,9 +40302,7 @@ fn step_801() -> Unit raise {
   )
   word_pmul_sym_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. (word_pmul:M word->M word->N word) x y = word_pmul y x",
-      ),
+      @term_syntax.parse_term("∀ x : Word[M], ∀ y : Word[M], (word_pmul : (Word[M], Word[M]) -> Word[N])(x, y) == (word_pmul : (Word[M], Word[M]) -> Word[N])(y, x)"),
       t3755,
     ),
   )
@@ -41654,9 +40338,7 @@ fn step_802() -> Unit raise {
     @list.List([
       @meson.meson(
         @list.List([]),
-        @parser.parse_term(
-          "(if p /\\ q then 1 else 0) = if p then (if q then 1 else 0) else 0",
-        ),
+        @term_syntax.parse_term("(if (p : Bool) && (q : Bool) { 1 } else { 0 }) == (if p { if q { 1 } else { 0 } } else { 0 })"),
       ),
     ]),
   )
@@ -41751,9 +40433,7 @@ fn step_802() -> Unit raise {
   )
   word_pmul_pow2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(x:N word) n. word_pmul (word(2 EXP n):N word) x = word_shl x n) /\\\n   (forall(x:N word) n. word_pmul x (word(2 EXP n):N word) = word_shl x n)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ n : Num, (word_pmul : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(EXP(2, n)), x) == (word_shl : (Word[N], Num) -> Word[N])(x, n)) && (∀ x : Word[N], ∀ n : Num, (word_pmul : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(EXP(2, n))) == (word_shl : (Word[N], Num) -> Word[N])(x, n))"),
       t3776,
     ),
   )
@@ -41773,9 +40453,7 @@ pub fn word_pmul_pow2() -> @kernel.Thm {
 fn step_803() -> Unit raise {
   aligned_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "aligned n (a:N word) <=>\n    n divides 2 EXP dimindex(:N) /\\ n divides val a",
-      ),
+      @term_syntax.parse_term("(aligned : (Num, Word[N]) -> Bool)((n : Num), (a : Word[N])) == ((divides : (Num, Num) -> Bool)(n, EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) && (divides : (Num, Num) -> Bool)(n, (val : (Word[N]) -> Num)(a)))"),
     ),
   )
 }
@@ -41795,9 +40473,7 @@ fn step_804() -> Unit raise {
   let t3781 = @simp.rewrite_tac(@list.List([ival_val_cong()]))
   let t3780 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "(y:int == x) (mod m)\n    ==> n divides m\n        ==> (n divides x <=> n divides y)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((y : Int), (x : Int), mod((m : Int))) → divides((n : Int), m) → divides(n, x) == divides(n, y)"),
     ),
   )
   let t3779 = @simp.rewrite_tac(
@@ -41824,9 +40500,7 @@ fn step_804() -> Unit raise {
   )
   aligned_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x:N word.\n        aligned n x <=>\n        n divides 2 EXP dimindex(:N) /\\ &n divides ival(x)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Word[N], (aligned : (Num, Word[N]) -> Bool)(n, x) == ((divides : (Num, Num) -> Bool)(n, EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) && (divides : (Int, Int) -> Bool)(int_of_num(n), (ival : (Word[N]) -> Int)(x)))"),
       t3782,
     ),
   )
@@ -41929,9 +40603,7 @@ fn step_805() -> Unit raise {
   )
   aligned_word_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n k. aligned n (word k:N word) <=>\n         n divides 2 EXP dimindex(:N) /\\ n divides k",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ k : Num, (aligned : (Num, Word[N]) -> Bool)(n, (word : (Num) -> Word[N])(k)) == (divides(n, EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) && divides(n, k))"),
       t3795,
     ),
   )
@@ -41952,9 +40624,7 @@ fn step_806() -> Unit raise {
   let t3800 = @simp.rewrite_tac(@list.List([ival_iword_cong()]))
   let t3799 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "(x:int == y) (mod m)\n    ==> n divides m\n        ==> (n divides x <=> n divides y)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((x : Int), (y : Int), mod((m : Int))) → divides((n : Int), m) → divides(n, x) == divides(n, y)"),
     ),
   )
   let t3798 = @simp.rewrite_tac(
@@ -41981,9 +40651,7 @@ fn step_806() -> Unit raise {
   )
   aligned_iword_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n k. aligned n (iword k:N word) <=>\n         n divides 2 EXP dimindex(:N) /\\ &n divides k",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ k : Int, (aligned : (Num, Word[N]) -> Bool)(n, (iword : (Int) -> Word[N])(k)) == (divides(n, EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) && divides(int_of_num(n), k))"),
       t3801,
     ),
   )
@@ -42008,9 +40676,7 @@ fn step_807() -> Unit raise {
   )
   aligned_word_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. aligned n (word 0:N word) <=> n divides 2 EXP dimindex(:N)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, (aligned : (Num, Word[N]) -> Bool)(n, (word : (Num) -> Word[N])(0)) == divides(n, EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t3803,
     ),
   )
@@ -42031,9 +40697,7 @@ fn step_808() -> Unit raise {
   let t3807 = @simp.rewrite_tac(@list.List([icong_word_neg()]))
   let t3806 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "(y:int == --x) (mod e)\n    ==> (n divides e /\\ n divides y <=> n divides e /\\ n divides x)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((y : Int), -(x : Int), mod((e : Int))) → (divides((n : Int), e) && divides(n, y)) == (divides(n, e) && divides(n, x))"),
     ),
   )
   let t3805 = @simp.rewrite_tac(
@@ -42081,9 +40745,7 @@ fn step_809() -> Unit raise {
   )
   aligned_word_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a b:N word.\n        aligned n a /\\ aligned n b ==> aligned n (word_add a b)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Word[N], ∀ b : Word[N], aligned(n, a) && aligned(n, b) → aligned(n, word_add(a, b))"),
       t3810,
     ),
   )
@@ -42112,9 +40774,7 @@ fn step_810() -> Unit raise {
   )
   aligned_word_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a b:N word.\n        aligned n a \\/ aligned n b ==> aligned n (word_mul a b)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Word[N], ∀ b : Word[N], aligned(n, a) || aligned(n, b) → aligned(n, word_mul(a, b))"),
       t3812,
     ),
   )
@@ -42149,9 +40809,7 @@ fn step_811() -> Unit raise {
   )
   aligned_word_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a b:N word.\n        aligned n a /\\ aligned n b ==> aligned n (word_sub a b)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Word[N], ∀ b : Word[N], aligned(n, a) && aligned(n, b) → aligned(n, word_sub(a, b))"),
       t3814,
     ),
   )
@@ -42181,9 +40839,7 @@ fn step_812() -> Unit raise {
   )
   aligned_word_add_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n x y:N word.\n        aligned n x ==> (aligned n (word_add x y) <=> aligned n y)) /\\\n   (forall n x y:N word.\n        aligned n y ==> (aligned n (word_add x y) <=> aligned n x))",
-      ),
+      @term_syntax.parse_term("(∀ n : Num, ∀ x : Word[N], ∀ y : Word[N], aligned(n, x) → aligned(n, word_add(x, y)) == aligned(n, y)) && (∀ n : Num, ∀ x : Word[N], ∀ y : Word[N], aligned(n, y) → aligned(n, word_add(x, y)) == aligned(n, x))"),
       t3815,
     ),
   )
@@ -42216,9 +40872,7 @@ fn step_813() -> Unit raise {
   )
   aligned_word_sub_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n x y:N word.\n        aligned n x ==> (aligned n (word_sub x y) <=> aligned n y)) /\\\n   (forall n x y:N word.\n        aligned n y ==> (aligned n (word_sub x y) <=> aligned n x))",
-      ),
+      @term_syntax.parse_term("(∀ n : Num, ∀ x : Word[N], ∀ y : Word[N], aligned(n, x) → aligned(n, word_sub(x, y)) == aligned(n, y)) && (∀ n : Num, ∀ x : Word[N], ∀ y : Word[N], aligned(n, y) → aligned(n, word_sub(x, y)) == aligned(n, x))"),
       t3817,
     ),
   )
@@ -42240,9 +40894,7 @@ pub fn aligned_word_sub_eq() -> @kernel.Thm {
 fn step_814() -> Unit raise {
   word_jshl_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "word_jshl (x:N word) (y:N word) =\n        word_shl x (val y MOD dimindex(:N))",
-      ),
+      @term_syntax.parse_term("(word_jshl : (Word[N], Word[N]) -> Word[N])((x : Word[N]), (y : Word[N])) == (word_shl : (Word[N], Num) -> Word[N])(x, MOD((val : (Word[N]) -> Num)(y), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     ),
   )
 }
@@ -42261,9 +40913,7 @@ pub fn word_jshl() -> @kernel.Thm {
 fn step_815() -> Unit raise {
   word_jshr_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "word_jshr (x:N word) (y:N word) =\n        word_ishr x (val y MOD dimindex(:N))",
-      ),
+      @term_syntax.parse_term("(word_jshr : (Word[N], Word[N]) -> Word[N])((x : Word[N]), (y : Word[N])) == (word_ishr : (Word[N], Num) -> Word[N])(x, MOD((val : (Word[N]) -> Num)(y), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     ),
   )
 }
@@ -42282,9 +40932,7 @@ pub fn word_jshr() -> @kernel.Thm {
 fn step_816() -> Unit raise {
   word_jushr_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "word_jushr (x:N word) (y:N word) =\n        word_ushr x (val y MOD dimindex(:N))",
-      ),
+      @term_syntax.parse_term("(word_jushr : (Word[N], Word[N]) -> Word[N])((x : Word[N]), (y : Word[N])) == (word_ushr : (Word[N], Num) -> Word[N])(x, MOD((val : (Word[N]) -> Num)(y), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     ),
   )
 }
@@ -42303,9 +40951,7 @@ pub fn word_jushr() -> @kernel.Thm {
 fn step_817() -> Unit raise {
   word_jdiv_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "word_jdiv:N word->N word->N word =\n   imodular (\\a b. int_sgn a * int_sgn b * (abs(a) div abs(b)))",
-      ),
+      @term_syntax.parse_term("(word_jdiv : (Word[N], Word[N]) -> Word[N]) == imodular((a : Int) => (b : Int) => int_sgn(a) * (int_sgn(b) * div(abs(a), abs(b))))"),
     ),
   )
 }
@@ -42324,9 +40970,7 @@ pub fn word_jdiv() -> @kernel.Thm {
 fn step_818() -> Unit raise {
   word_jrem_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "word_jrem (x:N word) (y:N word) =\n    word_sub x (word_mul (word_jdiv x y) y)",
-      ),
+      @term_syntax.parse_term("(word_jrem : (Word[N], Word[N]) -> Word[N])((x : Word[N]), (y : Word[N])) == word_sub(x, word_mul(word_jdiv(x, y), y))"),
     ),
   )
 }
@@ -42386,9 +41030,7 @@ fn step_821() -> Unit raise {
   )
   let t3824 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "n divides e /\\ (k':int == k) (mod n) ==> (e - k == n - k') (mod n)",
-      ),
+      @term_syntax.parse_term("divides((n : Int), (e : Int)) && op_eq_eq((k' : Int), (k : Int), mod(n)) → op_eq_eq(e - k, n - k', mod(n))"),
     ),
   )
   let t3822 = @equal.gsym(@int.int_of_num_rem())
@@ -42412,9 +41054,7 @@ fn step_821() -> Unit raise {
   let t3819 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([]),
-      @parser.parse_term(
-        "x MOD n MOD m = x MOD m /\\ x MOD m = y ==> x MOD n MOD m = y",
-      ),
+      @term_syntax.parse_term("MOD(MOD((x : Num), (n : Num)), (m : Num)) == MOD(x, m) && MOD(x, m) == (y : Num) → MOD(MOD(x, n), m) == y"),
     ),
   )
   let t3818 = @simp.rewrite_tac(@list.List([val_word_neg(), @int.cong_v1()]))
@@ -42445,9 +41085,7 @@ fn step_821() -> Unit raise {
   )
   val_word_neg_mod_dimindex_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k:N word.\n        dimindex(:N) divides 2 EXP dimindex(:N)\n        ==> (val(word_neg k) == dimindex (:N) - val k MOD dimindex(:N))\n            (mod dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ k : Word[N], (divides : (Num, Num) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) → (op_eq_eq : (Num, Num, (Num, Num) -> Bool) -> Bool)((val : (Word[N]) -> Num)((word_neg : (Word[N]) -> Word[N])(k)), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - MOD((val : (Word[N]) -> Num)(k), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))), (mod : (Num, Num, Num) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t3826,
     ),
   )
@@ -42497,9 +41135,7 @@ fn step_822() -> Unit raise {
   )
   word_jrol_jror_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w k:N word.\n        dimindex(:N) divides 2 EXP dimindex(:N)\n        ==> word_jrol w k = word_jror w (word_neg k)",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ k : Word[N], (divides : (Num, Num) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) → (word_jrol : (Word[N], Word[N]) -> Word[N])(w, k) == (word_jror : (Word[N], Word[N]) -> Word[N])(w, (word_neg : (Word[N]) -> Word[N])(k))"),
       t3833,
     ),
   )
@@ -42547,9 +41183,7 @@ fn step_823() -> Unit raise {
   )
   word_jror_jrol_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w k:N word.\n        dimindex(:N) divides 2 EXP dimindex(:N)\n        ==> word_jror w k = word_jrol w (word_neg k)",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ k : Word[N], (divides : (Num, Num) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) → (word_jror : (Word[N], Word[N]) -> Word[N])(w, k) == (word_jrol : (Word[N], Word[N]) -> Word[N])(w, (word_neg : (Word[N]) -> Word[N])(k))"),
       t3840,
     ),
   )
@@ -42794,9 +41428,7 @@ fn step_824() -> Unit raise {
   )
   word_jror_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w k:N word.\n        dimindex(:N) divides 2 EXP dimindex(:N)\n        ==> word_jror w k =\n            word_or (word_jushr w k) (word_jshl w (word_neg k))",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ k : Word[N], (divides : (Num, Num) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) → (word_jror : (Word[N], Word[N]) -> Word[N])(w, k) == (word_or : (Word[N], Word[N]) -> Word[N])((word_jushr : (Word[N], Word[N]) -> Word[N])(w, k), (word_jshl : (Word[N], Word[N]) -> Word[N])(w, (word_neg : (Word[N]) -> Word[N])(k)))"),
       t3867,
     ),
   )
@@ -42830,9 +41462,7 @@ fn step_825() -> Unit raise {
   )
   word_jrol_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w k:N word.\n        dimindex(:N) divides 2 EXP dimindex(:N)\n        ==> word_jrol w k =\n            word_or (word_jshl w k) (word_jushr w (word_neg k))",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ k : Word[N], (divides : (Num, Num) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) → (word_jrol : (Word[N], Word[N]) -> Word[N])(w, k) == (word_or : (Word[N], Word[N]) -> Word[N])((word_jshl : (Word[N], Word[N]) -> Word[N])(w, k), (word_jushr : (Word[N], Word[N]) -> Word[N])(w, (word_neg : (Word[N]) -> Word[N])(k)))"),
       t3871,
     ),
   )
@@ -42883,9 +41513,7 @@ fn step_826() -> Unit raise {
   )
   word_jushr_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w k:N word.\n        dimindex(:N) divides 2 EXP dimindex(:N)\n        ==> word_jushr w (word_neg k) =\n            if val k MOD dimindex(:N) = 0 then w\n            else word_ushr w (dimindex(:N) - val k MOD dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ k : Word[N], (divides : (Num, Num) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) → (word_jushr : (Word[N], Word[N]) -> Word[N])(w, (word_neg : (Word[N]) -> Word[N])(k)) == (if MOD((val : (Word[N]) -> Num)(k), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) == 0 { w } else { (word_ushr : (Word[N], Num) -> Word[N])(w, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - MOD((val : (Word[N]) -> Num)(k), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) })"),
       t3876,
     ),
   )
@@ -42936,9 +41564,7 @@ fn step_827() -> Unit raise {
   )
   word_jshl_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w k:N word.\n        dimindex(:N) divides 2 EXP dimindex(:N)\n        ==> word_jshl w (word_neg k) =\n            if val k MOD dimindex(:N) = 0 then w\n            else word_shl w (dimindex(:N) - val k MOD dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], ∀ k : Word[N], (divides : (Num, Num) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) → (word_jshl : (Word[N], Word[N]) -> Word[N])(w, (word_neg : (Word[N]) -> Word[N])(k)) == (if MOD((val : (Word[N]) -> Num)(k), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) == 0 { w } else { (word_shl : (Word[N], Num) -> Word[N])(w, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - MOD((val : (Word[N]) -> Num)(k), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) })"),
       t3881,
     ),
   )
@@ -42973,9 +41599,7 @@ fn step_828() -> Unit raise {
     t3883,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_jshl (x:N word) (word n) =\n     word_shl x (n MOD (2 EXP dimindex(:N)) MOD dimindex(:N)) /\\\n     word_jshr x (word n) =\n     word_ishr x (n MOD (2 EXP dimindex(:N)) MOD dimindex(:N)) /\\\n     word_jushr x (word n) =\n     word_ushr x (n MOD (2 EXP dimindex(:N)) MOD dimindex(:N)) /\\\n     word_jrol x (word n) =\n     word_rol x (n MOD (2 EXP dimindex(:N)) MOD dimindex(:N)) /\\\n     word_jror x (word n) =\n     word_ror x (n MOD (2 EXP dimindex(:N)) MOD dimindex(:N))",
-    ),
+    @term_syntax.parse_term("(word_jshl : (Word[N], Word[N]) -> Word[N])((x : Word[N]), (word : (Num) -> Word[N])((n : Num))) == (word_shl : (Word[N], Num) -> Word[N])(x, MOD(MOD(n, EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) && (word_jshr : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(n)) == (word_ishr : (Word[N], Num) -> Word[N])(x, MOD(MOD(n, EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) && (word_jushr : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(n)) == (word_ushr : (Word[N], Num) -> Word[N])(x, MOD(MOD(n, EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) && (word_jrol : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(n)) == (word_rol : (Word[N], Num) -> Word[N])(x, MOD(MOD(n, EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) && (word_jror : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(n)) == (word_ror : (Word[N], Num) -> Word[N])(x, MOD(MOD(n, EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t3884,
   )
   let t3886 = word_size_conv().val
@@ -43032,9 +41656,7 @@ fn step_829() -> Unit raise {
   )
   ival_topflip_val_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall w:N word.\n        ival(word_xor word_INT_MIN w) =\n        &(val w) - &2 pow (dimindex(:N) - 1)",
-      ),
+      @term_syntax.parse_term("∀ w : Word[N], (ival : (Word[N]) -> Int)((word_xor : (Word[N], Word[N]) -> Word[N])((word_INT_MIN : Word[N]), w)) == int_of_num((val : (Word[N]) -> Num)(w)) - (pow : (Int, Num) -> Int)(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1)"),
       t3889,
     ),
   )
@@ -43068,9 +41690,7 @@ fn step_830() -> Unit raise {
   )
   word_ule_topflip_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w:N word.\n        word_ule v w <=>\n        word_ile (word_xor (word_INT_MIN) v) (word_xor (word_INT_MIN) w)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], word_ule(v, w) == word_ile(word_xor(word_INT_MIN, v), word_xor(word_INT_MIN, w))"),
       t3891,
     ),
   )
@@ -43104,9 +41724,7 @@ fn step_831() -> Unit raise {
   )
   word_ult_topflip_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w:N word.\n        word_ult v w <=>\n        word_ilt (word_xor (word_INT_MIN) v) (word_xor (word_INT_MIN) w)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], word_ult(v, w) == word_ilt(word_xor(word_INT_MIN, v), word_xor(word_INT_MIN, w))"),
       t3893,
     ),
   )
@@ -43145,9 +41763,7 @@ fn step_832() -> Unit raise {
   )
   word_uge_topflip_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w:N word.\n        word_uge v w <=>\n        word_ige (word_xor (word_INT_MIN) v) (word_xor (word_INT_MIN) w)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], word_uge(v, w) == word_ige(word_xor(word_INT_MIN, v), word_xor(word_INT_MIN, w))"),
       t3895,
     ),
   )
@@ -43186,9 +41802,7 @@ fn step_833() -> Unit raise {
   )
   word_ugt_topflip_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w:N word.\n        word_ugt v w <=>\n        word_igt (word_xor (word_INT_MIN) v) (word_xor (word_INT_MIN) w)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], word_ugt(v, w) == word_igt(word_xor(word_INT_MIN, v), word_xor(word_INT_MIN, w))"),
       t3897,
     ),
   )
@@ -43219,9 +41833,7 @@ fn step_834() -> Unit raise {
   )
   word_ilt_topflip_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w:N word.\n        word_ilt v w <=>\n        word_ult (word_xor word_INT_MIN v) (word_xor word_INT_MIN w)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], word_ilt(v, w) == word_ult(word_xor(word_INT_MIN, v), word_xor(word_INT_MIN, w))"),
       t3899,
     ),
   )
@@ -43252,9 +41864,7 @@ fn step_835() -> Unit raise {
   )
   word_ile_topflip_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w:N word.\n        word_ile v w <=>\n        word_ule (word_xor word_INT_MIN v) (word_xor word_INT_MIN w)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], word_ile(v, w) == word_ule(word_xor(word_INT_MIN, v), word_xor(word_INT_MIN, w))"),
       t3901,
     ),
   )
@@ -43285,9 +41895,7 @@ fn step_836() -> Unit raise {
   )
   word_igt_topflip_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w:N word.\n        word_igt v w <=>\n        word_ugt (word_xor word_INT_MIN v) (word_xor word_INT_MIN w)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], word_igt(v, w) == word_ugt(word_xor(word_INT_MIN, v), word_xor(word_INT_MIN, w))"),
       t3903,
     ),
   )
@@ -43318,9 +41926,7 @@ fn step_837() -> Unit raise {
   )
   word_ige_topflip_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall v w:N word.\n        word_ige v w <=>\n        word_uge (word_xor word_INT_MIN v) (word_xor word_INT_MIN w)",
-      ),
+      @term_syntax.parse_term("∀ v : Word[N], ∀ w : Word[N], word_ige(v, w) == word_uge(word_xor(word_INT_MIN, v), word_xor(word_INT_MIN, w))"),
       t3905,
     ),
   )
@@ -43342,9 +41948,7 @@ pub fn word_ige_topflip() -> @kernel.Thm {
 fn step_838() -> Unit raise {
   word_le_add_exact_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x y:N word.\n        val x <= val(word_add x y) <=> val(word_add x y) = val x + val y) /\\\n   (forall x y:N word.\n        val y <= val(word_add x y) <=> val(word_add x y) = val x + val y)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ y : Word[N], (val(x) <= val(word_add(x, y))) == (val(word_add(x, y)) == val(x) + val(y))) && (∀ x : Word[N], ∀ y : Word[N], (val(y) <= val(word_add(x, y))) == (val(word_add(x, y)) == val(x) + val(y)))"),
       word_arith_tac,
     ),
   )
@@ -43366,9 +41970,7 @@ pub fn word_le_add_exact() -> @kernel.Thm {
 fn step_839() -> Unit raise {
   word_add_lt_exact_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x y:N word.\n        val(word_add x y) < val x <=>\n        val(word_add x y) + 2 EXP dimindex(:N) = val x + val y) /\\\n   (forall x y:N word.\n        val(word_add x y) < val y <=>\n        val(word_add x y) + 2 EXP dimindex(:N) = val x + val y)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ y : Word[N], ((val : (Word[N]) -> Num)((word_add : (Word[N], Word[N]) -> Word[N])(x, y)) < (val : (Word[N]) -> Num)(x)) == ((val : (Word[N]) -> Num)((word_add : (Word[N], Word[N]) -> Word[N])(x, y)) + EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) == (val : (Word[N]) -> Num)(x) + (val : (Word[N]) -> Num)(y))) && (∀ x : Word[N], ∀ y : Word[N], ((val : (Word[N]) -> Num)((word_add : (Word[N], Word[N]) -> Word[N])(x, y)) < (val : (Word[N]) -> Num)(y)) == ((val : (Word[N]) -> Num)((word_add : (Word[N], Word[N]) -> Word[N])(x, y)) + EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) == (val : (Word[N]) -> Num)(x) + (val : (Word[N]) -> Num)(y)))"),
       word_arith_tac,
     ),
   )
@@ -43390,9 +41992,7 @@ pub fn word_add_lt_exact() -> @kernel.Thm {
 fn step_840() -> Unit raise {
   word_add_lt_inexact_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x y:N word.\n        val(word_add x y) < val x <=> ~(val(word_add x y) = val x + val y)) /\\\n   (forall x y:N word.\n        val(word_add x y) < val y <=> ~(val(word_add x y) = val x + val y))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ y : Word[N], (val(word_add(x, y)) < val(x)) == !(val(word_add(x, y)) == val(x) + val(y))) && (∀ x : Word[N], ∀ y : Word[N], (val(word_add(x, y)) < val(y)) == !(val(word_add(x, y)) == val(x) + val(y)))"),
       word_arith_tac,
     ),
   )
@@ -43414,9 +42014,7 @@ pub fn word_add_lt_inexact() -> @kernel.Thm {
 fn step_841() -> Unit raise {
   word_lt_adc_exact_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x y:N word.\n        val x < val(word_add (word_add x y) (word 1)) <=>\n        val(word_add (word_add x y) (word 1)) = val x + val y + 1) /\\\n  (forall x y:N word.\n        val y < val(word_add (word_add x y) (word 1)) <=>\n        val(word_add (word_add x y) (word 1)) = val x + val y + 1)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ y : Word[N], (val(x) < val(word_add(word_add(x, y), word(1)))) == (val(word_add(word_add(x, y), word(1))) == val(x) + (val(y) + 1))) && (∀ x : Word[N], ∀ y : Word[N], (val(y) < val(word_add(word_add(x, y), word(1)))) == (val(word_add(word_add(x, y), word(1))) == val(x) + (val(y) + 1)))"),
       word_arith_tac,
     ),
   )
@@ -43438,9 +42036,7 @@ pub fn word_lt_adc_exact() -> @kernel.Thm {
 fn step_842() -> Unit raise {
   word_adc_le_exact_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x y:N word.\n        val(word_add (word_add x y) (word 1)) <= val x <=>\n        val(word_add (word_add x y) (word 1)) + 2 EXP dimindex(:N) =\n        val x + val y + 1) /\\\n  (forall x y:N word.\n        val(word_add (word_add x y) (word 1)) <= val y <=>\n        val(word_add (word_add x y) (word 1)) + 2 EXP dimindex(:N) =\n        val x + val y + 1)",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ y : Word[N], ((val : (Word[N]) -> Num)((word_add : (Word[N], Word[N]) -> Word[N])((word_add : (Word[N], Word[N]) -> Word[N])(x, y), (word : (Num) -> Word[N])(1))) <= (val : (Word[N]) -> Num)(x)) == ((val : (Word[N]) -> Num)((word_add : (Word[N], Word[N]) -> Word[N])((word_add : (Word[N], Word[N]) -> Word[N])(x, y), (word : (Num) -> Word[N])(1))) + EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) == (val : (Word[N]) -> Num)(x) + ((val : (Word[N]) -> Num)(y) + 1))) && (∀ x : Word[N], ∀ y : Word[N], ((val : (Word[N]) -> Num)((word_add : (Word[N], Word[N]) -> Word[N])((word_add : (Word[N], Word[N]) -> Word[N])(x, y), (word : (Num) -> Word[N])(1))) <= (val : (Word[N]) -> Num)(y)) == ((val : (Word[N]) -> Num)((word_add : (Word[N], Word[N]) -> Word[N])((word_add : (Word[N], Word[N]) -> Word[N])(x, y), (word : (Num) -> Word[N])(1))) + EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) == (val : (Word[N]) -> Num)(x) + ((val : (Word[N]) -> Num)(y) + 1)))"),
       word_arith_tac,
     ),
   )
@@ -43462,9 +42058,7 @@ pub fn word_adc_le_exact() -> @kernel.Thm {
 fn step_843() -> Unit raise {
   word_adc_le_inexact_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x y:N word.\n        val(word_add (word_add x y) (word 1)) <= val x <=>\n        ~(val(word_add (word_add x y) (word 1)) = val x + val y + 1)) /\\\n  (forall x y:N word.\n        val(word_add (word_add x y) (word 1)) <= val y <=>\n        ~(val(word_add (word_add x y) (word 1)) = val x + val y + 1))",
-      ),
+      @term_syntax.parse_term("(∀ x : Word[N], ∀ y : Word[N], (val(word_add(word_add(x, y), word(1))) <= val(x)) == !(val(word_add(word_add(x, y), word(1))) == val(x) + (val(y) + 1))) && (∀ x : Word[N], ∀ y : Word[N], (val(word_add(word_add(x, y), word(1))) <= val(y)) == !(val(word_add(word_add(x, y), word(1))) == val(x) + (val(y) + 1)))"),
       word_arith_tac,
     ),
   )
@@ -43486,16 +42080,12 @@ pub fn word_adc_le_inexact() -> @kernel.Thm {
 fn step_844() -> Unit raise {
   let t3906 = @simp.rewrite_tac(@list.List([bit_word_ror()]))
   let pth_ror = @tactics.prove(
-    @parser.parse_term(
-      "bit i (word_ror (w:N word) n) <=>\n          (\\m. (\\s. if s < dimindex(:N) then bit s w\n                    else i < dimindex(:N) /\\ bit (s - dimindex(:N)) w)\n               (i + m))\n          (n MOD dimindex(:N))",
-    ),
+    @term_syntax.parse_term("(bit : (Num, Word[N]) -> Bool)((i : Num), (word_ror : (Word[N], Num) -> Word[N])((w : Word[N]), (n : Num))) == ((m : Num) => ((s : Num) => if s < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) { (bit : (Num, Word[N]) -> Bool)(s, w) } else { i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(s - (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), w) })(i + m))(MOD(n, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t3906,
   )
   let t3907 = @simp.rewrite_tac(@list.List([bit_word_rol()]))
   let pth_rol = @tactics.prove(
-    @parser.parse_term(
-      "bit i (word_rol (w:N word) n) <=>\n          (\\m. if i < m then bit (i + dimindex(:N) - m) w\n               else i < dimindex(:N) /\\ bit (i - m) w)\n          (n MOD dimindex(:N))",
-    ),
+    @term_syntax.parse_term("(bit : (Num, Word[N]) -> Bool)((i : Num), (word_rol : (Word[N], Num) -> Word[N])((w : Word[N]), (n : Num))) == ((m : Num) => if i < m { (bit : (Num, Word[N]) -> Bool)(i + ((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - m), w) } else { i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(i - m, w) })(MOD(n, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t3907,
   )
   let t3909 = @simp.simp_tac(
@@ -43506,9 +42096,7 @@ fn step_844() -> Unit raise {
     ]),
   )
   let t3910 = (
-    @parser.parse_term(
-      "n = SUC m\n     ==> (bit n (word_add x y:N word) <=>\n          n < dimindex(:N) /\\\n          ((bit n x <=> bit n y) <=>\n           bit m x /\\ bit m y \\/\n           (bit m x \\/ bit m y) /\\ ~bit m (word_add x y)))",
-    ),
+    @term_syntax.parse_term("(n : Num) == SUC((m : Num)) → (bit : (Num, Word[N]) -> Bool)(n, (word_add : (Word[N], Word[N]) -> Word[N])((x : Word[N]), (y : Word[N]))) == (n < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && ((bit : (Num, Word[N]) -> Bool)(n, x) == (bit : (Num, Word[N]) -> Bool)(n, y)) == ((bit : (Num, Word[N]) -> Bool)(m, x) && (bit : (Num, Word[N]) -> Bool)(m, y) || ((bit : (Num, Word[N]) -> Bool)(m, x) || (bit : (Num, Word[N]) -> Bool)(m, y)) && !(bit : (Num, Word[N]) -> Bool)(m, (word_add : (Word[N], Word[N]) -> Word[N])(x, y))))"),
     t3909,
   )
   let rule_add : (@kernel.Thm) -> @kernel.Thm raise = @drule.match_mp(
@@ -43547,9 +42135,7 @@ fn step_844() -> Unit raise {
     ]),
   )
   let t3913 = (
-    @parser.parse_term(
-      "n = SUC m\n     ==> (bit n (word_sub x y:N word) <=>\n          n < dimindex(:N) /\\\n          ((bit n x <=> bit n y) <=>\n           ~bit m x /\\ bit m y \\/\n           (~bit m x \\/ bit m y) /\\ bit m (word_sub x y)))",
-    ),
+    @term_syntax.parse_term("(n : Num) == SUC((m : Num)) → (bit : (Num, Word[N]) -> Bool)(n, (word_sub : (Word[N], Word[N]) -> Word[N])((x : Word[N]), (y : Word[N]))) == (n < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && ((bit : (Num, Word[N]) -> Bool)(n, x) == (bit : (Num, Word[N]) -> Bool)(n, y)) == (!(bit : (Num, Word[N]) -> Bool)(m, x) && (bit : (Num, Word[N]) -> Bool)(m, y) || (!(bit : (Num, Word[N]) -> Bool)(m, x) || (bit : (Num, Word[N]) -> Bool)(m, y)) && (bit : (Num, Word[N]) -> Bool)(m, (word_sub : (Word[N], Word[N]) -> Word[N])(x, y))))"),
     t3912,
   )
   let rule_sub : (@kernel.Thm) -> @kernel.Thm raise = @drule.match_mp(
@@ -43588,9 +42174,7 @@ fn step_844() -> Unit raise {
     ]),
   )
   let t3916 = (
-    @parser.parse_term(
-      "n = SUC m\n     ==> (bit n (word_neg x:N word) <=>\n          n < dimindex(:N) /\\\n          (bit n x <=> ~bit m x /\\ ~bit m (word_neg x)))",
-    ),
+    @term_syntax.parse_term("(n : Num) == SUC((m : Num)) → (bit : (Num, Word[N]) -> Bool)(n, (word_neg : (Word[N]) -> Word[N])((x : Word[N]))) == (n < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (bit : (Num, Word[N]) -> Bool)(n, x) == (!(bit : (Num, Word[N]) -> Bool)(m, x) && !(bit : (Num, Word[N]) -> Bool)(m, (word_neg : (Word[N]) -> Word[N])(x))))"),
     t3915,
   )
   let rule_neg : (@kernel.Thm) -> @kernel.Thm raise = @drule.match_mp(
@@ -44644,9 +43228,7 @@ fn step_845() -> Unit raise {
     @term_syntax.parse_term("op_eq_eq((x : Int), int_of_num(0), mod((n : Int))) → op_eq_eq(x * (y : Int), int_of_num(0), mod(n))"),
   )
   let ipol_lemma = @int.integer_rule(
-    @parser.parse_term(
-      "(x:int == &0) (mod n) /\\ (y == &0) (mod n) ==> (x + y == &0) (mod n)",
-    ),
+    @term_syntax.parse_term("op_eq_eq((x : Int), int_of_num(0), mod((n : Int))) && op_eq_eq((y : Int), int_of_num(0), mod(n)) → op_eq_eq(x + y, int_of_num(0), mod(n))"),
   )
   let t4008 = @equal.rator_conv(@equal.land_conv(bint_poly_conv))
   let t4009 = @equal.thenc(
@@ -44976,9 +43558,7 @@ fn step_846() -> Unit raise {
   let t4079 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([
-        @parser.parse_term(
-          "\\i. if i = 0 then &0:real else\n         &(bitval(bit (i - 1) (word_carryout (x:N word) (y:N word): N word)))",
-        ),
+        @term_syntax.parse_term("(i : Num) => if i == 0 { real_of_num(0) } else { real_of_num(bitval(bit(i - 1, (word_carryout : (Word[N], Word[N]) -> Word[N])((x : Word[N]), (y : Word[N]))))) }"),
         t4077,
         t4076,
       ]),
@@ -44988,9 +43568,7 @@ fn step_846() -> Unit raise {
   let t4074 = @simp.rewrite_tac(
     @list.List([
       @calc_rat.real_arith(
-        @parser.parse_term(
-          "(x + y) - (((x + y) + w - &2 * z) + z):real = z - w",
-        ),
+        @term_syntax.parse_term("(x : Real) + (y : Real) - (x + y + ((w : Real) - real_of_num(2) * (z : Real)) + z) == z - w"),
       ),
     ]),
   )
@@ -45105,9 +43683,7 @@ fn step_846() -> Unit raise {
     t4074,
   ])
   let t4056 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall x (y:N word) i.\n      i < dimindex(:N)\n      ==> &(bitval(bit i (word_add x y))):real =\n          (&(bitval(bit i x)) + &(bitval(bit i y))) +\n          ((if i = 0 then &0\n            else &(bitval(bit (i - 1) (word_carryout x y:N word)))) -\n           &2 * &(bitval(bit i (word_carryout x y))))",
-    ),
+    @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ∀ i : Num, i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → real_of_num(bitval((bit : (Num, Word[N]) -> Bool)(i, (word_add : (Word[N], Word[N]) -> Word[N])(x, y)))) == real_of_num(bitval((bit : (Num, Word[N]) -> Bool)(i, x))) + real_of_num(bitval((bit : (Num, Word[N]) -> Bool)(i, y))) + ((if i == 0 { real_of_num(0) } else { real_of_num(bitval((bit : (Num, Word[N]) -> Bool)(i - 1, (word_carryout : (Word[N], Word[N]) -> Word[N])(x, y)))) }) - real_of_num(2) * real_of_num(bitval((bit : (Num, Word[N]) -> Bool)(i, word_carryout(x, y)))))"),
     fn(
       x4054 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -45167,9 +43743,7 @@ fn step_846() -> Unit raise {
     @tactics.all_tac,
   ])
   let t4041 = @simp.rewrite_tac(@list.List([word_popcount_or_and()]))
-  let t4039 = @parser.parse_term(
-    "word_popcount(word_carryout (x:N word) (y:N word):N word)",
-  )
+  let t4039 = @term_syntax.parse_term("word_popcount((word_carryout : (Word[N], Word[N]) -> Word[N])((x : Word[N]), (y : Word[N])))")
   let t4040 = @tactics.map_every(
     fn(
       x4036 : @kernel.Term,
@@ -45225,9 +43799,7 @@ fn step_846() -> Unit raise {
     ),
   )
   let t4034 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "word_carryout:N word->N word->N word =\n      \\x y. word_or (word_and x y)\n                    (word_and (word_xor x y) (word_not(word_add x y)))",
-    ),
+    @term_syntax.parse_term("(word_carryout : (Word[N], Word[N]) -> Word[N]) == ((x : Word[N]) => (y : Word[N]) => word_or(word_and(x, y), word_and(word_xor(x, y), word_not(word_add(x, y)))))"),
   )
   let t4086 = @tactics.then_tac(
     @tactics.then_tac(
@@ -45286,9 +43858,7 @@ fn step_846() -> Unit raise {
   )
   word_popcount_add_or_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word. word_popcount(word_add x y) <= word_popcount(word_or x y)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_popcount(word_add(x, y)) <= word_popcount(word_or(x, y))"),
       t4086,
     ),
   )
@@ -45313,9 +43883,7 @@ fn step_847() -> Unit raise {
   )
   word_popcount_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n    word_popcount(word_add x y) <= word_popcount x + word_popcount y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_popcount(word_add(x, y)) <= word_popcount(x) + word_popcount(y)"),
       t4087,
     ),
   )
@@ -45616,9 +44184,7 @@ fn step_848() -> Unit raise {
   )
   word_popcount_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:N word.\n        word_popcount(word_mul x y) <= word_popcount x * word_popcount y",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], word_popcount(word_mul(x, y)) <= word_popcount(x) * word_popcount(y)"),
       t4120,
     ),
   )
@@ -45656,9 +44222,7 @@ fn step_849() -> Unit raise {
   )
   word_oddparity_popcount_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. word(bitval(word_oddparity x)):M word =\n              word_zx(word(word_popcount x):1 word)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word : (Num) -> Word[M])(bitval(word_oddparity(x))) == (word_zx : (Word[Unit]) -> Word[M])(word(word_popcount(x)))"),
       t4123,
     ),
   )
@@ -45704,9 +44268,7 @@ fn step_850() -> Unit raise {
   )
   word_evenparity_popcount_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:N word. word(bitval(word_evenparity x)):M word =\n              word_zx(word_not(word(word_popcount x)):1 word)",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], (word : (Num) -> Word[M])(bitval(word_evenparity(x))) == (word_zx : (Word[Unit]) -> Word[M])(word_not(word(word_popcount(x))))"),
       t4127,
     ),
   )
@@ -45859,9 +44421,7 @@ fn step_852() -> Unit raise {
     t4153,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_saturate n:N word =\n        (\\t. if n < t then word n else word (t - 1)) (2 EXP dimindex(:N))",
-    ),
+    @term_syntax.parse_term("(word_saturate : (Num) -> Word[N])((n : Num)) == ((t : Num) => if n < t { (word : (Num) -> Word[N])(n) } else { (word : (Num) -> Word[N])(t - 1) })(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t4154,
   )
   let n_tm = @term_syntax.parse_term("(n : Num)")
@@ -46019,9 +44579,7 @@ fn step_853() -> Unit raise {
     t4170,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "iword_saturate n:N word =\n        (\\t. if n < -- &t then word t\n             else if &t <= n then word(t - 1)\n             else iword n) (2 EXP (dimindex(:N) - 1))",
-    ),
+    @term_syntax.parse_term("(iword_saturate : (Int) -> Word[N])((n : Int)) == ((t : Num) => if n < -int_of_num(t) { (word : (Num) -> Word[N])(t) } else { if int_of_num(t) <= n { (word : (Num) -> Word[N])(t - 1) } else { (iword : (Int) -> Word[N])(n) } })(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1))"),
     t4171,
   )
   let n_tm = @term_syntax.parse_term("(n : Int)")
@@ -46167,17 +44725,13 @@ pub fn word_val_conv(x4180 : @kernel.Term) -> @kernel.Thm raise {
 fn step_854() -> Unit raise {
   let t4187 = @simp.rewrite_tac(@list.List([ival()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "ival(word n:N word) =\n        (\\v. if v < 2 EXP (dimindex (:N) - 1)\n             then &v else &v - &2 pow dimindex(:N))\n        (val(word n:N word))",
-    ),
+    @term_syntax.parse_term("(ival : (Word[N]) -> Int)((word : (Num) -> Word[N])((n : Num))) == ((v : Num) => if v < EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1) { int_of_num(v) } else { int_of_num(v) - pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) })((val : (Word[N]) -> Num)((word : (Num) -> Word[N])(n)))"),
     t4187,
   )
   let (cth1, cth2) = @bool.conj_pair(
     @meson.meson(
       @list.List([]),
-      @parser.parse_term(
-        "(if T then x:int else y:int) = x /\\\n             (if F then x:int else y:int) = y",
-      ),
+      @term_syntax.parse_term("(if true { (x : Int) } else { (y : Int) }) == x && (if false { x } else { y }) == y"),
     ),
   )
   word_ival_conv_c.set(fn(x4188 : @kernel.Term) -> @kernel.Thm raise {
@@ -46303,9 +44857,7 @@ fn step_855() -> Unit raise {
     t4206,
   )
   let pth0 = @tactics.prove(
-    @parser.parse_term(
-      "(ODD(0 DIV 2 EXP k) <=> F) /\\\n     (ODD(NUMERAL(BIT0 n) DIV 2 EXP 0) <=> F) /\\\n     (ODD(NUMERAL(BIT1 n) DIV 2 EXP 0) <=> T)",
-    ),
+    @term_syntax.parse_term("ODD(DIV(0, EXP(2, (k : Num)))) == false && ODD(DIV(NUMERAL(BIT0((n : Num))), EXP(2, 0))) == false && ODD(DIV(NUMERAL(BIT1(n)), EXP(2, 0))) == true"),
     t4207,
   )
   let t4224 = @simp.rewrite_tac(
@@ -46371,9 +44923,7 @@ fn step_855() -> Unit raise {
     @int.arith_tac,
   )
   let pth1 = @tactics.prove(
-    @parser.parse_term(
-      "(ODD(NUMERAL(BIT0 n) DIV 2 EXP SUC k) <=> ODD(NUMERAL n DIV (2 EXP k))) /\\\n     (ODD(NUMERAL(BIT1 n) DIV 2 EXP SUC k) <=> ODD(NUMERAL n DIV (2 EXP k)))",
-    ),
+    @term_syntax.parse_term("ODD(DIV(NUMERAL(BIT0((n : Num))), EXP(2, SUC((k : Num))))) == ODD(DIV(NUMERAL(n), EXP(2, k))) && ODD(DIV(NUMERAL(BIT1(n)), EXP(2, SUC(k)))) == ODD(DIV(NUMERAL(n), EXP(2, k)))"),
     t4225,
   )
   let conv0 : (@kernel.Term) -> @kernel.Thm raise = @simp.gen_rewrite_conv(
@@ -46589,9 +45139,7 @@ pub fn bit_word_pmul_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_857() -> Unit raise {
   let t4250 = @simp.rewrite_tac(@list.List([val_eq()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word(NUMERAL m):N word = (word(NUMERAL n):N word) <=>\n     val(word(NUMERAL m):N word) = val(word(NUMERAL n):N word)",
-    ),
+    @term_syntax.parse_term("((word : (Num) -> Word[N])(NUMERAL((m : Num))) == (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(m))) == (val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(n))))"),
     t4250,
   )
   let t4252 = @equal.binop_conv(word_val_conv)
@@ -46627,9 +45175,7 @@ pub fn word_eq_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_858() -> Unit raise {
   let t4253 = @simp.rewrite_tac(@list.List([word_ult(), relational2()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_ult (word(NUMERAL m):N word) (word(NUMERAL n):N word) <=>\n     val(word(NUMERAL m):N word) < val(word(NUMERAL n):N word)",
-    ),
+    @term_syntax.parse_term("(word_ult : (Word[N], Word[N]) -> Bool)((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(m))) < (val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(n))))"),
     t4253,
   )
   let t4255 = @equal.binop_conv(word_val_conv)
@@ -46665,9 +45211,7 @@ pub fn word_ult_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_859() -> Unit raise {
   let t4256 = @simp.rewrite_tac(@list.List([word_ule(), relational2()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_ule (word(NUMERAL m):N word) (word(NUMERAL n):N word) <=>\n     val(word(NUMERAL m):N word) <= val(word(NUMERAL n):N word)",
-    ),
+    @term_syntax.parse_term("(word_ule : (Word[N], Word[N]) -> Bool)((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(m))) <= (val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(n))))"),
     t4256,
   )
   let t4258 = @equal.binop_conv(word_val_conv)
@@ -46703,9 +45247,7 @@ pub fn word_ule_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_860() -> Unit raise {
   let t4259 = @simp.rewrite_tac(@list.List([word_ugt(), relational2()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_ugt (word(NUMERAL m):N word) (word(NUMERAL n):N word) <=>\n     val(word(NUMERAL m):N word) > val(word(NUMERAL n):N word)",
-    ),
+    @term_syntax.parse_term("(word_ugt : (Word[N], Word[N]) -> Bool)((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(m))) > (val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(n))))"),
     t4259,
   )
   let t4261 = @equal.binop_conv(word_val_conv)
@@ -46741,9 +45283,7 @@ pub fn word_ugt_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_861() -> Unit raise {
   let t4262 = @simp.rewrite_tac(@list.List([word_uge(), relational2()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_uge (word(NUMERAL m):N word) (word(NUMERAL n):N word) <=>\n     val(word(NUMERAL m):N word) >= val(word(NUMERAL n):N word)",
-    ),
+    @term_syntax.parse_term("(word_uge : (Word[N], Word[N]) -> Bool)((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(m))) >= (val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(n))))"),
     t4262,
   )
   let t4264 = @equal.binop_conv(word_val_conv)
@@ -46779,9 +45319,7 @@ pub fn word_uge_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_862() -> Unit raise {
   let t4265 = @simp.rewrite_tac(@list.List([word_ilt(), irelational2()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_ilt (word(NUMERAL m):N word) (word(NUMERAL n):N word) <=>\n     ival(word(NUMERAL m):N word) < ival(word(NUMERAL n):N word)",
-    ),
+    @term_syntax.parse_term("(word_ilt : (Word[N], Word[N]) -> Bool)((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(m))) < (ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(n))))"),
     t4265,
   )
   let t4267 = @equal.binop_conv(word_ival_conv)
@@ -46817,9 +45355,7 @@ pub fn word_ilt_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_863() -> Unit raise {
   let t4268 = @simp.rewrite_tac(@list.List([word_ile(), irelational2()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_ile (word(NUMERAL m):N word) (word(NUMERAL n):N word) <=>\n     ival(word(NUMERAL m):N word) <= ival(word(NUMERAL n):N word)",
-    ),
+    @term_syntax.parse_term("(word_ile : (Word[N], Word[N]) -> Bool)((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(m))) <= (ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(n))))"),
     t4268,
   )
   let t4270 = @equal.binop_conv(word_ival_conv)
@@ -46855,9 +45391,7 @@ pub fn word_ile_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_864() -> Unit raise {
   let t4271 = @simp.rewrite_tac(@list.List([word_igt(), irelational2()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_igt (word(NUMERAL m):N word) (word(NUMERAL n):N word) <=>\n     ival(word(NUMERAL m):N word) > ival(word(NUMERAL n):N word)",
-    ),
+    @term_syntax.parse_term("(word_igt : (Word[N], Word[N]) -> Bool)((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(m))) > (ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(n))))"),
     t4271,
   )
   let t4273 = @equal.binop_conv(word_ival_conv)
@@ -46893,9 +45427,7 @@ pub fn word_igt_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_865() -> Unit raise {
   let t4274 = @simp.rewrite_tac(@list.List([word_ige(), irelational2()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_ige (word(NUMERAL m):N word) (word(NUMERAL n):N word) <=>\n     ival(word(NUMERAL m):N word) >= ival(word(NUMERAL n):N word)",
-    ),
+    @term_syntax.parse_term("(word_ige : (Word[N], Word[N]) -> Bool)((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(m))) >= (ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(n))))"),
     t4274,
   )
   let t4276 = @equal.binop_conv(word_ival_conv)
@@ -46947,9 +45479,7 @@ fn step_866() -> Unit raise {
     t4278,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_add (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n     word((NUMERAL m + NUMERAL n) MOD (2 EXP dimindex(:N)))",
-    ),
+    @term_syntax.parse_term("(word_add : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == (word : (Num) -> Word[N])(MOD(NUMERAL(m) + NUMERAL(n), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
     t4279,
   )
   let t4281 = @equal.rand_conv(
@@ -47003,9 +45533,7 @@ fn step_867() -> Unit raise {
     t4283,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_mul (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n     word((NUMERAL m * NUMERAL n) MOD (2 EXP dimindex(:N)))",
-    ),
+    @term_syntax.parse_term("(word_mul : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == (word : (Num) -> Word[N])(MOD(NUMERAL(m) * NUMERAL(n), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
     t4284,
   )
   let t4286 = @equal.rand_conv(
@@ -47059,9 +45587,7 @@ fn step_868() -> Unit raise {
     t4288,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_sub (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n     (\\p. word((NUMERAL m + (p - NUMERAL n MOD p)) MOD p))\n     (2 EXP dimindex(:N))",
-    ),
+    @term_syntax.parse_term("(word_sub : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((p : Num) => (word : (Num) -> Word[N])(MOD(NUMERAL(m) + (p - MOD(NUMERAL(n), p)), p)))(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t4289,
   )
   let t4292 = @equal.rand_conv(
@@ -47133,9 +45659,7 @@ fn step_869() -> Unit raise {
     t4294,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_neg (word(NUMERAL n):N word) =\n     (\\p. word((p - NUMERAL n MOD p) MOD p))\n     (2 EXP dimindex(:N))",
-    ),
+    @term_syntax.parse_term("(word_neg : (Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((p : Num) => (word : (Num) -> Word[N])(MOD(p - MOD(NUMERAL(n), p), p)))(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t4295,
   )
   let t4298 = @equal.rand_conv(
@@ -47214,9 +45738,7 @@ fn step_870() -> Unit raise {
     t4302,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_udiv (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n     (\\p. word((NUMERAL m MOD p) DIV (NUMERAL n MOD p)))\n     (2 EXP dimindex(:N))",
-    ),
+    @term_syntax.parse_term("(word_udiv : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((p : Num) => (word : (Num) -> Word[N])(DIV(MOD(NUMERAL(m), p), MOD(NUMERAL(n), p))))(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t4303,
   )
   let t4306 = @equal.rand_conv(
@@ -47290,9 +45812,7 @@ fn step_871() -> Unit raise {
     t4310,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_umod (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n     (\\p. word((NUMERAL m MOD p) MOD (NUMERAL n MOD p)))\n     (2 EXP dimindex(:N))",
-    ),
+    @term_syntax.parse_term("(word_umod : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((p : Num) => (word : (Num) -> Word[N])(MOD(MOD(NUMERAL(m), p), MOD(NUMERAL(n), p))))(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t4311,
   )
   let t4314 = @equal.rand_conv(
@@ -47361,9 +45881,7 @@ fn step_872() -> Unit raise {
     t4318,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_umax (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n     (\\p. word(MAX (NUMERAL m MOD p) (NUMERAL n MOD p)))\n     (2 EXP dimindex(:N))",
-    ),
+    @term_syntax.parse_term("(word_umax : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((p : Num) => (word : (Num) -> Word[N])(MAX(MOD(NUMERAL(m), p), MOD(NUMERAL(n), p))))(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t4319,
   )
   let t4322 = @equal.rand_conv(
@@ -47432,9 +45950,7 @@ fn step_873() -> Unit raise {
     t4326,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_umin (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n     (\\p. word(MIN (NUMERAL m MOD p) (NUMERAL n MOD p)))\n     (2 EXP dimindex(:N))",
-    ),
+    @term_syntax.parse_term("(word_umin : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((p : Num) => (word : (Num) -> Word[N])(MIN(MOD(NUMERAL(m), p), MOD(NUMERAL(n), p))))(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t4327,
   )
   let t4330 = @equal.rand_conv(
@@ -47488,9 +46004,7 @@ fn step_874() -> Unit raise {
     t4331,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_imax (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n     if ival(word(NUMERAL m):N word) <= ival(word(NUMERAL n):N word)\n     then word((NUMERAL n) MOD (2 EXP dimindex(:N)))\n     else word((NUMERAL m) MOD (2 EXP dimindex(:N)))",
-    ),
+    @term_syntax.parse_term("(word_imax : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == (if (ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(m))) <= (ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(n))) { (word : (Num) -> Word[N])(MOD(NUMERAL(n), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) } else { (word : (Num) -> Word[N])(MOD(NUMERAL(m), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) })"),
     t4332,
   )
   let t4341 = @equal.rand_conv(@calc_num.num_mod_conv)
@@ -47564,9 +46078,7 @@ fn step_875() -> Unit raise {
     t4342,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_imin (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n     if ival(word(NUMERAL m):N word) <= ival(word(NUMERAL n):N word)\n     then word((NUMERAL m) MOD (2 EXP dimindex(:N)))\n     else word((NUMERAL n) MOD (2 EXP dimindex(:N)))",
-    ),
+    @term_syntax.parse_term("(word_imin : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == (if (ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(m))) <= (ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(n))) { (word : (Num) -> Word[N])(MOD(NUMERAL(m), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) } else { (word : (Num) -> Word[N])(MOD(NUMERAL(n), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))) })"),
     t4343,
   )
   let t4352 = @equal.rand_conv(@calc_num.num_mod_conv)
@@ -47640,9 +46152,7 @@ fn step_876() -> Unit raise {
     @tactics.refl_tac,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_shl (word(NUMERAL m):N word) (NUMERAL n) =\n     (\\p. word((NUMERAL m * 2 EXP (NUMERAL n)) MOD p))\n     (2 EXP dimindex(:N))",
-    ),
+    @term_syntax.parse_term("(word_shl : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), NUMERAL((n : Num))) == ((p : Num) => (word : (Num) -> Word[N])(MOD(NUMERAL(m) * EXP(2, NUMERAL(n)), p)))(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t4354,
   )
   let t4357 = @equal.rand_conv(
@@ -47701,9 +46211,7 @@ fn step_877() -> Unit raise {
     @tactics.refl_tac,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_ushr (word(NUMERAL m):N word) (NUMERAL n) =\n     (\\p. word((NUMERAL m MOD p) DIV (2 EXP NUMERAL n) MOD p))\n     (2 EXP dimindex(:N))",
-    ),
+    @term_syntax.parse_term("(word_ushr : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), NUMERAL((n : Num))) == ((p : Num) => (word : (Num) -> Word[N])(MOD(DIV(MOD(NUMERAL(m), p), EXP(2, NUMERAL(n))), p)))(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t4359,
   )
   let t4362 = @equal.rand_conv(
@@ -47753,9 +46261,7 @@ pub fn word_ushr_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_878() -> Unit raise {
   let t4363 = @simp.rewrite_tac(@list.List([word_ishr()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_ishr (word(NUMERAL m):N word) (NUMERAL n) =\n     iword (ival(word(NUMERAL m):N word) div &2 pow (NUMERAL n))",
-    ),
+    @term_syntax.parse_term("(word_ishr : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), NUMERAL((n : Num))) == (iword : (Int) -> Word[N])(div((ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(m))), pow(int_of_num(2), NUMERAL(n))))"),
     t4363,
   )
   let t4365 = @equal.rand_conv(
@@ -47818,9 +46324,7 @@ fn step_879() -> Unit raise {
     t4369,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_not(word n:N word) =\n     (\\p. word(p - 1 - n MOD p)) (2 EXP dimindex(:N))",
-    ),
+    @term_syntax.parse_term("(word_not : (Word[N]) -> Word[N])((word : (Num) -> Word[N])((n : Num))) == ((p : Num) => (word : (Num) -> Word[N])(p - 1 - MOD(n, p)))(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t4370,
   )
   word_not_conv_c.set(fn(x4371 : @kernel.Term) -> @kernel.Thm raise {
@@ -48098,9 +46602,7 @@ fn step_880() -> Unit raise {
     t4401,
   ])
   let t4380 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(forall n. f 0 n = 0) /\\ (forall m. f m 0 = 0) /\\\n      (forall m n. f (2 * m) (2 * n) = 2 * f m n) /\\\n      (forall m n. f (2 * m + 1) (2 * n) = 2 * f m n) /\\\n      (forall m n. f (2 * m) (2 * n + 1) = 2 * f m n) /\\\n      (forall m n. f (2 * m + 1) (2 * n + 1) = 2 * f m n + 1)",
-    ),
+    @term_syntax.parse_term("(∀ n : Num, (f : (Num, Num) -> Num)(0, n) == 0) && (∀ m : Num, f(m, 0) == 0) && (∀ m : Num, ∀ n : Num, f(2 * m, 2 * n) == 2 * f(m, n)) && (∀ m : Num, ∀ n : Num, f(2 * m + 1, 2 * n) == 2 * f(m, n)) && (∀ m : Num, ∀ n : Num, f(2 * m, 2 * n + 1) == 2 * f(m, n)) && (∀ m : Num, ∀ n : Num, f(2 * m + 1, 2 * n + 1) == 2 * f(m, n) + 1)"),
     fn(
       x4377 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -48180,9 +46682,7 @@ fn step_880() -> Unit raise {
                                                         @tactics.then_tac(
                                                           @tactics.mp_tac(
                                                             @define.prove_general_recursive_function_exists(
-                                                              @parser.parse_term(
-                                                                "?f. forall m n. f m n =\n                if m = 0 then 0 else if n = 0 then 0\n                else (if m MOD 2 = 1 /\\ n MOD 2 = 1 then 1 else 0) +\n                     2 * f (m DIV 2) (n DIV 2)",
-                                                              ),
+                                                              @term_syntax.parse_term("∃ f : (Num, Num) -> Num, ∀ m : Num, ∀ n : Num, f(m, n) == (if m == 0 { 0 } else { if n == 0 { 0 } else { (if MOD(m, 2) == 1 && MOD(n, 2) == 1 { 1 } else { 0 }) + 2 * f(DIV(m, 2), DIV(n, 2)) } })"),
                                                             ),
                                                           ),
                                                           t4375,
@@ -48242,9 +46742,7 @@ fn step_880() -> Unit raise {
     @int.asm_arith_tac,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "?f. ((forall n. f _0 n = _0) /\\ (forall m. f m _0 = _0)) /\\\n         ((forall m n. f (BIT0 m) (BIT0 n) = BIT0(f m n)) /\\\n          (forall m n. f (BIT0 m) (BIT1 n) = BIT0(f m n)) /\\\n          (forall m n. f (BIT1 m) (BIT0 n) = BIT0(f m n)) /\\\n          (forall m n. f (BIT1 m) (BIT1 n) = BIT1(f m n))) /\\\n         (forall m n. word_and (word(NUMERAL m):N word) (word(NUMERAL n)) =\n                word(NUMERAL(f m n)))",
-    ),
+    @term_syntax.parse_term("∃ f : (Num, Num) -> Num, ((∀ n : Num, f(_0, n) == _0) && (∀ m : Num, f(m, _0) == _0)) && ((∀ m : Num, ∀ n : Num, f(BIT0(m), BIT0(n)) == BIT0(f(m, n))) && (∀ m : Num, ∀ n : Num, f(BIT0(m), BIT1(n)) == BIT0(f(m, n))) && (∀ m : Num, ∀ n : Num, f(BIT1(m), BIT0(n)) == BIT0(f(m, n))) && (∀ m : Num, ∀ n : Num, f(BIT1(m), BIT1(n)) == BIT1(f(m, n)))) && (∀ m : Num, ∀ n : Num, (word_and : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL(m)), (word : (Num) -> Word[N])(NUMERAL(n))) == (word : (Num) -> Word[N])(NUMERAL(f(m, n))))"),
     t4422,
   )
   let t4423 = @simp.rewrite_tac(@list.List([@calc_num.arith_zero()]))
@@ -48629,9 +47127,7 @@ fn step_881() -> Unit raise {
     t4466,
   ])
   let t4439 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(forall n. f 0 n = n) /\\ (forall m. f m 0 = m) /\\\n      (forall m n. f (2 * m) (2 * n) = 2 * f m n) /\\\n      (forall m n. f (2 * m + 1) (2 * n) = 2 * f m n + 1) /\\\n      (forall m n. f (2 * m) (2 * n + 1) = 2 * f m n + 1) /\\\n      (forall m n. f (2 * m + 1) (2 * n + 1) = 2 * f m n + 1)",
-    ),
+    @term_syntax.parse_term("(∀ n : Num, (f : (Num, Num) -> Num)(0, n) == n) && (∀ m : Num, f(m, 0) == m) && (∀ m : Num, ∀ n : Num, f(2 * m, 2 * n) == 2 * f(m, n)) && (∀ m : Num, ∀ n : Num, f(2 * m + 1, 2 * n) == 2 * f(m, n) + 1) && (∀ m : Num, ∀ n : Num, f(2 * m, 2 * n + 1) == 2 * f(m, n) + 1) && (∀ m : Num, ∀ n : Num, f(2 * m + 1, 2 * n + 1) == 2 * f(m, n) + 1)"),
     fn(
       x4436 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -48711,9 +47207,7 @@ fn step_881() -> Unit raise {
                                                         @tactics.then_tac(
                                                           @tactics.mp_tac(
                                                             @define.prove_general_recursive_function_exists(
-                                                              @parser.parse_term(
-                                                                "?f. forall m n. f m n =\n                if m = 0 then n else if n = 0 then m\n                else (if m MOD 2 = 1 \\/ n MOD 2 = 1 then 1 else 0) +\n                     2 * f (m DIV 2) (n DIV 2)",
-                                                              ),
+                                                              @term_syntax.parse_term("∃ f : (Num, Num) -> Num, ∀ m : Num, ∀ n : Num, f(m, n) == (if m == 0 { n } else { if n == 0 { m } else { (if MOD(m, 2) == 1 || MOD(n, 2) == 1 { 1 } else { 0 }) + 2 * f(DIV(m, 2), DIV(n, 2)) } })"),
                                                             ),
                                                           ),
                                                           t4434,
@@ -48773,9 +47267,7 @@ fn step_881() -> Unit raise {
     @int.asm_arith_tac,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "?f. ((forall n. f _0 n = n) /\\ (forall m. f m _0 = m)) /\\\n         ((forall m n. f (BIT0 m) (BIT0 n) = BIT0(f m n)) /\\\n          (forall m n. f (BIT0 m) (BIT1 n) = BIT1(f m n)) /\\\n          (forall m n. f (BIT1 m) (BIT0 n) = BIT1(f m n)) /\\\n          (forall m n. f (BIT1 m) (BIT1 n) = BIT1(f m n))) /\\\n         (forall m n. word_or (word(NUMERAL m):N word) (word(NUMERAL n)) =\n                word(NUMERAL(f m n)))",
-    ),
+    @term_syntax.parse_term("∃ f : (Num, Num) -> Num, ((∀ n : Num, f(_0, n) == n) && (∀ m : Num, f(m, _0) == m)) && ((∀ m : Num, ∀ n : Num, f(BIT0(m), BIT0(n)) == BIT0(f(m, n))) && (∀ m : Num, ∀ n : Num, f(BIT0(m), BIT1(n)) == BIT1(f(m, n))) && (∀ m : Num, ∀ n : Num, f(BIT1(m), BIT0(n)) == BIT1(f(m, n))) && (∀ m : Num, ∀ n : Num, f(BIT1(m), BIT1(n)) == BIT1(f(m, n)))) && (∀ m : Num, ∀ n : Num, (word_or : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL(m)), (word : (Num) -> Word[N])(NUMERAL(n))) == (word : (Num) -> Word[N])(NUMERAL(f(m, n))))"),
     t4487,
   )
   let t4488 = @simp.rewrite_tac(@list.List([@calc_num.arith_zero()]))
@@ -49160,9 +47652,7 @@ fn step_882() -> Unit raise {
     t4531,
   ])
   let t4504 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(forall n. f 0 n = n) /\\ (forall m. f m 0 = m) /\\\n      (forall m n. f (2 * m) (2 * n) = 2 * f m n) /\\\n      (forall m n. f (2 * m + 1) (2 * n) = 2 * f m n + 1) /\\\n      (forall m n. f (2 * m) (2 * n + 1) = 2 * f m n + 1) /\\\n      (forall m n. f (2 * m + 1) (2 * n + 1) = 2 * f m n)",
-    ),
+    @term_syntax.parse_term("(∀ n : Num, (f : (Num, Num) -> Num)(0, n) == n) && (∀ m : Num, f(m, 0) == m) && (∀ m : Num, ∀ n : Num, f(2 * m, 2 * n) == 2 * f(m, n)) && (∀ m : Num, ∀ n : Num, f(2 * m + 1, 2 * n) == 2 * f(m, n) + 1) && (∀ m : Num, ∀ n : Num, f(2 * m, 2 * n + 1) == 2 * f(m, n) + 1) && (∀ m : Num, ∀ n : Num, f(2 * m + 1, 2 * n + 1) == 2 * f(m, n))"),
     fn(
       x4501 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -49242,9 +47732,7 @@ fn step_882() -> Unit raise {
                                                         @tactics.then_tac(
                                                           @tactics.mp_tac(
                                                             @define.prove_general_recursive_function_exists(
-                                                              @parser.parse_term(
-                                                                "?f. forall m n. f m n =\n                if m = 0 then n else if n = 0 then m\n                else (if m MOD 2 = 1 <=> n MOD 2 = 1 then 0 else 1) +\n                     2 * f (m DIV 2) (n DIV 2)",
-                                                              ),
+                                                              @term_syntax.parse_term("∃ f : (Num, Num) -> Num, ∀ m : Num, ∀ n : Num, f(m, n) == (if m == 0 { n } else { if n == 0 { m } else { (if (MOD(m, 2) == 1) == (MOD(n, 2) == 1) { 0 } else { 1 }) + 2 * f(DIV(m, 2), DIV(n, 2)) } })"),
                                                             ),
                                                           ),
                                                           t4499,
@@ -49304,9 +47792,7 @@ fn step_882() -> Unit raise {
     @int.asm_arith_tac,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "?f. ((forall n. f _0 n = n) /\\ (forall m. f m _0 = m)) /\\\n         ((forall m n. f (BIT0 m) (BIT0 n) = BIT0(f m n)) /\\\n          (forall m n. f (BIT0 m) (BIT1 n) = BIT1(f m n)) /\\\n          (forall m n. f (BIT1 m) (BIT0 n) = BIT1(f m n)) /\\\n          (forall m n. f (BIT1 m) (BIT1 n) = BIT0(f m n))) /\\\n         (forall m n. word_xor (word(NUMERAL m):N word) (word(NUMERAL n)) =\n                word(NUMERAL(f m n)))",
-    ),
+    @term_syntax.parse_term("∃ f : (Num, Num) -> Num, ((∀ n : Num, f(_0, n) == n) && (∀ m : Num, f(m, _0) == m)) && ((∀ m : Num, ∀ n : Num, f(BIT0(m), BIT0(n)) == BIT0(f(m, n))) && (∀ m : Num, ∀ n : Num, f(BIT0(m), BIT1(n)) == BIT1(f(m, n))) && (∀ m : Num, ∀ n : Num, f(BIT1(m), BIT0(n)) == BIT1(f(m, n))) && (∀ m : Num, ∀ n : Num, f(BIT1(m), BIT1(n)) == BIT0(f(m, n)))) && (∀ m : Num, ∀ n : Num, (word_xor : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL(m)), (word : (Num) -> Word[N])(NUMERAL(n))) == (word : (Num) -> Word[N])(NUMERAL(f(m, n))))"),
     t4552,
   )
   let t4553 = @simp.rewrite_tac(@list.List([@calc_num.arith_zero()]))
@@ -49427,9 +47913,7 @@ fn step_883() -> Unit raise {
     t4568,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_rol (word(NUMERAL m):N word) n =\n     (\\n. word_or (word_shl (word(NUMERAL m):N word) n)\n                  (word_ushr (word(NUMERAL m):N word) (dimindex (:N) - n)))\n     (n MOD dimindex(:N))",
-    ),
+    @term_syntax.parse_term("(word_rol : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (n : Num)) == ((n : Num) => (word_or : (Word[N], Word[N]) -> Word[N])((word_shl : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(NUMERAL(m)), n), (word_ushr : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(NUMERAL(m)), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n)))(MOD(n, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t4569,
   )
   let t4587 = @equal.rand_conv(@calc_num.num_sub_conv)
@@ -49532,9 +48016,7 @@ fn step_884() -> Unit raise {
     t4593,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_ror (word(NUMERAL m):N word) n =\n     (\\n. word_or (word_ushr (word(NUMERAL m):N word) n)\n                  (word_shl (word(NUMERAL m):N word) (dimindex (:N) - n)))\n     (n MOD dimindex(:N))",
-    ),
+    @term_syntax.parse_term("(word_ror : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (n : Num)) == ((n : Num) => (word_or : (Word[N], Word[N]) -> Word[N])((word_ushr : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(NUMERAL(m)), n), (word_shl : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(NUMERAL(m)), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - n)))(MOD(n, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t4594,
   )
   let t4612 = @equal.rand_conv(@calc_num.num_sub_conv)
@@ -49625,9 +48107,7 @@ fn step_885() -> Unit raise {
     t4614,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "(word_zx:M word->N word) (word (NUMERAL n)) =\n     word (NUMERAL n MOD (2 EXP (MIN (dimindex(:M)) (dimindex(:N)))))",
-    ),
+    @term_syntax.parse_term("(word_zx : (Word[M]) -> Word[N])((word : (Num) -> Word[M])(NUMERAL((n : Num)))) == (word : (Num) -> Word[N])(MOD(NUMERAL(n), EXP(2, MIN((dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))))"),
     t4615,
   )
   let t4617 = @equal.rand_conv(
@@ -49675,9 +48155,7 @@ pub fn word_zx_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_886() -> Unit raise {
   let t4618 = @simp.rewrite_tac(@list.List([word_sx()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "(word_sx:M word->N word) (word (NUMERAL n)) =\n     iword(ival(word(NUMERAL n):M word))",
-    ),
+    @term_syntax.parse_term("(word_sx : (Word[M]) -> Word[N])((word : (Num) -> Word[M])(NUMERAL((n : Num)))) == (iword : (Int) -> Word[N])((ival : (Word[M]) -> Int)((word : (Num) -> Word[M])(NUMERAL(n))))"),
     t4618,
   )
   let t4620 = @equal.rand_conv(word_ival_conv)
@@ -49713,9 +48191,7 @@ pub fn word_sx_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_887() -> Unit raise {
   let t4621 = @simp.rewrite_tac(@list.List([word_sxfrom()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_sxfrom (NUMERAL n) (word(NUMERAL x):N word) =\n      word_ishr (word_shl (word(NUMERAL x)) (dimindex (:N) - 1 - NUMERAL n))\n                (dimindex (:N) - 1 - NUMERAL n)",
-    ),
+    @term_syntax.parse_term("(word_sxfrom : (Num, Word[N]) -> Word[N])(NUMERAL((n : Num)), (word : (Num) -> Word[N])(NUMERAL((x : Num)))) == (word_ishr : (Word[N], Num) -> Word[N])((word_shl : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(NUMERAL(x)), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1 - NUMERAL(n)), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1 - NUMERAL(n))"),
     t4621,
   )
   let t4624 = @equal.rand_conv(
@@ -49782,9 +48258,7 @@ pub fn word_sxfrom_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_888() -> Unit raise {
   let t4625 = @simp.rewrite_tac(@list.List([word_cand_v1()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_cand (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n    if word(NUMERAL m):N word = word 0 \\/\n       word(NUMERAL n):N word = word 0\n    then word 0 else word 1",
-    ),
+    @term_syntax.parse_term("(word_cand : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == (if (word : (Num) -> Word[N])(NUMERAL(m)) == (word : (Num) -> Word[N])(0) || (word : (Num) -> Word[N])(NUMERAL(n)) == (word : (Num) -> Word[N])(0) { (word : (Num) -> Word[N])(0) } else { (word : (Num) -> Word[N])(1) })"),
     t4625,
   )
   let t4631 = @simp.gen_rewrite_conv(
@@ -49838,9 +48312,7 @@ pub fn word_cand_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_889() -> Unit raise {
   let t4632 = @simp.rewrite_tac(@list.List([word_cor_v1()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_cor (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n    if word(NUMERAL m):N word = word 0 /\\\n       word(NUMERAL n):N word = word 0\n    then word 0 else word 1",
-    ),
+    @term_syntax.parse_term("(word_cor : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == (if (word : (Num) -> Word[N])(NUMERAL(m)) == (word : (Num) -> Word[N])(0) && (word : (Num) -> Word[N])(NUMERAL(n)) == (word : (Num) -> Word[N])(0) { (word : (Num) -> Word[N])(0) } else { (word : (Num) -> Word[N])(1) })"),
     t4632,
   )
   let t4638 = @simp.gen_rewrite_conv(
@@ -49901,9 +48373,7 @@ fn step_890() -> Unit raise {
     ]),
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "(word_join:(M)word->(N)word->(P)word)\n     (word(NUMERAL m)) (word(NUMERAL n)) =\n     word((2 EXP dimindex(:N) * NUMERAL m MOD 2 EXP dimindex(:M) +\n           NUMERAL n MOD 2 EXP dimindex(:N)) MOD\n          2 EXP dimindex(:P))",
-    ),
+    @term_syntax.parse_term("(word_join : (Word[M], Word[N]) -> Word[P])((word : (Num) -> Word[M])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == (word : (Num) -> Word[P])(MOD(EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) * MOD(NUMERAL(m), EXP(2, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)))) + MOD(NUMERAL(n), EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), EXP(2, (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)))))"),
     t4639,
   )
   let t4643 = word_pow2size_conv().val
@@ -49970,9 +48440,7 @@ fn step_891() -> Unit raise {
     t4645,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_subword (word(NUMERAL m):M word) (NUMERAL p,NUMERAL q):N word =\n     word((val(word(NUMERAL m):M word) DIV 2 EXP NUMERAL p) MOD\n           2 EXP MIN (NUMERAL q) (dimindex (:N)))",
-    ),
+    @term_syntax.parse_term("(word_subword : (Word[M], (Num, Num)) -> Word[N])((word : (Num) -> Word[M])(NUMERAL((m : Num))), (NUMERAL((p : Num)), NUMERAL((q : Num)))) == (word : (Num) -> Word[N])(MOD(DIV((val : (Word[M]) -> Num)((word : (Num) -> Word[M])(NUMERAL(m))), EXP(2, NUMERAL(p))), EXP(2, MIN(NUMERAL(q), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))))"),
     t4646,
   )
   let t4648 = @equal.thenc(
@@ -50027,9 +48495,7 @@ pub fn word_subword_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_892() -> Unit raise {
   let t4650 = @simp.rewrite_tac(@list.List([word_mod_size(), word_insert()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "(word_insert:(M)word->num#num->(N)word->(P)word)\n     (word(NUMERAL m)) (NUMERAL pos,NUMERAL len) (word(NUMERAL n)) =\n     word((2 EXP (NUMERAL pos + NUMERAL len) *\n           val(word(NUMERAL m):M word) DIV 2 EXP (NUMERAL pos + NUMERAL len) +\n           2 EXP NUMERAL pos *\n           val(word(NUMERAL n):N word) MOD 2 EXP NUMERAL len +\n           val(word(NUMERAL m):M word) MOD 2 EXP NUMERAL pos) MOD\n          2 EXP dimindex(:P))",
-    ),
+    @term_syntax.parse_term("(word_insert : (Word[M], (Num, Num), Word[N]) -> Word[P])((word : (Num) -> Word[M])(NUMERAL((m : Num))), (NUMERAL((pos : Num)), NUMERAL((len : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == (word : (Num) -> Word[P])(MOD(EXP(2, NUMERAL(pos) + NUMERAL(len)) * DIV((val : (Word[M]) -> Num)((word : (Num) -> Word[M])(NUMERAL(m))), EXP(2, NUMERAL(pos) + NUMERAL(len))) + (EXP(2, NUMERAL(pos)) * MOD((val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(n))), EXP(2, NUMERAL(len))) + MOD((val : (Word[M]) -> Num)((word : (Num) -> Word[M])(NUMERAL(m))), EXP(2, NUMERAL(pos)))), EXP(2, (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)))))"),
     t4650,
   )
   let t4655 = @equal.thenc(
@@ -50127,9 +48593,7 @@ fn step_893() -> Unit raise {
     @list.List([word_duplicate_v1(), @arith.exp_exp(), @arith.mult_sym()]),
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "dimindex(:N) <= k * dimindex(:M)\n           ==> (word_duplicate:M word->N word)(word m) =\n               (\\t. word((t EXP k - 1) DIV (t - 1) * m MOD t))\n               (2 EXP dimindex(:M))",
-    ),
+    @term_syntax.parse_term("(dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= (k : Num) * (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) → (word_duplicate : (Word[M]) -> Word[N])((word : (Num) -> Word[M])((m : Num))) == ((t : Num) => (word : (Num) -> Word[N])(DIV(EXP(t, k) - 1, t - 1) * MOD(m, t)))(EXP(2, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))))"),
     t4657,
   )
   word_duplicate_conv_c.set(fn(x4658 : @kernel.Term) -> @kernel.Thm raise {
@@ -50307,9 +48771,7 @@ fn step_894() -> Unit raise {
     @meson.meson_tac(@list.List([@arith.sub_0(), @arith.le_0()])),
   ])
   let t4736 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall k i. i IN f k (val w) <=> k <= i /\\ (i - k) IN bits_of_word(w:N word)",
-    ),
+    @term_syntax.parse_term("∀ k : Num, ∀ i : Num, IN(i, (f : (Num, Num, Num) -> Bool)(k, val((w : Word[N])))) == (k <= i && IN(i - k, bits_of_word(w)))"),
     fn(
       x4733 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -50635,9 +49097,7 @@ fn step_894() -> Unit raise {
                                                                     @tactics.then_tac(
                                                                       @tactics.mp_tac(
                                                                         @define.prove_general_recursive_function_exists(
-                                                                          @parser.parse_term(
-                                                                            "?f. forall i n. f i n =\n                  if n = 0 then {}\n             else if n MOD 2 = 1 then i INSERT f (i + 1) (n DIV 2)\n             else f (i + 1) (n DIV 2)",
-                                                                          ),
+                                                                          @term_syntax.parse_term("∃ f : (Num, Num, Num) -> Bool, ∀ i : Num, ∀ n : Num, f(i, n) == (if n == 0 { {} } else { if MOD(n, 2) == 1 { INSERT(i, f(i + 1, DIV(n, 2))) } else { f(i + 1, DIV(n, 2)) } })"),
                                                                         ),
                                                                       ),
                                                                       t4663,
@@ -50709,9 +49169,7 @@ fn step_894() -> Unit raise {
     t4760,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "?f. (forall i. f i _0 = {} /\\\n              (forall n. f i (BIT0 n) = f (i + 1) n) /\\\n              (forall n. f i (BIT1 n) = i INSERT f (i + 1) n)) /\\\n         (forall w:N word. bits_of_word w = f 0 (val w))",
-    ),
+    @term_syntax.parse_term("∃ f : (Num, Num, Num) -> Bool, (∀ i : Num, f(i, _0) == {} && (∀ n : Num, f(i, BIT0(n)) == f(i + 1, n)) && (∀ n : Num, f(i, BIT1(n)) == INSERT(i, f(i + 1, n)))) && (∀ w : Word[N], bits_of_word(w) == f(0, val(w)))"),
     t4761,
   )
   let nty = @parser.parse_type("N")
@@ -50885,9 +49343,7 @@ fn step_895() -> Unit raise {
     t4850,
   ])
   let t4848 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall P. {i | P i} = {i | i = 0 /\\ P 0} UNION IMAGE SUC {i | P(SUC i)}",
-    ),
+    @term_syntax.parse_term("∀ P : (Num) -> Bool, {(i : Num) | P(i)} == UNION({(i : Num) | i == 0 && P(0)}, IMAGE(SUC, {(i : Num) | P(SUC(i))}))"),
     fn(
       x4846 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -51225,9 +49681,7 @@ fn step_895() -> Unit raise {
                                                     @tactics.then_tac(
                                                       @tactics.mp_tac(
                                                         @define.prove_general_recursive_function_exists(
-                                                          @parser.parse_term(
-                                                            "?f. forall n. f n =\n                  if n = 0 then 0\n             else if n MOD 2 = 1 then SUC(f (n DIV 2))\n             else f (n DIV 2)",
-                                                          ),
+                                                          @term_syntax.parse_term("∃ f : (Num) -> Num, ∀ n : Num, f(n) == (if n == 0 { 0 } else { if MOD(n, 2) == 1 { SUC(f(DIV(n, 2))) } else { f(DIV(n, 2)) } })"),
                                                         ),
                                                       ),
                                                       t4775,
@@ -51283,9 +49737,7 @@ fn step_895() -> Unit raise {
     t4857,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "?f. (f _0 = 0 /\\\n          (forall n. f (BIT0 n) = f n) /\\\n          (forall n. f (BIT1 n) = SUC(f n))) /\\\n         (forall w:N word. word_popcount w = f (val w))",
-    ),
+    @term_syntax.parse_term("∃ f : (Num) -> Num, (f(_0) == 0 && (∀ n : Num, f(BIT0(n)) == f(n)) && (∀ n : Num, f(BIT1(n)) == SUC(f(n)))) && (∀ w : Word[N], word_popcount(w) == f(val(w)))"),
     t4858,
   )
   let nty = @parser.parse_type("N")
@@ -51651,9 +50103,7 @@ fn step_898() -> Unit raise {
     t4896,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "forall(a:N word) v.\n        val a = v\n        ==> forall n e. 2 EXP n = e /\\ v MOD (2 * e) = e ==> word_ctz a = n",
-    ),
+    @term_syntax.parse_term("∀ a : Word[N], ∀ v : Num, val(a) == v → (∀ n : Num, ∀ e : Num, EXP(2, n) == e && MOD(v, 2 * e) == e → word_ctz(a) == n)"),
     t4897,
   )
   word_ctz_conv_c.set(fn(x4898 : @kernel.Term) -> @kernel.Thm raise {
@@ -51833,9 +50283,7 @@ fn step_899() -> Unit raise {
     t4916,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "forall(a:N word) v.\n        val a = v\n        ==> forall n d. n + 1 + d = dimindex(:N) /\\ v DIV (2 EXP d) = 1\n                  ==> word_clz a = n",
-    ),
+    @term_syntax.parse_term("∀ a : Word[N], ∀ v : Num, (val : (Word[N]) -> Num)(a) == v → (∀ n : Num, ∀ d : Num, n + (1 + d) == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && DIV(v, EXP(2, d)) == 1 → (word_clz : (Word[N]) -> Num)(a) == n)"),
     t4917,
   )
   word_clz_conv_c.set(fn(x4918 : @kernel.Term) -> @kernel.Thm raise {
@@ -51990,9 +50438,7 @@ fn step_900() -> Unit raise {
     t4933,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "forall n. word_bytereverse(word (NUMERAL n):((((N)tybit0)tybit0)tybit0)word) =\n         word(nsum (0..8*dimindex(:N)-1)\n               (\\i. 2 EXP i *\n                    bitval(ODD(NUMERAL n DIV\n                        2 EXP (8 * (dimindex(:N) - 1 - i DIV 8) + i MOD 8)))))",
-    ),
+    @term_syntax.parse_term("∀ n : Num, (word_bytereverse : (Word[Tybit0[Tybit0[Tybit0[N]]]]) -> Word[Tybit0[Tybit0[Tybit0[N]]]])((word : (Num) -> Word[Tybit0[Tybit0[Tybit0[N]]]])(NUMERAL(n))) == (word : (Num) -> Word[Tybit0[Tybit0[Tybit0[N]]]])(nsum(op_dot_dot(0, 8 * (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1), (i : Num) => EXP(2, i) * bitval(ODD(DIV(NUMERAL(n), EXP(2, 8 * ((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1 - DIV(i, 8)) + MOD(i, 8)))))))"),
     t4934,
   )
   let t4939 = @equal.depth_conv(
@@ -52168,9 +50614,7 @@ fn step_901() -> Unit raise {
     t4963,
   )
   let t4965 = (
-    @parser.parse_term(
-      "forall b n.\n        word_reversefields b (word n:N word) =\n        word(nsum (0..dimindex(:N)-1)\n          (\\i. 2 EXP i *\n               bitval(ODD(n DIV\n               2 EXP (if i < b * dimindex(:N) DIV b\n                      then b * (dimindex(:N) DIV b - 1 - i DIV b) + i MOD b\n                      else i)))))",
-    ),
+    @term_syntax.parse_term("∀ b : Num, ∀ n : Num, (word_reversefields : (Num, Word[N]) -> Word[N])(b, (word : (Num) -> Word[N])(n)) == (word : (Num) -> Word[N])(nsum(op_dot_dot(0, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1), (i : Num) => EXP(2, i) * bitval(ODD(DIV(n, EXP(2, if i < b * DIV((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), b) { b * (DIV((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), b) - 1 - DIV(i, b)) + MOD(i, b) } else { i }))))))"),
     t4964,
   )
   let t4940 = @term_syntax.parse_term("NUMERAL((n : Num))")
@@ -52347,9 +50791,7 @@ pub fn word_pmul_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_903() -> Unit raise {
   let t4981 = @simp.rewrite_tac(@list.List([word_jshl()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_jshl (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n     word_shl (word(NUMERAL m):N word)\n              (val(word(NUMERAL n):N word) MOD dimindex (:N))",
-    ),
+    @term_syntax.parse_term("(word_jshl : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == (word_shl : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(NUMERAL(m)), MOD((val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(n))), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t4981,
   )
   let t4983 = @equal.rand_conv(
@@ -52390,9 +50832,7 @@ pub fn word_jshl_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_904() -> Unit raise {
   let t4984 = @simp.rewrite_tac(@list.List([word_jshr()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_jshr (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n     word_ishr (word(NUMERAL m):N word)\n               (val(word(NUMERAL n):N word) MOD dimindex (:N))",
-    ),
+    @term_syntax.parse_term("(word_jshr : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == (word_ishr : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(NUMERAL(m)), MOD((val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(n))), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t4984,
   )
   let t4986 = @equal.rand_conv(
@@ -52433,9 +50873,7 @@ pub fn word_jshr_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_905() -> Unit raise {
   let t4987 = @simp.rewrite_tac(@list.List([word_jushr()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_jushr (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n     word_ushr (word(NUMERAL m):N word)\n               (val(word(NUMERAL n):N word) MOD dimindex (:N))",
-    ),
+    @term_syntax.parse_term("(word_jushr : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == (word_ushr : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(NUMERAL(m)), MOD((val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(n))), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t4987,
   )
   let t4989 = @equal.rand_conv(
@@ -52478,9 +50916,7 @@ pub fn word_jushr_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_906() -> Unit raise {
   let t4990 = @simp.rewrite_tac(@list.List([word_jrol()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_jrol (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n     word_rol (word(NUMERAL m):N word) (val(word(NUMERAL n):N word))",
-    ),
+    @term_syntax.parse_term("(word_jrol : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == (word_rol : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(NUMERAL(m)), (val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(n))))"),
     t4990,
   )
   let t4992 = @equal.rand_conv(word_val_conv)
@@ -52516,9 +50952,7 @@ pub fn word_jrol_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_907() -> Unit raise {
   let t4993 = @simp.rewrite_tac(@list.List([word_jror()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_jror (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n     word_ror (word(NUMERAL m):N word) (val(word(NUMERAL n):N word))",
-    ),
+    @term_syntax.parse_term("(word_jror : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == (word_ror : (Word[N], Num) -> Word[N])((word : (Num) -> Word[N])(NUMERAL(m)), (val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(n))))"),
     t4993,
   )
   let t4995 = @equal.rand_conv(word_val_conv)
@@ -52556,9 +50990,7 @@ fn step_908() -> Unit raise {
     @list.List([word_jdiv(), imodular(), @equal.gsym(@int.int_mul_assoc())]),
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_jdiv (word(NUMERAL m):N word) (word(NUMERAL n)) =\n     (\\a b. iword((int_sgn a * int_sgn b) * (abs a div abs b)))\n     (ival(word(NUMERAL m):N word)) (ival(word(NUMERAL n):N word))",
-    ),
+    @term_syntax.parse_term("(word_jdiv : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == ((a : Int) => (b : Int) => (iword : (Int) -> Word[N])(int_sgn(a) * int_sgn(b) * div(abs(a), abs(b))))((ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(m))), (ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(n))))"),
     t4996,
   )
   let t5000 = @equal.thenc(
@@ -52621,9 +51053,7 @@ pub fn word_jdiv_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_909() -> Unit raise {
   let t5002 = @simp.rewrite_tac(@list.List([word_jrem()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word_jrem (word(NUMERAL m):N word) (word(NUMERAL n):N word) =\n     word_sub (word (NUMERAL m))\n              (word_mul (word_jdiv (word (NUMERAL m)) (word (NUMERAL n)))\n                        (word (NUMERAL n)))",
-    ),
+    @term_syntax.parse_term("(word_jrem : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num)))) == (word_sub : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL(m)), (word_mul : (Word[N], Word[N]) -> Word[N])((word_jdiv : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(NUMERAL(m)), (word : (Num) -> Word[N])(NUMERAL(n))), (word : (Num) -> Word[N])(NUMERAL(n))))"),
     t5002,
   )
   let t5004 = @equal.rand_conv(
@@ -52688,21 +51118,15 @@ fn step_910() -> Unit raise {
     word_jshl_conv,
   )
   let t5013 = (
-    @parser.parse_term(
-      "(word_pmul:M word->N word->P word) (word(NUMERAL m)) (word(NUMERAL n))",
-    ),
+    @term_syntax.parse_term("(word_pmul : (Word[M], Word[N]) -> Word[P])((word : (Num) -> Word[M])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num))))"),
     word_pmul_conv,
   )
   let t5014 = (
-    @parser.parse_term(
-      "word_reversefields (NUMERAL b) (word(NUMERAL n):N word)",
-    ),
+    @term_syntax.parse_term("(word_reversefields : (Num, Word[N]) -> Word[N])(NUMERAL((b : Num)), (word : (Num) -> Word[N])(NUMERAL((n : Num))))"),
     word_reversefields_conv,
   )
   let t5015 = (
-    @parser.parse_term(
-      "word_bytereverse (word(NUMERAL n):((((N)tybit0)tybit0)tybit0)word)",
-    ),
+    @term_syntax.parse_term("(word_bytereverse : (Word[Tybit0[Tybit0[Tybit0[N]]]]) -> Word[Tybit0[Tybit0[Tybit0[N]]]])((word : (Num) -> Word[Tybit0[Tybit0[Tybit0[N]]]])(NUMERAL((n : Num))))"),
     word_bytereverse_conv,
   )
   let t5016 = (
@@ -52734,21 +51158,15 @@ fn step_910() -> Unit raise {
     word_duplicate_conv,
   )
   let t5023 = (
-    @parser.parse_term(
-      "word_insert (word(NUMERAL m):M word) (NUMERAL p,NUMERAL q)\n               (word(NUMERAL n):N word):P word",
-    ),
+    @term_syntax.parse_term("(word_insert : (Word[M], (Num, Num), Word[N]) -> Word[P])((word : (Num) -> Word[M])(NUMERAL((m : Num))), (NUMERAL((p : Num)), NUMERAL((q : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num))))"),
     word_insert_conv,
   )
   let t5024 = (
-    @parser.parse_term(
-      "word_subword (word(NUMERAL m):M word) (NUMERAL p,NUMERAL q):N word",
-    ),
+    @term_syntax.parse_term("(word_subword : (Word[M], (Num, Num)) -> Word[N])((word : (Num) -> Word[M])(NUMERAL((m : Num))), (NUMERAL((p : Num)), NUMERAL((q : Num))))"),
     word_subword_conv,
   )
   let t5025 = (
-    @parser.parse_term(
-      "word_join (word(NUMERAL m):M word) (word(NUMERAL n):N word)",
-    ),
+    @term_syntax.parse_term("(word_join : (Word[M], Word[N]) -> Word[_])((word : (Num) -> Word[M])(NUMERAL((m : Num))), (word : (Num) -> Word[N])(NUMERAL((n : Num))))"),
     word_join_conv,
   )
   let t5026 = (
@@ -53106,9 +51524,7 @@ pub fn word_compute_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_915() -> Unit raise {
   let t5077 = @simp.rewrite_tac(@list.List([iword_ival()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "word(NUMERAL n):N word = iword(ival(word(NUMERAL n):N word))",
-    ),
+    @term_syntax.parse_term("(word : (Num) -> Word[N])(NUMERAL((n : Num))) == (iword : (Int) -> Word[N])((ival : (Word[N]) -> Int)((word : (Num) -> Word[N])(NUMERAL(n))))"),
     t5077,
   )
   let t5079 = @equal.rand_conv(word_ival_conv)
@@ -53218,9 +51634,7 @@ fn step_918() -> Unit raise {
   let t5089 = @tactics.conv_tac(word_arith)
   word_comparison_ult_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word).\n        val x < val y <=>\n        bit (dimindex(:N)-1)\n            (word_or (word_and (word_not x) y)\n                     (word_and (word_or (word_not x) y) (word_sub x y)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ((val : (Word[N]) -> Num)(x) < (val : (Word[N]) -> Num)(y)) == (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, (word_or : (Word[N], Word[N]) -> Word[N])((word_and : (Word[N], Word[N]) -> Word[N])((word_not : (Word[N]) -> Word[N])(x), y), (word_and : (Word[N], Word[N]) -> Word[N])((word_or : (Word[N], Word[N]) -> Word[N])((word_not : (Word[N]) -> Word[N])(x), y), (word_sub : (Word[N], Word[N]) -> Word[N])(x, y))))"),
       t5089,
     ),
   )
@@ -53243,9 +51657,7 @@ fn step_919() -> Unit raise {
   let t5090 = @tactics.conv_tac(word_arith)
   word_comparison_ule_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word).\n        val x <= val y <=>\n        bit (dimindex(:N)-1)\n            (word_and (word_or (word_not x) y)\n                      (word_or (word_xor x y) (word_not(word_sub y x))))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ((val : (Word[N]) -> Num)(x) <= (val : (Word[N]) -> Num)(y)) == (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, (word_and : (Word[N], Word[N]) -> Word[N])((word_or : (Word[N], Word[N]) -> Word[N])((word_not : (Word[N]) -> Word[N])(x), y), (word_or : (Word[N], Word[N]) -> Word[N])((word_xor : (Word[N], Word[N]) -> Word[N])(x, y), (word_not : (Word[N]) -> Word[N])((word_sub : (Word[N], Word[N]) -> Word[N])(y, x)))))"),
       t5090,
     ),
   )
@@ -53268,9 +51680,7 @@ fn step_920() -> Unit raise {
   let t5091 = @tactics.conv_tac(word_arith)
   word_comparison_ilt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word).\n        ival x < ival y <=>\n        bit (dimindex(:N)-1)\n            (word_or (word_and x (word_not y))\n                     (word_and (word_not(word_xor x y)) (word_sub x y)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ((ival : (Word[N]) -> Int)(x) < (ival : (Word[N]) -> Int)(y)) == (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, (word_or : (Word[N], Word[N]) -> Word[N])((word_and : (Word[N], Word[N]) -> Word[N])(x, (word_not : (Word[N]) -> Word[N])(y)), (word_and : (Word[N], Word[N]) -> Word[N])((word_not : (Word[N]) -> Word[N])((word_xor : (Word[N], Word[N]) -> Word[N])(x, y)), (word_sub : (Word[N], Word[N]) -> Word[N])(x, y))))"),
       t5091,
     ),
   )
@@ -53293,9 +51703,7 @@ fn step_921() -> Unit raise {
   let t5092 = @tactics.conv_tac(word_arith)
   word_comparison_ile_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word).\n        ival x <= ival y <=>\n        bit (dimindex(:N)-1)\n            (word_and (word_or x (word_not y))\n                      (word_or (word_xor x y) (word_not(word_sub y x))))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ((ival : (Word[N]) -> Int)(x) <= (ival : (Word[N]) -> Int)(y)) == (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, (word_and : (Word[N], Word[N]) -> Word[N])((word_or : (Word[N], Word[N]) -> Word[N])(x, (word_not : (Word[N]) -> Word[N])(y)), (word_or : (Word[N], Word[N]) -> Word[N])((word_xor : (Word[N], Word[N]) -> Word[N])(x, y), (word_not : (Word[N]) -> Word[N])((word_sub : (Word[N], Word[N]) -> Word[N])(y, x)))))"),
       t5092,
     ),
   )
@@ -53341,9 +51749,7 @@ fn step_922() -> Unit raise {
   )
   word_comparison_ne_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word).\n        ~(x = y) <=>\n        bit (dimindex(:N)-1)\n            (word_or (word_xor x y) (word_neg(word_xor x y)))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], !(x == y) == (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, (word_or : (Word[N], Word[N]) -> Word[N])((word_xor : (Word[N], Word[N]) -> Word[N])(x, y), (word_neg : (Word[N]) -> Word[N])((word_xor : (Word[N], Word[N]) -> Word[N])(x, y))))"),
       t5097,
     ),
   )
@@ -53389,9 +51795,7 @@ fn step_923() -> Unit raise {
   )
   word_comparison_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:N word) (y:N word).\n        x = y <=>\n        bit (dimindex(:N)-1)\n            (word_not((word_or (word_xor x y) (word_neg(word_xor x y)))))",
-      ),
+      @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], (x == y) == (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, (word_not : (Word[N]) -> Word[N])((word_or : (Word[N], Word[N]) -> Word[N])((word_xor : (Word[N], Word[N]) -> Word[N])(x, y), (word_neg : (Word[N]) -> Word[N])((word_xor : (Word[N], Word[N]) -> Word[N])(x, y)))))"),
       t5102,
     ),
   )
@@ -53479,9 +51883,7 @@ fn step_924() -> Unit raise {
     @int.asm_arith_tac,
   )
   let pth_add = @tactics.prove(
-    @parser.parse_term(
-      "dimindex(:M) < dimindex(:P) /\\ dimindex(:N) < dimindex(:P)\n     ==> forall x y. val(x:M word) + val(y:N word) =\n               val(word_add (word_zx x) (word_zx y):P word)",
-    ),
+    @term_syntax.parse_term("(dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) && (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) → (∀ x : Word[M], ∀ y : Word[N], (val : (Word[M]) -> Num)(x) + (val : (Word[N]) -> Num)(y) == (val : (Word[P]) -> Num)((word_add : (Word[P], Word[P]) -> Word[P])((word_zx : (Word[M]) -> Word[P])(x), (word_zx : (Word[N]) -> Word[P])(y))))"),
     t5116,
   )
   let t5126 = @simp.rewrite_tac(@list.List([val_bound()]))
@@ -53525,9 +51927,7 @@ fn step_924() -> Unit raise {
     t5126,
   )
   let pth_mul = @tactics.prove(
-    @parser.parse_term(
-      "dimindex(:M) + dimindex(:N) <= dimindex(:P)\n     ==> forall x y. val(x:M word) * val(y:N word) =\n               val(word_mul (word_zx x) (word_zx y):P word)",
-    ),
+    @term_syntax.parse_term("(dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) + (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) → (∀ x : Word[M], ∀ y : Word[N], (val : (Word[M]) -> Num)(x) * (val : (Word[N]) -> Num)(y) == (val : (Word[P]) -> Num)((word_mul : (Word[P], Word[P]) -> Word[P])((word_zx : (Word[M]) -> Word[P])(x), (word_zx : (Word[N]) -> Word[P])(y))))"),
     t5127,
   )
   fn log2(x5128 : @num.Num, x5129 : @num.Num, x5130 : Int64) -> Int64 raise {
@@ -53692,9 +52092,7 @@ fn step_925() -> Unit raise {
   let n_ty = @parser.parse_type("N")
   let t5146 = @simp.simp_tac(@list.List([val_word_zx()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "dimindex(:M) <= dimindex(:N)\n     ==> forall x. val(x:M word) = val(word_zx x:N word)",
-    ),
+    @term_syntax.parse_term("(dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (∀ x : Word[M], (val : (Word[M]) -> Num)(x) == (val : (Word[N]) -> Num)((word_zx : (Word[M]) -> Word[N])(x)))"),
     t5146,
   )
   val_word_adjust_conv_c.set(fn(
@@ -53761,9 +52159,7 @@ fn step_926() -> Unit raise {
   let num_ty = @parser.parse_type("num")
   let t5154 = @tactics.conv_tac(word_arith)
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "forall(x:N word) (y:N word).\n          val x < val y <=>\n          (~bit (dimindex(:N)-1) x /\\ bit (dimindex(:N)-1) y) \\/\n          (~bit (dimindex(:N)-1) x \\/ bit (dimindex(:N)-1) y) /\\\n          bit (dimindex(:N)-1) (word_sub x y)",
-    ),
+    @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ((val : (Word[N]) -> Num)(x) < (val : (Word[N]) -> Num)(y)) == (!(bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) && (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, y) || (!(bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) || (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, y)) && (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, (word_sub : (Word[N], Word[N]) -> Word[N])(x, y)))"),
     t5154,
   )
   let t5156 = @kernel.rand(@basics.strip_forall(@kernel.concl(pth)).1)
@@ -53949,9 +52345,7 @@ fn step_927() -> Unit raise {
     @int.int_arith_tac,
   )
   let pth_val = @tactics.prove(
-    @parser.parse_term(
-      "dimindex(:N) < dimindex(:P)\n     ==> forall x. &(val(x:N word)) = ival(word_zx x:P word)",
-    ),
+    @term_syntax.parse_term("(dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) → (∀ x : Word[N], int_of_num((val : (Word[N]) -> Num)(x)) == (ival : (Word[P]) -> Int)((word_zx : (Word[N]) -> Word[P])(x)))"),
     t5178,
   )
   let t5202 = @tactics.match_mp_tac(@int.int_pow_mono())
@@ -53969,9 +52363,7 @@ fn step_927() -> Unit raise {
   )
   let t5197 = @tactics.match_mp_tac(
     @int.int_arith(
-      @parser.parse_term(
-        "&2 * a <= c /\\ &2 * b <= c /\\ &2 * c <= e\n      ==> --a <= x /\\ x < a ==> --b <= y /\\ y < b ==> --c <= z /\\ z < c\n          ==> abs((x + y) - z):int < e",
-      ),
+      @term_syntax.parse_term("int_of_num(2) * (a : Int) <= (c : Int) && int_of_num(2) * (b : Int) <= c && int_of_num(2) * c <= (e : Int) → -a <= (x : Int) && x < a → -b <= (y : Int) && y < b → -c <= (z : Int) && z < c → abs(x + y - z) < e"),
     ),
   )
   let t5194 = @term_syntax.parse_term("(x : Word[M])")
@@ -54056,9 +52448,7 @@ fn step_927() -> Unit raise {
       )
     },
     @list.List([
-      @parser.parse_term(
-        "word_add (word_sx(x:M word)) (word_sx(y:N word)):P word",
-      ),
+      @term_syntax.parse_term("(word_add : (Word[P], Word[P]) -> Word[P])((word_sx : (Word[M]) -> Word[P])((x : Word[M])), (word_sx : (Word[N]) -> Word[P])((y : Word[N])))"),
       t5195,
       t5194,
     ]),
@@ -54082,9 +52472,7 @@ fn step_927() -> Unit raise {
     @simp.asm_simp_tac(@list.List([ival_word_sx(), @arith.lt_imp_le()])),
     @tactics.all_tac,
   ])
-  let t5179 = @parser.parse_term(
-    "ival((word_sx:M word->P word) x) +\n      ival((word_sx:N word->P word) y)",
-  )
+  let t5179 = @term_syntax.parse_term("(ival : (Word[P]) -> Int)((word_sx : (Word[M]) -> Word[P])((x : Word[M]))) + (ival : (Word[P]) -> Int)((word_sx : (Word[N]) -> Word[P])((y : Word[N])))")
   let t5180 = @tactics.trans_tac(@theorems.eq_trans())(t5179)
   let t5203 = @tactics.then_tac(
     @tactics.then_tac(
@@ -54136,9 +52524,7 @@ fn step_927() -> Unit raise {
     @int.asm_arith_tac,
   )
   let pth_add = @tactics.prove(
-    @parser.parse_term(
-      "dimindex(:M) < dimindex(:P) /\\ dimindex(:N) < dimindex(:P)\n     ==> forall x y. ival(x:M word) + ival(y:N word) =\n               ival(word_add (word_sx x) (word_sx y):P word)",
-    ),
+    @term_syntax.parse_term("(dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) && (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) → (∀ x : Word[M], ∀ y : Word[N], (ival : (Word[M]) -> Int)(x) + (ival : (Word[N]) -> Int)(y) == (ival : (Word[P]) -> Int)((word_add : (Word[P], Word[P]) -> Word[P])((word_sx : (Word[M]) -> Word[P])(x), (word_sx : (Word[N]) -> Word[P])(y))))"),
     t5203,
   )
   let t5227 = @tactics.match_mp_tac(@int.int_pow_mono())
@@ -54156,9 +52542,7 @@ fn step_927() -> Unit raise {
   )
   let t5222 = @tactics.match_mp_tac(
     @int.int_arith(
-      @parser.parse_term(
-        "&2 * a <= c /\\ &2 * b <= c /\\ &2 * c <= e\n      ==> --a <= x /\\ x < a ==> --b <= y /\\ y < b ==> --c <= z /\\ z < c\n          ==> abs((x - y) - z):int < e",
-      ),
+      @term_syntax.parse_term("int_of_num(2) * (a : Int) <= (c : Int) && int_of_num(2) * (b : Int) <= c && int_of_num(2) * c <= (e : Int) → -a <= (x : Int) && x < a → -b <= (y : Int) && y < b → -c <= (z : Int) && z < c → abs(x - y - z) < e"),
     ),
   )
   let t5219 = @term_syntax.parse_term("(x : Word[M])")
@@ -54243,9 +52627,7 @@ fn step_927() -> Unit raise {
       )
     },
     @list.List([
-      @parser.parse_term(
-        "word_sub (word_sx(x:M word)) (word_sx(y:N word)):P word",
-      ),
+      @term_syntax.parse_term("(word_sub : (Word[P], Word[P]) -> Word[P])((word_sx : (Word[M]) -> Word[P])((x : Word[M])), (word_sx : (Word[N]) -> Word[P])((y : Word[N])))"),
       t5220,
       t5219,
     ]),
@@ -54269,9 +52651,7 @@ fn step_927() -> Unit raise {
     @simp.asm_simp_tac(@list.List([ival_word_sx(), @arith.lt_imp_le()])),
     @tactics.all_tac,
   ])
-  let t5204 = @parser.parse_term(
-    "ival((word_sx:M word->P word) x) -\n      ival((word_sx:N word->P word) y)",
-  )
+  let t5204 = @term_syntax.parse_term("(ival : (Word[P]) -> Int)((word_sx : (Word[M]) -> Word[P])((x : Word[M]))) - (ival : (Word[P]) -> Int)((word_sx : (Word[N]) -> Word[P])((y : Word[N])))")
   let t5205 = @tactics.trans_tac(@theorems.eq_trans())(t5204)
   let t5228 = @tactics.then_tac(
     @tactics.then_tac(
@@ -54323,9 +52703,7 @@ fn step_927() -> Unit raise {
     @int.asm_arith_tac,
   )
   let pth_sub = @tactics.prove(
-    @parser.parse_term(
-      "dimindex(:M) < dimindex(:P) /\\ dimindex(:N) < dimindex(:P)\n     ==> forall x y. ival(x:M word) - ival(y:N word) =\n               ival(word_sub (word_sx x) (word_sx y):P word)",
-    ),
+    @term_syntax.parse_term("(dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) && (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) → (∀ x : Word[M], ∀ y : Word[N], (ival : (Word[M]) -> Int)(x) - (ival : (Word[N]) -> Int)(y) == (ival : (Word[P]) -> Int)((word_sub : (Word[P], Word[P]) -> Word[P])((word_sx : (Word[M]) -> Word[P])(x), (word_sx : (Word[N]) -> Word[P])(y))))"),
     t5228,
   )
   let t5251 = @tactics.match_mp_tac(@int.int_pow_mono())
@@ -54343,9 +52721,7 @@ fn step_927() -> Unit raise {
   )
   let t5246 = @tactics.match_mp_tac(
     @int.int_arith(
-      @parser.parse_term(
-        "&2 * a <= c /\\ &2 * c <= e\n      ==> --a <= x /\\ x < a ==> --c <= z /\\ z < c\n          ==> abs(--x - z):int < e",
-      ),
+      @term_syntax.parse_term("int_of_num(2) * (a : Int) <= (c : Int) && int_of_num(2) * c <= (e : Int) → -a <= (x : Int) && x < a → -c <= (z : Int) && z < c → abs(-x - z) < e"),
     ),
   )
   let t5244 = @term_syntax.parse_term("(x : Word[N])")
@@ -54504,9 +52880,7 @@ fn step_927() -> Unit raise {
     @int.asm_arith_tac,
   )
   let pth_neg = @tactics.prove(
-    @parser.parse_term(
-      "dimindex(:N) < dimindex(:P)\n     ==> forall x. --(ival(x:N word)) = ival(word_neg(word_sx x:P word))",
-    ),
+    @term_syntax.parse_term("(dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) → (∀ x : Word[N], -(ival : (Word[N]) -> Int)(x) == (ival : (Word[P]) -> Int)((word_neg : (Word[P]) -> Word[P])((word_sx : (Word[N]) -> Word[P])(x))))"),
     t5252,
   )
   let t5276 = @tactics.match_mp_tac(@int.int_pow_mono())
@@ -54558,9 +52932,7 @@ fn step_927() -> Unit raise {
     @tactics.all_tac,
   ])
   let t5266 = @tactics.exists_tac(
-    @parser.parse_term(
-      "(&2:int) * &2 pow (dimindex(:M) - 1) * &2 pow (dimindex(:N) - 1)",
-    ),
+    @term_syntax.parse_term("int_of_num(2) * (pow(int_of_num(2), (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) - 1) * pow(int_of_num(2), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1))"),
   )
   let t5273 = @list.List([
     @tactics.all_tac,
@@ -54574,16 +52946,12 @@ fn step_927() -> Unit raise {
   ])
   let t5265 = @tactics.match_mp_tac(
     @int.int_arith(
-      @parser.parse_term(
-        "&2 * c <= e /\\ &2 * abs(xy) <= c\n      ==> --c <= z /\\ z < c\n          ==> abs(xy - z):int < e",
-      ),
+      @term_syntax.parse_term("int_of_num(2) * (c : Int) <= (e : Int) && int_of_num(2) * abs((xy : Int)) <= c → -c <= (z : Int) && z < c → abs(xy - z) < e"),
     ),
   )
   let t5264 = @tactics.mp_tac(
     @bool.ispec(
-      @parser.parse_term(
-        "word_mul (word_sx(x:M word)) (word_sx(y:N word)):P word",
-      ),
+      @term_syntax.parse_term("(word_mul : (Word[P], Word[P]) -> Word[P])((word_sx : (Word[M]) -> Word[P])((x : Word[M])), (word_sx : (Word[N]) -> Word[P])((y : Word[N])))"),
       ival_bound(),
     ),
   )
@@ -54606,14 +52974,10 @@ fn step_927() -> Unit raise {
     @simp.asm_simp_tac(@list.List([ival_word_sx(), @arith.lt_imp_le()])),
     @tactics.all_tac,
   ])
-  let t5256 = @parser.parse_term(
-    "ival((word_sx:M word->P word) x) *\n      ival((word_sx:N word->P word) y)",
-  )
+  let t5256 = @term_syntax.parse_term("(ival : (Word[P]) -> Int)((word_sx : (Word[M]) -> Word[P])((x : Word[M]))) * (ival : (Word[P]) -> Int)((word_sx : (Word[N]) -> Word[P])((y : Word[N])))")
   let t5257 = @tactics.trans_tac(@theorems.eq_trans())(t5256)
   let t5255 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "dimindex(:M) < dimindex(:P) /\\ dimindex(:N) < dimindex(:P)",
-    ),
+    @term_syntax.parse_term("(dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) && (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool))"),
     @tactics.strip_assume_tac,
   )
   let t5254 = @list.List([
@@ -54685,9 +53049,7 @@ fn step_927() -> Unit raise {
     @int.asm_arith_tac,
   )
   let pth_mul = @tactics.prove(
-    @parser.parse_term(
-      "dimindex(:M) + dimindex(:N) <= dimindex(:P)\n     ==> forall x y. ival(x:M word) * ival(y:N word) =\n               ival(word_mul (word_sx x) (word_sx y):P word)",
-    ),
+    @term_syntax.parse_term("(dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) + (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) <= (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) → (∀ x : Word[M], ∀ y : Word[N], (ival : (Word[M]) -> Int)(x) * (ival : (Word[N]) -> Int)(y) == (ival : (Word[P]) -> Int)((word_mul : (Word[P], Word[P]) -> Word[P])((word_sx : (Word[M]) -> Word[P])(x), (word_sx : (Word[N]) -> Word[P])(y))))"),
     t5277,
   )
   fn log2(x5278 : @num.Num, x5279 : @num.Num, x5280 : Int64) -> Int64 raise {
@@ -54945,9 +53307,7 @@ fn step_928() -> Unit raise {
   let n_ty = @parser.parse_type("N")
   let t5309 = @simp.simp_tac(@list.List([ival_word_sx()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "dimindex(:M) <= dimindex(:N)\n     ==> forall x. ival(x:M word) = ival(word_sx x:N word)",
-    ),
+    @term_syntax.parse_term("(dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (∀ x : Word[M], (ival : (Word[M]) -> Int)(x) == (ival : (Word[N]) -> Int)((word_sx : (Word[M]) -> Word[N])(x)))"),
     t5309,
   )
   ival_word_adjust_conv_c.set(fn(
@@ -55014,9 +53374,7 @@ fn step_929() -> Unit raise {
   let int_ty = @parser.parse_type("int")
   let t5317 = @tactics.conv_tac(word_arith)
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "forall(x:N word) (y:N word).\n          ival x < ival y <=>\n          (bit (dimindex(:N)-1) x /\\ ~bit (dimindex(:N)-1) y) \\/\n           (bit (dimindex(:N)-1) x \\/ ~bit (dimindex(:N)-1) y) /\\\n          bit (dimindex(:N)-1) (word_sub x y)",
-    ),
+    @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ((ival : (Word[N]) -> Int)(x) < (ival : (Word[N]) -> Int)(y)) == ((bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) && !(bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, y) || ((bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) || !(bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, y)) && (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, (word_sub : (Word[N], Word[N]) -> Word[N])(x, y)))"),
     t5317,
   )
   let t5319 = @kernel.rand(@basics.strip_forall(@kernel.concl(pth)).1)
@@ -55239,9 +53597,7 @@ fn step_931() -> Unit raise {
     t5342,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "forall b x:N word.\n          word(bitval b * val x) =\n          word_and (word_neg(word(bitval b))) x",
-    ),
+    @term_syntax.parse_term("∀ b : Bool, ∀ x : Word[N], word(bitval(b) * val(x)) == word_and(word_neg(word(bitval(b))), x)"),
     t5343,
   )
   let t5358 = @simp.gen_rewrite_conv(
@@ -56259,9 +54615,7 @@ pub fn bitblast_rule(x5449 : @kernel.Term) -> @kernel.Thm raise {
 fn step_937() -> Unit raise {
   usimd2_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(usimd2:(N word->M word)->((N)tybit0)word->((M)tybit0) word) f x =\n    word_join (f (word_subword x (dimindex(:N),dimindex(:N))))\n              (f (word_subword x (0,dimindex(:N))))",
-      ),
+      @term_syntax.parse_term("(usimd2 : ((Word[N]) -> Word[M], Word[Tybit0[N]]) -> Word[Tybit0[M]])((f : (Word[N]) -> Word[M]), (x : Word[Tybit0[N]])) == (word_join : (Word[M], Word[M]) -> Word[Tybit0[M]])(f((word_subword : (Word[Tybit0[N]], (Num, Num)) -> Word[N])(x, ((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))), f((word_subword : (Word[Tybit0[N]], (Num, Num)) -> Word[N])(x, (0, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))))"),
     ),
   )
 }
@@ -56280,9 +54634,7 @@ pub fn usimd2() -> @kernel.Thm {
 fn step_938() -> Unit raise {
   simd2_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(simd2:(N word->N word->N word)->\n        ((N)tybit0)word->((N)tybit0) word->((N)tybit0) word) f x y =\n    word_join (f (word_subword x (dimindex(:N),dimindex(:N)))\n                 (word_subword y (dimindex(:N),dimindex(:N))))\n              (f (word_subword x (0,dimindex(:N)))\n                 (word_subword y (0,dimindex(:N))))",
-      ),
+      @term_syntax.parse_term("(simd2 : ((Word[N], Word[N]) -> Word[N], Word[Tybit0[N]], Word[Tybit0[N]]) -> Word[Tybit0[N]])((f : (Word[N], Word[N]) -> Word[N]), (x : Word[Tybit0[N]]), (y : Word[Tybit0[N]])) == (word_join : (Word[N], Word[N]) -> Word[Tybit0[N]])(f((word_subword : (Word[Tybit0[N]], (Num, Num)) -> Word[N])(x, ((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), (word_subword : (Word[Tybit0[N]], (Num, Num)) -> Word[N])(y, ((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))), f((word_subword : (Word[Tybit0[N]], (Num, Num)) -> Word[N])(x, (0, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))), (word_subword : (Word[Tybit0[N]], (Num, Num)) -> Word[N])(y, (0, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))))"),
     ),
   )
 }
@@ -56446,9 +54798,7 @@ fn step_945() -> Unit raise {
   )
   usimd2_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:N word->M word) xhi xlo.\n        usimd2 f (word_join xhi xlo) = word_join (f xhi) (f xlo)",
-      ),
+      @term_syntax.parse_term("∀ f : (Word[N]) -> Word[M], ∀ xhi : Word[N], ∀ xlo : Word[N], usimd2(f, word_join(xhi, xlo)) == word_join(f(xhi), f(xlo))"),
       t5457,
     ),
   )
@@ -56499,9 +54849,7 @@ fn step_946() -> Unit raise {
   )
   simd2_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:N word->N word->N word) xhi xlo yhi ylo.\n        simd2 f (word_join xhi xlo) (word_join yhi ylo) =\n        word_join (f xhi yhi) (f xlo ylo)",
-      ),
+      @term_syntax.parse_term("∀ f : (Word[N], Word[N]) -> Word[N], ∀ xhi : Word[N], ∀ xlo : Word[N], ∀ yhi : Word[N], ∀ ylo : Word[N], simd2(f, word_join(xhi, xlo), word_join(yhi, ylo)) == word_join(f(xhi, yhi), f(xlo, ylo))"),
       t5464,
     ),
   )
