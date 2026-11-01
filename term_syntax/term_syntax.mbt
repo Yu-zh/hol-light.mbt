@@ -69,6 +69,16 @@ fn names_constant(n : String) -> Bool {
 }
 
 ///|
+/// Whether `n` names a constant and no interface name: a binder named so
+/// shadows the constant, as in HOL (an interface name, such as `inv`, may
+/// stand for constants of other names, so a binder named so is renamed).
+fn names_plain_constant(n : String) -> Bool {
+  (try @kernel.get_const_type(n) catch { _ => None } noraise { _ => Some(()) })
+  is Some(_) &&
+  !@printer.the_interface.val.iter().any(e => e.0 == n)
+}
+
+///|
 /// Whether an identifier `n` occurs in `t` (before names are resolved).
 fn mentions(t : @preterm.Preterm, n : String) -> Bool {
   match t {
@@ -81,20 +91,22 @@ fn mentions(t : @preterm.Preterm, n : String) -> Bool {
 }
 
 ///|
-/// The name a binder `n` over `scope` is given: its own, or, if that is
-/// read as a constant, the first one with primes that is not, that `scope`
-/// does not mention and that no binder in scope (`bound`) was renamed to
-/// (either would be captured).
+/// The name a binder `n` over `scope` is given: its own; under
+/// `binder_alias` if it names a constant (no interface name), which it
+/// shadows in `scope`; or, for an interface name, the first one with primes
+/// that is read as no constant, that `scope` does not mention and that no
+/// binder in scope (`bound`) was renamed to (either would be captured).
 fn binder_rename(
   n : String,
   scope : @preterm.Preterm,
   bound : @list.List[(String, String)],
 ) -> String {
-  // a binder named T or F binds a variable under an alias, named back
-  // after elaboration (truth_alias): the syntax writes truth and falsity as
-  // true and false, which elaborate to the constants themselves
-  if n == "T" || n == "F" {
-    return truth_alias + n
+  // a binder named like a constant binds a variable, as in HOL, under an
+  // alias named back after elaboration (binder_alias); in its scope the
+  // name means the binder. Truth and falsity, written true and false,
+  // elaborate to the constants themselves, so T and F are never shadowed
+  if n == "T" || n == "F" || names_plain_constant(n) {
+    return binder_alias + n
   }
   if !names_constant(n) {
     return n
@@ -321,9 +333,9 @@ pub fn parse_preterm(s : String) -> @preterm.Preterm raise {
 ///|
 /// HOL's `{e | p}` (@parser.pmk_setabs) over resolved preterms: it binds
 /// the variables free in both, or all those of `e` when it has at most one
-/// or `p` has none, and a name like T or F is no variable there (HOL reads
-/// it as the constant's, even under a binder), so the aliased ones are
-/// counted under their own names.
+/// or `p` has none, and a constant's name, such as T, is no variable there
+/// (HOL reads it as the constant's, even under a binder), so the aliased
+/// ones are counted under their own names.
 fn setabs(
   e : @preterm.Preterm,
   p : @preterm.Preterm,
@@ -339,11 +351,11 @@ fn setabs(
 }
 
 ///|
-/// `t` with the binders elaborated under `truth_alias` named back.
+/// `t` with the binders elaborated under `binder_alias` named back.
 fn unalias_preterm(t : @preterm.Preterm) -> @preterm.Preterm {
   match t {
-    Varp(n, ty) if n.has_prefix(truth_alias) =>
-      Varp(n[truth_alias.length():].to_owned(), ty)
+    Varp(n, ty) if n.has_prefix(binder_alias) =>
+      Varp(n[binder_alias.length():].to_owned(), ty)
     Varp(_, _) | Constp(_, _) => t
     Combp(f, x) => Combp(unalias_preterm(f), unalias_preterm(x))
     Absp(v, b) => Absp(unalias_preterm(v), unalias_preterm(b))
@@ -352,21 +364,30 @@ fn unalias_preterm(t : @preterm.Preterm) -> @preterm.Preterm {
 }
 
 ///|
-/// The prefix a binder named T or F is elaborated under, so that typing
-/// reads it as the variable it is (HOL's typing would read the name as the
-/// constant and drop the binder's annotation); `elaborate` names it back.
-let truth_alias = "\u{1}"
+/// The prefix a binder named like a constant (T, F, I, ...) is elaborated
+/// under, so that typing reads it as the variable it is (the preterm typing
+/// would read the name as the constant and drop the binder's annotation);
+/// `elaborate` names it back.
+let binder_alias = "\u{1}"
 
 ///|
-/// `t` with the variables elaborated under `truth_alias` named back. Nothing
-/// else in `t` is named T or F as a variable, so this captures nothing.
-fn unalias_truth(t : @kernel.Term) -> @kernel.Term raise {
+/// `t` with the variables elaborated under `binder_alias` named back. A
+/// binder's occurrences are named back by substitution (vsubst), which
+/// renames a binder in its scope that would capture them: one elaboration
+/// generated (GABS binds `f`, fresh only against the alias) and named like
+/// the restored binder. No free variable in `t` is named like a constant
+/// (the syntax reads such a free name as the constant).
+fn unalias_binders(t : @kernel.Term) -> @kernel.Term raise {
   match t {
-    Var(n, ty) if n.has_prefix(truth_alias) =>
-      @kernel.mk_var(n[truth_alias.length():].to_owned(), ty)
+    Var(n, ty) if n.has_prefix(binder_alias) =>
+      @kernel.mk_var(n[binder_alias.length():].to_owned(), ty)
     Var(_, _) | Const(_, _) => t
-    Comb(f, x) => @kernel.mk_comb(unalias_truth(f), unalias_truth(x))
-    Abs(v, b) => @kernel.mk_abs(unalias_truth(v), unalias_truth(b))
+    Comb(f, x) => @kernel.mk_comb(unalias_binders(f), unalias_binders(x))
+    Abs(Var(n, ty) as v, b) if n.has_prefix(binder_alias) => {
+      let real = @kernel.mk_var(n[binder_alias.length():].to_owned(), ty)
+      @kernel.mk_abs(real, unalias_binders(@kernel.vsubst(@list.List([(real, v)]), b)))
+    }
+    Abs(v, b) => @kernel.mk_abs(unalias_binders(v), unalias_binders(b))
   }
 }
 
@@ -383,7 +404,7 @@ fn elaborate(s : String) -> @kernel.Term raise {
   // names are read through the fixed view of the interface when it is on
   // (resolution.mbt)
   fn go() -> @kernel.Term raise {
-    unalias_truth(
+    unalias_binders(
       @preterm.term_of_preterm(
         @preterm.retypecheck(@list.List([]), parse_preterm(s)),
       ),

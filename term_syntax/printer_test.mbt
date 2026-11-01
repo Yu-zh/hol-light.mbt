@@ -30,14 +30,29 @@ test "symbolic constants and operators as values" {
   inspect(show("@x:num. x = 1"), content="select((x : Num) => x == 1)")
   inspect(show("?!x:num. x = 1"), content="existsunique((x : Num) => x == 1)")
   inspect(show("(+) 1"), content="op_plus(1)")
-  // a binder named like a constant is renamed
-  let v = @kernel.mk_var("SUC", @kernel.mk_type("num", @list.List([])))
+  // a binder named like a constant keeps its name: it shadows the
+  // constant, as in HOL
+  let num = @kernel.mk_type("num", @list.List([]))
+  let v = @kernel.mk_var("SUC", num)
   let t = @kernel.mk_abs(v, v)
   let s = @term_syntax.print_term(t)
-  assert_true(@basics.aconv(@term_syntax.parse_term(s), t))
+  assert_true(@term_syntax.parse_term(s) == t)
   inspect(s, content=(
-    #|(SUC' : Num) => SUC'
+    #|(SUC : Num) => SUC
   ))
+  let q = @term_syntax.parse_term("∀ SUC : Num, SUC == SUC")
+  assert_true(
+    q is Comb(Const("forall", _), Abs(Var("SUC", _) as w, Comb(Comb(Const("=", _), Var("SUC", _) as l), r))) &&
+    l == w &&
+    r == w,
+  )
+  // unless the body uses the constant too: in the binder's scope the name
+  // would mean the binder, so the binder is renamed
+  let suc = @kernel.mk_const("SUC", @list.List([]))
+  let t2 = @kernel.mk_abs(v, @kernel.mk_comb(suc, v))
+  let s2 = @term_syntax.print_term(t2)
+  assert_true(@basics.aconv(@term_syntax.parse_term(s2), t2))
+  inspect(s2, content="(SUC' : Num) => SUC(SUC')")
 }
 
 ///|
