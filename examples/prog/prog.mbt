@@ -1029,7 +1029,7 @@ fn step_63() -> Unit raise {
   })
   let t78 = @tactics.repeat_tac(@tactics.strip_tac)
   let t107 = @tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([correct(), implies(), @sets.in_(), and_(), not_()])), t78), t82), t83), t86), t87), t88), t89), t90), t91), t92), t93), t97), t99), t103), t105), t106)
-  correct_while_c.set(@tactics.prove(@parser.parse_term("forall (<<) p c q e invariant.\n       WF(<<) /\\\n       p IMPLIES invariant /\\\n       (NOT e) AND invariant IMPLIES q /\\\n       (forall X:S. correct\n              (invariant AND e AND (\\s. X = s)) c (invariant AND (\\s. s << X)))\n       ==> correct p (While e c) q"), t107))
+  correct_while_c.set(@tactics.prove(@term_syntax.parse_term("∀ `<<` : (S, S) -> Bool, ∀ p : (S) -> Bool, ∀ c : Command[S], ∀ q : (S) -> Bool, ∀ e : (S) -> Bool, ∀ invariant : (S) -> Bool, WF(`<<`) && IMPLIES(p, invariant) && IMPLIES(AND(NOT(e), invariant), q) && (∀ X : S, correct(AND(invariant, AND(e, (s : S) => X == s)), c, AND(invariant, (s : S) => `<<`(s, X)))) → correct(p, While(e, c), q)"), t107))
 }
 
 ///|
@@ -1125,7 +1125,7 @@ fn step_67() -> Unit raise {
   let t113 = @tactics.match_mp_tac(correct_seq())
   let t112 = @simp.rewrite_tac(@list.List([do_()]))
   let t139 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t112), t113), t114), t115), @tactics.conj_tac), t138)
-  correct_do_c.set(@tactics.prove(@parser.parse_term("forall (<<) p q c invariant.\n        WF(<<) /\\\n        (e AND invariant) IMPLIES p /\\\n        ((NOT e) AND invariant) IMPLIES q /\\\n        (forall X:S. correct\n               (p AND (\\s. X = s)) c (invariant AND (\\s. s << X)))\n        ==> correct p (DO c e) q"), t139))
+  correct_do_c.set(@tactics.prove(@term_syntax.parse_term("∀ `<<` : (S, S) -> Bool, ∀ p : (S) -> Bool, ∀ q : (S) -> Bool, ∀ c : Command[S], ∀ invariant : (S) -> Bool, WF(`<<`) && IMPLIES(AND((e : (S) -> Bool), invariant), p) && IMPLIES(AND(NOT(e), invariant), q) && (∀ X : S, correct(AND(p, (s : S) => X == s), c, AND(invariant, (s : S) => `<<`(s, X)))) → correct(p, DO(c, e), q)"), t139))
 }
 
 ///|

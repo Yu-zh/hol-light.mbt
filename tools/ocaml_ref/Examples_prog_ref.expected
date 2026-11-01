@@ -5776,7 +5776,7 @@ Examples/prog quotations (108):
   (e : (S) -> Bool)((s : S))
   (s : S)
   \226\136\128 s : S, (invariant : (S) -> Bool)(s) \226\134\146 wp(While((e : (S) -> Bool), (c : Command[S])), (q : (S) -> Bool), s)
-  forall (<<) p c q e invariant.\n       WF(<<) /\\\n       p IMPLIES invariant /\\\n       (NOT e) AND invariant IMPLIES q /\\\n       (forall X:S. correct\n              (invariant AND e AND (\\s. X = s)) c (invariant AND (\\s. s << X)))\n       ==> correct p (While e c) q
+  \226\136\128 `<<` : (S, S) -> Bool, \226\136\128 p : (S) -> Bool, \226\136\128 c : Command[S], \226\136\128 q : (S) -> Bool, \226\136\128 e : (S) -> Bool, \226\136\128 invariant : (S) -> Bool, WF(`<<`) && IMPLIES(p, invariant) && IMPLIES(AND(NOT(e), invariant), q) && (\226\136\128 X : S, correct(AND(invariant, AND(e, (s : S) => X == s)), c, AND(invariant, (s : S) => `<<`(s, X)))) \226\134\146 correct(p, While(e, c), q)
   \226\136\128 p : (_) -> Bool, \226\136\128 q : (_) -> Bool, IMPLIES(p, q) \226\134\146 correct(p, SKIP, q)
   \226\136\128 p : (_) -> Bool, \226\136\128 q : (_) -> Bool, false \226\134\146 correct(p, ABORT, q)
   \226\136\128 p : (_) -> Bool, \226\136\128 e : (_) -> Bool, \226\136\128 c : Command[_], \226\136\128 q : (_) -> Bool, correct(AND(p, e), c, q) && IMPLIES(AND(p, NOT(e)), q) \226\134\146 correct(p, IF(e, c), q)
@@ -5786,7 +5786,7 @@ Examples/prog quotations (108):
   (invariant : (S) -> Bool)
   (op_lt_lt : (S, S) -> Bool)
   (invariant : (S) -> Bool)
-  forall (<<) p q c invariant.\n        WF(<<) /\\\n        (e AND invariant) IMPLIES p /\\\n        ((NOT e) AND invariant) IMPLIES q /\\\n        (forall X:S. correct\n               (p AND (\\s. X = s)) c (invariant AND (\\s. s << X)))\n        ==> correct p (DO c e) q
+  \226\136\128 `<<` : (S, S) -> Bool, \226\136\128 p : (S) -> Bool, \226\136\128 q : (S) -> Bool, \226\136\128 c : Command[S], \226\136\128 invariant : (S) -> Bool, WF(`<<`) && IMPLIES(AND((e : (S) -> Bool), invariant), p) && IMPLIES(AND(NOT(e), invariant), q) && (\226\136\128 X : S, correct(AND(p, (s : S) => X == s), c, AND(invariant, (s : S) => `<<`(s, X)))) \226\134\146 correct(p, DO(c, e), q)
   \226\136\128 p : (_) -> Bool, \226\136\128 g : (_) -> Bool, \226\136\128 q : (_) -> Bool, IMPLIES(p, AND(g, q)) \226\134\146 correct(p, ASSERT(g), q)
   IMPLIES((p : (_) -> Bool), o((q : (_) -> Bool), (f : (_) -> _))) \226\134\146 correct(p, Assign(f), q)
   IMPLIES((p : (_) -> Bool), (q : (_) -> Bool)) \226\134\146 correct(p, SKIP, q)
