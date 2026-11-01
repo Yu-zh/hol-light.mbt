@@ -59,6 +59,10 @@ TERM_RENAMES = {
     'Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl': {'_': '_any'},
     'Formal_ineqs/taylor/theory/taylor_interval-compiled.hl': {'_': '_any'},
     'GL/completeness.ml': {'_': '_any'},
+    'Arithmetic/definability.ml': {'fn': 'fn_'},
+    # instantiates definability's PRIMREC_SIGMA by its variable fn
+    'Arithmetic/tarski.ml': {'fn': 'fn_'},
+    'Functionspaces/cfunspace.ml': {'is': 'is_'},
 }
 # _ in ssreflect's move ["_"] and in INTRO_TAC "_" names no variable: it
 # discards (GEN_TAC, or drops the assumption). Elsewhere a string "_" names
@@ -78,6 +82,14 @@ def discards(text, i):
 # upstream file -> [(text, replacement)], each text occurring once, applied
 # before the rename (for a name built in code)
 TERM_PATCHES = {
+}
+# upstream file -> callees whose string argument is HOL text (a term built
+# from strings): renamed as a quotation is, upstream (a string quotation,
+# `...:`) and in the port (a string literal). cfunspace prefixes "!is.
+# is_inner_space is ==> " to the statements it proves.
+TEXT_CALLEES = {
+    'Functionspaces/cfunspace.ml': ('parse_term', '@parser.parse_term', 'full_inner_space_prove',
+                                    'full_inner_space_g', 'inner_space_prove', 'inner_space_g'),
 }
 # callees whose string argument names a term variable, upstream and port
 NAME_CALLEES = ('EXPAND_TAC', '@simp.expand_tac')
@@ -202,12 +214,14 @@ def string_value(piece):
     return re.sub(r'\\(.)', lambda m: {'n': '\n', 't': '\t', 'r': '\r', 'b': '\b'}.get(m[1], m[1]), v)
 
 
-def callee_before(text, i):
-    m = re.search(r'([@A-Za-z_][\w.@]*)\s*\(?\s*$', text[max(0, i - 80):i])
+def callee_before(text, i, parens=1):
+    """The callee whose argument starts at text[i]: after at most `parens`
+    opening brackets (more for a string concatenated in place)."""
+    m = re.search(r'([@A-Za-z_][\w.@]*)\s*(?:\(\s*){0,%d}$' % parens, text[max(0, i - 80):i])
     return m[1] if m else ''
 
 
-def rename_ocaml(text, renames, patches=()):
+def rename_ocaml(text, renames, patches=(), text_callees=()):
     """Upstream OCaml source with its term variables renamed."""
     from forall_reference import ocaml_segments
     check_renames(renames)
@@ -231,6 +245,8 @@ def rename_ocaml(text, renames, patches=()):
         start, at = at, at + len(piece)
         if kind == 'quotation' and not piece.endswith(':`'):
             piece = '`' + rename_in_hol(piece[1:-1], renames) + '`'
+        elif kind == 'quotation' and callee_before(text, start, 2) in text_callees:
+            piece = '`' + rename_in_hol(piece[1:-2], renames) + ':`'
         elif kind == 'string' and renamed(string_value(piece), renames) is not None and \
                 not (string_value(piece) == WILDCARD and discards(text, start)):
             assert string_value(piece) == piece[1:-1], f'an escaped string names a renamed variable: {piece}'
@@ -257,7 +273,7 @@ def mbt_escape(s):
     return ''.join({'\n': '\\n', '\t': '\\t', '\r': '\\r', '\b': '\\b', '\\': '\\\\', '"': '\\"'}.get(c, c) for c in s)
 
 
-def rename_moonbit(text, renames):
+def rename_moonbit(text, renames, text_callees=()):
     """A MoonBit source with its term variables renamed: in old-syntax
     quotations, and in the name strings of NAME_CALLEES. A term-syntax
     quotation naming an old or new variable fails (the term syntax cannot
@@ -279,6 +295,9 @@ def rename_moonbit(text, renames):
             assert not uses(names, renames) and not uses(names, renames, new=True), \
                 f'a term-syntax quotation names a renamed variable: {body[:60]!r}'
             continue
+        elif callee_before(text, m.start(), 2) in text_callees:
+            assert not uses(hol_names(body), renames, new=True), f'a new name is already used: {body[:60]!r}'
+            new = mbt_escape(rename_in_hol(body, renames))
         elif renamed(body, renames) is not None and not (body == WILDCARD and discards(text, m.start())):
             if callee in NAME_CALLEES:
                 new = renamed(body, renames)

@@ -347,7 +347,7 @@ fn step_21() -> Unit raise {
   let t51 = (@term_syntax.parse_term("(a : Num) => (b : Num) => NPAIR(2, a)"), t50)
   let t49 = @term_syntax.parse_term("(e : Num)")
   let t52 = (@term_syntax.parse_term("3"), t49)
-  let t48 = @parser.parse_term("fn:num->num")
+  let t48 = @parser.parse_term("fn_:num->num")
   let t53 = @tactics.mp_tac(@kernel.inst_rule(@list.List([(@term_syntax.parse_term("o(gterm, numeral)"), t48), t52, t51]), @definability.primrec_sigma()))
   let t47 = @simp.rewrite_tac(@list.List([@fol.termval(), @calc_num.arith_eq(), @trivia.o_thm(), @fol.valmod()]))
   let t57 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([arith_gnumeral(), @fol.holds(), @fol.holds_formsubst(), arith_gnumeral1_p_v1(), @definability.arith_pair_v1(), @fol.termval_numeral()])), t47), t53), @tactics.ants_tac), t56)

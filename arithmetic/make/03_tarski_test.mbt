@@ -13212,7 +13212,7 @@ test "Arithmetic/tarski matches Arithmetic/tarski.ml" {
       #|  (a : Num) => (b : Num) => NPAIR(2, a)
       #|  (e : Num)
       #|  3
-      #|  fn:num->num
+      #|  fn_:num->num
       #|  o(gterm, numeral)
       #|  \226\136\128 v : (Num) -> Num, \226\136\128 s : Term, \226\136\128 t : Term, holds(v, arith_gnumeral(s, t)) == gnumeral(termval(v, s), termval(v, t))
       #|  (((a : Bool) || (b : Bool)) && (c : Bool)) == (a && c || b && c)
