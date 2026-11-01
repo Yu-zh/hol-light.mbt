@@ -1159,9 +1159,9 @@ fn step_15() -> Unit raise {
     @tactics.match_mp_tac(@bool.conjunct2(x139))
   })
   let t138 = @simp.asm_rewrite_tac(@list.List([]))
-  let t137 = @tactics.exists_tac(@parser.parse_term("fn_:num->A"))
+  let t137 = @tactics.exists_tac(@term_syntax.parse_term("(fn_ : (Num) -> A)"))
   let t136 = @tactics.disch_then(
-    @tactics.x_choose_then(@parser.parse_term("fn_:num->A"))(fn(
+    @tactics.x_choose_then(@term_syntax.parse_term("(fn_ : (Num) -> A)"))(fn(
       x135 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
       (
@@ -1783,9 +1783,7 @@ fn step_15() -> Unit raise {
   )
   num_axiom_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(e:A) f. ?!fn_. (fn_ _0 = e) /\\\n                   (forall n. fn_ (SUC n) = f (fn_ n) n)",
-      ),
+      @term_syntax.parse_term("∀ e : A, ∀ f : (A, Num) -> A, existsunique((fn_ : (Num) -> A) => fn_(_0) == e && (∀ n : Num, fn_(SUC(n)) == f(fn_(n), n)))"),
       t154,
     ),
   )
@@ -1958,7 +1956,7 @@ fn step_22() -> Unit raise {
   let def = @pair.new_definition(
     @basics.mk_eq(
       bit0_tm,
-      @parser.parse_term("@fn_. fn_ 0 = 0 /\\ (forall n. fn_ (SUC n) = SUC (SUC(fn_ n)))"),
+      @term_syntax.parse_term("select((fn_ : (Num) -> Num) => fn_(0) == 0 && (∀ n : Num, fn_(SUC(n)) == SUC(SUC(fn_(n)))))"),
     ),
   )
   let t161 = @term_syntax.parse_term("(m : Num) => (n : Num) => SUC(SUC(m))")
