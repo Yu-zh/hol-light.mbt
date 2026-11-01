@@ -1735,7 +1735,7 @@ pub fn full_inner_space_g(x80 : String) -> @tactics.Goalstack raise {
 /// FORALL_INNER_SPACE_THM
 fn step_110() -> Unit raise {
   let t81 = @simp.rewrite_tac(@list.List([@pair.forall_pair_thm()]))
-  forall_inner_space_thm_c.set(@tactics.prove(@parser.parse_term("forall P. (forall is_:inner_space. P is_) <=> forall s inprod. P (s,inprod)"), t81))
+  forall_inner_space_thm_c.set(@tactics.prove(@term_syntax.parse_term("∀ P : ((((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])) -> Bool, (∀ is_ : (((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), P(is_)) == (∀ s : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], P((s, inprod)))"), t81))
 }
 
 ///|
@@ -5213,7 +5213,7 @@ pub fn hermitain_inprod() -> @kernel.Thm {
 fn step_331() -> Unit raise {
   let t299 = @impconv.imp_rewrite_tac(@list.List([is_closed_by(), zero_lincop(), cop_zero_thm(), cfun_subspace_zero(), inner_space_is_subspace(), inprod_rzero(), inprod_lzero()]))
   let t300 = @tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_hermitian()])), t299)
-  zero_herm_c.set(@tactics.prove(@parser.parse_term("forall is_. is_hermitian is_ cop_zero cop_zero"), t300))
+  zero_herm_c.set(@tactics.prove(@term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), is_hermitian(is_, cop_zero, cop_zero)"), t300))
 }
 
 ///|
@@ -5245,7 +5245,7 @@ pub fn arith_herm_clauses() -> @kernel.Thm {
 fn step_333() -> Unit raise {
   let t301 = @meson.meson_tac(@list.List([@complexes.cx_inj(), inprod_cnj()]))
   let t302 = @tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_hermitian(), is_closed_by()])), t301)
-  herm_sym_c.set(@tactics.prove(@parser.parse_term("forall is_ op1 op2.\n    is_hermitian is_ op1 op2 <=> is_hermitian is_ op2 op1"), t302))
+  herm_sym_c.set(@tactics.prove(@term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_hermitian(is_, op1, op2) == is_hermitian(is_, op2, op1)"), t302))
 }
 
 ///|
@@ -5309,7 +5309,7 @@ pub fn herm_prop_advanced() -> @kernel.Thm {
 ///|
 /// is_self_adjoint
 fn step_337() -> Unit raise {
-  is_self_adjoint_c.set(@pair.new_definition(@parser.parse_term("is_self_adjoint1 is_ op <=> is_hermitian is_ op op")))
+  is_self_adjoint_c.set(@pair.new_definition(@term_syntax.parse_term("(is_self_adjoint1 : ((((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) -> Bool)((is_ : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])), (op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])) == is_hermitian(is_, op, op)")))
 }
 
 ///|
@@ -5446,7 +5446,7 @@ pub fn mul_self_adj() -> @kernel.Thm {
 /// I_SELF_ADJ
 fn step_346() -> Unit raise {
   let t308 = @simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_self_adjoint_v1(), i_lincop(), @trivia.i_thm(), is_closed_by_i()]))
-  i_self_adj_c.set(@tactics.prove(@parser.parse_term("forall is_. is_self_adjoint1 is_ I"), t308))
+  i_self_adj_c.set(@tactics.prove(@term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), is_self_adjoint1(is_, I)"), t308))
 }
 
 ///|
@@ -5462,7 +5462,7 @@ pub fn i_self_adj() -> @kernel.Thm {
 /// ZERO_SELF_ADJ
 fn step_347() -> Unit raise {
   let t309 = @simp.rewrite_tac(@list.List([is_self_adjoint(), zero_herm()]))
-  zero_self_adj_c.set(@tactics.prove(@parser.parse_term("forall is_. is_self_adjoint1 is_ cop_zero"), t309))
+  zero_self_adj_c.set(@tactics.prove(@term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), is_self_adjoint1(is_, cop_zero)"), t309))
 }
 
 ///|
@@ -6345,7 +6345,7 @@ pub fn hermitain_inprod_unbounded() -> @kernel.Thm {
 fn step_399() -> Unit raise {
   let t413 = @meson.meson_tac(@list.List([@sets.subset(), inprod_cnj()]))
   let t414 = @tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_hermitian_unbounded()])), t413)
-  herm_sym_unbounded_c.set(@tactics.prove(@parser.parse_term("forall is_ op1 op2 s1 s2.\n    is_hermitian_unbounded is_ s1 s2 op1 op2 <=>\n        is_hermitian_unbounded is_ s2 s1 op2 op1"), t414))
+  herm_sym_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, is_hermitian_unbounded(is_, s1, s2, op1, op2) == is_hermitian_unbounded(is_, s2, s1, op2, op1)"), t414))
 }
 
 ///|
@@ -6360,7 +6360,7 @@ pub fn herm_sym_unbounded() -> @kernel.Thm {
 ///|
 /// is_symmetric
 fn step_400() -> Unit raise {
-  is_symmetric_c.set(@pair.new_definition(@parser.parse_term("is_symmetric is_ s op <=> is_hermitian_unbounded is_ s s op op")))
+  is_symmetric_c.set(@pair.new_definition(@term_syntax.parse_term("(is_symmetric : ((((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) -> Bool)((is_ : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])), (s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool), (op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])) == is_hermitian_unbounded(is_, s, s, op, op)")))
 }
 
 ///|
@@ -7733,7 +7733,7 @@ fn step_483() -> Unit raise {
   let t566 = @q.asm_cases_tac("a = Cx(&0)")
   let t565 = @tactics.repeat_tac(@tactics.strip_tac)
   let t572 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@simp.simp_tac(@list.List([forall_inner_space_thm(), is_bounded()])), t565), t566), t571)
-  scalar_bounded_c.set(@tactics.prove(@parser.parse_term("forall a is_. is_bounded1 is_ (\\x:cfun. a % x)"), t572))
+  scalar_bounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ is_ : (((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), is_bounded1(is_, (x : (A) -> Cart[Real, Tybit0[Unit]]) => cfun_smul(a, x))"), t572))
 }
 
 ///|
