@@ -5613,7 +5613,7 @@ test "Library/binary matches Library/binary.ml" {
       #|Library/binary quotations (44):
       #|  op_dot_dot(0, (n : Num))
       #|  \226\136\128 s : (Num) -> Bool, (\226\136\128 x : Num, IN(x, s) \226\134\146 x <= (n : Num)) \226\134\146 FINITE(s)
-      #|  forall s. FINITE s /\\ (forall i. i IN s ==> EVEN(f i)) ==> EVEN(nsum s f)
+      #|  \226\136\128 s : (_) -> Bool, FINITE(s) && (\226\136\128 i : _, IN(i, s) \226\134\146 EVEN((f : (_) -> Num)(i))) \226\134\146 EVEN(nsum(s, f))
       #|  (bitset : (Num, Num) -> Bool)((n : Num)) == {(i : Num) | ODD(DIV(n, EXP(2, i)))}
       #|  (binarysum : ((Num) -> Bool) -> Num)((s : (Num) -> Bool)) == nsum(s, (i : Num) => EXP(2, i))
       #|  \226\136\128 n : Num, \226\136\128 i : Num, IN(i, bitset(n)) \226\134\146 EXP(2, i) <= n
@@ -5623,7 +5623,7 @@ test "Library/binary matches Library/binary.ml" {
       #|  bitset(0) == {}
       #|  DIV(2 * (n : Num) + 1, 2) == n && DIV(2 * n, 2) == n
       #|  (a : Bool) && (a \226\134\146 (b : Bool)) \226\134\146 a && b
-      #|  (forall n. bitset(2 * n) = IMAGE SUC (bitset n)) /\\\n   (forall n. bitset(2 * n + 1) = 0 INSERT (IMAGE SUC (bitset n)))
+      #|  (\226\136\128 n : Num, bitset(2 * n) == IMAGE(SUC, bitset(n))) && (\226\136\128 n : Num, bitset(2 * n + 1) == INSERT(0, IMAGE(SUC, bitset(n))))
       #|  (m : Num) < SUC(2 * m)
       #|  !(2 * (m : Num) == 0) \226\134\146 m < 2 * m
       #|  !(0 == (x : Num) + 1)
@@ -5633,28 +5633,28 @@ test "Library/binary matches Library/binary.ml" {
       #|  ((a : Num) + (b : Num) < 2 * a) == (b < a)
       #|  nsum(INSERT((k : Num), DELETE((s : (Num) -> Bool), k)), (i : Num) => EXP(2, i))
       #|  FINITE((s : (Num) -> Bool))
-      #|  forall k s. (forall i. i IN s ==> i < k) ==> nsum s (\\i. 2 EXP i) < 2 EXP k
+      #|  \226\136\128 k : Num, \226\136\128 s : (Num) -> Bool, (\226\136\128 i : Num, IN(i, s) \226\134\146 i < k) \226\134\146 nsum(s, (i : Num) => EXP(2, i)) < EXP(2, k)
       #|  (i : Num) <= (k : Num) \226\134\146 i + (k - i) == k
-      #|  forall s k. FINITE s /\\ (forall i. i IN s ==> k <= i)\n         ==> nsum s (\\i. 2 EXP i) = 2 EXP k * nsum s (\\i. 2 EXP (i - k))
+      #|  \226\136\128 s : (Num) -> Bool, \226\136\128 k : Num, FINITE(s) && (\226\136\128 i : Num, IN(i, s) \226\134\146 k <= i) \226\134\146 nsum(s, (i : Num) => EXP(2, i)) == EXP(2, k) * nsum(s, (i : Num) => EXP(2, i - k))
       #|  (k : Num) <= (j : Num) \226\134\146 !(j < k)
       #|  ((if (p : Bool) { 0 } else { (q : Num) }) == 0) == (!p \226\134\146 q == 0)
       #|  (s : (Num) -> Bool)
-      #|  2 EXP k * nsum {i | k <= i /\\ i IN s} (\\i. 2 EXP (i - k))
+      #|  EXP(2, (k : Num)) * nsum({(i : Num) | k <= i && IN(i, (s : (Num) -> Bool))}, (i : Num) => EXP(2, i - k))
       #|  ((a : Num) + (x : Num) == (y : Num) + a) == (x == y)
       #|  nsum({(i : Num) | i < (k : Num) && IN(i, (s : (Num) -> Bool))}, (j : Num) => EXP(2, j))
       #|  IN((i : Num), (s : (Num) -> Bool))
       #|  (i : Num)
-      #|  (nsum {i | i < k /\\ i IN s} (\\j. 2 EXP j) +\n               nsum {i | k <= i /\\ i IN s} (\\j. 2 EXP j)) DIV (2 EXP k)
-      #|  forall k s. FINITE s\n         ==> (nsum s (\\j. 2 EXP j)) DIV (2 EXP k) =\n             nsum s (\\j. if j < k then 0 else 2 EXP (j - k))
+      #|  DIV(nsum({(i : Num) | i < (k : Num) && IN(i, (s : (Num) -> Bool))}, (j : Num) => EXP(2, j)) + nsum({(i : Num) | k <= i && IN(i, s)}, (j : Num) => EXP(2, j)), EXP(2, k))
+      #|  \226\136\128 k : Num, \226\136\128 s : (Num) -> Bool, FINITE(s) \226\134\146 DIV(nsum(s, (j : Num) => EXP(2, j)), EXP(2, k)) == nsum(s, (j : Num) => if j < k { 0 } else { EXP(2, j - k) })
       #|  IN((i : _), (s : (_) -> Bool)) \226\134\146 s == INSERT(i, DELETE(s, i))
       #|  IN((i : Num), (s : (Num) -> Bool))
       #|  (i : Num)
       #|  \226\136\128 s : (Num) -> Bool, FINITE(s) \226\134\146 bitset(binarysum(s)) == s
-      #|  forall k s. (forall i. i IN s ==> i < k) ==> binarysum s < 2 EXP k
+      #|  \226\136\128 k : Num, \226\136\128 s : (Num) -> Bool, (\226\136\128 i : Num, IN(i, s) \226\134\146 i < k) \226\134\146 binarysum(s) < EXP(2, k)
       #|  EXP(2, (i : Num)) < EXP(2, (k : Num))
       #|  \226\136\128 n : Num, \226\136\128 i : Num, \226\136\128 k : Num, n < EXP(2, k) && IN(i, bitset(n)) \226\134\146 i < k
       #|  \226\136\128 n : Num, \226\136\128 k : Num, (n < EXP(2, k)) == (\226\136\128 i : Num, IN(i, bitset(n)) \226\134\146 i < k)
-      #|  forall s k. FINITE s ==> (binarysum s < 2 EXP k <=> (forall i. i IN s ==> i < k))
+      #|  \226\136\128 s : (Num) -> Bool, \226\136\128 k : Num, FINITE(s) \226\134\146 (binarysum(s) < EXP(2, k)) == (\226\136\128 i : Num, IN(i, s) \226\134\146 i < k)
       #|BOUNDED_FINITE =  |- (#forall:fun(fun(fun(num,bool),bool),bool) (\s:fun(num,bool). ((#==>:fun(bool,fun(bool,bool)) (#forall:fun(fun(num,bool),bool) (\x:num. ((#==>:fun(bool,fun(bool,bool)) ((#IN:fun(num,fun(fun(num,bool),bool)) x:num) s:fun(num,bool))) ((#<=:fun(num,fun(num,bool)) x:num) n:num))))) (#FINITE:fun(fun(num,bool),bool) s:fun(num,bool)))))
       #|EVEN_NSUM =  |- (#forall:fun(fun(fun('?1,bool),bool),bool) (\s:fun('?1,bool). ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) (#FINITE:fun(fun('?1,bool),bool) s:fun('?1,bool))) (#forall:fun(fun('?1,bool),bool) (\i:'?1. ((#==>:fun(bool,fun(bool,bool)) ((#IN:fun('?1,fun(fun('?1,bool),bool)) i:'?1) s:fun('?1,bool))) (#EVEN:fun(num,bool) (f:fun('?1,num) i:'?1))))))) (#EVEN:fun(num,bool) ((#nsum:fun(fun('?1,bool),fun(fun('?1,num),num)) s:fun('?1,bool)) f:fun('?1,num))))))
       #|bitset =  |- (#forall:fun(fun(num,bool),bool) (\n:num. ((#=:fun(fun(num,bool),fun(fun(num,bool),bool)) (#bitset:fun(num,fun(num,bool)) n:num)) (#GSPEC:fun(fun(num,bool),fun(num,bool)) (\GEN%PVAR%1:num. (#?:fun(fun(num,bool),bool) (\i:num. (((#SETSPEC:fun(num,fun(bool,fun(num,bool))) GEN%PVAR%1:num) (#ODD:fun(num,bool) ((#DIV:fun(num,fun(num,num)) n:num) ((#EXP:fun(num,fun(num,num)) (#NUMERAL:fun(num,num) (#BIT0:fun(num,num) (#BIT1:fun(num,num) #_0:num)))) i:num)))) i:num))))))))

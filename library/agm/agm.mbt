@@ -66,9 +66,7 @@ fn step_4() -> Unit raise {
     @list.List([
       @realarith.real_le_square(),
       @calc_rat.real_arith(
-        @parser.parse_term(
-          "x * y <= ((x + y) / &2) pow 2 <=> &0 <= (x - y) * (x - y)",
-        ),
+        @term_syntax.parse_term("((x : Real) * (y : Real) <= pow((x + y) / real_of_num(2), 2)) == (real_of_num(0) <= (x - y) * (x - y))"),
       ),
     ]),
   )
@@ -128,9 +126,7 @@ fn step_6() -> Unit raise {
   )
   product_split_2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "product(1..2*n) f = product(1..n) f * product(n+1..2*n) f",
-      ),
+      @term_syntax.parse_term("product(op_dot_dot(1, 2 * (n : Num)), (f : (Num) -> Real)) == product(op_dot_dot(1, n), f) * product(op_dot_dot(n + 1, 2 * n), f)"),
       t5,
     ),
   )
@@ -371,9 +367,7 @@ fn step_7() -> Unit raise {
   )
   cauchy_induct_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. P 2 /\\ (forall n. P n ==> P(2 * n)) /\\ (forall n. P(n + 1) ==> P n) ==> forall n. P n",
-      ),
+      @term_syntax.parse_term("∀ P : (Num) -> Bool, P(2) && (∀ n : Num, P(n) → P(2 * n)) && (∀ n : Num, P(n + 1) → P(n)) → (∀ n : Num, P(n))"),
       t29,
     ),
   )
@@ -893,9 +887,7 @@ fn step_8() -> Unit raise {
                                                                   @tactics.then_tac(
                                                                     @tactics.then_tac(
                                                                       @tactics.x_gen_tac(
-                                                                        @parser.parse_term(
-                                                                          "n:num",
-                                                                        ),
+                                                                        @term_syntax.parse_term("(n : Num)"),
                                                                       ),
                                                                       @tactics.disch_tac,
                                                                     ),
@@ -1072,9 +1064,7 @@ fn step_8() -> Unit raise {
   let t48 = @meson.asm_meson_tac(
     @list.List([
       @int.arith_rule(
-        @parser.parse_term(
-          "1 <= i /\\ i <= n ==> 1 <= i + n /\\ i + n <= 2 * n",
-        ),
+        @term_syntax.parse_term("1 <= (i : Num) && i <= (n : Num) → 1 <= i + n && i + n <= 2 * n"),
       ),
       t47,
     ]),
@@ -1142,9 +1132,7 @@ fn step_8() -> Unit raise {
     @tactics.all_tac,
   ])
   let t36 = @tactics.exists_tac(
-    @parser.parse_term(
-      "(sum(1..n) a / &n) pow n * (sum(n+1..2*n) a / &n) pow n",
-    ),
+    @term_syntax.parse_term("pow(sum(op_dot_dot(1, (n : Num)), (a : (Num) -> Real)) / real_of_num(n), n) * pow(sum(op_dot_dot(n + 1, 2 * n), a) / real_of_num(n), n)"),
   )
   let t35 = @tactics.match_mp_tac(@realax.real_le_trans())
   let t34 = @simp.rewrite_tac(@list.List([sum_split_2(), product_split_2()]))
@@ -1175,9 +1163,7 @@ fn step_8() -> Unit raise {
                                                 @tactics.then_tac(
                                                   @tactics.then_tac(
                                                     @tactics.x_gen_tac(
-                                                      @parser.parse_term(
-                                                        "n:num",
-                                                      ),
+                                                      @term_syntax.parse_term("(n : Num)"),
                                                     ),
                                                     @tactics.disch_tac,
                                                   ),
@@ -1260,9 +1246,7 @@ fn step_8() -> Unit raise {
   )
   agm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a. 1 <= n /\\ (forall i. 1 <= i /\\ i <= n ==> &0 <= a(i))\n         ==> product(1..n) a <= (sum(1..n) a / &n) pow n",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : (Num) -> Real, 1 <= n && (∀ i : Num, 1 <= i && i <= n → real_of_num(0) <= a(i)) → product(op_dot_dot(1, n), a) <= pow(sum(op_dot_dot(1, n), a) / real_of_num(n), n)"),
       t145,
     ),
   )

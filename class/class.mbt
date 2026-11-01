@@ -863,9 +863,7 @@ fn step_18() -> Unit raise {
     @tactics.then_tac(
       @tactics.gen_tac,
       @tactics.subgoal_then(
-        @parser.parse_term(
-          "(((@x. (x <=> F) \\/ t) <=> F) \\/ t) /\\ (((@x. (x <=> T) \\/ t) <=> T) \\/ t)",
-        ),
+        @term_syntax.parse_term("(select((x : Bool) => x == false || (t : Bool)) == false || t) && (select((x : Bool) => x == true || t) == true || t)"),
         fn(
           x72 : @kernel.Thm,
         ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -1348,9 +1346,7 @@ pub fn taut_v1(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_21() -> Unit raise {
   de_morgan_thm_c.set(
     taut_v1(
-      @parser.parse_term(
-        "forall t1 t2. (~(t1 /\\ t2) <=> ~t1 \\/ ~t2) /\\ (~(t1 \\/ t2) <=> ~t1 /\\ ~t2)",
-      ),
+      @term_syntax.parse_term("∀ t1 : Bool, ∀ t2 : Bool, !(t1 && t2) == (!t1 || !t2) && !(t1 || t2) == (!t1 && !t2)"),
     ),
   )
 }
@@ -2089,9 +2085,7 @@ pub fn right_exists_imp_thm() -> @kernel.Thm {
 fn step_43() -> Unit raise {
   cond_def_c.set(
     @drule.new_definition(
-      @parser.parse_term(
-        "COND = \\t t1 t2. @x:A. ((t <=> T) ==> (x = t1)) /\\\n                          ((t <=> F) ==> (x = t2))",
-      ),
+      @term_syntax.parse_term("(COND : (Bool, A, A) -> A) == ((t : Bool) => (t1 : A) => (t2 : A) => select((x : A) => (t == true → x == t1) && (t == false → x == t2)))"),
     ),
   )
 }
@@ -2111,9 +2105,7 @@ fn step_44() -> Unit raise {
   let t162 = @simp.rewrite_tac(@list.List([cond_def()]))
   cond_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(t1:A) t2. ((if T then t1 else t2) = t1) /\\\n               ((if F then t1 else t2) = t2)",
-      ),
+      @term_syntax.parse_term("∀ t1 : A, ∀ t2 : A, (if true { t1 } else { t2 }) == t1 && (if false { t1 } else { t2 }) == t2"),
       t162,
     ),
   )
@@ -2199,9 +2191,7 @@ fn step_46() -> Unit raise {
   )
   cond_expand_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b t1 t2. (if b then t1 else t2) <=> (~b \\/ t1) /\\ (b \\/ t2)",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, ∀ t1 : Bool, ∀ t2 : Bool, (if b { t1 } else { t2 }) == ((!b || t1) && (b || t2))"),
       t170,
     ),
   )
@@ -2253,9 +2243,7 @@ fn step_48() -> Unit raise {
   )
   cond_rand_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b (f:A->B) x y. f (if b then x else y) = (if b then f x else f y)",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, ∀ f : (A) -> B, ∀ x : A, ∀ y : A, f(if b { x } else { y }) == (if b { f(x) } else { f(y) })"),
       t176,
     ),
   )
@@ -2281,9 +2269,7 @@ fn step_49() -> Unit raise {
   )
   cond_rator_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b (f:A->B) g x. (if b then f else g)(x) = (if b then f x else g x)",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, ∀ f : (A) -> B, ∀ g : (A) -> B, ∀ x : A, COND(b, f, g, x) == (if b { f(x) } else { g(x) })"),
       t179,
     ),
   )
@@ -2309,9 +2295,7 @@ fn step_50() -> Unit raise {
   )
   cond_abs_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b (f:A->B) g. (\\x. if b then f x else g x) = (if b then f else g)",
-      ),
+      @term_syntax.parse_term("∀ b : Bool, ∀ f : (A) -> B, ∀ g : (A) -> B, ((x : A) => if b { f(x) } else { g(x) }) == (if b { f } else { g })"),
       t182,
     ),
   )
@@ -2337,9 +2321,7 @@ fn step_51() -> Unit raise {
   )
   cond_swap_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p x y:A. (if ~p then x else y) = (if p then y else x)",
-      ),
+      @term_syntax.parse_term("∀ p : Bool, ∀ x : A, ∀ y : A, (if !p { x } else { y }) == (if p { y } else { x })"),
       t185,
     ),
   )
@@ -2745,9 +2727,7 @@ fn step_53() -> Unit raise {
   )
   mono_cond_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(A ==> B) /\\ (C ==> D) ==> (if b then A else C) ==> (if b then B else D)",
-      ),
+      @term_syntax.parse_term("((A : Bool) → (B : Bool)) && ((C : Bool) → (D : Bool)) → (if (b : Bool) { A } else { C }) → (if b { B } else { D })"),
       t208,
     ),
   )
@@ -2781,9 +2761,7 @@ fn step_55() -> Unit raise {
   )
   cond_elim_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(P:A->bool) (if c then x else y) <=> (c ==> P x) /\\ (~c ==> P y)",
-      ),
+      @term_syntax.parse_term("(P : (A) -> Bool)(if (c : Bool) { (x : A) } else { (y : A) }) == ((c → P(x)) && (!c → P(y)))"),
       t210,
     ),
   )
@@ -3007,9 +2985,7 @@ fn step_59() -> Unit raise {
   )
   skolem_thm_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P R. (forall x:A. P x ==> ?y:B. R x y) <=> (?f. forall x. P x ==> R x (f x))",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ R : (A, B) -> Bool, (∀ x : A, P(x) → (∃ y : B, R(x, y))) == (∃ f : (A) -> B, ∀ x : A, P(x) → R(x, f(x)))"),
       t229,
     ),
   )
@@ -3033,9 +3009,7 @@ fn step_60() -> Unit raise {
   )
   unique_skolem_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:A->B->bool. (forall x. ?!y. P x y) <=> ?f. forall x y. P x y <=> (f x = y)",
-      ),
+      @term_syntax.parse_term("∀ P : (A, B) -> Bool, (∀ x : A, existsunique((y : B) => P(x, y))) == (∃ f : (A) -> B, ∀ x : A, ∀ y : B, P(x, y) == (f(x) == y))"),
       t230,
     ),
   )
@@ -3154,9 +3128,7 @@ fn step_61() -> Unit raise {
     t261,
   ])
   let t249 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(\\z. if z = x then y1 else (f:A->B) z) =\n                  (\\z. if z = x then y2 else (f:A->B) z)",
-    ),
+    @term_syntax.parse_term("((z : A) => if z == (x : A) { (y1 : B) } else { (f : (A) -> B)(z) }) == ((z : A) => if z == x { (y2 : B) } else { f(z) })"),
     fn(
       x246 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3341,9 +3313,7 @@ pub fn unique_skolem_thm() -> @kernel.Thm {
 /// class.ml:463
 fn step_62() -> Unit raise {
   let cond_cong = taut(
-    @parser.parse_term(
-      "(g = g') ==>\n        (g' ==> (t = t')) ==>\n        (~g' ==> (e = e')) ==>\n        ((if g then t else e) = (if g' then t' else e'))",
-    ),
+    @term_syntax.parse_term("(g : Bool) == (g' : Bool) → (g' → (t : _) == (t' : _)) → (!g' → (e : _) == (e' : _)) → (if g { t } else { e }) == (if g' { t' } else { e' })"),
   )
   @simp.extend_basic_congs(@list.List([cond_cong]))
 }

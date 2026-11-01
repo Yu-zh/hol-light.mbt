@@ -16414,21 +16414,21 @@ Translating certificate to HOL inferences
 0..0..1..5..10..solved at 17
 0..0..1..5..11..25..51..93..159..267..421..662..1078..solved at 1712
 Library/multiplicative quotations (140):
-  multiplicative f <=>\n     f(1) = 1 /\\ forall m n. coprime(m,n) ==> f(m * n) = f(m) * f(n)
+  (multiplicative : ((Num) -> Num) -> Bool)((f : (Num) -> Num)) == (f(1) == 1 && (\226\136\128 m : Num, \226\136\128 n : Num, coprime((m, n)) \226\134\146 f(m * n) == f(m) * f(n)))
   \226\136\128 f : (Num) -> Num, multiplicative(f) \226\134\146 f(1) == 1
   (m : Num) == 0
   (n : Num) == 0
   (n : Num)
   (m : Num)
-  multiplicative f <=>\n        f(1) = 1 /\\\n        forall m n. ~(m = 0) /\\ ~(n = 0) /\\ coprime(m,n) ==> f(m * n) = f(m) * f(n)
-  forall f g. (forall n. ~(n = 0) ==> g(n) = f(n)) /\\ multiplicative f\n         ==> multiplicative g
+  multiplicative((f : (Num) -> Num)) == (f(1) == 1 && (\226\136\128 m : Num, \226\136\128 n : Num, !(m == 0) && !(n == 0) && coprime((m, n)) \226\134\146 f(m * n) == f(m) * f(n)))
+  \226\136\128 f : (Num) -> Num, \226\136\128 g : (Num) -> Num, (\226\136\128 n : Num, !(n == 0) \226\134\146 g(n) == f(n)) && multiplicative(f) \226\134\146 multiplicative(g)
   ((p : Num) <= 1) == (p == 0 || p == 1)
-  prime p ==> (prime q /\\ q divides p EXP k <=> q = p /\\ ~(k = 0))
+  prime((p : Num)) \226\134\146 (prime((q : Num)) && divides(q, EXP(p, (k : Num)))) == (q == p && !(k == 0))
   1 < (p : Num) \226\134\146 !(p == 0)
   (p : Num)
   1 < (p : Num) \226\134\146 !(p == 0)
   {(x : _) | (P : (_) -> Bool)(x) || (Q : (_) -> Bool)(x)} == UNION({(x : _) | P(x)}, {(x : _) | Q(x)})
-  prime p /\\ p divides a * b <=>\n      prime p /\\ p divides a \\/ prime p /\\ p divides b
+  (prime((p : Num)) && divides(p, (a : Num) * (b : Num))) == (prime(p) && divides(p, a) || prime(p) && divides(p, b))
   (b : Num)
   (a : Num)
   (n : Num)
@@ -16438,8 +16438,8 @@ Library/multiplicative quotations (140):
   !((n : Num) == 1)
   !(prime((p : Num)) && divides(p, 1))
   (n : Num) == 1
-  forall f n.\n       multiplicative f /\\ ~(n = 0)\n       ==> f n = nproduct {p | prime p /\\ p divides n}\n                          (\\p. f(p EXP index p n))
-  coprime(a * b:num,c * d) ==> coprime(c,a) /\\ coprime(d,b)
+  \226\136\128 f : (Num) -> Num, \226\136\128 n : Num, multiplicative(f) && !(n == 0) \226\134\146 f(n) == nproduct({(p : Num) | prime(p) && divides(p, n)}, (p : Num) => f(EXP(p, index(p, n))))
+  coprime(((a : Num) * (b : Num), (c : Num) * (d : Num))) \226\134\146 coprime((c, a)) && coprime((d, b))
   (e : Num) * (e' : Num) * ((d : Num) * (d' : Num)) == d * e * (d' * e')
   (e' : Num)
   divides((e : Num), (m : Num))
@@ -16458,16 +16458,16 @@ Library/multiplicative quotations (140):
   GABS((f : ((Num, Num)) -> Num) => \226\136\128 a : Num, \226\136\128 b : Num, GEQ(f((a, b)), a * b))
   (n : Num)
   (m : Num)
-  forall f g. multiplicative f /\\ multiplicative g\n         ==> multiplicative (\\n. nsum {d | d divides n}\n                                      (\\d. f(d) * g(n DIV d)))
+  \226\136\128 f : (Num) -> Num, \226\136\128 g : (Num) -> Num, multiplicative(f) && multiplicative(g) \226\134\146 multiplicative((n : Num) => nsum({(d : Num) | divides(d, n)}, (d : Num) => f(d) * g(DIV(n, d))))
   (c : Num) == 1
   \226\136\128 c : Num, multiplicative((n : Num) => c) == (c == 1)
   multiplicative((n : Num) => if n == 1 { 1 } else { 0 })
   (n : Num) => 1
   (f : (Num) -> Num)
-  forall f. multiplicative f ==> multiplicative (\\n. nsum {d | d divides n} f)
+  \226\136\128 f : (Num) -> Num, multiplicative(f) \226\134\146 multiplicative((n : Num) => nsum({(d : Num) | divides(d, n)}, f))
   multiplicative((n : Num) => n)
-  forall k. multiplicative(\\n. nsum {d | d divides n} (\\d. d EXP k))
-  sigma(n) = if n = 0 then 0 else nsum {d | d divides n} (\\i. i)
+  \226\136\128 k : Num, multiplicative((n : Num) => nsum({(d : Num) | divides(d, n)}, (d : Num) => EXP(d, k)))
+  (sigma : (Num) -> Num)((n : Num)) == (if n == 0 { 0 } else { nsum({(d : Num) | divides(d, n)}, (i : Num) => i) })
   (tau : (Num) -> Num)((n : Num)) == (if n == 0 { 0 } else { CARD({(d : Num) | divides(d, n)}) })
   1
   multiplicative(sigma)
@@ -16477,29 +16477,29 @@ Library/multiplicative quotations (140):
   \226\136\128 n : Num, multiplicative((m : Num) => gcd((n, m)))
   (n : Num)
   phi
-  forall n. phi n = if n = 0 then 0\n               else nproduct {p | prime p /\\ p divides n}\n                             (\\p. p EXP (index p n - 1) * (p - 1))
+  \226\136\128 n : Num, phi(n) == (if n == 0 { 0 } else { nproduct({(p : Num) | prime(p) && divides(p, n)}, (p : Num) => EXP(p, index(p, n) - 1) * (p - 1)) })
   (n : Num)
   (n : Num)
   !((n : Num) == 0) \226\134\146 n == 1 || 1 < n
   (n : Num)
-  forall f g. multiplicative f /\\ multiplicative g /\\\n         (forall p k. prime p ==> f(p EXP k) = g(p EXP k))\n         ==> forall n. ~(n = 0) ==> f n = g n
+  \226\136\128 f : (Num) -> Num, \226\136\128 g : (Num) -> Num, multiplicative(f) && multiplicative(g) && (\226\136\128 p : Num, \226\136\128 k : Num, prime(p) \226\134\146 f(EXP(p, k)) == g(EXP(p, k))) \226\134\146 (\226\136\128 n : Num, !(n == 0) \226\134\146 f(n) == g(n))
   (a : Num) <= (b : Num) \226\134\146 b - a + a == b
   !(SUC((k : Num)) <= k)
   {(i : Num) | i == (a : Num) || i <= (b : Num)} == INSERT(a, {(i : Num) | i <= b})
   {(x : Num) | x == 0} == {0}
-  {d | ?i. i <= k /\\ d = p EXP i} = IMAGE (\\i. p EXP i) {i | i <= k}
-  forall n. ~(n = 0) ==> nsum {d | d divides n} (\\d. phi(d)) = n
-  real_multiplicative (f:num->real) <=>\n     f(1) = &1 /\\ forall m n. coprime(m,n) ==> f(m * n) = f(m) * f(n)
+  {(d : Num) | \226\136\131 i : Num, i <= (k : Num) && d == EXP((p : Num), i)} == IMAGE((i : Num) => EXP(p, i), {(i : Num) | i <= k})
+  \226\136\128 n : Num, !(n == 0) \226\134\146 nsum({(d : Num) | divides(d, n)}, (d : Num) => phi(d)) == n
+  (real_multiplicative : ((Num) -> Real) -> Bool)((f : (Num) -> Real)) == (f(1) == real_of_num(1) && (\226\136\128 m : Num, \226\136\128 n : Num, coprime((m, n)) \226\134\146 f(m * n) == f(m) * f(n)))
   (m : Num) == 0
   (n : Num) == 0
   (n : Num)
   (m : Num)
-  real_multiplicative f <=>\n        f(1) = &1 /\\\n        forall m n. ~(m = 0) /\\ ~(n = 0) /\\ coprime(m,n) ==> f(m * n) = f(m) * f(n)
+  real_multiplicative((f : (Num) -> Real)) == (f(1) == real_of_num(1) && (\226\136\128 m : Num, \226\136\128 n : Num, !(m == 0) && !(n == 0) && coprime((m, n)) \226\134\146 f(m * n) == f(m) * f(n)))
   (c : Real) == real_of_num(1)
   \226\136\128 c : Real, real_multiplicative((n : Num) => c) == (c == real_of_num(1))
   real_multiplicative((n : Num) => if n == 1 { real_of_num(1) } else { real_of_num(0) })
-  forall f g. (forall n. ~(n = 0) ==> g(n) = f(n)) /\\ real_multiplicative f\n         ==> real_multiplicative g
-  coprime(a * b:num,c * d) ==> coprime(c,a) /\\ coprime(d,b)
+  \226\136\128 f : (Num) -> Real, \226\136\128 g : (Num) -> Real, (\226\136\128 n : Num, !(n == 0) \226\134\146 g(n) == f(n)) && real_multiplicative(f) \226\134\146 real_multiplicative(g)
+  coprime(((a : Num) * (b : Num), (c : Num) * (d : Num))) \226\134\146 coprime((c, a)) && coprime((d, b))
   (e : Num) * (e' : Num) * ((d : Num) * (d' : Num)) == d * e * (d' * e')
   (e' : Num)
   divides((e : Num), (m : Num))
@@ -16518,13 +16518,13 @@ Library/multiplicative quotations (140):
   GABS((f : ((Num, Num)) -> Num) => \226\136\128 a : Num, \226\136\128 b : Num, GEQ(f((a, b)), a * b))
   (n : Num)
   (m : Num)
-  forall f g. real_multiplicative f /\\ real_multiplicative g\n         ==> real_multiplicative (\\n. sum {d | d divides n}\n                                          (\\d. f(d) * g(n DIV d)))
+  \226\136\128 f : (Num) -> Real, \226\136\128 g : (Num) -> Real, real_multiplicative(f) && real_multiplicative(g) \226\134\146 real_multiplicative((n : Num) => sum({(d : Num) | divides(d, n)}, (d : Num) => f(d) * g(DIV(n, d))))
   (n : Num) => real_of_num(1)
   (f : (Num) -> Real)
-  forall f. real_multiplicative f\n       ==> real_multiplicative (\\n. sum {d | d divides n} f)
-  mobius(n) = if squarefree n then --(&1) pow CARD {p | prime p /\\ p divides n}\n              else &0:real
+  \226\136\128 f : (Num) -> Real, real_multiplicative(f) \226\134\146 real_multiplicative((n : Num) => sum({(d : Num) | divides(d, n)}, f))
+  (mobius : (Num) -> Real)((n : Num)) == (if squarefree(n) { pow(-real_of_num(1), CARD({(p : Num) | prime(p) && divides(p, n)})) } else { real_of_num(0) })
   !(\226\136\131 x : _, (P : (_) -> Bool)(x) && (Q : (_) -> Bool)(x)) == (\226\136\128 x : _, P(x) \226\134\146 !Q(x))
-  forall n. mobius(n) = if ?p. prime p /\\ (p EXP 2) divides n then &0\n                   else --(&1) pow CARD {p | prime p /\\ p divides n}
+  \226\136\128 n : Num, mobius(n) == (if (\226\136\131 p : Num, prime(p) && divides(EXP(p, 2), n)) { real_of_num(0) } else { pow(-real_of_num(1), CARD({(p : Num) | prime(p) && divides(p, n)})) })
   mobius(0) == real_of_num(0)
   {(p : Num) | prime(p) && p == 1} == {}
   mobius(1) == real_of_num(1)
@@ -16533,27 +16533,27 @@ Library/multiplicative quotations (140):
   (a : Num) == 0
   squarefree((b : Num))
   squarefree((a : Num))
-  forall a b. coprime(a,b) ==> mobius(a * b) = mobius a * mobius b
+  \226\136\128 a : Num, \226\136\128 b : Num, coprime((a, b)) \226\134\146 mobius(a * b) == mobius(a) * mobius(b)
   real_multiplicative(mobius)
   {(q : Num) | prime(q) && divides(q, (p : Num))} == {p}
   \226\136\128 p : Num, prime(p) \226\134\146 mobius(p) == -real_of_num(1)
-  forall p k. prime p ==> mobius(p EXP k) = if k = 0 then &1\n                                       else if k = 1 then -- &1\n                                       else &0
+  \226\136\128 p : Num, \226\136\128 k : Num, prime(p) \226\134\146 mobius(EXP(p, k)) == (if k == 0 { real_of_num(1) } else { if k == 1 { -real_of_num(1) } else { real_of_num(0) } })
   sum({1, (p : Num)}, (d : Num) => mobius(d))
   (k : Num)
   (p : Num)
   1 < (n : Num) \226\134\146 !(n == 1)
   {(x : _) | x == (a : _)} == {a}
   ((a : Bool) || (b : Bool) \226\134\146 (c : Bool)) == ((a \226\134\146 c) && (b \226\134\146 c))
-  1 <= n <=> n = 1 \\/ 1 < n
-  forall n. 1 <= n\n       ==> sum {d | d divides n} (\\d. mobius d) = if n = 1 then &1 else &0
+  (1 <= (n : Num)) == (n == 1 || 1 < n)
+  \226\136\128 n : Num, 1 <= n \226\134\146 sum({(d : Num) | divides(d, n)}, (d : Num) => mobius(d)) == (if n == 1 { real_of_num(1) } else { real_of_num(0) })
   divides((a : Num) * (b : Num), (c : Num)) \226\134\146 divides(b, c)
   GABS((f : ((Num, Num)) -> (Num, Num)) => \226\136\128 m : Num, \226\136\128 n : Num, GEQ(f((m, n)), (n, m)))
   (d : Num)
   sum({(n : Num)}, (d : Num) => (f : (Num) -> Real)(d) * (if DIV(n, d) == 1 { real_of_num(1) } else { real_of_num(0) }))
-  sum {d | d divides n} (\\d. f(d) * (if n DIV d = 1 then &1 else &0))
+  sum({(d : Num) | divides(d, (n : Num))}, (d : Num) => (f : (Num) -> Real)(d) * (if DIV(n, d) == 1 { real_of_num(1) } else { real_of_num(0) }))
   (d : Num) == 0
   \226\136\128 d : Num, divides(d, (n : Num)) \226\134\146 !(DIV(n, d) == 0)
-  forall f g. (forall n. 1 <= n ==> g(n) = sum {d | d divides n} f)\n         ==> forall n. 1 <= n\n                 ==> f(n) = sum {d | d divides n} (\\d. mobius(d) * g(n DIV d))
+  \226\136\128 f : (Num) -> Real, \226\136\128 g : (Num) -> Real, (\226\136\128 n : Num, 1 <= n \226\134\146 g(n) == sum({(d : Num) | divides(d, n)}, f)) \226\134\146 (\226\136\128 n : Num, 1 <= n \226\134\146 f(n) == sum({(d : Num) | divides(d, n)}, (d : Num) => mobius(d) * g(DIV(n, d))))
 multiplicative =  |- (#forall:fun(fun(fun(num,num),bool),bool) (\f:fun(num,num). ((#=:fun(bool,fun(bool,bool)) (#multiplicative:fun(fun(num,num),bool) f:fun(num,num))) ((#/\:fun(bool,fun(bool,bool)) ((#=:fun(num,fun(num,bool)) (f:fun(num,num) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num)))) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num)))) (#forall:fun(fun(num,bool),bool) (\m:num. (#forall:fun(fun(num,bool),bool) (\n:num. ((#==>:fun(bool,fun(bool,bool)) (#num_coprime:fun(prod(num,num),bool) ((#,:fun(num,fun(num,prod(num,num))) m:num) n:num))) ((#=:fun(num,fun(num,bool)) (f:fun(num,num) ((#*:fun(num,fun(num,num)) m:num) n:num))) ((#*:fun(num,fun(num,num)) (f:fun(num,num) m:num)) (f:fun(num,num) n:num))))))))))))
 MULTIPLICATIVE_1 =  |- (#forall:fun(fun(fun(num,num),bool),bool) (\f:fun(num,num). ((#==>:fun(bool,fun(bool,bool)) (#multiplicative:fun(fun(num,num),bool) f:fun(num,num))) ((#=:fun(num,fun(num,bool)) (f:fun(num,num) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num)))) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num))))))
 MULTIPLICATIVE =  |- ((#=:fun(bool,fun(bool,bool)) (#multiplicative:fun(fun(num,num),bool) f:fun(num,num))) ((#/\:fun(bool,fun(bool,bool)) ((#=:fun(num,fun(num,bool)) (f:fun(num,num) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num)))) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num)))) (#forall:fun(fun(num,bool),bool) (\m:num. (#forall:fun(fun(num,bool),bool) (\n:num. ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) (#~:fun(bool,bool) ((#=:fun(num,fun(num,bool)) m:num) (#NUMERAL:fun(num,num) #_0:num)))) ((#/\:fun(bool,fun(bool,bool)) (#~:fun(bool,bool) ((#=:fun(num,fun(num,bool)) n:num) (#NUMERAL:fun(num,num) #_0:num)))) (#num_coprime:fun(prod(num,num),bool) ((#,:fun(num,fun(num,prod(num,num))) m:num) n:num))))) ((#=:fun(num,fun(num,bool)) (f:fun(num,num) ((#*:fun(num,fun(num,num)) m:num) n:num))) ((#*:fun(num,fun(num,num)) (f:fun(num,num) m:num)) (f:fun(num,num) n:num))))))))))

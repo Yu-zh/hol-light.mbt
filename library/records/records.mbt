@@ -138,9 +138,7 @@ fn step_3() -> Unit raise {
     t7,
   )
   let t9 = (
-    @parser.parse_term(
-      "(?r. P r) /\\ (?w. Q w) ==> ?c. P(read c) /\\ Q(write c)",
-    ),
+    @term_syntax.parse_term("(∃ r : (_) -> _, (P : ((_) -> _) -> Bool)(r)) && (∃ w : (_, _) -> _, (Q : ((_, _) -> _) -> Bool)(w)) → (∃ c : Component[_, _], P(read(c)) && Q(write(c)))"),
     t8,
   )
   let tweak : (@kernel.Thm) -> @kernel.Thm raise = @drule.match_mp(

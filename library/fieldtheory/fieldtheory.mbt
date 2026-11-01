@@ -11,9 +11,7 @@ fn step_1() -> Unit raise {
 fn step_2() -> Unit raise {
   subfield_of_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(s:A->bool) subfield_of (r:A ring) <=>\n  s subring_of r /\\ field(subring_generated r s)",
-      ),
+      @term_syntax.parse_term("(subfield_of : ((A) -> Bool, Ring[A]) -> Bool)((s : (A) -> Bool), (r : Ring[A])) == (subring_of(s, r) && field(subring_generated(r, s)))"),
     ),
   )
 }
@@ -56,9 +54,7 @@ fn step_4() -> Unit raise {
   let t2 = @simp.simp_tac(@list.List([@ringtheory.subring_of(), subfield_of()]))
   subfield_of_imp_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool. s subfield_of r ==> s SUBSET ring_carrier r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, subfield_of(s, r) → SUBSET(s, ring_carrier(r))"),
       t2,
     ),
   )
@@ -87,9 +83,7 @@ fn step_5() -> Unit raise {
   )
   subfield_of_imp_10_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(r:A ring) s. s subfield_of r ==> ~(ring_1 r = ring_0 r)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, subfield_of(s, r) → !(ring_1(r) == ring_0(r))"),
       t3,
     ),
   )
@@ -268,9 +262,7 @@ fn step_7() -> Unit raise {
   )
   in_subfield_linv_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s x:A. s subfield_of r /\\ x IN s /\\ ~(x = ring_0 r)\n             ==> ring_inv r x IN s /\\ ring_mul r x (ring_inv r x) = ring_1 r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ x : A, subfield_of(s, r) && IN(x, s) && !(x == ring_0(r)) → IN(ring_inv(r, x), s) && ring_mul(r, x, ring_inv(r, x)) == ring_1(r)"),
       t16,
     ),
   )
@@ -300,9 +292,7 @@ fn step_8() -> Unit raise {
   )
   in_subfield_rinv_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s x:A. s subfield_of r /\\ x IN s /\\ ~(x = ring_0 r)\n             ==> ring_inv r x IN s /\\ ring_mul r (ring_inv r x) x = ring_1 r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ x : A, subfield_of(s, r) && IN(x, s) && !(x == ring_0(r)) → IN(ring_inv(r, x), s) && ring_mul(r, ring_inv(r, x), x) == ring_1(r)"),
       t17,
     ),
   )
@@ -333,9 +323,7 @@ fn step_9() -> Unit raise {
   let t19 = @tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t18)
   in_subfield_inv_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s x:A. s subfield_of r /\\ x IN s ==> ring_inv r x IN s",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ x : A, subfield_of(s, r) && IN(x, s) → IN(ring_inv(r, x), s)"),
       t19,
     ),
   )
@@ -373,9 +361,7 @@ fn step_10() -> Unit raise {
   )
   ring_inv_subring_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s x:A.\n        s subfield_of r /\\ x IN s /\\ ~(x = ring_0 r)\n        ==> ring_inv (subring_generated r s) x = ring_inv r x",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ x : A, subfield_of(s, r) && IN(x, s) && !(x == ring_0(r)) → ring_inv(subring_generated(r, s), x) == ring_inv(r, x)"),
       t23,
     ),
   )
@@ -442,9 +428,7 @@ fn step_11() -> Unit raise {
   )
   subfield_of_field_inv_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k (s:A->bool).\n        field k /\\ s subring_of k /\\\n        (forall x. x IN s ==> ring_inv k x IN s)\n        ==> s subfield_of k",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ s : (A) -> Bool, field(k) && subring_of(s, k) && (∀ x : A, IN(x, s) → IN(ring_inv(k, x), s)) → subfield_of(s, k)"),
       t32,
     ),
   )
@@ -1003,9 +987,7 @@ fn step_12() -> Unit raise {
   )
   subfield_of_inters_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r (gs:(A->bool)->bool).\n        (forall g. g IN gs ==> g subfield_of r) /\\ ~(gs = {})\n        ==> (INTERS gs) subfield_of r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ gs : ((A) -> Bool) -> Bool, (∀ g : (A) -> Bool, IN(g, gs) → subfield_of(g, r)) && !(gs == {}) → subfield_of(INTERS(gs), r)"),
       t89,
     ),
   )
@@ -1043,9 +1025,7 @@ fn step_13() -> Unit raise {
   )
   subfield_of_inter_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r g h:A->bool.\n        g subfield_of r /\\ h subfield_of r ==> (g INTER h) subfield_of r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ g : (A) -> Bool, ∀ h : (A) -> Bool, subfield_of(g, r) && subfield_of(h, r) → subfield_of(INTER(g, h), r)"),
       t93,
     ),
   )
@@ -1147,9 +1127,7 @@ fn step_17() -> Unit raise {
   )
   in_subfield_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r h x:A. h subfield_of r /\\ x IN h ==> ring_neg r x IN h",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ h : (A) -> Bool, ∀ x : A, subfield_of(h, r) && IN(x, h) → IN(ring_neg(r, x), h)"),
       t98,
     ),
   )
@@ -1174,9 +1152,7 @@ fn step_18() -> Unit raise {
   )
   in_subfield_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r h x y:A. h subfield_of r /\\ x IN h /\\ y IN h ==> ring_add r x y IN h",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ h : (A) -> Bool, ∀ x : A, ∀ y : A, subfield_of(h, r) && IN(x, h) && IN(y, h) → IN(ring_add(r, x, y), h)"),
       t99,
     ),
   )
@@ -1201,9 +1177,7 @@ fn step_19() -> Unit raise {
   )
   in_subfield_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r h x y:A. h subfield_of r /\\ x IN h /\\ y IN h ==> ring_mul r x y IN h",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ h : (A) -> Bool, ∀ x : A, ∀ y : A, subfield_of(h, r) && IN(x, h) && IN(y, h) → IN(ring_mul(r, x, y), h)"),
       t100,
     ),
   )
@@ -1228,9 +1202,7 @@ fn step_20() -> Unit raise {
   )
   in_subfield_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r h x y:A. h subfield_of r /\\ x IN h /\\ y IN h ==> ring_sub r x y IN h",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ h : (A) -> Bool, ∀ x : A, ∀ y : A, subfield_of(h, r) && IN(x, h) && IN(y, h) → IN(ring_sub(r, x, y), h)"),
       t101,
     ),
   )
@@ -1255,9 +1227,7 @@ fn step_21() -> Unit raise {
   )
   in_subfield_pow_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r h (x:A) n. h subfield_of r /\\ x IN h ==> ring_pow r x n IN h",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ h : (A) -> Bool, ∀ x : A, ∀ n : Num, subfield_of(h, r) && IN(x, h) → IN(ring_pow(r, x, n), h)"),
       t102,
     ),
   )
@@ -1282,9 +1252,7 @@ fn step_22() -> Unit raise {
   )
   in_subfield_sum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r h (f:K->A) s.\n        h subfield_of r /\\ (forall a. a IN s ==> f a IN h) ==> ring_sum r s f IN h",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ h : (A) -> Bool, ∀ f : (K) -> A, ∀ s : (K) -> Bool, subfield_of(h, r) && (∀ a : K, IN(a, s) → IN(f(a), h)) → IN(ring_sum(r, s, f), h)"),
       t103,
     ),
   )
@@ -1309,9 +1277,7 @@ fn step_23() -> Unit raise {
   )
   in_subfield_product_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r h (f:K->A) s.\n      h subfield_of r /\\ (forall a. a IN s ==> f a IN h) ==> ring_product r s f IN h",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ h : (A) -> Bool, ∀ f : (K) -> A, ∀ s : (K) -> Bool, subfield_of(h, r) && (∀ a : K, IN(a, s) → IN(f(a), h)) → IN(ring_product(r, s, f), h)"),
       t104,
     ),
   )
@@ -1349,9 +1315,7 @@ fn step_24() -> Unit raise {
   )
   subfield_of_homomorphic_equalities_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k l (f:A->B) g.\n        field k /\\ field l /\\\n        ring_homomorphism(k,l) f /\\ ring_homomorphism(k,l) g\n        ==> {x | x IN ring_carrier k /\\ f x = g x} subfield_of k",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[B], ∀ f : (A) -> B, ∀ g : (A) -> B, field(k) && field(l) && ring_homomorphism((k, l), f) && ring_homomorphism((k, l), g) → subfield_of({(x : A) | IN(x, ring_carrier(k)) && f(x) == g(x)}, k)"),
       t108,
     ),
   )
@@ -1384,9 +1348,7 @@ fn step_25() -> Unit raise {
   )
   subfield_of_fixpoints_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k (f:A->A).\n        field k /\\ ring_endomorphism k f\n        ==> {x | x IN ring_carrier k /\\ f x = x} subfield_of k",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ f : (A) -> A, field(k) && ring_endomorphism(k, f) → subfield_of({(x : A) | IN(x, ring_carrier(k)) && f(x) == x}, k)"),
       t111,
     ),
   )
@@ -2013,9 +1975,7 @@ fn step_26() -> Unit raise {
     @tactics.all_tac,
   ])
   let t128 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall x:A. x IN s /\\ ~(x = ring_0 r) ==> ring_mul r x (ring_inv r x) = ring_1 r",
-    ),
+    @term_syntax.parse_term("∀ x : A, IN(x, (s : (A) -> Bool)) && !(x == ring_0((r : Ring[A]))) → ring_mul(r, x, ring_inv(r, x)) == ring_1(r)"),
     fn(
       x125 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2168,9 +2128,7 @@ fn step_26() -> Unit raise {
   )
   subfield_of_subring_quotients_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        ~(trivial_ring r) /\\ s subring_of r /\\\n        (forall x. x IN s /\\ ~(x = ring_0 r) ==> ring_unit r x)\n        ==> { ring_div r x y | x,y | x IN s /\\ y IN s /\\ ~(y = ring_0 r) }\n            subfield_of r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, !trivial_ring(r) && subring_of(s, r) && (∀ x : A, IN(x, s) && !(x == ring_0(r)) → ring_unit(r, x)) → subfield_of({ring_div(r, x, y) | x : A, y : A | IN(x, s) && IN(y, s) && !(y == ring_0(r))}, r)"),
       t205,
     ),
   )
@@ -2192,9 +2150,7 @@ pub fn subfield_of_subring_quotients() -> @kernel.Thm {
 fn step_27() -> Unit raise {
   subfield_generated_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "subfield_generated r (s:A->bool) =\n      ring((if ?h. h subfield_of r /\\ (ring_carrier r INTER s) SUBSET h then\n            INTERS {h | h subfield_of r /\\ (ring_carrier r INTER s) SUBSET h}\n            else ring_carrier r),\n           ring_0 r,ring_1 r,ring_neg r,ring_add r,ring_mul r)",
-      ),
+      @term_syntax.parse_term("(subfield_generated : (Ring[A], (A) -> Bool) -> Ring[A])((r : Ring[A]), (s : (A) -> Bool)) == ring((if (∃ h : (A) -> Bool, subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h)) { INTERS({(h : (A) -> Bool) | subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h)}) } else { ring_carrier(r) }, ring_0(r), ring_1(r), ring_neg(r), ring_add(r), ring_mul(r)))"),
     ),
   )
 }
@@ -2510,9 +2466,7 @@ fn step_28() -> Unit raise {
   )
   subfield_generated_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall r s:A->bool.\n        ring_carrier (subfield_generated r s) =\n          if ?h. h subfield_of r /\\ (ring_carrier r INTER s) SUBSET h then\n            INTERS {h | h subfield_of r /\\ (ring_carrier r INTER s) SUBSET h}\n            else ring_carrier r) /\\\n   (forall r s:A->bool. ring_0 (subfield_generated r s) = ring_0 r) /\\\n   (forall r s:A->bool. ring_1 (subfield_generated r s) = ring_1 r) /\\\n   (forall r s:A->bool. ring_neg (subfield_generated r s) = ring_neg r) /\\\n   (forall r s:A->bool. ring_add (subfield_generated r s) = ring_add r) /\\\n   (forall r s:A->bool. ring_mul (subfield_generated r s) = ring_mul r)",
-      ),
+      @term_syntax.parse_term("(∀ r : Ring[A], ∀ s : (A) -> Bool, ring_carrier(subfield_generated(r, s)) == (if (∃ h : (A) -> Bool, subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h)) { INTERS({(h : (A) -> Bool) | subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h)}) } else { ring_carrier(r) })) && (∀ r : Ring[A], ∀ s : (A) -> Bool, ring_0(subfield_generated(r, s)) == ring_0(r)) && (∀ r : Ring[A], ∀ s : (A) -> Bool, ring_1(subfield_generated(r, s)) == ring_1(r)) && (∀ r : Ring[A], ∀ s : (A) -> Bool, ring_neg(subfield_generated(r, s)) == ring_neg(r)) && (∀ r : Ring[A], ∀ s : (A) -> Bool, ring_add(subfield_generated(r, s)) == ring_add(r)) && (∀ r : Ring[A], ∀ s : (A) -> Bool, ring_mul(subfield_generated(r, s)) == ring_mul(r))"),
       t236,
     ),
   )
@@ -2653,9 +2607,7 @@ fn step_29() -> Unit raise {
   )
   carrier_subfield_generated_field_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        field r\n        ==> ring_carrier(subfield_generated r s) =\n            INTERS {h | h subfield_of r /\\ (ring_carrier r INTER s) SUBSET h}",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, field(r) → ring_carrier(subfield_generated(r, s)) == INTERS({(h : (A) -> Bool) | subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h)})"),
       t251,
     ),
   )
@@ -2685,9 +2637,7 @@ fn step_30() -> Unit raise {
   )
   carrier_subfield_generated_subfield_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        s subfield_of r ==> ring_carrier(subfield_generated r s) = s",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, subfield_of(s, r) → ring_carrier(subfield_generated(r, s)) == s"),
       t254,
     ),
   )
@@ -2724,9 +2674,7 @@ fn step_31() -> Unit raise {
   )
   ring_carrier_subfield_generated_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r h:A->bool.\n        ring_carrier (subfield_generated r h) SUBSET ring_carrier r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ h : (A) -> Bool, SUBSET(ring_carrier(subfield_generated(r, h)), ring_carrier(r))"),
       t258,
     ),
   )
@@ -2754,9 +2702,7 @@ fn step_32() -> Unit raise {
   )
   subfield_generated_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        subfield_generated r s =\n        subfield_generated r (ring_carrier r INTER s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, subfield_generated(r, s) == subfield_generated(r, INTER(ring_carrier(r), s))"),
       t259,
     ),
   )
@@ -2799,9 +2745,7 @@ fn step_33() -> Unit raise {
   )
   subfield_generated_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s t:A->bool.\n        s SUBSET t\n        ==> ring_carrier(subfield_generated r s) SUBSET\n            ring_carrier(subfield_generated r t)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, SUBSET(s, t) → SUBSET(ring_carrier(subfield_generated(r, s)), ring_carrier(subfield_generated(r, t)))"),
       t264,
     ),
   )
@@ -2831,9 +2775,7 @@ fn step_34() -> Unit raise {
   )
   subfield_generated_minimal_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r h s:A->bool.\n        s SUBSET h /\\ h subfield_of r\n        ==> ring_carrier(subfield_generated r s) SUBSET h",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ h : (A) -> Bool, ∀ s : (A) -> Bool, SUBSET(s, h) && subfield_of(h, r) → SUBSET(ring_carrier(subfield_generated(r, s)), h)"),
       t267,
     ),
   )
@@ -2882,9 +2824,7 @@ fn step_35() -> Unit raise {
   )
   subring_subset_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        ring_carrier(subring_generated r s) SUBSET\n        ring_carrier(subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, SUBSET(ring_carrier(subring_generated(r, s)), ring_carrier(subfield_generated(r, s)))"),
       t274,
     ),
   )
@@ -2931,9 +2871,7 @@ fn step_36() -> Unit raise {
   )
   subring_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        ring_carrier(subfield_generated r s) subring_of r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, subring_of(ring_carrier(subfield_generated(r, s)), r)"),
       t280,
     ),
   )
@@ -2959,9 +2897,7 @@ fn step_37() -> Unit raise {
   let t282 = @tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t281)
   subfield_generated_trivial_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        ~(?h. h subfield_of r /\\ ring_carrier r INTER s SUBSET h)\n        ==> subfield_generated r s = r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, !(∃ h : (A) -> Bool, subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h)) → subfield_generated(r, s) == r"),
       t282,
     ),
   )
@@ -3031,9 +2967,7 @@ fn step_38() -> Unit raise {
   )
   subring_eq_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        field(subring_generated r s)\n        ==> subring_generated r s = subfield_generated r s",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, field(subring_generated(r, s)) → subring_generated(r, s) == subfield_generated(r, s)"),
       t293,
     ),
   )
@@ -3091,9 +3025,7 @@ fn step_39() -> Unit raise {
   )
   subring_generated_by_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        subring_generated r (ring_carrier(subfield_generated r s)) =\n        subfield_generated r s",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, subring_generated(r, ring_carrier(subfield_generated(r, s))) == subfield_generated(r, s)"),
       t302,
     ),
   )
@@ -3128,9 +3060,7 @@ fn step_40() -> Unit raise {
   )
   subfield_generated_subset_carrier_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r h:A->bool.\n     ring_carrier r INTER h SUBSET ring_carrier(subfield_generated r h)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ h : (A) -> Bool, SUBSET(INTER(ring_carrier(r), h), ring_carrier(subfield_generated(r, h)))"),
       t306,
     ),
   )
@@ -3177,9 +3107,7 @@ fn step_41() -> Unit raise {
   )
   subfield_subfield_generated_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        ring_carrier(subfield_generated r s) subfield_of r <=>\n        ?h. h subfield_of r /\\ ring_carrier r INTER s SUBSET h",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, subfield_of(ring_carrier(subfield_generated(r, s)), r) == (∃ h : (A) -> Bool, subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h))"),
       t311,
     ),
   )
@@ -3213,9 +3141,7 @@ fn step_42() -> Unit raise {
   )
   subfield_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        field r ==> ring_carrier(subfield_generated r s) subfield_of r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, field(r) → subfield_of(ring_carrier(subfield_generated(r, s)), r)"),
       t315,
     ),
   )
@@ -3250,9 +3176,7 @@ fn step_43() -> Unit raise {
   )
   field_subfield_generated_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool. field(subfield_generated r s) <=>\n                 ?h. h subfield_of r /\\ ring_carrier r INTER s SUBSET h",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, field(subfield_generated(r, s)) == (∃ h : (A) -> Bool, subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h))"),
       t318,
     ),
   )
@@ -3280,9 +3204,7 @@ fn step_44() -> Unit raise {
   )
   field_subfield_generated_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        field(subfield_generated r s) <=>\n        ring_carrier(subfield_generated r s) subfield_of r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, field(subfield_generated(r, s)) == subfield_of(ring_carrier(subfield_generated(r, s)), r)"),
       t319,
     ),
   )
@@ -3305,9 +3227,7 @@ fn step_45() -> Unit raise {
   let t320 = @simp.rewrite_tac(@list.List([field_subfield_generated_eq()]))
   subfield_subfield_generated_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        ring_carrier(subfield_generated r s) subfield_of r <=>\n        field(subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, subfield_of(ring_carrier(subfield_generated(r, s)), r) == field(subfield_generated(r, s))"),
       t320,
     ),
   )
@@ -3336,9 +3256,7 @@ fn step_46() -> Unit raise {
   )
   field_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool. field r ==> field(subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, field(r) → field(subfield_generated(r, s))"),
       t321,
     ),
   )
@@ -3365,9 +3283,7 @@ fn step_47() -> Unit raise {
   )
   field_subfield_generated_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s t:A->bool.\n        s SUBSET t /\\ field(subfield_generated r t)\n        ==> field(subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, SUBSET(s, t) && field(subfield_generated(r, t)) → field(subfield_generated(r, s))"),
       t323,
     ),
   )
@@ -3405,9 +3321,7 @@ fn step_48() -> Unit raise {
   )
   subfield_generated_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        subfield_generated r s = r <=>\n        ring_carrier(subfield_generated r s) = ring_carrier r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, (subfield_generated(r, s) == r) == (ring_carrier(subfield_generated(r, s)) == ring_carrier(r))"),
       t329,
     ),
   )
@@ -3440,9 +3354,7 @@ fn step_49() -> Unit raise {
   )
   subfields_generated_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n     (forall h. h subfield_of r\n          ==> (ring_carrier r INTER s SUBSET h <=>\n               ring_carrier r INTER t SUBSET h))\n     ==> subfield_generated r s = subfield_generated r t",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, (∀ h : (A) -> Bool, subfield_of(h, r) → SUBSET(INTER(ring_carrier(r), s), h) == SUBSET(INTER(ring_carrier(r), (t : (A) -> Bool)), h)) → subfield_generated(r, s) == subfield_generated(r, t)"),
       t331,
     ),
   )
@@ -3476,9 +3388,7 @@ fn step_50() -> Unit raise {
   )
   subfield_generated_superset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n    subfield_generated r s = r <=>\n    ring_carrier r SUBSET ring_carrier(subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, (subfield_generated(r, s) == r) == SUBSET(ring_carrier(r), ring_carrier(subfield_generated(r, s)))"),
       t333,
     ),
   )
@@ -3503,9 +3413,7 @@ fn step_51() -> Unit raise {
   )
   finite_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        FINITE(ring_carrier r)\n        ==> FINITE(ring_carrier(subfield_generated r s))",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, FINITE(ring_carrier(r)) → FINITE(ring_carrier(subfield_generated(r, s)))"),
       t334,
     ),
   )
@@ -3534,9 +3442,7 @@ fn step_52() -> Unit raise {
   )
   subset_carrier_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s t:A->bool.\n        s SUBSET ring_carrier r /\\ s SUBSET t\n        ==> s SUBSET ring_carrier(subfield_generated r t)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, SUBSET(s, ring_carrier(r)) && SUBSET(s, t) → SUBSET(s, ring_carrier(subfield_generated(r, t)))"),
       t335,
     ),
   )
@@ -3581,9 +3487,7 @@ fn step_53() -> Unit raise {
   )
   subfield_generated_minimal_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r h s:A->bool.\n        h subfield_of r\n        ==> (ring_carrier(subfield_generated r s) SUBSET h <=>\n             ring_carrier r INTER s SUBSET h)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ h : (A) -> Bool, ∀ s : (A) -> Bool, subfield_of(h, r) → SUBSET(ring_carrier(subfield_generated(r, s)), h) == SUBSET(INTER(ring_carrier(r), s), h)"),
       t340,
     ),
   )
@@ -3647,9 +3551,7 @@ fn step_55() -> Unit raise {
   )
   subfield_generated_subset_carrier_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        s SUBSET ring_carrier r\n        ==> s SUBSET ring_carrier(subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, SUBSET(s, ring_carrier(r)) → SUBSET(s, ring_carrier(subfield_generated(r, s)))"),
       t343,
     ),
   )
@@ -3679,9 +3581,7 @@ fn step_56() -> Unit raise {
     @list.List([carrier_subfield_generated_subfield()]),
   )
   let t345 = @class.asm_cases_tac(
-    @parser.parse_term(
-      "ring_carrier (subfield_generated r s:A ring) subfield_of r",
-    ),
+    @term_syntax.parse_term("subfield_of(ring_carrier(subfield_generated((r : Ring[A]), (s : (A) -> Bool))), r)"),
   )
   let t344 = @simp.rewrite_tac(
     @list.List([
@@ -3704,9 +3604,7 @@ fn step_56() -> Unit raise {
   )
   subfield_generated_by_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        subfield_generated r (ring_carrier(subfield_generated r s)) =\n        subfield_generated r s",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, subfield_generated(r, ring_carrier(subfield_generated(r, s))) == subfield_generated(r, s)"),
       t349,
     ),
   )
@@ -3742,9 +3640,7 @@ fn step_57() -> Unit raise {
   )
   subfield_generated_refl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool. ring_carrier r SUBSET s ==> subfield_generated r s = r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, SUBSET(ring_carrier(r), s) → subfield_generated(r, s) == r"),
       t353,
     ),
   )
@@ -3779,9 +3675,7 @@ fn step_58() -> Unit raise {
   )
   subfield_generated_inc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s x:A.\n        s SUBSET ring_carrier r /\\ x IN s\n        ==> x IN ring_carrier(subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ x : A, SUBSET(s, ring_carrier(r)) && IN(x, s) → IN(x, ring_carrier(subfield_generated(r, s)))"),
       t355,
     ),
   )
@@ -3810,9 +3704,7 @@ fn step_59() -> Unit raise {
   )
   subfield_generated_inc_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s x:A.\n        x IN ring_carrier r /\\ x IN s\n        ==> x IN ring_carrier(subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ x : A, IN(x, ring_carrier(r)) && IN(x, s) → IN(x, ring_carrier(subfield_generated(r, s)))"),
       t356,
     ),
   )
@@ -3864,9 +3756,7 @@ fn step_60() -> Unit raise {
   )
   subring_of_subfield_generated_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r h k:A->bool.\n        h subring_of (subfield_generated r k) <=>\n        h subring_of r /\\ h SUBSET ring_carrier(subfield_generated r k)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ h : (A) -> Bool, ∀ k : (A) -> Bool, subring_of(h, subfield_generated(r, k)) == (subring_of(h, r) && SUBSET(h, ring_carrier(subfield_generated(r, k))))"),
       t361,
     ),
   )
@@ -3956,9 +3846,7 @@ fn step_61() -> Unit raise {
   let t363 = @simp.rewrite_tac(
     @list.List([
       @class.taut(
-        @parser.parse_term(
-          "((p /\\ q) /\\ r <=> (p /\\ s) /\\ q) <=> (p /\\ q ==> (r <=> s))",
-        ),
+        @term_syntax.parse_term("((((p : Bool) && (q : Bool)) && (r : Bool)) == ((p && (s : Bool)) && q)) == (p && q → r == s)"),
       ),
     ]),
   )
@@ -3980,9 +3868,7 @@ fn step_61() -> Unit raise {
   )
   subfield_of_subfield_generated_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r h k:A->bool.\n        h subfield_of (subfield_generated r k) <=>\n        h subfield_of r /\\ h SUBSET ring_carrier(subfield_generated r k)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ h : (A) -> Bool, ∀ k : (A) -> Bool, subfield_of(h, subfield_generated(r, k)) == (subfield_of(h, r) && SUBSET(h, ring_carrier(subfield_generated(r, k))))"),
       t372,
     ),
   )
@@ -4009,9 +3895,7 @@ fn step_62() -> Unit raise {
   )
   subfield_of_subfield_generated_subfield_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r h k:A->bool.\n        k subfield_of r\n        ==> (h subfield_of (subfield_generated r k) <=>\n             h subfield_of r /\\ h SUBSET k)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ h : (A) -> Bool, ∀ k : (A) -> Bool, subfield_of(k, r) → subfield_of(h, subfield_generated(r, k)) == (subfield_of(h, r) && SUBSET(h, k))"),
       t374,
     ),
   )
@@ -4040,9 +3924,7 @@ fn step_63() -> Unit raise {
   )
   subfield_of_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r g h:A->bool.\n        g subfield_of r /\\ g SUBSET h\n        ==> g subfield_of (subfield_generated r h)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ g : (A) -> Bool, ∀ h : (A) -> Bool, subfield_of(g, r) && SUBSET(g, h) → subfield_of(g, subfield_generated(r, h))"),
       t376,
     ),
   )
@@ -4065,9 +3947,7 @@ fn step_64() -> Unit raise {
   let t377 = @simp.simp_tac(@list.List([subfield_of_subfield_generated_eq()]))
   subfield_of_subfield_generated_rev_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r g h:A->bool.\n        g subfield_of (subfield_generated r h)\n        ==> g subfield_of r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ g : (A) -> Bool, ∀ h : (A) -> Bool, subfield_of(g, subfield_generated(r, h)) → subfield_of(g, r)"),
       t377,
     ),
   )
@@ -4407,9 +4287,7 @@ fn step_65() -> Unit raise {
   )
   subfield_generated_idempot_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        subfield_generated (subfield_generated r s) s =\n        subfield_generated r s",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, subfield_generated(subfield_generated(r, s), s) == subfield_generated(r, s)"),
       t414,
     ),
   )
@@ -4483,9 +4361,7 @@ fn step_66() -> Unit raise {
   )
   subfield_generated_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s t:A->bool.\n        s subfield_of r /\\ t subfield_of r\n        ==> subfield_generated (subfield_generated r s) t =\n            subfield_generated r (s INTER t)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, subfield_of(s, r) && subfield_of(t, r) → subfield_generated(subfield_generated(r, s), t) == subfield_generated(r, INTER(s, t))"),
       t428,
     ),
   )
@@ -4531,9 +4407,7 @@ fn step_67() -> Unit raise {
       @tactics.then_tac(
         @tactics.then_tac(
           @tactics.exists_tac(
-            @parser.parse_term(
-              "h INTER ring_carrier (subfield_generated r s):A->bool",
-            ),
+            @term_syntax.parse_term("INTER((h : (A) -> Bool), ring_carrier(subfield_generated((r : Ring[A]), (s : (A) -> Bool))))"),
           ),
           t436,
         ),
@@ -4591,9 +4465,7 @@ fn step_67() -> Unit raise {
   )
   subring_generated_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        subring_generated (subfield_generated r s) s =\n        subring_generated r s",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, subring_generated(subfield_generated(r, s), s) == subring_generated(r, s)"),
       t443,
     ),
   )
@@ -4621,9 +4493,7 @@ fn step_68() -> Unit raise {
   )
   trivial_ring_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        trivial_ring(subfield_generated r s) <=> trivial_ring r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, trivial_ring(subfield_generated(r, s)) == trivial_ring(r)"),
       t444,
     ),
   )
@@ -4669,9 +4539,7 @@ fn step_69() -> Unit raise {
   )
   subfield_generated_union_left_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s t:A->bool.\n        subfield_generated r (ring_carrier(subfield_generated r s) UNION t) =\n        subfield_generated r (s UNION t)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, subfield_generated(r, UNION(ring_carrier(subfield_generated(r, s)), t)) == subfield_generated(r, UNION(s, t))"),
       t450,
     ),
   )
@@ -4698,9 +4566,7 @@ fn step_70() -> Unit raise {
   )
   subfield_generated_union_right_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s t:A->bool.\n        subfield_generated r (s UNION ring_carrier(subfield_generated r t)) =\n        subfield_generated r (s UNION t)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, subfield_generated(r, UNION(s, ring_carrier(subfield_generated(r, t)))) == subfield_generated(r, UNION(s, t))"),
       t452,
     ),
   )
@@ -4728,9 +4594,7 @@ fn step_71() -> Unit raise {
   )
   subfield_generated_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s t:A->bool.\n        subfield_generated r (ring_carrier(subfield_generated r s) UNION\n                              ring_carrier(subfield_generated r t)) =\n        subfield_generated r (s UNION t)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, subfield_generated(r, UNION(ring_carrier(subfield_generated(r, s)), ring_carrier(subfield_generated(r, t)))) == subfield_generated(r, UNION(s, t))"),
       t453,
     ),
   )
@@ -4907,9 +4771,7 @@ fn step_72() -> Unit raise {
     t460,
   ])
   let t459 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_monomorphism (subring_generated r s:A ring,r') (f:A->B)",
-    ),
+    @term_syntax.parse_term("ring_monomorphism((subring_generated((r : Ring[A]), (s : (A) -> Bool)), (r' : Ring[B])), (f : (A) -> B))"),
     fn(
       x456 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4994,9 +4856,7 @@ fn step_72() -> Unit raise {
   )
   subfield_of_monomorphic_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) r r' s.\n        ring_monomorphism(r,r') f /\\ s subfield_of r\n        ==> IMAGE f s subfield_of r'",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ r : Ring[A], ∀ r' : Ring[B], ∀ s : (A) -> Bool, ring_monomorphism((r, r'), f) && subfield_of(s, r) → subfield_of(IMAGE(f, s), r')"),
       t476,
     ),
   )
@@ -5312,9 +5172,7 @@ fn step_73() -> Unit raise {
     t483,
   ])
   let t482 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_monomorphism\n     (subring_generated r {x | x IN ring_carrier r /\\ f x IN h}:A ring,r')\n     (f:A->B)",
-    ),
+    @term_syntax.parse_term("ring_monomorphism((subring_generated((r : Ring[A]), {(x : A) | IN(x, ring_carrier(r)) && IN((f : (A) -> B)(x), (h : (B) -> Bool))}), (r' : Ring[B])), f)"),
     fn(
       x479 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5437,9 +5295,7 @@ fn step_73() -> Unit raise {
   )
   subfield_of_monomorphic_preimage_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r r' (f:A->B) h.\n        ring_monomorphism(r,r') f /\\\n        h subfield_of r' /\\\n        h SUBSET IMAGE f (ring_carrier r)\n        ==> {x | x IN ring_carrier r /\\ f x IN h} subfield_of r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ r' : Ring[B], ∀ f : (A) -> B, ∀ h : (B) -> Bool, ring_monomorphism((r, r'), f) && subfield_of(h, r') && SUBSET(h, IMAGE(f, ring_carrier(r))) → subfield_of({(x : A) | IN(x, ring_carrier(r)) && IN(f(x), h)}, r)"),
       t519,
     ),
   )
@@ -5637,9 +5493,7 @@ fn step_74() -> Unit raise {
   let t521 = @simp.rewrite_tac(
     @list.List([
       @sets.set_rule(
-        @parser.parse_term(
-          "IMAGE f s SUBSET t <=> s SUBSET {x | x IN s /\\ f x IN t}",
-        ),
+        @term_syntax.parse_term("SUBSET(IMAGE((f : (_) -> _), (s : (_) -> Bool)), (t : (_) -> Bool)) == SUBSET(s, {(x : _) | IN(x, s) && IN(f(x), t)})"),
       ),
     ]),
   )
@@ -5704,9 +5558,7 @@ fn step_74() -> Unit raise {
   )
   subfield_generated_by_monomorphic_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r r' (f:A->B) s.\n        ring_monomorphism(r,r') f /\\\n        s SUBSET ring_carrier r /\\\n        field(subfield_generated r s)\n        ==> ring_carrier (subfield_generated r' (IMAGE f s)) =\n            IMAGE f (ring_carrier(subfield_generated r s))",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ r' : Ring[B], ∀ f : (A) -> B, ∀ s : (A) -> Bool, ring_monomorphism((r, r'), f) && SUBSET(s, ring_carrier(r)) && field(subfield_generated(r, s)) → ring_carrier(subfield_generated(r', IMAGE(f, s))) == IMAGE(f, ring_carrier(subfield_generated(r, s)))"),
       t554,
     ),
   )
@@ -5735,9 +5587,7 @@ fn step_75() -> Unit raise {
   )
   ring_sub_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool. ring_sub (subfield_generated r s) = ring_sub r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ring_sub(subfield_generated(r, s)) == ring_sub(r)"),
       t555,
     ),
   )
@@ -5773,9 +5623,7 @@ fn step_76() -> Unit raise {
   )
   ring_pow_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool. ring_pow (subfield_generated r s) = ring_pow r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ring_pow(subfield_generated(r, s)) == ring_pow(r)"),
       t558,
     ),
   )
@@ -5815,9 +5663,7 @@ fn step_77() -> Unit raise {
   )
   ring_of_num_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool. ring_of_num (subfield_generated r s) = ring_of_num r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ring_of_num(subfield_generated(r, s)) == ring_of_num(r)"),
       t562,
     ),
   )
@@ -5858,9 +5704,7 @@ fn step_78() -> Unit raise {
   )
   ring_of_int_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool. ring_of_int (subfield_generated r s) = ring_of_int r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ring_of_int(subfield_generated(r, s)) == ring_of_int(r)"),
       t567,
     ),
   )
@@ -5893,9 +5737,7 @@ fn step_79() -> Unit raise {
   )
   ring_char_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool. ring_char(subfield_generated r s) = ring_char r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ring_char(subfield_generated(r, s)) == ring_char(r)"),
       t570,
     ),
   )
@@ -5920,9 +5762,7 @@ fn step_80() -> Unit raise {
   )
   ring_0_in_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r (s:A->bool). ring_0 r IN ring_carrier (subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, IN(ring_0(r), ring_carrier(subfield_generated(r, s)))"),
       t571,
     ),
   )
@@ -5947,9 +5787,7 @@ fn step_81() -> Unit raise {
   )
   ring_1_in_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r (s:A->bool). ring_1 r IN ring_carrier (subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, IN(ring_1(r), ring_carrier(subfield_generated(r, s)))"),
       t572,
     ),
   )
@@ -5974,9 +5812,7 @@ fn step_82() -> Unit raise {
   )
   ring_neg_in_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s x:A.\n        x IN ring_carrier (subfield_generated r s)\n        ==> ring_neg r x IN ring_carrier (subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ x : A, IN(x, ring_carrier(subfield_generated(r, s))) → IN(ring_neg(r, x), ring_carrier(subfield_generated(r, s)))"),
       t573,
     ),
   )
@@ -6001,9 +5837,7 @@ fn step_83() -> Unit raise {
   )
   ring_add_in_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s x y:A.\n        x IN ring_carrier (subfield_generated r s) /\\\n        y IN ring_carrier (subfield_generated r s)\n        ==> ring_add r x y IN ring_carrier (subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ x : A, ∀ y : A, IN(x, ring_carrier(subfield_generated(r, s))) && IN(y, ring_carrier(subfield_generated(r, s))) → IN(ring_add(r, x, y), ring_carrier(subfield_generated(r, s)))"),
       t574,
     ),
   )
@@ -6028,9 +5862,7 @@ fn step_84() -> Unit raise {
   )
   ring_mul_in_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s x y:A.\n        x IN ring_carrier (subfield_generated r s) /\\\n        y IN ring_carrier (subfield_generated r s)\n        ==> ring_mul r x y IN ring_carrier (subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ x : A, ∀ y : A, IN(x, ring_carrier(subfield_generated(r, s))) && IN(y, ring_carrier(subfield_generated(r, s))) → IN(ring_mul(r, x, y), ring_carrier(subfield_generated(r, s)))"),
       t575,
     ),
   )
@@ -6055,9 +5887,7 @@ fn step_85() -> Unit raise {
   )
   ring_pow_in_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s (x:A) n.\n        x IN ring_carrier (subfield_generated r s)\n        ==> ring_pow r x n IN ring_carrier (subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ x : A, ∀ n : Num, IN(x, ring_carrier(subfield_generated(r, s))) → IN(ring_pow(r, x, n), ring_carrier(subfield_generated(r, s)))"),
       t576,
     ),
   )
@@ -6093,9 +5923,7 @@ fn step_86() -> Unit raise {
   )
   ring_inv_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s x:A.\n        field(subfield_generated r s) /\\\n        x IN ring_carrier(subfield_generated r s) /\\\n        ~(x = ring_0 r)\n        ==> ring_inv (subfield_generated r s) x = ring_inv r x",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ x : A, field(subfield_generated(r, s)) && IN(x, ring_carrier(subfield_generated(r, s))) && !(x == ring_0(r)) → ring_inv(subfield_generated(r, s), x) == ring_inv(r, x)"),
       t580,
     ),
   )
@@ -6125,9 +5953,7 @@ fn step_87() -> Unit raise {
   )
   ring_inv_in_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s x:A.\n        field(subfield_generated r s) /\\\n        x IN ring_carrier(subfield_generated r s)\n        ==> ring_inv r x IN ring_carrier(subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ x : A, field(subfield_generated(r, s)) && IN(x, ring_carrier(subfield_generated(r, s))) → IN(ring_inv(r, x), ring_carrier(subfield_generated(r, s)))"),
       t581,
     ),
   )
@@ -6156,9 +5982,7 @@ fn step_88() -> Unit raise {
   )
   ring_div_in_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s x y:A.\n        field(subfield_generated r s) /\\\n        x IN ring_carrier (subfield_generated r s) /\\\n        y IN ring_carrier (subfield_generated r s)\n        ==> ring_div r x y IN ring_carrier (subfield_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ x : A, ∀ y : A, field(subfield_generated(r, s)) && IN(x, ring_carrier(subfield_generated(r, s))) && IN(y, ring_carrier(subfield_generated(r, s))) → IN(ring_div(r, x, y), ring_carrier(subfield_generated(r, s)))"),
       t582,
     ),
   )
@@ -6356,9 +6180,7 @@ fn step_89() -> Unit raise {
   let t589 = @simp.once_rewrite_tac(@list.List([subfield_generated_restrict()]))
   let t588 = @list.List([@tactics.all_tac, @sets.set_tac(@list.List([]))])
   let t587 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_carrier(subfield_generated k s) SUBSET\n      {x:A | x IN ring_carrier k /\\ P x}",
-    ),
+    @term_syntax.parse_term("SUBSET(ring_carrier(subfield_generated((k : Ring[A]), (s : (A) -> Bool))), {(x : A) | IN(x, ring_carrier(k)) && (P : (A) -> Bool)(x)})"),
     fn(
       x584 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -6459,9 +6281,7 @@ fn step_89() -> Unit raise {
                       @tactics.match_mp_tac(
                         @meson.meson(
                           @list.List([]),
-                          @parser.parse_term(
-                            "(forall k. field k ==> P k) /\\ ((forall k. field k ==> P k) ==> forall r. P r)\n    ==> forall r. P r",
-                          ),
+                          @term_syntax.parse_term("(∀ k : Ring[_], field(k) → (P : (Ring[_]) -> Bool)(k)) && ((∀ k : Ring[_], field(k) → P(k)) → (∀ r : Ring[_], P(r))) → (∀ r : Ring[_], P(r))"),
                         ),
                       ),
                       @tactics.conj_tac,
@@ -6486,9 +6306,7 @@ fn step_89() -> Unit raise {
   )
   subfield_generated_induct_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r P s:A->bool.\n        field(subfield_generated r s) /\\\n        (forall x. x IN ring_carrier r /\\ x IN s ==> P x) /\\\n        P(ring_0 r) /\\\n        P(ring_1 r) /\\\n        (forall x. x IN ring_carrier r /\\ P x ==> P(ring_neg r x)) /\\\n        (forall x. x IN ring_carrier r /\\ ~(x = ring_0 r) /\\ P x\n             ==> P(ring_inv r x)) /\\\n        (forall x y. x IN ring_carrier r /\\ y IN ring_carrier r /\\ P x /\\ P y\n               ==> P(ring_add r x y)) /\\\n        (forall x y. x IN ring_carrier r /\\ y IN ring_carrier r /\\ P x /\\ P y\n               ==> P(ring_mul r x y))\n        ==> forall x. x IN ring_carrier(subfield_generated r s) ==> P x",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ P : (A) -> Bool, ∀ s : (A) -> Bool, field(subfield_generated(r, s)) && (∀ x : A, IN(x, ring_carrier(r)) && IN(x, s) → P(x)) && P(ring_0(r)) && P(ring_1(r)) && (∀ x : A, IN(x, ring_carrier(r)) && P(x) → P(ring_neg(r, x))) && (∀ x : A, IN(x, ring_carrier(r)) && !(x == ring_0(r)) && P(x) → P(ring_inv(r, x))) && (∀ x : A, ∀ y : A, IN(x, ring_carrier(r)) && IN(y, ring_carrier(r)) && P(x) && P(y) → P(ring_add(r, x, y))) && (∀ x : A, ∀ y : A, IN(x, ring_carrier(r)) && IN(y, ring_carrier(r)) && P(x) && P(y) → P(ring_mul(r, x, y))) → (∀ x : A, IN(x, ring_carrier(subfield_generated(r, s))) → P(x))"),
       t619,
     ),
   )
@@ -6517,9 +6335,7 @@ fn step_90() -> Unit raise {
   )
   poly_const_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s. poly_const (subfield_generated r s):A->(V->num)->A = poly_const r",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, (poly_const : (Ring[A], A, (V) -> Num) -> A)(subfield_generated(r, s)) == (poly_const : (Ring[A], A, (V) -> Num) -> A)(r)"),
       t620,
     ),
   )
@@ -6550,9 +6366,7 @@ fn step_91() -> Unit raise {
   )
   poly_subfield_generated_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(r:A ring) s (v:V->bool).\n        ring_0 (poly_ring (subfield_generated r s) v) =\n        ring_0 (poly_ring r v)) /\\\n   (forall(r:A ring) s (v:V->bool).\n        ring_1 (poly_ring (subfield_generated r s) v) =\n        ring_1 (poly_ring r v)) /\\\n   (forall(r:A ring) s (v:V->bool).\n        ring_neg (poly_ring (subfield_generated r s) v) =\n        ring_neg (poly_ring r v)) /\\\n   (forall(r:A ring) s (v:V->bool).\n        ring_add (poly_ring (subfield_generated r s) v) =\n        ring_add (poly_ring r v)) /\\\n   (forall(r:A ring) s (v:V->bool) p q.\n        (forall m. p m IN ring_carrier(subfield_generated r s)) /\\\n        (forall m. q m IN ring_carrier(subfield_generated r s))\n        ==> ring_mul (poly_ring (subfield_generated r s) v) p q =\n            ring_mul (poly_ring r v) p q) /\\\n   (forall(r:A ring) s (v:V->bool).\n        ring_sub (poly_ring (subfield_generated r s) v) =\n        ring_sub (poly_ring r v))",
-      ),
+      @term_syntax.parse_term("(∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ v : (V) -> Bool, ring_0(poly_ring(subfield_generated(r, s), v)) == ring_0(poly_ring(r, v))) && (∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ v : (V) -> Bool, ring_1(poly_ring(subfield_generated(r, s), v)) == ring_1(poly_ring(r, v))) && (∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ v : (V) -> Bool, ring_neg(poly_ring(subfield_generated(r, s), v)) == ring_neg(poly_ring(r, v))) && (∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ v : (V) -> Bool, ring_add(poly_ring(subfield_generated(r, s), v)) == ring_add(poly_ring(r, v))) && (∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ v : (V) -> Bool, ∀ p : ((V) -> Num) -> A, ∀ q : ((V) -> Num) -> A, (∀ m : (V) -> Num, IN(p(m), ring_carrier(subfield_generated(r, s)))) && (∀ m : (V) -> Num, IN(q(m), ring_carrier(subfield_generated(r, s)))) → ring_mul(poly_ring(subfield_generated(r, s), v), p, q) == ring_mul(poly_ring(r, v), p, q)) && (∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ v : (V) -> Bool, ring_sub(poly_ring(subfield_generated(r, s), v)) == ring_sub(poly_ring(r, v)))"),
       t622,
     ),
   )
@@ -6650,9 +6464,7 @@ fn step_92() -> Unit raise {
     ]),
   )
   let t644 = @tactics.exists_tac(
-    @parser.parse_term(
-      "{ ring_div r x y | x,y |\n        x IN ring_carrier(subring_generated r s) /\\\n        y IN ring_carrier(subring_generated r s) /\\\n        ~(y:A = ring_0 r) }",
-    ),
+    @term_syntax.parse_term("{ring_div((r : Ring[A]), x, y) | x : A, y : A | IN(x, ring_carrier(subring_generated(r, (s : (A) -> Bool)))) && IN(y, ring_carrier(subring_generated(r, s))) && !(y == ring_0(r))}"),
   )
   let t658 = @tactics.then_tac(
     @tactics.then_tac(
@@ -6918,9 +6730,7 @@ fn step_92() -> Unit raise {
   )
   field_subfield_generated_units_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        field(subfield_generated r s) <=>\n        ~(trivial_ring r) /\\\n        forall x. x IN ring_carrier(subring_generated r s) /\\ ~(x = ring_0 r)\n            ==> ring_unit r x",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, field(subfield_generated(r, s)) == (!trivial_ring(r) && (∀ x : A, IN(x, ring_carrier(subring_generated(r, s))) && !(x == ring_0(r)) → ring_unit(r, x)))"),
       t660,
     ),
   )
@@ -7198,9 +7008,7 @@ fn step_93() -> Unit raise {
   )
   subfield_generated_subring_quotients_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        ~(trivial_ring r) /\\\n        (forall x. x IN ring_carrier(subring_generated r s) /\\ ~(x = ring_0 r)\n             ==> ring_unit r x)\n        ==> subfield_generated r s =\n            subring_generated r\n             { ring_div r x y | x,y |\n               x IN ring_carrier(subring_generated r s) /\\\n               y IN ring_carrier(subring_generated r s) /\\\n               ~(y = ring_0 r) }",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, !trivial_ring(r) && (∀ x : A, IN(x, ring_carrier(subring_generated(r, s))) && !(x == ring_0(r)) → ring_unit(r, x)) → subfield_generated(r, s) == subring_generated(r, {ring_div(r, x, y) | x : A, y : A | IN(x, ring_carrier(subring_generated(r, s))) && IN(y, ring_carrier(subring_generated(r, s))) && !(y == ring_0(r))})"),
       t710,
     ),
   )
@@ -7248,9 +7056,7 @@ fn step_94() -> Unit raise {
   )
   ring_carrier_subfield_generated_subring_quotients_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s:A->bool.\n        ~(trivial_ring r) /\\\n        (forall x. x IN ring_carrier(subring_generated r s) /\\ ~(x = ring_0 r)\n             ==> ring_unit r x)\n        ==> ring_carrier(subfield_generated r s) =\n             { ring_div r x y | x,y |\n               x IN ring_carrier(subring_generated r s) /\\\n               y IN ring_carrier(subring_generated r s) /\\\n               ~(y = ring_0 r) }",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, !trivial_ring(r) && (∀ x : A, IN(x, ring_carrier(subring_generated(r, s))) && !(x == ring_0(r)) → ring_unit(r, x)) → ring_carrier(subfield_generated(r, s)) == {ring_div(r, x, y) | x : A, y : A | IN(x, ring_carrier(subring_generated(r, s))) && IN(y, ring_carrier(subring_generated(r, s))) && !(y == ring_0(r))}"),
       t715,
     ),
   )
@@ -7413,9 +7219,7 @@ fn step_95() -> Unit raise {
   )
   subfield_generated_quotients_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s x:A.\n        field(subfield_generated r s) /\\\n        x IN ring_carrier (subfield_generated r s)\n        ==> ?a b. a IN ring_carrier(subring_generated r s) /\\\n                  b IN ring_carrier(subring_generated r s) /\\\n                  ~(b = ring_0 r) /\\\n                  ring_div r a b = x",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ x : A, field(subfield_generated(r, s)) && IN(x, ring_carrier(subfield_generated(r, s))) → (∃ a : A, ∃ b : A, IN(a, ring_carrier(subring_generated(r, s))) && IN(b, ring_carrier(subring_generated(r, s))) && !(b == ring_0(r)) && ring_div(r, a, b) == x)"),
       t729,
     ),
   )
@@ -7445,9 +7249,7 @@ fn step_96() -> Unit raise {
     ]),
   )
   let t786 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_mul r (ring_mul r b c) x:A = ring_mul r b (ring_mul r c x)",
-    ),
+    @term_syntax.parse_term("ring_mul((r : Ring[A]), ring_mul(r, (b : A), (c : A)), (x : A)) == ring_mul(r, b, ring_mul(r, c, x))"),
     fn(
       x783 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -7623,9 +7425,7 @@ fn step_96() -> Unit raise {
             @tactics.then_tac(
               @tactics.thenl(
                 @tactics.subgoal_then(
-                  @parser.parse_term(
-                    "ring_mul r (ring_mul r b c) y:A = ring_mul r a c",
-                  ),
+                  @term_syntax.parse_term("ring_mul((r : Ring[A]), ring_mul(r, (b : A), (c : A)), (y : A)) == ring_mul(r, (a : A), c)"),
                   fn(
                     x768 : @kernel.Thm,
                   ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -7907,9 +7707,7 @@ fn step_96() -> Unit raise {
                                       @tactics.then_tac(
                                         @tactics.thenl(
                                           @tactics.subgoal_then(
-                                            @parser.parse_term(
-                                              "forall r s d:A->bool.\n        field r /\\\n        FINITE d /\\\n        d SUBSET ring_carrier(subfield_generated r s)\n        ==> ?c. c IN ring_carrier(subring_generated r s) /\\\n                ~(c = ring_0 r) /\\\n                forall x. x IN d\n                    ==> ring_mul r c x IN ring_carrier(subring_generated r s)",
-                                            ),
+                                            @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ d : (A) -> Bool, field(r) && FINITE(d) && SUBSET(d, ring_carrier(subfield_generated(r, s))) → (∃ c : A, IN(c, ring_carrier(subring_generated(r, s))) && !(c == ring_0(r)) && (∀ x : A, IN(x, d) → IN(ring_mul(r, c, x), ring_carrier(subring_generated(r, s)))))"),
                                             fn(
                                               x730 : @kernel.Thm,
                                             ) -> ((
@@ -8067,9 +7865,7 @@ fn step_96() -> Unit raise {
   )
   finite_subset_subfield_generated_denominator_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s d:A->bool.\n      field(subfield_generated r s) /\\\n      FINITE d /\\\n      d SUBSET ring_carrier(subfield_generated r s)\n      ==> ?c. c IN ring_carrier(subring_generated r s) /\\\n              ~(c = ring_0 r) /\\\n              forall x. x IN d\n                  ==> ring_mul r c x IN ring_carrier(subring_generated r s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ d : (A) -> Bool, field(subfield_generated(r, s)) && FINITE(d) && SUBSET(d, ring_carrier(subfield_generated(r, s))) → (∃ c : A, IN(c, ring_carrier(subring_generated(r, s))) && !(c == ring_0(r)) && (∀ x : A, IN(x, d) → IN(ring_mul(r, c, x), ring_carrier(subring_generated(r, s)))))"),
       t792,
     ),
   )
@@ -8193,9 +7989,7 @@ fn step_97() -> Unit raise {
     })(t844(x845))
   })
   let t837 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall m. ring_mul r d ((p:(V->num)->A) m) = ring_0 r <=> p m = ring_0 r",
-    ),
+    @term_syntax.parse_term("∀ m : (V) -> Num, (ring_mul((r : Ring[A]), (d : A), (p : ((V) -> Num) -> A)(m)) == ring_0(r)) == (p(m) == ring_0(r))"),
     fn(
       x834 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -8392,9 +8186,7 @@ fn step_97() -> Unit raise {
     @list.List([@sets.finite_image(), @sets.finite_insert()]),
   )
   let t803 = @tactics.exists_tac(
-    @parser.parse_term(
-      "ring_0 r INSERT IMAGE (p:(V->num)->A) {m | ~(p m = ring_0 r)}",
-    ),
+    @term_syntax.parse_term("INSERT(ring_0((r : Ring[A])), IMAGE((p : ((V) -> Num) -> A), {(m : (V) -> Num) | !(p(m) == ring_0(r))}))"),
   )
   let t807 = @list.List([
     @tactics.then_tac(
@@ -8523,9 +8315,7 @@ fn step_97() -> Unit raise {
   )
   poly_over_subfield_generated_denominator_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s v (p:(V->num)->A).\n        field (subfield_generated r s) /\\\n        p IN ring_carrier(poly_ring (subfield_generated r s) v)\n        ==> ?d. d IN ring_carrier(subring_generated r s) /\\\n                ~(d = ring_0 r) /\\\n                poly_mul r (poly_const r d) p IN\n                ring_carrier(poly_ring (subring_generated r s) v)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ v : (V) -> Bool, ∀ p : ((V) -> Num) -> A, field(subfield_generated(r, s)) && IN(p, ring_carrier(poly_ring(subfield_generated(r, s), v))) → (∃ d : A, IN(d, ring_carrier(subring_generated(r, s))) && !(d == ring_0(r)) && IN(poly_mul(r, poly_const(r, d), p), ring_carrier(poly_ring(subring_generated(r, s), v))))"),
       t850,
     ),
   )
@@ -9209,9 +8999,7 @@ fn step_98() -> Unit raise {
   )
   in_subfield_generated_finitary_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r s x:A.\n        x IN ring_carrier(subfield_generated r s)\n        ==> ?t. FINITE t /\\\n                t SUBSET s /\\\n                x IN ring_carrier(subfield_generated r t)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ s : (A) -> Bool, ∀ x : A, IN(x, ring_carrier(subfield_generated(r, s))) → (∃ t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && IN(x, ring_carrier(subfield_generated(r, t))))"),
       t930,
     ),
   )
@@ -9241,9 +9029,7 @@ fn step_99() -> Unit raise {
   )
   prime_subfield_minimal_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s:A->bool.\n        s subfield_of k\n        ==> ring_carrier(subfield_generated k {ring_0 k}) SUBSET s",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ s : (A) -> Bool, subfield_of(s, k) → SUBSET(ring_carrier(subfield_generated(k, {ring_0(k)})), s)"),
       t933,
     ),
   )
@@ -9277,9 +9063,7 @@ fn step_100() -> Unit raise {
   )
   prime_subfield_eq_subring_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k:A ring.\n        prime(ring_char k)\n        ==> ring_carrier(subfield_generated k {ring_0 k}) =\n            {ring_of_int k n | n IN (:int)}",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], prime(ring_char(k)) → ring_carrier(subfield_generated(k, {ring_0(k)})) == {ring_of_int(k, (n : Int)) | IN(n, UNIV)}"),
       t936,
     ),
   )
@@ -9308,9 +9092,7 @@ fn step_101() -> Unit raise {
   )
   frobenius_fixed_field_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k:A ring.\n        field k /\\ prime(ring_char k)\n        ==> { x | x IN ring_carrier k /\\ ring_pow k x (ring_char k) = x} =\n            ring_carrier(subfield_generated k {ring_0 k})",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], field(k) && prime(ring_char(k)) → {(x : A) | IN(x, ring_carrier(k)) && ring_pow(k, x, ring_char(k)) == x} == ring_carrier(subfield_generated(k, {ring_0(k)}))"),
       t937,
     ),
   )
@@ -9332,9 +9114,7 @@ pub fn frobenius_fixed_field() -> @kernel.Thm {
 fn step_102() -> Unit raise {
   field_extension_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "field_extension (k,l) (h:A->B) <=>\n        field k /\\ field l /\\ ring_monomorphism(k,l) h",
-      ),
+      @term_syntax.parse_term("(field_extension : ((Ring[A], Ring[B]), (A) -> B) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B)) == (field(k) && field(l) && ring_monomorphism((k, l), h))"),
     ),
   )
 }
@@ -9356,9 +9136,7 @@ fn step_103() -> Unit raise {
   let t938 = @simp.simp_tac(@list.List([field_extension()]))
   field_extension_imp_monomorphism_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l. field_extension (k,l) h ==> ring_monomorphism(k,l) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → ring_monomorphism((k, l), h)"),
       t938,
     ),
   )
@@ -9383,9 +9161,7 @@ fn step_104() -> Unit raise {
   )
   field_extension_imp_homomorphism_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l. field_extension (k,l) h ==> ring_homomorphism(k,l) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → ring_homomorphism((k, l), h)"),
       t939,
     ),
   )
@@ -9413,9 +9189,7 @@ fn step_105() -> Unit raise {
   )
   field_extension_imp_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> IMAGE h (ring_carrier k) SUBSET ring_carrier l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → SUBSET(IMAGE(h, ring_carrier(k)), ring_carrier(l))"),
       t940,
     ),
   )
@@ -9448,9 +9222,7 @@ fn step_106() -> Unit raise {
   )
   field_extension_carrier_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l x.\n        field_extension (k,l) h /\\ x IN ring_carrier k\n        ==> h x IN ring_carrier l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ x : A, field_extension((k, l), h) && IN(x, ring_carrier(k)) → IN(h(x), ring_carrier(l))"),
       t942,
     ),
   )
@@ -9478,9 +9250,7 @@ fn step_107() -> Unit raise {
   )
   field_extension_from_subring_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h /\\ field(subring_generated k s)\n        ==> field_extension(subring_generated k s,l) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) && field(subring_generated(k, (s : (A) -> Bool))) → field_extension((subring_generated(k, s), l), h)"),
       t943,
     ),
   )
@@ -9507,9 +9277,7 @@ fn step_108() -> Unit raise {
   )
   field_extension_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k l (f:A->B) f'.\n        field_extension(k,l) f /\\\n        (forall x. x IN ring_carrier k ==> f' x = f x)\n        ==> field_extension (k,l) f'",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[B], ∀ f : (A) -> B, ∀ f' : (A) -> B, field_extension((k, l), f) && (∀ x : A, IN(x, ring_carrier(k)) → f'(x) == f(x)) → field_extension((k, l), f')"),
       t945,
     ),
   )
@@ -9563,9 +9331,7 @@ fn step_110() -> Unit raise {
   )
   field_extension_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m.\n        field_extension (k,l) f /\\ field_extension (l,m) g\n        ==> field_extension (k,m) (g o f)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], field_extension((k, l), f) && field_extension((l, m), g) → field_extension((k, m), o(g, f))"),
       t948,
     ),
   )
@@ -9661,9 +9427,7 @@ fn step_111() -> Unit raise {
   )
   field_extension_trans_i_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) l m.\n     field_extension (k,l) I /\\ field_extension (l,m) I\n     ==> field_extension (k,m) I",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[A], ∀ m : Ring[A], field_extension((k, l), I) && field_extension((l, m), I) → field_extension((k, m), I)"),
       t956,
     ),
   )
@@ -9696,9 +9460,7 @@ fn step_112() -> Unit raise {
   )
   field_extension_isomorphism_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) k l.\n        (field k \\/ field l) /\\ ring_isomorphism (k,l) f\n        ==> field_extension (k,l) f",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], (field(k) || field(l)) && ring_isomorphism((k, l), f) → field_extension((k, l), f)"),
       t958,
     ),
   )
@@ -9747,9 +9509,7 @@ fn step_113() -> Unit raise {
   )
   field_extension_subring_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A ring) k.\n        field_extension(subring_generated l k,l) I <=>\n        field l /\\ ring_carrier(subring_generated l k) subfield_of l",
-      ),
+      @term_syntax.parse_term("∀ l : Ring[A], ∀ k : (A) -> Bool, field_extension((subring_generated(l, k), l), I) == (field(l) && subfield_of(ring_carrier(subring_generated(l, k)), l))"),
       t963,
     ),
   )
@@ -9778,9 +9538,7 @@ fn step_114() -> Unit raise {
   )
   field_extension_into_subring_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        field_extension(k,l) h /\\\n        s subfield_of l /\\\n        IMAGE h (ring_carrier k) SUBSET s\n        ==> field_extension(k,subring_generated l s) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, field_extension((k, l), h) && subfield_of(s, l) && SUBSET(IMAGE(h, ring_carrier(k)), s) → field_extension((k, subring_generated(l, s)), h)"),
       t965,
     ),
   )
@@ -9809,9 +9567,7 @@ fn step_115() -> Unit raise {
   )
   field_extension_into_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        field_extension(k,l) h /\\\n        s subfield_of l /\\\n        IMAGE h (ring_carrier k) SUBSET s\n        ==> field_extension(k,subfield_generated l s) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, field_extension((k, l), h) && subfield_of(s, l) && SUBSET(IMAGE(h, ring_carrier(k)), s) → field_extension((k, subfield_generated(l, s)), h)"),
       t966,
     ),
   )
@@ -10104,9 +9860,7 @@ fn step_116() -> Unit raise {
   )
   kronecker_field_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) j.\n        field k /\\ maximal_ideal (poly_ring k (:1)) j\n        ==> field_extension (k,quotient_ring (poly_ring k (:1)) j)\n                            (ring_coset (poly_ring k (:1)) j o poly_const k)",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ j : (((Unit) -> Num) -> A) -> Bool, field(k) && maximal_ideal(poly_ring(k, UNIV), j) → field_extension((k, quotient_ring(poly_ring(k, UNIV), j)), o(ring_coset(poly_ring(k, UNIV), j), poly_const(k)))"),
       t998,
     ),
   )
@@ -10776,9 +10530,7 @@ fn step_117() -> Unit raise {
       @ringtheory.subring_generated_by_homomorphic_image(),
     ),
   )
-  let t1073 = @parser.parse_term(
-    "poly_var (k:A ring) one INSERT IMAGE (poly_const k) (ring_carrier k)",
-  )
+  let t1073 = @term_syntax.parse_term("INSERT(poly_var((k : Ring[A]), one), IMAGE(poly_const(k), ring_carrier(k)))")
   let t1078 = @tactics.disch_then(fn(
     x1077 : @kernel.Thm,
   ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -11419,15 +11171,9 @@ fn step_117() -> Unit raise {
     },
     @list.List([@term_syntax.parse_term("(l : Ring[(((Unit) -> Num) -> A) -> Bool])"), t1019, t1018]),
   )
-  let t1011 = @parser.parse_term(
-    "z = ring_coset (poly_ring (k:A ring) (:1)) j (poly_var k one)",
-  )
-  let t1012 = @parser.parse_term(
-    "h = ring_coset (poly_ring (k:A ring) (:1)) j o poly_const k",
-  )
-  let t1013 = @parser.parse_term(
-    "l = quotient_ring (poly_ring (k:A ring) (:1)) j",
-  )
+  let t1011 = @term_syntax.parse_term("(z : (((Unit) -> Num) -> A) -> Bool) == ring_coset(poly_ring((k : Ring[A]), UNIV), (j : (((Unit) -> Num) -> A) -> Bool), poly_var(k, one))")
+  let t1012 = @term_syntax.parse_term("(h : (A, ((Unit) -> Num) -> A) -> Bool) == o(ring_coset(poly_ring((k : Ring[A]), UNIV), (j : (((Unit) -> Num) -> A) -> Bool)), poly_const(k))")
+  let t1013 = @term_syntax.parse_term("(l : Ring[(((Unit) -> Num) -> A) -> Bool]) == quotient_ring(poly_ring((k : Ring[A]), UNIV), (j : (((Unit) -> Num) -> A) -> Bool))")
   let t1014 = @tactics.map_every(
     @simp.abbrev_tac,
     @list.List([
@@ -11656,9 +11402,7 @@ fn step_117() -> Unit raise {
   )
   kronecker_simple_field_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) p.\n      field k /\\\n      p IN ring_carrier(poly_ring k (:1)) /\\ ~(poly_deg k p = 0) /\\\n      ~(?x. x IN ring_carrier k /\\ poly_eval k p x = ring_0 k)\n      ==> ?l h z:((1->num)->A)->bool.\n                field_extension(k,l) h /\\\n                z IN ring_carrier l /\\\n                ~(z IN IMAGE h (ring_carrier k)) /\\\n                subring_generated l (z INSERT IMAGE h (ring_carrier k)) = l /\\\n                poly_eval l (h o p) z = ring_0 l",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ p : ((Unit) -> Num) -> A, field(k) && IN(p, ring_carrier(poly_ring(k, UNIV))) && !(poly_deg(k, p) == 0) && !(∃ x : A, IN(x, ring_carrier(k)) && poly_eval(k, p, x) == ring_0(k)) → (∃ l : Ring[(((Unit) -> Num) -> A) -> Bool], ∃ h : (A, ((Unit) -> Num) -> A) -> Bool, ∃ z : (((Unit) -> Num) -> A) -> Bool, field_extension((k, l), h) && IN(z, ring_carrier(l)) && !IN(z, IMAGE(h, ring_carrier(k))) && subring_generated(l, INSERT(z, IMAGE(h, ring_carrier(k)))) == l && poly_eval(l, o(h, p), z) == ring_0(l))"),
       t1146,
     ),
   )
@@ -11745,9 +11489,7 @@ fn step_118() -> Unit raise {
   )
   coprime_poly_no_common_root_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) (l:B ring) (h:A->B) p q.\n        field_extension(k,l) h /\\ ring_coprime(poly_ring k (:1)) (p, q)\n        ==> ~(?x. x IN ring_carrier l /\\\n                  poly_eval l (h o p) x = ring_0 l /\\\n                  poly_eval l (h o q) x = ring_0 l)",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[B], ∀ h : (A) -> B, ∀ p : ((Unit) -> Num) -> A, ∀ q : ((Unit) -> Num) -> A, field_extension((k, l), h) && ring_coprime(poly_ring(k, UNIV), (p, q)) → !(∃ x : B, IN(x, ring_carrier(l)) && poly_eval(l, o(h, p), x) == ring_0(l) && poly_eval(l, o(h, q), x) == ring_0(l))"),
       t1158,
     ),
   )
@@ -11792,9 +11534,7 @@ fn step_119() -> Unit raise {
   )
   coprime_poly_no_common_root_i_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) (E:A ring) p q.\n        field_extension(k,E) I /\\\n        ring_coprime(poly_ring k (:1)) (p, q)\n        ==> ~(?x. x IN ring_carrier E /\\\n                  poly_eval E p x = ring_0 E /\\\n                  poly_eval E q x = ring_0 E)",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ E : Ring[A], ∀ p : ((Unit) -> Num) -> A, ∀ q : ((Unit) -> Num) -> A, field_extension((k, E), I) && ring_coprime(poly_ring(k, UNIV), (p, q)) → !(∃ x : A, IN(x, ring_carrier(E)) && poly_eval(E, p, x) == ring_0(E) && poly_eval(E, q, x) == ring_0(E))"),
       t1167,
     ),
   )
@@ -11848,9 +11588,7 @@ pub fn ring_span_cases() -> @kernel.Thm {
 /// ring_span_RULES, ring_span_INDUCT, ring_span_CASES
 fn step_120() -> Unit raise {
   let (thr, thi, thc) = @sets.new_inductive_set(
-    @parser.parse_term(
-      "(ring_0 (SND kl) IN ring_span kl (h:A->B) s) /\\\n    (forall x. x IN s /\\ x IN ring_carrier(SND kl) ==> x IN ring_span kl h s) /\\\n    (forall x y. x IN ring_span kl h s /\\ y IN ring_span kl h s\n           ==> ring_add (SND kl) x y IN ring_span kl h s) /\\\n    (forall a x. a IN ring_carrier(FST kl) /\\\n           h a IN ring_carrier(SND kl) /\\\n           x IN ring_span kl h s\n           ==> ring_mul (SND kl) (h a) x IN ring_span kl h s)",
-    ),
+    @term_syntax.parse_term("IN(ring_0(SND((kl : (Ring[A], Ring[B])))), (ring_span : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool, B) -> Bool)(kl, (h : (A) -> B), (s : (B) -> Bool))) && (∀ x : B, IN(x, s) && IN(x, ring_carrier(SND(kl))) → IN(x, ring_span(kl, h, s))) && (∀ x : B, ∀ y : B, IN(x, ring_span(kl, h, s)) && IN(y, ring_span(kl, h, s)) → IN(ring_add(SND(kl), x, y), ring_span(kl, h, s))) && (∀ a : A, ∀ x : B, IN(a, ring_carrier(FST(kl))) && IN(h(a), ring_carrier(SND(kl))) && IN(x, ring_span(kl, h, s)) → IN(ring_mul(SND(kl), h(a), x), ring_span(kl, h, s)))"),
   )
   let t1174 = @term_syntax.parse_term("(h : (A) -> B)")
   let t1175 = @list.List([@term_syntax.parse_term("((k : Ring[A]), (l : Ring[B]))"), t1174])
@@ -11963,9 +11701,7 @@ fn step_122() -> Unit raise {
   )
   ring_span_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s. ring_span (k,l) h s SUBSET ring_carrier l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, SUBSET(ring_span((k, l), h, s), ring_carrier(l))"),
       t1181,
     ),
   )
@@ -11988,9 +11724,7 @@ fn step_123() -> Unit raise {
   let t1182 = @sets.set_tac(@list.List([ring_span_inc()]))
   ring_span_superset_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s. ring_carrier l INTER s SUBSET ring_span (k,l) h s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, SUBSET(INTER(ring_carrier(l), s), ring_span((k, l), h, s))"),
       t1182,
     ),
   )
@@ -12013,9 +11747,7 @@ fn step_124() -> Unit raise {
   let t1183 = @sets.set_tac(@list.List([ring_span_superset_gen()]))
   ring_span_superset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        s SUBSET ring_carrier l ==> s SUBSET ring_span (k,l) h s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, SUBSET(s, ring_carrier(l)) → SUBSET(s, ring_span((k, l), h, s))"),
       t1183,
     ),
   )
@@ -12038,9 +11770,7 @@ fn step_125() -> Unit raise {
   let t1184 = @sets.set_tac(@list.List([ring_span_inc(), ring_span_subset()]))
   ring_span_superset_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s. s SUBSET ring_span (k,l) h s <=> s SUBSET ring_carrier l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, SUBSET(s, ring_span((k, l), h, s)) == SUBSET(s, ring_carrier(l))"),
       t1184,
     ),
   )
@@ -12078,9 +11808,7 @@ fn step_126() -> Unit raise {
   )
   ring_span_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s t.\n        s SUBSET t ==> ring_span (k,l) h s SUBSET ring_span (k,l) h t",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ t : (B) -> Bool, SUBSET(s, t) → SUBSET(ring_span((k, l), h, s), ring_span((k, l), h, t))"),
       t1189,
     ),
   )
@@ -12125,9 +11853,7 @@ fn step_127() -> Unit raise {
   )
   subset_ring_span_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s t.\n        ring_span (k,l) h s SUBSET ring_span (k,l) h t <=>\n        ring_carrier l INTER s SUBSET ring_span (k,l) h t",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ t : (B) -> Bool, SUBSET(ring_span((k, l), h, s), ring_span((k, l), h, t)) == SUBSET(INTER(ring_carrier(l), s), ring_span((k, l), h, t))"),
       t1194,
     ),
   )
@@ -12177,9 +11903,7 @@ fn step_128() -> Unit raise {
   )
   ring_span_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        ring_span (k,l) h s = ring_span (k,l) h (ring_carrier l INTER s)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ring_span((k, l), h, s) == ring_span((k, l), h, INTER(ring_carrier(l), s))"),
       t1199,
     ),
   )
@@ -12217,9 +11941,7 @@ fn step_129() -> Unit raise {
   )
   ring_span_span_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        ring_span (k,l) h (ring_span (k,l) h s) = ring_span (k,l) h s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ring_span((k, l), h, ring_span((k, l), h, s)) == ring_span((k, l), h, s)"),
       t1202,
     ),
   )
@@ -12320,9 +12042,7 @@ fn step_130() -> Unit raise {
   )
   ring_span_finitary_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s a.\n        a IN ring_span (k,l) h s\n        ==> ?t. FINITE t /\\ t SUBSET s /\\ a IN ring_span (k,l) h t",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ a : B, IN(a, ring_span((k, l), h, s)) → (∃ t : (B) -> Bool, FINITE(t) && SUBSET(t, s) && IN(a, ring_span((k, l), h, t)))"),
       t1223,
     ),
   )
@@ -12377,9 +12097,7 @@ fn step_132() -> Unit raise {
   )
   ring_span_self_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) l k. ring_span (k,l) h (ring_carrier l) = ring_carrier l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ l : Ring[B], ∀ k : Ring[A], ring_span((k, l), h, ring_carrier(l)) == ring_carrier(l)"),
       t1225,
     ),
   )
@@ -12444,9 +12162,7 @@ fn step_133() -> Unit raise {
   )
   ring_span_empty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        ring_homomorphism(k,l) h ==> ring_span (k,l) h {} = {ring_0 l}",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ring_homomorphism((k, l), h) → ring_span((k, l), h, {}) == {ring_0(l)}"),
       t1232,
     ),
   )
@@ -12532,9 +12248,7 @@ fn step_134() -> Unit raise {
   )
   ring_span_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s x.\n        ring_homomorphism(k,l) h /\\ x IN ring_span (k,l) h s\n        ==> ring_neg l x IN ring_span (k,l) h s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ x : B, ring_homomorphism((k, l), h) && IN(x, ring_span((k, l), h, s)) → IN(ring_neg(l, x), ring_span((k, l), h, s))"),
       t1243,
     ),
   )
@@ -12557,9 +12271,7 @@ fn step_135() -> Unit raise {
   )
   ring_span_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s x y.\n        ring_homomorphism(k,l) h /\\\n        x IN ring_span (k,l) h s /\\ y IN ring_span (k,l) h s\n        ==> ring_sub l x y IN ring_span (k,l) h s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ x : B, ∀ y : B, ring_homomorphism((k, l), h) && IN(x, ring_span((k, l), h, s)) && IN(y, ring_span((k, l), h, s)) → IN(ring_sub(l, x, y), ring_span((k, l), h, s))"),
       t1244,
     ),
   )
@@ -12600,9 +12312,7 @@ fn step_136() -> Unit raise {
   )
   ring_span_sum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l f s (t:K->bool).\n        (forall i. i IN t ==> f i IN ring_span (k,l) h s)\n        ==> ring_sum l t f IN ring_span (k,l) h s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ f : (K) -> B, ∀ s : (B) -> Bool, ∀ t : (K) -> Bool, (∀ i : K, IN(i, t) → IN(f(i), ring_span((k, l), h, s))) → IN(ring_sum(l, t, f), ring_span((k, l), h, s))"),
       t1251,
     ),
   )
@@ -13004,9 +12714,7 @@ fn step_137() -> Unit raise {
   )
   ring_span_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s t.\n        ring_homomorphism(k,l) h\n        ==> ring_span (k,l) h (s UNION t) =\n            { ring_add l x y | x,y |\n              x IN ring_span (k,l) h s /\\ y IN ring_span (k,l) h t}",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ t : (B) -> Bool, ring_homomorphism((k, l), h) → ring_span((k, l), h, UNION(s, t)) == {ring_add(l, x, y) | x : B, y : B | IN(x, ring_span((k, l), h, s)) && IN(y, ring_span((k, l), h, t))}"),
       t1310,
     ),
   )
@@ -13165,9 +12873,7 @@ fn step_138() -> Unit raise {
   )
   ring_span_sing_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l x.\n        ring_homomorphism(k,l) h /\\ x IN ring_carrier l\n        ==> ring_span (k,l) h {x} =\n            { ring_mul l (h c) x | c | c IN ring_carrier k}",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ x : B, ring_homomorphism((k, l), h) && IN(x, ring_carrier(l)) → ring_span((k, l), h, {x}) == {ring_mul(l, h((c : A)), x) | IN(c, ring_carrier(k))}"),
       t1337,
     ),
   )
@@ -13193,9 +12899,7 @@ fn step_139() -> Unit raise {
     ]),
   )
   let t1390 = @ringtheory.ring_rule(
-    @parser.parse_term(
-      "ring_mul r c' c = ring_1 r\n     ==> b = ring_add r (ring_add r (ring_mul r c' (ring_mul r c b)) x)\n                        (ring_neg r x)",
-    ),
+    @term_syntax.parse_term("ring_mul((r : Ring[_]), (c' : _), (c : _)) == ring_1(r) → (b : _) == ring_add(r, ring_add(r, ring_mul(r, c', ring_mul(r, c, b)), (x : _)), ring_neg(r, x))"),
   )
   let t1391 = @tactics.match_mp_tac(
     @simp.rewrite_rule(@list.List([@theorems.imp_imp()]))(t1390),
@@ -13447,9 +13151,7 @@ fn step_139() -> Unit raise {
   let t1358 = @simp.rewrite_tac(
     @list.List([
       @sets.set_rule(
-        @parser.parse_term(
-          "{f x y | x IN {g z | P z} /\\ Q y} = {f (g z) y |y,z| P z /\\ Q y}",
-        ),
+        @term_syntax.parse_term("{(f : (_, _) -> _)((x : _), (y : _)) | IN(x, {(g : (_) -> _)((z : _)) | (P : (_) -> Bool)(z)}) && (Q : (_) -> Bool)(y)} == {f(g(z), y) | y : _, z : _ | P(z) && Q(y)}"),
       ),
     ]),
   )
@@ -13750,9 +13452,7 @@ fn step_139() -> Unit raise {
   )
   ring_span_exchange_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s a b.\n        field k /\\ ring_homomorphism(k,l) h /\\\n        a IN ring_span (k,l) h (b INSERT s) /\\ ~(a IN ring_span (k,l) h s)\n        ==> b IN ring_span (k,l) h (a INSERT s)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ a : B, ∀ b : B, field(k) && ring_homomorphism((k, l), h) && IN(a, ring_span((k, l), h, INSERT(b, s))) && !IN(a, ring_span((k, l), h, s)) → IN(b, ring_span((k, l), h, INSERT(a, s)))"),
       t1393,
     ),
   )
@@ -13959,9 +13659,7 @@ fn step_140() -> Unit raise {
     @list.List([
       ring_span_sing(),
       @sets.set_rule(
-        @parser.parse_term(
-          "{f x y | x IN {g w | P w} /\\ y IN {h z | Q z}} =\n    {f (g w) (h z) | P w /\\ Q z}",
-        ),
+        @term_syntax.parse_term("{(f : (_, _) -> _)((x : _), (y : _)) | IN(x, {(g : (_) -> _)((w : _)) | (P : (_) -> Bool)(w)}) && IN(y, {(h : (_) -> _)((z : _)) | (Q : (_) -> Bool)(z)})} == {f(g((w : _)), h((z : _))) | P(w) && Q(z)}"),
       ),
     ]),
   )
@@ -14155,9 +13853,7 @@ fn step_140() -> Unit raise {
   )
   ring_span_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n      ring_homomorphism(k,l) h /\\ FINITE s /\\ s SUBSET ring_carrier l\n      ==> ring_span (k,l) h s =\n          { ring_sum l s (\\x. ring_mul l (h(c x)) x) |c|\n            forall x. x IN s ==> c x IN ring_carrier k }",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ring_homomorphism((k, l), h) && FINITE(s) && SUBSET(s, ring_carrier(l)) → ring_span((k, l), h, s) == {ring_sum(l, s, (x : B) => ring_mul(l, h(c(x)), x)) | c : (B) -> A | ∀ x : B, IN(x, s) → IN(c(x), ring_carrier(k))}"),
       t1439,
     ),
   )
@@ -14277,9 +13973,7 @@ fn step_141() -> Unit raise {
             @tactics.then_tac(
               @tactics.match_mp_tac(
                 @sets.set_rule(
-                  @parser.parse_term(
-                    "forall t. (forall x. x IN s ==> x IN t /\\ f(x) IN u)\n          ==> IMAGE f s SUBSET u",
-                  ),
+                  @term_syntax.parse_term("∀ t : (_) -> Bool, (∀ x : _, IN(x, (s : (_) -> Bool)) → IN(x, t) && IN((f : (_) -> _)(x), (u : (_) -> Bool))) → SUBSET(IMAGE(f, s), u)"),
                 ),
               ),
               t1441,
@@ -14306,9 +14000,7 @@ fn step_141() -> Unit raise {
   )
   ring_span_homomorphic_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m s.\n        ring_homomorphism(k,l) f /\\\n        ring_homomorphism(l,m) g /\\\n        s SUBSET ring_carrier l\n        ==> IMAGE g (ring_span (k,l) f s) =\n            ring_span (k,m) (g o f) (IMAGE g s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ s : (B) -> Bool, ring_homomorphism((k, l), f) && ring_homomorphism((l, m), g) && SUBSET(s, ring_carrier(l)) → IMAGE(g, ring_span((k, l), f, s)) == ring_span((k, m), o(g, f), IMAGE(g, s))"),
       t1458,
     ),
   )
@@ -14330,9 +14022,7 @@ pub fn ring_span_homomorphic_image() -> @kernel.Thm {
 fn step_142() -> Unit raise {
   ring_matroid_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "ring_matroid (k,l) (h:A->B) = matroid(ring_carrier l,ring_span (k,l) h)",
-      ),
+      @term_syntax.parse_term("(ring_matroid : ((Ring[A], Ring[B]), (A) -> B) -> Matroid[B])(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B)) == matroid((ring_carrier(l), ring_span((k, l), h)))"),
     ),
   )
 }
@@ -14386,9 +14076,7 @@ fn step_143() -> Unit raise {
   )
   ring_matroid_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field k /\\ ring_homomorphism(k,l) h\n        ==> matroid_set(ring_matroid (k,l) h) = ring_carrier l /\\\n            matroid_span(ring_matroid (k,l) h) = ring_span (k,l) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field(k) && ring_homomorphism((k, l), h) → matroid_set(ring_matroid((k, l), h)) == ring_carrier(l) && matroid_span(ring_matroid((k, l), h)) == ring_span((k, l), h)"),
       t1463,
     ),
   )
@@ -14408,9 +14096,7 @@ pub fn ring_matroid_v1() -> @kernel.Thm {
 fn step_144() -> Unit raise {
   ring_dependent_c.set(
     @define.define_(
-      @parser.parse_term(
-        "ring_dependent (k,l) (h:A->B) s <=>\n        s SUBSET ring_carrier l /\\\n        ?a. a IN s /\\ a IN ring_span (k,l) h (s DELETE a)",
-      ),
+      @term_syntax.parse_term("(ring_dependent : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (SUBSET(s, ring_carrier(l)) && (∃ a : B, IN(a, s) && IN(a, ring_span((k, l), h, DELETE(s, a)))))"),
     ),
   )
 }
@@ -14429,9 +14115,7 @@ pub fn ring_dependent() -> @kernel.Thm {
 fn step_145() -> Unit raise {
   ring_independent_c.set(
     @define.define_(
-      @parser.parse_term(
-        "ring_independent (k,l) (h:A->B) s <=>\n        s SUBSET ring_carrier l /\\ ~(ring_dependent (k,l) h s)",
-      ),
+      @term_syntax.parse_term("(ring_independent : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (SUBSET(s, ring_carrier(l)) && !ring_dependent((k, l), h, s))"),
     ),
   )
 }
@@ -14452,9 +14136,7 @@ pub fn ring_independent() -> @kernel.Thm {
 fn step_146() -> Unit raise {
   ring_spanning_c.set(
     @define.define_(
-      @parser.parse_term(
-        "ring_spanning (k,l) (h:A->B) s <=>\n        s SUBSET ring_carrier l /\\ ring_span (k,l) h s = ring_carrier l",
-      ),
+      @term_syntax.parse_term("(ring_spanning : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (SUBSET(s, ring_carrier(l)) && ring_span((k, l), h, s) == ring_carrier(l))"),
     ),
   )
 }
@@ -14473,9 +14155,7 @@ pub fn ring_spanning() -> @kernel.Thm {
 fn step_147() -> Unit raise {
   ring_basis_c.set(
     @define.define_(
-      @parser.parse_term(
-        "ring_basis (k,l) (h:A->B) s <=>\n        ring_independent (k,l) h s /\\ ring_spanning (k,l) h s",
-      ),
+      @term_syntax.parse_term("(ring_basis : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (ring_independent((k, l), h, s) && ring_spanning((k, l), h, s))"),
     ),
   )
 }
@@ -14495,9 +14175,7 @@ fn step_148() -> Unit raise {
   let t1464 = @simp.simp_tac(@list.List([ring_dependent()]))
   ring_dependent_imp_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s. ring_dependent (k,l) h s ==> s SUBSET ring_carrier l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ring_dependent((k, l), h, s) → SUBSET(s, ring_carrier(l))"),
       t1464,
     ),
   )
@@ -14520,9 +14198,7 @@ fn step_149() -> Unit raise {
   let t1465 = @simp.simp_tac(@list.List([ring_independent()]))
   ring_independent_imp_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s. ring_independent (k,l) h s ==> s SUBSET ring_carrier l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ring_independent((k, l), h, s) → SUBSET(s, ring_carrier(l))"),
       t1465,
     ),
   )
@@ -14545,9 +14221,7 @@ fn step_150() -> Unit raise {
   let t1466 = @simp.simp_tac(@list.List([ring_spanning()]))
   ring_spanning_imp_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s. ring_spanning (k,l) h s ==> s SUBSET ring_carrier l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ring_spanning((k, l), h, s) → SUBSET(s, ring_carrier(l))"),
       t1466,
     ),
   )
@@ -14570,9 +14244,7 @@ fn step_151() -> Unit raise {
   let t1467 = @simp.simp_tac(@list.List([ring_independent(), ring_basis()]))
   ring_basis_imp_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s. ring_basis (k,l) h s ==> s SUBSET ring_carrier l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ring_basis((k, l), h, s) → SUBSET(s, ring_carrier(l))"),
       t1467,
     ),
   )
@@ -14611,9 +14283,7 @@ fn step_152() -> Unit raise {
   )
   ring_matroid_independent_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field k /\\ ring_homomorphism(k,l) h\n        ==> (matroid_independent(ring_matroid (k,l) h) =\n             ring_independent (k,l) h)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field(k) && ring_homomorphism((k, l), h) → matroid_independent(ring_matroid((k, l), h)) == ring_independent((k, l), h)"),
       t1470,
     ),
   )
@@ -14643,9 +14313,7 @@ fn step_153() -> Unit raise {
   )
   ring_matroid_spanning_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field k /\\ ring_homomorphism(k,l) h\n        ==> (matroid_spanning(ring_matroid (k,l) h) =\n             ring_spanning (k,l) h)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field(k) && ring_homomorphism((k, l), h) → matroid_spanning(ring_matroid((k, l), h)) == ring_spanning((k, l), h)"),
       t1471,
     ),
   )
@@ -14685,9 +14353,7 @@ fn step_154() -> Unit raise {
   )
   ring_matroid_basis_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field k /\\ ring_homomorphism(k,l) h\n        ==> (matroid_basis(ring_matroid (k,l) h) =\n             ring_basis (k,l) h)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field(k) && ring_homomorphism((k, l), h) → matroid_basis(ring_matroid((k, l), h)) == ring_basis((k, l), h)"),
       t1475,
     ),
   )
@@ -14715,9 +14381,7 @@ fn step_155() -> Unit raise {
   )
   ring_basis_exists_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field k /\\ ring_homomorphism(k,l) h ==> ?b. ring_basis (k,l) h b",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field(k) && ring_homomorphism((k, l), h) → (∃ b : (B) -> Bool, ring_basis((k, l), h, b))"),
       t1476,
     ),
   )
@@ -14746,9 +14410,7 @@ fn step_156() -> Unit raise {
   )
   ring_spanning_contains_basis_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field k /\\ ring_homomorphism(k,l) h /\\ ring_spanning (k,l) h b\n        ==> ?c. c SUBSET b /\\ ring_basis (k,l) h c",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field(k) && ring_homomorphism((k, l), h) && ring_spanning((k, l), h, (b : (B) -> Bool)) → (∃ c : (B) -> Bool, SUBSET(c, b) && ring_basis((k, l), h, c))"),
       t1477,
     ),
   )
@@ -14773,9 +14435,7 @@ fn step_157() -> Unit raise {
   )
   ring_bases_card_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l b b'.\n        field k /\\ ring_homomorphism(k,l) h /\\\n        ring_basis (k,l) h b /\\ ring_basis (k,l) h b'\n        ==> b =_c b'",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ b : (B) -> Bool, ∀ b' : (B) -> Bool, field(k) && ring_homomorphism((k, l), h) && ring_basis((k, l), h, b) && ring_basis((k, l), h, b') → op_eq_us_c(b, b')"),
       t1478,
     ),
   )
@@ -14804,9 +14464,7 @@ fn step_158() -> Unit raise {
   )
   ring_spanning_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        ring_spanning (k,l) h s <=>\n        s SUBSET ring_carrier l /\\ ring_carrier l SUBSET ring_span (k,l) h s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ring_spanning((k, l), h, (s : (B) -> Bool)) == (SUBSET(s, ring_carrier(l)) && SUBSET(ring_carrier(l), ring_span((k, l), h, s)))"),
       t1479,
     ),
   )
@@ -14847,9 +14505,7 @@ fn step_159() -> Unit raise {
   )
   ring_spanning_imp_nonempty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l b.\n        field_extension(k,l) h /\\ ring_spanning (k,l) h b ==> ~(b = {})",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ b : (B) -> Bool, field_extension((k, l), h) && ring_spanning((k, l), h, b) → !(b == {})"),
       t1483,
     ),
   )
@@ -14908,9 +14564,7 @@ fn step_161() -> Unit raise {
   )
   ring_independent_nonzero_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s. ring_independent (k,l) h s ==> ~(ring_0 l IN s)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ring_independent((k, l), h, s) → !IN(ring_0(l), s)"),
       t1486,
     ),
   )
@@ -14939,9 +14593,7 @@ fn step_162() -> Unit raise {
   )
   ring_dependent_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s t.\n    ring_dependent (k,l) h s /\\ s SUBSET t /\\ t SUBSET ring_carrier l\n    ==> ring_dependent (k,l) h t",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ t : (B) -> Bool, ring_dependent((k, l), h, s) && SUBSET(s, t) && SUBSET(t, ring_carrier(l)) → ring_dependent((k, l), h, t)"),
       t1488,
     ),
   )
@@ -14970,9 +14622,7 @@ fn step_163() -> Unit raise {
   )
   ring_independent_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s t.\n        ring_independent (k,l) h t /\\ s SUBSET t\n        ==> ring_independent (k,l) h s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ t : (B) -> Bool, ring_independent((k, l), h, t) && SUBSET(s, t) → ring_independent((k, l), h, s)"),
       t1490,
     ),
   )
@@ -15214,9 +14864,7 @@ fn step_164() -> Unit raise {
   )
   ring_dependent_finitary_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        ring_dependent (k,l) h s <=>\n        s SUBSET ring_carrier l /\\\n        ?t. FINITE t /\\ t SUBSET s /\\ ring_dependent (k,l) h t",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ring_dependent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (∃ t : (B) -> Bool, FINITE(t) && SUBSET(t, s) && ring_dependent((k, l), h, t)))"),
       t1512,
     ),
   )
@@ -15267,9 +14915,7 @@ fn step_165() -> Unit raise {
   )
   ring_independent_finitary_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        ring_independent (k,l) h s <=>\n        s SUBSET ring_carrier l /\\\n        forall t. FINITE t /\\ t SUBSET s ==> ring_independent (k,l) h t",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ring_independent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (∀ t : (B) -> Bool, FINITE(t) && SUBSET(t, s) → ring_independent((k, l), h, t)))"),
       t1523,
     ),
   )
@@ -15313,9 +14959,7 @@ fn step_166() -> Unit raise {
   )
   ring_independent_le_span_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s t.\n        field k /\\ ring_homomorphism(k,l) h /\\ t SUBSET ring_carrier l /\\\n        FINITE t /\\\n        ring_independent (k,l) h s /\\ s SUBSET ring_span (k,l) h t\n        ==> FINITE s /\\ CARD s <= CARD t",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ t : (B) -> Bool, field(k) && ring_homomorphism((k, l), h) && SUBSET(t, ring_carrier(l)) && FINITE(t) && ring_independent((k, l), h, s) && SUBSET(s, ring_span((k, l), h, t)) → FINITE(s) && CARD(s) <= CARD(t)"),
       t1527,
     ),
   )
@@ -15395,18 +15039,14 @@ fn step_167() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1629 = @tactics.exists_tac(
-    @parser.parse_term(
-      "\\x. ring_mul k (ring_neg k (ring_inv k (c a))) ((c:B->A) x)",
-    ),
+    @term_syntax.parse_term("(x : B) => ring_mul((k : Ring[A]), ring_neg(k, ring_inv(k, (c : (B) -> A)((a : B)))), c(x))"),
   )
   let t1627 = @tactics.then_tac(
     @simp.asm_simp_tac(
       @list.List([
         @ringtheory.ring_sum_v1(),
         @ringtheory.ring_rule(
-          @parser.parse_term(
-            "ring_add r (ring_neg r x) b = ring_mul r y (ring_0 r) <=>\n        b = x",
-          ),
+          @term_syntax.parse_term("(ring_add((r : Ring[_]), ring_neg(r, (x : _)), (b : _)) == ring_mul(r, (y : _), ring_0(r))) == (b == x)"),
         ),
       ]),
     ),
@@ -15573,9 +15213,7 @@ fn step_167() -> Unit raise {
   let t1607 = @simp.expand_tac("y")
   let t1606 = @simp.asm_simp_tac(@list.List([]))
   let t1605 = @ringtheory.ring_rule(
-    @parser.parse_term(
-      "ring_mul l y y' = ring_neg l (ring_1 l)\n        ==> ring_mul l y (ring_mul l y' a) = ring_neg l a",
-    ),
+    @term_syntax.parse_term("ring_mul((l : Ring[_]), (y : _), (y' : _)) == ring_neg(l, ring_1(l)) → ring_mul(l, y, ring_mul(l, y', (a : _))) == ring_neg(l, a)"),
   )
   let t1628 = @list.List([
     @tactics.then_tac(
@@ -15619,9 +15257,7 @@ fn step_167() -> Unit raise {
     t1627,
   ])
   let t1604 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_mul l y (ring_mul l (h((c:B->A) a)) a) = ring_neg l a",
-    ),
+    @term_syntax.parse_term("ring_mul((l : Ring[B]), (y : B), ring_mul(l, (h : (A) -> B)((c : (B) -> A)((a : B))), a)) == ring_neg(l, a)"),
     fn(
       x1601 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -16584,9 +16220,7 @@ fn step_167() -> Unit raise {
     ]),
   )
   let t1548 = @tactics.exists_tac(
-    @parser.parse_term(
-      "\\x. if x = a then ring_neg k (ring_1 k) else (c:B->A) x",
-    ),
+    @term_syntax.parse_term("(x : B) => if x == (a : B) { ring_neg((k : Ring[A]), ring_1(k)) } else { (c : (B) -> A)(x) }"),
   )
   let t1641 = @list.List([
     @tactics.then_tac(
@@ -16773,9 +16407,7 @@ fn step_167() -> Unit raise {
   )
   ring_dependent_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        field k /\\ ring_homomorphism(k,l) h /\\ FINITE s\n        ==> (ring_dependent (k,l) h s <=>\n             s SUBSET ring_carrier l /\\\n             ?c. ring_sum l s (\\x. ring_mul l (h(c x)) x) = ring_0 l /\\\n                 (forall x. x IN s ==> c x IN ring_carrier k) /\\\n                 ?x. x IN s /\\ ~(c x = ring_0 k))",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, field(k) && ring_homomorphism((k, l), h) && FINITE(s) → ring_dependent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (∃ c : (B) -> A, ring_sum(l, s, (x : B) => ring_mul(l, h(c(x)), x)) == ring_0(l) && (∀ x : B, IN(x, s) → IN(c(x), ring_carrier(k))) && (∃ x : B, IN(x, s) && !(c(x) == ring_0(k)))))"),
       t1642,
     ),
   )
@@ -16802,9 +16434,7 @@ fn step_168() -> Unit raise {
   )
   ring_independent_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        field k /\\ ring_homomorphism(k,l) h /\\ FINITE s\n        ==> (ring_independent (k,l) h s <=>\n             s SUBSET ring_carrier l /\\\n             forall c. ring_sum l s (\\x. ring_mul l (h(c x)) x) = ring_0 l /\\\n                 (forall x. x IN s ==> c x IN ring_carrier k)\n                 ==> (forall x. x IN s ==> c x = ring_0 k))",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, field(k) && ring_homomorphism((k, l), h) && FINITE(s) → ring_independent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (∀ c : (B) -> A, ring_sum(l, s, (x : B) => ring_mul(l, h(c(x)), x)) == ring_0(l) && (∀ x : B, IN(x, s) → IN(c(x), ring_carrier(k))) → (∀ x : B, IN(x, s) → c(x) == ring_0(k))))"),
       t1644,
     ),
   )
@@ -17199,9 +16829,7 @@ fn step_169() -> Unit raise {
   let t1661 = @drule.match_mp(
     @meson.meson(
       @list.List([@ringtheory.ring_sub_eq_0(), @ringtheory.ring_sum_v1()]),
-      @parser.parse_term(
-        "ring_sum r s x = ring_sum r s y\n      ==> ring_sub r (ring_sum r s y) (ring_sum r s x) = ring_0 r",
-      ),
+      @term_syntax.parse_term("ring_sum((r : Ring[_]), (s : (_) -> Bool), (x : (_) -> _)) == ring_sum(r, s, (y : (_) -> _)) → ring_sub(r, ring_sum(r, s, y), ring_sum(r, s, x)) == ring_0(r)"),
     ),
   )
   let t1663 = @tactics.first_assum(fn(
@@ -17603,9 +17231,7 @@ fn step_169() -> Unit raise {
   )
   ring_independent_finite_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        field k /\\ ring_homomorphism(k,l) h /\\ FINITE s\n        ==> (ring_independent (k,l) h s <=>\n             s SUBSET ring_carrier l /\\\n             forall c d. ring_sum l s (\\x. ring_mul l (h(c x)) x) =\n                   ring_sum l s (\\x. ring_mul l (h(d x)) x) /\\\n                  (forall x. x IN s\n                       ==> c x IN ring_carrier k /\\ d x IN ring_carrier k)\n                 ==> (forall x. x IN s ==> c x = d x))",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, field(k) && ring_homomorphism((k, l), h) && FINITE(s) → ring_independent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (∀ c : (B) -> A, ∀ d : (B) -> A, ring_sum(l, s, (x : B) => ring_mul(l, h(c(x)), x)) == ring_sum(l, s, (x : B) => ring_mul(l, h(d(x)), x)) && (∀ x : B, IN(x, s) → IN(c(x), ring_carrier(k)) && IN(d(x), ring_carrier(k))) → (∀ x : B, IN(x, s) → c(x) == d(x))))"),
       t1714,
     ),
   )
@@ -17764,9 +17390,7 @@ fn step_170() -> Unit raise {
   let t1771 = @tactics.repeat_tac(@tactics.conj_tac)
   let t1770 = @simp.rewrite_tac(@list.List([]))
   let t1769 = @tactics.exists_tac(
-    @parser.parse_term(
-      "(\\i. if i = m then ring_1 k\n           else if i = n then ring_neg k (ring_1 k)\n           else ring_0 k):K->A",
-    ),
+    @term_syntax.parse_term("(i : K) => if i == (m : K) { ring_1((k : Ring[A])) } else { if i == (n : K) { ring_neg(k, ring_1(k)) } else { ring_0(k) } }"),
   )
   let t1767 = @term_syntax.parse_term("(n : K)")
   let t1768 = @tactics.map_every(
@@ -18412,9 +18036,7 @@ fn step_170() -> Unit raise {
     t1790,
   ])
   let t1715 = @class.asm_cases_tac(
-    @parser.parse_term(
-      "forall i j. i IN s /\\ j IN s ==> ((f:K->B) i = f j <=> i = j)",
-    ),
+    @term_syntax.parse_term("∀ i : K, ∀ j : K, IN(i, (s : (K) -> Bool)) && IN(j, s) → ((f : (K) -> B)(i) == f(j)) == (i == j)"),
   )
   let t1792 = @tactics.thenl(
     @tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t1715),
@@ -18422,9 +18044,7 @@ fn step_170() -> Unit raise {
   )
   ring_dependent_span_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l (f:K->B) s t.\n        field k /\\ ring_homomorphism(k,l) h /\\ t SUBSET ring_carrier l /\\\n        FINITE s /\\ FINITE t /\\ IMAGE f s SUBSET ring_span (k,l) h t /\\\n        CARD t < CARD s\n        ==> ?c. ring_sum l s (\\x. ring_mul l (h(c x)) (f x)) = ring_0 l /\\\n                (forall x. x IN s ==> c x IN ring_carrier k) /\\\n                ?x. x IN s /\\ ~(c x = ring_0 k)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ f : (K) -> B, ∀ s : (K) -> Bool, ∀ t : (B) -> Bool, field(k) && ring_homomorphism((k, l), h) && SUBSET(t, ring_carrier(l)) && FINITE(s) && FINITE(t) && SUBSET(IMAGE(f, s), ring_span((k, l), h, t)) && CARD(t) < CARD(s) → (∃ c : (K) -> A, ring_sum(l, s, (x : K) => ring_mul(l, h(c(x)), f(x))) == ring_0(l) && (∀ x : K, IN(x, s) → IN(c(x), ring_carrier(k))) && (∃ x : K, IN(x, s) && !(c(x) == ring_0(k))))"),
       t1792,
     ),
   )
@@ -18496,9 +18116,7 @@ fn step_171() -> Unit raise {
   )
   ring_span_subset_subring_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        ring_span (k,l) h s SUBSET\n        ring_carrier(subring_generated l (IMAGE h (ring_carrier k) UNION s))",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, SUBSET(ring_span((k, l), h, s), ring_carrier(subring_generated(l, UNION(IMAGE(h, ring_carrier(k)), s))))"),
       t1802,
     ),
   )
@@ -18527,9 +18145,7 @@ fn step_172() -> Unit raise {
   )
   ring_span_subset_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        ring_span (k,l) h s SUBSET\n        ring_carrier(subfield_generated l (IMAGE h (ring_carrier k) UNION s))",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, SUBSET(ring_span((k, l), h, s), ring_carrier(subfield_generated(l, UNION(IMAGE(h, ring_carrier(k)), s))))"),
       t1803,
     ),
   )
@@ -18574,9 +18190,7 @@ fn step_173() -> Unit raise {
   )
   ring_independent_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s a.\n         field k /\\\n         ring_homomorphism (k,l) h /\\\n         s SUBSET ring_carrier l /\\\n         a IN ring_carrier l\n        ==> (ring_independent (k,l) h (a INSERT s) <=>\n             if a IN s then ring_independent (k,l) h s\n             else ring_independent (k,l) h s /\\ ~(a IN ring_span (k,l) h s))",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ a : B, field(k) && ring_homomorphism((k, l), h) && SUBSET(s, ring_carrier(l)) && IN(a, ring_carrier(l)) → ring_independent((k, l), h, INSERT(a, s)) == (if IN(a, s) { ring_independent((k, l), h, s) } else { ring_independent((k, l), h, s) && !IN(a, ring_span((k, l), h, s)) })"),
       t1808,
     ),
   )
@@ -18612,9 +18226,7 @@ fn step_174() -> Unit raise {
   )
   ring_independent_card_le_spanning_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l b c.\n        field k /\\ ring_homomorphism (k,l) h /\\\n        ring_independent (k,l) h b /\\ ring_spanning (k,l) h c\n        ==> b <=_c c",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ b : (B) -> Bool, ∀ c : (B) -> Bool, field(k) && ring_homomorphism((k, l), h) && ring_independent((k, l), h, b) && ring_spanning((k, l), h, c) → op_lt_eq_us_c(b, c)"),
       t1812,
     ),
   )
@@ -20673,9 +20285,7 @@ fn step_175() -> Unit raise {
   )
   ring_spanning_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m b c.\n      field_extension (k,l) f /\\ ring_spanning (k,l) f b /\\\n      field_extension (l,m) g /\\ ring_spanning (l,m) g c\n      ==> ring_spanning (k,m) (g o f) {ring_mul m (g x) y | x IN b /\\ y IN c}",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ b : (B) -> Bool, ∀ c : (C) -> Bool, field_extension((k, l), f) && ring_spanning((k, l), f, b) && field_extension((l, m), g) && ring_spanning((l, m), g, c) → ring_spanning((k, m), o(g, f), {ring_mul(m, g((x : B)), (y : C)) | IN(x, b) && IN(y, c)})"),
       t1967,
     ),
   )
@@ -20742,9 +20352,7 @@ fn step_176() -> Unit raise {
     t1970,
   )
   let lemma = @tactics.prove(
-    @parser.parse_term(
-      "{ring_mul m ((g:B->C) x) y | x IN b' /\\ y IN c'} =\n     IMAGE (\\(y,x). ring_mul m (g x) y) (c' CROSS b')",
-    ),
+    @term_syntax.parse_term("{ring_mul((m : Ring[C]), (g : (B) -> C)((x : B)), (y : C)) | IN(x, (b' : (B) -> Bool)) && IN(y, (c' : (C) -> Bool))} == IMAGE(fn { (y, x) => ring_mul(m, g(x), y) }, CROSS(c', b'))"),
     t1971,
   )
   let t2259 = @meson.meson_tac(@list.List([]))
@@ -21454,9 +21062,7 @@ fn step_176() -> Unit raise {
     @ringtheory.ring_homomorphism_sum(),
   )
   let t2144 = @term_syntax.parse_term("(b' : (B) -> Bool)")
-  let t2145 = @parser.parse_term(
-    "\\x. ring_mul l ((f:A->B) (c (ring_mul m ((g:B->C) x) y))) x",
-  )
+  let t2145 = @term_syntax.parse_term("(x : B) => ring_mul((l : Ring[B]), (f : (A) -> B)((c : (C) -> A)(ring_mul((m : Ring[C]), (g : (B) -> C)(x), (y : C)))), x)")
   let t2146 = @term_syntax.parse_term("(g : (B) -> C)")
   let t2147 = @term_syntax.parse_term("(m : Ring[C])")
   let t2149 = @tactics.mp_tac(
@@ -21956,15 +21562,11 @@ fn step_176() -> Unit raise {
   let t2140 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([]),
-      @parser.parse_term(
-        "P /\\ x' = x /\\ (Q ==> R) ==> (x = z /\\ P ==> Q) ==> (x' = z ==> R)",
-      ),
+      @term_syntax.parse_term("(P : Bool) && (x' : _) == (x : _) && ((Q : Bool) → (R : Bool)) → (x == (z : _) && P → Q) → x' == z → R"),
     ),
   )
   let t2139 = @simp.rewrite_tac(@list.List([]))
-  let t2135 = @parser.parse_term(
-    "\\y:C. ring_sum l b'\n              (\\x. ring_mul l ((f:A->B)(c(ring_mul m (g x:C) y))) x)",
-  )
+  let t2135 = @term_syntax.parse_term("(y : C) => ring_sum((l : Ring[B]), (b' : (B) -> Bool), (x : B) => ring_mul(l, (f : (A) -> B)((c : (C) -> A)(ring_mul((m : Ring[C]), (g : (B) -> C)(x), y))), x))")
   let t2138 = @tactics.disch_then(fn(
     x2137 : @kernel.Thm,
   ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -24738,9 +24340,7 @@ fn step_176() -> Unit raise {
     t2260,
   ])
   let t2038 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall b' c'. FINITE b' /\\ FINITE c' /\\ b' SUBSET b /\\ c' SUBSET c\n            ==> ring_independent (k,m) ((g:B->C) o (f:A->B))\n                  {ring_mul m (g x) y | x IN b' /\\ y IN c'}",
-    ),
+    @term_syntax.parse_term("∀ b' : (B) -> Bool, ∀ c' : (C) -> Bool, FINITE(b') && FINITE(c') && SUBSET(b', (b : (B) -> Bool)) && SUBSET(c', (c : (C) -> Bool)) → ring_independent(((k : Ring[A]), (m : Ring[C])), o((g : (B) -> C), (f : (A) -> B)), {ring_mul(m, g((x : B)), (y : C)) | IN(x, b') && IN(y, c')})"),
     fn(
       x2035 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -24825,9 +24425,7 @@ fn step_176() -> Unit raise {
     t2032,
   ])
   let t2030 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "field m /\\\n      y IN ring_carrier m /\\ y' IN ring_carrier m /\\\n      (g:B->C) x IN ring_carrier m /\\ (g:B->C) x' IN ring_carrier m /\\\n      ~(g x = ring_0 m)",
-    ),
+    @term_syntax.parse_term("field((m : Ring[C])) && IN((y : C), ring_carrier(m)) && IN((y' : C), ring_carrier(m)) && IN((g : (B) -> C)((x : B)), ring_carrier(m)) && IN(g((x' : B)), ring_carrier(m)) && !(g(x) == ring_0(m))"),
     fn(
       x2027 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -25344,9 +24942,7 @@ fn step_176() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1973 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(forall w:B. w IN b ==> w IN ring_carrier l) /\\\n    (forall z:C. z IN c ==> z IN ring_carrier m) /\\\n    (forall u. u IN ring_carrier k ==> (f:A->B) u IN ring_carrier l) /\\\n    (forall v. v IN ring_carrier l ==> (g:B->C) v IN ring_carrier m)",
-    ),
+    @term_syntax.parse_term("(∀ w : B, IN(w, (b : (B) -> Bool)) → IN(w, ring_carrier((l : Ring[B])))) && (∀ z : C, IN(z, (c : (C) -> Bool)) → IN(z, ring_carrier((m : Ring[C])))) && (∀ u : A, IN(u, ring_carrier((k : Ring[A]))) → IN((f : (A) -> B)(u), ring_carrier(l))) && (∀ v : B, IN(v, ring_carrier(l)) → IN((g : (B) -> C)(v), ring_carrier(m)))"),
     @tactics.strip_assume_tac,
   )
   let t1972 = @tactics.repeat_tac(@tactics.gen_tac)
@@ -25362,9 +24958,7 @@ fn step_176() -> Unit raise {
                     @list.List([
                       @theorems.and_forall_thm(),
                       @class.taut(
-                        @parser.parse_term(
-                          "(p ==> q) /\\ (p ==> r) <=> p ==> q /\\ (q ==> r)",
-                        ),
+                        @term_syntax.parse_term("(((p : Bool) → (q : Bool)) && (p → (r : Bool))) == (p → q && (q → r))"),
                       ),
                     ]),
                   ),
@@ -25385,9 +24979,7 @@ fn step_176() -> Unit raise {
     t2261,
   )
   let t2263 = (
-    @parser.parse_term(
-      "(forall(f:A->B) (g:B->C) k l m b c.\n      field_extension (k,l) f /\\ ring_independent (k,l) f b /\\\n      field_extension (l,m) g /\\ ring_independent (l,m) g c\n      ==> forall x y x' y'. x IN b /\\ y IN c /\\ x' IN b /\\ y' IN c\n                      ==> (ring_mul m (g x) y = ring_mul m (g x') y' <=>\n                           x = x' /\\ y = y')) /\\\n   (forall(f:A->B) (g:B->C) k l m b c.\n      field_extension (k,l) f /\\ ring_independent (k,l) f b /\\\n      field_extension (l,m) g /\\ ring_independent (l,m) g c\n      ==> ring_independent (k,m) (g o f)\n           {ring_mul m (g x) y | x IN b /\\ y IN c})",
-    ),
+    @term_syntax.parse_term("(∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ b : (B) -> Bool, ∀ c : (C) -> Bool, field_extension((k, l), f) && ring_independent((k, l), f, b) && field_extension((l, m), g) && ring_independent((l, m), g, c) → (∀ x : B, ∀ y : C, ∀ x' : B, ∀ y' : C, IN(x, b) && IN(y, c) && IN(x', b) && IN(y', c) → (ring_mul(m, g(x), y) == ring_mul(m, g(x'), y')) == (x == x' && y == y'))) && (∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ b : (B) -> Bool, ∀ c : (C) -> Bool, field_extension((k, l), f) && ring_independent((k, l), f, b) && field_extension((l, m), g) && ring_independent((l, m), g, c) → ring_independent((k, m), o(g, f), {ring_mul(m, g((x : B)), (y : C)) | IN(x, b) && IN(y, c)}))"),
     t2262,
   )
   let (ring_independent_products, ring_independent_trans) = @bool.conj_pair(
@@ -25434,9 +25026,7 @@ fn step_177() -> Unit raise {
   )
   ring_basis_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m b c.\n      field_extension (k,l) f /\\ ring_basis (k,l) f b /\\\n      field_extension (l,m) g /\\ ring_basis (l,m) g c\n      ==> ring_basis (k,m) (g o f) {ring_mul m (g x) y | x IN b /\\ y IN c}",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ b : (B) -> Bool, ∀ c : (C) -> Bool, field_extension((k, l), f) && ring_basis((k, l), f, b) && field_extension((l, m), g) && ring_basis((l, m), g, c) → ring_basis((k, m), o(g, f), {ring_mul(m, g((x : B)), (y : C)) | IN(x, b) && IN(y, c)})"),
       t2265,
     ),
   )
@@ -25601,9 +25191,7 @@ fn step_178() -> Unit raise {
     ),
     t2277,
   ])
-  let t2268 = @parser.parse_term(
-    "IMAGE (\\(x:B,y:C). ring_mul m (g x) y) (b CROSS c)",
-  )
+  let t2268 = @term_syntax.parse_term("IMAGE(fn { (x, y) => ring_mul((m : Ring[C]), (g : (B) -> C)(x), y) }, CROSS((b : (B) -> Bool), (c : (C) -> Bool)))")
   let t2290 = @list.List([
     @tactics.thenl(
       @tactics.then_tac(
@@ -25614,9 +25202,7 @@ fn step_178() -> Unit raise {
     ),
     t2289,
   ])
-  let t2266 = @parser.parse_term(
-    "{ring_mul m ((g:B->C) x) y | x IN b /\\ y IN c}",
-  )
+  let t2266 = @term_syntax.parse_term("{ring_mul((m : Ring[C]), (g : (B) -> C)((x : B)), (y : C)) | IN(x, (b : (B) -> Bool)) && IN(y, (c : (C) -> Bool))}")
   let t2267 = @tactics.trans_tac(@card.card_eq_trans())(t2266)
   let t2291 = @tactics.thenl(
     @tactics.then_tac(
@@ -25627,9 +25213,7 @@ fn step_178() -> Unit raise {
   )
   field_extension_tower_law_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m b c d.\n     field_extension (k,l) f /\\ field_extension (l,m) g /\\\n     ring_basis (k,l) f b /\\ ring_basis (l,m) g c /\\ ring_basis (k,m) (g o f) d\n     ==> b *_c c =_c d",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ b : (B) -> Bool, ∀ c : (C) -> Bool, ∀ d : (C) -> Bool, field_extension((k, l), f) && field_extension((l, m), g) && ring_basis((k, l), f, b) && ring_basis((l, m), g, c) && ring_basis((k, m), o(g, f), d) → op_eq_us_c(op_star_us_c(b, c), d)"),
       t2291,
     ),
   )
@@ -25651,9 +25235,7 @@ pub fn field_extension_tower_law() -> @kernel.Thm {
 fn step_179() -> Unit raise {
   finite_extension_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "finite_extension (k,l) (h:A->B) <=>\n        field_extension (k,l) h /\\\n        ?b. FINITE b /\\ b SUBSET ring_carrier l /\\\n            ring_span (k,l) h b = ring_carrier l",
-      ),
+      @term_syntax.parse_term("(finite_extension : ((Ring[A], Ring[B]), (A) -> B) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B)) == (field_extension((k, l), h) && (∃ b : (B) -> Bool, FINITE(b) && SUBSET(b, ring_carrier(l)) && ring_span((k, l), h, b) == ring_carrier(l)))"),
     ),
   )
 }
@@ -25695,9 +25277,7 @@ fn step_180() -> Unit raise {
   )
   ring_matroid_finite_dimensional_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> (matroid_finite_dimensional(ring_matroid (k,l) h) <=>\n             finite_extension (k,l) h)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → matroid_finite_dimensional(ring_matroid((k, l), h)) == finite_extension((k, l), h)"),
       t2294,
     ),
   )
@@ -25720,9 +25300,7 @@ fn step_181() -> Unit raise {
   let t2295 = @simp.simp_tac(@list.List([finite_extension()]))
   finite_imp_field_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l. finite_extension(k,l) h ==> field_extension(k,l) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], finite_extension((k, l), h) → field_extension((k, l), h)"),
       t2295,
     ),
   )
@@ -25747,9 +25325,7 @@ fn step_182() -> Unit raise {
   )
   finite_extension_ring_matroid_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        finite_extension (k,l) h <=>\n        field_extension (k,l) h /\\\n        matroid_finite_dimensional (ring_matroid (k,l) h)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], finite_extension((k, l), h) == (field_extension((k, l), h) && matroid_finite_dimensional(ring_matroid((k, l), h)))"),
       t2296,
     ),
   )
@@ -25787,9 +25363,7 @@ fn step_183() -> Unit raise {
   )
   finite_extension_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        finite_extension (k,l) h <=>\n        field_extension (k,l) h /\\\n        ?b. FINITE b /\\ b SUBSET ring_carrier l /\\\n            ring_carrier l SUBSET ring_span (k,l) h b",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], finite_extension((k, l), h) == (field_extension((k, l), h) && (∃ b : (B) -> Bool, FINITE(b) && SUBSET(b, ring_carrier(l)) && SUBSET(ring_carrier(l), ring_span((k, l), h, b))))"),
       t2298,
     ),
   )
@@ -25814,9 +25388,7 @@ fn step_184() -> Unit raise {
   )
   finite_extension_spanning_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        finite_extension (k,l) h <=>\n        field_extension (k,l) h /\\ ?b. FINITE b /\\ ring_spanning (k,l) h b",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], finite_extension((k, l), h) == (field_extension((k, l), h) && (∃ b : (B) -> Bool, FINITE(b) && ring_spanning((k, l), h, b)))"),
       t2299,
     ),
   )
@@ -25851,9 +25423,7 @@ fn step_185() -> Unit raise {
   )
   finite_extension_basis_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        finite_extension (k,l) h <=>\n        field_extension (k,l) h /\\ ?b. FINITE b /\\ ring_basis (k,l) h b",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], finite_extension((k, l), h) == (field_extension((k, l), h) && (∃ b : (B) -> Bool, FINITE(b) && ring_basis((k, l), h, b)))"),
       t2301,
     ),
   )
@@ -25885,9 +25455,7 @@ fn step_186() -> Unit raise {
   )
   finite_extension_any_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l b.\n        ring_basis (k,l) h b\n        ==> (finite_extension (k,l) h <=>\n             field_extension (k,l) h /\\ FINITE b)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ b : (B) -> Bool, ring_basis((k, l), h, b) → finite_extension((k, l), h) == (field_extension((k, l), h) && FINITE(b))"),
       t2302,
     ),
   )
@@ -26187,9 +25755,7 @@ fn step_187() -> Unit raise {
   )
   finite_extension_isomorphism_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) k l.\n        (field k \\/ field l) /\\ ring_isomorphism (k,l) f\n        ==> finite_extension (k,l) f",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], (field(k) || field(l)) && ring_isomorphism((k, l), f) → finite_extension((k, l), f)"),
       t2332,
     ),
   )
@@ -26321,9 +25887,7 @@ fn step_188() -> Unit raise {
   )
   finite_extension_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m.\n        finite_extension (k,l) f /\\ finite_extension (l,m) g\n        ==> finite_extension (k,m) (g o f)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], finite_extension((k, l), f) && finite_extension((l, m), g) → finite_extension((k, m), o(g, f))"),
       t2356,
     ),
   )
@@ -26653,9 +26217,7 @@ fn step_189() -> Unit raise {
   )
   finite_extension_trans_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m.\n        field_extension (k,l) f /\\ field_extension (l,m) g\n        ==> (finite_extension (k,m) (g o f) <=>\n             finite_extension (k,l) f /\\ finite_extension (l,m) g)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], field_extension((k, l), f) && field_extension((l, m), g) → finite_extension((k, m), o(g, f)) == (finite_extension((k, l), f) && finite_extension((l, m), g))"),
       t2413,
     ),
   )
@@ -26677,9 +26239,7 @@ pub fn finite_extension_trans_eq() -> @kernel.Thm {
 fn step_190() -> Unit raise {
   finitely_generated_extension_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "finitely_generated_extension (k,l) (h:A->B) <=>\n     field_extension (k,l) h /\\\n     ?b. FINITE b /\\ b SUBSET ring_carrier l /\\\n         subfield_generated l (IMAGE h (ring_carrier k) UNION b) = l",
-      ),
+      @term_syntax.parse_term("(finitely_generated_extension : ((Ring[A], Ring[B]), (A) -> B) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B)) == (field_extension((k, l), h) && (∃ b : (B) -> Bool, FINITE(b) && SUBSET(b, ring_carrier(l)) && subfield_generated(l, UNION(IMAGE(h, ring_carrier(k)), b)) == l))"),
     ),
   )
 }
@@ -26701,9 +26261,7 @@ fn step_191() -> Unit raise {
   let t2414 = @simp.simp_tac(@list.List([finitely_generated_extension()]))
   finitely_generated_imp_field_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        finitely_generated_extension(k,l) h ==> field_extension(k,l) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], finitely_generated_extension((k, l), h) → field_extension((k, l), h)"),
       t2414,
     ),
   )
@@ -26872,9 +26430,7 @@ fn step_192() -> Unit raise {
   )
   finite_imp_finitely_generated_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        finite_extension (k,l) h ==> finitely_generated_extension (k,l) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], finite_extension((k, l), h) → finitely_generated_extension((k, l), h)"),
       t2430,
     ),
   )
@@ -26909,9 +26465,7 @@ fn step_193() -> Unit raise {
   )
   finitely_generated_extension_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n     finitely_generated_extension (k,l) h <=>\n     field_extension (k,l) h /\\\n     ?b. FINITE b /\\ b SUBSET ring_carrier l /\\\n         ring_carrier l SUBSET\n         ring_carrier(subfield_generated l (IMAGE h (ring_carrier k) UNION b))",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], finitely_generated_extension((k, l), h) == (field_extension((k, l), h) && (∃ b : (B) -> Bool, FINITE(b) && SUBSET(b, ring_carrier(l)) && SUBSET(ring_carrier(l), ring_carrier(subfield_generated(l, UNION(IMAGE(h, ring_carrier(k)), b))))))"),
       t2432,
     ),
   )
@@ -27231,9 +26785,7 @@ fn step_194() -> Unit raise {
   )
   let t2452 = @drule.match_mp(
     @sets.set_rule(
-      @parser.parse_term(
-        "s SUBSET t ==> IMAGE f t SUBSET u ==> IMAGE f s SUBSET u",
-      ),
+      @term_syntax.parse_term("SUBSET((s : (_) -> Bool), (t : (_) -> Bool)) → SUBSET(IMAGE((f : (_) -> _), t), (u : (_) -> Bool)) → SUBSET(IMAGE(f, s), u)"),
     ),
   )
   let t2486 = @list.List([
@@ -27410,9 +26962,7 @@ fn step_194() -> Unit raise {
   )
   finitely_generated_extension_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m.\n        finitely_generated_extension (k,l) f /\\\n        finitely_generated_extension (l,m) g\n        ==> finitely_generated_extension (k,m) (g o f)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], finitely_generated_extension((k, l), f) && finitely_generated_extension((l, m), g) → finitely_generated_extension((k, m), o(g, f))"),
       t2487,
     ),
   )
@@ -27434,9 +26984,7 @@ pub fn finitely_generated_extension_trans() -> @kernel.Thm {
 fn step_195() -> Unit raise {
   algebraic_over_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "algebraic_over (k,l) (h:A->B) x <=>\n        x IN ring_carrier l /\\\n        ?p. p IN ring_carrier(poly_ring k (:1)) /\\\n            ~(p = ring_0(poly_ring k (:1))) /\\\n            poly_extend(k,l) h (\\v. x) p = ring_0 l",
-      ),
+      @term_syntax.parse_term("(algebraic_over : ((Ring[A], Ring[B]), (A) -> B, B) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (x : B)) == (IN(x, ring_carrier(l)) && (∃ p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && poly_extend((k, l), h, (v : Unit) => x, p) == ring_0(l)))"),
     ),
   )
 }
@@ -27455,9 +27003,7 @@ pub fn algebraic_over() -> @kernel.Thm {
 fn step_196() -> Unit raise {
   transcendental_over_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "transcendental_over (k,l) (h:A->B) x <=>\n        x IN ring_carrier l /\\ ~(algebraic_over (k,l) h x)",
-      ),
+      @term_syntax.parse_term("(transcendental_over : ((Ring[A], Ring[B]), (A) -> B, B) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (x : B)) == (IN(x, ring_carrier(l)) && !algebraic_over((k, l), h, x))"),
     ),
   )
 }
@@ -27478,9 +27024,7 @@ pub fn transcendental_over() -> @kernel.Thm {
 fn step_197() -> Unit raise {
   algebraic_extension_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "algebraic_extension (k,l) (h:A->B) <=>\n        field_extension (k,l) h /\\\n        forall x. x IN ring_carrier l ==> algebraic_over (k,l) h x",
-      ),
+      @term_syntax.parse_term("(algebraic_extension : ((Ring[A], Ring[B]), (A) -> B) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B)) == (field_extension((k, l), h) && (∀ x : B, IN(x, ring_carrier(l)) → algebraic_over((k, l), h, x)))"),
     ),
   )
 }
@@ -28238,9 +27782,7 @@ fn step_198() -> Unit raise {
   )
   algebraic_over_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l (v:V) x.\n         algebraic_over (k,l) h x <=>\n         x IN ring_carrier l /\\\n         ?p. p IN ring_carrier (poly_ring k {v}) /\\\n             ~(p = ring_0 (poly_ring k {v})) /\\\n             poly_extend (k,l) h (\\v. x) p = ring_0 l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ v : V, ∀ x : B, algebraic_over((k, l), h, x) == (IN(x, ring_carrier(l)) && (∃ p : ((V) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, {v}))) && !(p == ring_0(poly_ring(k, {v}))) && poly_extend((k, l), h, (v : V) => x, p) == ring_0(l)))"),
       t2568,
     ),
   )
@@ -28263,9 +27805,7 @@ fn step_199() -> Unit raise {
   let t2569 = @simp.simp_tac(@list.List([algebraic_extension()]))
   algebraic_imp_field_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l. algebraic_extension(k,l) h ==> field_extension(k,l) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], algebraic_extension((k, l), h) → field_extension((k, l), h)"),
       t2569,
     ),
   )
@@ -28643,9 +28183,7 @@ fn step_200() -> Unit raise {
   )
   algebraic_over_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l x.\n        ring_monomorphism(k,l) h\n        ==> (algebraic_over (k,l) (h:A->B) x <=>\n             x IN ring_carrier l /\\\n             ?p. p IN ring_carrier(poly_ring k (:1)) /\\\n                 ~(poly_deg k p = 0) /\\\n                 poly_extend(k,l) h (\\v. x) p = ring_0 l)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ x : B, ring_monomorphism((k, l), h) → algebraic_over((k, l), h, x) == (IN(x, ring_carrier(l)) && (∃ p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(poly_deg(k, p) == 0) && poly_extend((k, l), h, (v : Unit) => x, p) == ring_0(l)))"),
       t2604,
     ),
   )
@@ -28668,9 +28206,7 @@ fn step_201() -> Unit raise {
   let t2605 = @simp.simp_tac(@list.List([algebraic_over()]))
   algebraic_over_in_carrier_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l a.\n        algebraic_over (k,l) h a ==> a IN ring_carrier l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, algebraic_over((k, l), h, a) → IN(a, ring_carrier(l))"),
       t2605,
     ),
   )
@@ -28693,9 +28229,7 @@ fn step_202() -> Unit raise {
   let t2606 = @simp.simp_tac(@list.List([transcendental_over()]))
   transcendental_over_in_carrier_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l a.\n        transcendental_over (k,l) h a ==> a IN ring_carrier l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, transcendental_over((k, l), h, a) → IN(a, ring_carrier(l))"),
       t2606,
     ),
   )
@@ -28914,9 +28448,7 @@ fn step_203() -> Unit raise {
   )
   algebraic_over_image_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l x.\n        ~(trivial_ring k /\\ x = ring_0 k /\\ h x = ring_0 l) /\\\n        ring_homomorphism(k,l) h /\\ x IN ring_carrier k\n        ==> algebraic_over(k,l) h (h x)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ x : A, !(trivial_ring(k) && x == ring_0(k) && h(x) == ring_0(l)) && ring_homomorphism((k, l), h) && IN(x, ring_carrier(k)) → algebraic_over((k, l), h, h(x))"),
       t2637,
     ),
   )
@@ -28946,9 +28478,7 @@ fn step_204() -> Unit raise {
   )
   algebraic_over_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l x.\n        field_extension(k,l) h /\\ x IN ring_carrier k\n        ==> algebraic_over(k,l) h (h x)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ x : A, field_extension((k, l), h) && IN(x, ring_carrier(k)) → algebraic_over((k, l), h, h(x))"),
       t2638,
     ),
   )
@@ -28977,9 +28507,7 @@ fn step_205() -> Unit raise {
   )
   algebraic_over_image_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension(k,l) h\n        ==> IMAGE h (ring_carrier k) SUBSET {x | algebraic_over(k,l) h x}",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → SUBSET(IMAGE(h, ring_carrier(k)), {(x : B) | algebraic_over((k, l), h, x)})"),
       t2640,
     ),
   )
@@ -29009,9 +28537,7 @@ fn step_206() -> Unit raise {
   )
   algebraic_over_refl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k y:A. field k\n           ==> (algebraic_over (k,k) I y <=> y IN ring_carrier k)",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ y : A, field(k) → algebraic_over((k, k), I, y) == IN(y, ring_carrier(k))"),
       t2641,
     ),
   )
@@ -29334,9 +28860,7 @@ fn step_207() -> Unit raise {
   )
   algebraic_over_subring_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s x.\n        field_extension(k,l) h /\\\n        IMAGE h (ring_carrier k) SUBSET s /\\\n        algebraic_over(k,l) h x /\\ x IN s\n        ==> algebraic_over(k,subring_generated l s) h x",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ x : B, field_extension((k, l), h) && SUBSET(IMAGE(h, ring_carrier(k)), s) && algebraic_over((k, l), h, x) && IN(x, s) → algebraic_over((k, subring_generated(l, s)), h, x)"),
       t2670,
     ),
   )
@@ -29457,9 +28981,7 @@ fn step_208() -> Unit raise {
   )
   algebraic_over_subfield_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s x.\n        field_extension(k,l) h /\\\n        IMAGE h (ring_carrier k) SUBSET s /\\\n        algebraic_over(k,l) h x /\\ x IN s\n        ==> algebraic_over(k,subfield_generated l s) h x",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ x : B, field_extension((k, l), h) && SUBSET(IMAGE(h, ring_carrier(k)), s) && algebraic_over((k, l), h, x) && IN(x, s) → algebraic_over((k, subfield_generated(l, s)), h, x)"),
       t2684,
     ),
   )
@@ -29502,9 +29024,7 @@ fn step_209() -> Unit raise {
   )
   algebraic_over_subring_generated_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s t x.\n        algebraic_over (subring_generated k s,l) h x /\\ s SUBSET t\n        ==> algebraic_over (subring_generated k t,l) h x",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ x : B, algebraic_over((subring_generated(k, s), l), h, x) && SUBSET(s, t) → algebraic_over((subring_generated(k, t), l), h, x)"),
       t2687,
     ),
   )
@@ -29616,9 +29136,7 @@ fn step_210() -> Unit raise {
   let t2744 = @tactics.repeat_tac(@tactics.conj_tac)
   let t2743 = @tactics.match_mp_tac(
     @class.taut(
-      @parser.parse_term(
-        "(p' ==> p) /\\ p' /\\ (q ==> t ==> r) /\\ ~s\n      ==> (p ==> q) ==> (p' /\\ r ==> s) ==> ~t",
-      ),
+      @term_syntax.parse_term("((p' : Bool) → (p : Bool)) && p' && ((q : Bool) → (t : Bool) → (r : Bool)) && !(s : Bool) → (p → q) → (p' && r → s) → !t"),
     ),
   )
   let t2742 = @simp.asm_rewrite_tac(@list.List([]))
@@ -30090,9 +29608,7 @@ fn step_210() -> Unit raise {
   )
   algebraic_over_subfield_subring_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s x.\n        field_extension(k,l) h\n        ==> (algebraic_over (subfield_generated k s,l) h x <=>\n             algebraic_over (subring_generated k s,l) h x)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (A) -> Bool, ∀ x : B, field_extension((k, l), h) → algebraic_over((subfield_generated(k, s), l), h, x) == algebraic_over((subring_generated(k, s), l), h, x)"),
       t2763,
     ),
   )
@@ -30124,9 +29640,7 @@ fn step_211() -> Unit raise {
   )
   algebraic_over_nonmonomorphism_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l a.\n        ring_homomorphism(k,l) h /\\ a IN ring_carrier l\n        ==> (algebraic_over (k,l) h a <=>\n             ~ring_monomorphism (poly_ring k (:1),l)\n                                (poly_extend(k,l) h (\\v. a)))",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, ring_homomorphism((k, l), h) && IN(a, ring_carrier(l)) → algebraic_over((k, l), h, a) == !ring_monomorphism((poly_ring(k, UNIV), l), poly_extend((k, l), h, (v : Unit) => a))"),
       t2765,
     ),
   )
@@ -30151,9 +29665,7 @@ fn step_212() -> Unit raise {
   )
   algebraic_extension_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) k l.\n        algebraic_extension (k,l) f <=>\n        field_extension (k,l) f /\\\n        forall x. x IN ring_carrier l\n            ==> ?p. p IN ring_carrier(poly_ring k (:1)) /\\\n                    ~(p = ring_0(poly_ring k (:1))) /\\\n                    poly_extend(k,l) f (\\v. x) p = ring_0 l",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], algebraic_extension((k, l), f) == (field_extension((k, l), f) && (∀ x : B, IN(x, ring_carrier(l)) → (∃ p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && poly_extend((k, l), f, (v : Unit) => x, p) == ring_0(l))))"),
       t2766,
     ),
   )
@@ -30191,9 +29703,7 @@ fn step_213() -> Unit raise {
   )
   algebraic_extension_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) k l.\n        algebraic_extension (k,l) f <=>\n        field_extension (k,l) f /\\\n        forall x. x IN ring_carrier l\n            ==> ?p. p IN ring_carrier(poly_ring k (:1)) /\\\n                    ~(p = ring_0(poly_ring k (:1))) /\\\n                    poly_eval l (f o p) x = ring_0 l",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], algebraic_extension((k, l), f) == (field_extension((k, l), f) && (∀ x : B, IN(x, ring_carrier(l)) → (∃ p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && poly_eval(l, o(f, p), x) == ring_0(l))))"),
       t2770,
     ),
   )
@@ -30387,9 +29897,7 @@ fn step_214() -> Unit raise {
   )
   algebraic_over_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k l a (f:A->B) f'.\n          ring_homomorphism (k,l) f /\\\n          (forall x. x IN ring_carrier k ==> f' x = f x) /\\\n          algebraic_over (k,l) f a\n          ==> algebraic_over (k,l) f' a",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, ∀ f : (A) -> B, ∀ f' : (A) -> B, ring_homomorphism((k, l), f) && (∀ x : A, IN(x, ring_carrier(k)) → f'(x) == f(x)) && algebraic_over((k, l), f, a) → algebraic_over((k, l), f', a)"),
       t2792,
     ),
   )
@@ -30414,9 +29922,7 @@ fn step_215() -> Unit raise {
   )
   algebraic_over_eq_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k l a (f:A->B) f'.\n        ring_homomorphism (k,l) f /\\\n        (forall x. x IN ring_carrier k ==> f' x = f x)\n        ==> (algebraic_over (k,l) f a <=> algebraic_over (k,l) f' a)",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, ∀ f : (A) -> B, ∀ f' : (A) -> B, ring_homomorphism((k, l), f) && (∀ x : A, IN(x, ring_carrier(k)) → f'(x) == f(x)) → algebraic_over((k, l), f, a) == algebraic_over((k, l), f', a)"),
       t2793,
     ),
   )
@@ -30450,9 +29956,7 @@ fn step_216() -> Unit raise {
   )
   algebraic_extension_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k l (f:A->B) f'.\n        algebraic_extension(k,l) f /\\\n        (forall x. x IN ring_carrier k ==> f' x = f x)\n        ==> algebraic_extension (k,l) f'",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[B], ∀ f : (A) -> B, ∀ f' : (A) -> B, algebraic_extension((k, l), f) && (∀ x : A, IN(x, ring_carrier(k)) → f'(x) == f(x)) → algebraic_extension((k, l), f')"),
       t2795,
     ),
   )
@@ -30839,9 +30343,7 @@ fn step_217() -> Unit raise {
   )
   let t2816 = @tactics.exists_tac(@term_syntax.parse_term("(p : ((Unit) -> Num) -> A)"))
   let t2815 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "p = \\m. if m one <= n then (c:num->A) (m one) else ring_0 k",
-    ),
+    @term_syntax.parse_term("(p : ((Unit) -> Num) -> A) == ((m : (Unit) -> Num) => if m(one) <= (n : Num) { (c : (Num) -> A)(m(one)) } else { ring_0((k : Ring[A])) })"),
   )
   let t2814 = @tactics.disch_then(
     @tactics.repeat_tcl(@tactics.conjuncts_then)(fn(
@@ -31088,9 +30590,7 @@ fn step_217() -> Unit raise {
   )
   finite_imp_algebraic_extension_explicit_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l a b n.\n        field k /\\ ring_homomorphism(k,l) h /\\ a IN ring_carrier l /\\\n        b HAS_SIZE n /\\ b SUBSET ring_carrier l /\\\n        ring_carrier l SUBSET ring_span (k,l) h b\n        ==> ?p. p IN ring_carrier(poly_ring k (:1)) /\\\n                ~(p = ring_0 (poly_ring k (:1))) /\\\n                poly_deg k p <= n /\\\n                poly_extend (k,l) h (\\v. a) p = ring_0 l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, ∀ b : (B) -> Bool, ∀ n : Num, field(k) && ring_homomorphism((k, l), h) && IN(a, ring_carrier(l)) && HAS_SIZE(b, n) && SUBSET(b, ring_carrier(l)) && SUBSET(ring_carrier(l), ring_span((k, l), h, b)) → (∃ p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && poly_deg(k, p) <= n && poly_extend((k, l), h, (v : Unit) => a, p) == ring_0(l))"),
       t2875,
     ),
   )
@@ -31226,9 +30726,7 @@ fn step_218() -> Unit raise {
   )
   finite_imp_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        finite_extension (k,l) h ==> algebraic_extension (k,l) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], finite_extension((k, l), h) → algebraic_extension((k, l), h)"),
       t2892,
     ),
   )
@@ -31664,9 +31162,7 @@ fn step_219() -> Unit raise {
   )
   ring_simple_extension_span_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l a.\n        ring_homomorphism(k,l) h /\\ a IN ring_carrier l\n        ==> ring_carrier\n              (subring_generated l (a INSERT IMAGE h (ring_carrier k))) =\n            ring_span (k,l) h { ring_pow l a n | n IN (:num) }",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, ring_homomorphism((k, l), h) && IN(a, ring_carrier(l)) → ring_carrier(subring_generated(l, INSERT(a, IMAGE(h, ring_carrier(k))))) == ring_span((k, l), h, {ring_pow(l, a, (n : Num)) | IN(n, UNIV)})"),
       t2935,
     ),
   )
@@ -32209,9 +31705,7 @@ fn step_220() -> Unit raise {
   )
   ring_simple_algebraic_extension_span_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l p a.\n        field k /\\ ring_homomorphism(k,l) h /\\ a IN ring_carrier l /\\\n        p IN ring_carrier(poly_ring k (:1)) /\\\n        ~(p = ring_0(poly_ring k (:1))) /\\\n        poly_extend (k,l) h (\\v. a) p = ring_0 l\n        ==> ring_carrier\n              (subring_generated l (a INSERT IMAGE h (ring_carrier k))) =\n            ring_span (k,l) h { ring_pow l a n | n < poly_deg k p}",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ p : ((Unit) -> Num) -> A, ∀ a : B, field(k) && ring_homomorphism((k, l), h) && IN(a, ring_carrier(l)) && IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && poly_extend((k, l), h, (v : Unit) => a, p) == ring_0(l) → ring_carrier(subring_generated(l, INSERT(a, IMAGE(h, ring_carrier(k))))) == ring_span((k, l), h, {ring_pow(l, a, (n : Num)) | n < poly_deg(k, p)})"),
       t2991,
     ),
   )
@@ -32733,9 +32227,7 @@ fn step_221() -> Unit raise {
   )
   field_simple_algebraic_extension_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l a.\n        field k /\\ integral_domain l /\\\n        ring_homomorphism(k,l) h /\\\n        algebraic_over (k,l) h a\n        ==> field(subring_generated l (a INSERT IMAGE h (ring_carrier k)))",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, field(k) && integral_domain(l) && ring_homomorphism((k, l), h) && algebraic_over((k, l), h, a) → field(subring_generated(l, INSERT(a, IMAGE(h, ring_carrier(k)))))"),
       t3038,
     ),
   )
@@ -33026,9 +32518,7 @@ fn step_222() -> Unit raise {
   )
   field_simple_algebraic_extension_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l a.\n        field k /\\ integral_domain l /\\\n        ring_homomorphism(k,l) h /\\ a IN ring_carrier l\n        ==> (field(subring_generated l (a INSERT IMAGE h (ring_carrier k))) <=>\n             algebraic_over (k,l) h a)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, field(k) && integral_domain(l) && ring_homomorphism((k, l), h) && IN(a, ring_carrier(l)) → field(subring_generated(l, INSERT(a, IMAGE(h, ring_carrier(k))))) == algebraic_over((k, l), h, a)"),
       t3065,
     ),
   )
@@ -33068,9 +32558,7 @@ fn step_223() -> Unit raise {
   )
   field_simple_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l a.\n        field_extension (k,l) h /\\\n        algebraic_over (k,l) h a\n        ==> field(subring_generated l (a INSERT IMAGE h (ring_carrier k)))",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) → field(subring_generated(l, INSERT(a, IMAGE(h, ring_carrier(k)))))"),
       t3069,
     ),
   )
@@ -33182,9 +32670,7 @@ fn step_224() -> Unit raise {
   )
   let t3107 = @term_syntax.parse_term("(a : B)")
   let t3108 = @term_syntax.parse_term("(p : ((Unit) -> Num) -> A)")
-  let t3109 = @parser.parse_term(
-    "subring_generated l (a INSERT IMAGE (h:A->B) (ring_carrier k))",
-  )
+  let t3109 = @term_syntax.parse_term("subring_generated((l : Ring[B]), INSERT((a : B), IMAGE((h : (A) -> B), ring_carrier((k : Ring[A])))))")
   let t3110 = @term_syntax.parse_term("(k : Ring[A])")
   let t3111 = @tactics.mp_tac(
     @bool.ispecl(
@@ -33570,9 +33056,7 @@ fn step_224() -> Unit raise {
   )
   finite_simple_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l a.\n        field_extension(k,l) h /\\\n        algebraic_over(k,l) h a\n        ==> finite_extension\n             (k,subring_generated l (a INSERT IMAGE h (ring_carrier k))) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) → finite_extension((k, subring_generated(l, INSERT(a, IMAGE(h, ring_carrier(k))))), h)"),
       t3139,
     ),
   )
@@ -33596,9 +33080,7 @@ fn step_225() -> Unit raise {
     @list.List([@ringtheory.poly_extend_evaluate(), @trivia.o_assoc()]),
   )
   let t3177 = @tactics.undisch_tac(
-    @parser.parse_term(
-      "poly_extend (k,m) ((g:B->C) o (f:A->B)) (\\v:1. z) p = ring_0 m",
-    ),
+    @term_syntax.parse_term("poly_extend(((k : Ring[A]), (m : Ring[C])), o((g : (B) -> C), (f : (A) -> B)), (v : Unit) => (z : C), (p : ((Unit) -> Num) -> A)) == ring_0(m)"),
   )
   let t3176 = @simp.asm_rewrite_tac(@list.List([]))
   let t3172 = @term_syntax.parse_term("(g : (B) -> C)")
@@ -33994,9 +33476,7 @@ fn step_225() -> Unit raise {
   )
   algebraic_over_from_monomorphic_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m z.\n        ring_monomorphism (k,l) f /\\ ring_homomorphism (l,m) g /\\\n        algebraic_over (k,m) (g o f) z\n        ==> algebraic_over (l,m) g z",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ z : C, ring_monomorphism((k, l), f) && ring_homomorphism((l, m), g) && algebraic_over((k, m), o(g, f), z) → algebraic_over((l, m), g, z)"),
       t3182,
     ),
   )
@@ -34166,9 +33646,7 @@ fn step_226() -> Unit raise {
   )
   algebraic_over_isomorphic_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m z.\n        ring_isomorphism (k,l) f /\\ ring_homomorphism (l,m) g\n        ==> (algebraic_over (k,m) (g o f) z <=> algebraic_over (l,m) g z)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ z : C, ring_isomorphism((k, l), f) && ring_homomorphism((l, m), g) → algebraic_over((k, m), o(g, f), z) == algebraic_over((l, m), g, z)"),
       t3204,
     ),
   )
@@ -34275,9 +33753,7 @@ fn step_227() -> Unit raise {
   let t3215 = @term_syntax.parse_term("(x : B)")
   let t3216 = @term_syntax.parse_term("(l : Ring[B])")
   let t3217 = @term_syntax.parse_term("(k : Ring[A])")
-  let t3218 = @parser.parse_term(
-    "subring_generated l (IMAGE (h:A->B) (ring_carrier k))",
-  )
+  let t3218 = @term_syntax.parse_term("subring_generated((l : Ring[B]), IMAGE((h : (A) -> B), ring_carrier((k : Ring[A]))))")
   let t3219 = @term_syntax.parse_term("(h : (A) -> B)")
   let t3220 = @tactics.mp_tac(
     @bool.ispecl(
@@ -34415,9 +33891,7 @@ fn step_227() -> Unit raise {
   )
   algebraic_over_range_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l x.\n        ring_monomorphism(k,l) h\n        ==> (algebraic_over (k,l) h x <=>\n             algebraic_over\n               (subring_generated l (IMAGE h (ring_carrier k)),l) I x)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ x : B, ring_monomorphism((k, l), h) → algebraic_over((k, l), h, x) == algebraic_over((subring_generated(l, IMAGE(h, ring_carrier(k))), l), I, x)"),
       t3231,
     ),
   )
@@ -34449,9 +33923,7 @@ fn step_228() -> Unit raise {
   )
   algebraic_over_field_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m z.\n        field_extension (k,l) f /\\ field_extension (l,m) g /\\\n        algebraic_over (k,m) (g o f) z\n        ==> algebraic_over (l,m) g z",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ z : C, field_extension((k, l), f) && field_extension((l, m), g) && algebraic_over((k, m), o(g, f), z) → algebraic_over((l, m), g, z)"),
       t3233,
     ),
   )
@@ -34562,9 +34034,7 @@ fn step_229() -> Unit raise {
                     @tactics.then_tac(
                       @tactics.then_tac(
                         @tactics.undisch_tac(
-                          @parser.parse_term(
-                            "finite_extension\n       (k,subring_generated l (IMAGE h (ring_carrier k) UNION b))\n       (h:A->B)",
-                          ),
+                          @term_syntax.parse_term("finite_extension(((k : Ring[A]), subring_generated((l : Ring[B]), UNION(IMAGE((h : (A) -> B), ring_carrier(k)), (b : (B) -> Bool)))), h)"),
                         ),
                         t3257,
                       ),
@@ -34640,9 +34110,7 @@ fn step_229() -> Unit raise {
   let t3250 = @simp.asm_rewrite_tac(@list.List([]))
   let t3246 = @term_syntax.parse_term("(y : B)")
   let t3247 = @term_syntax.parse_term("(l : Ring[B])")
-  let t3248 = @parser.parse_term(
-    "subring_generated l (IMAGE (h:A->B) (ring_carrier k) UNION b)",
-  )
+  let t3248 = @term_syntax.parse_term("subring_generated((l : Ring[B]), UNION(IMAGE((h : (A) -> B), ring_carrier((k : Ring[A]))), (b : (B) -> Bool)))")
   let t3249 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([@term_syntax.parse_term("(I : (B) -> B)"), t3248, t3247, t3246]),
@@ -34754,9 +34222,7 @@ fn step_229() -> Unit raise {
   )
   finite_finitely_generated_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l b.\n        field_extension(k,l) h /\\\n        FINITE b /\\\n        (forall x. x IN b ==> algebraic_over(k,l) h x)\n        ==> finite_extension\n             (k,subring_generated l (IMAGE h (ring_carrier k) UNION b)) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ b : (B) -> Bool, field_extension((k, l), h) && FINITE(b) && (∀ x : B, IN(x, b) → algebraic_over((k, l), h, x)) → finite_extension((k, subring_generated(l, UNION(IMAGE(h, ring_carrier(k)), b))), h)"),
       t3271,
     ),
   )
@@ -34865,9 +34331,7 @@ fn step_230() -> Unit raise {
   )
   finite_eq_finitely_generated_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        finite_extension (k,l) h <=>\n        finitely_generated_extension (k,l) h /\\\n        algebraic_extension (k,l) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], finite_extension((k, l), h) == (finitely_generated_extension((k, l), h) && algebraic_extension((k, l), h))"),
       t3280,
     ),
   )
@@ -35147,9 +34611,7 @@ fn step_231() -> Unit raise {
   )
   algebraic_from_subring_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s x.\n        field_extension (k,subring_generated l s) h /\\\n        algebraic_over(k,subring_generated l s) h x\n        ==> algebraic_over(k,l) h x",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ x : B, field_extension((k, subring_generated(l, s)), h) && algebraic_over((k, subring_generated(l, s)), h, x) → algebraic_over((k, l), h, x)"),
       t3309,
     ),
   )
@@ -35177,9 +34639,7 @@ fn step_232() -> Unit raise {
   )
   algebraic_extension_isomorphism_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) k l.\n        (field k \\/ field l) /\\ ring_isomorphism (k,l) f\n        ==> algebraic_extension (k,l) f",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], (field(k) || field(l)) && ring_isomorphism((k, l), f) → algebraic_extension((k, l), f)"),
       t3310,
     ),
   )
@@ -35646,12 +35106,8 @@ fn step_234() -> Unit raise {
       t3353,
     ),
   ])
-  let t3327 = @parser.parse_term(
-    "subring_generated m (z INSERT IMAGE (g:B->C)\n       (ring_carrier(subring_generated l\n        (IMAGE (f:A->B) (ring_carrier k) UNION\n         {p(\\i:1. n) |n| n <= poly_deg l p}))))",
-  )
-  let t3328 = @parser.parse_term(
-    "subring_generated l\n        (IMAGE (f:A->B) (ring_carrier k) UNION\n         {p(\\i:1. n) |n| n <= poly_deg l p})",
-  )
+  let t3327 = @term_syntax.parse_term("subring_generated((m : Ring[C]), INSERT((z : C), IMAGE((g : (B) -> C), ring_carrier(subring_generated((l : Ring[B]), UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), {(p : ((Unit) -> Num) -> B)((i : Unit) => n) | n : Num | n <= poly_deg(l, p)}))))))")
+  let t3328 = @term_syntax.parse_term("subring_generated((l : Ring[B]), UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), {(p : ((Unit) -> Num) -> B)((i : Unit) => n) | n : Num | n <= poly_deg(l, p)}))")
   let t3329 = @term_syntax.parse_term("(k : Ring[A])")
   let t3330 = @term_syntax.parse_term("(g : (B) -> C)")
   let t3331 = @tactics.mp_tac(
@@ -35857,9 +35313,7 @@ fn step_234() -> Unit raise {
   )
   algebraic_extension_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m.\n        algebraic_extension (k,l) f /\\ algebraic_extension (l,m) g\n        ==> algebraic_extension (k,m) (g o f)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], algebraic_extension((k, l), f) && algebraic_extension((l, m), g) → algebraic_extension((k, m), o(g, f))"),
       t3388,
     ),
   )
@@ -36589,9 +36043,7 @@ fn step_235() -> Unit raise {
   )
   algebraic_extension_trans_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m.\n        field_extension (k,l) f /\\ field_extension (l,m) g\n        ==> (algebraic_extension (k,m) (g o f) <=>\n             algebraic_extension (k,l) f /\\\n             algebraic_extension (l,m) g)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], field_extension((k, l), f) && field_extension((l, m), g) → algebraic_extension((k, m), o(g, f)) == (algebraic_extension((k, l), f) && algebraic_extension((l, m), g))"),
       t3463,
     ),
   )
@@ -37280,9 +36732,7 @@ fn step_236() -> Unit raise {
     ),
     t3474,
   ])
-  let t3464 = @parser.parse_term(
-    "UNIONS { {x | x IN ring_carrier l /\\\n                  poly_eval l ((f:A->B) o p) x = ring_0 l} |\n             p IN ring_carrier (poly_ring k (:1)) /\\\n             ~(p = ring_0 (poly_ring k (:1)))}",
-  )
+  let t3464 = @term_syntax.parse_term("UNIONS({{(x : B) | IN(x, ring_carrier((l : Ring[B]))) && poly_eval(l, o((f : (A) -> B), (p : ((Unit) -> Num) -> A)), x) == ring_0(l)} | IN(p, ring_carrier(poly_ring((k : Ring[A]), UNIV))) && !(p == ring_0(poly_ring(k, UNIV)))})")
   let t3465 = @tactics.trans_tac(@card.card_le_trans())(t3464)
   let t3527 = @tactics.thenl(
     @tactics.then_tac(
@@ -37305,9 +36755,7 @@ fn step_236() -> Unit raise {
   )
   card_le_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) k l (m:C->bool).\n        algebraic_extension (k,l) f /\\ INFINITE m /\\ ring_carrier k <=_c m\n        ==> ring_carrier l <=_c m",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : (C) -> Bool, algebraic_extension((k, l), f) && INFINITE(m) && op_lt_eq_us_c(ring_carrier(k), m) → op_lt_eq_us_c(ring_carrier(l), m)"),
       t3527,
     ),
   )
@@ -37517,9 +36965,7 @@ fn step_237() -> Unit raise {
   )
   card_eq_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        algebraic_extension (k,l) h /\\ INFINITE(ring_carrier k)\n        ==> ring_carrier l =_c ring_carrier k",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], algebraic_extension((k, l), h) && INFINITE(ring_carrier(k)) → op_eq_us_c(ring_carrier(l), ring_carrier(k))"),
       t3550,
     ),
   )
@@ -37957,9 +37403,7 @@ fn step_238() -> Unit raise {
     ),
   )
   let t3568 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "s = {x | x IN ring_carrier l /\\\n                       poly_extend (k,l) (h:A->B) (\\v:1. x) p = ring_0 l}",
-    ),
+    @term_syntax.parse_term("(s : (B) -> Bool) == {(x : B) | IN(x, ring_carrier((l : Ring[B]))) && poly_extend(((k : Ring[A]), l), (h : (A) -> B), (v : Unit) => x, (p : ((Unit) -> Num) -> A)) == ring_0(l)}"),
   )
   let t3565 = @simp.gen_rewrite_rule(
     fn(
@@ -38120,9 +37564,7 @@ fn step_238() -> Unit raise {
   )
   ring_automorphism_of_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l f.\n        algebraic_extension(k,l) h /\\\n        ring_monomorphism(l,l) f /\\\n        (forall x. x IN ring_carrier k ==> f(h x) = h x)\n        ==> ring_automorphism l f",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ f : (B) -> B, algebraic_extension((k, l), h) && ring_monomorphism((l, l), f) && (∀ x : A, IN(x, ring_carrier(k)) → f(h(x)) == h(x)) → ring_automorphism(l, f)"),
       t3622,
     ),
   )
@@ -38291,9 +37733,7 @@ fn step_239() -> Unit raise {
   )
   ring_automorphism_frobenius_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k:A ring.\n        prime(ring_char k) /\\\n        algebraic_extension(subfield_generated k {ring_0 k},k) I\n        ==> ring_automorphism k (\\x. ring_pow k x (ring_char k))",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], prime(ring_char(k)) && algebraic_extension((subfield_generated(k, {ring_0(k)}), k), I) → ring_automorphism(k, (x : A) => ring_pow(k, x, ring_char(k)))"),
       t3636,
     ),
   )
@@ -38324,9 +37764,7 @@ fn step_240() -> Unit raise {
   )
   algebraic_over_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h ==> algebraic_over(k,l) h (ring_0 l)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → algebraic_over((k, l), h, ring_0(l))"),
       t3637,
     ),
   )
@@ -38357,9 +37795,7 @@ fn step_241() -> Unit raise {
   )
   algebraic_over_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h ==> algebraic_over(k,l) h (ring_1 l)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → algebraic_over((k, l), h, ring_1(l))"),
       t3638,
     ),
   )
@@ -38544,9 +37980,7 @@ fn step_242() -> Unit raise {
                                     @list.List([
                                       @theorems.and_forall_thm(),
                                       @class.taut(
-                                        @parser.parse_term(
-                                          "(p ==> q) /\\ (p ==> r) <=> p ==> q /\\ r",
-                                        ),
+                                        @term_syntax.parse_term("(((p : Bool) → (q : Bool)) && (p → (r : Bool))) == (p → q && r)"),
                                       ),
                                     ]),
                                   ),
@@ -38583,9 +38017,7 @@ fn step_242() -> Unit raise {
     t3664,
   )
   let t3666 = (
-    @parser.parse_term(
-      "(forall(h:A->B) k l a.\n        field_extension (k,l) h /\\\n        algebraic_over (k,l) h a\n        ==> algebraic_over (k,l) h (ring_neg l a)) /\\\n   (forall(h:A->B) k l a.\n        field_extension (k,l) h /\\\n        algebraic_over (k,l) h a\n        ==> algebraic_over (k,l) h (ring_inv l a))",
-    ),
+    @term_syntax.parse_term("(∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) → algebraic_over((k, l), h, ring_neg(l, a))) && (∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) → algebraic_over((k, l), h, ring_inv(l, a)))"),
     t3665,
   )
   let (algebraic_over_neg, algebraic_over_inv) = @bool.conj_pair(
@@ -38787,9 +38219,7 @@ fn step_243() -> Unit raise {
                                         @list.List([
                                           @theorems.and_forall_thm(),
                                           @class.taut(
-                                            @parser.parse_term(
-                                              "(p ==> q) /\\ (p ==> r) <=> p ==> q /\\ r",
-                                            ),
+                                            @term_syntax.parse_term("(((p : Bool) → (q : Bool)) && (p → (r : Bool))) == (p → q && r)"),
                                           ),
                                         ]),
                                       ),
@@ -38830,9 +38260,7 @@ fn step_243() -> Unit raise {
     t3692,
   )
   let t3694 = (
-    @parser.parse_term(
-      "(forall(h:A->B) k l a b.\n        field_extension (k,l) h /\\\n        algebraic_over (k,l) h a /\\ algebraic_over (k,l) h b\n        ==> algebraic_over (k,l) h (ring_add l a b)) /\\\n   (forall(h:A->B) k l a b.\n        field_extension (k,l) h /\\\n        algebraic_over (k,l) h a /\\ algebraic_over (k,l) h b\n        ==> algebraic_over (k,l) h (ring_mul l a b))",
-    ),
+    @term_syntax.parse_term("(∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, ∀ b : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) && algebraic_over((k, l), h, b) → algebraic_over((k, l), h, ring_add(l, a, b))) && (∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, ∀ b : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) && algebraic_over((k, l), h, b) → algebraic_over((k, l), h, ring_mul(l, a, b)))"),
     t3693,
   )
   let (algebraic_over_add, algebraic_over_mul) = @bool.conj_pair(
@@ -38879,9 +38307,7 @@ fn step_244() -> Unit raise {
   )
   algebraic_over_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l a b.\n        field_extension (k,l) h /\\\n        algebraic_over (k,l) h a /\\ algebraic_over (k,l) h b\n        ==> algebraic_over (k,l) h (ring_sub l a b)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, ∀ b : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) && algebraic_over((k, l), h, b) → algebraic_over((k, l), h, ring_sub(l, a, b))"),
       t3695,
     ),
   )
@@ -38910,9 +38336,7 @@ fn step_245() -> Unit raise {
   )
   algebraic_over_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l a b.\n        field_extension (k,l) h /\\\n        algebraic_over (k,l) h a /\\ algebraic_over (k,l) h b\n        ==> algebraic_over (k,l) h (ring_div l a b)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, ∀ b : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) && algebraic_over((k, l), h, b) → algebraic_over((k, l), h, ring_div(l, a, b))"),
       t3696,
     ),
   )
@@ -38955,9 +38379,7 @@ fn step_246() -> Unit raise {
   )
   algebraic_over_pow_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l a n.\n        field_extension (k,l) h /\\ algebraic_over (k,l) h a\n        ==> algebraic_over (k,l) h (ring_pow l a n)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ a : B, ∀ n : Num, field_extension((k, l), h) && algebraic_over((k, l), h, a) → algebraic_over((k, l), h, ring_pow(l, a, n))"),
       t3700,
     ),
   )
@@ -39000,9 +38422,7 @@ fn step_247() -> Unit raise {
   )
   subring_of_algebraic_over_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> {x | algebraic_over (k,l) h x} subring_of l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → subring_of({(x : B) | algebraic_over((k, l), h, x)}, l)"),
       t3702,
     ),
   )
@@ -39074,9 +38494,7 @@ fn step_248() -> Unit raise {
   )
   subfield_of_algebraic_over_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> {x | algebraic_over (k,l) h x} subfield_of l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → subfield_of({(x : B) | algebraic_over((k, l), h, x)}, l)"),
       t3711,
     ),
   )
@@ -39135,9 +38553,7 @@ fn step_249() -> Unit raise {
   )
   algebraic_over_subfield_generated_algebraic_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        field_extension (k,l) h /\\\n        (forall x. x IN s ==> algebraic_over(k,l) h x)\n        ==> forall x. x IN ring_carrier\n                  (subfield_generated l (IMAGE h (ring_carrier k) UNION s))\n                ==> algebraic_over(k,l) h x",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, field_extension((k, l), h) && (∀ x : B, IN(x, s) → algebraic_over((k, l), h, x)) → (∀ x : B, IN(x, ring_carrier(subfield_generated(l, UNION(IMAGE(h, ring_carrier(k)), s)))) → algebraic_over((k, l), h, x))"),
       t3717,
     ),
   )
@@ -39550,9 +38966,7 @@ fn step_250() -> Unit raise {
   )
   field_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        field_extension(k,l) h /\\ (forall x. x IN s ==> algebraic_over(k,l) h x)\n        ==> field(subring_generated l (IMAGE h (ring_carrier k) UNION s))",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, field_extension((k, l), h) && (∀ x : B, IN(x, s) → algebraic_over((k, l), h, x)) → field(subring_generated(l, UNION(IMAGE(h, ring_carrier(k)), s)))"),
       t3769,
     ),
   )
@@ -39588,9 +39002,7 @@ fn step_251() -> Unit raise {
   )
   subfield_of_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        field_extension(k,l) h /\\ (forall x. x IN s ==> algebraic_over(k,l) h x)\n        ==> ring_carrier(subring_generated l (IMAGE h (ring_carrier k) UNION s))\n            subfield_of l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, field_extension((k, l), h) && (∀ x : B, IN(x, s) → algebraic_over((k, l), h, x)) → subfield_of(ring_carrier(subring_generated(l, UNION(IMAGE(h, ring_carrier(k)), s))), l)"),
       t3773,
     ),
   )
@@ -39615,9 +39027,7 @@ fn step_252() -> Unit raise {
   )
   field_algebraic_over_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> field(subring_generated l {x | algebraic_over (k,l) h x})",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → field(subring_generated(l, {(x : B) | algebraic_over((k, l), h, x)}))"),
       t3774,
     ),
   )
@@ -39642,9 +39052,7 @@ fn step_253() -> Unit raise {
   )
   subring_subfield_algebraic_over_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> subring_generated l {x | algebraic_over (k,l) h x} =\n            subfield_generated l {x | algebraic_over (k,l) h x}",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → subring_generated(l, {(x : B) | algebraic_over((k, l), h, x)}) == subfield_generated(l, {(x : B) | algebraic_over((k, l), h, x)})"),
       t3775,
     ),
   )
@@ -39680,9 +39088,7 @@ fn step_254() -> Unit raise {
   )
   let t3782 = @simp.rewrite_tac(@list.List([algebraic_extension()]))
   let t3781 = @simp.asm_rewrite_tac(@list.List([]))
-  let t3776 = @parser.parse_term(
-    "subring_generated m {x | algebraic_over(l,m) (g:B->C) x}",
-  )
+  let t3776 = @term_syntax.parse_term("subring_generated((m : Ring[C]), {(x : C) | algebraic_over(((l : Ring[B]), m), (g : (B) -> C), x)})")
   let t3777 = @term_syntax.parse_term("(l : Ring[B])")
   let t3778 = @term_syntax.parse_term("(k : Ring[A])")
   let t3779 = @term_syntax.parse_term("(g : (B) -> C)")
@@ -39707,9 +39113,7 @@ fn step_254() -> Unit raise {
   )
   algebraic_over_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m z.\n        algebraic_extension(k,l) f /\\ field_extension(l,m) g /\\\n        algebraic_over(l,m) g z\n        ==> algebraic_over(k,m) (g o f) z",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ z : C, algebraic_extension((k, l), f) && field_extension((l, m), g) && algebraic_over((l, m), g, z) → algebraic_over((k, m), o(g, f), z)"),
       t3785,
     ),
   )
@@ -39740,9 +39144,7 @@ fn step_255() -> Unit raise {
   )
   algebraic_over_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m x.\n        algebraic_extension (k,l) f /\\\n        field_extension (l,m) g\n        ==> (algebraic_over (k,m) (g o f) x <=> algebraic_over (l,m) g x)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ x : C, algebraic_extension((k, l), f) && field_extension((l, m), g) → algebraic_over((k, m), o(g, f), x) == algebraic_over((l, m), g, x)"),
       t3786,
     ),
   )
@@ -39782,9 +39184,7 @@ fn step_256() -> Unit raise {
   )
   finite_eq_field_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        FINITE(ring_carrier l)\n        ==> (finite_extension(k,l) h <=> field_extension(k,l) h)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], FINITE(ring_carrier(l)) → finite_extension((k, l), h) == field_extension((k, l), h)"),
       t3790,
     ),
   )
@@ -39879,9 +39279,7 @@ fn step_257() -> Unit raise {
   )
   let t3805 = @tactics.match_mp_tac(
     @sets.set_rule(
-      @parser.parse_term(
-        "forall g. (forall x. f(g x) = f x) /\\ (forall x. P x ==> P(g x) /\\ Q(g x))\n          ==> IMAGE f {x | P x} = IMAGE f {x | P x /\\ Q x}",
-      ),
+      @term_syntax.parse_term("∀ g : (_) -> _, (∀ x : _, (f : (_) -> _)(g(x)) == f(x)) && (∀ x : _, (P : (_) -> Bool)(x) → P(g(x)) && (Q : (_) -> Bool)(g(x))) → IMAGE(f, {(x : _) | P(x)}) == IMAGE(f, {(x : _) | P(x) && Q(x)})"),
     ),
   )
   let t3804 = @simp.gen_rewrite_tac(
@@ -39924,9 +39322,7 @@ fn step_257() -> Unit raise {
     t3823,
   ])
   let t3800 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_span (k,l) (h:A->B) b =\n    IMAGE (\\c. ring_sum l b (\\x. ring_mul l (h (c x)) x))\n          { c | (forall x. x IN b ==> c x IN ring_carrier k) /\\\n                (forall x. ~(x IN b) ==> c x = ARB) }",
-    ),
+    @term_syntax.parse_term("ring_span(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (b : (B) -> Bool)) == IMAGE((c : (B) -> A) => ring_sum(l, b, (x : B) => ring_mul(l, h(c(x)), x)), {(c : (B) -> A) | (∀ x : B, IN(x, b) → IN(c(x), ring_carrier(k))) && (∀ x : B, !IN(x, b) → c(x) == ARB)})"),
     fn(
       x3797 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -40058,9 +39454,7 @@ fn step_257() -> Unit raise {
   )
   has_size_finite_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l b.\n        field_extension (k,l) h /\\ ring_basis (k,l) h b /\\\n        FINITE(ring_carrier k) /\\ FINITE b\n        ==> ring_carrier l HAS_SIZE CARD(ring_carrier k) EXP CARD b",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ b : (B) -> Bool, field_extension((k, l), h) && ring_basis((k, l), h, b) && FINITE(ring_carrier(k)) && FINITE(b) → HAS_SIZE(ring_carrier(l), EXP(CARD(ring_carrier(k)), CARD(b)))"),
       t3825,
     ),
   )
@@ -40091,9 +39485,7 @@ fn step_258() -> Unit raise {
   )
   finite_finite_field_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        FINITE(ring_carrier k)\n        ==> (finite_extension(k,l) h <=>\n             field_extension(k,l) h /\\ FINITE(ring_carrier l))",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], FINITE(ring_carrier(k)) → finite_extension((k, l), h) == (field_extension((k, l), h) && FINITE(ring_carrier(l)))"),
       t3826,
     ),
   )
@@ -40118,9 +39510,7 @@ fn step_259() -> Unit raise {
   )
   card_finite_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l b.\n        field_extension (k,l) h /\\ ring_basis (k,l) h b /\\\n        FINITE(ring_carrier k) /\\ FINITE b\n        ==> CARD(ring_carrier l) = CARD(ring_carrier k) EXP CARD b",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ b : (B) -> Bool, field_extension((k, l), h) && ring_basis((k, l), h, b) && FINITE(ring_carrier(k)) && FINITE(b) → CARD(ring_carrier(l)) == EXP(CARD(ring_carrier(k)), CARD(b))"),
       t3827,
     ),
   )
@@ -40155,9 +39545,7 @@ fn step_260() -> Unit raise {
   )
   field_extension_from_prime_subring_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r:A ring.\n    field_extension (subring_generated r {ring_of_int r n | n IN (:int)},r)\n                    I <=>\n    field r /\\ prime(ring_char r)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], field_extension((subring_generated(r, {ring_of_int(r, (n : Int)) | IN(n, UNIV)}), r), I) == (field(r) && prime(ring_char(r)))"),
       t3829,
     ),
   )
@@ -40360,9 +39748,7 @@ fn step_261() -> Unit raise {
     t3838,
   ])
   let t3837 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "finite_extension (subring_generated k {ring_of_int k n | n IN (:int)},k)\n                     (I:A->A)",
-    ),
+    @term_syntax.parse_term("finite_extension((subring_generated((k : Ring[A]), {ring_of_int(k, (n : Int)) | IN(n, UNIV)}), k), I)"),
     fn(
       x3834 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -40477,9 +39863,7 @@ fn step_261() -> Unit raise {
   )
   finite_integral_domain_size_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k:A ring.\n        integral_domain k /\\ FINITE(ring_carrier k)\n        ==> ?p n. prime p /\\ ~(n = 0) /\\ CARD(ring_carrier k) = p EXP n",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], integral_domain(k) && FINITE(ring_carrier(k)) → (∃ p : Num, ∃ n : Num, prime(p) && !(n == 0) && CARD(ring_carrier(k)) == EXP(p, n))"),
       t3858,
     ),
   )
@@ -40501,9 +39885,7 @@ pub fn finite_integral_domain_size() -> @kernel.Thm {
 fn step_262() -> Unit raise {
   algebraically_dependent_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "algebraically_dependent (k,l) (h:A->B) s <=>\n        s SUBSET ring_carrier l /\\\n        ?p. p IN ring_carrier(poly_ring k s) /\\\n            ~(p = ring_0(poly_ring k s)) /\\\n            poly_extend(k,l) h (\\x. x) p = ring_0 l",
-      ),
+      @term_syntax.parse_term("(algebraically_dependent : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (SUBSET(s, ring_carrier(l)) && (∃ p : ((B) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, s))) && !(p == ring_0(poly_ring(k, s))) && poly_extend((k, l), h, (x : B) => x, p) == ring_0(l)))"),
     ),
   )
 }
@@ -40524,9 +39906,7 @@ pub fn algebraically_dependent() -> @kernel.Thm {
 fn step_263() -> Unit raise {
   algebraically_independent_c.set(
     @define.define_(
-      @parser.parse_term(
-        "algebraically_independent (k,l) (h:A->B) s <=>\n        s SUBSET ring_carrier l /\\ ~(algebraically_dependent (k,l) h s)",
-      ),
+      @term_syntax.parse_term("(algebraically_independent : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (SUBSET(s, ring_carrier(l)) && !algebraically_dependent((k, l), h, s))"),
     ),
   )
 }
@@ -40547,9 +39927,7 @@ pub fn algebraically_independent() -> @kernel.Thm {
 fn step_264() -> Unit raise {
   algebraic_span_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "algebraic_span (k,l) (h:A->B) s =\n      ring_0 l INSERT\n      {x | algebraic_over\n            (subring_generated l (IMAGE h (ring_carrier k) UNION s),l) I x}",
-      ),
+      @term_syntax.parse_term("(algebraic_span : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool, B) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == INSERT(ring_0(l), {(x : B) | algebraic_over((subring_generated(l, UNION(IMAGE(h, ring_carrier(k)), s)), l), I, x)})"),
     ),
   )
 }
@@ -40568,9 +39946,7 @@ pub fn algebraic_span() -> @kernel.Thm {
 fn step_265() -> Unit raise {
   algebraically_spanning_c.set(
     @define.define_(
-      @parser.parse_term(
-        "algebraically_spanning (k,l) (h:A->B) s <=>\n  s SUBSET ring_carrier l /\\\n  forall y. y IN ring_carrier l\n      ==> algebraic_over\n           (subring_generated l (IMAGE h (ring_carrier k) UNION s),l) I y",
-      ),
+      @term_syntax.parse_term("(algebraically_spanning : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (SUBSET(s, ring_carrier(l)) && (∀ y : B, IN(y, ring_carrier(l)) → algebraic_over((subring_generated(l, UNION(IMAGE(h, ring_carrier(k)), s)), l), I, y)))"),
     ),
   )
 }
@@ -40591,9 +39967,7 @@ pub fn algebraically_spanning() -> @kernel.Thm {
 fn step_266() -> Unit raise {
   transcendence_basis_c.set(
     @define.define_(
-      @parser.parse_term(
-        "transcendence_basis (k,l) (h:A->B) s <=>\n        algebraically_spanning (k,l) h s /\\\n        algebraically_independent (k,l) h s",
-      ),
+      @term_syntax.parse_term("(transcendence_basis : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (algebraically_spanning((k, l), h, s) && algebraically_independent((k, l), h, s))"),
     ),
   )
 }
@@ -40615,9 +39989,7 @@ fn step_267() -> Unit raise {
   let t3859 = @simp.simp_tac(@list.List([algebraically_dependent()]))
   algebraically_dependent_imp_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        algebraically_dependent (k,l) h s ==> s SUBSET ring_carrier l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, algebraically_dependent((k, l), h, s) → SUBSET(s, ring_carrier(l))"),
       t3859,
     ),
   )
@@ -40640,9 +40012,7 @@ fn step_268() -> Unit raise {
   let t3860 = @simp.simp_tac(@list.List([algebraically_independent()]))
   algebraically_independent_imp_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        algebraically_independent (k,l) h s ==> s SUBSET ring_carrier l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, algebraically_independent((k, l), h, s) → SUBSET(s, ring_carrier(l))"),
       t3860,
     ),
   )
@@ -40667,9 +40037,7 @@ fn step_269() -> Unit raise {
   )
   transcendence_basis_imp_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        transcendence_basis (k,l) h s ==> s SUBSET ring_carrier l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, transcendence_basis((k, l), h, s) → SUBSET(s, ring_carrier(l))"),
       t3861,
     ),
   )
@@ -41046,9 +40414,7 @@ fn step_270() -> Unit raise {
   )
   algebraically_dependent_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        ring_monomorphism(k,l) h\n        ==> (algebraically_dependent (k,l) h s <=>\n             s SUBSET ring_carrier l /\\\n             ?p. p IN ring_carrier(poly_ring k s) /\\\n                 ~(poly_deg k p = 0) /\\\n                 poly_extend(k,l) h (\\x. x) p = ring_0 l)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ring_monomorphism((k, l), h) → algebraically_dependent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (∃ p : ((B) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, s))) && !(poly_deg(k, p) == 0) && poly_extend((k, l), h, (x : B) => x, p) == ring_0(l)))"),
       t3895,
     ),
   )
@@ -41109,9 +40475,7 @@ fn step_271() -> Unit raise {
   )
   algebraic_span_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n    ~(trivial_ring l)\n    ==> algebraic_span (k,l) h s =\n         {x | algebraic_over\n              (subring_generated l (IMAGE h (ring_carrier k) UNION s),l) I x}",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, !trivial_ring(l) → algebraic_span((k, l), h, s) == {(x : B) | algebraic_over((subring_generated(l, UNION(IMAGE(h, ring_carrier(k)), s)), l), I, x)}"),
       t3904,
     ),
   )
@@ -41159,9 +40523,7 @@ fn step_272() -> Unit raise {
   )
   algebraic_span_field_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n    field l\n    ==> algebraic_span (k,l) h s =\n         {x | algebraic_over\n             (subfield_generated l (IMAGE h (ring_carrier k) UNION s),l) I x}",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, field(l) → algebraic_span((k, l), h, s) == {(x : B) | algebraic_over((subfield_generated(l, UNION(IMAGE(h, ring_carrier(k)), s)), l), I, x)}"),
       t3911,
     ),
   )
@@ -41190,9 +40552,7 @@ fn step_273() -> Unit raise {
   )
   algebraic_span_range_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        algebraic_span (k,l) h s =\n        algebraic_span (subring_generated l (IMAGE h (ring_carrier k)),l) I s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, algebraic_span((k, l), h, s) == algebraic_span((subring_generated(l, IMAGE(h, ring_carrier(k))), l), I, s)"),
       t3913,
     ),
   )
@@ -41232,9 +40592,7 @@ fn step_274() -> Unit raise {
   )
   algebraic_span_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        algebraic_span (k,l) h s =\n        algebraic_span (k,l) h (ring_carrier l INTER s)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, algebraic_span((k, l), h, s) == algebraic_span((k, l), h, INTER(ring_carrier(l), s))"),
       t3917,
     ),
   )
@@ -41273,9 +40631,7 @@ fn step_275() -> Unit raise {
   )
   algebraic_span_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s. algebraic_span (k,l) h s SUBSET ring_carrier l",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, SUBSET(algebraic_span((k, l), h, s), ring_carrier(l))"),
       t3920,
     ),
   )
@@ -41579,9 +40935,7 @@ fn step_276() -> Unit raise {
   )
   ring_span_subset_algebraic_span_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s. ring_span (k,l) h s SUBSET algebraic_span (k,l) h s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, SUBSET(ring_span((k, l), h, s), algebraic_span((k, l), h, s))"),
       t3943,
     ),
   )
@@ -41610,9 +40964,7 @@ fn step_277() -> Unit raise {
   )
   algebraic_span_superset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        s SUBSET ring_carrier l ==> s SUBSET algebraic_span (k,l) h s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, SUBSET(s, ring_carrier(l)) → SUBSET(s, algebraic_span((k, l), h, s))"),
       t3944,
     ),
   )
@@ -41798,9 +41150,7 @@ fn step_278() -> Unit raise {
   )
   algebraic_span_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s t.\n    s SUBSET t ==> algebraic_span (k,l) h s SUBSET algebraic_span (k,l) h t",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ t : (B) -> Bool, SUBSET(s, t) → SUBSET(algebraic_span((k, l), h, s), algebraic_span((k, l), h, t))"),
       t3964,
     ),
   )
@@ -41867,9 +41217,7 @@ fn step_279() -> Unit raise {
   )
   algebraic_extension_subfield_generated_algebraic_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension(k,l) h\n        ==> algebraic_extension\n             (k,subfield_generated l {x | algebraic_over (k,l) h x}) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → algebraic_extension((k, subfield_generated(l, {(x : B) | algebraic_over((k, l), h, x)})), h)"),
       t3973,
     ),
   )
@@ -41897,9 +41245,7 @@ fn step_280() -> Unit raise {
   )
   algebraic_extension_subring_generated_algebraic_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension(k,l) h\n        ==> algebraic_extension\n             (k,subring_generated l {x | algebraic_over (k,l) h x}) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → algebraic_extension((k, subring_generated(l, {(x : B) | algebraic_over((k, l), h, x)})), h)"),
       t3974,
     ),
   )
@@ -42106,9 +41452,7 @@ fn step_281() -> Unit raise {
     ),
   ])
   let t4011 = @term_syntax.parse_term("(l : Ring[B])")
-  let t4012 = @parser.parse_term(
-    "subfield_generated l (IMAGE (h:A->B) (ring_carrier k) UNION s)",
-  )
+  let t4012 = @term_syntax.parse_term("subfield_generated((l : Ring[B]), UNION(IMAGE((h : (A) -> B), ring_carrier((k : Ring[A]))), (s : (B) -> Bool)))")
   let t4013 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([@term_syntax.parse_term("(I : (B) -> B)"), t4012, t4011]),
@@ -42149,9 +41493,7 @@ fn step_281() -> Unit raise {
     ),
   ])
   let t4008 = @term_syntax.parse_term("(l : Ring[B])")
-  let t4009 = @parser.parse_term(
-    "subfield_generated l (IMAGE (h:A->B) (ring_carrier k) UNION s)",
-  )
+  let t4009 = @term_syntax.parse_term("subfield_generated((l : Ring[B]), UNION(IMAGE((h : (A) -> B), ring_carrier((k : Ring[A]))), (s : (B) -> Bool)))")
   let t4029 = @list.List([
     @tactics.thenl(
       @tactics.then_tac(
@@ -42171,12 +41513,8 @@ fn step_281() -> Unit raise {
   let t4006 = @simp.asm_rewrite_tac(@list.List([@trivia.i_o_id()]))
   let t4000 = @term_syntax.parse_term("(x : B)")
   let t4001 = @term_syntax.parse_term("(l : Ring[B])")
-  let t4002 = @parser.parse_term(
-    "subfield_generated l\n       (IMAGE h (ring_carrier k) UNION\n        {x | algebraic_over\n               (subfield_generated l (IMAGE (h:A->B) (ring_carrier k) UNION s),\n                l) I x})",
-  )
-  let t4003 = @parser.parse_term(
-    "subfield_generated l (IMAGE (h:A->B) (ring_carrier k) UNION s)",
-  )
+  let t4002 = @term_syntax.parse_term("subfield_generated((l : Ring[B]), UNION(IMAGE((h : (A) -> B), ring_carrier((k : Ring[A]))), {(x : B) | algebraic_over((subfield_generated(l, UNION(IMAGE(h, ring_carrier(k)), (s : (B) -> Bool))), l), I, x)}))")
+  let t4003 = @term_syntax.parse_term("subfield_generated((l : Ring[B]), UNION(IMAGE((h : (A) -> B), ring_carrier((k : Ring[A]))), (s : (B) -> Bool)))")
   let t4004 = @term_syntax.parse_term("(I : (B) -> B)")
   let t4005 = @tactics.mp_tac(
     @bool.ispecl(
@@ -42235,9 +41573,7 @@ fn step_281() -> Unit raise {
   )
   let t3989 = @tactics.mp_tac(
     @sets.set_rule(
-      @parser.parse_term(
-        "(ring_carrier l INTER s:B->bool) SUBSET ring_carrier l",
-      ),
+      @term_syntax.parse_term("SUBSET(INTER(ring_carrier((l : Ring[B])), (s : (B) -> Bool)), ring_carrier(l))"),
     ),
   )
   let t3988 = @simp.asm_simp_tac(
@@ -42348,9 +41684,7 @@ fn step_281() -> Unit raise {
   )
   algebraic_span_span_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        field_extension(k,l) h\n        ==> algebraic_span (k,l) h (algebraic_span (k,l) h s) =\n            algebraic_span (k,l) h s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, field_extension((k, l), h) → algebraic_span((k, l), h, algebraic_span((k, l), h, s)) == algebraic_span((k, l), h, s)"),
       t4035,
     ),
   )
@@ -42673,9 +42007,7 @@ fn step_282() -> Unit raise {
   )
   algebraic_span_finitary_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s a.\n        a IN algebraic_span (k,l) h s\n        ==> ?t. FINITE t /\\ t SUBSET s /\\ a IN algebraic_span (k,l) h t",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ a : B, IN(a, algebraic_span((k, l), h, s)) → (∃ t : (B) -> Bool, FINITE(t) && SUBSET(t, s) && IN(a, algebraic_span((k, l), h, t)))"),
       t4071,
     ),
   )
@@ -42707,9 +42039,7 @@ fn step_283() -> Unit raise {
   )
   algebraic_span_empty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n     ring_monomorphism(k,l) h /\\ ~trivial_ring l\n     ==> algebraic_span (k,l) h {} = {x | algebraic_over (k,l) h x}",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ring_monomorphism((k, l), h) && !trivial_ring(l) → algebraic_span((k, l), h, {}) == {(x : B) | algebraic_over((k, l), h, x)}"),
       t4074,
     ),
   )
@@ -42975,9 +42305,7 @@ fn step_284() -> Unit raise {
     t4080,
   ])
   let t4079 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_epimorphism(k,poly_ring k {}) (poly_const k:A->(B->num)->A)",
-    ),
+    @term_syntax.parse_term("(ring_epimorphism : ((Ring[A], Ring[((B) -> Num) -> A]), (A, (B) -> Num) -> A) -> Bool)(((k : Ring[A]), (poly_ring : (Ring[A], (B) -> Bool) -> Ring[((B) -> Num) -> A])(k, ({} : (B) -> Bool))), (poly_const : (Ring[A], A, (B) -> Num) -> A)(k))"),
     fn(
       x4076 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -43065,9 +42393,7 @@ fn step_284() -> Unit raise {
   )
   algebraically_independent_empty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n    ring_monomorphism(k,l) h ==> algebraically_independent (k,l) h {}",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ring_monomorphism((k, l), h) → algebraically_independent((k, l), h, {})"),
       t4101,
     ),
   )
@@ -43399,9 +42725,7 @@ fn step_285() -> Unit raise {
   )
   algebraically_dependent_sing_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l x.\n        algebraically_dependent (k,l) h {x} <=>\n        algebraic_over (k,l) h x",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ x : B, algebraically_dependent((k, l), h, {x}) == algebraic_over((k, l), h, x)"),
       t4134,
     ),
   )
@@ -43432,9 +42756,7 @@ fn step_286() -> Unit raise {
   let t4136 = @tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t4135)
   algebraically_independent_sing_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l x.\n        algebraically_independent (k,l) h {x} <=>\n        transcendental_over (k,l) h x",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ x : B, algebraically_independent((k, l), h, {x}) == transcendental_over((k, l), h, x)"),
       t4136,
     ),
   )
@@ -43639,9 +42961,7 @@ fn step_287() -> Unit raise {
   )
   algebraically_dependent_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s t.\n     algebraically_dependent (k,l) h s /\\ s SUBSET t /\\ t SUBSET ring_carrier l\n     ==> algebraically_dependent (k,l) h t",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ t : (B) -> Bool, algebraically_dependent((k, l), h, s) && SUBSET(s, t) && SUBSET(t, ring_carrier(l)) → algebraically_dependent((k, l), h, t)"),
       t4154,
     ),
   )
@@ -43684,9 +43004,7 @@ fn step_288() -> Unit raise {
   )
   algebraically_dependent_over_subring_generated_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s t d.\n        algebraically_dependent (subring_generated k s,l) h d /\\ s SUBSET t\n        ==> algebraically_dependent (subring_generated k t,l) h d",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ d : (B) -> Bool, algebraically_dependent((subring_generated(k, s), l), h, d) && SUBSET(s, t) → algebraically_dependent((subring_generated(k, t), l), h, d)"),
       t4157,
     ),
   )
@@ -43715,9 +43033,7 @@ fn step_289() -> Unit raise {
   )
   algebraically_independent_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s t.\n        algebraically_independent (k,l) h t /\\ s SUBSET t\n        ==> algebraically_independent (k,l) h s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ t : (B) -> Bool, algebraically_independent((k, l), h, t) && SUBSET(s, t) → algebraically_independent((k, l), h, s)"),
       t4159,
     ),
   )
@@ -43746,9 +43062,7 @@ fn step_290() -> Unit raise {
   )
   algebraically_independent_over_subring_generated_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s t d.\n        algebraically_independent (subring_generated k t,l) h d /\\ s SUBSET t\n        ==> algebraically_independent (subring_generated k s,l) h d",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ d : (B) -> Bool, algebraically_independent((subring_generated(k, t), l), h, d) && SUBSET(s, t) → algebraically_independent((subring_generated(k, s), l), h, d)"),
       t4161,
     ),
   )
@@ -43782,9 +43096,7 @@ fn step_291() -> Unit raise {
   )
   algebraically_independent_imp_transcendental_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s x.\n        field_extension (k,l) h /\\\n        algebraically_independent (k,l) h s /\\ x IN s\n        ==> transcendental_over (k,l) h x",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ x : B, field_extension((k, l), h) && algebraically_independent((k, l), h, s) && IN(x, s) → transcendental_over((k, l), h, x)"),
       t4165,
     ),
   )
@@ -43814,9 +43126,7 @@ fn step_292() -> Unit raise {
   let t4166 = @simp.rewrite_tac(
     @list.List([
       @sets.set_rule(
-        @parser.parse_term(
-          "DISJOINT (IMAGE f r) s <=> forall a. a IN r ==> ~(f a IN s)",
-        ),
+        @term_syntax.parse_term("DISJOINT(IMAGE((f : (_) -> _), (r : (_) -> Bool)), (s : (_) -> Bool)) == (∀ a : _, IN(a, r) → !IN(f(a), s))"),
       ),
     ]),
   )
@@ -43826,9 +43136,7 @@ fn step_292() -> Unit raise {
   )
   algebraically_independent_imp_disjoint_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        field_extension (k,l) h /\\ algebraically_independent (k,l) h s\n        ==> DISJOINT (IMAGE h (ring_carrier k)) s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, field_extension((k, l), h) && algebraically_independent((k, l), h, s) → DISJOINT(IMAGE(h, ring_carrier(k)), s)"),
       t4168,
     ),
   )
@@ -44025,9 +43333,7 @@ fn step_293() -> Unit raise {
   )
   algebraically_dependent_finitary_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        algebraically_dependent (k,l) h s <=>\n        s SUBSET ring_carrier l /\\\n        ?t. FINITE t /\\ t SUBSET s /\\ algebraically_dependent (k,l) h t",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, algebraically_dependent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (∃ t : (B) -> Bool, FINITE(t) && SUBSET(t, s) && algebraically_dependent((k, l), h, t)))"),
       t4188,
     ),
   )
@@ -44078,9 +43384,7 @@ fn step_294() -> Unit raise {
   )
   ring_monomorphism_poly_extend_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r r' s (h:A->B).\n        ring_homomorphism(r,r') h /\\ s SUBSET ring_carrier r'\n        ==> (ring_monomorphism (poly_ring r s,r')\n                               (poly_extend(r,r') h (\\x. x)) <=>\n             algebraically_independent (r,r') h s)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ r' : Ring[B], ∀ s : (B) -> Bool, ∀ h : (A) -> B, ring_homomorphism((r, r'), h) && SUBSET(s, ring_carrier(r')) → ring_monomorphism((poly_ring(r, s), r'), poly_extend((r, r'), h, (x : B) => x)) == algebraically_independent((r, r'), h, s)"),
       t4195,
     ),
   )
@@ -45403,9 +44707,7 @@ fn step_295() -> Unit raise {
   ])
   let t4224 = @tactics.match_mp_tac(
     @class.taut(
-      @parser.parse_term(
-        "(p' <=> p) /\\ (q <=> q') ==> (q <=> p) ==> (p' <=> q')",
-      ),
+      @term_syntax.parse_term("(p' : Bool) == (p : Bool) && (q : Bool) == (q' : Bool) → q == p → p' == q'"),
     ),
   )
   let t4219 = @term_syntax.parse_term("(a : B)")
@@ -45614,9 +44916,7 @@ fn step_295() -> Unit raise {
   )
   algebraically_dependent_from_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s a.\n        field_extension(k,l) h /\\ ~algebraically_dependent (k,l) h s\n        ==> (algebraically_dependent (k,l) h (a INSERT s) <=>\n             ~(a IN s) /\\ s SUBSET ring_carrier l /\\\n             a IN algebraic_span (k,l) h s)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ a : B, field_extension((k, l), h) && !algebraically_dependent((k, l), h, s) → algebraically_dependent((k, l), h, INSERT(a, s)) == (!IN(a, s) && SUBSET(s, ring_carrier(l)) && IN(a, algebraic_span((k, l), h, s)))"),
       t4357,
     ),
   )
@@ -45761,9 +45061,7 @@ fn step_296() -> Unit raise {
   )
   algebraically_dependent_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s a.\n        field_extension(k,l) h\n        ==> (algebraically_dependent (k,l) h (a INSERT s) <=>\n             a IN ring_carrier l /\\ algebraically_dependent (k,l) h s \\/\n             ~(a IN s) /\\ s SUBSET ring_carrier l /\\\n             a IN algebraic_span (k,l) h s)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ a : B, field_extension((k, l), h) → algebraically_dependent((k, l), h, INSERT(a, s)) == (IN(a, ring_carrier(l)) && algebraically_dependent((k, l), h, s) || !IN(a, s) && SUBSET(s, ring_carrier(l)) && IN(a, algebraic_span((k, l), h, s)))"),
       t4374,
     ),
   )
@@ -45795,9 +45093,7 @@ fn step_297() -> Unit raise {
   )
   algebraically_independent_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s a.\n        field_extension(k,l) h\n        ==> (algebraically_independent (k,l) h (a INSERT s) <=>\n             algebraically_independent (k,l) h s /\\\n             a IN ring_carrier l /\\\n             (a IN s \\/ ~(a IN algebraic_span (k,l) h s)))",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ a : B, field_extension((k, l), h) → algebraically_independent((k, l), h, INSERT(a, s)) == (algebraically_independent((k, l), h, s) && IN(a, ring_carrier(l)) && (IN(a, s) || !IN(a, algebraic_span((k, l), h, s))))"),
       t4377,
     ),
   )
@@ -46400,9 +45696,7 @@ fn step_298() -> Unit raise {
     t4504,
   ])
   let t4470 = @class.asm_cases_tac(
-    @parser.parse_term(
-      "?t. t PSUBSET s /\\ algebraically_dependent (k,l) (h:A->B) t",
-    ),
+    @term_syntax.parse_term("∃ t : (B) -> Bool, PSUBSET(t, (s : (B) -> Bool)) && algebraically_dependent(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), t)"),
   )
   let t4469 = @list.List([
     @tactics.all_tac,
@@ -47365,9 +46659,7 @@ fn step_298() -> Unit raise {
   let t4379 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([@sets.has_size()]),
-      @parser.parse_term(
-        "((forall s. FINITE s ==> P s) ==> (forall s. P s)) /\\\n    (forall n s. s HAS_SIZE n ==> P s)\n    ==> forall s. P s",
-      ),
+      @term_syntax.parse_term("((∀ s : (_) -> Bool, FINITE(s) → (P : ((_) -> Bool) -> Bool)(s)) → (∀ s : (_) -> Bool, P(s))) && (∀ n : Num, ∀ s : (_) -> Bool, HAS_SIZE(s, n) → P(s)) → (∀ s : (_) -> Bool, P(s))"),
     ),
   )
   let t4378 = @tactics.repeat_tac(@tactics.gen_tac)
@@ -47450,9 +46742,7 @@ fn step_298() -> Unit raise {
   )
   algebraically_dependent_span_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k l (h:A->B) s.\n        field_extension(k,l) h\n        ==> (algebraically_dependent (k,l) h s <=>\n             s SUBSET ring_carrier l /\\\n             ?a. a IN s /\\ a IN algebraic_span (k,l) h (s DELETE a))",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[B], ∀ h : (A) -> B, ∀ s : (B) -> Bool, field_extension((k, l), h) → algebraically_dependent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (∃ a : B, IN(a, s) && IN(a, algebraic_span((k, l), h, DELETE(s, a)))))"),
       t4536,
     ),
   )
@@ -47481,9 +46771,7 @@ fn step_299() -> Unit raise {
   )
   algebraically_independent_span_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k l (h:A->B) s.\n        field_extension(k,l) h\n        ==> (algebraically_independent (k,l) h s <=>\n             s SUBSET ring_carrier l /\\\n             forall a. a IN s ==> ~(a IN algebraic_span (k,l) h (s DELETE a)))",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[B], ∀ h : (A) -> B, ∀ s : (B) -> Bool, field_extension((k, l), h) → algebraically_independent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (∀ a : B, IN(a, s) → !IN(a, algebraic_span((k, l), h, DELETE(s, a)))))"),
       t4538,
     ),
   )
@@ -47810,9 +47098,7 @@ fn step_300() -> Unit raise {
       @tactics.then_tac(
         @tactics.then_tac(
           @tactics.undisch_tac(
-            @parser.parse_term(
-              "c IN algebraic_span (k,l) (h:A->B) (t DELETE c)",
-            ),
+            @term_syntax.parse_term("IN((c : B), algebraic_span(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), DELETE((t : (B) -> Bool), c)))"),
           ),
           t4632,
         ),
@@ -48312,9 +47598,7 @@ fn step_300() -> Unit raise {
     t4583,
   ])
   let t4561 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?n t. t HAS_SIZE n /\\ t SUBSET s /\\\n          a IN algebraic_span (k,l) (h:A->B) (b INSERT t)",
-    ),
+    @term_syntax.parse_term("∃ n : Num, ∃ t : (B) -> Bool, HAS_SIZE(t, n) && SUBSET(t, (s : (B) -> Bool)) && IN((a : B), algebraic_span(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), INSERT((b : B), t)))"),
     fn(
       x4558 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -48390,9 +47674,7 @@ fn step_300() -> Unit raise {
   )
   let t4545 = @tactics.mp_tac(
     @sets.set_rule(
-      @parser.parse_term(
-        "ring_carrier l INTER (s:B->bool) SUBSET ring_carrier l",
-      ),
+      @term_syntax.parse_term("SUBSET(INTER(ring_carrier((l : Ring[B])), (s : (B) -> Bool)), ring_carrier(l))"),
     ),
   )
   let t4543 = @meson.asm_meson_tac(
@@ -48402,9 +47684,7 @@ fn step_300() -> Unit raise {
     @simp.asm_simp_tac(
       @list.List([
         @sets.set_rule(
-          @parser.parse_term(
-            "b IN s ==> s INTER (b INSERT t) = b INSERT (s INTER t)",
-          ),
+          @term_syntax.parse_term("IN((b : _), (s : (_) -> Bool)) → INTER(s, INSERT(b, (t : (_) -> Bool))) == INSERT(b, INTER(s, t))"),
         ),
       ]),
     ),
@@ -48573,9 +47853,7 @@ fn step_300() -> Unit raise {
   )
   algebraic_span_exchange_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s a b.\n        field_extension(k,l) h /\\\n        a IN algebraic_span (k,l) h (b INSERT s) /\\\n        ~(a IN algebraic_span (k,l) h s)\n        ==> b IN algebraic_span (k,l) h (a INSERT s)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, ∀ a : B, ∀ b : B, field_extension((k, l), h) && IN(a, algebraic_span((k, l), h, INSERT(b, s))) && !IN(a, algebraic_span((k, l), h, s)) → IN(b, algebraic_span((k, l), h, INSERT(a, s)))"),
       t4690,
     ),
   )
@@ -48687,9 +47965,7 @@ fn step_301() -> Unit raise {
   )
   algebraically_spanning_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        field_extension (k,l) h\n        ==> (algebraically_spanning (k,l) (h:A->B) s <=>\n             s SUBSET ring_carrier l /\\\n             algebraic_extension\n              (subfield_generated l (IMAGE h (ring_carrier k) UNION s),l) I)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, field_extension((k, l), h) → algebraically_spanning((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && algebraic_extension((subfield_generated(l, UNION(IMAGE(h, ring_carrier(k)), s)), l), I))"),
       t4704,
     ),
   )
@@ -48711,9 +47987,7 @@ pub fn algebraically_spanning_v1() -> @kernel.Thm {
 fn step_302() -> Unit raise {
   algebraic_matroid_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "algebraic_matroid (k,l) (h:A->B) =\n     matroid(ring_carrier l,algebraic_span (k,l) h)",
-      ),
+      @term_syntax.parse_term("(algebraic_matroid : ((Ring[A], Ring[B]), (A) -> B) -> Matroid[B])(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B)) == matroid((ring_carrier(l), algebraic_span((k, l), h)))"),
     ),
   )
 }
@@ -48769,9 +48043,7 @@ fn step_303() -> Unit raise {
   )
   algebraic_matroid_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> matroid_set(algebraic_matroid (k,l) h) = ring_carrier l /\\\n            matroid_span(algebraic_matroid (k,l) h) = algebraic_span (k,l) h",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → matroid_set(algebraic_matroid((k, l), h)) == ring_carrier(l) && matroid_span(algebraic_matroid((k, l), h)) == algebraic_span((k, l), h)"),
       t4709,
     ),
   )
@@ -48810,9 +48082,7 @@ fn step_304() -> Unit raise {
   )
   algebraic_matroid_independent_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> (matroid_independent(algebraic_matroid (k,l) h) =\n             algebraically_independent (k,l) h)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → matroid_independent(algebraic_matroid((k, l), h)) == algebraically_independent((k, l), h)"),
       t4712,
     ),
   )
@@ -48847,9 +48117,7 @@ fn step_305() -> Unit raise {
   )
   algebraic_matroid_dependent_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> (matroid_dependent(algebraic_matroid (k,l) h) =\n             algebraically_dependent (k,l) h)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → matroid_dependent(algebraic_matroid((k, l), h)) == algebraically_dependent((k, l), h)"),
       t4714,
     ),
   )
@@ -48929,9 +48197,7 @@ fn step_306() -> Unit raise {
   )
   algebraic_matroid_spanning_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> (matroid_spanning(algebraic_matroid (k,l) h) =\n             algebraically_spanning (k,l) h)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → matroid_spanning(algebraic_matroid((k, l), h)) == algebraically_spanning((k, l), h)"),
       t4723,
     ),
   )
@@ -48962,9 +48228,7 @@ fn step_307() -> Unit raise {
   )
   algebraic_matroid_basis_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> (matroid_basis(algebraic_matroid (k,l) h) =\n             transcendence_basis (k,l) h)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → matroid_basis(algebraic_matroid((k, l), h)) == transcendence_basis((k, l), h)"),
       t4724,
     ),
   )
@@ -48992,9 +48256,7 @@ fn step_308() -> Unit raise {
   )
   transcendence_basis_exists_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h ==> ?b. transcendence_basis (k,l) h b",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) → (∃ b : (B) -> Bool, transcendence_basis((k, l), h, b))"),
       t4725,
     ),
   )
@@ -49023,9 +48285,7 @@ fn step_309() -> Unit raise {
   )
   algebraically_spanning_contains_transcendence_basis_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l.\n        field_extension (k,l) h /\\ algebraically_spanning (k,l) h b\n        ==> ?c. c SUBSET b /\\ transcendence_basis (k,l) h c",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], field_extension((k, l), h) && algebraically_spanning((k, l), h, (b : (B) -> Bool)) → (∃ c : (B) -> Bool, SUBSET(c, b) && transcendence_basis((k, l), h, c))"),
       t4726,
     ),
   )
@@ -49050,9 +48310,7 @@ fn step_310() -> Unit raise {
   )
   transcendence_bases_card_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l b b'.\n        field_extension (k,l) h /\\\n        transcendence_basis (k,l) h b /\\ transcendence_basis (k,l) h b'\n        ==> b =_c b'",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ b : (B) -> Bool, ∀ b' : (B) -> Bool, field_extension((k, l), h) && transcendence_basis((k, l), h, b) && transcendence_basis((k, l), h, b') → op_eq_us_c(b, b')"),
       t4727,
     ),
   )
@@ -49333,9 +48591,7 @@ fn step_311() -> Unit raise {
     @tactics.then_tac(@tactics.disch_tac, @tactics.mp_tac(th))
   })
   let t4817 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "p = poly_reindex (k:A ring) (q:(B->num)->A) (h:C->B) (IMAGE g s) s",
-    ),
+    @term_syntax.parse_term("(p : ((C) -> Num) -> A) == poly_reindex((k : Ring[A]), (q : ((B) -> Num) -> A), (h : (C) -> B), IMAGE((g : (B) -> C), (s : (B) -> Bool)), s)"),
   )
   let t4816 = @simp.asm_rewrite_tac(@list.List([]))
   let t4809 = @term_syntax.parse_term("(g : (B) -> C)")
@@ -49367,9 +48623,7 @@ fn step_311() -> Unit raise {
     t4817,
   )
   let t4808 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "q = poly_reindex (k:A ring) (p:(C->num)->A) (g:B->C) (s:B->bool)\n          (IMAGE (g:B->C) s)",
-    ),
+    @term_syntax.parse_term("(q : ((B) -> Num) -> A) == poly_reindex((k : Ring[A]), (p : ((C) -> Num) -> A), (g : (B) -> C), (s : (B) -> Bool), IMAGE(g, s))"),
   )
   let t4807 = @simp.asm_rewrite_tac(@list.List([]))
   let t4800 = @term_syntax.parse_term("(x : C) => x")
@@ -49668,9 +48922,7 @@ fn step_311() -> Unit raise {
     })(@bool.conjunct1(x4775))
   })
   let t4771 = @tactics.exists_tac(
-    @parser.parse_term(
-      "poly_reindex (k:A ring) q (h:C->B)\n                             (IMAGE (g:B->C) s) (s:B->bool)",
-    ),
+    @term_syntax.parse_term("poly_reindex((k : Ring[A]), (q : ((B) -> Num) -> A), (h : (C) -> B), IMAGE((g : (B) -> C), (s : (B) -> Bool)), s)"),
   )
   let t4777 = @tactics.then_tac(
     @tactics.then_tac(
@@ -49774,9 +49026,7 @@ fn step_311() -> Unit raise {
     })(@bool.conjunct2(x4769))
   })
   let t4764 = @tactics.exists_tac(
-    @parser.parse_term(
-      "poly_reindex (k:A ring) p (g:B->C) (s:B->bool)\n                             (IMAGE (g:B->C) s)",
-    ),
+    @term_syntax.parse_term("poly_reindex((k : Ring[A]), (p : ((C) -> Num) -> A), (g : (B) -> C), (s : (B) -> Bool), IMAGE(g, s))"),
   )
   let t4778 = @list.List([
     @tactics.then_tac(
@@ -49885,9 +49135,7 @@ fn step_311() -> Unit raise {
     t4755,
   ])
   let t4753 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "BIJ (g:B->C) s (IMAGE g s) /\\ BIJ (h:C->B) (IMAGE g s) s",
-    ),
+    @term_syntax.parse_term("BIJ((g : (B) -> C), (s : (B) -> Bool), IMAGE(g, s)) && BIJ((h : (C) -> B), IMAGE(g, s), s)"),
     @tactics.strip_assume_tac,
   )
   let t4751 = @simp.asm_rewrite_tac(@list.List([]))
@@ -50161,9 +49409,7 @@ fn step_311() -> Unit raise {
   )
   algebraically_dependent_monomorphic_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m s.\n        s SUBSET ring_carrier l /\\\n        ring_homomorphism(k,l) f /\\\n        ring_monomorphism(l,m) g\n        ==> (algebraically_dependent (k,m) (g o f) (IMAGE g s) <=>\n             algebraically_dependent (k,l) f s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ s : (B) -> Bool, SUBSET(s, ring_carrier(l)) && ring_homomorphism((k, l), f) && ring_monomorphism((l, m), g) → algebraically_dependent((k, m), o(g, f), IMAGE(g, s)) == algebraically_dependent((k, l), f, s)"),
       t4852,
     ),
   )
@@ -50198,9 +49444,7 @@ fn step_312() -> Unit raise {
   )
   algebraic_over_monomorphic_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m z.\n        z IN ring_carrier l /\\\n        ring_homomorphism(k,l) f /\\\n        ring_monomorphism(l,m) g\n        ==> (algebraic_over (k,m) (g o f) (g z) <=>\n             algebraic_over (k,l) f z)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ z : B, IN(z, ring_carrier(l)) && ring_homomorphism((k, l), f) && ring_monomorphism((l, m), g) → algebraic_over((k, m), o(g, f), g(z)) == algebraic_over((k, l), f, z)"),
       t4855,
     ),
   )
@@ -50404,9 +49648,7 @@ fn step_313() -> Unit raise {
   let t4862 = @term_syntax.parse_term("(z : B)")
   let t4863 = @term_syntax.parse_term("(m : Ring[C])")
   let t4864 = @term_syntax.parse_term("(l : Ring[B])")
-  let t4865 = @parser.parse_term(
-    "subring_generated l (IMAGE (f:A->B) (ring_carrier k) UNION s)",
-  )
+  let t4865 = @term_syntax.parse_term("subring_generated((l : Ring[B]), UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), (s : (B) -> Bool)))")
   let t4866 = @term_syntax.parse_term("(g : (B) -> C)")
   let t4867 = @tactics.mp_tac(
     @bool.ispecl(
@@ -50433,9 +49675,7 @@ fn step_313() -> Unit raise {
   let t4857 = @simp.rewrite_tac(@list.List([algebraic_span_subset()]))
   let t4856 = @tactics.match_mp_tac(
     @sets.set_rule(
-      @parser.parse_term(
-        "(forall x. x IN u ==> (g x IN v <=> x IN s)) /\\ s SUBSET u\n    ==> IMAGE g s = IMAGE g u INTER v",
-      ),
+      @term_syntax.parse_term("(∀ x : _, IN(x, (u : (_) -> Bool)) → IN((g : (_) -> _)(x), (v : (_) -> Bool)) == IN(x, (s : (_) -> Bool))) && SUBSET(s, u) → IMAGE(g, s) == INTER(IMAGE(g, u), v)"),
     ),
   )
   let t4890 = @tactics.then_tac(
@@ -50498,9 +49738,7 @@ fn step_313() -> Unit raise {
   )
   algebraic_span_monomorphic_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m s.\n        ring_homomorphism(k,l) f /\\\n        ring_monomorphism(l,m) g /\\\n        s SUBSET ring_carrier l\n        ==> IMAGE g (algebraic_span (k,l) f s) =\n            IMAGE g (ring_carrier l) INTER\n            algebraic_span (k,m) (g o f) (IMAGE g s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ s : (B) -> Bool, ring_homomorphism((k, l), f) && ring_monomorphism((l, m), g) && SUBSET(s, ring_carrier(l)) → IMAGE(g, algebraic_span((k, l), f, s)) == INTER(IMAGE(g, ring_carrier(l)), algebraic_span((k, m), o(g, f), IMAGE(g, s)))"),
       t4890,
     ),
   )
@@ -51035,9 +50273,7 @@ fn step_314() -> Unit raise {
   let t4922 = @simp.once_rewrite_tac(
     @list.List([
       @class.taut(
-        @parser.parse_term(
-          "p /\\ q /\\ (r /\\ s) /\\ t <=> r /\\ p /\\ s /\\ q /\\ t",
-        ),
+        @term_syntax.parse_term("((p : Bool) && (q : Bool) && ((r : Bool) && (s : Bool)) && (t : Bool)) == (r && p && s && q && t)"),
       ),
     ]),
   )
@@ -51311,9 +50547,7 @@ fn step_314() -> Unit raise {
   )
   algebraically_independent_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m s t.\n        field_extension(k,l) f /\\ field_extension(l,m) g /\\\n        algebraically_independent (k,l) f s /\\\n        algebraically_independent (l,m) g t\n        ==> DISJOINT (IMAGE g s) t /\\\n            algebraically_independent (k,m) (g o f) (IMAGE g s UNION t)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ s : (B) -> Bool, ∀ t : (C) -> Bool, field_extension((k, l), f) && field_extension((l, m), g) && algebraically_independent((k, l), f, s) && algebraically_independent((l, m), g, t) → DISJOINT(IMAGE(g, s), t) && algebraically_independent((k, m), o(g, f), UNION(IMAGE(g, s), t))"),
       t4983,
     ),
   )
@@ -51519,9 +50753,7 @@ fn step_315() -> Unit raise {
     ),
     t5052,
   ])
-  let t5028 = @parser.parse_term(
-    "algebraic_span (k,m) (g o f)\n     (IMAGE (g:B->C) (algebraic_span (k,l) (f:A->B) s) UNION t)",
-  )
+  let t5028 = @term_syntax.parse_term("algebraic_span(((k : Ring[A]), (m : Ring[C])), o((g : (B) -> C), (f : (A) -> B)), UNION(IMAGE(g, algebraic_span((k, (l : Ring[B])), f, (s : (B) -> Bool))), (t : (C) -> Bool)))")
   let t5029 = @tactics.trans_tac(@sets.subset_trans())(t5028)
   let t5025 = @tactics.disch_then(fn(
     x5022 : @kernel.Thm,
@@ -52062,9 +51294,7 @@ fn step_315() -> Unit raise {
   )
   algebraically_spanning_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m s t.\n      field_extension (k,l) f /\\ algebraically_spanning (k,l) f s /\\\n      field_extension (l,m) g /\\ algebraically_spanning (l,m) g t\n      ==> algebraically_spanning (k,m) (g o f) (IMAGE g s UNION t)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ s : (B) -> Bool, ∀ t : (C) -> Bool, field_extension((k, l), f) && algebraically_spanning((k, l), f, s) && field_extension((l, m), g) && algebraically_spanning((l, m), g, t) → algebraically_spanning((k, m), o(g, f), UNION(IMAGE(g, s), t))"),
       t5054,
     ),
   )
@@ -52096,9 +51326,7 @@ fn step_316() -> Unit raise {
   )
   transcendence_basis_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m s t.\n      field_extension (k,l) f /\\ transcendence_basis (k,l) f s /\\\n      field_extension (l,m) g /\\ transcendence_basis (l,m) g t\n      ==> DISJOINT (IMAGE g s) t /\\\n          transcendence_basis (k,m) (g o f) (IMAGE g s UNION t)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ s : (B) -> Bool, ∀ t : (C) -> Bool, field_extension((k, l), f) && transcendence_basis((k, l), f, s) && field_extension((l, m), g) && transcendence_basis((l, m), g, t) → DISJOINT(IMAGE(g, s), t) && transcendence_basis((k, m), o(g, f), UNION(IMAGE(g, s), t))"),
       t5056,
     ),
   )
@@ -52341,9 +51569,7 @@ fn step_317() -> Unit raise {
   )
   transcendence_basis_tower_law_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m b c d.\n     field_extension (k,l) f /\\ field_extension (l,m) g /\\\n     transcendence_basis (k,l) f b /\\\n     transcendence_basis (l,m) g c /\\\n     transcendence_basis (k,m) (g o f) d\n     ==> b +_c c =_c d",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ b : (B) -> Bool, ∀ c : (C) -> Bool, ∀ d : (C) -> Bool, field_extension((k, l), f) && field_extension((l, m), g) && transcendence_basis((k, l), f, b) && transcendence_basis((l, m), g, c) && transcendence_basis((k, m), o(g, f), d) → op_eq_us_c(op_plus_us_c(b, c), d)"),
       t5086,
     ),
   )
@@ -52375,9 +51601,7 @@ fn step_318() -> Unit raise {
   )
   transcendence_basis_card_le_left_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m b c.\n     field_extension (k,l) f /\\ field_extension (l,m) g /\\\n     transcendence_basis (k,l) f b /\\\n     transcendence_basis (k,m) (g o f) c\n     ==> b <=_c c",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ b : (B) -> Bool, ∀ c : (C) -> Bool, field_extension((k, l), f) && field_extension((l, m), g) && transcendence_basis((k, l), f, b) && transcendence_basis((k, m), o(g, f), c) → op_lt_eq_us_c(b, c)"),
       t5087,
     ),
   )
@@ -52409,9 +51633,7 @@ fn step_319() -> Unit raise {
   )
   transcendence_basis_card_le_right_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m b c.\n     field_extension (k,l) f /\\ field_extension (l,m) g /\\\n     transcendence_basis (l,m) g b /\\\n     transcendence_basis (k,m) (g o f) c\n     ==> b <=_c c",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ b : (C) -> Bool, ∀ c : (C) -> Bool, field_extension((k, l), f) && field_extension((l, m), g) && transcendence_basis((l, m), g, b) && transcendence_basis((k, m), o(g, f), c) → op_lt_eq_us_c(b, c)"),
       t5088,
     ),
   )
@@ -52614,9 +51836,7 @@ fn step_320() -> Unit raise {
   let t5141 = @term_syntax.parse_term("(b : B)")
   let t5142 = @term_syntax.parse_term("(m : Ring[C])")
   let t5143 = @term_syntax.parse_term("(l : Ring[B])")
-  let t5144 = @parser.parse_term(
-    "subring_generated l (IMAGE (f:A->B) (ring_carrier k))",
-  )
+  let t5144 = @term_syntax.parse_term("subring_generated((l : Ring[B]), IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))))")
   let t5145 = @term_syntax.parse_term("(g : (B) -> C)")
   let t5146 = @tactics.mp_tac(
     @bool.ispecl(
@@ -53242,9 +52462,7 @@ fn step_320() -> Unit raise {
   )
   algebraic_extension_subfields_generated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m s.\n      algebraic_extension (k,l) f /\\\n      field_extension (l,m) g /\\\n      s SUBSET ring_carrier m\n      ==> algebraic_extension\n           (subfield_generated m (IMAGE (g o f) (ring_carrier k) UNION s),\n            subfield_generated m (IMAGE g (ring_carrier l) UNION s)) I",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ s : (C) -> Bool, algebraic_extension((k, l), f) && field_extension((l, m), g) && SUBSET(s, ring_carrier(m)) → algebraic_extension((subfield_generated(m, UNION(IMAGE(o(g, f), ring_carrier(k)), s)), subfield_generated(m, UNION(IMAGE(g, ring_carrier(l)), s))), I)"),
       t5189,
     ),
   )
@@ -53283,12 +52501,8 @@ fn step_321() -> Unit raise {
   let t5208 = @simp.rewrite_tac(@list.List([@trivia.i_o_id()]))
   let t5202 = @term_syntax.parse_term("(z : C)")
   let t5203 = @term_syntax.parse_term("(m : Ring[C])")
-  let t5204 = @parser.parse_term(
-    "subfield_generated m (IMAGE (g:B->C) (ring_carrier l) UNION s)",
-  )
-  let t5205 = @parser.parse_term(
-    "subfield_generated m\n       (IMAGE ((g:B->C) o (f:A->B)) (ring_carrier k) UNION s)",
-  )
+  let t5204 = @term_syntax.parse_term("subfield_generated((m : Ring[C]), UNION(IMAGE((g : (B) -> C), ring_carrier((l : Ring[B]))), (s : (C) -> Bool)))")
+  let t5205 = @term_syntax.parse_term("subfield_generated((m : Ring[C]), UNION(IMAGE(o((g : (B) -> C), (f : (A) -> B)), ring_carrier((k : Ring[A]))), (s : (C) -> Bool)))")
   let t5206 = @term_syntax.parse_term("(I : (C) -> C)")
   let t5207 = @tactics.mp_tac(
     @bool.ispecl(
@@ -53347,9 +52561,7 @@ fn step_321() -> Unit raise {
   )
   let t5191 = @tactics.mp_tac(
     @sets.set_rule(
-      @parser.parse_term(
-        "(ring_carrier m INTER s:C->bool) SUBSET ring_carrier m",
-      ),
+      @term_syntax.parse_term("SUBSET(INTER(ring_carrier((m : Ring[C])), (s : (C) -> Bool)), ring_carrier(m))"),
     ),
   )
   let t5190 = @simp.once_rewrite_tac(@list.List([algebraic_span_restrict()]))
@@ -53401,9 +52613,7 @@ fn step_321() -> Unit raise {
   )
   algebraic_span_over_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m s.\n        algebraic_extension (k,l) f /\\\n        field_extension (l,m) g\n        ==> algebraic_span (k,m) (g o f) s = algebraic_span (l,m) g s",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ s : (C) -> Bool, algebraic_extension((k, l), f) && field_extension((l, m), g) → algebraic_span((k, m), o(g, f), s) == algebraic_span((l, m), g, s)"),
       t5214,
     ),
   )
@@ -53446,9 +52656,7 @@ fn step_322() -> Unit raise {
   )
   algebraically_dependent_over_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m s.\n        algebraic_extension (k,l) f /\\\n        field_extension (l,m) g\n        ==> (algebraically_dependent (k,m) (g o f) s <=>\n             algebraically_dependent (l,m) g s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ s : (C) -> Bool, algebraic_extension((k, l), f) && field_extension((l, m), g) → algebraically_dependent((k, m), o(g, f), s) == algebraically_dependent((l, m), g, s)"),
       t5221,
     ),
   )
@@ -53476,9 +52684,7 @@ fn step_323() -> Unit raise {
   )
   algebraically_independent_over_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m s.\n        algebraic_extension (k,l) f /\\\n        field_extension (l,m) g\n        ==> (algebraically_independent (k,m) (g o f) s <=>\n             algebraically_independent (l,m) g s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ s : (C) -> Bool, algebraic_extension((k, l), f) && field_extension((l, m), g) → algebraically_independent((k, m), o(g, f), s) == algebraically_independent((l, m), g, s)"),
       t5222,
     ),
   )
@@ -53514,9 +52720,7 @@ fn step_324() -> Unit raise {
   )
   algebraically_spanning_span_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        ~(trivial_ring l)\n        ==> (algebraically_spanning (k,l) h s <=>\n             s SUBSET ring_carrier l /\\\n             algebraic_span (k,l) h s = ring_carrier l)",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, !trivial_ring(l) → algebraically_spanning((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && algebraic_span((k, l), h, s) == ring_carrier(l))"),
       t5226,
     ),
   )
@@ -53580,9 +52784,7 @@ fn step_325() -> Unit raise {
   )
   algebraically_spanning_over_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m s.\n        algebraic_extension (k,l) f /\\\n        field_extension (l,m) g\n        ==> (algebraically_spanning (k,m) (g o f) s <=>\n             algebraically_spanning (l,m) g s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ s : (C) -> Bool, algebraic_extension((k, l), f) && field_extension((l, m), g) → algebraically_spanning((k, m), o(g, f), s) == algebraically_spanning((l, m), g, s)"),
       t5232,
     ),
   )
@@ -53611,9 +52813,7 @@ fn step_326() -> Unit raise {
   )
   transcendence_basis_over_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m s.\n        algebraic_extension (k,l) f /\\\n        field_extension (l,m) g\n        ==> (transcendence_basis (k,m) (g o f) s <=>\n             transcendence_basis (l,m) g s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], ∀ s : (C) -> Bool, algebraic_extension((k, l), f) && field_extension((l, m), g) → transcendence_basis((k, m), o(g, f), s) == transcendence_basis((l, m), g, s)"),
       t5233,
     ),
   )
@@ -53649,9 +52849,7 @@ fn step_327() -> Unit raise {
   )
   algebraically_independent_card_le_spanning_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l b c.\n        field_extension (k,l) h /\\\n        algebraically_independent (k,l) h b /\\ algebraically_spanning (k,l) h c\n        ==> b <=_c c",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ b : (B) -> Bool, ∀ c : (B) -> Bool, field_extension((k, l), h) && algebraically_independent((k, l), h, b) && algebraically_spanning((k, l), h, c) → op_lt_eq_us_c(b, c)"),
       t5237,
     ),
   )
@@ -53806,9 +53004,7 @@ fn step_328() -> Unit raise {
   )
   finitely_generated_algebraically_independent_imp_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) k l b.\n        finitely_generated_extension (k,l) f /\\\n        algebraically_independent (k,l) f b\n        ==> FINITE b",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ b : (B) -> Bool, finitely_generated_extension((k, l), f) && algebraically_independent((k, l), f, b) → FINITE(b)"),
       t5252,
     ),
   )
@@ -53831,9 +53027,7 @@ fn step_329() -> Unit raise {
   let t5253 = @simp.simp_tac(@list.List([transcendence_basis()]))
   transcendence_basis_imp_algebraically_spanning_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        transcendence_basis (k,l) h s ==> algebraically_spanning (k,l) h s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, transcendence_basis((k, l), h, s) → algebraically_spanning((k, l), h, s)"),
       t5253,
     ),
   )
@@ -53856,9 +53050,7 @@ fn step_330() -> Unit raise {
   let t5254 = @simp.simp_tac(@list.List([transcendence_basis()]))
   transcendence_basis_imp_algebraically_independent_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(h:A->B) k l s.\n        transcendence_basis (k,l) h s ==> algebraically_independent (k,l) h s",
-      ),
+      @term_syntax.parse_term("∀ h : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ s : (B) -> Bool, transcendence_basis((k, l), h, s) → algebraically_independent((k, l), h, s)"),
       t5254,
     ),
   )
@@ -53945,9 +53137,7 @@ fn step_331() -> Unit raise {
     t5467,
   ])
   let t5456 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "z:A = ring_mul l (ring_inv l (q m)) (ring_mul l z (q(m:1->num)))",
-    ),
+    @term_syntax.parse_term("(z : A) == ring_mul((l : Ring[A]), ring_inv(l, (q : ((Unit) -> Num) -> A)((m : (Unit) -> Num))), ring_mul(l, z, q(m)))"),
     fn(
       x5453 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -54020,9 +53210,7 @@ fn step_331() -> Unit raise {
           @tactics.then_tac(
             @tactics.then_tac(
               @tactics.undisch_tac(
-                @parser.parse_term(
-                  "q IN ring_carrier (poly_ring (subring_generated l k:A ring) (:1))",
-                ),
+                @term_syntax.parse_term("IN((q : ((Unit) -> Num) -> A), ring_carrier(poly_ring(subring_generated((l : Ring[A]), (k : (A) -> Bool)), UNIV)))"),
               ),
               t5447,
             ),
@@ -54434,9 +53622,7 @@ fn step_331() -> Unit raise {
     @list.List([@ringtheory.poly_ring_v1(), @sets.in_elim_thm()]),
   )
   let t5388 = @simp.asm_rewrite_tac(@list.List([]))
-  let t5384 = @parser.parse_term(
-    "\\p. p IN ring_carrier\n             (poly_ring (subring_generated l k:A ring) (:1))",
-  )
+  let t5384 = @term_syntax.parse_term("(p : ((Unit) -> Num) -> A) => IN(p, ring_carrier(poly_ring(subring_generated((l : Ring[A]), (k : (A) -> Bool)), UNIV)))")
   let t5387 = @tactics.disch_then(fn(
     x5386 : @kernel.Thm,
   ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -54625,9 +53811,7 @@ fn step_331() -> Unit raise {
                               @tactics.mp_tac(
                                 @bool.ispecl(
                                   @list.List([
-                                    @parser.parse_term(
-                                      "subring_generated l (z INSERT k):A ring",
-                                    ),
+                                    @term_syntax.parse_term("subring_generated((l : Ring[A]), INSERT((z : A), (k : (A) -> Bool)))"),
                                     t5359,
                                     t5358,
                                     t5357,
@@ -54907,9 +54091,7 @@ fn step_331() -> Unit raise {
     ),
   )
   let t5322 = @tactics.exists_tac(
-    @parser.parse_term(
-      "ring_sub (poly_ring (subring_generated l (z INSERT k)) (:1)) p\n               (ring_mul ((poly_ring (subring_generated l (z INSERT k)) (:1)))\n                         (poly_const (subring_generated l (z INSERT k)) (z:A))\n                         q)",
-    ),
+    @term_syntax.parse_term("ring_sub(poly_ring(subring_generated((l : Ring[A]), INSERT((z : A), (k : (A) -> Bool))), UNIV), (p : ((Unit) -> Num) -> A), ring_mul(poly_ring(subring_generated(l, INSERT(z, k)), UNIV), poly_const(subring_generated(l, INSERT(z, k)), z), (q : ((Unit) -> Num) -> A)))"),
   )
   let t5321 = @simp.asm_rewrite_tac(@list.List([algebraic_over()]))
   let t5320 = @simp.asm_simp_tac(
@@ -55582,9 +54764,7 @@ fn step_331() -> Unit raise {
     t5468,
   )
   let baselemma = @tactics.prove(
-    @parser.parse_term(
-      "forall k l a z:A.\n          field l /\\ k subfield_of l /\\\n          transcendental_over (subfield_generated l k,l) I a /\\\n          algebraic_over (subfield_generated l k,l) I z /\\\n          z IN ring_carrier(subfield_generated l (a INSERT k))\n          ==> z IN k",
-    ),
+    @term_syntax.parse_term("∀ k : (A) -> Bool, ∀ l : Ring[A], ∀ a : A, ∀ z : A, field(l) && subfield_of(k, l) && transcendental_over((subfield_generated(l, k), l), I, a) && algebraic_over((subfield_generated(l, k), l), I, z) && IN(z, ring_carrier(subfield_generated(l, INSERT(a, k)))) → IN(z, k)"),
     t5469,
   )
   let t5551 = @simp.asm_rewrite_tac(
@@ -55685,9 +54865,7 @@ fn step_331() -> Unit raise {
   let t5537 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([
-        @parser.parse_term(
-          "ring_carrier (subfield_generated l\n       (IMAGE (f:A->B) (ring_carrier k) UNION b))",
-        ),
+        @term_syntax.parse_term("ring_carrier(subfield_generated((l : Ring[B]), UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), (b : (B) -> Bool))))"),
         t5536,
         t5535,
         t5534,
@@ -56222,9 +55400,7 @@ fn step_331() -> Unit raise {
                                             @tactics.match_mp_tac(
                                               @meson.meson(
                                                 @list.List([]),
-                                                @parser.parse_term(
-                                                  "(forall f k l x. (forall b. FINITE b ==> P f k l b x) ==> forall b. P f k l b x) /\\\n    (forall b. FINITE b ==> forall f k l x. P f k l b x)\n     ==> forall f k l b x. P f k l b x",
-                                                ),
+                                                @term_syntax.parse_term("(∀ f : _, ∀ k : _, ∀ l : _, ∀ x : _, (∀ b : (_) -> Bool, FINITE(b) → (P : (_, _, _, (_) -> Bool, _) -> Bool)(f, k, l, b, x)) → (∀ b : (_) -> Bool, P(f, k, l, b, x))) && (∀ b : (_) -> Bool, FINITE(b) → (∀ f : _, ∀ k : _, ∀ l : _, ∀ x : _, P(f, k, l, b, x))) → (∀ f : _, ∀ k : _, ∀ l : _, ∀ b : (_) -> Bool, ∀ x : _, P(f, k, l, b, x))"),
                                               ),
                                             ),
                                             @tactics.conj_tac,
@@ -56271,9 +55447,7 @@ fn step_331() -> Unit raise {
   )
   totally_transcendental_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) k l b x.\n        field_extension (k,l) f /\\\n        algebraically_independent (k,l) f b /\\\n        algebraic_over (k,l) f x /\\\n        x IN ring_carrier\n              (subfield_generated l (IMAGE f (ring_carrier k) UNION b))\n        ==> x IN IMAGE f (ring_carrier k)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ b : (B) -> Bool, ∀ x : B, field_extension((k, l), f) && algebraically_independent((k, l), f, b) && algebraic_over((k, l), f, x) && IN(x, ring_carrier(subfield_generated(l, UNION(IMAGE(f, ring_carrier(k)), b)))) → IN(x, IMAGE(f, ring_carrier(k)))"),
       t5556,
     ),
   )
@@ -56391,9 +55565,7 @@ fn step_332() -> Unit raise {
   )
   totally_transcendental_extension_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) k l b.\n        field_extension (k,l) f /\\\n        algebraically_independent (k,l) f b /\\\n        subfield_generated l (IMAGE f (ring_carrier k) UNION b) = l\n        ==> {x | algebraic_over (k,l) f x} = IMAGE f (ring_carrier k)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ k : Ring[A], ∀ l : Ring[B], ∀ b : (B) -> Bool, field_extension((k, l), f) && algebraically_independent((k, l), f, b) && subfield_generated(l, UNION(IMAGE(f, ring_carrier(k)), b)) == l → {(x : B) | algebraic_over((k, l), f, x)} == IMAGE(f, ring_carrier(k))"),
       t5570,
     ),
   )
@@ -56748,9 +55920,7 @@ fn step_333() -> Unit raise {
     t5601,
   )
   let choice_lemma = @tactics.prove(
-    @parser.parse_term(
-      "forall P (s:A->bool).\n          (forall t. FINITE t /\\ t SUBSET s ==> ?y. y IN s /\\ P y t)\n          ==> ?f. (forall n. f n IN s) /\\ (forall n. P (f n) {f i | i < n})",
-    ),
+    @term_syntax.parse_term("∀ P : (A, (A) -> Bool) -> Bool, ∀ s : (A) -> Bool, (∀ t : (A) -> Bool, FINITE(t) && SUBSET(t, s) → (∃ y : A, IN(y, s) && P(y, t))) → (∃ f : (Num) -> A, (∀ n : Num, IN(f(n), s)) && (∀ n : Num, P(f(n), {f((i : Num)) | i < n})))"),
     t5602,
   )
   let t5981 = @tactics.asm_tac(@sets.set_tac)(@list.List([]))
@@ -57347,9 +56517,7 @@ fn step_333() -> Unit raise {
     t5888,
   ])
   let t5885 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall n. ?y:C. y IN ring_carrier m /\\ ~(y IN B n) /\\ y IN B(SUC n)",
-    ),
+    @term_syntax.parse_term("∀ n : Num, ∃ y : C, IN(y, ring_carrier((m : Ring[C]))) && !IN(y, (B : (Num, C) -> Bool)(n)) && IN(y, B(SUC(n)))"),
     fn(
       x5882 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -57739,9 +56907,7 @@ fn step_333() -> Unit raise {
     @tactics.all_tac,
   ])
   let t5843 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "finite_extension\n        (subfield_generated m\n           (IMAGE ((g:B->C) o (f:A->B)) (ring_carrier k) UNION b),m) I",
-    ),
+    @term_syntax.parse_term("finite_extension((subfield_generated((m : Ring[C]), UNION(IMAGE(o((g : (B) -> C), (f : (A) -> B)), ring_carrier((k : Ring[A]))), (b : (C) -> Bool))), m), I)"),
     fn(
       x5840 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -58023,9 +57189,7 @@ fn step_333() -> Unit raise {
     t5807,
   ])
   let t5795 = @tactics.exists_tac(
-    @parser.parse_term(
-      "ring_carrier (subfield_generated m ((B:num->C->bool) n))",
-    ),
+    @term_syntax.parse_term("ring_carrier(subfield_generated((m : Ring[C]), (B : (Num, C) -> Bool)((n : Num))))"),
   )
   let t5836 = @tactics.thenl(
     @tactics.then_tac(
@@ -58639,9 +57803,7 @@ fn step_333() -> Unit raise {
                                 @tactics.then_tac(
                                   @tactics.thenl(
                                     @tactics.subgoal_then(
-                                      @parser.parse_term(
-                                        "forall n:num. {x | algebraic_over (k,subfield_generated m (B n))\n                                    ((g:B->C) o (f:A->B)) x} =\n                IMAGE g (A n)",
-                                      ),
+                                      @term_syntax.parse_term("∀ n : Num, {(x : C) | algebraic_over(((k : Ring[A]), subfield_generated((m : Ring[C]), (B : (Num, C) -> Bool)(n))), o((g : (B) -> C), (f : (A) -> B)), x)} == IMAGE(g, (A : (Num, B) -> Bool)(n))"),
                                       fn(
                                         x5705 : @kernel.Thm,
                                       ) -> ((
@@ -58868,9 +58030,7 @@ fn step_333() -> Unit raise {
     },
   )
   let t5693 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "B = \\n:num. ring_carrier(subfield_generated m\n                   (IMAGE (g:B->C) (A n) UNION b))",
-    ),
+    @term_syntax.parse_term("(B : (Num, C) -> Bool) == ((n : Num) => ring_carrier(subfield_generated((m : Ring[C]), UNION(IMAGE((g : (B) -> C), (A : (Num, B) -> Bool)(n)), (b : (C) -> Bool)))))"),
   )
   let t5685 = @term_syntax.parse_term("(y : (Num) -> B)")
   let t5692 = @tactics.repeat_tac(
@@ -59229,9 +58389,7 @@ fn step_333() -> Unit raise {
     }
   })
   let t5649 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(forall n. A n subfield_of (l:B ring)) /\\\n      (forall n. IMAGE (f:A->B) (ring_carrier k) SUBSET A n) /\\\n      (forall m n. m < n ==> A m PSUBSET A n)",
-    ),
+    @term_syntax.parse_term("(∀ n : Num, subfield_of((A : (Num, B) -> Bool)(n), (l : Ring[B]))) && (∀ n : Num, SUBSET(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), A(n))) && (∀ m : Num, ∀ n : Num, m < n → PSUBSET(A(m), A(n)))"),
     fn(
       x5646 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -59280,9 +58438,7 @@ fn step_333() -> Unit raise {
     },
   )
   let t5645 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "A n = ring_carrier\n              (subfield_generated l\n              (IMAGE (f:A->B) (ring_carrier k) UNION {y i | i < n}))",
-    ),
+    @term_syntax.parse_term("(A : (Num, B) -> Bool)((n : Num)) == ring_carrier(subfield_generated((l : Ring[B]), UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), {(y : (Num) -> B)((i : Num)) | i < n})))"),
   )
   let t5644 = @tactics.disch_then(
     @tactics.x_choose_then(@term_syntax.parse_term("(y : (Num) -> B)"))(
@@ -59369,9 +58525,7 @@ fn step_333() -> Unit raise {
     @list.List([
       @meson.meson(
         @list.List([]),
-        @parser.parse_term(
-          "(?b. P b /\\ Q b /\\ R b) <=> ~(forall b. P b /\\ Q b ==> ~R b)",
-        ),
+        @term_syntax.parse_term("(∃ b : _, (P : (_) -> Bool)(b) && (Q : (_) -> Bool)(b) && (R : (_) -> Bool)(b)) == !(∀ b : _, P(b) && Q(b) → !R(b))"),
       ),
     ]),
   )
@@ -59383,9 +58537,7 @@ fn step_333() -> Unit raise {
     @tactics.all_tac,
   ])
   let t5633 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "field(k:A ring) /\\ field(l:B ring) /\\ field(m:C ring)",
-    ),
+    @term_syntax.parse_term("field((k : Ring[A])) && field((l : Ring[B])) && field((m : Ring[C]))"),
     @tactics.strip_assume_tac,
   )
   let t5630 = @drule.match_mp(algebraic_imp_field_extension())
@@ -60256,9 +59408,7 @@ fn step_333() -> Unit raise {
     t5981,
   )
   let main_lemma = @tactics.prove(
-    @parser.parse_term(
-      "forall(f:A->B) (g:B->C) k l m.\n          algebraic_extension (k,l) f /\\\n          field_extension (l,m) g /\\\n          finitely_generated_extension (k,m) (g o f)\n          ==> finitely_generated_extension (k,l) f",
-    ),
+    @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], algebraic_extension((k, l), f) && field_extension((l, m), g) && finitely_generated_extension((k, m), o(g, f)) → finitely_generated_extension((k, l), f)"),
     t5982,
   )
   let t6110 = @tactics.asm_tac(@sets.set_tac)(@list.List([]))
@@ -60348,9 +59498,7 @@ fn step_333() -> Unit raise {
   let t6099 = @simp.rewrite_tac(@list.List([@sets.subset()]))
   let t6098 = @tactics.match_mp_tac(
     @sets.set_rule(
-      @parser.parse_term(
-        "s SUBSET t ==> IMAGE g s UNION u SUBSET IMAGE g t UNION u",
-      ),
+      @term_syntax.parse_term("SUBSET((s : (_) -> Bool), (t : (_) -> Bool)) → SUBSET(UNION(IMAGE((g : (_) -> _), s), (u : (_) -> Bool)), UNION(IMAGE(g, t), u))"),
     ),
   )
   let t6097 = @simp.rewrite_tac(@list.List([@sets.image_o()]))
@@ -60532,9 +59680,7 @@ fn step_333() -> Unit raise {
   let t6067 = @simp.asm_rewrite_tac(@list.List([@trivia.i_o_id()]))
   let t6062 = @term_syntax.parse_term("(m : Ring[C])")
   let t6063 = @term_syntax.parse_term("(l : Ring[B])")
-  let t6064 = @parser.parse_term(
-    "subfield_generated l (IMAGE (f:A->B) (ring_carrier k) UNION b)",
-  )
+  let t6064 = @term_syntax.parse_term("subfield_generated((l : Ring[B]), UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), (b : (B) -> Bool)))")
   let t6065 = @term_syntax.parse_term("(g : (B) -> C)")
   let t6066 = @tactics.mp_tac(
     @bool.ispecl(
@@ -60778,9 +59924,7 @@ fn step_333() -> Unit raise {
   let t6033 = @tactics.disch_then(@tactics.match_mp_tac)
   let t6032 = @simp.rewrite_tac(@list.List([@trivia.i_o_id()]))
   let t6027 = @term_syntax.parse_term("(l : Ring[B])")
-  let t6028 = @parser.parse_term(
-    "subfield_generated l (IMAGE (f:A->B) (ring_carrier k) UNION b)",
-  )
+  let t6028 = @term_syntax.parse_term("subfield_generated((l : Ring[B]), UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), (b : (B) -> Bool)))")
   let t6029 = @term_syntax.parse_term("(k : Ring[A])")
   let t6030 = @term_syntax.parse_term("(I : (B) -> B)")
   let t6031 = @tactics.mp_tac(
@@ -61267,9 +60411,7 @@ fn step_333() -> Unit raise {
   )
   finitely_generated_extension_trans_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:B->C) k l m.\n        field_extension (k,l) f /\\ field_extension (l,m) g\n        ==> (finitely_generated_extension (k,m) (g o f) <=>\n             finitely_generated_extension (k,l) f /\\\n             finitely_generated_extension (l,m) g)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ k : Ring[A], ∀ l : Ring[B], ∀ m : Ring[C], field_extension((k, l), f) && field_extension((l, m), g) → finitely_generated_extension((k, m), o(g, f)) == (finitely_generated_extension((k, l), f) && finitely_generated_extension((l, m), g))"),
       t6111,
     ),
   )
@@ -61291,9 +60433,7 @@ pub fn finitely_generated_extension_trans_eq() -> @kernel.Thm {
 fn step_334() -> Unit raise {
   algebraically_closed_field_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "algebraically_closed_field(k:A ring) <=>\n        field k /\\\n        forall p. p IN ring_carrier(poly_ring k (:1)) /\\ ~(poly_deg k p = 0)\n            ==> ?x. x IN ring_carrier k /\\ poly_eval k p x = ring_0 k",
-      ),
+      @term_syntax.parse_term("(algebraically_closed_field : (Ring[A]) -> Bool)((k : Ring[A])) == (field(k) && (∀ p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(poly_deg(k, p) == 0) → (∃ x : A, IN(x, ring_carrier(k)) && poly_eval(k, p, x) == ring_0(k))))"),
     ),
   )
 }
@@ -61468,9 +60608,7 @@ fn step_336() -> Unit raise {
     ]),
   )
   let t6156 = @tactics.undisch_tac(
-    @parser.parse_term(
-      "(p:(1->num)->B) IN ring_carrier(poly_ring (l:B ring) (:1))",
-    ),
+    @term_syntax.parse_term("IN((p : ((Unit) -> Num) -> B), ring_carrier(poly_ring((l : Ring[B]), UNIV)))"),
   )
   let t6155 = @tactics.first_assum(@tactics.match_mp_tac)
   let t6154 = @tactics.x_gen_tac(@term_syntax.parse_term("(m : (Unit) -> Num)"))
@@ -61692,9 +60830,7 @@ fn step_336() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6132 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(g:B->A) o (p:(1->num)->B) IN ring_carrier(poly_ring k (:1)) /\\\n    poly_deg (k:A ring) ((g:B->A) o (p:(1->num)->B)) =\n    poly_deg (l:B ring) p",
-    ),
+    @term_syntax.parse_term("IN(o((g : (B) -> A), (p : ((Unit) -> Num) -> B)), ring_carrier(poly_ring((k : Ring[A]), UNIV))) && poly_deg(k, o(g, p)) == poly_deg((l : Ring[B]), p)"),
     @tactics.strip_assume_tac,
   )
   let t6131 = @tactics.x_gen_tac(@term_syntax.parse_term("(p : ((Unit) -> Num) -> B)"))
@@ -61973,9 +61109,7 @@ fn step_336() -> Unit raise {
   )
   algebraically_closed_field_isomorphic_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) (l:B ring) f.\n        ring_isomorphism(k,l) f /\\ algebraically_closed_field k\n        ==> algebraically_closed_field l",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[B], ∀ f : (A) -> B, ring_isomorphism((k, l), f) && algebraically_closed_field(k) → algebraically_closed_field(l)"),
       t6179,
     ),
   )
@@ -62077,9 +61211,7 @@ fn step_337() -> Unit raise {
   )
   isomorphic_ring_algebraically_closed_field_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) (l:B ring).\n        k isomorphic_ring l\n        ==> (algebraically_closed_field k <=> algebraically_closed_field l)",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[B], isomorphic_ring(k, l) → algebraically_closed_field(k) == algebraically_closed_field(l)"),
       t6192,
     ),
   )
@@ -62640,9 +61772,7 @@ fn step_338() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6219 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall x:A. x IN ring_carrier k ==> poly_eval k P x = ring_0 k",
-    ),
+    @term_syntax.parse_term("∀ x : A, IN(x, ring_carrier((k : Ring[A]))) → poly_eval(k, (P : ((Unit) -> Num) -> A), x) == ring_0(k)"),
     fn(
       x6216 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -62831,9 +61961,7 @@ fn step_338() -> Unit raise {
     },
   )
   let t6199 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "P = ring_product (poly_ring (k:A ring) (:1)) (ring_carrier k)\n        (\\a. poly_sub k (poly_var k one) (poly_const k a))",
-    ),
+    @term_syntax.parse_term("(P : ((Unit) -> Num) -> A) == ring_product(poly_ring((k : Ring[A]), UNIV), ring_carrier(k), (a : A) => poly_sub(k, poly_var(k, one), poly_const(k, a)))"),
   )
   let t6198 = @list.List([
     @meson.asm_meson_tac(@list.List([@ringtheory.field_imp_nontrivial_ring()])),
@@ -62953,9 +62081,7 @@ fn step_338() -> Unit raise {
   )
   algebraically_closed_field_imp_infinite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k:A ring. algebraically_closed_field k ==> INFINITE(ring_carrier k)",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], algebraically_closed_field(k) → INFINITE(ring_carrier(k))"),
       t6277,
     ),
   )
@@ -63335,9 +62461,7 @@ fn step_339() -> Unit raise {
   )
   let t6428 = @simp.asm_rewrite_tac(@list.List([]))
   let t6427 = @tactics.undisch_tac(
-    @parser.parse_term(
-      "poly_eval (l:B ring) ((f:A->B) o (p:(1->num)->A)) (x:B) =\n      ring_0 l",
-    ),
+    @term_syntax.parse_term("poly_eval((l : Ring[B]), o((f : (A) -> B), (p : ((Unit) -> Num) -> A)), (x : B)) == ring_0(l)"),
   )
   let t6426 = @tactics.disch_then(fn(
     x6424 : @kernel.Thm,
@@ -63379,9 +62503,7 @@ fn step_339() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6420 = @simp.asm_rewrite_tac(@list.List([]))
-  let t6418 = @parser.parse_term(
-    "poly_eval (l:B ring) ((f:A->B) o (q:(1->num)->A)) (x:B)",
-  )
+  let t6418 = @term_syntax.parse_term("poly_eval((l : Ring[B]), o((f : (A) -> B), (q : ((Unit) -> Num) -> A)), (x : B))")
   let t6419 = @term_syntax.parse_term("ring_sub((l : Ring[B]), (x : B), (f : (A) -> B)((y : A)))")
   let t6430 = @list.List([
     @tactics.then_tac(
@@ -63414,9 +62536,7 @@ fn step_339() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6417 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_sub (l:B ring) (x:B) ((f:A->B) y) = ring_0 l \\/\n     poly_eval (l:B ring) ((f:A->B) o (q:(1->num)->A)) (x:B) = ring_0 l",
-    ),
+    @term_syntax.parse_term("ring_sub((l : Ring[B]), (x : B), (f : (A) -> B)((y : A))) == ring_0(l) || poly_eval(l, o(f, (q : ((Unit) -> Num) -> A)), x) == ring_0(l)"),
     fn(
       x6414 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -63477,9 +62597,7 @@ fn step_339() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6412 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(f:A->B) y IN ring_carrier (l:B ring) /\\\n    ring_polynomial (l:B ring) ((f:A->B) o (q:(1->num)->A))",
-    ),
+    @term_syntax.parse_term("IN((f : (A) -> B)((y : A)), ring_carrier((l : Ring[B]))) && ring_polynomial(l, o(f, (q : ((Unit) -> Num) -> A)))"),
     @tactics.strip_assume_tac,
   )
   let t6408 = @simp.asm_rewrite_tac(@list.List([]))
@@ -63496,9 +62614,7 @@ fn step_339() -> Unit raise {
     t6409,
   ])
   let t6406 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "((f:A->B) o (poly_var (k:A ring) one:(1->num)->A) =\n        (poly_var (l:B ring) one:(1->num)->B)) /\\\n       ((f:A->B) o (poly_const (k:A ring) (y:A):(1->num)->A) =\n        (poly_const (l:B ring) (f y):(1->num)->B))",
-    ),
+    @term_syntax.parse_term("(o : ((A) -> B, ((Unit) -> Num) -> A, (Unit) -> Num) -> B)((f : (A) -> B), (poly_var : (Ring[A], Unit, (Unit) -> Num) -> A)((k : Ring[A]), one)) == (poly_var : (Ring[B], Unit, (Unit) -> Num) -> B)((l : Ring[B]), one) && (o : ((A) -> B, ((Unit) -> Num) -> A, (Unit) -> Num) -> B)(f, (poly_const : (Ring[A], A, (Unit) -> Num) -> A)(k, (y : A))) == (poly_const : (Ring[B], B, (Unit) -> Num) -> B)(l, f(y))"),
     fn(
       x6404 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -63611,9 +62727,7 @@ fn step_339() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6394 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(f:A->B) o poly_sub (k:A ring) (poly_var k one)\n                            (poly_const k (y:A)) =\n     poly_sub (l:B ring) (poly_var l one)\n                          (poly_const l ((f:A->B) y))",
-    ),
+    @term_syntax.parse_term("o((f : (A) -> B), poly_sub((k : Ring[A]), poly_var(k, one), poly_const(k, (y : A)))) == poly_sub((l : Ring[B]), poly_var(l, one), poly_const(l, f(y)))"),
     fn(
       x6391 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -63678,9 +62792,7 @@ fn step_339() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6387 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(f:A->B) o (p:(1->num)->A) = poly_mul (l:B ring)\n       (f o poly_sub k (poly_var k one) (poly_const k (y:A)))\n       (f o (q:(1->num)->A))",
-    ),
+    @term_syntax.parse_term("o((f : (A) -> B), (p : ((Unit) -> Num) -> A)) == poly_mul((l : Ring[B]), o(f, poly_sub((k : Ring[A]), poly_var(k, one), poly_const(k, (y : A)))), o(f, (q : ((Unit) -> Num) -> A)))"),
     fn(
       x6384 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -63962,9 +63074,7 @@ fn step_339() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6355 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_polynomial (k:A ring) (q:(1->num)->A) /\\\n    poly_sub k (poly_var k one) (poly_const k (y:A)):(1->num)->A\n     IN ring_carrier(poly_ring (k:A ring) (:1))",
-    ),
+    @term_syntax.parse_term("ring_polynomial((k : Ring[A]), (q : ((Unit) -> Num) -> A)) && IN(poly_sub(k, poly_var(k, one), poly_const(k, (y : A))), ring_carrier(poly_ring(k, UNIV)))"),
     @tactics.strip_assume_tac,
   )
   let t6353 = @meson.meson_tac(@list.List([]))
@@ -64001,9 +63111,7 @@ fn step_339() -> Unit raise {
     @tactics.strip_assume_tac,
   )
   let t6348 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?q:(1->num)->A.\n       q IN ring_carrier(poly_ring (k:A ring) (:1)) /\\\n       p:(1->num)->A = poly_mul k\n           (poly_sub k (poly_var k one) (poly_const k (y:A))) q",
-    ),
+    @term_syntax.parse_term("∃ q : ((Unit) -> Num) -> A, IN(q, ring_carrier(poly_ring((k : Ring[A]), UNIV))) && (p : ((Unit) -> Num) -> A) == poly_mul(k, poly_sub(k, poly_var(k, one), poly_const(k, (y : A))), q)"),
     t6347,
   )
   let t6346 = @tactics.disch_then(
@@ -64103,9 +63211,7 @@ fn step_339() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6326 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(f:A->B) o (poly_const (k:A ring) c:(1->num)->A) =\n        (poly_const (l:B ring) (f c):(1->num)->B)",
-    ),
+    @term_syntax.parse_term("(o : ((A) -> B, ((Unit) -> Num) -> A, (Unit) -> Num) -> B)((f : (A) -> B), (poly_const : (Ring[A], A, (Unit) -> Num) -> A)((k : Ring[A]), (c : A))) == (poly_const : (Ring[B], B, (Unit) -> Num) -> B)((l : Ring[B]), f(c))"),
     fn(
       x6323 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -64219,9 +63325,7 @@ fn step_339() -> Unit raise {
           @tactics.thenl(
             @tactics.then_tac(
               @tactics.undisch_tac(
-                @parser.parse_term(
-                  "poly_eval (l:B ring) ((f:A->B) o (p:(1->num)->A)) (x:B) =\n       ring_0 l",
-                ),
+                @term_syntax.parse_term("poly_eval((l : Ring[B]), o((f : (A) -> B), (p : ((Unit) -> Num) -> A)), (x : B)) == ring_0(l)"),
               ),
               t6321,
             ),
@@ -64610,9 +63714,7 @@ fn step_339() -> Unit raise {
     t6473,
   ])
   let t6292 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall n (x:B) (p:(1->num)->A). x IN ring_carrier l /\\\n      p IN ring_carrier(poly_ring (k:A ring) (:1)) /\\\n      ~(p = ring_0(poly_ring k (:1))) /\\\n      poly_eval (l:B ring) ((f:A->B) o p) x = ring_0 l /\\ poly_deg k p = n\n      ==> x IN IMAGE f (ring_carrier k)",
-    ),
+    @term_syntax.parse_term("∀ n : Num, ∀ x : B, ∀ p : ((Unit) -> Num) -> A, IN(x, ring_carrier((l : Ring[B]))) && IN(p, ring_carrier(poly_ring((k : Ring[A]), UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && poly_eval(l, o((f : (A) -> B), p), x) == ring_0(l) && poly_deg(k, p) == n → IN(x, IMAGE(f, ring_carrier(k)))"),
     fn(
       x6289 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -64673,9 +63775,7 @@ fn step_339() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6284 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_homomorphism(poly_ring (k:A ring) (:1), poly_ring (l:B ring) (:1))\n                      (\\p:(1->num)->A. (f:A->B) o p)",
-    ),
+    @term_syntax.parse_term("ring_homomorphism((poly_ring((k : Ring[A]), UNIV), poly_ring((l : Ring[B]), UNIV)), (p : ((Unit) -> Num) -> A) => o((f : (A) -> B), p))"),
     fn(
       x6281 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -64733,9 +63833,7 @@ fn step_339() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6279 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_monomorphism(k:A ring,l:B ring) (f:A->B) /\\ field(l:B ring) /\\\n     ring_homomorphism(k:A ring,l:B ring) (f:A->B)",
-    ),
+    @term_syntax.parse_term("ring_monomorphism(((k : Ring[A]), (l : Ring[B])), (f : (A) -> B)) && field(l) && ring_homomorphism((k, l), f)"),
     @tactics.strip_assume_tac,
   )
   let t6278 = @simp.rewrite_tac(
@@ -64774,9 +63872,7 @@ fn step_339() -> Unit raise {
   )
   algebraically_closed_field_no_proper_algebraic_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) (l:B ring) (f:A->B).\n        algebraically_closed_field k /\\ algebraic_extension(k,l) f\n        ==> ring_isomorphism(k,l) f",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[B], ∀ f : (A) -> B, algebraically_closed_field(k) && algebraic_extension((k, l), f) → ring_isomorphism((k, l), f)"),
       t6475,
     ),
   )
@@ -64805,9 +63901,7 @@ fn step_340() -> Unit raise {
   ])
   let t6588 = @term_syntax.parse_term("(p : ((Unit) -> Num) -> A)")
   let t6589 = @term_syntax.parse_term("(q : ((Unit) -> Num) -> A)")
-  let t6590 = @parser.parse_term(
-    "\\(pp:(1->num)->A). poly_eval (k:A ring) pp (x:A)",
-  )
+  let t6590 = @term_syntax.parse_term("(pp : ((Unit) -> Num) -> A) => poly_eval((k : Ring[A]), pp, (x : A))")
   let t6591 = @term_syntax.parse_term("(k : Ring[A])")
   let t6592 = @tactics.mp_tac(
     @bool.ispecl(
@@ -64956,9 +64050,7 @@ fn step_340() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6565 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "integral_domain (k:A ring) /\\\n      ~((p:(1->num)->A) = ring_0 (poly_ring k (:1)))",
-    ),
+    @term_syntax.parse_term("integral_domain((k : Ring[A])) && !((p : ((Unit) -> Num) -> A) == ring_0(poly_ring(k, UNIV)))"),
     @tactics.strip_assume_tac,
   )
   let t6564 = @tactics.x_gen_tac(@term_syntax.parse_term("(p : ((Unit) -> Num) -> A)"))
@@ -65084,9 +64176,7 @@ fn step_340() -> Unit raise {
   )
   let t6554 = @simp.asm_rewrite_tac(@list.List([]))
   let t6553 = @tactics.undisch_tac(
-    @parser.parse_term(
-      "p:(1->num)->A = poly_mul k\n         (poly_sub k (poly_var k one) (poly_const k (x:A))) q",
-    ),
+    @term_syntax.parse_term("(p : ((Unit) -> Num) -> A) == poly_mul((k : Ring[A]), poly_sub(k, poly_var(k, one), poly_const(k, (x : A))), (q : ((Unit) -> Num) -> A))"),
   )
   let t6552 = @list.List([
     @meson.asm_meson_tac(@list.List([@ringtheory.ring_unit()])),
@@ -65171,9 +64261,7 @@ fn step_340() -> Unit raise {
           @tactics.then_tac(
             @tactics.then_tac(
               @tactics.undisch_tac(
-                @parser.parse_term(
-                  "ring_unit (poly_ring (k:A ring) (:1))\n        (poly_sub k (poly_var k one) (poly_const k (x:A)))",
-                ),
+                @term_syntax.parse_term("ring_unit(poly_ring((k : Ring[A]), UNIV), poly_sub(k, poly_var(k, one), poly_const(k, (x : A))))"),
               ),
               t6539,
             ),
@@ -65637,9 +64725,7 @@ fn step_340() -> Unit raise {
                       @tactics.then_tac(
                         @tactics.disch_tac,
                         @tactics.undisch_tac(
-                          @parser.parse_term(
-                            "~ring_unit (poly_ring (k:A ring) (:1)) (p:(1->num)->A)",
-                          ),
+                          @term_syntax.parse_term("!ring_unit(poly_ring((k : Ring[A]), UNIV), (p : ((Unit) -> Num) -> A))"),
                         ),
                       ),
                       t6485,
@@ -65722,9 +64808,7 @@ fn step_340() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6479 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "field (k:A ring) /\\ integral_domain (k:A ring) /\\\n      ~trivial_ring (k:A ring)",
-    ),
+    @term_syntax.parse_term("field((k : Ring[A])) && integral_domain(k) && !trivial_ring(k)"),
     @tactics.strip_assume_tac,
   )
   let t6478 = @simp.rewrite_tac(
@@ -65854,9 +64938,7 @@ fn step_340() -> Unit raise {
   )
   algebraically_closed_field_eq_irreducibles_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k:A ring.\n        algebraically_closed_field k <=>\n        field k /\\\n        forall p. ring_irreducible (poly_ring k (:1)) p ==> poly_deg k p = 1",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], algebraically_closed_field(k) == (field(k) && (∀ p : ((Unit) -> Num) -> A, ring_irreducible(poly_ring(k, UNIV), p) → poly_deg(k, p) == 1))"),
       t6597,
     ),
   )
@@ -65885,9 +64967,7 @@ fn step_341() -> Unit raise {
   )
   irreducible_algebraically_closed_field_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) p.\n        algebraically_closed_field k\n        ==> (ring_irreducible (poly_ring k (:1)) p <=>\n             p IN ring_carrier (poly_ring k (:1)) /\\ poly_deg k p = 1)",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ p : ((Unit) -> Num) -> A, algebraically_closed_field(k) → ring_irreducible(poly_ring(k, UNIV), p) == (IN(p, ring_carrier(poly_ring(k, UNIV))) && poly_deg(k, p) == 1)"),
       t6598,
     ),
   )
@@ -66190,9 +65270,7 @@ fn step_342() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6605 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?a:A. a IN ring_carrier k /\\ poly_eval k p a = ring_0 k",
-    ),
+    @term_syntax.parse_term("∃ a : A, IN(a, ring_carrier((k : Ring[A]))) && poly_eval(k, (p : ((Unit) -> Num) -> A), a) == ring_0(k)"),
     @tactics.strip_assume_tac,
   )
   let t6604 = @list.List([
@@ -66305,9 +65383,7 @@ fn step_342() -> Unit raise {
   )
   algebraically_closed_field_decompose_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k:A ring.\n     algebraically_closed_field k\n     ==> forall p. p IN ring_carrier(poly_ring k (:1)) /\\ ~(poly_deg k p = 0)\n             ==> ?a q. a IN ring_carrier k /\\\n                       q IN ring_carrier(poly_ring k (:1)) /\\ p = poly_mul k\n                         (poly_sub k (poly_var k one) (poly_const k a)) q /\\\n                       poly_deg k q + 1 = poly_deg k p",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], algebraically_closed_field(k) → (∀ p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(poly_deg(k, p) == 0) → (∃ a : A, ∃ q : ((Unit) -> Num) -> A, IN(a, ring_carrier(k)) && IN(q, ring_carrier(poly_ring(k, UNIV))) && p == poly_mul(k, poly_sub(k, poly_var(k, one), poly_const(k, a)), q) && poly_deg(k, q) + 1 == poly_deg(k, p)))"),
       t6640,
     ),
   )
@@ -66440,9 +65516,7 @@ fn step_343() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6720 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_product (poly_ring (k:A ring) (:1)) (1..SUC n)\n       (\\i. poly_sub k (poly_var k one)\n              (poly_const k (if i = SUC n then a0 else (a':num->A) i)))\n       :(1->num)->A = poly_mul k\n       (poly_sub k (poly_var k one) (poly_const k (a0:A)))\n       (ring_product (poly_ring k (:1)) (1..n)\n         (\\i. poly_sub k (poly_var k one) (poly_const k (a' i))))",
-    ),
+    @term_syntax.parse_term("ring_product(poly_ring((k : Ring[A]), UNIV), op_dot_dot(1, SUC((n : Num))), (i : Num) => poly_sub(k, poly_var(k, one), poly_const(k, if i == SUC(n) { (a0 : A) } else { (a' : (Num) -> A)(i) }))) == poly_mul(k, poly_sub(k, poly_var(k, one), poly_const(k, a0)), ring_product(poly_ring(k, UNIV), op_dot_dot(1, n), (i : Num) => poly_sub(k, poly_var(k, one), poly_const(k, a'(i)))))"),
     fn(
       x6717 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -66615,9 +65689,7 @@ fn step_343() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6697 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "poly_sub (k:A ring) (poly_var k one) (poly_const k (a0:A))\n     IN ring_carrier(poly_ring k (:1))",
-    ),
+    @term_syntax.parse_term("IN(poly_sub((k : Ring[A]), poly_var(k, one), poly_const(k, (a0 : A))), ring_carrier(poly_ring(k, UNIV)))"),
     fn(
       x6694 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -67267,9 +66339,7 @@ fn step_343() -> Unit raise {
   )
   algebraically_closed_field_splits_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) p.\n        algebraically_closed_field k /\\\n        p IN ring_carrier(poly_ring k (:1)) /\\ ~(p = poly_0 k)\n        ==> ?c a. c IN ring_carrier k /\\ ~(c = ring_0 k) /\\\n                  (forall i. 1 <= i /\\ i <= poly_deg k p\n                       ==> a(i) IN ring_carrier k) /\\\n                  p = poly_mul k (poly_const k c)\n                        (ring_product (poly_ring k (:1)) (1..poly_deg k p)\n                           (\\i. poly_sub k (poly_var k one)\n                                           (poly_const k (a i))))",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ p : ((Unit) -> Num) -> A, algebraically_closed_field(k) && IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == poly_0(k)) → (∃ c : A, ∃ a : (Num) -> A, IN(c, ring_carrier(k)) && !(c == ring_0(k)) && (∀ i : Num, 1 <= i && i <= poly_deg(k, p) → IN(a(i), ring_carrier(k))) && p == poly_mul(k, poly_const(k, c), ring_product(poly_ring(k, UNIV), op_dot_dot(1, poly_deg(k, p)), (i : Num) => poly_sub(k, poly_var(k, one), poly_const(k, a(i))))))"),
       t6737,
     ),
   )
@@ -67428,9 +66498,7 @@ fn step_344() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6797 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_product (k:A ring) (1..poly_deg k (p:(1->num)->A))\n        (\\i. poly_eval k (poly_sub k (poly_var k one)\n                      (poly_const k ((a:num->A) i))) ((a:num->A) 1)) =\n      ring_product k (1..poly_deg k p)\n        (\\i. ring_sub k (a 1) (a i))",
-    ),
+    @term_syntax.parse_term("ring_product((k : Ring[A]), op_dot_dot(1, poly_deg(k, (p : ((Unit) -> Num) -> A))), (i : Num) => poly_eval(k, poly_sub(k, poly_var(k, one), poly_const(k, (a : (Num) -> A)(i))), a(1))) == ring_product(k, op_dot_dot(1, poly_deg(k, p)), (i : Num) => ring_sub(k, a(1), a(i)))"),
     fn(
       x6794 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -67505,9 +66573,7 @@ fn step_344() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6787 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "poly_eval (k:A ring)\n        (ring_product (poly_ring k (:1)) (1..poly_deg k (p:(1->num)->A))\n          (\\i. poly_sub k (poly_var k one)\n                          (poly_const k ((a:num->A) i)))) ((a:num->A) 1) =\n      ring_product k (1..poly_deg k p) (\\i. poly_eval k\n          (poly_sub k (poly_var k one) (poly_const k (a i)))\n          (a 1))",
-    ),
+    @term_syntax.parse_term("poly_eval((k : Ring[A]), ring_product(poly_ring(k, UNIV), op_dot_dot(1, poly_deg(k, (p : ((Unit) -> Num) -> A))), (i : Num) => poly_sub(k, poly_var(k, one), poly_const(k, (a : (Num) -> A)(i)))), a(1)) == ring_product(k, op_dot_dot(1, poly_deg(k, p)), (i : Num) => poly_eval(k, poly_sub(k, poly_var(k, one), poly_const(k, a(i))), a(1)))"),
     fn(
       x6784 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -67590,9 +66656,7 @@ fn step_344() -> Unit raise {
     t6820,
   ])
   let t6783 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "poly_eval (k:A ring) (Q:(1->num)->A) ((a:num->A) 1) = ring_0 k",
-    ),
+    @term_syntax.parse_term("poly_eval((k : Ring[A]), (Q : ((Unit) -> Num) -> A), (a : (Num) -> A)(1)) == ring_0(k)"),
     fn(
       x6780 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -67704,9 +66768,7 @@ fn step_344() -> Unit raise {
     },
   )
   let t6772 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "Q = ring_product (poly_ring (k:A ring) (:1))\n          (1..poly_deg k (p:(1->num)->A)) (\\i. poly_sub k (poly_var k\n            one)\n                          (poly_const k ((a:num->A) i)))",
-    ),
+    @term_syntax.parse_term("(Q : ((Unit) -> Num) -> A) == ring_product(poly_ring((k : Ring[A]), UNIV), op_dot_dot(1, poly_deg(k, (p : ((Unit) -> Num) -> A))), (i : Num) => poly_sub(k, poly_var(k, one), poly_const(k, (a : (Num) -> A)(i))))"),
   )
   let t6771 = @simp.asm_rewrite_tac(@list.List([]))
   let t6770 = @tactics.exists_tac(@term_syntax.parse_term("(a : (Num) -> A)(1)"))
@@ -68038,9 +67100,7 @@ fn step_344() -> Unit raise {
   )
   algebraically_closed_field_eq_splits_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k:A ring.\n     algebraically_closed_field k <=>\n     field k /\\\n     forall p. p IN ring_carrier(poly_ring k (:1)) /\\ ~(poly_deg k p = 0)\n         ==> ?c a. c IN ring_carrier k /\\ ~(c = ring_0 k) /\\\n                   (forall i. 1 <= i /\\ i <= poly_deg k p\n                        ==> a(i) IN ring_carrier k) /\\\n                   p = poly_mul k (poly_const k c)\n                         (ring_product (poly_ring k (:1)) (1..poly_deg k p)\n                           (\\i. poly_sub k (poly_var k one)\n                                           (poly_const k (a i))))",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], algebraically_closed_field(k) == (field(k) && (∀ p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(poly_deg(k, p) == 0) → (∃ c : A, ∃ a : (Num) -> A, IN(c, ring_carrier(k)) && !(c == ring_0(k)) && (∀ i : Num, 1 <= i && i <= poly_deg(k, p) → IN(a(i), ring_carrier(k))) && p == poly_mul(k, poly_const(k, c), ring_product(poly_ring(k, UNIV), op_dot_dot(1, poly_deg(k, p)), (i : Num) => poly_sub(k, poly_var(k, one), poly_const(k, a(i))))))))"),
       t6822,
     ),
   )
@@ -68102,9 +67162,7 @@ fn step_345() -> Unit raise {
   )
   algebraically_closed_field_eq_splits_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k:A ring.\n     algebraically_closed_field k <=>\n     field k /\\\n     forall p. p IN ring_carrier(poly_ring k (:1)) /\\ ~(p = poly_0 k)\n         ==> ?c a. c IN ring_carrier k /\\ ~(c = ring_0 k) /\\\n                   (forall i. 1 <= i /\\ i <= poly_deg k p\n                        ==> a(i) IN ring_carrier k) /\\\n                   p = poly_mul k (poly_const k c)\n                         (ring_product (poly_ring k (:1)) (1..poly_deg k p)\n                           (\\i. poly_sub k (poly_var k one)\n                                           (poly_const k (a i))))",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], algebraically_closed_field(k) == (field(k) && (∀ p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == poly_0(k)) → (∃ c : A, ∃ a : (Num) -> A, IN(c, ring_carrier(k)) && !(c == ring_0(k)) && (∀ i : Num, 1 <= i && i <= poly_deg(k, p) → IN(a(i), ring_carrier(k))) && p == poly_mul(k, poly_const(k, c), ring_product(poly_ring(k, UNIV), op_dot_dot(1, poly_deg(k, p)), (i : Num) => poly_sub(k, poly_var(k, one), poly_const(k, a(i))))))))"),
       t6831,
     ),
   )
@@ -68204,16 +67262,10 @@ fn step_346() -> Unit raise {
     ),
   )
   let t6990 = @simp.asm_rewrite_tac(@list.List([]))
-  let t6985 = @parser.parse_term(
-    "poly_extend(k:A ring,l':C ring) (g:A->C) (\\v:1. a':C)",
-  )
-  let t6986 = @parser.parse_term(
-    "poly_extend(k:A ring,l:B ring) (f:A->B) (\\v:1. a:B)",
-  )
+  let t6985 = @term_syntax.parse_term("poly_extend(((k : Ring[A]), (l' : Ring[C])), (g : (A) -> C), (v : Unit) => (a' : C))")
+  let t6986 = @term_syntax.parse_term("poly_extend(((k : Ring[A]), (l : Ring[B])), (f : (A) -> B), (v : Unit) => (a : B))")
   let t6987 = @term_syntax.parse_term("(l' : Ring[C])")
-  let t6988 = @parser.parse_term(
-    "subring_generated (l:B ring)\n        ((a:B) INSERT IMAGE (f:A->B) (ring_carrier k))",
-  )
+  let t6988 = @term_syntax.parse_term("subring_generated((l : Ring[B]), INSERT((a : B), IMAGE((f : (A) -> B), ring_carrier((k : Ring[A])))))")
   let t6989 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([
@@ -68235,9 +67287,7 @@ fn step_346() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6982 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_homomorphism(poly_ring (k:A ring) (:1), l':C ring)\n      (poly_extend(k,l') (g:A->C) (\\v:1. a':C))",
-    ),
+    @term_syntax.parse_term("ring_homomorphism((poly_ring((k : Ring[A]), UNIV), (l' : Ring[C])), poly_extend((k, l'), (g : (A) -> C), (v : Unit) => (a' : C)))"),
     fn(
       x6979 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -68540,9 +67590,7 @@ fn step_346() -> Unit raise {
                     @tactics.then_tac(
                       @tactics.thenl(
                         @tactics.subgoal_then(
-                          @parser.parse_term(
-                            "~(poly_deg (l':C ring) ((g:A->C) o (m:(1->num)->A)) = 0)",
-                          ),
+                          @term_syntax.parse_term("!(poly_deg((l' : Ring[C]), o((g : (A) -> C), (m : ((Unit) -> Num) -> A))) == 0)"),
                           fn(
                             x6938 : @kernel.Thm,
                           ) -> ((
@@ -68637,9 +67685,7 @@ fn step_346() -> Unit raise {
   let t6934 = @list.List([
     @tactics.thenl(
       @tactics.subgoal_then(
-        @parser.parse_term(
-          "ring_0(subring_generated (l:B ring)\n              ((a:B) INSERT IMAGE (f:A->B) (ring_carrier (k:A ring)))) =\n             ring_1(subring_generated (l:B ring)\n              ((a:B) INSERT IMAGE (f:A->B) (ring_carrier (k:A ring))))",
-        ),
+        @term_syntax.parse_term("ring_0(subring_generated((l : Ring[B]), INSERT((a : B), IMAGE((f : (A) -> B), ring_carrier((k : Ring[A])))))) == ring_1(subring_generated(l, INSERT(a, IMAGE(f, ring_carrier(k)))))"),
         fn(
           x6929 : @kernel.Thm,
         ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -68749,9 +67795,7 @@ fn step_346() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6922 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "poly_extend(k:A ring,l:B ring) (f:A->B) (\\v:1. a:B)\n            (ring_1(poly_ring (k:A ring) (:1))) =\n           ring_1(subring_generated (l:B ring)\n             ((a:B) INSERT IMAGE (f:A->B) (ring_carrier (k:A ring))))",
-    ),
+    @term_syntax.parse_term("poly_extend(((k : Ring[A]), (l : Ring[B])), (f : (A) -> B), (v : Unit) => (a : B), ring_1(poly_ring(k, UNIV))) == ring_1(subring_generated(l, INSERT(a, IMAGE(f, ring_carrier(k)))))"),
     fn(
       x6919 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -68812,9 +67856,7 @@ fn step_346() -> Unit raise {
       @tactics.then_tac(
         @tactics.thenl(
           @tactics.subgoal_then(
-            @parser.parse_term(
-              "ring_1(poly_ring (k:A ring) (:1)) IN\n             ring_kernel(poly_ring (k:A ring) (:1), subring_generated (l:B\n               ring)\n                           (a INSERT IMAGE (f:A->B) (ring_carrier k)))\n               (poly_extend(k,l) f (\\v:1. a))",
-            ),
+            @term_syntax.parse_term("IN(ring_1(poly_ring((k : Ring[A]), UNIV)), ring_kernel((poly_ring(k, UNIV), subring_generated((l : Ring[B]), INSERT((a : B), IMAGE((f : (A) -> B), ring_carrier(k))))), poly_extend((k, l), f, (v : Unit) => a)))"),
             fn(
               x6912 : @kernel.Thm,
             ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -68871,9 +67913,7 @@ fn step_346() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6911 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "poly_extend(k:A ring,l:B ring) (f:A->B) (\\v:1. a:B)\n            (ring_1(poly_ring (k:A ring) (:1))) =\n           ring_0(subring_generated (l:B ring)\n             ((a:B) INSERT IMAGE (f:A->B) (ring_carrier (k:A ring))))",
-    ),
+    @term_syntax.parse_term("poly_extend(((k : Ring[A]), (l : Ring[B])), (f : (A) -> B), (v : Unit) => (a : B), ring_1(poly_ring(k, UNIV))) == ring_0(subring_generated(l, INSERT(a, IMAGE(f, ring_carrier(k)))))"),
     fn(
       x6908 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -68952,9 +67992,7 @@ fn step_346() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6903 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ideal_generated (poly_ring (k:A ring) (:1)) {m:(1->num)->A} =\n           ring_carrier(poly_ring (k:A ring) (:1))",
-    ),
+    @term_syntax.parse_term("ideal_generated(poly_ring((k : Ring[A]), UNIV), {(m : ((Unit) -> Num) -> A)}) == ring_carrier(poly_ring(k, UNIV))"),
     fn(
       x6900 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -69062,9 +68100,7 @@ fn step_346() -> Unit raise {
                     @tactics.then_tac(
                       @tactics.thenl(
                         @tactics.subgoal_then(
-                          @parser.parse_term(
-                            "ring_unit (poly_ring (k:A ring) (:1)) (m:(1->num)->A)",
-                          ),
+                          @term_syntax.parse_term("ring_unit(poly_ring((k : Ring[A]), UNIV), (m : ((Unit) -> Num) -> A))"),
                           fn(
                             x6889 : @kernel.Thm,
                           ) -> ((
@@ -69219,9 +68255,7 @@ fn step_346() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6879 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(g:A->C) o (m:(1->num)->A) IN\n       ring_carrier(poly_ring (l':C ring) (:1))",
-    ),
+    @term_syntax.parse_term("IN(o((g : (A) -> C), (m : ((Unit) -> Num) -> A)), ring_carrier(poly_ring((l' : Ring[C]), UNIV)))"),
     fn(
       x6876 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -69485,9 +68519,7 @@ fn step_346() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6854 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "principal_ideal (poly_ring (k:A ring) (:1))\n        (ring_kernel(poly_ring (k:A ring) (:1), subring_generated (l:B ring)\n                       (a INSERT IMAGE (f:A->B) (ring_carrier k)))\n          (poly_extend(k,l) f (\\v:1. a)))",
-    ),
+    @term_syntax.parse_term("principal_ideal(poly_ring((k : Ring[A]), UNIV), ring_kernel((poly_ring(k, UNIV), subring_generated((l : Ring[B]), INSERT((a : B), IMAGE((f : (A) -> B), ring_carrier(k))))), poly_extend((k, l), f, (v : Unit) => a)))"),
     fn(
       x6851 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -69567,9 +68599,7 @@ fn step_346() -> Unit raise {
                       @tactics.then_tac(
                         @tactics.thenl(
                           @tactics.subgoal_then(
-                            @parser.parse_term(
-                              "PID(poly_ring (k:A ring) (:1)) /\\\n      ring_ideal (poly_ring (k:A ring) (:1))\n        (ring_kernel(poly_ring (k:A ring) (:1), subring_generated (l:B ring)\n                       (a INSERT IMAGE (f:A->B) (ring_carrier k)))\n          (poly_extend(k,l) f (\\v:1. a)))",
-                            ),
+                            @term_syntax.parse_term("(PID : (Ring[((Unit) -> Num) -> A]) -> Bool)((poly_ring : (Ring[A], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> A])((k : Ring[A]), (UNIV : (Unit) -> Bool))) && (ring_ideal : (Ring[((Unit) -> Num) -> A], (((Unit) -> Num) -> A) -> Bool) -> Bool)((poly_ring : (Ring[A], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> A])(k, (UNIV : (Unit) -> Bool)), (ring_kernel : ((Ring[((Unit) -> Num) -> A], Ring[B]), (((Unit) -> Num) -> A) -> B, ((Unit) -> Num) -> A) -> Bool)(((poly_ring : (Ring[A], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> A])(k, (UNIV : (Unit) -> Bool)), (subring_generated : (Ring[B], (B) -> Bool) -> Ring[B])((l : Ring[B]), (INSERT : (B, (B) -> Bool, B) -> Bool)((a : B), (IMAGE : ((A) -> B, (A) -> Bool, B) -> Bool)((f : (A) -> B), (ring_carrier : (Ring[A], A) -> Bool)(k))))), (poly_extend : ((Ring[A], Ring[B]), (A) -> B, (Unit) -> B, ((Unit) -> Num) -> A) -> B)((k, l), f, (v : Unit) => a)))"),
                             @tactics.strip_assume_tac,
                           ),
                           t6850,
@@ -69597,9 +68627,7 @@ fn step_346() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6846 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?a'. (a':C) IN ring_carrier l' /\\\n          ring_kernel(poly_ring (k:A ring) (:1), subring_generated (l:B ring)\n                        (a INSERT IMAGE (f:A->B) (ring_carrier k)))\n            (poly_extend(k,l) f (\\v:1. a)) SUBSET\n          ring_kernel(poly_ring (k:A ring) (:1), l':C ring)\n            (poly_extend(k,l') (g:A->C) (\\v:1. a'))",
-    ),
+    @term_syntax.parse_term("∃ a' : C, IN(a', ring_carrier((l' : Ring[C]))) && SUBSET(ring_kernel((poly_ring((k : Ring[A]), UNIV), subring_generated((l : Ring[B]), INSERT((a : B), IMAGE((f : (A) -> B), ring_carrier(k))))), poly_extend((k, l), f, (v : Unit) => a)), ring_kernel((poly_ring(k, UNIV), l'), poly_extend((k, l'), (g : (A) -> C), (v : Unit) => a')))"),
     @tactics.strip_assume_tac,
   )
   let t6844 = @simp.simp_tac(@list.List([@sets.subset_refl()]))
@@ -69638,9 +68666,7 @@ fn step_346() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6837 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_epimorphism(poly_ring (k:A ring) (:1),\n                      subring_generated (l:B ring)\n                        ((a:B) INSERT IMAGE (f:A->B) (ring_carrier k)))\n      (poly_extend(k,l) f (\\v:1. a))",
-    ),
+    @term_syntax.parse_term("ring_epimorphism((poly_ring((k : Ring[A]), UNIV), subring_generated((l : Ring[B]), INSERT((a : B), IMAGE((f : (A) -> B), ring_carrier(k))))), poly_extend((k, l), f, (v : Unit) => a))"),
     fn(
       x6834 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -69693,9 +68719,7 @@ fn step_346() -> Unit raise {
     @tactics.all_tac,
   ])
   let t6832 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_homomorphism(k:A ring,l:B ring) (f:A->B) /\\\n    ring_homomorphism(k:A ring,l':C ring) (g:A->C)",
-    ),
+    @term_syntax.parse_term("ring_homomorphism(((k : Ring[A]), (l : Ring[B])), (f : (A) -> B)) && ring_homomorphism((k, (l' : Ring[C])), (g : (A) -> C))"),
     @tactics.strip_assume_tac,
   )
   let t7004 = @tactics.then_tac(
@@ -69755,9 +68779,7 @@ fn step_346() -> Unit raise {
   )
   simple_algebraic_extend_homomorphism_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) (l:B ring) (l':C ring) (f:A->B) (g:A->C) a.\n        field k /\\ integral_domain l /\\\n        ring_monomorphism(k,l) f /\\ a IN ring_carrier l /\\\n        algebraic_over(k,l) f a /\\ algebraically_closed_field l' /\\\n        ring_monomorphism(k,l') g\n        ==> ?h. ring_homomorphism\n                 (subring_generated l (a INSERT IMAGE f (ring_carrier k)),\n                  l') h /\\\n                (forall x. x IN ring_carrier k ==> h(f x) = g x)",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[B], ∀ l' : Ring[C], ∀ f : (A) -> B, ∀ g : (A) -> C, ∀ a : B, field(k) && integral_domain(l) && ring_monomorphism((k, l), f) && IN(a, ring_carrier(l)) && algebraic_over((k, l), f, a) && algebraically_closed_field(l') && ring_monomorphism((k, l'), g) → (∃ h : (B) -> C, ring_homomorphism((subring_generated(l, INSERT(a, IMAGE(f, ring_carrier(k)))), l'), h) && (∀ x : A, IN(x, ring_carrier(k)) → h(f(x)) == g(x)))"),
       t7004,
     ),
   )
@@ -70095,9 +69117,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7036 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "x0:B IN ring_carrier\n       (subring_generated (l:B ring) (IMAGE FST (G0:(B#C)->bool)))",
-    ),
+    @term_syntax.parse_term("IN((x0 : B), ring_carrier(subring_generated((l : Ring[B]), IMAGE(FST, (G0 : ((B, C)) -> Bool)))))"),
     fn(
       x7033 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -70222,9 +69242,7 @@ fn step_347() -> Unit raise {
         @tactics.then_tac(
           @tactics.thenl(
             @tactics.subgoal_then(
-              @parser.parse_term(
-                "?G0:(B#C)->bool. G0 IN cc /\\ x0:B IN IMAGE FST G0",
-              ),
+              @term_syntax.parse_term("∃ G0 : ((B, C)) -> Bool, IN(G0, (cc : (((B, C)) -> Bool) -> Bool)) && IN((x0 : B), IMAGE(FST, G0))"),
               @tactics.strip_assume_tac,
             ),
             t7028,
@@ -70299,9 +69317,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7556 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(h':B->C) x0 =\n              (@y:C. (x0,y) IN (G:(B#C)->bool))",
-    ),
+    @term_syntax.parse_term("(h' : (B) -> C)((x0 : B)) == select((y : C) => IN((x0, y), (G : ((B, C)) -> Bool)))"),
     fn(
       x7553 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -70458,9 +69474,7 @@ fn step_347() -> Unit raise {
   let t7538 = @meson.asm_meson_tac(@list.List([]))
   let t7537 = @list.List([@meson.asm_meson_tac(@list.List([])), @tactics.all_tac])
   let t7536 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(@y:C. ((f:A->B) x0,y) IN\n                  IMAGE (\\x:B. (x,(h':B->C) x)) (S':B->bool)) =\n                 (h':B->C) ((f:A->B) x0)",
-    ),
+    @term_syntax.parse_term("select((y : C) => IN(((f : (A) -> B)((x0 : A)), y), IMAGE((x : B) => (x, (h' : (B) -> C)(x)), (S' : (B) -> Bool)))) == h'(f(x0))"),
     fn(
       x7533 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -70516,9 +69530,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7531 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(f:A->B) x0 IN (S':B->bool) /\\\n                (f:A->B) x0 IN IMAGE FST (G:(B#C)->bool)",
-    ),
+    @term_syntax.parse_term("IN((f : (A) -> B)((x0 : A)), (S' : (B) -> Bool)) && IN(f(x0), IMAGE(FST, (G : ((B, C)) -> Bool)))"),
     @tactics.strip_assume_tac,
   )
   let t7539 = @tactics.then_tac(
@@ -70626,9 +69638,7 @@ fn step_347() -> Unit raise {
     @tactics.then_tac(
       @tactics.then_tac(
         @tactics.undisch_tac(
-          @parser.parse_term(
-            "ring_carrier (subring_generated (l:B ring)\n                    ((a:B) INSERT IMAGE FST (G:(B#C)->bool))) = S'",
-          ),
+          @term_syntax.parse_term("ring_carrier(subring_generated((l : Ring[B]), INSERT((a : B), IMAGE(FST, (G : ((B, C)) -> Bool))))) == (S' : (B) -> Bool)"),
         ),
         t7520,
       ),
@@ -70647,9 +69657,7 @@ fn step_347() -> Unit raise {
                   @tactics.then_tac(
                     @tactics.thenl(
                       @tactics.subgoal_then(
-                        @parser.parse_term(
-                          "subring_generated (l:B ring) (S':B->bool) =\n                 subring_generated l\n                   ((a:B) INSERT IMAGE FST (G:(B#C)->bool))",
-                        ),
+                        @term_syntax.parse_term("subring_generated((l : Ring[B]), (S' : (B) -> Bool)) == subring_generated(l, INSERT((a : B), IMAGE(FST, (G : ((B, C)) -> Bool))))"),
                         fn(
                           x7513 : @kernel.Thm,
                         ) -> ((
@@ -70873,9 +69881,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7499 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(G:(B#C)->bool) = IMAGE (\\x:B. (x, (h':B->C) x)) (S':B->bool)",
-    ),
+    @term_syntax.parse_term("(G : ((B, C)) -> Bool) == IMAGE((x : B) => (x, (h' : (B) -> C)(x)), (S' : (B) -> Bool))"),
     fn(
       x7496 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -70941,9 +69947,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7490 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall b:B. b IN S'\n               ==> (@c:C. (b,c) IN IMAGE (\\x:B. (x, (h':B->C) x))\n                                          (S':B->bool)) = h' b",
-    ),
+    @term_syntax.parse_term("∀ b : B, IN(b, (S' : (B) -> Bool)) → select((c : C) => IN((b, c), IMAGE((x : B) => (x, (h' : (B) -> C)(x)), S'))) == h'(b)"),
     fn(
       x7487 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -71008,9 +70012,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7484 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "IMAGE FST (IMAGE (\\x:B. (x, (h':B->C) x)) (S':B->bool))\n         = (S':B->bool)",
-    ),
+    @term_syntax.parse_term("IMAGE(FST, IMAGE((x : B) => (x, (h' : (B) -> C)(x)), (S' : (B) -> Bool))) == S'"),
     fn(
       x7481 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -71063,9 +70065,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7479 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(forall x:B y1:C y2:C.\n           (x,y1) IN (G:(B#C)->bool) /\\ (x,y2) IN G ==> y1 = y2) /\\\n         (forall x:A. x IN ring_carrier k\n               ==> (@y:C. ((f:A->B) x,y) IN (G:(B#C)->bool)) =\n                   (g:A->C) x)",
-    ),
+    @term_syntax.parse_term("(∀ x : B, ∀ y1 : C, ∀ y2 : C, IN((x, y1), (G : ((B, C)) -> Bool)) && IN((x, y2), G) → y1 == y2) && (∀ x : A, IN(x, ring_carrier((k : Ring[A]))) → select((y : C) => IN(((f : (A) -> B)(x), y), G)) == (g : (A) -> C)(x))"),
     @tactics.strip_assume_tac,
   )
   let t7476 = @simp.rewrite_tac(
@@ -71112,9 +70112,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7470 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "IMAGE FST (G:(B#C)->bool) SUBSET (S':B->bool) /\\\n         (S':B->bool) SUBSET ring_carrier (l:B ring)",
-    ),
+    @term_syntax.parse_term("SUBSET(IMAGE(FST, (G : ((B, C)) -> Bool)), (S' : (B) -> Bool)) && SUBSET(S', ring_carrier((l : Ring[B])))"),
     @tactics.strip_assume_tac,
   )
   let t7466 = @simp.asm_rewrite_tac(@list.List([@sets.in_insert()]))
@@ -71140,9 +70138,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7465 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(S':B->bool) subfield_of (l:B ring) /\\\n        (a:B) IN (S':B->bool)",
-    ),
+    @term_syntax.parse_term("subfield_of((S' : (B) -> Bool), (l : Ring[B])) && IN((a : B), S')"),
     @tactics.strip_assume_tac,
   )
   let t7463 = @meson.asm_meson_tac(
@@ -71152,9 +70148,7 @@ fn step_347() -> Unit raise {
   let t7461 = @simp.asm_rewrite_tac(@list.List([@sets.image_i()]))
   let t7458 = @term_syntax.parse_term("(a : B)")
   let t7459 = @term_syntax.parse_term("(l : Ring[B])")
-  let t7460 = @parser.parse_term(
-    "subring_generated (l:B ring) (IMAGE FST (G:(B#C)->bool))",
-  )
+  let t7460 = @term_syntax.parse_term("subring_generated((l : Ring[B]), IMAGE(FST, (G : ((B, C)) -> Bool)))")
   let t7464 = @list.List([
     @tactics.then_tac(
       @tactics.then_tac(
@@ -71174,9 +70168,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7457 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "field(subring_generated (l:B ring)\n          ((a:B) INSERT IMAGE FST (G:(B#C)->bool)))",
-    ),
+    @term_syntax.parse_term("field(subring_generated((l : Ring[B]), INSERT((a : B), IMAGE(FST, (G : ((B, C)) -> Bool)))))"),
     fn(
       x7454 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -71225,9 +70217,7 @@ fn step_347() -> Unit raise {
     },
   )
   let t7453 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "S' = ring_carrier(subring_generated (l:B ring)\n        ((a:B) INSERT IMAGE FST (G:(B#C)->bool)))",
-    ),
+    @term_syntax.parse_term("(S' : (B) -> Bool) == ring_carrier(subring_generated((l : Ring[B]), INSERT((a : B), IMAGE(FST, (G : ((B, C)) -> Bool)))))"),
   )
   let t7452 = @tactics.disch_then(
     @tactics.x_choose_then(@term_syntax.parse_term("(h' : (B) -> C)"))(
@@ -71249,9 +70239,7 @@ fn step_347() -> Unit raise {
   let t7449 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([
-        @parser.parse_term(
-          "subring_generated (l:B ring) (IMAGE FST (G:(B#C)->bool))",
-        ),
+        @term_syntax.parse_term("subring_generated((l : Ring[B]), IMAGE(FST, (G : ((B, C)) -> Bool)))"),
         t7448,
         t7447,
         t7446,
@@ -71278,9 +70266,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7440 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_monomorphism\n          (subring_generated (l:B ring) (IMAGE FST (G:(B#C)->bool)), l':C ring)\n          (\\x:B. @y:C. (x,y) IN G)",
-    ),
+    @term_syntax.parse_term("ring_monomorphism((subring_generated((l : Ring[B]), IMAGE(FST, (G : ((B, C)) -> Bool))), (l' : Ring[C])), (x : B) => select((y : C) => IN((x, y), G)))"),
     fn(
       x7437 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -71393,9 +70379,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7424 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "algebraic_over (subring_generated (l:B ring)\n            (IMAGE FST (G:(B#C)->bool)), l) I (a:B)",
-    ),
+    @term_syntax.parse_term("algebraic_over((subring_generated((l : Ring[B]), IMAGE(FST, (G : ((B, C)) -> Bool))), l), I, (a : B))"),
     fn(
       x7421 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -71450,9 +70434,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7419 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_carrier(subring_generated (l:B ring)\n          (IMAGE FST (G:(B#C)->bool))) = IMAGE FST G",
-    ),
+    @term_syntax.parse_term("ring_carrier(subring_generated((l : Ring[B]), IMAGE(FST, (G : ((B, C)) -> Bool)))) == IMAGE(FST, G)"),
     fn(
       x7416 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -71514,9 +70496,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7411 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "field(subring_generated (l:B ring) (IMAGE FST (G:(B#C)->bool))) /\\\n         IMAGE FST (G:(B#C)->bool) subring_of (l:B ring) /\\\n         ring_monomorphism (subring_generated (l:B ring)\n              (IMAGE FST (G:(B#C)->bool)), l) I",
-    ),
+    @term_syntax.parse_term("field(subring_generated((l : Ring[B]), IMAGE(FST, (G : ((B, C)) -> Bool)))) && subring_of(IMAGE(FST, G), l) && ring_monomorphism((subring_generated(l, IMAGE(FST, G)), l), I)"),
     @tactics.strip_assume_tac,
   )
   let t7410 = @list.List([
@@ -72104,9 +71084,7 @@ fn step_347() -> Unit raise {
       @tactics.all_tac,
     ])
     let t7353 = @tactics.subgoal_then(
-      @parser.parse_term(
-        "x0:B IN ring_carrier (subring_generated (l:B ring)\n                (IMAGE FST (G0:(B#C)->bool))) /\\\n             y0:B IN ring_carrier (subring_generated (l:B ring)\n                (IMAGE FST (G0:(B#C)->bool)))",
-      ),
+      @term_syntax.parse_term("IN((x0 : B), ring_carrier(subring_generated((l : Ring[B]), IMAGE(FST, (G0 : ((B, C)) -> Bool))))) && IN((y0 : B), ring_carrier(subring_generated(l, IMAGE(FST, G0))))"),
       fn(
         x7350 : @kernel.Thm,
       ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -72282,9 +71260,7 @@ fn step_347() -> Unit raise {
         @tactics.then_tac(
           @tactics.thenl(
             @tactics.subgoal_then(
-              @parser.parse_term(
-                "(?G1:(B#C)->bool. G1 IN cc /\\ x0:B IN IMAGE FST G1) /\\\n               (?G2:(B#C)->bool. G2 IN cc /\\ y0:B IN IMAGE FST G2)",
-              ),
+              @term_syntax.parse_term("(∃ G1 : ((B, C)) -> Bool, IN(G1, (cc : (((B, C)) -> Bool) -> Bool)) && IN((x0 : B), IMAGE(FST, G1))) && (∃ G2 : ((B, C)) -> Bool, IN(G2, cc) && IN((y0 : B), IMAGE(FST, G2)))"),
               t7331,
             ),
             t7332,
@@ -72296,9 +71272,7 @@ fn step_347() -> Unit raise {
       @tactics.all_tac,
     ])
     let t7330 = @tactics.subgoal_then(
-      @parser.parse_term(
-        "?G0:(B#C)->bool. G0 IN cc /\\\n               x0:B IN IMAGE FST G0 /\\ y0:B IN IMAGE FST G0",
-      ),
+      @term_syntax.parse_term("∃ G0 : ((B, C)) -> Bool, IN(G0, (cc : (((B, C)) -> Bool) -> Bool)) && IN((x0 : B), IMAGE(FST, G0)) && IN((y0 : B), IMAGE(FST, G0))"),
       @tactics.strip_assume_tac,
     )
     let t7329 = @term_syntax.parse_term("(y0 : B)")
@@ -72864,9 +71838,7 @@ fn step_347() -> Unit raise {
                       @tactics.then_tac(
                         @tactics.thenl(
                           @tactics.subgoal_then(
-                            @parser.parse_term(
-                              "forall G. G IN cc ==> ring_homomorphism\n                 (subring_generated (l:B ring) (IMAGE FST G), l':C ring)\n                 (\\x:B. @y:C. (x,y) IN UNIONS cc)",
-                            ),
+                            @term_syntax.parse_term("∀ G : ((B, C)) -> Bool, IN(G, (cc : (((B, C)) -> Bool) -> Bool)) → ring_homomorphism((subring_generated((l : Ring[B]), IMAGE(FST, G)), (l' : Ring[C])), (x : B) => select((y : C) => IN((x, y), UNIONS(cc))))"),
                             fn(
                               x7261 : @kernel.Thm,
                             ) -> ((
@@ -73126,9 +72098,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7235 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_inv (l:B ring) (x0:B) IN IMAGE FST (G0:(B#C)->bool)",
-    ),
+    @term_syntax.parse_term("IN(ring_inv((l : Ring[B]), (x0 : B)), IMAGE(FST, (G0 : ((B, C)) -> Bool)))"),
     fn(
       x7232 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -73651,9 +72621,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7182 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "IMAGE FST (UNIONS cc:(B#C)->bool) subring_of (l:B ring)",
-    ),
+    @term_syntax.parse_term("subring_of(IMAGE(FST, UNIONS((cc : (((B, C)) -> Bool) -> Bool))), (l : Ring[B]))"),
     fn(
       x7179 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -73746,9 +72714,7 @@ fn step_347() -> Unit raise {
   ])
   let t7170 = @tactics.x_gen_tac(@term_syntax.parse_term("(y0 : C)"))
   let t7169 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall y0:C. (x0:B,y0) IN UNIONS cc <=>\n                  (x0,y0) IN (G0:(B#C)->bool)",
-    ),
+    @term_syntax.parse_term("∀ y0 : C, IN(((x0 : B), y0), UNIONS((cc : (((B, C)) -> Bool) -> Bool))) == IN((x0, y0), (G0 : ((B, C)) -> Bool))"),
     fn(
       x7167 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -73801,9 +72767,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7165 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall G:(B#C)->bool. G IN cc ==> forall x:B. x IN IMAGE FST G ==>\n             (@y:C. (x,y) IN UNIONS cc) = (@y. (x,y) IN G)",
-    ),
+    @term_syntax.parse_term("∀ G : ((B, C)) -> Bool, IN(G, (cc : (((B, C)) -> Bool) -> Bool)) → (∀ x : B, IN(x, IMAGE(FST, G)) → select((y : C) => IN((x, y), UNIONS(cc))) == select((y : C) => IN((x, y), G)))"),
     fn(
       x7162 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -73859,9 +72823,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7158 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall x:B y1:C y2:C.\n           (x,y1) IN UNIONS cc /\\ (x,y2) IN UNIONS cc ==> y1 = y2",
-    ),
+    @term_syntax.parse_term("∀ x : B, ∀ y1 : C, ∀ y2 : C, IN((x, y1), UNIONS((cc : (((B, C)) -> Bool) -> Bool))) && IN((x, y2), UNIONS(cc)) → y1 == y2"),
     fn(
       x7155 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -73913,9 +72875,7 @@ fn step_347() -> Unit raise {
   )
   let t7153 = @list.List([@meson.asm_meson_tac(@list.List([])), @tactics.all_tac])
   let t7152 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall G:(B#C)->bool. G IN cc ==>\n           forall x:B y1:C y2:C. (x,y1) IN G /\\ (x,y2) IN G ==> y1 = y2",
-    ),
+    @term_syntax.parse_term("∀ G : ((B, C)) -> Bool, IN(G, (cc : (((B, C)) -> Bool) -> Bool)) → (∀ x : B, ∀ y1 : C, ∀ y2 : C, IN((x, y1), G) && IN((x, y2), G) → y1 == y2)"),
     fn(
       x7149 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -74428,9 +73388,7 @@ fn step_347() -> Unit raise {
   let t7084 = @term_syntax.parse_term("(g : (A) -> C)")
   let t7085 = @term_syntax.parse_term("(f : (A) -> B)")
   let t7086 = @term_syntax.parse_term("(l' : Ring[C])")
-  let t7087 = @parser.parse_term(
-    "subring_generated (l:B ring)\n              (IMAGE (f:A->B) (ring_carrier k))",
-  )
+  let t7087 = @term_syntax.parse_term("subring_generated((l : Ring[B]), IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))))")
   let t7130 = @tactics.then_tac(
     @tactics.thenl(
       @tactics.then_tac(
@@ -74640,9 +73598,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7062 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "IMAGE FST (G0:(B#C)->bool) = IMAGE (f:A->B) (ring_carrier k)",
-    ),
+    @term_syntax.parse_term("IMAGE(FST, (G0 : ((B, C)) -> Bool)) == IMAGE((f : (A) -> B), ring_carrier((k : Ring[A])))"),
     fn(
       x7059 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -74720,9 +73676,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7052 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall a:A. a IN ring_carrier k\n               ==> (@y:C. ((f:A->B) a, y) IN G0) = (g:A->C) a",
-    ),
+    @term_syntax.parse_term("∀ a : A, IN(a, ring_carrier((k : Ring[A]))) → select((y : C) => IN(((f : (A) -> B)(a), y), (G0 : ((B, C)) -> Bool))) == (g : (A) -> C)(a)"),
     fn(
       x7049 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -74777,9 +73731,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7046 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall a1 a2:A. a1 IN ring_carrier k /\\ a2 IN ring_carrier k /\\\n                   (f:A->B) a1 = f a2 ==> a1 = a2",
-    ),
+    @term_syntax.parse_term("∀ a1 : A, ∀ a2 : A, IN(a1, ring_carrier((k : Ring[A]))) && IN(a2, ring_carrier(k)) && (f : (A) -> B)(a1) == f(a2) → a1 == a2"),
     fn(
       x7043 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -74845,9 +73797,7 @@ fn step_347() -> Unit raise {
                         @tactics.then_tac(
                           @tactics.then_tac(
                             @simp.abbrev_tac(
-                              @parser.parse_term(
-                                "G0 = {((f:A->B) x, (g:A->C) x) | x IN ring_carrier k}",
-                              ),
+                              @term_syntax.parse_term("(G0 : ((B, C)) -> Bool) == {((f : (A) -> B)((x : A)), (g : (A) -> C)(x)) | IN(x, ring_carrier((k : Ring[A])))}"),
                             ),
                             t7041,
                           ),
@@ -74876,9 +73826,7 @@ fn step_347() -> Unit raise {
   ])
   let t7040 = @tactics.mp_tac(
     @bool.ispec(
-      @parser.parse_term(
-        "\\G:(B#C)->bool.\n       G SUBSET (ring_carrier l CROSS ring_carrier l') /\\\n       (forall x:B y1:C y2:C. (x,y1) IN G /\\ (x,y2) IN G ==> y1 = y2) /\\\n       (IMAGE FST G) subfield_of (l:B ring) /\\\n       IMAGE (f:A->B) (ring_carrier k) SUBSET IMAGE FST G /\\ ring_homomorphism\n         (subring_generated l (IMAGE FST G), l':C ring)\n         (\\x:B. @y:C. (x,y) IN G) /\\ (forall x:A. x IN ring_carrier k\n              ==> (@y:C. ((f:A->B) x,y) IN G) = g x)",
-      ),
+      @term_syntax.parse_term("(G : ((B, C)) -> Bool) => SUBSET(G, CROSS(ring_carrier((l : Ring[B])), ring_carrier((l' : Ring[C])))) && (∀ x : B, ∀ y1 : C, ∀ y2 : C, IN((x, y1), G) && IN((x, y2), G) → y1 == y2) && subfield_of(IMAGE(FST, G), l) && SUBSET(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), IMAGE(FST, G)) && ring_homomorphism((subring_generated(l, IMAGE(FST, G)), l'), (x : B) => select((y : C) => IN((x, y), G))) && (∀ x : A, IN(x, ring_carrier(k)) → select((y : C) => IN((f(x), y), G)) == (g : (A) -> C)(x))"),
       @wo.zl_subsets_unions_nonempty(),
     ),
   )
@@ -74897,9 +73845,7 @@ fn step_347() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7038 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "field (k:A ring) /\\ field (l:B ring) /\\ field (l':C ring) /\\\n     ring_monomorphism(k:A ring,l:B ring) f /\\ integral_domain (l:B ring) /\\\n     ring_monomorphism(k:A ring,l':C ring) g /\\\n     ring_homomorphism(k:A ring,l:B ring) (f:A->B)",
-    ),
+    @term_syntax.parse_term("field((k : Ring[A])) && field((l : Ring[B])) && field((l' : Ring[C])) && ring_monomorphism((k, l), (f : (A) -> B)) && integral_domain(l) && ring_monomorphism((k, l'), (g : (A) -> C)) && ring_homomorphism((k, l), f)"),
     @tactics.strip_assume_tac,
   )
   let t7575 = @tactics.thenl(
@@ -74917,9 +73863,7 @@ fn step_347() -> Unit raise {
   )
   algebraic_closure_extend_homomorphism_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) (l:B ring) (l':C ring) (f:A->B) (g:A->C).\n        algebraic_extension(k,l) f /\\ algebraically_closed_field l' /\\\n        ring_homomorphism(k,l') g\n        ==> ?h. ring_homomorphism(l,l') h /\\\n                (forall x. x IN ring_carrier k ==> h(f x) = g x)",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[B], ∀ l' : Ring[C], ∀ f : (A) -> B, ∀ g : (A) -> C, algebraic_extension((k, l), f) && algebraically_closed_field(l') && ring_homomorphism((k, l'), g) → (∃ h : (B) -> C, ring_homomorphism((l, l'), h) && (∀ x : A, IN(x, ring_carrier(k)) → h(f(x)) == g(x)))"),
       t7575,
     ),
   )
@@ -75991,9 +74935,7 @@ fn step_348() -> Unit raise {
     t7654,
   ])
   let t7599 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "{x:A | x IN ring_carrier k /\\ poly_eval k p x = ring_0 k} =\n    IMAGE a (1..n)",
-    ),
+    @term_syntax.parse_term("{(x : A) | IN(x, ring_carrier((k : Ring[A]))) && poly_eval(k, (p : ((Unit) -> Num) -> A), x) == ring_0(k)} == IMAGE((a : (Num) -> A), op_dot_dot(1, (n : Num)))"),
     fn(
       x7596 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -76334,9 +75276,7 @@ fn step_348() -> Unit raise {
   )
   poly_squarefree_root_count_explicit_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) p.\n      algebraically_closed_field k /\\\n      p IN ring_carrier(poly_ring k (:1)) /\\\n      ~(p = ring_0(poly_ring k (:1))) /\\\n      (forall a. a IN ring_carrier k /\\ poly_eval k p a = ring_0 k\n           ==> ~(ring_divides (poly_ring k (:1))\n                  (poly_pow k (poly_sub k (poly_var k one) (poly_const k a)) 2)\n                  p))\n      ==> CARD {x | x IN ring_carrier k /\\ poly_eval k p x = ring_0 k} =\n          poly_deg k p",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ p : ((Unit) -> Num) -> A, algebraically_closed_field(k) && IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && (∀ a : A, IN(a, ring_carrier(k)) && poly_eval(k, p, a) == ring_0(k) → !ring_divides(poly_ring(k, UNIV), poly_pow(k, poly_sub(k, poly_var(k, one), poly_const(k, a)), 2), p)) → CARD({(x : A) | IN(x, ring_carrier(k)) && poly_eval(k, p, x) == ring_0(k)}) == poly_deg(k, p)"),
       t7696,
     ),
   )
@@ -76454,9 +75394,7 @@ fn step_349() -> Unit raise {
     ]),
   )
   let t7709 = @simp.rewrite_rule(@list.List([@ringtheory.ring_squarefree()]))
-  let t7706 = @parser.parse_term(
-    "poly_sub k (poly_var k one) (poly_const k (a:A))",
-  )
+  let t7706 = @term_syntax.parse_term("poly_sub((k : Ring[A]), poly_var(k, one), poly_const(k, (a : A)))")
   let t7710 = @tactics.conjuncts_then2(
     fn(
       x7700 : @kernel.Thm,
@@ -76640,9 +75578,7 @@ fn step_349() -> Unit raise {
   )
   poly_squarefree_root_count_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) p.\n      algebraically_closed_field k /\\\n      ring_squarefree (poly_ring k (:1)) p\n      ==> CARD {x | x IN ring_carrier k /\\ poly_eval k p x = ring_0 k} =\n          poly_deg k p",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ p : ((Unit) -> Num) -> A, algebraically_closed_field(k) && ring_squarefree(poly_ring(k, UNIV), p) → CARD({(x : A) | IN(x, ring_carrier(k)) && poly_eval(k, p, x) == ring_0(k)}) == poly_deg(k, p)"),
       t7722,
     ),
   )
@@ -76687,9 +75623,7 @@ fn step_350() -> Unit raise {
   )
   poly_squarefree_root_count_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) p.\n      algebraically_closed_field k\n      ==> (ring_squarefree (poly_ring k (:1)) p <=>\n           p IN ring_carrier (poly_ring k (:1)) /\\\n           ~(p = ring_0 (poly_ring k (:1))) /\\\n           CARD {x | x IN ring_carrier k /\\ poly_eval k p x = ring_0 k} =\n           poly_deg k p)",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ p : ((Unit) -> Num) -> A, algebraically_closed_field(k) → ring_squarefree(poly_ring(k, UNIV), p) == (IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && CARD({(x : A) | IN(x, ring_carrier(k)) && poly_eval(k, p, x) == ring_0(k)}) == poly_deg(k, p))"),
       t7725,
     ),
   )
@@ -76825,9 +75759,7 @@ fn step_351() -> Unit raise {
     ]),
   )
   let t7736 = @simp.rewrite_rule(@list.List([@ringtheory.ring_squarefree()]))
-  let t7733 = @parser.parse_term(
-    "poly_sub k (poly_var k one) (poly_const k (a:A))",
-  )
+  let t7733 = @term_syntax.parse_term("poly_sub((k : Ring[A]), poly_var(k, one), poly_const(k, (a : A)))")
   let t7737 = @tactics.conjuncts_then2(
     fn(
       x7727 : @kernel.Thm,
@@ -77013,9 +75945,7 @@ fn step_351() -> Unit raise {
   )
   poly_squarefree_explicit_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) p.\n      algebraically_closed_field k\n      ==> (ring_squarefree (poly_ring k (:1)) p <=>\n           p IN ring_carrier (poly_ring k (:1)) /\\\n           ~(p = ring_0 (poly_ring k (:1))) /\\\n           (forall a. a IN ring_carrier k /\\ poly_eval k p a = ring_0 k\n                ==> ~(ring_divides (poly_ring k (:1))\n                  (poly_pow k (poly_sub k (poly_var k one) (poly_const k a)) 2)\n                  p)))",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ p : ((Unit) -> Num) -> A, algebraically_closed_field(k) → ring_squarefree(poly_ring(k, UNIV), p) == (IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && (∀ a : A, IN(a, ring_carrier(k)) && poly_eval(k, p, a) == ring_0(k) → !ring_divides(poly_ring(k, UNIV), poly_pow(k, poly_sub(k, poly_var(k, one), poly_const(k, a)), 2), p)))"),
       t7754,
     ),
   )
@@ -77355,9 +76285,7 @@ fn step_352() -> Unit raise {
   let t8042 = @tactics.match_mp_tac(algebraic_extension_trans())
   let t8041 = @simp.asm_simp_tac(@list.List([@trivia.o_thm(), @trivia.i_thm()]))
   let t8040 = @tactics.exists_tac(
-    @parser.parse_term(
-      "(h':(((1->num)->A)->bool)->A) o (h:A->((1->num)->A)->bool)",
-    ),
+    @term_syntax.parse_term("o((h' : ((((Unit) -> Num) -> A) -> Bool) -> A), (h : (A, ((Unit) -> Num) -> A) -> Bool))"),
   )
   let t8046 = @list.List([
     @tactics.then_tac(
@@ -77585,9 +76513,7 @@ fn step_352() -> Unit raise {
   let t8014 = @tactics.repeat_tac(@tactics.strip_tac)
   let t8013 = @simp.simp_tac(@list.List([]))
   let t8012 = @tactics.exists_tac(
-    @parser.parse_term(
-      "\\x. if x IN IMAGE (h:A->((1->num)->A)->bool) (ring_carrier l)\n          then (h':(((1->num)->A)->bool)->A) x else h'' x",
-    ),
+    @term_syntax.parse_term("(x : (((Unit) -> Num) -> A) -> Bool) => if IN(x, IMAGE((h : (A, ((Unit) -> Num) -> A) -> Bool), ring_carrier((l : Ring[A])))) { (h' : ((((Unit) -> Num) -> A) -> Bool) -> A)(x) } else { (h'' : ((((Unit) -> Num) -> A) -> Bool) -> A)(x) }"),
   )
   let t8009 = @term_syntax.parse_term("(h' : ((((Unit) -> Num) -> A) -> Bool) -> A)")
   let t8011 = @tactics.disch_then((x8010 : @kernel.Thm) => {
@@ -78053,9 +76979,7 @@ fn step_352() -> Unit raise {
                             @tactics.then_tac(
                               @tactics.thenl(
                                 @tactics.subgoal_then(
-                                  @parser.parse_term(
-                                    "ring_carrier(m:(((1->num)->A)->bool)ring) <=_c (:A) DIFF ring_carrier l",
-                                  ),
+                                  @term_syntax.parse_term("op_lt_eq_us_c(ring_carrier((m : Ring[(((Unit) -> Num) -> A) -> Bool])), DIFF(UNIV, ring_carrier((l : Ring[A]))))"),
                                   fn(
                                     x7963 : @kernel.Thm,
                                   ) -> ((
@@ -78164,9 +77088,7 @@ fn step_352() -> Unit raise {
     t8024,
   ])
   let t7962 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?h':(((1->num)->A)->bool)->A.\n        (forall x y. x IN ring_carrier m /\\ y IN ring_carrier m /\\ h' x = h' y\n               ==> x = y) /\\\n        (forall x. x IN ring_carrier l ==> h'(h x) = x)",
-    ),
+    @term_syntax.parse_term("∃ h' : ((((Unit) -> Num) -> A) -> Bool) -> A, (∀ x : (((Unit) -> Num) -> A) -> Bool, ∀ y : (((Unit) -> Num) -> A) -> Bool, IN(x, ring_carrier((m : Ring[(((Unit) -> Num) -> A) -> Bool]))) && IN(y, ring_carrier(m)) && h'(x) == h'(y) → x == y) && (∀ x : A, IN(x, ring_carrier((l : Ring[A]))) → h'((h : (A, ((Unit) -> Num) -> A) -> Bool)(x)) == x)"),
     @tactics.strip_assume_tac,
   )
   let t7960 = @meson.asm_meson_tac(
@@ -79547,9 +78469,7 @@ fn step_352() -> Unit raise {
     t7785,
   ])
   let t7779 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall f:A ring. f IN c\n                 ==> field f /\\ ring_monomorphism(k,f) I /\\\n                     algebraic_extension(k,f) I",
-    ),
+    @term_syntax.parse_term("∀ f : Ring[A], IN(f, (c : (Ring[A]) -> Bool)) → field(f) && ring_monomorphism(((k : Ring[A]), f), I) && algebraic_extension((k, f), I)"),
     fn(
       x7776 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -79676,9 +78596,7 @@ fn step_352() -> Unit raise {
                                                                             @tactics.thenl(
                                                                               @tactics.then_tac(
                                                                                 @tactics.x_gen_tac(
-                                                                                  @parser.parse_term(
-                                                                                    "c:A ring->bool",
-                                                                                  ),
+                                                                                  @term_syntax.parse_term("(c : (Ring[A]) -> Bool)"),
                                                                                 ),
                                                                                 t7766,
                                                                               ),
@@ -79807,17 +78725,13 @@ fn step_352() -> Unit raise {
   ])
   let t7757 = @tactics.match_mp_tac(
     @class.taut(
-      @parser.parse_term(
-        "(p /\\ (p ==> (q ==> r) ==> s)) ==> (p /\\ q ==> r) ==> s",
-      ),
+      @term_syntax.parse_term("(p : Bool) && (p → ((q : Bool) → (r : Bool)) → (s : Bool)) → (p && q → r) → s"),
     ),
   )
   let t7756 = @simp.rewrite_tac(@list.List([]))
   let t7755 = @tactics.mp_tac(
     @bool.ispec(
-      @parser.parse_term(
-        "\\(l:A ring) (l':A ring). algebraic_extension(k,l) I /\\\n                algebraic_extension(k,l') I /\\\n                field_extension(l,l') I",
-      ),
+      @term_syntax.parse_term("(l : Ring[A]) => (l' : Ring[A]) => algebraic_extension(((k : Ring[A]), l), I) && algebraic_extension((k, l'), I) && field_extension((l, l'), I)"),
       @wo.zl_strong(),
     ),
   )
@@ -79952,9 +78866,7 @@ fn step_352() -> Unit raise {
   )
   algebraic_closure_exists_id_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k:A ring.\n        ring_carrier k <_c (:A) /\\ (:num) <_c (:A) /\\ field k\n        ==> ?l. algebraic_extension (k,l) I /\\ algebraically_closed_field l",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], (op_lt_us_c : ((A) -> Bool, (A) -> Bool) -> Bool)((ring_carrier : (Ring[A], A) -> Bool)(k), (UNIV : (A) -> Bool)) && (op_lt_us_c : ((Num) -> Bool, (A) -> Bool) -> Bool)((UNIV : (Num) -> Bool), (UNIV : (A) -> Bool)) && (field : (Ring[A]) -> Bool)(k) → (∃ l : Ring[A], (algebraic_extension : ((Ring[A], Ring[A]), (A) -> A) -> Bool)((k, l), (I : (A) -> A)) && (algebraically_closed_field : (Ring[A]) -> Bool)(l))"),
       t8081,
     ),
   )
@@ -81026,9 +79938,7 @@ fn step_353() -> Unit raise {
   )
   algebraic_closure_exists_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k:A ring.\n        INFINITE(:B) /\\ ring_carrier k <=_c (:B) /\\ field k\n        ==> ?l (f:A->B). algebraic_extension (k,l) f /\\\n                         algebraically_closed_field l",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], (INFINITE : ((B) -> Bool) -> Bool)((UNIV : (B) -> Bool)) && (op_lt_eq_us_c : ((A) -> Bool, (B) -> Bool) -> Bool)((ring_carrier : (Ring[A], A) -> Bool)(k), (UNIV : (B) -> Bool)) && (field : (Ring[A]) -> Bool)(k) → (∃ l : Ring[B], ∃ f : (A) -> B, (algebraic_extension : ((Ring[A], Ring[B]), (A) -> B) -> Bool)((k, l), f) && (algebraically_closed_field : (Ring[B]) -> Bool)(l))"),
       t8234,
     ),
   )
@@ -81304,9 +80214,7 @@ fn step_354() -> Unit raise {
     @tactics.all_tac,
   ])
   let t8235 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "field (l:B ring) /\\ field (l':C ring) /\\\n     ring_homomorphism(k:A ring,l':C ring) g /\\\n     field_extension(k:A ring,l:B ring) f",
-    ),
+    @term_syntax.parse_term("field((l : Ring[B])) && field((l' : Ring[C])) && ring_homomorphism(((k : Ring[A]), l'), (g : (A) -> C)) && field_extension((k, l), (f : (A) -> B))"),
     @tactics.strip_assume_tac,
   )
   let t8281 = @tactics.then_tac(
@@ -81380,9 +80288,7 @@ fn step_354() -> Unit raise {
   )
   algebraic_closure_unique_explicit_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) (l:B ring) (l':C ring) (f:A->B) (g:A->C).\n        algebraic_extension(k,l) f /\\ algebraically_closed_field l /\\\n        algebraic_extension(k,l') g /\\ algebraically_closed_field l'\n        ==> ?h. ring_isomorphism(l,l') h /\\\n                (forall x. x IN ring_carrier k ==> h(f x) = g x)",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[B], ∀ l' : Ring[C], ∀ f : (A) -> B, ∀ g : (A) -> C, algebraic_extension((k, l), f) && algebraically_closed_field(l) && algebraic_extension((k, l'), g) && algebraically_closed_field(l') → (∃ h : (B) -> C, ring_isomorphism((l, l'), h) && (∀ x : A, IN(x, ring_carrier(k)) → h(f(x)) == g(x)))"),
       t8281,
     ),
   )
@@ -81411,9 +80317,7 @@ fn step_355() -> Unit raise {
   )
   algebraic_closure_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A ring) (l:B ring) (l':C ring) (f:A->B) (g:A->C).\n        algebraic_extension(k,l) f /\\ algebraically_closed_field l /\\\n        algebraic_extension(k,l') g /\\ algebraically_closed_field l'\n        ==> l isomorphic_ring l'",
-      ),
+      @term_syntax.parse_term("∀ k : Ring[A], ∀ l : Ring[B], ∀ l' : Ring[C], ∀ f : (A) -> B, ∀ g : (A) -> C, algebraic_extension((k, l), f) && algebraically_closed_field(l) && algebraic_extension((k, l'), g) && algebraically_closed_field(l') → isomorphic_ring(l, l')"),
       t8283,
     ),
   )

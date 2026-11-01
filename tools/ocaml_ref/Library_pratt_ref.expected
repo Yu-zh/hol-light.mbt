@@ -12801,13 +12801,13 @@ CPU time (user): <t>
 Library/pratt quotations (443):
   (x : Num) <= (y : Num) \226\134\146 (y == x + (d : Num)) == (y - x == d)
   op_eq_eq((x : Int), (y : Int), mod(int_of_num((n : Num)))) == divides(int_of_num(n), x - y)
-  forall x y n:num. (x == y) (mod n) /\\ y <= x ==> ?q. x = y + n * q
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(n)) && y <= x \226\134\146 (\226\136\131 q : Num, x == y + n * q)
   (x : Num) + (y : Num) * 0 == x
   op_eq_eq((x : Num), (y : Num), mod((n : Num))) == op_eq_eq(y, x, mod(n))
-  a \\/ b ==> c ==> d <=> (c /\\ b) \\/ (c /\\ a) ==> d
+  ((a : Bool) || (b : Bool) \226\134\146 (c : Bool) \226\134\146 (d : Bool)) == (c && b || c && a \226\134\146 d)
   (y : Num)
   (x : Num)
-  forall x y n:num. (mod n) x y <=> ?q1 q2. x + n * q1 = y + n * q2
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, mod(n, x, y) == (\226\136\131 q1 : Num, \226\136\131 q2 : Num, x + n * q1 == y + n * q2)
   (p : Num) == (q : Num)
   (q : Num)
   !coprime(((p : Num), (q : Num)))
@@ -12817,10 +12817,10 @@ Library/pratt quotations (443):
   (m : Num)
   (p : Num) == 1
   (p : Num) == 0
-  forall p. prime p <=>\n       ~(p = 0) /\\ ~(p = 1) /\\ forall m. 0 < m /\\ m < p ==> coprime(p,m)
+  \226\136\128 p : Num, prime(p) == (!(p == 0) && !(p == 1) && (\226\136\128 m : Num, 0 < m && m < p \226\134\146 coprime((p, m))))
   !((n : Num) == 0)
   !((n : Num) == 0)
-  {m | 0 < m /\\ m < SUC n} = n INSERT {m | 0 < m /\\ m < n}
+  {(m : Num) | 0 < m && m < SUC((n : Num))} == INSERT(n, {(m : Num) | 0 < m && m < n})
   {(m : Num) | 0 < m && m < SUC((n : Num))} == {}
   (n : Num) == 0
   {(m : Num) | 0 < m && m < 0} == {}
@@ -12828,21 +12828,21 @@ Library/pratt quotations (443):
   \226\136\128 x : Num, \226\136\128 y : Num, op_eq_eq(x, y, mod(0)) == (x == y)
   \226\136\128 x : Num, \226\136\128 y : Num, op_eq_eq(x, y, mod(1))
   \226\136\128 x : Num, \226\136\128 n : Num, op_eq_eq(x, 0, mod(n)) == divides(n, x)
-  forall x y n. (x == y) (mod n) <=>\n           if x <= y then (y - x == 0) (mod n)\n           else (x - y == 0) (mod n)
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(n)) == (if x <= y { op_eq_eq(y - x, 0, mod(n)) } else { op_eq_eq(x - y, 0, mod(n)) })
   (a : Num) == 0
-  forall a n x y. coprime(a,n) /\\ (a * x == a * y) (mod n) ==> (x == y) (mod n)
+  \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 y : Num, coprime((a, n)) && op_eq_eq(a * x, a * y, mod(n)) \226\134\146 op_eq_eq(x, y, mod(n))
   \226\136\128 x : Num, \226\136\128 n : Num, op_eq_eq(x, x, mod(n))
   \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(n)) == op_eq_eq(y, x, mod(n))
-  (x + n * q1 = y + n * q2) /\\\n    (y + n * q3 = z + n * q4)\n    ==> (x + n * (q1 + q3) = z + n * (q2 + q4))
-  forall x y z n. (x == y) (mod n) /\\ (y == z) (mod n) ==> (x == z) (mod n)
-  phi(n) = CARD { m | 0 < m /\\ m <= n /\\ coprime(m,n) }
+  (x : Num) + (n : Num) * (q1 : Num) == (y : Num) + n * (q2 : Num) && y + n * (q3 : Num) == (z : Num) + n * (q4 : Num) \226\134\146 x + n * (q1 + q3) == z + n * (q2 + q4)
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 z : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(n)) && op_eq_eq(y, z, mod(n)) \226\134\146 op_eq_eq(x, z, mod(n))
+  (phi : (Num) -> Num)((n : Num)) == CARD({(m : Num) | 0 < m && m <= n && coprime((m, n))})
   (m : Num) == 0
   (m : Num)
-  ({m | 0 < m /\\ m <= n /\\ coprime (m,n)} = {1}) /\\\n      ({m | coprime (m,n) /\\ m < n} = {0})
+  {(m : Num) | 0 < m && m <= (n : Num) && coprime((m, n))} == {1} && {(m : Num) | coprime((m, n)) && m < n} == {0}
   (n : Num) == 1
   (n : Num) == 0
   phi((n : Num)) == CARD({(m : Num) | coprime((m, n)) && m < n})
-  forall n. ~(n = 1) ==> (phi(n) = CARD {m | 0 < m /\\ m < n /\\ coprime(m,n)})
+  \226\136\128 n : Num, !(n == 1) \226\134\146 phi(n) == CARD({(m : Num) | 0 < m && m < n && coprime((m, n))})
   \226\136\128 n : Num, phi(n) <= n
   (n : Num)
   \226\136\128 n : Num, !(n == 1) \226\134\146 phi(n) <= n - 1
@@ -12863,14 +12863,14 @@ Library/pratt quotations (443):
   3 <= (n : Num) \226\134\146 !(1 == n - 1)
   2 == CARD({1, (n : Num) - 1})
   \226\136\128 n : Num, 3 <= n \226\134\146 2 <= phi(n)
-  {m | 0 < m /\\ m < n /\\ coprime (m,n)} = {m | 0 < m /\\ m < n}
+  {(m : Num) | 0 < m && m < (n : Num) && coprime((m, n))} == {(m : Num) | 0 < m && m < n}
   (n : Num)
   (n : Num) == 1
   (n : Num) == 0
-  forall n. (phi n = n - 1) /\\ ~(n = 0) /\\ ~(n = 1) <=> prime n
+  \226\136\128 n : Num, (phi(n) == n - 1 && !(n == 0) && !(n == 1)) == prime(n)
   \226\136\128 p : Num, prime(p) \226\134\146 phi(p) == p - 1
   (x2 : Num) - (x1 : Num)
-  b <= a /\\\n   (?x1 x2. x1 * n + a = x2 * n + b)\n   ==> ?x. a = x * n + b
+  (b : Num) <= (a : Num) && (\226\136\131 x1 : Num, \226\136\131 x2 : Num, x1 * (n : Num) + a == x2 * n + b) \226\134\146 (\226\136\131 x : Num, a == x * n + b)
   (a : Num)
   MOD((b : Num), (n : Num)) == MOD((c : Num), n)
   (b : Num) == (c : Num)
@@ -12889,8 +12889,8 @@ Library/pratt quotations (443):
   (x : Num) => (y : Num) => MOD(x * y, (n : Num))
   coprime(((a : Num), (n : Num)))
   (n : Num) == 1
-  n = 0
-  forall n s. FINITE s /\\ ~(n = 0) /\\ ~(n = 1) /\\ coprime(a,n)\n       ==> (forall b. b IN s ==> b < n)\n           ==> (ITSET (\\x y. (x * y) MOD n) (IMAGE (\\b. (a * b) MOD n) s) 1 =\n                (a EXP (CARD s) * ITSET (\\x y. (x * y) MOD n) s 1) MOD n)
+  (n : Num) == 0
+  \226\136\128 n : Num, \226\136\128 s : (Num) -> Bool, FINITE(s) && !(n == 0) && !(n == 1) && coprime(((a : Num), n)) \226\134\146 (\226\136\128 b : Num, IN(b, s) \226\134\146 b < n) \226\134\146 ITSET((x : Num) => (y : Num) => MOD(x * y, n), IMAGE((b : Num) => MOD(a * b, n), s), 1) == MOD(EXP(a, CARD(s)) * ITSET((x : Num) => (y : Num) => MOD(x * y, n), s, 1), n)
   (x : Num)
   \226\136\128 b : Num, IN(b, (s : (Num) -> Bool)) \226\134\146 coprime((b, (n : Num)))
   (s : (Num) -> Bool)
@@ -12899,16 +12899,16 @@ Library/pratt quotations (443):
   1
   (x : Num) => (y : Num) => MOD(x * y, (n : Num))
   (n : Num) == 0
-  forall n s. FINITE s /\\ (forall b. b IN s ==> coprime(b,n)) /\\ ~(n = 0)\n         ==> coprime(ITSET (\\x y. (x * y) MOD n) s 1,n)
-  ITSET (\\x y. (x * y) MOD n)\n                    {b | 0 < b /\\ b < n /\\ coprime (b,n)} 1
+  \226\136\128 n : Num, \226\136\128 s : (Num) -> Bool, FINITE(s) && (\226\136\128 b : Num, IN(b, s) \226\134\146 coprime((b, n))) && !(n == 0) \226\134\146 coprime((ITSET((x : Num) => (y : Num) => MOD(x * y, n), s, 1), n))
+  ITSET((x : Num) => (y : Num) => MOD(x * y, (n : Num)), {(b : Num) | 0 < b && b < n && coprime((b, n))}, 1)
   (x : Num) == x * 1
   (n : Num)
   MOD
   {(b : Num) | 0 < b && b < (n : Num)}
-  FINITE {b | 0 < b /\\ b < n /\\ coprime (b,n)} /\\\n                forall b. b IN {b | 0 < b /\\ b < n /\\ coprime (b,n)} ==> b < n
+  FINITE({(b : Num) | 0 < b && b < (n : Num) && coprime((b, n))}) && (\226\136\128 b : Num, IN(b, {(b : Num) | 0 < b && b < n && coprime((b, n))}) \226\134\146 b < n)
   1
   ITSET((x : Num) => (y : Num) => MOD(x * y, (n : Num)))
-  {c | ?b. 0 < b /\\ b < n /\\ coprime (b,n) /\\ (c = (a * b) MOD n)} =\n    IMAGE (\\b. (a * b) MOD n) {b | 0 < b /\\ b < n /\\ coprime (b,n)}
+  {(c : Num) | \226\136\131 b : Num, 0 < b && b < (n : Num) && coprime((b, n)) && c == MOD((a : Num) * b, n)} == IMAGE((b : Num) => MOD(a * b, n), {(b : Num) | 0 < b && b < n && coprime((b, n))})
   (y : Num) == DIV(y, (n : Num)) * n + MOD(y, n)
   (n : Num) * (x : Num) - (a : Num) * (y : Num) == 1 \226\134\146 x * n == a * y + 1
   ((x : Num) + (a : Num) * ((c : Num) * (n : Num)) == c * (a * n) + (y : Num)) == (x == y)
@@ -12918,7 +12918,7 @@ Library/pratt quotations (443):
   (a : Num) == 0
   coprime(((a : Num), (n : Num)))
   (1 <= (n : Num)) == !(n == 0)
-  c <= a * c * x <=> c * 1 <= c * a * x
+  ((c : Num) <= (a : Num) * (c * (x : Num))) == (c * 1 <= c * (a * x))
   \226\136\128 x : Num, (c : Num) * x == DIV(c * x, (n : Num)) * n + MOD(c * x, n)
   (m : Num) < (n : Num) \226\134\146 n - m + m == n
   (n : Num) - MOD((y : Num), n)
@@ -12926,15 +12926,15 @@ Library/pratt quotations (443):
   (e : Num)
   coprime(((n : Num), (c : Num) * (n - MOD((y : Num), n))))
   !(0 < (n : Num)) == (n == 0)
-  (~a ==> ~c) /\\ b /\\ c /\\ d ==> a /\\ b /\\ c /\\ d
-  (c * (n - y MOD n)) MOD n
+  (!(a : Bool) \226\134\146 !(c : Bool)) && (b : Bool) && c && (d : Bool) \226\134\146 a && b && c && d
+  MOD((c : Num) * ((n : Num) - MOD((y : Num), n)), n)
   (a : Num) - (b : Num) == 1 \226\134\146 a == b + 1
   ((a : Num) * ((c : Num) * (x : Num)) == (b : Num)) == (c * (a * x) == b)
   (c : Num) * (y : Num)
   (c : Num) * (x : Num) == DIV(c * x, (n : Num)) * n + MOD(c * x, n)
   coprime(((n : Num), (c : Num) * (x : Num)))
   !(0 < (n : Num)) == (n == 0)
-  (~a ==> ~c) /\\ b /\\ c /\\ d ==> a /\\ b /\\ c /\\ d
+  (!(a : Bool) \226\134\146 !(c : Bool)) && (b : Bool) && c && (d : Bool) \226\134\146 a && b && c && d
   MOD((c : Num) * (x : Num), (n : Num))
   (d : Num) == 1
   (y : Num)
@@ -12948,7 +12948,7 @@ Library/pratt quotations (443):
   (b : Bool) && (!(a : Bool) \226\134\146 !b) \226\134\146 a && b
   (b : Num)
   (c : Num)
-  { c | ?b. 0 < b /\\ b < n /\\ coprime(b,n) /\\ (c = (a * b) MOD n) } =\n    { b | 0 < b /\\ b < n /\\ coprime(b,n) }
+  {(c : Num) | \226\136\131 b : Num, 0 < b && b < (n : Num) && coprime((b, n)) && c == MOD((a : Num) * b, n)} == {(b : Num) | 0 < b && b < n && coprime((b, n))}
   (n : Num) == 1
   (n : Num) == 0
   \226\136\128 a : Num, \226\136\128 n : Num, coprime((a, n)) \226\134\146 op_eq_eq(EXP(a, phi(n)), 1, mod(n))
@@ -12972,7 +12972,7 @@ Library/pratt quotations (443):
   (n : Num) == 1
   (m : Num) == 0
   (n : Num) == 0
-  forall m n a. ~(m = 0) /\\ (a EXP m == 1) (mod n) ==> coprime(a,n)
+  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 a : Num, !(m == 0) && op_eq_eq(EXP(a, m), 1, mod(n)) \226\134\146 coprime((a, n))
   1 <= (n : Num) \226\134\146 0 < n
   (a : Bool) \226\134\146 !(a && (b : Bool)) \226\134\146 !b
   2 <= (n : Num) \226\134\146 !(n - 1 == 0)
@@ -12980,7 +12980,7 @@ Library/pratt quotations (443):
   coprime(((a : Num), (n : Num)))
   phi((n : Num))
   2 <= (n : Num) \226\134\146 !(n == 0) && !(n == 1)
-  forall a n. 2 <= n /\\\n         (a EXP (n - 1) == 1) (mod n) /\\\n         (forall m. 0 < m /\\ m < n - 1 ==> ~(a EXP m == 1) (mod n))\n         ==> prime(n)
+  \226\136\128 a : Num, \226\136\128 n : Num, 2 <= n && op_eq_eq(EXP(a, n - 1), 1, mod(n)) && (\226\136\128 m : Num, 0 < m && m < n - 1 \226\134\146 !op_eq_eq(EXP(a, m), 1, mod(n))) \226\134\146 prime(n)
   MOD
   (n : Num)
   EXP
@@ -12993,7 +12993,7 @@ Library/pratt quotations (443):
   0
   DIV((m : Num) * (r : Num), (p : Num)) == m * DIV(r, p)
   (p : Num)
-  forall p. prime p /\\ p divides m * r\n                   ==> ~(a EXP ((m * r) DIV p) == 1) (mod n)
+  \226\136\128 p : Num, prime(p) && divides(p, (m : Num) * (r : Num)) \226\134\146 !op_eq_eq(EXP((a : Num), DIV(m * r, p)), 1, mod((n : Num)))
   (p : Num)
   (m : Num) < m * (r : Num)
   !((r : Num) == 1)
@@ -13012,8 +13012,8 @@ Library/pratt quotations (443):
   ((a : Bool) \226\134\146 !(b : Bool)) == !(a && b)
   (a : Num)
   2 <= (n : Num) \226\134\146 !(n == 0)
-  forall a n. 2 <= n /\\\n         (a EXP (n - 1) == 1) (mod n) /\\\n         (forall p. prime(p) /\\ p divides (n - 1)\n              ==> ~(a EXP ((n - 1) DIV p) == 1) (mod n))\n         ==> prime(n)
-  primefact ps n <=> (ITLIST (*) ps 1 = n) /\\ forall p. MEM p ps ==> prime(p)
+  \226\136\128 a : Num, \226\136\128 n : Num, 2 <= n && op_eq_eq(EXP(a, n - 1), 1, mod(n)) && (\226\136\128 p : Num, prime(p) && divides(p, n - 1) \226\134\146 !op_eq_eq(EXP(a, DIV(n - 1, p)), 1, mod(n))) \226\134\146 prime(n)
+  (primefact : (List[Num], Num) -> Bool)((ps : List[Num]), (n : Num)) == (ITLIST(op_star, ps, 1) == n && (\226\136\128 p : Num, MEM(p, ps) \226\134\146 prime(p)))
   CONS((p : Num), (ps : List[Num]))
   (ps : List[Num])
   prime((p : Num))
@@ -13032,19 +13032,19 @@ Library/pratt quotations (443):
   \226\136\128 n : Num, !(n == 0) \226\134\146 (\226\136\131 ps : List[Num], primefact(ps, n))
   (ps : List[Num])
   (ps : List[Num])
-  forall ps n. primefact ps n ==> forall p. prime p /\\ p divides n ==> MEM p ps
+  \226\136\128 ps : List[Num], \226\136\128 n : Num, primefact(ps, n) \226\134\146 (\226\136\128 p : Num, prime(p) && divides(p, n) \226\134\146 MEM(p, ps))
   (ps : List[Num])
   (ps : List[Num])
-  forall ps n. primefact ps n <=> (ITLIST (*) ps 1 = n) /\\ ALL prime ps
+  \226\136\128 ps : List[Num], \226\136\128 n : Num, primefact(ps, n) == (ITLIST(op_star, ps, 1) == n && ALL(prime, ps))
   (ps : List[Num])
   (ps : List[Num])
-  ALL (\\p. prime p /\\ ~(a EXP ((n - 1) DIV p) == 1) (mod n)) ps
+  ALL((p : Num) => prime(p) && !op_eq_eq(EXP((a : Num), DIV((n : Num) - 1, p)), 1, mod(n)), (ps : List[Num]))
   (p : Num)
   (p : Num) => prime(p) && !op_eq_eq(EXP((a : Num), DIV((n : Num) - 1, p)), 1, mod(n))
   primefact((ps : List[Num]), (n : Num) - 1)
   (a : Num)
-  2 <= n /\\\n   (a EXP (n - 1) == 1) (mod n) /\\\n   (ITLIST (*) ps 1 = n - 1) /\\\n   ALL (\\p. prime p /\\ ~(a EXP ((n - 1) DIV p) == 1) (mod n)) ps\n   ==> prime n
-  ~(n = 0)\n     ==> ((a EXP 0) MOD n = 1 MOD n) /\\\n         ((a EXP (NUMERAL (BIT0 m))) MOD n =\n                let b = (a EXP (NUMERAL m)) MOD n in\n                (b * b) MOD n) /\\\n         ((a EXP (NUMERAL (BIT1 m))) MOD n =\n                let b = (a EXP (NUMERAL m)) MOD n in\n                (a * ((b * b) MOD n)) MOD n)
+  2 <= (n : Num) && op_eq_eq(EXP((a : Num), n - 1), 1, mod(n)) && ITLIST(op_star, (ps : List[Num]), 1) == n - 1 && ALL((p : Num) => prime(p) && !op_eq_eq(EXP(a, DIV(n - 1, p)), 1, mod(n)), ps) \226\134\146 prime(n)
+  !((n : Num) == 0) \226\134\146 MOD(EXP((a : Num), 0), n) == MOD(1, n) && MOD(EXP(a, NUMERAL(BIT0((m : Num)))), n) == LET((b : Num) => LET_END(MOD(b * b, n)), MOD(EXP(a, NUMERAL(m)), n)) && MOD(EXP(a, NUMERAL(BIT1(m))), n) == LET((b : Num) => LET_END(MOD(a * MOD(b * b, n), n)), MOD(EXP(a, NUMERAL(m)), n))
   !((n : Num) == 0) \226\134\146 op_eq_eq((x : Num), (y : Num), mod(n)) == (MOD(x, n) == MOD(y, n))
   (n : Num)
   op_eq_eq(EXP((a : Num), (m : Num)), 1, mod((n : Num)))
@@ -13054,7 +13054,7 @@ Library/pratt quotations (443):
   ((a : Bool) && a && (b : Bool)) == (a && b) && (a && a) == a
   (ps : List[Num])
   (n : Num)
-  ((m = 1) <=> F) ==> ((m = p) <=> F) ==> (m * n = p) ==> (prime(p) <=> F)
+  ((m : Num) == 1) == false \226\134\146 (m == (p : Num)) == false \226\134\146 m * (n : Num) == p \226\134\146 prime(p) == false
   (m : Num)
   (n : Num)
   (p : Num)

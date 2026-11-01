@@ -95,9 +95,7 @@ fn step_5() -> Unit raise {
   )
   arith_suc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n. SUC(NUMERAL n) = NUMERAL(SUC n)) /\\\n   (SUC _0 = BIT1 _0) /\\\n   (forall n. SUC (BIT0 n) = BIT1 n) /\\\n   (forall n. SUC (BIT1 n) = BIT0 (SUC n))",
-      ),
+      @term_syntax.parse_term("(∀ n : Num, SUC(NUMERAL(n)) == NUMERAL(SUC(n))) && SUC(_0) == BIT1(_0) && (∀ n : Num, SUC(BIT0(n)) == BIT1(n)) && (∀ n : Num, SUC(BIT1(n)) == BIT0(SUC(n)))"),
       t7,
     ),
   )
@@ -136,9 +134,7 @@ fn step_6() -> Unit raise {
   )
   arith_pre_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n. PRE(NUMERAL n) = NUMERAL(PRE n)) /\\\n   (PRE _0 = _0) /\\\n   (forall n. PRE(BIT0 n) = if n = _0 then _0 else BIT1 (PRE n)) /\\\n   (forall n. PRE(BIT1 n) = BIT0 n)",
-      ),
+      @term_syntax.parse_term("(∀ n : Num, PRE(NUMERAL(n)) == NUMERAL(PRE(n))) && PRE(_0) == _0 && (∀ n : Num, PRE(BIT0(n)) == (if n == _0 { _0 } else { BIT1(PRE(n)) })) && (∀ n : Num, PRE(BIT1(n)) == BIT0(n))"),
       t11,
     ),
   )
@@ -171,9 +167,7 @@ fn step_7() -> Unit raise {
   )
   arith_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m n. NUMERAL(m) + NUMERAL(n) = NUMERAL(m + n)) /\\\n   (_0 + _0 = _0) /\\\n   (forall n. _0 + BIT0 n = BIT0 n) /\\\n   (forall n.        _0 + BIT1 n = BIT1 n) /\\\n   (forall n.   BIT0 n + _0 = BIT0 n) /\\\n   (forall n.   BIT1 n + _0 = BIT1 n) /\\\n   (forall m n. BIT0 m + BIT0 n = BIT0 (m + n)) /\\\n   (forall m n. BIT0 m + BIT1 n = BIT1 (m + n)) /\\\n   (forall m n. BIT1 m + BIT0 n = BIT1 (m + n)) /\\\n   (forall m n. BIT1 m + BIT1 n = BIT0 (SUC(m + n)))",
-      ),
+      @term_syntax.parse_term("(∀ m : Num, ∀ n : Num, NUMERAL(m) + NUMERAL(n) == NUMERAL(m + n)) && _0 + _0 == _0 && (∀ n : Num, _0 + BIT0(n) == BIT0(n)) && (∀ n : Num, _0 + BIT1(n) == BIT1(n)) && (∀ n : Num, BIT0(n) + _0 == BIT0(n)) && (∀ n : Num, BIT1(n) + _0 == BIT1(n)) && (∀ m : Num, ∀ n : Num, BIT0(m) + BIT0(n) == BIT0(m + n)) && (∀ m : Num, ∀ n : Num, BIT0(m) + BIT1(n) == BIT1(m + n)) && (∀ m : Num, ∀ n : Num, BIT1(m) + BIT0(n) == BIT1(m + n)) && (∀ m : Num, ∀ n : Num, BIT1(m) + BIT1(n) == BIT0(SUC(m + n)))"),
       t13,
     ),
   )
@@ -214,9 +208,7 @@ fn step_8() -> Unit raise {
   )
   arith_mult_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m n. NUMERAL(m) * NUMERAL(n) = NUMERAL(m * n)) /\\\n   (_0 * _0 = _0) /\\\n   (forall n. _0 * BIT0 n = _0) /\\\n   (forall n. _0 * BIT1 n = _0) /\\\n   (forall n. BIT0 n * _0 = _0) /\\\n   (forall n. BIT1 n * _0 = _0) /\\\n   (forall m n. BIT0 m * BIT0 n = BIT0 (BIT0 (m * n))) /\\\n   (forall m n. BIT0 m * BIT1 n = BIT0 m + BIT0 (BIT0 (m * n))) /\\\n   (forall m n. BIT1 m * BIT0 n = BIT0 n + BIT0 (BIT0 (m * n))) /\\\n   (forall m n. BIT1 m * BIT1 n = BIT1 m + BIT0 n + BIT0 (BIT0 (m * n)))",
-      ),
+      @term_syntax.parse_term("(∀ m : Num, ∀ n : Num, NUMERAL(m) * NUMERAL(n) == NUMERAL(m * n)) && _0 * _0 == _0 && (∀ n : Num, _0 * BIT0(n) == _0) && (∀ n : Num, _0 * BIT1(n) == _0) && (∀ n : Num, BIT0(n) * _0 == _0) && (∀ n : Num, BIT1(n) * _0 == _0) && (∀ m : Num, ∀ n : Num, BIT0(m) * BIT0(n) == BIT0(BIT0(m * n))) && (∀ m : Num, ∀ n : Num, BIT0(m) * BIT1(n) == BIT0(m) + BIT0(BIT0(m * n))) && (∀ m : Num, ∀ n : Num, BIT1(m) * BIT0(n) == BIT0(n) + BIT0(BIT0(m * n))) && (∀ m : Num, ∀ n : Num, BIT1(m) * BIT1(n) == BIT1(m) + (BIT0(n) + BIT0(BIT0(m * n))))"),
       t16,
     ),
   )
@@ -270,9 +262,7 @@ fn step_9() -> Unit raise {
   )
   arith_exp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m n. (NUMERAL m) EXP (NUMERAL n) = NUMERAL(m EXP n)) /\\\n   (_0 EXP _0 = BIT1 _0) /\\\n   (forall m. (BIT0 m) EXP _0 = BIT1 _0) /\\\n   (forall m. (BIT1 m) EXP _0 = BIT1 _0) /\\\n   (forall n. _0 EXP (BIT0 n) = (_0 EXP n) * (_0 EXP n)) /\\\n   (forall m n. (BIT0 m) EXP (BIT0 n) = ((BIT0 m) EXP n) * ((BIT0 m) EXP n)) /\\\n   (forall m n. (BIT1 m) EXP (BIT0 n) = ((BIT1 m) EXP n) * ((BIT1 m) EXP n)) /\\\n   (forall n. _0 EXP (BIT1 n) = _0) /\\\n   (forall m n. (BIT0 m) EXP (BIT1 n) =\n        BIT0 m * ((BIT0 m) EXP n) * ((BIT0 m) EXP n)) /\\\n   (forall m n. (BIT1 m) EXP (BIT1 n) =\n        BIT1 m * ((BIT1 m) EXP n) * ((BIT1 m) EXP n))",
-      ),
+      @term_syntax.parse_term("(∀ m : Num, ∀ n : Num, EXP(NUMERAL(m), NUMERAL(n)) == NUMERAL(EXP(m, n))) && EXP(_0, _0) == BIT1(_0) && (∀ m : Num, EXP(BIT0(m), _0) == BIT1(_0)) && (∀ m : Num, EXP(BIT1(m), _0) == BIT1(_0)) && (∀ n : Num, EXP(_0, BIT0(n)) == EXP(_0, n) * EXP(_0, n)) && (∀ m : Num, ∀ n : Num, EXP(BIT0(m), BIT0(n)) == EXP(BIT0(m), n) * EXP(BIT0(m), n)) && (∀ m : Num, ∀ n : Num, EXP(BIT1(m), BIT0(n)) == EXP(BIT1(m), n) * EXP(BIT1(m), n)) && (∀ n : Num, EXP(_0, BIT1(n)) == _0) && (∀ m : Num, ∀ n : Num, EXP(BIT0(m), BIT1(n)) == BIT0(m) * (EXP(BIT0(m), n) * EXP(BIT0(m), n))) && (∀ m : Num, ∀ n : Num, EXP(BIT1(m), BIT1(n)) == BIT1(m) * (EXP(BIT1(m), n) * EXP(BIT1(m), n)))"),
       t28,
     ),
   )
@@ -301,9 +291,7 @@ fn step_10() -> Unit raise {
   )
   arith_even_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n. EVEN(NUMERAL n) <=> EVEN n) /\\\n   (EVEN _0 <=> T) /\\\n   (forall n. EVEN(BIT0 n) <=> T) /\\\n   (forall n. EVEN(BIT1 n) <=> F)",
-      ),
+      @term_syntax.parse_term("(∀ n : Num, EVEN(NUMERAL(n)) == EVEN(n)) && EVEN(_0) == true && (∀ n : Num, EVEN(BIT0(n)) == true) && (∀ n : Num, EVEN(BIT1(n)) == false)"),
       t29,
     ),
   )
@@ -332,9 +320,7 @@ fn step_11() -> Unit raise {
   )
   arith_odd_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n. ODD(NUMERAL n) <=> ODD n) /\\\n   (ODD _0 <=> F) /\\\n   (forall n. ODD(BIT0 n) <=> F) /\\\n   (forall n. ODD(BIT1 n) <=> T)",
-      ),
+      @term_syntax.parse_term("(∀ n : Num, ODD(NUMERAL(n)) == ODD(n)) && ODD(_0) == false && (∀ n : Num, ODD(BIT0(n)) == false) && (∀ n : Num, ODD(BIT1(n)) == true)"),
       t30,
     ),
   )
@@ -578,9 +564,7 @@ fn step_12() -> Unit raise {
   )
   arith_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m n. NUMERAL m <= NUMERAL n <=> m <= n) /\\\n   ((_0 <= _0) <=> T) /\\\n   (forall n. (BIT0 n <= _0) <=> n <= _0) /\\\n   (forall n. (BIT1 n <= _0) <=> F) /\\\n   (forall n. (_0 <= BIT0 n) <=> T) /\\\n   (forall n. (_0 <= BIT1 n) <=> T) /\\\n   (forall m n. (BIT0 m <= BIT0 n) <=> m <= n) /\\\n   (forall m n. (BIT0 m <= BIT1 n) <=> m <= n) /\\\n   (forall m n. (BIT1 m <= BIT0 n) <=> m < n) /\\\n   (forall m n. (BIT1 m <= BIT1 n) <=> m <= n)",
-      ),
+      @term_syntax.parse_term("(∀ m : Num, ∀ n : Num, (NUMERAL(m) <= NUMERAL(n)) == (m <= n)) && (_0 <= _0) == true && (∀ n : Num, (BIT0(n) <= _0) == (n <= _0)) && (∀ n : Num, (BIT1(n) <= _0) == false) && (∀ n : Num, (_0 <= BIT0(n)) == true) && (∀ n : Num, (_0 <= BIT1(n)) == true) && (∀ m : Num, ∀ n : Num, (BIT0(m) <= BIT0(n)) == (m <= n)) && (∀ m : Num, ∀ n : Num, (BIT0(m) <= BIT1(n)) == (m <= n)) && (∀ m : Num, ∀ n : Num, (BIT1(m) <= BIT0(n)) == (m < n)) && (∀ m : Num, ∀ n : Num, (BIT1(m) <= BIT1(n)) == (m <= n))"),
       t59,
     ),
   )
@@ -607,9 +591,7 @@ fn step_13() -> Unit raise {
   )
   arith_lt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m n. NUMERAL m < NUMERAL n <=> m < n) /\\\n   ((_0 < _0) <=> F) /\\\n   (forall n. (BIT0 n < _0) <=> F) /\\\n   (forall n. (BIT1 n < _0) <=> F) /\\\n   (forall n. (_0 < BIT0 n) <=> _0 < n) /\\\n   (forall n. (_0 < BIT1 n) <=> T) /\\\n   (forall m n. (BIT0 m < BIT0 n) <=> m < n) /\\\n   (forall m n. (BIT0 m < BIT1 n) <=> m <= n) /\\\n   (forall m n. (BIT1 m < BIT0 n) <=> m < n) /\\\n   (forall m n. (BIT1 m < BIT1 n) <=> m < n)",
-      ),
+      @term_syntax.parse_term("(∀ m : Num, ∀ n : Num, (NUMERAL(m) < NUMERAL(n)) == (m < n)) && (_0 < _0) == false && (∀ n : Num, (BIT0(n) < _0) == false) && (∀ n : Num, (BIT1(n) < _0) == false) && (∀ n : Num, (_0 < BIT0(n)) == (_0 < n)) && (∀ n : Num, (_0 < BIT1(n)) == true) && (∀ m : Num, ∀ n : Num, (BIT0(m) < BIT0(n)) == (m < n)) && (∀ m : Num, ∀ n : Num, (BIT0(m) < BIT1(n)) == (m <= n)) && (∀ m : Num, ∀ n : Num, (BIT1(m) < BIT0(n)) == (m < n)) && (∀ m : Num, ∀ n : Num, (BIT1(m) < BIT1(n)) == (m < n))"),
       t61,
     ),
   )
@@ -678,9 +660,7 @@ fn step_16() -> Unit raise {
   )
   arith_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m n. (NUMERAL m = NUMERAL n) <=> (m = n)) /\\\n   ((_0 = _0) <=> T) /\\\n   (forall n. (BIT0 n = _0) <=> (n = _0)) /\\\n   (forall n. (BIT1 n = _0) <=> F) /\\\n   (forall n. (_0 = BIT0 n) <=> (_0 = n)) /\\\n   (forall n. (_0 = BIT1 n) <=> F) /\\\n   (forall m n. (BIT0 m = BIT0 n) <=> (m = n)) /\\\n   (forall m n. (BIT0 m = BIT1 n) <=> F) /\\\n   (forall m n. (BIT1 m = BIT0 n) <=> F) /\\\n   (forall m n. (BIT1 m = BIT1 n) <=> (m = n))",
-      ),
+      @term_syntax.parse_term("(∀ m : Num, ∀ n : Num, (NUMERAL(m) == NUMERAL(n)) == (m == n)) && (_0 == _0) == true && (∀ n : Num, (BIT0(n) == _0) == (n == _0)) && (∀ n : Num, (BIT1(n) == _0) == false) && (∀ n : Num, (_0 == BIT0(n)) == (_0 == n)) && (∀ n : Num, (_0 == BIT1(n)) == false) && (∀ m : Num, ∀ n : Num, (BIT0(m) == BIT0(n)) == (m == n)) && (∀ m : Num, ∀ n : Num, (BIT0(m) == BIT1(n)) == false) && (∀ m : Num, ∀ n : Num, (BIT1(m) == BIT0(n)) == false) && (∀ m : Num, ∀ n : Num, (BIT1(m) == BIT1(n)) == (m == n))"),
       t65,
     ),
   )
@@ -832,9 +812,7 @@ fn step_17() -> Unit raise {
   )
   arith_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m n. NUMERAL m - NUMERAL n = NUMERAL(m - n)) /\\\n   (_0 - _0 = _0) /\\\n   (forall n. _0 - BIT0 n = _0) /\\\n   (forall n. _0 - BIT1 n = _0) /\\\n   (forall n. BIT0 n - _0 = BIT0 n) /\\\n   (forall n. BIT1 n - _0 = BIT1 n) /\\\n   (forall m n. BIT0 m - BIT0 n = BIT0 (m - n)) /\\\n   (forall m n. BIT0 m - BIT1 n = PRE(BIT0 (m - n))) /\\\n   (forall m n. BIT1 m - BIT0 n = if n <= m then BIT1 (m - n) else _0) /\\\n   (forall m n. BIT1 m - BIT1 n = BIT0 (m - n))",
-      ),
+      @term_syntax.parse_term("(∀ m : Num, ∀ n : Num, NUMERAL(m) - NUMERAL(n) == NUMERAL(m - n)) && _0 - _0 == _0 && (∀ n : Num, _0 - BIT0(n) == _0) && (∀ n : Num, _0 - BIT1(n) == _0) && (∀ n : Num, BIT0(n) - _0 == BIT0(n)) && (∀ n : Num, BIT1(n) - _0 == BIT1(n)) && (∀ m : Num, ∀ n : Num, BIT0(m) - BIT0(n) == BIT0(m - n)) && (∀ m : Num, ∀ n : Num, BIT0(m) - BIT1(n) == PRE(BIT0(m - n))) && (∀ m : Num, ∀ n : Num, BIT1(m) - BIT0(n) == (if n <= m { BIT1(m - n) } else { _0 })) && (∀ m : Num, ∀ n : Num, BIT1(m) - BIT1(n) == BIT0(m - n))"),
       t82,
     ),
   )
@@ -1558,9 +1536,7 @@ fn step_22() -> Unit raise {
         t124,
       )
       let t126 = (
-        @parser.parse_term(
-          "(BIT0 m = BIT0 n <=> m = n) /\\\n       (BIT1 m = BIT1 n <=> m = n)",
-        ),
+        @term_syntax.parse_term("(BIT0((m : Num)) == BIT0((n : Num))) == (m == n) && (BIT1(m) == BIT1(n)) == (m == n)"),
         t125,
       )
       let bits_inj = standardize(
@@ -2070,9 +2046,7 @@ fn step_22() -> Unit raise {
         t194,
       )
       let t196 = (
-        @parser.parse_term(
-          "(n = a + p * b <=>\n        BIT0(BIT0(BIT0(BIT0 n))) =\n        BIT0(BIT0(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT0(BIT0(BIT0 n))) =\n        BIT1(BIT0(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT0(BIT1(BIT0(BIT0 n))) =\n        BIT0(BIT1(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT1(BIT0(BIT0 n))) =\n        BIT1(BIT1(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT0(BIT0(BIT1(BIT0 n))) =\n        BIT0(BIT0(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT0(BIT1(BIT0 n))) =\n        BIT1(BIT0(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT0(BIT1(BIT1(BIT0 n))) =\n        BIT0(BIT1(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT1(BIT1(BIT0 n))) =\n        BIT1(BIT1(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT0(BIT0(BIT0(BIT1 n))) =\n        BIT0(BIT0(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT0(BIT0(BIT1 n))) =\n        BIT1(BIT0(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT0(BIT1(BIT0(BIT1 n))) =\n        BIT0(BIT1(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT1(BIT0(BIT1 n))) =\n        BIT1(BIT1(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT0(BIT0(BIT1(BIT1 n))) =\n        BIT0(BIT0(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT0(BIT1(BIT1 n))) =\n        BIT1(BIT0(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT0(BIT1(BIT1(BIT1 n))) =\n        BIT0(BIT1(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT1(BIT1(BIT1 n))) =\n        BIT1(BIT1(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b)",
-        ),
+        @term_syntax.parse_term("((n : Num) == (a : Num) + (p : Num) * (b : Num)) == (BIT0(BIT0(BIT0(BIT0(n)))) == BIT0(BIT0(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT0(BIT0(BIT0(n)))) == BIT1(BIT0(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT0(BIT1(BIT0(BIT0(n)))) == BIT0(BIT1(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT1(BIT0(BIT0(n)))) == BIT1(BIT1(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT0(BIT0(BIT1(BIT0(n)))) == BIT0(BIT0(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT0(BIT1(BIT0(n)))) == BIT1(BIT0(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT0(BIT1(BIT1(BIT0(n)))) == BIT0(BIT1(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT1(BIT1(BIT0(n)))) == BIT1(BIT1(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT0(BIT0(BIT0(BIT1(n)))) == BIT0(BIT0(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT0(BIT0(BIT1(n)))) == BIT1(BIT0(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT0(BIT1(BIT0(BIT1(n)))) == BIT0(BIT1(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT1(BIT0(BIT1(n)))) == BIT1(BIT1(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT0(BIT0(BIT1(BIT1(n)))) == BIT0(BIT0(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT0(BIT1(BIT1(n)))) == BIT1(BIT0(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT0(BIT1(BIT1(BIT1(n)))) == BIT0(BIT1(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT1(BIT1(BIT1(n)))) == BIT1(BIT1(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b)"),
         t195,
       )
       let pths_1 = (fn(x178 : @kernel.Thm) -> FixedArray[@kernel.Thm] raise {
@@ -2275,9 +2249,7 @@ fn step_22() -> Unit raise {
         t216,
       )
       let t218 = (
-        @parser.parse_term(
-          "(n = _0 + p * b <=>\n        BIT0(BIT0(BIT0(BIT0 n))) =\n        _0 + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT0(BIT0(BIT0 n))) =\n        BIT1 _0 + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT0(BIT1(BIT0(BIT0 n))) =\n        BIT0(BIT1 _0) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT1(BIT0(BIT0 n))) =\n        BIT1(BIT1 _0) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT0(BIT0(BIT1(BIT0 n))) =\n        BIT0(BIT0(BIT1 _0)) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT0(BIT1(BIT0 n))) =\n        BIT1(BIT0(BIT1 _0)) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT0(BIT1(BIT1(BIT0 n))) =\n        BIT0(BIT1(BIT1 _0)) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT1(BIT1(BIT0 n))) =\n        BIT1(BIT1(BIT1 _0)) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT0(BIT0(BIT0(BIT1 n))) =\n        BIT0(BIT0(BIT0(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT0(BIT0(BIT1 n))) =\n        BIT1(BIT0(BIT0(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT0(BIT1(BIT0(BIT1 n))) =\n        BIT0(BIT1(BIT0(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT1(BIT0(BIT1 n))) =\n        BIT1(BIT1(BIT0(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT0(BIT0(BIT1(BIT1 n))) =\n        BIT0(BIT0(BIT1(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT0(BIT1(BIT1 n))) =\n        BIT1(BIT0(BIT1(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT0(BIT1(BIT1(BIT1 n))) =\n        BIT0(BIT1(BIT1(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT1(BIT1(BIT1 n))) =\n        BIT1(BIT1(BIT1(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b)",
-        ),
+        @term_syntax.parse_term("((n : Num) == _0 + (p : Num) * (b : Num)) == (BIT0(BIT0(BIT0(BIT0(n)))) == _0 + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT0(BIT0(BIT0(n)))) == BIT1(_0) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT0(BIT1(BIT0(BIT0(n)))) == BIT0(BIT1(_0)) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT1(BIT0(BIT0(n)))) == BIT1(BIT1(_0)) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT0(BIT0(BIT1(BIT0(n)))) == BIT0(BIT0(BIT1(_0))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT0(BIT1(BIT0(n)))) == BIT1(BIT0(BIT1(_0))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT0(BIT1(BIT1(BIT0(n)))) == BIT0(BIT1(BIT1(_0))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT1(BIT1(BIT0(n)))) == BIT1(BIT1(BIT1(_0))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT0(BIT0(BIT0(BIT1(n)))) == BIT0(BIT0(BIT0(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT0(BIT0(BIT1(n)))) == BIT1(BIT0(BIT0(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT0(BIT1(BIT0(BIT1(n)))) == BIT0(BIT1(BIT0(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT1(BIT0(BIT1(n)))) == BIT1(BIT1(BIT0(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT0(BIT0(BIT1(BIT1(n)))) == BIT0(BIT0(BIT1(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT0(BIT1(BIT1(n)))) == BIT1(BIT0(BIT1(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT0(BIT1(BIT1(BIT1(n)))) == BIT0(BIT1(BIT1(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT1(BIT1(BIT1(n)))) == BIT1(BIT1(BIT1(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b)"),
         t217,
       )
       let pths_0 = (fn(x199 : @kernel.Thm) -> FixedArray[@kernel.Thm] raise {
@@ -2851,9 +2823,7 @@ fn step_22() -> Unit raise {
         t270,
       )
       let t272 = (
-        @parser.parse_term(
-          "(a + p * b = n <=>\n          BIT0(BIT0(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT0(BIT0(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT0(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT0(BIT0(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT0(BIT1(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT1(BIT0(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT1(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT1(BIT0(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT0(BIT0(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT0(BIT1(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT0(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT0(BIT1(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT0(BIT1(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT1(BIT1(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT1(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT1(BIT1(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT0(BIT0(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT0(BIT0(BIT1 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT0(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT0(BIT0(BIT1 n)))) /\\\n         (a + p * b = n <=>\n          BIT0(BIT1(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT1(BIT0(BIT1 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT1(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT1(BIT0(BIT1 n)))) /\\\n         (a + p * b = n <=>\n          BIT0(BIT0(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT0(BIT1(BIT1 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT0(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT0(BIT1(BIT1 n)))) /\\\n         (a + p * b = n <=>\n          BIT0(BIT1(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT1(BIT1(BIT1 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT1(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT1(BIT1(BIT1 n))))",
-        ),
+        @term_syntax.parse_term("((a : Num) + (p : Num) * (b : Num) == (n : Num)) == (BIT0(BIT0(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT0(BIT0(BIT0(n))))) && (a + p * b == n) == (BIT1(BIT0(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT0(BIT0(BIT0(n))))) && (a + p * b == n) == (BIT0(BIT1(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT1(BIT0(BIT0(n))))) && (a + p * b == n) == (BIT1(BIT1(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT1(BIT0(BIT0(n))))) && (a + p * b == n) == (BIT0(BIT0(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT0(BIT1(BIT0(n))))) && (a + p * b == n) == (BIT1(BIT0(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT0(BIT1(BIT0(n))))) && (a + p * b == n) == (BIT0(BIT1(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT1(BIT1(BIT0(n))))) && (a + p * b == n) == (BIT1(BIT1(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT1(BIT1(BIT0(n))))) && (a + p * b == n) == (BIT0(BIT0(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT0(BIT0(BIT1(n))))) && (a + p * b == n) == (BIT1(BIT0(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT0(BIT0(BIT1(n))))) && (a + p * b == n) == (BIT0(BIT1(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT1(BIT0(BIT1(n))))) && (a + p * b == n) == (BIT1(BIT1(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT1(BIT0(BIT1(n))))) && (a + p * b == n) == (BIT0(BIT0(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT0(BIT1(BIT1(n))))) && (a + p * b == n) == (BIT1(BIT0(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT0(BIT1(BIT1(n))))) && (a + p * b == n) == (BIT0(BIT1(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT1(BIT1(BIT1(n))))) && (a + p * b == n) == (BIT1(BIT1(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT1(BIT1(BIT1(n)))))"),
         t271,
       )
       let puths_1 = (fn(x253 : @kernel.Thm) -> FixedArray[@kernel.Thm] raise {
@@ -3361,9 +3331,7 @@ fn step_22() -> Unit raise {
       let t358 = @simp.rewrite_tac(
         @list.List([@equal.gsym(@arith.add_assoc())]),
       )
-      let t356 = @parser.parse_term(
-        "(n + 16) + p + q + 49 = (n + p + q) + (16 + 49)",
-      )
+      let t356 = @term_syntax.parse_term("(n : Num) + 16 + ((p : Num) + ((q : Num) + 49)) == n + (p + q) + (16 + 49)")
       let t357 = @simp.rewrite_tac(
         @list.List([@theorems.ac(@arith.add_ac())(t356)]),
       )
@@ -3574,9 +3542,7 @@ fn step_22() -> Unit raise {
                                                           @tactics.then_tac(
                                                             @tactics.then_tac(
                                                               @simp.abbrev_tac(
-                                                                @parser.parse_term(
-                                                                  "two = 2",
-                                                                ),
+                                                                @term_syntax.parse_term("(two : Num) == 2"),
                                                               ),
                                                               t328,
                                                             ),
@@ -3635,9 +3601,7 @@ fn step_22() -> Unit raise {
         t366,
       )
       let t368 = (
-        @parser.parse_term(
-          "n + BIT1 _0 = m /\\\n       m EXP 2 = p /\\\n       m + a = BIT0(BIT0 p)\n       ==> (BIT1(BIT1(BIT1 n))) EXP 2 = BIT1(BIT0(BIT0(BIT0 a)))",
-        ),
+        @term_syntax.parse_term("(n : Num) + BIT1(_0) == (m : Num) && EXP(m, 2) == (p : Num) && m + (a : Num) == BIT0(BIT0(p)) → EXP(BIT1(BIT1(BIT1(n))), 2) == BIT1(BIT0(BIT0(BIT0(a))))"),
         t367,
       )
       let pth_qstep = (fn(x326 : @kernel.Thm) -> @kernel.Thm raise {
@@ -3874,9 +3838,7 @@ fn step_22() -> Unit raise {
         t389,
       )
       let t391 = (
-        @parser.parse_term(
-          "n = l + p * h /\\\n       h + l = m /\\\n       h EXP 2 = a /\\\n       l EXP 2 = c /\\\n       m EXP 2 = d /\\\n       a + c = e /\\\n       e + b = d\n       ==> n EXP 2 = c + p * (b + p * a)",
-        ),
+        @term_syntax.parse_term("(n : Num) == (l : Num) + (p : Num) * (h : Num) && h + l == (m : Num) && EXP(h, 2) == (a : Num) && EXP(l, 2) == (c : Num) && EXP(m, 2) == (d : Num) && a + c == (e : Num) && e + (b : Num) == d → EXP(n, 2) == c + p * (b + p * a)"),
         t390,
       )
       let pth_rec = (fn(x369 : @kernel.Thm) -> @kernel.Thm raise {
@@ -3944,9 +3906,7 @@ fn step_22() -> Unit raise {
       let t451 = @drule.match_mp(
         @meson.meson(
           @list.List([]),
-          @parser.parse_term(
-            "b = b' /\\ c = c' /\\ d = d'\n        ==> b + d':num = b' + d /\\ 4 * b + d' = 4 * b' + d",
-          ),
+          @term_syntax.parse_term("(b : Num) == (b' : Num) && (c : _) == (c' : _) && (d : Num) == (d' : Num) → b + d' == b' + d && 4 * b + d' == 4 * b' + d"),
         ),
       )
       let t453 = @tactics.first_assum(fn(
@@ -4086,9 +4046,7 @@ fn step_22() -> Unit raise {
       let t435 = @drule.match_mp(
         @meson.meson(
           @list.List([]),
-          @parser.parse_term(
-            "b = b' /\\ c = c' /\\ d = d'\n        ==> 5 * b + c' + d' = 5 * b' + c + d",
-          ),
+          @term_syntax.parse_term("(b : Num) == (b' : Num) && (c : Num) == (c' : Num) && (d : Num) == (d' : Num) → 5 * b + (c' + d') == 5 * b' + (c + d)"),
         ),
       )
       let t437 = @tactics.first_assum(fn(
@@ -4268,9 +4226,7 @@ fn step_22() -> Unit raise {
         t403,
       ])
       let t400 = @tactics.subgoal_then(
-        @parser.parse_term(
-          "forall p x y z. (x + p * (y + p * z)) EXP 2 =\n                  x * x + p * (2 * x * y + p * ((2 * x * z + y * y) +\n                            p * (2 * y * z + p * z * z)))",
-        ),
+        @term_syntax.parse_term("∀ p : Num, ∀ x : Num, ∀ y : Num, ∀ z : Num, EXP(x + p * (y + p * z), 2) == x * x + p * (2 * (x * y) + p * (2 * (x * z) + y * y + p * (2 * (y * z) + p * (z * z))))"),
         fn(
           x398 : @kernel.Thm,
         ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4348,9 +4304,7 @@ fn step_22() -> Unit raise {
                                                                                     @tactics.then_tac(
                                                                                       @tactics.then_tac(
                                                                                         @simp.abbrev_tac(
-                                                                                          @parser.parse_term(
-                                                                                            "two = 2",
-                                                                                          ),
+                                                                                          @term_syntax.parse_term("(two : Num) == 2"),
                                                                                         ),
                                                                                         t393,
                                                                                       ),
@@ -4435,9 +4389,7 @@ fn step_22() -> Unit raise {
         t463,
       )
       let t465 = (
-        @parser.parse_term(
-          "h EXP 2 = e /\\\n       l EXP 2 = a /\\\n       (l + BIT1 _0 * (m + BIT1 _0 * h)) EXP 2 =\n       a +  BIT1 _0 * (b +  BIT1 _0 * (c +  BIT1 _0 * (d +  BIT1 _0 * e))) /\\\n       (l + BIT0(BIT1 _0) * (m + BIT0(BIT1 _0) * h)) EXP 2 =\n       a + BIT0(BIT1 _0) * (b + BIT0(BIT1 _0) *\n       (c + BIT0(BIT1 _0) * (d + BIT0(BIT1 _0) * e))) /\\\n       (h + BIT0(BIT1 _0) * (m + BIT0(BIT1 _0) * l)) EXP 2 =\n       e + BIT0(BIT1 _0) * (d + BIT0(BIT1 _0) *\n       (c + BIT0(BIT1 _0) * (b + BIT0(BIT1 _0) * a)))\n       ==> (l + p * (m + p * h)) EXP 2 =\n           a + p * (b + p * (c + p * (d + p * e)))",
-        ),
+        @term_syntax.parse_term("EXP((h : Num), 2) == (e : Num) && EXP((l : Num), 2) == (a : Num) && EXP(l + BIT1(_0) * ((m : Num) + BIT1(_0) * h), 2) == a + BIT1(_0) * ((b : Num) + BIT1(_0) * ((c : Num) + BIT1(_0) * ((d : Num) + BIT1(_0) * e))) && EXP(l + BIT0(BIT1(_0)) * (m + BIT0(BIT1(_0)) * h), 2) == a + BIT0(BIT1(_0)) * (b + BIT0(BIT1(_0)) * (c + BIT0(BIT1(_0)) * (d + BIT0(BIT1(_0)) * e))) && EXP(h + BIT0(BIT1(_0)) * (m + BIT0(BIT1(_0)) * l), 2) == e + BIT0(BIT1(_0)) * (d + BIT0(BIT1(_0)) * (c + BIT0(BIT1(_0)) * (b + BIT0(BIT1(_0)) * a))) → EXP(l + (p : Num) * (m + p * h), 2) == a + p * (b + p * (c + p * (d + p * e)))"),
         t464,
       )
       let pth_toom3 = standardize(
@@ -4471,9 +4423,7 @@ fn step_22() -> Unit raise {
       let t473 = @simp.rewrite_tac(
         @list.List([@arith.eq_mult_lcancel(), arith_eq()]),
       )
-      let t471 = @parser.parse_term(
-        "(2 * 2 * 2 * m) * 2 * 2 * 2 * m = 2 * 2 * 2 * 2 * 2 * 2 * m * m",
-      )
+      let t471 = @term_syntax.parse_term("2 * (2 * (2 * (m : Num))) * (2 * (2 * (2 * m))) == 2 * (2 * (2 * (2 * (2 * (2 * (m * m))))))")
       let t472 = @simp.rewrite_tac(
         @list.List([@theorems.ac(@arith.mult_ac())(t471)]),
       )
@@ -4501,9 +4451,7 @@ fn step_22() -> Unit raise {
         t473,
       )
       let t475 = (
-        @parser.parse_term(
-          "m EXP 2 = n <=>\n       (BIT0(BIT0(BIT0 m))) EXP 2 = BIT0(BIT0(BIT0(BIT0(BIT0(BIT0 n)))))",
-        ),
+        @term_syntax.parse_term("(EXP((m : Num), 2) == (n : Num)) == (EXP(BIT0(BIT0(BIT0(m))), 2) == BIT0(BIT0(BIT0(BIT0(BIT0(BIT0(n)))))))"),
         t474,
       )
       let pth_even3 = standardize(
@@ -4692,9 +4640,7 @@ fn step_22() -> Unit raise {
         t501,
       )
       let t503 = (
-        @parser.parse_term(
-          "(m * n = p <=> (BIT0 m) * n = BIT0 p) /\\\n       (m * n = p <=> m * BIT0 n = BIT0 p)",
-        ),
+        @term_syntax.parse_term("((m : Num) * (n : Num) == (p : Num)) == (BIT0(m) * n == BIT0(p)) && (m * n == p) == (m * BIT0(n) == BIT0(p))"),
         t502,
       )
       let (pth_evenl, pth_evenr) = (fn(
@@ -4764,9 +4710,7 @@ fn step_22() -> Unit raise {
         t510,
       )
       let t512 = (
-        @parser.parse_term(
-          "(m * n = p <=> BIT1 m * n = BIT0 p + n) /\\\n       (m * n = p <=> m * BIT1 n = BIT0 p + m)",
-        ),
+        @term_syntax.parse_term("((m : Num) * (n : Num) == (p : Num)) == (BIT1(m) * n == BIT0(p) + n) && (m * n == p) == (m * BIT1(n) == BIT0(p) + m)"),
         t511,
       )
       let (pth_oddl, pth_oddr) = (fn(
@@ -5054,9 +4998,7 @@ fn step_22() -> Unit raise {
         t538,
       )
       let t540 = (
-        @parser.parse_term(
-          "n + p = m /\\ SUC(m + n) = a /\\ p EXP 2 = b /\\ a EXP 2 = c /\\ b + d = c\n        ==> ((BIT1 m) * (BIT1 n) = d)",
-        ),
+        @term_syntax.parse_term("(n : Num) + (p : Num) == (m : Num) && SUC(m + n) == (a : Num) && EXP(p, 2) == (b : Num) && EXP(a, 2) == (c : Num) && b + (d : Num) == c → BIT1(m) * BIT1(n) == d"),
         t539,
       )
       let pth_oo1 = (fn(x513 : @kernel.Thm) -> @kernel.Thm raise {
@@ -5703,9 +5645,7 @@ fn step_22() -> Unit raise {
           _ => raise Failure("NUM_SUC_CONV")
         }
       }
-      let t584 = @parser.parse_term(
-        "m + n = p <=> NUMERAL m + NUMERAL n = NUMERAL p",
-      )
+      let t584 = @term_syntax.parse_term("((m : Num) + (n : Num) == (p : Num)) == (NUMERAL(m) + NUMERAL(n) == NUMERAL(p))")
       let topthm_add = standardize(
         ((x583 : @kernel.Term) => {
           @meson.meson(@list.List([@nums.numeral()]), x583)
@@ -5734,17 +5674,13 @@ fn step_22() -> Unit raise {
           _ => raise Failure("NUM_ADD_CONV")
         }
       }
-      let t587 = @parser.parse_term(
-        "m * n = p <=> NUMERAL m * NUMERAL n = NUMERAL p",
-      )
+      let t587 = @term_syntax.parse_term("((m : Num) * (n : Num) == (p : Num)) == (NUMERAL(m) * NUMERAL(n) == NUMERAL(p))")
       let topthm_mul = standardize(
         ((x586 : @kernel.Term) => {
           @meson.meson(@list.List([@nums.numeral()]), x586)
         })(t587),
       )
-      let t589 = @parser.parse_term(
-        "m EXP 2 = p <=> NUMERAL m * NUMERAL m = NUMERAL p",
-      )
+      let t589 = @term_syntax.parse_term("(EXP((m : Num), 2) == (p : Num)) == (NUMERAL(m) * NUMERAL(m) == NUMERAL(p))")
       let pth_refl_1 = standardize(
         ((x588 : @kernel.Term) => {
           @meson.meson(@list.List([@nums.numeral(), @arith.exp_2()]), x588)
@@ -5866,9 +5802,7 @@ fn step_22() -> Unit raise {
         t597,
       )
       let t599 = (
-        @parser.parse_term(
-          "(m EXP n = p) ==> (p * p = a) ==> (m EXP (BIT0 n) = a)",
-        ),
+        @term_syntax.parse_term("EXP((m : Num), (n : Num)) == (p : Num) → p * p == (a : Num) → EXP(m, BIT0(n)) == a"),
         t598,
       )
       let pth0 = standardize(
@@ -5976,9 +5910,7 @@ fn step_22() -> Unit raise {
         t605,
       )
       let t607 = (
-        @parser.parse_term(
-          "(m EXP n = p) ==> (p * p = b) ==> (m * b = a) ==> (m EXP (BIT1 n) = a)",
-        ),
+        @term_syntax.parse_term("EXP((m : Num), (n : Num)) == (p : Num) → p * p == (b : Num) → m * b == (a : Num) → EXP(m, BIT1(n)) == a"),
         t606,
       )
       let pth1 = standardize(
@@ -7960,9 +7892,7 @@ pub fn num_mod_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_27() -> Unit raise {
   let t720 = @meson.meson_tac(@list.List([@arith.divmod_uniq()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "q * n + r = m ==> r < n ==> m DIV n = q /\\ m MOD n = r",
-    ),
+    @term_syntax.parse_term("(q : Num) * (n : Num) + (r : Num) == (m : Num) → r < n → DIV(m, n) == q && MOD(m, n) == r"),
     t720,
   )
   let t721 = @simp.rewrite_tac(
@@ -8116,9 +8046,7 @@ fn step_28() -> Unit raise {
     t736,
   )
   let pth_suc = @tactics.prove(
-    @parser.parse_term(
-      "(SUC x = y) ==> (FACT x = w) ==> (y * w = z) ==> (FACT y = z)",
-    ),
+    @term_syntax.parse_term("SUC((x : Num)) == (y : Num) → FACT(x) == (w : Num) → y * w == (z : Num) → FACT(y) == z"),
     t737,
   )
   let w = @term_syntax.parse_term("(w : Num)")
@@ -8526,9 +8454,7 @@ fn step_39() -> Unit raise {
     t791,
   )
   let pth_step = @tactics.prove(
-    @parser.parse_term(
-      "(forall n. n < SUC k ==> P n) <=> (forall n. n < k ==> P n) /\\ P k",
-    ),
+    @term_syntax.parse_term("(∀ n : Num, n < SUC((k : Num)) → (P : (Num) -> Bool)(n)) == ((∀ n : Num, n < k → P(n)) && P(k))"),
     t792,
   )
   let base_conv : (@kernel.Term) -> @kernel.Thm raise = @simp.gen_rewrite_conv(
@@ -8599,9 +8525,7 @@ fn step_40() -> Unit raise {
     t801,
   )
   let t803 = (
-    @parser.parse_term(
-      "(a EXP 0) MOD n = 1 MOD n /\\\n     (a EXP (NUMERAL(BIT0 k))) MOD n =\n     ((a EXP (NUMERAL k) MOD n) EXP 2) MOD n /\\\n     (a EXP (NUMERAL(BIT1 k))) MOD n =\n     (a * ((a EXP (NUMERAL k) MOD n) EXP 2) MOD n) MOD n",
-    ),
+    @term_syntax.parse_term("MOD(EXP((a : Num), 0), (n : Num)) == MOD(1, n) && MOD(EXP(a, NUMERAL(BIT0((k : Num)))), n) == MOD(EXP(MOD(EXP(a, NUMERAL(k)), n), 2), n) && MOD(EXP(a, NUMERAL(BIT1(k))), n) == MOD(a * MOD(EXP(MOD(EXP(a, NUMERAL(k)), n), 2), n), n)"),
     t802,
   )
   exp_mod_conv_c.set(

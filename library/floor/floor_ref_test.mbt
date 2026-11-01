@@ -6008,23 +6008,23 @@ test "Library/floor matches Library/floor.ml" {
       #|  \226\136\128 x : Real, integer(x) && !(x == real_of_num(0)) \226\134\146 real_of_num(1) <= abs(x)
       #|  ((a : Real) + -(b : Real) == (c : Real)) == (b + c == a)
       #|  (-(a : Real) + (b : Real) == (c : Real)) == (a + c == b)
-      #|  &0 <= a ==> ((abs(x) = a) <=> (x = a) \\/ (x = --a))
-      #|  g /\\ h /\\ x /\\ c /\\ d /\\ e /\\ f /\\ (a /\\ e ==> b) /\\ a\n    ==> x /\\ a /\\ b /\\ c /\\ d /\\ e /\\ f /\\ g /\\ h
-      #|  (forall n. integer(&n)) /\\\n   (forall x y. integer(x) /\\ integer(y) ==> integer(x + y)) /\\\n   (forall x y. integer(x) /\\ integer(y) ==> integer(x - y)) /\\\n   (forall x y. integer(x) /\\ integer(y) ==> integer(x * y)) /\\\n   (forall x r. integer(x) ==> integer(x pow r)) /\\\n   (forall x. integer(x) ==> integer(--x)) /\\\n   (forall x. integer(x) ==> integer(abs x)) /\\\n   (forall x y. integer(x) /\\ integer(y) ==> integer(max x y)) /\\\n   (forall x y. integer(x) /\\ integer(y) ==> integer(min x y))
+      #|  real_of_num(0) <= (a : Real) \226\134\146 (abs((x : Real)) == a) == (x == a || x == -a)
+      #|  (g : Bool) && (h : Bool) && (x : Bool) && (c : Bool) && (d : Bool) && (e : Bool) && (f : Bool) && ((a : Bool) && e \226\134\146 (b : Bool)) && a \226\134\146 x && a && b && c && d && e && f && g && h
+      #|  (\226\136\128 n : Num, integer(real_of_num(n))) && (\226\136\128 x : Real, \226\136\128 y : Real, integer(x) && integer(y) \226\134\146 integer(x + y)) && (\226\136\128 x : Real, \226\136\128 y : Real, integer(x) && integer(y) \226\134\146 integer(x - y)) && (\226\136\128 x : Real, \226\136\128 y : Real, integer(x) && integer(y) \226\134\146 integer(x * y)) && (\226\136\128 x : Real, \226\136\128 r : Num, integer(x) \226\134\146 integer(pow(x, r))) && (\226\136\128 x : Real, integer(x) \226\134\146 integer(-x)) && (\226\136\128 x : Real, integer(x) \226\134\146 integer(abs(x))) && (\226\136\128 x : Real, \226\136\128 y : Real, integer(x) && integer(y) \226\134\146 integer(max(x, y))) && (\226\136\128 x : Real, \226\136\128 y : Real, integer(x) && integer(y) \226\134\146 integer(min(x, y)))
       #|  \226\136\128 x : Real, \226\136\128 y : Real, integer(x) && integer(y) \226\134\146 integer(x + y)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, integer(x) && integer(y) \226\134\146 integer(x - y)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, integer(x) && integer(y) \226\134\146 integer(x * y)
       #|  \226\136\128 x : Real, \226\136\128 n : Num, integer(x) \226\134\146 integer(pow(x, n))
       #|  (y : Real) - (x : Real)
-      #|  forall x y. integer(x) /\\ integer(y) ==> (x <= y <=> (x = y) \\/ x + &1 <= y)
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, integer(x) && integer(y) \226\134\146 (x <= y) == (x == y || x + real_of_num(1) <= y)
       #|  (y : Real) - (x : Real)
-      #|  forall x y. integer(x) /\\ integer(y) ==> x <= y \\/ y + &1 <= x
-      #|  forall x y. integer(x) /\\ integer(y) /\\ ~(y + &1 <= x) ==> x <= y
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, integer(x) && integer(y) \226\134\146 x <= y || y + real_of_num(1) <= x
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, integer(x) && integer(y) && !(y + real_of_num(1) <= x) \226\134\146 x <= y
       #|  (x : Real) + real_of_num(1) <= (y : Real) \226\134\146 x < y
-      #|  forall x y. integer(x) /\\ integer(y) ==> (x < y <=> x + &1 <= y)
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, integer(x) && integer(y) \226\134\146 (x < y) == (x + real_of_num(1) <= y)
       #|  ((x : Real) == (y : Real)) == !(x < y || y < x)
-      #|  forall x y. integer x /\\ integer y ==> (x = y <=> abs(x - y) < &1)
-      #|  forall x y. integer x /\\ integer y /\\ abs(x - y) < &1 ==> x = y
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, integer(x) && integer(y) \226\134\146 (x == y) == (abs(x - y) < real_of_num(1))
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, integer(x) && integer(y) && abs(x - y) < real_of_num(1) \226\134\146 x == y
       #|  \226\136\128 x : Real, integer(-x) == integer(x)
       #|  \226\136\128 x : Real, integer(abs(x)) == integer(x)
       #|  \226\136\128 x : Real, real_of_num(0) <= x \226\134\146 integer(x) == (\226\136\131 n : Num, x == real_of_num(n))
@@ -6032,15 +6032,15 @@ test "Library/floor matches Library/floor.ml" {
       #|  ((a : Real) + (b : Real) == real_of_num(0)) == (a == -b)
       #|  \226\136\128 x : Real, (integer(x) && x <= real_of_num(0)) == (\226\136\131 n : Num, x == -real_of_num(n))
       #|  \226\136\128 x : Real, (integer(x) && x <= real_of_num(0)) == (\226\136\131 n : Num, x + real_of_num(n) == real_of_num(0))
-      #|  (forall x y. integer(x) ==> (integer(x + y) <=> integer(y))) /\\\n   (forall x y. integer(y) ==> (integer(x + y) <=> integer(x)))
-      #|  (forall x y. integer(x) ==> (integer(x - y) <=> integer(y))) /\\\n   (forall x y. integer(y) ==> (integer(x - y) <=> integer(x)))
-      #|  forall P. (forall n. P(&n)) /\\ (forall x. P x ==> P(--x)) ==> forall x. integer x ==> P x
-      #|  forall f:A->real s. (forall x. x IN s ==> integer(f x)) ==> integer(sum s f)
-      #|  forall x y. integer x /\\ integer y\n         ==> (abs(x * y) = &1 <=> abs x = &1 /\\ abs y = &1)
+      #|  (\226\136\128 x : Real, \226\136\128 y : Real, integer(x) \226\134\146 integer(x + y) == integer(y)) && (\226\136\128 x : Real, \226\136\128 y : Real, integer(y) \226\134\146 integer(x + y) == integer(x))
+      #|  (\226\136\128 x : Real, \226\136\128 y : Real, integer(x) \226\134\146 integer(x - y) == integer(y)) && (\226\136\128 x : Real, \226\136\128 y : Real, integer(y) \226\134\146 integer(x - y) == integer(x))
+      #|  \226\136\128 P : (Real) -> Bool, (\226\136\128 n : Num, P(real_of_num(n))) && (\226\136\128 x : Real, P(x) \226\134\146 P(-x)) \226\134\146 (\226\136\128 x : Real, integer(x) \226\134\146 P(x))
+      #|  \226\136\128 f : (A) -> Real, \226\136\128 s : (A) -> Bool, (\226\136\128 x : A, IN(x, s) \226\134\146 integer(f(x))) \226\134\146 integer(sum(s, f))
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, integer(x) && integer(y) \226\134\146 (abs(x * y) == real_of_num(1)) == (abs(x) == real_of_num(1) && abs(y) == real_of_num(1))
       #|  !((n : Real) == real_of_num(0)) \226\134\146 ((x : Real) / n == (y : Real)) == (x == n * y)
       #|  (n : Num) == 0
       #|  \226\136\128 m : Num, \226\136\128 n : Num, integer(real_of_num(m) / real_of_num(n)) == (n == 0 || divides(n, m))
-      #|  rational x <=> ?m n. integer m /\\ integer n /\\ ~(n = &0) /\\ x = m / n
+      #|  (rational : (Real) -> Bool)((x : Real)) == (\226\136\131 m : Real, \226\136\131 n : Real, integer(m) && integer(n) && !(n == real_of_num(0)) && x == m / n)
       #|  real_of_num(1)
       #|  (x : Real)
       #|  \226\136\128 x : Real, integer(x) \226\134\146 rational(x)
@@ -6064,24 +6064,24 @@ test "Library/floor matches Library/floor.ml" {
       #|  (m2 : Real)
       #|  (n1 : Real)
       #|  (m1 : Real)
-      #|  forall x y. rational(x) /\\ rational(y) ==> rational(x + y)
-      #|  forall x y. rational(x) /\\ rational(y) ==> rational(x - y)
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, rational(x) && rational(y) \226\134\146 rational(x + y)
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, rational(x) && rational(y) \226\134\146 rational(x - y)
       #|  (n1 : Real) * (n2 : Real)
       #|  (m1 : Real) * (m2 : Real)
       #|  (n2 : Real)
       #|  (m2 : Real)
       #|  (n1 : Real)
       #|  (m1 : Real)
-      #|  forall x y. rational(x) /\\ rational(y) ==> rational(x * y)
-      #|  forall x y. rational(x) /\\ rational(y) ==> rational(x / y)
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, rational(x) && rational(y) \226\134\146 rational(x * y)
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, rational(x) && rational(y) \226\134\146 rational(x / y)
       #|  \226\136\128 x : Real, \226\136\128 n : Num, rational(x) \226\134\146 rational(pow(x, n))
-      #|  (forall n. rational(&n)) /\\\n   (forall x. integer x ==> rational x) /\\\n   (forall x y. rational(x) /\\ rational(y) ==> rational(x + y)) /\\\n   (forall x y. rational(x) /\\ rational(y) ==> rational(x - y)) /\\\n   (forall x y. rational(x) /\\ rational(y) ==> rational(x * y)) /\\\n   (forall x y. rational(x) /\\ rational(y) ==> rational(x / y)) /\\\n   (forall x r. rational(x) ==> rational(x pow r)) /\\\n   (forall x. rational(x) ==> rational(--x)) /\\\n   (forall x. rational(x) ==> rational(inv x)) /\\\n   (forall x. rational(x) ==> rational(abs x))
+      #|  (\226\136\128 n : Num, rational(real_of_num(n))) && (\226\136\128 x : Real, integer(x) \226\134\146 rational(x)) && (\226\136\128 x : Real, \226\136\128 y : Real, rational(x) && rational(y) \226\134\146 rational(x + y)) && (\226\136\128 x : Real, \226\136\128 y : Real, rational(x) && rational(y) \226\134\146 rational(x - y)) && (\226\136\128 x : Real, \226\136\128 y : Real, rational(x) && rational(y) \226\134\146 rational(x * y)) && (\226\136\128 x : Real, \226\136\128 y : Real, rational(x) && rational(y) \226\134\146 rational(x / y)) && (\226\136\128 x : Real, \226\136\128 r : Num, rational(x) \226\134\146 rational(pow(x, r))) && (\226\136\128 x : Real, rational(x) \226\134\146 rational(-x)) && (\226\136\128 x : Real, rational(x) \226\134\146 rational(inv(x))) && (\226\136\128 x : Real, rational(x) \226\134\146 rational(abs(x)))
       #|  \226\136\128 x : Real, rational(-x) == rational(x)
       #|  \226\136\128 x : Real, rational(abs(x)) == rational(x)
       #|  \226\136\128 x : Real, rational(inv(x)) == rational(x)
-      #|  forall s x. (forall i. i IN s ==> rational(x i)) ==> rational(sum s x)
+      #|  \226\136\128 s : (_) -> Bool, \226\136\128 x : (_) -> Real, (\226\136\128 i : _, IN(i, s) \226\134\146 rational(x(i))) \226\134\146 rational(sum(s, x))
       #|  abs((x : Real)) == (a : Real) \226\134\146 x == a || x == -a
-      #|  forall x. rational(x) <=> ?p q. ~(q = 0) /\\ abs x = &p / &q
+      #|  \226\136\128 x : Real, rational(x) == (\226\136\131 p : Num, \226\136\131 q : Num, !(q == 0) && abs(x) == real_of_num(p) / real_of_num(q))
       #|  (x : Real) - real_of_num(SUC((n : Num)))
       #|  SUC((n : Num))
       #|  (x : Real) - real_of_num((n : Num))
@@ -6090,24 +6090,24 @@ test "Library/floor matches Library/floor.ml" {
       #|  real_of_num(0)
       #|  0
       #|  (x : Real)
-      #|  forall x. &0 <= x ==> ?n r. &0 <= r /\\ r < &1 /\\ (x = &n + r)
+      #|  \226\136\128 x : Real, real_of_num(0) <= x \226\134\146 (\226\136\131 n : Num, \226\136\131 r : Real, real_of_num(0) <= r && r < real_of_num(1) && x == real_of_num(n) + r)
       #|  ((a : Real) + (b : Real) == (c : Real) + (d : Real)) == (a == c - b + d)
       #|  (n : Num)
       #|  (-(a : Real) <= (b : Real)) == (real_of_num(0) <= a + b)
       #|  -(x : Real)
       #|  real_of_num(0)
       #|  (x : Real)
-      #|  forall x. ?n r. integer(n) /\\ &0 <= r /\\ r < &1 /\\ (x = n + r)
+      #|  \226\136\128 x : Real, \226\136\131 n : Real, \226\136\131 r : Real, integer(n) && real_of_num(0) <= r && r < real_of_num(1) && x == n + r
       #|  (x : Real)
       #|  abs(floor((x : Real)) - (a : Real)) < real_of_num(1)
       #|  (x : Real)
-      #|  forall x a. integer(a) /\\ a <= x /\\ x < a + &1 <=> (floor x = a)
+      #|  \226\136\128 x : Real, \226\136\128 a : Real, (integer(a) && a <= x && x < a + real_of_num(1)) == (floor(x) == a)
       #|  \226\136\128 x : Real, (floor(x) == real_of_num(0)) == (real_of_num(0) <= x && x < real_of_num(1))
       #|  (x : Real)
-      #|  forall x. integer(floor x) /\\ floor(x) <= x /\\ x < floor(x) + &1
+      #|  \226\136\128 x : Real, integer(floor(x)) && floor(x) <= x && x < floor(x) + real_of_num(1)
       #|  real_of_num(2) * (u : Real)
       #|  (u : Real)
-      #|  forall u. &2 * floor(u) <= floor(&2 * u) /\\ floor(&2 * u) <= &2 * floor(u) + &1
+      #|  \226\136\128 u : Real, real_of_num(2) * floor(u) <= floor(real_of_num(2) * u) && floor(real_of_num(2) * u) <= real_of_num(2) * floor(u) + real_of_num(1)
       #|  \226\136\128 x : Real, frac(x) == x - floor(x)
       #|  \226\136\128 n : Num, floor(real_of_num(n)) == real_of_num(n)
       #|  (x : Real)
@@ -6135,15 +6135,15 @@ test "Library/floor matches Library/floor.ml" {
       #|  (x : Real) + (y : Real)
       #|  (y : Real)
       #|  (x : Real)
-      #|  forall x y. floor(x + y) = if frac x + frac y < &1 then floor(x) + floor(y)\n                        else (floor(x) + floor(y)) + &1
-      #|  forall x y. floor(x) + floor(y) <= floor(x + y) /\\\n         floor(x + y) <= (floor x + floor y) + &1
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, floor(x + y) == (if frac(x) + frac(y) < real_of_num(1) { floor(x) + floor(y) } else { floor(x) + floor(y) + real_of_num(1) })
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, floor(x) + floor(y) <= floor(x + y) && floor(x + y) <= floor(x) + floor(y) + real_of_num(1)
       #|  (x : Real)
       #|  (x : Real)
-      #|  forall x. floor(--x) = if integer x then --x else --(floor x + &1)
-      #|  forall x y. frac(x + y) = if frac x + frac y < &1 then frac(x) + frac(y)\n                       else (frac(x) + frac(y)) - &1
+      #|  \226\136\128 x : Real, floor(-x) == (if integer(x) { -x } else { -(floor(x) + real_of_num(1)) })
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, frac(x + y) == (if frac(x) + frac(y) < real_of_num(1) { frac(x) + frac(y) } else { frac(x) + frac(y) - real_of_num(1) })
       #|  \226\136\128 x : Real, (real_of_num(0) <= floor(x)) == (real_of_num(0) <= x)
       #|  ((x : Real) - (f : Real) == (a : Real)) == (f == x - a)
-      #|  forall x a. integer(x - a) /\\ &0 <= a /\\ a < &1 <=> frac x = a
+      #|  \226\136\128 x : Real, \226\136\128 a : Real, (integer(x - a) && real_of_num(0) <= a && a < real_of_num(1)) == (frac(x) == a)
       #|  \226\136\128 x : Real, (frac(x) == x) == (real_of_num(0) <= x && x < real_of_num(1))
       #|  (x : Real)
       #|  floor((x : Real))
@@ -6154,36 +6154,36 @@ test "Library/floor matches Library/floor.ml" {
       #|  (m : Num)
       #|  (x : Real) / (a : Real) - (y : Real) / a == (x - y) / a
       #|  \226\136\128 m : Num, \226\136\128 n : Num, !(n == 0) \226\134\146 frac(real_of_num(m) / real_of_num(n)) == real_of_num(MOD(m, n)) / real_of_num(n)
-      #|  forall x. frac(--x) = if integer x then &0 else &1 - frac x
+      #|  \226\136\128 x : Real, frac(-x) == (if integer(x) { real_of_num(0) } else { real_of_num(1) - frac(x) })
       #|  (n : Num) == 0
       #|  \226\136\128 x : Real, \226\136\128 n : Num, floor(floor(x) / real_of_num(n)) == floor(x / real_of_num(n))
       #|  (y : Real)
       #|  floor((y : Real))
-      #|  forall x y. x + &1 <= y ==> ?n. integer n /\\ x < n /\\ n <= y
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, x + real_of_num(1) <= y \226\134\146 (\226\136\131 n : Real, integer(n) && x < n && n <= y)
       #|  (y : Real) - real_of_num(1)
       #|  integer((y : Real))
-      #|  forall x y. x + &1 < y ==> ?n. integer n /\\ x < n /\\ n < y
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, x + real_of_num(1) < y \226\134\146 (\226\136\131 n : Real, integer(n) && x < n && n < y)
       #|  (y : Real) - real_of_num(1)
       #|  integer((y : Real))
-      #|  forall x y. x + &1 <= y ==> ?n. integer n /\\ x <= n /\\ n < y
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, x + real_of_num(1) <= y \226\134\146 (\226\136\131 n : Real, integer(n) && x <= n && n < y)
       #|  (y : Real)
       #|  (x : Real)
       #|  (x : Real)
       #|  (y : Real)
-      #|  forall x y. &1 <= abs(x - y)\n         ==> ?n. integer n /\\ (x <= n /\\ n < y \\/ y <= n /\\ n < x)
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, real_of_num(1) <= abs(x - y) \226\134\146 (\226\136\131 n : Real, integer(n) && (x <= n && n < y || y <= n && n < x))
       #|  (y : Real)
       #|  (x : Real)
       #|  (x : Real)
       #|  (y : Real)
-      #|  forall x y. &1 < abs(x - y)\n         ==> ?n. integer n /\\ (x < n /\\ n < y \\/ y < n /\\ n < x)
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, real_of_num(1) < abs(x - y) \226\134\146 (\226\136\131 n : Real, integer(n) && (x < n && n < y || y < n && n < x))
       #|  \226\136\128 x : Real, integer(x) \226\134\146 real_of_int(int_of_real(x)) == x
       #|  IMAGE(real_of_int, UNIV) == integer
       #|  real_of_num((n : Num)) <= (x : Real) \226\134\146 real_of_num(0) <= x
       #|  \226\136\131 k : Num, (x : Real) == real_of_num(k)
       #|  (x : Real)
-      #|  {x | integer(x) /\\ &m <= x /\\ x <= &n} =\n                IMAGE real_of_num (m..n)
-      #|  forall m n. {x | integer(x) /\\ &m <= x /\\ x <= &n} HAS_SIZE ((n + 1) - m)
-      #|  IMAGE (\\x. &x) (0..n) UNION IMAGE (\\x. --(&x)) (0..n)
+      #|  {(x : Real) | integer(x) && real_of_num((m : Num)) <= x && x <= real_of_num((n : Num))} == IMAGE(real_of_num, op_dot_dot(m, n))
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, HAS_SIZE({(x : Real) | integer(x) && real_of_num(m) <= x && x <= real_of_num(n)}, n + 1 - m)
+      #|  UNION(IMAGE((x : Num) => real_of_num(x), op_dot_dot(0, (n : Num))), IMAGE((x : Num) => -real_of_num(x), op_dot_dot(0, n)))
       #|  {(x : Real) | integer(x) && abs(x) <= real_of_num((n : Num))}
       #|  (n : Num)
       #|  max(abs((a : Real)), abs((b : Real)))
@@ -6192,10 +6192,10 @@ test "Library/floor matches Library/floor.ml" {
       #|  (b : Real) < (a : Real) \226\134\146 !(real_of_num((n : Num)) <= b - a)
       #|  ((a : Real) + (x : Real) == (y : Real)) == (y - a == x)
       #|  (c : Real)
-      #|  {x | integer(x) /\\ a <= x /\\ x <= b} =\n    IMAGE (\\n. a + &n) {n | &n <= b - a}
-      #|  forall a b. integer a /\\ integer b\n         ==> {x | integer(x) /\\ a <= x /\\ x <= b} HAS_SIZE\n             if b < a then 0 else num_of_int(int_of_real(b - a + &1))
-      #|  forall a b. integer a /\\ integer b\n         ==> CARD {x | integer(x) /\\ a <= x /\\ x <= b} =\n             if b < a then 0 else num_of_int(int_of_real(b - a + &1))
-      #|  forall a b. integer a /\\ integer b\n         ==> &(CARD {x | integer(x) /\\ a <= x /\\ x <= b}) =\n             if b < a then &0 else b - a + &1
+      #|  {(x : Real) | integer(x) && (a : Real) <= x && x <= (b : Real)} == IMAGE((n : Num) => a + real_of_num(n), {(n : Num) | real_of_num(n) <= b - a})
+      #|  \226\136\128 a : Real, \226\136\128 b : Real, integer(a) && integer(b) \226\134\146 HAS_SIZE({(x : Real) | integer(x) && a <= x && x <= b}, if b < a { 0 } else { num_of_int(int_of_real(b - a + real_of_num(1))) })
+      #|  \226\136\128 a : Real, \226\136\128 b : Real, integer(a) && integer(b) \226\134\146 CARD({(x : Real) | integer(x) && a <= x && x <= b}) == (if b < a { 0 } else { num_of_int(int_of_real(b - a + real_of_num(1))) })
+      #|  \226\136\128 a : Real, \226\136\128 b : Real, integer(a) && integer(b) \226\134\146 real_of_num(CARD({(x : Real) | integer(x) && a <= x && x <= b})) == (if b < a { real_of_num(0) } else { b - a + real_of_num(1) })
       #|  INFINITE(IMAGE(real_of_num, UNIV))
       #|  INFINITE(integer)
       #|  INFINITE(rational)
@@ -6209,8 +6209,8 @@ test "Library/floor matches Library/floor.ml" {
       #|  (n : Num)
       #|  real_of_num(2) / (e : Real)
       #|  (p : Real)
-      #|  forall p x e. &0 < e /\\ &1 < p\n           ==> ?n q r. integer q /\\ integer r /\\\n                       q / p pow n < x /\\ x < r / p pow n /\\\n                       abs(q / p pow n - r / p pow n) < e
-      #|  abs(q - r) < e ==> &0 < --q /\\ z = &0 /\\ &0 < r\n    ==> abs(z - r) < e
+      #|  \226\136\128 p : Real, \226\136\128 x : Real, \226\136\128 e : Real, real_of_num(0) < e && real_of_num(1) < p \226\134\146 (\226\136\131 n : Num, \226\136\131 q : Real, \226\136\131 r : Real, integer(q) && integer(r) && q / pow(p, n) < x && x < r / pow(p, n) && abs(q / pow(p, n) - r / pow(p, n)) < e)
+      #|  abs((q : Real) - (r : Real)) < (e : Real) \226\134\146 real_of_num(0) < -q && (z : Real) == real_of_num(0) && real_of_num(0) < r \226\134\146 abs(z - r) < e
       #|  max((q : Real), real_of_num(0)) == (if real_of_num(0) <= q { q } else { real_of_num(0) })
       #|  real_of_num(0) < (r : Real) \226\134\146 abs(r) == r
       #|  (a : Real) < (r : Real) \226\134\146 real_of_num(0) <= a \226\134\146 real_of_num(0) < r
@@ -6226,8 +6226,8 @@ test "Library/floor matches Library/floor.ml" {
       #|  (e : Real)
       #|  (x : Real)
       #|  (p : Real)
-      #|  &0 < p /\\ &0 <= p
-      #|  (forall p x e. &0 < e /\\ &1 < p /\\ &0 < x\n            ==> ?n q r. &q / p pow n < x /\\ x < &r / p pow n /\\\n                        abs(&q / p pow n - &r / p pow n) < e) /\\\n   (forall p x e. &0 < e /\\ &1 < p /\\ &0 <= x\n           ==> ?n q r. &q / p pow n <= x /\\ x < &r / p pow n /\\\n                       abs(&q / p pow n - &r / p pow n) < e)
+      #|  real_of_num(0) < (p : Real) && real_of_num(0) <= p
+      #|  (\226\136\128 p : Real, \226\136\128 x : Real, \226\136\128 e : Real, real_of_num(0) < e && real_of_num(1) < p && real_of_num(0) < x \226\134\146 (\226\136\131 n : Num, \226\136\131 q : Num, \226\136\131 r : Num, real_of_num(q) / pow(p, n) < x && x < real_of_num(r) / pow(p, n) && abs(real_of_num(q) / pow(p, n) - real_of_num(r) / pow(p, n)) < e)) && (\226\136\128 p : Real, \226\136\128 x : Real, \226\136\128 e : Real, real_of_num(0) < e && real_of_num(1) < p && real_of_num(0) <= x \226\134\146 (\226\136\131 n : Num, \226\136\131 q : Num, \226\136\131 r : Num, real_of_num(q) / pow(p, n) <= x && x < real_of_num(r) / pow(p, n) && abs(real_of_num(q) / pow(p, n) - real_of_num(r) / pow(p, n)) < e))
       #|  (q : Real) / pow(real_of_num(2), (n : Num))
       #|  (r : Real)
       #|  (q : Real)
@@ -6244,21 +6244,21 @@ test "Library/floor matches Library/floor.ml" {
       #|  (x : Real) + (e : Real) / real_of_num(4)
       #|  (e : Real) / real_of_num(4)
       #|  (x : Real) - (e : Real) / real_of_num(4)
-      #|  forall x e. &0 < e\n         ==> ?a b. rational a /\\ rational b /\\\n                   a < x /\\ x < b /\\ abs(b - a) < e
+      #|  \226\136\128 x : Real, \226\136\128 e : Real, real_of_num(0) < e \226\134\146 (\226\136\131 a : Real, \226\136\131 b : Real, rational(a) && rational(b) && a < x && x < b && abs(b - a) < e)
       #|  (e : Real)
       #|  (x : Real)
-      #|  forall x e. &0 < e ==> ?q. rational q /\\ x < q /\\ q < x + e
+      #|  \226\136\128 x : Real, \226\136\128 e : Real, real_of_num(0) < e \226\134\146 (\226\136\131 q : Real, rational(q) && x < q && q < x + e)
       #|  (e : Real)
       #|  (x : Real)
-      #|  forall x e. &0 < e ==> ?q. rational q /\\ x - e < q /\\ q < x
+      #|  \226\136\128 x : Real, \226\136\128 e : Real, real_of_num(0) < e \226\134\146 (\226\136\131 q : Real, rational(q) && x - e < q && q < x)
       #|  \226\136\128 m : Num, \226\136\128 n : Num, m < n \226\134\146 (q : (Num) -> Real)(n) < q(m)
       #|  IMAGE((q : (Num) -> Real), UNIV)
-      #|  ?q. (forall n. rational(q n) /\\ a < q n /\\ q n < b) /\\ (forall n. q(SUC n) < q n)
-      #|  forall a b. a < b ==> INFINITE {q | rational q /\\ a < q /\\ q < b}
+      #|  \226\136\131 q : (Num) -> Real, (\226\136\128 n : Num, rational(q(n)) && (a : Real) < q(n) && q(n) < (b : Real)) && (\226\136\128 n : Num, q(SUC(n)) < q(n))
+      #|  \226\136\128 a : Real, \226\136\128 b : Real, a < b \226\134\146 INFINITE({(q : Real) | rational(q) && a < q && q < b})
       #|  !((n : Real) == real_of_num(0)) \226\134\146 ((x : Real) / n == (y : Real)) == (n * y == x)
-      #|  forall a b n. (a == b) (mod n) <=>\n           if n = 0 then &a:real = &b\n           else integer((&a - &b) / &n)
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 n : Num, op_eq_eq(a, b, mod(n)) == (if n == 0 { real_of_num(a) == real_of_num(b) } else { integer((real_of_num(a) - real_of_num(b)) / real_of_num(n)) })
       #|  !((n : Real) == real_of_num(0)) \226\134\146 ((x : Real) / n == (y : Real)) == (n * y == x)
-      #|  forall a b n. (a == b) (mod n) <=>\n           if n = &0 then real_of_int a = real_of_int b\n           else integer((real_of_int a - real_of_int b) / real_of_int n)
+      #|  \226\136\128 a : Int, \226\136\128 b : Int, \226\136\128 n : Int, op_eq_eq(a, b, mod(n)) == (if n == int_of_num(0) { real_of_int(a) == real_of_int(b) } else { integer((real_of_int(a) - real_of_int(b)) / real_of_int(n)) })
       #|INTEGER_CASES =  |- ((#=:fun(bool,fun(bool,bool)) (#integer:fun(real,bool) x:real)) ((#\/:fun(bool,fun(bool,bool)) (#?:fun(fun(num,bool),bool) (\n:num. ((#=:fun(real,fun(real,bool)) x:real) (#real_of_num:fun(num,real) n:num))))) (#?:fun(fun(num,bool),bool) (\n:num. ((#=:fun(real,fun(real,bool)) x:real) (#real_neg:fun(real,real) (#real_of_num:fun(num,real) n:num)))))))
       #|REAL_ABS_INTEGER_LEMMA =  |- (#forall:fun(fun(real,bool),bool) (\x:real. ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) (#integer:fun(real,bool) x:real)) (#~:fun(bool,bool) ((#=:fun(real,fun(real,bool)) x:real) (#real_of_num:fun(num,real) (#NUMERAL:fun(num,num) #_0:num)))))) ((#real_le:fun(real,fun(real,bool)) (#real_of_num:fun(num,real) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num)))) (#real_abs:fun(real,real) x:real)))))
       #|INTEGER_CLOSED =  |- ((#/\:fun(bool,fun(bool,bool)) (#forall:fun(fun(num,bool),bool) (\n:num. (#integer:fun(real,bool) (#real_of_num:fun(num,real) n:num))))) ((#/\:fun(bool,fun(bool,bool)) (#forall:fun(fun(real,bool),bool) (\x:real. (#forall:fun(fun(real,bool),bool) (\y:real. ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) (#integer:fun(real,bool) x:real)) (#integer:fun(real,bool) y:real))) (#integer:fun(real,bool) ((#real_add:fun(real,fun(real,real)) x:real) y:real)))))))) ((#/\:fun(bool,fun(bool,bool)) (#forall:fun(fun(real,bool),bool) (\x:real. (#forall:fun(fun(real,bool),bool) (\y:real. ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) (#integer:fun(real,bool) x:real)) (#integer:fun(real,bool) y:real))) (#integer:fun(real,bool) ((#real_sub:fun(real,fun(real,real)) x:real) y:real)))))))) ((#/\:fun(bool,fun(bool,bool)) (#forall:fun(fun(real,bool),bool) (\x:real. (#forall:fun(fun(real,bool),bool) (\y:real. ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) (#integer:fun(real,bool) x:real)) (#integer:fun(real,bool) y:real))) (#integer:fun(real,bool) ((#real_mul:fun(real,fun(real,real)) x:real) y:real)))))))) ((#/\:fun(bool,fun(bool,bool)) (#forall:fun(fun(real,bool),bool) (\x:real. (#forall:fun(fun(num,bool),bool) (\r:num. ((#==>:fun(bool,fun(bool,bool)) (#integer:fun(real,bool) x:real)) (#integer:fun(real,bool) ((#real_pow:fun(real,fun(num,real)) x:real) r:num)))))))) ((#/\:fun(bool,fun(bool,bool)) (#forall:fun(fun(real,bool),bool) (\x:real. ((#==>:fun(bool,fun(bool,bool)) (#integer:fun(real,bool) x:real)) (#integer:fun(real,bool) (#real_neg:fun(real,real) x:real)))))) ((#/\:fun(bool,fun(bool,bool)) (#forall:fun(fun(real,bool),bool) (\x:real. ((#==>:fun(bool,fun(bool,bool)) (#integer:fun(real,bool) x:real)) (#integer:fun(real,bool) (#real_abs:fun(real,real) x:real)))))) ((#/\:fun(bool,fun(bool,bool)) (#forall:fun(fun(real,bool),bool) (\x:real. (#forall:fun(fun(real,bool),bool) (\y:real. ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) (#integer:fun(real,bool) x:real)) (#integer:fun(real,bool) y:real))) (#integer:fun(real,bool) ((#real_max:fun(real,fun(real,real)) x:real) y:real)))))))) (#forall:fun(fun(real,bool),bool) (\x:real. (#forall:fun(fun(real,bool),bool) (\y:real. ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) (#integer:fun(real,bool) x:real)) (#integer:fun(real,bool) y:real))) (#integer:fun(real,bool) ((#real_min:fun(real,fun(real,real)) x:real) y:real)))))))))))))))

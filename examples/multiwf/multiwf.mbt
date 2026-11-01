@@ -680,7 +680,7 @@ fn step_36() -> Unit raise {
   let t110 = @simp.rewrite_tac(@list.List([@sets.in_()]))
   let t109 = @simp.rewrite_tac(@list.List([@sets.subset(), @sets.in_elim_thm()]))
   let t148 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.gen_tac, @tactics.match_mp_tac(@sets.subset_antisym())), t109), t110), @tactics.conj_tac), t147)
-  wfp_dchain_c.set(@tactics.prove(@parser.parse_term("forall(<<):A->A->bool.\n        WFP(<<) = {a | forall x. (forall n. x(SUC n) << x n) ==> ~(x 0 = a)}"), t148))
+  wfp_dchain_c.set(@tactics.prove(@term_syntax.parse_term("∀ `<<` : (A, A) -> Bool, WFP(`<<`) == {(a : A) | ∀ x : (Num) -> A, (∀ n : Num, `<<`(x(SUC(n)), x(n))) → !(x(0) == a)}"), t148))
 }
 
 ///|

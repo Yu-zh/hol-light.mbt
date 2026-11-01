@@ -5667,32 +5667,32 @@ test "Library/isum matches Library/isum.ml" {
       #|  \226\136\128 f : (_) -> Int, \226\136\128 s : (_) -> Bool, isum(support(op_plus, f, s), f) == isum(s, f)
       #|  (s : (A) -> Bool)
       #|  support(op_plus, (f : (A) -> Int), (s : (A) -> Bool))
-      #|  support(+) (\\x:A. real_of_int(f x)) s = support(+) f s
-      #|  forall f:A->int s. real_of_int(isum s f) = sum s (\\x. real_of_int(f x))
+      #|  support(op_plus, (x : A) => real_of_int((f : (A) -> Int)(x)), (s : (A) -> Bool)) == support(op_plus, f, s)
+      #|  \226\136\128 f : (A) -> Int, \226\136\128 s : (A) -> Bool, real_of_int(isum(s, f)) == sum(s, (x : A) => real_of_int(f(x)))
       #|  real_of_int
       #|  :real
       #|  :int
-      #|  real_of_int(if b then x else y) =\n       if b then real_of_int x else real_of_int y
-      #|  (\\x. real_of_int((f o g) x)) = (\\x. real_of_int(f x)) o g
-      #|  forall s:A->bool t:A->B->bool x.\n        FINITE s /\\ (forall i. i IN s ==> FINITE(t i))\n        ==> isum s (\\i. isum (t i) (x i)) =\n            isum {i,j | i IN s /\\ j IN t i} (\\(i,j). x i j)
-      #|  forall(<<) p:(B->C)->P->bool s:P->A h a b.\n        admissible(<<) (\\f (k,x). a(x) <= k /\\ k <= b(x) /\\ p f x)\n                       (\\(k,x). s x) (\\f (k,x). h f x k)\n   ==> admissible(<<) p s (\\f x. isum(a(x)..b(x)) (h f x))
-      #|  forall x n. 1 <= n ==> &1 - x pow n = (&1 - x) * isum (0..n - 1) (\\i. x pow i)
-      #|  forall x n. 1 <= n ==> x pow n - &1 = (x - &1) * isum (0..n - 1) (\\i. x pow i)
-      #|  forall f:A->int s. support (+) f (:A) SUBSET s ==> isum s f = isum (:A) f
+      #|  real_of_int(if (b : Bool) { (x : Int) } else { (y : Int) }) == (if b { real_of_int(x) } else { real_of_int(y) })
+      #|  ((x : _) => real_of_int(o((f : (_) -> Int), (g : (_) -> _), x))) == o((x : _) => real_of_int(f(x)), g)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A, B) -> Bool, \226\136\128 x : (A, B) -> Int, FINITE(s) && (\226\136\128 i : A, IN(i, s) \226\134\146 FINITE(t(i))) \226\134\146 isum(s, (i : A) => isum(t(i), x(i))) == isum({((i : A), (j : B)) | IN(i, s) && IN(j, t(i))}, fn { (i, j) => x(i, j) })
+      #|  \226\136\128 `<<` : (B, A) -> Bool, \226\136\128 p : ((B) -> C, P) -> Bool, \226\136\128 s : (P) -> A, \226\136\128 h : ((B) -> C, P, Num) -> Int, \226\136\128 a : (P) -> Num, \226\136\128 b : (P) -> Num, admissible(`<<`, (f : (B) -> C) => fn { (k, x) => a(x) <= k && k <= b(x) && p(f, x) }, fn { (k, x) => s(x) }, (f : (B) -> C) => fn { (k, x) => h(f, x, k) }) \226\134\146 admissible(`<<`, p, s, (f : (B) -> C) => (x : P) => isum(op_dot_dot(a(x), b(x)), h(f, x)))
+      #|  \226\136\128 x : Int, \226\136\128 n : Num, 1 <= n \226\134\146 int_of_num(1) - pow(x, n) == (int_of_num(1) - x) * isum(op_dot_dot(0, n - 1), (i : Num) => pow(x, i))
+      #|  \226\136\128 x : Int, \226\136\128 n : Num, 1 <= n \226\134\146 pow(x, n) - int_of_num(1) == (x - int_of_num(1)) * isum(op_dot_dot(0, n - 1), (i : Num) => pow(x, i))
+      #|  \226\136\128 f : (A) -> Int, \226\136\128 s : (A) -> Bool, SUBSET(support(op_plus, f, UNIV), s) \226\134\146 isum(s, f) == isum(UNIV, f)
       #|  (P : (Int) -> Bool)
-      #|  forall P f:A->int s.\n        P(&0) /\\ (forall x y. P x /\\ P y ==> P(x + y)) /\\ (forall a. a IN s ==> P(f a))\n        ==> P(isum s f)
+      #|  \226\136\128 P : (Int) -> Bool, \226\136\128 f : (A) -> Int, \226\136\128 s : (A) -> Bool, P(int_of_num(0)) && (\226\136\128 x : Int, \226\136\128 y : Int, P(x) && P(y) \226\134\146 P(x + y)) && (\226\136\128 a : A, IN(a, s) \226\134\146 P(f(a))) \226\134\146 P(isum(s, f))
       #|  (R : (Int, Int) -> Bool)
-      #|  forall R (f:A->int) g s.\n        R (&0) (&0) /\\\n        (forall m n m' n'. R m n /\\ R m' n' ==> R (m + m') (n + n')) /\\\n        FINITE s /\\ (forall x. x IN s ==> R (f x) (g x))\n        ==> R (isum s f) (isum s g)
+      #|  \226\136\128 R : (Int, Int) -> Bool, \226\136\128 f : (A) -> Int, \226\136\128 g : (A) -> Int, \226\136\128 s : (A) -> Bool, R(int_of_num(0), int_of_num(0)) && (\226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 m' : Int, \226\136\128 n' : Int, R(m, n) && R(m', n') \226\134\146 R(m + m', n + n')) && FINITE(s) && (\226\136\128 x : A, IN(x, s) \226\134\146 R(f(x), g(x))) \226\134\146 R(isum(s, f), isum(s, g))
       #|  (P : (Int) -> Bool)
-      #|  forall P f:A->int s.\n        FINITE s /\\ ~(s = {}) /\\\n        (forall x y. P x /\\ P y ==> P(x + y)) /\\ (forall a. a IN s ==> P(f a))\n        ==> P(isum s f)
+      #|  \226\136\128 P : (Int) -> Bool, \226\136\128 f : (A) -> Int, \226\136\128 s : (A) -> Bool, FINITE(s) && !(s == {}) && (\226\136\128 x : Int, \226\136\128 y : Int, P(x) && P(y) \226\134\146 P(x + y)) && (\226\136\128 a : A, IN(a, s) \226\134\146 P(f(a))) \226\134\146 P(isum(s, f))
       #|  (R : (Int, Int) -> Bool)
-      #|  forall R (f:A->int) g s.\n        (forall m n m' n'. R m n /\\ R m' n' ==> R (m + m') (n + n')) /\\\n        FINITE s /\\ ~(s = {}) /\\ (forall x. x IN s ==> R (f x) (g x))\n        ==> R (isum s f) (isum s g)
-      #|  (n < m ==> isum(m..n) f = &0) /\\\n     isum(m..m) f = f m /\\\n     (m <= n ==> isum (m..n) f = f m + isum (m + 1..n) f)
+      #|  \226\136\128 R : (Int, Int) -> Bool, \226\136\128 f : (A) -> Int, \226\136\128 g : (A) -> Int, \226\136\128 s : (A) -> Bool, (\226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 m' : Int, \226\136\128 n' : Int, R(m, n) && R(m', n') \226\134\146 R(m + m', n + n')) && FINITE(s) && !(s == {}) && (\226\136\128 x : A, IN(x, s) \226\134\146 R(f(x), g(x))) \226\134\146 R(isum(s, f), isum(s, g))
+      #|  ((n : Num) < (m : Num) \226\134\146 isum(op_dot_dot(m, n), (f : (Num) -> Int)) == int_of_num(0)) && isum(op_dot_dot(m, m), f) == f(m) && (m <= n \226\134\146 isum(op_dot_dot(m, n), f) == f(m) + isum(op_dot_dot(m + 1, n), f))
       #|  op_dot_dot
       #|  (f : (Num) -> Int)
       #|  (m : Num)
       #|  (n : Num)
-      #|  (forall f g s.   (forall x. x IN s ==> f(x) = g(x))\n              ==> isum s (\\i. f(i)) = isum s g) /\\\n   (forall f g a b. (forall i. a <= i /\\ i <= b ==> f(i) = g(i))\n              ==> isum(a..b) (\\i. f(i)) = isum(a..b) g) /\\\n   (forall f g p.   (forall x. p x ==> f x = g x)\n              ==> isum {y | p y} (\\i. f(i)) = isum {y | p y} g)
+      #|  (\226\136\128 f : (_) -> Int, \226\136\128 g : (_) -> Int, \226\136\128 s : (_) -> Bool, (\226\136\128 x : _, IN(x, s) \226\134\146 f(x) == g(x)) \226\134\146 isum(s, (i : _) => f(i)) == isum(s, g)) && (\226\136\128 f : (Num) -> Int, \226\136\128 g : (Num) -> Int, \226\136\128 a : Num, \226\136\128 b : Num, (\226\136\128 i : Num, a <= i && i <= b \226\134\146 f(i) == g(i)) \226\134\146 isum(op_dot_dot(a, b), (i : Num) => f(i)) == isum(op_dot_dot(a, b), g)) && (\226\136\128 f : (_) -> Int, \226\136\128 g : (_) -> Int, \226\136\128 p : (_) -> Bool, (\226\136\128 x : _, p(x) \226\134\146 f(x) == g(x)) \226\134\146 isum({(y : _) | p(y)}, (i : _) => f(i)) == isum({(y : _) | p(y)}, g))
       #|ISUM_SUPPORT =  |- (#forall:fun(fun(fun('?1,int),bool),bool) (\f:fun('?1,int). (#forall:fun(fun(fun('?1,bool),bool),bool) (\s:fun('?1,bool). ((#=:fun(int,fun(int,bool)) ((#isum:fun(fun('?1,bool),fun(fun('?1,int),int)) (((#support:fun(fun(int,fun(int,int)),fun(fun('?1,int),fun(fun('?1,bool),fun('?1,bool)))) #int_add:fun(int,fun(int,int))) f:fun('?1,int)) s:fun('?1,bool))) f:fun('?1,int))) ((#isum:fun(fun('?1,bool),fun(fun('?1,int),int)) s:fun('?1,bool)) f:fun('?1,int)))))))
       #|int_isum =  |- (#forall:fun(fun(fun('A,int),bool),bool) (\f:fun('A,int). (#forall:fun(fun(fun('A,bool),bool),bool) (\s:fun('A,bool). ((#=:fun(real,fun(real,bool)) (#real_of_int:fun(int,real) ((#isum:fun(fun('A,bool),fun(fun('A,int),int)) s:fun('A,bool)) f:fun('A,int)))) ((#sum:fun(fun('A,bool),fun(fun('A,real),real)) s:fun('A,bool)) (\x:'A. (#real_of_int:fun(int,real) (f:fun('A,int) x:'A)))))))))
       #|CARD_EQ_ISUM =  |- (#forall:fun(fun(fun('A,bool),bool),bool) (\s:fun('A,bool). ((#==>:fun(bool,fun(bool,bool)) (#FINITE:fun(fun('A,bool),bool) s:fun('A,bool))) ((#=:fun(int,fun(int,bool)) (#int_of_num:fun(num,int) (#CARD:fun(fun('A,bool),num) s:fun('A,bool)))) ((#isum:fun(fun('A,bool),fun(fun('A,int),int)) s:fun('A,bool)) (\x:'A. (#int_of_num:fun(num,int) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num)))))))))

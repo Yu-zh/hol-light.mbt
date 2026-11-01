@@ -1406,9 +1406,9 @@ test "real matches real.ml" {
       #|  \226\136\128 m : Num, \226\136\128 n : Num, min(real_of_num(m), real_of_num(n)) == real_of_num(MIN(m, n))
       #|  \226\136\128 n : Num, real_of_num(n) + real_of_num(1) == real_of_num(SUC(n))
       #|  \226\136\128 m : Num, \226\136\128 n : Num, m <= n \226\134\146 real_of_num(n) - real_of_num(m) == real_of_num(n - m)
-      #|  forall m n. &m - &n = if n <= m then &(m - n) else -- &(n - m)
-      #|  (forall m n. &m:real = &n <=> m = n) /\\\n   (forall m n. &m:real >= &n <=> m >= n) /\\\n   (forall m n. &m:real > &n <=> m > n) /\\\n   (forall m n. &m:real <= &n <=> m <= n) /\\\n   (forall m n. &m:real < &n <=> m < n) /\\\n   (forall m n. max (&m) (&n):real = &(MAX m n)) /\\\n   (forall m n. min (&m) (&n):real = &(MIN m n)) /\\\n   (forall m n. &m + &n:real = &(m + n)) /\\\n   (forall m n. &m * &n:real = &(m * n)) /\\\n   (forall x n. (&x:real) pow n = &(x EXP n))
-      #|  (m * n = n * m) /\\\n   ((m * n) * p = m * (n * p)) /\\\n   (m * (n * p) = n * (m * p))
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, real_of_num(m) - real_of_num(n) == (if n <= m { real_of_num(m - n) } else { -real_of_num(n - m) })
+      #|  (\226\136\128 m : Num, \226\136\128 n : Num, (real_of_num(m) == real_of_num(n)) == (m == n)) && (\226\136\128 m : Num, \226\136\128 n : Num, (real_of_num(m) >= real_of_num(n)) == (m >= n)) && (\226\136\128 m : Num, \226\136\128 n : Num, (real_of_num(m) > real_of_num(n)) == (m > n)) && (\226\136\128 m : Num, \226\136\128 n : Num, (real_of_num(m) <= real_of_num(n)) == (m <= n)) && (\226\136\128 m : Num, \226\136\128 n : Num, (real_of_num(m) < real_of_num(n)) == (m < n)) && (\226\136\128 m : Num, \226\136\128 n : Num, max(real_of_num(m), real_of_num(n)) == real_of_num(MAX(m, n))) && (\226\136\128 m : Num, \226\136\128 n : Num, min(real_of_num(m), real_of_num(n)) == real_of_num(MIN(m, n))) && (\226\136\128 m : Num, \226\136\128 n : Num, real_of_num(m) + real_of_num(n) == real_of_num(m + n)) && (\226\136\128 m : Num, \226\136\128 n : Num, real_of_num(m) * real_of_num(n) == real_of_num(m * n)) && (\226\136\128 x : Num, \226\136\128 n : Num, pow(real_of_num(x), n) == real_of_num(EXP(x, n)))
+      #|  (m : Real) * (n : Real) == n * m && m * n * (p : Real) == m * (n * p) && m * (n * p) == n * (m * p)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, (x + y) * z == x * z + y * z
       #|  -(x : Real)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, y < z \226\134\146 x + y < x + z
@@ -1497,17 +1497,17 @@ test "real matches real.ml" {
       #|  \226\136\128 x : Real, abs(abs(x)) == abs(x)
       #|  \226\136\128 x : Real, x <= abs(x)
       #|  \226\136\128 x : Real, (abs(x) == x) == (real_of_num(0) <= x)
-      #|  forall x y d. &0 < d /\\ ((x - d) < y) /\\ (y < (x + d)) <=> abs(y - x) < d
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 d : Real, (real_of_num(0) < d && x - d < y && y < x + d) == (abs(y - x) < d)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 d : Real, abs(x - y) < d \226\134\146 y < x + d
       #|  \226\136\128 x : Real, \226\136\128 y : Real, abs(x - y) < abs(y) \226\134\146 !(x == real_of_num(0))
       #|  \226\136\128 x : Real, x == real_of_num(0) || real_of_num(0) < abs(x)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, x < z && abs(y - x) < z - x \226\134\146 y < z
       #|  \226\136\128 x : Real, \226\136\128 y : Real, abs(x - y) < y \226\134\146 real_of_num(0) < x
       #|  \226\136\128 x : Real, \226\136\128 y : Real, abs(x - y) < -y \226\134\146 x < real_of_num(0)
-      #|  forall x y h. abs(h) < (abs(y) - abs(x)) ==> abs(x + h) < abs(y)
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 h : Real, abs(h) < abs(y) - abs(x) \226\134\146 abs(x + h) < abs(y)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, abs(x) - abs(y) <= abs(x - y)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, abs(abs(x) - abs(y)) <= abs(x - y)
-      #|  forall x0 x y0 y. x0 < y0 /\\ &2 * abs(x - x0) < (y0 - x0) /\\\n                          &2 * abs(y - y0) < (y0 - x0)\n        ==> x < y
+      #|  \226\136\128 x0 : Real, \226\136\128 x : Real, \226\136\128 y0 : Real, \226\136\128 y : Real, x0 < y0 && real_of_num(2) * abs(x - x0) < y0 - x0 && real_of_num(2) * abs(y - y0) < y0 - x0 \226\134\146 x < y
       #|  \226\136\128 x : Real, \226\136\128 k : Real, (abs(x) <= k) == (-k <= x && x <= k)
       #|  \226\136\128 x : Real, \226\136\128 k : Real, (-k <= x && x <= k) == (abs(x) <= k)
       #|  \226\136\128 x : Real, \226\136\128 k : Real, (-k < x && x < k) == (abs(x) < k)
@@ -1527,8 +1527,8 @@ test "real matches real.ml" {
       #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, (min(x, y) < z) == (x < z || y < z)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, max(x, max(y, z)) == max(max(x, y), z)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, min(x, min(y, z)) == min(min(x, y), z)
-      #|  (max x y = max y x) /\\\n   (max (max x y) z = max x (max y z)) /\\\n   (max x (max y z) = max y (max x z)) /\\\n   (max x x = x) /\\\n   (max x (max x y) = max x y)
-      #|  (min x y = min y x) /\\\n   (min (min x y) z = min x (min y z)) /\\\n   (min x (min y z) = min y (min x z)) /\\\n   (min x x = x) /\\\n   (min x (min x y) = min x y)
+      #|  max((x : Real), (y : Real)) == max(y, x) && max(max(x, y), (z : Real)) == max(x, max(y, z)) && max(x, max(y, z)) == max(y, max(x, z)) && max(x, x) == x && max(x, max(x, y)) == max(x, y)
+      #|  min((x : Real), (y : Real)) == min(y, x) && min(min(x, y), (z : Real)) == min(x, min(y, z)) && min(x, min(y, z)) == min(y, min(x, z)) && min(x, x) == x && min(x, min(x, y)) == min(x, y)
       #|  (y : Real)
       #|  (x : Real)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, abs(x * y) == abs(x) * abs(y)
@@ -1575,7 +1575,7 @@ test "real matches real.ml" {
       #|  op_star((y : Real))
       #|  (y : Real) == real_of_num(0)
       #|  (x : Real) == real_of_num(0)
-      #|  forall x y:real. x / y = &1 <=> x = y /\\ ~(x = &0) /\\ ~(y = &0)
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, (x / y == real_of_num(1)) == (x == y && !(x == real_of_num(0)) && !(y == real_of_num(0)))
       #|  (x : Real) == real_of_num(0)
       #|  \226\136\128 x : Real, abs(inv(x)) == inv(abs(x))
       #|  \226\136\128 x : Real, \226\136\128 y : Real, abs(x / y) == abs(x) / abs(y)
@@ -1591,7 +1591,7 @@ test "real matches real.ml" {
       #|  \226\136\128 x : Real, \226\136\128 y : Real, (x / y == real_of_num(0)) == (x == real_of_num(0) || y == real_of_num(0))
       #|  \226\136\128 x : Real, \226\136\128 m : Num, \226\136\128 n : Num, pow(x, m + n) == pow(x, m) * pow(x, n)
       #|  \226\136\128 x : Real, \226\136\128 n : Num, !(x == real_of_num(0)) \226\134\146 !(pow(x, n) == real_of_num(0))
-      #|  forall x m n. ~(x = &0) /\\ m <= n ==> (x pow (n - m) = x pow n / x pow m)
+      #|  \226\136\128 x : Real, \226\136\128 m : Num, \226\136\128 n : Num, !(x == real_of_num(0)) && m <= n \226\134\146 pow(x, n - m) == pow(x, n) / pow(x, m)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, real_of_num(0) < x && x * y < x * z \226\134\146 y < z
       #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, real_of_num(0) < z && x * z < y * z \226\134\146 x < y
       #|  (x : Real)
@@ -1602,13 +1602,13 @@ test "real matches real.ml" {
       #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, real_of_num(0) < z \226\134\146 (z * x <= z * y) == (x <= y)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, real_of_num(0) < z \226\134\146 (x * z < y * z) == (x < y)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, real_of_num(0) < z \226\134\146 (z * x < z * y) == (x < y)
-      #|  (forall x y. &0 < x ==> (&0 <= x * y <=> &0 <= y)) /\\\n   (forall x y. &0 < y ==> (&0 <= x * y <=> &0 <= x))
-      #|  (forall x y. &0 < x ==> (&0 < x * y <=> &0 < y)) /\\\n   (forall x y. &0 < y ==> (&0 < x * y <=> &0 < x))
+      #|  (\226\136\128 x : Real, \226\136\128 y : Real, real_of_num(0) < x \226\134\146 (real_of_num(0) <= x * y) == (real_of_num(0) <= y)) && (\226\136\128 x : Real, \226\136\128 y : Real, real_of_num(0) < y \226\134\146 (real_of_num(0) <= x * y) == (real_of_num(0) <= x))
+      #|  (\226\136\128 x : Real, \226\136\128 y : Real, real_of_num(0) < x \226\134\146 (real_of_num(0) < x * y) == (real_of_num(0) < y)) && (\226\136\128 x : Real, \226\136\128 y : Real, real_of_num(0) < y \226\134\146 (real_of_num(0) < x * y) == (real_of_num(0) < x))
       #|  (y : Real)
       #|  (x : Real)
-      #|  forall x y. &0 < x * y <=> &0 < x /\\ &0 < y \\/ x < &0 /\\ y < &0
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, (real_of_num(0) < x * y) == (real_of_num(0) < x && real_of_num(0) < y || x < real_of_num(0) && y < real_of_num(0))
       #|  (real_of_num(0) <= (x : Real)) == (x == real_of_num(0) || real_of_num(0) < x)
-      #|  forall x y. &0 <= x * y <=>\n         x = &0 \\/ y = &0 \\/ &0 < x /\\ &0 < y \\/ x < &0 /\\ y < &0
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, (real_of_num(0) <= x * y) == (x == real_of_num(0) || y == real_of_num(0) || real_of_num(0) < x && real_of_num(0) < y || x < real_of_num(0) && y < real_of_num(0))
       #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, real_of_num(0) < z \226\134\146 (x <= y / z) == (x * z <= y)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, real_of_num(0) < z \226\134\146 (x / z <= y) == (x <= y * z)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, real_of_num(0) < z \226\134\146 (x < y / z) == (x * z < y)
@@ -1621,10 +1621,10 @@ test "real matches real.ml" {
       #|  \226\136\128 x : Real, \226\136\128 n : Num, (pow(x, n) == real_of_num(0)) == (x == real_of_num(0) && !(n == 0))
       #|  (y : Real)
       #|  (w : Real) * (z : Real)
-      #|  forall w x y z. &0 <= w /\\ w <= x /\\ &0 <= y /\\ y <= z\n             ==> w * y <= x * z
+      #|  \226\136\128 w : Real, \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, real_of_num(0) <= w && w <= x && real_of_num(0) <= y && y <= z \226\134\146 w * y <= x * z
       #|  (y : Real)
       #|  (w : Real) * (z : Real)
-      #|  forall w x y z. &0 <= w /\\ w < x /\\ &0 <= y /\\ y < z\n             ==> w * y < x * z
+      #|  \226\136\128 w : Real, \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, real_of_num(0) <= w && w < x && real_of_num(0) <= y && y < z \226\134\146 w * y < x * z
       #|  \226\136\128 x : Real, (real_of_num(0) < x * x) == !(x == real_of_num(0))
       #|  1
       #|  \226\136\128 x : Real, pow(x, 1) == x
@@ -1654,7 +1654,7 @@ test "real matches real.ml" {
       #|  \226\136\128 x : Real, real_of_num(0) < x && x <= real_of_num(1) \226\134\146 real_of_num(1) <= inv(x)
       #|  \226\136\128 x : Real, real_of_num(1) < x \226\134\146 inv(x) < real_of_num(1)
       #|  \226\136\128 x : Real, real_of_num(0) < x && x < real_of_num(1) \226\134\146 real_of_num(1) < inv(x)
-      #|  forall x y. ~(x = &0) /\\ ~(y = &0) ==> (inv(x) - inv(y) = (y - x) / (x * y))
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, !(x == real_of_num(0)) && !(y == real_of_num(0)) \226\134\146 inv(x) - inv(y) == (y - x) / (x * y)
       #|  real_of_num(0) < (d : Real)
       #|  real_of_num(2)
       #|  !(real_of_num(2) == real_of_num(0))
@@ -1667,7 +1667,7 @@ test "real matches real.ml" {
       #|  (d1 : Real)
       #|  (d2 : Real)
       #|  (d1 : Real)
-      #|  forall d1 d2. &0 < d1 /\\ &0 < d2 ==> ?e. &0 < e /\\ e < d1 /\\ e < d2
+      #|  \226\136\128 d1 : Real, \226\136\128 d2 : Real, real_of_num(0) < d1 && real_of_num(0) < d2 \226\134\146 (\226\136\131 e : Real, real_of_num(0) < e && e < d1 && e < d2)
       #|  \226\136\128 n : Num, \226\136\128 x : Real, \226\136\128 y : Real, real_of_num(0) <= x && x <= y \226\134\146 pow(x, n) <= pow(y, n)
       #|  (x : Real)
       #|  real_of_num(1)
@@ -1681,7 +1681,7 @@ test "real matches real.ml" {
       #|  (d : Num)
       #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 x : Real, real_of_num(1) <= x && m <= n \226\134\146 pow(x, m) <= pow(x, n)
       #|  (n : Num) == 0
-      #|  forall n x y. ~(n = 0) /\\ &0 <= x /\\ x < y ==> x pow n < y pow n
+      #|  \226\136\128 n : Num, \226\136\128 x : Real, \226\136\128 y : Real, !(n == 0) && real_of_num(0) <= x && x < y \226\134\146 pow(x, n) < pow(y, n)
       #|  (x : Real)
       #|  real_of_num(1)
       #|  (n : Num)
@@ -1689,7 +1689,7 @@ test "real matches real.ml" {
       #|  real_of_num(1)
       #|  (x : Real)
       #|  (n : Num)
-      #|  forall n x. ~(n = 0) /\\ &0 <= x /\\ x < &1 ==> x pow n < &1
+      #|  \226\136\128 n : Num, \226\136\128 x : Real, !(n == 0) && real_of_num(0) <= x && x < real_of_num(1) \226\134\146 pow(x, n) < real_of_num(1)
       #|  (d : Num)
       #|  (d : Num)
       #|  real_of_num(1)
@@ -1700,9 +1700,9 @@ test "real matches real.ml" {
       #|  \226\136\128 x : Real, \226\136\128 y : Real, real_of_num(0) < x && real_of_num(0) < y \226\134\146 real_of_num(0) < x / y
       #|  \226\136\128 x : Real, \226\136\128 y : Real, real_of_num(0) <= x && real_of_num(0) <= y \226\134\146 real_of_num(0) <= x / y
       #|  !((n : Num) <= (m : Num))
-      #|  forall x m n. ~(x = &0)\n           ==> (x pow m / x pow n = if n <= m then x pow (m - n)\n                                    else inv(x pow (n - m)))
+      #|  \226\136\128 x : Real, \226\136\128 m : Num, \226\136\128 n : Num, !(x == real_of_num(0)) \226\134\146 pow(x, m) / pow(x, n) == (if n <= m { pow(x, m - n) } else { inv(pow(x, n - m)) })
       #|  (m : Num) <= (n : Num)
-      #|  forall x m n. ~(x = &0)\n           ==> (x pow m / x pow n = if n < m then x pow (m - n)\n                                    else inv(x pow (n - m)))
+      #|  \226\136\128 x : Real, \226\136\128 m : Num, \226\136\128 n : Num, !(x == real_of_num(0)) \226\134\146 pow(x, m) / pow(x, n) == (if n < m { pow(x, m - n) } else { inv(pow(x, n - m)) })
       #|  \226\136\128 n : Num, real_of_num(0) < pow(real_of_num(2), n)
       #|  pow(real_of_num(2), 0)
       #|  \226\136\128 n : Num, real_of_num(1) <= pow(real_of_num(2), n)
@@ -1714,23 +1714,23 @@ test "real matches real.ml" {
       #|  \226\136\128 x : Real, real_of_num(0) <= pow(x, 2)
       #|  (real_of_num(0) < (x : Real)) == (real_of_num(0) <= x && !(x == real_of_num(0)))
       #|  \226\136\128 x : Real, (real_of_num(0) < pow(x, 2)) == !(x == real_of_num(0))
-      #|  x + y = &0 ==> &0 <= x /\\ &0 <= y ==> x = &0 /\\ y = &0
+      #|  (x : Real) + (y : Real) == real_of_num(0) \226\134\146 real_of_num(0) <= x && real_of_num(0) <= y \226\134\146 x == real_of_num(0) && y == real_of_num(0)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, (pow(x, 2) + pow(y, 2) == real_of_num(0)) == (x == real_of_num(0) && y == real_of_num(0))
       #|  \226\136\128 n : Num, pow(real_of_num(0), n) == (if n == 0 { real_of_num(1) } else { real_of_num(0) })
       #|  (n : Num) <= (m : Num)
       #|  (x : Real) == real_of_num(0)
-      #|  forall m n x. &0 <= x /\\ x <= &1 /\\ n <= m ==> x pow m <= x pow n
-      #|  forall n x y. ~(n = 0) /\\ &0 <= y /\\ x pow n <= y pow n ==> x <= y
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 x : Real, real_of_num(0) <= x && x <= real_of_num(1) && n <= m \226\134\146 pow(x, m) <= pow(x, n)
+      #|  \226\136\128 n : Num, \226\136\128 x : Real, \226\136\128 y : Real, !(n == 0) && real_of_num(0) <= y && pow(x, n) <= pow(y, n) \226\134\146 x <= y
       #|  \226\136\128 n : Num, \226\136\128 x : Real, \226\136\128 y : Real, real_of_num(0) <= y && pow(x, n) < pow(y, n) \226\134\146 x < y
-      #|  forall n x y. ~(n = 0) /\\ &0 <= x /\\ &0 <= y /\\ x pow n = y pow n ==> x = y
+      #|  \226\136\128 n : Num, \226\136\128 x : Real, \226\136\128 y : Real, !(n == 0) && real_of_num(0) <= x && real_of_num(0) <= y && pow(x, n) == pow(y, n) \226\134\146 x == y
       #|  (n : Num)
-      #|  forall n x y. ~(n = 0) /\\ x pow n = y pow n ==> abs x = abs y
+      #|  \226\136\128 n : Num, \226\136\128 x : Real, \226\136\128 y : Real, !(n == 0) && pow(x, n) == pow(y, n) \226\134\146 abs(x) == abs(y)
       #|  (n : Num)
       #|  \226\136\128 x : Real, \226\136\128 n : Num, !(n == 0) && pow(x, n) == real_of_num(1) \226\134\146 abs(x) == real_of_num(1)
       #|  abs((x : Real)) == (a : Real) \226\134\146 x == a || x == -a
       #|  abs((x : Real)) == real_of_num(1)
       #|  (n : Num) == 0
-      #|  forall x n. x pow n = &1 <=> abs(x) = &1 /\\ (x < &0 ==> EVEN(n)) \\/ n = 0
+      #|  \226\136\128 x : Real, \226\136\128 n : Num, (pow(x, n) == real_of_num(1)) == (abs(x) == real_of_num(1) && (x < real_of_num(0) \226\134\146 EVEN(n)) || n == 0)
       #|  pow(-(y : Real), (n : Num)) < pow(-(x : Real), n)
       #|  real_of_num(0) < pow(-(x : Real), (n : Num)) && real_of_num(0) <= pow((y : Real), n)
       #|  real_of_num(0) <= (x : Real) || real_of_num(0) < -x
@@ -1744,27 +1744,27 @@ test "real matches real.ml" {
       #|  \226\136\128 n : Num, \226\136\128 x : Real, \226\136\128 y : Real, ODD(n) && pow(x, n) == pow(y, n) \226\134\146 x == y
       #|  (m : Num)
       #|  (n : Num) == 0
-      #|  forall n x y. x pow n = y pow n <=>\n           if EVEN n then n = 0 \\/ abs x = abs y else x = y
+      #|  \226\136\128 n : Num, \226\136\128 x : Real, \226\136\128 y : Real, (pow(x, n) == pow(y, n)) == (if EVEN(n) { n == 0 || abs(x) == abs(y) } else { x == y })
       #|  \226\136\128 x : Real, \226\136\128 n : Num, EVEN(n) \226\134\146 pow(abs(x), n) == pow(x, n)
       #|  \226\136\128 m : Num, \226\136\128 n : Num, real_of_num(MOD(m, n)) == real_of_num(m) - real_of_num(DIV(m, n)) * real_of_num(n)
       #|  real_of_num((n : Num))
       #|  (n : Num) == 0
       #|  \226\136\128 m : Num, \226\136\128 n : Num, real_of_num(DIV(m, n)) == real_of_num(m) / real_of_num(n) - real_of_num(MOD(m, n)) / real_of_num(n)
       #|  (u : Real) == real_of_num(0)
-      #|  forall x y a u v. x < a /\\ y < b /\\ &0 <= u /\\ &0 <= v /\\ u + v = &1\n               ==> u * x + v * y < u * a + v * b
-      #|  forall x y a u v. x <= a /\\ y <= b /\\ &0 <= u /\\ &0 <= v /\\ u + v = &1\n               ==> u * x + v * y <= u * a + v * b
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 a : Real, \226\136\128 u : Real, \226\136\128 v : Real, x < a && y < (b : Real) && real_of_num(0) <= u && real_of_num(0) <= v && u + v == real_of_num(1) \226\134\146 u * x + v * y < u * a + v * b
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 a : Real, \226\136\128 u : Real, \226\136\128 v : Real, x <= a && y <= (b : Real) && real_of_num(0) <= u && real_of_num(0) <= v && u + v == real_of_num(1) \226\134\146 u * x + v * y <= u * a + v * b
       #|  (u : Real) + (v : Real) == real_of_num(1) \226\134\146 u * (a : Real) + v * a == a
-      #|  forall x y a u v. x < a /\\ y < a /\\ &0 <= u /\\ &0 <= v /\\ (u + v = &1)\n               ==> u * x + v * y < a
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 a : Real, \226\136\128 u : Real, \226\136\128 v : Real, x < a && y < a && real_of_num(0) <= u && real_of_num(0) <= v && u + v == real_of_num(1) \226\134\146 u * x + v * y < a
       #|  (u : Real) + (v : Real) == real_of_num(1) \226\134\146 u * (a : Real) + v * a == a
-      #|  forall x y a u v. x <= a /\\ y <= a /\\ &0 <= u /\\ &0 <= v /\\ (u + v = &1)\n               ==> u * x + v * y <= a
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 a : Real, \226\136\128 u : Real, \226\136\128 v : Real, x <= a && y <= a && real_of_num(0) <= u && real_of_num(0) <= v && u + v == real_of_num(1) \226\134\146 u * x + v * y <= a
       #|  (u : Real) + (v : Real) == real_of_num(1) \226\134\146 u * (a : Real) + v * a == a
-      #|  forall x y a u v.\n        a < x /\\ a < y /\\ &0 <= u /\\ &0 <= v /\\ u + v = &1\n        ==> a < u * x + v * y
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 a : Real, \226\136\128 u : Real, \226\136\128 v : Real, a < x && a < y && real_of_num(0) <= u && real_of_num(0) <= v && u + v == real_of_num(1) \226\134\146 a < u * x + v * y
       #|  (u : Real) + (v : Real) == real_of_num(1) \226\134\146 u * (a : Real) + v * a == a
-      #|  forall x y a u v.\n        a <= x /\\ a <= y /\\ &0 <= u /\\ &0 <= v /\\ u + v = &1\n        ==> a <= u * x + v * y
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 a : Real, \226\136\128 u : Real, \226\136\128 v : Real, a <= x && a <= y && real_of_num(0) <= u && real_of_num(0) <= v && u + v == real_of_num(1) \226\134\146 a <= u * x + v * y
       #|  (u : Real) + (v : Real) == real_of_num(1) \226\134\146 u * (a : Real) + v * a == a
-      #|  forall x y a b u v.\n        a <= x /\\ x <= b /\\ a <= y /\\ y <= b /\\\n        &0 <= u /\\ &0 <= v /\\ u + v = &1\n        ==> a <= u * x + v * y /\\ u * x + v * y <= b
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 a : Real, \226\136\128 b : Real, \226\136\128 u : Real, \226\136\128 v : Real, a <= x && x <= b && a <= y && y <= b && real_of_num(0) <= u && real_of_num(0) <= v && u + v == real_of_num(1) \226\134\146 a <= u * x + v * y && u * x + v * y <= b
       #|  (u : Real) + (v : Real) == real_of_num(1) \226\134\146 u * (a : Real) + v * a == a
-      #|  forall x y a b u v.\n        a < x /\\ x < b /\\ a < y /\\ y < b /\\\n        &0 <= u /\\ &0 <= v /\\ u + v = &1\n        ==> a < u * x + v * y /\\ u * x + v * y < b
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 a : Real, \226\136\128 b : Real, \226\136\128 u : Real, \226\136\128 v : Real, a < x && x < b && a < y && y < b && real_of_num(0) <= u && real_of_num(0) <= v && u + v == real_of_num(1) \226\134\146 a < u * x + v * y && u * x + v * y < b
       #|  (\226\136\128 x : Real, (\226\136\131 n : Num, x == real_of_num(n)) \226\134\146 (P : (Real) -> Bool)(x)) == (\226\136\128 n : Num, P(real_of_num(n)))
       #|  !((M : Real) <= M - real_of_num(1))
       #|  (y : Real) => \226\136\131 n : Num, y == real_of_num(n)
@@ -1773,8 +1773,8 @@ test "real matches real.ml" {
       #|  \226\136\128 x : Real, \226\136\131 n : Num, x < real_of_num(n)
       #|  \226\136\128 x : Real, real_of_num(0) < x \226\134\146 (\226\136\128 y : Real, \226\136\131 n : Num, y < real_of_num(n) * x)
       #|  inv((e : Real))
-      #|  forall e. &0 < e <=> ?n. ~(n = 0) /\\ &0 < inv(&n) /\\ inv(&n) < e
-      #|  &1 + (n + &1) * x <= (&1 + x) * (&1 + n * x) <=> &0 <= n * x * x
+      #|  \226\136\128 e : Real, (real_of_num(0) < e) == (\226\136\131 n : Num, !(n == 0) && real_of_num(0) < inv(real_of_num(n)) && inv(real_of_num(n)) < e)
+      #|  (real_of_num(1) + ((n : Real) + real_of_num(1)) * (x : Real) <= (real_of_num(1) + x) * (real_of_num(1) + n * x)) == (real_of_num(0) <= n * (x * x))
       #|  real_of_num(0) <= (x : Real) \226\134\146 real_of_num(0) <= real_of_num(1) + x
       #|  (real_of_num(1) + (x : Real)) * (real_of_num(1) + real_of_num((n : Num)) * x)
       #|  \226\136\128 x : Real, \226\136\128 n : Num, real_of_num(0) <= x \226\134\146 real_of_num(1) + real_of_num(n) * x <= pow(real_of_num(1) + x, n)
@@ -1790,12 +1790,12 @@ test "real matches real.ml" {
       #|  inv(real_of_num(1)) < inv((x : Real))
       #|  real_of_num(0) < (x : Real)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, real_of_num(0) < y && x < real_of_num(1) \226\134\146 (\226\136\131 n : Num, pow(x, n) < y)
-      #|  (real_sgn:real->real) x =\n        if &0 < x then &1 else if x < &0 then -- &1 else &0
+      #|  (real_sgn : (Real) -> Real)((x : Real)) == (if real_of_num(0) < x { real_of_num(1) } else { if x < real_of_num(0) { -real_of_num(1) } else { real_of_num(0) } })
       #|  real_sgn(real_of_num(0)) == real_of_num(0)
       #|  \226\136\128 x : Real, real_sgn(-x) == -real_sgn(x)
       #|  \226\136\128 x : Real, real_sgn(x) * abs(x) == x
       #|  \226\136\128 x : Real, real_sgn(x) * x == abs(x)
-      #|  forall x y:real. x = y <=> real_sgn x = real_sgn y /\\ abs x = abs y
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, (x == y) == (real_sgn(x) == real_sgn(y) && abs(x) == abs(y))
       #|  \226\136\128 x : Real, abs(real_sgn(x)) == real_sgn(abs(x))
       #|  (x : Real) == real_of_num(0)
       #|  \226\136\128 x : Real, real_sgn(x) == x / abs(x)
@@ -1803,21 +1803,21 @@ test "real matches real.ml" {
       #|  ((x : Real) < real_of_num(0)) == (real_of_num(0) < -x)
       #|  \226\136\128 x : Real, real_sgn(inv(x)) == real_sgn(x)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, real_sgn(x / y) == real_sgn(x) / real_sgn(y)
-      #|  (forall x. real_sgn x = &0 <=> x = &0) /\\\n   (forall x. real_sgn x = &1 <=> x > &0) /\\\n   (forall x. real_sgn x = -- &1 <=> x < &0)
-      #|  forall x. real_sgn x = &0 \\/ real_sgn x = &1 \\/ real_sgn x = -- &1
-      #|  (forall x. &0 <= real_sgn x <=> &0 <= x) /\\\n   (forall x. &0 < real_sgn x <=> &0 < x) /\\\n   (forall x. &0 >= real_sgn x <=> &0 >= x) /\\\n   (forall x. &0 > real_sgn x <=> &0 > x) /\\\n   (forall x. &0 = real_sgn x <=> &0 = x) /\\\n   (forall x. real_sgn x <= &0 <=> x <= &0) /\\\n   (forall x. real_sgn x < &0 <=> x < &0) /\\\n   (forall x. real_sgn x >= &0 <=> x >= &0) /\\\n   (forall x. real_sgn x > &0 <=> x > &0) /\\\n   (forall x. real_sgn x = &0 <=> x = &0)
+      #|  (\226\136\128 x : Real, (real_sgn(x) == real_of_num(0)) == (x == real_of_num(0))) && (\226\136\128 x : Real, (real_sgn(x) == real_of_num(1)) == (x > real_of_num(0))) && (\226\136\128 x : Real, (real_sgn(x) == -real_of_num(1)) == (x < real_of_num(0)))
+      #|  \226\136\128 x : Real, real_sgn(x) == real_of_num(0) || real_sgn(x) == real_of_num(1) || real_sgn(x) == -real_of_num(1)
+      #|  (\226\136\128 x : Real, (real_of_num(0) <= real_sgn(x)) == (real_of_num(0) <= x)) && (\226\136\128 x : Real, (real_of_num(0) < real_sgn(x)) == (real_of_num(0) < x)) && (\226\136\128 x : Real, (real_of_num(0) >= real_sgn(x)) == (real_of_num(0) >= x)) && (\226\136\128 x : Real, (real_of_num(0) > real_sgn(x)) == (real_of_num(0) > x)) && (\226\136\128 x : Real, (real_of_num(0) == real_sgn(x)) == (real_of_num(0) == x)) && (\226\136\128 x : Real, (real_sgn(x) <= real_of_num(0)) == (x <= real_of_num(0))) && (\226\136\128 x : Real, (real_sgn(x) < real_of_num(0)) == (x < real_of_num(0))) && (\226\136\128 x : Real, (real_sgn(x) >= real_of_num(0)) == (x >= real_of_num(0))) && (\226\136\128 x : Real, (real_sgn(x) > real_of_num(0)) == (x > real_of_num(0))) && (\226\136\128 x : Real, (real_sgn(x) == real_of_num(0)) == (x == real_of_num(0)))
       #|  \226\136\128 x : Real, \226\136\128 n : Num, real_sgn(pow(x, n)) == pow(real_sgn(x), n)
       #|  real_of_num(0) <= (x : Real) \226\134\146 (x <= real_of_num(0)) == (x == real_of_num(0))
       #|  \226\136\128 x : Real, real_sgn(pow(x, 2)) == real_sgn(abs(x))
       #|  \226\136\128 x : Real, real_sgn(real_sgn(x)) == real_sgn(x)
       #|  \226\136\128 x : Real, inv(real_sgn(x)) == real_sgn(x)
-      #|  forall x y. real_sgn x = real_sgn y <=>\n         x = y \\/ abs(x - y) < max (abs x) (abs y)
-      #|  forall x y. real_sgn x = real_sgn y <=>\n         (x = &0 <=> y = &0) /\\\n         (x > &0 <=> y > &0) /\\\n         (x < &0 <=> y < &0)
-      #|  forall x y. real_sgn x = real_sgn y <=>\n         (x = &0 ==> y = &0) /\\\n         (x > &0 ==> y > &0) /\\\n         (x < &0 ==> y < &0)
-      #|  (forall x y. P x y <=> P y x) /\\ (forall x y. x <= y ==> P x y) ==> forall x y. P x y
-      #|  (forall x. P x x) /\\ (forall x y. P x y <=> P y x) /\\ (forall x y. x < y ==> P x y)\n   ==> forall x y. P x y
-      #|  forall P. (forall x y z. P x y z ==> P y x z /\\ P x z y) /\\\n       (forall x y z:real. x <= y /\\ y <= z ==> P x y z)\n       ==> forall x y z. P x y z
-      #|  sqrt(x) = @y. real_sgn y = real_sgn x /\\ y pow 2 = abs x
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, (real_sgn(x) == real_sgn(y)) == (x == y || abs(x - y) < max(abs(x), abs(y)))
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, (real_sgn(x) == real_sgn(y)) == ((x == real_of_num(0)) == (y == real_of_num(0)) && (x > real_of_num(0)) == (y > real_of_num(0)) && (x < real_of_num(0)) == (y < real_of_num(0)))
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, (real_sgn(x) == real_sgn(y)) == ((x == real_of_num(0) \226\134\146 y == real_of_num(0)) && (x > real_of_num(0) \226\134\146 y > real_of_num(0)) && (x < real_of_num(0) \226\134\146 y < real_of_num(0)))
+      #|  (\226\136\128 x : Real, \226\136\128 y : Real, (P : (Real, Real) -> Bool)(x, y) == P(y, x)) && (\226\136\128 x : Real, \226\136\128 y : Real, x <= y \226\134\146 P(x, y)) \226\134\146 (\226\136\128 x : Real, \226\136\128 y : Real, P(x, y))
+      #|  (\226\136\128 x : Real, (P : (Real, Real) -> Bool)(x, x)) && (\226\136\128 x : Real, \226\136\128 y : Real, P(x, y) == P(y, x)) && (\226\136\128 x : Real, \226\136\128 y : Real, x < y \226\134\146 P(x, y)) \226\134\146 (\226\136\128 x : Real, \226\136\128 y : Real, P(x, y))
+      #|  \226\136\128 P : (Real, Real, Real) -> Bool, (\226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, P(x, y, z) \226\134\146 P(y, x, z) && P(x, z, y)) && (\226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, x <= y && y <= z \226\134\146 P(x, y, z)) \226\134\146 (\226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, P(x, y, z))
+      #|  (sqrt : (Real) -> Real)((x : Real)) == select((y : Real) => real_sgn(y) == real_sgn(x) && pow(y, 2) == abs(x))
       #|  (pow((x : Real), 2) == pow((y : Real), 2)) == ((x - y) * (x - -y) == real_of_num(0))
       #|  (z : Real)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, real_of_num(0) <= y && pow(y, 2) == x \226\134\146 sqrt(x) == y
@@ -1826,7 +1826,7 @@ test "real matches real.ml" {
       #|  sqrt(real_of_num(1)) == real_of_num(1)
       #|  \226\136\128 x : Real, sqrt(pow(x, 2)) == abs(x)
       #|  (a : Real) * inv((b : Real)) * (c : Real) == a * c * inv(b)
-      #|  (y - x pow 2) / (&2 * abs x + &2) * (&2 * abs x + &1)
+      #|  ((y : Real) - pow((x : Real), 2)) / (real_of_num(2) * abs(x) + real_of_num(2)) * (real_of_num(2) * abs(x) + real_of_num(1))
       #|  pow((x : Real) + (e : Real), 2) == e * (real_of_num(2) * x + e) + pow(x, 2)
       #|  real_of_num(0) < (y : Real) \226\134\146 (x : Real) < abs(x) + min(real_of_num(1), y)
       #|  real_of_num(0) < real_of_num(2) * abs((x : Real)) + real_of_num(1) && real_of_num(0) < real_of_num(2) * abs(x) + real_of_num(2)
@@ -1836,7 +1836,7 @@ test "real matches real.ml" {
       #|  (x' : Real)
       #|  inv((y : Real))
       #|  inv(abs((x : Real)))
-      #|  forall x y. &0 < x /\\ &0 < y /\\ y < x pow 2\n           ==> ?x'. x' < x /\\ &0 < x' /\\ y < x' pow 2
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, real_of_num(0) < x && real_of_num(0) < y && y < pow(x, 2) \226\134\146 (\226\136\131 x' : Real, x' < x && real_of_num(0) < x' && y < pow(x', 2))
       #|  abs((z : Real)) <= (s : Real) \226\134\146 s < z \226\134\146 false
       #|  (z : Real)
       #|  (y : Real)
@@ -1866,11 +1866,11 @@ test "real matches real.ml" {
       #|  (y : Real)
       #|  (x : Real)
       #|  \226\136\128 x : Real, real_of_num(0) < x \226\134\146 (\226\136\131 y : Real, real_of_num(0) < y && pow(y, 2) == x)
-      #|  forall x. real_sgn(sqrt x) = real_sgn x /\\ sqrt(x) pow 2 = abs x
+      #|  \226\136\128 x : Real, real_sgn(sqrt(x)) == real_sgn(x) && pow(sqrt(x), 2) == abs(x)
       #|  (-(x : Real) == x) == (x == real_of_num(0))
-      #|  x pow 2 = y pow 2 <=> (x:real - y) * (x - --y) = &0
+      #|  (pow((x : Real), 2) == pow((y : Real), 2)) == ((x - y) * (x - -y) == real_of_num(0))
       #|  (x : Real)
-      #|  forall x y. real_sgn y = real_sgn x /\\ y pow 2 = abs x ==> sqrt x = y
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, real_sgn(y) == real_sgn(x) && pow(y, 2) == abs(x) \226\134\146 sqrt(x) == y
       #|  \226\136\128 x : Real, sqrt(-x) == -sqrt(x)
       #|  \226\136\128 x : Real, real_sgn(sqrt(x)) == real_sgn(x)
       #|  (x : Real)
@@ -1908,14 +1908,14 @@ test "real matches real.ml" {
       #|  \226\136\128 x : Real, \226\136\128 y : Real, pow(x, 2) < y \226\134\146 x < sqrt(y)
       #|  \226\136\128 n : Num, EVEN(n) \226\134\146 sqrt(pow(real_of_num(2), n)) == pow(real_of_num(2), DIV(n, 2))
       #|  \226\136\128 x : Real, real_of_num(0) <= x \226\134\146 x / sqrt(x) == sqrt(x)
-      #|  forall x y. &0 <= x /\\ &0 <= y /\\ x <= sqrt y ==> x pow 2 <= y
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, real_of_num(0) <= x && real_of_num(0) <= y && x <= sqrt(y) \226\134\146 pow(x, 2) <= y
       #|  \226\136\128 x : Real, \226\136\128 y : Real, real_of_num(0) <= x && sqrt(x) <= y \226\134\146 x <= pow(y, 2)
       #|  \226\136\128 x : Real, pow(sqrt(x), 2) == abs(x)
       #|  ((x : Real) - (y : Real)) * (x + y) == pow(x, 2) - pow(y, 2)
       #|  real_of_num(0) <= (x : Real) && real_of_num(0) <= (y : Real) \226\134\146 abs(x - y) <= abs(x + y)
       #|  abs(sqrt((x : Real)) - sqrt((y : Real))) * abs(sqrt(x) + sqrt(y))
-      #|  forall x y. &0 <= x /\\ &0 <= y ==> abs(sqrt x - sqrt y) <= sqrt(abs(x - y))
-      #|  (x - y:real) pow 2 = (x pow 2 + y pow 2) - &2 * x * y
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, real_of_num(0) <= x && real_of_num(0) <= y \226\134\146 abs(sqrt(x) - sqrt(y)) <= sqrt(abs(x - y))
+      #|  pow((x : Real) - (y : Real), 2) == pow(x, 2) + pow(y, 2) - real_of_num(2) * (x * y)
       #|  sqrt(-(x : Real)) - sqrt((y : Real))
       #|  !(real_of_num(0) <= (x : Real)) && real_of_num(0) <= (y : Real) \226\134\146 abs(x - y) == y - x
       #|  abs((x : Real)) <= real_of_num(2) * abs(x)

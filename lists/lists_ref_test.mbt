@@ -1019,153 +1019,153 @@ test "lists matches lists.ml" {
       #|0..0..2..solved at 5
       #|0..0..solved at 2
       #|lists quotations (4286):
-      #|  forall P:(A)list->bool. P [] /\\ (forall h t. P t ==> P (CONS h t)) ==> forall l. P l
+      #|  \226\136\128 P : (List[A]) -> Bool, P(NIL) && (\226\136\128 h : A, \226\136\128 t : List[A], P(t) \226\134\146 P(CONS(h, t))) \226\134\146 (\226\136\128 l : List[A], P(l))
       #|  (HD : (List[A]) -> A)(CONS((h : A), (t : List[A]))) == h
       #|  (TL : (List[A]) -> List[A])(CONS((h : A), (t : List[A]))) == t
-      #|  (forall l:(A)list. APPEND [] l = l) /\\\n   (forall h t l. APPEND (CONS h t) l = CONS h (APPEND t l))
-      #|  (REVERSE [] = []) /\\\n   (REVERSE (CONS (x:A) l) = APPEND (REVERSE l) [x])
-      #|  (LENGTH [] = 0) /\\\n   (forall h:A. forall t. LENGTH (CONS h t) = SUC (LENGTH t))
-      #|  (forall f:A->B. MAP f NIL = NIL) /\\\n   (forall f h t. MAP f (CONS h t) = CONS (f h) (MAP f t))
-      #|  LAST (CONS (h:A) t) = if t = [] then h else LAST t
-      #|  (BUTLAST [] = []) /\\\n  (BUTLAST (CONS (h:A) t) = if t = [] then [] else CONS h (BUTLAST t))
-      #|  (REPLICATE 0 (x:A) = []) /\\\n   (REPLICATE (SUC n) x = CONS x (REPLICATE n x))
-      #|  (NULL [] = T) /\\\n   (NULL (CONS (h:A) t) = F)
-      #|  (ALL P [] = T) /\\\n   (ALL P (CONS (h:A) t) <=> P h /\\ ALL P t)
-      #|  (EX P [] = F) /\\\n   (EX P (CONS (h:A) t) <=> P h \\/ EX P t)
-      #|  (ITLIST (f:A->B->B) [] b = b) /\\\n   (ITLIST f (CONS h t) b = f h (ITLIST f t b))
-      #|  (MEM (x:A) [] <=> F) /\\\n   (MEM x (CONS h t) <=> (x = h) \\/ MEM x t)
-      #|  (ALL2 (P:A->B->bool) [] l2 <=> (l2 = [])) /\\\n   (ALL2 P (CONS h1 t1) l2 <=>\n        if l2 = [] then F\n        else P h1 (HD l2) /\\ ALL2 P t1 (TL l2))
-      #|  (ALL2 (P:A->B->bool) [] [] <=> T) /\\\n   (ALL2 P (CONS h1 t1) [] <=> F) /\\\n   (ALL2 P [] (CONS h2 t2) <=> F) /\\\n   (ALL2 P (CONS h1 t1) (CONS h2 t2) <=> P h1 h2 /\\ ALL2 P t1 t2)
-      #|  (MAP2 (f:A->B->C) [] l = []) /\\\n   (MAP2 f (CONS h1 t1) l = CONS (f h1 (HD l)) (MAP2 f t1 (TL l)))
-      #|  (MAP2 (f:A->B->C) [] [] = []) /\\\n   (MAP2 f (CONS h1 t1) (CONS h2 t2) = CONS (f h1 h2) (MAP2 f t1 t2))
-      #|  (EL 0 l :A = HD l) /\\\n   (EL (SUC n) l = EL n (TL l))
-      #|  (FILTER (P:A->bool) [] = []) /\\\n   (FILTER P (CONS h t) = if P h then CONS h (FILTER P t) else FILTER P t)
-      #|  ASSOC a (CONS (h:A#B) t) = if FST h = a then SND h else ASSOC a t
-      #|  (ITLIST2 (f:A->B->C->C) [] l2 b = b) /\\\n   (ITLIST2 f (CONS h1 t1) l2 b = f h1 (HD l2) (ITLIST2 f t1 (TL l2) b))
-      #|  (ITLIST2 (f:A->B->C->C) [] [] b = b) /\\\n   (ITLIST2 f (CONS h1 t1) (CONS h2 t2) b = f h1 h2 (ITLIST2 f t1 t2 b))
-      #|  (ZIP [] l2 :(A#B)list = []) /\\\n   (ZIP (CONS h1 t1) l2:(A#B)list = CONS (h1,HD l2) (ZIP t1 (TL l2)))
-      #|  (ZIP [] [] :(A#B)list = []) /\\\n   (ZIP (CONS h1 t1) (CONS h2 t2) :(A#B)list = CONS (h1,h2) (ZIP t1 t2))
-      #|  (ALLPAIRS (f:A->B->bool) [] l <=> T) /\\\n   (ALLPAIRS f (CONS h t) l <=> ALL (f h) l /\\ ALLPAIRS f t l)
-      #|  (PAIRWISE (r:A->A->bool) [] <=> T) /\\\n   (PAIRWISE (r:A->A->bool) (CONS h t) <=> ALL (r h) t /\\ PAIRWISE r t)
-      #|  list_of_seq (s:num->A) 0 = [] /\\\n  list_of_seq s (SUC n) = APPEND (list_of_seq s n) [s n]
+      #|  (\226\136\128 l : List[A], (APPEND : (List[A], List[A]) -> List[A])(NIL, l) == l) && (\226\136\128 h : A, \226\136\128 t : List[A], \226\136\128 l : List[A], APPEND(CONS(h, t), l) == CONS(h, APPEND(t, l)))
+      #|  (REVERSE : (List[A]) -> List[A])(NIL) == NIL && REVERSE(CONS((x : A), (l : List[A]))) == APPEND(REVERSE(l), [x])
+      #|  (LENGTH : (List[A]) -> Num)(NIL) == 0 && (\226\136\128 h : A, \226\136\128 t : List[A], LENGTH(CONS(h, t)) == SUC(LENGTH(t)))
+      #|  (\226\136\128 f : (A) -> B, (MAP : ((A) -> B, List[A]) -> List[B])(f, NIL) == NIL) && (\226\136\128 f : (A) -> B, \226\136\128 h : A, \226\136\128 t : List[A], MAP(f, CONS(h, t)) == CONS(f(h), MAP(f, t)))
+      #|  (LAST : (List[A]) -> A)(CONS((h : A), (t : List[A]))) == (if t == NIL { h } else { LAST(t) })
+      #|  (BUTLAST : (List[A]) -> List[A])(NIL) == NIL && BUTLAST(CONS((h : A), (t : List[A]))) == (if t == NIL { NIL } else { CONS(h, BUTLAST(t)) })
+      #|  (REPLICATE : (Num, A) -> List[A])(0, (x : A)) == NIL && REPLICATE(SUC((n : Num)), x) == CONS(x, REPLICATE(n, x))
+      #|  (NULL : (List[A]) -> Bool)(NIL) == true && NULL(CONS((h : A), (t : List[A]))) == false
+      #|  (ALL : ((A) -> Bool, List[A]) -> Bool)((P : (A) -> Bool), NIL) == true && ALL(P, CONS((h : A), (t : List[A]))) == (P(h) && ALL(P, t))
+      #|  (EX : ((A) -> Bool, List[A]) -> Bool)((P : (A) -> Bool), NIL) == false && EX(P, CONS((h : A), (t : List[A]))) == (P(h) || EX(P, t))
+      #|  (ITLIST : ((A, B) -> B, List[A], B) -> B)((f : (A, B) -> B), NIL, (b : B)) == b && ITLIST(f, CONS((h : A), (t : List[A])), b) == f(h, ITLIST(f, t, b))
+      #|  (MEM : (A, List[A]) -> Bool)((x : A), NIL) == false && MEM(x, CONS((h : A), (t : List[A]))) == (x == h || MEM(x, t))
+      #|  (ALL2 : ((A, B) -> Bool, List[A], List[B]) -> Bool)((P : (A, B) -> Bool), NIL, (l2 : List[B])) == (l2 == NIL) && ALL2(P, CONS((h1 : A), (t1 : List[A])), l2) == (if l2 == NIL { false } else { P(h1, HD(l2)) && ALL2(P, t1, TL(l2)) })
+      #|  ALL2((P : (A, B) -> Bool), NIL, NIL) == true && ALL2(P, CONS((h1 : A), (t1 : List[A])), NIL) == false && ALL2(P, NIL, CONS((h2 : B), (t2 : List[B]))) == false && ALL2(P, CONS(h1, t1), CONS(h2, t2)) == (P(h1, h2) && ALL2(P, t1, t2))
+      #|  (MAP2 : ((A, B) -> C, List[A], List[B]) -> List[C])((f : (A, B) -> C), NIL, (l : List[B])) == NIL && MAP2(f, CONS((h1 : A), (t1 : List[A])), l) == CONS(f(h1, HD(l)), MAP2(f, t1, TL(l)))
+      #|  MAP2((f : (A, B) -> C), NIL, NIL) == NIL && MAP2(f, CONS((h1 : A), (t1 : List[A])), CONS((h2 : B), (t2 : List[B]))) == CONS(f(h1, h2), MAP2(f, t1, t2))
+      #|  (EL : (Num, List[A]) -> A)(0, (l : List[A])) == HD(l) && EL(SUC((n : Num)), l) == EL(n, TL(l))
+      #|  (FILTER : ((A) -> Bool, List[A]) -> List[A])((P : (A) -> Bool), NIL) == NIL && FILTER(P, CONS((h : A), (t : List[A]))) == (if P(h) { CONS(h, FILTER(P, t)) } else { FILTER(P, t) })
+      #|  (ASSOC : (A, List[(A, B)]) -> B)((a : A), CONS((h : (A, B)), (t : List[(A, B)]))) == (if FST(h) == a { SND(h) } else { ASSOC(a, t) })
+      #|  (ITLIST2 : ((A, B, C) -> C, List[A], List[B], C) -> C)((f : (A, B, C) -> C), NIL, (l2 : List[B]), (b : C)) == b && ITLIST2(f, CONS((h1 : A), (t1 : List[A])), l2, b) == f(h1, HD(l2), ITLIST2(f, t1, TL(l2), b))
+      #|  ITLIST2((f : (A, B, C) -> C), NIL, NIL, (b : C)) == b && ITLIST2(f, CONS((h1 : A), (t1 : List[A])), CONS((h2 : B), (t2 : List[B])), b) == f(h1, h2, ITLIST2(f, t1, t2, b))
+      #|  (ZIP : (List[A], List[B]) -> List[(A, B)])(NIL, (l2 : List[B])) == NIL && ZIP(CONS((h1 : A), (t1 : List[A])), l2) == CONS((h1, HD(l2)), ZIP(t1, TL(l2)))
+      #|  (ZIP : (List[A], List[B]) -> List[(A, B)])((NIL : List[A]), (NIL : List[B])) == (NIL : List[(A, B)]) && (ZIP : (List[A], List[B]) -> List[(A, B)])((CONS : (A, List[A]) -> List[A])((h1 : A), (t1 : List[A])), (CONS : (B, List[B]) -> List[B])((h2 : B), (t2 : List[B]))) == (CONS : ((A, B), List[(A, B)]) -> List[(A, B)])((h1, h2), (ZIP : (List[A], List[B]) -> List[(A, B)])(t1, t2))
+      #|  (ALLPAIRS : ((A, B) -> Bool, List[A], List[B]) -> Bool)((f : (A, B) -> Bool), NIL, (l : List[B])) == true && ALLPAIRS(f, CONS((h : A), (t : List[A])), l) == (ALL(f(h), l) && ALLPAIRS(f, t, l))
+      #|  (PAIRWISE : ((A, A) -> Bool, List[A]) -> Bool)((r : (A, A) -> Bool), NIL) == true && PAIRWISE(r, CONS((h : A), (t : List[A]))) == (ALL(r(h), t) && PAIRWISE(r, t))
+      #|  (list_of_seq : ((Num) -> A, Num) -> List[A])((s : (Num) -> A), 0) == NIL && list_of_seq(s, SUC((n : Num))) == APPEND(list_of_seq(s, n), [s(n)])
       #|  \226\136\128 h : A, \226\136\128 t : List[A], !(CONS(h, t) == NIL)
-      #|  (LAST [h:A] = h) /\\\n   (LAST (CONS h (CONS k t)) = LAST (CONS k t))
+      #|  LAST([(h : A)]) == h && LAST(CONS(h, CONS((k : A), (t : List[A])))) == LAST(CONS(k, t))
       #|  \226\136\128 l : List[A], APPEND(l, NIL) == l
-      #|  forall(l:A list) m n. APPEND l (APPEND m n) = APPEND (APPEND l m) n
-      #|  forall(l:A list) m. REVERSE (APPEND l m) = APPEND (REVERSE m) (REVERSE l)
+      #|  \226\136\128 l : List[A], \226\136\128 m : List[A], \226\136\128 n : List[A], APPEND(l, APPEND(m, n)) == APPEND(APPEND(l, m), n)
+      #|  \226\136\128 l : List[A], \226\136\128 m : List[A], REVERSE(APPEND(l, m)) == APPEND(REVERSE(m), REVERSE(l))
       #|  \226\136\128 l : List[A], REVERSE(REVERSE(l)) == l
       #|  \226\136\128 l : List[A], (REVERSE(l) == NIL) == (l == NIL)
-      #|  forall(h1:A) h2 t1 t2. (CONS h1 t1 = CONS h2 t2) <=> (h1 = h2) /\\ (t1 = t2)
+      #|  \226\136\128 h1 : A, \226\136\128 h2 : A, \226\136\128 t1 : List[A], \226\136\128 t2 : List[A], (CONS(h1, t1) == CONS(h2, t2)) == (h1 == h2 && t1 == t2)
       #|  \226\136\128 l : List[A], l == NIL || (\226\136\131 h : A, \226\136\131 t : List[A], l == CONS(h, t))
       #|  (\226\136\128 n : Num, (P : (Num) -> Bool)(n)) == (P(0) && (\226\136\128 n : Num, P(SUC(n))))
-      #|  forall l1 l2:A list.\n        l1 = l2 <=>\n        LENGTH l1 = LENGTH l2 /\\ forall n. n < LENGTH l2 ==> EL n l1 = EL n l2
-      #|  forall(l:A list) m. LENGTH(APPEND l m) = LENGTH l + LENGTH m
-      #|  forall f:A->B. forall l1 l2. MAP f (APPEND l1 l2) = APPEND (MAP f l1) (MAP f l2)
+      #|  \226\136\128 l1 : List[A], \226\136\128 l2 : List[A], (l1 == l2) == (LENGTH(l1) == LENGTH(l2) && (\226\136\128 n : Num, n < LENGTH(l2) \226\134\146 EL(n, l1) == EL(n, l2)))
+      #|  \226\136\128 l : List[A], \226\136\128 m : List[A], LENGTH(APPEND(l, m)) == LENGTH(l) + LENGTH(m)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 l1 : List[A], \226\136\128 l2 : List[A], MAP(f, APPEND(l1, l2)) == APPEND(MAP(f, l1), MAP(f, l2))
       #|  \226\136\128 l : List[A], \226\136\128 f : (A) -> B, LENGTH(MAP(f, l)) == LENGTH(l)
       #|  \226\136\128 l : List[A], (LENGTH(l) == 0) == (l == NIL)
-      #|  forall(l:A list) n. LENGTH l = SUC n <=> ?h t. (l = CONS h t) /\\ (LENGTH t = n)
+      #|  \226\136\128 l : List[A], \226\136\128 n : Num, (LENGTH(l) == SUC(n)) == (\226\136\131 h : A, \226\136\131 t : List[A], l == CONS(h, t) && LENGTH(t) == n)
       #|  \226\136\128 l : List[A], LENGTH(REVERSE(l)) == LENGTH(l)
-      #|  forall f:A->B. forall g:B->C. forall l. MAP (g o f) l = MAP g (MAP f l)
-      #|  forall(f:A->B) g l. ALL (\\x. f x = g x) l ==> (MAP f l = MAP g l)
-      #|  forall P Q l:A list. (forall x. MEM x l /\\ P x ==> Q x) /\\ ALL P l ==> ALL Q l
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 l : List[A], MAP(o(g, f), l) == MAP(g, MAP(f, l))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> B, \226\136\128 l : List[A], ALL((x : A) => f(x) == g(x), l) \226\134\146 MAP(f, l) == MAP(g, l)
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 Q : (A) -> Bool, \226\136\128 l : List[A], (\226\136\128 x : A, MEM(x, l) && P(x) \226\134\146 Q(x)) && ALL(P, l) \226\134\146 ALL(Q, l)
       #|  \226\136\128 P : (A) -> Bool, \226\136\128 l : List[A], !EX(P, l) == ALL((x : A) => !P(x), l)
       #|  \226\136\128 P : (A) -> Bool, \226\136\128 l : List[A], !ALL(P, l) == EX((x : A) => !P(x), l)
       #|  \226\136\128 P : (B) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 l : List[A], ALL(P, MAP(f, l)) == ALL(o(P, f), l)
-      #|  forall l:A list.\n        ALL R l /\\ (forall x. R x ==> (P x <=> Q x)) ==> (ALL P l <=> ALL Q l)
+      #|  \226\136\128 l : List[A], ALL((R : (A) -> Bool), l) && (\226\136\128 x : A, R(x) \226\134\146 (P : (A) -> Bool)(x) == (Q : (A) -> Bool)(x)) \226\134\146 ALL(P, l) == ALL(Q, l)
       #|  \226\136\128 l : List[A], ALL((x : A) => true, l)
-      #|  forall(f:A->B) l m. ALL2 (\\x y. f x = f y) l m ==> MAP f l = MAP f m
-      #|  forall P (f:A->B) l. ALL2 P (MAP f l) l <=> ALL (\\a. P (f a) a) l
+      #|  \226\136\128 f : (A) -> B, \226\136\128 l : List[A], \226\136\128 m : List[A], ALL2((x : A) => (y : A) => f(x) == f(y), l, m) \226\134\146 MAP(f, l) == MAP(f, m)
+      #|  \226\136\128 P : (B, A) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 l : List[A], ALL2(P, MAP(f, l), l) == ALL((a : A) => P(f(a), a), l)
       #|  \226\136\128 l : List[A], \226\136\128 f : (A) -> A, ALL((x : A) => f(x) == x, l) \226\134\146 MAP(f, l) == l
-      #|  forall l m P Q. ALL2 (\\(x:A) (y:B). P x /\\ Q x y) l m <=> ALL P l /\\ ALL2 Q l m
-      #|  forall(f:A->B->B) a l1 l2.\n        ITLIST f (APPEND l1 l2) a = ITLIST f l1 (ITLIST f l2 a)
-      #|  forall(f:A->B->B) l. ITLIST f (APPEND l [a]) b = ITLIST f l (f a b)
-      #|  forall P Q (l:A list). ALL (\\x. P x ==> Q x) l /\\ ALL P l ==> ALL Q l
-      #|  forall l:A list. ALL P l /\\ ALL Q l <=> ALL (\\x. P x /\\ Q x) l
-      #|  forall P Q (l:A list). (forall x. MEM x l /\\ P x ==> Q x) /\\ EX P l ==> EX Q l
+      #|  \226\136\128 l : List[A], \226\136\128 m : List[B], \226\136\128 P : (A) -> Bool, \226\136\128 Q : (A, B) -> Bool, ALL2((x : A) => (y : B) => P(x) && Q(x, y), l, m) == (ALL(P, l) && ALL2(Q, l, m))
+      #|  \226\136\128 f : (A, B) -> B, \226\136\128 a : B, \226\136\128 l1 : List[A], \226\136\128 l2 : List[A], ITLIST(f, APPEND(l1, l2), a) == ITLIST(f, l1, ITLIST(f, l2, a))
+      #|  \226\136\128 f : (A, B) -> B, \226\136\128 l : List[A], ITLIST(f, APPEND(l, [(a : A)]), (b : B)) == ITLIST(f, l, f(a, b))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 Q : (A) -> Bool, \226\136\128 l : List[A], ALL((x : A) => P(x) \226\134\146 Q(x), l) && ALL(P, l) \226\134\146 ALL(Q, l)
+      #|  \226\136\128 l : List[A], (ALL((P : (A) -> Bool), l) && ALL((Q : (A) -> Bool), l)) == ALL((x : A) => P(x) && Q(x), l)
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 Q : (A) -> Bool, \226\136\128 l : List[A], (\226\136\128 x : A, MEM(x, l) && P(x) \226\134\146 Q(x)) && EX(P, l) \226\134\146 EX(Q, l)
       #|  \226\136\128 P : (A) -> Bool, \226\136\128 l : List[A], (\226\136\128 x : A, MEM(x, l) \226\134\146 P(x)) == ALL(P, l)
       #|  \226\136\128 n : Num, \226\136\128 x : A, LENGTH(REPLICATE(n, x)) == n
-      #|  forall n x y:A. MEM x (REPLICATE n y) <=> x = y /\\ ~(n = 0)
+      #|  \226\136\128 n : Num, \226\136\128 x : A, \226\136\128 y : A, MEM(x, REPLICATE(n, y)) == (x == y && !(n == 0))
       #|  \226\136\128 P : (B) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 l : List[A], EX(P, MAP(f, l)) == EX(o(P, f), l)
-      #|  forall(P:A->B->bool) l. (?x. EX (P x) l) <=> EX (\\s. ?x. P x s) l
-      #|  forall(P:A->B->bool) l. (forall x. ALL (P x) l) <=> ALL (\\s. forall x. P x s) l
-      #|  forall(x:A) l1 l2. MEM x (APPEND l1 l2) <=> MEM x l1 \\/ MEM x l2
-      #|  forall(f:A->B) y l. MEM y (MAP f l) <=> ?x. MEM x l /\\ (y = f x)
-      #|  forall(P:A->bool) l1 l2.\n        FILTER P (APPEND l1 l2) = APPEND (FILTER P l1) (FILTER P l2)
-      #|  forall P (f:A->B) l. FILTER P (MAP f l) = MAP f (FILTER (P o f) l)
+      #|  \226\136\128 P : (A, B) -> Bool, \226\136\128 l : List[B], (\226\136\131 x : A, EX(P(x), l)) == EX((s : B) => \226\136\131 x : A, P(x, s), l)
+      #|  \226\136\128 P : (A, B) -> Bool, \226\136\128 l : List[B], (\226\136\128 x : A, ALL(P(x), l)) == ALL((s : B) => \226\136\128 x : A, P(x, s), l)
+      #|  \226\136\128 x : A, \226\136\128 l1 : List[A], \226\136\128 l2 : List[A], MEM(x, APPEND(l1, l2)) == (MEM(x, l1) || MEM(x, l2))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 y : B, \226\136\128 l : List[A], MEM(y, MAP(f, l)) == (\226\136\131 x : A, MEM(x, l) && y == f(x))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 l1 : List[A], \226\136\128 l2 : List[A], FILTER(P, APPEND(l1, l2)) == APPEND(FILTER(P, l1), FILTER(P, l2))
+      #|  \226\136\128 P : (B) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 l : List[A], FILTER(P, MAP(f, l)) == MAP(f, FILTER(o(P, f), l))
       #|  \226\136\128 P : (A) -> Bool, \226\136\128 l : List[A], \226\136\128 x : A, MEM(x, FILTER(P, l)) == (P(x) && MEM(x, l))
       #|  \226\136\128 P : (A) -> Bool, \226\136\128 l : List[A], LENGTH(FILTER(P, l)) <= LENGTH(l)
       #|  \226\136\128 P : (A) -> Bool, \226\136\128 l : List[A], (\226\136\131 x : A, P(x) && MEM(x, l)) == EX(P, l)
-      #|  forall(l1:A list) (l2:B list).\n    LENGTH l1 = LENGTH l2 ==> MAP FST (ZIP l1 l2) = l1
-      #|  forall(l1:A list) (l2:B list).\n    LENGTH l1 = LENGTH l2 ==> MAP SND (ZIP l1 l2) = l2
-      #|  forall(l1:A list) (l2:B list).\n    LENGTH l1 = LENGTH l2 ==> LENGTH(ZIP l1 l2) = LENGTH l2
-      #|  forall(l:(A#B)list) x. MEM (x,ASSOC x l) l <=> MEM x (MAP FST l)
-      #|  forall P l1 l2:A list. ALL P (APPEND l1 l2) <=> ALL P l1 /\\ ALL P l2
+      #|  \226\136\128 l1 : List[A], \226\136\128 l2 : List[B], LENGTH(l1) == LENGTH(l2) \226\134\146 MAP(FST, ZIP(l1, l2)) == l1
+      #|  \226\136\128 l1 : List[A], \226\136\128 l2 : List[B], LENGTH(l1) == LENGTH(l2) \226\134\146 MAP(SND, ZIP(l1, l2)) == l2
+      #|  \226\136\128 l1 : List[A], \226\136\128 l2 : List[B], LENGTH(l1) == LENGTH(l2) \226\134\146 LENGTH(ZIP(l1, l2)) == LENGTH(l2)
+      #|  \226\136\128 l : List[(A, B)], \226\136\128 x : A, MEM((x, ASSOC(x, l)), l) == MEM(x, MAP(FST, l))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 l1 : List[A], \226\136\128 l2 : List[A], ALL(P, APPEND(l1, l2)) == (ALL(P, l1) && ALL(P, l2))
       #|  \226\136\128 l : List[A], \226\136\128 n : Num, n < LENGTH(l) \226\134\146 MEM(EL(n, l), l)
       #|  (\226\136\131 i : Num, (P : (Num) -> Bool)(i)) == (P(0) || (\226\136\131 i : Num, P(SUC(i))))
-      #|  forall(l:A list) x. MEM x l <=> ?i. i < LENGTH l /\\ x = EL i l
-      #|  forall P (l:A list). (forall i. i < LENGTH l ==> P (EL i l)) <=> ALL P l
-      #|  forall(f:A->B) (g:C->D) l m.\n        ALL2 P (MAP f l) (MAP g m) = ALL2 (\\x y. P (f x) (g y)) l m
-      #|  forall(P:A->B->bool) Q l m.\n        ALL2 P l m /\\ ALL2 Q l m <=> ALL2 (\\x y. P x y /\\ Q x y) l m
-      #|  forall(P:A->B->bool) l m. ALLPAIRS P l m <=> ALLPAIRS (\\x y. P y x) m l
-      #|  forall(P:A->B->bool) l m.\n        (forall x y. MEM x l /\\ MEM y m ==> P x y) <=> ALLPAIRS P l m
-      #|  forall P (f:A->B) (g:C->D) l m.\n        ALLPAIRS P (MAP f l) (MAP g m) <=>\n        ALLPAIRS (\\x y. P (f x) (g y)) l m
-      #|  forall l m. forall P Q. ALL P (l:A list) /\\ ALL Q (m:B list) /\\\n               (forall p q. P p /\\ Q q ==> (R p q <=> R' p q))\n               ==> (ALLPAIRS R l m <=> ALLPAIRS R' l m)
+      #|  \226\136\128 l : List[A], \226\136\128 x : A, MEM(x, l) == (\226\136\131 i : Num, i < LENGTH(l) && x == EL(i, l))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 l : List[A], (\226\136\128 i : Num, i < LENGTH(l) \226\134\146 P(EL(i, l))) == ALL(P, l)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (C) -> D, \226\136\128 l : List[A], \226\136\128 m : List[C], ALL2((P : (B, D) -> Bool), MAP(f, l), MAP(g, m)) == ALL2((x : A) => (y : C) => P(f(x), g(y)), l, m)
+      #|  \226\136\128 P : (A, B) -> Bool, \226\136\128 Q : (A, B) -> Bool, \226\136\128 l : List[A], \226\136\128 m : List[B], (ALL2(P, l, m) && ALL2(Q, l, m)) == ALL2((x : A) => (y : B) => P(x, y) && Q(x, y), l, m)
+      #|  \226\136\128 P : (A, B) -> Bool, \226\136\128 l : List[A], \226\136\128 m : List[B], ALLPAIRS(P, l, m) == ALLPAIRS((x : B) => (y : A) => P(y, x), m, l)
+      #|  \226\136\128 P : (A, B) -> Bool, \226\136\128 l : List[A], \226\136\128 m : List[B], (\226\136\128 x : A, \226\136\128 y : B, MEM(x, l) && MEM(y, m) \226\134\146 P(x, y)) == ALLPAIRS(P, l, m)
+      #|  \226\136\128 P : (B, D) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 g : (C) -> D, \226\136\128 l : List[A], \226\136\128 m : List[C], ALLPAIRS(P, MAP(f, l), MAP(g, m)) == ALLPAIRS((x : A) => (y : C) => P(f(x), g(y)), l, m)
+      #|  \226\136\128 l : List[A], \226\136\128 m : List[B], \226\136\128 P : (A) -> Bool, \226\136\128 Q : (B) -> Bool, ALL(P, l) && ALL(Q, m) && (\226\136\128 p : A, \226\136\128 q : B, P(p) && Q(q) \226\134\146 (R : (A, B) -> Bool)(p, q) == (R' : (A, B) -> Bool)(p, q)) \226\134\146 ALLPAIRS(R, l, m) == ALLPAIRS(R', l, m)
       #|  \226\136\128 P : (A, A) -> Bool, \226\136\128 l : List[A], ALL2(P, l, l) == ALL((x : A) => P(x, x), l)
-      #|  forall l m:A list. (APPEND l m = []) <=> (l = []) /\\ (m = [])
-      #|  forall l1 l2 l3:A list. APPEND l1 l2 = APPEND l1 l3 <=> l2 = l3
+      #|  \226\136\128 l : List[A], \226\136\128 m : List[A], (APPEND(l, m) == NIL) == (l == NIL && m == NIL)
+      #|  \226\136\128 l1 : List[A], \226\136\128 l2 : List[A], \226\136\128 l3 : List[A], (APPEND(l1, l2) == APPEND(l1, l3)) == (l2 == l3)
       #|  ((l : List[_]) == (l' : List[_])) == (REVERSE(l) == REVERSE(l'))
-      #|  forall l1 l2 l3:A list. APPEND l1 l3 = APPEND l2 l3 <=> l1 = l2
-      #|  forall(f:A->B->C) l m. LENGTH l = LENGTH m ==> LENGTH(MAP2 f l m) = LENGTH m
-      #|  forall(f:A->B->C) l m k.\n        k < LENGTH l /\\ k < LENGTH m\n        ==> EL k (MAP2 f l m) = f (EL k l) (EL k m)
+      #|  \226\136\128 l1 : List[A], \226\136\128 l2 : List[A], \226\136\128 l3 : List[A], (APPEND(l1, l3) == APPEND(l2, l3)) == (l1 == l2)
+      #|  \226\136\128 f : (A, B) -> C, \226\136\128 l : List[A], \226\136\128 m : List[B], LENGTH(l) == LENGTH(m) \226\134\146 LENGTH(MAP2(f, l, m)) == LENGTH(m)
+      #|  \226\136\128 f : (A, B) -> C, \226\136\128 l : List[A], \226\136\128 m : List[B], \226\136\128 k : Num, k < LENGTH(l) && k < LENGTH(m) \226\134\146 EL(k, MAP2(f, l, m)) == f(EL(k, l), EL(k, m))
       #|  \226\136\128 f : (A) -> B, \226\136\128 l : List[A], (MAP(f, l) == NIL) == (l == NIL)
       #|  [(y : A)]
       #|  [(x : A)]
       #|  (y : A)
       #|  (x : A)
-      #|  forall f:A->B. (forall l m. MAP f l = MAP f m ==> l = m) <=>\n            (forall x y. f x = f y ==> x = y)
+      #|  \226\136\128 f : (A) -> B, (\226\136\128 l : List[A], \226\136\128 m : List[A], MAP(f, l) == MAP(f, m) \226\134\146 l == m) == (\226\136\128 x : A, \226\136\128 y : A, f(x) == f(y) \226\134\146 x == y)
       #|  [(y : B)]
       #|  (y : B)
       #|  \226\136\128 f : (A) -> B, (\226\136\128 m : List[B], \226\136\131 l : List[A], MAP(f, l) == m) == (\226\136\128 y : B, \226\136\131 x : A, f(x) == y)
       #|  \226\136\128 l : List[A], MAP((x : A) => x, l) == l
       #|  (MAP : ((A) -> A, List[A]) -> List[A])((I : (A) -> A)) == (I : (List[A]) -> List[A])
-      #|  BUTLAST([]:A list) = [] /\\\n   (forall a:A. BUTLAST [a] = []) /\\\n   (forall(a:A) h t. BUTLAST(CONS a (CONS h t)) = CONS a (BUTLAST(CONS h t)))
+      #|  (BUTLAST : (List[A]) -> List[A])((NIL : List[A])) == (NIL : List[A]) && (\226\136\128 a : A, (BUTLAST : (List[A]) -> List[A])([a]) == (NIL : List[A])) && (\226\136\128 a : A, \226\136\128 h : A, \226\136\128 t : List[A], (BUTLAST : (List[A]) -> List[A])((CONS : (A, List[A]) -> List[A])(a, (CONS : (A, List[A]) -> List[A])(h, t))) == (CONS : (A, List[A]) -> List[A])(a, (BUTLAST : (List[A]) -> List[A])((CONS : (A, List[A]) -> List[A])(h, t))))
       #|  (if (p : Bool) { true } else { (q : Bool) }) == (!p \226\134\146 q)
-      #|  forall l m:A list. BUTLAST(APPEND l m) =\n                if m = [] then BUTLAST l else APPEND l (BUTLAST m)
-      #|  forall l:A list. ~(l = []) ==> APPEND (BUTLAST l) [LAST l] = l
-      #|  forall p q:A list. LAST(APPEND p q) = if q = [] then LAST p else LAST q
+      #|  \226\136\128 l : List[A], \226\136\128 m : List[A], BUTLAST(APPEND(l, m)) == (if m == NIL { BUTLAST(l) } else { APPEND(l, BUTLAST(m)) })
+      #|  \226\136\128 l : List[A], !(l == NIL) \226\134\146 APPEND(BUTLAST(l), [LAST(l)]) == l
+      #|  \226\136\128 p : List[A], \226\136\128 q : List[A], LAST(APPEND(p, q)) == (if q == NIL { LAST(p) } else { LAST(q) })
       #|  \226\136\128 l : List[A], !(l == NIL) \226\134\146 LENGTH(TL(l)) == LENGTH(l) - 1
       #|  \226\136\128 l : List[A], !(l == NIL) \226\134\146 LAST(REVERSE(l)) == HD(l)
       #|  \226\136\128 l : List[A], !(l == NIL) \226\134\146 HD(REVERSE(l)) == LAST(l)
-      #|  forall k l m:A list.\n        EL k (APPEND l m) = if k < LENGTH l then EL k l\n                            else EL (k - LENGTH l) m
+      #|  \226\136\128 k : Num, \226\136\128 l : List[A], \226\136\128 m : List[A], EL(k, APPEND(l, m)) == (if k < LENGTH(l) { EL(k, l) } else { EL(k - LENGTH(l), m) })
       #|  \226\136\128 n : Num, EL(n, TL((l : List[A]))) == EL(n + 1, l)
-      #|  forall n (h:A) t. EL n (CONS h t) = if n = 0 then h else EL (n - 1) t
-      #|  forall l:A list. ~(l = []) ==> LAST l = EL (LENGTH l - 1) l
-      #|  forall l m:A list. HD(APPEND l m) = if l = [] then HD m else HD l
+      #|  \226\136\128 n : Num, \226\136\128 h : A, \226\136\128 t : List[A], EL(n, CONS(h, t)) == (if n == 0 { h } else { EL(n - 1, t) })
+      #|  \226\136\128 l : List[A], !(l == NIL) \226\134\146 LAST(l) == EL(LENGTH(l) - 1, l)
+      #|  \226\136\128 l : List[A], \226\136\128 m : List[A], HD(APPEND(l, m)) == (if l == NIL { HD(m) } else { HD(l) })
       #|  \226\136\128 l : List[A], !(l == NIL) \226\134\146 l == CONS(HD(l), TL(l))
-      #|  forall(f:A->B) n l. n < LENGTH l ==> EL n (MAP f l) = f(EL n l)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 n : Num, \226\136\128 l : List[A], n < LENGTH(l) \226\134\146 EL(n, MAP(f, l)) == f(EL(n, l))
       #|  \226\136\128 f : (A) -> B, \226\136\128 l : List[A], REVERSE(MAP(f, l)) == MAP(f, REVERSE(l))
-      #|  forall P Q l:A list. ALL P (FILTER Q l) <=> ALL (\\x. Q x ==> P x) l
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 Q : (A) -> Bool, \226\136\128 l : List[A], ALL(P, FILTER(Q, l)) == ALL((x : A) => Q(x) \226\134\146 P(x), l)
       #|  \226\136\128 h : A, \226\136\128 t : List[A], APPEND([h], t) == CONS(h, t)
       #|  (x : A) == (y : A)
       #|  (l : List[A])
       #|  (y : A)
       #|  (x : A)
-      #|  (p <=> q) <=> (p ==> q) /\\ (q ==> p)
-      #|  forall x:A l. MEM x l <=> ?l1 l2. ~(MEM x l1) /\\ l = APPEND l1 (CONS x l2)
       #|  ((p : Bool) == (q : Bool)) == ((p \226\134\146 q) && (q \226\134\146 p))
-      #|  forall x:A l. MEM x l <=> ?l1 l2. l = APPEND l1 (CONS x l2)
-      #|  forall R:A->A->bool l m.\n        PAIRWISE R (APPEND l m) <=>\n        PAIRWISE R l /\\ PAIRWISE R m /\\ (forall x y. MEM x l /\\ MEM y m ==> R x y)
-      #|  forall R f:A->B l.\n        PAIRWISE R (MAP f l) <=> PAIRWISE (\\x y. R (f x) (f y)) l
-      #|  forall R:A->A->bool R' l.\n        PAIRWISE R l /\\ (forall x y. MEM x l /\\ MEM y l /\\ R x y ==> R' x y)\n        ==> PAIRWISE R' l
-      #|  (p /\\ q /\\ r /\\ s <=> p /\\ r /\\ s) <=>\n                    p /\\ s ==> r ==> q
-      #|  forall R x y:A l.\n      (forall x y z. R x y /\\ R y z ==> R x z)\n      ==> (PAIRWISE R (CONS x (CONS y l)) <=> R x y /\\ PAIRWISE R (CONS y l))
+      #|  \226\136\128 x : A, \226\136\128 l : List[A], MEM(x, l) == (\226\136\131 l1 : List[A], \226\136\131 l2 : List[A], !MEM(x, l1) && l == APPEND(l1, CONS(x, l2)))
+      #|  ((p : Bool) == (q : Bool)) == ((p \226\134\146 q) && (q \226\134\146 p))
+      #|  \226\136\128 x : A, \226\136\128 l : List[A], MEM(x, l) == (\226\136\131 l1 : List[A], \226\136\131 l2 : List[A], l == APPEND(l1, CONS(x, l2)))
+      #|  \226\136\128 R : (A, A) -> Bool, \226\136\128 l : List[A], \226\136\128 m : List[A], PAIRWISE(R, APPEND(l, m)) == (PAIRWISE(R, l) && PAIRWISE(R, m) && (\226\136\128 x : A, \226\136\128 y : A, MEM(x, l) && MEM(y, m) \226\134\146 R(x, y)))
+      #|  \226\136\128 R : (B, B) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 l : List[A], PAIRWISE(R, MAP(f, l)) == PAIRWISE((x : A) => (y : A) => R(f(x), f(y)), l)
+      #|  \226\136\128 R : (A, A) -> Bool, \226\136\128 R' : (A, A) -> Bool, \226\136\128 l : List[A], PAIRWISE(R, l) && (\226\136\128 x : A, \226\136\128 y : A, MEM(x, l) && MEM(y, l) && R(x, y) \226\134\146 R'(x, y)) \226\134\146 PAIRWISE(R', l)
+      #|  (((p : Bool) && (q : Bool) && (r : Bool) && (s : Bool)) == (p && r && s)) == (p && s \226\134\146 r \226\134\146 q)
+      #|  \226\136\128 R : (A, A) -> Bool, \226\136\128 x : A, \226\136\128 y : A, \226\136\128 l : List[A], (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, R(x, y) && R(y, z) \226\134\146 R(x, z)) \226\134\146 PAIRWISE(R, CONS(x, CONS(y, l))) == (R(x, y) && PAIRWISE(R, CONS(y, l)))
       #|  \226\136\128 s : (Num) -> A, \226\136\128 n : Num, LENGTH(list_of_seq(s, n)) == n
-      #|  forall s:num->A m n. m < n ==> EL m (list_of_seq s n) = s m
+      #|  \226\136\128 s : (Num) -> A, \226\136\128 m : Num, \226\136\128 n : Num, m < n \226\134\146 EL(m, list_of_seq(s, n)) == s(m)
       #|  \226\136\128 s : (Num) -> A, \226\136\128 n : Num, (list_of_seq(s, n) == NIL) == (n == 0)
       #|  \226\136\128 l : List[A], list_of_seq((i : Num) => EL(i, l), LENGTH(l)) == l
-      #|  forall(l:A list) n. LENGTH l = n <=> l = list_of_seq (\\i. EL i l) n
-      #|  forall f (g:A->B) n. MAP g (list_of_seq f n) = list_of_seq (g o f) n
-      #|  (forall(f:num->A). list_of_seq f 0 = []) /\\\n   (forall(f:num->A) n.\n        list_of_seq f (SUC n) = CONS (f 0) (list_of_seq (f o SUC) n))
+      #|  \226\136\128 l : List[A], \226\136\128 n : Num, (LENGTH(l) == n) == (l == list_of_seq((i : Num) => EL(i, l), n))
+      #|  \226\136\128 f : (Num) -> A, \226\136\128 g : (A) -> B, \226\136\128 n : Num, MAP(g, list_of_seq(f, n)) == list_of_seq(o(g, f), n)
+      #|  (\226\136\128 f : (Num) -> A, list_of_seq(f, 0) == NIL) && (\226\136\128 f : (Num) -> A, \226\136\128 n : Num, list_of_seq(f, SUC(n)) == CONS(f(0), list_of_seq(o(f, SUC), n)))
       #|  (l : List[A])
       #|  (l : List[A])
       #|  (\226\136\128 x : A, (P : (A) -> Bool)(x) \226\134\146 (Q : (A) -> Bool)(x)) \226\134\146 ALL(P, (l : List[A])) \226\134\146 ALL(Q, l)
@@ -1173,11 +1173,11 @@ test "lists matches lists.ml" {
       #|  (l : List[A])
       #|  (l' : List[B])
       #|  (l' : List[B])
-      #|  (forall x y. (P:A->B->bool) x y ==> Q x y) ==> ALL2 P l l' ==> ALL2 Q l l'
-      #|  LENGTH(t:A list) = LENGTH t + 0 /\\\n     LENGTH([]:A list) + n = n /\\\n     LENGTH(CONS (h:A) t) + n = LENGTH t + SUC n
-      #|  EL 0 (CONS (h:A) t) = h /\\\n      (n = SUC m ==> EL n (CONS h t) = EL m t)
-      #|  l:A list = APPEND l [] /\\\n     APPEND (REVERSE []) l:A list = l /\\\n     APPEND (REVERSE (CONS h t)) l = APPEND (REVERSE t) (CONS h l)
-      #|  l:A list = APPEND l [] /\\\n     APPEND (list_of_seq f 0) l:A list = l /\\\n     (n = SUC m\n      ==> APPEND (list_of_seq f n) l =\n          APPEND (list_of_seq f m) (CONS (f m) l))
+      #|  (\226\136\128 x : A, \226\136\128 y : B, (P : (A, B) -> Bool)(x, y) \226\134\146 (Q : (A, B) -> Bool)(x, y)) \226\134\146 ALL2(P, (l : List[A]), (l' : List[B])) \226\134\146 ALL2(Q, l, l')
+      #|  (LENGTH : (List[A]) -> Num)((t : List[A])) == (LENGTH : (List[A]) -> Num)(t) + 0 && (LENGTH : (List[A]) -> Num)((NIL : List[A])) + (n : Num) == n && (LENGTH : (List[A]) -> Num)((CONS : (A, List[A]) -> List[A])((h : A), t)) + n == (LENGTH : (List[A]) -> Num)(t) + SUC(n)
+      #|  EL(0, CONS((h : A), (t : List[A]))) == h && ((n : Num) == SUC((m : Num)) \226\134\146 EL(n, CONS(h, t)) == EL(m, t))
+      #|  (l : List[A]) == APPEND(l, NIL) && APPEND(REVERSE(NIL), l) == l && APPEND(REVERSE(CONS((h : A), (t : List[A]))), l) == APPEND(REVERSE(t), CONS(h, l))
+      #|  (l : List[A]) == APPEND(l, NIL) && APPEND(list_of_seq((f : (Num) -> A), 0), l) == l && ((n : Num) == SUC((m : Num)) \226\134\146 APPEND(list_of_seq(f, n), l) == APPEND(list_of_seq(f, m), CONS(f(m), l)))
       #|  :char list
       #|  ASCII
       #|  false
@@ -5297,14 +5297,14 @@ test "lists matches lists.ml" {
       #|  (a2 : Bool)
       #|  (a1 : Bool)
       #|  (a0 : Bool)
-      #|  ~(ASCII F b1 b2 b3 b4 b5 b6 b7 = ASCII T c1 c2 c3 c4 c5 c6 c7) /\\\n       ~(ASCII a0 F b2 b3 b4 b5 b6 b7 = ASCII a0 T c2 c3 c4 c5 c6 c7) /\\\n       ~(ASCII a0 a1 F b3 b4 b5 b6 b7 = ASCII a0 a1 T c3 c4 c5 c6 c7) /\\\n       ~(ASCII a0 a1 a2 F b4 b5 b6 b7 = ASCII a0 a1 a2 T c4 c5 c6 c7) /\\\n       ~(ASCII a0 a1 a2 a3 F b5 b6 b7 = ASCII a0 a1 a2 a3 T c5 c6 c7) /\\\n       ~(ASCII a0 a1 a2 a3 a4 F b6 b7 = ASCII a0 a1 a2 a3 a4 T c6 c7) /\\\n       ~(ASCII a0 a1 a2 a3 a4 a5 F b7 = ASCII a0 a1 a2 a3 a4 a5 T c7) /\\\n       ~(ASCII a0 a1 a2 a3 a4 a5 a6 F = ASCII a0 a1 a2 a3 a4 a5 a6 T)
+      #|  !(ASCII(false, (b1 : Bool), (b2 : Bool), (b3 : Bool), (b4 : Bool), (b5 : Bool), (b6 : Bool), (b7 : Bool)) == ASCII(true, (c1 : Bool), (c2 : Bool), (c3 : Bool), (c4 : Bool), (c5 : Bool), (c6 : Bool), (c7 : Bool))) && !(ASCII((a0 : Bool), false, b2, b3, b4, b5, b6, b7) == ASCII(a0, true, c2, c3, c4, c5, c6, c7)) && !(ASCII(a0, (a1 : Bool), false, b3, b4, b5, b6, b7) == ASCII(a0, a1, true, c3, c4, c5, c6, c7)) && !(ASCII(a0, a1, (a2 : Bool), false, b4, b5, b6, b7) == ASCII(a0, a1, a2, true, c4, c5, c6, c7)) && !(ASCII(a0, a1, a2, (a3 : Bool), false, b5, b6, b7) == ASCII(a0, a1, a2, a3, true, c5, c6, c7)) && !(ASCII(a0, a1, a2, a3, (a4 : Bool), false, b6, b7) == ASCII(a0, a1, a2, a3, a4, true, c6, c7)) && !(ASCII(a0, a1, a2, a3, a4, (a5 : Bool), false, b7) == ASCII(a0, a1, a2, a3, a4, a5, true, c7)) && !(ASCII(a0, a1, a2, a3, a4, a5, (a6 : Bool), false) == ASCII(a0, a1, a2, a3, a4, a5, a6, true))
       #|  (xs : List[Char])
       #|  (x : Char)
       #|  (ys : List[Char])
       #|  (y : Char)
       #|  (NIL : List[Char])
-      #|  (CONS x xs:string = CONS x ys <=> xs = ys) /\\\n       ((x = y <=> F) ==> (CONS x xs:string = CONS y ys <=> F))
-      #|  (NIL:string = CONS x xs <=> F) /\\\n       (CONS x xs:string = NIL <=> F)
+      #|  (CONS((x : Char), (xs : List[Char])) == CONS(x, (ys : List[Char]))) == (xs == ys) && ((x == (y : Char)) == false \226\134\146 (CONS(x, xs) == CONS(y, ys)) == false)
+      #|  (NIL == CONS((x : Char), (xs : List[Char]))) == false && (CONS(x, xs) == NIL) == false
       #|HD =  |- ((#=:fun('A,fun('A,bool)) (#HD:fun(list('A),'A) ((#CONS:fun('A,fun(list('A),list('A))) h:'A) t:list('A)))) h:'A)
       #|TL =  |- ((#=:fun(list('A),fun(list('A),bool)) (#TL:fun(list('A),list('A)) ((#CONS:fun('A,fun(list('A),list('A))) h:'A) t:list('A)))) t:list('A))
       #|APPEND =  |- ((#/\:fun(bool,fun(bool,bool)) (#forall:fun(fun(list('A),bool),bool) (\l:list('A). ((#=:fun(list('A),fun(list('A),bool)) ((#APPEND:fun(list('A),fun(list('A),list('A))) #NIL:list('A)) l:list('A))) l:list('A))))) (#forall:fun(fun('A,bool),bool) (\h:'A. (#forall:fun(fun(list('A),bool),bool) (\t:list('A). (#forall:fun(fun(list('A),bool),bool) (\l:list('A). ((#=:fun(list('A),fun(list('A),bool)) ((#APPEND:fun(list('A),fun(list('A),list('A))) ((#CONS:fun('A,fun(list('A),list('A))) h:'A) t:list('A))) l:list('A))) ((#CONS:fun('A,fun(list('A),list('A))) h:'A) ((#APPEND:fun(list('A),fun(list('A),list('A))) t:list('A)) l:list('A)))))))))))

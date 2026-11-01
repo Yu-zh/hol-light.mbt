@@ -27086,12 +27086,12 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|0..0..1..2..solved at 6
       #|0..0..1..2..3..7..solved at 18
       #|Library/fieldtheory quotations (2166):
-      #|  (s:A->bool) subfield_of (r:A ring) <=>\n  s subring_of r /\\ field(subring_generated r s)
+      #|  (subfield_of : ((A) -> Bool, Ring[A]) -> Bool)((s : (A) -> Bool), (r : Ring[A])) == (subring_of(s, r) && field(subring_generated(r, s)))
       #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, subfield_of(s, r) \226\134\146 subring_of(s, r)
-      #|  forall r s:A->bool. s subfield_of r ==> s SUBSET ring_carrier r
-      #|  forall(r:A ring) s. s subfield_of r ==> ~(ring_1 r = ring_0 r)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, subfield_of(s, r) \226\134\146 SUBSET(s, ring_carrier(r))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, subfield_of(s, r) \226\134\146 !(ring_1(r) == ring_0(r))
       #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, subfield_of(s, r) \226\134\146 !trivial_ring(r)
-      #|  forall r s x:A. s subfield_of r /\\ x IN s /\\ ~(x = ring_0 r)\n             ==> ring_inv r x IN s /\\ ring_mul r x (ring_inv r x) = ring_1 r
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 x : A, subfield_of(s, r) && IN(x, s) && !(x == ring_0(r)) \226\134\146 IN(ring_inv(r, x), s) && ring_mul(r, x, ring_inv(r, x)) == ring_1(r)
       #|  op_bslash_slash
       #|  op_bslash_slash
       #|  op_bslash_slash
@@ -27115,12 +27115,12 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  op_bslash_slash
       #|  op_tilde
       #|  false
-      #|  forall r s x:A. s subfield_of r /\\ x IN s /\\ ~(x = ring_0 r)\n             ==> ring_inv r x IN s /\\ ring_mul r (ring_inv r x) x = ring_1 r
-      #|  forall r s x:A. s subfield_of r /\\ x IN s ==> ring_inv r x IN s
-      #|  forall r s x:A.\n        s subfield_of r /\\ x IN s /\\ ~(x = ring_0 r)\n        ==> ring_inv (subring_generated r s) x = ring_inv r x
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 x : A, subfield_of(s, r) && IN(x, s) && !(x == ring_0(r)) \226\134\146 IN(ring_inv(r, x), s) && ring_mul(r, ring_inv(r, x), x) == ring_1(r)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 x : A, subfield_of(s, r) && IN(x, s) \226\134\146 IN(ring_inv(r, x), s)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 x : A, subfield_of(s, r) && IN(x, s) && !(x == ring_0(r)) \226\134\146 ring_inv(subring_generated(r, s), x) == ring_inv(r, x)
       #|  ring_inv((k : Ring[A]), (x : A))
       #|  (x : A)
-      #|  forall k (s:A->bool).\n        field k /\\ s subring_of k /\\\n        (forall x. x IN s ==> ring_inv k x IN s)\n        ==> s subfield_of k
+      #|  \226\136\128 k : Ring[A], \226\136\128 s : (A) -> Bool, field(k) && subring_of(s, k) && (\226\136\128 x : A, IN(x, s) \226\134\146 IN(ring_inv(k, x), s)) \226\134\146 subfield_of(s, k)
       #|  (x : A)
       #|  (h : (A) -> Bool)
       #|  (h : (A) -> Bool)
@@ -27129,20 +27129,20 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (g : (A) -> Bool)
       #|  (g : (A) -> Bool)
       #|  (x : A)
-      #|  forall r (gs:(A->bool)->bool).\n        (forall g. g IN gs ==> g subfield_of r) /\\ ~(gs = {})\n        ==> (INTERS gs) subfield_of r
-      #|  forall r g h:A->bool.\n        g subfield_of r /\\ h subfield_of r ==> (g INTER h) subfield_of r
+      #|  \226\136\128 r : Ring[A], \226\136\128 gs : ((A) -> Bool) -> Bool, (\226\136\128 g : (A) -> Bool, IN(g, gs) \226\134\146 subfield_of(g, r)) && !(gs == {}) \226\134\146 subfield_of(INTERS(gs), r)
+      #|  \226\136\128 r : Ring[A], \226\136\128 g : (A) -> Bool, \226\136\128 h : (A) -> Bool, subfield_of(g, r) && subfield_of(h, r) \226\134\146 subfield_of(INTER(g, h), r)
       #|  \226\136\128 r : Ring[A], subfield_of(ring_carrier(r), r) == field(r)
       #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, subfield_of(h, r) \226\134\146 IN(ring_0(r), h)
       #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, subfield_of(h, r) \226\134\146 IN(ring_1(r), h)
-      #|  forall r h x:A. h subfield_of r /\\ x IN h ==> ring_neg r x IN h
-      #|  forall r h x y:A. h subfield_of r /\\ x IN h /\\ y IN h ==> ring_add r x y IN h
-      #|  forall r h x y:A. h subfield_of r /\\ x IN h /\\ y IN h ==> ring_mul r x y IN h
-      #|  forall r h x y:A. h subfield_of r /\\ x IN h /\\ y IN h ==> ring_sub r x y IN h
-      #|  forall r h (x:A) n. h subfield_of r /\\ x IN h ==> ring_pow r x n IN h
-      #|  forall r h (f:K->A) s.\n        h subfield_of r /\\ (forall a. a IN s ==> f a IN h) ==> ring_sum r s f IN h
-      #|  forall r h (f:K->A) s.\n      h subfield_of r /\\ (forall a. a IN s ==> f a IN h) ==> ring_product r s f IN h
-      #|  forall k l (f:A->B) g.\n        field k /\\ field l /\\\n        ring_homomorphism(k,l) f /\\ ring_homomorphism(k,l) g\n        ==> {x | x IN ring_carrier k /\\ f x = g x} subfield_of k
-      #|  forall k (f:A->A).\n        field k /\\ ring_endomorphism k f\n        ==> {x | x IN ring_carrier k /\\ f x = x} subfield_of k
+      #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, \226\136\128 x : A, subfield_of(h, r) && IN(x, h) \226\134\146 IN(ring_neg(r, x), h)
+      #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, \226\136\128 x : A, \226\136\128 y : A, subfield_of(h, r) && IN(x, h) && IN(y, h) \226\134\146 IN(ring_add(r, x, y), h)
+      #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, \226\136\128 x : A, \226\136\128 y : A, subfield_of(h, r) && IN(x, h) && IN(y, h) \226\134\146 IN(ring_mul(r, x, y), h)
+      #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, \226\136\128 x : A, \226\136\128 y : A, subfield_of(h, r) && IN(x, h) && IN(y, h) \226\134\146 IN(ring_sub(r, x, y), h)
+      #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, \226\136\128 x : A, \226\136\128 n : Num, subfield_of(h, r) && IN(x, h) \226\134\146 IN(ring_pow(r, x, n), h)
+      #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, \226\136\128 f : (K) -> A, \226\136\128 s : (K) -> Bool, subfield_of(h, r) && (\226\136\128 a : K, IN(a, s) \226\134\146 IN(f(a), h)) \226\134\146 IN(ring_sum(r, s, f), h)
+      #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, \226\136\128 f : (K) -> A, \226\136\128 s : (K) -> Bool, subfield_of(h, r) && (\226\136\128 a : K, IN(a, s) \226\134\146 IN(f(a), h)) \226\134\146 IN(ring_product(r, s, f), h)
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> B, field(k) && field(l) && ring_homomorphism((k, l), f) && ring_homomorphism((k, l), g) \226\134\146 subfield_of({(x : A) | IN(x, ring_carrier(k)) && f(x) == g(x)}, k)
+      #|  \226\136\128 k : Ring[A], \226\136\128 f : (A) -> A, field(k) && ring_endomorphism(k, f) \226\134\146 subfield_of({(x : A) | IN(x, ring_carrier(k)) && f(x) == x}, k)
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
       #|  (a : A)
       #|  (b : A)
@@ -27170,91 +27170,91 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  ring_1((r : Ring[A]))
       #|  ring_1((r : Ring[A]))
       #|  ring_0((r : Ring[A]))
-      #|  forall x:A. x IN s /\\ ~(x = ring_0 r) ==> ring_mul r x (ring_inv r x) = ring_1 r
+      #|  \226\136\128 x : A, IN(x, (s : (A) -> Bool)) && !(x == ring_0((r : Ring[A]))) \226\134\146 ring_mul(r, x, ring_inv(r, x)) == ring_1(r)
       #|  ((p : Bool) && (q : Bool)) == !(p \226\134\146 !q)
-      #|  forall r s:A->bool.\n        ~(trivial_ring r) /\\ s subring_of r /\\\n        (forall x. x IN s /\\ ~(x = ring_0 r) ==> ring_unit r x)\n        ==> { ring_div r x y | x,y | x IN s /\\ y IN s /\\ ~(y = ring_0 r) }\n            subfield_of r
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, !trivial_ring(r) && subring_of(s, r) && (\226\136\128 x : A, IN(x, s) && !(x == ring_0(r)) \226\134\146 ring_unit(r, x)) \226\134\146 subfield_of({ring_div(r, x, y) | x : A, y : A | IN(x, s) && IN(y, s) && !(y == ring_0(r))}, r)
       #|  (b : A)
       #|  (d : A)
       #|  (b : A)
       #|  (d : A)
       #|  (a : A)
       #|  (b : A)
-      #|  subfield_generated r (s:A->bool) =\n      ring((if ?h. h subfield_of r /\\ (ring_carrier r INTER s) SUBSET h then\n            INTERS {h | h subfield_of r /\\ (ring_carrier r INTER s) SUBSET h}\n            else ring_carrier r),\n           ring_0 r,ring_1 r,ring_neg r,ring_add r,ring_mul r)
+      #|  (subfield_generated : (Ring[A], (A) -> Bool) -> Ring[A])((r : Ring[A]), (s : (A) -> Bool)) == ring((if (\226\136\131 h : (A) -> Bool, subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h)) { INTERS({(h : (A) -> Bool) | subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h)}) } else { ring_carrier(r) }, ring_0(r), ring_1(r), ring_neg(r), ring_add(r), ring_mul(r)))
       #|  (h : (A) -> Bool)
       #|  (h : (A) -> Bool)
-      #|  (forall r s:A->bool.\n        ring_carrier (subfield_generated r s) =\n          if ?h. h subfield_of r /\\ (ring_carrier r INTER s) SUBSET h then\n            INTERS {h | h subfield_of r /\\ (ring_carrier r INTER s) SUBSET h}\n            else ring_carrier r) /\\\n   (forall r s:A->bool. ring_0 (subfield_generated r s) = ring_0 r) /\\\n   (forall r s:A->bool. ring_1 (subfield_generated r s) = ring_1 r) /\\\n   (forall r s:A->bool. ring_neg (subfield_generated r s) = ring_neg r) /\\\n   (forall r s:A->bool. ring_add (subfield_generated r s) = ring_add r) /\\\n   (forall r s:A->bool. ring_mul (subfield_generated r s) = ring_mul r)
+      #|  (\226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, ring_carrier(subfield_generated(r, s)) == (if (\226\136\131 h : (A) -> Bool, subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h)) { INTERS({(h : (A) -> Bool) | subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h)}) } else { ring_carrier(r) })) && (\226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, ring_0(subfield_generated(r, s)) == ring_0(r)) && (\226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, ring_1(subfield_generated(r, s)) == ring_1(r)) && (\226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, ring_neg(subfield_generated(r, s)) == ring_neg(r)) && (\226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, ring_add(subfield_generated(r, s)) == ring_add(r)) && (\226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, ring_mul(subfield_generated(r, s)) == ring_mul(r))
       #|  ring_carrier((r : Ring[A]))
-      #|  forall r s:A->bool.\n        field r\n        ==> ring_carrier(subfield_generated r s) =\n            INTERS {h | h subfield_of r /\\ (ring_carrier r INTER s) SUBSET h}
-      #|  forall r s:A->bool.\n        s subfield_of r ==> ring_carrier(subfield_generated r s) = s
-      #|  forall r h:A->bool.\n        ring_carrier (subfield_generated r h) SUBSET ring_carrier r
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, field(r) \226\134\146 ring_carrier(subfield_generated(r, s)) == INTERS({(h : (A) -> Bool) | subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h)})
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, subfield_of(s, r) \226\134\146 ring_carrier(subfield_generated(r, s)) == s
+      #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, SUBSET(ring_carrier(subfield_generated(r, h)), ring_carrier(r))
       #|  INTER((g : (_) -> Bool), INTER(g, (s : (_) -> Bool))) == INTER(g, s)
-      #|  forall r s:A->bool.\n        subfield_generated r s =\n        subfield_generated r (ring_carrier r INTER s)
-      #|  forall r s t:A->bool.\n        s SUBSET t\n        ==> ring_carrier(subfield_generated r s) SUBSET\n            ring_carrier(subfield_generated r t)
-      #|  forall r h s:A->bool.\n        s SUBSET h /\\ h subfield_of r\n        ==> ring_carrier(subfield_generated r s) SUBSET h
-      #|  forall r s:A->bool.\n        ring_carrier(subring_generated r s) SUBSET\n        ring_carrier(subfield_generated r s)
-      #|  forall r s:A->bool.\n        ring_carrier(subfield_generated r s) subring_of r
-      #|  forall r s:A->bool.\n        ~(?h. h subfield_of r /\\ ring_carrier r INTER s SUBSET h)\n        ==> subfield_generated r s = r
-      #|  forall r s:A->bool.\n        field(subring_generated r s)\n        ==> subring_generated r s = subfield_generated r s
-      #|  forall r s:A->bool.\n        subring_generated r (ring_carrier(subfield_generated r s)) =\n        subfield_generated r s
-      #|  forall r h:A->bool.\n     ring_carrier r INTER h SUBSET ring_carrier(subfield_generated r h)
-      #|  forall r s:A->bool.\n        ring_carrier(subfield_generated r s) subfield_of r <=>\n        ?h. h subfield_of r /\\ ring_carrier r INTER s SUBSET h
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, subfield_generated(r, s) == subfield_generated(r, INTER(ring_carrier(r), s))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, t) \226\134\146 SUBSET(ring_carrier(subfield_generated(r, s)), ring_carrier(subfield_generated(r, t)))
+      #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, \226\136\128 s : (A) -> Bool, SUBSET(s, h) && subfield_of(h, r) \226\134\146 SUBSET(ring_carrier(subfield_generated(r, s)), h)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, SUBSET(ring_carrier(subring_generated(r, s)), ring_carrier(subfield_generated(r, s)))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, subring_of(ring_carrier(subfield_generated(r, s)), r)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, !(\226\136\131 h : (A) -> Bool, subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h)) \226\134\146 subfield_generated(r, s) == r
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, field(subring_generated(r, s)) \226\134\146 subring_generated(r, s) == subfield_generated(r, s)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, subring_generated(r, ring_carrier(subfield_generated(r, s))) == subfield_generated(r, s)
+      #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, SUBSET(INTER(ring_carrier(r), h), ring_carrier(subfield_generated(r, h)))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, subfield_of(ring_carrier(subfield_generated(r, s)), r) == (\226\136\131 h : (A) -> Bool, subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h))
       #|  ring_carrier((r : Ring[A]))
-      #|  forall r s:A->bool.\n        field r ==> ring_carrier(subfield_generated r s) subfield_of r
-      #|  forall r s:A->bool. field(subfield_generated r s) <=>\n                 ?h. h subfield_of r /\\ ring_carrier r INTER s SUBSET h
-      #|  forall r s:A->bool.\n        field(subfield_generated r s) <=>\n        ring_carrier(subfield_generated r s) subfield_of r
-      #|  forall r s:A->bool.\n        ring_carrier(subfield_generated r s) subfield_of r <=>\n        field(subfield_generated r s)
-      #|  forall r s:A->bool. field r ==> field(subfield_generated r s)
-      #|  forall r s t:A->bool.\n        s SUBSET t /\\ field(subfield_generated r t)\n        ==> field(subfield_generated r s)
-      #|  forall r s:A->bool.\n        subfield_generated r s = r <=>\n        ring_carrier(subfield_generated r s) = ring_carrier r
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, field(r) \226\134\146 subfield_of(ring_carrier(subfield_generated(r, s)), r)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, field(subfield_generated(r, s)) == (\226\136\131 h : (A) -> Bool, subfield_of(h, r) && SUBSET(INTER(ring_carrier(r), s), h))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, field(subfield_generated(r, s)) == subfield_of(ring_carrier(subfield_generated(r, s)), r)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, subfield_of(ring_carrier(subfield_generated(r, s)), r) == field(subfield_generated(r, s))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, field(r) \226\134\146 field(subfield_generated(r, s))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, t) && field(subfield_generated(r, t)) \226\134\146 field(subfield_generated(r, s))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, (subfield_generated(r, s) == r) == (ring_carrier(subfield_generated(r, s)) == ring_carrier(r))
       #|  ((p : Bool) \226\134\146 (q : Bool) == (r : Bool)) == ((p && q) == (p && r))
-      #|  forall r s:A->bool.\n     (forall h. h subfield_of r\n          ==> (ring_carrier r INTER s SUBSET h <=>\n               ring_carrier r INTER t SUBSET h))\n     ==> subfield_generated r s = subfield_generated r t
-      #|  forall r s:A->bool.\n    subfield_generated r s = r <=>\n    ring_carrier r SUBSET ring_carrier(subfield_generated r s)
-      #|  forall r s:A->bool.\n        FINITE(ring_carrier r)\n        ==> FINITE(ring_carrier(subfield_generated r s))
-      #|  forall r s t:A->bool.\n        s SUBSET ring_carrier r /\\ s SUBSET t\n        ==> s SUBSET ring_carrier(subfield_generated r t)
-      #|  forall r h s:A->bool.\n        h subfield_of r\n        ==> (ring_carrier(subfield_generated r s) SUBSET h <=>\n             ring_carrier r INTER s SUBSET h)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, (\226\136\128 h : (A) -> Bool, subfield_of(h, r) \226\134\146 SUBSET(INTER(ring_carrier(r), s), h) == SUBSET(INTER(ring_carrier(r), (t : (A) -> Bool)), h)) \226\134\146 subfield_generated(r, s) == subfield_generated(r, t)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, (subfield_generated(r, s) == r) == SUBSET(ring_carrier(r), ring_carrier(subfield_generated(r, s)))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, FINITE(ring_carrier(r)) \226\134\146 FINITE(ring_carrier(subfield_generated(r, s)))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, ring_carrier(r)) && SUBSET(s, t) \226\134\146 SUBSET(s, ring_carrier(subfield_generated(r, t)))
+      #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, \226\136\128 s : (A) -> Bool, subfield_of(h, r) \226\134\146 SUBSET(ring_carrier(subfield_generated(r, s)), h) == SUBSET(INTER(ring_carrier(r), s), h)
       #|  \226\136\128 r : Ring[A], subfield_generated(r, ring_carrier(r)) == r
       #|  SUBSET((s : (_) -> Bool), (t : (_) -> Bool)) == (INTER(t, s) == s)
-      #|  forall r s:A->bool.\n        s SUBSET ring_carrier r\n        ==> s SUBSET ring_carrier(subfield_generated r s)
-      #|  ring_carrier (subfield_generated r s:A ring) subfield_of r
-      #|  forall r s:A->bool.\n        subfield_generated r (ring_carrier(subfield_generated r s)) =\n        subfield_generated r s
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, SUBSET(s, ring_carrier(r)) \226\134\146 SUBSET(s, ring_carrier(subfield_generated(r, s)))
+      #|  subfield_of(ring_carrier(subfield_generated((r : Ring[A]), (s : (A) -> Bool))), r)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, subfield_generated(r, ring_carrier(subfield_generated(r, s))) == subfield_generated(r, s)
       #|  SUBSET((u : (_) -> Bool), (s : (_) -> Bool)) \226\134\146 INTER(u, s) == u
-      #|  forall r s:A->bool. ring_carrier r SUBSET s ==> subfield_generated r s = r
-      #|  forall r s x:A.\n        s SUBSET ring_carrier r /\\ x IN s\n        ==> x IN ring_carrier(subfield_generated r s)
-      #|  forall r s x:A.\n        x IN ring_carrier r /\\ x IN s\n        ==> x IN ring_carrier(subfield_generated r s)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, SUBSET(ring_carrier(r), s) \226\134\146 subfield_generated(r, s) == r
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 x : A, SUBSET(s, ring_carrier(r)) && IN(x, s) \226\134\146 IN(x, ring_carrier(subfield_generated(r, s)))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 x : A, IN(x, ring_carrier(r)) && IN(x, s) \226\134\146 IN(x, ring_carrier(subfield_generated(r, s)))
       #|  ((p : Bool) \226\134\146 (r : Bool)) && (r \226\134\146 p == (q : Bool)) \226\134\146 p == (q && r)
-      #|  forall r h k:A->bool.\n        h subring_of (subfield_generated r k) <=>\n        h subring_of r /\\ h SUBSET ring_carrier(subfield_generated r k)
+      #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, \226\136\128 k : (A) -> Bool, subring_of(h, subfield_generated(r, k)) == (subring_of(h, r) && SUBSET(h, ring_carrier(subfield_generated(r, k))))
       #|  subring_of((h : (A) -> Bool), subfield_generated((r : Ring[A]), (k : (A) -> Bool)))
-      #|  ((p /\\ q) /\\ r <=> (p /\\ s) /\\ q) <=> (p /\\ q ==> (r <=> s))
-      #|  forall r h k:A->bool.\n        h subfield_of (subfield_generated r k) <=>\n        h subfield_of r /\\ h SUBSET ring_carrier(subfield_generated r k)
-      #|  forall r h k:A->bool.\n        k subfield_of r\n        ==> (h subfield_of (subfield_generated r k) <=>\n             h subfield_of r /\\ h SUBSET k)
-      #|  forall r g h:A->bool.\n        g subfield_of r /\\ g SUBSET h\n        ==> g subfield_of (subfield_generated r h)
-      #|  forall r g h:A->bool.\n        g subfield_of (subfield_generated r h)\n        ==> g subfield_of r
+      #|  ((((p : Bool) && (q : Bool)) && (r : Bool)) == ((p && (s : Bool)) && q)) == (p && q \226\134\146 r == s)
+      #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, \226\136\128 k : (A) -> Bool, subfield_of(h, subfield_generated(r, k)) == (subfield_of(h, r) && SUBSET(h, ring_carrier(subfield_generated(r, k))))
+      #|  \226\136\128 r : Ring[A], \226\136\128 h : (A) -> Bool, \226\136\128 k : (A) -> Bool, subfield_of(k, r) \226\134\146 subfield_of(h, subfield_generated(r, k)) == (subfield_of(h, r) && SUBSET(h, k))
+      #|  \226\136\128 r : Ring[A], \226\136\128 g : (A) -> Bool, \226\136\128 h : (A) -> Bool, subfield_of(g, r) && SUBSET(g, h) \226\134\146 subfield_of(g, subfield_generated(r, h))
+      #|  \226\136\128 r : Ring[A], \226\136\128 g : (A) -> Bool, \226\136\128 h : (A) -> Bool, subfield_of(g, subfield_generated(r, h)) \226\134\146 subfield_of(g, r)
       #|  (h : (A) -> Bool)
       #|  INTER((h : (A) -> Bool), (j : (A) -> Bool))
       #|  (j : (A) -> Bool)
       #|  (h : (A) -> Bool)
       #|  (!(p : Bool) \226\134\146 p) \226\134\146 p
       #|  subfield_generated((r : Ring[A]), (s : (A) -> Bool)) == r
-      #|  forall r s:A->bool.\n        subfield_generated (subfield_generated r s) s =\n        subfield_generated r s
-      #|  forall r s t:A->bool.\n        s subfield_of r /\\ t subfield_of r\n        ==> subfield_generated (subfield_generated r s) t =\n            subfield_generated r (s INTER t)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, subfield_generated(subfield_generated(r, s), s) == subfield_generated(r, s)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, subfield_of(s, r) && subfield_of(t, r) \226\134\146 subfield_generated(subfield_generated(r, s), t) == subfield_generated(r, INTER(s, t))
       #|  (h : (A) -> Bool)
-      #|  h INTER ring_carrier (subfield_generated r s):A->bool
+      #|  INTER((h : (A) -> Bool), ring_carrier(subfield_generated((r : Ring[A]), (s : (A) -> Bool))))
       #|  (h : (A) -> Bool)
-      #|  forall r s:A->bool.\n        subring_generated (subfield_generated r s) s =\n        subring_generated r s
-      #|  forall r s:A->bool.\n        trivial_ring(subfield_generated r s) <=> trivial_ring r
-      #|  forall r s t:A->bool.\n        subfield_generated r (ring_carrier(subfield_generated r s) UNION t) =\n        subfield_generated r (s UNION t)
-      #|  forall r s t:A->bool.\n        subfield_generated r (s UNION ring_carrier(subfield_generated r t)) =\n        subfield_generated r (s UNION t)
-      #|  forall r s t:A->bool.\n        subfield_generated r (ring_carrier(subfield_generated r s) UNION\n                              ring_carrier(subfield_generated r t)) =\n        subfield_generated r (s UNION t)
-      #|  ring_monomorphism (subring_generated r s:A ring,r') (f:A->B)
-      #|  forall(f:A->B) r r' s.\n        ring_monomorphism(r,r') f /\\ s subfield_of r\n        ==> IMAGE f s subfield_of r'
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, subring_generated(subfield_generated(r, s), s) == subring_generated(r, s)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, trivial_ring(subfield_generated(r, s)) == trivial_ring(r)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, subfield_generated(r, UNION(ring_carrier(subfield_generated(r, s)), t)) == subfield_generated(r, UNION(s, t))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, subfield_generated(r, UNION(s, ring_carrier(subfield_generated(r, t)))) == subfield_generated(r, UNION(s, t))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, subfield_generated(r, UNION(ring_carrier(subfield_generated(r, s)), ring_carrier(subfield_generated(r, t)))) == subfield_generated(r, UNION(s, t))
+      #|  ring_monomorphism((subring_generated((r : Ring[A]), (s : (A) -> Bool)), (r' : Ring[B])), (f : (A) -> B))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 r : Ring[A], \226\136\128 r' : Ring[B], \226\136\128 s : (A) -> Bool, ring_monomorphism((r, r'), f) && subfield_of(s, r) \226\134\146 subfield_of(IMAGE(f, s), r')
       #|  (r' : Ring[B])
       #|  {(x : A) | IN(x, ring_carrier((r : Ring[A]))) && IN((f : (A) -> B)(x), (h : (B) -> Bool))}
       #|  (f : (A) -> B)
       #|  (r' : Ring[B])
       #|  (r : Ring[A])
       #|  field(subring_generated((r' : Ring[B]), (h : (B) -> Bool)))
-      #|  ring_monomorphism\n     (subring_generated r {x | x IN ring_carrier r /\\ f x IN h}:A ring,r')\n     (f:A->B)
-      #|  forall r r' (f:A->B) h.\n        ring_monomorphism(r,r') f /\\\n        h subfield_of r' /\\\n        h SUBSET IMAGE f (ring_carrier r)\n        ==> {x | x IN ring_carrier r /\\ f x IN h} subfield_of r
+      #|  ring_monomorphism((subring_generated((r : Ring[A]), {(x : A) | IN(x, ring_carrier(r)) && IN((f : (A) -> B)(x), (h : (B) -> Bool))}), (r' : Ring[B])), f)
+      #|  \226\136\128 r : Ring[A], \226\136\128 r' : Ring[B], \226\136\128 f : (A) -> B, \226\136\128 h : (B) -> Bool, ring_monomorphism((r, r'), f) && subfield_of(h, r') && SUBSET(h, IMAGE(f, ring_carrier(r))) \226\134\146 subfield_of({(x : A) | IN(x, ring_carrier(r)) && IN(f(x), h)}, r)
       #|  IMAGE((f : (A) -> B), ring_carrier(subfield_generated((r : Ring[A]), (s : (A) -> Bool))))
       #|  (r' : Ring[B])
       #|  (s : (A) -> Bool)
@@ -27262,41 +27262,41 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (x : A)
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
       #|  (r : Ring[A])
-      #|  IMAGE f s SUBSET t <=> s SUBSET {x | x IN s /\\ f x IN t}
-      #|  forall r r' (f:A->B) s.\n        ring_monomorphism(r,r') f /\\\n        s SUBSET ring_carrier r /\\\n        field(subfield_generated r s)\n        ==> ring_carrier (subfield_generated r' (IMAGE f s)) =\n            IMAGE f (ring_carrier(subfield_generated r s))
-      #|  forall r s:A->bool. ring_sub (subfield_generated r s) = ring_sub r
-      #|  forall r s:A->bool. ring_pow (subfield_generated r s) = ring_pow r
-      #|  forall r s:A->bool. ring_of_num (subfield_generated r s) = ring_of_num r
-      #|  forall r s:A->bool. ring_of_int (subfield_generated r s) = ring_of_int r
-      #|  forall r s:A->bool. ring_char(subfield_generated r s) = ring_char r
-      #|  forall r (s:A->bool). ring_0 r IN ring_carrier (subfield_generated r s)
-      #|  forall r (s:A->bool). ring_1 r IN ring_carrier (subfield_generated r s)
-      #|  forall r s x:A.\n        x IN ring_carrier (subfield_generated r s)\n        ==> ring_neg r x IN ring_carrier (subfield_generated r s)
-      #|  forall r s x y:A.\n        x IN ring_carrier (subfield_generated r s) /\\\n        y IN ring_carrier (subfield_generated r s)\n        ==> ring_add r x y IN ring_carrier (subfield_generated r s)
-      #|  forall r s x y:A.\n        x IN ring_carrier (subfield_generated r s) /\\\n        y IN ring_carrier (subfield_generated r s)\n        ==> ring_mul r x y IN ring_carrier (subfield_generated r s)
-      #|  forall r s (x:A) n.\n        x IN ring_carrier (subfield_generated r s)\n        ==> ring_pow r x n IN ring_carrier (subfield_generated r s)
-      #|  forall r s x:A.\n        field(subfield_generated r s) /\\\n        x IN ring_carrier(subfield_generated r s) /\\\n        ~(x = ring_0 r)\n        ==> ring_inv (subfield_generated r s) x = ring_inv r x
-      #|  forall r s x:A.\n        field(subfield_generated r s) /\\\n        x IN ring_carrier(subfield_generated r s)\n        ==> ring_inv r x IN ring_carrier(subfield_generated r s)
-      #|  forall r s x y:A.\n        field(subfield_generated r s) /\\\n        x IN ring_carrier (subfield_generated r s) /\\\n        y IN ring_carrier (subfield_generated r s)\n        ==> ring_div r x y IN ring_carrier (subfield_generated r s)
+      #|  SUBSET(IMAGE((f : (_) -> _), (s : (_) -> Bool)), (t : (_) -> Bool)) == SUBSET(s, {(x : _) | IN(x, s) && IN(f(x), t)})
+      #|  \226\136\128 r : Ring[A], \226\136\128 r' : Ring[B], \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, ring_monomorphism((r, r'), f) && SUBSET(s, ring_carrier(r)) && field(subfield_generated(r, s)) \226\134\146 ring_carrier(subfield_generated(r', IMAGE(f, s))) == IMAGE(f, ring_carrier(subfield_generated(r, s)))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, ring_sub(subfield_generated(r, s)) == ring_sub(r)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, ring_pow(subfield_generated(r, s)) == ring_pow(r)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, ring_of_num(subfield_generated(r, s)) == ring_of_num(r)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, ring_of_int(subfield_generated(r, s)) == ring_of_int(r)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, ring_char(subfield_generated(r, s)) == ring_char(r)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, IN(ring_0(r), ring_carrier(subfield_generated(r, s)))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, IN(ring_1(r), ring_carrier(subfield_generated(r, s)))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 x : A, IN(x, ring_carrier(subfield_generated(r, s))) \226\134\146 IN(ring_neg(r, x), ring_carrier(subfield_generated(r, s)))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 x : A, \226\136\128 y : A, IN(x, ring_carrier(subfield_generated(r, s))) && IN(y, ring_carrier(subfield_generated(r, s))) \226\134\146 IN(ring_add(r, x, y), ring_carrier(subfield_generated(r, s)))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 x : A, \226\136\128 y : A, IN(x, ring_carrier(subfield_generated(r, s))) && IN(y, ring_carrier(subfield_generated(r, s))) \226\134\146 IN(ring_mul(r, x, y), ring_carrier(subfield_generated(r, s)))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 x : A, \226\136\128 n : Num, IN(x, ring_carrier(subfield_generated(r, s))) \226\134\146 IN(ring_pow(r, x, n), ring_carrier(subfield_generated(r, s)))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 x : A, field(subfield_generated(r, s)) && IN(x, ring_carrier(subfield_generated(r, s))) && !(x == ring_0(r)) \226\134\146 ring_inv(subfield_generated(r, s), x) == ring_inv(r, x)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 x : A, field(subfield_generated(r, s)) && IN(x, ring_carrier(subfield_generated(r, s))) \226\134\146 IN(ring_inv(r, x), ring_carrier(subfield_generated(r, s)))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 x : A, \226\136\128 y : A, field(subfield_generated(r, s)) && IN(x, ring_carrier(subfield_generated(r, s))) && IN(y, ring_carrier(subfield_generated(r, s))) \226\134\146 IN(ring_div(r, x, y), ring_carrier(subfield_generated(r, s)))
       #|  (s : (A) -> Bool)
       #|  (P : (A) -> Bool)
       #|  subfield_generated((r : Ring[A]), (s : (A) -> Bool))
-      #|  ring_carrier(subfield_generated k s) SUBSET\n      {x:A | x IN ring_carrier k /\\ P x}
-      #|  (forall k. field k ==> P k) /\\ ((forall k. field k ==> P k) ==> forall r. P r)\n    ==> forall r. P r
-      #|  forall r P s:A->bool.\n        field(subfield_generated r s) /\\\n        (forall x. x IN ring_carrier r /\\ x IN s ==> P x) /\\\n        P(ring_0 r) /\\\n        P(ring_1 r) /\\\n        (forall x. x IN ring_carrier r /\\ P x ==> P(ring_neg r x)) /\\\n        (forall x. x IN ring_carrier r /\\ ~(x = ring_0 r) /\\ P x\n             ==> P(ring_inv r x)) /\\\n        (forall x y. x IN ring_carrier r /\\ y IN ring_carrier r /\\ P x /\\ P y\n               ==> P(ring_add r x y)) /\\\n        (forall x y. x IN ring_carrier r /\\ y IN ring_carrier r /\\ P x /\\ P y\n               ==> P(ring_mul r x y))\n        ==> forall x. x IN ring_carrier(subfield_generated r s) ==> P x
-      #|  forall r s. poly_const (subfield_generated r s):A->(V->num)->A = poly_const r
-      #|  (forall(r:A ring) s (v:V->bool).\n        ring_0 (poly_ring (subfield_generated r s) v) =\n        ring_0 (poly_ring r v)) /\\\n   (forall(r:A ring) s (v:V->bool).\n        ring_1 (poly_ring (subfield_generated r s) v) =\n        ring_1 (poly_ring r v)) /\\\n   (forall(r:A ring) s (v:V->bool).\n        ring_neg (poly_ring (subfield_generated r s) v) =\n        ring_neg (poly_ring r v)) /\\\n   (forall(r:A ring) s (v:V->bool).\n        ring_add (poly_ring (subfield_generated r s) v) =\n        ring_add (poly_ring r v)) /\\\n   (forall(r:A ring) s (v:V->bool) p q.\n        (forall m. p m IN ring_carrier(subfield_generated r s)) /\\\n        (forall m. q m IN ring_carrier(subfield_generated r s))\n        ==> ring_mul (poly_ring (subfield_generated r s) v) p q =\n            ring_mul (poly_ring r v) p q) /\\\n   (forall(r:A ring) s (v:V->bool).\n        ring_sub (poly_ring (subfield_generated r s) v) =\n        ring_sub (poly_ring r v))
+      #|  SUBSET(ring_carrier(subfield_generated((k : Ring[A]), (s : (A) -> Bool))), {(x : A) | IN(x, ring_carrier(k)) && (P : (A) -> Bool)(x)})
+      #|  (\226\136\128 k : Ring[_], field(k) \226\134\146 (P : (Ring[_]) -> Bool)(k)) && ((\226\136\128 k : Ring[_], field(k) \226\134\146 P(k)) \226\134\146 (\226\136\128 r : Ring[_], P(r))) \226\134\146 (\226\136\128 r : Ring[_], P(r))
+      #|  \226\136\128 r : Ring[A], \226\136\128 P : (A) -> Bool, \226\136\128 s : (A) -> Bool, field(subfield_generated(r, s)) && (\226\136\128 x : A, IN(x, ring_carrier(r)) && IN(x, s) \226\134\146 P(x)) && P(ring_0(r)) && P(ring_1(r)) && (\226\136\128 x : A, IN(x, ring_carrier(r)) && P(x) \226\134\146 P(ring_neg(r, x))) && (\226\136\128 x : A, IN(x, ring_carrier(r)) && !(x == ring_0(r)) && P(x) \226\134\146 P(ring_inv(r, x))) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, ring_carrier(r)) && IN(y, ring_carrier(r)) && P(x) && P(y) \226\134\146 P(ring_add(r, x, y))) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, ring_carrier(r)) && IN(y, ring_carrier(r)) && P(x) && P(y) \226\134\146 P(ring_mul(r, x, y))) \226\134\146 (\226\136\128 x : A, IN(x, ring_carrier(subfield_generated(r, s))) \226\134\146 P(x))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, (poly_const : (Ring[A], A, (V) -> Num) -> A)(subfield_generated(r, s)) == (poly_const : (Ring[A], A, (V) -> Num) -> A)(r)
+      #|  (\226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 v : (V) -> Bool, ring_0(poly_ring(subfield_generated(r, s), v)) == ring_0(poly_ring(r, v))) && (\226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 v : (V) -> Bool, ring_1(poly_ring(subfield_generated(r, s), v)) == ring_1(poly_ring(r, v))) && (\226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 v : (V) -> Bool, ring_neg(poly_ring(subfield_generated(r, s), v)) == ring_neg(poly_ring(r, v))) && (\226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 v : (V) -> Bool, ring_add(poly_ring(subfield_generated(r, s), v)) == ring_add(poly_ring(r, v))) && (\226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 v : (V) -> Bool, \226\136\128 p : ((V) -> Num) -> A, \226\136\128 q : ((V) -> Num) -> A, (\226\136\128 m : (V) -> Num, IN(p(m), ring_carrier(subfield_generated(r, s)))) && (\226\136\128 m : (V) -> Num, IN(q(m), ring_carrier(subfield_generated(r, s)))) \226\134\146 ring_mul(poly_ring(subfield_generated(r, s), v), p, q) == ring_mul(poly_ring(r, v), p, q)) && (\226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 v : (V) -> Bool, ring_sub(poly_ring(subfield_generated(r, s), v)) == ring_sub(poly_ring(r, v)))
       #|  (s : (A) -> Bool)
       #|  (r : Ring[A])
       #|  ring_1((r : Ring[A]))
       #|  (a : A)
       #|  (a : A)
-      #|  { ring_div r x y | x,y |\n        x IN ring_carrier(subring_generated r s) /\\\n        y IN ring_carrier(subring_generated r s) /\\\n        ~(y:A = ring_0 r) }
+      #|  {ring_div((r : Ring[A]), x, y) | x : A, y : A | IN(x, ring_carrier(subring_generated(r, (s : (A) -> Bool)))) && IN(y, ring_carrier(subring_generated(r, s))) && !(y == ring_0(r))}
       #|  (s : (A) -> Bool)
       #|  (r : Ring[A])
       #|  (s : (A) -> Bool)
       #|  (r : Ring[A])
-      #|  forall r s:A->bool.\n        field(subfield_generated r s) <=>\n        ~(trivial_ring r) /\\\n        forall x. x IN ring_carrier(subring_generated r s) /\\ ~(x = ring_0 r)\n            ==> ring_unit r x
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, field(subfield_generated(r, s)) == (!trivial_ring(r) && (\226\136\128 x : A, IN(x, ring_carrier(subring_generated(r, s))) && !(x == ring_0(r)) \226\134\146 ring_unit(r, x)))
       #|  ring_1((r : Ring[A]))
       #|  (a : A)
       #|  (a : A)
@@ -27307,14 +27307,14 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (s : (A) -> Bool)
       #|  INTER(ring_carrier((r : Ring[A])), (s : (A) -> Bool))
       #|  SUBSET(INTER(ring_carrier((r : Ring[A])), (s : (A) -> Bool)), ring_carrier(r))
-      #|  forall r s:A->bool.\n        ~(trivial_ring r) /\\\n        (forall x. x IN ring_carrier(subring_generated r s) /\\ ~(x = ring_0 r)\n             ==> ring_unit r x)\n        ==> subfield_generated r s =\n            subring_generated r\n             { ring_div r x y | x,y |\n               x IN ring_carrier(subring_generated r s) /\\\n               y IN ring_carrier(subring_generated r s) /\\\n               ~(y = ring_0 r) }
-      #|  forall r s:A->bool.\n        ~(trivial_ring r) /\\\n        (forall x. x IN ring_carrier(subring_generated r s) /\\ ~(x = ring_0 r)\n             ==> ring_unit r x)\n        ==> ring_carrier(subfield_generated r s) =\n             { ring_div r x y | x,y |\n               x IN ring_carrier(subring_generated r s) /\\\n               y IN ring_carrier(subring_generated r s) /\\\n               ~(y = ring_0 r) }
-      #|  forall r s x:A.\n        field(subfield_generated r s) /\\\n        x IN ring_carrier (subfield_generated r s)\n        ==> ?a b. a IN ring_carrier(subring_generated r s) /\\\n                  b IN ring_carrier(subring_generated r s) /\\\n                  ~(b = ring_0 r) /\\\n                  ring_div r a b = x
-      #|  ring_mul r (ring_mul r b c) x:A = ring_mul r b (ring_mul r c x)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, !trivial_ring(r) && (\226\136\128 x : A, IN(x, ring_carrier(subring_generated(r, s))) && !(x == ring_0(r)) \226\134\146 ring_unit(r, x)) \226\134\146 subfield_generated(r, s) == subring_generated(r, {ring_div(r, x, y) | x : A, y : A | IN(x, ring_carrier(subring_generated(r, s))) && IN(y, ring_carrier(subring_generated(r, s))) && !(y == ring_0(r))})
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, !trivial_ring(r) && (\226\136\128 x : A, IN(x, ring_carrier(subring_generated(r, s))) && !(x == ring_0(r)) \226\134\146 ring_unit(r, x)) \226\134\146 ring_carrier(subfield_generated(r, s)) == {ring_div(r, x, y) | x : A, y : A | IN(x, ring_carrier(subring_generated(r, s))) && IN(y, ring_carrier(subring_generated(r, s))) && !(y == ring_0(r))}
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 x : A, field(subfield_generated(r, s)) && IN(x, ring_carrier(subfield_generated(r, s))) \226\134\146 (\226\136\131 a : A, \226\136\131 b : A, IN(a, ring_carrier(subring_generated(r, s))) && IN(b, ring_carrier(subring_generated(r, s))) && !(b == ring_0(r)) && ring_div(r, a, b) == x)
+      #|  ring_mul((r : Ring[A]), ring_mul(r, (b : A), (c : A)), (x : A)) == ring_mul(r, b, ring_mul(r, c, x))
       #|  (x : A)
       #|  field((r : Ring[A]))
       #|  !((b : A) == ring_0((r : Ring[A])))
-      #|  ring_mul r (ring_mul r b c) y:A = ring_mul r a c
+      #|  ring_mul((r : Ring[A]), ring_mul(r, (b : A), (c : A)), (y : A)) == ring_mul(r, (a : A), c)
       #|  ring_mul((r : Ring[A]), (b : A), (c : A))
       #|  (b : A)
       #|  (a : A)
@@ -27328,8 +27328,8 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (d : (A) -> Bool)
       #|  (s : (A) -> Bool)
       #|  subfield_generated((r : Ring[A]), (s : (A) -> Bool))
-      #|  forall r s d:A->bool.\n        field r /\\\n        FINITE d /\\\n        d SUBSET ring_carrier(subfield_generated r s)\n        ==> ?c. c IN ring_carrier(subring_generated r s) /\\\n                ~(c = ring_0 r) /\\\n                forall x. x IN d\n                    ==> ring_mul r c x IN ring_carrier(subring_generated r s)
-      #|  forall r s d:A->bool.\n      field(subfield_generated r s) /\\\n      FINITE d /\\\n      d SUBSET ring_carrier(subfield_generated r s)\n      ==> ?c. c IN ring_carrier(subring_generated r s) /\\\n              ~(c = ring_0 r) /\\\n              forall x. x IN d\n                  ==> ring_mul r c x IN ring_carrier(subring_generated r s)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 d : (A) -> Bool, field(r) && FINITE(d) && SUBSET(d, ring_carrier(subfield_generated(r, s))) \226\134\146 (\226\136\131 c : A, IN(c, ring_carrier(subring_generated(r, s))) && !(c == ring_0(r)) && (\226\136\128 x : A, IN(x, d) \226\134\146 IN(ring_mul(r, c, x), ring_carrier(subring_generated(r, s)))))
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 d : (A) -> Bool, field(subfield_generated(r, s)) && FINITE(d) && SUBSET(d, ring_carrier(subfield_generated(r, s))) \226\134\146 (\226\136\131 c : A, IN(c, ring_carrier(subring_generated(r, s))) && !(c == ring_0(r)) && (\226\136\128 x : A, IN(x, d) \226\134\146 IN(ring_mul(r, c, x), ring_carrier(subring_generated(r, s)))))
       #|  :A
       #|  IN((x : A), ring_carrier((f : Ring[A])))
       #|  (x : A)
@@ -27338,7 +27338,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  IN((x : A), ring_carrier((f : Ring[A])))
       #|  (x : A)
       #|  (d : A)
-      #|  forall m. ring_mul r d ((p:(V->num)->A) m) = ring_0 r <=> p m = ring_0 r
+      #|  \226\136\128 m : (V) -> Num, (ring_mul((r : Ring[A]), (d : A), (p : ((V) -> Num) -> A)(m)) == ring_0(r)) == (p(m) == ring_0(r))
       #|  (p : ((V) -> Num) -> A)
       #|  (poly_const : (Ring[A], A, (V) -> Num) -> A)((r : Ring[A]), (d : A))
       #|  (UNIV : (V) -> Bool)
@@ -27348,11 +27348,11 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (d : A)
       #|  subfield_generated((r : Ring[A]), (s : (A) -> Bool))
       #|  (d : A)
-      #|  ring_0 r INSERT IMAGE (p:(V->num)->A) {m | ~(p m = ring_0 r)}
+      #|  INSERT(ring_0((r : Ring[A])), IMAGE((p : ((V) -> Num) -> A), {(m : (V) -> Num) | !(p(m) == ring_0(r))}))
       #|  IMAGE((p : ((V) -> Num) -> A), UNIV)
       #|  (s : (A) -> Bool)
       #|  (r : Ring[A])
-      #|  forall r s v (p:(V->num)->A).\n        field (subfield_generated r s) /\\\n        p IN ring_carrier(poly_ring (subfield_generated r s) v)\n        ==> ?d. d IN ring_carrier(subring_generated r s) /\\\n                ~(d = ring_0 r) /\\\n                poly_mul r (poly_const r d) p IN\n                ring_carrier(poly_ring (subring_generated r s) v)
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 v : (V) -> Bool, \226\136\128 p : ((V) -> Num) -> A, field(subfield_generated(r, s)) && IN(p, ring_carrier(poly_ring(subfield_generated(r, s), v))) \226\134\146 (\226\136\131 d : A, IN(d, ring_carrier(subring_generated(r, s))) && !(d == ring_0(r)) && IN(poly_mul(r, poly_const(r, d), p), ring_carrier(poly_ring(subring_generated(r, s), v))))
       #|  subfield_generated((r : Ring[A]), (t : (A) -> Bool)) == r
       #|  (t : (A) -> Bool)
       #|  (u : A)
@@ -27375,24 +27375,24 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (s : (A) -> Bool)
       #|  (r : Ring[A])
       #|  field(subfield_generated((r : Ring[A]), (s : (A) -> Bool)))
-      #|  forall r s x:A.\n        x IN ring_carrier(subfield_generated r s)\n        ==> ?t. FINITE t /\\\n                t SUBSET s /\\\n                x IN ring_carrier(subfield_generated r t)
-      #|  forall k s:A->bool.\n        s subfield_of k\n        ==> ring_carrier(subfield_generated k {ring_0 k}) SUBSET s
-      #|  forall k:A ring.\n        prime(ring_char k)\n        ==> ring_carrier(subfield_generated k {ring_0 k}) =\n            {ring_of_int k n | n IN (:int)}
-      #|  forall k:A ring.\n        field k /\\ prime(ring_char k)\n        ==> { x | x IN ring_carrier k /\\ ring_pow k x (ring_char k) = x} =\n            ring_carrier(subfield_generated k {ring_0 k})
-      #|  field_extension (k,l) (h:A->B) <=>\n        field k /\\ field l /\\ ring_monomorphism(k,l) h
-      #|  forall(h:A->B) k l. field_extension (k,l) h ==> ring_monomorphism(k,l) h
-      #|  forall(h:A->B) k l. field_extension (k,l) h ==> ring_homomorphism(k,l) h
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> IMAGE h (ring_carrier k) SUBSET ring_carrier l
-      #|  forall(h:A->B) k l x.\n        field_extension (k,l) h /\\ x IN ring_carrier k\n        ==> h x IN ring_carrier l
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h /\\ field(subring_generated k s)\n        ==> field_extension(subring_generated k s,l) h
-      #|  forall k l (f:A->B) f'.\n        field_extension(k,l) f /\\\n        (forall x. x IN ring_carrier k ==> f' x = f x)\n        ==> field_extension (k,l) f'
+      #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, \226\136\128 x : A, IN(x, ring_carrier(subfield_generated(r, s))) \226\134\146 (\226\136\131 t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && IN(x, ring_carrier(subfield_generated(r, t))))
+      #|  \226\136\128 k : Ring[A], \226\136\128 s : (A) -> Bool, subfield_of(s, k) \226\134\146 SUBSET(ring_carrier(subfield_generated(k, {ring_0(k)})), s)
+      #|  \226\136\128 k : Ring[A], prime(ring_char(k)) \226\134\146 ring_carrier(subfield_generated(k, {ring_0(k)})) == {ring_of_int(k, (n : Int)) | IN(n, UNIV)}
+      #|  \226\136\128 k : Ring[A], field(k) && prime(ring_char(k)) \226\134\146 {(x : A) | IN(x, ring_carrier(k)) && ring_pow(k, x, ring_char(k)) == x} == ring_carrier(subfield_generated(k, {ring_0(k)}))
+      #|  (field_extension : ((Ring[A], Ring[B]), (A) -> B) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B)) == (field(k) && field(l) && ring_monomorphism((k, l), h))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 ring_monomorphism((k, l), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 ring_homomorphism((k, l), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 SUBSET(IMAGE(h, ring_carrier(k)), ring_carrier(l))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 x : A, field_extension((k, l), h) && IN(x, ring_carrier(k)) \226\134\146 IN(h(x), ring_carrier(l))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) && field(subring_generated(k, (s : (A) -> Bool))) \226\134\146 field_extension((subring_generated(k, s), l), h)
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 f : (A) -> B, \226\136\128 f' : (A) -> B, field_extension((k, l), f) && (\226\136\128 x : A, IN(x, ring_carrier(k)) \226\134\146 f'(x) == f(x)) \226\134\146 field_extension((k, l), f')
       #|  \226\136\128 k : Ring[A], field_extension((k, k), I) == field(k)
-      #|  forall(f:A->B) (g:B->C) k l m.\n        field_extension (k,l) f /\\ field_extension (l,m) g\n        ==> field_extension (k,m) (g o f)
-      #|  forall(k:A ring) l m.\n     field_extension (k,l) I /\\ field_extension (l,m) I\n     ==> field_extension (k,m) I
-      #|  forall(f:A->B) k l.\n        (field k \\/ field l) /\\ ring_isomorphism (k,l) f\n        ==> field_extension (k,l) f
-      #|  forall(l:A ring) k.\n        field_extension(subring_generated l k,l) I <=>\n        field l /\\ ring_carrier(subring_generated l k) subfield_of l
-      #|  forall(h:A->B) k l s.\n        field_extension(k,l) h /\\\n        s subfield_of l /\\\n        IMAGE h (ring_carrier k) SUBSET s\n        ==> field_extension(k,subring_generated l s) h
-      #|  forall(h:A->B) k l s.\n        field_extension(k,l) h /\\\n        s subfield_of l /\\\n        IMAGE h (ring_carrier k) SUBSET s\n        ==> field_extension(k,subfield_generated l s) h
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], field_extension((k, l), f) && field_extension((l, m), g) \226\134\146 field_extension((k, m), o(g, f))
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[A], \226\136\128 m : Ring[A], field_extension((k, l), I) && field_extension((l, m), I) \226\134\146 field_extension((k, m), I)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], (field(k) || field(l)) && ring_isomorphism((k, l), f) \226\134\146 field_extension((k, l), f)
+      #|  \226\136\128 l : Ring[A], \226\136\128 k : (A) -> Bool, field_extension((subring_generated(l, k), l), I) == (field(l) && subfield_of(ring_carrier(subring_generated(l, k)), l))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, field_extension((k, l), h) && subfield_of(s, l) && SUBSET(IMAGE(h, ring_carrier(k)), s) \226\134\146 field_extension((k, subring_generated(l, s)), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, field_extension((k, l), h) && subfield_of(s, l) && SUBSET(IMAGE(h, ring_carrier(k)), s) \226\134\146 field_extension((k, subfield_generated(l, s)), h)
       #|  (x : A)
       #|  (UNIV : (Unit) -> Bool)
       #|  (k : Ring[A])
@@ -27401,11 +27401,11 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (k : Ring[A])
       #|  (x : A)
       #|  (poly_ring : (Ring[A], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> A])((k : Ring[A]), (UNIV : (Unit) -> Bool))
-      #|  forall(k:A ring) j.\n        field k /\\ maximal_ideal (poly_ring k (:1)) j\n        ==> field_extension (k,quotient_ring (poly_ring k (:1)) j)\n                            (ring_coset (poly_ring k (:1)) j o poly_const k)
+      #|  \226\136\128 k : Ring[A], \226\136\128 j : (((Unit) -> Num) -> A) -> Bool, field(k) && maximal_ideal(poly_ring(k, UNIV), j) \226\134\146 field_extension((k, quotient_ring(poly_ring(k, UNIV), j)), o(ring_coset(poly_ring(k, UNIV), j), poly_const(k)))
       #|  (UNIV : (Unit) -> Bool)
       #|  (k : Ring[A])
       #|  (k : Ring[A])
-      #|  poly_var (k:A ring) one INSERT IMAGE (poly_const k) (ring_carrier k)
+      #|  INSERT(poly_var((k : Ring[A]), one), IMAGE(poly_const(k), ring_carrier(k)))
       #|  ((p : Bool) \226\134\146 !(r : Bool)) && (q : Bool) && r \226\134\146 !p && q && r
       #|  (j : (((Unit) -> Num) -> A) -> Bool)
       #|  (k : Ring[A])
@@ -27414,16 +27414,16 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (z : (((Unit) -> Num) -> A) -> Bool)
       #|  (h : (A, ((Unit) -> Num) -> A) -> Bool)
       #|  (l : Ring[(((Unit) -> Num) -> A) -> Bool])
-      #|  z = ring_coset (poly_ring (k:A ring) (:1)) j (poly_var k one)
-      #|  h = ring_coset (poly_ring (k:A ring) (:1)) j o poly_const k
-      #|  l = quotient_ring (poly_ring (k:A ring) (:1)) j
+      #|  (z : (((Unit) -> Num) -> A) -> Bool) == ring_coset(poly_ring((k : Ring[A]), UNIV), (j : (((Unit) -> Num) -> A) -> Bool), poly_var(k, one))
+      #|  (h : (A, ((Unit) -> Num) -> A) -> Bool) == o(ring_coset(poly_ring((k : Ring[A]), UNIV), (j : (((Unit) -> Num) -> A) -> Bool)), poly_const(k))
+      #|  (l : Ring[(((Unit) -> Num) -> A) -> Bool]) == quotient_ring(poly_ring((k : Ring[A]), UNIV), (j : (((Unit) -> Num) -> A) -> Bool))
       #|  (j : (((Unit) -> Num) -> A) -> Bool) == ideal_generated(poly_ring((k : Ring[A]), UNIV), {(q : ((Unit) -> Num) -> A)})
       #|  (q : ((Unit) -> Num) -> A) == ring_0(poly_ring((k : Ring[A]), UNIV))
       #|  IN((q : ((Unit) -> Num) -> A), ring_carrier(poly_ring((k : Ring[A]), UNIV)))
       #|  (q : ((Unit) -> Num) -> A)
       #|  (p : ((Unit) -> Num) -> A)
       #|  (poly_ring : (Ring[A], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> A])((k : Ring[A]), (UNIV : (Unit) -> Bool))
-      #|  forall(k:A ring) p.\n      field k /\\\n      p IN ring_carrier(poly_ring k (:1)) /\\ ~(poly_deg k p = 0) /\\\n      ~(?x. x IN ring_carrier k /\\ poly_eval k p x = ring_0 k)\n      ==> ?l h z:((1->num)->A)->bool.\n                field_extension(k,l) h /\\\n                z IN ring_carrier l /\\\n                ~(z IN IMAGE h (ring_carrier k)) /\\\n                subring_generated l (z INSERT IMAGE h (ring_carrier k)) = l /\\\n                poly_eval l (h o p) z = ring_0 l
+      #|  \226\136\128 k : Ring[A], \226\136\128 p : ((Unit) -> Num) -> A, field(k) && IN(p, ring_carrier(poly_ring(k, UNIV))) && !(poly_deg(k, p) == 0) && !(\226\136\131 x : A, IN(x, ring_carrier(k)) && poly_eval(k, p, x) == ring_0(k)) \226\134\146 (\226\136\131 l : Ring[(((Unit) -> Num) -> A) -> Bool], \226\136\131 h : (A, ((Unit) -> Num) -> A) -> Bool, \226\136\131 z : (((Unit) -> Num) -> A) -> Bool, field_extension((k, l), h) && IN(z, ring_carrier(l)) && !IN(z, IMAGE(h, ring_carrier(k))) && subring_generated(l, INSERT(z, IMAGE(h, ring_carrier(k)))) == l && poly_eval(l, o(h, p), z) == ring_0(l))
       #|  (poly_ring : (Ring[B], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> B])((l : Ring[B]), (UNIV : (Unit) -> Bool))
       #|  (q : ((Unit) -> Num) -> A)
       #|  (p : ((Unit) -> Num) -> A)
@@ -27431,15 +27431,15 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (l : Ring[B])
       #|  (poly_ring : (Ring[A], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> A])((k : Ring[A]), (UNIV : (Unit) -> Bool))
       #|  (y : B)
-      #|  forall(k:A ring) (l:B ring) (h:A->B) p q.\n        field_extension(k,l) h /\\ ring_coprime(poly_ring k (:1)) (p, q)\n        ==> ~(?x. x IN ring_carrier l /\\\n                  poly_eval l (h o p) x = ring_0 l /\\\n                  poly_eval l (h o q) x = ring_0 l)
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 h : (A) -> B, \226\136\128 p : ((Unit) -> Num) -> A, \226\136\128 q : ((Unit) -> Num) -> A, field_extension((k, l), h) && ring_coprime(poly_ring(k, UNIV), (p, q)) \226\134\146 !(\226\136\131 x : B, IN(x, ring_carrier(l)) && poly_eval(l, o(h, p), x) == ring_0(l) && poly_eval(l, o(h, q), x) == ring_0(l))
       #|  (x : A)
       #|  (q : ((Unit) -> Num) -> A)
       #|  (p : ((Unit) -> Num) -> A)
       #|  (I : (A) -> A)
       #|  (E : Ring[A])
       #|  (k : Ring[A])
-      #|  forall(k:A ring) (E:A ring) p q.\n        field_extension(k,E) I /\\\n        ring_coprime(poly_ring k (:1)) (p, q)\n        ==> ~(?x. x IN ring_carrier E /\\\n                  poly_eval E p x = ring_0 E /\\\n                  poly_eval E q x = ring_0 E)
-      #|  (ring_0 (SND kl) IN ring_span kl (h:A->B) s) /\\\n    (forall x. x IN s /\\ x IN ring_carrier(SND kl) ==> x IN ring_span kl h s) /\\\n    (forall x y. x IN ring_span kl h s /\\ y IN ring_span kl h s\n           ==> ring_add (SND kl) x y IN ring_span kl h s) /\\\n    (forall a x. a IN ring_carrier(FST kl) /\\\n           h a IN ring_carrier(SND kl) /\\\n           x IN ring_span kl h s\n           ==> ring_mul (SND kl) (h a) x IN ring_span kl h s)
+      #|  \226\136\128 k : Ring[A], \226\136\128 E : Ring[A], \226\136\128 p : ((Unit) -> Num) -> A, \226\136\128 q : ((Unit) -> Num) -> A, field_extension((k, E), I) && ring_coprime(poly_ring(k, UNIV), (p, q)) \226\134\146 !(\226\136\131 x : A, IN(x, ring_carrier(E)) && poly_eval(E, p, x) == ring_0(E) && poly_eval(E, q, x) == ring_0(E))
+      #|  IN(ring_0(SND((kl : (Ring[A], Ring[B])))), (ring_span : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool, B) -> Bool)(kl, (h : (A) -> B), (s : (B) -> Bool))) && (\226\136\128 x : B, IN(x, s) && IN(x, ring_carrier(SND(kl))) \226\134\146 IN(x, ring_span(kl, h, s))) && (\226\136\128 x : B, \226\136\128 y : B, IN(x, ring_span(kl, h, s)) && IN(y, ring_span(kl, h, s)) \226\134\146 IN(ring_add(SND(kl), x, y), ring_span(kl, h, s))) && (\226\136\128 a : A, \226\136\128 x : B, IN(a, ring_carrier(FST(kl))) && IN(h(a), ring_carrier(SND(kl))) && IN(x, ring_span(kl, h, s)) \226\134\146 IN(ring_mul(SND(kl), h(a), x), ring_span(kl, h, s)))
       #|  op_eq_eq_gt
       #|  op_eq_eq_gt
       #|  op_eq_eq_gt
@@ -27449,14 +27449,14 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (h : (A) -> B)
-      #|  forall(h:A->B) k l s. ring_span (k,l) h s SUBSET ring_carrier l
-      #|  forall(h:A->B) k l s. ring_carrier l INTER s SUBSET ring_span (k,l) h s
-      #|  forall(h:A->B) k l s.\n        s SUBSET ring_carrier l ==> s SUBSET ring_span (k,l) h s
-      #|  forall(h:A->B) k l s. s SUBSET ring_span (k,l) h s <=> s SUBSET ring_carrier l
-      #|  forall(h:A->B) k l s t.\n        s SUBSET t ==> ring_span (k,l) h s SUBSET ring_span (k,l) h t
-      #|  forall(h:A->B) k l s t.\n        ring_span (k,l) h s SUBSET ring_span (k,l) h t <=>\n        ring_carrier l INTER s SUBSET ring_span (k,l) h t
-      #|  forall(h:A->B) k l s.\n        ring_span (k,l) h s = ring_span (k,l) h (ring_carrier l INTER s)
-      #|  forall(h:A->B) k l s.\n        ring_span (k,l) h (ring_span (k,l) h s) = ring_span (k,l) h s
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, SUBSET(ring_span((k, l), h, s), ring_carrier(l))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, SUBSET(INTER(ring_carrier(l), s), ring_span((k, l), h, s))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, SUBSET(s, ring_carrier(l)) \226\134\146 SUBSET(s, ring_span((k, l), h, s))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, SUBSET(s, ring_span((k, l), h, s)) == SUBSET(s, ring_carrier(l))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 t : (B) -> Bool, SUBSET(s, t) \226\134\146 SUBSET(ring_span((k, l), h, s), ring_span((k, l), h, t))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 t : (B) -> Bool, SUBSET(ring_span((k, l), h, s), ring_span((k, l), h, t)) == SUBSET(INTER(ring_carrier(l), s), ring_span((k, l), h, t))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, ring_span((k, l), h, s) == ring_span((k, l), h, INTER(ring_carrier(l), s))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, ring_span((k, l), h, ring_span((k, l), h, s)) == ring_span((k, l), h, s)
       #|  UNION((t : (B) -> Bool), (u : (B) -> Bool))
       #|  (u : (B) -> Bool)
       #|  (t : (B) -> Bool)
@@ -27465,22 +27465,22 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  {(x : B)}
       #|  (x : B)
       #|  ({} : (B) -> Bool)
-      #|  forall(h:A->B) k l s a.\n        a IN ring_span (k,l) h s\n        ==> ?t. FINITE t /\\ t SUBSET s /\\ a IN ring_span (k,l) h t
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 a : B, IN(a, ring_span((k, l), h, s)) \226\134\146 (\226\136\131 t : (B) -> Bool, FINITE(t) && SUBSET(t, s) && IN(a, ring_span((k, l), h, t)))
       #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, !(ring_span((k, l), h, s) == {})
-      #|  forall(h:A->B) l k. ring_span (k,l) h (ring_carrier l) = ring_carrier l
-      #|  forall(h:A->B) k l.\n        ring_homomorphism(k,l) h ==> ring_span (k,l) h {} = {ring_0 l}
+      #|  \226\136\128 h : (A) -> B, \226\136\128 l : Ring[B], \226\136\128 k : Ring[A], ring_span((k, l), h, ring_carrier(l)) == ring_carrier(l)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], ring_homomorphism((k, l), h) \226\134\146 ring_span((k, l), h, {}) == {ring_0(l)}
       #|  (x : B)
       #|  ring_neg((k : Ring[A]), ring_1(k))
       #|  (s : (B) -> Bool)
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (h : (A) -> B)
-      #|  forall(h:A->B) k l s x.\n        ring_homomorphism(k,l) h /\\ x IN ring_span (k,l) h s\n        ==> ring_neg l x IN ring_span (k,l) h s
-      #|  forall(h:A->B) k l s x y.\n        ring_homomorphism(k,l) h /\\\n        x IN ring_span (k,l) h s /\\ y IN ring_span (k,l) h s\n        ==> ring_sub l x y IN ring_span (k,l) h s
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 x : B, ring_homomorphism((k, l), h) && IN(x, ring_span((k, l), h, s)) \226\134\146 IN(ring_neg(l, x), ring_span((k, l), h, s))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 x : B, \226\136\128 y : B, ring_homomorphism((k, l), h) && IN(x, ring_span((k, l), h, s)) && IN(y, ring_span((k, l), h, s)) \226\134\146 IN(ring_sub(l, x, y), ring_span((k, l), h, s))
       #|  (f : (K) -> B)
       #|  (x : B) => IN(x, ring_span(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)))
       #|  (l : Ring[B])
-      #|  forall(h:A->B) k l f s (t:K->bool).\n        (forall i. i IN t ==> f i IN ring_span (k,l) h s)\n        ==> ring_sum l t f IN ring_span (k,l) h s
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 f : (K) -> B, \226\136\128 s : (B) -> Bool, \226\136\128 t : (K) -> Bool, (\226\136\128 i : K, IN(i, t) \226\134\146 IN(f(i), ring_span((k, l), h, s))) \226\134\146 IN(ring_sum(l, t, f), ring_span((k, l), h, s))
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (h : (A) -> B)
@@ -27502,7 +27502,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (x : B)
       #|  (x : B)
       #|  ring_0((l : Ring[B]))
-      #|  forall(h:A->B) k l s t.\n        ring_homomorphism(k,l) h\n        ==> ring_span (k,l) h (s UNION t) =\n            { ring_add l x y | x,y |\n              x IN ring_span (k,l) h s /\\ y IN ring_span (k,l) h t}
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 t : (B) -> Bool, ring_homomorphism((k, l), h) \226\134\146 ring_span((k, l), h, UNION(s, t)) == {ring_add(l, x, y) | x : B, y : B | IN(x, ring_span((k, l), h, s)) && IN(y, ring_span((k, l), h, t))}
       #|  ring_mul((k : Ring[A]), (c : A), (d : A))
       #|  (d : A)
       #|  (c : A)
@@ -27511,20 +27511,20 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (c : A)
       #|  ring_1((k : Ring[A]))
       #|  ring_0((k : Ring[A]))
-      #|  forall(h:A->B) k l x.\n        ring_homomorphism(k,l) h /\\ x IN ring_carrier l\n        ==> ring_span (k,l) h {x} =\n            { ring_mul l (h c) x | c | c IN ring_carrier k}
-      #|  ring_mul r c' c = ring_1 r\n     ==> b = ring_add r (ring_add r (ring_mul r c' (ring_mul r c b)) x)\n                        (ring_neg r x)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 x : B, ring_homomorphism((k, l), h) && IN(x, ring_carrier(l)) \226\134\146 ring_span((k, l), h, {x}) == {ring_mul(l, h((c : A)), x) | IN(c, ring_carrier(k))}
+      #|  ring_mul((r : Ring[_]), (c' : _), (c : _)) == ring_1(r) \226\134\146 (b : _) == ring_add(r, ring_add(r, ring_mul(r, c', ring_mul(r, c, b)), (x : _)), ring_neg(r, x))
       #|  ring_inv((k : Ring[A]), (c : A))
       #|  ring_neg((l : Ring[B]), ring_mul(l, (h : (A) -> B)(ring_inv((k : Ring[A]), (c : A))), (x' : B)))
       #|  (c : A) == ring_0((k : Ring[A]))
       #|  IN((x' : B), ring_carrier((l : Ring[B])))
       #|  (c : A)
       #|  (x' : B)
-      #|  {f x y | x IN {g z | P z} /\\ Q y} = {f (g z) y |y,z| P z /\\ Q y}
+      #|  {(f : (_, _) -> _)((x : _), (y : _)) | IN(x, {(g : (_) -> _)((z : _)) | (P : (_) -> Bool)(z)}) && (Q : (_) -> Bool)(y)} == {f(g(z), y) | y : _, z : _ | P(z) && Q(y)}
       #|  INSERT((a : _), (s : (_) -> Bool)) == UNION({a}, s)
       #|  IN((a : B), ring_carrier((l : Ring[B])))
       #|  !IN((b : _), (l : (_) -> Bool)) \226\134\146 INTER(l, INSERT(b, (s : (_) -> Bool))) == INTER(l, s)
       #|  IN((b : B), ring_carrier((l : Ring[B])))
-      #|  forall(h:A->B) k l s a b.\n        field k /\\ ring_homomorphism(k,l) h /\\\n        a IN ring_span (k,l) h (b INSERT s) /\\ ~(a IN ring_span (k,l) h s)\n        ==> b IN ring_span (k,l) h (a INSERT s)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 a : B, \226\136\128 b : B, field(k) && ring_homomorphism((k, l), h) && IN(a, ring_span((k, l), h, INSERT(b, s))) && !IN(a, ring_span((k, l), h, s)) \226\134\146 IN(b, ring_span((k, l), h, INSERT(a, s)))
       #|  op_bslash_slash
       #|  op_bslash_slash
       #|  op_bslash_slash
@@ -27541,81 +27541,81 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (c : (B) -> A)
       #|  (d : A)
       #|  UNION({(x : _)}, (s : (_) -> Bool)) == INSERT(x, s)
-      #|  {f x y | x IN {g w | P w} /\\ y IN {h z | Q z}} =\n    {f (g w) (h z) | P w /\\ Q z}
+      #|  {(f : (_, _) -> _)((x : _), (y : _)) | IN(x, {(g : (_) -> _)((w : _)) | (P : (_) -> Bool)(w)}) && IN(y, {(h : (_) -> _)((z : _)) | (Q : (_) -> Bool)(z)})} == {f(g((w : _)), h((z : _))) | P(w) && Q(z)}
       #|  INSERT((x : _), (s : (_) -> Bool)) == UNION({x}, s)
       #|  (s : (B) -> Bool)
       #|  (x : B)
-      #|  forall(h:A->B) k l s.\n      ring_homomorphism(k,l) h /\\ FINITE s /\\ s SUBSET ring_carrier l\n      ==> ring_span (k,l) h s =\n          { ring_sum l s (\\x. ring_mul l (h(c x)) x) |c|\n            forall x. x IN s ==> c x IN ring_carrier k }
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, ring_homomorphism((k, l), h) && FINITE(s) && SUBSET(s, ring_carrier(l)) \226\134\146 ring_span((k, l), h, s) == {ring_sum(l, s, (x : B) => ring_mul(l, h(c(x)), x)) | c : (B) -> A | \226\136\128 x : B, IN(x, s) \226\134\146 IN(c(x), ring_carrier(k))}
       #|  (s : (B) -> Bool)
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (f : (A) -> B)
       #|  ring_carrier((l : Ring[B]))
-      #|  forall t. (forall x. x IN s ==> x IN t /\\ f(x) IN u)\n          ==> IMAGE f s SUBSET u
-      #|  forall(f:A->B) (g:B->C) k l m s.\n        ring_homomorphism(k,l) f /\\\n        ring_homomorphism(l,m) g /\\\n        s SUBSET ring_carrier l\n        ==> IMAGE g (ring_span (k,l) f s) =\n            ring_span (k,m) (g o f) (IMAGE g s)
-      #|  ring_matroid (k,l) (h:A->B) = matroid(ring_carrier l,ring_span (k,l) h)
-      #|  forall(h:A->B) k l.\n        field k /\\ ring_homomorphism(k,l) h\n        ==> matroid_set(ring_matroid (k,l) h) = ring_carrier l /\\\n            matroid_span(ring_matroid (k,l) h) = ring_span (k,l) h
-      #|  ring_dependent (k,l) (h:A->B) s <=>\n        s SUBSET ring_carrier l /\\\n        ?a. a IN s /\\ a IN ring_span (k,l) h (s DELETE a)
-      #|  ring_independent (k,l) (h:A->B) s <=>\n        s SUBSET ring_carrier l /\\ ~(ring_dependent (k,l) h s)
-      #|  ring_spanning (k,l) (h:A->B) s <=>\n        s SUBSET ring_carrier l /\\ ring_span (k,l) h s = ring_carrier l
-      #|  ring_basis (k,l) (h:A->B) s <=>\n        ring_independent (k,l) h s /\\ ring_spanning (k,l) h s
-      #|  forall(h:A->B) k l s. ring_dependent (k,l) h s ==> s SUBSET ring_carrier l
-      #|  forall(h:A->B) k l s. ring_independent (k,l) h s ==> s SUBSET ring_carrier l
-      #|  forall(h:A->B) k l s. ring_spanning (k,l) h s ==> s SUBSET ring_carrier l
-      #|  forall(h:A->B) k l s. ring_basis (k,l) h s ==> s SUBSET ring_carrier l
-      #|  forall(h:A->B) k l.\n        field k /\\ ring_homomorphism(k,l) h\n        ==> (matroid_independent(ring_matroid (k,l) h) =\n             ring_independent (k,l) h)
-      #|  forall(h:A->B) k l.\n        field k /\\ ring_homomorphism(k,l) h\n        ==> (matroid_spanning(ring_matroid (k,l) h) =\n             ring_spanning (k,l) h)
-      #|  forall(h:A->B) k l.\n        field k /\\ ring_homomorphism(k,l) h\n        ==> (matroid_basis(ring_matroid (k,l) h) =\n             ring_basis (k,l) h)
-      #|  forall(h:A->B) k l.\n        field k /\\ ring_homomorphism(k,l) h ==> ?b. ring_basis (k,l) h b
-      #|  forall(h:A->B) k l.\n        field k /\\ ring_homomorphism(k,l) h /\\ ring_spanning (k,l) h b\n        ==> ?c. c SUBSET b /\\ ring_basis (k,l) h c
-      #|  forall(h:A->B) k l b b'.\n        field k /\\ ring_homomorphism(k,l) h /\\\n        ring_basis (k,l) h b /\\ ring_basis (k,l) h b'\n        ==> b =_c b'
-      #|  forall(h:A->B) k l.\n        ring_spanning (k,l) h s <=>\n        s SUBSET ring_carrier l /\\ ring_carrier l SUBSET ring_span (k,l) h s
+      #|  \226\136\128 t : (_) -> Bool, (\226\136\128 x : _, IN(x, (s : (_) -> Bool)) \226\134\146 IN(x, t) && IN((f : (_) -> _)(x), (u : (_) -> Bool))) \226\134\146 SUBSET(IMAGE(f, s), u)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 s : (B) -> Bool, ring_homomorphism((k, l), f) && ring_homomorphism((l, m), g) && SUBSET(s, ring_carrier(l)) \226\134\146 IMAGE(g, ring_span((k, l), f, s)) == ring_span((k, m), o(g, f), IMAGE(g, s))
+      #|  (ring_matroid : ((Ring[A], Ring[B]), (A) -> B) -> Matroid[B])(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B)) == matroid((ring_carrier(l), ring_span((k, l), h)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field(k) && ring_homomorphism((k, l), h) \226\134\146 matroid_set(ring_matroid((k, l), h)) == ring_carrier(l) && matroid_span(ring_matroid((k, l), h)) == ring_span((k, l), h)
+      #|  (ring_dependent : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (SUBSET(s, ring_carrier(l)) && (\226\136\131 a : B, IN(a, s) && IN(a, ring_span((k, l), h, DELETE(s, a)))))
+      #|  (ring_independent : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (SUBSET(s, ring_carrier(l)) && !ring_dependent((k, l), h, s))
+      #|  (ring_spanning : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (SUBSET(s, ring_carrier(l)) && ring_span((k, l), h, s) == ring_carrier(l))
+      #|  (ring_basis : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (ring_independent((k, l), h, s) && ring_spanning((k, l), h, s))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, ring_dependent((k, l), h, s) \226\134\146 SUBSET(s, ring_carrier(l))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, ring_independent((k, l), h, s) \226\134\146 SUBSET(s, ring_carrier(l))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, ring_spanning((k, l), h, s) \226\134\146 SUBSET(s, ring_carrier(l))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, ring_basis((k, l), h, s) \226\134\146 SUBSET(s, ring_carrier(l))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field(k) && ring_homomorphism((k, l), h) \226\134\146 matroid_independent(ring_matroid((k, l), h)) == ring_independent((k, l), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field(k) && ring_homomorphism((k, l), h) \226\134\146 matroid_spanning(ring_matroid((k, l), h)) == ring_spanning((k, l), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field(k) && ring_homomorphism((k, l), h) \226\134\146 matroid_basis(ring_matroid((k, l), h)) == ring_basis((k, l), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field(k) && ring_homomorphism((k, l), h) \226\134\146 (\226\136\131 b : (B) -> Bool, ring_basis((k, l), h, b))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field(k) && ring_homomorphism((k, l), h) && ring_spanning((k, l), h, (b : (B) -> Bool)) \226\134\146 (\226\136\131 c : (B) -> Bool, SUBSET(c, b) && ring_basis((k, l), h, c))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 b : (B) -> Bool, \226\136\128 b' : (B) -> Bool, field(k) && ring_homomorphism((k, l), h) && ring_basis((k, l), h, b) && ring_basis((k, l), h, b') \226\134\146 op_eq_us_c(b, b')
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], ring_spanning((k, l), h, (s : (B) -> Bool)) == (SUBSET(s, ring_carrier(l)) && SUBSET(ring_carrier(l), ring_span((k, l), h, s)))
       #|  (b : (B) -> Bool) == {}
-      #|  forall(h:A->B) k l b.\n        field_extension(k,l) h /\\ ring_spanning (k,l) h b ==> ~(b = {})
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 b : (B) -> Bool, field_extension((k, l), h) && ring_spanning((k, l), h, b) \226\134\146 !(b == {})
       #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], ring_independent((k, l), h, {})
-      #|  forall(h:A->B) k l s. ring_independent (k,l) h s ==> ~(ring_0 l IN s)
-      #|  forall(h:A->B) k l s t.\n    ring_dependent (k,l) h s /\\ s SUBSET t /\\ t SUBSET ring_carrier l\n    ==> ring_dependent (k,l) h t
-      #|  forall(h:A->B) k l s t.\n        ring_independent (k,l) h t /\\ s SUBSET t\n        ==> ring_independent (k,l) h s
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, ring_independent((k, l), h, s) \226\134\146 !IN(ring_0(l), s)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 t : (B) -> Bool, ring_dependent((k, l), h, s) && SUBSET(s, t) && SUBSET(t, ring_carrier(l)) \226\134\146 ring_dependent((k, l), h, t)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 t : (B) -> Bool, ring_independent((k, l), h, t) && SUBSET(s, t) \226\134\146 ring_independent((k, l), h, s)
       #|  DELETE(INSERT((a : B), (t : (B) -> Bool)), a) == t
       #|  INSERT((a : B), (t : (B) -> Bool))
       #|  (t : (B) -> Bool)
       #|  (a : B)
-      #|  forall(h:A->B) k l s.\n        ring_dependent (k,l) h s <=>\n        s SUBSET ring_carrier l /\\\n        ?t. FINITE t /\\ t SUBSET s /\\ ring_dependent (k,l) h t
-      #|  forall(h:A->B) k l s.\n        ring_independent (k,l) h s <=>\n        s SUBSET ring_carrier l /\\\n        forall t. FINITE t /\\ t SUBSET s ==> ring_independent (k,l) h t
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, ring_dependent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (\226\136\131 t : (B) -> Bool, FINITE(t) && SUBSET(t, s) && ring_dependent((k, l), h, t)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, ring_independent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (\226\136\128 t : (B) -> Bool, FINITE(t) && SUBSET(t, s) \226\134\146 ring_independent((k, l), h, t)))
       #|  ring_matroid(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B))
-      #|  forall(h:A->B) k l s t.\n        field k /\\ ring_homomorphism(k,l) h /\\ t SUBSET ring_carrier l /\\\n        FINITE t /\\\n        ring_independent (k,l) h s /\\ s SUBSET ring_span (k,l) h t\n        ==> FINITE s /\\ CARD s <= CARD t
-      #|  \\x. ring_mul k (ring_neg k (ring_inv k (c a))) ((c:B->A) x)
-      #|  ring_add r (ring_neg r x) b = ring_mul r y (ring_0 r) <=>\n        b = x
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 t : (B) -> Bool, field(k) && ring_homomorphism((k, l), h) && SUBSET(t, ring_carrier(l)) && FINITE(t) && ring_independent((k, l), h, s) && SUBSET(s, ring_span((k, l), h, t)) \226\134\146 FINITE(s) && CARD(s) <= CARD(t)
+      #|  (x : B) => ring_mul((k : Ring[A]), ring_neg(k, ring_inv(k, (c : (B) -> A)((a : B)))), c(x))
+      #|  (ring_add((r : Ring[_]), ring_neg(r, (x : _)), (b : _)) == ring_mul(r, (y : _), ring_0(r))) == (b == x)
       #|  o((h : (A) -> B), ring_neg((k : Ring[A])))
       #|  (c : (B) -> A)((a : B))
       #|  (k : Ring[A])
-      #|  ring_mul l y y' = ring_neg l (ring_1 l)\n        ==> ring_mul l y (ring_mul l y' a) = ring_neg l a
-      #|  ring_mul l y (ring_mul l (h((c:B->A) a)) a) = ring_neg l a
+      #|  ring_mul((l : Ring[_]), (y : _), (y' : _)) == ring_neg(l, ring_1(l)) \226\134\146 ring_mul(l, y, ring_mul(l, y', (a : _))) == ring_neg(l, a)
+      #|  ring_mul((l : Ring[B]), (y : B), ring_mul(l, (h : (A) -> B)((c : (B) -> A)((a : B))), a)) == ring_neg(l, a)
       #|  (s : (B) -> Bool) == INSERT((a : B), DELETE(s, a))
       #|  ring_mul((l : Ring[B]), (y : B))
       #|  IN((y : B), ring_carrier((l : Ring[B])))
       #|  (y : B) == (h : (A) -> B)(ring_neg((k : Ring[A]), ring_inv(k, (c : (B) -> A)((a : B)))))
       #|  IN((a : _), (s : (_) -> Bool)) \226\134\146 {(x : _) | IN(x, s) && x == a} == {a}
-      #|  \\x. if x = a then ring_neg k (ring_1 k) else (c:B->A) x
+      #|  (x : B) => if x == (a : B) { ring_neg((k : Ring[A]), ring_1(k)) } else { (c : (B) -> A)(x) }
       #|  (c : (B) -> A)
       #|  IN((a : B), (s : (B) -> Bool))
       #|  (a : B)
       #|  SUBSET((s : (_) -> Bool), (t : (_) -> Bool)) \226\134\146 SUBSET(DELETE(s, (a : _)), t)
       #|  SUBSET((s : (B) -> Bool), ring_carrier((l : Ring[B])))
-      #|  forall(h:A->B) k l s.\n        field k /\\ ring_homomorphism(k,l) h /\\ FINITE s\n        ==> (ring_dependent (k,l) h s <=>\n             s SUBSET ring_carrier l /\\\n             ?c. ring_sum l s (\\x. ring_mul l (h(c x)) x) = ring_0 l /\\\n                 (forall x. x IN s ==> c x IN ring_carrier k) /\\\n                 ?x. x IN s /\\ ~(c x = ring_0 k))
-      #|  forall(h:A->B) k l s.\n        field k /\\ ring_homomorphism(k,l) h /\\ FINITE s\n        ==> (ring_independent (k,l) h s <=>\n             s SUBSET ring_carrier l /\\\n             forall c. ring_sum l s (\\x. ring_mul l (h(c x)) x) = ring_0 l /\\\n                 (forall x. x IN s ==> c x IN ring_carrier k)\n                 ==> (forall x. x IN s ==> c x = ring_0 k))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, field(k) && ring_homomorphism((k, l), h) && FINITE(s) \226\134\146 ring_dependent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (\226\136\131 c : (B) -> A, ring_sum(l, s, (x : B) => ring_mul(l, h(c(x)), x)) == ring_0(l) && (\226\136\128 x : B, IN(x, s) \226\134\146 IN(c(x), ring_carrier(k))) && (\226\136\131 x : B, IN(x, s) && !(c(x) == ring_0(k)))))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, field(k) && ring_homomorphism((k, l), h) && FINITE(s) \226\134\146 ring_independent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (\226\136\128 c : (B) -> A, ring_sum(l, s, (x : B) => ring_mul(l, h(c(x)), x)) == ring_0(l) && (\226\136\128 x : B, IN(x, s) \226\134\146 IN(c(x), ring_carrier(k))) \226\134\146 (\226\136\128 x : B, IN(x, s) \226\134\146 c(x) == ring_0(k))))
       #|  (x : B) => ring_0((k : Ring[A]))
       #|  (c : (B) -> A)
-      #|  ring_sum r s x = ring_sum r s y\n      ==> ring_sub r (ring_sum r s y) (ring_sum r s x) = ring_0 r
+      #|  ring_sum((r : Ring[_]), (s : (_) -> Bool), (x : (_) -> _)) == ring_sum(r, s, (y : (_) -> _)) \226\134\146 ring_sub(r, ring_sum(r, s, y), ring_sum(r, s, x)) == ring_0(r)
       #|  (x : B) => ring_sub((k : Ring[A]), (d : (B) -> A)(x), (c : (B) -> A)(x))
       #|  (d : (B) -> A)
       #|  (c : (B) -> A)
       #|  SUBSET((s : (B) -> Bool), ring_carrier((l : Ring[B])))
-      #|  forall(h:A->B) k l s.\n        field k /\\ ring_homomorphism(k,l) h /\\ FINITE s\n        ==> (ring_independent (k,l) h s <=>\n             s SUBSET ring_carrier l /\\\n             forall c d. ring_sum l s (\\x. ring_mul l (h(c x)) x) =\n                   ring_sum l s (\\x. ring_mul l (h(d x)) x) /\\\n                  (forall x. x IN s\n                       ==> c x IN ring_carrier k /\\ d x IN ring_carrier k)\n                 ==> (forall x. x IN s ==> c x = d x))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, field(k) && ring_homomorphism((k, l), h) && FINITE(s) \226\134\146 ring_independent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (\226\136\128 c : (B) -> A, \226\136\128 d : (B) -> A, ring_sum(l, s, (x : B) => ring_mul(l, h(c(x)), x)) == ring_sum(l, s, (x : B) => ring_mul(l, h(d(x)), x)) && (\226\136\128 x : B, IN(x, s) \226\134\146 IN(c(x), ring_carrier(k)) && IN(d(x), ring_carrier(k))) \226\134\146 (\226\136\128 x : B, IN(x, s) \226\134\146 c(x) == d(x))))
       #|  IN((a : _), (s : (_) -> Bool)) \226\134\146 {(x : _) | IN(x, s) && x == a} == {a}
       #|  \226\136\128 x : K, IN(x, (s : (K) -> Bool)) \226\134\146 IN((f : (K) -> B)(x), ring_carrier((l : Ring[B])))
       #|  (m : K)
-      #|  (\\i. if i = m then ring_1 k\n           else if i = n then ring_neg k (ring_1 k)\n           else ring_0 k):K->A
+      #|  (i : K) => if i == (m : K) { ring_1((k : Ring[A])) } else { if i == (n : K) { ring_neg(k, ring_1(k)) } else { ring_0(k) } }
       #|  (n : K)
       #|  (m : K)
       #|  o((c : (B) -> A), (f : (K) -> B))
@@ -27626,15 +27626,15 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (h : (A) -> B)
-      #|  forall i j. i IN s /\\ j IN s ==> ((f:K->B) i = f j <=> i = j)
-      #|  forall(h:A->B) k l (f:K->B) s t.\n        field k /\\ ring_homomorphism(k,l) h /\\ t SUBSET ring_carrier l /\\\n        FINITE s /\\ FINITE t /\\ IMAGE f s SUBSET ring_span (k,l) h t /\\\n        CARD t < CARD s\n        ==> ?c. ring_sum l s (\\x. ring_mul l (h(c x)) (f x)) = ring_0 l /\\\n                (forall x. x IN s ==> c x IN ring_carrier k) /\\\n                ?x. x IN s /\\ ~(c x = ring_0 k)
-      #|  forall(h:A->B) k l s.\n        ring_span (k,l) h s SUBSET\n        ring_carrier(subring_generated l (IMAGE h (ring_carrier k) UNION s))
-      #|  forall(h:A->B) k l s.\n        ring_span (k,l) h s SUBSET\n        ring_carrier(subfield_generated l (IMAGE h (ring_carrier k) UNION s))
+      #|  \226\136\128 i : K, \226\136\128 j : K, IN(i, (s : (K) -> Bool)) && IN(j, s) \226\134\146 ((f : (K) -> B)(i) == f(j)) == (i == j)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 f : (K) -> B, \226\136\128 s : (K) -> Bool, \226\136\128 t : (B) -> Bool, field(k) && ring_homomorphism((k, l), h) && SUBSET(t, ring_carrier(l)) && FINITE(s) && FINITE(t) && SUBSET(IMAGE(f, s), ring_span((k, l), h, t)) && CARD(t) < CARD(s) \226\134\146 (\226\136\131 c : (K) -> A, ring_sum(l, s, (x : K) => ring_mul(l, h(c(x)), f(x))) == ring_0(l) && (\226\136\128 x : K, IN(x, s) \226\134\146 IN(c(x), ring_carrier(k))) && (\226\136\131 x : K, IN(x, s) && !(c(x) == ring_0(k))))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, SUBSET(ring_span((k, l), h, s), ring_carrier(subring_generated(l, UNION(IMAGE(h, ring_carrier(k)), s))))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, SUBSET(ring_span((k, l), h, s), ring_carrier(subfield_generated(l, UNION(IMAGE(h, ring_carrier(k)), s))))
       #|  (a : B)
       #|  (s : (B) -> Bool)
       #|  ring_matroid(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B))
-      #|  forall(h:A->B) k l s a.\n         field k /\\\n         ring_homomorphism (k,l) h /\\\n         s SUBSET ring_carrier l /\\\n         a IN ring_carrier l\n        ==> (ring_independent (k,l) h (a INSERT s) <=>\n             if a IN s then ring_independent (k,l) h s\n             else ring_independent (k,l) h s /\\ ~(a IN ring_span (k,l) h s))
-      #|  forall(h:A->B) k l b c.\n        field k /\\ ring_homomorphism (k,l) h /\\\n        ring_independent (k,l) h b /\\ ring_spanning (k,l) h c\n        ==> b <=_c c
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 a : B, field(k) && ring_homomorphism((k, l), h) && SUBSET(s, ring_carrier(l)) && IN(a, ring_carrier(l)) \226\134\146 ring_independent((k, l), h, INSERT(a, s)) == (if IN(a, s) { ring_independent((k, l), h, s) } else { ring_independent((k, l), h, s) && !IN(a, ring_span((k, l), h, s)) })
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 b : (B) -> Bool, \226\136\128 c : (B) -> Bool, field(k) && ring_homomorphism((k, l), h) && ring_independent((k, l), h, b) && ring_spanning((k, l), h, c) \226\134\146 op_lt_eq_us_c(b, c)
       #|  (m : Ring[C])
       #|  (k : Ring[A])
       #|  o((g : (B) -> C), (f : (A) -> B))
@@ -27661,8 +27661,8 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  SUBSET((c' : (C) -> Bool), ring_carrier((m : Ring[C])))
       #|  (c' : (C) -> Bool)
       #|  (w : C)
-      #|  forall(f:A->B) (g:B->C) k l m b c.\n      field_extension (k,l) f /\\ ring_spanning (k,l) f b /\\\n      field_extension (l,m) g /\\ ring_spanning (l,m) g c\n      ==> ring_spanning (k,m) (g o f) {ring_mul m (g x) y | x IN b /\\ y IN c}
-      #|  {ring_mul m ((g:B->C) x) y | x IN b' /\\ y IN c'} =\n     IMAGE (\\(y,x). ring_mul m (g x) y) (c' CROSS b')
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 b : (B) -> Bool, \226\136\128 c : (C) -> Bool, field_extension((k, l), f) && ring_spanning((k, l), f, b) && field_extension((l, m), g) && ring_spanning((l, m), g, c) \226\134\146 ring_spanning((k, m), o(g, f), {ring_mul(m, g((x : B)), (y : C)) | IN(x, b) && IN(y, c)})
+      #|  {ring_mul((m : Ring[C]), (g : (B) -> C)((x : B)), (y : C)) | IN(x, (b' : (B) -> Bool)) && IN(y, (c' : (C) -> Bool))} == IMAGE(fn { (y, x) => ring_mul(m, g(x), y) }, CROSS(c', b'))
       #|  IMAGE(FST, (t : ((C, B)) -> Bool))
       #|  IMAGE(SND, (t : ((C, B)) -> Bool))
       #|  (t : ((C, B)) -> Bool)
@@ -27672,18 +27672,18 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (y : C)
       #|  (x : B)
       #|  (b' : (B) -> Bool)
-      #|  \\x. ring_mul l ((f:A->B) (c (ring_mul m ((g:B->C) x) y))) x
+      #|  (x : B) => ring_mul((l : Ring[B]), (f : (A) -> B)((c : (C) -> A)(ring_mul((m : Ring[C]), (g : (B) -> C)(x), (y : C)))), x)
       #|  (g : (B) -> C)
       #|  (m : Ring[C])
       #|  (l : Ring[B])
       #|  (y : C)
-      #|  P /\\ x' = x /\\ (Q ==> R) ==> (x = z /\\ P ==> Q) ==> (x' = z ==> R)
-      #|  \\y:C. ring_sum l b'\n              (\\x. ring_mul l ((f:A->B)(c(ring_mul m (g x:C) y))) x)
+      #|  (P : Bool) && (x' : _) == (x : _) && ((Q : Bool) \226\134\146 (R : Bool)) \226\134\146 (x == (z : _) && P \226\134\146 Q) \226\134\146 x' == z \226\134\146 R
+      #|  (y : C) => ring_sum((l : Ring[B]), (b' : (B) -> Bool), (x : B) => ring_mul(l, (f : (A) -> B)((c : (C) -> A)(ring_mul((m : Ring[C]), (g : (B) -> C)(x), y))), x))
       #|  ring_independent(((l : Ring[B]), (m : Ring[C])), (g : (B) -> C), (c' : (C) -> Bool))
       #|  (c : (C) -> A)
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
-      #|  forall b' c'. FINITE b' /\\ FINITE c' /\\ b' SUBSET b /\\ c' SUBSET c\n            ==> ring_independent (k,m) ((g:B->C) o (f:A->B))\n                  {ring_mul m (g x) y | x IN b' /\\ y IN c'}
-      #|  field m /\\\n      y IN ring_carrier m /\\ y' IN ring_carrier m /\\\n      (g:B->C) x IN ring_carrier m /\\ (g:B->C) x' IN ring_carrier m /\\\n      ~(g x = ring_0 m)
+      #|  \226\136\128 b' : (B) -> Bool, \226\136\128 c' : (C) -> Bool, FINITE(b') && FINITE(c') && SUBSET(b', (b : (B) -> Bool)) && SUBSET(c', (c : (C) -> Bool)) \226\134\146 ring_independent(((k : Ring[A]), (m : Ring[C])), o((g : (B) -> C), (f : (A) -> B)), {ring_mul(m, g((x : B)), (y : C)) | IN(x, b') && IN(y, c')})
+      #|  field((m : Ring[C])) && IN((y : C), ring_carrier(m)) && IN((y' : C), ring_carrier(m)) && IN((g : (B) -> C)((x : B)), ring_carrier(m)) && IN(g((x' : B)), ring_carrier(m)) && !(g(x) == ring_0(m))
       #|  ring_mul((m : Ring[C]), (g : (B) -> C)((x : B)), (y : C)) == ring_mul(m, g((x' : B)), (y' : C))
       #|  (g : (B) -> C)
       #|  (m : Ring[C])
@@ -27695,29 +27695,29 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  ring_independent(((l : Ring[B]), (m : Ring[C])), (g : (B) -> C), (c : (C) -> Bool))
       #|  (y : C) == (y' : C)
       #|  (x : B) == (x' : B)
-      #|  (forall w:B. w IN b ==> w IN ring_carrier l) /\\\n    (forall z:C. z IN c ==> z IN ring_carrier m) /\\\n    (forall u. u IN ring_carrier k ==> (f:A->B) u IN ring_carrier l) /\\\n    (forall v. v IN ring_carrier l ==> (g:B->C) v IN ring_carrier m)
-      #|  (p ==> q) /\\ (p ==> r) <=> p ==> q /\\ (q ==> r)
-      #|  (forall(f:A->B) (g:B->C) k l m b c.\n      field_extension (k,l) f /\\ ring_independent (k,l) f b /\\\n      field_extension (l,m) g /\\ ring_independent (l,m) g c\n      ==> forall x y x' y'. x IN b /\\ y IN c /\\ x' IN b /\\ y' IN c\n                      ==> (ring_mul m (g x) y = ring_mul m (g x') y' <=>\n                           x = x' /\\ y = y')) /\\\n   (forall(f:A->B) (g:B->C) k l m b c.\n      field_extension (k,l) f /\\ ring_independent (k,l) f b /\\\n      field_extension (l,m) g /\\ ring_independent (l,m) g c\n      ==> ring_independent (k,m) (g o f)\n           {ring_mul m (g x) y | x IN b /\\ y IN c})
+      #|  (\226\136\128 w : B, IN(w, (b : (B) -> Bool)) \226\134\146 IN(w, ring_carrier((l : Ring[B])))) && (\226\136\128 z : C, IN(z, (c : (C) -> Bool)) \226\134\146 IN(z, ring_carrier((m : Ring[C])))) && (\226\136\128 u : A, IN(u, ring_carrier((k : Ring[A]))) \226\134\146 IN((f : (A) -> B)(u), ring_carrier(l))) && (\226\136\128 v : B, IN(v, ring_carrier(l)) \226\134\146 IN((g : (B) -> C)(v), ring_carrier(m)))
+      #|  (((p : Bool) \226\134\146 (q : Bool)) && (p \226\134\146 (r : Bool))) == (p \226\134\146 q && (q \226\134\146 r))
+      #|  (\226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 b : (B) -> Bool, \226\136\128 c : (C) -> Bool, field_extension((k, l), f) && ring_independent((k, l), f, b) && field_extension((l, m), g) && ring_independent((l, m), g, c) \226\134\146 (\226\136\128 x : B, \226\136\128 y : C, \226\136\128 x' : B, \226\136\128 y' : C, IN(x, b) && IN(y, c) && IN(x', b) && IN(y', c) \226\134\146 (ring_mul(m, g(x), y) == ring_mul(m, g(x'), y')) == (x == x' && y == y'))) && (\226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 b : (B) -> Bool, \226\136\128 c : (C) -> Bool, field_extension((k, l), f) && ring_independent((k, l), f, b) && field_extension((l, m), g) && ring_independent((l, m), g, c) \226\134\146 ring_independent((k, m), o(g, f), {ring_mul(m, g((x : B)), (y : C)) | IN(x, b) && IN(y, c)}))
       #|  :A
-      #|  forall(f:A->B) (g:B->C) k l m b c.\n      field_extension (k,l) f /\\ ring_basis (k,l) f b /\\\n      field_extension (l,m) g /\\ ring_basis (l,m) g c\n      ==> ring_basis (k,m) (g o f) {ring_mul m (g x) y | x IN b /\\ y IN c}
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 b : (B) -> Bool, \226\136\128 c : (C) -> Bool, field_extension((k, l), f) && ring_basis((k, l), f, b) && field_extension((l, m), g) && ring_basis((l, m), g, c) \226\134\146 ring_basis((k, m), o(g, f), {ring_mul(m, g((x : B)), (y : C)) | IN(x, b) && IN(y, c)})
       #|  (m : Ring[C])
       #|  (k : Ring[A])
       #|  o((g : (B) -> C), (f : (A) -> B))
-      #|  IMAGE (\\(x:B,y:C). ring_mul m (g x) y) (b CROSS c)
-      #|  {ring_mul m ((g:B->C) x) y | x IN b /\\ y IN c}
-      #|  forall(f:A->B) (g:B->C) k l m b c d.\n     field_extension (k,l) f /\\ field_extension (l,m) g /\\\n     ring_basis (k,l) f b /\\ ring_basis (l,m) g c /\\ ring_basis (k,m) (g o f) d\n     ==> b *_c c =_c d
-      #|  finite_extension (k,l) (h:A->B) <=>\n        field_extension (k,l) h /\\\n        ?b. FINITE b /\\ b SUBSET ring_carrier l /\\\n            ring_span (k,l) h b = ring_carrier l
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> (matroid_finite_dimensional(ring_matroid (k,l) h) <=>\n             finite_extension (k,l) h)
-      #|  forall(h:A->B) k l. finite_extension(k,l) h ==> field_extension(k,l) h
-      #|  forall(h:A->B) k l.\n        finite_extension (k,l) h <=>\n        field_extension (k,l) h /\\\n        matroid_finite_dimensional (ring_matroid (k,l) h)
-      #|  forall(h:A->B) k l.\n        finite_extension (k,l) h <=>\n        field_extension (k,l) h /\\\n        ?b. FINITE b /\\ b SUBSET ring_carrier l /\\\n            ring_carrier l SUBSET ring_span (k,l) h b
-      #|  forall(h:A->B) k l.\n        finite_extension (k,l) h <=>\n        field_extension (k,l) h /\\ ?b. FINITE b /\\ ring_spanning (k,l) h b
-      #|  forall(h:A->B) k l.\n        finite_extension (k,l) h <=>\n        field_extension (k,l) h /\\ ?b. FINITE b /\\ ring_basis (k,l) h b
-      #|  forall(h:A->B) k l b.\n        ring_basis (k,l) h b\n        ==> (finite_extension (k,l) h <=>\n             field_extension (k,l) h /\\ FINITE b)
+      #|  IMAGE(fn { (x, y) => ring_mul((m : Ring[C]), (g : (B) -> C)(x), y) }, CROSS((b : (B) -> Bool), (c : (C) -> Bool)))
+      #|  {ring_mul((m : Ring[C]), (g : (B) -> C)((x : B)), (y : C)) | IN(x, (b : (B) -> Bool)) && IN(y, (c : (C) -> Bool))}
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 b : (B) -> Bool, \226\136\128 c : (C) -> Bool, \226\136\128 d : (C) -> Bool, field_extension((k, l), f) && field_extension((l, m), g) && ring_basis((k, l), f, b) && ring_basis((l, m), g, c) && ring_basis((k, m), o(g, f), d) \226\134\146 op_eq_us_c(op_star_us_c(b, c), d)
+      #|  (finite_extension : ((Ring[A], Ring[B]), (A) -> B) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B)) == (field_extension((k, l), h) && (\226\136\131 b : (B) -> Bool, FINITE(b) && SUBSET(b, ring_carrier(l)) && ring_span((k, l), h, b) == ring_carrier(l)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 matroid_finite_dimensional(ring_matroid((k, l), h)) == finite_extension((k, l), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], finite_extension((k, l), h) \226\134\146 field_extension((k, l), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], finite_extension((k, l), h) == (field_extension((k, l), h) && matroid_finite_dimensional(ring_matroid((k, l), h)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], finite_extension((k, l), h) == (field_extension((k, l), h) && (\226\136\131 b : (B) -> Bool, FINITE(b) && SUBSET(b, ring_carrier(l)) && SUBSET(ring_carrier(l), ring_span((k, l), h, b))))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], finite_extension((k, l), h) == (field_extension((k, l), h) && (\226\136\131 b : (B) -> Bool, FINITE(b) && ring_spanning((k, l), h, b)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], finite_extension((k, l), h) == (field_extension((k, l), h) && (\226\136\131 b : (B) -> Bool, FINITE(b) && ring_basis((k, l), h, b)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 b : (B) -> Bool, ring_basis((k, l), h, b) \226\134\146 finite_extension((k, l), h) == (field_extension((k, l), h) && FINITE(b))
       #|  ((p : Bool) && (q : Bool)) == !(p \226\134\146 !q)
       #|  (y : B)
       #|  {ring_1((l : Ring[B]))}
-      #|  forall(f:A->B) k l.\n        (field k \\/ field l) /\\ ring_isomorphism (k,l) f\n        ==> finite_extension (k,l) f
+      #|  \226\136\128 f : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], (field(k) || field(l)) && ring_isomorphism((k, l), f) \226\134\146 finite_extension((k, l), f)
       #|  (d : (C) -> Bool)
       #|  (c : (C) -> Bool)
       #|  (b : (B) -> Bool)
@@ -27732,7 +27732,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  o((g : (B) -> C), (f : (A) -> B))
       #|  (c : (C) -> Bool)
       #|  (b : (B) -> Bool)
-      #|  forall(f:A->B) (g:B->C) k l m.\n        finite_extension (k,l) f /\\ finite_extension (l,m) g\n        ==> finite_extension (k,m) (g o f)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], finite_extension((k, l), f) && finite_extension((l, m), g) \226\134\146 finite_extension((k, m), o(g, f))
       #|  (b : (B) -> Bool)
       #|  (l : Ring[B])
       #|  (k : Ring[A])
@@ -27770,22 +27770,22 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (k : Ring[A])
       #|  (g : (B) -> C)
       #|  (f : (A) -> B)
-      #|  forall(f:A->B) (g:B->C) k l m.\n        field_extension (k,l) f /\\ field_extension (l,m) g\n        ==> (finite_extension (k,m) (g o f) <=>\n             finite_extension (k,l) f /\\ finite_extension (l,m) g)
-      #|  finitely_generated_extension (k,l) (h:A->B) <=>\n     field_extension (k,l) h /\\\n     ?b. FINITE b /\\ b SUBSET ring_carrier l /\\\n         subfield_generated l (IMAGE h (ring_carrier k) UNION b) = l
-      #|  forall(h:A->B) k l.\n        finitely_generated_extension(k,l) h ==> field_extension(k,l) h
-      #|  forall(h:A->B) k l.\n        finite_extension (k,l) h ==> finitely_generated_extension (k,l) h
-      #|  forall(h:A->B) k l.\n     finitely_generated_extension (k,l) h <=>\n     field_extension (k,l) h /\\\n     ?b. FINITE b /\\ b SUBSET ring_carrier l /\\\n         ring_carrier l SUBSET\n         ring_carrier(subfield_generated l (IMAGE h (ring_carrier k) UNION b))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], field_extension((k, l), f) && field_extension((l, m), g) \226\134\146 finite_extension((k, m), o(g, f)) == (finite_extension((k, l), f) && finite_extension((l, m), g))
+      #|  (finitely_generated_extension : ((Ring[A], Ring[B]), (A) -> B) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B)) == (field_extension((k, l), h) && (\226\136\131 b : (B) -> Bool, FINITE(b) && SUBSET(b, ring_carrier(l)) && subfield_generated(l, UNION(IMAGE(h, ring_carrier(k)), b)) == l))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], finitely_generated_extension((k, l), h) \226\134\146 field_extension((k, l), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], finite_extension((k, l), h) \226\134\146 finitely_generated_extension((k, l), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], finitely_generated_extension((k, l), h) == (field_extension((k, l), h) && (\226\136\131 b : (B) -> Bool, FINITE(b) && SUBSET(b, ring_carrier(l)) && SUBSET(ring_carrier(l), ring_carrier(subfield_generated(l, UNION(IMAGE(h, ring_carrier(k)), b))))))
       #|  (g : (B) -> C)
       #|  (m : Ring[C])
       #|  (l : Ring[B])
-      #|  s SUBSET t ==> IMAGE f t SUBSET u ==> IMAGE f s SUBSET u
+      #|  SUBSET((s : (_) -> Bool), (t : (_) -> Bool)) \226\134\146 SUBSET(IMAGE((f : (_) -> _), t), (u : (_) -> Bool)) \226\134\146 SUBSET(IMAGE(f, s), u)
       #|  UNION(IMAGE((g : (B) -> C), (b : (B) -> Bool)), (c : (C) -> Bool))
       #|  (c : (C) -> Bool)
       #|  (b : (B) -> Bool)
-      #|  forall(f:A->B) (g:B->C) k l m.\n        finitely_generated_extension (k,l) f /\\\n        finitely_generated_extension (l,m) g\n        ==> finitely_generated_extension (k,m) (g o f)
-      #|  algebraic_over (k,l) (h:A->B) x <=>\n        x IN ring_carrier l /\\\n        ?p. p IN ring_carrier(poly_ring k (:1)) /\\\n            ~(p = ring_0(poly_ring k (:1))) /\\\n            poly_extend(k,l) h (\\v. x) p = ring_0 l
-      #|  transcendental_over (k,l) (h:A->B) x <=>\n        x IN ring_carrier l /\\ ~(algebraic_over (k,l) h x)
-      #|  algebraic_extension (k,l) (h:A->B) <=>\n        field_extension (k,l) h /\\\n        forall x. x IN ring_carrier l ==> algebraic_over (k,l) h x
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], finitely_generated_extension((k, l), f) && finitely_generated_extension((l, m), g) \226\134\146 finitely_generated_extension((k, m), o(g, f))
+      #|  (algebraic_over : ((Ring[A], Ring[B]), (A) -> B, B) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (x : B)) == (IN(x, ring_carrier(l)) && (\226\136\131 p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && poly_extend((k, l), h, (v : Unit) => x, p) == ring_0(l)))
+      #|  (transcendental_over : ((Ring[A], Ring[B]), (A) -> B, B) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (x : B)) == (IN(x, ring_carrier(l)) && !algebraic_over((k, l), h, x))
+      #|  (algebraic_extension : ((Ring[A], Ring[B]), (A) -> B) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B)) == (field_extension((k, l), h) && (\226\136\128 x : B, IN(x, ring_carrier(l)) \226\134\146 algebraic_over((k, l), h, x)))
       #|  BIJ((x : _) => (b : _), {(a : _)}, {b})
       #|  (v : V) => (x : B)
       #|  (x : Unit) => (v : V)
@@ -27813,32 +27813,32 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  {(v : V)}
       #|  (k : Ring[A])
       #|  IN((x : B), ring_carrier((l : Ring[B])))
-      #|  forall(h:A->B) k l (v:V) x.\n         algebraic_over (k,l) h x <=>\n         x IN ring_carrier l /\\\n         ?p. p IN ring_carrier (poly_ring k {v}) /\\\n             ~(p = ring_0 (poly_ring k {v})) /\\\n             poly_extend (k,l) h (\\v. x) p = ring_0 l
-      #|  forall(h:A->B) k l. algebraic_extension(k,l) h ==> field_extension(k,l) h
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 v : V, \226\136\128 x : B, algebraic_over((k, l), h, x) == (IN(x, ring_carrier(l)) && (\226\136\131 p : ((V) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, {v}))) && !(p == ring_0(poly_ring(k, {v}))) && poly_extend((k, l), h, (v : V) => x, p) == ring_0(l)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], algebraic_extension((k, l), h) \226\134\146 field_extension((k, l), h)
       #|  (c : A)
       #|  ((r : Bool) \226\134\146 !(q : Bool)) \226\134\146 (p : Bool) \226\134\146 q \226\134\146 !r
       #|  (p : ((Unit) -> Num) -> A)
-      #|  forall(h:A->B) k l x.\n        ring_monomorphism(k,l) h\n        ==> (algebraic_over (k,l) (h:A->B) x <=>\n             x IN ring_carrier l /\\\n             ?p. p IN ring_carrier(poly_ring k (:1)) /\\\n                 ~(poly_deg k p = 0) /\\\n                 poly_extend(k,l) h (\\v. x) p = ring_0 l)
-      #|  forall(h:A->B) k l a.\n        algebraic_over (k,l) h a ==> a IN ring_carrier l
-      #|  forall(h:A->B) k l a.\n        transcendental_over (k,l) h a ==> a IN ring_carrier l
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 x : B, ring_monomorphism((k, l), h) \226\134\146 algebraic_over((k, l), h, x) == (IN(x, ring_carrier(l)) && (\226\136\131 p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(poly_deg(k, p) == 0) && poly_extend((k, l), h, (v : Unit) => x, p) == ring_0(l)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, algebraic_over((k, l), h, a) \226\134\146 IN(a, ring_carrier(l))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, transcendental_over((k, l), h, a) \226\134\146 IN(a, ring_carrier(l))
       #|  poly_sub((k : Ring[A]), poly_var(k, one), poly_const(k, (x : A)))
-      #|  forall(h:A->B) k l x.\n        ~(trivial_ring k /\\ x = ring_0 k /\\ h x = ring_0 l) /\\\n        ring_homomorphism(k,l) h /\\ x IN ring_carrier k\n        ==> algebraic_over(k,l) h (h x)
-      #|  forall(h:A->B) k l x.\n        field_extension(k,l) h /\\ x IN ring_carrier k\n        ==> algebraic_over(k,l) h (h x)
-      #|  forall(h:A->B) k l.\n        field_extension(k,l) h\n        ==> IMAGE h (ring_carrier k) SUBSET {x | algebraic_over(k,l) h x}
-      #|  forall k y:A. field k\n           ==> (algebraic_over (k,k) I y <=> y IN ring_carrier k)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 x : A, !(trivial_ring(k) && x == ring_0(k) && h(x) == ring_0(l)) && ring_homomorphism((k, l), h) && IN(x, ring_carrier(k)) \226\134\146 algebraic_over((k, l), h, h(x))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 x : A, field_extension((k, l), h) && IN(x, ring_carrier(k)) \226\134\146 algebraic_over((k, l), h, h(x))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 SUBSET(IMAGE(h, ring_carrier(k)), {(x : B) | algebraic_over((k, l), h, x)})
+      #|  \226\136\128 k : Ring[A], \226\136\128 y : A, field(k) \226\134\146 algebraic_over((k, k), I, y) == IN(y, ring_carrier(k))
       #|  (UNIV : (Unit) -> Bool)
       #|  (p : ((Unit) -> Num) -> A)
-      #|  forall(h:A->B) k l s x.\n        field_extension(k,l) h /\\\n        IMAGE h (ring_carrier k) SUBSET s /\\\n        algebraic_over(k,l) h x /\\ x IN s\n        ==> algebraic_over(k,subring_generated l s) h x
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 x : B, field_extension((k, l), h) && SUBSET(IMAGE(h, ring_carrier(k)), s) && algebraic_over((k, l), h, x) && IN(x, s) \226\134\146 algebraic_over((k, subring_generated(l, s)), h, x)
       #|  INTER(ring_carrier((l : Ring[B])), (s : (B) -> Bool))
-      #|  forall(h:A->B) k l s x.\n        field_extension(k,l) h /\\\n        IMAGE h (ring_carrier k) SUBSET s /\\\n        algebraic_over(k,l) h x /\\ x IN s\n        ==> algebraic_over(k,subfield_generated l s) h x
-      #|  forall(h:A->B) k l s t x.\n        algebraic_over (subring_generated k s,l) h x /\\ s SUBSET t\n        ==> algebraic_over (subring_generated k t,l) h x
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 x : B, field_extension((k, l), h) && SUBSET(IMAGE(h, ring_carrier(k)), s) && algebraic_over((k, l), h, x) && IN(x, s) \226\134\146 algebraic_over((k, subfield_generated(l, s)), h, x)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 x : B, algebraic_over((subring_generated(k, s), l), h, x) && SUBSET(s, t) \226\134\146 algebraic_over((subring_generated(k, t), l), h, x)
       #|  (p : ((Unit) -> Num) -> A)
       #|  (poly_const : (Ring[A], A, (Unit) -> Num) -> A)((k : Ring[A]), (d : A))
       #|  (v : Unit) => (x : B)
       #|  (h : (A) -> B)
       #|  (l : Ring[B])
       #|  (k : Ring[A])
-      #|  (p' ==> p) /\\ p' /\\ (q ==> t ==> r) /\\ ~s\n      ==> (p ==> q) ==> (p' /\\ r ==> s) ==> ~t
+      #|  ((p' : Bool) \226\134\146 (p : Bool)) && p' && ((q : Bool) \226\134\146 (t : Bool) \226\134\146 (r : Bool)) && !(s : Bool) \226\134\146 (p \226\134\146 q) \226\134\146 (p' && r \226\134\146 s) \226\134\146 !t
       #|  (p : ((Unit) -> Num) -> A)
       #|  (poly_const : (Ring[A], A, (Unit) -> Num) -> A)((k : Ring[A]), (d : A))
       #|  (UNIV : (Unit) -> Bool)
@@ -27855,15 +27855,15 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (s : (A) -> Bool)
       #|  (k : Ring[A])
       #|  (p : ((Unit) -> Num) -> A)
-      #|  forall(h:A->B) k l s x.\n        field_extension(k,l) h\n        ==> (algebraic_over (subfield_generated k s,l) h x <=>\n             algebraic_over (subring_generated k s,l) h x)
-      #|  forall(h:A->B) k l a.\n        ring_homomorphism(k,l) h /\\ a IN ring_carrier l\n        ==> (algebraic_over (k,l) h a <=>\n             ~ring_monomorphism (poly_ring k (:1),l)\n                                (poly_extend(k,l) h (\\v. a)))
-      #|  forall(f:A->B) k l.\n        algebraic_extension (k,l) f <=>\n        field_extension (k,l) f /\\\n        forall x. x IN ring_carrier l\n            ==> ?p. p IN ring_carrier(poly_ring k (:1)) /\\\n                    ~(p = ring_0(poly_ring k (:1))) /\\\n                    poly_extend(k,l) f (\\v. x) p = ring_0 l
-      #|  forall(f:A->B) k l.\n        algebraic_extension (k,l) f <=>\n        field_extension (k,l) f /\\\n        forall x. x IN ring_carrier l\n            ==> ?p. p IN ring_carrier(poly_ring k (:1)) /\\\n                    ~(p = ring_0(poly_ring k (:1))) /\\\n                    poly_eval l (f o p) x = ring_0 l
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (A) -> Bool, \226\136\128 x : B, field_extension((k, l), h) \226\134\146 algebraic_over((subfield_generated(k, s), l), h, x) == algebraic_over((subring_generated(k, s), l), h, x)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, ring_homomorphism((k, l), h) && IN(a, ring_carrier(l)) \226\134\146 algebraic_over((k, l), h, a) == !ring_monomorphism((poly_ring(k, UNIV), l), poly_extend((k, l), h, (v : Unit) => a))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], algebraic_extension((k, l), f) == (field_extension((k, l), f) && (\226\136\128 x : B, IN(x, ring_carrier(l)) \226\134\146 (\226\136\131 p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && poly_extend((k, l), f, (v : Unit) => x, p) == ring_0(l))))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], algebraic_extension((k, l), f) == (field_extension((k, l), f) && (\226\136\128 x : B, IN(x, ring_carrier(l)) \226\134\146 (\226\136\131 p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && poly_eval(l, o(f, p), x) == ring_0(l))))
       #|  (UNIV : (Unit) -> Bool)
       #|  (p : ((Unit) -> Num) -> A)
-      #|  forall k l a (f:A->B) f'.\n          ring_homomorphism (k,l) f /\\\n          (forall x. x IN ring_carrier k ==> f' x = f x) /\\\n          algebraic_over (k,l) f a\n          ==> algebraic_over (k,l) f' a
-      #|  forall k l a (f:A->B) f'.\n        ring_homomorphism (k,l) f /\\\n        (forall x. x IN ring_carrier k ==> f' x = f x)\n        ==> (algebraic_over (k,l) f a <=> algebraic_over (k,l) f' a)
-      #|  forall k l (f:A->B) f'.\n        algebraic_extension(k,l) f /\\\n        (forall x. x IN ring_carrier k ==> f' x = f x)\n        ==> algebraic_extension (k,l) f'
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, \226\136\128 f : (A) -> B, \226\136\128 f' : (A) -> B, ring_homomorphism((k, l), f) && (\226\136\128 x : A, IN(x, ring_carrier(k)) \226\134\146 f'(x) == f(x)) && algebraic_over((k, l), f, a) \226\134\146 algebraic_over((k, l), f', a)
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, \226\136\128 f : (A) -> B, \226\136\128 f' : (A) -> B, ring_homomorphism((k, l), f) && (\226\136\128 x : A, IN(x, ring_carrier(k)) \226\134\146 f'(x) == f(x)) \226\134\146 algebraic_over((k, l), f, a) == algebraic_over((k, l), f', a)
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 f : (A) -> B, \226\136\128 f' : (A) -> B, algebraic_extension((k, l), f) && (\226\136\128 x : A, IN(x, ring_carrier(k)) \226\134\146 f'(x) == f(x)) \226\134\146 algebraic_extension((k, l), f')
       #|  (i : Num) <= (n : Num)
       #|  ((p : Bool) \226\134\146 (r : Bool)) \226\134\146 (!p \226\134\146 (q : Bool)) \226\134\146 !q \226\134\146 r
       #|  (x : Unit) => (i : Num)
@@ -27876,7 +27876,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  UNIONS({{(m : (Unit) -> Num) | m(one) == (i : Num)} | IN(i, {(i : Num) | i <= (n : Num)})})
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
       #|  (p : ((Unit) -> Num) -> A)
-      #|  p = \\m. if m one <= n then (c:num->A) (m one) else ring_0 k
+      #|  (p : ((Unit) -> Num) -> A) == ((m : (Unit) -> Num) => if m(one) <= (n : Num) { (c : (Num) -> A)(m(one)) } else { ring_0((k : Ring[A])) })
       #|  (c : (Num) -> A)
       #|  (b : (B) -> Bool)
       #|  op_dot_dot(0, (n : Num))
@@ -27884,7 +27884,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (h : (A) -> B)
-      #|  forall(h:A->B) k l a b n.\n        field k /\\ ring_homomorphism(k,l) h /\\ a IN ring_carrier l /\\\n        b HAS_SIZE n /\\ b SUBSET ring_carrier l /\\\n        ring_carrier l SUBSET ring_span (k,l) h b\n        ==> ?p. p IN ring_carrier(poly_ring k (:1)) /\\\n                ~(p = ring_0 (poly_ring k (:1))) /\\\n                poly_deg k p <= n /\\\n                poly_extend (k,l) h (\\v. a) p = ring_0 l
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, \226\136\128 b : (B) -> Bool, \226\136\128 n : Num, field(k) && ring_homomorphism((k, l), h) && IN(a, ring_carrier(l)) && HAS_SIZE(b, n) && SUBSET(b, ring_carrier(l)) && SUBSET(ring_carrier(l), ring_span((k, l), h, b)) \226\134\146 (\226\136\131 p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && poly_deg(k, p) <= n && poly_extend((k, l), h, (v : Unit) => a, p) == ring_0(l))
       #|  CARD((b : (B) -> Bool))
       #|  (b : (B) -> Bool)
       #|  (a : B)
@@ -27893,9 +27893,9 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (h : (A) -> B)
       #|  (a : B)
       #|  (b : (B) -> Bool)
-      #|  forall(h:A->B) k l.\n        finite_extension (k,l) h ==> algebraic_extension (k,l) h
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], finite_extension((k, l), h) \226\134\146 algebraic_extension((k, l), h)
       #|  (p : ((Unit) -> Num) -> A)
-      #|  forall(h:A->B) k l a.\n        ring_homomorphism(k,l) h /\\ a IN ring_carrier l\n        ==> ring_carrier\n              (subring_generated l (a INSERT IMAGE h (ring_carrier k))) =\n            ring_span (k,l) h { ring_pow l a n | n IN (:num) }
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, ring_homomorphism((k, l), h) && IN(a, ring_carrier(l)) \226\134\146 ring_carrier(subring_generated(l, INSERT(a, IMAGE(h, ring_carrier(k))))) == ring_span((k, l), h, {ring_pow(l, a, (n : Num)) | IN(n, UNIV)})
       #|  (P : (Num) -> Bool)((i : Num)) \226\134\146 IN(ring_pow((l : Ring[_]), (a : _), i), {ring_pow(l, a, (n : Num)) | P(n)})
       #|  (r : ((Unit) -> Num) -> A)((v : Unit) => (i : Num)) == ring_0((k : Ring[A]))
       #|  (r : ((Unit) -> Num) -> A)
@@ -27904,27 +27904,27 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (f : ((Unit) -> Num) -> A)
       #|  (k : Ring[A])
       #|  (f : ((Unit) -> Num) -> A)
-      #|  forall(h:A->B) k l p a.\n        field k /\\ ring_homomorphism(k,l) h /\\ a IN ring_carrier l /\\\n        p IN ring_carrier(poly_ring k (:1)) /\\\n        ~(p = ring_0(poly_ring k (:1))) /\\\n        poly_extend (k,l) h (\\v. a) p = ring_0 l\n        ==> ring_carrier\n              (subring_generated l (a INSERT IMAGE h (ring_carrier k))) =\n            ring_span (k,l) h { ring_pow l a n | n < poly_deg k p}
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 p : ((Unit) -> Num) -> A, \226\136\128 a : B, field(k) && ring_homomorphism((k, l), h) && IN(a, ring_carrier(l)) && IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && poly_extend((k, l), h, (v : Unit) => a, p) == ring_0(l) \226\134\146 ring_carrier(subring_generated(l, INSERT(a, IMAGE(h, ring_carrier(k))))) == ring_span((k, l), h, {ring_pow(l, a, (n : Num)) | n < poly_deg(k, p)})
       #|  (q : ((Unit) -> Num) -> A)
       #|  (p : ((Unit) -> Num) -> A)
       #|  (poly_1 : (Ring[A], (Unit) -> Num) -> A)((k : Ring[A]))
       #|  poly_extend(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (x : Unit) => (a : B))
       #|  (l : Ring[B])
       #|  (poly_ring : (Ring[A], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> A])((k : Ring[A]), (UNIV : (Unit) -> Bool))
-      #|  forall(h:A->B) k l a.\n        field k /\\ integral_domain l /\\\n        ring_homomorphism(k,l) h /\\\n        algebraic_over (k,l) h a\n        ==> field(subring_generated l (a INSERT IMAGE h (ring_carrier k)))
-      #|  forall(h:A->B) k l a.\n        field k /\\ integral_domain l /\\\n        ring_homomorphism(k,l) h /\\ a IN ring_carrier l\n        ==> (field(subring_generated l (a INSERT IMAGE h (ring_carrier k))) <=>\n             algebraic_over (k,l) h a)
-      #|  forall(h:A->B) k l a.\n        field_extension (k,l) h /\\\n        algebraic_over (k,l) h a\n        ==> field(subring_generated l (a INSERT IMAGE h (ring_carrier k)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, field(k) && integral_domain(l) && ring_homomorphism((k, l), h) && algebraic_over((k, l), h, a) \226\134\146 field(subring_generated(l, INSERT(a, IMAGE(h, ring_carrier(k)))))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, field(k) && integral_domain(l) && ring_homomorphism((k, l), h) && IN(a, ring_carrier(l)) \226\134\146 field(subring_generated(l, INSERT(a, IMAGE(h, ring_carrier(k))))) == algebraic_over((k, l), h, a)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) \226\134\146 field(subring_generated(l, INSERT(a, IMAGE(h, ring_carrier(k)))))
       #|  (UNIV : (Unit) -> Bool)
       #|  (a : B)
       #|  (p : ((Unit) -> Num) -> A)
-      #|  subring_generated l (a INSERT IMAGE (h:A->B) (ring_carrier k))
+      #|  subring_generated((l : Ring[B]), INSERT((a : B), IMAGE((h : (A) -> B), ring_carrier((k : Ring[A])))))
       #|  (k : Ring[A])
       #|  (h : (A) -> B)
       #|  {ring_pow((l : Ring[B]), (a : B), (n : Num)) | n < poly_deg((k : Ring[A]), (p : ((Unit) -> Num) -> A))}
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
       #|  (p : ((Unit) -> Num) -> A)
-      #|  forall(h:A->B) k l a.\n        field_extension(k,l) h /\\\n        algebraic_over(k,l) h a\n        ==> finite_extension\n             (k,subring_generated l (a INSERT IMAGE h (ring_carrier k))) h
-      #|  poly_extend (k,m) ((g:B->C) o (f:A->B)) (\\v:1. z) p = ring_0 m
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) \226\134\146 finite_extension((k, subring_generated(l, INSERT(a, IMAGE(h, ring_carrier(k))))), h)
+      #|  poly_extend(((k : Ring[A]), (m : Ring[C])), o((g : (B) -> C), (f : (A) -> B)), (v : Unit) => (z : C), (p : ((Unit) -> Num) -> A)) == ring_0(m)
       #|  (g : (B) -> C)
       #|  (f : (A) -> B)
       #|  (m : Ring[C])
@@ -27934,7 +27934,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (k : Ring[A])
       #|  o((f : (A) -> B), (p : ((Unit) -> Num) -> A))
       #|  (p : ((Unit) -> Num) -> A)
-      #|  forall(f:A->B) (g:B->C) k l m z.\n        ring_monomorphism (k,l) f /\\ ring_homomorphism (l,m) g /\\\n        algebraic_over (k,m) (g o f) z\n        ==> algebraic_over (l,m) g z
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 z : C, ring_monomorphism((k, l), f) && ring_homomorphism((l, m), g) && algebraic_over((k, m), o(g, f), z) \226\134\146 algebraic_over((l, m), g, z)
       #|  (g : (B) -> C)
       #|  (l : Ring[B])
       #|  (f' : (B) -> A)
@@ -27945,31 +27945,31 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  :A
       #|  :B
       #|  (f' : (B) -> A)
-      #|  forall(f:A->B) (g:B->C) k l m z.\n        ring_isomorphism (k,l) f /\\ ring_homomorphism (l,m) g\n        ==> (algebraic_over (k,m) (g o f) z <=> algebraic_over (l,m) g z)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 z : C, ring_isomorphism((k, l), f) && ring_homomorphism((l, m), g) \226\134\146 algebraic_over((k, m), o(g, f), z) == algebraic_over((l, m), g, z)
       #|  (x : B)
       #|  (l : Ring[B])
       #|  (k : Ring[A])
-      #|  subring_generated l (IMAGE (h:A->B) (ring_carrier k))
+      #|  subring_generated((l : Ring[B]), IMAGE((h : (A) -> B), ring_carrier((k : Ring[A]))))
       #|  (h : (A) -> B)
       #|  (h' : (B) -> A)
       #|  (h' : (B) -> A)
-      #|  forall(h:A->B) k l x.\n        ring_monomorphism(k,l) h\n        ==> (algebraic_over (k,l) h x <=>\n             algebraic_over\n               (subring_generated l (IMAGE h (ring_carrier k)),l) I x)
-      #|  forall(f:A->B) (g:B->C) k l m z.\n        field_extension (k,l) f /\\ field_extension (l,m) g /\\\n        algebraic_over (k,m) (g o f) z\n        ==> algebraic_over (l,m) g z
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 x : B, ring_monomorphism((k, l), h) \226\134\146 algebraic_over((k, l), h, x) == algebraic_over((subring_generated(l, IMAGE(h, ring_carrier(k))), l), I, x)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 z : C, field_extension((k, l), f) && field_extension((l, m), g) && algebraic_over((k, m), o(g, f), z) \226\134\146 algebraic_over((l, m), g, z)
       #|  INSERT((x : _), (s : (_) -> Bool)) == UNION({x}, s)
-      #|  finite_extension\n       (k,subring_generated l (IMAGE h (ring_carrier k) UNION b))\n       (h:A->B)
+      #|  finite_extension(((k : Ring[A]), subring_generated((l : Ring[B]), UNION(IMAGE((h : (A) -> B), ring_carrier(k)), (b : (B) -> Bool)))), h)
       #|  ((p : Bool) && (q : Bool) && (r : Bool) \226\134\146 (s : Bool)) == (p && r \226\134\146 q \226\134\146 s)
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
       #|  (y : B)
       #|  (l : Ring[B])
-      #|  subring_generated l (IMAGE (h:A->B) (ring_carrier k) UNION b)
+      #|  subring_generated((l : Ring[B]), UNION(IMAGE((h : (A) -> B), ring_carrier((k : Ring[A]))), (b : (B) -> Bool)))
       #|  (I : (B) -> B)
       #|  (b : (B) -> Bool)
       #|  (y : B)
-      #|  forall(h:A->B) k l b.\n        field_extension(k,l) h /\\\n        FINITE b /\\\n        (forall x. x IN b ==> algebraic_over(k,l) h x)\n        ==> finite_extension\n             (k,subring_generated l (IMAGE h (ring_carrier k) UNION b)) h
-      #|  forall(h:A->B) k l.\n        finite_extension (k,l) h <=>\n        finitely_generated_extension (k,l) h /\\\n        algebraic_extension (k,l) h
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 b : (B) -> Bool, field_extension((k, l), h) && FINITE(b) && (\226\136\128 x : B, IN(x, b) \226\134\146 algebraic_over((k, l), h, x)) \226\134\146 finite_extension((k, subring_generated(l, UNION(IMAGE(h, ring_carrier(k)), b))), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], finite_extension((k, l), h) == (finitely_generated_extension((k, l), h) && algebraic_extension((k, l), h))
       #|  (p : ((Unit) -> Num) -> A)
-      #|  forall(h:A->B) k l s x.\n        field_extension (k,subring_generated l s) h /\\\n        algebraic_over(k,subring_generated l s) h x\n        ==> algebraic_over(k,l) h x
-      #|  forall(f:A->B) k l.\n        (field k \\/ field l) /\\ ring_isomorphism (k,l) f\n        ==> algebraic_extension (k,l) f
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 x : B, field_extension((k, subring_generated(l, s)), h) && algebraic_over((k, subring_generated(l, s)), h, x) \226\134\146 algebraic_over((k, l), h, x)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], (field(k) || field(l)) && ring_isomorphism((k, l), f) \226\134\146 algebraic_extension((k, l), f)
       #|  \226\136\128 k : Ring[A], algebraic_extension((k, k), I) == field(k)
       #|  ((p : Bool) || !(q : Bool)) == (q \226\134\146 p)
       #|  (m : Num) <= poly_deg((l : Ring[B]), (p : ((Unit) -> Num) -> B))
@@ -27979,8 +27979,8 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  IMAGE((g : (B) -> C), ring_carrier((l : Ring[B])))
       #|  ((p : Bool) && (r : Bool) \226\134\146 (s : Bool)) && (q : Bool) \226\134\146 p && (q \226\134\146 r) \226\134\146 s
       #|  (z : C)
-      #|  subring_generated m (z INSERT IMAGE (g:B->C)\n       (ring_carrier(subring_generated l\n        (IMAGE (f:A->B) (ring_carrier k) UNION\n         {p(\\i:1. n) |n| n <= poly_deg l p}))))
-      #|  subring_generated l\n        (IMAGE (f:A->B) (ring_carrier k) UNION\n         {p(\\i:1. n) |n| n <= poly_deg l p})
+      #|  subring_generated((m : Ring[C]), INSERT((z : C), IMAGE((g : (B) -> C), ring_carrier(subring_generated((l : Ring[B]), UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), {(p : ((Unit) -> Num) -> B)((i : Unit) => n) | n : Num | n <= poly_deg(l, p)}))))))
+      #|  subring_generated((l : Ring[B]), UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), {(p : ((Unit) -> Num) -> B)((i : Unit) => n) | n : Num | n <= poly_deg(l, p)}))
       #|  (k : Ring[A])
       #|  (g : (B) -> C)
       #|  (f : (A) -> B)
@@ -27988,7 +27988,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (z : C)
       #|  (z : C)
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
-      #|  forall(f:A->B) (g:B->C) k l m.\n        algebraic_extension (k,l) f /\\ algebraic_extension (l,m) g\n        ==> algebraic_extension (k,m) (g o f)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], algebraic_extension((k, l), f) && algebraic_extension((l, m), g) \226\134\146 algebraic_extension((k, m), o(g, f))
       #|  o((f : (A) -> B), (p : ((Unit) -> Num) -> A))
       #|  (p : ((Unit) -> Num) -> A)
       #|  (z : C)
@@ -28001,17 +28001,17 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (p : ((Unit) -> Num) -> A)
       #|  (g : (B) -> C)((y : B))
       #|  (y : B)
-      #|  forall(f:A->B) (g:B->C) k l m.\n        field_extension (k,l) f /\\ field_extension (l,m) g\n        ==> (algebraic_extension (k,m) (g o f) <=>\n             algebraic_extension (k,l) f /\\\n             algebraic_extension (l,m) g)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], field_extension((k, l), f) && field_extension((l, m), g) \226\134\146 algebraic_extension((k, m), o(g, f)) == (algebraic_extension((k, l), f) && algebraic_extension((l, m), g))
       #|  (op_star_us_c : ((A) -> Bool, (Num) -> Bool, (A, Num)) -> Bool)((ring_carrier : (Ring[A], A) -> Bool)((k : Ring[A])), (UNIV : (Num) -> Bool))
       #|  (ring_carrier : (Ring[((Unit) -> Num) -> A], ((Unit) -> Num) -> A) -> Bool)((poly_ring : (Ring[A], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> A])((k : Ring[A]), (UNIV : (Unit) -> Bool)))
-      #|  UNIONS { {x | x IN ring_carrier l /\\\n                  poly_eval l ((f:A->B) o p) x = ring_0 l} |\n             p IN ring_carrier (poly_ring k (:1)) /\\\n             ~(p = ring_0 (poly_ring k (:1)))}
-      #|  forall(f:A->B) k l (m:C->bool).\n        algebraic_extension (k,l) f /\\ INFINITE m /\\ ring_carrier k <=_c m\n        ==> ring_carrier l <=_c m
+      #|  UNIONS({{(x : B) | IN(x, ring_carrier((l : Ring[B]))) && poly_eval(l, o((f : (A) -> B), (p : ((Unit) -> Num) -> A)), x) == ring_0(l)} | IN(p, ring_carrier(poly_ring((k : Ring[A]), UNIV))) && !(p == ring_0(poly_ring(k, UNIV)))})
+      #|  \226\136\128 f : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : (C) -> Bool, algebraic_extension((k, l), f) && INFINITE(m) && op_lt_eq_us_c(ring_carrier(k), m) \226\134\146 op_lt_eq_us_c(ring_carrier(l), m)
       #|  (h : (A) -> B)
       #|  ring_carrier((k : Ring[A]))
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (h : (A) -> B)
-      #|  forall(h:A->B) k l.\n        algebraic_extension (k,l) h /\\ INFINITE(ring_carrier k)\n        ==> ring_carrier l =_c ring_carrier k
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], algebraic_extension((k, l), h) && INFINITE(ring_carrier(k)) \226\134\146 op_eq_us_c(ring_carrier(l), ring_carrier(k))
       #|  (UNIV : (Unit) -> Bool)
       #|  (p : ((Unit) -> Num) -> A)
       #|  (f : (B) -> B)
@@ -28028,35 +28028,35 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (k : Ring[A])
       #|  (f : (B) -> B)
       #|  (s : (B) -> Bool)
-      #|  s = {x | x IN ring_carrier l /\\\n                       poly_extend (k,l) (h:A->B) (\\v:1. x) p = ring_0 l}
+      #|  (s : (B) -> Bool) == {(x : B) | IN(x, ring_carrier((l : Ring[B]))) && poly_extend(((k : Ring[A]), l), (h : (A) -> B), (v : Unit) => x, (p : ((Unit) -> Num) -> A)) == ring_0(l)}
       #|  (p : ((Unit) -> Num) -> A)
       #|  (x : B)
       #|  (x : B)
-      #|  forall(h:A->B) k l f.\n        algebraic_extension(k,l) h /\\\n        ring_monomorphism(l,l) f /\\\n        (forall x. x IN ring_carrier k ==> f(h x) = h x)\n        ==> ring_automorphism l f
-      #|  forall k:A ring.\n        prime(ring_char k) /\\\n        algebraic_extension(subfield_generated k {ring_0 k},k) I\n        ==> ring_automorphism k (\\x. ring_pow k x (ring_char k))
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h ==> algebraic_over(k,l) h (ring_0 l)
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h ==> algebraic_over(k,l) h (ring_1 l)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 f : (B) -> B, algebraic_extension((k, l), h) && ring_monomorphism((l, l), f) && (\226\136\128 x : A, IN(x, ring_carrier(k)) \226\134\146 f(h(x)) == h(x)) \226\134\146 ring_automorphism(l, f)
+      #|  \226\136\128 k : Ring[A], prime(ring_char(k)) && algebraic_extension((subfield_generated(k, {ring_0(k)}), k), I) \226\134\146 ring_automorphism(k, (x : A) => ring_pow(k, x, ring_char(k)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 algebraic_over((k, l), h, ring_0(l))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 algebraic_over((k, l), h, ring_1(l))
       #|  INSERT((a : B), IMAGE((h : (A) -> B), ring_carrier((k : Ring[A]))))
       #|  (a : B)
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (h : (A) -> B)
-      #|  (p ==> q) /\\ (p ==> r) <=> p ==> q /\\ r
-      #|  (forall(h:A->B) k l a.\n        field_extension (k,l) h /\\\n        algebraic_over (k,l) h a\n        ==> algebraic_over (k,l) h (ring_neg l a)) /\\\n   (forall(h:A->B) k l a.\n        field_extension (k,l) h /\\\n        algebraic_over (k,l) h a\n        ==> algebraic_over (k,l) h (ring_inv l a))
+      #|  (((p : Bool) \226\134\146 (q : Bool)) && (p \226\134\146 (r : Bool))) == (p \226\134\146 q && r)
+      #|  (\226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) \226\134\146 algebraic_over((k, l), h, ring_neg(l, a))) && (\226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) \226\134\146 algebraic_over((k, l), h, ring_inv(l, a)))
       #|  UNION(IMAGE((h : (A) -> B), ring_carrier((k : Ring[A]))), {(a : B), (b : B)})
       #|  {(a : B), (b : B)}
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (h : (A) -> B)
-      #|  (p ==> q) /\\ (p ==> r) <=> p ==> q /\\ r
-      #|  (forall(h:A->B) k l a b.\n        field_extension (k,l) h /\\\n        algebraic_over (k,l) h a /\\ algebraic_over (k,l) h b\n        ==> algebraic_over (k,l) h (ring_add l a b)) /\\\n   (forall(h:A->B) k l a b.\n        field_extension (k,l) h /\\\n        algebraic_over (k,l) h a /\\ algebraic_over (k,l) h b\n        ==> algebraic_over (k,l) h (ring_mul l a b))
-      #|  forall(h:A->B) k l a b.\n        field_extension (k,l) h /\\\n        algebraic_over (k,l) h a /\\ algebraic_over (k,l) h b\n        ==> algebraic_over (k,l) h (ring_sub l a b)
-      #|  forall(h:A->B) k l a b.\n        field_extension (k,l) h /\\\n        algebraic_over (k,l) h a /\\ algebraic_over (k,l) h b\n        ==> algebraic_over (k,l) h (ring_div l a b)
-      #|  forall(h:A->B) k l a n.\n        field_extension (k,l) h /\\ algebraic_over (k,l) h a\n        ==> algebraic_over (k,l) h (ring_pow l a n)
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> {x | algebraic_over (k,l) h x} subring_of l
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> {x | algebraic_over (k,l) h x} subfield_of l
+      #|  (((p : Bool) \226\134\146 (q : Bool)) && (p \226\134\146 (r : Bool))) == (p \226\134\146 q && r)
+      #|  (\226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, \226\136\128 b : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) && algebraic_over((k, l), h, b) \226\134\146 algebraic_over((k, l), h, ring_add(l, a, b))) && (\226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, \226\136\128 b : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) && algebraic_over((k, l), h, b) \226\134\146 algebraic_over((k, l), h, ring_mul(l, a, b)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, \226\136\128 b : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) && algebraic_over((k, l), h, b) \226\134\146 algebraic_over((k, l), h, ring_sub(l, a, b))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, \226\136\128 b : B, field_extension((k, l), h) && algebraic_over((k, l), h, a) && algebraic_over((k, l), h, b) \226\134\146 algebraic_over((k, l), h, ring_div(l, a, b))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 a : B, \226\136\128 n : Num, field_extension((k, l), h) && algebraic_over((k, l), h, a) \226\134\146 algebraic_over((k, l), h, ring_pow(l, a, n))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 subring_of({(x : B) | algebraic_over((k, l), h, x)}, l)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 subfield_of({(x : B) | algebraic_over((k, l), h, x)}, l)
       #|  (\226\136\128 x : _, IN(x, (s : (_) -> Bool)) \226\134\146 (P : (_) -> Bool)(x)) == SUBSET(s, {(x : _) | P(x)})
-      #|  forall(h:A->B) k l s.\n        field_extension (k,l) h /\\\n        (forall x. x IN s ==> algebraic_over(k,l) h x)\n        ==> forall x. x IN ring_carrier\n                  (subfield_generated l (IMAGE h (ring_carrier k) UNION s))\n                ==> algebraic_over(k,l) h x
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, field_extension((k, l), h) && (\226\136\128 x : B, IN(x, s) \226\134\146 algebraic_over((k, l), h, x)) \226\134\146 (\226\136\128 x : B, IN(x, ring_carrier(subfield_generated(l, UNION(IMAGE(h, ring_carrier(k)), s)))) \226\134\146 algebraic_over((k, l), h, x))
       #|  (y : B)
       #|  (y : B)
       #|  (y : B)
@@ -28071,94 +28071,94 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (k : Ring[A])
       #|  (h : (A) -> B)
       #|  (a : B)
-      #|  forall(h:A->B) k l s.\n        field_extension(k,l) h /\\ (forall x. x IN s ==> algebraic_over(k,l) h x)\n        ==> field(subring_generated l (IMAGE h (ring_carrier k) UNION s))
-      #|  forall(h:A->B) k l s.\n        field_extension(k,l) h /\\ (forall x. x IN s ==> algebraic_over(k,l) h x)\n        ==> ring_carrier(subring_generated l (IMAGE h (ring_carrier k) UNION s))\n            subfield_of l
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> field(subring_generated l {x | algebraic_over (k,l) h x})
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> subring_generated l {x | algebraic_over (k,l) h x} =\n            subfield_generated l {x | algebraic_over (k,l) h x}
-      #|  subring_generated m {x | algebraic_over(l,m) (g:B->C) x}
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, field_extension((k, l), h) && (\226\136\128 x : B, IN(x, s) \226\134\146 algebraic_over((k, l), h, x)) \226\134\146 field(subring_generated(l, UNION(IMAGE(h, ring_carrier(k)), s)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, field_extension((k, l), h) && (\226\136\128 x : B, IN(x, s) \226\134\146 algebraic_over((k, l), h, x)) \226\134\146 subfield_of(ring_carrier(subring_generated(l, UNION(IMAGE(h, ring_carrier(k)), s))), l)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 field(subring_generated(l, {(x : B) | algebraic_over((k, l), h, x)}))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 subring_generated(l, {(x : B) | algebraic_over((k, l), h, x)}) == subfield_generated(l, {(x : B) | algebraic_over((k, l), h, x)})
+      #|  subring_generated((m : Ring[C]), {(x : C) | algebraic_over(((l : Ring[B]), m), (g : (B) -> C), x)})
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (g : (B) -> C)
       #|  (f : (A) -> B)
-      #|  forall(f:A->B) (g:B->C) k l m z.\n        algebraic_extension(k,l) f /\\ field_extension(l,m) g /\\\n        algebraic_over(l,m) g z\n        ==> algebraic_over(k,m) (g o f) z
-      #|  forall(f:A->B) (g:B->C) k l m x.\n        algebraic_extension (k,l) f /\\\n        field_extension (l,m) g\n        ==> (algebraic_over (k,m) (g o f) x <=> algebraic_over (l,m) g x)
-      #|  forall(h:A->B) k l.\n        FINITE(ring_carrier l)\n        ==> (finite_extension(k,l) h <=> field_extension(k,l) h)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 z : C, algebraic_extension((k, l), f) && field_extension((l, m), g) && algebraic_over((l, m), g, z) \226\134\146 algebraic_over((k, m), o(g, f), z)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 x : C, algebraic_extension((k, l), f) && field_extension((l, m), g) \226\134\146 algebraic_over((k, m), o(g, f), x) == algebraic_over((l, m), g, x)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], FINITE(ring_carrier(l)) \226\134\146 finite_extension((k, l), h) == field_extension((k, l), h)
       #|  (b : (B) -> Bool)
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (h : (A) -> B)
       #|  (c : (B) -> A) => RESTRICTION((b : (B) -> Bool), c)
-      #|  forall g. (forall x. f(g x) = f x) /\\ (forall x. P x ==> P(g x) /\\ Q(g x))\n          ==> IMAGE f {x | P x} = IMAGE f {x | P x /\\ Q x}
-      #|  ring_span (k,l) (h:A->B) b =\n    IMAGE (\\c. ring_sum l b (\\x. ring_mul l (h (c x)) x))\n          { c | (forall x. x IN b ==> c x IN ring_carrier k) /\\\n                (forall x. ~(x IN b) ==> c x = ARB) }
-      #|  forall(h:A->B) k l b.\n        field_extension (k,l) h /\\ ring_basis (k,l) h b /\\\n        FINITE(ring_carrier k) /\\ FINITE b\n        ==> ring_carrier l HAS_SIZE CARD(ring_carrier k) EXP CARD b
-      #|  forall(h:A->B) k l.\n        FINITE(ring_carrier k)\n        ==> (finite_extension(k,l) h <=>\n             field_extension(k,l) h /\\ FINITE(ring_carrier l))
-      #|  forall(h:A->B) k l b.\n        field_extension (k,l) h /\\ ring_basis (k,l) h b /\\\n        FINITE(ring_carrier k) /\\ FINITE b\n        ==> CARD(ring_carrier l) = CARD(ring_carrier k) EXP CARD b
-      #|  forall r:A ring.\n    field_extension (subring_generated r {ring_of_int r n | n IN (:int)},r)\n                    I <=>\n    field r /\\ prime(ring_char r)
+      #|  \226\136\128 g : (_) -> _, (\226\136\128 x : _, (f : (_) -> _)(g(x)) == f(x)) && (\226\136\128 x : _, (P : (_) -> Bool)(x) \226\134\146 P(g(x)) && (Q : (_) -> Bool)(g(x))) \226\134\146 IMAGE(f, {(x : _) | P(x)}) == IMAGE(f, {(x : _) | P(x) && Q(x)})
+      #|  ring_span(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (b : (B) -> Bool)) == IMAGE((c : (B) -> A) => ring_sum(l, b, (x : B) => ring_mul(l, h(c(x)), x)), {(c : (B) -> A) | (\226\136\128 x : B, IN(x, b) \226\134\146 IN(c(x), ring_carrier(k))) && (\226\136\128 x : B, !IN(x, b) \226\134\146 c(x) == ARB)})
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 b : (B) -> Bool, field_extension((k, l), h) && ring_basis((k, l), h, b) && FINITE(ring_carrier(k)) && FINITE(b) \226\134\146 HAS_SIZE(ring_carrier(l), EXP(CARD(ring_carrier(k)), CARD(b)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], FINITE(ring_carrier(k)) \226\134\146 finite_extension((k, l), h) == (field_extension((k, l), h) && FINITE(ring_carrier(l)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 b : (B) -> Bool, field_extension((k, l), h) && ring_basis((k, l), h, b) && FINITE(ring_carrier(k)) && FINITE(b) \226\134\146 CARD(ring_carrier(l)) == EXP(CARD(ring_carrier(k)), CARD(b))
+      #|  \226\136\128 r : Ring[A], field_extension((subring_generated(r, {ring_of_int(r, (n : Int)) | IN(n, UNIV)}), r), I) == (field(r) && prime(ring_char(r)))
       #|  CARD((b : (A) -> Bool))
       #|  (b : (A) -> Bool)
       #|  (b : (A) -> Bool)
-      #|  finite_extension (subring_generated k {ring_of_int k n | n IN (:int)},k)\n                     (I:A->A)
+      #|  finite_extension((subring_generated((k : Ring[A]), {ring_of_int(k, (n : Int)) | IN(n, UNIV)}), k), I)
       #|  (k : Ring[A])
       #|  ring_char((k : Ring[A]))
-      #|  forall k:A ring.\n        integral_domain k /\\ FINITE(ring_carrier k)\n        ==> ?p n. prime p /\\ ~(n = 0) /\\ CARD(ring_carrier k) = p EXP n
-      #|  algebraically_dependent (k,l) (h:A->B) s <=>\n        s SUBSET ring_carrier l /\\\n        ?p. p IN ring_carrier(poly_ring k s) /\\\n            ~(p = ring_0(poly_ring k s)) /\\\n            poly_extend(k,l) h (\\x. x) p = ring_0 l
-      #|  algebraically_independent (k,l) (h:A->B) s <=>\n        s SUBSET ring_carrier l /\\ ~(algebraically_dependent (k,l) h s)
-      #|  algebraic_span (k,l) (h:A->B) s =\n      ring_0 l INSERT\n      {x | algebraic_over\n            (subring_generated l (IMAGE h (ring_carrier k) UNION s),l) I x}
-      #|  algebraically_spanning (k,l) (h:A->B) s <=>\n  s SUBSET ring_carrier l /\\\n  forall y. y IN ring_carrier l\n      ==> algebraic_over\n           (subring_generated l (IMAGE h (ring_carrier k) UNION s),l) I y
-      #|  transcendence_basis (k,l) (h:A->B) s <=>\n        algebraically_spanning (k,l) h s /\\\n        algebraically_independent (k,l) h s
-      #|  forall(h:A->B) k l s.\n        algebraically_dependent (k,l) h s ==> s SUBSET ring_carrier l
-      #|  forall(h:A->B) k l s.\n        algebraically_independent (k,l) h s ==> s SUBSET ring_carrier l
-      #|  forall(h:A->B) k l s.\n        transcendence_basis (k,l) h s ==> s SUBSET ring_carrier l
+      #|  \226\136\128 k : Ring[A], integral_domain(k) && FINITE(ring_carrier(k)) \226\134\146 (\226\136\131 p : Num, \226\136\131 n : Num, prime(p) && !(n == 0) && CARD(ring_carrier(k)) == EXP(p, n))
+      #|  (algebraically_dependent : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (SUBSET(s, ring_carrier(l)) && (\226\136\131 p : ((B) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, s))) && !(p == ring_0(poly_ring(k, s))) && poly_extend((k, l), h, (x : B) => x, p) == ring_0(l)))
+      #|  (algebraically_independent : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (SUBSET(s, ring_carrier(l)) && !algebraically_dependent((k, l), h, s))
+      #|  (algebraic_span : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool, B) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == INSERT(ring_0(l), {(x : B) | algebraic_over((subring_generated(l, UNION(IMAGE(h, ring_carrier(k)), s)), l), I, x)})
+      #|  (algebraically_spanning : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (SUBSET(s, ring_carrier(l)) && (\226\136\128 y : B, IN(y, ring_carrier(l)) \226\134\146 algebraic_over((subring_generated(l, UNION(IMAGE(h, ring_carrier(k)), s)), l), I, y)))
+      #|  (transcendence_basis : ((Ring[A], Ring[B]), (A) -> B, (B) -> Bool) -> Bool)(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool)) == (algebraically_spanning((k, l), h, s) && algebraically_independent((k, l), h, s))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, algebraically_dependent((k, l), h, s) \226\134\146 SUBSET(s, ring_carrier(l))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, algebraically_independent((k, l), h, s) \226\134\146 SUBSET(s, ring_carrier(l))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, transcendence_basis((k, l), h, s) \226\134\146 SUBSET(s, ring_carrier(l))
       #|  ((r : Bool) \226\134\146 !(q : Bool)) \226\134\146 (p : Bool) \226\134\146 q \226\134\146 !r
       #|  (p : ((B) -> Num) -> A)
-      #|  forall(h:A->B) k l s.\n        ring_monomorphism(k,l) h\n        ==> (algebraically_dependent (k,l) h s <=>\n             s SUBSET ring_carrier l /\\\n             ?p. p IN ring_carrier(poly_ring k s) /\\\n                 ~(poly_deg k p = 0) /\\\n                 poly_extend(k,l) h (\\x. x) p = ring_0 l)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, ring_monomorphism((k, l), h) \226\134\146 algebraically_dependent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (\226\136\131 p : ((B) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, s))) && !(poly_deg(k, p) == 0) && poly_extend((k, l), h, (x : B) => x, p) == ring_0(l)))
       #|  (INSERT((a : _), (s : (_) -> Bool)) == s) == IN(a, s)
-      #|  forall(h:A->B) k l s.\n    ~(trivial_ring l)\n    ==> algebraic_span (k,l) h s =\n         {x | algebraic_over\n              (subring_generated l (IMAGE h (ring_carrier k) UNION s),l) I x}
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, !trivial_ring(l) \226\134\146 algebraic_span((k, l), h, s) == {(x : B) | algebraic_over((subring_generated(l, UNION(IMAGE(h, ring_carrier(k)), s)), l), I, x)}
       #|  (y : B)
-      #|  forall(h:A->B) k l s.\n    field l\n    ==> algebraic_span (k,l) h s =\n         {x | algebraic_over\n             (subfield_generated l (IMAGE h (ring_carrier k) UNION s),l) I x}
-      #|  forall(h:A->B) k l s.\n        algebraic_span (k,l) h s =\n        algebraic_span (subring_generated l (IMAGE h (ring_carrier k)),l) I s
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, field(l) \226\134\146 algebraic_span((k, l), h, s) == {(x : B) | algebraic_over((subfield_generated(l, UNION(IMAGE(h, ring_carrier(k)), s)), l), I, x)}
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, algebraic_span((k, l), h, s) == algebraic_span((subring_generated(l, IMAGE(h, ring_carrier(k))), l), I, s)
       #|  INTER((s : (_) -> Bool), UNION((u : (_) -> Bool), INTER(s, (v : (_) -> Bool)))) == INTER(s, UNION(u, v))
-      #|  forall(h:A->B) k l s.\n        algebraic_span (k,l) h s =\n        algebraic_span (k,l) h (ring_carrier l INTER s)
-      #|  forall(h:A->B) k l s. algebraic_span (k,l) h s SUBSET ring_carrier l
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, algebraic_span((k, l), h, s) == algebraic_span((k, l), h, INTER(ring_carrier(l), s))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, SUBSET(algebraic_span((k, l), h, s), ring_carrier(l))
       #|  (x : B) == ring_0((l : Ring[B]))
       #|  (x : B)
-      #|  forall(h:A->B) k l s. ring_span (k,l) h s SUBSET algebraic_span (k,l) h s
-      #|  forall(h:A->B) k l s.\n        s SUBSET ring_carrier l ==> s SUBSET algebraic_span (k,l) h s
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, SUBSET(ring_span((k, l), h, s), algebraic_span((k, l), h, s))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, SUBSET(s, ring_carrier(l)) \226\134\146 SUBSET(s, algebraic_span((k, l), h, s))
       #|  SUBSET((s : (_) -> Bool), (t : (_) -> Bool)) \226\134\146 IN((x : _), s) \226\134\146 IN(x, t)
       #|  (p : ((Unit) -> Num) -> B)
       #|  (y : B)
       #|  SUBSET((s : (_) -> Bool), (t : (_) -> Bool)) \226\134\146 SUBSET(INSERT((a : _), s), INSERT(a, t))
-      #|  forall(h:A->B) k l s t.\n    s SUBSET t ==> algebraic_span (k,l) h s SUBSET algebraic_span (k,l) h t
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 t : (B) -> Bool, SUBSET(s, t) \226\134\146 SUBSET(algebraic_span((k, l), h, s), algebraic_span((k, l), h, t))
       #|  (x : B)
-      #|  forall(h:A->B) k l.\n        field_extension(k,l) h\n        ==> algebraic_extension\n             (k,subfield_generated l {x | algebraic_over (k,l) h x}) h
-      #|  forall(h:A->B) k l.\n        field_extension(k,l) h\n        ==> algebraic_extension\n             (k,subring_generated l {x | algebraic_over (k,l) h x}) h
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 algebraic_extension((k, subfield_generated(l, {(x : B) | algebraic_over((k, l), h, x)})), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 algebraic_extension((k, subring_generated(l, {(x : B) | algebraic_over((k, l), h, x)})), h)
       #|  (l : Ring[B])
-      #|  subfield_generated l (IMAGE (h:A->B) (ring_carrier k) UNION s)
+      #|  subfield_generated((l : Ring[B]), UNION(IMAGE((h : (A) -> B), ring_carrier((k : Ring[A]))), (s : (B) -> Bool)))
       #|  (I : (B) -> B)
       #|  ((s : (_) -> Bool) == UNION((t : (_) -> Bool), s)) == SUBSET(t, s)
       #|  (l : Ring[B])
-      #|  subfield_generated l (IMAGE (h:A->B) (ring_carrier k) UNION s)
+      #|  subfield_generated((l : Ring[B]), UNION(IMAGE((h : (A) -> B), ring_carrier((k : Ring[A]))), (s : (B) -> Bool)))
       #|  (I : (B) -> B)
       #|  (x : B)
       #|  (l : Ring[B])
-      #|  subfield_generated l\n       (IMAGE h (ring_carrier k) UNION\n        {x | algebraic_over\n               (subfield_generated l (IMAGE (h:A->B) (ring_carrier k) UNION s),\n                l) I x})
-      #|  subfield_generated l (IMAGE (h:A->B) (ring_carrier k) UNION s)
+      #|  subfield_generated((l : Ring[B]), UNION(IMAGE((h : (A) -> B), ring_carrier((k : Ring[A]))), {(x : B) | algebraic_over((subfield_generated(l, UNION(IMAGE(h, ring_carrier(k)), (s : (B) -> Bool))), l), I, x)}))
+      #|  subfield_generated((l : Ring[B]), UNION(IMAGE((h : (A) -> B), ring_carrier((k : Ring[A]))), (s : (B) -> Bool)))
       #|  (I : (B) -> B)
       #|  (I : (B) -> B)
       #|  (x : B)
       #|  (s : (B) -> Bool)
       #|  INTER(ring_carrier((l : Ring[B])), (s : (B) -> Bool))
-      #|  (ring_carrier l INTER s:B->bool) SUBSET ring_carrier l
-      #|  forall(h:A->B) k l s.\n        field_extension(k,l) h\n        ==> algebraic_span (k,l) h (algebraic_span (k,l) h s) =\n            algebraic_span (k,l) h s
+      #|  SUBSET(INTER(ring_carrier((l : Ring[B])), (s : (B) -> Bool)), ring_carrier(l))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, field_extension((k, l), h) \226\134\146 algebraic_span((k, l), h, algebraic_span((k, l), h, s)) == algebraic_span((k, l), h, s)
       #|  IN((x : _), (s : (_) -> Bool)) \226\134\146 SUBSET(s, (t : (_) -> Bool)) \226\134\146 IN(x, t)
       #|  INTER((s : (B) -> Bool), (t : (B) -> Bool))
       #|  (t : (B) -> Bool)
       #|  (p : ((Unit) -> Num) -> B)
       #|  (a : B) == ring_0((l : Ring[B]))
-      #|  forall(h:A->B) k l s a.\n        a IN algebraic_span (k,l) h s\n        ==> ?t. FINITE t /\\ t SUBSET s /\\ a IN algebraic_span (k,l) h t
-      #|  forall(h:A->B) k l.\n     ring_monomorphism(k,l) h /\\ ~trivial_ring l\n     ==> algebraic_span (k,l) h {} = {x | algebraic_over (k,l) h x}
-      #|  ring_epimorphism(k,poly_ring k {}) (poly_const k:A->(B->num)->A)
-      #|  forall(h:A->B) k l.\n    ring_monomorphism(k,l) h ==> algebraically_independent (k,l) h {}
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 a : B, IN(a, algebraic_span((k, l), h, s)) \226\134\146 (\226\136\131 t : (B) -> Bool, FINITE(t) && SUBSET(t, s) && IN(a, algebraic_span((k, l), h, t)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], ring_monomorphism((k, l), h) && !trivial_ring(l) \226\134\146 algebraic_span((k, l), h, {}) == {(x : B) | algebraic_over((k, l), h, x)}
+      #|  (ring_epimorphism : ((Ring[A], Ring[((B) -> Num) -> A]), (A, (B) -> Num) -> A) -> Bool)(((k : Ring[A]), (poly_ring : (Ring[A], (B) -> Bool) -> Ring[((B) -> Num) -> A])(k, ({} : (B) -> Bool))), (poly_const : (Ring[A], A, (B) -> Num) -> A)(k))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], ring_monomorphism((k, l), h) \226\134\146 algebraically_independent((k, l), h, {})
       #|  {(x : B)}
       #|  (p : ((B) -> Num) -> A)
       #|  (x : B)
@@ -28166,21 +28166,21 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (h : (A) -> B)
-      #|  forall(h:A->B) k l x.\n        algebraically_dependent (k,l) h {x} <=>\n        algebraic_over (k,l) h x
-      #|  forall(h:A->B) k l x.\n        algebraically_independent (k,l) h {x} <=>\n        transcendental_over (k,l) h x
-      #|  forall(h:A->B) k l s t.\n     algebraically_dependent (k,l) h s /\\ s SUBSET t /\\ t SUBSET ring_carrier l\n     ==> algebraically_dependent (k,l) h t
-      #|  forall(h:A->B) k l s t d.\n        algebraically_dependent (subring_generated k s,l) h d /\\ s SUBSET t\n        ==> algebraically_dependent (subring_generated k t,l) h d
-      #|  forall(h:A->B) k l s t.\n        algebraically_independent (k,l) h t /\\ s SUBSET t\n        ==> algebraically_independent (k,l) h s
-      #|  forall(h:A->B) k l s t d.\n        algebraically_independent (subring_generated k t,l) h d /\\ s SUBSET t\n        ==> algebraically_independent (subring_generated k s,l) h d
-      #|  forall(h:A->B) k l s x.\n        field_extension (k,l) h /\\\n        algebraically_independent (k,l) h s /\\ x IN s\n        ==> transcendental_over (k,l) h x
-      #|  DISJOINT (IMAGE f r) s <=> forall a. a IN r ==> ~(f a IN s)
-      #|  forall(h:A->B) k l s.\n        field_extension (k,l) h /\\ algebraically_independent (k,l) h s\n        ==> DISJOINT (IMAGE h (ring_carrier k)) s
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 x : B, algebraically_dependent((k, l), h, {x}) == algebraic_over((k, l), h, x)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 x : B, algebraically_independent((k, l), h, {x}) == transcendental_over((k, l), h, x)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 t : (B) -> Bool, algebraically_dependent((k, l), h, s) && SUBSET(s, t) && SUBSET(t, ring_carrier(l)) \226\134\146 algebraically_dependent((k, l), h, t)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 d : (B) -> Bool, algebraically_dependent((subring_generated(k, s), l), h, d) && SUBSET(s, t) \226\134\146 algebraically_dependent((subring_generated(k, t), l), h, d)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 t : (B) -> Bool, algebraically_independent((k, l), h, t) && SUBSET(s, t) \226\134\146 algebraically_independent((k, l), h, s)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 d : (B) -> Bool, algebraically_independent((subring_generated(k, t), l), h, d) && SUBSET(s, t) \226\134\146 algebraically_independent((subring_generated(k, s), l), h, d)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 x : B, field_extension((k, l), h) && algebraically_independent((k, l), h, s) && IN(x, s) \226\134\146 transcendental_over((k, l), h, x)
+      #|  DISJOINT(IMAGE((f : (_) -> _), (r : (_) -> Bool)), (s : (_) -> Bool)) == (\226\136\128 a : _, IN(a, r) \226\134\146 !IN(f(a), s))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, field_extension((k, l), h) && algebraically_independent((k, l), h, s) \226\134\146 DISJOINT(IMAGE(h, ring_carrier(k)), s)
       #|  (p : ((B) -> Num) -> A)
       #|  (t : (B) -> Bool)
       #|  (p : ((B) -> Num) -> A)
-      #|  forall(h:A->B) k l s.\n        algebraically_dependent (k,l) h s <=>\n        s SUBSET ring_carrier l /\\\n        ?t. FINITE t /\\ t SUBSET s /\\ algebraically_dependent (k,l) h t
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, algebraically_dependent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (\226\136\131 t : (B) -> Bool, FINITE(t) && SUBSET(t, s) && algebraically_dependent((k, l), h, t)))
       #|  (p : Bool) && (q : Bool) == (q' : Bool) \226\134\146 (p && q) == q'
-      #|  forall r r' s (h:A->B).\n        ring_homomorphism(r,r') h /\\ s SUBSET ring_carrier r'\n        ==> (ring_monomorphism (poly_ring r s,r')\n                               (poly_extend(r,r') h (\\x. x)) <=>\n             algebraically_independent (r,r') h s)
+      #|  \226\136\128 r : Ring[A], \226\136\128 r' : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 h : (A) -> B, ring_homomorphism((r, r'), h) && SUBSET(s, ring_carrier(r')) \226\134\146 ring_monomorphism((poly_ring(r, s), r'), poly_extend((r, r'), h, (x : B) => x)) == algebraically_independent((r, r'), h, s)
       #|  subring_generated((l : Ring[B]))
       #|  UNION(IMAGE((x : _) => x, (s : (_) -> Bool)), (t : (_) -> Bool)) == UNION(t, s)
       #|  (x : B) => x
@@ -28206,7 +28206,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (h : (A) -> B)
-      #|  (p' <=> p) /\\ (q <=> q') ==> (q <=> p) ==> (p' <=> q')
+      #|  (p' : Bool) == (p : Bool) && (q : Bool) == (q' : Bool) \226\134\146 q == p \226\134\146 p' == q'
       #|  (a : B)
       #|  (a : B)
       #|  (l : Ring[B])
@@ -28220,12 +28220,12 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  IN((a : B), (s : (B) -> Bool))
       #|  IN((a : B), ring_carrier((l : Ring[B])))
       #|  SUBSET((s : (B) -> Bool), ring_carrier((l : Ring[B])))
-      #|  forall(h:A->B) k l s a.\n        field_extension(k,l) h /\\ ~algebraically_dependent (k,l) h s\n        ==> (algebraically_dependent (k,l) h (a INSERT s) <=>\n             ~(a IN s) /\\ s SUBSET ring_carrier l /\\\n             a IN algebraic_span (k,l) h s)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 a : B, field_extension((k, l), h) && !algebraically_dependent((k, l), h, s) \226\134\146 algebraically_dependent((k, l), h, INSERT(a, s)) == (!IN(a, s) && SUBSET(s, ring_carrier(l)) && IN(a, algebraic_span((k, l), h, s)))
       #|  IN((a : B), (s : (B) -> Bool))
       #|  IN((a : B), ring_carrier((l : Ring[B])))
       #|  algebraically_dependent(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), (s : (B) -> Bool))
-      #|  forall(h:A->B) k l s a.\n        field_extension(k,l) h\n        ==> (algebraically_dependent (k,l) h (a INSERT s) <=>\n             a IN ring_carrier l /\\ algebraically_dependent (k,l) h s \\/\n             ~(a IN s) /\\ s SUBSET ring_carrier l /\\\n             a IN algebraic_span (k,l) h s)
-      #|  forall(h:A->B) k l s a.\n        field_extension(k,l) h\n        ==> (algebraically_independent (k,l) h (a INSERT s) <=>\n             algebraically_independent (k,l) h s /\\\n             a IN ring_carrier l /\\\n             (a IN s \\/ ~(a IN algebraic_span (k,l) h s)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 a : B, field_extension((k, l), h) \226\134\146 algebraically_dependent((k, l), h, INSERT(a, s)) == (IN(a, ring_carrier(l)) && algebraically_dependent((k, l), h, s) || !IN(a, s) && SUBSET(s, ring_carrier(l)) && IN(a, algebraic_span((k, l), h, s)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 a : B, field_extension((k, l), h) \226\134\146 algebraically_independent((k, l), h, INSERT(a, s)) == (algebraically_independent((k, l), h, s) && IN(a, ring_carrier(l)) && (IN(a, s) || !IN(a, algebraic_span((k, l), h, s))))
       #|  IN((a : _), (s : (_) -> Bool)) \226\134\146 PSUBSET(DELETE(s, a), s)
       #|  IN((a : _), (s : (_) -> Bool)) \226\134\146 INSERT(a, DELETE(s, a)) == s
       #|  DELETE((s : (B) -> Bool), (a : B))
@@ -28243,7 +28243,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  CARD((t : (B) -> Bool))
       #|  (p : Bool) && (q : Bool) \226\134\146 p == q
       #|  (t : (B) -> Bool)
-      #|  ?t. t PSUBSET s /\\ algebraically_dependent (k,l) (h:A->B) t
+      #|  \226\136\131 t : (B) -> Bool, PSUBSET(t, (s : (B) -> Bool)) && algebraically_dependent(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), t)
       #|  SUBSET((s : (B) -> Bool), ring_carrier((l : Ring[B])))
       #|  (s : (B) -> Bool)
       #|  (n : Num)
@@ -28255,9 +28255,9 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (a : B)
       #|  (t : (B) -> Bool)
       #|  (t : (B) -> Bool)
-      #|  ((forall s. FINITE s ==> P s) ==> (forall s. P s)) /\\\n    (forall n s. s HAS_SIZE n ==> P s)\n    ==> forall s. P s
-      #|  forall k l (h:A->B) s.\n        field_extension(k,l) h\n        ==> (algebraically_dependent (k,l) h s <=>\n             s SUBSET ring_carrier l /\\\n             ?a. a IN s /\\ a IN algebraic_span (k,l) h (s DELETE a))
-      #|  forall k l (h:A->B) s.\n        field_extension(k,l) h\n        ==> (algebraically_independent (k,l) h s <=>\n             s SUBSET ring_carrier l /\\\n             forall a. a IN s ==> ~(a IN algebraic_span (k,l) h (s DELETE a)))
+      #|  ((\226\136\128 s : (_) -> Bool, FINITE(s) \226\134\146 (P : ((_) -> Bool) -> Bool)(s)) \226\134\146 (\226\136\128 s : (_) -> Bool, P(s))) && (\226\136\128 n : Num, \226\136\128 s : (_) -> Bool, HAS_SIZE(s, n) \226\134\146 P(s)) \226\134\146 (\226\136\128 s : (_) -> Bool, P(s))
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 h : (A) -> B, \226\136\128 s : (B) -> Bool, field_extension((k, l), h) \226\134\146 algebraically_dependent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (\226\136\131 a : B, IN(a, s) && IN(a, algebraic_span((k, l), h, DELETE(s, a)))))
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 h : (A) -> B, \226\136\128 s : (B) -> Bool, field_extension((k, l), h) \226\134\146 algebraically_independent((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && (\226\136\128 a : B, IN(a, s) \226\134\146 !IN(a, algebraic_span((k, l), h, DELETE(s, a)))))
       #|  DELETE(INSERT((b : B), INSERT((a : B), (t : (B) -> Bool))), a)
       #|  INSERT((b : B), (t : (B) -> Bool))
       #|  (l : Ring[B])
@@ -28283,7 +28283,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  algebraic_span(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), INSERT((a : B), (t : (B) -> Bool)))
       #|  \226\136\128 t : (_) -> Bool, SUBSET(t, (s : (_) -> Bool)) && IN((x : _), t) \226\134\146 IN(x, s)
       #|  SUBSET((s : (_) -> Bool), (t : (_) -> Bool)) \226\134\146 IN((x : _), s) \226\134\146 IN(x, t)
-      #|  c IN algebraic_span (k,l) (h:A->B) (t DELETE c)
+      #|  IN((c : B), algebraic_span(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), DELETE((t : (B) -> Bool), c)))
       #|  INSERT((c : B), INSERT((b : B), DELETE((t : (B) -> Bool), c)))
       #|  (a : B)
       #|  (a : B)
@@ -28303,7 +28303,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  DELETE((t : (B) -> Bool), (b : B))
       #|  CARD(DELETE((t : (B) -> Bool), (b : B)))
       #|  (t : (B) -> Bool)
-      #|  ?n t. t HAS_SIZE n /\\ t SUBSET s /\\\n          a IN algebraic_span (k,l) (h:A->B) (b INSERT t)
+      #|  \226\136\131 n : Num, \226\136\131 t : (B) -> Bool, HAS_SIZE(t, n) && SUBSET(t, (s : (B) -> Bool)) && IN((a : B), algebraic_span(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B), INSERT((b : B), t)))
       #|  (s : (B) -> Bool)
       #|  (l : Ring[B])
       #|  (k : Ring[A])
@@ -28313,23 +28313,23 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (s : (B) -> Bool)
       #|  (s : (B) -> Bool)
       #|  INTER(ring_carrier((l : Ring[B])), (s : (B) -> Bool))
-      #|  ring_carrier l INTER (s:B->bool) SUBSET ring_carrier l
-      #|  b IN s ==> s INTER (b INSERT t) = b INSERT (s INTER t)
+      #|  SUBSET(INTER(ring_carrier((l : Ring[B])), (s : (B) -> Bool)), ring_carrier(l))
+      #|  IN((b : _), (s : (_) -> Bool)) \226\134\146 INTER(s, INSERT(b, (t : (_) -> Bool))) == INSERT(b, INTER(s, t))
       #|  IN((a : B), ring_carrier((l : Ring[B])))
       #|  !IN((b : _), (s : (_) -> Bool)) \226\134\146 INTER(s, INSERT(b, (t : (_) -> Bool))) == INTER(s, t)
       #|  IN((b : B), ring_carrier((l : Ring[B])))
-      #|  forall(h:A->B) k l s a b.\n        field_extension(k,l) h /\\\n        a IN algebraic_span (k,l) h (b INSERT s) /\\\n        ~(a IN algebraic_span (k,l) h s)\n        ==> b IN algebraic_span (k,l) h (a INSERT s)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, \226\136\128 a : B, \226\136\128 b : B, field_extension((k, l), h) && IN(a, algebraic_span((k, l), h, INSERT(b, s))) && !IN(a, algebraic_span((k, l), h, s)) \226\134\146 IN(b, algebraic_span((k, l), h, INSERT(a, s)))
       #|  (q : Bool) \226\134\146 ((p : Bool) && (r : Bool)) == (p && q && r)
-      #|  forall(h:A->B) k l s.\n        field_extension (k,l) h\n        ==> (algebraically_spanning (k,l) (h:A->B) s <=>\n             s SUBSET ring_carrier l /\\\n             algebraic_extension\n              (subfield_generated l (IMAGE h (ring_carrier k) UNION s),l) I)
-      #|  algebraic_matroid (k,l) (h:A->B) =\n     matroid(ring_carrier l,algebraic_span (k,l) h)
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> matroid_set(algebraic_matroid (k,l) h) = ring_carrier l /\\\n            matroid_span(algebraic_matroid (k,l) h) = algebraic_span (k,l) h
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> (matroid_independent(algebraic_matroid (k,l) h) =\n             algebraically_independent (k,l) h)
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> (matroid_dependent(algebraic_matroid (k,l) h) =\n             algebraically_dependent (k,l) h)
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> (matroid_spanning(algebraic_matroid (k,l) h) =\n             algebraically_spanning (k,l) h)
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h\n        ==> (matroid_basis(algebraic_matroid (k,l) h) =\n             transcendence_basis (k,l) h)
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h ==> ?b. transcendence_basis (k,l) h b
-      #|  forall(h:A->B) k l.\n        field_extension (k,l) h /\\ algebraically_spanning (k,l) h b\n        ==> ?c. c SUBSET b /\\ transcendence_basis (k,l) h c
-      #|  forall(h:A->B) k l b b'.\n        field_extension (k,l) h /\\\n        transcendence_basis (k,l) h b /\\ transcendence_basis (k,l) h b'\n        ==> b =_c b'
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, field_extension((k, l), h) \226\134\146 algebraically_spanning((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && algebraic_extension((subfield_generated(l, UNION(IMAGE(h, ring_carrier(k)), s)), l), I))
+      #|  (algebraic_matroid : ((Ring[A], Ring[B]), (A) -> B) -> Matroid[B])(((k : Ring[A]), (l : Ring[B])), (h : (A) -> B)) == matroid((ring_carrier(l), algebraic_span((k, l), h)))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 matroid_set(algebraic_matroid((k, l), h)) == ring_carrier(l) && matroid_span(algebraic_matroid((k, l), h)) == algebraic_span((k, l), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 matroid_independent(algebraic_matroid((k, l), h)) == algebraically_independent((k, l), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 matroid_dependent(algebraic_matroid((k, l), h)) == algebraically_dependent((k, l), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 matroid_spanning(algebraic_matroid((k, l), h)) == algebraically_spanning((k, l), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 matroid_basis(algebraic_matroid((k, l), h)) == transcendence_basis((k, l), h)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) \226\134\146 (\226\136\131 b : (B) -> Bool, transcendence_basis((k, l), h, b))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], field_extension((k, l), h) && algebraically_spanning((k, l), h, (b : (B) -> Bool)) \226\134\146 (\226\136\131 c : (B) -> Bool, SUBSET(c, b) && transcendence_basis((k, l), h, c))
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 b : (B) -> Bool, \226\136\128 b' : (B) -> Bool, field_extension((k, l), h) && transcendence_basis((k, l), h, b) && transcendence_basis((k, l), h, b') \226\134\146 op_eq_us_c(b, b')
       #|  IMAGE((g : (B) -> C), (s : (B) -> Bool))
       #|  (g : (B) -> C)(ring_0((l : Ring[B]))) == ring_0((m : Ring[C]))
       #|  (q : ((B) -> Num) -> A)
@@ -28340,7 +28340,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (m : Ring[C])
       #|  (l : Ring[B])
       #|  (k : Ring[A])
-      #|  p = poly_reindex (k:A ring) (q:(B->num)->A) (h:C->B) (IMAGE g s) s
+      #|  (p : ((C) -> Num) -> A) == poly_reindex((k : Ring[A]), (q : ((B) -> Num) -> A), (h : (C) -> B), IMAGE((g : (B) -> C), (s : (B) -> Bool)), s)
       #|  (g : (B) -> C)
       #|  (h : (C) -> B)
       #|  (q : ((B) -> Num) -> A)
@@ -28349,7 +28349,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (m : Ring[C])
       #|  (k : Ring[A])
       #|  o((g : (B) -> C), (f : (A) -> B))
-      #|  q = poly_reindex (k:A ring) (p:(C->num)->A) (g:B->C) (s:B->bool)\n          (IMAGE (g:B->C) s)
+      #|  (q : ((B) -> Num) -> A) == poly_reindex((k : Ring[A]), (p : ((C) -> Num) -> A), (g : (B) -> C), (s : (B) -> Bool), IMAGE(g, s))
       #|  (x : C) => x
       #|  (g : (B) -> C)
       #|  (p : ((C) -> Num) -> A)
@@ -28359,11 +28359,11 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (k : Ring[A])
       #|  o((g : (B) -> C), (f : (A) -> B))
       #|  (p : Bool) && (q : Bool) && (p \226\134\146 (r : Bool)) \226\134\146 p && q && r
-      #|  poly_reindex (k:A ring) q (h:C->B)\n                             (IMAGE (g:B->C) s) (s:B->bool)
+      #|  poly_reindex((k : Ring[A]), (q : ((B) -> Num) -> A), (h : (C) -> B), IMAGE((g : (B) -> C), (s : (B) -> Bool)), s)
       #|  (q : ((B) -> Num) -> A)
-      #|  poly_reindex (k:A ring) p (g:B->C) (s:B->bool)\n                             (IMAGE (g:B->C) s)
+      #|  poly_reindex((k : Ring[A]), (p : ((C) -> Num) -> A), (g : (B) -> C), (s : (B) -> Bool), IMAGE(g, s))
       #|  (p : ((C) -> Num) -> A)
-      #|  BIJ (g:B->C) s (IMAGE g s) /\\ BIJ (h:C->B) (IMAGE g s) s
+      #|  BIJ((g : (B) -> C), (s : (B) -> Bool), IMAGE(g, s)) && BIJ((h : (C) -> B), IMAGE(g, s), s)
       #|  SUBSET(IMAGE((g : (B) -> C), (s : (B) -> Bool)), ring_carrier((m : Ring[C])))
       #|  (h : (C) -> B)
       #|  (g : (B) -> C)
@@ -28371,8 +28371,8 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (s : (B) -> Bool)
       #|  (k : Ring[A])
       #|  (h : (C) -> B)
-      #|  forall(f:A->B) (g:B->C) k l m s.\n        s SUBSET ring_carrier l /\\\n        ring_homomorphism(k,l) f /\\\n        ring_monomorphism(l,m) g\n        ==> (algebraically_dependent (k,m) (g o f) (IMAGE g s) <=>\n             algebraically_dependent (k,l) f s)
-      #|  forall(f:A->B) (g:B->C) k l m z.\n        z IN ring_carrier l /\\\n        ring_homomorphism(k,l) f /\\\n        ring_monomorphism(l,m) g\n        ==> (algebraic_over (k,m) (g o f) (g z) <=>\n             algebraic_over (k,l) f z)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 s : (B) -> Bool, SUBSET(s, ring_carrier(l)) && ring_homomorphism((k, l), f) && ring_monomorphism((l, m), g) \226\134\146 algebraically_dependent((k, m), o(g, f), IMAGE(g, s)) == algebraically_dependent((k, l), f, s)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 z : B, IN(z, ring_carrier(l)) && ring_homomorphism((k, l), f) && ring_monomorphism((l, m), g) \226\134\146 algebraic_over((k, m), o(g, f), g(z)) == algebraic_over((k, l), f, z)
       #|  UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), (s : (B) -> Bool))
       #|  (g : (B) -> C)
       #|  (m : Ring[C])
@@ -28380,12 +28380,12 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (z : B)
       #|  (m : Ring[C])
       #|  (l : Ring[B])
-      #|  subring_generated l (IMAGE (f:A->B) (ring_carrier k) UNION s)
+      #|  subring_generated((l : Ring[B]), UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), (s : (B) -> Bool)))
       #|  (g : (B) -> C)
       #|  (I : (B) -> B)
       #|  (z : B)
-      #|  (forall x. x IN u ==> (g x IN v <=> x IN s)) /\\ s SUBSET u\n    ==> IMAGE g s = IMAGE g u INTER v
-      #|  forall(f:A->B) (g:B->C) k l m s.\n        ring_homomorphism(k,l) f /\\\n        ring_monomorphism(l,m) g /\\\n        s SUBSET ring_carrier l\n        ==> IMAGE g (algebraic_span (k,l) f s) =\n            IMAGE g (ring_carrier l) INTER\n            algebraic_span (k,m) (g o f) (IMAGE g s)
+      #|  (\226\136\128 x : _, IN(x, (u : (_) -> Bool)) \226\134\146 IN((g : (_) -> _)(x), (v : (_) -> Bool)) == IN(x, (s : (_) -> Bool))) && SUBSET(s, u) \226\134\146 IMAGE(g, s) == INTER(IMAGE(g, u), v)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 s : (B) -> Bool, ring_homomorphism((k, l), f) && ring_monomorphism((l, m), g) && SUBSET(s, ring_carrier(l)) \226\134\146 IMAGE(g, algebraic_span((k, l), f, s)) == INTER(IMAGE(g, ring_carrier(l)), algebraic_span((k, m), o(g, f), IMAGE(g, s)))
       #|  (c : C)
       #|  !algebraically_dependent(((l : Ring[B]), (m : Ring[C])), (g : (B) -> C), (t : (C) -> Bool))
       #|  (c : C)
@@ -28399,7 +28399,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (t' : (C) -> Bool) == {}
       #|  (t' : (C) -> Bool)
       #|  (s' : (B) -> Bool)
-      #|  p /\\ q /\\ (r /\\ s) /\\ t <=> r /\\ p /\\ s /\\ q /\\ t
+      #|  ((p : Bool) && (q : Bool) && ((r : Bool) && (s : Bool)) && (t : Bool)) == (r && p && s && q && t)
       #|  ((p : Bool) && (q : Bool) && (r : Bool)) == (q && p && r)
       #|  (m : Ring[C])
       #|  (l : Ring[B])
@@ -28411,26 +28411,26 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (l : Ring[B])
       #|  (g : (B) -> C)
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
-      #|  forall(f:A->B) (g:B->C) k l m s t.\n        field_extension(k,l) f /\\ field_extension(l,m) g /\\\n        algebraically_independent (k,l) f s /\\\n        algebraically_independent (l,m) g t\n        ==> DISJOINT (IMAGE g s) t /\\\n            algebraically_independent (k,m) (g o f) (IMAGE g s UNION t)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 s : (B) -> Bool, \226\136\128 t : (C) -> Bool, field_extension((k, l), f) && field_extension((l, m), g) && algebraically_independent((k, l), f, s) && algebraically_independent((l, m), g, t) \226\134\146 DISJOINT(IMAGE(g, s), t) && algebraically_independent((k, m), o(g, f), UNION(IMAGE(g, s), t))
       #|  SUBSET((s : (_) -> Bool), (s' : (_) -> Bool)) \226\134\146 SUBSET(UNION(s, (t : (_) -> Bool)), UNION(s', t))
       #|  (z : C)
       #|  (s : (_) -> Bool) == (t : (_) -> Bool) \226\134\146 SUBSET(INSERT((a : _), s), INSERT(a, t))
-      #|  algebraic_span (k,m) (g o f)\n     (IMAGE (g:B->C) (algebraic_span (k,l) (f:A->B) s) UNION t)
+      #|  algebraic_span(((k : Ring[A]), (m : Ring[C])), o((g : (B) -> C), (f : (A) -> B)), UNION(IMAGE(g, algebraic_span((k, (l : Ring[B])), f, (s : (B) -> Bool))), (t : (C) -> Bool)))
       #|  SUBSET(IMAGE((g : (B) -> C), (s : (B) -> Bool)), ring_carrier((m : Ring[C])))
       #|  algebraically_spanning(((k : Ring[A]), (l : Ring[B])), (f : (A) -> B), (s : (B) -> Bool))
       #|  algebraically_spanning(((l : Ring[B]), (m : Ring[C])), (g : (B) -> C), (t : (C) -> Bool))
       #|  field_extension(((k : Ring[A]), (m : Ring[C])), o((g : (B) -> C), (f : (A) -> B)))
-      #|  forall(f:A->B) (g:B->C) k l m s t.\n      field_extension (k,l) f /\\ algebraically_spanning (k,l) f s /\\\n      field_extension (l,m) g /\\ algebraically_spanning (l,m) g t\n      ==> algebraically_spanning (k,m) (g o f) (IMAGE g s UNION t)
-      #|  forall(f:A->B) (g:B->C) k l m s t.\n      field_extension (k,l) f /\\ transcendence_basis (k,l) f s /\\\n      field_extension (l,m) g /\\ transcendence_basis (l,m) g t\n      ==> DISJOINT (IMAGE g s) t /\\\n          transcendence_basis (k,m) (g o f) (IMAGE g s UNION t)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 s : (B) -> Bool, \226\136\128 t : (C) -> Bool, field_extension((k, l), f) && algebraically_spanning((k, l), f, s) && field_extension((l, m), g) && algebraically_spanning((l, m), g, t) \226\134\146 algebraically_spanning((k, m), o(g, f), UNION(IMAGE(g, s), t))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 s : (B) -> Bool, \226\136\128 t : (C) -> Bool, field_extension((k, l), f) && transcendence_basis((k, l), f, s) && field_extension((l, m), g) && transcendence_basis((l, m), g, t) \226\134\146 DISJOINT(IMAGE(g, s), t) && transcendence_basis((k, m), o(g, f), UNION(IMAGE(g, s), t))
       #|  op_plus_us_c(IMAGE((g : (B) -> C), (b : (B) -> Bool)), (c : (C) -> Bool))
       #|  (d : (C) -> Bool)
       #|  UNION(IMAGE((g : (B) -> C), (b : (B) -> Bool)), (c : (C) -> Bool))
       #|  (m : Ring[C])
       #|  (k : Ring[A])
       #|  o((g : (B) -> C), (f : (A) -> B))
-      #|  forall(f:A->B) (g:B->C) k l m b c d.\n     field_extension (k,l) f /\\ field_extension (l,m) g /\\\n     transcendence_basis (k,l) f b /\\\n     transcendence_basis (l,m) g c /\\\n     transcendence_basis (k,m) (g o f) d\n     ==> b +_c c =_c d
-      #|  forall(f:A->B) (g:B->C) k l m b c.\n     field_extension (k,l) f /\\ field_extension (l,m) g /\\\n     transcendence_basis (k,l) f b /\\\n     transcendence_basis (k,m) (g o f) c\n     ==> b <=_c c
-      #|  forall(f:A->B) (g:B->C) k l m b c.\n     field_extension (k,l) f /\\ field_extension (l,m) g /\\\n     transcendence_basis (l,m) g b /\\\n     transcendence_basis (k,m) (g o f) c\n     ==> b <=_c c
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 b : (B) -> Bool, \226\136\128 c : (C) -> Bool, \226\136\128 d : (C) -> Bool, field_extension((k, l), f) && field_extension((l, m), g) && transcendence_basis((k, l), f, b) && transcendence_basis((l, m), g, c) && transcendence_basis((k, m), o(g, f), d) \226\134\146 op_eq_us_c(op_plus_us_c(b, c), d)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 b : (B) -> Bool, \226\136\128 c : (C) -> Bool, field_extension((k, l), f) && field_extension((l, m), g) && transcendence_basis((k, l), f, b) && transcendence_basis((k, m), o(g, f), c) \226\134\146 op_lt_eq_us_c(b, c)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 b : (C) -> Bool, \226\136\128 c : (C) -> Bool, field_extension((k, l), f) && field_extension((l, m), g) && transcendence_basis((l, m), g, b) && transcendence_basis((k, m), o(g, f), c) \226\134\146 op_lt_eq_us_c(b, c)
       #|  IMAGE((f : (A) -> B), ring_carrier((k : Ring[A])))
       #|  (g : (B) -> C)
       #|  (m : Ring[C])
@@ -28438,7 +28438,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (b : B)
       #|  (m : Ring[C])
       #|  (l : Ring[B])
-      #|  subring_generated l (IMAGE (f:A->B) (ring_carrier k))
+      #|  subring_generated((l : Ring[B]), IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))))
       #|  (g : (B) -> C)
       #|  (I : (B) -> B)
       #|  (b : B)
@@ -28447,41 +28447,41 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (\226\136\128 x : _, IN(x, (s : (_) -> Bool)) \226\134\146 (P : (_) -> Bool)(x)) == SUBSET(s, {(x : _) | P(x)})
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
       #|  field((k : Ring[A])) && ring_monomorphism((k, (l : Ring[B])), (f : (A) -> B))
-      #|  forall(f:A->B) (g:B->C) k l m s.\n      algebraic_extension (k,l) f /\\\n      field_extension (l,m) g /\\\n      s SUBSET ring_carrier m\n      ==> algebraic_extension\n           (subfield_generated m (IMAGE (g o f) (ring_carrier k) UNION s),\n            subfield_generated m (IMAGE g (ring_carrier l) UNION s)) I
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 s : (C) -> Bool, algebraic_extension((k, l), f) && field_extension((l, m), g) && SUBSET(s, ring_carrier(m)) \226\134\146 algebraic_extension((subfield_generated(m, UNION(IMAGE(o(g, f), ring_carrier(k)), s)), subfield_generated(m, UNION(IMAGE(g, ring_carrier(l)), s))), I)
       #|  (z : C)
       #|  (m : Ring[C])
-      #|  subfield_generated m (IMAGE (g:B->C) (ring_carrier l) UNION s)
-      #|  subfield_generated m\n       (IMAGE ((g:B->C) o (f:A->B)) (ring_carrier k) UNION s)
+      #|  subfield_generated((m : Ring[C]), UNION(IMAGE((g : (B) -> C), ring_carrier((l : Ring[B]))), (s : (C) -> Bool)))
+      #|  subfield_generated((m : Ring[C]), UNION(IMAGE(o((g : (B) -> C), (f : (A) -> B)), ring_carrier((k : Ring[A]))), (s : (C) -> Bool)))
       #|  (I : (C) -> C)
       #|  (I : (C) -> C)
       #|  (z : C)
       #|  (s : (C) -> Bool)
       #|  INTER(ring_carrier((m : Ring[C])), (s : (C) -> Bool))
-      #|  (ring_carrier m INTER s:C->bool) SUBSET ring_carrier m
-      #|  forall(f:A->B) (g:B->C) k l m s.\n        algebraic_extension (k,l) f /\\\n        field_extension (l,m) g\n        ==> algebraic_span (k,m) (g o f) s = algebraic_span (l,m) g s
+      #|  SUBSET(INTER(ring_carrier((m : Ring[C])), (s : (C) -> Bool)), ring_carrier(m))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 s : (C) -> Bool, algebraic_extension((k, l), f) && field_extension((l, m), g) \226\134\146 algebraic_span((k, m), o(g, f), s) == algebraic_span((l, m), g, s)
       #|  (m : Ring[C])
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (g : (B) -> C)
       #|  (f : (A) -> B)
-      #|  forall(f:A->B) (g:B->C) k l m s.\n        algebraic_extension (k,l) f /\\\n        field_extension (l,m) g\n        ==> (algebraically_dependent (k,m) (g o f) s <=>\n             algebraically_dependent (l,m) g s)
-      #|  forall(f:A->B) (g:B->C) k l m s.\n        algebraic_extension (k,l) f /\\\n        field_extension (l,m) g\n        ==> (algebraically_independent (k,m) (g o f) s <=>\n             algebraically_independent (l,m) g s)
-      #|  forall(h:A->B) k l s.\n        ~(trivial_ring l)\n        ==> (algebraically_spanning (k,l) h s <=>\n             s SUBSET ring_carrier l /\\\n             algebraic_span (k,l) h s = ring_carrier l)
-      #|  forall(f:A->B) (g:B->C) k l m s.\n        algebraic_extension (k,l) f /\\\n        field_extension (l,m) g\n        ==> (algebraically_spanning (k,m) (g o f) s <=>\n             algebraically_spanning (l,m) g s)
-      #|  forall(f:A->B) (g:B->C) k l m s.\n        algebraic_extension (k,l) f /\\\n        field_extension (l,m) g\n        ==> (transcendence_basis (k,m) (g o f) s <=>\n             transcendence_basis (l,m) g s)
-      #|  forall(h:A->B) k l b c.\n        field_extension (k,l) h /\\\n        algebraically_independent (k,l) h b /\\ algebraically_spanning (k,l) h c\n        ==> b <=_c c
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 s : (C) -> Bool, algebraic_extension((k, l), f) && field_extension((l, m), g) \226\134\146 algebraically_dependent((k, m), o(g, f), s) == algebraically_dependent((l, m), g, s)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 s : (C) -> Bool, algebraic_extension((k, l), f) && field_extension((l, m), g) \226\134\146 algebraically_independent((k, m), o(g, f), s) == algebraically_independent((l, m), g, s)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, !trivial_ring(l) \226\134\146 algebraically_spanning((k, l), h, s) == (SUBSET(s, ring_carrier(l)) && algebraic_span((k, l), h, s) == ring_carrier(l))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 s : (C) -> Bool, algebraic_extension((k, l), f) && field_extension((l, m), g) \226\134\146 algebraically_spanning((k, m), o(g, f), s) == algebraically_spanning((l, m), g, s)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], \226\136\128 s : (C) -> Bool, algebraic_extension((k, l), f) && field_extension((l, m), g) \226\134\146 transcendence_basis((k, m), o(g, f), s) == transcendence_basis((l, m), g, s)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 b : (B) -> Bool, \226\136\128 c : (B) -> Bool, field_extension((k, l), h) && algebraically_independent((k, l), h, b) && algebraically_spanning((k, l), h, c) \226\134\146 op_lt_eq_us_c(b, c)
       #|  (c : (B) -> Bool)
-      #|  forall(f:A->B) k l b.\n        finitely_generated_extension (k,l) f /\\\n        algebraically_independent (k,l) f b\n        ==> FINITE b
-      #|  forall(h:A->B) k l s.\n        transcendence_basis (k,l) h s ==> algebraically_spanning (k,l) h s
-      #|  forall(h:A->B) k l s.\n        transcendence_basis (k,l) h s ==> algebraically_independent (k,l) h s
+      #|  \226\136\128 f : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 b : (B) -> Bool, finitely_generated_extension((k, l), f) && algebraically_independent((k, l), f, b) \226\134\146 FINITE(b)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, transcendence_basis((k, l), h, s) \226\134\146 algebraically_spanning((k, l), h, s)
+      #|  \226\136\128 h : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 s : (B) -> Bool, transcendence_basis((k, l), h, s) \226\134\146 algebraically_independent((k, l), h, s)
       #|  (qm : A)
       #|  (q : ((Unit) -> Num) -> A)((m : (Unit) -> Num))
       #|  field((l : Ring[A]))
       #|  IN((z : A), ring_carrier((l : Ring[A])))
       #|  IN((q : ((Unit) -> Num) -> A)((m : (Unit) -> Num)), ring_carrier((l : Ring[A])))
       #|  !((q : ((Unit) -> Num) -> A)((m : (Unit) -> Num)) == ring_0((l : Ring[A])))
-      #|  z:A = ring_mul l (ring_inv l (q m)) (ring_mul l z (q(m:1->num)))
-      #|  q IN ring_carrier (poly_ring (subring_generated l k:A ring) (:1))
+      #|  (z : A) == ring_mul((l : Ring[A]), ring_inv(l, (q : ((Unit) -> Num) -> A)((m : (Unit) -> Num))), ring_mul(l, z, q(m)))
+      #|  IN((q : ((Unit) -> Num) -> A), ring_carrier(poly_ring(subring_generated((l : Ring[A]), (k : (A) -> Bool)), UNIV)))
       #|  IN((q : ((Unit) -> Num) -> A)((m : (Unit) -> Num)), (k : (A) -> Bool)) && IN(q(m), ring_carrier((l : Ring[A])))
       #|  !IN((z : A), (k : (A) -> Bool))
       #|  (q : ((Unit) -> Num) -> A)
@@ -28490,7 +28490,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (m : (Unit) -> Num)
       #|  (q : ((Unit) -> Num) -> A) == poly_0((l : Ring[A]))
       #|  !((z : A) == ring_0((l : Ring[A])))
-      #|  \\p. p IN ring_carrier\n             (poly_ring (subring_generated l k:A ring) (:1))
+      #|  (p : ((Unit) -> Num) -> A) => IN(p, ring_carrier(poly_ring(subring_generated((l : Ring[A]), (k : (A) -> Bool)), UNIV)))
       #|  (a : A)
       #|  (p : ((Unit) -> Num) -> A)
       #|  (l : Ring[A])
@@ -28502,7 +28502,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (I : (A) -> A)
       #|  (UNIV : (Unit) -> Bool)
       #|  (l : Ring[A])
-      #|  subring_generated l (z INSERT k):A ring
+      #|  subring_generated((l : Ring[A]), INSERT((z : A), (k : (A) -> Bool)))
       #|  (z : A)
       #|  (UNIV : (Unit) -> Bool)
       #|  subring_generated((l : Ring[A]), INSERT((z : A), (k : (A) -> Bool)))
@@ -28510,7 +28510,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  INSERT((z : A), (k : (A) -> Bool))
       #|  (k : (A) -> Bool)
       #|  (l : Ring[A])
-      #|  ring_sub (poly_ring (subring_generated l (z INSERT k)) (:1)) p\n               (ring_mul ((poly_ring (subring_generated l (z INSERT k)) (:1)))\n                         (poly_const (subring_generated l (z INSERT k)) (z:A))\n                         q)
+      #|  ring_sub(poly_ring(subring_generated((l : Ring[A]), INSERT((z : A), (k : (A) -> Bool))), UNIV), (p : ((Unit) -> Num) -> A), ring_mul(poly_ring(subring_generated(l, INSERT(z, k)), UNIV), poly_const(subring_generated(l, INSERT(z, k)), z), (q : ((Unit) -> Num) -> A)))
       #|  UNION((s : (_) -> Bool), {(a : _)}) == INSERT(a, s)
       #|  {(z : A)}
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
@@ -28526,7 +28526,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (z : A)
       #|  INSERT((a : A), (k : (A) -> Bool))
       #|  (l : Ring[A])
-      #|  forall k l a z:A.\n          field l /\\ k subfield_of l /\\\n          transcendental_over (subfield_generated l k,l) I a /\\\n          algebraic_over (subfield_generated l k,l) I z /\\\n          z IN ring_carrier(subfield_generated l (a INSERT k))\n          ==> z IN k
+      #|  \226\136\128 k : (A) -> Bool, \226\136\128 l : Ring[A], \226\136\128 a : A, \226\136\128 z : A, field(l) && subfield_of(k, l) && transcendental_over((subfield_generated(l, k), l), I, a) && algebraic_over((subfield_generated(l, k), l), I, z) && IN(z, ring_carrier(subfield_generated(l, INSERT(a, k)))) \226\134\146 IN(z, k)
       #|  (p : ((Unit) -> Num) -> A)
       #|  (q : ((Unit) -> Num) -> A)
       #|  :A
@@ -28546,7 +28546,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (y : B)
       #|  (a : B)
       #|  (l : Ring[B])
-      #|  ring_carrier (subfield_generated l\n       (IMAGE (f:A->B) (ring_carrier k) UNION b))
+      #|  ring_carrier(subfield_generated((l : Ring[B]), UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), (b : (B) -> Bool))))
       #|  (l : Ring[B])
       #|  (y : B)
       #|  (l : Ring[B])
@@ -28563,15 +28563,15 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (x : B)
       #|  UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), (b : (B) -> Bool))
       #|  (l : Ring[B])
-      #|  (forall f k l x. (forall b. FINITE b ==> P f k l b x) ==> forall b. P f k l b x) /\\\n    (forall b. FINITE b ==> forall f k l x. P f k l b x)\n     ==> forall f k l b x. P f k l b x
-      #|  forall(f:A->B) k l b x.\n        field_extension (k,l) f /\\\n        algebraically_independent (k,l) f b /\\\n        algebraic_over (k,l) f x /\\\n        x IN ring_carrier\n              (subfield_generated l (IMAGE f (ring_carrier k) UNION b))\n        ==> x IN IMAGE f (ring_carrier k)
+      #|  (\226\136\128 f : _, \226\136\128 k : _, \226\136\128 l : _, \226\136\128 x : _, (\226\136\128 b : (_) -> Bool, FINITE(b) \226\134\146 (P : (_, _, _, (_) -> Bool, _) -> Bool)(f, k, l, b, x)) \226\134\146 (\226\136\128 b : (_) -> Bool, P(f, k, l, b, x))) && (\226\136\128 b : (_) -> Bool, FINITE(b) \226\134\146 (\226\136\128 f : _, \226\136\128 k : _, \226\136\128 l : _, \226\136\128 x : _, P(f, k, l, b, x))) \226\134\146 (\226\136\128 f : _, \226\136\128 k : _, \226\136\128 l : _, \226\136\128 b : (_) -> Bool, \226\136\128 x : _, P(f, k, l, b, x))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 b : (B) -> Bool, \226\136\128 x : B, field_extension((k, l), f) && algebraically_independent((k, l), f, b) && algebraic_over((k, l), f, x) && IN(x, ring_carrier(subfield_generated(l, UNION(IMAGE(f, ring_carrier(k)), b)))) \226\134\146 IN(x, IMAGE(f, ring_carrier(k)))
       #|  (b : (B) -> Bool)
       #|  (l : Ring[B])
-      #|  forall(f:A->B) k l b.\n        field_extension (k,l) f /\\\n        algebraically_independent (k,l) f b /\\\n        subfield_generated l (IMAGE f (ring_carrier k) UNION b) = l\n        ==> {x | algebraic_over (k,l) f x} = IMAGE f (ring_carrier k)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 b : (B) -> Bool, field_extension((k, l), f) && algebraically_independent((k, l), f, b) && subfield_generated(l, UNION(IMAGE(f, ring_carrier(k)), b)) == l \226\134\146 {(x : B) | algebraic_over((k, l), f, x)} == IMAGE(f, ring_carrier(k))
       #|  {(f : (Num) -> A)((i : Num)) | i < (n : Num)}
       #|  (n : Num)
       #|  \226\136\131 f : (Num) -> A, \226\136\128 n : Num, f(n) == select((y : A) => IN(y, (s : (A) -> Bool)) && (P : (A, (A) -> Bool) -> Bool)(y, {f((i : Num)) | i < n}))
-      #|  forall P (s:A->bool).\n          (forall t. FINITE t /\\ t SUBSET s ==> ?y. y IN s /\\ P y t)\n          ==> ?f. (forall n. f n IN s) /\\ (forall n. P (f n) {f i | i < n})
+      #|  \226\136\128 P : (A, (A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, (\226\136\128 t : (A) -> Bool, FINITE(t) && SUBSET(t, s) \226\134\146 (\226\136\131 y : A, IN(y, s) && P(y, t))) \226\134\146 (\226\136\131 f : (Num) -> A, (\226\136\128 n : Num, IN(f(n), s)) && (\226\136\128 n : Num, P(f(n), {f((i : Num)) | i < n})))
       #|  IN((x : _), (s : (_) -> Bool)) \226\134\146 (\226\136\128 t : (_) -> Bool, SUBSET(s, t) \226\134\146 IN(x, t))
       #|  (B : (Num, C) -> Bool)((n : Num))
       #|  (n : Num)
@@ -28585,16 +28585,16 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  \226\136\128 i : Num, \226\136\128 j : Num, IN((y : (Num) -> C)(i), (B : (Num, C) -> Bool)(j)) == (i < j)
       #|  (y : (Num) -> C)
       #|  (n : Num) < SUC(n)
-      #|  forall n. ?y:C. y IN ring_carrier m /\\ ~(y IN B n) /\\ y IN B(SUC n)
+      #|  \226\136\128 n : Num, \226\136\131 y : C, IN(y, ring_carrier((m : Ring[C]))) && !IN(y, (B : (Num, C) -> Bool)(n)) && IN(y, B(SUC(n)))
       #|  SUBSET((s : (_) -> Bool), (s' : (_) -> Bool)) \226\134\146 SUBSET(UNION(s, (t : (_) -> Bool)), UNION(s', t))
       #|  (c : (C) -> Bool)
-      #|  finite_extension\n        (subfield_generated m\n           (IMAGE ((g:B->C) o (f:A->B)) (ring_carrier k) UNION b),m) I
+      #|  finite_extension((subfield_generated((m : Ring[C]), UNION(IMAGE(o((g : (B) -> C), (f : (A) -> B)), ring_carrier((k : Ring[A]))), (b : (C) -> Bool))), m), I)
       #|  subfield_generated((m : Ring[C]), (B : (Num, C) -> Bool)((n : Num)))
       #|  subfield_generated((l : Ring[B]), (A : (Num, B) -> Bool)((n : Num)))
       #|  (k : Ring[A])
       #|  (g : (B) -> C)
       #|  (f : (A) -> B)
-      #|  ring_carrier (subfield_generated m ((B:num->C->bool) n))
+      #|  ring_carrier(subfield_generated((m : Ring[C]), (B : (Num, C) -> Bool)((n : Num))))
       #|  ring_carrier((l : Ring[B]))
       #|  (y : C)
       #|  (b : (C) -> Bool)
@@ -28615,19 +28615,19 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (i : Num)
       #|  (j : Num)
       #|  (i : Num)
-      #|  forall n:num. {x | algebraic_over (k,subfield_generated m (B n))\n                                    ((g:B->C) o (f:A->B)) x} =\n                IMAGE g (A n)
+      #|  \226\136\128 n : Num, {(x : C) | algebraic_over(((k : Ring[A]), subfield_generated((m : Ring[C]), (B : (Num, C) -> Bool)(n))), o((g : (B) -> C), (f : (A) -> B)), x)} == IMAGE(g, (A : (Num, B) -> Bool)(n))
       #|  \226\136\128 m : Num, \226\136\128 n : Num, m < n \226\134\146 PSUBSET((B : (Num, C) -> Bool)(m), B(n))
       #|  \226\136\128 n : Num, subfield_of((B : (Num, C) -> Bool)(n), (m : Ring[C]))
-      #|  B = \\n:num. ring_carrier(subfield_generated m\n                   (IMAGE (g:B->C) (A n) UNION b))
+      #|  (B : (Num, C) -> Bool) == ((n : Num) => ring_carrier(subfield_generated((m : Ring[C]), UNION(IMAGE((g : (B) -> C), (A : (Num, B) -> Bool)(n)), (b : (C) -> Bool)))))
       #|  (y : (Num) -> B)
       #|  (y : (Num) -> B)((n : Num))
       #|  (n : Num)
-      #|  (forall n. A n subfield_of (l:B ring)) /\\\n      (forall n. IMAGE (f:A->B) (ring_carrier k) SUBSET A n) /\\\n      (forall m n. m < n ==> A m PSUBSET A n)
-      #|  A n = ring_carrier\n              (subfield_generated l\n              (IMAGE (f:A->B) (ring_carrier k) UNION {y i | i < n}))
+      #|  (\226\136\128 n : Num, subfield_of((A : (Num, B) -> Bool)(n), (l : Ring[B]))) && (\226\136\128 n : Num, SUBSET(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), A(n))) && (\226\136\128 m : Num, \226\136\128 n : Num, m < n \226\134\146 PSUBSET(A(m), A(n)))
+      #|  (A : (Num, B) -> Bool)((n : Num)) == ring_carrier(subfield_generated((l : Ring[B]), UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), {(y : (Num) -> B)((i : Num)) | i < n})))
       #|  (y : (Num) -> B)
       #|  !SUBSET((s : (_) -> Bool), (t : (_) -> Bool)) == (\226\136\131 x : _, IN(x, s) && !IN(x, t))
-      #|  (?b. P b /\\ Q b /\\ R b) <=> ~(forall b. P b /\\ Q b ==> ~R b)
-      #|  field(k:A ring) /\\ field(l:B ring) /\\ field(m:C ring)
+      #|  (\226\136\131 b : _, (P : (_) -> Bool)(b) && (Q : (_) -> Bool)(b) && (R : (_) -> Bool)(b)) == !(\226\136\128 b : _, P(b) && Q(b) \226\134\146 !R(b))
+      #|  field((k : Ring[A])) && field((l : Ring[B])) && field((m : Ring[C]))
       #|  (b : (C) -> Bool)
       #|  (m : Ring[C])
       #|  (l : Ring[B])
@@ -28635,21 +28635,21 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (g : (B) -> C)
       #|  (f : (A) -> B)
       #|  (b : (C) -> Bool)
-      #|  forall(f:A->B) (g:B->C) k l m.\n          algebraic_extension (k,l) f /\\\n          field_extension (l,m) g /\\\n          finitely_generated_extension (k,m) (g o f)\n          ==> finitely_generated_extension (k,l) f
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], algebraic_extension((k, l), f) && field_extension((l, m), g) && finitely_generated_extension((k, m), o(g, f)) \226\134\146 finitely_generated_extension((k, l), f)
       #|  (j : Num)
       #|  (j : Num)
       #|  (j : Num)
       #|  (i : Num)
-      #|  s SUBSET t ==> IMAGE g s UNION u SUBSET IMAGE g t UNION u
+      #|  SUBSET((s : (_) -> Bool), (t : (_) -> Bool)) \226\134\146 SUBSET(UNION(IMAGE((g : (_) -> _), s), (u : (_) -> Bool)), UNION(IMAGE(g, t), u))
       #|  (d : (C) -> Bool)
       #|  (m : Ring[C])
       #|  (l : Ring[B])
-      #|  subfield_generated l (IMAGE (f:A->B) (ring_carrier k) UNION b)
+      #|  subfield_generated((l : Ring[B]), UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), (b : (B) -> Bool)))
       #|  (g : (B) -> C)
       #|  (I : (B) -> B)
       #|  (b : (B) -> Bool)
       #|  (l : Ring[B])
-      #|  subfield_generated l (IMAGE (f:A->B) (ring_carrier k) UNION b)
+      #|  subfield_generated((l : Ring[B]), UNION(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), (b : (B) -> Bool)))
       #|  (k : Ring[A])
       #|  (I : (B) -> B)
       #|  (f : (A) -> B)
@@ -28663,8 +28663,8 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (k : Ring[A])
       #|  o((g : (B) -> C), (f : (A) -> B))
       #|  (c : (C) -> Bool)
-      #|  forall(f:A->B) (g:B->C) k l m.\n        field_extension (k,l) f /\\ field_extension (l,m) g\n        ==> (finitely_generated_extension (k,m) (g o f) <=>\n             finitely_generated_extension (k,l) f /\\\n             finitely_generated_extension (l,m) g)
-      #|  algebraically_closed_field(k:A ring) <=>\n        field k /\\\n        forall p. p IN ring_carrier(poly_ring k (:1)) /\\ ~(poly_deg k p = 0)\n            ==> ?x. x IN ring_carrier k /\\ poly_eval k p x = ring_0 k
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 m : Ring[C], field_extension((k, l), f) && field_extension((l, m), g) \226\134\146 finitely_generated_extension((k, m), o(g, f)) == (finitely_generated_extension((k, l), f) && finitely_generated_extension((l, m), g))
+      #|  (algebraically_closed_field : (Ring[A]) -> Bool)((k : Ring[A])) == (field(k) && (\226\136\128 p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(poly_deg(k, p) == 0) \226\134\146 (\226\136\131 x : A, IN(x, ring_carrier(k)) && poly_eval(k, p, x) == ring_0(k))))
       #|  \226\136\128 k : Ring[A], algebraically_closed_field(k) \226\134\146 field(k)
       #|  ring_isomorphism(((k : Ring[A]), (l : Ring[B])), (f : (A) -> B))
       #|  o((g : (B) -> A), (p : ((Unit) -> Num) -> B))
@@ -28672,19 +28672,19 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (y : A)
       #|  (l : Ring[B])
       #|  (k : Ring[A])
-      #|  (p:(1->num)->B) IN ring_carrier(poly_ring (l:B ring) (:1))
+      #|  IN((p : ((Unit) -> Num) -> B), ring_carrier(poly_ring((l : Ring[B]), UNIV)))
       #|  (m : (Unit) -> Num)
       #|  o((f : (A) -> B), o((g : (B) -> A), (p : ((Unit) -> Num) -> B))) == p
       #|  IN((f : (A) -> B)((y : A)), ring_carrier((l : Ring[B])))
       #|  (f : (A) -> B)((y : A))
       #|  (y : A)
       #|  o((g : (B) -> A), (p : ((Unit) -> Num) -> B))
-      #|  (g:B->A) o (p:(1->num)->B) IN ring_carrier(poly_ring k (:1)) /\\\n    poly_deg (k:A ring) ((g:B->A) o (p:(1->num)->B)) =\n    poly_deg (l:B ring) p
+      #|  IN(o((g : (B) -> A), (p : ((Unit) -> Num) -> B)), ring_carrier(poly_ring((k : Ring[A]), UNIV))) && poly_deg(k, o(g, p)) == poly_deg((l : Ring[B]), p)
       #|  (p : ((Unit) -> Num) -> B)
       #|  (g : (B) -> A)
-      #|  forall(k:A ring) (l:B ring) f.\n        ring_isomorphism(k,l) f /\\ algebraically_closed_field k\n        ==> algebraically_closed_field l
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 f : (A) -> B, ring_isomorphism((k, l), f) && algebraically_closed_field(k) \226\134\146 algebraically_closed_field(l)
       #|  (g : (B) -> A)
-      #|  forall(k:A ring) (l:B ring).\n        k isomorphic_ring l\n        ==> (algebraically_closed_field k <=> algebraically_closed_field l)
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], isomorphic_ring(k, l) \226\134\146 algebraically_closed_field(k) == algebraically_closed_field(l)
       #|  (x : A)
       #|  (poly_1 : (Ring[A], (Unit) -> Num) -> A)((k : Ring[A]))
       #|  (P : ((Unit) -> Num) -> A)
@@ -28698,14 +28698,14 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  !(poly_deg((k : Ring[A]), (P : ((Unit) -> Num) -> A)) == 0)
       #|  (x : A)
       #|  (x : A)
-      #|  forall x:A. x IN ring_carrier k ==> poly_eval k P x = ring_0 k
+      #|  \226\136\128 x : A, IN(x, ring_carrier((k : Ring[A]))) \226\134\146 poly_eval(k, (P : ((Unit) -> Num) -> A), x) == ring_0(k)
       #|  (a : A)
       #|  !((p : Bool) && (q : Bool)) == (p \226\134\146 !q)
       #|  !((P : ((Unit) -> Num) -> A) == ring_0(poly_ring((k : Ring[A]), UNIV)))
       #|  IN((P : ((Unit) -> Num) -> A), ring_carrier(poly_ring((k : Ring[A]), UNIV)))
-      #|  P = ring_product (poly_ring (k:A ring) (:1)) (ring_carrier k)\n        (\\a. poly_sub k (poly_var k one) (poly_const k a))
+      #|  (P : ((Unit) -> Num) -> A) == ring_product(poly_ring((k : Ring[A]), UNIV), ring_carrier(k), (a : A) => poly_sub(k, poly_var(k, one), poly_const(k, a)))
       #|  !trivial_ring((k : Ring[A]))
-      #|  forall k:A ring. algebraically_closed_field k ==> INFINITE(ring_carrier k)
+      #|  \226\136\128 k : Ring[A], algebraically_closed_field(k) \226\134\146 INFINITE(ring_carrier(k))
       #|  (p0 : ((Unit) -> Num) -> A)
       #|  (x : B)
       #|  poly_deg((k : Ring[A]), (p0 : ((Unit) -> Num) -> A))
@@ -28716,20 +28716,20 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (x : B)
       #|  poly_deg((k : Ring[A]), (q : ((Unit) -> Num) -> A))
       #|  (y : A)
-      #|  poly_eval (l:B ring) ((f:A->B) o (p:(1->num)->A)) (x:B) =\n      ring_0 l
-      #|  poly_eval (l:B ring) ((f:A->B) o (q:(1->num)->A)) (x:B)
+      #|  poly_eval((l : Ring[B]), o((f : (A) -> B), (p : ((Unit) -> Num) -> A)), (x : B)) == ring_0(l)
+      #|  poly_eval((l : Ring[B]), o((f : (A) -> B), (q : ((Unit) -> Num) -> A)), (x : B))
       #|  ring_sub((l : Ring[B]), (x : B), (f : (A) -> B)((y : A)))
       #|  (l : Ring[B])
-      #|  ring_sub (l:B ring) (x:B) ((f:A->B) y) = ring_0 l \\/\n     poly_eval (l:B ring) ((f:A->B) o (q:(1->num)->A)) (x:B) = ring_0 l
-      #|  (f:A->B) y IN ring_carrier (l:B ring) /\\\n    ring_polynomial (l:B ring) ((f:A->B) o (q:(1->num)->A))
-      #|  ((f:A->B) o (poly_var (k:A ring) one:(1->num)->A) =\n        (poly_var (l:B ring) one:(1->num)->B)) /\\\n       ((f:A->B) o (poly_const (k:A ring) (y:A):(1->num)->A) =\n        (poly_const (l:B ring) (f y):(1->num)->B))
+      #|  ring_sub((l : Ring[B]), (x : B), (f : (A) -> B)((y : A))) == ring_0(l) || poly_eval(l, o(f, (q : ((Unit) -> Num) -> A)), x) == ring_0(l)
+      #|  IN((f : (A) -> B)((y : A)), ring_carrier((l : Ring[B]))) && ring_polynomial(l, o(f, (q : ((Unit) -> Num) -> A)))
+      #|  (o : ((A) -> B, ((Unit) -> Num) -> A, (Unit) -> Num) -> B)((f : (A) -> B), (poly_var : (Ring[A], Unit, (Unit) -> Num) -> A)((k : Ring[A]), one)) == (poly_var : (Ring[B], Unit, (Unit) -> Num) -> B)((l : Ring[B]), one) && (o : ((A) -> B, ((Unit) -> Num) -> A, (Unit) -> Num) -> B)(f, (poly_const : (Ring[A], A, (Unit) -> Num) -> A)(k, (y : A))) == (poly_const : (Ring[B], B, (Unit) -> Num) -> B)(l, f(y))
       #|  (poly_const : (Ring[A], A, (Unit) -> Num) -> A)((k : Ring[A]), (y : A))
       #|  poly_var((k : Ring[A]), one)
       #|  (f : (A) -> B)
       #|  (l : Ring[B])
       #|  (k : Ring[A])
-      #|  (f:A->B) o poly_sub (k:A ring) (poly_var k one)\n                            (poly_const k (y:A)) =\n     poly_sub (l:B ring) (poly_var l one)\n                          (poly_const l ((f:A->B) y))
-      #|  (f:A->B) o (p:(1->num)->A) = poly_mul (l:B ring)\n       (f o poly_sub k (poly_var k one) (poly_const k (y:A)))\n       (f o (q:(1->num)->A))
+      #|  o((f : (A) -> B), poly_sub((k : Ring[A]), poly_var(k, one), poly_const(k, (y : A)))) == poly_sub((l : Ring[B]), poly_var(l, one), poly_const(l, f(y)))
+      #|  o((f : (A) -> B), (p : ((Unit) -> Num) -> A)) == poly_mul((l : Ring[B]), o(f, poly_sub((k : Ring[A]), poly_var(k, one), poly_const(k, (y : A)))), o(f, (q : ((Unit) -> Num) -> A)))
       #|  poly_deg((k : Ring[A]), (p : ((Unit) -> Num) -> A)) == (n : Num)
       #|  (q : ((Unit) -> Num) -> A)
       #|  (y : A)
@@ -28737,21 +28737,21 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  poly_deg((k : Ring[A]), (q : ((Unit) -> Num) -> A)) < (n : Num)
       #|  (p : ((Unit) -> Num) -> A) == poly_0((k : Ring[A]))
       #|  !((q : ((Unit) -> Num) -> A) == poly_0((k : Ring[A])))
-      #|  ring_polynomial (k:A ring) (q:(1->num)->A) /\\\n    poly_sub k (poly_var k one) (poly_const k (y:A)):(1->num)->A\n     IN ring_carrier(poly_ring (k:A ring) (:1))
+      #|  ring_polynomial((k : Ring[A]), (q : ((Unit) -> Num) -> A)) && IN(poly_sub(k, poly_var(k, one), poly_const(k, (y : A))), ring_carrier(poly_ring(k, UNIV)))
       #|  (p : ((Unit) -> Num) -> A)
       #|  (y : A)
       #|  (k : Ring[A])
       #|  (q : ((Unit) -> Num) -> A)
-      #|  ?q:(1->num)->A.\n       q IN ring_carrier(poly_ring (k:A ring) (:1)) /\\\n       p:(1->num)->A = poly_mul k\n           (poly_sub k (poly_var k one) (poly_const k (y:A))) q
+      #|  \226\136\131 q : ((Unit) -> Num) -> A, IN(q, ring_carrier(poly_ring((k : Ring[A]), UNIV))) && (p : ((Unit) -> Num) -> A) == poly_mul(k, poly_sub(k, poly_var(k, one), poly_const(k, (y : A))), q)
       #|  (y : A)
       #|  (p : ((Unit) -> Num) -> A)
       #|  (c : A)
       #|  (f : (A) -> B)
       #|  (l : Ring[B])
       #|  (k : Ring[A])
-      #|  (f:A->B) o (poly_const (k:A ring) c:(1->num)->A) =\n        (poly_const (l:B ring) (f c):(1->num)->B)
+      #|  (o : ((A) -> B, ((Unit) -> Num) -> A, (Unit) -> Num) -> B)((f : (A) -> B), (poly_const : (Ring[A], A, (Unit) -> Num) -> A)((k : Ring[A]), (c : A))) == (poly_const : (Ring[B], B, (Unit) -> Num) -> B)((l : Ring[B]), f(c))
       #|  IN((f : (A) -> B)((c : A)), ring_carrier((l : Ring[B])))
-      #|  poly_eval (l:B ring) ((f:A->B) o (p:(1->num)->A)) (x:B) =\n       ring_0 l
+      #|  poly_eval((l : Ring[B]), o((f : (A) -> B), (p : ((Unit) -> Num) -> A)), (x : B)) == ring_0(l)
       #|  (f : (A) -> B)((c : A)) == ring_0((l : Ring[B]))
       #|  !((c : A) == ring_0((k : Ring[A])))
       #|  (c : A)
@@ -28760,13 +28760,13 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (p : ((Unit) -> Num) -> A)
       #|  (x : B)
       #|  (n : Num)
-      #|  forall n (x:B) (p:(1->num)->A). x IN ring_carrier l /\\\n      p IN ring_carrier(poly_ring (k:A ring) (:1)) /\\\n      ~(p = ring_0(poly_ring k (:1))) /\\\n      poly_eval (l:B ring) ((f:A->B) o p) x = ring_0 l /\\ poly_deg k p = n\n      ==> x IN IMAGE f (ring_carrier k)
-      #|  ring_homomorphism(poly_ring (k:A ring) (:1), poly_ring (l:B ring) (:1))\n                      (\\p:(1->num)->A. (f:A->B) o p)
-      #|  ring_monomorphism(k:A ring,l:B ring) (f:A->B) /\\ field(l:B ring) /\\\n     ring_homomorphism(k:A ring,l:B ring) (f:A->B)
-      #|  forall(k:A ring) (l:B ring) (f:A->B).\n        algebraically_closed_field k /\\ algebraic_extension(k,l) f\n        ==> ring_isomorphism(k,l) f
+      #|  \226\136\128 n : Num, \226\136\128 x : B, \226\136\128 p : ((Unit) -> Num) -> A, IN(x, ring_carrier((l : Ring[B]))) && IN(p, ring_carrier(poly_ring((k : Ring[A]), UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && poly_eval(l, o((f : (A) -> B), p), x) == ring_0(l) && poly_deg(k, p) == n \226\134\146 IN(x, IMAGE(f, ring_carrier(k)))
+      #|  ring_homomorphism((poly_ring((k : Ring[A]), UNIV), poly_ring((l : Ring[B]), UNIV)), (p : ((Unit) -> Num) -> A) => o((f : (A) -> B), p))
+      #|  ring_monomorphism(((k : Ring[A]), (l : Ring[B])), (f : (A) -> B)) && field(l) && ring_homomorphism((k, l), f)
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 f : (A) -> B, algebraically_closed_field(k) && algebraic_extension((k, l), f) \226\134\146 ring_isomorphism((k, l), f)
       #|  (p : ((Unit) -> Num) -> A)
       #|  (q : ((Unit) -> Num) -> A)
-      #|  \\(pp:(1->num)->A). poly_eval (k:A ring) pp (x:A)
+      #|  (pp : ((Unit) -> Num) -> A) => poly_eval((k : Ring[A]), pp, (x : A))
       #|  (k : Ring[A])
       #|  (poly_ring : (Ring[A], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> A])((k : Ring[A]), (UNIV : (Unit) -> Bool))
       #|  (x : A)
@@ -28778,19 +28778,19 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (poly_ring : (Ring[A], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> A])((k : Ring[A]), (UNIV : (Unit) -> Bool))
       #|  !(poly_deg((k : Ring[A]), (p : ((Unit) -> Num) -> A)) == 0)
       #|  !ring_unit(poly_ring((k : Ring[A]), UNIV), (p : ((Unit) -> Num) -> A))
-      #|  integral_domain (k:A ring) /\\\n      ~((p:(1->num)->A) = ring_0 (poly_ring k (:1)))
+      #|  integral_domain((k : Ring[A])) && !((p : ((Unit) -> Num) -> A) == ring_0(poly_ring(k, UNIV)))
       #|  (p : ((Unit) -> Num) -> A)
       #|  (poly_const : (Ring[A], A, (Unit) -> Num) -> A)((k : Ring[A]), (u : A))
       #|  (x : A)
       #|  (k : Ring[A])
-      #|  p:(1->num)->A = poly_mul k\n         (poly_sub k (poly_var k one) (poly_const k (x:A))) q
+      #|  (p : ((Unit) -> Num) -> A) == poly_mul((k : Ring[A]), poly_sub(k, poly_var(k, one), poly_const(k, (x : A))), (q : ((Unit) -> Num) -> A))
       #|  IN((u : A), ring_carrier((k : Ring[A])))
       #|  (u : A)
       #|  ring_unit(poly_ring((k : Ring[A]), UNIV), (q : ((Unit) -> Num) -> A))
       #|  (x : A)
       #|  (k : Ring[A])
       #|  (u : A)
-      #|  ring_unit (poly_ring (k:A ring) (:1))\n        (poly_sub k (poly_var k one) (poly_const k (x:A)))
+      #|  ring_unit(poly_ring((k : Ring[A]), UNIV), poly_sub(k, poly_var(k, one), poly_const(k, (x : A))))
       #|  (q : ((Unit) -> Num) -> A)
       #|  poly_sub((k : Ring[A]), poly_var(k, one), poly_const(k, (x : A)))
       #|  (q : ((Unit) -> Num) -> A)
@@ -28803,12 +28803,12 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (a : A)
       #|  (p : ((Unit) -> Num) -> A)
       #|  (k : Ring[A])
-      #|  ~ring_unit (poly_ring (k:A ring) (:1)) (p:(1->num)->A)
+      #|  !ring_unit(poly_ring((k : Ring[A]), UNIV), (p : ((Unit) -> Num) -> A))
       #|  !(poly_deg((k : Ring[A]), (p : ((Unit) -> Num) -> A)) == 0)
-      #|  field (k:A ring) /\\ integral_domain (k:A ring) /\\\n      ~trivial_ring (k:A ring)
+      #|  field((k : Ring[A])) && integral_domain(k) && !trivial_ring(k)
       #|  (p : ((Unit) -> Num) -> A)
-      #|  forall k:A ring.\n        algebraically_closed_field k <=>\n        field k /\\\n        forall p. ring_irreducible (poly_ring k (:1)) p ==> poly_deg k p = 1
-      #|  forall(k:A ring) p.\n        algebraically_closed_field k\n        ==> (ring_irreducible (poly_ring k (:1)) p <=>\n             p IN ring_carrier (poly_ring k (:1)) /\\ poly_deg k p = 1)
+      #|  \226\136\128 k : Ring[A], algebraically_closed_field(k) == (field(k) && (\226\136\128 p : ((Unit) -> Num) -> A, ring_irreducible(poly_ring(k, UNIV), p) \226\134\146 poly_deg(k, p) == 1))
+      #|  \226\136\128 k : Ring[A], \226\136\128 p : ((Unit) -> Num) -> A, algebraically_closed_field(k) \226\134\146 ring_irreducible(poly_ring(k, UNIV), p) == (IN(p, ring_carrier(poly_ring(k, UNIV))) && poly_deg(k, p) == 1)
       #|  (q : ((Unit) -> Num) -> A)
       #|  (a : A)
       #|  (k : Ring[A])
@@ -28820,22 +28820,22 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (p : ((Unit) -> Num) -> A)
       #|  (a : A)
       #|  (k : Ring[A])
-      #|  ?a:A. a IN ring_carrier k /\\ poly_eval k p a = ring_0 k
+      #|  \226\136\131 a : A, IN(a, ring_carrier((k : Ring[A]))) && poly_eval(k, (p : ((Unit) -> Num) -> A), a) == ring_0(k)
       #|  field((k : Ring[A]))
       #|  (p : ((Unit) -> Num) -> A)
-      #|  forall k:A ring.\n     algebraically_closed_field k\n     ==> forall p. p IN ring_carrier(poly_ring k (:1)) /\\ ~(poly_deg k p = 0)\n             ==> ?a q. a IN ring_carrier k /\\\n                       q IN ring_carrier(poly_ring k (:1)) /\\ p = poly_mul k\n                         (poly_sub k (poly_var k one) (poly_const k a)) q /\\\n                       poly_deg k q + 1 = poly_deg k p
+      #|  \226\136\128 k : Ring[A], algebraically_closed_field(k) \226\134\146 (\226\136\128 p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(poly_deg(k, p) == 0) \226\134\146 (\226\136\131 a : A, \226\136\131 q : ((Unit) -> Num) -> A, IN(a, ring_carrier(k)) && IN(q, ring_carrier(poly_ring(k, UNIV))) && p == poly_mul(k, poly_sub(k, poly_var(k, one), poly_const(k, a)), q) && poly_deg(k, q) + 1 == poly_deg(k, p)))
       #|  (poly_mul : (Ring[A], ((Unit) -> Num) -> A, ((Unit) -> Num) -> A, (Unit) -> Num) -> A)((k : Ring[A])) == (ring_mul : (Ring[((Unit) -> Num) -> A], ((Unit) -> Num) -> A, ((Unit) -> Num) -> A, (Unit) -> Num) -> A)((poly_ring : (Ring[A], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> A])(k, (UNIV : (Unit) -> Bool)))
       #|  (j : Num)
       #|  !(SUC((n : Num)) <= n)
       #|  1 <= SUC((n : Num))
-      #|  ring_product (poly_ring (k:A ring) (:1)) (1..SUC n)\n       (\\i. poly_sub k (poly_var k one)\n              (poly_const k (if i = SUC n then a0 else (a':num->A) i)))\n       :(1->num)->A = poly_mul k\n       (poly_sub k (poly_var k one) (poly_const k (a0:A)))\n       (ring_product (poly_ring k (:1)) (1..n)\n         (\\i. poly_sub k (poly_var k one) (poly_const k (a' i))))
+      #|  ring_product(poly_ring((k : Ring[A]), UNIV), op_dot_dot(1, SUC((n : Num))), (i : Num) => poly_sub(k, poly_var(k, one), poly_const(k, if i == SUC(n) { (a0 : A) } else { (a' : (Num) -> A)(i) }))) == poly_mul(k, poly_sub(k, poly_var(k, one), poly_const(k, a0)), ring_product(poly_ring(k, UNIV), op_dot_dot(1, n), (i : Num) => poly_sub(k, poly_var(k, one), poly_const(k, a'(i)))))
       #|  (i : Num)
       #|  (i : Num) => if i == SUC((n : Num)) { (a0 : A) } else { (a' : (Num) -> A)(i) }
       #|  (c' : A)
       #|  (a' : (Num) -> A)
       #|  (c' : A)
       #|  (q : ((Unit) -> Num) -> A)
-      #|  poly_sub (k:A ring) (poly_var k one) (poly_const k (a0:A))\n     IN ring_carrier(poly_ring k (:1))
+      #|  IN(poly_sub((k : Ring[A]), poly_var(k, one), poly_const(k, (a0 : A))), ring_carrier(poly_ring(k, UNIV)))
       #|  poly_deg((k : Ring[A]), (q : ((Unit) -> Num) -> A)) == (n : Num)
       #|  (q : ((Unit) -> Num) -> A)
       #|  (a0 : A)
@@ -28850,7 +28850,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (p : ((Unit) -> Num) -> A)
       #|  (n : Num) == poly_deg((k : Ring[A]), (p : ((Unit) -> Num) -> A))
       #|  field((k : Ring[A])) && integral_domain(k)
-      #|  forall(k:A ring) p.\n        algebraically_closed_field k /\\\n        p IN ring_carrier(poly_ring k (:1)) /\\ ~(p = poly_0 k)\n        ==> ?c a. c IN ring_carrier k /\\ ~(c = ring_0 k) /\\\n                  (forall i. 1 <= i /\\ i <= poly_deg k p\n                       ==> a(i) IN ring_carrier k) /\\\n                  p = poly_mul k (poly_const k c)\n                        (ring_product (poly_ring k (:1)) (1..poly_deg k p)\n                           (\\i. poly_sub k (poly_var k one)\n                                           (poly_const k (a i))))
+      #|  \226\136\128 k : Ring[A], \226\136\128 p : ((Unit) -> Num) -> A, algebraically_closed_field(k) && IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == poly_0(k)) \226\134\146 (\226\136\131 c : A, \226\136\131 a : (Num) -> A, IN(c, ring_carrier(k)) && !(c == ring_0(k)) && (\226\136\128 i : Num, 1 <= i && i <= poly_deg(k, p) \226\134\146 IN(a(i), ring_carrier(k))) && p == poly_mul(k, poly_const(k, c), ring_product(poly_ring(k, UNIV), op_dot_dot(1, poly_deg(k, p)), (i : Num) => poly_sub(k, poly_var(k, one), poly_const(k, a(i))))))
       #|  1
       #|  integral_domain((k : Ring[A]))
       #|  op_dot_dot(1, poly_deg((k : Ring[A]), (p : ((Unit) -> Num) -> A)))
@@ -28858,11 +28858,11 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (i : Num) => ring_sub((k : Ring[A]), (a : (Num) -> A)(1), a(i))
       #|  IN((a : (Num) -> A)((j : Num)), ring_carrier((k : Ring[A])))
       #|  (j : Num)
-      #|  ring_product (k:A ring) (1..poly_deg k (p:(1->num)->A))\n        (\\i. poly_eval k (poly_sub k (poly_var k one)\n                      (poly_const k ((a:num->A) i))) ((a:num->A) 1)) =\n      ring_product k (1..poly_deg k p)\n        (\\i. ring_sub k (a 1) (a i))
-      #|  poly_eval (k:A ring)\n        (ring_product (poly_ring k (:1)) (1..poly_deg k (p:(1->num)->A))\n          (\\i. poly_sub k (poly_var k one)\n                          (poly_const k ((a:num->A) i)))) ((a:num->A) 1) =\n      ring_product k (1..poly_deg k p) (\\i. poly_eval k\n          (poly_sub k (poly_var k one) (poly_const k (a i)))\n          (a 1))
-      #|  poly_eval (k:A ring) (Q:(1->num)->A) ((a:num->A) 1) = ring_0 k
+      #|  ring_product((k : Ring[A]), op_dot_dot(1, poly_deg(k, (p : ((Unit) -> Num) -> A))), (i : Num) => poly_eval(k, poly_sub(k, poly_var(k, one), poly_const(k, (a : (Num) -> A)(i))), a(1))) == ring_product(k, op_dot_dot(1, poly_deg(k, p)), (i : Num) => ring_sub(k, a(1), a(i)))
+      #|  poly_eval((k : Ring[A]), ring_product(poly_ring(k, UNIV), op_dot_dot(1, poly_deg(k, (p : ((Unit) -> Num) -> A))), (i : Num) => poly_sub(k, poly_var(k, one), poly_const(k, (a : (Num) -> A)(i)))), a(1)) == ring_product(k, op_dot_dot(1, poly_deg(k, p)), (i : Num) => poly_eval(k, poly_sub(k, poly_var(k, one), poly_const(k, a(i))), a(1)))
+      #|  poly_eval((k : Ring[A]), (Q : ((Unit) -> Num) -> A), (a : (Num) -> A)(1)) == ring_0(k)
       #|  ring_polynomial((k : Ring[A]), (Q : ((Unit) -> Num) -> A))
-      #|  Q = ring_product (poly_ring (k:A ring) (:1))\n          (1..poly_deg k (p:(1->num)->A)) (\\i. poly_sub k (poly_var k\n            one)\n                          (poly_const k ((a:num->A) i)))
+      #|  (Q : ((Unit) -> Num) -> A) == ring_product(poly_ring((k : Ring[A]), UNIV), op_dot_dot(1, poly_deg(k, (p : ((Unit) -> Num) -> A))), (i : Num) => poly_sub(k, poly_var(k, one), poly_const(k, (a : (Num) -> A)(i))))
       #|  (a : (Num) -> A)(1)
       #|  IN((a : (Num) -> A)(1), ring_carrier((k : Ring[A])))
       #|  1 <= poly_deg((k : Ring[A]), (p : ((Unit) -> Num) -> A))
@@ -28871,18 +28871,18 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (c : A)
       #|  (p : ((Unit) -> Num) -> A)
       #|  (p : ((Unit) -> Num) -> A)
-      #|  forall k:A ring.\n     algebraically_closed_field k <=>\n     field k /\\\n     forall p. p IN ring_carrier(poly_ring k (:1)) /\\ ~(poly_deg k p = 0)\n         ==> ?c a. c IN ring_carrier k /\\ ~(c = ring_0 k) /\\\n                   (forall i. 1 <= i /\\ i <= poly_deg k p\n                        ==> a(i) IN ring_carrier k) /\\\n                   p = poly_mul k (poly_const k c)\n                         (ring_product (poly_ring k (:1)) (1..poly_deg k p)\n                           (\\i. poly_sub k (poly_var k one)\n                                           (poly_const k (a i))))
-      #|  forall k:A ring.\n     algebraically_closed_field k <=>\n     field k /\\\n     forall p. p IN ring_carrier(poly_ring k (:1)) /\\ ~(p = poly_0 k)\n         ==> ?c a. c IN ring_carrier k /\\ ~(c = ring_0 k) /\\\n                   (forall i. 1 <= i /\\ i <= poly_deg k p\n                        ==> a(i) IN ring_carrier k) /\\\n                   p = poly_mul k (poly_const k c)\n                         (ring_product (poly_ring k (:1)) (1..poly_deg k p)\n                           (\\i. poly_sub k (poly_var k one)\n                                           (poly_const k (a i))))
+      #|  \226\136\128 k : Ring[A], algebraically_closed_field(k) == (field(k) && (\226\136\128 p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(poly_deg(k, p) == 0) \226\134\146 (\226\136\131 c : A, \226\136\131 a : (Num) -> A, IN(c, ring_carrier(k)) && !(c == ring_0(k)) && (\226\136\128 i : Num, 1 <= i && i <= poly_deg(k, p) \226\134\146 IN(a(i), ring_carrier(k))) && p == poly_mul(k, poly_const(k, c), ring_product(poly_ring(k, UNIV), op_dot_dot(1, poly_deg(k, p)), (i : Num) => poly_sub(k, poly_var(k, one), poly_const(k, a(i))))))))
+      #|  \226\136\128 k : Ring[A], algebraically_closed_field(k) == (field(k) && (\226\136\128 p : ((Unit) -> Num) -> A, IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == poly_0(k)) \226\134\146 (\226\136\131 c : A, \226\136\131 a : (Num) -> A, IN(c, ring_carrier(k)) && !(c == ring_0(k)) && (\226\136\128 i : Num, 1 <= i && i <= poly_deg(k, p) \226\134\146 IN(a(i), ring_carrier(k))) && p == poly_mul(k, poly_const(k, c), ring_product(poly_ring(k, UNIV), op_dot_dot(1, poly_deg(k, p)), (i : Num) => poly_sub(k, poly_var(k, one), poly_const(k, a(i))))))))
       #|  (poly_const : (Ring[A], A, (Unit) -> Num) -> A)((k : Ring[A]), (x : A))
       #|  (x : A)
       #|  (h : (B) -> C)
       #|  (h : (B) -> C)
-      #|  poly_extend(k:A ring,l':C ring) (g:A->C) (\\v:1. a':C)
-      #|  poly_extend(k:A ring,l:B ring) (f:A->B) (\\v:1. a:B)
+      #|  poly_extend(((k : Ring[A]), (l' : Ring[C])), (g : (A) -> C), (v : Unit) => (a' : C))
+      #|  poly_extend(((k : Ring[A]), (l : Ring[B])), (f : (A) -> B), (v : Unit) => (a : B))
       #|  (l' : Ring[C])
-      #|  subring_generated (l:B ring)\n        ((a:B) INSERT IMAGE (f:A->B) (ring_carrier k))
+      #|  subring_generated((l : Ring[B]), INSERT((a : B), IMAGE((f : (A) -> B), ring_carrier((k : Ring[A])))))
       #|  (poly_ring : (Ring[A], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> A])((k : Ring[A]), (UNIV : (Unit) -> Bool))
-      #|  ring_homomorphism(poly_ring (k:A ring) (:1), l':C ring)\n      (poly_extend(k,l') (g:A->C) (\\v:1. a':C))
+      #|  ring_homomorphism((poly_ring((k : Ring[A]), UNIV), (l' : Ring[C])), poly_extend((k, l'), (g : (A) -> C), (v : Unit) => (a' : C)))
       #|  (m : ((Unit) -> Num) -> A)
       #|  (v : Unit) => (a' : C)
       #|  (g : (A) -> C)
@@ -28893,103 +28893,103 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (a' : C)
       #|  o((g : (A) -> C), (m : ((Unit) -> Num) -> A))
       #|  (l' : Ring[C])
-      #|  ~(poly_deg (l':C ring) ((g:A->C) o (m:(1->num)->A)) = 0)
-      #|  ring_0(subring_generated (l:B ring)\n              ((a:B) INSERT IMAGE (f:A->B) (ring_carrier (k:A ring)))) =\n             ring_1(subring_generated (l:B ring)\n              ((a:B) INSERT IMAGE (f:A->B) (ring_carrier (k:A ring))))
+      #|  !(poly_deg((l' : Ring[C]), o((g : (A) -> C), (m : ((Unit) -> Num) -> A))) == 0)
+      #|  ring_0(subring_generated((l : Ring[B]), INSERT((a : B), IMAGE((f : (A) -> B), ring_carrier((k : Ring[A])))))) == ring_1(subring_generated(l, INSERT(a, IMAGE(f, ring_carrier(k)))))
       #|  ring_0((l : Ring[B])) == ring_1(l)
-      #|  poly_extend(k:A ring,l:B ring) (f:A->B) (\\v:1. a:B)\n            (ring_1(poly_ring (k:A ring) (:1))) =\n           ring_1(subring_generated (l:B ring)\n             ((a:B) INSERT IMAGE (f:A->B) (ring_carrier (k:A ring))))
-      #|  ring_1(poly_ring (k:A ring) (:1)) IN\n             ring_kernel(poly_ring (k:A ring) (:1), subring_generated (l:B\n               ring)\n                           (a INSERT IMAGE (f:A->B) (ring_carrier k)))\n               (poly_extend(k,l) f (\\v:1. a))
-      #|  poly_extend(k:A ring,l:B ring) (f:A->B) (\\v:1. a:B)\n            (ring_1(poly_ring (k:A ring) (:1))) =\n           ring_0(subring_generated (l:B ring)\n             ((a:B) INSERT IMAGE (f:A->B) (ring_carrier (k:A ring))))
+      #|  poly_extend(((k : Ring[A]), (l : Ring[B])), (f : (A) -> B), (v : Unit) => (a : B), ring_1(poly_ring(k, UNIV))) == ring_1(subring_generated(l, INSERT(a, IMAGE(f, ring_carrier(k)))))
+      #|  IN(ring_1(poly_ring((k : Ring[A]), UNIV)), ring_kernel((poly_ring(k, UNIV), subring_generated((l : Ring[B]), INSERT((a : B), IMAGE((f : (A) -> B), ring_carrier(k))))), poly_extend((k, l), f, (v : Unit) => a)))
+      #|  poly_extend(((k : Ring[A]), (l : Ring[B])), (f : (A) -> B), (v : Unit) => (a : B), ring_1(poly_ring(k, UNIV))) == ring_0(subring_generated(l, INSERT(a, IMAGE(f, ring_carrier(k)))))
       #|  false
-      #|  ideal_generated (poly_ring (k:A ring) (:1)) {m:(1->num)->A} =\n           ring_carrier(poly_ring (k:A ring) (:1))
+      #|  ideal_generated(poly_ring((k : Ring[A]), UNIV), {(m : ((Unit) -> Num) -> A)}) == ring_carrier(poly_ring(k, UNIV))
       #|  !((m : ((Unit) -> Num) -> A) == ring_0(poly_ring((k : Ring[A]), UNIV)))
       #|  (c : A)
       #|  (m : ((Unit) -> Num) -> A)
       #|  (k : Ring[A])
-      #|  ring_unit (poly_ring (k:A ring) (:1)) (m:(1->num)->A)
+      #|  ring_unit(poly_ring((k : Ring[A]), UNIV), (m : ((Unit) -> Num) -> A))
       #|  ring_0((l' : Ring[C]))
       #|  (m : ((Unit) -> Num) -> A) == ring_0(poly_ring((k : Ring[A]), UNIV))
       #|  poly_deg((k : Ring[A]), (m : ((Unit) -> Num) -> A)) == 0
-      #|  (g:A->C) o (m:(1->num)->A) IN\n       ring_carrier(poly_ring (l':C ring) (:1))
+      #|  IN(o((g : (A) -> C), (m : ((Unit) -> Num) -> A)), ring_carrier(poly_ring((l' : Ring[C]), UNIV)))
       #|  ring_polynomial((k : Ring[A]), (m : ((Unit) -> Num) -> A))
       #|  (m : ((Unit) -> Num) -> A)
-      #|  principal_ideal (poly_ring (k:A ring) (:1))\n        (ring_kernel(poly_ring (k:A ring) (:1), subring_generated (l:B ring)\n                       (a INSERT IMAGE (f:A->B) (ring_carrier k)))\n          (poly_extend(k,l) f (\\v:1. a)))
-      #|  PID(poly_ring (k:A ring) (:1)) /\\\n      ring_ideal (poly_ring (k:A ring) (:1))\n        (ring_kernel(poly_ring (k:A ring) (:1), subring_generated (l:B ring)\n                       (a INSERT IMAGE (f:A->B) (ring_carrier k)))\n          (poly_extend(k,l) f (\\v:1. a)))
-      #|  ?a'. (a':C) IN ring_carrier l' /\\\n          ring_kernel(poly_ring (k:A ring) (:1), subring_generated (l:B ring)\n                        (a INSERT IMAGE (f:A->B) (ring_carrier k)))\n            (poly_extend(k,l) f (\\v:1. a)) SUBSET\n          ring_kernel(poly_ring (k:A ring) (:1), l':C ring)\n            (poly_extend(k,l') (g:A->C) (\\v:1. a'))
+      #|  principal_ideal(poly_ring((k : Ring[A]), UNIV), ring_kernel((poly_ring(k, UNIV), subring_generated((l : Ring[B]), INSERT((a : B), IMAGE((f : (A) -> B), ring_carrier(k))))), poly_extend((k, l), f, (v : Unit) => a)))
+      #|  (PID : (Ring[((Unit) -> Num) -> A]) -> Bool)((poly_ring : (Ring[A], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> A])((k : Ring[A]), (UNIV : (Unit) -> Bool))) && (ring_ideal : (Ring[((Unit) -> Num) -> A], (((Unit) -> Num) -> A) -> Bool) -> Bool)((poly_ring : (Ring[A], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> A])(k, (UNIV : (Unit) -> Bool)), (ring_kernel : ((Ring[((Unit) -> Num) -> A], Ring[B]), (((Unit) -> Num) -> A) -> B, ((Unit) -> Num) -> A) -> Bool)(((poly_ring : (Ring[A], (Unit) -> Bool) -> Ring[((Unit) -> Num) -> A])(k, (UNIV : (Unit) -> Bool)), (subring_generated : (Ring[B], (B) -> Bool) -> Ring[B])((l : Ring[B]), (INSERT : (B, (B) -> Bool, B) -> Bool)((a : B), (IMAGE : ((A) -> B, (A) -> Bool, B) -> Bool)((f : (A) -> B), (ring_carrier : (Ring[A], A) -> Bool)(k))))), (poly_extend : ((Ring[A], Ring[B]), (A) -> B, (Unit) -> B, ((Unit) -> Num) -> A) -> B)((k, l), f, (v : Unit) => a)))
+      #|  \226\136\131 a' : C, IN(a', ring_carrier((l' : Ring[C]))) && SUBSET(ring_kernel((poly_ring((k : Ring[A]), UNIV), subring_generated((l : Ring[B]), INSERT((a : B), IMAGE((f : (A) -> B), ring_carrier(k))))), poly_extend((k, l), f, (v : Unit) => a)), ring_kernel((poly_ring(k, UNIV), l'), poly_extend((k, l'), (g : (A) -> C), (v : Unit) => a')))
       #|  (a : B)
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (f : (A) -> B)
-      #|  ring_epimorphism(poly_ring (k:A ring) (:1),\n                      subring_generated (l:B ring)\n                        ((a:B) INSERT IMAGE (f:A->B) (ring_carrier k)))\n      (poly_extend(k,l) f (\\v:1. a))
-      #|  ring_homomorphism(k:A ring,l:B ring) (f:A->B) /\\\n    ring_homomorphism(k:A ring,l':C ring) (g:A->C)
-      #|  forall(k:A ring) (l:B ring) (l':C ring) (f:A->B) (g:A->C) a.\n        field k /\\ integral_domain l /\\\n        ring_monomorphism(k,l) f /\\ a IN ring_carrier l /\\\n        algebraic_over(k,l) f a /\\ algebraically_closed_field l' /\\\n        ring_monomorphism(k,l') g\n        ==> ?h. ring_homomorphism\n                 (subring_generated l (a INSERT IMAGE f (ring_carrier k)),\n                  l') h /\\\n                (forall x. x IN ring_carrier k ==> h(f x) = g x)
-      #|  x0:B IN ring_carrier\n       (subring_generated (l:B ring) (IMAGE FST (G0:(B#C)->bool)))
+      #|  ring_epimorphism((poly_ring((k : Ring[A]), UNIV), subring_generated((l : Ring[B]), INSERT((a : B), IMAGE((f : (A) -> B), ring_carrier(k))))), poly_extend((k, l), f, (v : Unit) => a))
+      #|  ring_homomorphism(((k : Ring[A]), (l : Ring[B])), (f : (A) -> B)) && ring_homomorphism((k, (l' : Ring[C])), (g : (A) -> C))
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 l' : Ring[C], \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> C, \226\136\128 a : B, field(k) && integral_domain(l) && ring_monomorphism((k, l), f) && IN(a, ring_carrier(l)) && algebraic_over((k, l), f, a) && algebraically_closed_field(l') && ring_monomorphism((k, l'), g) \226\134\146 (\226\136\131 h : (B) -> C, ring_homomorphism((subring_generated(l, INSERT(a, IMAGE(f, ring_carrier(k)))), l'), h) && (\226\136\128 x : A, IN(x, ring_carrier(k)) \226\134\146 h(f(x)) == g(x)))
+      #|  IN((x0 : B), ring_carrier(subring_generated((l : Ring[B]), IMAGE(FST, (G0 : ((B, C)) -> Bool)))))
       #|  subring_of(IMAGE(FST, (G0 : ((B, C)) -> Bool)), (l : Ring[B]))
-      #|  ?G0:(B#C)->bool. G0 IN cc /\\ x0:B IN IMAGE FST G0
+      #|  \226\136\131 G0 : ((B, C)) -> Bool, IN(G0, (cc : (((B, C)) -> Bool) -> Bool)) && IN((x0 : B), IMAGE(FST, G0))
       #|  (x : B) => select((y : C) => IN((x, y), (G : ((B, C)) -> Bool)))
       #|  (z : C)
-      #|  (h':B->C) x0 =\n              (@y:C. (x0,y) IN (G:(B#C)->bool))
+      #|  (h' : (B) -> C)((x0 : B)) == select((y : C) => IN((x0, y), (G : ((B, C)) -> Bool)))
       #|  (x0 : B)
       #|  IN((x0 : B), (S' : (B) -> Bool))
       #|  (y0 : C)
       #|  (x0 : B)
-      #|  (@y:C. ((f:A->B) x0,y) IN\n                  IMAGE (\\x:B. (x,(h':B->C) x)) (S':B->bool)) =\n                 (h':B->C) ((f:A->B) x0)
-      #|  (f:A->B) x0 IN (S':B->bool) /\\\n                (f:A->B) x0 IN IMAGE FST (G:(B#C)->bool)
+      #|  select((y : C) => IN(((f : (A) -> B)((x0 : A)), y), IMAGE((x : B) => (x, (h' : (B) -> C)(x)), (S' : (B) -> Bool)))) == h'(f(x0))
+      #|  IN((f : (A) -> B)((x0 : A)), (S' : (B) -> Bool)) && IN(f(x0), IMAGE(FST, (G : ((B, C)) -> Bool)))
       #|  (x0 : A)
       #|  (h' : (B) -> C)
-      #|  ring_carrier (subring_generated (l:B ring)\n                    ((a:B) INSERT IMAGE FST (G:(B#C)->bool))) = S'
-      #|  subring_generated (l:B ring) (S':B->bool) =\n                 subring_generated l\n                   ((a:B) INSERT IMAGE FST (G:(B#C)->bool))
+      #|  ring_carrier(subring_generated((l : Ring[B]), INSERT((a : B), IMAGE(FST, (G : ((B, C)) -> Bool))))) == (S' : (B) -> Bool)
+      #|  subring_generated((l : Ring[B]), (S' : (B) -> Bool)) == subring_generated(l, INSERT((a : B), IMAGE(FST, (G : ((B, C)) -> Bool))))
       #|  (b' : B)
       #|  IMAGE((x : B) => (x, (h' : (B) -> C)(x)), (S' : (B) -> Bool))
-      #|  (G:(B#C)->bool) = IMAGE (\\x:B. (x, (h':B->C) x)) (S':B->bool)
+      #|  (G : ((B, C)) -> Bool) == IMAGE((x : B) => (x, (h' : (B) -> C)(x)), (S' : (B) -> Bool))
       #|  (c' : C)
-      #|  forall b:B. b IN S'\n               ==> (@c:C. (b,c) IN IMAGE (\\x:B. (x, (h':B->C) x))\n                                          (S':B->bool)) = h' b
-      #|  IMAGE FST (IMAGE (\\x:B. (x, (h':B->C) x)) (S':B->bool))\n         = (S':B->bool)
-      #|  (forall x:B y1:C y2:C.\n           (x,y1) IN (G:(B#C)->bool) /\\ (x,y2) IN G ==> y1 = y2) /\\\n         (forall x:A. x IN ring_carrier k\n               ==> (@y:C. ((f:A->B) x,y) IN (G:(B#C)->bool)) =\n                   (g:A->C) x)
+      #|  \226\136\128 b : B, IN(b, (S' : (B) -> Bool)) \226\134\146 select((c : C) => IN((b, c), IMAGE((x : B) => (x, (h' : (B) -> C)(x)), S'))) == h'(b)
+      #|  IMAGE(FST, IMAGE((x : B) => (x, (h' : (B) -> C)(x)), (S' : (B) -> Bool))) == S'
+      #|  (\226\136\128 x : B, \226\136\128 y1 : C, \226\136\128 y2 : C, IN((x, y1), (G : ((B, C)) -> Bool)) && IN((x, y2), G) \226\134\146 y1 == y2) && (\226\136\128 x : A, IN(x, ring_carrier((k : Ring[A]))) \226\134\146 select((y : C) => IN(((f : (A) -> B)(x), y), G)) == (g : (A) -> C)(x))
       #|  INSERT((a : B), IMAGE(FST, (G : ((B, C)) -> Bool)))
-      #|  IMAGE FST (G:(B#C)->bool) SUBSET (S':B->bool) /\\\n         (S':B->bool) SUBSET ring_carrier (l:B ring)
-      #|  (S':B->bool) subfield_of (l:B ring) /\\\n        (a:B) IN (S':B->bool)
+      #|  SUBSET(IMAGE(FST, (G : ((B, C)) -> Bool)), (S' : (B) -> Bool)) && SUBSET(S', ring_carrier((l : Ring[B])))
+      #|  subfield_of((S' : (B) -> Bool), (l : Ring[B])) && IN((a : B), S')
       #|  (a : B)
       #|  (l : Ring[B])
-      #|  subring_generated (l:B ring) (IMAGE FST (G:(B#C)->bool))
+      #|  subring_generated((l : Ring[B]), IMAGE(FST, (G : ((B, C)) -> Bool)))
       #|  (I : (B) -> B)
-      #|  field(subring_generated (l:B ring)\n          ((a:B) INSERT IMAGE FST (G:(B#C)->bool)))
-      #|  S' = ring_carrier(subring_generated (l:B ring)\n        ((a:B) INSERT IMAGE FST (G:(B#C)->bool)))
+      #|  field(subring_generated((l : Ring[B]), INSERT((a : B), IMAGE(FST, (G : ((B, C)) -> Bool)))))
+      #|  (S' : (B) -> Bool) == ring_carrier(subring_generated((l : Ring[B]), INSERT((a : B), IMAGE(FST, (G : ((B, C)) -> Bool)))))
       #|  (h' : (B) -> C)
       #|  (a : B)
       #|  (x : B) => select((y : C) => IN((x, y), (G : ((B, C)) -> Bool)))
       #|  (I : (B) -> B)
       #|  (l' : Ring[C])
       #|  (l : Ring[B])
-      #|  subring_generated (l:B ring) (IMAGE FST (G:(B#C)->bool))
-      #|  ring_monomorphism\n          (subring_generated (l:B ring) (IMAGE FST (G:(B#C)->bool)), l':C ring)\n          (\\x:B. @y:C. (x,y) IN G)
+      #|  subring_generated((l : Ring[B]), IMAGE(FST, (G : ((B, C)) -> Bool)))
+      #|  ring_monomorphism((subring_generated((l : Ring[B]), IMAGE(FST, (G : ((B, C)) -> Bool))), (l' : Ring[C])), (x : B) => select((y : C) => IN((x, y), G)))
       #|  (a : B)
       #|  (l : Ring[B])
       #|  (k : Ring[A])
       #|  (f : (A) -> B)
       #|  IMAGE((f : (A) -> B), ring_carrier((k : Ring[A])))
-      #|  algebraic_over (subring_generated (l:B ring)\n            (IMAGE FST (G:(B#C)->bool)), l) I (a:B)
-      #|  ring_carrier(subring_generated (l:B ring)\n          (IMAGE FST (G:(B#C)->bool))) = IMAGE FST G
-      #|  field(subring_generated (l:B ring) (IMAGE FST (G:(B#C)->bool))) /\\\n         IMAGE FST (G:(B#C)->bool) subring_of (l:B ring) /\\\n         ring_monomorphism (subring_generated (l:B ring)\n              (IMAGE FST (G:(B#C)->bool)), l) I
+      #|  algebraic_over((subring_generated((l : Ring[B]), IMAGE(FST, (G : ((B, C)) -> Bool))), l), I, (a : B))
+      #|  ring_carrier(subring_generated((l : Ring[B]), IMAGE(FST, (G : ((B, C)) -> Bool)))) == IMAGE(FST, G)
+      #|  field(subring_generated((l : Ring[B]), IMAGE(FST, (G : ((B, C)) -> Bool)))) && subring_of(IMAGE(FST, G), l) && ring_monomorphism((subring_generated(l, IMAGE(FST, G)), l), I)
       #|  IN((a : B), IMAGE(FST, (G : ((B, C)) -> Bool)))
       #|  (a : B)
       #|  IMAGE(FST, (G : ((B, C)) -> Bool)) == ring_carrier((l : Ring[B]))
       #|  (G : ((B, C)) -> Bool)
       #|  IN((f : (A) -> B)((a0 : A)), IMAGE(FST, (G_w : ((B, C)) -> Bool)))
       #|  (a0 : A)
-      #|  x0:B IN ring_carrier (subring_generated (l:B ring)\n                (IMAGE FST (G0:(B#C)->bool))) /\\\n             y0:B IN ring_carrier (subring_generated (l:B ring)\n                (IMAGE FST (G0:(B#C)->bool)))
+      #|  IN((x0 : B), ring_carrier(subring_generated((l : Ring[B]), IMAGE(FST, (G0 : ((B, C)) -> Bool))))) && IN((y0 : B), ring_carrier(subring_generated(l, IMAGE(FST, G0))))
       #|  subring_of(IMAGE(FST, (G0 : ((B, C)) -> Bool)), (l : Ring[B]))
       #|  (G1 : ((B, C)) -> Bool)
       #|  (G2 : ((B, C)) -> Bool)
-      #|  (?G1:(B#C)->bool. G1 IN cc /\\ x0:B IN IMAGE FST G1) /\\\n               (?G2:(B#C)->bool. G2 IN cc /\\ y0:B IN IMAGE FST G2)
-      #|  ?G0:(B#C)->bool. G0 IN cc /\\\n               x0:B IN IMAGE FST G0 /\\ y0:B IN IMAGE FST G0
+      #|  (\226\136\131 G1 : ((B, C)) -> Bool, IN(G1, (cc : (((B, C)) -> Bool) -> Bool)) && IN((x0 : B), IMAGE(FST, G1))) && (\226\136\131 G2 : ((B, C)) -> Bool, IN(G2, cc) && IN((y0 : B), IMAGE(FST, G2)))
+      #|  \226\136\131 G0 : ((B, C)) -> Bool, IN(G0, (cc : (((B, C)) -> Bool) -> Bool)) && IN((x0 : B), IMAGE(FST, G0)) && IN((y0 : B), IMAGE(FST, G0))
       #|  (y0 : B)
       #|  (x0 : B)
-      #|  x0:B IN ring_carrier (subring_generated (l:B ring)\n                (IMAGE FST (G0:(B#C)->bool))) /\\\n             y0:B IN ring_carrier (subring_generated (l:B ring)\n                (IMAGE FST (G0:(B#C)->bool)))
+      #|  IN((x0 : B), ring_carrier(subring_generated((l : Ring[B]), IMAGE(FST, (G0 : ((B, C)) -> Bool))))) && IN((y0 : B), ring_carrier(subring_generated(l, IMAGE(FST, G0))))
       #|  subring_of(IMAGE(FST, (G0 : ((B, C)) -> Bool)), (l : Ring[B]))
       #|  (G1 : ((B, C)) -> Bool)
       #|  (G2 : ((B, C)) -> Bool)
-      #|  (?G1:(B#C)->bool. G1 IN cc /\\ x0:B IN IMAGE FST G1) /\\\n               (?G2:(B#C)->bool. G2 IN cc /\\ y0:B IN IMAGE FST G2)
-      #|  ?G0:(B#C)->bool. G0 IN cc /\\\n               x0:B IN IMAGE FST G0 /\\ y0:B IN IMAGE FST G0
+      #|  (\226\136\131 G1 : ((B, C)) -> Bool, IN(G1, (cc : (((B, C)) -> Bool) -> Bool)) && IN((x0 : B), IMAGE(FST, G1))) && (\226\136\131 G2 : ((B, C)) -> Bool, IN(G2, cc) && IN((y0 : B), IMAGE(FST, G2)))
+      #|  \226\136\131 G0 : ((B, C)) -> Bool, IN(G0, (cc : (((B, C)) -> Bool) -> Bool)) && IN((x0 : B), IMAGE(FST, G0)) && IN((y0 : B), IMAGE(FST, G0))
       #|  (y0 : B)
       #|  (x0 : B)
       #|  (x0 : B)
@@ -28999,11 +28999,11 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (x : B) => select((y : C) => IN((x, y), (G0 : ((B, C)) -> Bool)))
       #|  subring_of(IMAGE(FST, (G0 : ((B, C)) -> Bool)), (l : Ring[B]))
       #|  (G0 : ((B, C)) -> Bool)
-      #|  forall G. G IN cc ==> ring_homomorphism\n                 (subring_generated (l:B ring) (IMAGE FST G), l':C ring)\n                 (\\x:B. @y:C. (x,y) IN UNIONS cc)
+      #|  \226\136\128 G : ((B, C)) -> Bool, IN(G, (cc : (((B, C)) -> Bool) -> Bool)) \226\134\146 ring_homomorphism((subring_generated((l : Ring[B]), IMAGE(FST, G)), (l' : Ring[C])), (x : B) => select((y : C) => IN((x, y), UNIONS(cc))))
       #|  IMAGE(FST, (G_w : ((B, C)) -> Bool))
       #|  ring_inv((l : Ring[B]), (x0 : B))
       #|  IN((x0 : B), ring_carrier((l : Ring[B])))
-      #|  ring_inv (l:B ring) (x0:B) IN IMAGE FST (G0:(B#C)->bool)
+      #|  IN(ring_inv((l : Ring[B]), (x0 : B)), IMAGE(FST, (G0 : ((B, C)) -> Bool)))
       #|  subfield_of(IMAGE(FST, (G0 : ((B, C)) -> Bool)), (l : Ring[B]))
       #|  \226\136\131 G0 : ((B, C)) -> Bool, IN(G0, (cc : (((B, C)) -> Bool) -> Bool)) && IN((x0 : B), IMAGE(FST, G0))
       #|  (x0 : B)
@@ -29012,16 +29012,16 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (s2 : (B) -> Bool)
       #|  (s1 : (B) -> Bool)
       #|  (G0 : ((B, C)) -> Bool)
-      #|  IMAGE FST (UNIONS cc:(B#C)->bool) subring_of (l:B ring)
+      #|  subring_of(IMAGE(FST, UNIONS((cc : (((B, C)) -> Bool) -> Bool))), (l : Ring[B]))
       #|  IN((x0 : B), IMAGE(FST, (G0 : ((B, C)) -> Bool)))
       #|  \226\136\131 y' : C, IN(((x0 : B), y'), (G0 : ((B, C)) -> Bool))
       #|  (y0 : C)
-      #|  forall y0:C. (x0:B,y0) IN UNIONS cc <=>\n                  (x0,y0) IN (G0:(B#C)->bool)
+      #|  \226\136\128 y0 : C, IN(((x0 : B), y0), UNIONS((cc : (((B, C)) -> Bool) -> Bool))) == IN((x0, y0), (G0 : ((B, C)) -> Bool))
       #|  (x0 : B)
       #|  (G0 : ((B, C)) -> Bool)
-      #|  forall G:(B#C)->bool. G IN cc ==> forall x:B. x IN IMAGE FST G ==>\n             (@y:C. (x,y) IN UNIONS cc) = (@y. (x,y) IN G)
-      #|  forall x:B y1:C y2:C.\n           (x,y1) IN UNIONS cc /\\ (x,y2) IN UNIONS cc ==> y1 = y2
-      #|  forall G:(B#C)->bool. G IN cc ==>\n           forall x:B y1:C y2:C. (x,y1) IN G /\\ (x,y2) IN G ==> y1 = y2
+      #|  \226\136\128 G : ((B, C)) -> Bool, IN(G, (cc : (((B, C)) -> Bool) -> Bool)) \226\134\146 (\226\136\128 x : B, IN(x, IMAGE(FST, G)) \226\134\146 select((y : C) => IN((x, y), UNIONS(cc))) == select((y : C) => IN((x, y), G)))
+      #|  \226\136\128 x : B, \226\136\128 y1 : C, \226\136\128 y2 : C, IN((x, y1), UNIONS((cc : (((B, C)) -> Bool) -> Bool))) && IN((x, y2), UNIONS(cc)) \226\134\146 y1 == y2
+      #|  \226\136\128 G : ((B, C)) -> Bool, IN(G, (cc : (((B, C)) -> Bool) -> Bool)) \226\134\146 (\226\136\128 x : B, \226\136\128 y1 : C, \226\136\128 y2 : C, IN((x, y1), G) && IN((x, y2), G) \226\134\146 y1 == y2)
       #|  (G_w : ((B, C)) -> Bool)
       #|  (cc : (((B, C)) -> Bool) -> Bool)
       #|  select((y : C) => IN(((f : (A) -> B)((a : A)), y), (G0 : ((B, C)) -> Bool))) == (g : (A) -> C)(a)
@@ -29036,21 +29036,21 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (g : (A) -> C)
       #|  (f : (A) -> B)
       #|  (l' : Ring[C])
-      #|  subring_generated (l:B ring)\n              (IMAGE (f:A->B) (ring_carrier k))
+      #|  subring_generated((l : Ring[B]), IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))))
       #|  (k : Ring[A])
       #|  (k : Ring[A])
       #|  (a0 : A)
       #|  (p : (B, C))
-      #|  IMAGE FST (G0:(B#C)->bool) = IMAGE (f:A->B) (ring_carrier k)
+      #|  IMAGE(FST, (G0 : ((B, C)) -> Bool)) == IMAGE((f : (A) -> B), ring_carrier((k : Ring[A])))
       #|  (c : C)
       #|  (a : A)
-      #|  forall a:A. a IN ring_carrier k\n               ==> (@y:C. ((f:A->B) a, y) IN G0) = (g:A->C) a
-      #|  forall a1 a2:A. a1 IN ring_carrier k /\\ a2 IN ring_carrier k /\\\n                   (f:A->B) a1 = f a2 ==> a1 = a2
+      #|  \226\136\128 a : A, IN(a, ring_carrier((k : Ring[A]))) \226\134\146 select((y : C) => IN(((f : (A) -> B)(a), y), (G0 : ((B, C)) -> Bool))) == (g : (A) -> C)(a)
+      #|  \226\136\128 a1 : A, \226\136\128 a2 : A, IN(a1, ring_carrier((k : Ring[A]))) && IN(a2, ring_carrier(k)) && (f : (A) -> B)(a1) == f(a2) \226\134\146 a1 == a2
       #|  (G0 : ((B, C)) -> Bool)
-      #|  G0 = {((f:A->B) x, (g:A->C) x) | x IN ring_carrier k}
-      #|  \\G:(B#C)->bool.\n       G SUBSET (ring_carrier l CROSS ring_carrier l') /\\\n       (forall x:B y1:C y2:C. (x,y1) IN G /\\ (x,y2) IN G ==> y1 = y2) /\\\n       (IMAGE FST G) subfield_of (l:B ring) /\\\n       IMAGE (f:A->B) (ring_carrier k) SUBSET IMAGE FST G /\\ ring_homomorphism\n         (subring_generated l (IMAGE FST G), l':C ring)\n         (\\x:B. @y:C. (x,y) IN G) /\\ (forall x:A. x IN ring_carrier k\n              ==> (@y:C. ((f:A->B) x,y) IN G) = g x)
-      #|  field (k:A ring) /\\ field (l:B ring) /\\ field (l':C ring) /\\\n     ring_monomorphism(k:A ring,l:B ring) f /\\ integral_domain (l:B ring) /\\\n     ring_monomorphism(k:A ring,l':C ring) g /\\\n     ring_homomorphism(k:A ring,l:B ring) (f:A->B)
-      #|  forall(k:A ring) (l:B ring) (l':C ring) (f:A->B) (g:A->C).\n        algebraic_extension(k,l) f /\\ algebraically_closed_field l' /\\\n        ring_homomorphism(k,l') g\n        ==> ?h. ring_homomorphism(l,l') h /\\\n                (forall x. x IN ring_carrier k ==> h(f x) = g x)
+      #|  (G0 : ((B, C)) -> Bool) == {((f : (A) -> B)((x : A)), (g : (A) -> C)(x)) | IN(x, ring_carrier((k : Ring[A])))}
+      #|  (G : ((B, C)) -> Bool) => SUBSET(G, CROSS(ring_carrier((l : Ring[B])), ring_carrier((l' : Ring[C])))) && (\226\136\128 x : B, \226\136\128 y1 : C, \226\136\128 y2 : C, IN((x, y1), G) && IN((x, y2), G) \226\134\146 y1 == y2) && subfield_of(IMAGE(FST, G), l) && SUBSET(IMAGE((f : (A) -> B), ring_carrier((k : Ring[A]))), IMAGE(FST, G)) && ring_homomorphism((subring_generated(l, IMAGE(FST, G)), l'), (x : B) => select((y : C) => IN((x, y), G))) && (\226\136\128 x : A, IN(x, ring_carrier(k)) \226\134\146 select((y : C) => IN((f(x), y), G)) == (g : (A) -> C)(x))
+      #|  field((k : Ring[A])) && field((l : Ring[B])) && field((l' : Ring[C])) && ring_monomorphism((k, l), (f : (A) -> B)) && integral_domain(l) && ring_monomorphism((k, l'), (g : (A) -> C)) && ring_homomorphism((k, l), f)
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 l' : Ring[C], \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> C, algebraic_extension((k, l), f) && algebraically_closed_field(l') && ring_homomorphism((k, l'), g) \226\134\146 (\226\136\131 h : (B) -> C, ring_homomorphism((l, l'), h) && (\226\136\128 x : A, IN(x, ring_carrier(k)) \226\134\146 h(f(x)) == g(x)))
       #|  (G_w : ((B, C)) -> Bool)
       #|  (G0 : ((B, C)) -> Bool)
       #|  IN((G2 : ((B, C)) -> Bool), (cc : (((B, C)) -> Bool) -> Bool))
@@ -29094,36 +29094,36 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (p : ((Unit) -> Num) -> A) => poly_eval((k : Ring[A]), p, (x : A))
       #|  IN((x : A), ring_carrier((k : Ring[A])))
       #|  (x : A)
-      #|  {x:A | x IN ring_carrier k /\\ poly_eval k p x = ring_0 k} =\n    IMAGE a (1..n)
+      #|  {(x : A) | IN(x, ring_carrier((k : Ring[A]))) && poly_eval(k, (p : ((Unit) -> Num) -> A), x) == ring_0(k)} == IMAGE((a : (Num) -> A), op_dot_dot(1, (n : Num)))
       #|  (n : Num) == poly_deg((k : Ring[A]), (p : ((Unit) -> Num) -> A))
       #|  (a : (Num) -> A)
       #|  (c : A)
       #|  (p : ((Unit) -> Num) -> A)
       #|  (k : Ring[A])
-      #|  forall(k:A ring) p.\n      algebraically_closed_field k /\\\n      p IN ring_carrier(poly_ring k (:1)) /\\\n      ~(p = ring_0(poly_ring k (:1))) /\\\n      (forall a. a IN ring_carrier k /\\ poly_eval k p a = ring_0 k\n           ==> ~(ring_divides (poly_ring k (:1))\n                  (poly_pow k (poly_sub k (poly_var k one) (poly_const k a)) 2)\n                  p))\n      ==> CARD {x | x IN ring_carrier k /\\ poly_eval k p x = ring_0 k} =\n          poly_deg k p
-      #|  poly_sub k (poly_var k one) (poly_const k (a:A))
+      #|  \226\136\128 k : Ring[A], \226\136\128 p : ((Unit) -> Num) -> A, algebraically_closed_field(k) && IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && (\226\136\128 a : A, IN(a, ring_carrier(k)) && poly_eval(k, p, a) == ring_0(k) \226\134\146 !ring_divides(poly_ring(k, UNIV), poly_pow(k, poly_sub(k, poly_var(k, one), poly_const(k, a)), 2), p)) \226\134\146 CARD({(x : A) | IN(x, ring_carrier(k)) && poly_eval(k, p, x) == ring_0(k)}) == poly_deg(k, p)
+      #|  poly_sub((k : Ring[A]), poly_var(k, one), poly_const(k, (a : A)))
       #|  (a : A)
-      #|  forall(k:A ring) p.\n      algebraically_closed_field k /\\\n      ring_squarefree (poly_ring k (:1)) p\n      ==> CARD {x | x IN ring_carrier k /\\ poly_eval k p x = ring_0 k} =\n          poly_deg k p
-      #|  forall(k:A ring) p.\n      algebraically_closed_field k\n      ==> (ring_squarefree (poly_ring k (:1)) p <=>\n           p IN ring_carrier (poly_ring k (:1)) /\\\n           ~(p = ring_0 (poly_ring k (:1))) /\\\n           CARD {x | x IN ring_carrier k /\\ poly_eval k p x = ring_0 k} =\n           poly_deg k p)
-      #|  poly_sub k (poly_var k one) (poly_const k (a:A))
+      #|  \226\136\128 k : Ring[A], \226\136\128 p : ((Unit) -> Num) -> A, algebraically_closed_field(k) && ring_squarefree(poly_ring(k, UNIV), p) \226\134\146 CARD({(x : A) | IN(x, ring_carrier(k)) && poly_eval(k, p, x) == ring_0(k)}) == poly_deg(k, p)
+      #|  \226\136\128 k : Ring[A], \226\136\128 p : ((Unit) -> Num) -> A, algebraically_closed_field(k) \226\134\146 ring_squarefree(poly_ring(k, UNIV), p) == (IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && CARD({(x : A) | IN(x, ring_carrier(k)) && poly_eval(k, p, x) == ring_0(k)}) == poly_deg(k, p))
+      #|  poly_sub((k : Ring[A]), poly_var(k, one), poly_const(k, (a : A)))
       #|  (a : A)
-      #|  forall(k:A ring) p.\n      algebraically_closed_field k\n      ==> (ring_squarefree (poly_ring k (:1)) p <=>\n           p IN ring_carrier (poly_ring k (:1)) /\\\n           ~(p = ring_0 (poly_ring k (:1))) /\\\n           (forall a. a IN ring_carrier k /\\ poly_eval k p a = ring_0 k\n                ==> ~(ring_divides (poly_ring k (:1))\n                  (poly_pow k (poly_sub k (poly_var k one) (poly_const k a)) 2)\n                  p)))
+      #|  \226\136\128 k : Ring[A], \226\136\128 p : ((Unit) -> Num) -> A, algebraically_closed_field(k) \226\134\146 ring_squarefree(poly_ring(k, UNIV), p) == (IN(p, ring_carrier(poly_ring(k, UNIV))) && !(p == ring_0(poly_ring(k, UNIV))) && (\226\136\128 a : A, IN(a, ring_carrier(k)) && poly_eval(k, p, a) == ring_0(k) \226\134\146 !ring_divides(poly_ring(k, UNIV), poly_pow(k, poly_sub(k, poly_var(k, one), poly_const(k, a)), 2), p)))
       #|  (h' : ((((Unit) -> Num) -> A) -> Bool) -> A)((z : (((Unit) -> Num) -> A) -> Bool))
       #|  (h' : ((((Unit) -> Num) -> A) -> Bool) -> A)((z : (((Unit) -> Num) -> A) -> Bool))
       #|  (m : Ring[(((Unit) -> Num) -> A) -> Bool])
-      #|  (h':(((1->num)->A)->bool)->A) o (h:A->((1->num)->A)->bool)
+      #|  o((h' : ((((Unit) -> Num) -> A) -> Bool) -> A), (h : (A, ((Unit) -> Num) -> A) -> Bool))
       #|  algebraic_extension(((l : Ring[A]), (n : Ring[A])), I)
       #|  (n : Ring[A])
       #|  (n : Ring[A])
-      #|  \\x. if x IN IMAGE (h:A->((1->num)->A)->bool) (ring_carrier l)\n          then (h':(((1->num)->A)->bool)->A) x else h'' x
+      #|  (x : (((Unit) -> Num) -> A) -> Bool) => if IN(x, IMAGE((h : (A, ((Unit) -> Num) -> A) -> Bool), ring_carrier((l : Ring[A])))) { (h' : ((((Unit) -> Num) -> A) -> Bool) -> A)(x) } else { (h'' : ((((Unit) -> Num) -> A) -> Bool) -> A)(x) }
       #|  (h' : ((((Unit) -> Num) -> A) -> Bool) -> A)
       #|  (h'' : ((((Unit) -> Num) -> A) -> Bool) -> A)
       #|  (UNIV : (A) -> Bool)
       #|  (m : Ring[(((Unit) -> Num) -> A) -> Bool])
       #|  (k : Ring[A])
       #|  o((h : (A, ((Unit) -> Num) -> A) -> Bool), I)
-      #|  ring_carrier(m:(((1->num)->A)->bool)ring) <=_c (:A) DIFF ring_carrier l
-      #|  ?h':(((1->num)->A)->bool)->A.\n        (forall x y. x IN ring_carrier m /\\ y IN ring_carrier m /\\ h' x = h' y\n               ==> x = y) /\\\n        (forall x. x IN ring_carrier l ==> h'(h x) = x)
+      #|  op_lt_eq_us_c(ring_carrier((m : Ring[(((Unit) -> Num) -> A) -> Bool])), DIFF(UNIV, ring_carrier((l : Ring[A]))))
+      #|  \226\136\131 h' : ((((Unit) -> Num) -> A) -> Bool) -> A, (\226\136\128 x : (((Unit) -> Num) -> A) -> Bool, \226\136\128 y : (((Unit) -> Num) -> A) -> Bool, IN(x, ring_carrier((m : Ring[(((Unit) -> Num) -> A) -> Bool]))) && IN(y, ring_carrier(m)) && h'(x) == h'(y) \226\134\146 x == y) && (\226\136\128 x : A, IN(x, ring_carrier((l : Ring[A]))) \226\134\146 h'((h : (A, ((Unit) -> Num) -> A) -> Bool)(x)) == x)
       #|  (p : ((Unit) -> Num) -> A)
       #|  (z : (((Unit) -> Num) -> A) -> Bool)
       #|  (m : Ring[(((Unit) -> Num) -> A) -> Bool])
@@ -29168,15 +29168,15 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  field((l : Ring[A]))
       #|  (k : Ring[A])
       #|  (k : Ring[A])
-      #|  forall f:A ring. f IN c\n                 ==> field f /\\ ring_monomorphism(k,f) I /\\\n                     algebraic_extension(k,f) I
+      #|  \226\136\128 f : Ring[A], IN(f, (c : (Ring[A]) -> Bool)) \226\134\146 field(f) && ring_monomorphism(((k : Ring[A]), f), I) && algebraic_extension((k, f), I)
       #|  (l : Ring[A])
       #|  (c : (Ring[A]) -> Bool)
       #|  (k : Ring[A])
       #|  (c : (Ring[A]) -> Bool) == {}
-      #|  c:A ring->bool
-      #|  (p /\\ (p ==> (q ==> r) ==> s)) ==> (p /\\ q ==> r) ==> s
-      #|  \\(l:A ring) (l':A ring). algebraic_extension(k,l) I /\\\n                algebraic_extension(k,l') I /\\\n                field_extension(l,l') I
-      #|  forall k:A ring.\n        ring_carrier k <_c (:A) /\\ (:num) <_c (:A) /\\ field k\n        ==> ?l. algebraic_extension (k,l) I /\\ algebraically_closed_field l
+      #|  (c : (Ring[A]) -> Bool)
+      #|  (p : Bool) && (p \226\134\146 ((q : Bool) \226\134\146 (r : Bool)) \226\134\146 (s : Bool)) \226\134\146 (p && q \226\134\146 r) \226\134\146 s
+      #|  (l : Ring[A]) => (l' : Ring[A]) => algebraic_extension(((k : Ring[A]), l), I) && algebraic_extension((k, l'), I) && field_extension((l, l'), I)
+      #|  \226\136\128 k : Ring[A], (op_lt_us_c : ((A) -> Bool, (A) -> Bool) -> Bool)((ring_carrier : (Ring[A], A) -> Bool)(k), (UNIV : (A) -> Bool)) && (op_lt_us_c : ((Num) -> Bool, (A) -> Bool) -> Bool)((UNIV : (Num) -> Bool), (UNIV : (A) -> Bool)) && (field : (Ring[A]) -> Bool)(k) \226\134\146 (\226\136\131 l : Ring[A], (algebraic_extension : ((Ring[A], Ring[A]), (A) -> A) -> Bool)((k, l), (I : (A) -> A)) && (algebraically_closed_field : (Ring[A]) -> Bool)(l))
       #|  (UNIV : (Unit) -> Bool)
       #|  (g' : (B, (A, Num)) -> Bool)
       #|  (l' : Ring[((A, Num)) -> Bool])
@@ -29227,7 +29227,7 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (op_star_us_c : ((A) -> Bool, (Unit) -> Bool, (A, Unit)) -> Bool)((UNIV : (A) -> Bool), {one})
       #|  (UNIV : ((A, Num)) -> Bool)
       #|  (op_lt_us_c : ((A) -> Bool, (((A, Num)) -> Bool) -> Bool) -> Bool)((UNIV : (A) -> Bool), (UNIV : (((A, Num)) -> Bool) -> Bool)) && (op_lt_us_c : ((Num) -> Bool, (((A, Num)) -> Bool) -> Bool) -> Bool)(UNIV, (UNIV : (((A, Num)) -> Bool) -> Bool))
-      #|  forall k:A ring.\n        INFINITE(:B) /\\ ring_carrier k <=_c (:B) /\\ field k\n        ==> ?l (f:A->B). algebraic_extension (k,l) f /\\\n                         algebraically_closed_field l
+      #|  \226\136\128 k : Ring[A], (INFINITE : ((B) -> Bool) -> Bool)((UNIV : (B) -> Bool)) && (op_lt_eq_us_c : ((A) -> Bool, (B) -> Bool) -> Bool)((ring_carrier : (Ring[A], A) -> Bool)(k), (UNIV : (B) -> Bool)) && (field : (Ring[A]) -> Bool)(k) \226\134\146 (\226\136\131 l : Ring[B], \226\136\131 f : (A) -> B, (algebraic_extension : ((Ring[A], Ring[B]), (A) -> B) -> Bool)((k, l), f) && (algebraically_closed_field : (Ring[B]) -> Bool)(l))
       #|  o((h : (B) -> C), (f : (A) -> B))
       #|  (g : (A) -> C)
       #|  (x : C)
@@ -29249,9 +29249,9 @@ test "Library/fieldtheory matches Library/fieldtheory.ml" {
       #|  (l' : Ring[C])
       #|  (l : Ring[B])
       #|  (k : Ring[A])
-      #|  field (l:B ring) /\\ field (l':C ring) /\\\n     ring_homomorphism(k:A ring,l':C ring) g /\\\n     field_extension(k:A ring,l:B ring) f
-      #|  forall(k:A ring) (l:B ring) (l':C ring) (f:A->B) (g:A->C).\n        algebraic_extension(k,l) f /\\ algebraically_closed_field l /\\\n        algebraic_extension(k,l') g /\\ algebraically_closed_field l'\n        ==> ?h. ring_isomorphism(l,l') h /\\\n                (forall x. x IN ring_carrier k ==> h(f x) = g x)
-      #|  forall(k:A ring) (l:B ring) (l':C ring) (f:A->B) (g:A->C).\n        algebraic_extension(k,l) f /\\ algebraically_closed_field l /\\\n        algebraic_extension(k,l') g /\\ algebraically_closed_field l'\n        ==> l isomorphic_ring l'
+      #|  field((l : Ring[B])) && field((l' : Ring[C])) && ring_homomorphism(((k : Ring[A]), l'), (g : (A) -> C)) && field_extension((k, l), (f : (A) -> B))
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 l' : Ring[C], \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> C, algebraic_extension((k, l), f) && algebraically_closed_field(l) && algebraic_extension((k, l'), g) && algebraically_closed_field(l') \226\134\146 (\226\136\131 h : (B) -> C, ring_isomorphism((l, l'), h) && (\226\136\128 x : A, IN(x, ring_carrier(k)) \226\134\146 h(f(x)) == g(x)))
+      #|  \226\136\128 k : Ring[A], \226\136\128 l : Ring[B], \226\136\128 l' : Ring[C], \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> C, algebraic_extension((k, l), f) && algebraically_closed_field(l) && algebraic_extension((k, l'), g) && algebraically_closed_field(l') \226\134\146 isomorphic_ring(l, l')
       #|subfield_of =  |- (#forall:fun(fun(ring('A),bool),bool) (\r:ring('A). (#forall:fun(fun(fun('A,bool),bool),bool) (\s:fun('A,bool). ((#=:fun(bool,fun(bool,bool)) ((#subfield_of:fun(fun('A,bool),fun(ring('A),bool)) s:fun('A,bool)) r:ring('A))) ((#/\:fun(bool,fun(bool,bool)) ((#subring_of:fun(fun('A,bool),fun(ring('A),bool)) s:fun('A,bool)) r:ring('A))) (#field:fun(ring('A),bool) ((#subring_generated:fun(ring('A),fun(fun('A,bool),ring('A))) r:ring('A)) s:fun('A,bool)))))))))
       #|SUBFIELD_IMP_SUBRING_OF =  |- (#forall:fun(fun(ring('A),bool),bool) (\r:ring('A). (#forall:fun(fun(fun('A,bool),bool),bool) (\s:fun('A,bool). ((#==>:fun(bool,fun(bool,bool)) ((#subfield_of:fun(fun('A,bool),fun(ring('A),bool)) s:fun('A,bool)) r:ring('A))) ((#subring_of:fun(fun('A,bool),fun(ring('A),bool)) s:fun('A,bool)) r:ring('A)))))))
       #|SUBFIELD_OF_IMP_SUBSET =  |- (#forall:fun(fun(ring('A),bool),bool) (\r:ring('A). (#forall:fun(fun(fun('A,bool),bool),bool) (\s:fun('A,bool). ((#==>:fun(bool,fun(bool,bool)) ((#subfield_of:fun(fun('A,bool),fun(ring('A),bool)) s:fun('A,bool)) r:ring('A))) ((#SUBSET:fun(fun('A,bool),fun(fun('A,bool),bool)) s:fun('A,bool)) (#ring_carrier:fun(ring('A),fun('A,bool)) r:ring('A))))))))

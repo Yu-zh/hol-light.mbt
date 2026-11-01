@@ -15193,16 +15193,16 @@ CPU time (user): <t>
 Library/pocklington quotations (854):
   (x : Num) <= (y : Num) \226\134\146 (y == x + (d : Num)) == (y - x == d)
   op_eq_eq((x : Int), (y : Int), mod(int_of_num((n : Num)))) == divides(int_of_num(n), x - y)
-  forall x y n:num. (x == y) (mod n) /\\ y <= x ==> ?q. x = y + n * q
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(n)) && y <= x \226\134\146 (\226\136\131 q : Num, x == y + n * q)
   (x : Num) + (y : Num) * 0 == x
   op_eq_eq((x : Num), (y : Num), mod((n : Num))) == op_eq_eq(y, x, mod(n))
-  a \\/ b ==> c ==> d <=> (c /\\ b) \\/ (c /\\ a) ==> d
+  ((a : Bool) || (b : Bool) \226\134\146 (c : Bool) \226\134\146 (d : Bool)) == (c && b || c && a \226\134\146 d)
   (y : Num)
   (x : Num)
-  forall x y n:num. (mod n) x y <=> ?q1 q2. x + n * q1 = y + n * q2
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, mod(n, x, y) == (\226\136\131 q1 : Num, \226\136\131 q2 : Num, x + n * q1 == y + n * q2)
   !((n : Num) == 0)
   !((n : Num) == 0)
-  {m | 0 < m /\\ m < SUC n} = n INSERT {m | 0 < m /\\ m < n}
+  {(m : Num) | 0 < m && m < SUC((n : Num))} == INSERT(n, {(m : Num) | 0 < m && m < n})
   {(m : Num) | 0 < m && m < SUC((n : Num))} == {}
   (n : Num) == 0
   {(m : Num) | 0 < m && m < 0} == {}
@@ -15214,57 +15214,57 @@ Library/pocklington quotations (854):
   \226\136\128 a : Num, \226\136\128 b : Num, op_eq_eq(a, b, mod(2)) == (EVEN(a) == EVEN(b))
   \226\136\128 a : Num, \226\136\128 b : Num, op_eq_eq(a, b, mod(2)) == (ODD(a) == ODD(b))
   \226\136\128 x : Num, \226\136\128 n : Num, op_eq_eq(x, 0, mod(n)) == divides(n, x)
-  forall x y n. (x == y) (mod n) <=>\n           if x <= y then (y - x == 0) (mod n)\n           else (x - y == 0) (mod n)
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(n)) == (if x <= y { op_eq_eq(y - x, 0, mod(n)) } else { op_eq_eq(x - y, 0, mod(n)) })
   op_eq_eq((a : Num), (b : Num), mod((n : Num))) == op_eq_eq(a + 1, b + 1, mod(n))
   (n : Num) == 0
-  forall a n. (a == n - 1) (mod n) <=> n = 0 /\\ a = 0 \\/ n divides (a + 1)
-  (p EXP 2 == 1 + 2 * n + 1) (mod p) <=> p divides (2 * (n + 1))
-  (n EXP 2 == m) (mod p) <=> ((n + 1) EXP 2 == m + 2 * n + 1) (mod p)
+  \226\136\128 a : Num, \226\136\128 n : Num, op_eq_eq(a, n - 1, mod(n)) == (n == 0 && a == 0 || divides(n, a + 1))
+  op_eq_eq(EXP((p : Num), 2), 1 + (2 * (n : Num) + 1), mod(p)) == divides(p, 2 * (n + 1))
+  op_eq_eq(EXP((n : Num), 2), (m : Num), mod((p : Num))) == op_eq_eq(EXP(n + 1, 2), m + (2 * n + 1), mod(p))
   (p : Num) == 0
   \226\136\128 p : Num, op_eq_eq(EXP(p - 1, 2), 1, mod(p)) == !(p == 0)
-  x + a = y + b ==> x = (b - a) + y \\/ y = (a - b) + x
+  (x : Num) + (a : Num) == (y : Num) + (b : Num) \226\134\146 x == b - a + y || y == a - b + x
   (q2 : Num)
   (q1 : Num)
-  forall x y n. (x == y) (mod n) <=> (?q. x = q * n + y) \\/ (?q. y = q * n + x)
-  forall n a x:num. a < n ==> ((x == a) (mod n) <=> ?q. x = q * n + a)
-  forall a n x y. coprime(a,n) /\\ (a * x == a * y) (mod n) ==> (x == y) (mod n)
-  forall a n x y. coprime(a,n) /\\ (x * a == y * a) (mod n) ==> (x == y) (mod n)
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(n)) == ((\226\136\131 q : Num, x == q * n + y) || (\226\136\131 q : Num, y == q * n + x))
+  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 x : Num, a < n \226\134\146 op_eq_eq(x, a, mod(n)) == (\226\136\131 q : Num, x == q * n + a)
+  \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 y : Num, coprime((a, n)) && op_eq_eq(a * x, a * y, mod(n)) \226\134\146 op_eq_eq(x, y, mod(n))
+  \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 y : Num, coprime((a, n)) && op_eq_eq(x * a, y * a, mod(n)) \226\134\146 op_eq_eq(x, y, mod(n))
   \226\136\128 x : Num, \226\136\128 n : Num, op_eq_eq(x, x, mod(n))
   \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 n : Num, a == b \226\134\146 op_eq_eq(a, b, mod(n))
   \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(n)) == op_eq_eq(y, x, mod(n))
-  forall x y z n. (x == y) (mod n) /\\ (y == z) (mod n) ==> (x == z) (mod n)
-  forall x x' y y'.\n     (x == x') (mod n) /\\ (y == y') (mod n) ==> (x + y == x' + y') (mod n)
-  forall x x' y y'.\n     (x == x') (mod n) /\\ (y == y') (mod n) ==> (x * y == x' * y') (mod n)
-  forall n x y. (x == 1) (mod n) /\\ (y == 1) (mod n) ==> (x * y == 1) (mod n)
-  forall n k x y. (x == y) (mod n) ==> (x EXP k == y EXP k) (mod n)
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 z : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(n)) && op_eq_eq(y, z, mod(n)) \226\134\146 op_eq_eq(x, z, mod(n))
+  \226\136\128 x : Num, \226\136\128 x' : Num, \226\136\128 y : Num, \226\136\128 y' : Num, op_eq_eq(x, x', mod((n : Num))) && op_eq_eq(y, y', mod(n)) \226\134\146 op_eq_eq(x + y, x' + y', mod(n))
+  \226\136\128 x : Num, \226\136\128 x' : Num, \226\136\128 y : Num, \226\136\128 y' : Num, op_eq_eq(x, x', mod((n : Num))) && op_eq_eq(y, y', mod(n)) \226\134\146 op_eq_eq(x * y, x' * y', mod(n))
+  \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 y : Num, op_eq_eq(x, 1, mod(n)) && op_eq_eq(y, 1, mod(n)) \226\134\146 op_eq_eq(x * y, 1, mod(n))
+  \226\136\128 n : Num, \226\136\128 k : Num, \226\136\128 x : Num, \226\136\128 y : Num, op_eq_eq(x, y, mod(n)) \226\134\146 op_eq_eq(EXP(x, k), EXP(y, k), mod(n))
   (k : Num)
   \226\136\128 x : Num, \226\136\128 n : Num, \226\136\128 k : Num, op_eq_eq(x, 1, mod(n)) \226\134\146 op_eq_eq(EXP(x, k), 1, mod(n))
-  (x + a = x' + a') /\\ (y + b = y' + b') /\\ y <= x /\\ y' <= x'\n    ==> ((x - y) + (a + b') = (x' - y') + (a' + b))
-  forall x x' y y'.\n     (x == x') (mod n) /\\ (y == y') (mod n) /\\ y <= x /\\ y' <= x'\n     ==> (x - y == x' - y') (mod n)
-  forall a n x y. coprime(a,n) ==> ((a * x == a * y) (mod n) <=> (x == y) (mod n))
-  forall a n x y. coprime(a,n) ==> ((x * a == y * a) (mod n) <=> (x == y) (mod n))
-  forall a n x y. (a + x == a + y) (mod n) <=> (x == y) (mod n)
-  forall a n x y. (x + a == y + a) (mod n) <=> (x == y) (mod n)
-  forall a n x y. (x + a == y + a) (mod n) ==> (x == y) (mod n)
-  forall a n x y. (a + x == a + y) (mod n) ==> (x == y) (mod n)
+  (x : Num) + (a : Num) == (x' : Num) + (a' : Num) && (y : Num) + (b : Num) == (y' : Num) + (b' : Num) && y <= x && y' <= x' \226\134\146 x - y + (a + b') == x' - y' + (a' + b)
+  \226\136\128 x : Num, \226\136\128 x' : Num, \226\136\128 y : Num, \226\136\128 y' : Num, op_eq_eq(x, x', mod((n : Num))) && op_eq_eq(y, y', mod(n)) && y <= x && y' <= x' \226\134\146 op_eq_eq(x - y, x' - y', mod(n))
+  \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 y : Num, coprime((a, n)) \226\134\146 op_eq_eq(a * x, a * y, mod(n)) == op_eq_eq(x, y, mod(n))
+  \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 y : Num, coprime((a, n)) \226\134\146 op_eq_eq(x * a, y * a, mod(n)) == op_eq_eq(x, y, mod(n))
+  \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 y : Num, op_eq_eq(a + x, a + y, mod(n)) == op_eq_eq(x, y, mod(n))
+  \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 y : Num, op_eq_eq(x + a, y + a, mod(n)) == op_eq_eq(x, y, mod(n))
+  \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 y : Num, op_eq_eq(x + a, y + a, mod(n)) \226\134\146 op_eq_eq(x, y, mod(n))
+  \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 y : Num, op_eq_eq(a + x, a + y, mod(n)) \226\134\146 op_eq_eq(x, y, mod(n))
   \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 x : Num, op_eq_eq(a + x, a, mod(n)) == op_eq_eq(x, 0, mod(n))
   \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 x : Num, op_eq_eq(x + a, a, mod(n)) == op_eq_eq(x, 0, mod(n))
   (a : Num) == 0
-  forall a x y n. (a * x == a * y) (mod (a * n)) <=> a = 0 \\/ (x == y) (mod n)
-  forall a x y n:num. (x == y) (mod n) ==> (a * x == a * y) (mod n)
-  forall x y a n:num. (x == y) (mod n) ==> (x * a == y * a) (mod n)
+  \226\136\128 a : Num, \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(a * x, a * y, mod(a * n)) == (a == 0 || op_eq_eq(x, y, mod(n)))
+  \226\136\128 a : Num, \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(n)) \226\134\146 op_eq_eq(a * x, a * y, mod(n))
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 a : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(n)) \226\134\146 op_eq_eq(x * a, y * a, mod(n))
   (n : Num) == 0
-  forall x y n. x < n /\\ y < n /\\ (x == y) (mod n) ==> x = y
-  forall x y m n. (x == y) (mod m) /\\ n divides m ==> (x == y) (mod n)
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, x < n && y < n && op_eq_eq(x, y, mod(n)) \226\134\146 x == y
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 m : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(m)) && divides(n, m) \226\134\146 op_eq_eq(x, y, mod(n))
   \226\136\128 n : Num, \226\136\128 x : Num, op_eq_eq(x, 0, mod(n)) == divides(n, x)
   (x : Num) == 0
   (x : Num) + (q1 : Num) == 1 + (q2 : Num) \226\134\146 !(x == 0) \226\134\146 x - 1 == q2 - q1
   \226\136\128 n : Num, \226\136\128 x : Num, op_eq_eq(x, 1, mod(n)) \226\134\146 divides(n, x - 1)
   op_eq_eq(0, (a : Num), mod((n : Num))) == divides(n, a)
   (x : Num) == 0
-  forall n x. (x == 1) (mod n) <=> (x = 0 ==> n = 1) /\\ n divides (x - 1)
-  forall x y n. (x == y) (mod n) ==> (n divides x <=> n divides y)
-  forall x y n. (x == y) (mod n) ==> (coprime(n,x) <=> coprime(n,y))
+  \226\136\128 n : Num, \226\136\128 x : Num, op_eq_eq(x, 1, mod(n)) == ((x == 0 \226\134\146 n == 1) && divides(n, x - 1))
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(n)) \226\134\146 divides(n, x) == divides(n, y)
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(n)) \226\134\146 coprime((n, x)) == coprime((n, y))
   \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(n)) \226\134\146 gcd((n, x)) == gcd((n, y))
   \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(x, y, mod(n)) \226\134\146 gcd((x, n)) == gcd((y, n))
   0
@@ -15274,20 +15274,20 @@ Library/pocklington quotations (854):
   \226\136\128 a : Num, \226\136\128 n : Num, op_eq_eq(MOD(a, n), a, mod(n))
   (a : Num) * (b : Num)
   op_eq_eq(MOD((x : Num), (a : Num) * (b : Num)), x, mod(a))
-  forall a b x y. ((x MOD (a * b) == y) (mod a) <=> (x == y) (mod a))
+  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 x : Num, \226\136\128 y : Num, op_eq_eq(MOD(x, a * b), y, mod(a)) == op_eq_eq(x, y, mod(a))
   \226\136\128 y : Num, y < (n : Num) \226\134\146 (MOD((x : Num), n) == y) == op_eq_eq(x, y, mod(n))
   (n : Num) == 0
-  forall m n p. m MOD n = p <=> ((n = 0 /\\ m = p) \\/ p < n) /\\ (m == p) (mod n)
-  forall m n a b.\n        ~(m = 0) /\\ (a == m * b) (mod (m * n)) ==> (a DIV m == b) (mod n)
+  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 p : Num, (MOD(m, n) == p) == ((n == 0 && m == p || p < n) && op_eq_eq(m, p, mod(n)))
+  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, !(m == 0) && op_eq_eq(a, m * b, mod(m * n)) \226\134\146 op_eq_eq(DIV(a, m), b, mod(n))
   (m : Num) == 0
-  forall m n a b.\n        coprime(m,n) /\\ m divides a /\\ (a == m * b) (mod n)\n        ==> (a DIV m == b) (mod n)
+  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, coprime((m, n)) && divides(m, a) && op_eq_eq(a, m * b, mod(n)) \226\134\146 op_eq_eq(DIV(a, m), b, mod(n))
   !((x : Num) == 0) \226\134\146 x + 1 - (x - 1) == 2
   EXP((x : Num), 2) - 1 == (x - 1) * (x + 1)
   (x : Num) == 0
   (p : Num) == 1
   (p : Num) == 0
   (k : Num) == 0
-  forall p k x.\n        prime p /\\ ~(p = 2)\n        ==> ((x EXP 2 == 1) (mod (p EXP k)) <=>\n             (x == 1) (mod (p EXP k)) \\/ (x == p EXP k - 1) (mod (p EXP k)))
+  \226\136\128 p : Num, \226\136\128 k : Num, \226\136\128 x : Num, prime(p) && !(p == 2) \226\134\146 op_eq_eq(EXP(x, 2), 1, mod(EXP(p, k))) == (op_eq_eq(x, 1, mod(EXP(p, k))) || op_eq_eq(x, EXP(p, k) - 1, mod(EXP(p, k))))
   (p : Num)
   0
   (x : Int) - (x + (a : Int)) == -a
@@ -15297,29 +15297,29 @@ Library/pocklington quotations (854):
   (d : Int)
   (d : Int)
   ((x : Int) == (m : Int) * (n : Int) + (y : Int)) == (x - y == n * m)
-  forall x y n. y < n ==> ((x == y) (mod n) <=> ?d. x = d * n + y)
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, y < n \226\134\146 op_eq_eq(x, y, mod(n)) == (\226\136\131 d : Num, x == d * n + y)
   (y : Num) <= (x : Num) \226\134\146 (x == (a : Num) + y) == (x - y == a)
-  forall x y n. y <= x ==> ((x == y) (mod n) <=> ?q. x = q * n + y)
+  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, y <= x \226\134\146 op_eq_eq(x, y, mod(n)) == (\226\136\131 q : Num, x == q * n + y)
   !(0 == 1 + (a : Num))
   (a : Num) == 0 || !(a == 0) && 1 <= a
   (n : Num) == 0 || n == 1 + (n - 1) * 1
   (n : Num) == 1
-  forall a n. (a == 1) (mod n) <=> a = 0 /\\ n = 1 \\/ ?m. a = 1 + m * n
+  \226\136\128 a : Num, \226\136\128 n : Num, op_eq_eq(a, 1, mod(n)) == (a == 0 && n == 1 || (\226\136\131 m : Num, a == 1 + m * n))
   EVEN((n : Num)) == op_eq_eq(n, 0, mod(2))
   ODD((n : Num)) == op_eq_eq(n, 1, mod(2))
-  (x == y) (mod n) <=>\n     if x <= y then n divides (y - x) else n divides (x - y)
+  op_eq_eq((x : Num), (y : Num), mod((n : Num))) == (if x <= y { divides(n, y - x) } else { divides(n, x - y) })
   (c : Num) * (x : Num)
   (y : Num)
   (x : Num)
   (n : Num)
   (c : Num)
   (a : Num) == 0
-  forall n a b. (?x. (a * x == b) (mod n)) <=> gcd(a,n) divides b
-  (x == y) (mod n) ==> (a * x == b) (mod n) ==> (a * y == b) (mod n)
+  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, (\226\136\131 x : Num, op_eq_eq(a * x, b, mod(n))) == divides(gcd((a, n)), b)
+  op_eq_eq((x : Num), (y : Num), mod((n : Num))) \226\134\146 op_eq_eq((a : Num) * x, (b : Num), mod(n)) \226\134\146 op_eq_eq(a * y, b, mod(n))
   (x : Num)
-  ~(n = 0) /\\ (forall y. P y ==> P(y MOD n))\n    ==> ((?y. y < n /\\ P y) <=> (?y. P y))
+  !((n : Num) == 0) && (\226\136\128 y : Num, (P : (Num) -> Bool)(y) \226\134\146 P(MOD(y, n))) \226\134\146 (\226\136\131 y : Num, y < n && P(y)) == (\226\136\131 y : Num, P(y))
   (n : Num) == 0
-  forall n a b. (?x. x < n /\\ (a * x == b) (mod n)) <=>\n           ~(n = 0) /\\ gcd(a,n) divides b
+  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, (\226\136\131 x : Num, x < n && op_eq_eq(a * x, b, mod(n))) == (!(n == 0) && divides(gcd((a, n)), b))
   \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 n : Num, coprime((a, n)) \226\134\146 (\226\136\131 x : Num, op_eq_eq(a * x, b, mod(n)))
   (a : Num)
   MOD((y : Num), (n : Num))
@@ -15331,7 +15331,7 @@ Library/pocklington quotations (854):
   (n : Num)
   (b : Num)
   (a : Num)
-  forall a b n. coprime(a,n) /\\ ~(n = 0) ==> ?!x. x < n /\\ (a * x == b) (mod n)
+  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 n : Num, coprime((a, n)) && !(n == 0) \226\134\146 existsunique((x : Num) => x < n && op_eq_eq(a * x, b, mod(n)))
   !((p : Num) == 0) \226\134\146 0 < p
   (r : Num) == 0
   (0 < (r : Num)) == !(r == 0)
@@ -15345,15 +15345,15 @@ Library/pocklington quotations (854):
   (1 < (p : Num)) == (!(p == 0) && !(p == 1))
   1 < (p : Num)
   (p : Num) == 0
-  forall a p x. prime p /\\ coprime(p,a) /\\ 0 < x /\\ x < p\n           ==> ?!y. 0 < y /\\ y < p /\\ (x * y == a) (mod p)
-  forall p x. prime p /\\ 0 < x /\\ x < p\n         ==> ?!y. 0 < y /\\ y < p /\\ (x * y == 1) (mod p)
+  \226\136\128 a : Num, \226\136\128 p : Num, \226\136\128 x : Num, prime(p) && coprime((p, a)) && 0 < x && x < p \226\134\146 existsunique((y : Num) => 0 < y && y < p && op_eq_eq(x * y, a, mod(p)))
+  \226\136\128 p : Num, \226\136\128 x : Num, prime(p) && 0 < x && x < p \226\134\146 existsunique((y : Num) => 0 < y && y < p && op_eq_eq(x * y, 1, mod(p)))
   (b : Num) < (n : Num) && ((i : Num) + 1) * n <= (m : Num) * n \226\134\146 i * n + b < m * n
   op_eq_eq((x : Num) * (n : Num) + (c : Num), (b : Num), mod(n)) == op_eq_eq(c, b, mod(n))
   (i : Num)
   DIV((x : Num), (n : Num))
   (x : Num)
-  {x | x < m * n /\\ (x == b) (mod n)} =\n    IMAGE (\\i. i * n + b MOD n) {i | i < m}
-  forall m n b. {x | x < m * n /\\ (x == b) (mod n)} HAS_SIZE\n           (if n = 0 then 0 else m)
+  {(x : Num) | x < (m : Num) * (n : Num) && op_eq_eq(x, (b : Num), mod(n))} == IMAGE((i : Num) => i * n + MOD(b, n), {(i : Num) | i < m})
+  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 b : Num, HAS_SIZE({(x : Num) | x < m * n && op_eq_eq(x, b, mod(n))}, if n == 0 { 0 } else { m })
   \226\136\128 x : Num, op_eq_eq((a : Num) * x, a * (z : Num), mod((n : Num))) == op_eq_eq(x, z, mod((d : Num)))
   (d : Num)
   divides(gcd(((n : Num), (a : Num))), n)
@@ -15364,10 +15364,10 @@ Library/pocklington quotations (854):
   ({(x : _) | (P : (_) -> Bool)(x)} == {}) == !(\226\136\131 x : _, P(x))
   (n : Num) == 0
   (m : Num) == 0
-  forall m n a b.\n        {x | x < m * n /\\ (a * x == b) (mod n)} HAS_SIZE\n        (if ~(n = 0) /\\ gcd(n,a) divides b then m * gcd(n,a) else 0)
+  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, HAS_SIZE({(x : Num) | x < m * n && op_eq_eq(a * x, b, mod(n))}, if !(n == 0) && divides(gcd((n, a)), b) { m * gcd((n, a)) } else { 0 })
   1
-  forall n a b. {x | x < n /\\ (a * x == b) (mod n)} HAS_SIZE\n           (if ~(n = 0) /\\ gcd(n,a) divides b then gcd(n,a) else 0)
-  coprime(a,b) /\\ (x == y) (mod a) /\\ (x == y) (mod b)\n   ==> (x == y) (mod (a * b))
+  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, HAS_SIZE({(x : Num) | x < n && op_eq_eq(a * x, b, mod(n))}, if !(n == 0) && divides(gcd((n, a)), b) { gcd((n, a)) } else { 0 })
+  coprime(((a : Num), (b : Num))) && op_eq_eq((x : Num), (y : Num), mod(a)) && op_eq_eq(x, y, mod(b)) \226\134\146 op_eq_eq(x, y, mod(a * b))
   (a : Num) * (b : Num)
   MOD((x : Num), (a : Num) * (b : Num))
   (q2 : Num)
@@ -15377,72 +15377,72 @@ Library/pocklington quotations (854):
   (m : Num)
   (b : Num)
   (a : Num)
-  forall a b m n.\n        coprime(a,b) /\\ ~(a = 0) /\\ ~(b = 0)\n        ==> ?!x. x < a * b /\\ (x == m) (mod a) /\\ (x == n) (mod b)
-  (forall x. P(x) ==> Q(x)) ==> (?!x. P x) ==> ?!x. Q(x) /\\ P(x)
+  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 m : Num, \226\136\128 n : Num, coprime((a, b)) && !(a == 0) && !(b == 0) \226\134\146 existsunique((x : Num) => x < a * b && op_eq_eq(x, m, mod(a)) && op_eq_eq(x, n, mod(b)))
+  (\226\136\128 x : _, (P : (_) -> Bool)(x) \226\134\146 (Q : (_) -> Bool)(x)) \226\134\146 existsunique((x : _) => P(x)) \226\134\146 existsunique((x : _) => Q(x) && P(x))
   (n : Num)
   (m : Num)
   (b : Num)
   (a : Num)
-  forall a b m n.\n        coprime(a,b) /\\ ~(a = 0) /\\ ~(b = 0) /\\ coprime(m,a) /\\ coprime(n,b)\n        ==> ?!x. coprime(x,a * b) /\\ x < a * b /\\\n                 (x == m) (mod a) /\\ (x == n) (mod b)
+  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 m : Num, \226\136\128 n : Num, coprime((a, b)) && !(a == 0) && !(b == 0) && coprime((m, a)) && coprime((n, b)) \226\134\146 existsunique((x : Num) => coprime((x, a * b)) && x < a * b && op_eq_eq(x, m, mod(a)) && op_eq_eq(x, n, mod(b)))
   (v : Num)
   (u : Num)
   (b : Num)
   (a : Num)
   (b : Num) == 0
   (a : Num) == 0
-  forall a b u v:num. coprime(a,b) ==> ?x. (x == u) (mod a) /\\ (x == v) (mod b)
-  forall a b x y.\n     coprime(a,b)\n     ==> ((x == y) (mod (a * b)) <=> (x == y) (mod a) /\\ (x == y) (mod b))
-  coprime(a,b)\n       ==> ((x == y) (mod (a * b)) <=>\n            (x == y) (mod a) /\\ (x == y) (mod b))
+  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 u : Num, \226\136\128 v : Num, coprime((a, b)) \226\134\146 (\226\136\131 x : Num, op_eq_eq(x, u, mod(a)) && op_eq_eq(x, v, mod(b)))
+  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 x : Num, \226\136\128 y : Num, coprime((a, b)) \226\134\146 op_eq_eq(x, y, mod(a * b)) == (op_eq_eq(x, y, mod(a)) && op_eq_eq(x, y, mod(b)))
+  coprime(((a : Num), (b : Num))) \226\134\146 op_eq_eq((x : Num), (y : Num), mod(a * b)) == (op_eq_eq(x, y, mod(a)) && op_eq_eq(x, y, mod(b)))
   (a : Num) * (b : Num)
   MOD((x : Num), (b : Num))
   MOD((x : Num), (a : Num))
   (x : Num)
   fn { (m, n) => (f : (Num, Num) -> Num)(m, n) }
-  forall f. (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y) /\\\n        IMAGE f s = t\n        ==> s HAS_SIZE p ==> t HAS_SIZE p
+  \226\136\128 f : (_) -> _, (\226\136\128 x : _, \226\136\128 y : _, IN(x, (s : (_) -> Bool)) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) && IMAGE(f, s) == (t : (_) -> Bool) \226\134\146 HAS_SIZE(s, (p : Num)) \226\134\146 HAS_SIZE(t, p)
   (f : (Num, Num) -> Num)
   (b : Num)
   (a : Num)
   (b : Num) == 0
   (a : Num) == 0
-  forall P Q R a b m n.\n        coprime(a,b) /\\\n        (forall x. x < a * b ==> (R x <=> P (x MOD a) /\\ Q (x MOD b))) /\\\n        {x | x < a /\\ P x} HAS_SIZE m /\\ {x | x < b /\\ Q x} HAS_SIZE n\n        ==> {x | x < a * b /\\ R x} HAS_SIZE (m * n)
-  coprime(a:num,b)\n    ==> (coprime(a * b,x) <=> coprime(a,x) /\\ coprime(b,x))
+  \226\136\128 P : (Num) -> Bool, \226\136\128 Q : (Num) -> Bool, \226\136\128 R : (Num) -> Bool, \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 m : Num, \226\136\128 n : Num, coprime((a, b)) && (\226\136\128 x : Num, x < a * b \226\134\146 R(x) == (P(MOD(x, a)) && Q(MOD(x, b)))) && HAS_SIZE({(x : Num) | x < a && P(x)}, m) && HAS_SIZE({(x : Num) | x < b && Q(x)}, n) \226\134\146 HAS_SIZE({(x : Num) | x < a * b && R(x)}, m * n)
+  coprime(((a : Num), (b : Num))) \226\134\146 coprime((a * b, (x : Num))) == (coprime((a, x)) && coprime((b, x)))
   (x : Num) => coprime(((b : Num), x)) && (Q : (Num) -> Bool)(x)
   (x : Num) => coprime(((a : Num), x)) && (P : (Num) -> Bool)(x)
-  forall P Q R a b m n.\n        coprime(a,b) /\\\n        (forall x. x < a * b ==> (R x <=> P (x MOD a) /\\ Q (x MOD b))) /\\\n        {x | x < a /\\ coprime(a,x) /\\ P x} HAS_SIZE m /\\\n        {x | x < b /\\ coprime(b,x) /\\ Q x} HAS_SIZE n\n        ==> {x | x < a * b /\\ coprime(a * b,x) /\\ R x} HAS_SIZE (m * n)
-  coprime(a,b)\n       ==> ((x == y) (mod (a * b)) <=>\n            (x == y) (mod a) /\\ (x == y) (mod b))
+  \226\136\128 P : (Num) -> Bool, \226\136\128 Q : (Num) -> Bool, \226\136\128 R : (Num) -> Bool, \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 m : Num, \226\136\128 n : Num, coprime((a, b)) && (\226\136\128 x : Num, x < a * b \226\134\146 R(x) == (P(MOD(x, a)) && Q(MOD(x, b)))) && HAS_SIZE({(x : Num) | x < a && coprime((a, x)) && P(x)}, m) && HAS_SIZE({(x : Num) | x < b && coprime((b, x)) && Q(x)}, n) \226\134\146 HAS_SIZE({(x : Num) | x < a * b && coprime((a * b, x)) && R(x)}, m * n)
+  coprime(((a : Num), (b : Num))) \226\134\146 op_eq_eq((x : Num), (y : Num), mod(a * b)) == (op_eq_eq(x, y, mod(a)) && op_eq_eq(x, y, mod(b)))
   (x : Num) => op_eq_eq(EXP(x, (k : Num)), 1, mod((b : Num)))
   (x : Num) => op_eq_eq(EXP(x, (k : Num)), 1, mod((a : Num)))
-  forall a b k m n.\n        coprime(a,b) /\\\n        {x | x < a /\\ (x EXP k == 1) (mod a)} HAS_SIZE m /\\\n        {x | x < b /\\ (x EXP k == 1) (mod b)} HAS_SIZE n\n        ==> {x | x < a * b /\\ (x EXP k == 1) (mod (a * b))} HAS_SIZE (m * n)
-  inverse_mod n x =\n    if n <= 1 then 1\n    else @y. y < n /\\ (x * y == gcd(n,x)) (mod n)
+  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 k : Num, \226\136\128 m : Num, \226\136\128 n : Num, coprime((a, b)) && HAS_SIZE({(x : Num) | x < a && op_eq_eq(EXP(x, k), 1, mod(a))}, m) && HAS_SIZE({(x : Num) | x < b && op_eq_eq(EXP(x, k), 1, mod(b))}, n) \226\134\146 HAS_SIZE({(x : Num) | x < a * b && op_eq_eq(EXP(x, k), 1, mod(a * b))}, m * n)
+  (inverse_mod : (Num, Num) -> Num)((n : Num), (x : Num)) == (if n <= 1 { 1 } else { select((y : Num) => y < n && op_eq_eq(x * y, gcd((n, x)), mod(n))) })
   (2 <= (n : Num)) == !(n <= 1)
   (n : Num) <= 1 \226\134\146 n == 0 || n == 1
   (n : Num) <= 1
   (x : Num)
   (n : Num)
-  (forall n x. inverse_mod n x < n <=> 2 <= n) /\\\n   (forall n x. (x * inverse_mod n x == gcd(n,x)) (mod n))
+  (\226\136\128 n : Num, \226\136\128 x : Num, (inverse_mod(n, x) < n) == (2 <= n)) && (\226\136\128 n : Num, \226\136\128 x : Num, op_eq_eq(x * inverse_mod(n, x), gcd((n, x)), mod(n)))
   \226\136\128 n : Num, \226\136\128 x : Num, op_eq_eq(inverse_mod(n, x) * x, gcd((n, x)), mod(n))
-  forall n x. (x * inverse_mod n x == 1) (mod n) <=> coprime(n,x)
-  forall n x. (inverse_mod n x * x == 1) (mod n) <=> coprime(n,x)
-  forall n x. coprime(n,x) ==> (inverse_mod n x * x == 1) (mod n)
-  forall n x. coprime(n,x) ==> (x * inverse_mod n x == 1) (mod n)
+  \226\136\128 n : Num, \226\136\128 x : Num, op_eq_eq(x * inverse_mod(n, x), 1, mod(n)) == coprime((n, x))
+  \226\136\128 n : Num, \226\136\128 x : Num, op_eq_eq(inverse_mod(n, x) * x, 1, mod(n)) == coprime((n, x))
+  \226\136\128 n : Num, \226\136\128 x : Num, coprime((n, x)) \226\134\146 op_eq_eq(inverse_mod(n, x) * x, 1, mod(n))
+  \226\136\128 n : Num, \226\136\128 x : Num, coprime((n, x)) \226\134\146 op_eq_eq(x * inverse_mod(n, x), 1, mod(n))
   op_eq_eq((a : Num) * (x : Num), 1, mod((n : Num)))
-  (a * x == 1) (mod n) /\\ (a * y == 1) (mod n) ==> (x == y) (mod n)
+  op_eq_eq((a : Num) * (x : Num), 1, mod((n : Num))) && op_eq_eq(a * (y : Num), 1, mod(n)) \226\134\146 op_eq_eq(x, y, mod(n))
   (n : Num)
-  ~(n = 1 /\\ x = 0) ==> ~(x = n) /\\ x <= n ==> ~(n = 1)
+  !((n : Num) == 1 && (x : Num) == 0) \226\134\146 !(x == n) && x <= n \226\134\146 !(n == 1)
   op_eq_eq((a : Num) * (n : Num), (z : Num), mod(n)) == divides(n, z)
   (x : Num) == (n : Num)
   (n : Num) == 0
-  forall n a x.\n        (a * x == 1) (mod n) /\\ x <= n /\\ ~(n = 1 /\\ x = 0)\n        ==> inverse_mod n a = x
+  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 x : Num, op_eq_eq(a * x, 1, mod(n)) && x <= n && !(n == 1 && x == 0) \226\134\146 inverse_mod(n, a) == x
   !((n : Num) <= 1) \226\134\146 1 <= n
   (n : Num) <= 1
   \226\136\128 n : Num, inverse_mod(n, 1) == 1
   op_eq_eq((x : Num), (y : Num), mod((n : Num)))
-  forall n x y. (x == y) (mod n) ==> inverse_mod n x = inverse_mod n y
+  \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 y : Num, op_eq_eq(x, y, mod(n)) \226\134\146 inverse_mod(n, x) == inverse_mod(n, y)
   (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
   inverse_mod((n : Num), (x : Num))
-  forall x'. (x * x' == 1) (mod n) /\\ (x' * x'' == 1) (mod n)\n         ==> (x'' == x) (mod n)
-  forall n x. coprime(n,x) ==> (inverse_mod n (inverse_mod n x) == x) (mod n)
-  forall n x. coprime(n,x) /\\ 1 <= x /\\ x <= n\n         ==> inverse_mod n (inverse_mod n x) = x
+  \226\136\128 x' : Num, op_eq_eq((x : Num) * x', 1, mod((n : Num))) && op_eq_eq(x' * (x'' : Num), 1, mod(n)) \226\134\146 op_eq_eq(x'', x, mod(n))
+  \226\136\128 n : Num, \226\136\128 x : Num, coprime((n, x)) \226\134\146 op_eq_eq(inverse_mod(n, inverse_mod(n, x)), x, mod(n))
+  \226\136\128 n : Num, \226\136\128 x : Num, coprime((n, x)) && 1 <= x && x <= n \226\134\146 inverse_mod(n, inverse_mod(n, x)) == x
   op_eq_eq((a : Num) * 0, (b : Num), mod((n : Num))) == divides(n, b)
   (a : Num)
   (n : Num)
@@ -15451,22 +15451,22 @@ Library/pocklington quotations (854):
   (n : Num) == 1
   \226\136\128 n : Num, \226\136\128 a : Num, coprime((n, a)) \226\134\146 !(inverse_mod(n, a) == 0)
   \226\136\128 n : Num, \226\136\128 a : Num, (inverse_mod(n, a) <= n) == !(n == 0)
-  m * x <= m * n /\\ n * y <= n * m /\\ 2 * m * n <= q * m * n\n    ==> m * x + n * y = 1 + q * m * n ==> u:num = v
+  (m : Num) * (x : Num) <= m * (n : Num) && n * (y : Num) <= n * m && 2 * (m * n) <= (q : Num) * (m * n) \226\134\146 m * x + n * y == 1 + q * (m * n) \226\134\146 (u : Num) == (v : Num)
   (q : Num) == 1
   (n : Num) == 1
   (m : Num) == 1
-  a + b = 1 <=> a = 0 /\\ b = 1 \\/ a = 1 /\\ b = 0
+  ((a : Num) + (b : Num) == 1) == (a == 0 && b == 1 || a == 1 && b == 0)
   (q : Num) == 0
   (q : Num)
   (n : Num) == 1
   (m : Num) == 1
   op_eq_eq((a : Num) + (m : Num) * (x : Num), 1, mod(m)) == op_eq_eq(a, 1, mod(m))
   op_eq_eq((m : Num) * (x : Num) + (a : Num), 1, mod(m)) == op_eq_eq(a, 1, mod(m))
-  (m * inverse_mod n m + n * inverse_mod m n == 1) (mod (m * n))
+  op_eq_eq((m : Num) * inverse_mod((n : Num), m) + n * inverse_mod(m, n), 1, mod(m * n))
   (n : Num) == 0
   (m : Num) == 0
-  forall m n. coprime(m,n)\n         ==> m * inverse_mod n m + n * inverse_mod m n = m * n + 1
-  (inverse_mod 0 n = 1 /\\ inverse_mod 1 n = 1) /\\\n     (MAX 2 p <= n /\\ (m * p) MOD n = 1 ==> inverse_mod n m = p)
+  \226\136\128 m : Num, \226\136\128 n : Num, coprime((m, n)) \226\134\146 m * inverse_mod(n, m) + n * inverse_mod(m, n) == m * n + 1
+  (inverse_mod(0, (n : Num)) == 1 && inverse_mod(1, n) == 1) && (MAX(2, (p : Num)) <= n && MOD((m : Num) * p, n) == 1 \226\134\146 inverse_mod(n, m) == p)
   inverse_mod
   (m : Num)
   (n : Num)
@@ -15483,9 +15483,9 @@ Library/pocklington quotations (854):
   (m : Num)
   (m : Num) == 1
   (m : Num)
-  (q ==> r) /\\ (p ==> q) /\\ (r ==> p)\n    ==> (p <=> q) /\\ (p <=> r)
+  ((q : Bool) \226\134\146 (r : Bool)) && ((p : Bool) \226\134\146 q) && (r \226\134\146 p) \226\134\146 p == q && p == r
   (n : Num)
-  (forall n. squarefree n <=> forall p. prime p ==> ~(p EXP 2 divides n)) /\\\n   (forall n. squarefree n <=> forall p. prime p /\\ p divides n ==> ~(p EXP 2 divides n))
+  (\226\136\128 n : Num, squarefree(n) == (\226\136\128 p : Num, prime(p) \226\134\146 !divides(EXP(p, 2), n))) && (\226\136\128 n : Num, squarefree(n) == (\226\136\128 p : Num, prime(p) && divides(p, n) \226\134\146 !divides(EXP(p, 2), n)))
   !(2 <= (n : Num)) == (n <= 1)
   (m : Num) == 1
   (m : Num)
@@ -15495,35 +15495,35 @@ Library/pocklington quotations (854):
   \226\136\128 n : Num, squarefree(n) == (!(n == 0) && (\226\136\128 m : Num, index(m, n) <= 1))
   !(2 <= (n : Num)) == (n <= 1)
   (n : Num) == 0
-  forall n. squarefree n <=>\n       ~(n = 0) /\\ forall p. prime p ==> index p n <= 1
-  (r ==> p) /\\ (q ==> r) /\\ (p ==> q)\n    ==> (p <=> q) /\\ (p <=> r)
+  \226\136\128 n : Num, squarefree(n) == (!(n == 0) && (\226\136\128 p : Num, prime(p) \226\134\146 index(p, n) <= 1))
+  ((r : Bool) \226\134\146 (p : Bool)) && ((q : Bool) \226\134\146 r) && (p \226\134\146 q) \226\134\146 p == q && p == r
   (n : Num)
-  (forall n. squarefree n <=> forall a b. a * b = n ==> coprime(a,b)) /\\\n   (forall n. squarefree n <=> forall a b. a * b divides n ==> coprime(a,b))
+  (\226\136\128 n : Num, squarefree(n) == (\226\136\128 a : Num, \226\136\128 b : Num, a * b == n \226\134\146 coprime((a, b)))) && (\226\136\128 n : Num, squarefree(n) == (\226\136\128 a : Num, \226\136\128 b : Num, divides(a * b, n) \226\134\146 coprime((a, b))))
   \226\136\128 m : Num, \226\136\128 n : Num, squarefree(n) && divides(m, n) \226\134\146 squarefree(m)
   \226\136\128 p : Num, prime(p) \226\134\146 squarefree(p)
   coprime(((m : Num), (n : Num)))
-  forall m n. squarefree(m * n) <=> coprime(m,n) /\\ squarefree m /\\ squarefree n
+  \226\136\128 m : Num, \226\136\128 n : Num, squarefree(m * n) == (coprime((m, n)) && squarefree(m) && squarefree(n))
   (n : Num)
   (k : Num) == 1
   (k : Num) == 0
   (n : Num) == 1
-  forall n k. squarefree(n EXP k) <=> n = 1 \\/ k = 0 \\/ squarefree n /\\ k = 1
+  \226\136\128 n : Num, \226\136\128 k : Num, squarefree(EXP(n, k)) == (n == 1 || k == 0 || squarefree(n) && k == 1)
   ((p : Bool) \226\134\146 (q : Bool) \226\134\146 (r : Bool)) == (q \226\134\146 p \226\134\146 r)
   ((if (p : Bool) { 1 } else { 0 }) <= (x : Num)) == (p \226\134\146 1 <= x)
   prime((p : Num))
   (p : Num)
   (p : Num)
   (n : Num) == 0
-  forall q n. squarefree q\n         ==> (q divides n <=> forall p. prime p /\\ p divides q ==> p divides n)
-  forall n q x. squarefree q /\\ q divides x EXP n ==> q divides x
-  forall n q x. squarefree q /\\ ~(n = 0) ==> (q divides x EXP n <=> q divides x)
+  \226\136\128 q : Num, \226\136\128 n : Num, squarefree(q) \226\134\146 divides(q, n) == (\226\136\128 p : Num, prime(p) && divides(p, q) \226\134\146 divides(p, n))
+  \226\136\128 n : Num, \226\136\128 q : Num, \226\136\128 x : Num, squarefree(q) && divides(q, EXP(x, n)) \226\134\146 divides(q, x)
+  \226\136\128 n : Num, \226\136\128 q : Num, \226\136\128 x : Num, squarefree(q) && !(n == 0) \226\134\146 divides(q, EXP(x, n)) == divides(q, x)
   (r : Num) == 1 * r
   (p : Num) * (r : Num)
   (r : Num)
   (p : Num)
-  ((p ==> q) /\\ (q ==> r)) /\\ (r ==> p) ==> (p <=> q) /\\ (p <=> r)
-  (forall n. squarefree n <=> ~(n = 0) /\\ forall m k. n divides m EXP k ==> n divides m) /\\\n   (forall n. squarefree n <=> ~(n = 0) /\\ forall m. n divides m EXP 2 ==> n divides m)
-  forall m n. squarefree m \\/ squarefree n ==> squarefree(gcd(m,n))
+  (((p : Bool) \226\134\146 (q : Bool)) && (q \226\134\146 (r : Bool))) && (r \226\134\146 p) \226\134\146 p == q && p == r
+  (\226\136\128 n : Num, squarefree(n) == (!(n == 0) && (\226\136\128 m : Num, \226\136\128 k : Num, divides(n, EXP(m, k)) \226\134\146 divides(n, m)))) && (\226\136\128 n : Num, squarefree(n) == (!(n == 0) && (\226\136\128 m : Num, divides(n, EXP(m, 2)) \226\134\146 divides(n, m))))
+  \226\136\128 m : Num, \226\136\128 n : Num, squarefree(m) || squarefree(n) \226\134\146 squarefree(gcd((m, n)))
   (p : Num)
   prime((p : Num))
   (p : Num)
@@ -15532,13 +15532,13 @@ Library/pocklington quotations (854):
   2
   (n : Num) == 0
   \226\136\128 n : Num, squarefree(n) == (\226\136\128 x : Num, divides(gcd((EXP(x, 2), n)), x))
-  forall s. FINITE s\n       ==> (squarefree(nproduct s (\\n. n)) <=>\n            pairwise (\\a b. coprime(a,b)) s /\\ forall n. n IN s ==> squarefree n)
+  \226\136\128 s : (Num) -> Bool, FINITE(s) \226\134\146 squarefree(nproduct(s, (n : Num) => n)) == (pairwise((a : Num) => (b : Num) => coprime((a, b)), s) && (\226\136\128 n : Num, IN(n, s) \226\134\146 squarefree(n)))
   ((n : Num) <= 1) == (n == 0 || n == 1)
   (p : Num)
   (p : Num)
-  forall n. squarefree n\n       ==> nproduct {p | prime p /\\ p divides n} (\\p. p) = n
+  \226\136\128 n : Num, squarefree(n) \226\134\146 nproduct({(p : Num) | prime(p) && divides(p, n)}, (p : Num) => p) == n
   (n : Num) == 0
-  forall n. squarefree n <=>\n       ~(n = 0) /\\ nproduct {p | prime p /\\ p divides n} (\\p. p) = n
+  \226\136\128 n : Num, squarefree(n) == (!(n == 0) && nproduct({(p : Num) | prime(p) && divides(p, n)}, (p : Num) => p) == n)
   EXP((p : Num), DIV((k : Num), 2))
   EXP((p : Num), MOD((k : Num), 2))
   (k : Num)
@@ -15555,23 +15555,23 @@ Library/pocklington quotations (854):
   0
   1
   \226\136\128 n : Num, \226\136\131 m : Num, \226\136\131 r : Num, squarefree(m) && m * EXP(r, 2) == n
-  coprime(m:num,n)\n    ==> ((a == b) (mod (m * n)) <=>\n         (a == b) (mod m) /\\ (a == b) (mod n))
+  coprime(((m : Num), (n : Num))) \226\134\146 op_eq_eq((a : Num), (b : Num), mod(m * n)) == (op_eq_eq(a, b, mod(m)) && op_eq_eq(a, b, mod(n)))
   squarefree((n : Num))
   squarefree((m : Num))
   (n : Num)
   (m : Num)
-  forall n a b. squarefree n /\\\n           (forall p. prime p /\\ p divides n ==> (a == b) (mod p))\n           ==> (a == b) (mod n)
-  forall n a b. squarefree n\n           ==> ((a == b) (mod n) <=>\n               forall p. prime p /\\ p divides n ==> (a == b) (mod p))
-  phi(n) = CARD { m | 0 < m /\\ m <= n /\\ coprime(m,n) }
+  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, squarefree(n) && (\226\136\128 p : Num, prime(p) && divides(p, n) \226\134\146 op_eq_eq(a, b, mod(p))) \226\134\146 op_eq_eq(a, b, mod(n))
+  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, squarefree(n) \226\134\146 op_eq_eq(a, b, mod(n)) == (\226\136\128 p : Num, prime(p) && divides(p, n) \226\134\146 op_eq_eq(a, b, mod(p)))
+  (phi : (Num) -> Num)((n : Num)) == CARD({(m : Num) | 0 < m && m <= n && coprime((m, n))})
   (m : Num) == 0
   (m : Num)
-  ({m | 0 < m /\\ m <= n /\\ coprime (m,n)} = {1}) /\\\n      ({m | coprime (m,n) /\\ m < n} = {0})
+  {(m : Num) | 0 < m && m <= (n : Num) && coprime((m, n))} == {1} && {(m : Num) | coprime((m, n)) && m < n} == {0}
   (n : Num) == 1
   (n : Num) == 0
   phi((n : Num)) == CARD({(m : Num) | coprime((m, n)) && m < n})
   op_dot_dot(0, (n : Num))
   \226\136\128 n : Num, FINITE({(m : Num) | coprime((m, n)) && m < n})
-  forall n. ~(n = 1) ==> (phi(n) = CARD {m | 0 < m /\\ m < n /\\ coprime(m,n)})
+  \226\136\128 n : Num, !(n == 1) \226\134\146 phi(n) == CARD({(m : Num) | 0 < m && m < n && coprime((m, n))})
   \226\136\128 n : Num, phi(n) <= n
   (n : Num)
   \226\136\128 n : Num, !(n == 1) \226\134\146 phi(n) <= n - 1
@@ -15594,23 +15594,23 @@ Library/pocklington quotations (854):
   \226\136\128 n : Num, 3 <= n \226\134\146 2 <= phi(n)
   (n : Num)
   \226\136\128 n : Num, (phi(n) == 0) == (n == 0)
-  {m | 0 < m /\\ m < n /\\ coprime (m,n)} = {m | 0 < m /\\ m < n}
+  {(m : Num) | 0 < m && m < (n : Num) && coprime((m, n))} == {(m : Num) | 0 < m && m < n}
   (n : Num)
   (n : Num) == 1
   (n : Num) == 0
-  forall n. (phi n = n - 1) /\\ ~(n = 0) /\\ ~(n = 1) <=> prime n
+  \226\136\128 n : Num, (phi(n) == n - 1 && !(n == 0) && !(n == 1)) == prime(n)
   \226\136\128 p : Num, prime(p) \226\134\146 phi(p) == p - 1
   (p : Num) * (n : Num) < p * EXP(p, (k : Num))
   (n : Num)
   (n : Num)
   (x : Num)
   ((a : Bool) == (b : Bool)) == ((a \226\134\146 b) && (b \226\134\146 a))
-  {m | p divides m /\\ m < p EXP (k + 1)} =\n                IMAGE (\\x. p * x) {m | m < p EXP k}
-  {n | ~(P n) /\\ Q n} = {n | Q n} DIFF {n | P n /\\ Q n}
-  forall p k. prime(p) ==> phi(p EXP (k + 1)) = p EXP (k + 1) - p EXP k
-  forall p k. prime p\n         ==> phi(p EXP k) = if k = 0 then 1 else p EXP k - p EXP (k - 1)
+  {(m : Num) | divides((p : Num), m) && m < EXP(p, (k : Num) + 1)} == IMAGE((x : Num) => p * x, {(m : Num) | m < EXP(p, k)})
+  {(n : _) | !(P : (_) -> Bool)(n) && (Q : (_) -> Bool)(n)} == DIFF({(n : _) | Q(n)}, {(n : _) | P(n) && Q(n)})
+  \226\136\128 p : Num, \226\136\128 k : Num, prime(p) \226\134\146 phi(EXP(p, k + 1)) == EXP(p, k + 1) - EXP(p, k)
+  \226\136\128 p : Num, \226\136\128 k : Num, prime(p) \226\134\146 phi(EXP(p, k)) == (if k == 0 { 1 } else { EXP(p, k) - EXP(p, k - 1) })
   !((k : Num) == 0) \226\134\146 SUC(k - 1) == k
-  forall p k. prime p\n         ==> phi(p EXP k) = if k = 0 then 1 else p EXP (k - 1) * (p - 1)
+  \226\136\128 p : Num, \226\136\128 k : Num, prime(p) \226\134\146 phi(EXP(p, k)) == (if k == 0 { 1 } else { EXP(p, k - 1) * (p - 1) })
   phi(2) == 1
   (n : Num)
   (m : Num)
@@ -15632,12 +15632,12 @@ Library/pocklington quotations (854):
   \226\136\128 n : Num, ODD(phi(n)) == (n == 1 || n == 2)
   ((k : Num) - 1 == 0) == (k == 0 || k == 1)
   (k : Num) - 1 <= k
-  p EXP k - p EXP k1 = p EXP k - 1\n      ==> ~(p EXP k = 0) /\\ p EXP k1 <= p EXP k ==> p EXP k1 = 1
+  EXP((p : Num), (k : Num)) - EXP(p, (k1 : Num)) == EXP(p, k) - 1 \226\134\146 !(EXP(p, k) == 0) && EXP(p, k1) <= EXP(p, k) \226\134\146 EXP(p, k1) == 1
   (k : Num)
   (p : Num)
   !((n : Num) == 0) && (m : Num) <= n - 1 \226\134\146 m + 1 <= n
   1 < (n : Num) \226\134\146 !(n == 0)
-  ~(m = 0 /\\ n = 0) /\\ (m + 1) * (n + 1) <= k ==> ~(m * n = k - 1)
+  !((m : Num) == 0 && (n : Num) == 0) && (m + 1) * (n + 1) <= (k : Num) \226\134\146 !(m * n == k - 1)
   !(p : Bool) \226\134\146 p \226\134\146 (q : Bool)
   (n : Num)
   (m : Num)
@@ -15647,18 +15647,18 @@ Library/pocklington quotations (854):
   (p : Num) == 1
   (p : Num) == 0
   \226\136\128 p : Num, (phi(p) == p - 1) == (p == 0 || prime(p))
-  forall n. ~prime n /\\ ~(n = 0) /\\ ~(n = 1) ==> phi n < n - 1
+  \226\136\128 n : Num, !prime(n) && !(n == 0) && !(n == 1) \226\134\146 phi(n) < n - 1
   (x : Num) => (y : Num) => op_eq_eq(x, y, mod((n : Num)))
-  forall s a:A->num n.\n        FINITE s /\\ ~(n = 0)\n        ==> (nproduct s (\\m. a(m) MOD n) == nproduct s a) (mod n)
-  forall s a c.\n        FINITE s\n        ==> nproduct s (\\m. c * a(m)) = c EXP (CARD s) * nproduct s a
-  ~(n = 0) ==> ((a * x MOD n == b) (mod n) <=> (a * x == b) (mod n))
+  \226\136\128 s : (A) -> Bool, \226\136\128 a : (A) -> Num, \226\136\128 n : Num, FINITE(s) && !(n == 0) \226\134\146 op_eq_eq(nproduct(s, (m : A) => MOD(a(m), n)), nproduct(s, a), mod(n))
+  \226\136\128 s : (_) -> Bool, \226\136\128 a : (_) -> Num, \226\136\128 c : Num, FINITE(s) \226\134\146 nproduct(s, (m : _) => c * a(m)) == EXP(c, CARD(s)) * nproduct(s, a)
+  !((n : Num) == 0) \226\134\146 op_eq_eq((a : Num) * MOD((x : Num), n), (b : Num), mod(n)) == op_eq_eq(a * x, b, mod(n))
   op_eq_eq((k : Num) * (m : Num), 1, mod((n : Num)))
   (x : Num) => MOD((m : Num) * x, (n : Num))
   (x : Num) => MOD((k : Num) * x, (n : Num))
   \226\136\131 m : Num, op_eq_eq((k : Num) * m, 1, mod((n : Num)))
   {(x : _) | false} == {}
   (n : Num) == 0
-  forall op f n k.\n        monoidal(op) /\\ coprime(k,n) /\\\n        (forall x y. (x == y) (mod n) ==> f x = f y)\n        ==> iterate op {d | coprime(d,n) /\\ d < n} (\\m. f(k * m)) =\n            iterate op {d | coprime(d,n) /\\ d < n} f
+  \226\136\128 op : (_, _) -> _, \226\136\128 f : (Num) -> _, \226\136\128 n : Num, \226\136\128 k : Num, monoidal(op) && coprime((k, n)) && (\226\136\128 x : Num, \226\136\128 y : Num, op_eq_eq(x, y, mod(n)) \226\134\146 f(x) == f(y)) \226\134\146 iterate(op, {(d : Num) | coprime((d, n)) && d < n}, (m : Num) => f(k * m)) == iterate(op, {(d : Num) | coprime((d, n)) && d < n}, f)
   (1 <= (x : Num)) == !(x == 0)
   (d : Num) == 0
   (d : Num)
@@ -15667,16 +15667,16 @@ Library/pocklington quotations (854):
   (n : Num)
   GABS((f : ((Num, Num)) -> (Num, Num)) => \226\136\128 n : Num, \226\136\128 k : Num, GEQ(f((n, k)), (n * k, n)))
   GABS((f : ((Num, Num)) -> (Num, Num)) => \226\136\128 n : Num, \226\136\128 d : Num, GEQ(f((n, d)), (d, DIV(n, d))))
-  forall op:A->A->A f x.\n        monoidal op\n        ==> iterate op (1..x) (\\n. iterate op {d | d divides n} (f n)) =\n            iterate op (1..x)\n                       (\\n. iterate op (1..(x DIV n)) (\\k. f (k * n) n))
+  \226\136\128 op : (A, A) -> A, \226\136\128 f : (Num, Num) -> A, \226\136\128 x : Num, monoidal(op) \226\134\146 iterate(op, op_dot_dot(1, x), (n : Num) => iterate(op, {(d : Num) | divides(d, n)}, f(n))) == iterate(op, op_dot_dot(1, x), (n : Num) => iterate(op, op_dot_dot(1, DIV(x, n)), (k : Num) => f(k * n, n)))
   (a : Num)
   (n : Num)
   (x : Num) => MOD(x, (n : Num))
   op_star
-  nproduct {m | coprime(m,n) /\\ m < n} (\\m. (a * m) MOD n)
+  nproduct({(m : Num) | coprime((m, (n : Num))) && m < n}, (m : Num) => MOD((a : Num) * m, n))
   nproduct({(m : Num) | coprime((m, (n : Num))) && m < n}, (m : Num) => m)
   (n : Num) == 0
   \226\136\128 a : Num, \226\136\128 n : Num, coprime((a, n)) \226\134\146 op_eq_eq(EXP(a, phi(n)), 1, mod(n))
-  forall a p. prime p /\\ coprime(a,p) ==> (a EXP (p - 1) == 1) (mod p)
+  \226\136\128 a : Num, \226\136\128 p : Num, prime(p) && coprime((a, p)) \226\134\146 op_eq_eq(EXP(a, p - 1), 1, mod(p))
   !((m : Num) == 0)
   (m : Num) == SUC(m - 1)
   DIV(EXP((a : Num), (m : Num)), (n : Num)) * n
@@ -15690,7 +15690,7 @@ Library/pocklington quotations (854):
   (n : Num) == 1
   (m : Num) == 0
   (n : Num) == 0
-  forall m n a. ~(m = 0) /\\ (a EXP m == 1) (mod n) ==> coprime(a,n)
+  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 a : Num, !(m == 0) && op_eq_eq(EXP(a, m), 1, mod(n)) \226\134\146 coprime((a, n))
   1 <= (n : Num) \226\134\146 0 < n
   (a : Bool) \226\134\146 !(a && (b : Bool)) \226\134\146 !b
   2 <= (n : Num) \226\134\146 !(n - 1 == 0)
@@ -15698,7 +15698,7 @@ Library/pocklington quotations (854):
   coprime(((a : Num), (n : Num)))
   phi((n : Num))
   2 <= (n : Num) \226\134\146 !(n == 0) && !(n == 1)
-  forall a n. 2 <= n /\\\n         (a EXP (n - 1) == 1) (mod n) /\\\n         (forall m. 0 < m /\\ m < n - 1 ==> ~(a EXP m == 1) (mod n))\n         ==> prime(n)
+  \226\136\128 a : Num, \226\136\128 n : Num, 2 <= n && op_eq_eq(EXP(a, n - 1), 1, mod(n)) && (\226\136\128 m : Num, 0 < m && m < n - 1 \226\134\146 !op_eq_eq(EXP(a, m), 1, mod(n))) \226\134\146 prime(n)
   MOD
   (n : Num)
   EXP
@@ -15711,7 +15711,7 @@ Library/pocklington quotations (854):
   0
   DIV((m : Num) * (r : Num), (p : Num)) == m * DIV(r, p)
   (p : Num)
-  forall p. prime p /\\ p divides m * r\n                   ==> ~(a EXP ((m * r) DIV p) == 1) (mod n)
+  \226\136\128 p : Num, prime(p) && divides(p, (m : Num) * (r : Num)) \226\134\146 !op_eq_eq(EXP((a : Num), DIV(m * r, p)), 1, mod((n : Num)))
   (p : Num)
   (m : Num) < m * (r : Num)
   !((r : Num) == 1)
@@ -15730,17 +15730,17 @@ Library/pocklington quotations (854):
   ((a : Bool) \226\134\146 !(b : Bool)) == !(a && b)
   (a : Num)
   2 <= (n : Num) \226\134\146 !(n == 0)
-  forall a n. 2 <= n /\\\n         (a EXP (n - 1) == 1) (mod n) /\\\n         (forall p. prime(p) /\\ p divides (n - 1)\n              ==> ~(a EXP ((n - 1) DIV p) == 1) (mod n))\n         ==> prime(n)
-  order n a = @d. forall k. (a EXP k == 1) (mod n) <=> d divides k
+  \226\136\128 a : Num, \226\136\128 n : Num, 2 <= n && op_eq_eq(EXP(a, n - 1), 1, mod(n)) && (\226\136\128 p : Num, prime(p) && divides(p, n - 1) \226\134\146 !op_eq_eq(EXP(a, DIV(n - 1, p)), 1, mod(n))) \226\134\146 prime(n)
+  (order : (Num, Num) -> Num)((n : Num), (a : Num)) == select((d : Num) => \226\136\128 k : Num, op_eq_eq(EXP(a, k), 1, mod(n)) == divides(d, k))
   \226\136\128 x : Num, \226\136\128 n : Num, EXP(x, n) == ITER(n, (y : Num) => x * y, 1)
   1
   (x : Num) => (a : Num) * x
   (x : Num) => (y : Num) => op_eq_eq(x, y, mod((n : Num)))
-  forall n a d. (a EXP d == 1) (mod n) <=> order(n) a divides d
+  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 d : Num, op_eq_eq(EXP(a, d), 1, mod(n)) == divides(order(n, a), d)
   \226\136\128 n : Num, \226\136\128 a : Num, op_eq_eq(EXP(a, order(n, a)), 1, mod(n))
-  forall n a d. order n a = d <=> forall k. (a EXP k == 1) (mod n) <=> d divides k
-  forall n a m. 0 < m /\\ m < order(n) a ==> ~((a EXP m == 1) (mod n))
-  forall n a. (a EXP (order(n) a) == 1) (mod n) /\\\n         forall m. 0 < m /\\ m < order(n) a ==> ~((a EXP m == 1) (mod n))
+  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 d : Num, (order(n, a) == d) == (\226\136\128 k : Num, op_eq_eq(EXP(a, k), 1, mod(n)) == divides(d, k))
+  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 m : Num, 0 < m && m < order(n, a) \226\134\146 !op_eq_eq(EXP(a, m), 1, mod(n))
+  \226\136\128 n : Num, \226\136\128 a : Num, op_eq_eq(EXP(a, order(n, a)), 1, mod(n)) && (\226\136\128 m : Num, 0 < m && m < order(n, a) \226\134\146 !op_eq_eq(EXP(a, m), 1, mod(n)))
   \226\136\128 n : Num, order(n, 1) == 1
   !(p : Bool) \226\134\146 ((q : Bool) \226\134\146 p) \226\134\146 q \226\134\146 (r : Bool)
   (m : Num)
@@ -15751,19 +15751,19 @@ Library/pocklington quotations (854):
   \226\136\128 n : Num, \226\136\128 a : Num, (order(n, a) == 0) == !coprime((n, a))
   \226\136\128 n : Num, \226\136\128 a : Num, (order(n, a) == 1) == op_eq_eq(a, 1, mod(n))
   divides(1, (n : Num)) && divides(n, n)
-  forall n a p.\n        prime p\n        ==> (order n a = p <=> ~((a == 1) (mod n)) /\\ (a EXP p == 1) (mod n))
+  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 p : Num, prime(p) \226\134\146 (order(n, a) == p) == (!op_eq_eq(a, 1, mod(n)) && op_eq_eq(EXP(a, p), 1, mod(n)))
   \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, op_eq_eq(a, b, mod(n)) \226\134\146 order(n, a) == order(n, b)
   \226\136\128 p : Num, \226\136\128 n : Num, order(p, MOD(n, p)) == order(p, n)
   ((n : Num) > 0) == !(n == 0)
-  forall n a. coprime(n,a)\n         ==> order(n) a > 0 /\\\n            (a EXP (order(n) a) == 1) (mod n) /\\\n            forall m. 0 < m /\\ m < order(n) a ==> ~((a EXP m == 1) (mod n))
+  \226\136\128 n : Num, \226\136\128 a : Num, coprime((n, a)) \226\134\146 order(n, a) > 0 && op_eq_eq(EXP(a, order(n, a)), 1, mod(n)) && (\226\136\128 m : Num, 0 < m && m < order(n, a) \226\134\146 !op_eq_eq(EXP(a, m), 1, mod(n)))
   \226\136\128 a : Num, \226\136\128 n : Num, coprime((n, a)) \226\134\146 divides(order(n, a), phi(n))
   order((n : Num), (a : Num)) == 0
   \226\136\128 n : Num, !(n == 0) \226\134\146 order(n, (a : Num)) <= phi(n)
   (e : Num) + 0 + (c : Num) == e + c
   (e : Num) == e + 0
   (c : Num)
-  forall a n d e. coprime(n,a) /\\ e <= d\n              ==> ((a EXP d == a EXP e) (mod n) <=> (d == e) (mod (order n a)))
-  forall a n d e. coprime(n,a)\n             ==> ((a EXP d == a EXP e) (mod n) <=> (d == e) (mod (order n a)))
+  \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 d : Num, \226\136\128 e : Num, coprime((n, a)) && e <= d \226\134\146 op_eq_eq(EXP(a, d), EXP(a, e), mod(n)) == op_eq_eq(d, e, mod(order(n, a)))
+  \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 d : Num, \226\136\128 e : Num, coprime((n, a)) \226\134\146 op_eq_eq(EXP(a, d), EXP(a, e), mod(n)) == op_eq_eq(d, e, mod(order(n, a)))
   op_eq_eq(EXP((a : Num), (k : Num)), 1, mod((n : Num)))
   (k : Num)
   (a : Num)
@@ -15773,28 +15773,28 @@ Library/pocklington quotations (854):
   (a : Num)
   (n : Num)
   order((n : Num), (a : Num))
-  forall n a k. 0 < k /\\\n           (a EXP k == 1) (mod n) /\\\n           (forall m. 0 < m /\\ m < k ==> ~(a EXP m == 1) (mod n))\n           ==> order n a = k
-  coprime(m,n)\n    ==> ((x == y) (mod (m * n)) <=>\n         (x == y) (mod m) /\\ (x == y) (mod n))
-  forall m n a. coprime(m,n) ==> order (m * n) a = lcm(order m a,order n a)
+  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 k : Num, 0 < k && op_eq_eq(EXP(a, k), 1, mod(n)) && (\226\136\128 m : Num, 0 < m && m < k \226\134\146 !op_eq_eq(EXP(a, m), 1, mod(n))) \226\134\146 order(n, a) == k
+  coprime(((m : Num), (n : Num))) \226\134\146 op_eq_eq((x : Num), (y : Num), mod(m * n)) == (op_eq_eq(x, y, mod(m)) && op_eq_eq(x, y, mod(n)))
+  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 a : Num, coprime((m, n)) \226\134\146 order(m * n, a) == lcm((order(m, a), order(n, a)))
   (e : Num)
   (d : Num) == 0
   (d : Num) == gcd((order((p : Num), (a : Num)), (k : Num)))
   divides(gcd((order((p : Num), (a : Num)), (k : Num))), order(p, a))
   (j : Num)
   order((p : Num), (a : Num)) == 0
-  forall p a k. order p (a EXP k) =\n           if k = 0 then 1 else order p a DIV gcd(order p a,k)
-  forall p a k. ~(k = 0) /\\ k divides order p a\n           ==> order p (a EXP k) = order p a DIV k
-  (a * b == 1) (mod n) ==> ((a == 1) (mod n) <=> (b == 1) (mod n))
+  \226\136\128 p : Num, \226\136\128 a : Num, \226\136\128 k : Num, order(p, EXP(a, k)) == (if k == 0 { 1 } else { DIV(order(p, a), gcd((order(p, a), k))) })
+  \226\136\128 p : Num, \226\136\128 a : Num, \226\136\128 k : Num, !(k == 0) && divides(k, order(p, a)) \226\134\146 order(p, EXP(a, k)) == DIV(order(p, a), k)
+  op_eq_eq((a : Num) * (b : Num), 1, mod((n : Num))) \226\134\146 op_eq_eq(a, 1, mod(n)) == op_eq_eq(b, 1, mod(n))
   (k : Num)
   (d : Num)
-  forall n a. coprime(n,a) ==> order n (inverse_mod n a) = order n a
-  forall p a b. order p (a * b) divides order p a * order p b
+  \226\136\128 n : Num, \226\136\128 a : Num, coprime((n, a)) \226\134\146 order(n, inverse_mod(n, a)) == order(n, a)
+  \226\136\128 p : Num, \226\136\128 a : Num, \226\136\128 b : Num, divides(order(p, a * b), order(p, a) * order(p, b))
   op_eq_eq((a : Num), 1, mod((n : Num))) \226\134\146 op_eq_eq((b : Num), a * b, mod(n))
   op_eq_eq((b : Num), 1, mod((n : Num))) \226\134\146 op_eq_eq((a : Num), a * b, mod(n))
   EXP((a : Num) * (b : Num), order((p : Num), a) * order(p, a * b))
   EXP((a : Num) * (b : Num), order((p : Num), b) * order(p, a * b))
-  (a:num) divides (b * c) /\\ b divides (a * c) /\\ coprime(a,b)\n    ==> (a * b) divides c
-  forall p a b. coprime(order p a,order p b)\n           ==> order p (a * b) = order p a * order p b
+  divides((a : Num), (b : Num) * (c : Num)) && divides(b, a * c) && coprime((a, b)) \226\134\146 divides(a * b, c)
+  \226\136\128 p : Num, \226\136\128 a : Num, \226\136\128 b : Num, coprime((order(p, a), order(p, b))) \226\134\146 order(p, a * b) == order(p, a) * order(p, b)
   gcd(((a : Num) * (b : Num), a)) == a && gcd((a * b, b)) == b
   order((p : Num), EXP((a : Num), (m' : Num))) == (m : Num) && order(p, EXP((b : Num), (n' : Num))) == (n : Num)
   EXP((a : Num), (m' : Num)) * EXP((b : Num), (n' : Num))
@@ -15820,28 +15820,28 @@ Library/pocklington quotations (854):
   IMAGE((f : (_) -> _), (s : (_) -> Bool), (x : _)) == IN(x, IMAGE(f, s))
   IMAGE(order((p : Num)), {(k : Num) | k < p})
   (p : Num) == 0
-  forall p. ~(p = 1)\n       ==> ?n. coprime(p,n) /\\\n               forall m. coprime(p,m) ==> order p m divides order p n
+  \226\136\128 p : Num, !(p == 1) \226\134\146 (\226\136\131 n : Num, coprime((p, n)) && (\226\136\128 m : Num, coprime((p, m)) \226\134\146 divides(order(p, m), order(p, n))))
   EXP((a : Num), (l : Num))
   (l : Num)
   1
-  forall n a k. coprime(n,a) /\\ coprime(k,phi n)\n           ==> ?x. (x EXP k == a) (mod n)
-  forall p a k. prime p /\\ ~(p divides a) /\\ coprime(k,p - 1)\n           ==> ?x. (x EXP k == a) (mod p)
-  (a:num == b) (mod d) ==> e divides d ==> (a == b) (mod e)
-  (a':num == a) (mod n) /\\ (b' == b) (mod n)\n    ==> (a' == b') (mod n) ==> (a == b) (mod n)
+  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 k : Num, coprime((n, a)) && coprime((k, phi(n))) \226\134\146 (\226\136\131 x : Num, op_eq_eq(EXP(x, k), a, mod(n)))
+  \226\136\128 p : Num, \226\136\128 a : Num, \226\136\128 k : Num, prime(p) && !divides(p, a) && coprime((k, p - 1)) \226\134\146 (\226\136\131 x : Num, op_eq_eq(EXP(x, k), a, mod(p)))
+  op_eq_eq((a : Num), (b : Num), mod((d : Num))) \226\134\146 divides((e : Num), d) \226\134\146 op_eq_eq(a, b, mod(e))
+  op_eq_eq((a' : Num), (a : Num), mod((n : Num))) && op_eq_eq((b' : Num), (b : Num), mod(n)) \226\134\146 op_eq_eq(a', b', mod(n)) \226\134\146 op_eq_eq(a, b, mod(n))
   op_eq_eq(EXP(EXP((a : Num), (k : Num)), (l : Num)), EXP(EXP((b : Num), k), l), mod((n : Num)))
   \226\136\131 l : Num, op_eq_eq((k : Num) * l, 1, mod(phi((n : Num))))
-  forall n a b k.\n        coprime(k,phi n) /\\\n        coprime(n,a) /\\ coprime(n,b) /\\\n        (a EXP k == b EXP k) (mod n)\n        ==> (a == b) (mod n)
+  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 k : Num, coprime((k, phi(n))) && coprime((n, a)) && coprime((n, b)) && op_eq_eq(EXP(a, k), EXP(b, k), mod(n)) \226\134\146 op_eq_eq(a, b, mod(n))
   \226\136\128 n : Num, \226\136\128 g : Num, order(n, g) == phi(n) \226\134\146 n == 0 || coprime((n, g))
   (h : Num) <= (p : Num) - 1 && (g : Num) <= h \226\134\146 g == p - 1 \226\134\146 h == p - 1
   (p : Num) == 1
   (p : Num) == 0
   \226\136\128 p : Num, \226\136\128 g : Num, order(p, g) == p - 1 \226\134\146 p == 0 || prime(p)
   {(i : Num) | i < (n : Num)}
-  t SUBSET IMAGE f s <=> forall y. y IN t ==> ?x. x IN s /\\ f x = y
+  SUBSET((t : (_) -> Bool), IMAGE((f : (_) -> _), (s : (_) -> Bool))) == (\226\136\128 y : _, IN(y, t) \226\134\146 (\226\136\131 x : _, IN(x, s) && f(x) == y))
   (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
   coprime(((n : Num), (g : Num)))
   (n : Num) == 0
-  forall n g. order n g = phi n\n         ==> IMAGE (\\i. (g EXP i) MOD n) {i | i < phi n} =\n             {a | coprime(a,n) /\\ a < n}
+  \226\136\128 n : Num, \226\136\128 g : Num, order(n, g) == phi(n) \226\134\146 IMAGE((i : Num) => MOD(EXP(g, i), n), {(i : Num) | i < phi(n)}) == {(a : Num) | coprime((a, n)) && a < n}
   (0 < (a : Num)) == !(a == 0)
   (a : Num) == 0
   (a : Num) < (p : Num)
@@ -15849,18 +15849,18 @@ Library/pocklington quotations (854):
   (g : Num)
   (p : Num)
   (p : Num) == 0
-  forall p g. order p g = p - 1\n         ==> IMAGE (\\i. (g EXP i) MOD p) {i | i < p - 1} =\n             {a | 0 < a /\\ a < p}
+  \226\136\128 p : Num, \226\136\128 g : Num, order(p, g) == p - 1 \226\134\146 IMAGE((i : Num) => MOD(EXP(g, i), p), {(i : Num) | i < p - 1}) == {(a : Num) | 0 < a && a < p}
   MOD((a : Num), (n : Num))
-  IMAGE f s = t ==> forall y. y IN t ==> ?x. x IN s /\\ f x = y
-  forall n g a. ~(n = 0) /\\ order n g = phi n /\\ coprime(a,n)\n           ==> ?m. m < phi n /\\ (a == g EXP m) (mod n)
+  IMAGE((f : (_) -> _), (s : (_) -> Bool)) == (t : (_) -> Bool) \226\134\146 (\226\136\128 y : _, IN(y, t) \226\134\146 (\226\136\131 x : _, IN(x, s) && f(x) == y))
+  \226\136\128 n : Num, \226\136\128 g : Num, \226\136\128 a : Num, !(n == 0) && order(n, g) == phi(n) && coprime((a, n)) \226\134\146 (\226\136\131 m : Num, m < phi(n) && op_eq_eq(a, EXP(g, m), mod(n)))
   (n : Num) == 0
-  forall n g a. order n g = phi n /\\ coprime(a,n)\n           ==> ?m. (a == g EXP m) (mod n)
+  \226\136\128 n : Num, \226\136\128 g : Num, \226\136\128 a : Num, order(n, g) == phi(n) && coprime((a, n)) \226\134\146 (\226\136\131 m : Num, op_eq_eq(a, EXP(g, m), mod(n)))
   (0 < (n : Num)) == !(n == 0)
   MOD((a : Num), (p : Num))
-  IMAGE f s = t ==> forall y. y IN t ==> ?x. x IN s /\\ f x = y
-  forall p g a. ~(p = 0) /\\ order p g = p - 1 /\\ coprime(a,p)\n           ==> ?m. m < p - 1 /\\ (a == g EXP m) (mod p)
+  IMAGE((f : (_) -> _), (s : (_) -> Bool)) == (t : (_) -> Bool) \226\134\146 (\226\136\128 y : _, IN(y, t) \226\134\146 (\226\136\131 x : _, IN(x, s) && f(x) == y))
+  \226\136\128 p : Num, \226\136\128 g : Num, \226\136\128 a : Num, !(p == 0) && order(p, g) == p - 1 && coprime((a, p)) \226\134\146 (\226\136\131 m : Num, m < p - 1 && op_eq_eq(a, EXP(g, m), mod(p)))
   (p : Num) == 0
-  forall p g a. order p g = p - 1 /\\ coprime(a,p)\n           ==> ?m. (a == g EXP m) (mod p)
+  \226\136\128 p : Num, \226\136\128 g : Num, \226\136\128 a : Num, order(p, g) == p - 1 && coprime((a, p)) \226\134\146 (\226\136\131 m : Num, op_eq_eq(a, EXP(g, m), mod(p)))
   (e : Num)
   (d : Num)
   EXP((d : Num), 2) <= d * (e : Num) || EXP(e, 2) <= d * e
@@ -15877,7 +15877,7 @@ Library/pocklington quotations (854):
   !(a : Bool) && !(b : Bool) \226\134\146 a == b
   (n : Num) == 0
   (n : Num) == 1
-  forall n. prime(n) <=> ~(n = 1) /\\ forall d. d divides n /\\ d EXP 2 <= n ==> (d = 1)
+  \226\136\128 n : Num, prime(n) == (!(n == 1) && (\226\136\128 d : Num, divides(d, n) && EXP(d, 2) <= n \226\134\146 d == 1))
   2
   EXP((d : Num), 2)
   (p : Num)
@@ -15885,8 +15885,8 @@ Library/pocklington quotations (854):
   (d : Num) == 1
   (d : Num)
   (n : Num) == 0
-  n = 1
-  forall n. prime n <=>\n       ~(n = 0) /\\ ~(n = 1) /\\ ~(?p. prime p /\\ p divides n /\\ p EXP 2 <= n)
+  (n : Num) == 1
+  \226\136\128 n : Num, prime(n) == (!(n == 0) && !(n == 1) && !(\226\136\131 p : Num, prime(p) && divides(p, n) && EXP(p, 2) <= n))
   EXP(1, (t : Num))
   (d : Num) * (t : Num) * (r : Num) == r * (d * t)
   (p : Num)
@@ -15913,12 +15913,12 @@ Library/pocklington quotations (854):
   (d : Num) == (p : Num)
   (d : Num)
   op_eq_eq(EXP((a : Num), (n : Num) - 1), 1, mod(n))
-  (p - 1 = q * d) ==> ~(p = 0) ==> (p + q * 0 = 1 + q * d)
+  (p : Num) - 1 == (q : Num) * (d : Num) \226\134\146 !(p == 0) \226\134\146 p + q * 0 == 1 + q * d
   (d : Num)
   phi((p : Num)) == p - 1
   coprime((EXP((a : Num), (r : Num)), (p : Num)))
   order((p : Num), EXP((a : Num), (r : Num))) == (q : Num)
-  forall a n q r.\n        2 <= n /\\ (n - 1 = q * r) /\\\n        (a EXP (n - 1) == 1) (mod n) /\\\n        (forall p. prime(p) /\\ p divides q\n             ==> coprime(a EXP ((n - 1) DIV p) - 1,n))\n        ==> forall p. prime p /\\ p divides n ==> (p == 1) (mod q)
+  \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 q : Num, \226\136\128 r : Num, 2 <= n && n - 1 == q * r && op_eq_eq(EXP(a, n - 1), 1, mod(n)) && (\226\136\128 p : Num, prime(p) && divides(p, q) \226\134\146 coprime((EXP(a, DIV(n - 1, p)) - 1, n))) \226\134\146 (\226\136\128 p : Num, prime(p) && divides(p, n) \226\134\146 op_eq_eq(p, 1, mod(q)))
   2
   EXP((p : Num), 2) <= EXP((q : Num), 2)
   (p : Num)
@@ -15928,7 +15928,7 @@ Library/pocklington quotations (854):
   (a : Num)
   (p : Num)
   2 <= (n : Num) \226\134\146 !(n == 0) && !(n == 1)
-  forall a n q r.\n        2 <= n /\\ (n - 1 = q * r) /\\ n <= q EXP 2 /\\\n        (a EXP (n - 1) == 1) (mod n) /\\\n        (forall p. prime(p) /\\ p divides q\n             ==> coprime(a EXP ((n - 1) DIV p) - 1,n))\n        ==> prime(n)
+  \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 q : Num, \226\136\128 r : Num, 2 <= n && n - 1 == q * r && n <= EXP(q, 2) && op_eq_eq(EXP(a, n - 1), 1, mod(n)) && (\226\136\128 p : Num, prime(p) && divides(p, q) \226\134\146 coprime((EXP(a, DIV(n - 1, p)) - 1, n))) \226\134\146 prime(n)
   !((p : Num) == 0)
   (p : Num) == SUC(p - 1)
   !((p : Num) == 0)
@@ -15951,8 +15951,8 @@ Library/pocklington quotations (854):
   (r : Num)
   (q : Num)
   (a : Num)
-  forall a n q r.\n        2 <= n /\\ (n - 1 = q * r) /\\ n <= q EXP 2 /\\\n        (a EXP (n - 1) == 1) (mod n) /\\\n        (forall p. prime(p) /\\ p divides q\n             ==> ?b. (a EXP ((n - 1) DIV p) == b) (mod n) /\\\n                     coprime(b - 1,n))\n        ==> prime(n)
-  primefact ps n <=> (ITLIST (*) ps 1 = n) /\\ forall p. MEM p ps ==> prime(p)
+  \226\136\128 a : Num, \226\136\128 n : Num, \226\136\128 q : Num, \226\136\128 r : Num, 2 <= n && n - 1 == q * r && n <= EXP(q, 2) && op_eq_eq(EXP(a, n - 1), 1, mod(n)) && (\226\136\128 p : Num, prime(p) && divides(p, q) \226\134\146 (\226\136\131 b : Num, op_eq_eq(EXP(a, DIV(n - 1, p)), b, mod(n)) && coprime((b - 1, n)))) \226\134\146 prime(n)
+  (primefact : (List[Num], Num) -> Bool)((ps : List[Num]), (n : Num)) == (ITLIST(op_star, ps, 1) == n && (\226\136\128 p : Num, MEM(p, ps) \226\134\146 prime(p)))
   CONS((p : Num), (ps : List[Num]))
   (ps : List[Num])
   prime((p : Num))
@@ -15971,18 +15971,18 @@ Library/pocklington quotations (854):
   \226\136\128 n : Num, !(n == 0) \226\134\146 (\226\136\131 ps : List[Num], primefact(ps, n))
   (ps : List[Num])
   (ps : List[Num])
-  forall ps n. primefact ps n ==> forall p. prime p /\\ p divides n ==> MEM p ps
+  \226\136\128 ps : List[Num], \226\136\128 n : Num, primefact(ps, n) \226\134\146 (\226\136\128 p : Num, prime(p) && divides(p, n) \226\134\146 MEM(p, ps))
   (ps : List[Num])
   (ps : List[Num])
-  forall ps n. primefact ps n <=> (ITLIST (*) ps 1 = n) /\\ ALL prime ps
+  \226\136\128 ps : List[Num], \226\136\128 n : Num, primefact(ps, n) == (ITLIST(op_star, ps, 1) == n && ALL(prime, ps))
   (ps : List[Num])
   (ps : List[Num])
-  ALL (\\p. prime p /\\ ~(a EXP ((n - 1) DIV p) == 1) (mod n)) ps
+  ALL((p : Num) => prime(p) && !op_eq_eq(EXP((a : Num), DIV((n : Num) - 1, p)), 1, mod(n)), (ps : List[Num]))
   (p : Num)
   (p : Num) => prime(p) && !op_eq_eq(EXP((a : Num), DIV((n : Num) - 1, p)), 1, mod(n))
   primefact((ps : List[Num]), (n : Num) - 1)
   (a : Num)
-  2 <= n /\\\n   (a EXP (n - 1) == 1) (mod n) /\\\n   (ITLIST (*) ps 1 = n - 1) /\\\n   ALL (\\p. prime p /\\ ~(a EXP ((n - 1) DIV p) == 1) (mod n)) ps\n   ==> prime n
+  2 <= (n : Num) && op_eq_eq(EXP((a : Num), n - 1), 1, mod(n)) && ITLIST(op_star, (ps : List[Num]), 1) == n - 1 && ALL((p : Num) => prime(p) && !op_eq_eq(EXP(a, DIV(n - 1, p)), 1, mod(n)), ps) \226\134\146 prime(n)
   2 <= (n : Num) \226\134\146 !(n == 0)
   !((p : Num) == 0) \226\134\146 p == SUC(p - 1)
   MOD
@@ -16005,7 +16005,7 @@ Library/pocklington quotations (854):
   !((p : Num) == 0)
   ((a : Bool) \226\134\146 (b : Bool) == (c : Bool)) \226\134\146 a && b \226\134\146 c
   (p : Num)
-  \\p. prime p /\\ coprime(a EXP (q DIV p * r) MOD n - 1,n)
+  (p : Num) => prime(p) && coprime((MOD(EXP((a : Num), DIV((q : Num), p) * (r : Num)), (n : Num)) - 1, n))
   primefact((ps : List[Num]), (q : Num))
   (Q : Num)
   0
@@ -16017,7 +16017,7 @@ Library/pocklington quotations (854):
   (q : Num)
   (a : Num)
   2 <= (n : Num) \226\134\146 !(n == 0)
-  2 <= n /\\ (q * r = n - 1) /\\ n <= q * q\n   ==> ((a EXP r) MOD n = b)\n       ==> (ITLIST (*) ps 1 = q)\n           ==> ((b EXP q) MOD n = 1)\n               ==> ALL (\\p. prime p /\\\n                            coprime((b EXP (q DIV p)) MOD n - 1,n)) ps\n                   ==> prime n
+  2 <= (n : Num) && (q : Num) * (r : Num) == n - 1 && n <= q * q \226\134\146 MOD(EXP((a : Num), r), n) == (b : Num) \226\134\146 ITLIST(op_star, (ps : List[Num]), 1) == q \226\134\146 MOD(EXP(b, q), n) == 1 \226\134\146 ALL((p : Num) => prime(p) && coprime((MOD(EXP(b, DIV(q, p)), n) - 1, n)), ps) \226\134\146 prime(n)
   (n : Num)
   (a : Num)
   (q : Num)
@@ -16036,7 +16036,7 @@ Library/pocklington quotations (854):
   (a : Num) - (b : Num)
   (ps : List[Num])
   (n : Num)
-  ((m = 1) <=> F) ==> ((m = p) <=> F) ==> (m * n = p) ==> (prime(p) <=> F)
+  ((m : Num) == 1) == false \226\134\146 (m == (p : Num)) == false \226\134\146 m * (n : Num) == p \226\134\146 prime(p) == false
   (m : Num)
   (n : Num)
   (p : Num)

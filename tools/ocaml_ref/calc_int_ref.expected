@@ -886,7 +886,7 @@ calc_int quotations (63):
   real_of_num
   op_minus_minus
   op_slash
-  (m + n = n + m) /\\\n   ((m + n) + p = m + (n + p)) /\\\n   (m + (n + p) = n + (m + p))
+  (m : Real) + (n : Real) == n + m && m + n + (p : Real) == m + (n + p) && m + (n + p) == n + (m + p)
   \226\136\128 x : Real, x + -x == real_of_num(0)
   op_plus(-(x : Real))
   \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, (x + y == x + z) == (y == z)
@@ -908,19 +908,19 @@ calc_int quotations (63):
   \226\136\128 x : Real, \226\136\128 y : Real, (x <= -y) == (x + y <= real_of_num(0))
   \226\136\128 x : Num, \226\136\128 n : Num, pow(real_of_num(x), n) == real_of_num(EXP(x, n))
   EVEN((n : Num))
-  forall x n. (--x) pow n = if EVEN n then x pow n else --(x pow n)
+  \226\136\128 x : Real, \226\136\128 n : Num, pow(-x, n) == (if EVEN(n) { pow(x, n) } else { -pow(x, n) })
   \226\136\128 n : Num, abs(real_of_num(n)) == real_of_num(n)
   \226\136\128 x : Real, abs(-x) == abs(x)
-  (F /\\ F <=> F) /\\ (F /\\ T <=> F) /\\\n          (T /\\ F <=> F) /\\ (T /\\ T <=> T)
+  (false && false) == false && (false && true) == false && (true && false) == false && (true && true) == true
   !true == false && !false == true
-  (--(&m) <= &n <=> T) /\\\n     (&m <= &n <=> m <= n) /\\\n     (--(&m) <= --(&n) <=> n <= m) /\\\n     (&m <= --(&n) <=> (m = 0) /\\ (n = 0))
-  (&m < --(&n) <=> F) /\\\n     (&m < &n <=> m < n) /\\\n     (--(&m) < --(&n) <=> n < m) /\\\n     (--(&m) < &n <=> ~((m = 0) /\\ (n = 0)))
-  (&m >= --(&n) <=> T) /\\\n     (&m >= &n <=> n <= m) /\\\n     (--(&m) >= --(&n) <=> m <= n) /\\\n     (--(&m) >= &n <=> (m = 0) /\\ (n = 0))
-  (--(&m) > &n <=> F) /\\\n     (&m > &n <=> n < m) /\\\n     (--(&m) > --(&n) <=> m < n) /\\\n     (&m > --(&n) <=> ~((m = 0) /\\ (n = 0)))
-  ((&m = &n) <=> (m = n)) /\\\n     ((--(&m) = --(&n)) <=> (m = n)) /\\\n     ((--(&m) = &n) <=> (m = 0) /\\ (n = 0)) /\\\n     ((&m = --(&n)) <=> (m = 0) /\\ (n = 0))
+  (-real_of_num((m : Num)) <= real_of_num((n : Num))) == true && (real_of_num(m) <= real_of_num(n)) == (m <= n) && (-real_of_num(m) <= -real_of_num(n)) == (n <= m) && (real_of_num(m) <= -real_of_num(n)) == (m == 0 && n == 0)
+  (real_of_num((m : Num)) < -real_of_num((n : Num))) == false && (real_of_num(m) < real_of_num(n)) == (m < n) && (-real_of_num(m) < -real_of_num(n)) == (n < m) && (-real_of_num(m) < real_of_num(n)) == !(m == 0 && n == 0)
+  (real_of_num((m : Num)) >= -real_of_num((n : Num))) == true && (real_of_num(m) >= real_of_num(n)) == (n <= m) && (-real_of_num(m) >= -real_of_num(n)) == (m <= n) && (-real_of_num(m) >= real_of_num(n)) == (m == 0 && n == 0)
+  (-real_of_num((m : Num)) > real_of_num((n : Num))) == false && (real_of_num(m) > real_of_num(n)) == (n < m) && (-real_of_num(m) > -real_of_num(n)) == (m < n) && (real_of_num(m) > -real_of_num(n)) == !(m == 0 && n == 0)
+  (real_of_num((m : Num)) == real_of_num((n : Num))) == (m == n) && (-real_of_num(m) == -real_of_num(n)) == (m == n) && (-real_of_num(m) == real_of_num(n)) == (m == 0 && n == 0) && (real_of_num(m) == -real_of_num(n)) == (m == 0 && n == 0)
   -real_of_num(0) == real_of_num(0) && --real_of_num((x : Num)) == real_of_num(x)
-  (&0 * &x = &0) /\\\n     (&0 * --(&x) = &0) /\\\n     (&x * &0 = &0) /\\\n     (--(&x) * &0 = &0)
-  ((&m * &n = &(m * n)) /\\\n      (--(&m) * --(&n) = &(m * n))) /\\\n     ((--(&m) * &n = --(&(m * n))) /\\\n      (&m * --(&n) = --(&(m * n))))
+  real_of_num(0) * real_of_num((x : Num)) == real_of_num(0) && real_of_num(0) * -real_of_num(x) == real_of_num(0) && real_of_num(x) * real_of_num(0) == real_of_num(0) && -real_of_num(x) * real_of_num(0) == real_of_num(0)
+  (real_of_num((m : Num)) * real_of_num((n : Num)) == real_of_num(m * n) && -real_of_num(m) * -real_of_num(n) == real_of_num(m * n)) && -real_of_num(m) * real_of_num(n) == -real_of_num(m * n) && real_of_num(m) * -real_of_num(n) == -real_of_num(m * n)
   op_minus_minus
   real_of_num
   real_add
@@ -928,9 +928,9 @@ calc_int quotations (63):
   (m : Num)
   (n : Num)
   -real_of_num((m : Num)) + real_of_num(m) == real_of_num(0) && real_of_num(m) + -real_of_num(m) == real_of_num(0)
-  (--(&m) + --(&n) = --(&(m + n))) /\\\n     (--(&m) + &(m + n) = &n) /\\\n     (--(&(m + n)) + &m = --(&n)) /\\\n     (&(m + n) + --(&m) = &n) /\\\n     (&m + --(&(m + n)) = --(&n)) /\\\n     (&m + &n = &(m + n))
-  (&x pow n = &(x EXP n)) /\\\n     ((--(&x)) pow n = if EVEN n then &(x EXP n) else --(&(x EXP n)))
-  ((if T then x:real else y) = x) /\\ ((if F then x:real else y) = y)
+  -real_of_num((m : Num)) + -real_of_num((n : Num)) == -real_of_num(m + n) && -real_of_num(m) + real_of_num(m + n) == real_of_num(n) && -real_of_num(m + n) + real_of_num(m) == -real_of_num(n) && real_of_num(m + n) + -real_of_num(m) == real_of_num(n) && real_of_num(m) + -real_of_num(m + n) == -real_of_num(n) && real_of_num(m) + real_of_num(n) == real_of_num(m + n)
+  pow(real_of_num((x : Num)), (n : Num)) == real_of_num(EXP(x, n)) && pow(-real_of_num(x), n) == (if EVEN(n) { real_of_num(EXP(x, n)) } else { -real_of_num(EXP(x, n)) })
+  (if true { (x : Real) } else { (y : Real) }) == x && (if false { x } else { y }) == y
   op_minus_minus
   abs(-real_of_num((x : Num))) == real_of_num(x) && abs(real_of_num(x)) == real_of_num(x)
   pow((x : Real), (n : Num))

@@ -775,9 +775,7 @@ fn step_25() -> Unit raise {
   )
   real_poly_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x y z. x + (y + z) = (x + y) + z) /\\\n   (forall x y. x + y = y + x) /\\\n   (forall x. &0 + x = x) /\\\n   (forall x y z. x * (y * z) = (x * y) * z) /\\\n   (forall x y. x * y = y * x) /\\\n   (forall x. &1 * x = x) /\\\n   (forall x. &0 * x = &0) /\\\n   (forall x y z. x * (y + z) = x * y + x * z) /\\\n   (forall x. x pow 0 = &1) /\\\n   (forall x n. x pow (SUC n) = x * x pow n)",
-      ),
+      @term_syntax.parse_term("(∀ x : Real, ∀ y : Real, ∀ z : Real, x + (y + z) == x + y + z) && (∀ x : Real, ∀ y : Real, x + y == y + x) && (∀ x : Real, real_of_num(0) + x == x) && (∀ x : Real, ∀ y : Real, ∀ z : Real, x * (y * z) == x * y * z) && (∀ x : Real, ∀ y : Real, x * y == y * x) && (∀ x : Real, real_of_num(1) * x == x) && (∀ x : Real, real_of_num(0) * x == real_of_num(0)) && (∀ x : Real, ∀ y : Real, ∀ z : Real, x * (y + z) == x * y + x * z) && (∀ x : Real, pow(x, 0) == real_of_num(1)) && (∀ x : Real, ∀ n : Num, pow(x, SUC(n)) == x * pow(x, n))"),
       t67,
     ),
   )
@@ -806,9 +804,7 @@ fn step_26() -> Unit raise {
   )
   real_poly_neg_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x. --x = --(&1) * x) /\\\n   (forall x y. x - y = x + --(&1) * y)",
-      ),
+      @term_syntax.parse_term("(∀ x : Real, -x == -real_of_num(1) * x) && (∀ x : Real, ∀ y : Real, x - y == x + -real_of_num(1) * y)"),
       t68,
     ),
   )
@@ -1064,9 +1060,7 @@ fn step_30() -> Unit raise {
     t78,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "(x < y <=> y - x > &0) /\\\n     (x <= y <=> y - x >= &0) /\\\n     (x > y <=> x - y > &0) /\\\n     (x >= y <=> x - y >= &0) /\\\n     ((x = y) <=> (x - y = &0)) /\\\n     (~(x < y) <=> x - y >= &0) /\\\n     (~(x <= y) <=> x - y > &0) /\\\n     (~(x > y) <=> y - x >= &0) /\\\n     (~(x >= y) <=> y - x > &0) /\\\n     (~(x = y) <=> x - y > &0 \\/ --(x - y) > &0)",
-    ),
+    @term_syntax.parse_term("((x : Real) < (y : Real)) == (y - x > real_of_num(0)) && (x <= y) == (y - x >= real_of_num(0)) && (x > y) == (x - y > real_of_num(0)) && (x >= y) == (x - y >= real_of_num(0)) && (x == y) == (x - y == real_of_num(0)) && !(x < y) == (x - y >= real_of_num(0)) && !(x <= y) == (x - y > real_of_num(0)) && !(x > y) == (y - x >= real_of_num(0)) && !(x >= y) == (y - x > real_of_num(0)) && !(x == y) == (x - y > real_of_num(0) || -(x - y) > real_of_num(0))"),
     t79,
   )
   let pth_final = @class.taut(@term_syntax.parse_term("(!(p : Bool) → false) → p"))
@@ -1089,9 +1083,7 @@ fn step_30() -> Unit raise {
     t81,
   )
   let pth_add = @tactics.prove(
-    @parser.parse_term(
-      "((x = &0) /\\ (y = &0) ==> (x + y = &0)) /\\\n     ((x = &0) /\\ y >= &0 ==> x + y >= &0) /\\\n     ((x = &0) /\\ y > &0 ==> x + y > &0) /\\\n     (x >= &0 /\\ (y = &0) ==> x + y >= &0) /\\\n     (x >= &0 /\\ y >= &0 ==> x + y >= &0) /\\\n     (x >= &0 /\\ y > &0 ==> x + y > &0) /\\\n     (x > &0 /\\ (y = &0) ==> x + y > &0) /\\\n     (x > &0 /\\ y >= &0 ==> x + y > &0) /\\\n     (x > &0 /\\ y > &0 ==> x + y > &0)",
-    ),
+    @term_syntax.parse_term("((x : Real) == real_of_num(0) && (y : Real) == real_of_num(0) → x + y == real_of_num(0)) && (x == real_of_num(0) && y >= real_of_num(0) → x + y >= real_of_num(0)) && (x == real_of_num(0) && y > real_of_num(0) → x + y > real_of_num(0)) && (x >= real_of_num(0) && y == real_of_num(0) → x + y >= real_of_num(0)) && (x >= real_of_num(0) && y >= real_of_num(0) → x + y >= real_of_num(0)) && (x >= real_of_num(0) && y > real_of_num(0) → x + y > real_of_num(0)) && (x > real_of_num(0) && y == real_of_num(0) → x + y > real_of_num(0)) && (x > real_of_num(0) && y >= real_of_num(0) → x + y > real_of_num(0)) && (x > real_of_num(0) && y > real_of_num(0) → x + y > real_of_num(0))"),
     t82,
   )
   let t84 = @meson.meson_tac(@list.List([real_entire()]))
@@ -1111,9 +1103,7 @@ fn step_30() -> Unit raise {
     t84,
   )
   let pth_mul = @tactics.prove(
-    @parser.parse_term(
-      "((x = &0) /\\ (y = &0) ==> (x * y = &0)) /\\\n     ((x = &0) /\\ y >= &0 ==> (x * y = &0)) /\\\n     ((x = &0) /\\ y > &0 ==> (x * y = &0)) /\\\n     (x >= &0 /\\ (y = &0) ==> (x * y = &0)) /\\\n     (x >= &0 /\\ y >= &0 ==> x * y >= &0) /\\\n     (x >= &0 /\\ y > &0 ==> x * y >= &0) /\\\n     (x > &0 /\\ (y = &0) ==> (x * y = &0)) /\\\n     (x > &0 /\\ y >= &0 ==> x * y >= &0) /\\\n     (x > &0 /\\ y > &0 ==> x * y > &0)",
-    ),
+    @term_syntax.parse_term("((x : Real) == real_of_num(0) && (y : Real) == real_of_num(0) → x * y == real_of_num(0)) && (x == real_of_num(0) && y >= real_of_num(0) → x * y == real_of_num(0)) && (x == real_of_num(0) && y > real_of_num(0) → x * y == real_of_num(0)) && (x >= real_of_num(0) && y == real_of_num(0) → x * y == real_of_num(0)) && (x >= real_of_num(0) && y >= real_of_num(0) → x * y >= real_of_num(0)) && (x >= real_of_num(0) && y > real_of_num(0) → x * y >= real_of_num(0)) && (x > real_of_num(0) && y == real_of_num(0) → x * y == real_of_num(0)) && (x > real_of_num(0) && y >= real_of_num(0) → x * y >= real_of_num(0)) && (x > real_of_num(0) && y > real_of_num(0) → x * y > real_of_num(0))"),
     t85,
   )
   let t86 = @simp.simp_tac(@list.List([@calc_int.real_mul_rzero()]))
@@ -2648,9 +2638,7 @@ fn step_33() -> Unit raise {
     @list.List([
       @lib.time(
         real_arith_v1,
-        @parser.parse_term(
-          "(--(&1) * abs(x) >= r <=>\n       --(&1) * x >= r /\\ &1 * x >= r) /\\\n      (--(&1) * abs(x) + a >= r <=>\n       a + --(&1) * x >= r /\\ a + &1 * x >= r) /\\\n      (a + --(&1) * abs(x) >= r <=>\n       a + --(&1) * x >= r /\\ a + &1 * x >= r) /\\\n      (a + --(&1) * abs(x) + b >= r <=>\n       a + --(&1) * x + b >= r /\\ a + &1 * x + b >= r) /\\\n      (a + b + --(&1) * abs(x) >= r <=>\n       a + b + --(&1) * x >= r /\\ a + b + &1 * x >= r) /\\\n      (a + b + --(&1) * abs(x) + c >= r <=>\n       a + b + --(&1) * x + c >= r /\\ a + b + &1 * x + c >= r) /\\\n      (--(&1) * max x y >= r <=>\n       --(&1) * x >= r /\\ --(&1) * y >= r) /\\\n      (--(&1) * max x y + a >= r <=>\n       a + --(&1) * x >= r /\\ a + --(&1) * y >= r) /\\\n      (a + --(&1) * max x y >= r <=>\n       a + --(&1) * x >= r /\\ a + --(&1) * y >= r) /\\\n      (a + --(&1) * max x y + b >= r <=>\n       a + --(&1) * x + b >= r /\\ a + --(&1) * y  + b >= r) /\\\n      (a + b + --(&1) * max x y >= r <=>\n       a + b + --(&1) * x >= r /\\ a + b + --(&1) * y >= r) /\\\n      (a + b + --(&1) * max x y + c >= r <=>\n       a + b + --(&1) * x + c >= r /\\ a + b + --(&1) * y  + c >= r) /\\\n      (&1 * min x y >= r <=>\n       &1 * x >= r /\\ &1 * y >= r) /\\\n      (&1 * min x y + a >= r <=>\n       a + &1 * x >= r /\\ a + &1 * y >= r) /\\\n      (a + &1 * min x y >= r <=>\n       a + &1 * x >= r /\\ a + &1 * y >= r) /\\\n      (a + &1 * min x y + b >= r <=>\n       a + &1 * x + b >= r /\\ a + &1 * y  + b >= r) /\\\n      (a + b + &1 * min x y >= r <=>\n       a + b + &1 * x >= r /\\ a + b + &1 * y >= r) /\\\n      (a + b + &1 * min x y + c >= r <=>\n       a + b + &1 * x + c >= r /\\ a + b + &1 * y  + c >= r) /\\\n      (min x y >= r <=>\n        x >= r /\\  y >= r) /\\\n      (min x y + a >= r <=>\n       a + x >= r /\\ a + y >= r) /\\\n      (a + min x y >= r <=>\n       a + x >= r /\\ a + y >= r) /\\\n      (a + min x y + b >= r <=>\n       a + x + b >= r /\\ a + y  + b >= r) /\\\n      (a + b + min x y >= r <=>\n       a + b + x >= r /\\ a + b + y >= r) /\\\n      (a + b + min x y + c >= r <=>\n       a + b + x + c >= r /\\ a + b + y + c >= r) /\\\n      (--(&1) * abs(x) > r <=>\n       --(&1) * x > r /\\ &1 * x > r) /\\\n      (--(&1) * abs(x) + a > r <=>\n       a + --(&1) * x > r /\\ a + &1 * x > r) /\\\n      (a + --(&1) * abs(x) > r <=>\n       a + --(&1) * x > r /\\ a + &1 * x > r) /\\\n      (a + --(&1) * abs(x) + b > r <=>\n       a + --(&1) * x + b > r /\\ a + &1 * x + b > r) /\\\n      (a + b + --(&1) * abs(x) > r <=>\n       a + b + --(&1) * x > r /\\ a + b + &1 * x > r) /\\\n      (a + b + --(&1) * abs(x) + c > r <=>\n       a + b + --(&1) * x + c > r /\\ a + b + &1 * x + c > r) /\\\n      (--(&1) * max x y > r <=>\n       --(&1) * x > r /\\ --(&1) * y > r) /\\\n      (--(&1) * max x y + a > r <=>\n       a + --(&1) * x > r /\\ a + --(&1) * y > r) /\\\n      (a + --(&1) * max x y > r <=>\n       a + --(&1) * x > r /\\ a + --(&1) * y > r) /\\\n      (a + --(&1) * max x y + b > r <=>\n       a + --(&1) * x + b > r /\\ a + --(&1) * y  + b > r) /\\\n      (a + b + --(&1) * max x y > r <=>\n       a + b + --(&1) * x > r /\\ a + b + --(&1) * y > r) /\\\n      (a + b + --(&1) * max x y + c > r <=>\n       a + b + --(&1) * x + c > r /\\ a + b + --(&1) * y  + c > r) /\\\n      (min x y > r <=>\n        x > r /\\  y > r) /\\\n      (min x y + a > r <=>\n       a + x > r /\\ a + y > r) /\\\n      (a + min x y > r <=>\n       a + x > r /\\ a + y > r) /\\\n      (a + min x y + b > r <=>\n       a + x + b > r /\\ a + y  + b > r) /\\\n      (a + b + min x y > r <=>\n       a + b + x > r /\\ a + b + y > r) /\\\n      (a + b + min x y + c > r <=>\n       a + b + x + c > r /\\ a + b + y + c > r)",
-        ),
+        @term_syntax.parse_term("(-real_of_num(1) * abs((x : Real)) >= (r : Real)) == (-real_of_num(1) * x >= r && real_of_num(1) * x >= r) && (-real_of_num(1) * abs(x) + (a : Real) >= r) == (a + -real_of_num(1) * x >= r && a + real_of_num(1) * x >= r) && (a + -real_of_num(1) * abs(x) >= r) == (a + -real_of_num(1) * x >= r && a + real_of_num(1) * x >= r) && (a + (-real_of_num(1) * abs(x) + (b : Real)) >= r) == (a + (-real_of_num(1) * x + b) >= r && a + (real_of_num(1) * x + b) >= r) && (a + (b + -real_of_num(1) * abs(x)) >= r) == (a + (b + -real_of_num(1) * x) >= r && a + (b + real_of_num(1) * x) >= r) && (a + (b + (-real_of_num(1) * abs(x) + (c : Real))) >= r) == (a + (b + (-real_of_num(1) * x + c)) >= r && a + (b + (real_of_num(1) * x + c)) >= r) && (-real_of_num(1) * max(x, (y : Real)) >= r) == (-real_of_num(1) * x >= r && -real_of_num(1) * y >= r) && (-real_of_num(1) * max(x, y) + a >= r) == (a + -real_of_num(1) * x >= r && a + -real_of_num(1) * y >= r) && (a + -real_of_num(1) * max(x, y) >= r) == (a + -real_of_num(1) * x >= r && a + -real_of_num(1) * y >= r) && (a + (-real_of_num(1) * max(x, y) + b) >= r) == (a + (-real_of_num(1) * x + b) >= r && a + (-real_of_num(1) * y + b) >= r) && (a + (b + -real_of_num(1) * max(x, y)) >= r) == (a + (b + -real_of_num(1) * x) >= r && a + (b + -real_of_num(1) * y) >= r) && (a + (b + (-real_of_num(1) * max(x, y) + c)) >= r) == (a + (b + (-real_of_num(1) * x + c)) >= r && a + (b + (-real_of_num(1) * y + c)) >= r) && (real_of_num(1) * min(x, y) >= r) == (real_of_num(1) * x >= r && real_of_num(1) * y >= r) && (real_of_num(1) * min(x, y) + a >= r) == (a + real_of_num(1) * x >= r && a + real_of_num(1) * y >= r) && (a + real_of_num(1) * min(x, y) >= r) == (a + real_of_num(1) * x >= r && a + real_of_num(1) * y >= r) && (a + (real_of_num(1) * min(x, y) + b) >= r) == (a + (real_of_num(1) * x + b) >= r && a + (real_of_num(1) * y + b) >= r) && (a + (b + real_of_num(1) * min(x, y)) >= r) == (a + (b + real_of_num(1) * x) >= r && a + (b + real_of_num(1) * y) >= r) && (a + (b + (real_of_num(1) * min(x, y) + c)) >= r) == (a + (b + (real_of_num(1) * x + c)) >= r && a + (b + (real_of_num(1) * y + c)) >= r) && (min(x, y) >= r) == (x >= r && y >= r) && (min(x, y) + a >= r) == (a + x >= r && a + y >= r) && (a + min(x, y) >= r) == (a + x >= r && a + y >= r) && (a + (min(x, y) + b) >= r) == (a + (x + b) >= r && a + (y + b) >= r) && (a + (b + min(x, y)) >= r) == (a + (b + x) >= r && a + (b + y) >= r) && (a + (b + (min(x, y) + c)) >= r) == (a + (b + (x + c)) >= r && a + (b + (y + c)) >= r) && (-real_of_num(1) * abs(x) > r) == (-real_of_num(1) * x > r && real_of_num(1) * x > r) && (-real_of_num(1) * abs(x) + a > r) == (a + -real_of_num(1) * x > r && a + real_of_num(1) * x > r) && (a + -real_of_num(1) * abs(x) > r) == (a + -real_of_num(1) * x > r && a + real_of_num(1) * x > r) && (a + (-real_of_num(1) * abs(x) + b) > r) == (a + (-real_of_num(1) * x + b) > r && a + (real_of_num(1) * x + b) > r) && (a + (b + -real_of_num(1) * abs(x)) > r) == (a + (b + -real_of_num(1) * x) > r && a + (b + real_of_num(1) * x) > r) && (a + (b + (-real_of_num(1) * abs(x) + c)) > r) == (a + (b + (-real_of_num(1) * x + c)) > r && a + (b + (real_of_num(1) * x + c)) > r) && (-real_of_num(1) * max(x, y) > r) == (-real_of_num(1) * x > r && -real_of_num(1) * y > r) && (-real_of_num(1) * max(x, y) + a > r) == (a + -real_of_num(1) * x > r && a + -real_of_num(1) * y > r) && (a + -real_of_num(1) * max(x, y) > r) == (a + -real_of_num(1) * x > r && a + -real_of_num(1) * y > r) && (a + (-real_of_num(1) * max(x, y) + b) > r) == (a + (-real_of_num(1) * x + b) > r && a + (-real_of_num(1) * y + b) > r) && (a + (b + -real_of_num(1) * max(x, y)) > r) == (a + (b + -real_of_num(1) * x) > r && a + (b + -real_of_num(1) * y) > r) && (a + (b + (-real_of_num(1) * max(x, y) + c)) > r) == (a + (b + (-real_of_num(1) * x + c)) > r && a + (b + (-real_of_num(1) * y + c)) > r) && (min(x, y) > r) == (x > r && y > r) && (min(x, y) + a > r) == (a + x > r && a + y > r) && (a + min(x, y) > r) == (a + x > r && a + y > r) && (a + (min(x, y) + b) > r) == (a + (x + b) > r && a + (y + b) > r) && (a + (b + min(x, y)) > r) == (a + (b + x) > r && a + (b + y) > r) && (a + (b + (min(x, y) + c)) > r) == (a + (b + (x + c)) > r && a + (b + (y + c)) > r)"),
       ),
     ]),
   )
@@ -2665,9 +2653,7 @@ fn step_33() -> Unit raise {
     t283,
   )
   let pth_abs = @tactics.prove(
-    @parser.parse_term(
-      "P(abs x) <=> (x >= &0 /\\ P x) \\/ (&0 > x /\\ P (--x))",
-    ),
+    @term_syntax.parse_term("(P : (Real) -> Bool)(abs((x : Real))) == (x >= real_of_num(0) && P(x) || real_of_num(0) > x && P(-x))"),
     t284,
   )
   let t285 = @simp.asm_rewrite_tac(@list.List([@realax.real_lt()]))

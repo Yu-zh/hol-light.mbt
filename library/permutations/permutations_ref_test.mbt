@@ -6503,18 +6503,18 @@ test "Library/permutations matches Library/permutations.ml" {
       #|0..0..5..10..solved at 17
       #|0..0..6..12..solved at 19
       #|Library/permutations quotations (749):
-      #|  p permutes s <=> (forall x. ~(x IN s) ==> p(x) = x) /\\ (forall y. ?!x. p x = y)
+      #|  (permutes : ((_) -> _, (_) -> Bool) -> Bool)((p : (_) -> _), (s : (_) -> Bool)) == ((\226\136\128 x : _, !IN(x, s) \226\134\146 p(x) == x) && (\226\136\128 y : _, existsunique((x : _) => p(x) == y)))
       #|  (inverse : ((_) -> _, _) -> _)((f : (_) -> _)) == ((y : _) => select((x : _) => f(x) == y))
       #|  \226\136\128 f : (_) -> _, (\226\136\128 y : _, \226\136\131 x : _, f(x) == y) == (\226\136\128 y : _, f(inverse(f, y)) == y)
       #|  \226\136\128 f : (_) -> _, (\226\136\128 y : _, \226\136\131 x : _, f(x) == y) == (o(f, inverse(f)) == I)
-      #|  forall f. (forall x x'. f x = f x' ==> x = x') <=> forall x. inverse f (f x) = x
-      #|  forall f. (forall x x'. f x = f x' ==> x = x') <=> (inverse f o f = I)
+      #|  \226\136\128 f : (_) -> _, (\226\136\128 x : _, \226\136\128 x' : _, f(x) == f(x') \226\134\146 x == x') == (\226\136\128 x : _, inverse(f, f(x)) == x)
+      #|  \226\136\128 f : (_) -> _, (\226\136\128 x : _, \226\136\128 x' : _, f(x) == f(x') \226\134\146 x == x') == (o(inverse(f), f) == I)
       #|  \226\136\128 f : (_) -> _, \226\136\128 g : (_) -> _, o(f, g) == I && o(g, f) == I \226\134\146 inverse(f) == g
       #|  (inverse : ((_) -> _, _) -> _)((I : (_) -> _)) == (I : (_) -> _)
       #|  (x : A)
       #|  (y : A)
-      #|  forall(f:A->A) g. (forall x. f(g x) = x) /\\ (forall x. g(f x) = x)\n                ==> inverse f = g
-      #|  swap(i,j) k = if k = i then j else if k = j then i else k
+      #|  \226\136\128 f : (A) -> A, \226\136\128 g : (A) -> A, (\226\136\128 x : A, f(g(x)) == x) && (\226\136\128 x : A, g(f(x)) == x) \226\134\146 inverse(f) == g
+      #|  (swap : ((_, _), _) -> _)(((i : _), (j : _)), (k : _)) == (if k == i { j } else { if k == j { i } else { k } })
       #|  \226\136\128 a : _, swap((a, a)) == I
       #|  \226\136\128 a : _, \226\136\128 b : _, swap((a, b)) == swap((b, a))
       #|  \226\136\128 a : _, \226\136\128 b : _, o(swap((a, b)), swap((a, b))) == I
@@ -6528,45 +6528,45 @@ test "Library/permutations matches Library/permutations.ml" {
       #|  (x : A) == (a : A)
       #|  (x : A)
       #|  !((b : A) == (a : A)) && !((c : A) == b) && !(c == a)
-      #|  forall a b c:A. ~(a = b) /\\ ~(b = c) /\\ ~(a = c)\n     ==> swap(a,b) o swap(b,c) o swap(a,b) = swap(a,c)
+      #|  \226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, !(a == b) && !(b == c) && !(a == c) \226\134\146 o(swap((a, b)), o(swap((b, c)), swap((a, b)))) == swap((a, c))
       #|  (z : A) == (y : A)
       #|  (z : A) == (x : A)
       #|  (z : A) == (a : A)
       #|  (z : A)
       #|  !((x : A) == (a : A)) && !((y : A) == a) && !(y == x)
-      #|  forall a x y:A. ~(a = x) /\\ ~(a = y) /\\ ~(x = y)\n     ==> swap(a,x) o swap(a,y) o swap(a,x) = swap(x,y)
-      #|  forall(s:A->bool) (p:A->A).\n        (forall x. x IN s ==> p x IN s) /\\\n        (forall x. x IN s ==> p(p x) = x) /\\\n        {x | x IN s /\\ ~(p x = x)} HAS_SIZE 2\n        ==> ?a b. a IN s /\\ b IN s /\\ ~(a = b) /\\\n                  forall x. x IN s ==> p x = swap(a,b) x
-      #|  forall(s:A->bool) (p:A->A).\n     FINITE s /\\\n     (forall x. x IN s ==> p x IN s) /\\\n     (forall x. x IN s ==> p(p x) = x) /\\\n     CARD {x | x IN s /\\ ~(p x = x)} = 2\n     ==> ?(a:A) (b:A). a IN s /\\ b IN s /\\ ~(a = b) /\\\n                       forall x. x IN s ==> p x = swap(a,b) x
+      #|  \226\136\128 a : A, \226\136\128 x : A, \226\136\128 y : A, !(a == x) && !(a == y) && !(x == y) \226\134\146 o(swap((a, x)), o(swap((a, y)), swap((a, x)))) == swap((x, y))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 p : (A) -> A, (\226\136\128 x : A, IN(x, s) \226\134\146 IN(p(x), s)) && (\226\136\128 x : A, IN(x, s) \226\134\146 p(p(x)) == x) && HAS_SIZE({(x : A) | IN(x, s) && !(p(x) == x)}, 2) \226\134\146 (\226\136\131 a : A, \226\136\131 b : A, IN(a, s) && IN(b, s) && !(a == b) && (\226\136\128 x : A, IN(x, s) \226\134\146 p(x) == swap((a, b), x)))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 p : (A) -> A, FINITE(s) && (\226\136\128 x : A, IN(x, s) \226\134\146 IN(p(x), s)) && (\226\136\128 x : A, IN(x, s) \226\134\146 p(p(x)) == x) && CARD({(x : A) | IN(x, s) && !(p(x) == x)}) == 2 \226\134\146 (\226\136\131 a : A, \226\136\131 b : A, IN(a, s) && IN(b, s) && !(a == b) && (\226\136\128 x : A, IN(x, s) \226\134\146 p(x) == swap((a, b), x)))
       #|  \226\136\128 p : (_) -> _, \226\136\128 s : (_) -> Bool, \226\136\128 x : _, permutes(p, s) \226\134\146 IN(p(x), s) == IN(x, s)
       #|  \226\136\128 p : (_) -> _, \226\136\128 s : (_) -> Bool, permutes(p, s) \226\134\146 IMAGE(p, s) == s
       #|  \226\136\128 p : (_) -> _, \226\136\128 s : (_) -> Bool, permutes(p, s) \226\134\146 (\226\136\128 x : _, \226\136\128 y : _, (p(x) == p(y)) == (x == y))
       #|  \226\136\128 p : (_) -> _, \226\136\128 s : (_) -> Bool, permutes(p, s) \226\134\146 (\226\136\128 y : _, \226\136\131 x : _, p(x) == y)
-      #|  forall p s. p permutes s ==> p o inverse(p) = I /\\ inverse(p) o p = I
-      #|  forall p s. p permutes s\n         ==> (forall x. p(inverse p x) = x) /\\ (forall x. inverse p (p x) = x)
+      #|  \226\136\128 p : (_) -> _, \226\136\128 s : (_) -> Bool, permutes(p, s) \226\134\146 o(p, inverse(p)) == I && o(inverse(p), p) == I
+      #|  \226\136\128 p : (_) -> _, \226\136\128 s : (_) -> Bool, permutes(p, s) \226\134\146 (\226\136\128 x : _, p(inverse(p, x)) == x) && (\226\136\128 x : _, inverse(p, p(x)) == x)
       #|  \226\136\128 p : (_) -> _, \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, permutes(p, s) && SUBSET(s, t) \226\134\146 permutes(p, t)
       #|  \226\136\128 p : (_) -> _, permutes(p, {}) == (p == I)
       #|  \226\136\128 p : (_) -> _, \226\136\128 a : _, permutes(p, {a}) == (p == I)
       #|  \226\136\128 p : (A) -> A, permutes(p, UNIV) == (\226\136\128 y : A, existsunique((x : A) => p(x) == y))
-      #|  forall p s. p permutes s ==> forall x y. inverse p y = x <=> p x = y
+      #|  \226\136\128 p : (_) -> _, \226\136\128 s : (_) -> Bool, permutes(p, s) \226\134\146 (\226\136\128 x : _, \226\136\128 y : _, (inverse(p, y) == x) == (p(x) == y))
       #|  \226\136\128 a : _, \226\136\128 b : _, \226\136\128 s : (_) -> Bool, IN(a, s) && IN(b, s) \226\134\146 permutes(swap((a, b)), s)
-      #|  forall p s t. p permutes s /\\ (forall x. x IN (s DIFF t) ==> p(x) = x)\n           ==> p permutes t
-      #|  forall p q. (forall x. x IN s ==> p x IN s) /\\ (forall x. ~(x IN s) ==> p x = x) /\\\n         (forall x. x IN s ==> q x IN s) /\\ (forall x. ~(x IN s) ==> q x = x) /\\\n         (forall x. p(q x) = x) /\\ (forall x. q(p x) = x)\n         ==> p permutes s
+      #|  \226\136\128 p : (_) -> _, \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, permutes(p, s) && (\226\136\128 x : _, IN(x, DIFF(s, t)) \226\134\146 p(x) == x) \226\134\146 permutes(p, t)
+      #|  \226\136\128 p : (_) -> _, \226\136\128 q : (_) -> _, (\226\136\128 x : _, IN(x, (s : (_) -> Bool)) \226\134\146 IN(p(x), s)) && (\226\136\128 x : _, !IN(x, s) \226\134\146 p(x) == x) && (\226\136\128 x : _, IN(x, s) \226\134\146 IN(q(x), s)) && (\226\136\128 x : _, !IN(x, s) \226\134\146 q(x) == x) && (\226\136\128 x : _, p(q(x)) == x) && (\226\136\128 x : _, q(p(x)) == x) \226\134\146 permutes(p, s)
       #|  (x : A)
       #|  (q : (A) -> A)((x : A))
       #|  IN((x : A), (s : (A) -> Bool))
       #|  (x : A)
       #|  inverse((p : (A) -> A))
-      #|  forall s p:A->A.\n        p permutes s <=>\n        ?q. (forall x. ~(x IN s) ==> p x = x) /\\\n            (forall x. x IN s ==> p x IN s) /\\\n            (forall x. x IN s ==> p(q x) = x /\\ q(p x) = x)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 p : (A) -> A, permutes(p, s) == (\226\136\131 q : (A) -> A, (\226\136\128 x : A, !IN(x, s) \226\134\146 p(x) == x) && (\226\136\128 x : A, IN(x, s) \226\134\146 IN(p(x), s)) && (\226\136\128 x : A, IN(x, s) \226\134\146 p(q(x)) == x && q(p(x)) == x))
       #|  IMAGE((p : (A) -> A), (s : (A) -> Bool))
-      #|  forall s. (forall y. ~(y IN s) ==> P y) /\\ (forall y. y IN s ==> P y) ==> forall y. P y
-      #|  forall(p:A->A) s.\n        p permutes s <=>\n        (forall x. x IN s ==> p x IN s) /\\\n        (forall x. ~(x IN s) ==> p x = x) /\\\n        (forall y. y IN s ==> ?!x. x IN s /\\ p x = y)
-      #|  forall Q p s:A->bool.\n        p permutes s /\\ (forall x. x IN s ==> (Q(p x) <=> Q x))\n        ==> (\\i. if Q i then p i else i) permutes {x | x IN s /\\ Q x}
-      #|  forall Q p s:A->bool.\n        p permutes s /\\ (forall x. x IN s ==> (Q(p x) <=> Q x))\n        ==> (\\i. if Q i then p i else i) permutes s
-      #|  forall(p:A->A) (q:B->B) s t.\n        p permutes s /\\ q permutes t\n        ==> (\\(i,j). if i IN s /\\ j IN t then p i,q j else i,j)\n            permutes (s CROSS t)
-      #|  forall(f:A->B) f' p s t.\n        (forall x. f'(f x) = x) /\\ (forall y. f(f' y) = y) /\\\n        (forall x. x IN s ==> f x IN t) /\\\n        (forall y. y IN t ==> f' y IN s)\n        ==> ((f' o p o f) permutes s <=> p permutes t)
-      #|  forall(f:A->B) p q s.\n        p permutes s /\\\n        (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y) /\\\n        (forall x. x IN s ==> q(f x) = f(p x)) /\\\n        (forall y. ~(y IN IMAGE f s) ==> q y = y)\n        ==> q permutes (IMAGE f s)
+      #|  \226\136\128 s : (_) -> Bool, (\226\136\128 y : _, !IN(y, s) \226\134\146 (P : (_) -> Bool)(y)) && (\226\136\128 y : _, IN(y, s) \226\134\146 P(y)) \226\134\146 (\226\136\128 y : _, P(y))
+      #|  \226\136\128 p : (A) -> A, \226\136\128 s : (A) -> Bool, permutes(p, s) == ((\226\136\128 x : A, IN(x, s) \226\134\146 IN(p(x), s)) && (\226\136\128 x : A, !IN(x, s) \226\134\146 p(x) == x) && (\226\136\128 y : A, IN(y, s) \226\134\146 existsunique((x : A) => IN(x, s) && p(x) == y)))
+      #|  \226\136\128 Q : (A) -> Bool, \226\136\128 p : (A) -> A, \226\136\128 s : (A) -> Bool, permutes(p, s) && (\226\136\128 x : A, IN(x, s) \226\134\146 Q(p(x)) == Q(x)) \226\134\146 permutes((i : A) => if Q(i) { p(i) } else { i }, {(x : A) | IN(x, s) && Q(x)})
+      #|  \226\136\128 Q : (A) -> Bool, \226\136\128 p : (A) -> A, \226\136\128 s : (A) -> Bool, permutes(p, s) && (\226\136\128 x : A, IN(x, s) \226\134\146 Q(p(x)) == Q(x)) \226\134\146 permutes((i : A) => if Q(i) { p(i) } else { i }, s)
+      #|  \226\136\128 p : (A) -> A, \226\136\128 q : (B) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, permutes(p, s) && permutes(q, t) \226\134\146 permutes(fn { (i, j) => if IN(i, s) && IN(j, t) { (p(i), q(j)) } else { (i, j) } }, CROSS(s, t))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 f' : (B) -> A, \226\136\128 p : (B) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (\226\136\128 x : A, f'(f(x)) == x) && (\226\136\128 y : B, f(f'(y)) == y) && (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t)) && (\226\136\128 y : B, IN(y, t) \226\134\146 IN(f'(y), s)) \226\134\146 permutes(o(f', o(p, f)), s) == permutes(p, t)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 p : (A) -> A, \226\136\128 q : (B) -> B, \226\136\128 s : (A) -> Bool, permutes(p, s) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) && (\226\136\128 x : A, IN(x, s) \226\134\146 q(f(x)) == f(p(x))) && (\226\136\128 y : B, !IN(y, IMAGE(f, s)) \226\134\146 q(y) == y) \226\134\146 permutes(q, IMAGE(f, s))
       #|  (p : (A) -> A)
-      #|  ~(inverse (p:A->A) (x:A) = a) /\\\n                 ~(inverse p x = b)
+      #|  !(inverse((p : (A) -> A), (x : A)) == (a : A)) && !(inverse(p, x) == (b : A))
       #|  (x : A) == (p : (A) -> A)((b : A))
       #|  (x : A) == (p : (A) -> A)((a : A))
       #|  (x : A)
@@ -6574,10 +6574,10 @@ test "Library/permutations matches Library/permutations.ml" {
       #|  \226\136\128 y : A, inverse((p : (A) -> A), p(y)) == y
       #|  o((p : (A) -> A), inverse(p)) == I
       #|  \226\136\128 y : A, (p : (A) -> A)(inverse(p, y)) == y
-      #|  forall(p:A->A) s a b. p permutes s\n     ==> p o swap(a,b) o inverse p = swap(p a, p b)
+      #|  \226\136\128 p : (A) -> A, \226\136\128 s : (A) -> Bool, \226\136\128 a : A, \226\136\128 b : A, permutes(p, s) \226\134\146 o(p, o(swap((a, b)), inverse(p))) == swap((p(a), p(b)))
       #|  \226\136\128 s : (A) -> Bool, permutes((x : A) => x, s)
       #|  \226\136\128 s : (_) -> Bool, permutes(I, s)
-      #|  forall p q s. p permutes s /\\ q permutes s ==> (q o p) permutes s
+      #|  \226\136\128 p : (_) -> _, \226\136\128 q : (_) -> _, \226\136\128 s : (_) -> Bool, permutes(p, s) && permutes(q, s) \226\134\146 permutes(o(q, p), s)
       #|  op_bslash_slash
       #|  op_bslash_slash
       #|  op_tilde
@@ -6899,13 +6899,13 @@ test "Library/permutations matches Library/permutations.ml" {
       #|  \226\136\128 p : (_) -> _, \226\136\128 s : (_) -> Bool, permutes(p, s) \226\134\146 permutes(inverse(p), s)
       #|  \226\136\128 p : (_) -> _, permutes(p, (s : (_) -> Bool)) \226\134\146 inverse(inverse(p)) == p
       #|  INSERT((a : A), (s : (A) -> Bool))
-      #|  forall p a:A s. p permutes (a INSERT s) ==> (swap(a,p(a)) o p) permutes s
+      #|  \226\136\128 p : (A) -> A, \226\136\128 a : A, \226\136\128 s : (A) -> Bool, permutes(p, INSERT(a, s)) \226\134\146 permutes(o(swap((a, p(a))), p), s)
       #|  (q : (A) -> A)
       #|  (b : A)
       #|  o(swap(((a : A), (p : (A) -> A)(a))), p)
       #|  (p : (A) -> A)((a : A))
       #|  (p : (A) -> A)
-      #|  {p:A->A | p permutes (a INSERT s)} =\n        IMAGE (\\(b,p). swap(a,b) o p)\n              {(b,p) | b IN a INSERT s /\\ p IN {p | p permutes s}}
+      #|  {(p : (A) -> A) | permutes(p, INSERT((a : A), (s : (A) -> Bool)))} == IMAGE(fn { (b, p) => o(swap((a, b)), p) }, {((b : A), (p : (A) -> A)) | IN(b, INSERT(a, s)) && IN(p, {(p : (A) -> A) | permutes(p, s)})})
       #|  (q : (A) -> A) => o(swap(((a : A), (b : A))), q)
       #|  (q : (A) -> A)((a : A)) == a && (r : (A) -> A)(a) == a
       #|  (a : A)
@@ -6918,31 +6918,31 @@ test "Library/permutations matches Library/permutations.ml" {
       #|  (s : (A) -> Bool)
       #|  (a : A)
       #|  {(x : _) | x == (a : _)} == {a}
-      #|  forall s:A->bool n. s HAS_SIZE n ==> {p | p permutes s} HAS_SIZE (FACT n)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 n : Num, HAS_SIZE(s, n) \226\134\146 HAS_SIZE({(p : (A) -> A) | permutes(p, s)}, FACT(n))
       #|  \226\136\128 s : (_) -> Bool, FINITE(s) \226\134\146 FINITE({(p : (_) -> _) | permutes(p, s)})
-      #|  forall s. FINITE s ==> CARD {p | p permutes s} = FACT(CARD s)
+      #|  \226\136\128 s : (_) -> Bool, FINITE(s) \226\134\146 CARD({(p : (_) -> _) | permutes(p, s)}) == FACT(CARD(s))
       #|  IN((y : A), (s : (A) -> Bool))
       #|  (y : A)
       #|  (p : (A) -> A)
       #|  ((p : Bool) \226\134\146 (q : Bool) == (r : Bool)) \226\134\146 (p && q) == (p && r)
-      #|  forall s:A->bool p.\n        FINITE s\n        ==> (p permutes s <=>\n             (forall x. ~(x IN s) ==> p x = x) /\\\n             (forall x. x IN s ==> p x IN s) /\\\n             (forall x y. x IN s /\\ y IN s /\\ p x = p y ==> x = y))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 p : (A) -> A, FINITE(s) \226\134\146 permutes(p, s) == ((\226\136\128 x : A, !IN(x, s) \226\134\146 p(x) == x) && (\226\136\128 x : A, IN(x, s) \226\134\146 IN(p(x), s)) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && p(x) == p(y) \226\134\146 x == y))
       #|  IN((y : A), (s : (A) -> Bool))
       #|  (y : A)
       #|  (p : (A) -> A)
       #|  ((p : Bool) \226\134\146 (q : Bool) == (r : Bool)) \226\134\146 (p && q) == (p && r)
-      #|  forall s:A->bool p.\n        FINITE s\n        ==> (p permutes s <=>\n             (forall x. ~(x IN s) ==> p x = x) /\\ (forall x. x IN s ==> p x IN s) /\\\n             (forall y. y IN s ==> ?x. x IN s /\\ p x = y))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 p : (A) -> A, FINITE(s) \226\134\146 permutes(p, s) == ((\226\136\128 x : A, !IN(x, s) \226\134\146 p(x) == x) && (\226\136\128 x : A, IN(x, s) \226\134\146 IN(p(x), s)) && (\226\136\128 y : A, IN(y, s) \226\134\146 (\226\136\131 x : A, IN(x, s) && p(x) == y)))
       #|  (y : A)
       #|  (x : A)
       #|  IN((f : (A) -> A)((x : A)), (t : (A) -> Bool))
       #|  (x : A)
       #|  (x : A)
       #|  (t : (A) -> Bool)
-      #|  forall s t (f:A->A).\n    FINITE t /\\ t SUBSET s /\\ f permutes s /\\ IMAGE f t = t\n    ==> (\\x. if x IN t then f x else x) permutes t
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 f : (A) -> A, FINITE(t) && SUBSET(t, s) && permutes(f, s) && IMAGE(f, t) == t \226\134\146 permutes((x : A) => if IN(x, t) { f(x) } else { x }, t)
       #|  \226\136\128 t : (A) -> Bool, ((x : A) => if IN(x, t) { I(x) } else { x }) == I
       #|  IN((g : (A) -> A)((x : A)), (t : (A) -> Bool))
       #|  IN((x : A), (t : (A) -> Bool))
       #|  (x : A)
-      #|  forall s t (f:A->A) g.\n    t SUBSET s /\\ f permutes s /\\ g permutes s /\\\n    IMAGE f t = t /\\ IMAGE g t = t\n    ==> (\\x. if x IN t then (f o g) x else x) =\n        (\\x. if x IN t then f x else x) o (\\x. if x IN t then g x else x)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 f : (A) -> A, \226\136\128 g : (A) -> A, SUBSET(t, s) && permutes(f, s) && permutes(g, s) && IMAGE(f, t) == t && IMAGE(g, t) == t \226\134\146 ((x : A) => if IN(x, t) { o(f, g, x) } else { x }) == o((x : A) => if IN(x, t) { f(x) } else { x }, (x : A) => if IN(x, t) { g(x) } else { x })
       #|  (g : (A) -> A)(inverse((f : (A) -> A), (y : A))) == f(inverse(f, y))
       #|  IN(inverse((f : (A) -> A), (y : A)), (t : (A) -> Bool))
       #|  IN((y : A), (t : (A) -> Bool))
@@ -6956,66 +6956,66 @@ test "Library/permutations matches Library/permutations.ml" {
       #|  \226\136\128 z : A, IN(z, (t : (A) -> Bool)) \226\134\146 IN(inverse((f : (A) -> A), z), t)
       #|  permutes((g : (A) -> A), (t : (A) -> Bool))
       #|  (g : (A) -> A) == ((x : A) => if IN(x, (t : (A) -> Bool)) { (f : (A) -> A)(x) } else { x })
-      #|  forall s t (f:A->A).\n    FINITE t /\\ t SUBSET s /\\ f permutes s /\\ IMAGE f t = t\n    ==> (\\x. if x IN t then inverse f x else x) =\n        inverse (\\x. if x IN t then f x else x)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 f : (A) -> A, FINITE(t) && SUBSET(t, s) && permutes(f, s) && IMAGE(f, t) == t \226\134\146 ((x : A) => if IN(x, t) { inverse(f, x) } else { x }) == inverse((x : A) => if IN(x, t) { f(x) } else { x })
       #|  IN((x : A), (s : (A) -> Bool))
       #|  (x : A)
-      #|  forall(s:A->bool) a b.\n    a IN s /\\ b IN s\n    ==> (\\x. if x IN s then swap(a,b) x else x) = swap(a,b)
-      #|  forall op. monoidal op\n        ==> forall f p s. p permutes s ==> iterate op s f = iterate op s (f o p)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 a : A, \226\136\128 b : A, IN(a, s) && IN(b, s) \226\134\146 ((x : A) => if IN(x, s) { swap((a, b), x) } else { x }) == swap((a, b))
+      #|  \226\136\128 op : (_, _) -> _, monoidal(op) \226\134\146 (\226\136\128 f : (_) -> _, \226\136\128 p : (_) -> _, \226\136\128 s : (_) -> Bool, permutes(p, s) \226\134\146 iterate(op, s, f) == iterate(op, s, o(f, p)))
       #|  \226\136\128 f : (_) -> Num, \226\136\128 p : (_) -> _, \226\136\128 s : (_) -> Bool, permutes(p, s) \226\134\146 nsum(s, f) == nsum(s, o(f, p))
-      #|  forall f p m n. p permutes m..n ==> nsum(m..n) f = nsum(m..n) (f o p)
+      #|  \226\136\128 f : (Num) -> Num, \226\136\128 p : (Num) -> Num, \226\136\128 m : Num, \226\136\128 n : Num, permutes(p, op_dot_dot(m, n)) \226\134\146 nsum(op_dot_dot(m, n), f) == nsum(op_dot_dot(m, n), o(f, p))
       #|  \226\136\128 f : (_) -> Real, \226\136\128 p : (_) -> _, \226\136\128 s : (_) -> Bool, permutes(p, s) \226\134\146 sum(s, f) == sum(s, o(f, p))
-      #|  forall f p m n. p permutes m..n ==> sum(m..n) f = sum(m..n) (f o p)
+      #|  \226\136\128 f : (Num) -> Real, \226\136\128 p : (Num) -> Num, \226\136\128 m : Num, \226\136\128 n : Num, permutes(p, op_dot_dot(m, n)) \226\134\146 sum(op_dot_dot(m, n), f) == sum(op_dot_dot(m, n), o(f, p))
       #|  (x : A) == (c : A)
       #|  (x : A) == (b : A)
       #|  (x : A) == (a : A)
       #|  (x : A)
-      #|  forall a b c:A. ~(a = c) /\\ ~(b = c)\n             ==> swap(a,b) o swap(a,c) = swap(b,c) o swap(a,b)
-      #|  forall a b c:A. ~(a = b) /\\ ~(a = c)\n             ==> swap(a,c) o swap(b,c) = swap(b,c) o swap(a,b)
+      #|  \226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, !(a == c) && !(b == c) \226\134\146 o(swap((a, b)), swap((a, c))) == o(swap((b, c)), swap((a, b)))
+      #|  \226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, !(a == b) && !(a == c) \226\134\146 o(swap((a, c)), swap((b, c))) == o(swap((b, c)), swap((a, b)))
       #|  (x : A) == (c : A)
       #|  (x : A) == (b : A)
       #|  (x : A) == (a : A)
       #|  (x : A)
-      #|  forall a b c d:A. ~(a = c) /\\ ~(a = d) /\\ ~(b = c) /\\ ~(b = d)\n               ==> swap(a,b) o swap(c,d) = swap(c,d) o swap(a,b)
-      #|  three_cycle (a:A) b c =\n    \\x:A. if x = a then b else if x = b then c else if x = c then a else x
-      #|  forall s a b c:A. a IN s /\\ b IN s /\\ c IN s /\\\n               ~(a = b) /\\ ~(b = c) /\\ ~(a = c)\n               ==> three_cycle a b c permutes s
-      #|  forall a b c:A. ~(a = b) /\\ ~(b = c) /\\ ~(a = c)\n    ==> three_cycle a b c o three_cycle a c b = I /\\\n        three_cycle a c b o three_cycle a b c = I
+      #|  \226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, \226\136\128 d : A, !(a == c) && !(a == d) && !(b == c) && !(b == d) \226\134\146 o(swap((a, b)), swap((c, d))) == o(swap((c, d)), swap((a, b)))
+      #|  (three_cycle : (A, A, A, A) -> A)((a : A), (b : A), (c : A)) == ((x : A) => if x == a { b } else { if x == b { c } else { if x == c { a } else { x } } })
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, IN(a, s) && IN(b, s) && IN(c, s) && !(a == b) && !(b == c) && !(a == c) \226\134\146 permutes(three_cycle(a, b, c), s)
+      #|  \226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, !(a == b) && !(b == c) && !(a == c) \226\134\146 o(three_cycle(a, b, c), three_cycle(a, c, b)) == I && o(three_cycle(a, c, b), three_cycle(a, b, c)) == I
       #|  (c : A)
       #|  (b : A)
       #|  (a : A)
-      #|  forall a b c:A. ~(a = b) /\\ ~(b = c) /\\ ~(a = c)\n    ==> inverse (three_cycle a b c) = three_cycle a c b
+      #|  \226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, !(a == b) && !(b == c) && !(a == c) \226\134\146 inverse(three_cycle(a, b, c)) == three_cycle(a, c, b)
       #|  (x : A) == (e : A)
       #|  (x : A) == (d : A)
       #|  (x : A) == (c : A)
       #|  (x : A) == (b : A)
       #|  (x : A) == (a : A)
       #|  (x : A)
-      #|  forall a b c d e:A.\n     ~(a = b) /\\ ~(a = c) /\\ ~(a = d) /\\ ~(a = e) /\\\n     ~(b = c) /\\ ~(b = d) /\\ ~(b = e) /\\\n     ~(c = d) /\\ ~(c = e) /\\\n     ~(d = e)\n     ==> three_cycle a b c =\n         (three_cycle d c a) o\n         (three_cycle c b e) o\n         (three_cycle d a c) o\n         (three_cycle c e b)
+      #|  \226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, \226\136\128 d : A, \226\136\128 e : A, !(a == b) && !(a == c) && !(a == d) && !(a == e) && !(b == c) && !(b == d) && !(b == e) && !(c == d) && !(c == e) && !(d == e) \226\134\146 three_cycle(a, b, c) == o(three_cycle(d, c, a), o(three_cycle(c, b, e), o(three_cycle(d, a, c), three_cycle(c, e, b))))
       #|  inverse(three_cycle((c : A), (e : A), (b : A))) == three_cycle(c, b, e)
       #|  inverse(three_cycle((d : A), (a : A), (c : A))) == three_cycle(d, c, a)
-      #|  forall a b c d e:A.\n     ~(a = b) /\\ ~(a = c) /\\ ~(a = d) /\\ ~(a = e) /\\\n     ~(b = c) /\\ ~(b = d) /\\ ~(b = e) /\\\n     ~(c = d) /\\ ~(c = e) /\\\n     ~(d = e)\n     ==> three_cycle a b c =\n         (inverse(three_cycle d a c)) o\n         (inverse(three_cycle c e b)) o\n         (three_cycle d a c) o\n         (three_cycle c e b)
-      #|  forall a b c:A. ~(a = b) /\\ ~(b = c) /\\ ~(a = c)\n             ==> ~(three_cycle a b c = I)
-      #|  (swapseq 0 I) /\\\n  (forall a b p n. swapseq n p /\\ ~(a = b) ==> swapseq (SUC n) (swap(a,b) o p))
+      #|  \226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, \226\136\128 d : A, \226\136\128 e : A, !(a == b) && !(a == c) && !(a == d) && !(a == e) && !(b == c) && !(b == d) && !(b == e) && !(c == d) && !(c == e) && !(d == e) \226\134\146 three_cycle(a, b, c) == o(inverse(three_cycle(d, a, c)), o(inverse(three_cycle(c, e, b)), o(three_cycle(d, a, c), three_cycle(c, e, b))))
+      #|  \226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, !(a == b) && !(b == c) && !(a == c) \226\134\146 !(three_cycle(a, b, c) == I)
+      #|  (swapseq : (Num, (_) -> _) -> Bool)(0, I) && (\226\136\128 a : _, \226\136\128 b : _, \226\136\128 p : (_) -> _, \226\136\128 n : Num, swapseq(n, p) && !(a == b) \226\134\146 swapseq(SUC(n), o(swap((a, b)), p)))
       #|  (permutation : ((_) -> _) -> Bool)((p : (_) -> _)) == (\226\136\131 n : Num, swapseq(n, p))
       #|  (permutation : ((_) -> _) -> Bool)((I : (_) -> _))
       #|  1
       #|  \226\136\128 a : _, \226\136\128 b : _, swapseq(if a == b { 0 } else { 1 }, swap((a, b)))
       #|  \226\136\128 a : _, \226\136\128 b : _, permutation(swap((a, b)))
-      #|  forall n p m q. swapseq n p /\\ swapseq m q ==> swapseq (n + m) (p o q)
-      #|  forall p q. permutation p /\\ permutation q ==> permutation(p o q)
-      #|  forall n p a b:A. swapseq n p /\\ ~(a = b) ==> swapseq (SUC n) (p o swap(a,b))
+      #|  \226\136\128 n : Num, \226\136\128 p : (_) -> _, \226\136\128 m : Num, \226\136\128 q : (_) -> _, swapseq(n, p) && swapseq(m, q) \226\134\146 swapseq(n + m, o(p, q))
+      #|  \226\136\128 p : (_) -> _, \226\136\128 q : (_) -> _, permutation(p) && permutation(q) \226\134\146 permutation(o(p, q))
+      #|  \226\136\128 n : Num, \226\136\128 p : (A) -> A, \226\136\128 a : A, \226\136\128 b : A, swapseq(n, p) && !(a == b) \226\134\146 swapseq(SUC(n), o(p, swap((a, b))))
       #|  o((q : (A) -> A), swap(((a : A), (b : A))))
       #|  (b : A)
       #|  (a : A)
       #|  (q : (A) -> A)
       #|  (n : Num)
-      #|  forall n p:A->A. swapseq n p ==> ?q. swapseq n q /\\ p o q = I /\\ q o p = I
+      #|  \226\136\128 n : Num, \226\136\128 p : (A) -> A, swapseq(n, p) \226\134\146 (\226\136\131 q : (A) -> A, swapseq(n, q) && o(p, q) == I && o(q, p) == I)
       #|  \226\136\128 n : Num, \226\136\128 p : (_) -> _, swapseq(n, p) \226\134\146 swapseq(n, inverse(p))
       #|  \226\136\128 p : (_) -> _, permutation(p) \226\134\146 permutation(inverse(p))
       #|  (b : A) == (d : A)
       #|  (b : A) == (c : A)
       #|  (a : A) == (d : A)
       #|  (a : A) == (c : A)
-      #|  (forall a b c d. P a b c d ==> P a b d c) /\\\n   (forall a b c d. ~(a = b) /\\ ~(c = d) /\\\n              (a = c /\\ b = d \\/ a = c /\\ ~(b = d) \\/ ~(a = c) /\\ b = d \\/\n               ~(a = c) /\\ ~(a = d) /\\ ~(b = c) /\\ ~(b = d))\n              ==> P a b c d)\n   ==> (forall a b c d:A. ~(a = b) /\\ ~(c = d) ==> P a b c d)
+      #|  (\226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, \226\136\128 d : A, (P : (A, A, A, A) -> Bool)(a, b, c, d) \226\134\146 P(a, b, d, c)) && (\226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, \226\136\128 d : A, !(a == b) && !(c == d) && (a == c && b == d || a == c && !(b == d) || !(a == c) && b == d || !(a == c) && !(a == d) && !(b == c) && !(b == d)) \226\134\146 P(a, b, c, d)) \226\134\146 (\226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, \226\136\128 d : A, !(a == b) && !(c == d) \226\134\146 P(a, b, c, d))
       #|  (b : A)
       #|  (d : A)
       #|  (c : A)
@@ -7025,7 +7025,7 @@ test "Library/permutations matches Library/permutations.ml" {
       #|  (b : A)
       #|  (d : A)
       #|  (b : A)
-      #|  forall a b c d:A.\n        ~(a = b) /\\ ~(c = d)\n        ==> swap(a,b) o swap(c,d) = I \\/\n            ?x y z. ~(x = a) /\\ ~(y = a) /\\ ~(z = a) /\\ ~(x = y) /\\\n                    swap(a,b) o swap(c,d) = swap(x,y) o swap(a,z)
+      #|  \226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, \226\136\128 d : A, !(a == b) && !(c == d) \226\134\146 o(swap((a, b)), swap((c, d))) == I || (\226\136\131 x : A, \226\136\131 y : A, \226\136\131 z : A, !(x == a) && !(y == a) && !(z == a) && !(x == y) && o(swap((a, b)), swap((c, d))) == o(swap((x, y)), swap((a, z))))
       #|  (n : Num)
       #|  (n : Num)
       #|  (r : (A) -> A) == o(swap(((a : A), (z : A))), (q : (A) -> A))
@@ -7043,7 +7043,7 @@ test "Library/permutations matches Library/permutations.ml" {
       #|  (q : (A) -> A)
       #|  (d : A)
       #|  (c : A)
-      #|  forall n p a b:A.\n      swapseq n p /\\ ~(a = b) /\\ (swap(a,b) o p) a = a\n      ==> ~(n = 0) /\\ swapseq (n - 1) (swap(a,b) o p)
+      #|  \226\136\128 n : Num, \226\136\128 p : (A) -> A, \226\136\128 a : A, \226\136\128 b : A, swapseq(n, p) && !(a == b) && o(swap((a, b)), p, a) == a \226\134\146 !(n == 0) && swapseq(n - 1, o(swap((a, b)), p))
       #|  (m : Num)
       #|  (m : Num)
       #|  !((m : Num) == 0)
@@ -7062,15 +7062,15 @@ test "Library/permutations matches Library/permutations.ml" {
       #|  \226\136\128 n : Num, (swapseq : (Num, (A) -> A) -> Bool)(n, (I : (A) -> A)) \226\134\146 EVEN(n)
       #|  (evenperm : ((_) -> _) -> Bool)((p : (_) -> _)) == EVEN(select((n : Num) => swapseq(n, p)))
       #|  (swapseq : (Num, (A) -> A) -> Bool)((n : Num) + (m : Num))
-      #|  forall m n p:A->A. swapseq m p /\\ swapseq n p ==> (EVEN m <=> EVEN n)
-      #|  forall n p b. swapseq n p /\\ EVEN n = b ==> evenperm p = b
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 p : (A) -> A, swapseq(m, p) && swapseq(n, p) \226\134\146 EVEN(m) == EVEN(n)
+      #|  \226\136\128 n : Num, \226\136\128 p : (_) -> _, \226\136\128 b : Bool, swapseq(n, p) && EVEN(n) == b \226\134\146 evenperm(p) == b
       #|  (evenperm : ((_) -> _) -> Bool)((I : (_) -> _)) == true
       #|  evenperm((x : A) => x)
       #|  EVEN(1)
       #|  EVEN(0)
       #|  \226\136\128 a : A, \226\136\128 b : A, evenperm(swap((a, b))) == (a == b)
-      #|  forall p q. permutation p /\\ permutation q\n         ==> evenperm (p o q) = (evenperm p = evenperm q)
-      #|  forall p. permutation p ==> evenperm(inverse p) = evenperm p
+      #|  \226\136\128 p : (_) -> _, \226\136\128 q : (_) -> _, permutation(p) && permutation(q) \226\134\146 evenperm(o(p, q)) == (evenperm(p) == evenperm(q))
+      #|  \226\136\128 p : (_) -> _, permutation(p) \226\134\146 evenperm(inverse(p)) == evenperm(p)
       #|  \226\136\128 p : (_) -> _, permutation(p) \226\134\146 (\226\136\128 y : _, existsunique((x : _) => p(x) == y))
       #|  INSERT((a : A), INSERT((b : A), {(x : A) | !((p : (A) -> A)(x) == x)}))
       #|  (p : (A) -> A)
@@ -7080,40 +7080,40 @@ test "Library/permutations matches Library/permutations.ml" {
       #|  \226\136\128 p : (A) -> A, permutation(p) \226\134\146 FINITE({(x : A) | !(p(x) == x)})
       #|  (p : (A) -> A)((a : A)) == a
       #|  (if (p : Bool) { (x : Bool) } else { (y : Bool) }) == (p && x || !p && y)
-      #|  (if p then x else y) = a <=> if p then x = a else y = a
+      #|  ((if (p : Bool) { (x : _) } else { (y : _) }) == (a : _)) == (if p { x == a } else { y == a })
       #|  (p : (A) -> A)((a : A)) == a
       #|  \226\136\128 y : A, existsunique((x : A) => (p : (A) -> A)(x) == y)
       #|  permutation(o(o(swap(((a : A), (p : (A) -> A)(a))), swap((a, p(a)))), p))
       #|  (s : (A) -> Bool)
       #|  (a : A)
       #|  (p : (A) -> A) == I
-      #|  forall s p:A->A.\n       FINITE s /\\\n       (forall y. ?!x. p(x) = y) /\\ (forall x. ~(x IN s) ==> p x = x)\n       ==> permutation p
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 p : (A) -> A, FINITE(s) && (\226\136\128 y : A, existsunique((x : A) => p(x) == y)) && (\226\136\128 x : A, !IN(x, s) \226\134\146 p(x) == x) \226\134\146 permutation(p)
       #|  {(x : A) | !((p : (A) -> A)(x) == x)}
-      #|  forall p. permutation p <=> (forall y. ?!x. p(x) = y) /\\ FINITE {x:A | ~(p(x) = x)}
-      #|  forall p. permutation p ==> inverse p o p = I /\\ p o inverse p = I
-      #|  forall p q. permutation p /\\ permutation q\n         ==> inverse(p o q) = inverse q o inverse p
+      #|  \226\136\128 p : (A) -> A, permutation(p) == ((\226\136\128 y : A, existsunique((x : A) => p(x) == y)) && FINITE({(x : A) | !(p(x) == x)}))
+      #|  \226\136\128 p : (_) -> _, permutation(p) \226\134\146 o(inverse(p), p) == I && o(p, inverse(p)) == I
+      #|  \226\136\128 p : (_) -> _, \226\136\128 q : (_) -> _, permutation(p) && permutation(q) \226\134\146 inverse(o(p, q)) == o(inverse(q), inverse(p))
       #|  inverse((q : (A) -> A))
       #|  inverse((p : (A) -> A))
-      #|  (forall p q:A->A. permutation(p) ==> (permutation(p o q) <=> permutation q)) /\\\n   (forall p q:A->A. permutation(q) ==> (permutation(p o q) <=> permutation p))
-      #|  (forall p a b:A. permutation(swap(a,b) o p) <=> permutation p) /\\\n   (forall p a b:A. permutation(p o swap(a,b)) <=> permutation p)
+      #|  (\226\136\128 p : (A) -> A, \226\136\128 q : (A) -> A, permutation(p) \226\134\146 permutation(o(p, q)) == permutation(q)) && (\226\136\128 p : (A) -> A, \226\136\128 q : (A) -> A, permutation(q) \226\134\146 permutation(o(p, q)) == permutation(p))
+      #|  (\226\136\128 p : (A) -> A, \226\136\128 a : A, \226\136\128 b : A, permutation(o(swap((a, b)), p)) == permutation(p)) && (\226\136\128 p : (A) -> A, \226\136\128 a : A, \226\136\128 b : A, permutation(o(p, swap((a, b)))) == permutation(p))
       #|  (s : (A) -> Bool)
       #|  {(x : A) | !((p : (A) -> A)(x) == x)}
-      #|  forall p:A->A. permutation p <=> ?s. FINITE s /\\ p permutes s
-      #|  forall Q (p:A->A).\n        permutation p /\\ (forall x. Q(p x) <=> Q x)\n        ==> permutation (\\i. if Q i then p i else i)
+      #|  \226\136\128 p : (A) -> A, permutation(p) == (\226\136\131 s : (A) -> Bool, FINITE(s) && permutes(p, s))
+      #|  \226\136\128 Q : (A) -> Bool, \226\136\128 p : (A) -> A, permutation(p) && (\226\136\128 x : A, Q(p(x)) == Q(x)) \226\134\146 permutation((i : A) => if Q(i) { p(i) } else { i })
       #|  (p : (A) -> A) == o(swap(((x : A), p(x))), o(swap((x, p(x))), p))
-      #|  a /\\ b /\\ c ==> d <=> b ==> a ==> c ==> d
-      #|  forall P s. FINITE s /\\\n         P I /\\\n         (forall a b:A p. a IN s /\\ b IN s /\\ P p /\\ permutation p\n                    ==> P (swap(a,b) o p))\n         ==> (forall p. p permutes s ==> P p)
+      #|  ((a : Bool) && (b : Bool) && (c : Bool) \226\134\146 (d : Bool)) == (b \226\134\146 a \226\134\146 c \226\134\146 d)
+      #|  \226\136\128 P : ((A) -> A) -> Bool, \226\136\128 s : (A) -> Bool, FINITE(s) && P(I) && (\226\136\128 a : A, \226\136\128 b : A, \226\136\128 p : (A) -> A, IN(a, s) && IN(b, s) && P(p) && permutation(p) \226\134\146 P(o(swap((a, b)), p))) \226\134\146 (\226\136\128 p : (A) -> A, permutes(p, s) \226\134\146 P(p))
       #|  (a : A) == (b : A)
       #|  (b : A)
       #|  (a : A)
       #|  ((p : Bool) \226\134\146 (q : Bool)) == (p \226\134\146 p && q)
-      #|  forall P s:A->bool.\n        FINITE s /\\\n        P I /\\\n        (forall a b p. a IN s /\\ b IN s /\\ ~(a = b) /\\ P p /\\ p permutes s\n                 ==> P (swap(a,b) o p))\n        ==> forall p. p permutes s ==> P p
+      #|  \226\136\128 P : ((A) -> A) -> Bool, \226\136\128 s : (A) -> Bool, FINITE(s) && P(I) && (\226\136\128 a : A, \226\136\128 b : A, \226\136\128 p : (A) -> A, IN(a, s) && IN(b, s) && !(a == b) && P(p) && permutes(p, s) \226\134\146 P(o(swap((a, b)), p))) \226\134\146 (\226\136\128 p : (A) -> A, permutes(p, s) \226\134\146 P(p))
       #|  (sign : ((_) -> _) -> Real)((p : (_) -> _)) == (if evenperm(p) { real_of_num(1) } else { -real_of_num(1) })
       #|  \226\136\128 p : (_) -> _, !(sign(p) == real_of_num(0))
       #|  (sign : ((_) -> _) -> Real)((I : (_) -> _)) == real_of_num(1)
       #|  sign((x : A) => x) == real_of_num(1)
       #|  \226\136\128 p : (_) -> _, permutation(p) \226\134\146 sign(inverse(p)) == sign(p)
-      #|  forall p q. permutation p /\\ permutation q ==> sign(p o q) = sign(p) * sign(q)
+      #|  \226\136\128 p : (_) -> _, \226\136\128 q : (_) -> _, permutation(p) && permutation(q) \226\134\146 sign(o(p, q)) == sign(p) * sign(q)
       #|  \226\136\128 a : _, \226\136\128 b : _, sign(swap((a, b))) == (if a == b { real_of_num(1) } else { -real_of_num(1) })
       #|  \226\136\128 p : (_) -> _, sign(p) * sign(p) == real_of_num(1)
       #|  \226\136\128 p : (_) -> _, abs(sign(p)) == real_of_num(1)
@@ -7127,11 +7127,11 @@ test "Library/permutations matches Library/permutations.ml" {
       #|  (p : (A) -> A)
       #|  (b : A)
       #|  (a : A)
-      #|  (\\x. if x IN IMAGE (f:A->B) s then f (g x) else x) = I
-      #|  forall p q. (forall x. x IN s ==> q (f x) = f (p x)) /\\\n          (forall y. ~(y IN IMAGE f s) ==> q y = y) <=>\n          q = \\x. if x IN IMAGE f s then (f:A->B) (p(g x)) else x
+      #|  ((x : B) => if IN(x, IMAGE((f : (A) -> B), (s : (A) -> Bool))) { f((g : (B) -> A)(x)) } else { x }) == I
+      #|  \226\136\128 p : (A) -> A, \226\136\128 q : (B) -> B, ((\226\136\128 x : A, IN(x, (s : (A) -> Bool)) \226\134\146 q((f : (A) -> B)(x)) == f(p(x))) && (\226\136\128 y : B, !IN(y, IMAGE(f, s)) \226\134\146 q(y) == y)) == (q == ((x : B) => if IN(x, IMAGE(f, s)) { f(p((g : (B) -> A)(x))) } else { x }))
       #|  (g : (B) -> A)
-      #|  forall(f:A->B) s p q.\n        FINITE s /\\\n        (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y) /\\\n        p permutes s /\\\n        (forall x. x IN s ==> q(f x) = f(p x)) /\\\n        (forall y. ~(y IN IMAGE f s) ==> q y = y)\n        ==> (evenperm q <=> evenperm p)
-      #|  forall(f:A->B) s p q.\n        FINITE s /\\\n        (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y) /\\\n        p permutes s /\\\n        (forall x. x IN s ==> q(f x) = f(p x)) /\\\n        (forall y. ~(y IN IMAGE f s) ==> q y = y)\n        ==> sign q = sign p
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 p : (A) -> A, \226\136\128 q : (B) -> B, FINITE(s) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) && permutes(p, s) && (\226\136\128 x : A, IN(x, s) \226\134\146 q(f(x)) == f(p(x))) && (\226\136\128 y : B, !IN(y, IMAGE(f, s)) \226\134\146 q(y) == y) \226\134\146 evenperm(q) == evenperm(p)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 p : (A) -> A, \226\136\128 q : (B) -> B, FINITE(s) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) && permutes(p, s) && (\226\136\128 x : A, IN(x, s) \226\134\146 q(f(x)) == f(p(x))) && (\226\136\128 y : B, !IN(y, IMAGE(f, s)) \226\134\146 q(y) == y) \226\134\146 sign(q) == sign(p)
       #|  (s : (A) -> Bool)
       #|  (x : A) => (x, (b : B))
       #|  CROSS((s : (A) -> Bool), (t : (B) -> Bool))
@@ -7141,62 +7141,62 @@ test "Library/permutations matches Library/permutations.ml" {
       #|  IN((i : A), (s : (A) -> Bool))
       #|  (j : B)
       #|  (i : A)
-      #|  (\\(i:A,j:B). if i IN s /\\ j IN b INSERT t then p i,j else i,j) =\n      (\\(i,j). if i IN s /\\ j IN {b} then p i,j else i,j) o\n      (\\(i,j). if i IN s /\\ j IN t then p i,j else i,j)
+      #|  fn { (i, j) => if IN(i, (s : (A) -> Bool)) && IN(j, INSERT((b : B), (t : (B) -> Bool))) { ((p : (A) -> A)(i), j) } else { (i, j) } } == o(fn { (i, j) => if IN(i, s) && IN(j, {b}) { (p(i), j) } else { (i, j) } }, fn { (i, j) => if IN(i, s) && IN(j, t) { (p(i), j) } else { (i, j) } })
       #|  (t : (B) -> Bool)
       #|  (b : B)
-      #|  forall p (s:A->bool) (t:B->bool).\n          p permutes s /\\ FINITE s /\\ FINITE t\n          ==> sign (\\(i,j). if i IN s /\\ j IN t then p i,j else i,j) =\n              sign p pow CARD t
+      #|  \226\136\128 p : (A) -> A, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, permutes(p, s) && FINITE(s) && FINITE(t) \226\134\146 sign(fn { (i, j) => if IN(i, s) && IN(j, t) { (p(i), j) } else { (i, j) } }) == pow(sign(p), CARD(t))
       #|  CROSS((t : (B) -> Bool), (s : (A) -> Bool))
       #|  GABS((f : ((B, A)) -> (A, B)) => \226\136\128 i : B, \226\136\128 j : A, GEQ(f((i, j)), (j, i)))
       #|  (s : (A) -> Bool)
       #|  (t : (B) -> Bool)
       #|  (p : (B) -> B)
-      #|  forall p (s:A->bool) (t:B->bool).\n          FINITE s /\\ p permutes t /\\ FINITE t\n          ==> sign (\\(i:A,j:B). if i IN s /\\ j IN t then i,p j else i,j) =\n              sign p pow CARD s
+      #|  \226\136\128 p : (B) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && permutes(p, t) && FINITE(t) \226\134\146 sign(fn { (i, j) => if IN(i, s) && IN(j, t) { (i, p(j)) } else { (i, j) } }) == pow(sign(p), CARD(s))
       #|  CROSS((s : (A) -> Bool), (t : (B) -> Bool))
-      #|  (\\(i,j). if i IN s /\\ j IN t then (p:A->A) i,(q:B->B) j else i,j) =\n    (\\(i,j). if i IN s /\\ j IN t then p i,j else i,j) o\n    (\\(i,j). if i IN s /\\ j IN t then i,q j else i,j)
-      #|  forall(p:A->A) (q:B->B) s t.\n        FINITE s /\\ FINITE t /\\ p permutes s /\\ q permutes t\n        ==> sign (\\(i,j). if i IN s /\\ j IN t then p i,q j else i,j) =\n            sign p pow CARD t * sign q pow CARD s
+      #|  fn { (i, j) => if IN(i, (s : (A) -> Bool)) && IN(j, (t : (B) -> Bool)) { ((p : (A) -> A)(i), (q : (B) -> B)(j)) } else { (i, j) } } == o(fn { (i, j) => if IN(i, s) && IN(j, t) { (p(i), j) } else { (i, j) } }, fn { (i, j) => if IN(i, s) && IN(j, t) { (i, q(j)) } else { (i, j) } })
+      #|  \226\136\128 p : (A) -> A, \226\136\128 q : (B) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && FINITE(t) && permutes(p, s) && permutes(q, t) \226\134\146 sign(fn { (i, j) => if IN(i, s) && IN(j, t) { (p(i), q(j)) } else { (i, j) } }) == pow(sign(p), CARD(t)) * pow(sign(q), CARD(s))
       #|  IN((n : Num), (s : (Num) -> Bool))
       #|  (n : Num)
-      #|  forall p s:num->bool. p permutes s /\\ (forall i. i IN s ==> p(i) <= i) ==> p = I
+      #|  \226\136\128 p : (Num) -> Num, \226\136\128 s : (Num) -> Bool, permutes(p, s) && (\226\136\128 i : Num, IN(i, s) \226\134\146 p(i) <= i) \226\134\146 p == I
       #|  (s : (Num) -> Bool)
       #|  inverse((p : (Num) -> Num))
-      #|  forall p s:num->bool. p permutes s /\\ (forall i. i IN s ==> i <= p(i)) ==> p = I
-      #|  forall s:A->bool. {inverse p | p permutes s} = {p | p permutes s}
+      #|  \226\136\128 p : (Num) -> Num, \226\136\128 s : (Num) -> Bool, permutes(p, s) && (\226\136\128 i : Num, IN(i, s) \226\134\146 i <= p(i)) \226\134\146 p == I
+      #|  \226\136\128 s : (A) -> Bool, {inverse((p : (A) -> A)) | permutes(p, s)} == {(p : (A) -> A) | permutes(p, s)}
       #|  o(inverse((q : (A) -> A)), (p : (A) -> A))
       #|  (p : (A) -> A)
-      #|  forall s q:A->A. q permutes s ==> {q o p | p permutes s} = {p | p permutes s}
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 q : (A) -> A, permutes(q, s) \226\134\146 {o(q, (p : (A) -> A)) | permutes(p, s)} == {(p : (A) -> A) | permutes(p, s)}
       #|  o((p : (A) -> A), inverse((q : (A) -> A)))
       #|  (p : (A) -> A)
-      #|  forall s q:A->A. q permutes s ==> {p o q | p permutes s} = {p | p permutes s}
-      #|  forall p n i. p permutes 1..n /\\ i IN 1..n ==> 1 <= p(i) /\\ p(i) <= n
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 q : (A) -> A, permutes(q, s) \226\134\146 {o((p : (A) -> A), q) | permutes(p, s)} == {(p : (A) -> A) | permutes(p, s)}
+      #|  \226\136\128 p : (Num) -> Num, \226\136\128 n : Num, \226\136\128 i : Num, permutes(p, op_dot_dot(1, n)) && IN(i, op_dot_dot(1, n)) \226\134\146 1 <= p(i) && p(i) <= n
       #|  {(f : (_) -> _)((x : _)) | (p : (_) -> Bool)(x)} == IMAGE(f, {(x : _) | p(x)})
-      #|  forall f m n. sum {p | p permutes m..n} f =\n           sum {p | p permutes m..n} (\\p. f(inverse p))
+      #|  \226\136\128 f : ((Num) -> Num) -> Real, \226\136\128 m : Num, \226\136\128 n : Num, sum({(p : (Num) -> Num) | permutes(p, op_dot_dot(m, n))}, f) == sum({(p : (Num) -> Num) | permutes(p, op_dot_dot(m, n))}, (p : (Num) -> Num) => f(inverse(p)))
       #|  (p : (Num) -> Num) => o(inverse((q : (Num) -> Num)), p)
       #|  {(f : (_) -> _)((x : _)) | (p : (_) -> Bool)(x)} == IMAGE(f, {(x : _) | p(x)})
-      #|  forall f m n q.\n        q permutes m..n\n        ==> sum {p | p permutes m..n} f =\n            sum {p | p permutes m..n} (\\p. f(q o p))
+      #|  \226\136\128 f : ((Num) -> Num) -> Real, \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 q : (Num) -> Num, permutes(q, op_dot_dot(m, n)) \226\134\146 sum({(p : (Num) -> Num) | permutes(p, op_dot_dot(m, n))}, f) == sum({(p : (Num) -> Num) | permutes(p, op_dot_dot(m, n))}, (p : (Num) -> Num) => f(o(q, p)))
       #|  (p : (Num) -> Num) => o(p, inverse((q : (Num) -> Num)))
       #|  {(f : (_) -> _)((x : _)) | (p : (_) -> Bool)(x)} == IMAGE(f, {(x : _) | p(x)})
-      #|  forall f m n q.\n        q permutes m..n\n        ==> sum {p | p permutes m..n} f =\n            sum {p | p permutes m..n} (\\p. f(p o q))
-      #|  (forall x. f(f x) = x) ==> (forall x y. P x /\\ P y /\\ f x = f y ==> x = y)
+      #|  \226\136\128 f : ((Num) -> Num) -> Real, \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 q : (Num) -> Num, permutes(q, op_dot_dot(m, n)) \226\134\146 sum({(p : (Num) -> Num) | permutes(p, op_dot_dot(m, n))}, f) == sum({(p : (Num) -> Num) | permutes(p, op_dot_dot(m, n))}, (p : (Num) -> Num) => f(o(p, q)))
+      #|  (\226\136\128 x : _, (f : (_) -> _)(f(x)) == x) \226\134\146 (\226\136\128 x : _, \226\136\128 y : _, (P : (_) -> Bool)(x) && P(y) && f(x) == f(y) \226\134\146 x == y)
       #|  (b : Num) == (a : Num) \226\134\146 2 * a == a + b
-      #|  (forall x. P x ==> ~P(f x)) ==> {x | P x} INTER IMAGE f {x | P x} = {}
-      #|  (forall x. P x ==> P(f x)) /\\ (forall x. f(f x) = x) /\\\n      (forall x. P x ==> Q x \\/ Q(f x))\n      ==> {x | P x} = {x | P x /\\ Q x} UNION IMAGE f {x | P x /\\ Q x}
-      #|  FACT(CARD s) = CARD ({p | p permutes s /\\ evenperm p} UNION\n                         IMAGE (\\p. swap(a:A,b) o p)\n                               {p | p permutes s /\\ evenperm p})
-      #|  {p | p permutes s /\\ Q p} =\n                            {p | p IN {p | p permutes s} /\\ Q p}
+      #|  (\226\136\128 x : _, (P : (_) -> Bool)(x) \226\134\146 !P((f : (_) -> _)(x))) \226\134\146 INTER({(x : _) | P(x)}, IMAGE(f, {(x : _) | P(x)})) == {}
+      #|  (\226\136\128 x : _, (P : (_) -> Bool)(x) \226\134\146 P((f : (_) -> _)(x))) && (\226\136\128 x : _, f(f(x)) == x) && (\226\136\128 x : _, P(x) \226\134\146 (Q : (_) -> Bool)(x) || Q(f(x))) \226\134\146 {(x : _) | P(x)} == UNION({(x : _) | P(x) && Q(x)}, IMAGE(f, {(x : _) | P(x) && Q(x)}))
+      #|  FACT(CARD((s : (A) -> Bool))) == CARD(UNION({(p : (A) -> A) | permutes(p, s) && evenperm(p)}, IMAGE((p : (A) -> A) => o(swap(((a : A), (b : A))), p), {(p : (A) -> A) | permutes(p, s) && evenperm(p)})))
+      #|  {(p : (_) -> _) | permutes(p, (s : (_) -> Bool)) && (Q : ((_) -> _) -> Bool)(p)} == {(p : (_) -> _) | IN(p, {(p : (_) -> _) | permutes(p, s)}) && Q(p)}
       #|  \226\136\128 Q : ((A) -> A) -> Bool, FINITE({(p : (A) -> A) | permutes(p, (s : (A) -> Bool)) && Q(p)})
       #|  \226\136\128 p : (A) -> A, permutes(p, (s : (A) -> Bool)) \226\134\146 permutation(p)
       #|  HAS_SIZE((s : (_) -> Bool), 2)
       #|  (s : (A) -> Bool)
       #|  2
       #|  \226\136\131 a : A, \226\136\131 b : A, IN(a, (s : (A) -> Bool)) && IN(b, s) && !(a == b)
-      #|  forall s:A->bool. FINITE s /\\ 2 <= CARD s\n               ==> 2 * CARD {p | p permutes s /\\ evenperm p} = FACT(CARD s)
+      #|  \226\136\128 s : (A) -> Bool, FINITE(s) && 2 <= CARD(s) \226\134\146 2 * CARD({(p : (A) -> A) | permutes(p, s) && evenperm(p)}) == FACT(CARD(s))
       #|  (p : (A) -> A)
-      #|  forall p s:A->bool. (forall x. p(p x) = x) /\\ (forall x. ~(x IN s) ==> p x = x)\n                 ==> p permutes s
+      #|  \226\136\128 p : (A) -> A, \226\136\128 s : (A) -> Bool, (\226\136\128 x : A, p(p(x)) == x) && (\226\136\128 x : A, !IN(x, s) \226\134\146 p(x) == x) \226\134\146 permutes(p, s)
       #|  CARD({(a : A), (p : (A) -> A)(a)})
       #|  2 <= (n : Num) \226\134\146 n - 1 - 1 + 2 == n
       #|  (m : Num) + 2 == (n : Num) \226\134\146 SUC(DIV(m, 2)) == DIV(n, 2)
       #|  (s : (A) -> Bool)
       #|  FINITE({(x : A) | !((p : (A) -> A)(x) == x)})
-      #|  {x | ~(p (if x = a then p a else if x = p a then a else x) = x)} =\n    {x:A | ~(p x = x)} DELETE a DELETE (p a)
+      #|  {(x : A) | !((p : (A) -> A)(if x == (a : A) { p(a) } else { if x == p(a) { a } else { x } }) == x)} == DELETE(DELETE({(x : A) | !(p(x) == x)}, a), p(a))
       #|  -real_of_num(1) * (a : Real) == (b : Real) \226\134\146 (s : Real) * -real_of_num(1) == a \226\134\146 s == b
       #|  o((p : (A) -> A), swap(((a : A), p(a))))
       #|  permutation((p : (A) -> A))
@@ -7206,18 +7206,18 @@ test "Library/permutations matches Library/permutations.ml" {
       #|  (a : A)
       #|  (p : (A) -> A) == I
       #|  CARD((s : (A) -> Bool))
-      #|  forall p:A->A s. FINITE s /\\ (forall x. p(p x) = x) /\\ (forall x. ~(x IN s) ==> p x = x)\n              ==> sign p = --(&1) pow (CARD {x | ~(p x = x)} DIV 2)
+      #|  \226\136\128 p : (A) -> A, \226\136\128 s : (A) -> Bool, FINITE(s) && (\226\136\128 x : A, p(p(x)) == x) && (\226\136\128 x : A, !IN(x, s) \226\134\146 p(x) == x) \226\134\146 sign(p) == pow(-real_of_num(1), DIV(CARD({(x : A) | !(p(x) == x)}), 2))
       #|  (x : Num) < (n : Num) \226\134\146 x + 1 < 2 * n
-      #|  forall n. (\\i. if i < n then (i + 1) MOD n else i) permutes {i | i < n}
+      #|  \226\136\128 n : Num, permutes((i : Num) => if i < n { MOD(i + 1, n) } else { i }, {(i : Num) | i < n})
       #|  (m : Num) < (n : Num)
       #|  (n : Num) == 0
       #|  (m : Num)
-      #|  (\\i. if i < n then SUC(i + k) MOD n else i) =\n    (\\i. if i < n then (i + 1) MOD n else i) o\n    (\\i. if i < n then (i + k) MOD n else i)
-      #|  forall n k. (\\i. if i < n then (i + k) MOD n else i) permutes {i | i < n}
+      #|  ((i : Num) => if i < (n : Num) { MOD(SUC(i + (k : Num)), n) } else { i }) == o((i : Num) => if i < n { MOD(i + 1, n) } else { i }, (i : Num) => if i < n { MOD(i + k, n) } else { i })
+      #|  \226\136\128 n : Num, \226\136\128 k : Num, permutes((i : Num) => if i < n { MOD(i + k, n) } else { i }, {(i : Num) | i < n})
       #|  {(i : Num) | i < (n : Num)}
-      #|  forall n. permutation (\\i. if i < n then (i + 1) MOD n else i)
+      #|  \226\136\128 n : Num, permutation((i : Num) => if i < n { MOD(i + 1, n) } else { i })
       #|  {(i : Num) | i < (n : Num)}
-      #|  forall n k. permutation (\\i. if i < n then (i + k) MOD n else i)
+      #|  \226\136\128 n : Num, \226\136\128 k : Num, permutation((i : Num) => if i < n { MOD(i + k, n) } else { i })
       #|  (m : Num) < (n : Num) \226\134\146 m < SUC(n)
       #|  (m : Num) < (n : Num)
       #|  (m : Num) + 1 < (n : Num) \226\134\146 m < n && m < SUC(n)
@@ -7225,24 +7225,24 @@ test "Library/permutations matches Library/permutations.ml" {
       #|  (m : Num)
       #|  ((m : Num) + 1 < SUC((n : Num))) == (m < n)
       #|  (x : Num) < (n : Num) \226\134\146 x + 1 < 2 * n
-      #|  (\\i. if i < SUC n then (i + 1) MOD SUC n else i) =\n    (swap(0,n)) o (\\i. if i <  n then (i + 1) MOD n else i)
-      #|  forall n. evenperm(\\i. if i < n then (i + 1) MOD n else i) <=> n = 0 \\/ ODD n
+      #|  ((i : Num) => if i < SUC((n : Num)) { MOD(i + 1, SUC(n)) } else { i }) == o(swap((0, n)), (i : Num) => if i < n { MOD(i + 1, n) } else { i })
+      #|  \226\136\128 n : Num, evenperm((i : Num) => if i < n { MOD(i + 1, n) } else { i }) == (n == 0 || ODD(n))
       #|  (n : Num) == 0
       #|  (m : Num) < (n : Num)
       #|  (n : Num) == 0
       #|  (m : Num)
-      #|  (\\i. if i < n then SUC(i + k) MOD n else i) =\n    (\\i. if i < n then (i + 1) MOD n else i) o\n    (\\i. if i < n then (i + k) MOD n else i)
-      #|  forall n k. evenperm(\\i. if i < n then (i + k) MOD n else i) <=>\n         n = 0 \\/ ODD n \\/ EVEN k
+      #|  ((i : Num) => if i < (n : Num) { MOD(SUC(i + (k : Num)), n) } else { i }) == o((i : Num) => if i < n { MOD(i + 1, n) } else { i }, (i : Num) => if i < n { MOD(i + k, n) } else { i })
+      #|  \226\136\128 n : Num, \226\136\128 k : Num, evenperm((i : Num) => if i < n { MOD(i + k, n) } else { i }) == (n == 0 || ODD(n) || EVEN(k))
       #|  ((n : Num) <= 1) == (n == 1 || n == 0)
       #|  (n : Num) == 1
-      #|  forall n. sign(\\i. if i < n then (i + 1) MOD n else i) = --(&1) pow (n - 1)
+      #|  \226\136\128 n : Num, sign((i : Num) => if i < n { MOD(i + 1, n) } else { i }) == pow(-real_of_num(1), n - 1)
       #|  ((n : Num) <= 1) == (n == 1 || n == 0)
       #|  (n : Num) == 1
-      #|  forall n k. sign(\\i. if i < n then (i + k) MOD n else i) =\n         --(&1) pow (k * (n - 1))
+      #|  \226\136\128 n : Num, \226\136\128 k : Num, sign((i : Num) => if i < n { MOD(i + k, n) } else { i }) == pow(-real_of_num(1), k * (n - 1))
       #|  {(p : (_) -> _) | permutes(p, {})} == {I}
-      #|  IMAGE f {x,y | x IN {} /\\ y IN t} = {} /\\\n     IMAGE f {x,y | x IN (a INSERT s) /\\ y IN t} =\n     (IMAGE (\\y. f(a,y)) t) UNION (IMAGE f {x,y | x IN s /\\ y IN t})
-      #|  {} UNION t = t /\\\n     (x INSERT s) UNION t = x INSERT (s UNION t)
-      #|  (\\(b,p). f (swap (a,b) o p)) = f o (\\(b,p). swap(a,b) o p)
+      #|  IMAGE((f : ((_, _)) -> _), {((x : _), (y : _)) | IN(x, {}) && IN(y, (t : (_) -> Bool))}) == {} && IMAGE(f, {((x : _), (y : _)) | IN(x, INSERT((a : _), (s : (_) -> Bool))) && IN(y, t)}) == UNION(IMAGE((y : _) => f((a, y)), t), IMAGE(f, {((x : _), (y : _)) | IN(x, s) && IN(y, t)}))
+      #|  UNION({}, (t : (_) -> Bool)) == t && UNION(INSERT((x : _), (s : (_) -> Bool)), t) == INSERT(x, UNION(s, t))
+      #|  fn { (b, p) => (f : ((_) -> _) -> _)(o(swap(((a : _), b)), p)) } == o(f, fn { (b, p) => o(swap((a, b)), p) })
       #|  (p : (A) -> A) => o(swap(((a : A), (c : A))), p)
       #|  (a : A)
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
@@ -7250,8 +7250,8 @@ test "Library/permutations matches Library/permutations.ml" {
       #|  (c : A)
       #|  (p : (A) -> A)
       #|  (b : A)
-      #|  forall f a s. FINITE s /\\ ~(a IN s)\n           ==> sum {p:A->A | p permutes (a INSERT s)} f =\n               sum (a INSERT s)\n                   (\\b. sum {p | p permutes s} (\\q. f(swap(a,b) o q)))
-      #|  forall f m n. m <= n\n           ==> sum {p | p permutes (m..n)} f =\n               sum(m..n) (\\i. sum {p | p permutes (m+1..n)}\n                                  (\\q. f(swap(m,i) o q)))
+      #|  \226\136\128 f : ((A) -> A) -> Real, \226\136\128 a : A, \226\136\128 s : (A) -> Bool, FINITE(s) && !IN(a, s) \226\134\146 sum({(p : (A) -> A) | permutes(p, INSERT(a, s))}, f) == sum(INSERT(a, s), (b : A) => sum({(p : (A) -> A) | permutes(p, s)}, (q : (A) -> A) => f(o(swap((a, b)), q))))
+      #|  \226\136\128 f : ((Num) -> Num) -> Real, \226\136\128 m : Num, \226\136\128 n : Num, m <= n \226\134\146 sum({(p : (Num) -> Num) | permutes(p, op_dot_dot(m, n))}, f) == sum(op_dot_dot(m, n), (i : Num) => sum({(p : (Num) -> Num) | permutes(p, op_dot_dot(m + 1, n))}, (q : (Num) -> Num) => f(o(swap((m, i)), q))))
       #|permutes =  |- (#forall:fun(fun(fun('?1,bool),bool),bool) (\s:fun('?1,bool). (#forall:fun(fun(fun('?1,'?1),bool),bool) (\p:fun('?1,'?1). ((#=:fun(bool,fun(bool,bool)) ((#permutes:fun(fun('?1,'?1),fun(fun('?1,bool),bool)) p:fun('?1,'?1)) s:fun('?1,bool))) ((#/\:fun(bool,fun(bool,bool)) (#forall:fun(fun('?1,bool),bool) (\x:'?1. ((#==>:fun(bool,fun(bool,bool)) (#~:fun(bool,bool) ((#IN:fun('?1,fun(fun('?1,bool),bool)) x:'?1) s:fun('?1,bool)))) ((#=:fun('?1,fun('?1,bool)) (p:fun('?1,'?1) x:'?1)) x:'?1))))) (#forall:fun(fun('?1,bool),bool) (\y:'?1. (#?!:fun(fun('?1,bool),bool) (\x:'?1. ((#=:fun('?1,fun('?1,bool)) (p:fun('?1,'?1) x:'?1)) y:'?1)))))))))))
       #|inverse =  |- (#forall:fun(fun(fun('?2,'?3),bool),bool) (\f:fun('?2,'?3). ((#=:fun(fun('?3,'?2),fun(fun('?3,'?2),bool)) (#inverse:fun(fun('?2,'?3),fun('?3,'?2)) f:fun('?2,'?3))) (\y:'?3. (#@:fun(fun('?2,bool),'?2) (\x:'?2. ((#=:fun('?3,fun('?3,bool)) (f:fun('?2,'?3) x:'?2)) y:'?3)))))))
       #|SURJECTIVE_INVERSE =  |- (#forall:fun(fun(fun('?4,'?5),bool),bool) (\f:fun('?4,'?5). ((#=:fun(bool,fun(bool,bool)) (#forall:fun(fun('?5,bool),bool) (\y:'?5. (#?:fun(fun('?4,bool),bool) (\x:'?4. ((#=:fun('?5,fun('?5,bool)) (f:fun('?4,'?5) x:'?4)) y:'?5)))))) (#forall:fun(fun('?5,bool),bool) (\y:'?5. ((#=:fun('?5,fun('?5,bool)) (f:fun('?4,'?5) ((#inverse:fun(fun('?4,'?5),fun('?5,'?4)) f:fun('?4,'?5)) y:'?5))) y:'?5))))))
