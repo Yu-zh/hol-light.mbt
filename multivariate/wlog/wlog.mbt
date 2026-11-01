@@ -201,7 +201,7 @@ fn step_8() -> Unit raise {
   let t60 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(@arith.let_trans()), t57), t58), t59), @int.arith_tac), @tactics.all_tac])
   let t56 = @simp.rewrite_tac(@list.List([@cart.dimindex_3()]))
   let t55 = @tactics.mp_tac(@bool.ispec(@term_syntax.parse_term("span({(b : Cart[Real, Tybit1[Unit]]) - (a : Cart[Real, Tybit1[Unit]]), (c : Cart[Real, Tybit1[Unit]]) - a})"), @determinants.rotation_lowdim_horizontal()))
-  let t54 = @simp.rewrite_tac(@list.List([@sets.set_rule(@parser.parse_term("{x - a:real^B | x = b \\/ x = c} = {b - a,c - a}"))]))
+  let t54 = @simp.rewrite_tac(@list.List([@sets.set_rule(@term_syntax.parse_term("{(x : Cart[Real, B]) - (a : Cart[Real, B]) | x == (b : Cart[Real, B]) || x == (c : Cart[Real, B])} == {b - a, c - a}"))]))
   let t53 = @simp.rewrite_tac(@list.List([@vectors.vector_arith(@term_syntax.parse_term("-(a : Cart[Real, Tybit1[Unit]]) + (a + (x : Cart[Real, Tybit1[Unit]])) == x")), @sets.image_id()]))
   let t52 = @simp.rewrite_tac(@list.List([@sets.set_rule(@term_syntax.parse_term("IMAGE((x : Cart[Real, Tybit1[Unit]]) => -(a : Cart[Real, Tybit1[Unit]]) + x, {a + (x : Cart[Real, Tybit1[Unit]]) | IN(x, (s : (Cart[Real, Tybit1[Unit]]) -> Bool))}) == IMAGE((x : Cart[Real, Tybit1[Unit]]) => -a + (a + x), s)"))]))
   let t51 = @tactics.exists_tac(@term_syntax.parse_term("-(a : Cart[Real, Tybit1[Unit]])"))
