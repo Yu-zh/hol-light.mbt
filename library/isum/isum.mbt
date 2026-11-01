@@ -118,9 +118,7 @@ fn step_2() -> Unit raise {
     @tactics.all_tac,
   ])
   let t7 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "support(+) (\\x:A. real_of_int(f x)) s = support(+) f s",
-    ),
+    @term_syntax.parse_term("support(op_plus, (x : A) => real_of_int((f : (A) -> Int)(x)), (s : (A) -> Bool)) == support(op_plus, f, s)"),
     fn(
       x4 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -206,9 +204,7 @@ fn step_2() -> Unit raise {
   )
   int_isum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->int s. real_of_int(isum s f) = sum s (\\x. real_of_int(f x))",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> Int, ∀ s : (A) -> Bool, real_of_int(isum(s, f)) == sum(s, (x : A) => real_of_int(f(x)))"),
       t21,
     ),
   )
@@ -234,16 +230,12 @@ fn step_3() -> Unit raise {
     @simp.rewrite_tac(@list.List([])),
   )
   let cond_th = @tactics.prove(
-    @parser.parse_term(
-      "real_of_int(if b then x else y) =\n       if b then real_of_int x else real_of_int y",
-    ),
+    @term_syntax.parse_term("real_of_int(if (b : Bool) { (x : Int) } else { (y : Int) }) == (if b { real_of_int(x) } else { real_of_int(y) })"),
     t22,
   )
   let t23 = @simp.rewrite_tac(@list.List([@trivia.o_def()]))
   let compose_th = @tactics.prove(
-    @parser.parse_term(
-      "(\\x. real_of_int((f o g) x)) = (\\x. real_of_int(f x)) o g",
-    ),
+    @term_syntax.parse_term("((x : _) => real_of_int(o((f : (_) -> Int), (g : (_) -> _), x))) == o((x : _) => real_of_int(f(x)), g)"),
     t23,
   )
   let t24 = @equal.gsym(@class.eta_ax())
@@ -1696,9 +1688,7 @@ fn step_86() -> Unit raise {
   )
   isum_isum_product_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool t:A->B->bool x.\n        FINITE s /\\ (forall i. i IN s ==> FINITE(t i))\n        ==> isum s (\\i. isum (t i) (x i)) =\n            isum {i,j | i IN s /\\ j IN t i} (\\(i,j). x i j)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A, B) -> Bool, ∀ x : (A, B) -> Int, FINITE(s) && (∀ i : A, IN(i, s) → FINITE(t(i))) → isum(s, (i : A) => isum(t(i), x(i))) == isum({((i : A), (j : B)) | IN(i, s) && IN(j, t(i))}, fn { (i, j) => x(i, j) })"),
       t39,
     ),
   )
@@ -1735,9 +1725,7 @@ fn step_87() -> Unit raise {
   )
   admissible_isum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(<<) p:(B->C)->P->bool s:P->A h a b.\n        admissible(<<) (\\f (k,x). a(x) <= k /\\ k <= b(x) /\\ p f x)\n                       (\\(k,x). s x) (\\f (k,x). h f x k)\n   ==> admissible(<<) p s (\\f x. isum(a(x)..b(x)) (h f x))",
-      ),
+      @term_syntax.parse_term("∀ `<<` : (B, A) -> Bool, ∀ p : ((B) -> C, P) -> Bool, ∀ s : (P) -> A, ∀ h : ((B) -> C, P, Num) -> Int, ∀ a : (P) -> Num, ∀ b : (P) -> Num, admissible(`<<`, (f : (B) -> C) => fn { (k, x) => a(x) <= k && k <= b(x) && p(f, x) }, fn { (k, x) => s(x) }, (f : (B) -> C) => fn { (k, x) => h(f, x, k) }) → admissible(`<<`, p, s, (f : (B) -> C) => (x : P) => isum(op_dot_dot(a(x), b(x)), h(f, x)))"),
       t43,
     ),
   )
@@ -1762,9 +1750,7 @@ fn step_88() -> Unit raise {
   )
   int_sub_pow_l1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x n. 1 <= n ==> &1 - x pow n = (&1 - x) * isum (0..n - 1) (\\i. x pow i)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ n : Num, 1 <= n → int_of_num(1) - pow(x, n) == (int_of_num(1) - x) * isum(op_dot_dot(0, n - 1), (i : Num) => pow(x, i))"),
       t44,
     ),
   )
@@ -1787,9 +1773,7 @@ fn step_89() -> Unit raise {
   )
   int_sub_pow_r1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x n. 1 <= n ==> x pow n - &1 = (x - &1) * isum (0..n - 1) (\\i. x pow i)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ n : Num, 1 <= n → pow(x, n) - int_of_num(1) == (x - int_of_num(1)) * isum(op_dot_dot(0, n - 1), (i : Num) => pow(x, i))"),
       t45,
     ),
   )
@@ -1815,9 +1799,7 @@ fn step_90() -> Unit raise {
   )
   isum_univ_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->int s. support (+) f (:A) SUBSET s ==> isum s f = isum (:A) f",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> Int, ∀ s : (A) -> Bool, SUBSET(support(op_plus, f, UNIV), s) → isum(s, f) == isum(UNIV, f)"),
       t48,
     ),
   )
@@ -1919,9 +1901,7 @@ fn step_91() -> Unit raise {
   )
   isum_closed_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P f:A->int s.\n        P(&0) /\\ (forall x y. P x /\\ P y ==> P(x + y)) /\\ (forall a. a IN s ==> P(f a))\n        ==> P(isum s f)",
-      ),
+      @term_syntax.parse_term("∀ P : (Int) -> Bool, ∀ f : (A) -> Int, ∀ s : (A) -> Bool, P(int_of_num(0)) && (∀ x : Int, ∀ y : Int, P(x) && P(y) → P(x + y)) && (∀ a : A, IN(a, s) → P(f(a))) → P(isum(s, f))"),
       t58,
     ),
   )
@@ -1973,9 +1953,7 @@ fn step_92() -> Unit raise {
   )
   isum_related_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R (f:A->int) g s.\n        R (&0) (&0) /\\\n        (forall m n m' n'. R m n /\\ R m' n' ==> R (m + m') (n + n')) /\\\n        FINITE s /\\ (forall x. x IN s ==> R (f x) (g x))\n        ==> R (isum s f) (isum s g)",
-      ),
+      @term_syntax.parse_term("∀ R : (Int, Int) -> Bool, ∀ f : (A) -> Int, ∀ g : (A) -> Int, ∀ s : (A) -> Bool, R(int_of_num(0), int_of_num(0)) && (∀ m : Int, ∀ n : Int, ∀ m' : Int, ∀ n' : Int, R(m, n) && R(m', n') → R(m + m', n + n')) && FINITE(s) && (∀ x : A, IN(x, s) → R(f(x), g(x))) → R(isum(s, f), isum(s, g))"),
       t64,
     ),
   )
@@ -2079,9 +2057,7 @@ fn step_93() -> Unit raise {
   )
   isum_closed_nonempty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P f:A->int s.\n        FINITE s /\\ ~(s = {}) /\\\n        (forall x y. P x /\\ P y ==> P(x + y)) /\\ (forall a. a IN s ==> P(f a))\n        ==> P(isum s f)",
-      ),
+      @term_syntax.parse_term("∀ P : (Int) -> Bool, ∀ f : (A) -> Int, ∀ s : (A) -> Bool, FINITE(s) && !(s == {}) && (∀ x : Int, ∀ y : Int, P(x) && P(y) → P(x + y)) && (∀ a : A, IN(a, s) → P(f(a))) → P(isum(s, f))"),
       t74,
     ),
   )
@@ -2135,9 +2111,7 @@ fn step_94() -> Unit raise {
   )
   isum_related_nonempty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R (f:A->int) g s.\n        (forall m n m' n'. R m n /\\ R m' n' ==> R (m + m') (n + n')) /\\\n        FINITE s /\\ ~(s = {}) /\\ (forall x. x IN s ==> R (f x) (g x))\n        ==> R (isum s f) (isum s g)",
-      ),
+      @term_syntax.parse_term("∀ R : (Int, Int) -> Bool, ∀ f : (A) -> Int, ∀ g : (A) -> Int, ∀ s : (A) -> Bool, (∀ m : Int, ∀ n : Int, ∀ m' : Int, ∀ n' : Int, R(m, n) && R(m', n') → R(m + m', n + n')) && FINITE(s) && !(s == {}) && (∀ x : A, IN(x, s) → R(f(x), g(x))) → R(isum(s, f), isum(s, g))"),
       t80,
     ),
   )
@@ -2161,9 +2135,7 @@ fn step_95() -> Unit raise {
     @list.List([isum_clauses_left(), isum_sing_numseg(), isum_triv_numseg()]),
   )
   let t83 = (
-    @parser.parse_term(
-      "(n < m ==> isum(m..n) f = &0) /\\\n     isum(m..m) f = f m /\\\n     (m <= n ==> isum (m..n) f = f m + isum (m + 1..n) f)",
-    ),
+    @term_syntax.parse_term("((n : Num) < (m : Num) → isum(op_dot_dot(m, n), (f : (Num) -> Int)) == int_of_num(0)) && isum(op_dot_dot(m, m), f) == f(m) && (m <= n → isum(op_dot_dot(m, n), f) == f(m) + isum(op_dot_dot(m + 1, n), f))"),
     t82,
   )
   expand_isum_conv_c.set(
@@ -2288,9 +2260,7 @@ fn step_96() -> Unit raise {
     t88,
   )
   let th = @tactics.prove(
-    @parser.parse_term(
-      "(forall f g s.   (forall x. x IN s ==> f(x) = g(x))\n              ==> isum s (\\i. f(i)) = isum s g) /\\\n   (forall f g a b. (forall i. a <= i /\\ i <= b ==> f(i) = g(i))\n              ==> isum(a..b) (\\i. f(i)) = isum(a..b) g) /\\\n   (forall f g p.   (forall x. p x ==> f x = g x)\n              ==> isum {y | p y} (\\i. f(i)) = isum {y | p y} g)",
-    ),
+    @term_syntax.parse_term("(∀ f : (_) -> Int, ∀ g : (_) -> Int, ∀ s : (_) -> Bool, (∀ x : _, IN(x, s) → f(x) == g(x)) → isum(s, (i : _) => f(i)) == isum(s, g)) && (∀ f : (Num) -> Int, ∀ g : (Num) -> Int, ∀ a : Num, ∀ b : Num, (∀ i : Num, a <= i && i <= b → f(i) == g(i)) → isum(op_dot_dot(a, b), (i : Num) => f(i)) == isum(op_dot_dot(a, b), g)) && (∀ f : (_) -> Int, ∀ g : (_) -> Int, ∀ p : (_) -> Bool, (∀ x : _, p(x) → f(x) == g(x)) → isum({(y : _) | p(y)}, (i : _) => f(i)) == isum({(y : _) | p(y)}, g))"),
     t89,
   )
   @simp.extend_basic_congs(@lib.map(@bool.spec_all, @bool.conjuncts_rule(th)))
