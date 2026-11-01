@@ -95,9 +95,7 @@ fn step_2() -> Unit raise {
   )
   rat_lemma1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "~(y1 = &0) /\\ ~(y2 = &0) ==>\n      ((x1 / y1) + (x2 / y2) = (x1 * y2 + x2 * y1) * inv(y1) * inv(y2))",
-      ),
+      @term_syntax.parse_term("!((y1 : Real) == real_of_num(0)) && !((y2 : Real) == real_of_num(0)) → (x1 : Real) / y1 + (x2 : Real) / y2 == (x1 * y2 + x2 * y1) * (inv(y1) * inv(y2))"),
       t14,
     ),
   )
@@ -187,9 +185,7 @@ fn step_3() -> Unit raise {
   )
   rat_lemma2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "&0 < y1 /\\ &0 < y2 ==>\n      ((x1 / y1) + (x2 / y2) = (x1 * y2 + x2 * y1) * inv(y1) * inv(y2))",
-      ),
+      @term_syntax.parse_term("real_of_num(0) < (y1 : Real) && real_of_num(0) < (y2 : Real) → (x1 : Real) / y1 + (x2 : Real) / y2 == (x1 * y2 + x2 * y1) * (inv(y1) * inv(y2))"),
       t22,
     ),
   )
@@ -313,9 +309,7 @@ fn step_4() -> Unit raise {
   )
   rat_lemma3_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "&0 < y1 /\\ &0 < y2 ==>\n      ((x1 / y1) - (x2 / y2) = (x1 * y2 - x2 * y1) * inv(y1) * inv(y2))",
-      ),
+      @term_syntax.parse_term("real_of_num(0) < (y1 : Real) && real_of_num(0) < (y2 : Real) → (x1 : Real) / y1 - (x2 : Real) / y2 == (x1 * y2 - x2 * y1) * (inv(y1) * inv(y2))"),
       t31,
     ),
   )
@@ -535,9 +529,7 @@ fn step_5() -> Unit raise {
   )
   rat_lemma4_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "&0 < y1 /\\ &0 < y2 ==> (x1 / y1 <= x2 / y2 <=> x1 * y2 <= x2 * y1)",
-      ),
+      @term_syntax.parse_term("real_of_num(0) < (y1 : Real) && real_of_num(0) < (y2 : Real) → ((x1 : Real) / y1 <= (x2 : Real) / y2) == (x1 * y2 <= x2 * y1)"),
       t62,
     ),
   )
@@ -559,9 +551,7 @@ fn step_6() -> Unit raise {
   let t65 = @tactics.match_mp_tac(rat_lemma4())
   let t64 = @tactics.match_mp_tac(
     @class.taut(
-      @parser.parse_term(
-        "(a <=> a') /\\ (b <=> b') ==> (a /\\ b <=> a' /\\ b')",
-      ),
+      @term_syntax.parse_term("(a : Bool) == (a' : Bool) && (b : Bool) == (b' : Bool) → (a && b) == (a' && b')"),
     ),
   )
   let t63 = @simp.rewrite_tac(
@@ -582,9 +572,7 @@ fn step_6() -> Unit raise {
   )
   rat_lemma5_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "&0 < y1 /\\ &0 < y2 ==> ((x1 / y1 = x2 / y2) <=> (x1 * y2 = x2 * y1))",
-      ),
+      @term_syntax.parse_term("real_of_num(0) < (y1 : Real) && real_of_num(0) < (y2 : Real) → ((x1 : Real) / y1 == (x2 : Real) / y2) == (x1 * y2 == x2 * y1)"),
       t67,
     ),
   )
@@ -610,9 +598,7 @@ fn step_7() -> Unit raise {
     t68,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "(&x = &x / &1) /\\\n     (--(&x) = --(&x) / &1) /\\\n     (DECIMAL x y = &x / &y) /\\\n     (--(DECIMAL x y) = --(&x) / &y)",
-    ),
+    @term_syntax.parse_term("real_of_num((x : Num)) == real_of_num(x) / real_of_num(1) && -real_of_num(x) == -real_of_num(x) / real_of_num(1) && DECIMAL(x, (y : Num)) == real_of_num(x) / real_of_num(y) && -DECIMAL(x, y) == -real_of_num(x) / real_of_num(y)"),
     t69,
   )
   real_int_rat_conv_c.set(
@@ -645,9 +631,7 @@ pub fn real_int_rat_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_8() -> Unit raise {
   let t71 = @simp.rewrite_tac(@list.List([@theorems.imp_imp(), rat_lemma4()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "&0 < y1 ==> &0 < y2 ==> (x1 / y1 <= x2 / y2 <=> x1 * y2 <= x2 * y1)",
-    ),
+    @term_syntax.parse_term("real_of_num(0) < (y1 : Real) → real_of_num(0) < (y2 : Real) → ((x1 : Real) / y1 <= (x2 : Real) / y2) == (x1 * y2 <= x2 * y1)"),
     t71,
   )
   let x1 = @term_syntax.parse_term("(x1 : Real)")
@@ -735,9 +719,7 @@ fn step_9() -> Unit raise {
     t87,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "&0 < y1 ==> &0 < y2 ==> (x1 / y1 < x2 / y2 <=> x1 * y2 < x2 * y1)",
-    ),
+    @term_syntax.parse_term("real_of_num(0) < (y1 : Real) → real_of_num(0) < (y2 : Real) → ((x1 : Real) / y1 < (x2 : Real) / y2) == (x1 * y2 < x2 * y1)"),
     t88,
   )
   let x1 = @term_syntax.parse_term("(x1 : Real)")
@@ -854,9 +836,7 @@ pub fn real_rat_gt_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_12() -> Unit raise {
   let t98 = @simp.rewrite_tac(@list.List([@theorems.imp_imp(), rat_lemma5()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "&0 < y1 ==> &0 < y2 ==> ((x1 / y1 = x2 / y2) <=> (x1 * y2 = x2 * y1))",
-    ),
+    @term_syntax.parse_term("real_of_num(0) < (y1 : Real) → real_of_num(0) < (y2 : Real) → ((x1 : Real) / y1 == (x2 : Real) / y2) == (x1 * y2 == x2 * y1)"),
     t98,
   )
   let x1 = @term_syntax.parse_term("(x1 : Real)")
@@ -991,9 +971,7 @@ fn step_14() -> Unit raise {
     ]),
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "(--(&0) = &0) /\\\n     (--(--(&n)) = &n) /\\\n     (--(&m / &n) = --(&m) / &n) /\\\n     (--(--(&m) / &n) = &m / &n) /\\\n     (--(DECIMAL m n) = --(&m) / &n)",
-    ),
+    @term_syntax.parse_term("-real_of_num(0) == real_of_num(0) && --real_of_num((n : Num)) == real_of_num(n) && -(real_of_num((m : Num)) / real_of_num(n)) == -real_of_num(m) / real_of_num(n) && -(-real_of_num(m) / real_of_num(n)) == real_of_num(m) / real_of_num(n) && -DECIMAL(m, n) == -real_of_num(m) / real_of_num(n)"),
     t115,
   )
   let ptm = @term_syntax.parse_term("op_minus_minus")
@@ -1050,9 +1028,7 @@ fn step_15() -> Unit raise {
     ]),
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "(abs(&n) = &n) /\\\n     (abs(--(&n)) = &n) /\\\n     (abs(&m / &n) = &m / &n) /\\\n     (abs(--(&m) / &n) = &m / &n) /\\\n     (abs(DECIMAL m n) = &m / &n) /\\\n     (abs(--(DECIMAL m n)) = &m / &n)",
-    ),
+    @term_syntax.parse_term("abs(real_of_num((n : Num))) == real_of_num(n) && abs(-real_of_num(n)) == real_of_num(n) && abs(real_of_num((m : Num)) / real_of_num(n)) == real_of_num(m) / real_of_num(n) && abs(-real_of_num(m) / real_of_num(n)) == real_of_num(m) / real_of_num(n) && abs(DECIMAL(m, n)) == real_of_num(m) / real_of_num(n) && abs(-DECIMAL(m, n)) == real_of_num(m) / real_of_num(n)"),
     t118,
   )
   real_rat_abs_conv_c.set(
@@ -1103,9 +1079,7 @@ fn step_16() -> Unit raise {
     t120,
   )
   let pth1 = @tactics.prove(
-    @parser.parse_term(
-      "(inv(&0) = &0) /\\\n     (inv(&1) = &1) /\\\n     (inv(-- &1) = --(&1)) /\\\n     (inv(&1 / &n) = &n) /\\\n     (inv(-- &1 / &n) = -- &n)",
-    ),
+    @term_syntax.parse_term("inv(real_of_num(0)) == real_of_num(0) && inv(real_of_num(1)) == real_of_num(1) && inv(-real_of_num(1)) == -real_of_num(1) && inv(real_of_num(1) / real_of_num((n : Num))) == real_of_num(n) && inv(-real_of_num(1) / real_of_num(n)) == -real_of_num(n)"),
     t121,
   )
   let t122 = @simp.rewrite_tac(
@@ -1125,9 +1099,7 @@ fn step_16() -> Unit raise {
     t122,
   )
   let pth2 = @tactics.prove(
-    @parser.parse_term(
-      "(inv(&n) = &1 / &n) /\\\n     (inv(--(&n)) = --(&1) / &n) /\\\n     (inv(&m / &n) = &n / &m) /\\\n     (inv(--(&m) / &n) = --(&n) / &m) /\\\n     (inv(DECIMAL m n) = &n / &m) /\\\n     (inv(--(DECIMAL m n)) = --(&n) / &m)",
-    ),
+    @term_syntax.parse_term("inv(real_of_num((n : Num))) == real_of_num(1) / real_of_num(n) && inv(-real_of_num(n)) == -real_of_num(1) / real_of_num(n) && inv(real_of_num((m : Num)) / real_of_num(n)) == real_of_num(n) / real_of_num(m) && inv(-real_of_num(m) / real_of_num(n)) == -real_of_num(n) / real_of_num(m) && inv(DECIMAL(m, n)) == real_of_num(n) / real_of_num(m) && inv(-DECIMAL(m, n)) == -real_of_num(n) / real_of_num(m)"),
     t123,
   )
   let t126 = @simp.gen_rewrite_conv(
@@ -1318,9 +1290,7 @@ fn step_17() -> Unit raise {
     t144,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "&0 < y1 ==> &0 < y2 ==> &0 < y3 ==>\n     ((x1 * y2 + x2 * y1) * y3 = x3 * y1 * y2)\n     ==> (x1 / y1 + x2 / y2 = x3 / y3)",
-    ),
+    @term_syntax.parse_term("real_of_num(0) < (y1 : Real) → real_of_num(0) < (y2 : Real) → real_of_num(0) < (y3 : Real) → ((x1 : Real) * y2 + (x2 : Real) * y1) * y3 == (x3 : Real) * (y1 * y2) → x1 / y1 + x2 / y2 == x3 / y3"),
     t145,
   )
   let t146 = @term_syntax.parse_term("op_slash")
@@ -1471,9 +1441,7 @@ fn step_19() -> Unit raise {
   let t181 = @simp.asm_simp_tac(
     @list.List([@realax.real_mul_linv(), @realarith.real_mul_rid()]),
   )
-  let t179 = @parser.parse_term(
-    "((d1 * u1) * (id2 * iv1)) * ((d2 * u2) * id1 * iv2) =\n      (u1 * u2) * (iv1 * iv2) * (id2 * d2) * (id1 * d1)",
-  )
+  let t179 = @term_syntax.parse_term("(d1 : Real) * (u1 : Real) * ((id2 : Real) * (iv1 : Real)) * ((d2 : Real) * (u2 : Real) * ((id1 : Real) * (iv2 : Real))) == u1 * u2 * (iv1 * iv2 * (id2 * d2 * (id1 * d1)))")
   let t180 = @simp.once_rewrite_tac(
     @list.List([@theorems.ac(@real.real_mul_ac())(t179)]),
   )
@@ -1762,9 +1730,7 @@ fn step_19() -> Unit raise {
     t181,
   )
   let pth_cancel = @tactics.prove(
-    @parser.parse_term(
-      "~(d1 = &0) /\\ ~(d2 = &0) /\\\n     (d1 * u1 = x1) /\\ (d2 * u2 = x2) /\\\n     (d2 * v1 = y1) /\\ (d1 * v2 = y2)\n     ==> ((x1 / y1) * (x2 / y2) = (u1 * u2) / (v1 * v2))",
-    ),
+    @term_syntax.parse_term("!((d1 : Real) == real_of_num(0)) && !((d2 : Real) == real_of_num(0)) && d1 * (u1 : Real) == (x1 : Real) && d2 * (u2 : Real) == (x2 : Real) && d2 * (v1 : Real) == (y1 : Real) && d1 * (v2 : Real) == (y2 : Real) → x1 / y1 * (x2 / y2) == u1 * u2 / (v1 * v2)"),
     t182,
   )
   let t183 = @term_syntax.parse_term("op_slash")
@@ -2411,9 +2377,7 @@ fn step_31() -> Unit raise {
     @real.real_arith_tac,
   )
   let real_integral = @tactics.prove(
-    @parser.parse_term(
-      "(forall x. &0 * x = &0) /\\\n     (forall x y z. (x + y = x + z) <=> (y = z)) /\\\n     (forall w x y z. (w * y + x * z = w * z + x * y) <=> (w = x) \\/ (y = z))",
-    ),
+    @term_syntax.parse_term("(∀ x : Real, real_of_num(0) * x == real_of_num(0)) && (∀ x : Real, ∀ y : Real, ∀ z : Real, (x + y == x + z) == (y == z)) && (∀ w : Real, ∀ x : Real, ∀ y : Real, ∀ z : Real, (w * y + x * z == w * z + x * y) == (w == x || y == z))"),
     t246,
   )
   let t255 = @meson.meson_tac(
@@ -3080,9 +3044,7 @@ fn step_39() -> Unit raise {
         @list.List([
           @meson.meson(
             @list.List([@real.real_pow_eq_0(), @realax.real_of_num_eq()]),
-            @parser.parse_term(
-              "~(x pow n = &0) <=>\n        ~((x:real) = &0) \\/ (&n = &0) \\/ ~(x pow n = &0)",
-            ),
+            @term_syntax.parse_term("!(pow((x : Real), (n : Num)) == real_of_num(0)) == (!(x == real_of_num(0)) || real_of_num(n) == real_of_num(0) || !(pow(x, n) == real_of_num(0)))"),
           ),
         ]),
       ),
@@ -3324,9 +3286,7 @@ fn step_41() -> Unit raise {
   )
   let t364 = @tactics.match_mp_tac(
     real_arith(
-      @parser.parse_term(
-        "(&0 < x' <=> &0 < x) /\\ (&0 < y' <=> &0 < y) /\\\n    (abs x' < abs y' <=> abs x < abs y) /\\ (abs y' < abs x' <=> abs y < abs x)\n    ==> (x' < y' <=> x < y)",
-      ),
+      @term_syntax.parse_term("(real_of_num(0) < (x' : Real)) == (real_of_num(0) < (x : Real)) && (real_of_num(0) < (y' : Real)) == (real_of_num(0) < (y : Real)) && (abs(x') < abs(y')) == (abs(x) < abs(y)) && (abs(y') < abs(x')) == (abs(y) < abs(x)) → (x' < y') == (x < y)"),
     ),
   )
   let t376 = @tactics.then_tac(
@@ -3385,9 +3345,7 @@ fn step_42() -> Unit raise {
   )
   real_shrink_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. x / (&1 + abs x) <= y / (&1 + abs y) <=> x <= y",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ y : Real, (x / (real_of_num(1) + abs(x)) <= y / (real_of_num(1) + abs(y))) == (x <= y)"),
       t377,
     ),
   )
@@ -3597,9 +3555,7 @@ fn step_44() -> Unit raise {
   )
   real_shrink_galois_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. x / (&1 + abs x) = y <=> abs y < &1 /\\ y / (&1 - abs y) = x",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ y : Real, (x / (real_of_num(1) + abs(x)) == y) == (abs(y) < real_of_num(1) && y / (real_of_num(1) - abs(y)) == x)"),
       t394,
     ),
   )
@@ -3624,9 +3580,7 @@ fn step_45() -> Unit raise {
   )
   real_grow_shrink_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. x / (&1 + abs x) / (&1 - abs(x / (&1 + abs x))) = x",
-      ),
+      @term_syntax.parse_term("∀ x : Real, x / (real_of_num(1) + abs(x)) / (real_of_num(1) - abs(x / (real_of_num(1) + abs(x)))) == x"),
       t395,
     ),
   )
@@ -3651,9 +3605,7 @@ fn step_46() -> Unit raise {
   )
   real_shrink_grow_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. x / (&1 - abs x) / (&1 + abs(x / (&1 - abs x))) = x <=> abs x < &1",
-      ),
+      @term_syntax.parse_term("∀ x : Real, (x / (real_of_num(1) - abs(x)) / (real_of_num(1) + abs(x / (real_of_num(1) - abs(x)))) == x) == (abs(x) < real_of_num(1))"),
       t396,
     ),
   )
@@ -3676,9 +3628,7 @@ fn step_47() -> Unit raise {
   let t397 = @simp.rewrite_tac(@list.List([real_shrink_grow_eq()]))
   real_shrink_grow_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. abs x < &1\n       ==> x / (&1 - abs x) / (&1 + abs(x / (&1 - abs x))) = x",
-      ),
+      @term_syntax.parse_term("∀ x : Real, abs(x) < real_of_num(1) → x / (real_of_num(1) - abs(x)) / (real_of_num(1) + abs(x / (real_of_num(1) - abs(x)))) == x"),
       t397,
     ),
   )

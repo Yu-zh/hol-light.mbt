@@ -1131,20 +1131,20 @@ test "calc_rat matches calc_rat.ml" {
       #|calc_rat quotations (150):
       #|  (DECIMAL : (Num, Num) -> Real)((x : Num), (y : Num)) == real_of_num(x) / real_of_num(y)
       #|  (a : Real) * ((b : Real) * (c : Real)) == b * a * c
-      #|  ~(y1 = &0) /\\ ~(y2 = &0) ==>\n      ((x1 / y1) + (x2 / y2) = (x1 * y2 + x2 * y1) * inv(y1) * inv(y2))
-      #|  &0 < y1 /\\ &0 < y2 ==>\n      ((x1 / y1) + (x2 / y2) = (x1 * y2 + x2 * y1) * inv(y1) * inv(y2))
-      #|  &0 < y1 /\\ &0 < y2 ==>\n      ((x1 / y1) - (x2 / y2) = (x1 * y2 - x2 * y1) * inv(y1) * inv(y2))
+      #|  !((y1 : Real) == real_of_num(0)) && !((y2 : Real) == real_of_num(0)) \226\134\146 (x1 : Real) / y1 + (x2 : Real) / y2 == (x1 * y2 + x2 * y1) * (inv(y1) * inv(y2))
+      #|  real_of_num(0) < (y1 : Real) && real_of_num(0) < (y2 : Real) \226\134\146 (x1 : Real) / y1 + (x2 : Real) / y2 == (x1 * y2 + x2 * y1) * (inv(y1) * inv(y2))
+      #|  real_of_num(0) < (y1 : Real) && real_of_num(0) < (y2 : Real) \226\134\146 (x1 : Real) / y1 - (x2 : Real) / y2 == (x1 * y2 - x2 * y1) * (inv(y1) * inv(y2))
       #|  real_of_num(0) < (y : Real)
       #|  (y : Real) * inv(y) == real_of_num(1)
       #|  real_of_num(0) <= (x : Real) * ((y : Real) * inv(y))
       #|  real_of_num(0) < (y : Real) \226\134\146 (real_of_num(0) <= (x : Real) * y) == (real_of_num(0) <= x)
       #|  real_of_num(0) <= ((x2 : Real) * (y1 : Real) - (x1 : Real) * (y2 : Real)) * inv(y2)
       #|  ((a : Real) <= (b : Real)) == (real_of_num(0) <= b - a)
-      #|  &0 < y1 /\\ &0 < y2 ==> (x1 / y1 <= x2 / y2 <=> x1 * y2 <= x2 * y1)
-      #|  (a <=> a') /\\ (b <=> b') ==> (a /\\ b <=> a' /\\ b')
-      #|  &0 < y1 /\\ &0 < y2 ==> ((x1 / y1 = x2 / y2) <=> (x1 * y2 = x2 * y1))
-      #|  (&x = &x / &1) /\\\n     (--(&x) = --(&x) / &1) /\\\n     (DECIMAL x y = &x / &y) /\\\n     (--(DECIMAL x y) = --(&x) / &y)
-      #|  &0 < y1 ==> &0 < y2 ==> (x1 / y1 <= x2 / y2 <=> x1 * y2 <= x2 * y1)
+      #|  real_of_num(0) < (y1 : Real) && real_of_num(0) < (y2 : Real) \226\134\146 ((x1 : Real) / y1 <= (x2 : Real) / y2) == (x1 * y2 <= x2 * y1)
+      #|  (a : Bool) == (a' : Bool) && (b : Bool) == (b' : Bool) \226\134\146 (a && b) == (a' && b')
+      #|  real_of_num(0) < (y1 : Real) && real_of_num(0) < (y2 : Real) \226\134\146 ((x1 : Real) / y1 == (x2 : Real) / y2) == (x1 * y2 == x2 * y1)
+      #|  real_of_num((x : Num)) == real_of_num(x) / real_of_num(1) && -real_of_num(x) == -real_of_num(x) / real_of_num(1) && DECIMAL(x, (y : Num)) == real_of_num(x) / real_of_num(y) && -DECIMAL(x, y) == -real_of_num(x) / real_of_num(y)
+      #|  real_of_num(0) < (y1 : Real) \226\134\146 real_of_num(0) < (y2 : Real) \226\134\146 ((x1 : Real) / y1 <= (x2 : Real) / y2) == (x1 * y2 <= x2 * y1)
       #|  (x1 : Real)
       #|  (x2 : Real)
       #|  (y1 : Real)
@@ -1152,27 +1152,27 @@ test "calc_rat matches calc_rat.ml" {
       #|  real_le
       #|  op_slash
       #|  (!(a : Bool) == !(b : Bool)) == (a == b)
-      #|  &0 < y1 ==> &0 < y2 ==> (x1 / y1 < x2 / y2 <=> x1 * y2 < x2 * y1)
+      #|  real_of_num(0) < (y1 : Real) \226\134\146 real_of_num(0) < (y2 : Real) \226\134\146 ((x1 : Real) / y1 < (x2 : Real) / y2) == (x1 * y2 < x2 * y1)
       #|  (x1 : Real)
       #|  (x2 : Real)
       #|  (y1 : Real)
       #|  (y2 : Real)
       #|  real_lt
       #|  op_slash
-      #|  &0 < y1 ==> &0 < y2 ==> ((x1 / y1 = x2 / y2) <=> (x1 * y2 = x2 * y1))
+      #|  real_of_num(0) < (y1 : Real) \226\134\146 real_of_num(0) < (y2 : Real) \226\134\146 ((x1 : Real) / y1 == (x2 : Real) / y2) == (x1 * y2 == x2 * y1)
       #|  (x1 : Real)
       #|  (x2 : Real)
       #|  (y1 : Real)
       #|  (y2 : Real)
       #|  (op_eq : (Real, Real) -> Bool)
       #|  op_slash
-      #|  (--(&0) = &0) /\\\n     (--(--(&n)) = &n) /\\\n     (--(&m / &n) = --(&m) / &n) /\\\n     (--(--(&m) / &n) = &m / &n) /\\\n     (--(DECIMAL m n) = --(&m) / &n)
+      #|  -real_of_num(0) == real_of_num(0) && --real_of_num((n : Num)) == real_of_num(n) && -(real_of_num((m : Num)) / real_of_num(n)) == -real_of_num(m) / real_of_num(n) && -(-real_of_num(m) / real_of_num(n)) == real_of_num(m) / real_of_num(n) && -DECIMAL(m, n) == -real_of_num(m) / real_of_num(n)
       #|  op_minus_minus
-      #|  (abs(&n) = &n) /\\\n     (abs(--(&n)) = &n) /\\\n     (abs(&m / &n) = &m / &n) /\\\n     (abs(--(&m) / &n) = &m / &n) /\\\n     (abs(DECIMAL m n) = &m / &n) /\\\n     (abs(--(DECIMAL m n)) = &m / &n)
-      #|  (inv(&0) = &0) /\\\n     (inv(&1) = &1) /\\\n     (inv(-- &1) = --(&1)) /\\\n     (inv(&1 / &n) = &n) /\\\n     (inv(-- &1 / &n) = -- &n)
-      #|  (inv(&n) = &1 / &n) /\\\n     (inv(--(&n)) = --(&1) / &n) /\\\n     (inv(&m / &n) = &n / &m) /\\\n     (inv(--(&m) / &n) = --(&n) / &m) /\\\n     (inv(DECIMAL m n) = &n / &m) /\\\n     (inv(--(DECIMAL m n)) = --(&n) / &m)
+      #|  abs(real_of_num((n : Num))) == real_of_num(n) && abs(-real_of_num(n)) == real_of_num(n) && abs(real_of_num((m : Num)) / real_of_num(n)) == real_of_num(m) / real_of_num(n) && abs(-real_of_num(m) / real_of_num(n)) == real_of_num(m) / real_of_num(n) && abs(DECIMAL(m, n)) == real_of_num(m) / real_of_num(n) && abs(-DECIMAL(m, n)) == real_of_num(m) / real_of_num(n)
+      #|  inv(real_of_num(0)) == real_of_num(0) && inv(real_of_num(1)) == real_of_num(1) && inv(-real_of_num(1)) == -real_of_num(1) && inv(real_of_num(1) / real_of_num((n : Num))) == real_of_num(n) && inv(-real_of_num(1) / real_of_num(n)) == -real_of_num(n)
+      #|  inv(real_of_num((n : Num))) == real_of_num(1) / real_of_num(n) && inv(-real_of_num(n)) == -real_of_num(1) / real_of_num(n) && inv(real_of_num((m : Num)) / real_of_num(n)) == real_of_num(n) / real_of_num(m) && inv(-real_of_num(m) / real_of_num(n)) == -real_of_num(n) / real_of_num(m) && inv(DECIMAL(m, n)) == real_of_num(n) / real_of_num(m) && inv(-DECIMAL(m, n)) == -real_of_num(n) / real_of_num(m)
       #|  real_of_num(0) < (y1 : Real) * (y2 : Real) && real_of_num(0) < (y3 : Real)
-      #|  &0 < y1 ==> &0 < y2 ==> &0 < y3 ==>\n     ((x1 * y2 + x2 * y1) * y3 = x3 * y1 * y2)\n     ==> (x1 / y1 + x2 / y2 = x3 / y3)
+      #|  real_of_num(0) < (y1 : Real) \226\134\146 real_of_num(0) < (y2 : Real) \226\134\146 real_of_num(0) < (y3 : Real) \226\134\146 ((x1 : Real) * y2 + (x2 : Real) * y1) * y3 == (x3 : Real) * (y1 * y2) \226\134\146 x1 / y1 + x2 / y2 == x3 / y3
       #|  op_slash
       #|  real_add
       #|  (x1 : Real)
@@ -1183,8 +1183,8 @@ test "calc_rat matches calc_rat.ml" {
       #|  (y3 : Real)
       #|  (x : Real) - (y : Real) == x + -y
       #|  (x1 : Real) / (y1 : Real) * ((x2 : Real) / (y2 : Real)) == x1 * x2 / (y1 * y2)
-      #|  ((d1 * u1) * (id2 * iv1)) * ((d2 * u2) * id1 * iv2) =\n      (u1 * u2) * (iv1 * iv2) * (id2 * d2) * (id1 * d1)
-      #|  ~(d1 = &0) /\\ ~(d2 = &0) /\\\n     (d1 * u1 = x1) /\\ (d2 * u2 = x2) /\\\n     (d2 * v1 = y1) /\\ (d1 * v2 = y2)\n     ==> ((x1 / y1) * (x2 / y2) = (u1 * u2) / (v1 * v2))
+      #|  (d1 : Real) * (u1 : Real) * ((id2 : Real) * (iv1 : Real)) * ((d2 : Real) * (u2 : Real) * ((id1 : Real) * (iv2 : Real))) == u1 * u2 * (iv1 * iv2 * (id2 * d2 * (id1 * d1)))
+      #|  !((d1 : Real) == real_of_num(0)) && !((d2 : Real) == real_of_num(0)) && d1 * (u1 : Real) == (x1 : Real) && d2 * (u2 : Real) == (x2 : Real) && d2 * (v1 : Real) == (y1 : Real) && d1 * (v2 : Real) == (y2 : Real) \226\134\146 x1 / y1 * (x2 / y2) == u1 * u2 / (v1 * v2)
       #|  op_slash
       #|  real_mul
       #|  (x1 : Real)
@@ -1231,7 +1231,7 @@ test "calc_rat matches calc_rat.ml" {
       #|  abs
       #|  max
       #|  min
-      #|  (forall x. &0 * x = &0) /\\\n     (forall x y z. (x + y = x + z) <=> (y = z)) /\\\n     (forall w x y z. (w * y + x * z = w * z + x * y) <=> (w = x) \\/ (y = z))
+      #|  (\226\136\128 x : Real, real_of_num(0) * x == real_of_num(0)) && (\226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, (x + y == x + z) == (y == z)) && (\226\136\128 w : Real, \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, (w * y + x * z == w * z + x * y) == (w == x || y == z))
       #|  !(real_of_num(1) == real_of_num(0))
       #|  \226\136\128 x : Real, \226\136\128 y : Real, !(x == y) == (\226\136\131 z : Real, (x - y) * z == real_of_num(1))
       #|  :real
@@ -1251,7 +1251,7 @@ test "calc_rat matches calc_rat.ml" {
       #|  \226\136\128 x : Real, \226\136\128 y : Real, (x <= y) == (\226\136\128 z : Real, y < z \226\134\146 x < z)
       #|  inv(pow((x : Real), (n : Num)))
       #|  (true \226\134\146 (p : Bool)) == p
-      #|  ~(x pow n = &0) <=>\n        ~((x:real) = &0) \\/ (&n = &0) \\/ ~(x pow n = &0)
+      #|  !(pow((x : Real), (n : Num)) == real_of_num(0)) == (!(x == real_of_num(0)) || real_of_num(n) == real_of_num(0) || !(pow(x, n) == real_of_num(0)))
       #|  ((x : Real) < (y : Real)) == (x < y && !(x == y))
       #|  op_slash_bslash
       #|  inv
@@ -1267,18 +1267,18 @@ test "calc_rat matches calc_rat.ml" {
       #|  (x : Real)
       #|  (y : Real)
       #|  real_of_num(0) < real_of_num(1) + abs((x : Real))
-      #|  (&0 < x' <=> &0 < x) /\\ (&0 < y' <=> &0 < y) /\\\n    (abs x' < abs y' <=> abs x < abs y) /\\ (abs y' < abs x' <=> abs y < abs x)\n    ==> (x' < y' <=> x < y)
+      #|  (real_of_num(0) < (x' : Real)) == (real_of_num(0) < (x : Real)) && (real_of_num(0) < (y' : Real)) == (real_of_num(0) < (y : Real)) && (abs(x') < abs(y')) == (abs(x) < abs(y)) && (abs(y') < abs(x')) == (abs(y) < abs(x)) \226\134\146 (x' < y') == (x < y)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, (x / (real_of_num(1) + abs(x)) < y / (real_of_num(1) + abs(y))) == (x < y)
-      #|  forall x y. x / (&1 + abs x) <= y / (&1 + abs y) <=> x <= y
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, (x / (real_of_num(1) + abs(x)) <= y / (real_of_num(1) + abs(y))) == (x <= y)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, (x / (real_of_num(1) + abs(x)) == y / (real_of_num(1) + abs(y))) == (x == y)
       #|  (x : Real) * (y : Real) == real_of_num(1) \226\134\146 inv(x) * inv(y) == real_of_num(1)
       #|  (x : Real) * (inv((y : Real)) * inv((z : Real))) == x * real_of_num(1) \226\134\146 x / y / z == x
       #|  abs((y : Real)) < real_of_num(1) \226\134\146 abs(real_of_num(1) - abs(y)) == real_of_num(1) - abs(y)
       #|  abs(real_of_num(1) + abs((x : Real))) == real_of_num(1) + abs(x)
-      #|  forall x y. x / (&1 + abs x) = y <=> abs y < &1 /\\ y / (&1 - abs y) = x
-      #|  forall x. x / (&1 + abs x) / (&1 - abs(x / (&1 + abs x))) = x
-      #|  forall x. x / (&1 - abs x) / (&1 + abs(x / (&1 - abs x))) = x <=> abs x < &1
-      #|  forall x. abs x < &1\n       ==> x / (&1 - abs x) / (&1 + abs(x / (&1 - abs x))) = x
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, (x / (real_of_num(1) + abs(x)) == y) == (abs(y) < real_of_num(1) && y / (real_of_num(1) - abs(y)) == x)
+      #|  \226\136\128 x : Real, x / (real_of_num(1) + abs(x)) / (real_of_num(1) - abs(x / (real_of_num(1) + abs(x)))) == x
+      #|  \226\136\128 x : Real, (x / (real_of_num(1) - abs(x)) / (real_of_num(1) + abs(x / (real_of_num(1) - abs(x)))) == x) == (abs(x) < real_of_num(1))
+      #|  \226\136\128 x : Real, abs(x) < real_of_num(1) \226\134\146 x / (real_of_num(1) - abs(x)) / (real_of_num(1) + abs(x / (real_of_num(1) - abs(x)))) == x
       #|DECIMAL =  |- (#forall:fun(fun(num,bool),bool) (\x:num. (#forall:fun(fun(num,bool),bool) (\y:num. ((#=:fun(real,fun(real,bool)) ((#DECIMAL:fun(num,fun(num,real)) x:num) y:num)) ((#real_div:fun(real,fun(real,real)) (#real_of_num:fun(num,real) x:num)) (#real_of_num:fun(num,real) y:num)))))))
       #|RAT_LEMMA1 =  |- ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) (#~:fun(bool,bool) ((#=:fun(real,fun(real,bool)) y1:real) (#real_of_num:fun(num,real) (#NUMERAL:fun(num,num) #_0:num))))) (#~:fun(bool,bool) ((#=:fun(real,fun(real,bool)) y2:real) (#real_of_num:fun(num,real) (#NUMERAL:fun(num,num) #_0:num)))))) ((#=:fun(real,fun(real,bool)) ((#real_add:fun(real,fun(real,real)) ((#real_div:fun(real,fun(real,real)) x1:real) y1:real)) ((#real_div:fun(real,fun(real,real)) x2:real) y2:real))) ((#real_mul:fun(real,fun(real,real)) ((#real_add:fun(real,fun(real,real)) ((#real_mul:fun(real,fun(real,real)) x1:real) y2:real)) ((#real_mul:fun(real,fun(real,real)) x2:real) y1:real))) ((#real_mul:fun(real,fun(real,real)) (#real_inv:fun(real,real) y1:real)) (#real_inv:fun(real,real) y2:real)))))
       #|RAT_LEMMA2 =  |- ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) ((#real_lt:fun(real,fun(real,bool)) (#real_of_num:fun(num,real) (#NUMERAL:fun(num,num) #_0:num))) y1:real)) ((#real_lt:fun(real,fun(real,bool)) (#real_of_num:fun(num,real) (#NUMERAL:fun(num,num) #_0:num))) y2:real))) ((#=:fun(real,fun(real,bool)) ((#real_add:fun(real,fun(real,real)) ((#real_div:fun(real,fun(real,real)) x1:real) y1:real)) ((#real_div:fun(real,fun(real,real)) x2:real) y2:real))) ((#real_mul:fun(real,fun(real,real)) ((#real_add:fun(real,fun(real,real)) ((#real_mul:fun(real,fun(real,real)) x1:real) y2:real)) ((#real_mul:fun(real,fun(real,real)) x2:real) y1:real))) ((#real_mul:fun(real,fun(real,real)) (#real_inv:fun(real,real) y1:real)) (#real_inv:fun(real,real) y2:real)))))
