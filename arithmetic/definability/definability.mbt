@@ -1375,7 +1375,7 @@ fn step_38() -> Unit raise {
   let t457 = @simp.asm_rewrite_tac(@list.List([npair_inj(), @nums.not_suc()]))
   let t456 = @simp.once_rewrite_tac(@list.List([@rstc.rtc_cases_l()]))
   let t471 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), @tactics.strip_tac), @nums.induct_tac), t456), t457), t458), @tactics.gen_tac), t459), t467), t468), t469), t470)
-  primrec_sigma_c.set(@tactics.prove(@parser.parse_term("(fn_ 0 = e) /\\\n   (forall n. fn_ (SUC n) = f (fn_ n) n)\n   ==> forall x y. RTC (\\x y. ?n r. (x = NPAIR n r) /\\ (y = NPAIR (SUC n) (f r n)))\n                 (NPAIR 0 e) (NPAIR x y) <=>\n             (fn_(x) = y)"), t471))
+  primrec_sigma_c.set(@tactics.prove(@term_syntax.parse_term("(fn_ : (Num) -> Num)(0) == (e : Num) && (∀ n : Num, fn_(SUC(n)) == (f : (Num, Num) -> Num)(fn_(n), n)) → (∀ x : Num, ∀ y : Num, RTC((x : Num) => (y : Num) => ∃ n : Num, ∃ r : Num, x == NPAIR(n, r) && y == NPAIR(SUC(n), f(r, n)), NPAIR(0, e), NPAIR(x, y)) == (fn_(x) == y))"), t471))
 }
 
 ///|
@@ -1490,7 +1490,7 @@ fn step_43() -> Unit raise {
     })(t489(x490))
   })
   let t501 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t491), t497), t498), t499), t500)
-  arith_primrec_v1_c.set(@tactics.prove(@parser.parse_term("forall fn_ e f R c.\n        (fn_ 0 = e) /\\ (forall n. fn_ (SUC n) = f (fn_ n) n) /\\\n        (forall v. termval v c = e) /\\\n                  (forall v x y z. holds v (R x y z) <=>\n                             (f (termval v x) (termval v y) = termval v z))\n                  ==> forall v s t. holds v (arith_primrec R c s t) <=>\n                               (fn_(termval v s) = termval v t)"), t501))
+  arith_primrec_v1_c.set(@tactics.prove(@term_syntax.parse_term("∀ fn_ : (Num) -> Num, ∀ e : Num, ∀ f : (Num, Num) -> Num, ∀ R : (Term, Term, Term) -> Form, ∀ c : Term, fn_(0) == e && (∀ n : Num, fn_(SUC(n)) == f(fn_(n), n)) && (∀ v : (Num) -> Num, termval(v, c) == e) && (∀ v : (Num) -> Num, ∀ x : Term, ∀ y : Term, ∀ z : Term, holds(v, R(x, y, z)) == (f(termval(v, x), termval(v, y)) == termval(v, z))) → (∀ v : (Num) -> Num, ∀ s : Term, ∀ t : Term, holds(v, arith_primrec(R, c, s, t)) == (fn_(termval(v, s)) == termval(v, t)))"), t501))
 }
 
 ///|
