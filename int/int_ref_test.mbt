@@ -3118,7 +3118,7 @@ test "int matches int.ml" {
       #|  integer((x : Real)) == (\226\136\131 n : Num, x == real_of_num(n) || x == -real_of_num(n))
       #|  real_of_num(0)
       #|  \226\136\131 x : Real, integer(x)
-      #|  forall i. ?n. (real_of_int i = &n) \\/ (real_of_int i = --(&n))
+      #|  \226\136\128 i : Int, \226\136\131 n : Num, real_of_int(i) == real_of_num(n) || real_of_int(i) == -real_of_num(n)
       #|  \226\136\128 x : Int, integer(real_of_int(x))
       #|  int_of_real
       #|  \226\136\128 x : Int, \226\136\128 y : Int, (x == y) == (real_of_int(x) == real_of_int(y))
@@ -3144,7 +3144,7 @@ test "int matches int.ml" {
       #|  (int_neg : (Int) -> Int)((i : Int)) == int_of_real(-real_of_int(i))
       #|  (x : Int)
       #|  \226\136\128 x : Int, real_of_int(int_neg(x)) == -real_of_int(x)
-      #|  x + y = int_of_real((real_of_int x) + (real_of_int y))
+      #|  (int_add : (Int, Int) -> Int)((x : Int), (y : Int)) == int_of_real(real_of_int(x) + real_of_int(y))
       #|  (d : Num)
       #|  (d : Num)
       #|  (n : Num)
@@ -3153,33 +3153,33 @@ test "int matches int.ml" {
       #|  (n : Num)
       #|  (x : Int)
       #|  (m : Num)
-      #|  forall x y. real_of_int(x + y) = (real_of_int x) + (real_of_int y)
+      #|  \226\136\128 x : Int, \226\136\128 y : Int, real_of_int(x + y) == real_of_int(x) + real_of_int(y)
       #|  (int_sub : (Int, Int) -> Int)((x : Int), (y : Int)) == int_of_real(real_of_int(x) - real_of_int(y))
-      #|  forall x y. real_of_int(x - y) = (real_of_int x) - (real_of_int y)
-      #|  x * y = int_of_real ((real_of_int x) * (real_of_int y))
+      #|  \226\136\128 x : Int, \226\136\128 y : Int, real_of_int(x - y) == real_of_int(x) - real_of_int(y)
+      #|  (int_mul : (Int, Int) -> Int)((x : Int), (y : Int)) == int_of_real(real_of_int(x) * real_of_int(y))
       #|  (y : Int)
       #|  (n : Num)
       #|  (x : Int)
       #|  (m : Num)
-      #|  forall x y. real_of_int(x * y) = (real_of_int x) * (real_of_int y)
+      #|  \226\136\128 x : Int, \226\136\128 y : Int, real_of_int(x * y) == real_of_int(x) * real_of_int(y)
       #|  (int_abs : (Int) -> Int)((x : Int)) == int_of_real(abs(real_of_int(x)))
       #|  \226\136\128 x : Int, real_of_int(int_abs(x)) == abs(real_of_int(x))
       #|  (int_sgn : (Int) -> Int)((x : Int)) == int_of_real(real_sgn(real_of_int(x)))
       #|  \226\136\128 x : Int, real_of_int(int_sgn(x)) == real_sgn(real_of_int(x))
-      #|  int_max x y = int_of_real(max (real_of_int x) (real_of_int y))
-      #|  forall x y. real_of_int(max x y) = max (real_of_int x) (real_of_int y)
-      #|  int_min x y = int_of_real(min (real_of_int x) (real_of_int y))
-      #|  forall x y. real_of_int(min x y) = min (real_of_int x) (real_of_int y)
+      #|  (int_max : (Int, Int) -> Int)((x : Int), (y : Int)) == int_of_real(max(real_of_int(x), real_of_int(y)))
+      #|  \226\136\128 x : Int, \226\136\128 y : Int, real_of_int(max(x, y)) == max(real_of_int(x), real_of_int(y))
+      #|  (int_min : (Int, Int) -> Int)((x : Int), (y : Int)) == int_of_real(min(real_of_int(x), real_of_int(y)))
+      #|  \226\136\128 x : Int, \226\136\128 y : Int, real_of_int(min(x, y)) == min(real_of_int(x), real_of_int(y))
       #|  (int_pow : (Int, Num) -> Int)((x : Int), (n : Num)) == int_of_real(pow(real_of_int(x), n))
       #|  \226\136\128 x : Int, \226\136\128 n : Num, real_of_int(int_pow(x, n)) == pow(real_of_int(x), n)
-      #|  (forall x y. real_of_int x = real_of_int y <=> x = y) /\\\n   (forall x y. real_of_int x >= real_of_int y <=> x >= y) /\\\n   (forall x y. real_of_int x > real_of_int y <=> x > y) /\\\n   (forall x y. real_of_int x <= real_of_int y <=> x <= y) /\\\n   (forall x y. real_of_int x < real_of_int y <=> x < y) /\\\n   (forall x y. max (real_of_int x) (real_of_int y) = real_of_int(max x y)) /\\\n   (forall x y. min (real_of_int x) (real_of_int y) = real_of_int(min x y)) /\\\n   (forall n. &n = real_of_int(&n)) /\\\n   (forall x. --real_of_int x = real_of_int(--x)) /\\\n   (forall x. abs(real_of_int x) = real_of_int(abs x)) /\\\n   (forall x y. max (real_of_int x) (real_of_int y) = real_of_int(max x y)) /\\\n   (forall x y. min (real_of_int x) (real_of_int y) = real_of_int(min x y)) /\\\n   (forall x. real_sgn (real_of_int x) = real_of_int(int_sgn x)) /\\\n   (forall x y. real_of_int x + real_of_int y = real_of_int(x + y)) /\\\n   (forall x y. real_of_int x - real_of_int y = real_of_int(x - y)) /\\\n   (forall x y. real_of_int x * real_of_int y = real_of_int(x * y)) /\\\n   (forall x n. real_of_int x pow n = real_of_int(x pow n))
+      #|  (\226\136\128 x : Int, \226\136\128 y : Int, (real_of_int(x) == real_of_int(y)) == (x == y)) && (\226\136\128 x : Int, \226\136\128 y : Int, (real_of_int(x) >= real_of_int(y)) == (x >= y)) && (\226\136\128 x : Int, \226\136\128 y : Int, (real_of_int(x) > real_of_int(y)) == (x > y)) && (\226\136\128 x : Int, \226\136\128 y : Int, (real_of_int(x) <= real_of_int(y)) == (x <= y)) && (\226\136\128 x : Int, \226\136\128 y : Int, (real_of_int(x) < real_of_int(y)) == (x < y)) && (\226\136\128 x : Int, \226\136\128 y : Int, max(real_of_int(x), real_of_int(y)) == real_of_int(max(x, y))) && (\226\136\128 x : Int, \226\136\128 y : Int, min(real_of_int(x), real_of_int(y)) == real_of_int(min(x, y))) && (\226\136\128 n : Num, real_of_num(n) == real_of_int(int_of_num(n))) && (\226\136\128 x : Int, -real_of_int(x) == real_of_int(-x)) && (\226\136\128 x : Int, abs(real_of_int(x)) == real_of_int(abs(x))) && (\226\136\128 x : Int, \226\136\128 y : Int, max(real_of_int(x), real_of_int(y)) == real_of_int(max(x, y))) && (\226\136\128 x : Int, \226\136\128 y : Int, min(real_of_int(x), real_of_int(y)) == real_of_int(min(x, y))) && (\226\136\128 x : Int, real_sgn(real_of_int(x)) == real_of_int(int_sgn(x))) && (\226\136\128 x : Int, \226\136\128 y : Int, real_of_int(x) + real_of_int(y) == real_of_int(x + y)) && (\226\136\128 x : Int, \226\136\128 y : Int, real_of_int(x) - real_of_int(y) == real_of_int(x - y)) && (\226\136\128 x : Int, \226\136\128 y : Int, real_of_int(x) * real_of_int(y) == real_of_int(x * y)) && (\226\136\128 x : Int, \226\136\128 n : Num, pow(real_of_int(x), n) == real_of_int(pow(x, n)))
       #|  (n : Num)
       #|  int_of_real
       #|  (x : Int)
       #|  (n : Num)
       #|  \226\136\128 x : Int, (\226\136\131 n : Num, x == int_of_num(n)) || (\226\136\131 n : Num, x == int_neg(int_of_num(n)))
-      #|  forall P:int->bool. (forall x. P x) <=> (forall n. P(&n)) /\\ (forall n. P(-- &n))
-      #|  forall P:int->bool. (?x. P x) <=> (?n. P(&n)) \\/ (?n. P(-- &n))
+      #|  \226\136\128 P : (Int) -> Bool, (\226\136\128 x : Int, P(x)) == ((\226\136\128 n : Num, P(int_of_num(n))) && (\226\136\128 n : Num, P(-int_of_num(n))))
+      #|  \226\136\128 P : (Int) -> Bool, (\226\136\131 x : Int, P(x)) == ((\226\136\131 n : Num, P(int_of_num(n))) || (\226\136\131 n : Num, P(-int_of_num(n))))
       #|  SUC(0)
       #|  (y : Int)
       #|  (n : Num)
@@ -3192,10 +3192,10 @@ test "int matches int.ml" {
       #|  real_of_int
       #|  :real
       #|  :int
-      #|  real_of_int(if b then x else y) =\n       if b then real_of_int x else real_of_int y
-      #|  (forall x y:int. P x y <=> P y x) /\\ (forall x y. x <= y ==> P x y) ==> forall x y. P x y
-      #|  (forall x:int. P x x) /\\ (forall x y. P x y <=> P y x) /\\ (forall x y. x < y ==> P x y)\n   ==> forall x y. P x y
-      #|  forall P. (forall x y z. P x y z ==> P y x z /\\ P x z y) /\\\n       (forall x y z:int. x <= y /\\ y <= z ==> P x y z)\n       ==> forall x y z. P x y z
+      #|  real_of_int(if (b : Bool) { (x : Int) } else { (y : Int) }) == (if b { real_of_int(x) } else { real_of_int(y) })
+      #|  (\226\136\128 x : Int, \226\136\128 y : Int, (P : (Int, Int) -> Bool)(x, y) == P(y, x)) && (\226\136\128 x : Int, \226\136\128 y : Int, x <= y \226\134\146 P(x, y)) \226\134\146 (\226\136\128 x : Int, \226\136\128 y : Int, P(x, y))
+      #|  (\226\136\128 x : Int, (P : (Int, Int) -> Bool)(x, x)) && (\226\136\128 x : Int, \226\136\128 y : Int, P(x, y) == P(y, x)) && (\226\136\128 x : Int, \226\136\128 y : Int, x < y \226\134\146 P(x, y)) \226\134\146 (\226\136\128 x : Int, \226\136\128 y : Int, P(x, y))
+      #|  \226\136\128 P : (Int, Int, Int) -> Bool, (\226\136\128 x : Int, \226\136\128 y : Int, \226\136\128 z : Int, P(x, y, z) \226\134\146 P(y, x, z) && P(x, z, y)) && (\226\136\128 x : Int, \226\136\128 y : Int, \226\136\128 z : Int, x <= y && y <= z \226\134\146 P(x, y, z)) \226\134\146 (\226\136\128 x : Int, \226\136\128 y : Int, \226\136\128 z : Int, P(x, y, z))
       #|  (i : Int)
       #|  \226\136\128 P : (Int) -> Bool, (\226\136\128 n : Num, P(int_of_num(n))) == (\226\136\128 i : Int, int_le(int_of_num(0), i) \226\134\146 P(i))
       #|  ((p : Bool) == (q : Bool)) == (!p == !q)
@@ -3203,13 +3203,13 @@ test "int matches int.ml" {
       #|  \226\136\128 P : (Int) -> Bool, (\226\136\128 n : Num, P(int_of_num(n))) == (\226\136\128 x : Int, P(int_abs(x)))
       #|  ((p : Bool) == (q : Bool)) == (!p == !q)
       #|  \226\136\128 P : (Int) -> Bool, (\226\136\131 n : Num, P(int_of_num(n))) == (\226\136\131 x : Int, P(int_abs(x)))
-      #|  (x pow 0 = &1) /\\\n   (forall n. x pow (SUC n) = x * x pow n)
+      #|  pow((x : Int), 0) == int_of_num(1) && (\226\136\128 n : Num, pow(x, SUC(n)) == x * pow(x, n))
       #|  (x : Real)
       #|  \226\136\128 x : Int, int_abs(x) == (if int_le(int_of_num(0), x) { x } else { int_neg(x) })
       #|  \226\136\128 x : Int, \226\136\128 y : Int, int_ge(x, y) == int_le(y, x)
       #|  \226\136\128 x : Int, \226\136\128 y : Int, int_gt(x, y) == int_lt(y, x)
       #|  \226\136\128 x : Int, \226\136\128 y : Int, int_lt(x, y) == !int_le(y, x)
-      #|  (~(x:int <= y) <=> y + &1 <= x) /\\\n        (~(x < y) <=> y <= x) /\\\n        (~(x = y) <=> x + &1 <= y \\/ y + &1 <= x) /\\\n        (x < y <=> x + &1 <= y)
+      #|  !((x : Int) <= (y : Int)) == (y + int_of_num(1) <= x) && !(x < y) == (y <= x) && !(x == y) == (x + int_of_num(1) <= y || y + int_of_num(1) <= x) && (x < y) == (x + int_of_num(1) <= y)
       #|  op_bslash_slash
       #|  (p : Bool)
       #|  op_tilde
@@ -3226,22 +3226,22 @@ test "int matches int.ml" {
       #|  !(int_neg(int_of_num((n : Num))) == int_of_num(1))
       #|  (y : Int)
       #|  (x : Int)
-      #|  forall x y:int. x * y = &1 <=> x = &1 /\\ y = &1 \\/ x = --(&1) /\\ y = --(&1)
+      #|  \226\136\128 x : Int, \226\136\128 y : Int, (x * y == int_of_num(1)) == (x == int_of_num(1) && y == int_of_num(1) || x == -int_of_num(1) && y == -int_of_num(1))
       #|  (a : Int)
       #|  int_abs((x : Int))
       #|  (x : Int)
       #|  (b : Int)
       #|  int_abs((y : Int))
       #|  (y : Int)
-      #|  forall x y. abs(x * y) = &1 <=> abs(x) = &1 /\\ abs(y) = &1
+      #|  \226\136\128 x : Int, \226\136\128 y : Int, (abs(x * y) == int_of_num(1)) == (abs(x) == int_of_num(1) && abs(y) == int_of_num(1))
       #|  (\226\136\131 x : _, (P : (_) -> Bool)(x) && (Q : (_) -> Bool)(x)) == !(\226\136\128 x : _, P(x) \226\134\146 !Q(x))
-      #|  (?x. &0 <= x /\\ P x) <=>\n   (?x. &0 <= x /\\ P x /\\ forall y. &0 <= y /\\ P y ==> x <= y)
+      #|  (\226\136\131 x : Int, int_of_num(0) <= x && (P : (Int) -> Bool)(x)) == (\226\136\131 x : Int, int_of_num(0) <= x && P(x) && (\226\136\128 y : Int, int_of_num(0) <= y && P(y) \226\134\146 x <= y))
       #|  !((d : Int) == int_of_num(0)) \226\134\146 int_lt(int_of_num(0), d) || int_lt(int_of_num(0), int_neg(d))
       #|  int_mul(int_neg((x : Int)), (y : Int)) == int_mul(x, int_neg(y))
       #|  !((d : Int) == int_of_num(0)) \226\134\146 int_lt(int_of_num(0), d) || int_lt(int_of_num(0), int_neg(d))
       #|  int_mul(int_neg((x : Int)), (y : Int)) == int_mul(x, int_neg(y))
       #|  \226\136\128 x : Int, \226\136\128 d : Int, !(d == int_of_num(0)) \226\134\146 (\226\136\131 c : Int, int_lt(x, int_mul(c, d)))
-      #|  x + &1 <= &n /\\ &n * &1 <= &n * d ==> x + &1 <= &n * d
+      #|  (x : Int) + int_of_num(1) <= int_of_num((n : Num)) && int_of_num(n) * int_of_num(1) <= int_of_num(n) * (d : Int) \226\134\146 x + int_of_num(1) <= int_of_num(n) * d
       #|  \226\136\128 x : Int, \226\136\128 d : Int, int_lt(int_of_num(0), d) \226\134\146 (\226\136\131 c : Int, int_lt(x, int_mul(c, d)))
       #|  \226\136\128 x : Int, \226\136\131 n : Num, int_le(x, int_of_num(n))
       #|  \226\136\128 x : Int, int_le(int_of_num(0), x) \226\134\146 (\226\136\131 n : Num, int_le(x, int_of_num(n)))
@@ -3256,8 +3256,8 @@ test "int matches int.ml" {
       #|  int_neg((m : Int))
       #|  \226\136\131 r : Int, int_le(int_of_num(0), r) && (\226\136\131 q : Int, (m : Int) == int_add(int_mul((n : Int), q), r))
       #|  (n : Int) == int_of_num(0)
-      #|  forall m n:int. ?q r. if n = &0 then q = &0 /\\ r = m\n                   else &0 <= r /\\ r < abs(n) /\\ m = q * n + r
-      #|  forall m n. ~(n = &0)\n         ==> m = m div n * n + m rem n /\\ &0 <= m rem n /\\ m rem n < abs n
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, \226\136\131 q : Int, \226\136\131 r : Int, (if n == int_of_num(0) { q == int_of_num(0) && r == m } else { int_of_num(0) <= r && r < abs(n) && m == q * n + r })
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, !(n == int_of_num(0)) \226\134\146 m == div(m, n) * n + rem(m, n) && int_of_num(0) <= rem(m, n) && rem(m, n) < abs(n)
       #|  \226\136\128 m : Int, \226\136\128 n : Int, int_add(int_mul(div(m, n), n), rem(m, n)) == m
       #|  \226\136\128 a : Int, \226\136\128 b : Int, !(b == int_of_num(0)) \226\134\146 int_le(int_of_num(0), rem(a, b))
       #|  \226\136\128 m : Int, div(m, int_of_num(0)) == int_of_num(0)
@@ -3270,16 +3270,16 @@ test "int matches int.ml" {
       #|  \226\136\128 x : Int, \226\136\128 n : Int, int_lt(int_of_num(0), n) \226\134\146 int_lt(rem(x, n), n)
       #|  (n : Int) == int_of_num(0)
       #|  \226\136\128 m : Int, \226\136\128 n : Int, int_lt(rem(m, n), n) == (int_lt(int_of_num(0), n) || n == int_of_num(0) && int_lt(m, int_of_num(0)))
-      #|  (F /\\ F <=> F) /\\ (F /\\ T <=> F) /\\\n          (T /\\ F <=> F) /\\ (T /\\ T <=> T)
+      #|  (false && false) == false && (false && true) == false && (true && false) == false && (true && true) == true
       #|  !true == false && !false == true
-      #|  (--(&m) <= &n <=> T) /\\\n     (&m <= &n <=> m <= n) /\\\n     (--(&m) <= --(&n) <=> n <= m) /\\\n     (&m <= --(&n) <=> (m = 0) /\\ (n = 0))
-      #|  (&m < --(&n) <=> F) /\\\n     (&m < &n <=> m < n) /\\\n     (--(&m) < --(&n) <=> n < m) /\\\n     (--(&m) < &n <=> ~((m = 0) /\\ (n = 0)))
-      #|  (&m >= --(&n) <=> T) /\\\n     (&m >= &n <=> n <= m) /\\\n     (--(&m) >= --(&n) <=> m <= n) /\\\n     (--(&m) >= &n <=> (m = 0) /\\ (n = 0))
-      #|  (--(&m) > &n <=> F) /\\\n     (&m > &n <=> n < m) /\\\n     (--(&m) > --(&n) <=> m < n) /\\\n     (&m > --(&n) <=> ~((m = 0) /\\ (n = 0)))
-      #|  ((&m = &n) <=> (m = n)) /\\\n     ((--(&m) = --(&n)) <=> (m = n)) /\\\n     ((--(&m) = &n) <=> (m = 0) /\\ (n = 0)) /\\\n     ((&m = --(&n)) <=> (m = 0) /\\ (n = 0))
+      #|  (-int_of_num((m : Num)) <= int_of_num((n : Num))) == true && (int_of_num(m) <= int_of_num(n)) == (m <= n) && (-int_of_num(m) <= -int_of_num(n)) == (n <= m) && (int_of_num(m) <= -int_of_num(n)) == (m == 0 && n == 0)
+      #|  (int_of_num((m : Num)) < -int_of_num((n : Num))) == false && (int_of_num(m) < int_of_num(n)) == (m < n) && (-int_of_num(m) < -int_of_num(n)) == (n < m) && (-int_of_num(m) < int_of_num(n)) == !(m == 0 && n == 0)
+      #|  (int_of_num((m : Num)) >= -int_of_num((n : Num))) == true && (int_of_num(m) >= int_of_num(n)) == (n <= m) && (-int_of_num(m) >= -int_of_num(n)) == (m <= n) && (-int_of_num(m) >= int_of_num(n)) == (m == 0 && n == 0)
+      #|  (-int_of_num((m : Num)) > int_of_num((n : Num))) == false && (int_of_num(m) > int_of_num(n)) == (n < m) && (-int_of_num(m) > -int_of_num(n)) == (m < n) && (int_of_num(m) > -int_of_num(n)) == !(m == 0 && n == 0)
+      #|  (int_of_num((m : Num)) == int_of_num((n : Num))) == (m == n) && (-int_of_num(m) == -int_of_num(n)) == (m == n) && (-int_of_num(m) == int_of_num(n)) == (m == 0 && n == 0) && (int_of_num(m) == -int_of_num(n)) == (m == 0 && n == 0)
       #|  int_neg(int_of_num(0)) == int_of_num(0) && int_neg(int_neg(int_of_num((x : Num)))) == int_of_num(x)
-      #|  (&0 * &x = &0) /\\\n     (&0 * --(&x) = &0) /\\\n     (&x * &0 = &0) /\\\n     (--(&x) * &0 = &0)
-      #|  ((&m * &n = &(m * n)) /\\\n      (--(&m) * --(&n) = &(m * n))) /\\\n     ((--(&m) * &n = --(&(m * n))) /\\\n      (&m * --(&n) = --(&(m * n))))
+      #|  int_of_num(0) * int_of_num((x : Num)) == int_of_num(0) && int_of_num(0) * -int_of_num(x) == int_of_num(0) && int_of_num(x) * int_of_num(0) == int_of_num(0) && -int_of_num(x) * int_of_num(0) == int_of_num(0)
+      #|  (int_of_num((m : Num)) * int_of_num((n : Num)) == int_of_num(m * n) && -int_of_num(m) * -int_of_num(n) == int_of_num(m * n)) && -int_of_num(m) * int_of_num(n) == -int_of_num(m * n) && int_of_num(m) * -int_of_num(n) == -int_of_num(m * n)
       #|  int_neg
       #|  int_of_num
       #|  int_add
@@ -3287,18 +3287,18 @@ test "int matches int.ml" {
       #|  (m : Num)
       #|  (n : Num)
       #|  int_add(int_neg(int_of_num((m : Num))), int_of_num(m)) == int_of_num(0) && int_add(int_of_num(m), int_neg(int_of_num(m))) == int_of_num(0)
-      #|  (--(&m) + --(&n) = --(&(m + n))) /\\\n     (--(&m) + &(m + n) = &n) /\\\n     (--(&(m + n)) + &m = --(&n)) /\\\n     (&(m + n) + --(&m) = &n) /\\\n     (&m + --(&(m + n)) = --(&n)) /\\\n     (&m + &n = &(m + n))
-      #|  (&x pow n = &(x EXP n)) /\\\n     ((--(&x)) pow n = if EVEN n then &(x EXP n) else --(&(x EXP n)))
-      #|  ((if T then x:int else y) = x) /\\ ((if F then x:int else y) = y)
+      #|  -int_of_num((m : Num)) + -int_of_num((n : Num)) == -int_of_num(m + n) && -int_of_num(m) + int_of_num(m + n) == int_of_num(n) && -int_of_num(m + n) + int_of_num(m) == -int_of_num(n) && int_of_num(m + n) + -int_of_num(m) == int_of_num(n) && int_of_num(m) + -int_of_num(m + n) == -int_of_num(n) && int_of_num(m) + int_of_num(n) == int_of_num(m + n)
+      #|  pow(int_of_num((x : Num)), (n : Num)) == int_of_num(EXP(x, n)) && pow(-int_of_num(x), n) == (if EVEN(n) { int_of_num(EXP(x, n)) } else { -int_of_num(EXP(x, n)) })
+      #|  (if true { (x : Int) } else { (y : Int) }) == x && (if false { x } else { y }) == y
       #|  int_neg
       #|  int_abs(int_neg(int_of_num((x : Num)))) == int_of_num(x) && int_abs(int_of_num(x)) == int_of_num(x)
-      #|  (forall x y z. x + (y + z) = (x + y) + z) /\\\n     (forall x y. x + y = y + x) /\\\n     (forall x. &0 + x = x) /\\\n     (forall x y z. x * (y * z) = (x * y) * z) /\\\n     (forall x y. x * y = y * x) /\\\n     (forall x. &1 * x = x) /\\\n     (forall x. &0 * x = &0) /\\\n     (forall x y z. x * (y + z) = x * y + x * z) /\\\n     (forall x. x pow 0 = &1) /\\\n     (forall x n. x pow (SUC n) = x * x pow n)
-      #|  (forall x. --x = --(&1) * x) /\\\n     (forall x y. x - y = x + --(&1) * y)
+      #|  (\226\136\128 x : Int, \226\136\128 y : Int, \226\136\128 z : Int, x + (y + z) == x + y + z) && (\226\136\128 x : Int, \226\136\128 y : Int, x + y == y + x) && (\226\136\128 x : Int, int_of_num(0) + x == x) && (\226\136\128 x : Int, \226\136\128 y : Int, \226\136\128 z : Int, x * (y * z) == x * y * z) && (\226\136\128 x : Int, \226\136\128 y : Int, x * y == y * x) && (\226\136\128 x : Int, int_of_num(1) * x == x) && (\226\136\128 x : Int, int_of_num(0) * x == int_of_num(0)) && (\226\136\128 x : Int, \226\136\128 y : Int, \226\136\128 z : Int, x * (y + z) == x * y + x * z) && (\226\136\128 x : Int, pow(x, 0) == int_of_num(1)) && (\226\136\128 x : Int, \226\136\128 n : Num, pow(x, SUC(n)) == x * pow(x, n))
+      #|  (\226\136\128 x : Int, -x == -int_of_num(1) * x) && (\226\136\128 x : Int, \226\136\128 y : Int, x - y == x + -int_of_num(1) * y)
       #|  (p : Num)
       #|  (q : Num)
       #|  0
       #|  1
-      #|  (forall x. &0 * x = &0) /\\\n     (forall x y z. (x + y = x + z) <=> (y = z)) /\\\n     (forall w x y z. (w * y + x * z = w * z + x * y) <=> (w = x) \\/ (y = z))
+      #|  (\226\136\128 x : Int, int_of_num(0) * x == int_of_num(0)) && (\226\136\128 x : Int, \226\136\128 y : Int, \226\136\128 z : Int, (x + y == x + z) == (y == z)) && (\226\136\128 w : Int, \226\136\128 x : Int, \226\136\128 y : Int, \226\136\128 z : Int, (w * y + x * z == w * z + x * y) == (w == x || y == z))
       #|  :int
       #|  int_pow
       #|  int_mul
@@ -3311,17 +3311,17 @@ test "int matches int.ml" {
       #|  :A#A->A
       #|  :A#A->A
       #|  (op_eq_eq : (A, A, (A, A) -> Bool) -> Bool)((x : A), (y : A), (rel : (A, A) -> Bool)) == rel(x, y)
-      #|  real_mod n (x:real) y = ?q. integer q /\\ x - y = q * n
+      #|  (real_mod : (Real, Real, Real) -> Bool)((n : Real), (x : Real), (y : Real)) == (\226\136\131 q : Real, integer(q) && x - y == q * n)
       #|  real_mod
       #|  (int_divides : (Int, Int) -> Bool)
       #|  (int_divides : (Int, Int) -> Bool)((a : Int), (b : Int)) == (\226\136\131 x : Int, b == a * x)
       #|  ((x : Int) <= x * (y : Int)) == (int_of_num(0) <= x * (y - int_of_num(1)))
       #|  ((p : Bool) || (q : Bool) || (r : Bool)) == (!q && !r \226\134\146 p)
-      #|  forall x y:int. x divides y ==> abs(x) <= abs(y) \\/ y = &0
+      #|  \226\136\128 x : Int, \226\136\128 y : Int, divides(x, y) \226\134\146 abs(x) <= abs(y) || y == int_of_num(0)
       #|  (int_mod : (Int, Int, Int) -> Bool)
       #|  (int_mod : (Int, Int, Int) -> Bool)((n : Int), (x : Int), (y : Int)) == divides(n, x - y)
       #|  \226\136\128 x : Int, \226\136\128 y : Int, \226\136\128 n : Int, op_eq_eq(x, y, int_mod(n)) == (\226\136\131 d : Int, x - y == n * d)
-      #|  forall x y n:int. abs(x - y) < n /\\ (x == y) (mod n) ==> x = y
+      #|  \226\136\128 x : Int, \226\136\128 y : Int, \226\136\128 n : Int, abs(x - y) < n && op_eq_eq(x, y, mod(n)) \226\134\146 x == y
       #|  (int_coprime : ((Int, Int)) -> Bool)
       #|  \226\136\128 a : Int, \226\136\128 b : Int, (int_coprime : ((Int, Int)) -> Bool)((a, b)) == (\226\136\131 x : Int, \226\136\131 y : Int, a * x + b * y == int_of_num(1))
       #|  :int
@@ -3333,22 +3333,22 @@ test "int matches int.ml" {
       #|  op_minus_minus
       #|  !((x : _) == (y : _)) \226\134\146 x == y || (p : Bool) \226\134\146 p
       #|  ((a : Bool) || (b : Bool) && (c : Bool)) == ((a || b) && (a || c))
-      #|  &1 * abs n <= abs(q - m div n) * abs n /\\\n    abs(m rem n - r) = abs((q - m div n) * n)\n    ==> ~(abs(m rem n - r) < abs n)
+      #|  int_of_num(1) * abs((n : Int)) <= abs((q : Int) - div((m : Int), n)) * abs(n) && abs(rem(m, n) - (r : Int)) == abs((q - div(m, n)) * n) \226\134\146 !(abs(rem(m, n) - r) < abs(n))
       #|  !(p : Bool) \226\134\146 p \226\134\146 (q : Bool)
       #|  abs(rem((m : Int), (n : Int)) - (r : Int)) < abs(n)
       #|  div((m : Int), (n : Int)) == (q : Int)
       #|  (m : Int)
       #|  !((n : Int) == int_of_num(0))
-      #|  forall m n q r. m = q * n + r /\\ &0 <= r /\\ r < abs n\n             ==> m div n = q /\\ m rem n = r
-      #|  forall m n q r. m = q * n + r /\\ &0 <= r /\\ r < abs n\n             ==> m div n = q
-      #|  forall m n q r. m = q * n + r /\\ &0 <= r /\\ r < abs n\n             ==> m rem n = r
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 q : Int, \226\136\128 r : Int, m == q * n + r && int_of_num(0) <= r && r < abs(n) \226\134\146 div(m, n) == q && rem(m, n) == r
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 q : Int, \226\136\128 r : Int, m == q * n + r && int_of_num(0) <= r && r < abs(n) \226\134\146 div(m, n) == q
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 q : Int, \226\136\128 r : Int, m == q * n + r && int_of_num(0) <= r && r < abs(n) \226\134\146 rem(m, n) == r
       #|  (((p : Bool) \226\134\146 (q : Bool)) && (p \226\134\146 (r : Bool))) == (p \226\134\146 q && r)
       #|  (n : Int) == int_of_num(0)
-      #|  (forall m n. (~(n = &0) ==> &0 <= m) /\\ m < n ==> m div n = &0) /\\\n   (forall m n. (~(n = &0) ==> &0 <= m) /\\ m < n ==> m rem n = m)
+      #|  (\226\136\128 m : Int, \226\136\128 n : Int, (!(n == int_of_num(0)) \226\134\146 int_of_num(0) <= m) && m < n \226\134\146 div(m, n) == int_of_num(0)) && (\226\136\128 m : Int, \226\136\128 n : Int, (!(n == int_of_num(0)) \226\134\146 int_of_num(0) <= m) && m < n \226\134\146 rem(m, n) == m)
       #|  (n : Int)
       #|  (m : Int)
       #|  (n : Int) == int_of_num(0)
-      #|  (forall m n. m div (--n) = --(m div n)) /\\\n   (forall m n. m rem (--n) = m rem n)
+      #|  (\226\136\128 m : Int, \226\136\128 n : Int, div(m, -n) == -div(m, n)) && (\226\136\128 m : Int, \226\136\128 n : Int, rem(m, -n) == rem(m, n))
       #|  \226\136\128 x : Int, \226\136\128 y : Int, rem(x, abs(y)) == rem(x, y)
       #|  int_of_num(0)
       #|  (n : Int) == int_of_num(0)
@@ -3370,7 +3370,7 @@ test "int matches int.ml" {
       #|  \226\136\128 m : Int, \226\136\128 n : Int, (rem(m, n) == int_of_num(0)) == divides(n, m)
       #|  (n : Int)
       #|  (m : Int)
-      #|  (forall m n. n * m div n = m <=> n divides m) /\\\n   (forall m n. m div n * n = m <=> n divides m)
+      #|  (\226\136\128 m : Int, \226\136\128 n : Int, (n * div(m, n) == m) == divides(n, m)) && (\226\136\128 m : Int, \226\136\128 n : Int, (div(m, n) * n == m) == divides(n, m))
       #|  \226\136\128 x : Int, \226\136\128 y : Int, \226\136\128 n : Int, op_eq_eq(rem(x, n), y, mod(n)) == op_eq_eq(x, y, mod(n))
       #|  \226\136\128 x : Int, \226\136\128 y : Int, \226\136\128 n : Int, op_eq_eq(x, rem(y, n), mod(n)) == op_eq_eq(x, y, mod(n))
       #|  \226\136\128 m : Int, \226\136\128 n : Int, op_eq_eq(rem(m, n), m, mod(n))
@@ -3378,34 +3378,34 @@ test "int matches int.ml" {
       #|  (m : Int)
       #|  (n : Int) * (p : Int)
       #|  (m : Int)
-      #|  (forall m n p. m rem (n * p) rem n = m rem n) /\\\n   (forall m n p. m rem (n * p) rem p = m rem p)
-      #|  forall a n:int. ~(n = &0) ==> ?x. &0 <= x /\\ x < abs n /\\ (x == a) (mod n)
+      #|  (\226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, rem(rem(m, n * p), n) == rem(m, n)) && (\226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, rem(rem(m, n * p), p) == rem(m, p))
+      #|  \226\136\128 a : Int, \226\136\128 n : Int, !(n == int_of_num(0)) \226\134\146 (\226\136\131 x : Int, int_of_num(0) <= x && x < abs(n) && op_eq_eq(x, a, mod(n)))
       #|  op_eq_eq((a : Int), (b : Int), mod((n : Int))) \226\134\146 op_eq_eq(-a, -b, mod(n))
       #|  \226\136\128 n : Int, \226\136\128 p : Int, rem(-rem(n, p), p) == rem(-n, p)
-      #|  (x:int == x') (mod n) /\\ (y == y') (mod n)\n    ==> (x + y == x' + y') (mod n)
+      #|  op_eq_eq((x : Int), (x' : Int), mod((n : Int))) && op_eq_eq((y : Int), (y' : Int), mod(n)) \226\134\146 op_eq_eq(x + y, x' + y', mod(n))
       #|  \226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, rem(rem(m, p) + rem(n, p), p) == rem(m + n, p)
-      #|  (x:int == x') (mod n) /\\ (y == y') (mod n)\n    ==> (x - y == x' - y') (mod n)
+      #|  op_eq_eq((x : Int), (x' : Int), mod((n : Int))) && op_eq_eq((y : Int), (y' : Int), mod(n)) \226\134\146 op_eq_eq(x - y, x' - y', mod(n))
       #|  \226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, rem(rem(m, p) - rem(n, p), p) == rem(m - n, p)
-      #|  (x:int == x') (mod n) /\\ (y == y') (mod n)\n    ==> (x * y == x' * y') (mod n)
+      #|  op_eq_eq((x : Int), (x' : Int), mod((n : Int))) && op_eq_eq((y : Int), (y' : Int), mod(n)) \226\134\146 op_eq_eq(x * y, x' * y', mod(n))
       #|  \226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, rem(rem(m, p) * rem(n, p), p) == rem(m * n, p)
       #|  \226\136\128 m : Int, \226\136\128 n : Num, \226\136\128 p : Int, rem(pow(rem(m, p), n), p) == rem(pow(m, n), p)
       #|  (n : Num) == 0
-      #|  (forall m n. &m div &n = &(m DIV n)) /\\\n   (forall m n. &m rem &n = &(m MOD n))
+      #|  (\226\136\128 m : Num, \226\136\128 n : Num, div(int_of_num(m), int_of_num(n)) == int_of_num(DIV(m, n))) && (\226\136\128 m : Num, \226\136\128 n : Num, rem(int_of_num(m), int_of_num(n)) == int_of_num(MOD(m, n)))
       #|  (n : Int)
-      #|  (forall n. n div n = if n = &0 then &0 else &1) /\\\n   (forall n. n rem n = &0)
-      #|  --m:int = (--x - y) * z + w <=> m = x * z + y * z - w
+      #|  (\226\136\128 n : Int, div(n, n) == (if n == int_of_num(0) { int_of_num(0) } else { int_of_num(1) })) && (\226\136\128 n : Int, rem(n, n) == int_of_num(0))
+      #|  (-(m : Int) == (-(x : Int) - (y : Int)) * (z : Int) + (w : Int)) == (m == x * z + (y * z - w))
       #|  (m : Int)
       #|  (n : Int) == int_of_num(0)
       #|  (n : Int)
       #|  (m : Int)
-      #|  (forall m n. --m div n =\n          if m rem n = &0 then --(m div n) else --(m div n) - int_sgn n) /\\\n   (forall m n. --m rem n =\n          if m rem n = &0 then &0 else abs n - m rem n)
-      #|  forall m n. --m div --n = if m rem n = &0 then m div n else m div n + int_sgn n
-      #|  forall m n. --m rem --n = if m rem n = &0 then &0 else abs n - m rem n
+      #|  (\226\136\128 m : Int, \226\136\128 n : Int, div(-m, n) == (if rem(m, n) == int_of_num(0) { -div(m, n) } else { -div(m, n) - int_sgn(n) })) && (\226\136\128 m : Int, \226\136\128 n : Int, rem(-m, n) == (if rem(m, n) == int_of_num(0) { int_of_num(0) } else { abs(n) - rem(m, n) }))
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, div(-m, -n) == (if rem(m, n) == int_of_num(0) { div(m, n) } else { div(m, n) + int_sgn(n) })
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, rem(-m, -n) == (if rem(m, n) == int_of_num(0) { int_of_num(0) } else { abs(n) - rem(m, n) })
       #|  (\226\136\128 n : Int, div(n, int_of_num(1)) == n) && (\226\136\128 n : Int, rem(n, int_of_num(1)) == int_of_num(0))
       #|  (n : Int) == int_of_num(0)
-      #|  ((p ==> p') /\\ (q ==> q')) /\\ p /\\ q ==> (p /\\ p') /\\ (q /\\ q')
-      #|  ((forall m n. ~(n = &0) ==> (m * n) div n = m) /\\\n    (forall m n. ~(m = &0) ==> (m * n) div m = n)) /\\\n   ((forall m n. (m * n) rem n = &0) /\\\n    (forall m n. (m * n) rem m = &0))
-      #|  (~(m:int < n * --c) <=> --m < n * c) <=> ~(m = n * --c)
+      #|  (((p : Bool) \226\134\146 (p' : Bool)) && ((q : Bool) \226\134\146 (q' : Bool))) && p && q \226\134\146 (p && p') && q && q'
+      #|  ((\226\136\128 m : Int, \226\136\128 n : Int, !(n == int_of_num(0)) \226\134\146 div(m * n, n) == m) && (\226\136\128 m : Int, \226\136\128 n : Int, !(m == int_of_num(0)) \226\134\146 div(m * n, m) == n)) && (\226\136\128 m : Int, \226\136\128 n : Int, rem(m * n, n) == int_of_num(0)) && (\226\136\128 m : Int, \226\136\128 n : Int, rem(m * n, m) == int_of_num(0))
+      #|  (!((m : Int) < (n : Int) * -(c : Int)) == (-m < n * c)) == !(m == n * -c)
       #|  (-(a : Int) <= (b : Int)) == !(a < -b)
       #|  -((q : Int) * int_of_num((n : Num)) + int_of_num(0)) == int_of_num(n) * -q
       #|  (r : Int) == rem(int_of_num((m : Num)), int_of_num((n : Num)))
@@ -3419,9 +3419,9 @@ test "int matches int.ml" {
       #|  !(int_of_num(0) < -int_of_num((n : Num)))
       #|  \226\136\128 a : Int, \226\136\128 b : Int, \226\136\128 c : Int, int_of_num(0) < a \226\134\146 (div(b, a) < c) == (b < a * c)
       #|  \226\136\128 a : Int, \226\136\128 b : Int, \226\136\128 c : Int, int_of_num(0) < a \226\134\146 (c <= div(b, a)) == (a * c <= b)
-      #|  forall a b c. &0 < a ==> (b div a <= c <=> b < a * (c + &1))
-      #|  forall a b c. &0 < a ==> (c < b div a <=> a * (c + &1) <= b)
-      #|  &0:int < n /\\ abs m * &1 <= abs m * n\n    ==> n * --abs m <= m /\\ m < n * (abs m + &1)
+      #|  \226\136\128 a : Int, \226\136\128 b : Int, \226\136\128 c : Int, int_of_num(0) < a \226\134\146 (div(b, a) <= c) == (b < a * (c + int_of_num(1)))
+      #|  \226\136\128 a : Int, \226\136\128 b : Int, \226\136\128 c : Int, int_of_num(0) < a \226\134\146 (c < div(b, a)) == (a * (c + int_of_num(1)) <= b)
+      #|  int_of_num(0) < (n : Int) && abs((m : Int)) * int_of_num(1) <= abs(m) * n \226\134\146 n * -abs(m) <= m && m < n * (abs(m) + int_of_num(1))
       #|  (m : Int)
       #|  (abs((x : Int)) <= (a : Int)) == (-a <= x && x <= a)
       #|  (n : Num) == 0
@@ -3432,21 +3432,21 @@ test "int matches int.ml" {
       #|  (p : Int) == int_of_num(0)
       #|  int_of_num(0) < (n : Int)
       #|  (n : Int) == int_of_num(0)
-      #|  (forall m n p. &0 <= n ==> (m div n) div p = m div (n * p)) /\\\n   (forall m n p. &0 <= n ==> m rem (n * p) = n * (m div n) rem p + m rem n)
+      #|  (\226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, int_of_num(0) <= n \226\134\146 div(div(m, n), p) == div(m, n * p)) && (\226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, int_of_num(0) <= n \226\134\146 rem(m, n * p) == n * rem(div(m, n), p) + rem(m, n))
       #|  (n : Num) == 0
       #|  (n : Num)
       #|  (m : Int)
-      #|  forall m n. m div n = &0 <=> n = &0 \\/ &0 <= m /\\ m < abs n
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, (div(m, n) == int_of_num(0)) == (n == int_of_num(0) || int_of_num(0) <= m && m < abs(n))
       #|  ((m : Int) - (x : Int) == m) == (x == int_of_num(0))
-      #|  forall m n. m rem n = m <=> n = &0 \\/ &0 <= m /\\ m < abs n
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, (rem(m, n) == m) == (n == int_of_num(0) || int_of_num(0) <= m && m < abs(n))
       #|  (n : Int) == int_of_num(0)
-      #|  forall m n p. m rem n = p <=>\n           (n = &0 /\\ m = p \\/ &0 <= p /\\ p < abs n) /\\ (m == p) (mod n)
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, (rem(m, n) == p) == ((n == int_of_num(0) && m == p || int_of_num(0) <= p && p < abs(n)) && op_eq_eq(m, p, mod(n)))
       #|  rem((m : Int), (n : Int))
       #|  (n : Int) == int_of_num(0)
-      #|  forall m n p. &0 <= n ==> (m div n) rem p = (m rem (n * p)) div n
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, int_of_num(0) <= n \226\134\146 rem(div(m, n), p) == div(rem(m, n * p), n)
       #|  abs((n : Int))
       #|  (p : Int) == int_of_num(0)
-      #|  forall m n p. ~(n = &0) /\\ abs n <= abs p ==> m rem n rem p = m rem n
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, !(n == int_of_num(0)) && abs(n) <= abs(p) \226\134\146 rem(rem(m, n), p) == rem(m, n)
       #|  \226\136\128 m : Int, \226\136\128 n : Int, int_of_num(0) <= m && int_of_num(0) <= n \226\134\146 int_of_num(0) <= div(m, n)
       #|  (int_of_num(0) < (x : Int)) == (int_of_num(0) <= x && !(x == int_of_num(0)))
       #|  \226\136\128 m : Int, \226\136\128 n : Int, int_of_num(0) < n && n <= m \226\134\146 int_of_num(0) < div(m, n)
@@ -3454,33 +3454,33 @@ test "int matches int.ml" {
       #|  (m : Int)
       #|  (n : Int) == int_of_num(0)
       #|  \226\136\128 m : Int, \226\136\128 n : Int, (rem(m, n) <= m) == (n == int_of_num(0) || int_of_num(0) <= m)
-      #|  forall m n p. (n = &0 \\/ &0 <= m) /\\ m <= p ==> m rem n <= p
-      #|  (forall m n p. (m * n + p) rem n = p rem n) /\\\n   (forall m n p. (n * m + p) rem n = p rem n) /\\\n   (forall m n p. (p + m * n) rem n = p rem n) /\\\n   (forall m n p. (p + n * m) rem n = p rem n)
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, (n == int_of_num(0) || int_of_num(0) <= m) && m <= p \226\134\146 rem(m, n) <= p
+      #|  (\226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, rem(m * n + p, n) == rem(p, n)) && (\226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, rem(n * m + p, n) == rem(p, n)) && (\226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, rem(p + m * n, n) == rem(p, n)) && (\226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, rem(p + n * m, n) == rem(p, n))
       #|  (n : Int)
       #|  (p : Int)
       #|  rem((p : Int), (n : Int))
-      #|  (forall m n p. ~(n = &0) ==> (m * n + p) div n = m + p div n) /\\\n   (forall m n p. ~(n = &0) ==> (n * m + p) div n = m + p div n) /\\\n   (forall m n p. ~(n = &0) ==> (p + m * n) div n = p div n + m) /\\\n   (forall m n p. ~(n = &0) ==> (p + n * m) div n = p div n + m)
+      #|  (\226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, !(n == int_of_num(0)) \226\134\146 div(m * n + p, n) == m + div(p, n)) && (\226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, !(n == int_of_num(0)) \226\134\146 div(n * m + p, n) == m + div(p, n)) && (\226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, !(n == int_of_num(0)) \226\134\146 div(p + m * n, n) == div(p, n) + m) && (\226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 p : Int, !(n == int_of_num(0)) \226\134\146 div(p + n * m, n) == div(p, n) + m)
       #|  op_eq_eq((a : Int), (b : Int), mod(-(n : Int))) == op_eq_eq(a, b, mod(n))
       #|  op_eq_eq(-(a : Int), -(b : Int), mod((n : Int))) == op_eq_eq(a, b, mod(n))
-      #|  forall a b m n.\n      (a == b) (mod (m * n)) ==> (a div m == b div m) (mod n)
+      #|  \226\136\128 a : Int, \226\136\128 b : Int, \226\136\128 m : Int, \226\136\128 n : Int, op_eq_eq(a, b, mod(m * n)) \226\134\146 op_eq_eq(div(a, m), div(b, m), mod(n))
       #|  int_of_num(2)
       #|  (n : Int)
       #|  \226\136\128 n : Int, rem(n, int_of_num(2)) == int_of_num(0) || rem(n, int_of_num(2)) == int_of_num(1)
-      #|  (forall n. ~(n rem &2 = &0) <=> n rem &2 = &1) /\\\n   (forall n. ~(n rem &2 = &1) <=> n rem &2 = &0)
-      #|  (forall n. n rem &2 = &0 <=> &2 divides n) /\\\n   (forall n. n rem &2 = &1 <=> ~(&2 divides n))
+      #|  (\226\136\128 n : Int, !(rem(n, int_of_num(2)) == int_of_num(0)) == (rem(n, int_of_num(2)) == int_of_num(1))) && (\226\136\128 n : Int, !(rem(n, int_of_num(2)) == int_of_num(1)) == (rem(n, int_of_num(2)) == int_of_num(0)))
+      #|  (\226\136\128 n : Int, (rem(n, int_of_num(2)) == int_of_num(0)) == divides(int_of_num(2), n)) && (\226\136\128 n : Int, (rem(n, int_of_num(2)) == int_of_num(1)) == !divides(int_of_num(2), n))
       #|  \226\136\128 x : Int, rem(x, int_of_num(2)) == (if divides(int_of_num(2), x) { int_of_num(0) } else { int_of_num(1) })
       #|  divides((a : Int), -(x : Int)) == divides(a, x)
       #|  \226\136\128 x : Int, rem(-x, int_of_num(2)) == rem(x, int_of_num(2))
       #|  \226\136\128 n : Int, \226\136\128 d : Int, divides(d, n) \226\134\146 divides(div(n, d), n)
-      #|  a * x:int = n /\\ a * y = n /\\ ~(n = &0) ==> x = y
-      #|  forall m n:int. ~(n = &0) /\\ m divides n ==> n div (n div m) = m
+      #|  (a : Int) * (x : Int) == (n : Int) && a * (y : Int) == n && !(n == int_of_num(0)) \226\134\146 x == y
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, !(n == int_of_num(0)) && divides(m, n) \226\134\146 div(n, div(n, m)) == m
       #|  (e : Int) == int_of_num(0)
-      #|  forall n d e. d divides n /\\ (n = &0 ==> e = &0)\n           ==> (n div d divides e <=> n divides d * e)
+      #|  \226\136\128 n : Int, \226\136\128 d : Int, \226\136\128 e : Int, divides(d, n) && (n == int_of_num(0) \226\134\146 e == int_of_num(0)) \226\134\146 divides(div(n, d), e) == divides(n, d * e)
       #|  (d : Int) == int_of_num(0)
-      #|  forall n d e. d divides n ==> (e divides (n div d) <=> (d * e) divides n)
+      #|  \226\136\128 n : Int, \226\136\128 d : Int, \226\136\128 e : Int, divides(d, n) \226\134\146 divides(e, div(n, d)) == divides(d * e, n)
       #|  ((r : Bool) \226\134\146 (p : Bool)) && (p \226\134\146 (q : Bool) == r) \226\134\146 (p && q) == r
-      #|  forall n d e. d divides n /\\ e divides (n div d) <=> (d * e) divides n
-      #|  q * n + r = m ==> &0 <= r ==> r < abs n ==> m div n = q /\\ m rem n = r
+      #|  \226\136\128 n : Int, \226\136\128 d : Int, \226\136\128 e : Int, (divides(d, n) && divides(e, div(n, d))) == divides(d * e, n)
+      #|  (q : Int) * (n : Int) + (r : Int) == (m : Int) \226\134\146 int_of_num(0) <= r \226\134\146 r < abs(n) \226\134\146 div(m, n) == q && rem(m, n) == r
       #|  (m : Int)
       #|  (n : Int)
       #|  (q : Int)
@@ -3507,58 +3507,58 @@ test "int matches int.ml" {
       #|  (COND : (Bool, A, A) -> A)
       #|  (n : Int)
       #|  (m : Int)
-      #|  forall m n:int. &2 divides (m + n) <=> (&2 divides m <=> &2 divides n)
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, divides(int_of_num(2), m + n) == (divides(int_of_num(2), m) == divides(int_of_num(2), n))
       #|  (n : Int)
       #|  (m : Int)
-      #|  forall m n:int. &2 divides (m - n) <=> (&2 divides m <=> &2 divides n)
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, divides(int_of_num(2), m - n) == (divides(int_of_num(2), m) == divides(int_of_num(2), n))
       #|  (n : Int)
       #|  (m : Int)
-      #|  forall m n:int. &2 divides (m * n) <=> &2 divides m \\/ &2 divides n
-      #|  forall n k. &2 divides (n pow k) <=> &2 divides n /\\ ~(k = 0)
-      #|  ((&m pow k) rem &n = &(m EXP k MOD n) /\\\n      (&m pow k) rem (-- &n) = &(m EXP k MOD n)) /\\\n     ((-- &m pow k) rem &n =\n      if EVEN k then &(m EXP k MOD n) else (-- &(m EXP k MOD n)) rem &n) /\\\n     ((-- &m pow k) rem (-- &n) =\n      if EVEN k then &(m EXP k MOD n) else (-- &(m EXP k MOD n)) rem &n)
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, divides(int_of_num(2), m * n) == (divides(int_of_num(2), m) || divides(int_of_num(2), n))
+      #|  \226\136\128 n : Int, \226\136\128 k : Num, divides(int_of_num(2), pow(n, k)) == (divides(int_of_num(2), n) && !(k == 0))
+      #|  (rem(pow(int_of_num((m : Num)), (k : Num)), int_of_num((n : Num))) == int_of_num(MOD(EXP(m, k), n)) && rem(pow(int_of_num(m), k), -int_of_num(n)) == int_of_num(MOD(EXP(m, k), n))) && rem(pow(-int_of_num(m), k), int_of_num(n)) == (if EVEN(k) { int_of_num(MOD(EXP(m, k), n)) } else { rem(-int_of_num(MOD(EXP(m, k), n)), int_of_num(n)) }) && rem(pow(-int_of_num(m), k), -int_of_num(n)) == (if EVEN(k) { int_of_num(MOD(EXP(m, k), n)) } else { rem(-int_of_num(MOD(EXP(m, k), n)), int_of_num(n)) })
       #|  \226\136\128 n : Num, \226\136\128 x : A, (m : (A) -> Int)(x) == int_of_num(n) \226\134\146 (P : (A) -> Bool)(x)
-      #|  forall P m. (forall x. &0 <= m(x)) /\\ (forall x. (forall y. m(y) < m(x) ==> P(y)) ==> P(x))\n         ==> forall x:A. P(x)
-      #|  forall P m. (forall x y. &0 <= m x y) /\\\n         (forall x y. (forall x' y'. m x' y' < m x y ==> P x' y') ==> P x y)\n         ==> forall x:A y:B. P x y
-      #|  (a = &0 \\/ b = &0) \\/\n    abs(a - b) + abs b < abs a + abs b \\/ abs(a + b) + abs b < abs a + abs b \\/\n    abs a + abs(b - a) < abs a + abs b \\/ abs a + abs(b + a) < abs a + abs b
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 m : (A) -> Int, (\226\136\128 x : A, int_of_num(0) <= m(x)) && (\226\136\128 x : A, (\226\136\128 y : A, m(y) < m(x) \226\134\146 P(y)) \226\134\146 P(x)) \226\134\146 (\226\136\128 x : A, P(x))
+      #|  \226\136\128 P : (A, B) -> Bool, \226\136\128 m : (A, B) -> Int, (\226\136\128 x : A, \226\136\128 y : B, int_of_num(0) <= m(x, y)) && (\226\136\128 x : A, \226\136\128 y : B, (\226\136\128 x' : A, \226\136\128 y' : B, m(x', y') < m(x, y) \226\134\146 P(x', y')) \226\134\146 P(x, y)) \226\134\146 (\226\136\128 x : A, \226\136\128 y : B, P(x, y))
+      #|  ((a : Int) == int_of_num(0) || (b : Int) == int_of_num(0)) || abs(a - b) + abs(b) < abs(a) + abs(b) || abs(a + b) + abs(b) < abs(a) + abs(b) || abs(a) + abs(b - a) < abs(a) + abs(b) || abs(a) + abs(b + a) < abs(a) + abs(b)
       #|  divides((d : Int), d)
       #|  divides((d : Int), int_of_num(0))
       #|  (x : Int) => (y : Int) => abs(x) + abs(y)
-      #|  forall a b. ?d. d divides a /\\ d divides b /\\ ?x y. d = a * x + b * y
+      #|  \226\136\128 a : Int, \226\136\128 b : Int, \226\136\131 d : Int, divides(d, a) && divides(d, b) && (\226\136\131 x : Int, \226\136\131 y : Int, d == a * x + b * y)
       #|  (a : Int) * -(x : Int) + (b : Int) * -(y : Int) == -(a * x + b * y)
       #|  divides(-(d : Int), (x : Int)) == divides(d, x)
       #|  (d : Int)
       #|  (b : Int)
       #|  (a : Int)
       #|  (d : Int)
-      #|  forall a b. ?d. &0 <= d /\\ d divides a /\\ d divides b /\\ ?x y. d = a * x + b * y
+      #|  \226\136\128 a : Int, \226\136\128 b : Int, \226\136\131 d : Int, int_of_num(0) <= d && divides(d, a) && divides(d, b) && (\226\136\131 x : Int, \226\136\131 y : Int, d == a * x + b * y)
       #|  (int_gcd : ((Int, Int)) -> Int)
       #|  (int_lcm : ((Int, Int)) -> Int)
-      #|  int_lcm(m,n) = if m * n = &0 then &0 else abs(m * n) div gcd(m,n)
+      #|  (int_lcm : ((Int, Int)) -> Int)(((m : Int), (n : Int))) == (if m * n == int_of_num(0) { int_of_num(0) } else { div(abs(m * n), gcd((m, n))) })
       #|  \226\136\128 d : Int, \226\136\128 n : Int, divides(abs(d), n) == divides(d, n)
       #|  \226\136\128 d : Int, \226\136\128 n : Int, divides(d, abs(n)) == divides(d, n)
-      #|  (forall d n. abs(d) divides n <=> d divides n) /\\\n   (forall d n. d divides (abs n) <=> d divides n)
+      #|  (\226\136\128 d : Int, \226\136\128 n : Int, divides(abs(d), n) == divides(d, n)) && (\226\136\128 d : Int, \226\136\128 n : Int, divides(d, abs(n)) == divides(d, n))
       #|  \226\136\128 m : Int, \226\136\128 n : Int, int_of_num(0) <= lcm((m, n))
-      #|  d divides m ==> d divides (m * n:int) /\\ d divides --(m * n)
+      #|  divides((d : Int), (m : Int)) \226\134\146 divides(d, m * (n : Int)) && divides(d, -(m * n))
       #|  \226\136\128 m : Int, \226\136\128 n : Int, gcd((m, n)) * lcm((m, n)) == abs(m * n)
       #|  \226\136\128 m : Int, \226\136\128 n : Int, lcm((m, n)) * gcd((m, n)) == abs(m * n)
       #|  divides((d : Int), (m : Int)) \226\134\146 divides(d, m * (n : Int))
-      #|  forall m n d:int. d divides lcm(m,n) <=> d * gcd(m,n) divides m * n
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 d : Int, divides(d, lcm((m, n))) == divides(d * gcd((m, n)), m * n)
       #|  (n : Int)
       #|  (m : Int)
       #|  divides((d : Int), (m : Int)) \226\134\146 divides(d, m * (n : Int))
-      #|  forall m n d:int. lcm(m,n) divides d <=> m divides d /\\ n divides d
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, \226\136\128 d : Int, divides(lcm((m, n)), d) == (divides(m, d) && divides(n, d))
       #|  (n : Int)
       #|  (m : Int)
-      #|  forall m n. m divides lcm(m,n) /\\\n         n divides lcm(m,n) /\\\n         (forall d. m divides d /\\ n divides d ==> lcm(m,n) divides d)
+      #|  \226\136\128 m : Int, \226\136\128 n : Int, divides(m, lcm((m, n))) && divides(n, lcm((m, n))) && (\226\136\128 d : Int, divides(m, d) && divides(n, d) \226\134\146 divides(lcm((m, n)), d))
       #|  gcd
-      #|  forall d a b:int. d divides gcd(a,b) <=> d divides a /\\ d divides b
+      #|  \226\136\128 d : Int, \226\136\128 a : Int, \226\136\128 b : Int, divides(d, gcd((a, b))) == (divides(d, a) && divides(d, b))
       #|  (num_of_int : (Int) -> Num)((x : Int)) == select((n : Num) => int_of_num(n) == x)
       #|  \226\136\128 n : Num, num_of_int(int_of_num(n)) == n
       #|  \226\136\128 x : Int, int_of_num(0) <= x \226\134\146 int_of_num(num_of_int(x)) == x
       #|  \226\136\128 x : Int, (int_of_num(0) <= x) == (int_of_num(num_of_int(x)) == x)
-      #|  forall x y. &0 <= x /\\ &0 <= y\n         ==> num_of_int(x + y) = num_of_int x + num_of_int y
-      #|  forall x y. &0 <= x /\\ &0 <= y\n         ==> num_of_int(x * y) = num_of_int x * num_of_int y
-      #|  forall x n. &0 <= x ==> num_of_int(x pow n) = num_of_int x EXP n
+      #|  \226\136\128 x : Int, \226\136\128 y : Int, int_of_num(0) <= x && int_of_num(0) <= y \226\134\146 num_of_int(x + y) == num_of_int(x) + num_of_int(y)
+      #|  \226\136\128 x : Int, \226\136\128 y : Int, int_of_num(0) <= x && int_of_num(0) <= y \226\134\146 num_of_int(x * y) == num_of_int(x) * num_of_int(y)
+      #|  \226\136\128 x : Int, \226\136\128 n : Num, int_of_num(0) <= x \226\134\146 num_of_int(pow(x, n)) == EXP(num_of_int(x), n)
       #|  (num_divides : (Num, Num) -> Bool)
       #|  (num_mod : (Num, Num, Num) -> Bool)
       #|  (num_coprime : ((Num, Num)) -> Bool)
@@ -3570,16 +3570,16 @@ test "int matches int.ml" {
       #|  (num_coprime : ((Num, Num)) -> Bool)(((a : Num), (b : Num))) == coprime((int_of_num(a), int_of_num(b)))
       #|  (num_gcd : ((Num, Num)) -> Num)(((a : Num), (b : Num))) == num_of_int(gcd((int_of_num(a), int_of_num(b))))
       #|  (num_lcm : ((Num, Num)) -> Num)(((a : Num), (b : Num))) == num_of_int(lcm((int_of_num(a), int_of_num(b))))
-      #|  ((forall n. P(&n)) <=> (forall i. ~(&0 <= i) \\/ P i)) /\\\n     ((?n. P(&n)) <=> (?i. &0 <= i /\\ P i))
+      #|  (\226\136\128 n : Num, (P : (Int) -> Bool)(int_of_num(n))) == (\226\136\128 i : Int, !(int_of_num(0) <= i) || P(i)) && (\226\136\131 n : Num, P(int_of_num(n))) == (\226\136\131 i : Int, int_of_num(0) <= i && P(i))
       #|  NUMERAL((k : Num))
-      #|  (~(x:int <= y) <=> y + &1 <= x) /\\\n        (~(x < y) <=> y <= x) /\\\n        (~(x = y) <=> x + &1 <= y \\/ y + &1 <= x) /\\\n        (x < y <=> x + &1 <= y)
+      #|  !((x : Int) <= (y : Int)) == (y + int_of_num(1) <= x) && !(x < y) == (y <= x) && !(x == y) == (x + int_of_num(1) <= y || y + int_of_num(1) <= x) && (x < y) == (x + int_of_num(1) <= y)
       #|  (x : Int)
       #|  (y : Int)
       #|  (n : Num)
       #|  rem((m : Int), (n : Int))
       #|  div((m : Int), (n : Int))
       #|  (n : Int) == int_of_num(0)
-      #|  P (m div n) (m rem n) <=>\n       ?q r. (n = &0 /\\ q = &0 /\\ r = m \\/\n              m = q * n + r /\\\n              &0 <= r /\\ r + &1 <= abs n) /\\\n             P q r
+      #|  (P : (Int, Int) -> Bool)(div((m : Int), (n : Int)), rem(m, n)) == (\226\136\131 q : Int, \226\136\131 r : Int, (n == int_of_num(0) && q == int_of_num(0) && r == m || m == q * n + r && int_of_num(0) <= r && r + int_of_num(1) <= abs(n)) && P(q, r))
       #|  op_bslash_slash
       #|  op_bslash_slash
       #|  op_bslash_slash
@@ -3591,7 +3591,7 @@ test "int matches int.ml" {
       #|  op_bslash_slash
       #|  op_tilde
       #|  false
-      #|  P (m div n) (m rem n) <=>\n       ?q r. (n = &0 /\\ q = &0 /\\ r = m \\/\n              m = q * n + r /\\\n              (&0 <= m /\\ &0 <= n ==> &0 <= q) /\\\n              &0 <= r /\\ r + &1 <= abs n) /\\\n             P q r
+      #|  (P : (Int, Int) -> Bool)(div((m : Int), (n : Int)), rem(m, n)) == (\226\136\131 q : Int, \226\136\131 r : Int, (n == int_of_num(0) && q == int_of_num(0) && r == m || m == q * n + r && (int_of_num(0) <= m && int_of_num(0) <= n \226\134\146 int_of_num(0) <= q) && int_of_num(0) <= r && r + int_of_num(1) <= abs(n)) && P(q, r))
       #|  op_bslash_slash
       #|  op_bslash_slash
       #|  op_bslash_slash
@@ -3603,7 +3603,7 @@ test "int matches int.ml" {
       #|  op_bslash_slash
       #|  op_tilde
       #|  false
-      #|  &0 <= m /\\ &0 <= n\n       ==> (P (m div n) (m rem n) <=>\n            ?q r. (n = &0 /\\ q = &0 /\\ r = m \\/\n                   m = q * n + r /\\\n                   &0 <= q /\\\n                   &0 <= r /\\ r + &1 <= n) /\\\n                  P q r)
+      #|  int_of_num(0) <= (m : Int) && int_of_num(0) <= (n : Int) \226\134\146 (P : (Int, Int) -> Bool)(div(m, n), rem(m, n)) == (\226\136\131 q : Int, \226\136\131 r : Int, (n == int_of_num(0) && q == int_of_num(0) && r == m || m == q * n + r && int_of_num(0) <= q && int_of_num(0) <= r && r + int_of_num(1) <= n) && P(q, r))
       #|  div
       #|  rem
       #|  (P : (Int, Int) -> Bool)
@@ -3612,10 +3612,10 @@ test "int matches int.ml" {
       #|  op_bslash_slash
       #|  (p : Bool)
       #|  op_tilde
-      #|  n = 0 \\/ n DIV 2 < n /\\ (n = 2 * n DIV 2 \\/ n = 2 * n DIV 2 + 1)
-      #|  forall P. P 0 /\\ (forall n. P n ==> P(2 * n) /\\ P(2 * n + 1)) ==> forall n. P n
+      #|  (n : Num) == 0 || DIV(n, 2) < n && (n == 2 * DIV(n, 2) || n == 2 * DIV(n, 2) + 1)
+      #|  \226\136\128 P : (Num) -> Bool, P(0) && (\226\136\128 n : Num, P(n) \226\134\146 P(2 * n) && P(2 * n + 1)) \226\134\146 (\226\136\128 n : Num, P(n))
       #|  (n : Num) == 2 * DIV(n, 2) || n == 2 * DIV(n, 2) + 1
-      #|  forall P. (forall n. P n) <=> (forall n. P(2 * n)) /\\ (forall n. P(2 * n + 1))
+      #|  \226\136\128 P : (Num) -> Bool, (\226\136\128 n : Num, P(n)) == ((\226\136\128 n : Num, P(2 * n)) && (\226\136\128 n : Num, P(2 * n + 1)))
       #|  !((m : Num) <= (n : Num)) \226\134\146 n == m - 1 - (m - 1 - n)
       #|  !((m : Num) <= (p : Num)) \226\134\146 m - 1 - (m - 1 - p) == p
       #|  (m : Num) - 1 - (p : Num)
@@ -3623,20 +3623,20 @@ test "int matches int.ml" {
       #|  (p : Num)
       #|  \226\136\128 i : Num, (P : (Num) -> Bool)((m : Num) - 1 - i)
       #|  (m : Num) == 0
-      #|  forall P m:num.\n        (forall n. m <= n ==> P n) /\\\n        (forall n. n < m /\\ (forall p. n < p ==> P p) ==> P n)\n        ==> (forall n. P n)
+      #|  \226\136\128 P : (Num) -> Bool, \226\136\128 m : Num, (\226\136\128 n : Num, m <= n \226\134\146 P(n)) && (\226\136\128 n : Num, n < m && (\226\136\128 p : Num, n < p \226\134\146 P(p)) \226\134\146 P(n)) \226\134\146 (\226\136\128 n : Num, P(n))
       #|  MIN((m : Num), (n : Num)) == (if n <= m { n } else { m })
       #|  (n : Num) == 0
       #|  (m : Num) == 0
       #|  (MIN((a : Num), (b : Num)) == 0) == (a == 0 || b == 0)
       #|  (p : Int) == int_of_num(0)
       #|  (x : Int) == int_of_num(0)
-      #|  forall x p m n. x rem (p pow m) rem (p pow n) = x rem (p pow MIN m n)
+      #|  \226\136\128 x : Int, \226\136\128 p : Int, \226\136\128 m : Num, \226\136\128 n : Num, rem(rem(x, pow(p, m)), pow(p, n)) == rem(x, pow(p, MIN(m, n)))
       #|  \226\136\128 a : Num, \226\136\128 b : Num, int_of_num(num_gcd((a, b))) == gcd((int_of_num(a), int_of_num(b)))
       #|  \226\136\128 a : Num, \226\136\128 b : Num, int_of_num(num_lcm((a, b))) == lcm((int_of_num(a), int_of_num(b)))
       #|  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(x, y, num_mod(n)) == (MOD(x, n) == MOD(y, n))
       #|  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(MOD(x, n), y, num_mod(n)) == op_eq_eq(x, y, num_mod(n))
       #|  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, op_eq_eq(x, MOD(y, n), num_mod(n)) == op_eq_eq(x, y, num_mod(n))
-      #|  forall a b m n. (a == b) (mod (m * n)) ==> (a DIV m == b DIV m) (mod n)
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 m : Num, \226\136\128 n : Num, op_eq_eq(a, b, mod(m * n)) \226\134\146 op_eq_eq(DIV(a, m), DIV(b, m), mod(n))
       #|  (int_of_num((m : Num)) == int_of_num((n : Num))) == (abs(int_of_num(m)) == abs(int_of_num(n)))
       #|  num_of_int(abs((x : Int)))
       #|  (x : Int)
@@ -3648,24 +3648,24 @@ test "int matches int.ml" {
       #|  \226\136\128 m : Num, \226\136\128 n : Num, num_divides(m, n) \226\134\146 1 <= m && m <= n || n == 0
       #|  \226\136\128 m : Num, \226\136\128 n : Num, num_divides(m, n) && (n == 0 \226\134\146 m == 0) \226\134\146 m <= n
       #|  !((m : Num) == m * (d : Num)) == (!(m == 0) && !(d == 1))
-      #|  forall m n. m divides n /\\ ~(n = 0) /\\ ~(m = n) ==> 2 * m <= n
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, divides(m, n) && !(n == 0) && !(m == n) \226\134\146 2 * m <= n
       #|  \226\136\128 m : Num, \226\136\128 n : Num, (num_divides(m, n) && num_divides(n, m)) == (m == n)
       #|  \226\136\128 n : Num, num_divides(n, 1) == (n == 1)
       #|  (d : Num) == 0
-      #|  forall d a b. d divides a \\/ d divides b\n           ==> (a + b) DIV d = a DIV d + b DIV d
+      #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, divides(d, a) || divides(d, b) \226\134\146 DIV(a + b, d) == DIV(a, d) + DIV(b, d)
       #|  \226\136\128 m : Num, \226\136\128 n : Num, num_divides(m, n) == (MOD(n, m) == 0)
       #|  \226\136\128 m : Num, \226\136\128 n : Num, num_divides(m, n) == (DIV(n, m) * m == n)
-      #|  forall m n. ~(n = 0) /\\ m divides n ==> n DIV (n DIV m) = m
-      #|  forall n d e. d divides n /\\ (n = 0 ==> e = 0)\n           ==> (n DIV d divides e <=> n divides d * e)
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, !(n == 0) && divides(m, n) \226\134\146 DIV(n, DIV(n, m)) == m
+      #|  \226\136\128 n : Num, \226\136\128 d : Num, \226\136\128 e : Num, divides(d, n) && (n == 0 \226\134\146 e == 0) \226\134\146 divides(DIV(n, d), e) == divides(n, d * e)
       #|  \226\136\128 n : Num, \226\136\128 d : Num, num_divides(d, n) \226\134\146 num_divides(DIV(n, d), n)
-      #|  forall n d e. d divides n ==> (e divides (n DIV d) <=> (d * e) divides n)
-      #|  forall n d e:num. d divides n /\\ e divides n DIV d <=> d * e divides n
+      #|  \226\136\128 n : Num, \226\136\128 d : Num, \226\136\128 e : Num, divides(d, n) \226\134\146 divides(e, DIV(n, d)) == divides(d * e, n)
+      #|  \226\136\128 n : Num, \226\136\128 d : Num, \226\136\128 e : Num, (divides(d, n) && divides(e, DIV(n, d))) == divides(d * e, n)
       #|  \226\136\128 n : Num, \226\136\128 d : Num, \226\136\128 e : Num, num_divides(d * e, n) \226\134\146 num_divides(e, DIV(n, d))
       #|  (p : Num) == 0
       #|  ((a : Bool) \226\134\146 (b : Bool)) && a \226\134\146 a && b
-      #|  (forall m n p. p divides m ==> (m * n) DIV p = m DIV p * n) /\\\n   (forall m n p. p divides n ==> (m * n) DIV p = m * n DIV p)
+      #|  (\226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 p : Num, divides(p, m) \226\134\146 DIV(m * n, p) == DIV(m, p) * n) && (\226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 p : Num, divides(p, n) \226\134\146 DIV(m * n, p) == m * DIV(n, p))
       #|  ((a : Bool) == (b : Bool)) == (!a == !b)
-      #|  ((forall n. P(&n)) <=> (forall i:int. &0 <= i ==> P i)) /\\\n     ((?n. P(&n)) <=> (?i:int. &0 <= i /\\ P i))
+      #|  (\226\136\128 n : Num, (P : (Int) -> Bool)(int_of_num(n))) == (\226\136\128 i : Int, int_of_num(0) <= i \226\134\146 P(i)) && (\226\136\131 n : Num, P(int_of_num(n))) == (\226\136\131 i : Int, int_of_num(0) <= i && P(i))
       #|  op_eq_eq((a : Num), (b : Num), num_mod((n : Num))) && num_coprime((a, n)) \226\134\146 num_coprime((b, n))
       #|  op_eq_eq((x : Num), x, num_mod((n : Num)))
       #|  \226\136\128 a : Num, \226\136\128 n : Num, num_coprime((MOD(a, n), n)) == num_coprime((a, n))
@@ -3675,16 +3675,16 @@ test "int matches int.ml" {
       #|  abs((x : Int)) * int_of_num(1) <= (y : Int) \226\134\146 int_of_num(0) <= x + y
       #|  (y : Int) == int_of_num(0)
       #|  num_of_int((x : Int) + abs(x * (y : Int)))
-      #|  forall x y:int.\n        (y = &0 ==> &0 <= x)\n        ==> ?n. (&n == x) (mod y)
-      #|  forall a b. (gcd(a,b) divides a /\\ gcd(a,b) divides b) /\\\n         (forall e. e divides a /\\ e divides b ==> e divides gcd(a,b))
+      #|  \226\136\128 x : Int, \226\136\128 y : Int, (y == int_of_num(0) \226\134\146 int_of_num(0) <= x) \226\134\146 (\226\136\131 n : Num, op_eq_eq(int_of_num(n), x, mod(y)))
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, (divides(gcd((a, b)), a) && divides(gcd((a, b)), b)) && (\226\136\128 e : Num, divides(e, a) && divides(e, b) \226\134\146 divides(e, gcd((a, b))))
       #|  num_gcd(((a : Num), (b : Num)))
-      #|  coprime(a,b) <=> forall d. d divides a /\\ d divides b ==> d = 1
-      #|  prime(p) <=> ~(p = 1) /\\ forall x. x divides p ==> x = 1 \\/ x = p
+      #|  coprime(((a : Num), (b : Num))) == (\226\136\128 d : Num, divides(d, a) && divides(d, b) \226\134\146 d == 1)
+      #|  (prime : (Num) -> Bool)((p : Num)) == (!(p == 1) && (\226\136\128 x : Num, divides(x, p) \226\134\146 x == 1 || x == p))
       #|  (p : Num) == 1
-      #|  forall p. p = 1 \\/ prime p <=> forall n. n divides p ==> n = 1 \\/ n = p
+      #|  \226\136\128 p : Num, (p == 1 || prime(p)) == (\226\136\128 n : Num, divides(n, p) \226\134\146 n == 1 || n == p)
       #|  (n : Num)
       #|  (n : Num)
-      #|  forall p. p = 1 \\/ prime p <=> forall n. p divides n \\/ coprime(p,n)
+      #|  \226\136\128 p : Num, (p == 1 || prime(p)) == (\226\136\128 n : Num, divides(p, n) || coprime((p, n)))
       #|  !((p : Bool) && (q : Bool)) \226\134\146 q || p \226\134\146 p == !q
       #|  (p : Bool) || !p
       #|  (p : Num)
@@ -3693,10 +3693,10 @@ test "int matches int.ml" {
       #|  (p : Num) == 1
       #|  (p : Num)
       #|  \226\136\128 p : Num, prime(p) == (\226\136\128 n : Num, num_coprime((p, n)) == !num_divides(p, n))
-      #|  forall d a b:num. d divides (a * b) /\\ coprime(d,a) ==> d divides b
+      #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, divides(d, a * b) && coprime((d, a)) \226\134\146 divides(d, b)
       #|  num_divides(0, (n : Num)) == (n == 0)
       #|  num_divides(1, (n : Num))
-      #|  forall p a b.\n        p = 0 \\/ p = 1 \\/ prime p\n        ==> (p divides (a * b) <=> p divides a \\/ p divides b)
+      #|  \226\136\128 p : Num, \226\136\128 a : Num, \226\136\128 b : Num, p == 0 || p == 1 || prime(p) \226\134\146 divides(p, a * b) == (divides(p, a) || divides(p, b))
       #|  ((n : Num) <= 1) == (n == 0 || n == 1)
       #|  ((a : Num) * (b : Num) <= b) == (a * b <= 1 * b)
       #|  ((a : Num) * (b : Num) <= a) == (a * b <= a * 1)
@@ -3706,10 +3706,10 @@ test "int matches int.ml" {
       #|  (b : Num)
       #|  (a : Num)
       #|  ((p : Bool) || (q : Bool)) == (!p \226\134\146 q)
-      #|  forall p. p = 0 \\/ p = 1 \\/ prime p <=>\n       forall a b. p divides (a * b) ==> p divides a \\/ p divides b
+      #|  \226\136\128 p : Num, (p == 0 || p == 1 || prime(p)) == (\226\136\128 a : Num, \226\136\128 b : Num, divides(p, a * b) \226\134\146 divides(p, a) || divides(p, b))
       #|  :A->int->A
       #|  (real_zpow : (Real, Int) -> Real)
-      #|  (z:real) zpow (i:int) = if &0 <= i then z pow (num_of_int i)\n                          else inv(z pow (num_of_int(--i)))
+      #|  (real_zpow : (Real, Int) -> Real)((z : Real), (i : Int)) == (if int_of_num(0) <= i { pow(z, num_of_int(i)) } else { inv(pow(z, num_of_int(-i))) })
       #|  \226\136\128 x : Real, \226\136\128 n : Num, pow(x, n) == zpow(x, int_of_num(n))
       #|  \226\136\128 x : Real, \226\136\128 n : Num, zpow(x, int_of_num(n)) == pow(x, n)
       #|  \226\136\128 x : Real, zpow(x, int_of_num(0)) == real_of_num(1)
@@ -3721,19 +3721,19 @@ test "int matches int.ml" {
       #|  \226\136\128 x : Real, \226\136\128 n : Int, zpow(x, -n) == inv(zpow(x, n))
       #|  \226\136\128 x : Real, zpow(x, -int_of_num(1)) == inv(x)
       #|  \226\136\128 n : Int, zpow(real_of_num(0), n) == (if n == int_of_num(0) { real_of_num(1) } else { real_of_num(0) })
-      #|  (forall(x:real) n. x zpow (&n) = x pow n) /\\\n   (forall(x:real) n. x zpow (-- &n) = inv(x pow n))
+      #|  (\226\136\128 x : Real, \226\136\128 n : Num, zpow(x, int_of_num(n)) == pow(x, n)) && (\226\136\128 x : Real, \226\136\128 n : Num, zpow(x, -int_of_num(n)) == inv(pow(x, n)))
       #|  \226\136\128 x : Real, \226\136\128 n : Int, inv(zpow(x, n)) == zpow(inv(x), n)
       #|  \226\136\128 x : Real, \226\136\128 n : Int, zpow(inv(x), n) == inv(zpow(x, n))
       #|  \226\136\128 x : Real, \226\136\128 m : Int, \226\136\128 n : Int, zpow(zpow(x, m), n) == zpow(x, m * n)
-      #|  forall(x:real) (y:real) n. (x * y) zpow n = x zpow n * y zpow n
-      #|  forall(x:real) (y:real) n. (x / y) zpow n = x zpow n / y zpow n
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 n : Int, zpow(x * y, n) == zpow(x, n) * zpow(y, n)
+      #|  \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 n : Int, zpow(x / y, n) == zpow(x, n) / zpow(y, n)
       #|  -(n : Int) + (n + (m : Int)) == m
       #|  (p : Num)
       #|  (n : Num)
       #|  -(-(x : Int) + (y : Int)) == -y + x
       #|  (x : Real)
-      #|  forall(x:real) m n.\n        ~(x = &0) ==> x zpow (m + n) = x zpow m * x zpow n
-      #|  forall(x:real) m n.\n        ~(x = &0) ==> x zpow (m - n) = x zpow m / x zpow n
+      #|  \226\136\128 x : Real, \226\136\128 m : Int, \226\136\128 n : Int, !(x == real_of_num(0)) \226\134\146 zpow(x, m + n) == zpow(x, m) * zpow(x, n)
+      #|  \226\136\128 x : Real, \226\136\128 m : Int, \226\136\128 n : Int, !(x == real_of_num(0)) \226\134\146 zpow(x, m - n) == zpow(x, m) / zpow(x, n)
       #|  \226\136\128 x : Real, \226\136\128 n : Int, real_of_num(0) <= x \226\134\146 real_of_num(0) <= zpow(x, n)
       #|  \226\136\128 x : Real, \226\136\128 n : Int, real_of_num(0) < x \226\134\146 real_of_num(0) < zpow(x, n)
       #|  \226\136\128 x : Real, \226\136\128 n : Int, (zpow(x, n) == real_of_num(0)) == (x == real_of_num(0) && !(n == int_of_num(0)))
