@@ -82,6 +82,22 @@ TYPE_RENAMES = {
     'Multivariate/canal.ml': {'one': 'X'},
     'Quaternions/qanal.hl': {'one': 'X'},
     'Boyer_Moore/terms_and_clauses.ml': {"'a": 'X'},
+    # lowercase type variables that are also term variables there (see
+    # TYPE_RENAME_TERM_NAMES); the new names occur nowhere in each file
+    'Multivariate/metric.ml': {'a': 'Z'},
+    'Multivariate/flyspeck.ml': {'x': 'B'},
+    'Multivariate/wlog.ml': {'x': 'B'},
+}
+# Old names a file also uses for terms (term variables, INTRO_TAC patterns,
+# OCaml identifiers): only the type annotations are renamed, and the check
+# that no old name is left is skipped for them. A type the rename misses,
+# in an annotation or built in code, would still show: check_type_renames.py
+# requires the renamed run's output to hold no old name as a type variable,
+# traces included.
+TYPE_RENAME_TERM_NAMES = {
+    'Multivariate/metric.ml': {'a'},
+    'Multivariate/flyspeck.ml': {'x'},
+    'Multivariate/wlog.ml': {'x'},
 }
 # Type variables a file builds in code, adapted by hand before the rename.
 TYPE_PATCHES = {
@@ -314,13 +330,14 @@ def checked_segments(text):
             for kind, piece in segments]
 
 
-def rename_type_variables(text, renames, patches=()):
+def rename_type_variables(text, renames, patches=(), term_names=()):
     """`text` (OCaml) with the type variables `renames` maps renamed in the
     type annotations of its quotations. Any other occurrence of an old name
     outside comments, in a quotation's term or in OCaml code or strings
     (`mk_vartype "'a"`), fails: those need adapting by hand, in `patches`
     (pairs of an upstream text, which must occur once, and its replacement),
-    applied after checking that the new names are unused."""
+    applied after checking that the new names are unused. An old name in
+    `term_names` may stay elsewhere, naming terms."""
     assert len(set(renames.values())) == len(renames) and not set(renames.values()) & set(renames), \
         'the renaming is not injective'
     def occurs(name, pieces):
@@ -345,7 +362,7 @@ def rename_type_variables(text, renames, patches=()):
     segments = [(kind, rename_in_quotation(piece, renames) if kind == 'quotation' else piece)
                 for kind, piece in segments]
     for old in renames:
-        assert not occurs(old, segments), f'{old} occurs outside a type annotation'
+        assert old in term_names or not occurs(old, segments), f'{old} occurs outside a type annotation'
     return ''.join(piece.split('\0')[0] if kind == 'string' else piece for kind, piece in segments)
 
 
@@ -396,7 +413,8 @@ def prepare():
             assert text.count(old) == 1, f'upstream {path} changed: {old[:60]}'
             text = text.replace(old, new)
         if types:
-            text = rename_type_variables(text, types, TYPE_PATCHES.get(path, ()))
+            text = rename_type_variables(text, types, TYPE_PATCHES.get(path, ()),
+                                         TYPE_RENAME_TERM_NAMES.get(path, ()))
         if terms:
             text = rename_ocaml(text, terms, TERM_PATCHES.get(path, ()))
         if names:
