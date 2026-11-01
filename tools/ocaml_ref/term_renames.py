@@ -49,7 +49,7 @@ TERM_RENAMES = {
     'Multivariate/derivatives.ml': {"f'x": 'f_x', "f'y": 'f_y'},
     'Unity/mk_unless.ml': {"p's": 'p_s', "q's": 'q_s'},
     # Cu'v' is the prime family of the stem Cu'v
-    'Jordan/jordan_curve_theorem.ml': {"Cu'v": 'Cu_v'},
+    'Jordan/jordan_curve_theorem.ml': {"Cu'v": 'Cu_v', 'fn': 'fn_'},
     'Logic/birkhoff.ml': {'fn': 'fn_'},
     # _ is a wildcard to formal_ineqs' ssreflect patterns, as is any name
     # that starts with _ (wild_frees), so it becomes _any, not u_; each of
@@ -70,7 +70,6 @@ TERM_RENAMES = {
     'Logic/fol.ml': {'fn': 'fn_'},
     'Jordan/misc_defs_and_lemmas.ml': {'fn': 'fn_'},
     'Jordan/metric_spaces.ml': {'fn': 'fn_'},
-    'Jordan/jordan_curve_theorem.ml': {'fn': 'fn_'},
     # no rename, only TERM_PATCHES: Jordan's proofs pick hypotheses by
     # hash numbers (UNDH 3313), which hash_of_term computes from free
     # variables' names, so it hashes fn_ under its upstream name fn

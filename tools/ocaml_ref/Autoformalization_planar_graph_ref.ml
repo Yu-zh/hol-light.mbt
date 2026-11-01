@@ -68,7 +68,7 @@
 #use "Multivariate/moretop.ml";;
 #use "Library/rstc.ml";;
 start_trace ();;
-let needs s = match s with "Multivariate/cauchy.ml" -> List.iter batch_use ["Multivariate/cauchy.ml"] | _ -> ();;
+let needs s = match s with "Multivariate/cauchy.ml" -> if not (Toploop.use_silently Format.std_formatter (Toploop.File "../../.repos/hol-light/Multivariate/cauchy.ml")) then failwith "needs" | _ -> ();;
 #use "Autoformalization/planar_graph.ml";;
 let needs (_:string) = ();;
 show_trace "Autoformalization/planar_graph";;
