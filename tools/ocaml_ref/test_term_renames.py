@@ -90,4 +90,14 @@ assert rename_ocaml('e ((* move [ *) EXPAND_TAC "_");;', U) == 'e ((* move [ *) 
 assert rename_moonbit('let s = "move ["; @simp.expand_tac("_")', U) == 'let s = "move ["; @simp.expand_tac("_any")'
 assert rename_ocaml('e (move [\n  "x";\n  "_"\n]);;', U) == 'e (move [\n  "x";\n  "_"\n]);;'
 assert rename_moonbit('@ssreflect.move_(@list.List([\n  "_",\n]))', U) == '@ssreflect.move_(@list.List([\n  "_",\n]))'
+# a string passed to a TEXT_CALLEES callee is HOL text, only in a call
+C, I = ('full_inner_space_prove',), {'is': 'is_'}
+assert rename_moonbit('f(full_inner_space_prove("p is q"))', I, C) == 'f(full_inner_space_prove("p is_ q"))'
+assert rename_moonbit('let d =\n // full_inner_space_prove\n "this is a note"', I, C).count('is_') == 0
+assert rename_moonbit("debug'full_inner_space_prove(\"this is it\")", I, C).count('is_') == 0
+assert rename_moonbit('// full_inner_space_prove("this is it")', I, C).count('is_') == 0
+assert rename_ocaml("let t = full_inner_space_prove (`p is q:`, ALL_TAC);;", I, (), C) == \
+    "let t = full_inner_space_prove (`p is_ q:`, ALL_TAC);;"
+assert refused(rename_ocaml, "let t = debug'full_inner_space_prove (`p is q:`, ALL_TAC);;", I, (), C)
 print('ok')
+
