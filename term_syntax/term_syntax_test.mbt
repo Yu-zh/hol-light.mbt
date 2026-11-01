@@ -107,3 +107,17 @@ test "names with a semicolon are escaped" {
   inspect(@grammar.escape(";;"), content="Some(op_semi_semi)")
   inspect(@grammar.unescape("op_semi_semi"), content=";;")
 }
+
+///|
+test "an overload declared before its constant reads as the constant once defined" {
+  @preterm.make_overloadable("zz_ovl", @parser.parse_type("A->A"))
+  @preterm.overload_interface(
+    "zz_ovl",
+    @term_syntax.parse_term("(zz_ovl_num : (Num) -> Num)"),
+  )
+  // a read before the definition must not fix the view without the overload
+  ignore(@term_syntax.parse_term("(0 : Num)"))
+  @kernel.new_constant("zz_ovl_num", @parser.parse_type("num->num"))
+  let t = @term_syntax.parse_term("zz_ovl((0 : Num))")
+  assert_true(@kernel.is_const(@kernel.rator(t)))
+}
