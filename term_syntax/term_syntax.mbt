@@ -371,15 +371,22 @@ fn unalias_preterm(t : @preterm.Preterm) -> @preterm.Preterm {
 let binder_alias = "\u{1}"
 
 ///|
-/// `t` with the variables elaborated under `binder_alias` named back. No
-/// other variable in `t` is named like a constant (the syntax reads such a
-/// free name as the constant), so this captures nothing.
+/// `t` with the variables elaborated under `binder_alias` named back. A
+/// binder's occurrences are named back by substitution (vsubst), which
+/// renames a binder in its scope that would capture them: one elaboration
+/// generated (GABS binds `f`, fresh only against the alias) and named like
+/// the restored binder. No free variable in `t` is named like a constant
+/// (the syntax reads such a free name as the constant).
 fn unalias_binders(t : @kernel.Term) -> @kernel.Term raise {
   match t {
     Var(n, ty) if n.has_prefix(binder_alias) =>
       @kernel.mk_var(n[binder_alias.length():].to_owned(), ty)
     Var(_, _) | Const(_, _) => t
     Comb(f, x) => @kernel.mk_comb(unalias_binders(f), unalias_binders(x))
+    Abs(Var(n, ty) as v, b) if n.has_prefix(binder_alias) => {
+      let real = @kernel.mk_var(n[binder_alias.length():].to_owned(), ty)
+      @kernel.mk_abs(real, unalias_binders(@kernel.vsubst(@list.List([(real, v)]), b)))
+    }
     Abs(v, b) => @kernel.mk_abs(unalias_binders(v), unalias_binders(b))
   }
 }
