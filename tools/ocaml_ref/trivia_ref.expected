@@ -209,8 +209,8 @@ trivia quotations (20):
   \226\136\128 f : (A) -> Unit, \226\136\128 g : (A) -> Unit, f == g
   \226\136\128 P : (Unit) -> Bool, P(one) \226\134\146 (\226\136\128 x : Unit, P(x))
   (x : Unit) => (e : A)
-  forall e:A. ?fn_. fn_ one = e
-  forall e:A. ?!fn_. fn_ one = e
+  \226\136\128 e : A, \226\136\131 fn_ : (Unit) -> A, fn_(one) == e
+  \226\136\128 e : A, existsunique((fn_ : (Unit) -> A) => fn_(one) == e)
   (\226\136\128 x : Unit, (P : (Unit) -> Bool)(x)) == P(one)
   ((p : Bool) == (q : Bool)) == (!p == !q)
   (\226\136\131 x : Unit, (P : (Unit) -> Bool)(x)) == P(one)
