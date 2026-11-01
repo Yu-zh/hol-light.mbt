@@ -9099,7 +9099,7 @@ Logic/given quotations (610):
   \226\136\128 m : Num, \226\136\128 n : Num, SUBSUMES(Sub(((used : List[(Form) -> Bool]), (unused : List[(Form) -> Bool])), m + n), UNION(Sub((used, unused), m), set_of_list(FIRSTN(n, SND(given(m, (used, unused)))))))
   (\226\136\128 c : (Form) -> Bool, MEM(c, (used : List[(Form) -> Bool])) \226\134\146 clause(c)) && (\226\136\128 c : (Form) -> Bool, MEM(c, (unused : List[(Form) -> Bool])) \226\134\146 clause(c)) \226\134\146 (\226\136\128 n : Num, SUBSUMES(Sub((used, unused), n + LENGTH(SND(given(n, (used, unused))))), UNION(Sub((used, unused), n), Unused((used, unused), n))))
   (x : Num) <= (n : Num) \226\134\146 x <= SUC(n)
-  (break_ init 0 = LENGTH(SND(given 0 init))) /\\\n   (break_ init (SUC n) =\n        break_ init n + LENGTH(SND(given (break_ init n) init)))
+  (break_ : ((List[(Form) -> Bool], List[(Form) -> Bool]), Num) -> Num)((init : (List[(Form) -> Bool], List[(Form) -> Bool])), 0) == LENGTH(SND(given(0, init))) && break_(init, SUC((n : Num))) == break_(init, n) + LENGTH(SND(given(break_(init, n), init)))
   (level : ((List[(Form) -> Bool], List[(Form) -> Bool]), Num, (Form) -> Bool) -> Bool)((init : (List[(Form) -> Bool], List[(Form) -> Bool])), (n : Num)) == Sub(init, break_(init, n))
   0
   \226\136\128 used : List[(Form) -> Bool], \226\136\128 unused : List[(Form) -> Bool], (\226\136\128 c : (Form) -> Bool, MEM(c, used) \226\134\146 clause(c)) && (\226\136\128 c : (Form) -> Bool, MEM(c, unused) \226\134\146 clause(c)) \226\134\146 SUBSUMES(level((used, unused), 0), set_of_list(unused))

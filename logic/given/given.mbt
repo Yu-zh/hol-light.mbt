@@ -2760,7 +2760,7 @@ pub fn sub_subsumes_unused() -> @kernel.Thm {
 ///|
 /// break
 fn step_68() -> Unit raise {
-  let t1476 = @parser.parse_term("(break_ init 0 = LENGTH(SND(given 0 init))) /\\\n   (break_ init (SUC n) =\n        break_ init n + LENGTH(SND(given (break_ init n) init)))")
+  let t1476 = @term_syntax.parse_term("(break_ : ((List[(Form) -> Bool], List[(Form) -> Bool]), Num) -> Num)((init : (List[(Form) -> Bool], List[(Form) -> Bool])), 0) == LENGTH(SND(given(0, init))) && break_(init, SUC((n : Num))) == break_(init, n) + LENGTH(SND(given(break_(init, n), init)))")
   break__c.set(@recursion.new_recursive_definition(@nums.num_recursion())(t1476))
 }
 
