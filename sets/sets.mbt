@@ -180,9 +180,7 @@ fn step_19() -> Unit raise {
   )
   in_elim_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall P x:A. x IN GSPEC (\\v. P (SETSPEC v)) <=> P (\\p t. p /\\ (x = t))) /\\\n   (forall p x:A. x IN GSPEC (\\v. ?y. SETSPEC v (p y) y) <=> p x) /\\\n   (forall P x:A. GSPEC (\\v. P (SETSPEC v)) x <=> P (\\p t. p /\\ (x = t))) /\\\n   (forall p x:A. GSPEC (\\v. ?y. SETSPEC v (p y) y) x <=> p x) /\\\n   (forall p x:A. x IN (\\y. p y) <=> p x)",
-      ),
+      @term_syntax.parse_term("(∀ P : ((Bool, A) -> Bool) -> Bool, ∀ x : A, IN(x, GSPEC((v : A) => P(SETSPEC(v)))) == P((p : Bool) => (t : A) => p && x == t)) && (∀ p : (A) -> Bool, ∀ x : A, IN(x, GSPEC((v : A) => ∃ y : A, SETSPEC(v, p(y), y))) == p(x)) && (∀ P : ((Bool, A) -> Bool) -> Bool, ∀ x : A, GSPEC((v : A) => P(SETSPEC(v)), x) == P((p : Bool) => (t : A) => p && x == t)) && (∀ p : (A) -> Bool, ∀ x : A, GSPEC((v : A) => ∃ y : A, SETSPEC(v, p(y), y), x) == p(x)) && (∀ p : (A) -> Bool, ∀ x : A, IN(x, (y : A) => p(y)) == p(x))"),
       t6,
     ),
   )
@@ -486,9 +484,7 @@ pub fn finite_cases() -> @kernel.Thm {
 /// FINITE_RULES, FINITE_INDUCT, FINITE_CASES
 fn step_34() -> Unit raise {
   let (finite_rules, finite_induct, finite_cases) = @ind_defs.new_inductive_definition(
-    @parser.parse_term(
-      "FINITE (EMPTY:A->bool) /\\\n     forall(x:A) s. FINITE s ==> FINITE (x INSERT s)",
-    ),
+    @term_syntax.parse_term("(FINITE : ((A) -> Bool) -> Bool)({}) && (∀ x : A, ∀ s : (A) -> Bool, FINITE(s) → FINITE(INSERT(x, s)))"),
   )
   finite_rules_c.set(finite_rules)
   finite_induct_c.set(finite_induct)
@@ -538,9 +534,7 @@ pub fn image() -> @kernel.Thm {
 fn step_37() -> Unit raise {
   inj_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "INJ (f:A->B) s t <=>\n     (forall x. x IN s ==> (f x) IN t) /\\\n     (forall x y. x IN s /\\ y IN s /\\ (f x = f y) ==> (x = y))",
-      ),
+      @term_syntax.parse_term("(INJ : ((A) -> B, (A) -> Bool, (B) -> Bool) -> Bool)((f : (A) -> B), (s : (A) -> Bool), (t : (B) -> Bool)) == ((∀ x : A, IN(x, s) → IN(f(x), t)) && (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y))"),
     ),
   )
 }
@@ -559,9 +553,7 @@ pub fn inj() -> @kernel.Thm {
 fn step_38() -> Unit raise {
   surj_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "SURJ (f:A->B) s t <=>\n     (forall x. x IN s ==> (f x) IN t) /\\\n     (forall x. (x IN t) ==> ?y. y IN s /\\ (f y = x))",
-      ),
+      @term_syntax.parse_term("(SURJ : ((A) -> B, (A) -> Bool, (B) -> Bool) -> Bool)((f : (A) -> B), (s : (A) -> Bool), (t : (B) -> Bool)) == ((∀ x : A, IN(x, s) → IN(f(x), t)) && (∀ x : B, IN(x, t) → (∃ y : A, IN(y, s) && f(y) == x)))"),
     ),
   )
 }
@@ -754,9 +746,7 @@ fn step_48() -> Unit raise {
   let t14 = @simp.rewrite_tac(@list.List([in_elim_thm(), diff()]))
   in_diff_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) t x. x IN (s DIFF t) <=> x IN s /\\ ~(x IN t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ x : A, IN(x, DIFF(s, t)) == (IN(x, s) && !IN(x, t))"),
       t14,
     ),
   )
@@ -802,9 +792,7 @@ fn step_50() -> Unit raise {
   let t17 = @simp.rewrite_tac(@list.List([in_elim_thm(), delete()]))
   in_delete_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. forall x:A. forall y. x IN (s DELETE y) <=> x IN s /\\ ~(x = y)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ x : A, ∀ y : A, IN(x, DELETE(s, y)) == (IN(x, s) && !(x == y))"),
       t17,
     ),
   )
@@ -847,9 +835,7 @@ fn step_52() -> Unit raise {
   )
   in_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall y:B. forall s f. (y IN (IMAGE f s)) <=> ?x:A. (y = f x) /\\ x IN s",
-      ),
+      @term_syntax.parse_term("∀ y : B, ∀ s : (A) -> Bool, ∀ f : (A) -> B, IN(y, IMAGE(f, s)) == (∃ x : A, y == f(x) && IN(x, s))"),
       t20,
     ),
   )
@@ -870,9 +856,7 @@ fn step_53() -> Unit raise {
   let t21 = @simp.rewrite_tac(@list.List([rest(), in_delete()]))
   in_rest_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A. forall s. x IN (REST s) <=> x IN s /\\ ~(x = CHOICE s)",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ s : (A) -> Bool, IN(x, REST(s)) == (IN(x, s) && !(x == CHOICE(s)))"),
       t21,
     ),
   )
@@ -894,9 +878,7 @@ fn step_54() -> Unit raise {
   let t23 = @tactics.then_tac(@simp.rewrite_tac(@list.List([in_insert()])), t22)
   forall_in_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P a s. (forall x:A. x IN (a INSERT s) ==> P x) <=> P a /\\ (forall x. x IN s ==> P x)",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ a : A, ∀ s : (A) -> Bool, (∀ x : A, IN(x, INSERT(a, s)) → P(x)) == (P(a) && (∀ x : A, IN(x, s) → P(x)))"),
       t23,
     ),
   )
@@ -920,9 +902,7 @@ fn step_55() -> Unit raise {
   let t25 = @tactics.then_tac(@simp.rewrite_tac(@list.List([in_insert()])), t24)
   exists_in_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P a s. (?x:A. x IN (a INSERT s) /\\ P x) <=> P a \\/ ?x. x IN s /\\ P x",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ a : A, ∀ s : (A) -> Bool, (∃ x : A, IN(x, INSERT(a, s)) && P(x)) == (P(a) || (∃ x : A, IN(x, s) && P(x)))"),
       t25,
     ),
   )
@@ -946,9 +926,7 @@ fn step_56() -> Unit raise {
   let t27 = @tactics.then_tac(@simp.rewrite_tac(@list.List([in_union()])), t26)
   forall_in_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s t:A->bool.\n        (forall x. x IN s UNION t ==> P x) <=>\n        (forall x. x IN s ==> P x) /\\ (forall x. x IN t ==> P x)",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, (∀ x : A, IN(x, UNION(s, t)) → P(x)) == ((∀ x : A, IN(x, s) → P(x)) && (∀ x : A, IN(x, t) → P(x)))"),
       t27,
     ),
   )
@@ -972,9 +950,7 @@ fn step_57() -> Unit raise {
   let t29 = @tactics.then_tac(@simp.rewrite_tac(@list.List([in_union()])), t28)
   exists_in_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s t:A->bool.\n        (?x. x IN s UNION t /\\ P x) <=>\n        (?x. x IN s /\\ P x) \\/ (?x. x IN t /\\ P x)",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, (∃ x : A, IN(x, UNION(s, t)) && P(x)) == ((∃ x : A, IN(x, s) && P(x)) || (∃ x : A, IN(x, t) && P(x)))"),
       t29,
     ),
   )
@@ -998,9 +974,7 @@ fn step_58() -> Unit raise {
   let t31 = @tactics.then_tac(@simp.rewrite_tac(@list.List([in_image()])), t30)
   forall_in_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s. (forall y. y IN IMAGE f s ==> P y) <=> (forall x. x IN s ==> P(f x))",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, (∀ y : B, IN(y, IMAGE(f, s)) → (P : (B) -> Bool)(y)) == (∀ x : A, IN(x, s) → P(f(x)))"),
       t31,
     ),
   )
@@ -1024,9 +998,7 @@ fn step_59() -> Unit raise {
   let t33 = @tactics.then_tac(@simp.rewrite_tac(@list.List([in_image()])), t32)
   exists_in_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s. (?y. y IN IMAGE f s /\\ P y) <=> ?x. x IN s /\\ P(f x)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, (∃ y : B, IN(y, IMAGE(f, s)) && (P : (B) -> Bool)(y)) == (∃ x : A, IN(x, s) && P(f(x)))"),
       t33,
     ),
   )
@@ -1053,9 +1025,7 @@ fn step_60() -> Unit raise {
   )
   forall_in_gspec_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall P Q (f:A->B). (forall z. z IN {f x | P x} ==> Q z) <=> (forall x. P x ==> Q(f x))) /\\\n   (forall P Q (f:A->B->C).\n        (forall z. z IN {f x y | P x y} ==> Q z) <=>\n        (forall x y. P x y ==> Q(f x y))) /\\\n   (forall P Q (f:A->B->C->D).\n        (forall z. z IN {f w x y | P w x y} ==> Q z) <=>\n        (forall w x y. P w x y ==> Q(f w x y))) /\\\n   (forall P Q (f:A->B->C->D->E).\n        (forall z. z IN {f v w x y | P v w x y} ==> Q z) <=>\n        (forall v w x y. P v w x y ==> Q(f v w x y)))",
-      ),
+      @term_syntax.parse_term("(∀ P : (A) -> Bool, ∀ Q : (B) -> Bool, ∀ f : (A) -> B, (∀ z : B, IN(z, {f((x : A)) | P(x)}) → Q(z)) == (∀ x : A, P(x) → Q(f(x)))) && (∀ P : (A, B) -> Bool, ∀ Q : (C) -> Bool, ∀ f : (A, B) -> C, (∀ z : C, IN(z, {f((x : A), (y : B)) | P(x, y)}) → Q(z)) == (∀ x : A, ∀ y : B, P(x, y) → Q(f(x, y)))) && (∀ P : (A, B, C) -> Bool, ∀ Q : (D) -> Bool, ∀ f : (A, B, C) -> D, (∀ z : D, IN(z, {f((w : A), (x : B), (y : C)) | P(w, x, y)}) → Q(z)) == (∀ w : A, ∀ x : B, ∀ y : C, P(w, x, y) → Q(f(w, x, y)))) && (∀ P : (A, B, C, D) -> Bool, ∀ Q : (E) -> Bool, ∀ f : (A, B, C, D) -> E, (∀ z : E, IN(z, {f((v : A), (w : B), (x : C), (y : D)) | P(v, w, x, y)}) → Q(z)) == (∀ v : A, ∀ w : B, ∀ x : C, ∀ y : D, P(v, w, x, y) → Q(f(v, w, x, y))))"),
       t35,
     ),
   )
@@ -1082,9 +1052,7 @@ fn step_61() -> Unit raise {
   )
   exists_in_gspec_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall P Q (f:A->B). (?z. z IN {f x | P x} /\\ Q z) <=> (?x. P x /\\ Q(f x))) /\\\n   (forall P Q (f:A->B->C).\n        (?z. z IN {f x y | P x y} /\\ Q z) <=>\n        (?x y. P x y /\\ Q(f x y))) /\\\n   (forall P Q (f:A->B->C->D).\n        (?z. z IN {f w x y | P w x y} /\\ Q z) <=>\n        (?w x y. P w x y /\\ Q(f w x y))) /\\\n   (forall P Q (f:A->B->C->D->E).\n        (?z. z IN {f v w x y | P v w x y} /\\ Q z) <=>\n        (?v w x y. P v w x y /\\ Q(f v w x y)))",
-      ),
+      @term_syntax.parse_term("(∀ P : (A) -> Bool, ∀ Q : (B) -> Bool, ∀ f : (A) -> B, (∃ z : B, IN(z, {f((x : A)) | P(x)}) && Q(z)) == (∃ x : A, P(x) && Q(f(x)))) && (∀ P : (A, B) -> Bool, ∀ Q : (C) -> Bool, ∀ f : (A, B) -> C, (∃ z : C, IN(z, {f((x : A), (y : B)) | P(x, y)}) && Q(z)) == (∃ x : A, ∃ y : B, P(x, y) && Q(f(x, y)))) && (∀ P : (A, B, C) -> Bool, ∀ Q : (D) -> Bool, ∀ f : (A, B, C) -> D, (∃ z : D, IN(z, {f((w : A), (x : B), (y : C)) | P(w, x, y)}) && Q(z)) == (∃ w : A, ∃ x : B, ∃ y : C, P(w, x, y) && Q(f(w, x, y)))) && (∀ P : (A, B, C, D) -> Bool, ∀ Q : (E) -> Bool, ∀ f : (A, B, C, D) -> E, (∃ z : E, IN(z, {f((v : A), (w : B), (x : C), (y : D)) | P(v, w, x, y)}) && Q(z)) == (∃ v : A, ∃ w : B, ∃ x : C, ∃ y : D, P(v, w, x, y) && Q(f(v, w, x, y))))"),
       t37,
     ),
   )
@@ -1125,9 +1093,7 @@ fn step_62() -> Unit raise {
   )
   unions_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B->bool) s. UNIONS (IMAGE f s) = {y | ?x. x IN s /\\ y IN f x}",
-      ),
+      @term_syntax.parse_term("∀ f : (A, B) -> Bool, ∀ s : (A) -> Bool, UNIONS(IMAGE(f, s)) == {(y : B) | ∃ x : A, IN(x, s) && IN(y, f(x))}"),
       t42,
     ),
   )
@@ -1166,9 +1132,7 @@ fn step_63() -> Unit raise {
   )
   inters_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B->bool) s. INTERS (IMAGE f s) = {y | forall x. x IN s ==> y IN f x}",
-      ),
+      @term_syntax.parse_term("∀ f : (A, B) -> Bool, ∀ s : (A) -> Bool, INTERS(IMAGE(f, s)) == {(y : B) | ∀ x : A, IN(x, s) → IN(y, f(x))}"),
       t47,
     ),
   )
@@ -1205,9 +1169,7 @@ fn step_64() -> Unit raise {
   )
   unions_gspec_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall P (f:A->B->bool).\n        UNIONS {f x | P x} = {a | ?x. P x /\\ a IN (f x)}) /\\\n   (forall P (f:A->B->C->bool).\n        UNIONS {f x y | P x y} = {a | ?x y. P x y /\\ a IN (f x y)}) /\\\n   (forall P (f:A->B->C->D->bool).\n        UNIONS {f x y z | P x y z} =\n        {a | ?x y z. P x y z /\\ a IN (f x y z)})",
-      ),
+      @term_syntax.parse_term("(∀ P : (A) -> Bool, ∀ f : (A, B) -> Bool, UNIONS({f((x : A)) | P(x)}) == {(a : B) | ∃ x : A, P(x) && IN(a, f(x))}) && (∀ P : (A, B) -> Bool, ∀ f : (A, B, C) -> Bool, UNIONS({f((x : A), (y : B)) | P(x, y)}) == {(a : C) | ∃ x : A, ∃ y : B, P(x, y) && IN(a, f(x, y))}) && (∀ P : (A, B, C) -> Bool, ∀ f : (A, B, C, D) -> Bool, UNIONS({f((x : A), (y : B), (z : C)) | P(x, y, z)}) == {(a : D) | ∃ x : A, ∃ y : B, ∃ z : C, P(x, y, z) && IN(a, f(x, y, z))})"),
       t52,
     ),
   )
@@ -1244,9 +1206,7 @@ fn step_65() -> Unit raise {
   )
   inters_gspec_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall P (f:A->B->bool).\n        INTERS {f x | P x} = {a | forall x. P x ==> a IN (f x)}) /\\\n   (forall P (f:A->B->C->bool).\n        INTERS {f x y | P x y} = {a | forall x y. P x y ==> a IN (f x y)}) /\\\n   (forall P (f:A->B->C->D->bool).\n        INTERS {f x y z | P x y z} =\n        {a | forall x y z. P x y z ==> a IN (f x y z)})",
-      ),
+      @term_syntax.parse_term("(∀ P : (A) -> Bool, ∀ f : (A, B) -> Bool, INTERS({f((x : A)) | P(x)}) == {(a : B) | ∀ x : A, P(x) → IN(a, f(x))}) && (∀ P : (A, B) -> Bool, ∀ f : (A, B, C) -> Bool, INTERS({f((x : A), (y : B)) | P(x, y)}) == {(a : C) | ∀ x : A, ∀ y : B, P(x, y) → IN(a, f(x, y))}) && (∀ P : (A, B, C) -> Bool, ∀ f : (A, B, C, D) -> Bool, INTERS({f((x : A), (y : B), (z : C)) | P(x, y, z)}) == {(a : D) | ∀ x : A, ∀ y : B, ∀ z : C, P(x, y, z) → IN(a, f(x, y, z))})"),
       t57,
     ),
   )
@@ -1588,9 +1548,7 @@ fn step_68() -> Unit raise {
   let t81 = set_tac(@list.List([]))
   not_equal_sets_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. forall t. ~(s = t) <=> ?x. x IN t <=> ~(x IN s)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, !(s == t) == (∃ x : A, IN(x, t) == !IN(x, s))"),
       t81,
     ),
   )
@@ -1618,9 +1576,7 @@ fn step_69() -> Unit raise {
   )
   insert_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s a:A.\n        {x | x IN a INSERT s /\\ P x} =\n        if P a then a INSERT {x | x IN s /\\ P x} else {x | x IN s /\\ P x}",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ s : (A) -> Bool, ∀ a : A, {(x : A) | IN(x, INSERT(a, s)) && P(x)} == (if P(a) { INSERT(a, {(x : A) | IN(x, s) && P(x)}) } else { {(x : A) | IN(x, s) && P(x)} })"),
       t83,
     ),
   )
@@ -1736,9 +1692,7 @@ fn step_75() -> Unit raise {
   let t89 = set_tac(@list.List([]))
   subset_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) t u. s SUBSET t /\\ t SUBSET u ==> s SUBSET u",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (A) -> Bool, SUBSET(s, t) && SUBSET(t, u) → SUBSET(s, u)"),
       t89,
     ),
   )
@@ -1940,9 +1894,7 @@ fn step_85() -> Unit raise {
   let t99 = set_tac(@list.List([]))
   psubset_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) t u. s PSUBSET t /\\ t PSUBSET u ==> s PSUBSET u",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (A) -> Bool, PSUBSET(s, t) && PSUBSET(t, u) → PSUBSET(s, u)"),
       t99,
     ),
   )
@@ -1963,9 +1915,7 @@ fn step_86() -> Unit raise {
   let t100 = set_tac(@list.List([]))
   psubset_subset_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) t u. s PSUBSET t /\\ t SUBSET u ==> s PSUBSET u",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (A) -> Bool, PSUBSET(s, t) && SUBSET(t, u) → PSUBSET(s, u)"),
       t100,
     ),
   )
@@ -1988,9 +1938,7 @@ fn step_87() -> Unit raise {
   let t101 = set_tac(@list.List([]))
   subset_psubset_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) t u. s SUBSET t /\\ t PSUBSET u ==> s PSUBSET u",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (A) -> Bool, SUBSET(s, t) && PSUBSET(t, u) → PSUBSET(s, u)"),
       t101,
     ),
   )
@@ -2093,9 +2041,7 @@ fn step_92() -> Unit raise {
   let t107 = @tactics.then_tac(@simp.rewrite_tac(@list.List([psubset()])), t106)
   psubset_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:A->bool. s PSUBSET t <=> s SUBSET t /\\ (?a. a IN t /\\ ~(a IN s))",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, PSUBSET(s, t) == (SUBSET(s, t) && (∃ a : A, IN(a, t) && !IN(a, s)))"),
       t107,
     ),
   )
@@ -2116,9 +2062,7 @@ fn step_93() -> Unit raise {
   let t108 = set_tac(@list.List([]))
   union_assoc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) t u. (s UNION t) UNION u = s UNION (t UNION u)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (A) -> Bool, UNION(UNION(s, t), u) == UNION(s, UNION(t, u))"),
       t108,
     ),
   )
@@ -2178,9 +2122,7 @@ fn step_96() -> Unit raise {
   let t111 = set_tac(@list.List([]))
   subset_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall s:A->bool. forall t. s SUBSET (s UNION t)) /\\\n   (forall s:A->bool. forall t. s SUBSET (t UNION s))",
-      ),
+      @term_syntax.parse_term("(∀ s : (A) -> Bool, ∀ t : (A) -> Bool, SUBSET(s, UNION(s, t))) && (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, SUBSET(s, UNION(t, s)))"),
       t111,
     ),
   )
@@ -2224,9 +2166,7 @@ fn step_98() -> Unit raise {
   let t113 = set_tac(@list.List([]))
   union_empty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall s:A->bool. EMPTY UNION s = s) /\\\n   (forall s:A->bool. s UNION EMPTY = s)",
-      ),
+      @term_syntax.parse_term("(∀ s : (A) -> Bool, UNION({}, s) == s) && (∀ s : (A) -> Bool, UNION(s, {}) == s)"),
       t113,
     ),
   )
@@ -2247,9 +2187,7 @@ fn step_99() -> Unit raise {
   let t114 = set_tac(@list.List([]))
   union_univ_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall s:A->bool. UNIV UNION s = UNIV) /\\\n   (forall s:A->bool. s UNION UNIV = UNIV)",
-      ),
+      @term_syntax.parse_term("(∀ s : (A) -> Bool, UNION(UNIV, s) == UNIV) && (∀ s : (A) -> Bool, UNION(s, UNIV) == UNIV)"),
       t114,
     ),
   )
@@ -2270,9 +2208,7 @@ fn step_100() -> Unit raise {
   let t115 = set_tac(@list.List([]))
   empty_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. forall t. (s UNION t = EMPTY) <=> (s = EMPTY) /\\ (t = EMPTY)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, (UNION(s, t) == {}) == (s == {} && t == {})"),
       t115,
     ),
   )
@@ -2293,9 +2229,7 @@ fn step_101() -> Unit raise {
   let t116 = set_tac(@list.List([]))
   union_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t u:A->bool. (s UNION t) SUBSET u <=> s SUBSET u /\\ t SUBSET u",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (A) -> Bool, SUBSET(UNION(s, t), u) == (SUBSET(s, u) && SUBSET(t, u))"),
       t116,
     ),
   )
@@ -2316,9 +2250,7 @@ fn step_102() -> Unit raise {
   let t117 = set_tac(@list.List([]))
   union_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s t:A->bool.\n        {x | x IN (s UNION t) /\\ P x} =\n        {x | x IN s /\\ P x} UNION {x | x IN t /\\ P x}",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, {(x : A) | IN(x, UNION(s, t)) && P(x)} == UNION({(x : A) | IN(x, s) && P(x)}, {(x : A) | IN(x, t) && P(x)})"),
       t117,
     ),
   )
@@ -2448,9 +2380,7 @@ fn step_103() -> Unit raise {
   )
   forall_subset_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall t u:A->bool.\n        (forall s. s SUBSET t UNION u ==> P s) <=>\n        (forall t' u'. t' SUBSET t /\\ u' SUBSET u ==> P(t' UNION u'))",
-      ),
+      @term_syntax.parse_term("∀ t : (A) -> Bool, ∀ u : (A) -> Bool, (∀ s : (A) -> Bool, SUBSET(s, UNION(t, u)) → (P : ((A) -> Bool) -> Bool)(s)) == (∀ t' : (A) -> Bool, ∀ u' : (A) -> Bool, SUBSET(t', t) && SUBSET(u', u) → P(UNION(t', u')))"),
       t132,
     ),
   )
@@ -2488,9 +2418,7 @@ fn step_104() -> Unit raise {
   )
   exists_subset_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall t u:A->bool.\n        (?s. s SUBSET t UNION u /\\ P s) <=>\n        (?t' u'. t' SUBSET t /\\ u' SUBSET u /\\ P(t' UNION u'))",
-      ),
+      @term_syntax.parse_term("∀ t : (A) -> Bool, ∀ u : (A) -> Bool, (∃ s : (A) -> Bool, SUBSET(s, UNION(t, u)) && (P : ((A) -> Bool) -> Bool)(s)) == (∃ t' : (A) -> Bool, ∃ u' : (A) -> Bool, SUBSET(t', t) && SUBSET(u', u) && P(UNION(t', u')))"),
       t135,
     ),
   )
@@ -2529,9 +2457,7 @@ fn step_105() -> Unit raise {
   )
   forall_subset_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a:A t. (forall s. s SUBSET a INSERT t ==> P s) <=>\n           (forall s. s SUBSET t ==> P s /\\ P (a INSERT s))",
-      ),
+      @term_syntax.parse_term("∀ a : A, ∀ t : (A) -> Bool, (∀ s : (A) -> Bool, SUBSET(s, INSERT(a, t)) → (P : ((A) -> Bool) -> Bool)(s)) == (∀ s : (A) -> Bool, SUBSET(s, t) → P(s) && P(INSERT(a, s)))"),
       t139,
     ),
   )
@@ -2569,9 +2495,7 @@ fn step_106() -> Unit raise {
   )
   exists_subset_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a:A t. (?s. s SUBSET a INSERT t /\\ P s) <=>\n           (?s. s SUBSET t /\\ (P s \\/ P (a INSERT s)))",
-      ),
+      @term_syntax.parse_term("∀ a : A, ∀ t : (A) -> Bool, (∃ s : (A) -> Bool, SUBSET(s, INSERT(a, t)) && (P : ((A) -> Bool) -> Bool)(s)) == (∃ s : (A) -> Bool, SUBSET(s, t) && (P(s) || P(INSERT(a, s))))"),
       t142,
     ),
   )
@@ -2594,9 +2518,7 @@ fn step_107() -> Unit raise {
   let t143 = set_tac(@list.List([]))
   inter_assoc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) t u. (s INTER t) INTER u = s INTER (t INTER u)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (A) -> Bool, INTER(INTER(s, t), u) == INTER(s, INTER(t, u))"),
       t143,
     ),
   )
@@ -2656,9 +2578,7 @@ fn step_110() -> Unit raise {
   let t146 = set_tac(@list.List([]))
   inter_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall s:A->bool. forall t. (s INTER t) SUBSET s) /\\\n   (forall s:A->bool. forall t. (t INTER s) SUBSET s)",
-      ),
+      @term_syntax.parse_term("(∀ s : (A) -> Bool, ∀ t : (A) -> Bool, SUBSET(INTER(s, t), s)) && (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, SUBSET(INTER(t, s), s))"),
       t146,
     ),
   )
@@ -2702,9 +2622,7 @@ fn step_112() -> Unit raise {
   let t148 = set_tac(@list.List([]))
   inter_empty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall s:A->bool. EMPTY INTER s = EMPTY) /\\\n   (forall s:A->bool. s INTER EMPTY = EMPTY)",
-      ),
+      @term_syntax.parse_term("(∀ s : (A) -> Bool, INTER({}, s) == {}) && (∀ s : (A) -> Bool, INTER(s, {}) == {})"),
       t148,
     ),
   )
@@ -2725,9 +2643,7 @@ fn step_113() -> Unit raise {
   let t149 = set_tac(@list.List([]))
   inter_univ_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall s:A->bool. UNIV INTER s = s) /\\\n   (forall s:A->bool. s INTER UNIV = s)",
-      ),
+      @term_syntax.parse_term("(∀ s : (A) -> Bool, INTER(UNIV, s) == s) && (∀ s : (A) -> Bool, INTER(s, UNIV) == s)"),
       t149,
     ),
   )
@@ -2748,9 +2664,7 @@ fn step_114() -> Unit raise {
   let t150 = set_tac(@list.List([]))
   subset_inter_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t u:A->bool. s SUBSET (t INTER u) <=> s SUBSET t /\\ s SUBSET u",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (A) -> Bool, SUBSET(s, INTER(t, u)) == (SUBSET(s, t) && SUBSET(s, u))"),
       t150,
     ),
   )
@@ -2771,9 +2685,7 @@ fn step_115() -> Unit raise {
   let t151 = set_tac(@list.List([]))
   inter_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s (t:A->bool).\n        {x | x IN (s INTER t) /\\ P x} =\n        {x | x IN s /\\ P x} INTER {x | x IN t /\\ P x}",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, {(x : A) | IN(x, INTER(s, t)) && P(x)} == INTER({(x : A) | IN(x, s) && P(x)}, {(x : A) | IN(x, t) && P(x)})"),
       t151,
     ),
   )
@@ -2794,9 +2706,7 @@ fn step_116() -> Unit raise {
   let t152 = set_tac(@list.List([]))
   union_over_inter_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. forall t u. s INTER (t UNION u) = (s INTER t) UNION (s INTER u)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (A) -> Bool, INTER(s, UNION(t, u)) == UNION(INTER(s, t), INTER(s, u))"),
       t152,
     ),
   )
@@ -2819,9 +2729,7 @@ fn step_117() -> Unit raise {
   let t153 = set_tac(@list.List([]))
   inter_over_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. forall t u. s UNION (t INTER u) = (s UNION t) INTER (s UNION u)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (A) -> Bool, UNION(s, INTER(t, u)) == INTER(UNION(s, t), UNION(s, u))"),
       t153,
     ),
   )
@@ -2844,9 +2752,7 @@ fn step_118() -> Unit raise {
   let t154 = set_tac(@list.List([]))
   in_disjoint_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. forall t. DISJOINT s t <=> ~(?x. x IN s /\\ x IN t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, DISJOINT(s, t) == !(∃ x : A, IN(x, s) && IN(x, t))"),
       t154,
     ),
   )
@@ -2932,9 +2838,7 @@ fn step_122() -> Unit raise {
   let t158 = set_tac(@list.List([]))
   disjoint_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. forall t u. DISJOINT (s UNION t) u <=> DISJOINT s u /\\ DISJOINT t u",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (A) -> Bool, DISJOINT(UNION(s, t), u) == (DISJOINT(s, u) && DISJOINT(t, u))"),
       t158,
     ),
   )
@@ -2955,9 +2859,7 @@ fn step_123() -> Unit raise {
   let t159 = set_tac(@list.List([]))
   disjoint_sing_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall s a:A. DISJOINT s {a} <=> ~(a IN s)) /\\\n   (forall s a:A. DISJOINT {a} s <=> ~(a IN s))",
-      ),
+      @term_syntax.parse_term("(∀ s : (A) -> Bool, ∀ a : A, DISJOINT(s, {a}) == !IN(a, s)) && (∀ s : (A) -> Bool, ∀ a : A, DISJOINT({a}, s) == !IN(a, s))"),
       t159,
     ),
   )
@@ -3110,9 +3012,7 @@ fn step_131() -> Unit raise {
   let t167 = set_tac(@list.List([]))
   diff_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s (t:A->bool).\n        {x | x IN (s DIFF t) /\\ P x} =\n        {x | x IN s /\\ P x} DIFF {x | x IN t /\\ P x}",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, {(x : A) | IN(x, DIFF(s, t)) && P(x)} == DIFF({(x : A) | IN(x, s) && P(x)}, {(x : A) | IN(x, t) && P(x)})"),
       t167,
     ),
   )
@@ -3218,9 +3118,7 @@ fn step_133() -> Unit raise {
   )
   decomposition_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. forall x. x IN s <=> ?t. (s = x INSERT t) /\\ ~(x IN t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ x : A, IN(x, s) == (∃ t : (A) -> Bool, s == INSERT(x, t) && !IN(x, t))"),
       t176,
     ),
   )
@@ -3241,9 +3139,7 @@ fn step_134() -> Unit raise {
   let t177 = @meson.meson_tac(@list.List([member_not_empty(), decomposition()]))
   set_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. (s = EMPTY) \\/ ?x:A. ?t. (s = x INSERT t) /\\ ~(x IN t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, s == {} || (∃ x : A, ∃ t : (A) -> Bool, s == INSERT(x, t) && !IN(x, t))"),
       t177,
     ),
   )
@@ -3306,9 +3202,7 @@ fn step_137() -> Unit raise {
   let t180 = set_tac(@list.List([]))
   insert_comm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A. forall y s. x INSERT (y INSERT s) = y INSERT (x INSERT s)",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ y : A, ∀ s : (A) -> Bool, INSERT(x, INSERT(y, s)) == INSERT(y, INSERT(x, s))"),
       t180,
     ),
   )
@@ -3443,9 +3337,7 @@ fn step_141() -> Unit raise {
   )
   insert_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A. forall s t. (x INSERT s) UNION t =\n               if x IN t then s UNION t else x INSERT (s UNION t)",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, UNION(INSERT(x, s), t) == (if IN(x, t) { UNION(s, t) } else { INSERT(x, UNION(s, t)) })"),
       t189,
     ),
   )
@@ -3466,9 +3358,7 @@ fn step_142() -> Unit raise {
   let t190 = set_tac(@list.List([]))
   insert_union_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A. forall s t. (x INSERT s) UNION t = x INSERT (s UNION t)",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, UNION(INSERT(x, s), t) == INSERT(x, UNION(s, t))"),
       t190,
     ),
   )
@@ -3547,9 +3437,7 @@ fn step_143() -> Unit raise {
   )
   insert_inter_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A. forall s t. (x INSERT s) INTER t =\n               if x IN t then x INSERT (s INTER t) else s INTER t",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, INTER(INSERT(x, s), t) == (if IN(x, t) { INSERT(x, INTER(s, t)) } else { INTER(s, t) })"),
       t196,
     ),
   )
@@ -3570,9 +3458,7 @@ fn step_144() -> Unit raise {
   let t197 = set_tac(@list.List([]))
   disjoint_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:A) s t. DISJOINT (x INSERT s) t <=> (DISJOINT s t) /\\ ~(x IN t)",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, DISJOINT(INSERT(x, s), t) == (DISJOINT(s, t) && !IN(x, t))"),
       t197,
     ),
   )
@@ -3595,9 +3481,7 @@ fn step_145() -> Unit raise {
   let t198 = set_tac(@list.List([]))
   insert_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A. forall s t. (x INSERT s) SUBSET t <=> (x IN t /\\ s SUBSET t)",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, SUBSET(INSERT(x, s), t) == (IN(x, t) && SUBSET(s, t))"),
       t198,
     ),
   )
@@ -3618,9 +3502,7 @@ fn step_146() -> Unit raise {
   let t199 = set_tac(@list.List([]))
   subset_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A. forall s. ~(x IN s) ==> forall t. s SUBSET (x INSERT t) <=> s SUBSET t",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ s : (A) -> Bool, !IN(x, s) → (∀ t : (A) -> Bool, SUBSET(s, INSERT(x, t)) == SUBSET(s, t))"),
       t199,
     ),
   )
@@ -3697,9 +3579,7 @@ fn step_147() -> Unit raise {
   )
   insert_diff_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. forall x:A. (x INSERT s) DIFF t =\n               if x IN t then s DIFF t else x INSERT (s DIFF t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ x : A, DIFF(INSERT(x, s), t) == (if IN(x, t) { DIFF(s, t) } else { INSERT(x, DIFF(s, t)) })"),
       t205,
     ),
   )
@@ -3720,9 +3600,7 @@ fn step_148() -> Unit raise {
   let t206 = @simp.rewrite_tac(@list.List([insert_comm(), insert_insert()]))
   insert_ac_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(x:A) INSERT (y INSERT s) = y INSERT (x INSERT s) /\\\n   x INSERT (x INSERT s) = x INSERT s",
-      ),
+      @term_syntax.parse_term("INSERT((x : A), INSERT((y : A), (s : (A) -> Bool))) == INSERT(y, INSERT(x, s)) && INSERT(x, INSERT(x, s)) == INSERT(x, s)"),
       t206,
     ),
   )
@@ -3743,9 +3621,7 @@ fn step_149() -> Unit raise {
   let t207 = set_tac(@list.List([]))
   inter_aci_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "((p:A->bool) INTER q = q INTER p) /\\\n   ((p INTER q) INTER r = p INTER q INTER r) /\\\n   (p INTER q INTER r = q INTER p INTER r) /\\\n   (p INTER p = p) /\\\n   (p INTER p INTER q = p INTER q)",
-      ),
+      @term_syntax.parse_term("INTER((p : (A) -> Bool), (q : (A) -> Bool)) == INTER(q, p) && INTER(INTER(p, q), (r : (A) -> Bool)) == INTER(p, INTER(q, r)) && INTER(p, INTER(q, r)) == INTER(q, INTER(p, r)) && INTER(p, p) == p && INTER(p, INTER(p, q)) == INTER(p, q)"),
       t207,
     ),
   )
@@ -3766,9 +3642,7 @@ fn step_150() -> Unit raise {
   let t208 = set_tac(@list.List([]))
   union_aci_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "((p:A->bool) UNION q = q UNION p) /\\\n   ((p UNION q) UNION r = p UNION q UNION r) /\\\n   (p UNION q UNION r = q UNION p UNION r) /\\\n   (p UNION p = p) /\\\n   (p UNION p UNION q = p UNION q)",
-      ),
+      @term_syntax.parse_term("UNION((p : (A) -> Bool), (q : (A) -> Bool)) == UNION(q, p) && UNION(UNION(p, q), (r : (A) -> Bool)) == UNION(p, UNION(q, r)) && UNION(p, UNION(q, r)) == UNION(q, UNION(p, r)) && UNION(p, p) == p && UNION(p, UNION(p, q)) == UNION(p, q)"),
       t208,
     ),
   )
@@ -3812,9 +3686,7 @@ fn step_152() -> Unit raise {
   let t210 = set_tac(@list.List([]))
   in_delete_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s x. forall x':A.\n     (x IN s <=> x' IN s) <=> (x IN (s DELETE x') <=> x' IN (s DELETE x))",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ x : A, ∀ x' : A, (IN(x, s) == IN(x', s)) == (IN(x, DELETE(s, x')) == IN(x', DELETE(s, x)))"),
       t210,
     ),
   )
@@ -3874,9 +3746,7 @@ fn step_155() -> Unit raise {
   let t213 = set_tac(@list.List([]))
   delete_comm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A. forall y. forall s. (s DELETE x) DELETE y = (s DELETE y) DELETE x",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ y : A, ∀ s : (A) -> Bool, DELETE(DELETE(s, x), y) == DELETE(DELETE(s, y), x)"),
       t213,
     ),
   )
@@ -3915,9 +3785,7 @@ fn step_157() -> Unit raise {
   let t215 = set_tac(@list.List([]))
   subset_delete_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A. forall s t. s SUBSET (t DELETE x) <=> ~(x IN s) /\\ (s SUBSET t)",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, SUBSET(s, DELETE(t, x)) == (!IN(x, s) && SUBSET(s, t))"),
       t215,
     ),
   )
@@ -3938,9 +3806,7 @@ fn step_158() -> Unit raise {
   let t216 = set_tac(@list.List([]))
   subset_insert_delete_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A. forall s t. s SUBSET (x INSERT t) <=> ((s DELETE x) SUBSET t)",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, SUBSET(s, INSERT(x, t)) == SUBSET(DELETE(s, x), t)"),
       t216,
     ),
   )
@@ -3963,9 +3829,7 @@ fn step_159() -> Unit raise {
   let t217 = set_tac(@list.List([]))
   diff_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. forall x:A. s DIFF (x INSERT t) = (s DELETE x) DIFF t",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ x : A, DIFF(s, INSERT(x, t)) == DIFF(DELETE(s, x), t)"),
       t217,
     ),
   )
@@ -3986,9 +3850,7 @@ fn step_160() -> Unit raise {
   let t218 = set_tac(@list.List([]))
   psubset_insert_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. s PSUBSET t <=> ?x:A. ~(x IN s) /\\ (x INSERT s) SUBSET t",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, PSUBSET(s, t) == (∃ x : A, !IN(x, s) && SUBSET(INSERT(x, s), t))"),
       t218,
     ),
   )
@@ -4067,9 +3929,7 @@ fn step_161() -> Unit raise {
   )
   delete_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A. forall y s.\n      (x INSERT s) DELETE y =\n        if x = y then s DELETE y else x INSERT (s DELETE y)",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ y : A, ∀ s : (A) -> Bool, DELETE(INSERT(x, s), y) == (if x == y { DELETE(s, y) } else { INSERT(x, DELETE(s, y)) })"),
       t224,
     ),
   )
@@ -4111,9 +3971,7 @@ fn step_163() -> Unit raise {
   let t226 = set_tac(@list.List([]))
   delete_inter_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. forall x:A. (s DELETE x) INTER t = (s INTER t) DELETE x",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ x : A, INTER(DELETE(s, x), t) == DELETE(INTER(s, t), x)"),
       t226,
     ),
   )
@@ -4134,9 +3992,7 @@ fn step_164() -> Unit raise {
   let t227 = set_tac(@list.List([]))
   disjoint_delete_sym_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. forall x:A. DISJOINT (s DELETE x) t = DISJOINT (t DELETE x) s",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ x : A, DISJOINT(DELETE(s, x), t) == DISJOINT(DELETE(t, x), s)"),
       t227,
     ),
   )
@@ -4216,9 +4072,7 @@ fn step_168() -> Unit raise {
   let t231 = set_tac(@list.List([]))
   unions_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) u. UNIONS (s INSERT u) = s UNION (UNIONS u)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ u : ((A) -> Bool) -> Bool, UNIONS(INSERT(s, u)) == UNION(s, UNIONS(u))"),
       t231,
     ),
   )
@@ -4239,9 +4093,7 @@ fn step_169() -> Unit raise {
   let t232 = set_tac(@list.List([]))
   forall_in_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s. (forall x:A. x IN UNIONS s ==> P x) <=> forall t x. t IN s /\\ x IN t ==> P x",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ s : ((A) -> Bool) -> Bool, (∀ x : A, IN(x, UNIONS(s)) → P(x)) == (∀ t : (A) -> Bool, ∀ x : A, IN(t, s) && IN(x, t) → P(x))"),
       t232,
     ),
   )
@@ -4264,9 +4116,7 @@ fn step_170() -> Unit raise {
   let t233 = set_tac(@list.List([]))
   exists_in_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s. (?x:A. x IN UNIONS s /\\ P x) <=> (?t x. t IN s /\\ x IN t /\\ P x)",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ s : ((A) -> Bool) -> Bool, (∃ x : A, IN(x, UNIONS(s)) && P(x)) == (∃ t : (A) -> Bool, ∃ x : A, IN(t, s) && IN(x, t) && P(x))"),
       t233,
     ),
   )
@@ -4289,9 +4139,7 @@ fn step_171() -> Unit raise {
   let t234 = set_tac(@list.List([]))
   empty_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. (UNIONS s = {}) <=> forall t:A->bool. t IN s ==> t = {}",
-      ),
+      @term_syntax.parse_term("∀ s : ((A) -> Bool) -> Bool, (UNIONS(s) == {}) == (∀ t : (A) -> Bool, IN(t, s) → t == {})"),
       t234,
     ),
   )
@@ -4319,9 +4167,7 @@ fn step_172() -> Unit raise {
   )
   inter_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall s (t:A->bool). UNIONS s INTER t = UNIONS {x INTER t | x IN s}) /\\\n   (forall s (t:A->bool). t INTER UNIONS s = UNIONS {t INTER x | x IN s})",
-      ),
+      @term_syntax.parse_term("(∀ s : ((A) -> Bool) -> Bool, ∀ t : (A) -> Bool, INTER(UNIONS(s), t) == UNIONS({INTER((x : (A) -> Bool), t) | IN(x, s)})) && (∀ s : ((A) -> Bool) -> Bool, ∀ t : (A) -> Bool, INTER(t, UNIONS(s)) == UNIONS({INTER(t, (x : (A) -> Bool)) | IN(x, s)}))"),
       t237,
     ),
   )
@@ -4342,9 +4188,7 @@ fn step_173() -> Unit raise {
   let t238 = set_tac(@list.List([]))
   unions_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f (t:A->bool). UNIONS f SUBSET t <=> forall s. s IN f ==> s SUBSET t",
-      ),
+      @term_syntax.parse_term("∀ f : ((A) -> Bool) -> Bool, ∀ t : (A) -> Bool, SUBSET(UNIONS(f), t) == (∀ s : (A) -> Bool, IN(s, f) → SUBSET(s, t))"),
       t238,
     ),
   )
@@ -4365,9 +4209,7 @@ fn step_174() -> Unit raise {
   let t239 = set_tac(@list.List([]))
   subset_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:(A->bool)->bool) g. f SUBSET g ==> UNIONS f SUBSET UNIONS g",
-      ),
+      @term_syntax.parse_term("∀ f : ((A) -> Bool) -> Bool, ∀ g : ((A) -> Bool) -> Bool, SUBSET(f, g) → SUBSET(UNIONS(f), UNIONS(g))"),
       t239,
     ),
   )
@@ -4388,9 +4230,7 @@ fn step_175() -> Unit raise {
   let t240 = set_tac(@list.List([]))
   unions_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:(A->bool)->bool. UNIONS(s UNION t) = (UNIONS s) UNION (UNIONS t)",
-      ),
+      @term_syntax.parse_term("∀ s : ((A) -> Bool) -> Bool, ∀ t : ((A) -> Bool) -> Bool, UNIONS(UNION(s, t)) == UNION(UNIONS(s), UNIONS(t))"),
       t240,
     ),
   )
@@ -4411,9 +4251,7 @@ fn step_176() -> Unit raise {
   let t241 = set_tac(@list.List([]))
   inters_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:(A->bool)->bool. INTERS (s UNION t) = INTERS s INTER INTERS t",
-      ),
+      @term_syntax.parse_term("∀ s : ((A) -> Bool) -> Bool, ∀ t : ((A) -> Bool) -> Bool, INTERS(UNION(s, t)) == INTER(INTERS(s), INTERS(t))"),
       t241,
     ),
   )
@@ -4434,9 +4272,7 @@ fn step_177() -> Unit raise {
   let t242 = set_tac(@list.List([]))
   unions_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:(A->bool)->bool.\n    (forall x. x IN s ==> ?y. y IN t /\\ x SUBSET y) ==> UNIONS s SUBSET UNIONS t",
-      ),
+      @term_syntax.parse_term("∀ s : ((A) -> Bool) -> Bool, ∀ t : ((A) -> Bool) -> Bool, (∀ x : (A) -> Bool, IN(x, s) → (∃ y : (A) -> Bool, IN(y, t) && SUBSET(x, y))) → SUBSET(UNIONS(s), UNIONS(t))"),
       t242,
     ),
   )
@@ -4457,9 +4293,7 @@ fn step_178() -> Unit raise {
   let t243 = set_tac(@list.List([]))
   unions_mono_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B->bool) g s.\n        (forall x. x IN s ==> f x SUBSET g x)\n        ==> UNIONS(IMAGE f s) SUBSET UNIONS(IMAGE g s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A, B) -> Bool, ∀ g : (A, B) -> Bool, ∀ s : (A) -> Bool, (∀ x : A, IN(x, s) → SUBSET(f(x), g(x))) → SUBSET(UNIONS(IMAGE(f, s)), UNIONS(IMAGE(g, s)))"),
       t243,
     ),
   )
@@ -4615,9 +4449,7 @@ fn step_185() -> Unit raise {
   let t255 = set_tac(@list.List([]))
   inters_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) u. INTERS (s INSERT u) = s INTER (INTERS u)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ u : ((A) -> Bool) -> Bool, INTERS(INSERT(s, u)) == INTER(s, INTERS(u))"),
       t255,
     ),
   )
@@ -4638,9 +4470,7 @@ fn step_186() -> Unit raise {
   let t256 = set_tac(@list.List([]))
   subset_inters_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) f. s SUBSET INTERS f <=> (forall t. t IN f ==> s SUBSET t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ f : ((A) -> Bool) -> Bool, SUBSET(s, INTERS(f)) == (∀ t : (A) -> Bool, IN(t, f) → SUBSET(s, t))"),
       t256,
     ),
   )
@@ -4661,9 +4491,7 @@ fn step_187() -> Unit raise {
   let t257 = set_tac(@list.List([]))
   inters_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall u s:A->bool.\n    ~(u = {}) /\\ (forall t. t IN u ==> t SUBSET s) ==> INTERS u SUBSET s",
-      ),
+      @term_syntax.parse_term("∀ u : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, !(u == {}) && (∀ t : (A) -> Bool, IN(t, u) → SUBSET(t, s)) → SUBSET(INTERS(u), s)"),
       t257,
     ),
   )
@@ -4684,9 +4512,7 @@ fn step_188() -> Unit raise {
   let t258 = set_tac(@list.List([]))
   inters_subset_strong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall u s:A->bool. (?t. t IN u /\\ t SUBSET s) ==> INTERS u SUBSET s",
-      ),
+      @term_syntax.parse_term("∀ u : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, (∃ t : (A) -> Bool, IN(t, u) && SUBSET(t, s)) → SUBSET(INTERS(u), s)"),
       t258,
     ),
   )
@@ -4709,9 +4535,7 @@ fn step_189() -> Unit raise {
   let t259 = set_tac(@list.List([]))
   inters_antimono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:(A->bool)->bool) g. g SUBSET f ==> INTERS f SUBSET INTERS g",
-      ),
+      @term_syntax.parse_term("∀ f : ((A) -> Bool) -> Bool, ∀ g : ((A) -> Bool) -> Bool, SUBSET(g, f) → SUBSET(INTERS(f), INTERS(g))"),
       t259,
     ),
   )
@@ -4755,9 +4579,7 @@ fn step_191() -> Unit raise {
   let t261 = set_tac(@list.List([]))
   inters_antimono_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (t:(A->bool)->bool).\n        (forall y. y IN t ==> ?x. x IN s /\\ x SUBSET y)\n        ==> INTERS s SUBSET INTERS t",
-      ),
+      @term_syntax.parse_term("∀ s : ((A) -> Bool) -> Bool, ∀ t : ((A) -> Bool) -> Bool, (∀ y : (A) -> Bool, IN(y, t) → (∃ x : (A) -> Bool, IN(x, s) && SUBSET(x, y))) → SUBSET(INTERS(s), INTERS(t))"),
       t261,
     ),
   )
@@ -4792,9 +4614,7 @@ fn step_192() -> Unit raise {
   )
   image_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(IMAGE (f:A->B) {} = {}) /\\\n   (IMAGE f (x INSERT s) = (f x) INSERT (IMAGE f s))",
-      ),
+      @term_syntax.parse_term("IMAGE((f : (A) -> B), {}) == {} && IMAGE(f, INSERT((x : A), (s : (A) -> Bool))) == INSERT(f(x), IMAGE(f, s))"),
       t263,
     ),
   )
@@ -4819,9 +4639,7 @@ fn step_193() -> Unit raise {
   )
   image_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s t. IMAGE f (s UNION t) = (IMAGE f s) UNION (IMAGE f t)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, IMAGE(f, UNION(s, t)) == UNION(IMAGE(f, s), IMAGE(f, t))"),
       t265,
     ),
   )
@@ -4884,9 +4702,7 @@ fn step_196() -> Unit raise {
   )
   image_o_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:B->C) (g:A->B) s. IMAGE (f o g) s = IMAGE f (IMAGE g s)",
-      ),
+      @term_syntax.parse_term("∀ f : (B) -> C, ∀ g : (A) -> B, ∀ s : (A) -> Bool, IMAGE(o(f, g), s) == IMAGE(f, IMAGE(g, s))"),
       t269,
     ),
   )
@@ -4911,9 +4727,7 @@ fn step_197() -> Unit raise {
   )
   image_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s t. s SUBSET t ==> (IMAGE f s) SUBSET (IMAGE f t)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, SUBSET(s, t) → SUBSET(IMAGE(f, s), IMAGE(f, t))"),
       t271,
     ),
   )
@@ -4938,9 +4752,7 @@ fn step_198() -> Unit raise {
   )
   image_inter_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s t.\n        (forall x y. f(x) = f(y) ==> x = y)\n        ==> (IMAGE f (s INTER t) = (IMAGE f s) INTER (IMAGE f t))",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, (∀ x : A, ∀ y : A, f(x) == f(y) → x == y) → IMAGE(f, INTER(s, t)) == INTER(IMAGE(f, s), IMAGE(f, t))"),
       t273,
     ),
   )
@@ -4963,9 +4775,7 @@ fn step_199() -> Unit raise {
   let t274 = set_tac(@list.List([]))
   image_diff_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s t.\n        (forall x y. x IN s /\\ y IN t /\\ f x = f y ==> x = y)\n        ==> IMAGE f (s DIFF t) = IMAGE f s DIFF IMAGE f t",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, (∀ x : A, ∀ y : A, IN(x, s) && IN(y, t) && f(x) == f(y) → x == y) → IMAGE(f, DIFF(s, t)) == DIFF(IMAGE(f, s), IMAGE(f, t))"),
       t274,
     ),
   )
@@ -4986,9 +4796,7 @@ fn step_200() -> Unit raise {
   let t275 = set_tac(@list.List([]))
   image_diff_inj_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s t.\n        (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y) /\\ t SUBSET s\n        ==> IMAGE f (s DIFF t) = IMAGE f s DIFF IMAGE f t",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) && SUBSET(t, s) → IMAGE(f, DIFF(s, t)) == DIFF(IMAGE(f, s), IMAGE(f, t))"),
       t275,
     ),
   )
@@ -5011,9 +4819,7 @@ fn step_201() -> Unit raise {
   let t276 = set_tac(@list.List([]))
   image_delete_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s a.\n        (forall x. x IN s /\\ f x = f a ==> x = a)\n        ==> IMAGE f (s DELETE a) = IMAGE f s DELETE f a",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ a : A, (∀ x : A, IN(x, s) && f(x) == f(a) → x == a) → IMAGE(f, DELETE(s, a)) == DELETE(IMAGE(f, s), f(a))"),
       t276,
     ),
   )
@@ -5036,9 +4842,7 @@ fn step_202() -> Unit raise {
   let t277 = set_tac(@list.List([]))
   image_delete_inj_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s a.\n        (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y) /\\ a IN s\n        ==> IMAGE f (s DELETE a) = IMAGE f s DELETE f a",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ a : A, (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) && IN(a, s) → IMAGE(f, DELETE(s, a)) == DELETE(IMAGE(f, s), f(a))"),
       t277,
     ),
   )
@@ -5086,9 +4890,7 @@ fn step_204() -> Unit raise {
   let t280 = set_tac(@list.List([]))
   forall_in_image_2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) P s. (forall x y. x IN IMAGE f s /\\ y IN IMAGE f s ==> P x y) <=>\n                 (forall x y. x IN s /\\ y IN s ==> P (f x) (f y))",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ P : (B, B) -> Bool, ∀ s : (A) -> Bool, (∀ x : B, ∀ y : B, IN(x, IMAGE(f, s)) && IN(y, IMAGE(f, s)) → P(x, y)) == (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) → P(f(x), f(y)))"),
       t280,
     ),
   )
@@ -5126,9 +4928,7 @@ fn step_205() -> Unit raise {
   )
   image_const_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) (c:B). IMAGE (\\x. c) s = if s = {} then {} else {c}",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ c : B, IMAGE((x : A) => c, s) == (if s == {} { {} } else { {c} })"),
       t284,
     ),
   )
@@ -5223,9 +5023,7 @@ fn step_208() -> Unit raise {
   )
   image_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s. IMAGE f (UNIONS s) = UNIONS (IMAGE (IMAGE f) s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : ((A) -> Bool) -> Bool, IMAGE(f, UNIONS(s)) == UNIONS(IMAGE(IMAGE(f), s))"),
       t293,
     ),
   )
@@ -5267,9 +5065,7 @@ fn step_210() -> Unit raise {
   let t295 = set_tac(@list.List([]))
   surjective_image_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s t.\n        (forall y. y IN t ==> ?x. f x = y) /\\ (forall x. (f x) IN t <=> x IN s)\n        ==> IMAGE f s = t",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (B) -> Bool, (∀ y : B, IN(y, t) → (∃ x : A, f(x) == y)) && (∀ x : A, IN(f(x), t) == IN(x, s)) → IMAGE(f, s) == t"),
       t295,
     ),
   )
@@ -5292,9 +5088,7 @@ fn step_211() -> Unit raise {
   let t296 = set_tac(@list.List([]))
   image_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) g s. (forall x. x IN s ==> f x = g x) ==> IMAGE f s = IMAGE g s",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (A) -> B, ∀ s : (A) -> Bool, (∀ x : A, IN(x, s) → f(x) == g(x)) → IMAGE(f, s) == IMAGE(g, s)"),
       t296,
     ),
   )
@@ -5347,9 +5141,7 @@ fn step_214() -> Unit raise {
   let t299 = set_tac(@list.List([]))
   sing_gspec_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall a:A. {x | x = a} = {a}) /\\\n   (forall a:A. {x | a = x} = {a})",
-      ),
+      @term_syntax.parse_term("(∀ a : A, {(x : A) | x == a} == {a}) && (∀ a : A, {(x : A) | a == x} == {a})"),
       t299,
     ),
   )
@@ -5413,9 +5205,7 @@ fn step_217() -> Unit raise {
   )
   in_elim_pair_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(P:A->B->bool) a b. (a,b) IN {(x,y) | P x y} <=> P a b",
-      ),
+      @term_syntax.parse_term("∀ P : (A, B) -> Bool, ∀ a : A, ∀ b : B, IN((a, b), {((x : A), (y : B)) | P(x, y)}) == P(a, b)"),
       t303,
     ),
   )
@@ -5442,9 +5232,7 @@ fn step_218() -> Unit raise {
   )
   in_elim_triple_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(P:A->B->C->bool) a b c. (a,b,c) IN {(x,y,z) | P x y z} <=> P a b c) /\\\n   (forall(P:A->B->C->bool) a b c. ((a,b),c) IN {((x,y),z) | P x y z} <=> P a b c)",
-      ),
+      @term_syntax.parse_term("(∀ P : (A, B, C) -> Bool, ∀ a : A, ∀ b : B, ∀ c : C, IN((a, b, c), {((x : A), (y : B), (z : C)) | P(x, y, z)}) == P(a, b, c)) && (∀ P : (A, B, C) -> Bool, ∀ a : A, ∀ b : B, ∀ c : C, IN(((a, b), c), {(((x : A), (y : B)), (z : C)) | P(x, y, z)}) == P(a, b, c))"),
       t305,
     ),
   )
@@ -5471,9 +5259,7 @@ fn step_219() -> Unit raise {
   )
   in_elim_quad_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(P:A->B->C->D->bool) a b c d.\n        (a,b,c,d) IN {w,x,y,z | P w x y z} <=> P a b c d) /\\\n   (forall(P:A->B->C->D->bool) a b c d.\n        ((a,b),(c,d)) IN {(w,x),(y,z) | P w x y z} <=> P a b c d) /\\\n   (forall(P:A->B->C->D->bool) a b c d.\n        (((a,b),c),d) IN {(((w,x),y),z) | P w x y z} <=> P a b c d)",
-      ),
+      @term_syntax.parse_term("(∀ P : (A, B, C, D) -> Bool, ∀ a : A, ∀ b : B, ∀ c : C, ∀ d : D, IN((a, b, c, d), {((w : A), (x : B), (y : C), (z : D)) | P(w, x, y, z)}) == P(a, b, c, d)) && (∀ P : (A, B, C, D) -> Bool, ∀ a : A, ∀ b : B, ∀ c : C, ∀ d : D, IN(((a, b), c, d), {(((w : A), (x : B)), (y : C), (z : D)) | P(w, x, y, z)}) == P(a, b, c, d)) && (∀ P : (A, B, C, D) -> Bool, ∀ a : A, ∀ b : B, ∀ c : C, ∀ d : D, IN((((a, b), c), d), {((((w : A), (x : B)), (y : C)), (z : D)) | P(w, x, y, z)}) == P(a, b, c, d))"),
       t307,
     ),
   )
@@ -5524,9 +5310,7 @@ fn step_221() -> Unit raise {
   let t309 = @meson.meson_tac(@list.List([set_cases()]))
   set_prove_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->bool)->bool.\n       P {} /\\ (forall a s. ~(a IN s) ==> P(a INSERT s))\n       ==> forall s. P s",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, P({}) && (∀ a : A, ∀ s : (A) -> Bool, !IN(a, s) → P(INSERT(a, s))) → (∀ s : (A) -> Bool, P(s))"),
       t309,
     ),
   )
@@ -5605,9 +5389,7 @@ fn step_224() -> Unit raise {
   )
   image_inters_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s.\n        ~(s = {}) /\\\n        (forall x y. x IN UNIONS s /\\ y IN UNIONS s /\\ f x = f y ==> x = y)\n        ==> IMAGE f (INTERS s) = INTERS(IMAGE (IMAGE f) s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : ((A) -> Bool) -> Bool, !(s == {}) && (∀ x : A, ∀ y : A, IN(x, UNIONS(s)) && IN(y, UNIONS(s)) && f(x) == f(y) → x == y) → IMAGE(f, INTERS(s)) == INTERS(IMAGE(IMAGE(f), s))"),
       t315,
     ),
   )
@@ -5632,9 +5414,7 @@ fn step_225() -> Unit raise {
   )
   diff_inters_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(u:A->bool) s. u DIFF INTERS s = UNIONS {u DIFF t | t IN s}",
-      ),
+      @term_syntax.parse_term("∀ u : (A) -> Bool, ∀ s : ((A) -> Bool) -> Bool, DIFF(u, INTERS(s)) == UNIONS({DIFF(u, (t : (A) -> Bool)) | IN(t, s)})"),
       t317,
     ),
   )
@@ -5659,9 +5439,7 @@ fn step_226() -> Unit raise {
   )
   inters_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. INTERS s = UNIV DIFF (UNIONS {(:A) DIFF t | t IN s})",
-      ),
+      @term_syntax.parse_term("∀ s : ((A) -> Bool) -> Bool, INTERS(s) == DIFF(UNIV, UNIONS({DIFF(UNIV, (t : (A) -> Bool)) | IN(t, s)}))"),
       t319,
     ),
   )
@@ -5708,9 +5486,7 @@ fn step_227() -> Unit raise {
   )
   unions_inters_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. UNIONS s = UNIV DIFF (INTERS {(:A) DIFF t | t IN s})",
-      ),
+      @term_syntax.parse_term("∀ s : ((A) -> Bool) -> Bool, UNIONS(s) == DIFF(UNIV, INTERS({DIFF(UNIV, (t : (A) -> Bool)) | IN(t, s)}))"),
       t323,
     ),
   )
@@ -5735,9 +5511,7 @@ fn step_228() -> Unit raise {
   )
   unions_diff_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:A->bool. UNIONS s DIFF t = UNIONS {x DIFF t | x IN s}",
-      ),
+      @term_syntax.parse_term("∀ s : ((A) -> Bool) -> Bool, ∀ t : (A) -> Bool, DIFF(UNIONS(s), t) == UNIONS({DIFF((x : (A) -> Bool), t) | IN(x, s)})"),
       t325,
     ),
   )
@@ -5762,9 +5536,7 @@ fn step_229() -> Unit raise {
   )
   diff_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(u:A->bool) s. u DIFF UNIONS s = u INTER INTERS {u DIFF t | t IN s}",
-      ),
+      @term_syntax.parse_term("∀ u : (A) -> Bool, ∀ s : ((A) -> Bool) -> Bool, DIFF(u, UNIONS(s)) == INTER(u, INTERS({DIFF(u, (t : (A) -> Bool)) | IN(t, s)}))"),
       t327,
     ),
   )
@@ -5789,9 +5561,7 @@ fn step_230() -> Unit raise {
   )
   diff_unions_nonempty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(u:A->bool) s. ~(s = {}) ==> u DIFF UNIONS s = INTERS {u DIFF t | t IN s}",
-      ),
+      @term_syntax.parse_term("∀ u : (A) -> Bool, ∀ s : ((A) -> Bool) -> Bool, !(s == {}) → DIFF(u, UNIONS(s)) == INTERS({DIFF(u, (t : (A) -> Bool)) | IN(t, s)})"),
       t329,
     ),
   )
@@ -5846,9 +5616,7 @@ fn step_231() -> Unit raise {
   )
   inters_over_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->(B->bool)->bool s.\n        INTERS { UNIONS(f x) | x IN s} =\n        UNIONS { INTERS {g x | x IN s} |g| forall x. x IN s ==> g x IN f x}",
-      ),
+      @term_syntax.parse_term("∀ f : (A, (B) -> Bool) -> Bool, ∀ s : (A) -> Bool, INTERS({UNIONS(f((x : A))) | IN(x, s)}) == UNIONS({INTERS({g((x : A)) | IN(x, s)}) | g : (A, B) -> Bool | ∀ x : A, IN(x, s) → IN(g(x), f(x))})"),
       t337,
     ),
   )
@@ -5884,9 +5652,7 @@ fn step_232() -> Unit raise {
   )
   inter_inters_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall f s:A->bool.\n        s INTER INTERS f =\n        if f = {} then s else INTERS {s INTER t | t IN f}) /\\\n   (forall f s:A->bool.\n        INTERS f INTER s =\n        if f = {} then s else INTERS {t INTER s | t IN f})",
-      ),
+      @term_syntax.parse_term("(∀ f : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, INTER(s, INTERS(f)) == (if f == {} { s } else { INTERS({INTER(s, (t : (A) -> Bool)) | IN(t, f)}) })) && (∀ f : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, INTER(INTERS(f), s) == (if f == {} { s } else { INTERS({INTER((t : (A) -> Bool), s) | IN(t, f)}) }))"),
       t340,
     ),
   )
@@ -5954,9 +5720,7 @@ fn step_233() -> Unit raise {
   )
   unions_over_inters_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->(B->bool)->bool s.\n        UNIONS { INTERS(f x) | x IN s} =\n        INTERS { UNIONS {g x | x IN s} |g| forall x. x IN s ==> g x IN f x}",
-      ),
+      @term_syntax.parse_term("∀ f : (A, (B) -> Bool) -> Bool, ∀ s : (A) -> Bool, UNIONS({INTERS(f((x : A))) | IN(x, s)}) == INTERS({UNIONS({g((x : A)) | IN(x, s)}) | g : (A, B) -> Bool | ∀ x : A, IN(x, s) → IN(g(x), f(x))})"),
       t349,
     ),
   )
@@ -5981,9 +5745,7 @@ fn step_234() -> Unit raise {
     @simp.rewrite_tac(
       @list.List([
         set_rule(
-          @parser.parse_term(
-            "(?s. f = {s}) <=> ~(f = {}) /\\ forall s t. s IN f /\\ t IN f ==> s = t",
-          ),
+          @term_syntax.parse_term("(∃ s : _, (f : (_) -> Bool) == {s}) == (!(f == {}) && (∀ s : _, ∀ t : _, IN(s, f) && IN(t, f) → s == t))"),
         ),
       ]),
     ),
@@ -5991,9 +5753,7 @@ fn step_234() -> Unit raise {
   )
   unions_eq_inters_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:(A->bool)->bool. UNIONS f = INTERS f <=> ?s. f = {s}",
-      ),
+      @term_syntax.parse_term("∀ f : ((A) -> Bool) -> Bool, (UNIONS(f) == INTERS(f)) == (∃ s : (A) -> Bool, f == {s})"),
       t351,
     ),
   )
@@ -6020,9 +5780,7 @@ fn step_235() -> Unit raise {
   )
   exists_unique_unions_inters_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (?!s:A->bool. P s) <=> UNIONS {s | P s} = INTERS {s | P s}",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, existsunique((s : (A) -> Bool) => P(s)) == (UNIONS({(s : (A) -> Bool) | P(s)}) == INTERS({(s : (A) -> Bool) | P(s)}))"),
       t353,
     ),
   )
@@ -6049,9 +5807,7 @@ fn step_236() -> Unit raise {
   )
   image_inters_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) g. IMAGE f (INTERS g) SUBSET INTERS (IMAGE (IMAGE f) g)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : ((A) -> Bool) -> Bool, SUBSET(IMAGE(f, INTERS(g)), INTERS(IMAGE(IMAGE(f), g)))"),
       t355,
     ),
   )
@@ -6074,9 +5830,7 @@ fn step_237() -> Unit raise {
   let t356 = set_tac(@list.List([]))
   image_inter_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s t. IMAGE f (s INTER t) SUBSET IMAGE f s INTER IMAGE f t",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, SUBSET(IMAGE(f, INTER(s, t)), INTER(IMAGE(f, s), IMAGE(f, t)))"),
       t356,
     ),
   )
@@ -6099,9 +5853,7 @@ fn step_238() -> Unit raise {
   let t357 = set_tac(@list.List([]))
   image_inter_saturated_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s t u.\n        {x | x IN u /\\ f(x) IN IMAGE f s} SUBSET s /\\ t SUBSET u \\/\n        {x | x IN u /\\ f(x) IN IMAGE f t} SUBSET t /\\ s SUBSET u\n        ==> IMAGE f (s INTER t) = IMAGE f s INTER IMAGE f t",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (A) -> Bool, SUBSET({(x : A) | IN(x, u) && IN(f(x), IMAGE(f, s))}, s) && SUBSET(t, u) || SUBSET({(x : A) | IN(x, u) && IN(f(x), IMAGE(f, t))}, t) && SUBSET(s, u) → IMAGE(f, INTER(s, t)) == INTER(IMAGE(f, s), IMAGE(f, t))"),
       t357,
     ),
   )
@@ -6149,9 +5901,7 @@ fn step_239() -> Unit raise {
     t362,
   )
   let lemma = @tactics.prove(
-    @parser.parse_term(
-      "~(g = {}) /\\\n     (forall t. t IN g ==> t SUBSET u /\\ {x | x IN u /\\ f(x) IN IMAGE f t} SUBSET t)\n     ==> IMAGE f (INTERS g) = INTERS (IMAGE (IMAGE f) g)",
-    ),
+    @term_syntax.parse_term("!((g : ((_) -> Bool) -> Bool) == {}) && (∀ t : (_) -> Bool, IN(t, g) → SUBSET(t, (u : (_) -> Bool)) && SUBSET({(x : _) | IN(x, u) && IN((f : (_) -> _)(x), IMAGE(f, t))}, t)) → IMAGE(f, INTERS(g)) == INTERS(IMAGE(IMAGE(f), g))"),
     t363,
   )
   let t388 = @tactics.asm_tac(set_tac)(@list.List([]))
@@ -6170,9 +5920,7 @@ fn step_239() -> Unit raise {
   ])
   let t385 = @tactics.match_mp_tac(
     set_rule(
-      @parser.parse_term(
-        "IMAGE f (s INTER t) = IMAGE f s INTER IMAGE f t /\\\n    IMAGE f t = u ==> IMAGE f (s INTER t) = IMAGE f s INTER u",
-      ),
+      @term_syntax.parse_term("IMAGE((f : (_) -> _), INTER((s : (_) -> Bool), (t : (_) -> Bool))) == INTER(IMAGE(f, s), IMAGE(f, t)) && IMAGE(f, t) == (u : (_) -> Bool) → IMAGE(f, INTER(s, t)) == INTER(IMAGE(f, s), u)"),
     ),
   )
   let t384 = @simp.rewrite_tac(@list.List([image_clauses(), inters_insert()]))
@@ -6406,9 +6154,7 @@ fn step_239() -> Unit raise {
   )
   image_inters_saturated_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B g s u.\n        ~(g = {}) /\\\n        (forall t. t IN g ==> t SUBSET u) /\\\n        (forall t. t IN g DELETE s ==> {x | x IN u /\\ f(x) IN IMAGE f t} SUBSET t)\n        ==> IMAGE f (INTERS g) = INTERS (IMAGE (IMAGE f) g)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, ∀ u : (A) -> Bool, !(g == {}) && (∀ t : (A) -> Bool, IN(t, g) → SUBSET(t, u)) && (∀ t : (A) -> Bool, IN(t, DELETE(g, s)) → SUBSET({(x : A) | IN(x, u) && IN(f(x), IMAGE(f, t))}, t)) → IMAGE(f, INTERS(g)) == INTERS(IMAGE(IMAGE(f), g))"),
       t391,
     ),
   )
@@ -6431,9 +6177,7 @@ fn step_240() -> Unit raise {
   let t392 = set_tac(@list.List([]))
   image_inter_saturated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s t.\n        {x | f(x) IN IMAGE f s} SUBSET s \\/ {x | f(x) IN IMAGE f t} SUBSET t\n         ==> IMAGE f (s INTER t) = IMAGE f s INTER IMAGE f t",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, SUBSET({(x : A) | IN(f(x), IMAGE(f, s))}, s) || SUBSET({(x : A) | IN(f(x), IMAGE(f, t))}, t) → IMAGE(f, INTER(s, t)) == INTER(IMAGE(f, s), IMAGE(f, t))"),
       t392,
     ),
   )
@@ -6514,9 +6258,7 @@ fn step_241() -> Unit raise {
   )
   image_inters_saturated_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B g s.\n        ~(g = {}) /\\ (forall t. t IN g DELETE s ==> {x | f(x) IN IMAGE f t} SUBSET t)\n        ==> IMAGE f (INTERS g) = INTERS (IMAGE (IMAGE f) g)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, !(g == {}) && (∀ t : (A) -> Bool, IN(t, DELETE(g, s)) → SUBSET({(x : A) | IN(f(x), IMAGE(f, t))}, t)) → IMAGE(f, INTERS(g)) == INTERS(IMAGE(IMAGE(f), g))"),
       t400,
     ),
   )
@@ -6658,9 +6400,7 @@ fn step_242() -> Unit raise {
   )
   finite_induct_strong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->bool)->bool.\n        P {} /\\ (forall x s. P s /\\ ~(x IN s) /\\ FINITE s ==> P(x INSERT s))\n        ==> forall s. FINITE s ==> P s",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, P({}) && (∀ x : A, ∀ s : (A) -> Bool, P(s) && !IN(x, s) && FINITE(s) → P(INSERT(x, s))) → (∀ s : (A) -> Bool, FINITE(s) → P(s))"),
       t418,
     ),
   )
@@ -6683,9 +6423,7 @@ fn step_243() -> Unit raise {
   let t419 = @meson.meson_tac(@list.List([]))
   injective_on_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P f:A->B.\n        (forall x y. P x /\\ P y /\\ f x = f y ==> x = y) <=>\n        (forall x y. P x /\\ P y ==> (f x = f y <=> x = y))",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ f : (A) -> B, (∀ x : A, ∀ y : A, P(x) && P(y) && f(x) == f(y) → x == y) == (∀ x : A, ∀ y : A, P(x) && P(y) → (f(x) == f(y)) == (x == y))"),
       t419,
     ),
   )
@@ -6708,9 +6446,7 @@ fn step_244() -> Unit raise {
   let t420 = @meson.meson_tac(@list.List([]))
   injective_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B. (forall x y. f x = f y ==> x = y) <=> (forall x y. f x = f y <=> x = y)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, (∀ x : A, ∀ y : A, f(x) == f(y) → x == y) == (∀ x : A, ∀ y : A, (f(x) == f(y)) == (x == y))"),
       t420,
     ),
   )
@@ -6733,9 +6469,7 @@ fn step_245() -> Unit raise {
   )
   surjective_on_right_inverse_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) t.\n        (forall y. y IN t ==> ?x. x IN s /\\ (f(x) = y)) <=>\n        (?g. forall y. y IN t ==> g(y) IN s /\\ (f(g(y)) = y))",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ t : (B) -> Bool, (∀ y : B, IN(y, t) → (∃ x : A, IN(x, (s : (A) -> Bool)) && f(x) == y)) == (∃ g : (B) -> A, ∀ y : B, IN(y, t) → IN(g(y), s) && f(g(y)) == y)"),
       t421,
     ),
   )
@@ -6757,9 +6491,7 @@ pub fn surjective_on_right_inverse() -> @kernel.Thm {
 fn step_246() -> Unit raise {
   let lemma = @meson.meson(
     @list.List([]),
-    @parser.parse_term(
-      "(forall x. x IN s ==> (g(f(x)) = x)) <=>\n    (forall y x. x IN s /\\ (y = (f:A->B) x) ==> (g y = x))",
-    ),
+    @term_syntax.parse_term("(∀ x : A, IN(x, (s : (A) -> Bool)) → (g : (B) -> A)((f : (A) -> B)(x)) == x) == (∀ y : B, ∀ x : A, IN(x, s) && y == f(x) → g(y) == x)"),
   )
   let t422 = @meson.meson_tac(@list.List([]))
   let t423 = @tactics.then_tac(
@@ -6768,9 +6500,7 @@ fn step_246() -> Unit raise {
   )
   injective_on_left_inverse_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s. (forall x y. x IN s /\\ y IN s /\\ (f x = f y) ==> (x = y)) <=>\n         (?g. forall x. x IN s ==> (g(f(x)) = x))",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) == (∃ g : (B) -> A, ∀ x : A, IN(x, s) → g(f(x)) == x)"),
       t423,
     ),
   )
@@ -6819,9 +6549,7 @@ fn step_247() -> Unit raise {
   )
   bijective_on_left_right_inverse_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s t.\n        (forall x. x IN s ==> f(x) IN t)\n        ==> ((forall x y. x IN s /\\ y IN s /\\ f(x) = f(y) ==> x = y) /\\\n             (forall y. y IN t ==> ?x. x IN s /\\ f x = y) <=>\n            ?g. (forall y. y IN t ==> g(y) IN s) /\\\n                (forall y. y IN t ==> (f(g(y)) = y)) /\\\n                (forall x. x IN s ==> (g(f(x)) = x)))",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (B) -> Bool, (∀ x : A, IN(x, s) → IN(f(x), t)) → ((∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) && (∀ y : B, IN(y, t) → (∃ x : A, IN(x, s) && f(x) == y))) == (∃ g : (B) -> A, (∀ y : B, IN(y, t) → IN(g(y), s)) && (∀ y : B, IN(y, t) → f(g(y)) == y) && (∀ x : A, IN(x, s) → g(f(x)) == x))"),
       t427,
     ),
   )
@@ -6846,9 +6574,7 @@ fn step_248() -> Unit raise {
   )
   surjective_right_inverse_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B. (forall y. ?x. f(x) = y) <=> (?g. forall y. f(g(y)) = y)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, (∀ y : B, ∃ x : A, f(x) == y) == (∃ g : (B) -> A, ∀ y : B, f(g(y)) == y)"),
       t428,
     ),
   )
@@ -6877,9 +6603,7 @@ fn step_249() -> Unit raise {
   let t431 = @simp.rewrite_tac(@list.List([th]))
   injective_left_inverse_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B. (forall x y. f x = f y ==> x = y) <=> (?g. forall x. g(f(x)) = x)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, (∀ x : A, ∀ y : A, f(x) == f(y) → x == y) == (∃ g : (B) -> A, ∀ x : A, g(f(x)) == x)"),
       t431,
     ),
   )
@@ -6916,9 +6640,7 @@ fn step_250() -> Unit raise {
   )
   bijective_left_right_inverse_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B.\n       (forall x y. f(x) = f(y) ==> x = y) /\\ (forall y. ?x. f x = y) <=>\n       ?g. (forall y. f(g(y)) = y) /\\ (forall x. g(f(x)) = x)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ((∀ x : A, ∀ y : A, f(x) == f(y) → x == y) && (∀ y : B, ∃ x : A, f(x) == y)) == (∃ g : (B) -> A, (∀ y : B, f(g(y)) == y) && (∀ x : A, g(f(x)) == x))"),
       t435,
     ),
   )
@@ -6946,9 +6668,7 @@ fn step_251() -> Unit raise {
         @list.List([
           @meson.meson(
             @list.List([]),
-            @parser.parse_term(
-              "(forall x. P x ==> f(x) = g(k x)) <=> (forall y x. P x /\\ y = k x ==> f x = g y)",
-            ),
+            @term_syntax.parse_term("(∀ x : _, (P : (_) -> Bool)(x) → (f : (_) -> _)(x) == (g : (_) -> _)((k : (_) -> _)(x))) == (∀ y : _, ∀ x : _, P(x) && y == k(x) → f(x) == g(y))"),
           ),
         ]),
       ),
@@ -6958,9 +6678,7 @@ fn step_251() -> Unit raise {
   )
   function_factors_left_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (f:A->B) (g:A->C).\n        (forall x y. P x /\\ P y /\\ g x = g y ==> f x = f y) <=>\n        (?h. forall x. P x ==> f(x) = h(g x))",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ f : (A) -> B, ∀ g : (A) -> C, (∀ x : A, ∀ y : A, P(x) && P(y) && g(x) == g(y) → f(x) == f(y)) == (∃ h : (C) -> B, ∀ x : A, P(x) → f(x) == h(g(x)))"),
       t438,
     ),
   )
@@ -6993,9 +6711,7 @@ fn step_252() -> Unit raise {
   )
   function_factors_left_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:A->C). (forall x y. g x = g y ==> f x = f y) <=> ?h. f = h o g",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (A) -> C, (∀ x : A, ∀ y : A, g(x) == g(y) → f(x) == f(y)) == (∃ h : (C) -> B, f == o(h, g))"),
       t440,
     ),
   )
@@ -7022,9 +6738,7 @@ fn step_253() -> Unit raise {
   )
   function_factors_right_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (f:A->C) (g:B->C).\n        (forall x. P x ==> ?y. g(y) = f(x)) <=>\n        (?h. forall x. P x ==> f(x) = g(h x))",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ f : (A) -> C, ∀ g : (B) -> C, (∀ x : A, P(x) → (∃ y : B, g(y) == f(x))) == (∃ h : (A) -> B, ∀ x : A, P(x) → f(x) == g(h(x)))"),
       t442,
     ),
   )
@@ -7057,9 +6771,7 @@ fn step_254() -> Unit raise {
   )
   function_factors_right_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->C) (g:B->C). (forall x. ?y. g(y) = f(x)) <=> ?h. f = g o h",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> C, ∀ g : (B) -> C, (∀ x : A, ∃ y : B, g(y) == f(x)) == (∃ h : (A) -> B, f == o(g, h))"),
       t444,
     ),
   )
@@ -7114,9 +6826,7 @@ fn step_255() -> Unit raise {
   )
   surjective_forall_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B. (forall y. ?x. f x = y) <=> (forall P. (forall x. P(f x)) <=> (forall y. P y))",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, (∀ y : B, ∃ x : A, f(x) == y) == (∀ P : (B) -> Bool, (∀ x : A, P(f(x))) == (∀ y : B, P(y)))"),
       t450,
     ),
   )
@@ -7216,9 +6926,7 @@ fn step_256() -> Unit raise {
   )
   surjective_exists_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B. (forall y. ?x. f x = y) <=> (forall P. (?x. P(f x)) <=> (?y. P y))",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, (∀ y : B, ∃ x : A, f(x) == y) == (∀ P : (B) -> Bool, (∃ x : A, P(f(x))) == (∃ y : B, P(y)))"),
       t460,
     ),
   )
@@ -7328,9 +7036,7 @@ fn step_257() -> Unit raise {
   )
   surjective_image_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B. (forall y. ?x. f x = y) <=> (forall P. IMAGE f {x | P(f x)} = {x | P x})",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, (∀ y : B, ∃ x : A, f(x) == y) == (∀ P : (B) -> Bool, IMAGE(f, {(x : A) | P(f(x))}) == {(x : B) | P(x)})"),
       t469,
     ),
   )
@@ -7366,9 +7072,7 @@ fn step_258() -> Unit raise {
     t473,
   ])
   let t470 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?g. forall y. y IN IMAGE (f:A->B) s ==> g(y) IN s /\\ f(g(y)) = y",
-    ),
+    @term_syntax.parse_term("∃ g : (B) -> A, ∀ y : B, IN(y, IMAGE((f : (A) -> B), (s : (A) -> Bool))) → IN(g(y), s) && f(g(y)) == y"),
     @tactics.strip_assume_tac,
   )
   let t475 = @tactics.thenl(
@@ -7377,9 +7081,7 @@ fn step_258() -> Unit raise {
   )
   image_injective_image_of_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s.\n     ?t. t SUBSET s /\\\n         IMAGE f s = IMAGE f t /\\\n         (forall x y. x IN t /\\ y IN t /\\ f x = f y ==> x = y)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∃ t : (A) -> Bool, SUBSET(t, s) && IMAGE(f, s) == IMAGE(f, t) && (∀ x : A, ∀ y : A, IN(x, t) && IN(y, t) && f(x) == f(y) → x == y)"),
       t475,
     ),
   )
@@ -7629,9 +7331,7 @@ fn step_261() -> Unit raise {
   let t505 = @meson.meson_tac(@list.List([subset_restrict(), finite_subset()]))
   finite_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool P. FINITE s ==> FINITE {x | x IN s /\\ P x}",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ P : (A) -> Bool, FINITE(s) → FINITE({(x : A) | IN(x, s) && P(x)})"),
       t505,
     ),
   )
@@ -7701,9 +7401,7 @@ fn step_262() -> Unit raise {
   )
   finite_union_imp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) t. FINITE s /\\ FINITE t ==> FINITE (s UNION t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, FINITE(s) && FINITE(t) → FINITE(UNION(s, t))"),
       t514,
     ),
   )
@@ -7747,9 +7445,7 @@ fn step_263() -> Unit raise {
   )
   finite_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) t. FINITE(s UNION t) <=> FINITE(s) /\\ FINITE(t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, FINITE(UNION(s, t)) == (FINITE(s) && FINITE(t))"),
       t521,
     ),
   )
@@ -7770,9 +7466,7 @@ fn step_264() -> Unit raise {
   let t522 = @meson.meson_tac(@list.List([inter_subset(), finite_subset()]))
   finite_inter_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) t. FINITE s \\/ FINITE t ==> FINITE (s INTER t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, FINITE(s) || FINITE(t) → FINITE(INTER(s, t))"),
       t522,
     ),
   )
@@ -8119,9 +7813,7 @@ fn step_269() -> Unit raise {
   )
   finite_finite_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:(A->bool)->bool.\n        FINITE(s) ==> (FINITE(UNIONS s) <=> (forall t. t IN s ==> FINITE(t)))",
-      ),
+      @term_syntax.parse_term("∀ s : ((A) -> Bool) -> Bool, FINITE(s) → FINITE(UNIONS(s)) == (∀ t : (A) -> Bool, IN(t, s) → FINITE(t))"),
       t565,
     ),
   )
@@ -8161,9 +7853,7 @@ fn step_270() -> Unit raise {
     t572,
   ])
   let t570 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "{y | ?z. z IN (x INSERT s) /\\ (y = (f:A->B) z)} =\n                {y | ?z. z IN s /\\ (y = f z)} UNION {(f x)}",
-    ),
+    @term_syntax.parse_term("{(y : B) | ∃ z : A, IN(z, INSERT((x : A), (s : (A) -> Bool))) && y == (f : (A) -> B)(z)} == UNION({(y : B) | ∃ z : A, IN(z, s) && y == f(z)}, {f(x)})"),
     fn(
       x568 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -8215,9 +7905,7 @@ fn step_270() -> Unit raise {
   )
   finite_image_expand_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s. FINITE s ==> FINITE {y | ?x. x IN s /\\ (y = f x)}",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, FINITE(s) → FINITE({(y : B) | ∃ x : A, IN(x, s) && y == f(x)})"),
       t574,
     ),
   )
@@ -8360,9 +8048,7 @@ fn step_272() -> Unit raise {
   )
   finite_image_inj_general_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) A s.\n        (forall x y. x IN s /\\ y IN s /\\ f(x) = f(y) ==> x = y) /\\\n        FINITE A\n        ==> FINITE {x | x IN s /\\ f(x) IN A}",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ A : (B) -> Bool, ∀ s : (A) -> Bool, (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) && FINITE(A) → FINITE({(x : A) | IN(x, s) && IN(f(x), A)})"),
       t590,
     ),
   )
@@ -8409,9 +8095,7 @@ fn step_273() -> Unit raise {
     t599,
   ])
   let t594 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "{x | x IN s /\\ (f:A->B)(x) IN t} =\n    UNIONS (IMAGE (\\a. {x | x IN s /\\ f x = a}) t)",
-    ),
+    @term_syntax.parse_term("{(x : A) | IN(x, (s : (A) -> Bool)) && IN((f : (A) -> B)(x), (t : (B) -> Bool))} == UNIONS(IMAGE((a : B) => {(x : A) | IN(x, s) && f(x) == a}, t))"),
     fn(
       x591 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -8465,9 +8149,7 @@ fn step_273() -> Unit raise {
   )
   finite_finite_preimage_general_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s t.\n        FINITE t /\\\n        (forall y. y IN t ==> FINITE {x | x IN s /\\ f(x) = y})\n        ==> FINITE {x | x IN s /\\ f(x) IN t}",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (B) -> Bool, FINITE(t) && (∀ y : B, IN(y, t) → FINITE({(x : A) | IN(x, s) && f(x) == y})) → FINITE({(x : A) | IN(x, s) && IN(f(x), t)})"),
       t601,
     ),
   )
@@ -8502,9 +8184,7 @@ fn step_274() -> Unit raise {
   )
   finite_finite_preimage_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B t.\n        FINITE t /\\\n        (forall y. y IN t ==> FINITE {x | f(x) = y})\n        ==> FINITE {x | f(x) IN t}",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ t : (B) -> Bool, FINITE(t) && (∀ y : B, IN(y, t) → FINITE({(x : A) | f(x) == y})) → FINITE({(x : A) | IN(f(x), t)})"),
       t606,
     ),
   )
@@ -8670,9 +8350,7 @@ fn step_275() -> Unit raise {
   )
   finite_image_inj_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s.\n        (forall x y. x IN s /\\ y IN s /\\ f(x) = f(y) ==> x = y)\n        ==> (FINITE(IMAGE f s) <=> FINITE s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) → FINITE(IMAGE(f, s)) == FINITE(s)"),
       t621,
     ),
   )
@@ -8707,9 +8385,7 @@ fn step_276() -> Unit raise {
   )
   finite_image_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) A.\n        (forall x y. f(x) = f(y) ==> x = y) /\\ FINITE A\n        ==> FINITE {x | f(x) IN A}",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ A : (B) -> Bool, (∀ x : A, ∀ y : A, f(x) == f(y) → x == y) && FINITE(A) → FINITE({(x : A) | IN(f(x), A)})"),
       t626,
     ),
   )
@@ -8872,9 +8548,7 @@ fn step_277() -> Unit raise {
   )
   finite_image_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:A->C) s t.\n        IMAGE f s SUBSET t /\\ FINITE t /\\\n        (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> g x = g y)\n        ==> FINITE(IMAGE g s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (A) -> C, ∀ s : (A) -> Bool, ∀ t : (B) -> Bool, SUBSET(IMAGE(f, s), t) && FINITE(t) && (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → g(x) == g(y)) → FINITE(IMAGE(g, s))"),
       t643,
     ),
   )
@@ -8972,9 +8646,7 @@ fn step_278() -> Unit raise {
   )
   infinite_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s.\n        INFINITE s /\\ (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y)\n        ==> INFINITE (IMAGE f s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, INFINITE(s) && (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) → INFINITE(IMAGE(f, s))"),
       t656,
     ),
   )
@@ -8995,9 +8667,7 @@ fn step_279() -> Unit raise {
   let t657 = @meson.meson_tac(@list.List([infinite_image()]))
   infinite_image_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B. (forall x y. (f x = f y) ==> (x = y))\n            ==> forall s. INFINITE s ==> INFINITE(IMAGE f s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, (∀ x : A, ∀ y : A, f(x) == f(y) → x == y) → (∀ s : (A) -> Bool, INFINITE(s) → INFINITE(IMAGE(f, s)))"),
       t657,
     ),
   )
@@ -9071,9 +8741,7 @@ fn step_281() -> Unit raise {
   )
   infinite_diff_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool t. INFINITE(s) /\\ FINITE(t) ==> INFINITE(s DIFF t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, INFINITE(s) && FINITE(t) → INFINITE(DIFF(s, t))"),
       t665,
     ),
   )
@@ -9102,9 +8770,7 @@ fn step_282() -> Unit raise {
   let t673 = @simp.rewrite_tac(@list.List([surjective_on_right_inverse()]))
   let t670 = @drule.match_mp(
     set_rule(
-      @parser.parse_term(
-        "s SUBSET IMAGE f t ==> forall x. x IN s ==> ?y. y IN t /\\ f y = x",
-      ),
+      @term_syntax.parse_term("SUBSET((s : (_) -> Bool), IMAGE((f : (_) -> _), (t : (_) -> Bool))) → (∀ x : _, IN(x, s) → (∃ y : _, IN(y, t) && f(y) == x))"),
     ),
   )
   let t672 = @tactics.first_assum(fn(
@@ -9206,9 +8872,7 @@ fn step_282() -> Unit raise {
   )
   subset_image_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s t.\n        s SUBSET (IMAGE f t) <=>\n        ?u. u SUBSET t /\\\n            (forall x y. x IN u /\\ y IN u ==> (f x = f y <=> x = y)) /\\\n            s = IMAGE f u",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (B) -> Bool, ∀ t : (A) -> Bool, SUBSET(s, IMAGE(f, t)) == (∃ u : (A) -> Bool, SUBSET(u, t) && (∀ x : A, ∀ y : A, IN(x, u) && IN(y, u) → (f(x) == f(y)) == (x == y)) && s == IMAGE(f, u))"),
       t679,
     ),
   )
@@ -9253,9 +8917,7 @@ fn step_283() -> Unit raise {
   )
   subset_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s t. s SUBSET (IMAGE f t) <=> ?u. u SUBSET t /\\ (s = IMAGE f u)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (B) -> Bool, ∀ t : (A) -> Bool, SUBSET(s, IMAGE(f, t)) == (∃ u : (A) -> Bool, SUBSET(u, t) && s == IMAGE(f, u))"),
       t684,
     ),
   )
@@ -9280,9 +8942,7 @@ fn step_284() -> Unit raise {
   )
   exists_subset_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (f:A->B) s.\n    (?t. t SUBSET IMAGE f s /\\ P t) <=> (?t. t SUBSET s /\\ P (IMAGE f t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((B) -> Bool) -> Bool, ∀ f : (A) -> B, ∀ s : (A) -> Bool, (∃ t : (B) -> Bool, SUBSET(t, IMAGE(f, s)) && P(t)) == (∃ t : (A) -> Bool, SUBSET(t, s) && P(IMAGE(f, t)))"),
       t686,
     ),
   )
@@ -9309,9 +8969,7 @@ fn step_285() -> Unit raise {
   )
   forall_subset_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (f:A->B) s.\n        (forall t. t SUBSET IMAGE f s ==> P t) <=>\n        (forall t. t SUBSET s ==> P(IMAGE f t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((B) -> Bool) -> Bool, ∀ f : (A) -> B, ∀ s : (A) -> Bool, (∀ t : (B) -> Bool, SUBSET(t, IMAGE(f, s)) → P(t)) == (∀ t : (A) -> Bool, SUBSET(t, s) → P(IMAGE(f, t)))"),
       t688,
     ),
   )
@@ -9338,9 +8996,7 @@ fn step_286() -> Unit raise {
   )
   exists_subset_image_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (f:A->B) s.\n    (?t. t SUBSET IMAGE f s /\\ P t) <=>\n    (?t. t SUBSET s /\\\n         (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y)) /\\\n         P (IMAGE f t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((B) -> Bool) -> Bool, ∀ f : (A) -> B, ∀ s : (A) -> Bool, (∃ t : (B) -> Bool, SUBSET(t, IMAGE(f, s)) && P(t)) == (∃ t : (A) -> Bool, SUBSET(t, s) && (∀ x : A, ∀ y : A, IN(x, t) && IN(y, t) → (f(x) == f(y)) == (x == y)) && P(IMAGE(f, t)))"),
       t690,
     ),
   )
@@ -9381,9 +9037,7 @@ fn step_287() -> Unit raise {
   )
   forall_subset_image_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (f:A->B) s.\n        (forall t. t SUBSET IMAGE f s ==> P t) <=>\n        (forall t. t SUBSET s /\\\n             (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y))\n             ==> P(IMAGE f t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((B) -> Bool) -> Bool, ∀ f : (A) -> B, ∀ s : (A) -> Bool, (∀ t : (B) -> Bool, SUBSET(t, IMAGE(f, s)) → P(t)) == (∀ t : (A) -> Bool, SUBSET(t, s) && (∀ x : A, ∀ y : A, IN(x, t) && IN(y, t) → (f(x) == f(y)) == (x == y)) → P(IMAGE(f, t)))"),
       t693,
     ),
   )
@@ -9430,9 +9084,7 @@ fn step_288() -> Unit raise {
   )
   exists_finite_subset_image_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (f:A->B) s.\n    (?t. FINITE t /\\ t SUBSET IMAGE f s /\\ P t) <=>\n    (?t. FINITE t /\\ t SUBSET s /\\\n         (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y)) /\\\n         P (IMAGE f t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((B) -> Bool) -> Bool, ∀ f : (A) -> B, ∀ s : (A) -> Bool, (∃ t : (B) -> Bool, FINITE(t) && SUBSET(t, IMAGE(f, s)) && P(t)) == (∃ t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && (∀ x : A, ∀ y : A, IN(x, t) && IN(y, t) → (f(x) == f(y)) == (x == y)) && P(IMAGE(f, t)))"),
       t697,
     ),
   )
@@ -9473,9 +9125,7 @@ fn step_289() -> Unit raise {
   )
   forall_finite_subset_image_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (f:A->B) s.\n        (forall t. FINITE t /\\ t SUBSET IMAGE f s ==> P t) <=>\n        (forall t. FINITE t /\\ t SUBSET s /\\\n             (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y))\n             ==> P(IMAGE f t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((B) -> Bool) -> Bool, ∀ f : (A) -> B, ∀ s : (A) -> Bool, (∀ t : (B) -> Bool, FINITE(t) && SUBSET(t, IMAGE(f, s)) → P(t)) == (∀ t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && (∀ x : A, ∀ y : A, IN(x, t) && IN(y, t) → (f(x) == f(y)) == (x == y)) → P(IMAGE(f, t)))"),
       t700,
     ),
   )
@@ -9510,9 +9160,7 @@ fn step_290() -> Unit raise {
   )
   exists_finite_subset_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (f:A->B) s.\n    (?t. FINITE t /\\ t SUBSET IMAGE f s /\\ P t) <=>\n    (?t. FINITE t /\\ t SUBSET s /\\ P (IMAGE f t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((B) -> Bool) -> Bool, ∀ f : (A) -> B, ∀ s : (A) -> Bool, (∃ t : (B) -> Bool, FINITE(t) && SUBSET(t, IMAGE(f, s)) && P(t)) == (∃ t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && P(IMAGE(f, t)))"),
       t704,
     ),
   )
@@ -9553,9 +9201,7 @@ fn step_291() -> Unit raise {
   )
   forall_finite_subset_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (f:A->B) s.\n        (forall t. FINITE t /\\ t SUBSET IMAGE f s ==> P t) <=>\n        (forall t. FINITE t /\\ t SUBSET s ==> P(IMAGE f t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((B) -> Bool) -> Bool, ∀ f : (A) -> B, ∀ s : (A) -> Bool, (∀ t : (B) -> Bool, FINITE(t) && SUBSET(t, IMAGE(f, s)) → P(t)) == (∀ t : (A) -> Bool, FINITE(t) && SUBSET(t, s) → P(IMAGE(f, t)))"),
       t707,
     ),
   )
@@ -9601,9 +9247,7 @@ fn step_292() -> Unit raise {
   )
   finite_subset_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s t.\n        FINITE(t) /\\ t SUBSET (IMAGE f s) <=>\n        ?s'. FINITE s' /\\ s' SUBSET s /\\ (t = IMAGE f s')",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (B) -> Bool, (FINITE(t) && SUBSET(t, IMAGE(f, s))) == (∃ s' : (A) -> Bool, FINITE(s') && SUBSET(s', s) && t == IMAGE(f, s'))"),
       t713,
     ),
   )
@@ -9628,9 +9272,7 @@ fn step_293() -> Unit raise {
   )
   finite_subset_image_imp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s t.\n        FINITE(t) /\\ t SUBSET (IMAGE f s)\n        ==> ?s'. FINITE s' /\\ s' SUBSET s /\\ t SUBSET (IMAGE f s')",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (B) -> Bool, FINITE(t) && SUBSET(t, IMAGE(f, s)) → (∃ s' : (A) -> Bool, FINITE(s') && SUBSET(s', s) && SUBSET(t, IMAGE(f, s')))"),
       t714,
     ),
   )
@@ -9655,9 +9297,7 @@ fn step_294() -> Unit raise {
   )
   finite_image_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s. FINITE(IMAGE f s) <=>\n                ?t. FINITE t /\\ t SUBSET s /\\ IMAGE f s = IMAGE f t",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, FINITE(IMAGE(f, s)) == (∃ t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && IMAGE(f, s) == IMAGE(f, t))"),
       t715,
     ),
   )
@@ -9716,9 +9356,7 @@ fn step_295() -> Unit raise {
   )
   finite_image_eq_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s. FINITE(IMAGE f s) <=>\n                ?t. FINITE t /\\ t SUBSET s /\\ IMAGE f s = IMAGE f t /\\\n                    (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y))",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, FINITE(IMAGE(f, s)) == (∃ t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && IMAGE(f, s) == IMAGE(f, t) && (∀ x : A, ∀ y : A, IN(x, t) && IN(y, t) → (f(x) == f(y)) == (x == y)))"),
       t723,
     ),
   )
@@ -9766,9 +9404,7 @@ fn step_297() -> Unit raise {
   )
   infinite_superset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:A->bool. INFINITE s /\\ s SUBSET t ==> INFINITE t",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, INFINITE(s) && SUBSET(s, t) → INFINITE(t)"),
       t726,
     ),
   )
@@ -9806,9 +9442,7 @@ fn step_298() -> Unit raise {
   )
   finite_transitivity_chain_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R s:A->bool.\n        FINITE s /\\\n        (forall x. ~(R x x)) /\\\n        (forall x y z. R x y /\\ R y z ==> R x z) /\\\n        (forall x. x IN s ==> ?y. y IN s /\\ R x y)\n        ==> s = {}",
-      ),
+      @term_syntax.parse_term("∀ R : (A, A) -> Bool, ∀ s : (A) -> Bool, FINITE(s) && (∀ x : A, !R(x, x)) && (∀ x : A, ∀ y : A, ∀ z : A, R(x, y) && R(y, z) → R(x, z)) && (∀ x : A, IN(x, s) → (∃ y : A, IN(y, s) && R(x, y))) → s == {}"),
       t730,
     ),
   )
@@ -9910,9 +9544,7 @@ fn step_299() -> Unit raise {
   )
   unions_maximal_sets_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f. FINITE f\n       ==> UNIONS {t:A->bool | t IN f /\\ forall u. u IN f ==> ~(t PSUBSET u)} =\n           UNIONS f",
-      ),
+      @term_syntax.parse_term("∀ f : ((A) -> Bool) -> Bool, FINITE(f) → UNIONS({(t : (A) -> Bool) | IN(t, f) && (∀ u : (A) -> Bool, IN(u, f) → !PSUBSET(t, u))}) == UNIONS(f)"),
       t745,
     ),
   )
@@ -10059,9 +9691,7 @@ fn step_300() -> Unit raise {
   )
   finite_subset_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s:A->bool.\n        FINITE s /\\ s SUBSET UNIONS f\n        ==> ?f'. FINITE f' /\\ f' SUBSET f /\\ s SUBSET UNIONS f'",
-      ),
+      @term_syntax.parse_term("∀ f : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, FINITE(s) && SUBSET(s, UNIONS(f)) → (∃ f' : ((A) -> Bool) -> Bool, FINITE(f') && SUBSET(f', f) && SUBSET(s, UNIONS(f')))"),
       t766,
     ),
   )
@@ -10085,9 +9715,7 @@ fn step_301() -> Unit raise {
   let t778 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([]),
-      @parser.parse_term(
-        "s UNION t = s \\/ s UNION t = t\n    ==> t IN f ==> s UNION t = s \\/ s UNION t IN f",
-      ),
+      @term_syntax.parse_term("UNION((s : (_) -> Bool), (t : (_) -> Bool)) == s || UNION(s, t) == t → IN(t, (f : ((_) -> Bool) -> Bool)) → UNION(s, t) == s || IN(UNION(s, t), f)"),
     ),
   )
   let t777 = @simp.asm_rewrite_tac(@list.List([]))
@@ -10174,9 +9802,7 @@ fn step_301() -> Unit raise {
   )
   unions_in_chain_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:(A->bool)->bool.\n        FINITE f /\\ ~(f = {}) /\\\n        (forall s t. s IN f /\\ t IN f ==> s SUBSET t \\/ t SUBSET s)\n        ==> UNIONS f IN f",
-      ),
+      @term_syntax.parse_term("∀ f : ((A) -> Bool) -> Bool, FINITE(f) && !(f == {}) && (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, IN(s, f) && IN(t, f) → SUBSET(s, t) || SUBSET(t, s)) → IN(UNIONS(f), f)"),
       t780,
     ),
   )
@@ -10200,9 +9826,7 @@ fn step_302() -> Unit raise {
   let t792 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([]),
-      @parser.parse_term(
-        "s INTER t = s \\/ s INTER t = t\n    ==> t IN f ==> s INTER t = s \\/ s INTER t IN f",
-      ),
+      @term_syntax.parse_term("INTER((s : (_) -> Bool), (t : (_) -> Bool)) == s || INTER(s, t) == t → IN(t, (f : ((_) -> Bool) -> Bool)) → INTER(s, t) == s || IN(INTER(s, t), f)"),
     ),
   )
   let t791 = @simp.asm_rewrite_tac(@list.List([]))
@@ -10289,9 +9913,7 @@ fn step_302() -> Unit raise {
   )
   inters_in_chain_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:(A->bool)->bool.\n        FINITE f /\\ ~(f = {}) /\\\n        (forall s t. s IN f /\\ t IN f ==> s SUBSET t \\/ t SUBSET s)\n        ==> INTERS f IN f",
-      ),
+      @term_syntax.parse_term("∀ f : ((A) -> Bool) -> Bool, FINITE(f) && !(f == {}) && (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, IN(s, f) && IN(t, f) → SUBSET(s, t) || SUBSET(t, s)) → IN(INTERS(f), f)"),
       t794,
     ),
   )
@@ -10338,9 +9960,7 @@ fn step_303() -> Unit raise {
   )
   finite_subset_unions_directed_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s:A->bool.\n        ~(f = {}) /\\\n        (forall t u. t IN f /\\ u IN f\n               ==> ?v. v IN f /\\ t SUBSET v /\\ u SUBSET v) /\\\n        FINITE s\n        ==> (s SUBSET UNIONS f <=> ?t. t IN f /\\ s SUBSET t)",
-      ),
+      @term_syntax.parse_term("∀ f : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, !(f == {}) && (∀ t : (A) -> Bool, ∀ u : (A) -> Bool, IN(t, f) && IN(u, f) → (∃ v : (A) -> Bool, IN(v, f) && SUBSET(t, v) && SUBSET(u, v))) && FINITE(s) → SUBSET(s, UNIONS(f)) == (∃ t : (A) -> Bool, IN(t, f) && SUBSET(s, t))"),
       t799,
     ),
   )
@@ -10395,9 +10015,7 @@ fn step_304() -> Unit raise {
         @tactics.prove(x800.0, x800.1)
       },
       (
-        @parser.parse_term(
-          "forall f s:A->bool.\n        ~(f = {}) /\\\n        (forall t u. t IN f /\\ u IN f ==> t SUBSET u \\/ u SUBSET t) /\\\n        FINITE s\n        ==> (s SUBSET UNIONS f <=> ?t. t IN f /\\ s SUBSET t)",
-        ),
+        @term_syntax.parse_term("∀ f : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, !(f == {}) && (∀ t : (A) -> Bool, ∀ u : (A) -> Bool, IN(t, f) && IN(u, f) → SUBSET(t, u) || SUBSET(u, t)) && FINITE(s) → SUBSET(s, UNIONS(f)) == (∃ t : (A) -> Bool, IN(t, f) && SUBSET(s, t))"),
         t803,
       ),
     ),
@@ -10421,9 +10039,7 @@ fn step_305() -> Unit raise {
   let t804 = @meson.meson_tac(@list.List([finite_subset_unions_chain_eq()]))
   finite_subset_unions_chain_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s:A->bool.\n        FINITE s /\\ s SUBSET UNIONS f /\\ ~(f = {}) /\\\n        (forall t u. t IN f /\\ u IN f ==> t SUBSET u \\/ u SUBSET t)\n        ==> ?t. t IN f /\\ s SUBSET t",
-      ),
+      @term_syntax.parse_term("∀ f : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, FINITE(s) && SUBSET(s, UNIONS(f)) && !(f == {}) && (∀ t : (A) -> Bool, ∀ u : (A) -> Bool, IN(t, f) && IN(u, f) → SUBSET(t, u) || SUBSET(u, t)) → (∃ t : (A) -> Bool, IN(t, f) && SUBSET(s, t))"),
       t804,
     ),
   )
@@ -10443,9 +10059,7 @@ pub fn finite_subset_unions_chain() -> @kernel.Thm {
 ///|
 /// FINREC
 fn step_306() -> Unit raise {
-  let t805 = @parser.parse_term(
-    "(FINREC (f:A->B->B) b s a 0 <=> (s = {}) /\\ (a = b)) /\\\n   (FINREC (f:A->B->B) b s a (SUC n) <=>\n                ?x c. x IN s /\\\n                      FINREC f b (s DELETE x) c n  /\\\n                      (a = f x c))",
-  )
+  let t805 = @term_syntax.parse_term("(FINREC : ((A, B) -> B, B, (A) -> Bool, B, Num) -> Bool)((f : (A, B) -> B), (b : B), (s : (A) -> Bool), (a : B), 0) == (s == {} && a == b) && FINREC(f, b, s, a, SUC((n : Num))) == (∃ x : A, ∃ c : B, IN(x, s) && FINREC(f, b, DELETE(s, x), c, n) && a == f(x, c))")
   finrec_c.set(@recursion.new_recursive_definition(@nums.num_recursion())(t805))
 }
 
@@ -10475,9 +10089,7 @@ fn step_307() -> Unit raise {
   )
   finrec_1_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B->B) b s a. FINREC f b s a (SUC 0) <=> ?x. s = {x} /\\ a = f x b",
-      ),
+      @term_syntax.parse_term("∀ f : (A, B) -> B, ∀ b : B, ∀ s : (A) -> Bool, ∀ a : B, FINREC(f, b, s, a, SUC(0)) == (∃ x : A, s == {x} && a == f(x, b))"),
       t808,
     ),
   )
@@ -10651,9 +10263,7 @@ fn step_308() -> Unit raise {
             @tactics.then_tac(
               @tactics.then_tac(
                 @tactics.undisch_tac(
-                  @parser.parse_term(
-                    "FINREC (f:A->B->B) b (s DELETE y) c (SUC n)",
-                  ),
+                  @term_syntax.parse_term("FINREC((f : (A, B) -> B), (b : B), DELETE((s : (A) -> Bool), (y : A)), (c : B), SUC((n : Num)))"),
                 ),
                 t839,
               ),
@@ -10854,9 +10464,7 @@ fn step_308() -> Unit raise {
   )
   finrec_suc_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B->B) b.\n         (forall x y s. ~(x = y) ==> (f x (f y s) = f y (f x s)))\n         ==> forall n s z.\n                FINREC f b s z (SUC n)\n                ==> forall x. x IN s ==> ?w. FINREC f b (s DELETE x) w n /\\\n                                       (z = f x w)",
-      ),
+      @term_syntax.parse_term("∀ f : (A, B) -> B, ∀ b : B, (∀ x : A, ∀ y : A, ∀ s : B, !(x == y) → f(x, f(y, s)) == f(y, f(x, s))) → (∀ n : Num, ∀ s : (A) -> Bool, ∀ z : B, FINREC(f, b, s, z, SUC(n)) → (∀ x : A, IN(x, s) → (∃ w : B, FINREC(f, b, DELETE(s, x), w, n) && z == f(x, w))))"),
       t857,
     ),
   )
@@ -11044,9 +10652,7 @@ fn step_309() -> Unit raise {
   )
   finrec_unique_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B->B) b.\n         (forall x y s. ~(x = y) ==> (f x (f y s) = f y (f x s)))\n         ==> forall n1 n2 s a1 a2.\n                FINREC f b s a1 n1 /\\ FINREC f b s a2 n2\n                ==> (a1 = a2) /\\ (n1 = n2)",
-      ),
+      @term_syntax.parse_term("∀ f : (A, B) -> B, ∀ b : B, (∀ x : A, ∀ y : A, ∀ s : B, !(x == y) → f(x, f(y, s)) == f(y, f(x, s))) → (∀ n1 : Num, ∀ n2 : Num, ∀ s : (A) -> Bool, ∀ a1 : B, ∀ a2 : B, FINREC(f, b, s, a1, n1) && FINREC(f, b, s, a2, n2) → a1 == a2 && n1 == n2)"),
       t879,
     ),
   )
@@ -11276,9 +10882,7 @@ fn step_310() -> Unit raise {
   )
   finrec_exists_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B->B) b s. FINITE s ==> ?a n. FINREC f b s a n",
-      ),
+      @term_syntax.parse_term("∀ f : (A, B) -> B, ∀ b : B, ∀ s : (A) -> Bool, FINITE(s) → (∃ a : B, ∃ n : Num, FINREC(f, b, s, a, n))"),
       t903,
     ),
   )
@@ -11404,9 +11008,7 @@ fn step_311() -> Unit raise {
   )
   finrec_fun_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (R:A->B->C->bool).\n       (forall s. P s ==> ?a n. R s a n) /\\\n       (forall n1 n2 s a1 a2. R s a1 n1 /\\ R s a2 n2 ==> (a1 = a2) /\\ (n1 = n2))\n       ==> ?f. forall s a. P s ==> ((?n. R s a n) <=> (f s = a))",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ R : (A, B, C) -> Bool, (∀ s : A, P(s) → (∃ a : B, ∃ n : C, R(s, a, n))) && (∀ n1 : C, ∀ n2 : C, ∀ s : A, ∀ a1 : B, ∀ a2 : B, R(s, a1, n1) && R(s, a2, n2) → a1 == a2 && n1 == n2) → (∃ f : (A) -> B, ∀ s : A, ∀ a : B, P(s) → (∃ n : C, R(s, a, n)) == (f(s) == a))"),
       t915,
     ),
   )
@@ -12382,9 +11984,7 @@ fn step_312() -> Unit raise {
   )
   finrec_fun_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B->B) b.\n        (forall x y s. ~(x = y) ==> (f x (f y s) = f y (f x s)))\n        ==> ?g. (g {} = b) /\\\n                forall s x. FINITE s /\\ x IN s\n                      ==> (g s = f x (g (s DELETE x)))",
-      ),
+      @term_syntax.parse_term("∀ f : (A, B) -> B, ∀ b : B, (∀ x : A, ∀ y : A, ∀ s : B, !(x == y) → f(x, f(y, s)) == f(y, f(x, s))) → (∃ g : ((A) -> Bool) -> B, g({}) == b && (∀ s : (A) -> Bool, ∀ x : A, FINITE(s) && IN(x, s) → g(s) == f(x, g(DELETE(s, x)))))"),
       t1017,
     ),
   )
@@ -12661,9 +12261,7 @@ fn step_313() -> Unit raise {
   )
   set_recursion_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B->B) b.\n        (forall x y s. ~(x = y) ==> (f x (f y s) = f y (f x s)))\n        ==> ?g. (g {} = b) /\\\n                forall x s. FINITE s\n                      ==> (g (x INSERT s) =\n                                if x IN s then g s else f x (g s))",
-      ),
+      @term_syntax.parse_term("∀ f : (A, B) -> B, ∀ b : B, (∀ x : A, ∀ y : A, ∀ s : B, !(x == y) → f(x, f(y, s)) == f(y, f(x, s))) → (∃ g : ((A) -> Bool) -> B, g({}) == b && (∀ x : A, ∀ s : (A) -> Bool, FINITE(s) → g(INSERT(x, s)) == (if IN(x, s) { g(s) } else { f(x, g(s)) })))"),
       t1047,
     ),
   )
@@ -12685,9 +12283,7 @@ pub fn set_recursion_lemma() -> @kernel.Thm {
 fn step_314() -> Unit raise {
   itset_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "ITSET (f:A->B->B) s b =\n        (@g. (g {} = b) /\\\n             forall x s. FINITE s\n                   ==> (g (x INSERT s) = if x IN s then g s else f x (g s)))\n        s",
-      ),
+      @term_syntax.parse_term("(ITSET : ((A, B) -> B, (A) -> Bool, B) -> B)((f : (A, B) -> B), (s : (A) -> Bool), (b : B)) == select((g : ((A) -> Bool) -> B) => g({}) == b && (∀ x : A, ∀ s : (A) -> Bool, FINITE(s) → g(INSERT(x, s)) == (if IN(x, s) { g(s) } else { f(x, g(s)) })), s)"),
     ),
   )
 }
@@ -12726,9 +12322,7 @@ fn step_315() -> Unit raise {
   )
   finite_recursion_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B->B) b.\n        (forall x y s. ~(x = y) ==> (f x (f y s) = f y (f x s)))\n        ==> (ITSET f {} b = b) /\\\n            forall x s. FINITE s\n                  ==> (ITSET f (x INSERT s) b =\n                       if x IN s then ITSET f s b\n                                 else f x (ITSET f s b))",
-      ),
+      @term_syntax.parse_term("∀ f : (A, B) -> B, ∀ b : B, (∀ x : A, ∀ y : A, ∀ s : B, !(x == y) → f(x, f(y, s)) == f(y, f(x, s))) → ITSET(f, {}, b) == b && (∀ x : A, ∀ s : (A) -> Bool, FINITE(s) → ITSET(f, INSERT(x, s), b) == (if IN(x, s) { ITSET(f, s, b) } else { f(x, ITSET(f, s, b)) }))"),
       t1052,
     ),
   )
@@ -13195,9 +12789,7 @@ fn step_316() -> Unit raise {
   )
   finite_recursion_delete_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B->B) b.\n        (forall x y s. ~(x = y) ==> (f x (f y s) = f y (f x s)))\n        ==> (ITSET f {} b = b) /\\\n            forall x s. FINITE s\n                  ==> (ITSET f s b =\n                       if x IN s then f x (ITSET f (s DELETE x) b)\n                                 else ITSET f (s DELETE x) b)",
-      ),
+      @term_syntax.parse_term("∀ f : (A, B) -> B, ∀ b : B, (∀ x : A, ∀ y : A, ∀ s : B, !(x == y) → f(x, f(y, s)) == f(y, f(x, s))) → ITSET(f, {}, b) == b && (∀ x : A, ∀ s : (A) -> Bool, FINITE(s) → ITSET(f, s, b) == (if IN(x, s) { f(x, ITSET(f, DELETE(s, x), b)) } else { ITSET(f, DELETE(s, x), b) }))"),
       t1099,
     ),
   )
@@ -13272,9 +12864,7 @@ fn step_317() -> Unit raise {
   )
   itset_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (f:A->B->B) g b.\n        FINITE(s) /\\ (forall x. x IN s ==> (f x = g x)) /\\\n        (forall x y s. ~(x = y) ==> (f x (f y s) = f y (f x s))) /\\\n        (forall x y s. ~(x = y) ==> (g x (g y s) = g y (g x s)))\n        ==> (ITSET f s b = ITSET g s b)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ f : (A, B) -> B, ∀ g : (A, B) -> B, ∀ b : B, FINITE(s) && (∀ x : A, IN(x, s) → f(x) == g(x)) && (∀ x : A, ∀ y : A, ∀ s : B, !(x == y) → f(x, f(y, s)) == f(y, f(x, s))) && (∀ x : A, ∀ y : A, ∀ s : B, !(x == y) → g(x, g(y, s)) == g(y, g(x, s))) → ITSET(f, s, b) == ITSET(g, s, b)"),
       t1108,
     ),
   )
@@ -13324,9 +12914,7 @@ fn step_319() -> Unit raise {
   )
   card_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(CARD ({}:A->bool) = 0) /\\\n   (forall(x:A) s. FINITE s ==>\n                 (CARD (x INSERT s) =\n                      if x IN s then CARD s else SUC(CARD s)))",
-      ),
+      @term_syntax.parse_term("(CARD : ((A) -> Bool) -> Num)(({} : (A) -> Bool)) == 0 && (∀ x : A, ∀ s : (A) -> Bool, (FINITE : ((A) -> Bool) -> Bool)(s) → (CARD : ((A) -> Bool) -> Num)((INSERT : (A, (A) -> Bool, A) -> Bool)(x, s)) == (if (IN : (A, (A) -> Bool) -> Bool)(x, s) { (CARD : ((A) -> Bool) -> Num)(s) } else { SUC((CARD : ((A) -> Bool) -> Num)(s)) }))"),
       t1111,
     ),
   )
@@ -13543,9 +13131,7 @@ fn step_320() -> Unit raise {
                                       @simp.rewrite_tac(
                                         @list.List([
                                           @class.taut(
-                                            @parser.parse_term(
-                                              "a /\\ b /\\ c ==> d <=> a ==> b /\\ c ==> d",
-                                            ),
+                                            @term_syntax.parse_term("((a : Bool) && (b : Bool) && (c : Bool) → (d : Bool)) == (a → b && c → d)"),
                                           ),
                                         ]),
                                       ),
@@ -13587,9 +13173,7 @@ fn step_320() -> Unit raise {
   )
   card_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) t. FINITE(s) /\\ FINITE(t) /\\ (s INTER t = EMPTY)\n         ==> (CARD (s UNION t) = CARD s + CARD t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, FINITE(s) && FINITE(t) && INTER(s, t) == {} → CARD(UNION(s, t)) == CARD(s) + CARD(t)"),
       t1148,
     ),
   )
@@ -13692,9 +13276,7 @@ fn step_321() -> Unit raise {
   )
   card_delete_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A s. FINITE(s)\n           ==> (CARD(s DELETE x) = if x IN s then CARD(s) - 1 else CARD(s))",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ s : (A) -> Bool, FINITE(s) → CARD(DELETE(s, x)) == (if IN(x, s) { CARD(s) - 1 } else { CARD(s) })"),
       t1164,
     ),
   )
@@ -13717,9 +13299,7 @@ fn step_322() -> Unit raise {
   )
   card_union_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t u:A->bool.\n        FINITE u /\\ s INTER t = {} /\\ s UNION t = u\n        ==> (CARD s + CARD t = CARD u)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (A) -> Bool, FINITE(u) && INTER(s, t) == {} && UNION(s, t) == u → CARD(s) + CARD(t) == CARD(u)"),
       t1165,
     ),
   )
@@ -13755,9 +13335,7 @@ fn step_323() -> Unit raise {
   )
   card_diff_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:A->bool. FINITE s /\\ t SUBSET s ==> CARD(s DIFF t) = CARD s - CARD t",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, FINITE(s) && SUBSET(t, s) → CARD(DIFF(s, t)) == CARD(s) - CARD(t)"),
       t1170,
     ),
   )
@@ -14136,9 +13714,7 @@ fn step_329() -> Unit raise {
     })(((x1188 : @kernel.Thm) => @bool.spec(t1187, x1188))(x1189))
   })
   let t1183 = @tactics.undisch_tac(
-    @parser.parse_term(
-      "forall s. FINITE s /\\ ~(s = {}) ==> ?x:A. x IN s /\\ (P(s DELETE x) ==> P s)",
-    ),
+    @term_syntax.parse_term("∀ s : (A) -> Bool, FINITE(s) && !(s == {}) → (∃ x : A, IN(x, s) && ((P : ((A) -> Bool) -> Bool)(DELETE(s, x)) → P(s)))"),
   )
   let t1182 = @simp.asm_rewrite_tac(@list.List([]))
   let t1181 = @class.asm_cases_tac(@term_syntax.parse_term("(s : (A) -> Bool) == {}"))
@@ -14179,9 +13755,7 @@ fn step_329() -> Unit raise {
   )
   finite_induct_delete_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. P {} /\\\n       (forall s. FINITE s /\\ ~(s = {}) ==> ?x. x IN s /\\ (P(s DELETE x) ==> P s))\n       ==> forall s:A->bool. FINITE s ==> P s",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, P({}) && (∀ s : (A) -> Bool, FINITE(s) && !(s == {}) → (∃ x : A, IN(x, s) && (P(DELETE(s, x)) → P(s)))) → (∀ s : (A) -> Bool, FINITE(s) → P(s))"),
       t1205,
     ),
   )
@@ -14753,9 +14327,7 @@ fn step_333() -> Unit raise {
   )
   has_size_suc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) n. s HAS_SIZE (SUC n) <=>\n                   ~(s = {}) /\\ forall a. a IN s ==> (s DELETE a) HAS_SIZE n",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ n : Num, HAS_SIZE(s, SUC(n)) == (!(s == {}) && (∀ a : A, IN(a, s) → HAS_SIZE(DELETE(s, a), n)))"),
       t1269,
     ),
   )
@@ -14778,9 +14350,7 @@ fn step_334() -> Unit raise {
   )
   has_size_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) t m n.\n        s HAS_SIZE m /\\ t HAS_SIZE n /\\ DISJOINT s t\n        ==> (s UNION t) HAS_SIZE (m + n)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ m : Num, ∀ n : Num, HAS_SIZE(s, m) && HAS_SIZE(t, n) && DISJOINT(s, t) → HAS_SIZE(UNION(s, t), m + n)"),
       t1270,
     ),
   )
@@ -14803,9 +14373,7 @@ fn step_335() -> Unit raise {
   )
   has_size_diff_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) t m n.\n        s HAS_SIZE m /\\ t HAS_SIZE n /\\ t SUBSET s\n        ==> (s DIFF t) HAS_SIZE (m - n)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ m : Num, ∀ n : Num, HAS_SIZE(s, m) && HAS_SIZE(t, n) && SUBSET(t, s) → HAS_SIZE(DIFF(s, t), m - n)"),
       t1271,
     ),
   )
@@ -14830,9 +14398,7 @@ fn step_336() -> Unit raise {
   let t1310 = @simp.rewrite_tac(
     @list.List([
       set_rule(
-        @parser.parse_term(
-          "DISJOINT a (UNIONS s) <=> forall x. x IN s ==> DISJOINT a x",
-        ),
+        @term_syntax.parse_term("DISJOINT((a : (_) -> Bool), UNIONS((s : ((_) -> Bool) -> Bool))) == (∀ x : (_) -> Bool, IN(x, s) → DISJOINT(a, x))"),
       ),
     ]),
   )
@@ -14844,9 +14410,7 @@ fn step_336() -> Unit raise {
   let t1306 = @simp.rewrite_tac(
     @list.List([
       set_rule(
-        @parser.parse_term(
-          "UNIONS {t y | y IN x INSERT s} = t x UNION UNIONS {t y | y IN s}",
-        ),
+        @term_syntax.parse_term("UNIONS({(t : (_, _) -> Bool)((y : _)) | IN(y, INSERT((x : _), (s : (_) -> Bool)))}) == UNION(t(x), UNIONS({t((y : _)) | IN(y, s)}))"),
       ),
     ]),
   )
@@ -15158,9 +14722,7 @@ fn step_336() -> Unit raise {
   )
   has_size_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:A->B->bool m n.\n        s HAS_SIZE m /\\\n        (forall x. x IN s ==> t(x) HAS_SIZE n) /\\\n        (forall x y. x IN s /\\ y IN s /\\ ~(x = y) ==> DISJOINT (t x) (t y))\n        ==> UNIONS {t(x) | x IN s} HAS_SIZE (m * n)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A, B) -> Bool, ∀ m : Num, ∀ n : Num, HAS_SIZE(s, m) && (∀ x : A, IN(x, s) → HAS_SIZE(t(x), n)) && (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && !(x == y) → DISJOINT(t(x), t(y))) → HAS_SIZE(UNIONS({t((x : A)) | IN(x, s)}), m * n)"),
       t1313,
     ),
   )
@@ -15234,9 +14796,7 @@ fn step_338() -> Unit raise {
   )
   has_size_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(s HAS_SIZE 0 <=> s = {}) /\\\n   (s HAS_SIZE (SUC n) <=>\n        ?(a:A) t. t HAS_SIZE n /\\ ~(a IN t) /\\ (s = a INSERT t))",
-      ),
+      @term_syntax.parse_term("HAS_SIZE((s : (A) -> Bool), 0) == (s == {}) && HAS_SIZE(s, SUC((n : Num))) == (∃ a : A, ∃ t : (A) -> Bool, HAS_SIZE(t, n) && !IN(a, t) && s == INSERT(a, t))"),
       t1319,
     ),
   )
@@ -15258,9 +14818,7 @@ pub fn has_size_clauses() -> @kernel.Thm {
 fn step_339() -> Unit raise {
   let t1320 = set_tac(@list.List([]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "(~((a:A) IN {}) /\\ P <=> P) /\\\n     (~(a IN {b}) /\\ P <=> ~(a = b) /\\ P) /\\\n     (~(a IN (b INSERT cs)) /\\ P <=> ~(a = b) /\\ ~(a IN cs) /\\ P)",
-    ),
+    @term_syntax.parse_term("(!IN((a : A), {}) && (P : Bool)) == P && (!IN(a, {(b : A)}) && P) == (!(a == b) && P) && (!IN(a, INSERT(b, (cs : (A) -> Bool))) && P) == (!(a == b) && !IN(a, cs) && P)"),
     t1320,
   )
   let t1321 = @meson.meson_tac(@list.List([]))
@@ -15269,9 +14827,7 @@ fn step_339() -> Unit raise {
     t1321,
   )
   let qth = @tactics.prove(
-    @parser.parse_term(
-      "((?s. s HAS_SIZE 0 /\\ P s) <=> P {}) /\\\n     ((?s. s HAS_SIZE (SUC n) /\\ P s) <=>\n      (?(a:A) s. s HAS_SIZE n /\\ ~(a IN s) /\\ P(a INSERT s)))",
-    ),
+    @term_syntax.parse_term("(∃ s : (A) -> Bool, HAS_SIZE(s, 0) && (P : ((A) -> Bool) -> Bool)(s)) == P({}) && (∃ s : (A) -> Bool, HAS_SIZE(s, SUC((n : Num))) && P(s)) == (∃ a : A, ∃ s : (A) -> Bool, HAS_SIZE(s, n) && !IN(a, s) && P(INSERT(a, s)))"),
     t1322,
   )
   let qconv_0 : (@kernel.Term) -> @kernel.Thm raise = @simp.gen_rewrite_conv(
@@ -15732,9 +15288,7 @@ fn step_340() -> Unit raise {
   )
   card_subset_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:A->bool) b. FINITE b /\\ a SUBSET b /\\ (CARD a = CARD b) ==> (a = b)",
-      ),
+      @term_syntax.parse_term("∀ a : (A) -> Bool, ∀ b : (A) -> Bool, FINITE(b) && SUBSET(a, b) && CARD(a) == CARD(b) → a == b"),
       t1377,
     ),
   )
@@ -15782,9 +15336,7 @@ fn step_341() -> Unit raise {
     @int.arith_tac,
   ])
   let t1387 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "CARD (a UNION b DIFF a) = CARD(a:A->bool) + CARD(b DIFF a)",
-    ),
+    @term_syntax.parse_term("CARD(UNION((a : (A) -> Bool), DIFF((b : (A) -> Bool), a))) == CARD(a) + CARD(DIFF(b, a))"),
     fn(
       x1384 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -15901,9 +15453,7 @@ fn step_341() -> Unit raise {
   )
   card_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:A->bool) b. a SUBSET b /\\ FINITE(b) ==> CARD(a) <= CARD(b)",
-      ),
+      @term_syntax.parse_term("∀ a : (A) -> Bool, ∀ b : (A) -> Bool, SUBSET(a, b) && FINITE(b) → CARD(a) <= CARD(b)"),
       t1398,
     ),
   )
@@ -15926,9 +15476,7 @@ fn step_342() -> Unit raise {
   )
   card_subset_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:A->bool) b. FINITE b /\\ a SUBSET b /\\ CARD b <= CARD a ==> a = b",
-      ),
+      @term_syntax.parse_term("∀ a : (A) -> Bool, ∀ b : (A) -> Bool, FINITE(b) && SUBSET(a, b) && CARD(b) <= CARD(a) → a == b"),
       t1399,
     ),
   )
@@ -15951,9 +15499,7 @@ fn step_343() -> Unit raise {
   )
   subset_card_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:A->bool. FINITE t /\\ s SUBSET t ==> (CARD s = CARD t <=> s = t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, FINITE(t) && SUBSET(s, t) → (CARD(s) == CARD(t)) == (s == t)"),
       t1400,
     ),
   )
@@ -15976,9 +15522,7 @@ fn step_344() -> Unit raise {
   )
   finite_card_le_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (t:A->bool) n.\n        s SUBSET t /\\ FINITE t /\\ CARD t <= n\n        ==> FINITE s /\\ CARD s <= n",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ n : Num, SUBSET(s, t) && FINITE(t) && CARD(t) <= n → FINITE(s) && CARD(s) <= n"),
       t1401,
     ),
   )
@@ -16112,9 +15656,7 @@ fn step_345() -> Unit raise {
   let t1402 = @simp.rewrite_tac(
     @list.List([
       set_rule(
-        @parser.parse_term(
-          "a PSUBSET b <=> ?x. x IN b /\\ ~(x IN a) /\\ a SUBSET (b DELETE x)",
-        ),
+        @term_syntax.parse_term("PSUBSET((a : (_) -> Bool), (b : (_) -> Bool)) == (∃ x : _, IN(x, b) && !IN(x, a) && SUBSET(a, DELETE(b, x)))"),
       ),
     ]),
   )
@@ -16142,9 +15684,7 @@ fn step_345() -> Unit raise {
   )
   card_psubset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:A->bool) b. a PSUBSET b /\\ FINITE(b) ==> CARD(a) < CARD(b)",
-      ),
+      @term_syntax.parse_term("∀ a : (A) -> Bool, ∀ b : (A) -> Bool, PSUBSET(a, b) && FINITE(b) → CARD(a) < CARD(b)"),
       t1416,
     ),
   )
@@ -16169,9 +15709,7 @@ fn step_346() -> Unit raise {
   )
   card_psubset_imp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b:A->bool. a SUBSET b /\\ ~(CARD a = CARD b) ==> a PSUBSET b",
-      ),
+      @term_syntax.parse_term("∀ a : (A) -> Bool, ∀ b : (A) -> Bool, SUBSET(a, b) && !(CARD(a) == CARD(b)) → PSUBSET(a, b)"),
       t1418,
     ),
   )
@@ -16196,9 +15734,7 @@ fn step_347() -> Unit raise {
   )
   card_psubset_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b:A->bool. FINITE b /\\ a SUBSET b ==> (a PSUBSET b <=> CARD a < CARD b)",
-      ),
+      @term_syntax.parse_term("∀ a : (A) -> Bool, ∀ b : (A) -> Bool, FINITE(b) && SUBSET(a, b) → PSUBSET(a, b) == (CARD(a) < CARD(b))"),
       t1419,
     ),
   )
@@ -16264,9 +15800,7 @@ fn step_348() -> Unit raise {
   )
   card_union_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:A->bool.\n        FINITE s /\\ FINITE t ==> CARD(s UNION t) <= CARD(s) + CARD(t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, FINITE(s) && FINITE(t) → CARD(UNION(s, t)) <= CARD(s) + CARD(t)"),
       t1428,
     ),
   )
@@ -16294,9 +15828,7 @@ fn step_349() -> Unit raise {
   )
   finite_card_le_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (t:A->bool) m n.\n        (FINITE s /\\ CARD s <= m) /\\\n        (FINITE t /\\ CARD t <= n)\n        ==> FINITE(s UNION t) /\\ CARD(s UNION t) <= m + n",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ m : Num, ∀ n : Num, (FINITE(s) && CARD(s) <= m) && FINITE(t) && CARD(t) <= n → FINITE(UNION(s, t)) && CARD(UNION(s, t)) <= m + n"),
       t1429,
     ),
   )
@@ -16348,17 +15880,13 @@ fn step_350() -> Unit raise {
     t1462,
   ])
   let t1457 = @tactics.exists_tac(
-    @parser.parse_term(
-      "CARD((t:A->B->bool) x) + CARD(UNIONS {(t:A->B->bool) y | y IN s})",
-    ),
+    @term_syntax.parse_term("CARD((t : (A, B) -> Bool)((x : A))) + CARD(UNIONS({t((y : A)) | IN(y, (s : (A) -> Bool))}))"),
   )
   let t1456 = @tactics.match_mp_tac(@arith.le_trans())
   let t1455 = @simp.rewrite_tac(
     @list.List([
       set_rule(
-        @parser.parse_term(
-          "UNIONS {t x | x IN a INSERT s} = t(a) UNION UNIONS {t x | x IN s}",
-        ),
+        @term_syntax.parse_term("UNIONS({(t : (_, _) -> Bool)((x : _)) | IN(x, INSERT((a : _), (s : (_) -> Bool)))}) == UNION(t(a), UNIONS({t((x : _)) | IN(x, s)}))"),
       ),
     ]),
   )
@@ -16594,9 +16122,7 @@ fn step_350() -> Unit raise {
   )
   card_unions_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:A->B->bool m n.\n        s HAS_SIZE m /\\ (forall x. x IN s ==> FINITE(t x) /\\ CARD(t x) <= n)\n        ==> CARD(UNIONS {t(x) | x IN s}) <= m * n",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A, B) -> Bool, ∀ m : Num, ∀ n : Num, HAS_SIZE(s, m) && (∀ x : A, IN(x, s) → FINITE(t(x)) && CARD(t(x)) <= n) → CARD(UNIONS({t((x : A)) | IN(x, s)})) <= m * n"),
       t1464,
     ),
   )
@@ -16652,9 +16178,7 @@ fn step_351() -> Unit raise {
   )
   card_union_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:A->bool.\n        FINITE s /\\ FINITE t\n        ==> CARD(s UNION t) = (CARD(s) + CARD(t)) - CARD(s INTER t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, FINITE(s) && FINITE(t) → CARD(UNION(s, t)) == CARD(s) + CARD(t) - CARD(INTER(s, t))"),
       t1472,
     ),
   )
@@ -16700,9 +16224,7 @@ fn step_352() -> Unit raise {
   )
   card_union_overlap_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:A->bool.\n        FINITE s /\\ FINITE t\n        ==> (CARD(s UNION t) = CARD s + CARD t <=> s INTER t = {})",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, FINITE(s) && FINITE(t) → (CARD(UNION(s, t)) == CARD(s) + CARD(t)) == (INTER(s, t) == {})"),
       t1477,
     ),
   )
@@ -16728,9 +16250,7 @@ fn step_353() -> Unit raise {
   )
   card_union_overlap_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:A->bool.\n        FINITE s /\\ FINITE t /\\ CARD(s UNION t) < CARD(s) + CARD(t)\n        ==> ~(s INTER t = {})",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, FINITE(s) && FINITE(t) && CARD(UNION(s, t)) < CARD(s) + CARD(t) → !(INTER(s, t) == {})"),
       t1478,
     ),
   )
@@ -16787,9 +16307,7 @@ fn step_354() -> Unit raise {
   )
   card_image_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s. (forall x y. x IN s /\\ y IN s /\\ (f(x) = f(y)) ==> (x = y)) /\\\n                FINITE s ==> (CARD (IMAGE f s) = CARD s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) && FINITE(s) → CARD(IMAGE(f, s)) == CARD(s)"),
       t1484,
     ),
   )
@@ -16814,9 +16332,7 @@ fn step_355() -> Unit raise {
   )
   has_size_image_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s n.\n        (forall x y. x IN s /\\ y IN s /\\ (f(x) = f(y)) ==> (x = y)) /\\ s HAS_SIZE n\n        ==> (IMAGE f s) HAS_SIZE n",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ n : Num, (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) && HAS_SIZE(s, n) → HAS_SIZE(IMAGE(f, s), n)"),
       t1486,
     ),
   )
@@ -16957,9 +16473,7 @@ fn step_357() -> Unit raise {
   )
   finite_card_le_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s n.\n        FINITE s /\\ CARD s <= n ==> FINITE(IMAGE f s) /\\ CARD(IMAGE f s) <= n",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ n : Num, FINITE(s) && CARD(s) <= n → FINITE(IMAGE(f, s)) && CARD(IMAGE(f, s)) <= n"),
       t1495,
     ),
   )
@@ -17044,9 +16558,7 @@ fn step_358() -> Unit raise {
   )
   card_image_inj_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s t.\n        FINITE s /\\\n        (forall x. x IN s ==> f(x) IN t) /\\\n        (forall y. y IN t ==> ?!x. x IN s /\\ f(x) = y)\n        ==> CARD t = CARD s",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (B) -> Bool, FINITE(s) && (∀ x : A, IN(x, s) → IN(f(x), t)) && (∀ y : B, IN(y, t) → existsunique((x : A) => IN(x, s) && f(x) == y)) → CARD(t) == CARD(s)"),
       t1504,
     ),
   )
@@ -17076,9 +16588,7 @@ fn step_359() -> Unit raise {
   )
   card_subset_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s t. FINITE t /\\ s SUBSET IMAGE f t ==> CARD s <= CARD t",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (B) -> Bool, ∀ t : (A) -> Bool, FINITE(t) && SUBSET(s, IMAGE(f, t)) → CARD(s) <= CARD(t)"),
       t1505,
     ),
   )
@@ -17110,9 +16620,7 @@ fn step_360() -> Unit raise {
   let t1510 = @list.List([@tactics.match_mp_tac(finite_image_inj_eq()), t1509])
   let t1507 = @tactics.match_mp_tac(
     @class.taut(
-      @parser.parse_term(
-        "(a' <=> a) /\\ (a ==> (b' <=> b)) ==> (a' /\\ b' <=> a /\\ b)",
-      ),
+      @term_syntax.parse_term("(a' : Bool) == (a : Bool) && (a → (b' : Bool) == (b : Bool)) → (a' && b') == (a && b)"),
     ),
   )
   let t1506 = @simp.rewrite_tac(@list.List([has_size()]))
@@ -17131,9 +16639,7 @@ fn step_360() -> Unit raise {
   )
   has_size_image_inj_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s n.\n        (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y)\n        ==> ((IMAGE f s) HAS_SIZE n <=> s HAS_SIZE n)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ n : Num, (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) → HAS_SIZE(IMAGE(f, s), n) == HAS_SIZE(s, n)"),
       t1512,
     ),
   )
@@ -17276,9 +16782,7 @@ fn step_361() -> Unit raise {
   )
   card_image_eq_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s.\n        FINITE s\n        ==> (CARD(IMAGE f s) = CARD s <=>\n             forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, FINITE(s) → (CARD(IMAGE(f, s)) == CARD(s)) == (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y)"),
       t1530,
     ),
   )
@@ -17303,9 +16807,7 @@ fn step_362() -> Unit raise {
   )
   let t1534 = @tactics.match_mp_tac(
     @class.taut(
-      @parser.parse_term(
-        "(p ==> (q <=> s)) /\\ (p /\\ s ==> (r <=> t))\n    ==> ((p /\\ q) /\\ r <=> (p /\\ s) /\\ t)",
-      ),
+      @term_syntax.parse_term("((p : Bool) → (q : Bool) == (s : Bool)) && (p && s → (r : Bool) == (t : Bool)) → ((p && q) && r) == ((p && s) && t)"),
     ),
   )
   let t1533 = @simp.rewrite_tac(@list.List([@theorems.conj_assoc()]))
@@ -17321,9 +16823,7 @@ fn step_362() -> Unit raise {
                 @simp.once_rewrite_tac(
                   @list.List([
                     @class.taut(
-                      @parser.parse_term(
-                        "p /\\ q /\\ r /\\ s <=> r /\\ s /\\ p /\\ q",
-                      ),
+                      @term_syntax.parse_term("((p : Bool) && (q : Bool) && (r : Bool) && (s : Bool)) == (r && s && p && q)"),
                     ),
                   ]),
                 ),
@@ -17343,9 +16843,7 @@ fn step_362() -> Unit raise {
   )
   exists_small_subset_image_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (f:A->B) s n.\n    (?t. FINITE t /\\ CARD t < n /\\ t SUBSET IMAGE f s /\\ P t) <=>\n    (?t. FINITE t /\\ CARD t < n /\\ t SUBSET s /\\\n         (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y)) /\\\n         P (IMAGE f t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((B) -> Bool) -> Bool, ∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ n : Num, (∃ t : (B) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, IMAGE(f, s)) && P(t)) == (∃ t : (A) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, s) && (∀ x : A, ∀ y : A, IN(x, t) && IN(y, t) → (f(x) == f(y)) == (x == y)) && P(IMAGE(f, t)))"),
       t1536,
     ),
   )
@@ -17386,9 +16884,7 @@ fn step_363() -> Unit raise {
   )
   forall_small_subset_image_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (f:A->B) s n.\n    (forall t. FINITE t /\\ CARD t < n /\\ t SUBSET IMAGE f s ==> P t) <=>\n    (forall t. FINITE t /\\ CARD t < n /\\ t SUBSET s /\\\n         (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y))\n         ==> P (IMAGE f t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((B) -> Bool) -> Bool, ∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ n : Num, (∀ t : (B) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, IMAGE(f, s)) → P(t)) == (∀ t : (A) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, s) && (∀ x : A, ∀ y : A, IN(x, t) && IN(y, t) → (f(x) == f(y)) == (x == y)) → P(IMAGE(f, t)))"),
       t1539,
     ),
   )
@@ -17430,9 +16926,7 @@ fn step_364() -> Unit raise {
   )
   exists_small_subset_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (f:A->B) s n.\n    (?t. FINITE t /\\ CARD t < n /\\ t SUBSET IMAGE f s /\\ P t) <=>\n    (?t. FINITE t /\\ CARD t < n /\\ t SUBSET s /\\\n         P (IMAGE f t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((B) -> Bool) -> Bool, ∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ n : Num, (∃ t : (B) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, IMAGE(f, s)) && P(t)) == (∃ t : (A) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, s) && P(IMAGE(f, t)))"),
       t1543,
     ),
   )
@@ -17473,9 +16967,7 @@ fn step_365() -> Unit raise {
   )
   forall_small_subset_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (f:A->B) s n.\n    (forall t. FINITE t /\\ CARD t < n /\\ t SUBSET IMAGE f s ==> P t) <=>\n    (forall t. FINITE t /\\ CARD t < n /\\ t SUBSET s ==> P (IMAGE f t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((B) -> Bool) -> Bool, ∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ n : Num, (∀ t : (B) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, IMAGE(f, s)) → P(t)) == (∀ t : (A) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, s) → P(IMAGE(f, t)))"),
       t1546,
     ),
   )
@@ -17552,9 +17044,7 @@ fn step_366() -> Unit raise {
   )
   card_image_le2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:A->C) s.\n        FINITE s /\\\n        (forall x y. x IN s /\\ y IN s /\\ g x = g y ==> f x = f y)\n        ==> CARD(IMAGE f s) <= CARD(IMAGE g s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (A) -> C, ∀ s : (A) -> Bool, FINITE(s) && (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && g(x) == g(y) → f(x) == f(y)) → CARD(IMAGE(f, s)) <= CARD(IMAGE(g, s))"),
       t1558,
     ),
   )
@@ -17681,9 +17171,7 @@ fn step_367() -> Unit raise {
   )
   card_image_lt2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:A->C) s.\n        FINITE s /\\\n        (forall x y. x IN s /\\ y IN s /\\ g x = g y ==> f x = f y) /\\\n        ~(forall x y. x IN s /\\ y IN s /\\ f x = f y ==> g x = g y)\n        ==> CARD(IMAGE f s) < CARD(IMAGE g s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (A) -> C, ∀ s : (A) -> Bool, FINITE(s) && (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && g(x) == g(y) → f(x) == f(y)) && !(∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → g(x) == g(y)) → CARD(IMAGE(f, s)) < CARD(IMAGE(g, s))"),
       t1572,
     ),
   )
@@ -17882,9 +17370,7 @@ fn step_368() -> Unit raise {
   )
   choose_subset_strong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n s:A->bool.\n        (FINITE s ==> n <= CARD s) ==> ?t. t SUBSET s /\\ t HAS_SIZE n",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ s : (A) -> Bool, (FINITE(s) → n <= CARD(s)) → (∃ t : (A) -> Bool, SUBSET(t, s) && HAS_SIZE(t, n))"),
       t1594,
     ),
   )
@@ -17936,9 +17422,7 @@ fn step_369() -> Unit raise {
   )
   choose_subset_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n s:A->bool.\n     (FINITE s ==> n <= CARD s) <=> (?t. t SUBSET s /\\ t HAS_SIZE n)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ s : (A) -> Bool, (FINITE(s) → n <= CARD(s)) == (∃ t : (A) -> Bool, SUBSET(t, s) && HAS_SIZE(t, n))"),
       t1600,
     ),
   )
@@ -17961,9 +17445,7 @@ fn step_370() -> Unit raise {
   let t1601 = @meson.meson_tac(@list.List([choose_subset_strong()]))
   choose_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. FINITE s ==> forall n. n <= CARD s ==> ?t. t SUBSET s /\\ t HAS_SIZE n",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, FINITE(s) → (∀ n : Num, n <= CARD(s) → (∃ t : (A) -> Bool, SUBSET(t, s) && HAS_SIZE(t, n)))"),
       t1601,
     ),
   )
@@ -18115,9 +17597,7 @@ fn step_371() -> Unit raise {
   )
   choose_subset_between_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n s u:A->bool.\n        s SUBSET u /\\ FINITE s /\\ CARD s <= n /\\ (FINITE u ==> n <= CARD u)\n        ==> ?t. s SUBSET t /\\ t SUBSET u /\\ t HAS_SIZE n",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ s : (A) -> Bool, ∀ u : (A) -> Bool, SUBSET(s, u) && FINITE(s) && CARD(s) <= n && (FINITE(u) → n <= CARD(u)) → (∃ t : (A) -> Bool, SUBSET(s, t) && SUBSET(t, u) && HAS_SIZE(t, n))"),
       t1619,
     ),
   )
@@ -18315,9 +17795,7 @@ fn step_372() -> Unit raise {
   )
   card_le_unions_chain_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:(A->bool)->bool) n.\n        (forall t u. t IN f /\\ u IN f ==> t SUBSET u \\/ u SUBSET t) /\\\n        (forall t. t IN f ==> FINITE t /\\ CARD t <= n)\n        ==> FINITE(UNIONS f) /\\ CARD(UNIONS f) <= n",
-      ),
+      @term_syntax.parse_term("∀ f : ((A) -> Bool) -> Bool, ∀ n : Num, (∀ t : (A) -> Bool, ∀ u : (A) -> Bool, IN(t, f) && IN(u, f) → SUBSET(t, u) || SUBSET(u, t)) && (∀ t : (A) -> Bool, IN(t, f) → FINITE(t) && CARD(t) <= n) → FINITE(UNIONS(f)) && CARD(UNIONS(f)) <= n"),
       t1642,
     ),
   )
@@ -18361,9 +17839,7 @@ fn step_373() -> Unit raise {
   )
   card_le_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. FINITE s /\\ CARD s <= 1 <=> ?a. s SUBSET {a}",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, (FINITE(s) && CARD(s) <= 1) == (∃ a : A, SUBSET(s, {a}))"),
       t1646,
     ),
   )
@@ -18749,9 +18225,7 @@ fn step_374() -> Unit raise {
   )
   involution_even_nofixpoints_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f (s:A->bool).\n        FINITE s /\\ (forall x. x IN s ==> f x IN s /\\ ~(f x = x) /\\ f(f x) = x)\n        ==> EVEN(CARD s)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> A, ∀ s : (A) -> Bool, FINITE(s) && (∀ x : A, IN(x, s) → IN(f(x), s) && !(f(x) == x) && f(f(x)) == x) → EVEN(CARD(s))"),
       t1692,
     ),
   )
@@ -18784,9 +18258,7 @@ fn step_375() -> Unit raise {
       card_union(),
       finite_restrict(),
       set_rule(
-        @parser.parse_term(
-          "{x | x IN s /\\ P x} INTER {x | x IN s /\\ ~P x} = {}",
-        ),
+        @term_syntax.parse_term("INTER({(x : _) | IN(x, (s : (_) -> Bool)) && (P : (_) -> Bool)(x)}, {(x : _) | IN(x, s) && !P(x)}) == {}"),
       ),
     ]),
   )
@@ -18798,9 +18270,7 @@ fn step_375() -> Unit raise {
       t1695,
     ),
   ])
-  let t1693 = @parser.parse_term(
-    "EVEN(CARD({x:A | x IN s /\\ f x = x} UNION {x | x IN s /\\ ~(f x = x)}))",
-  )
+  let t1693 = @term_syntax.parse_term("EVEN(CARD(UNION({(x : A) | IN(x, (s : (A) -> Bool)) && (f : (A) -> A)(x) == x}, {(x : A) | IN(x, s) && !(f(x) == x)})))")
   let t1694 = @tactics.trans_tac(@theorems.eq_trans())(t1693)
   let t1703 = @tactics.then_tac(
     @tactics.then_tac(
@@ -18832,9 +18302,7 @@ fn step_375() -> Unit raise {
   )
   involution_even_fixpoints_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f (s:A->bool).\n        FINITE s /\\ (forall x. x IN s ==> f x IN s /\\ f(f x) = x)\n        ==> (EVEN(CARD {x | x IN s /\\ f x = x}) <=> EVEN(CARD s))",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> A, ∀ s : (A) -> Bool, FINITE(s) && (∀ x : A, IN(x, s) → IN(f(x), s) && f(f(x)) == x) → EVEN(CARD({(x : A) | IN(x, s) && f(x) == x})) == EVEN(CARD(s))"),
       t1703,
     ),
   )
@@ -18875,9 +18343,7 @@ fn step_376() -> Unit raise {
   let t1743 = @simp.rewrite_tac(
     @list.List([
       set_rule(
-        @parser.parse_term(
-          "{(x,y) | (x = a \\/ x IN s) /\\ y IN t(x)} =\n     {(x,y) | x IN s /\\ y IN t(x)} UNION\n     IMAGE (\\y. (a,y)) (t a)",
-        ),
+        @term_syntax.parse_term("{((x : _), (y : _)) | (x == (a : _) || IN(x, (s : (_) -> Bool))) && IN(y, (t : (_, _) -> Bool)(x))} == UNION({((x : _), (y : _)) | IN(x, s) && IN(y, t(x))}, IMAGE((y : _) => (a, y), t(a)))"),
       ),
     ]),
   )
@@ -19251,9 +18717,7 @@ fn step_376() -> Unit raise {
   )
   has_size_product_dependent_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s m t n.\n         s HAS_SIZE m /\\ (forall x. x IN s ==> t(x) HAS_SIZE n)\n         ==> {(x:A,y:B) | x IN s /\\ y IN t(x)} HAS_SIZE (m * n)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ m : Num, ∀ t : (A, B) -> Bool, ∀ n : Num, HAS_SIZE(s, m) && (∀ x : A, IN(x, s) → HAS_SIZE(t(x), n)) → HAS_SIZE({((x : A), (y : B)) | IN(x, s) && IN(y, t(x))}, m * n)"),
       t1749,
     ),
   )
@@ -19278,9 +18742,7 @@ fn step_377() -> Unit raise {
     @list.List([extension(), in_image(), in_elim_thm(), in_insert(), in_union()]),
   )
   let t1776 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "{(x:A,y:B) | x IN (a INSERT s) /\\ y IN (t x)} =\n    IMAGE (\\y. a,y) (t a) UNION {(x,y) | x IN s /\\ y IN (t x)}",
-    ),
+    @term_syntax.parse_term("{((x : A), (y : B)) | IN(x, INSERT((a : A), (s : (A) -> Bool))) && IN(y, (t : (A, B) -> Bool)(x))} == UNION(IMAGE((y : B) => (a, y), t(a)), {((x : A), (y : B)) | IN(x, s) && IN(y, t(x))})"),
     fn(
       x1774 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -19448,9 +18910,7 @@ fn step_377() -> Unit raise {
     ]),
   )
   let t1751 = @tactics.exists_tac(
-    @parser.parse_term(
-      "IMAGE (\\(x,y). (f:A->B->C) x y) {x,y | x IN s /\\ y IN t x}",
-    ),
+    @term_syntax.parse_term("IMAGE(fn { (x, y) => (f : (A, B) -> C)(x, y) }, {((x : A), (y : B)) | IN(x, (s : (A) -> Bool)) && IN(y, (t : (A, B) -> Bool)(x))})"),
   )
   let t1750 = @tactics.match_mp_tac(finite_subset())
   let t1779 = @tactics.then_tac(
@@ -19510,9 +18970,7 @@ fn step_377() -> Unit raise {
   )
   finite_product_dependent_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B->C s t.\n        FINITE s /\\ (forall x. x IN s ==> FINITE(t x))\n        ==> FINITE {f x y | x IN s /\\ y IN (t x)}",
-      ),
+      @term_syntax.parse_term("∀ f : (A, B) -> C, ∀ s : (A) -> Bool, ∀ t : (A, B) -> Bool, FINITE(s) && (∀ x : A, IN(x, s) → FINITE(t(x))) → FINITE({f((x : A), (y : B)) | IN(x, s) && IN(y, t(x))})"),
       t1779,
     ),
   )
@@ -19535,9 +18993,7 @@ fn step_378() -> Unit raise {
   let t1780 = @simp.simp_tac(@list.List([finite_product_dependent()]))
   finite_product_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. FINITE s /\\ FINITE t ==> FINITE {(x:A,y:B) | x IN s /\\ y IN t}",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, FINITE(s) && FINITE(t) → FINITE({((x : A), (y : B)) | IN(x, s) && IN(y, t)})"),
       t1780,
     ),
   )
@@ -19571,9 +19027,7 @@ fn step_379() -> Unit raise {
   )
   card_product_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. FINITE s /\\ FINITE t\n         ==> (CARD {(x:A,y:B) | x IN s /\\ y IN t} = CARD s * CARD t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, FINITE(s) && FINITE(t) → CARD({((x : A), (y : B)) | IN(x, s) && IN(y, t)}) == CARD(s) * CARD(t)"),
       t1786,
     ),
   )
@@ -19596,9 +19050,7 @@ fn step_380() -> Unit raise {
   )
   has_size_product_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s m t n. s HAS_SIZE m /\\ t HAS_SIZE n\n             ==> {(x:A,y:B) | x IN s /\\ y IN t} HAS_SIZE (m * n)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ m : Num, ∀ t : (B) -> Bool, ∀ n : Num, HAS_SIZE(s, m) && HAS_SIZE(t, n) → HAS_SIZE({((x : A), (y : B)) | IN(x, s) && IN(y, t)}, m * n)"),
       t1787,
     ),
   )
@@ -19626,9 +19078,7 @@ fn step_381() -> Unit raise {
 fn step_382() -> Unit raise {
   cross_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(s:A->bool) CROSS (t:B->bool) = {x,y | x IN s /\\ y IN t}",
-      ),
+      @term_syntax.parse_term("(CROSS : ((A) -> Bool, (B) -> Bool, (A, B)) -> Bool)((s : (A) -> Bool), (t : (B) -> Bool)) == {((x : A), (y : B)) | IN(x, s) && IN(y, t)}"),
     ),
   )
 }
@@ -19648,9 +19098,7 @@ fn step_383() -> Unit raise {
   let t1788 = @simp.rewrite_tac(@list.List([cross(), in_elim_pair_thm()]))
   in_cross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:A) (y:B) s t. (x,y) IN (s CROSS t) <=> x IN s /\\ y IN t",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ y : B, ∀ s : (A) -> Bool, ∀ t : (B) -> Bool, IN((x, y), CROSS(s, t)) == (IN(x, s) && IN(y, t))"),
       t1788,
     ),
   )
@@ -19671,9 +19119,7 @@ fn step_384() -> Unit raise {
   let t1789 = @simp.rewrite_tac(@list.List([cross(), has_size_product()]))
   has_size_cross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) (t:B->bool) m n.\n        s HAS_SIZE m /\\ t HAS_SIZE n ==> (s CROSS t) HAS_SIZE (m * n)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, ∀ m : Num, ∀ n : Num, HAS_SIZE(s, m) && HAS_SIZE(t, n) → HAS_SIZE(CROSS(s, t), m * n)"),
       t1789,
     ),
   )
@@ -19694,9 +19140,7 @@ fn step_385() -> Unit raise {
   let t1790 = @simp.simp_tac(@list.List([cross(), finite_product()]))
   finite_cross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) (t:B->bool). FINITE s /\\ FINITE t ==> FINITE(s CROSS t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, FINITE(s) && FINITE(t) → FINITE(CROSS(s, t))"),
       t1790,
     ),
   )
@@ -19717,9 +19161,7 @@ fn step_386() -> Unit raise {
   let t1791 = @simp.simp_tac(@list.List([cross(), card_product()]))
   card_cross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) (t:B->bool). FINITE s /\\ FINITE t ==> CARD(s CROSS t) = CARD s * CARD t",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, FINITE(s) && FINITE(t) → CARD(CROSS(s, t)) == CARD(s) * CARD(t)"),
       t1791,
     ),
   )
@@ -19751,9 +19193,7 @@ fn step_387() -> Unit raise {
   )
   cross_eq_empty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) (t:B->bool). s CROSS t = {} <=> s = {} \\/ t = {}",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, (CROSS(s, t) == {}) == (s == {} || t == {})"),
       t1793,
     ),
   )
@@ -19774,9 +19214,7 @@ fn step_388() -> Unit raise {
   let t1794 = @simp.rewrite_tac(@list.List([cross_eq_empty()]))
   cross_empty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall s:A->bool. s CROSS {} = {}) /\\ (forall t:B->bool. {} CROSS t = {})",
-      ),
+      @term_syntax.parse_term("(∀ s : (A) -> Bool, (CROSS : ((A) -> Bool, (_) -> Bool, (A, _)) -> Bool)(s, ({} : (_) -> Bool)) == ({} : ((A, _)) -> Bool)) && (∀ t : (B) -> Bool, (CROSS : ((_) -> Bool, (B) -> Bool, (_, B)) -> Bool)(({} : (_) -> Bool), t) == ({} : ((_, B)) -> Bool))"),
       t1794,
     ),
   )
@@ -20043,9 +19481,7 @@ fn step_391() -> Unit raise {
   )
   finite_cross_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool t:B->bool.\n        FINITE(s CROSS t) <=> s = {} \\/ t = {} \\/ FINITE s /\\ FINITE t",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, FINITE(CROSS(s, t)) == (s == {} || t == {} || FINITE(s) && FINITE(t))"),
       t1818,
     ),
   )
@@ -20072,9 +19508,7 @@ fn step_392() -> Unit raise {
   )
   infinite_cross_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) (t:B->bool).\n        INFINITE(s CROSS t) <=>\n        ~(s = {}) /\\ INFINITE t \\/ INFINITE s /\\ ~(t = {})",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, INFINITE(CROSS(s, t)) == (!(s == {}) && INFINITE(t) || INFINITE(s) && !(t == {}))"),
       t1820,
     ),
   )
@@ -20197,9 +19631,7 @@ fn step_397() -> Unit raise {
   )
   forall_in_cross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s t. (forall z:A#B. z IN s CROSS t ==> P z) <=>\n           (forall x y. x IN s /\\ y IN t ==> P(x,y))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A, B)) -> Bool, ∀ s : (A) -> Bool, ∀ t : (B) -> Bool, (∀ z : (A, B), IN(z, CROSS(s, t)) → P(z)) == (∀ x : A, ∀ y : B, IN(x, s) && IN(y, t) → P((x, y)))"),
       t1826,
     ),
   )
@@ -20228,9 +19660,7 @@ fn step_398() -> Unit raise {
   )
   exists_in_cross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s t. (?z:A#B. z IN s CROSS t /\\ P z) <=>\n           (?x y. x IN s /\\ y IN t /\\ P(x,y))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A, B)) -> Bool, ∀ s : (A) -> Bool, ∀ t : (B) -> Bool, (∃ z : (A, B), IN(z, CROSS(s, t)) && P(z)) == (∃ x : A, ∃ y : B, IN(x, s) && IN(y, t) && P((x, y)))"),
       t1827,
     ),
   )
@@ -20267,9 +19697,7 @@ fn step_399() -> Unit raise {
   )
   subset_cross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) (t:B->bool) s' t'.\n        s CROSS t SUBSET s' CROSS t' <=>\n        s = {} \\/ t = {} \\/ s SUBSET s' /\\ t SUBSET t'",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, ∀ s' : (A) -> Bool, ∀ t' : (B) -> Bool, SUBSET(CROSS(s, t), CROSS(s', t')) == (s == {} || t == {} || SUBSET(s, s') && SUBSET(t, t'))"),
       t1829,
     ),
   )
@@ -20290,9 +19718,7 @@ fn step_400() -> Unit raise {
   let t1830 = @simp.simp_tac(@list.List([subset_cross()]))
   cross_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) (t:B->bool) s' t'. s SUBSET s' /\\ t SUBSET t' ==> s CROSS t SUBSET s' CROSS t'",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, ∀ s' : (A) -> Bool, ∀ t' : (B) -> Bool, SUBSET(s, s') && SUBSET(t, t') → SUBSET(CROSS(s, t), CROSS(s', t'))"),
       t1830,
     ),
   )
@@ -20319,9 +19745,7 @@ fn step_401() -> Unit raise {
   )
   cross_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s s':A->bool t t':B->bool.\n        s CROSS t = s' CROSS t' <=>\n        (s = {} \\/ t = {}) /\\ (s' = {} \\/ t' = {}) \\/ s = s' /\\ t = t'",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ s' : (A) -> Bool, ∀ t : (B) -> Bool, ∀ t' : (B) -> Bool, (CROSS(s, t) == CROSS(s', t')) == ((s == {} || t == {}) && (s' == {} || t' == {}) || s == s' && t == t')"),
       t1832,
     ),
   )
@@ -20367,9 +19791,7 @@ fn step_402() -> Unit raise {
   )
   image_fst_cross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool t:B->bool.\n        IMAGE FST (s CROSS t) = if t = {} then {} else s",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, IMAGE(FST, CROSS(s, t)) == (if t == {} { {} } else { s })"),
       t1838,
     ),
   )
@@ -20417,9 +19839,7 @@ fn step_403() -> Unit raise {
   )
   image_snd_cross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool t:B->bool.\n        IMAGE SND (s CROSS t) = if s = {} then {} else t",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, IMAGE(SND, CROSS(s, t)) == (if s == {} { {} } else { t })"),
       t1844,
     ),
   )
@@ -20455,9 +19875,7 @@ fn step_404() -> Unit raise {
   )
   image_paired_cross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) (g:C->D) s t.\n         IMAGE (\\(x,y). f x,g y) (s CROSS t) = (IMAGE f s) CROSS (IMAGE g t)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (C) -> D, ∀ s : (A) -> Bool, ∀ t : (C) -> Bool, IMAGE(fn { (x, y) => (f(x), g(y)) }, CROSS(s, t)) == CROSS(IMAGE(f, s), IMAGE(g, t))"),
       t1846,
     ),
   )
@@ -20495,9 +19913,7 @@ fn step_405() -> Unit raise {
   )
   cross_inter_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(s:A->bool) (t:B->bool) u.\n        s CROSS (t INTER u) = (s CROSS t) INTER (s CROSS u)) /\\\n   (forall(s:A->bool) t (u:B->bool).\n        (s INTER t) CROSS u = (s CROSS u) INTER (t CROSS u))",
-      ),
+      @term_syntax.parse_term("(∀ s : (A) -> Bool, ∀ t : (B) -> Bool, ∀ u : (B) -> Bool, CROSS(s, INTER(t, u)) == INTER(CROSS(s, t), CROSS(s, u))) && (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (B) -> Bool, CROSS(INTER(s, t), u) == INTER(CROSS(s, u), CROSS(t, u)))"),
       t1849,
     ),
   )
@@ -20533,9 +19949,7 @@ fn step_406() -> Unit raise {
   )
   cross_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(s:A->bool) (t:B->bool) u.\n        s CROSS (t UNION u) = (s CROSS t) UNION (s CROSS u)) /\\\n   (forall(s:A->bool) t (u:B->bool).\n        (s UNION t) CROSS u = (s CROSS u) UNION (t CROSS u))",
-      ),
+      @term_syntax.parse_term("(∀ s : (A) -> Bool, ∀ t : (B) -> Bool, ∀ u : (B) -> Bool, CROSS(s, UNION(t, u)) == UNION(CROSS(s, t), CROSS(s, u))) && (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (B) -> Bool, CROSS(UNION(s, t), u) == UNION(CROSS(s, u), CROSS(t, u)))"),
       t1852,
     ),
   )
@@ -20566,9 +19980,7 @@ fn step_407() -> Unit raise {
   )
   cross_diff_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(s:A->bool) (t:B->bool) u.\n        s CROSS (t DIFF u) = (s CROSS t) DIFF (s CROSS u)) /\\\n   (forall(s:A->bool) t (u:B->bool).\n        (s DIFF t) CROSS u = (s CROSS u) DIFF (t CROSS u))",
-      ),
+      @term_syntax.parse_term("(∀ s : (A) -> Bool, ∀ t : (B) -> Bool, ∀ u : (B) -> Bool, CROSS(s, DIFF(t, u)) == DIFF(CROSS(s, t), CROSS(s, u))) && (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ u : (B) -> Bool, CROSS(DIFF(s, t), u) == DIFF(CROSS(s, u), CROSS(t, u)))"),
       t1855,
     ),
   )
@@ -20595,9 +20007,7 @@ fn step_408() -> Unit raise {
   )
   inter_cross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) s' (t:B->bool) t'.\n      (s CROSS t) INTER (s' CROSS t') = (s INTER s') CROSS (t INTER t')",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ s' : (A) -> Bool, ∀ t : (B) -> Bool, ∀ t' : (B) -> Bool, INTER(CROSS(s, t), CROSS(s', t')) == CROSS(INTER(s, s'), INTER(t, t'))"),
       t1857,
     ),
   )
@@ -20649,9 +20059,7 @@ fn step_409() -> Unit raise {
     t1859,
   )
   let t1861 = (
-    @parser.parse_term(
-      "(forall(f:(A->bool)->bool) (g:(B->bool)->bool).\n        (UNIONS f) CROSS (UNIONS g) =\n        UNIONS {s CROSS t | s IN f /\\ t IN g}) /\\\n   (forall(s:A->bool) (f:(A->bool)->bool).\n        s CROSS (UNIONS f) = UNIONS {s CROSS t | t IN f}) /\\\n   (forall(f:(A->bool)->bool) (t:B->bool).\n        (UNIONS f) CROSS t = UNIONS {s CROSS t | s IN f})",
-    ),
+    @term_syntax.parse_term("(∀ f : ((A) -> Bool) -> Bool, ∀ g : ((B) -> Bool) -> Bool, CROSS(UNIONS(f), UNIONS(g)) == UNIONS({CROSS((s : (A) -> Bool), (t : (B) -> Bool)) | IN(s, f) && IN(t, g)})) && (∀ s : (A) -> Bool, ∀ f : ((A) -> Bool) -> Bool, CROSS(s, UNIONS(f)) == UNIONS({CROSS(s, (t : (A) -> Bool)) | IN(t, f)})) && (∀ f : ((A) -> Bool) -> Bool, ∀ t : (B) -> Bool, CROSS(UNIONS(f), t) == UNIONS({CROSS((s : (A) -> Bool), t) | IN(s, f)}))"),
     t1860,
   )
   let (cross_unions_unions, cross_unions) = @bool.conj_pair(
@@ -20731,9 +20139,7 @@ fn step_410() -> Unit raise {
     t1865,
   )
   let t1867 = (
-    @parser.parse_term(
-      "(forall(f:(A->bool)->bool) (g:(B->bool)->bool).\n        (INTERS f) CROSS (INTERS g) =\n        if f = {} then INTERS {UNIV CROSS t | t IN g}\n        else if g = {} then INTERS {s CROSS UNIV | s IN f}\n        else INTERS {s CROSS t | s IN f /\\ t IN g}) /\\\n   (forall(s:A->bool) (f:(A->bool)->bool).\n        s CROSS (INTERS f) =\n        if f = {} then s CROSS UNIV else INTERS {s CROSS t | t IN f}) /\\\n   (forall(f:(A->bool)->bool) (t:B->bool).\n        (INTERS f) CROSS t =\n        if f = {} then UNIV CROSS t else INTERS {s CROSS t | s IN f})",
-    ),
+    @term_syntax.parse_term("(∀ f : ((A) -> Bool) -> Bool, ∀ g : ((B) -> Bool) -> Bool, CROSS(INTERS(f), INTERS(g)) == (if f == {} { INTERS({CROSS(UNIV, (t : (B) -> Bool)) | IN(t, g)}) } else { if g == {} { INTERS({CROSS((s : (A) -> Bool), UNIV) | IN(s, f)}) } else { INTERS({CROSS((s : (A) -> Bool), (t : (B) -> Bool)) | IN(s, f) && IN(t, g)}) } })) && (∀ s : (A) -> Bool, ∀ f : ((A) -> Bool) -> Bool, CROSS(s, INTERS(f)) == (if f == {} { CROSS(s, UNIV) } else { INTERS({CROSS(s, (t : (A) -> Bool)) | IN(t, f)}) })) && (∀ f : ((A) -> Bool) -> Bool, ∀ t : (B) -> Bool, CROSS(INTERS(f), t) == (if f == {} { CROSS(UNIV, t) } else { INTERS({CROSS((s : (A) -> Bool), t) | IN(s, f)}) }))"),
     t1866,
   )
   let (cross_inters_inters, cross_inters) = @bool.conj_pair(
@@ -20776,9 +20182,7 @@ fn step_411() -> Unit raise {
   )
   disjoint_cross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool t:B->bool s' t'.\n        DISJOINT (s CROSS t) (s' CROSS t') <=>\n        DISJOINT s s' \\/ DISJOINT t t'",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, ∀ s' : (A) -> Bool, ∀ t' : (B) -> Bool, DISJOINT(CROSS(s, t), CROSS(s', t')) == (DISJOINT(s, s') || DISJOINT(t, t'))"),
       t1868,
     ),
   )
@@ -20813,9 +20217,7 @@ pub fn arb() -> @kernel.Thm {
 fn step_413() -> Unit raise {
   extensional_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "EXTENSIONAL s = {f:A->B | forall x. ~(x IN s) ==> f x = ARB}",
-      ),
+      @term_syntax.parse_term("(EXTENSIONAL : ((A) -> Bool, (A) -> B) -> Bool)((s : (A) -> Bool)) == {(f : (A) -> B) | ∀ x : A, !IN(x, s) → f(x) == ARB}"),
     ),
   )
 }
@@ -20835,9 +20237,7 @@ fn step_414() -> Unit raise {
   let t1869 = @simp.rewrite_tac(@list.List([extensional(), in_elim_thm()]))
   in_extensional_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s f:A->B. f IN EXTENSIONAL s <=> (forall x. ~(x IN s) ==> f x = ARB)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ f : (A) -> B, IN(f, EXTENSIONAL(s)) == (∀ x : A, !IN(x, s) → f(x) == ARB)"),
       t1869,
     ),
   )
@@ -20858,9 +20258,7 @@ fn step_415() -> Unit raise {
   let t1870 = @simp.simp_tac(@list.List([in_extensional()]))
   in_extensional_undefined_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s f:A->B x. f IN EXTENSIONAL s /\\ ~(x IN s) ==> f x = ARB",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ f : (A) -> B, ∀ x : A, IN(f, EXTENSIONAL(s)) && !IN(x, s) → f(x) == ARB"),
       t1870,
     ),
   )
@@ -20944,9 +20342,7 @@ fn step_418() -> Unit raise {
   )
   extensional_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s f g:A->B.\n     f IN EXTENSIONAL s /\\ g IN EXTENSIONAL s /\\ (forall x. x IN s ==> f x = g x)\n     ==> f = g",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ f : (A) -> B, ∀ g : (A) -> B, IN(f, EXTENSIONAL(s)) && IN(g, EXTENSIONAL(s)) && (∀ x : A, IN(x, s) → f(x) == g(x)) → f == g"),
       t1878,
     ),
   )
@@ -20966,9 +20362,7 @@ pub fn extensional_eq() -> @kernel.Thm {
 fn step_419() -> Unit raise {
   restriction_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "RESTRICTION s (f:A->B) x = if x IN s then f x else ARB",
-      ),
+      @term_syntax.parse_term("(RESTRICTION : ((A) -> Bool, (A) -> B, A) -> B)((s : (A) -> Bool), (f : (A) -> B), (x : A)) == (if IN(x, s) { f(x) } else { ARB })"),
     ),
   )
 }
@@ -20990,9 +20384,7 @@ fn step_420() -> Unit raise {
   )
   restriction_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (f:A->B). RESTRICTION s f = \\x. if x IN s then f x else ARB",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ f : (A) -> B, RESTRICTION(s, f) == ((x : A) => if IN(x, s) { f(x) } else { ARB })"),
       t1879,
     ),
   )
@@ -21061,9 +20453,7 @@ fn step_423() -> Unit raise {
   let t1882 = @simp.simp_tac(@list.List([restriction_defined()]))
   restriction_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s f:A->B x y. x IN s /\\ f x = y ==> RESTRICTION s f x = y",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ f : (A) -> B, ∀ x : A, ∀ y : B, IN(x, s) && f(x) == y → RESTRICTION(s, f, x) == y"),
       t1882,
     ),
   )
@@ -21114,9 +20504,7 @@ fn step_425() -> Unit raise {
   )
   restriction_extension_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s f g:A->B. RESTRICTION s f = RESTRICTION s g <=>\n                (forall x. x IN s ==> f x = g x)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ f : (A) -> B, ∀ g : (A) -> B, (RESTRICTION(s, f) == RESTRICTION(s, g)) == (∀ x : A, IN(x, s) → f(x) == g(x))"),
       t1886,
     ),
   )
@@ -21145,9 +20533,7 @@ fn step_426() -> Unit raise {
   )
   restriction_fixpoint_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s f:A->B. RESTRICTION s f = f <=> f IN EXTENSIONAL s",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ f : (A) -> B, (RESTRICTION(s, f) == f) == IN(f, EXTENSIONAL(s))"),
       t1888,
     ),
   )
@@ -21196,9 +20582,7 @@ fn step_428() -> Unit raise {
   )
   restriction_restriction_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t f:A->B.\n        s SUBSET t ==> RESTRICTION s (RESTRICTION t f) = RESTRICTION s f",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ f : (A) -> B, SUBSET(s, t) → RESTRICTION(s, RESTRICTION(t, f)) == RESTRICTION(s, f)"),
       t1891,
     ),
   )
@@ -21223,9 +20607,7 @@ fn step_429() -> Unit raise {
   )
   restriction_idemp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s f:A->B. RESTRICTION s (RESTRICTION s f) = RESTRICTION s f",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ f : (A) -> B, RESTRICTION(s, RESTRICTION(s, f)) == RESTRICTION(s, f)"),
       t1892,
     ),
   )
@@ -21252,9 +20634,7 @@ fn step_430() -> Unit raise {
   )
   image_restriction_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s t. s SUBSET t ==> IMAGE (RESTRICTION t f) s = IMAGE f s",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, SUBSET(s, t) → IMAGE(RESTRICTION(t, f), s) == IMAGE(f, s)"),
       t1894,
     ),
   )
@@ -21287,9 +20667,7 @@ fn step_431() -> Unit raise {
   )
   restriction_compose_right_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B g:B->C s.\n        RESTRICTION s (g o RESTRICTION s f) =\n        RESTRICTION s (g o f)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ s : (A) -> Bool, RESTRICTION(s, o(g, RESTRICTION(s, f))) == RESTRICTION(s, o(g, f))"),
       t1897,
     ),
   )
@@ -21322,9 +20700,7 @@ fn step_432() -> Unit raise {
   )
   restriction_compose_left_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B g:B->C s t.\n        IMAGE f s SUBSET t\n        ==> RESTRICTION s (RESTRICTION t g o f) =\n            RESTRICTION s (g o f)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ s : (A) -> Bool, ∀ t : (B) -> Bool, SUBSET(IMAGE(f, s), t) → RESTRICTION(s, o(RESTRICTION(t, g), f)) == RESTRICTION(s, o(g, f))"),
       t1900,
     ),
   )
@@ -21349,9 +20725,7 @@ fn step_433() -> Unit raise {
   )
   restriction_compose_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B g:B->C s t.\n        IMAGE f s SUBSET t\n        ==> RESTRICTION s (RESTRICTION t g o RESTRICTION s f) =\n            RESTRICTION s (g o f)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (B) -> C, ∀ s : (A) -> Bool, ∀ t : (B) -> Bool, SUBSET(IMAGE(f, s), t) → RESTRICTION(s, o(RESTRICTION(t, g), RESTRICTION(s, f))) == RESTRICTION(s, o(g, f))"),
       t1901,
     ),
   )
@@ -21385,9 +20759,7 @@ fn step_434() -> Unit raise {
   )
   restriction_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (f:A->B) g.\n        RESTRICTION s f = g <=> EXTENSIONAL s g /\\ forall x. x IN s ==> f x = g x",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ f : (A) -> B, ∀ g : (A) -> B, (RESTRICTION(s, f) == g) == (EXTENSIONAL(s, g) && (∀ x : A, IN(x, s) → f(x) == g(x)))"),
       t1903,
     ),
   )
@@ -21421,9 +20793,7 @@ fn step_435() -> Unit raise {
   )
   restriction_unique_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (f:A->B) g.\n        f = RESTRICTION s g <=> EXTENSIONAL s f /\\ forall x. x IN s ==> f x = g x",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ f : (A) -> B, ∀ g : (A) -> B, (f == RESTRICTION(s, g)) == (EXTENSIONAL(s, f) && (∀ x : A, IN(x, s) → f(x) == g(x)))"),
       t1905,
     ),
   )
@@ -21445,9 +20815,7 @@ pub fn restriction_unique_alt() -> @kernel.Thm {
 fn step_436() -> Unit raise {
   cartesian_product_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "cartesian_product k s =\n        {f:K->A | EXTENSIONAL k f /\\ forall i. i IN k ==> f i IN s i}",
-      ),
+      @term_syntax.parse_term("(cartesian_product : ((K) -> Bool, (K, A) -> Bool, (K) -> A) -> Bool)((k : (K) -> Bool), (s : (K, A) -> Bool)) == {(f : (K) -> A) | EXTENSIONAL(k, f) && (∀ i : K, IN(i, k) → IN(f(i), s(i)))}"),
     ),
   )
 }
@@ -21471,9 +20839,7 @@ fn step_437() -> Unit raise {
   )
   in_cartesian_product_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s (x:K->A).\n        x IN cartesian_product k s <=>\n        EXTENSIONAL k x /\\ (forall i. i IN k ==> x i IN s i)",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, ∀ x : (K) -> A, IN(x, cartesian_product(k, s)) == (EXTENSIONAL(k, x) && (∀ i : K, IN(i, k) → IN(x(i), s(i))))"),
       t1906,
     ),
   )
@@ -21514,9 +20880,7 @@ fn step_438() -> Unit raise {
   )
   cartesian_product_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s. cartesian_product k s =\n         {f:K->A | forall i. f i IN (if i IN k then s i else {ARB})}",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, cartesian_product(k, s) == {(f : (K) -> A) | ∀ i : K, IN(f(i), if IN(i, k) { s(i) } else { {ARB} })}"),
       t1911,
     ),
   )
@@ -21550,9 +20914,7 @@ fn step_439() -> Unit raise {
   )
   restriction_in_cartesian_product_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s (f:K->A).\n        RESTRICTION k f IN cartesian_product k s <=>\n        forall i. i IN k ==> (f i) IN (s i)",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, ∀ f : (K) -> A, IN(RESTRICTION(k, f), cartesian_product(k, s)) == (∀ i : K, IN(i, k) → IN(f(i), s(i)))"),
       t1913,
     ),
   )
@@ -21611,9 +20973,7 @@ fn step_440() -> Unit raise {
   )
   cartesian_product_as_restrictions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k (s:K->A->bool).\n      cartesian_product k s =\n      {RESTRICTION k f |f| forall i. i IN k ==> f i IN s i}",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, cartesian_product(k, s) == {RESTRICTION(k, f) | f : (K) -> A | ∀ i : K, IN(i, k) → IN(f(i), s(i))}"),
       t1921,
     ),
   )
@@ -21716,9 +21076,7 @@ fn step_441() -> Unit raise {
   let t1926 = @simp.rewrite_tac(
     @list.List([
       set_rule(
-        @parser.parse_term(
-          "(?i. i IN k /\\ s i = {}) <=> ~(forall i. ?a. i IN k ==> a IN s i)",
-        ),
+        @term_syntax.parse_term("(∃ i : _, IN(i, (k : (_) -> Bool)) && (s : (_, _) -> Bool)(i) == {}) == !(∀ i : _, ∃ a : _, IN(i, k) → IN(a, s(i)))"),
       ),
     ]),
   )
@@ -21764,9 +21122,7 @@ fn step_441() -> Unit raise {
   )
   cartesian_product_eq_empty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s:K->A->bool.\n        cartesian_product k s = {} <=> ?i. i IN k /\\ s i = {}",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, (cartesian_product(k, s) == {}) == (∃ i : K, IN(i, k) && s(i) == {})"),
       t1939,
     ),
   )
@@ -21799,9 +21155,7 @@ fn step_442() -> Unit raise {
   )
   cartesian_product_empty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:K->A->bool). cartesian_product {} s = {(\\i. ARB)}",
-      ),
+      @term_syntax.parse_term("∀ s : (K, A) -> Bool, cartesian_product({}, s) == {(i : K) => ARB}"),
       t1942,
     ),
   )
@@ -21840,9 +21194,7 @@ fn step_443() -> Unit raise {
   )
   cartesian_product_eq_members_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s x y:K->A.\n        x IN cartesian_product k s /\\ y IN cartesian_product k s /\\\n        (forall i. i IN k ==> x i = y i)\n        ==> x = y",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, ∀ x : (K) -> A, ∀ y : (K) -> A, IN(x, cartesian_product(k, s)) && IN(y, cartesian_product(k, s)) && (∀ i : K, IN(i, k) → x(i) == y(i)) → x == y"),
       t1947,
     ),
   )
@@ -21865,9 +21217,7 @@ fn step_444() -> Unit raise {
   let t1948 = @meson.meson_tac(@list.List([cartesian_product_eq_members()]))
   cartesian_product_eq_members_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s x y:K->A.\n        x IN cartesian_product k s /\\\n        y IN cartesian_product k s\n        ==> (x = y <=> forall i. i IN k ==> x i = y i)",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, ∀ x : (K) -> A, ∀ y : (K) -> A, IN(x, cartesian_product(k, s)) && IN(y, cartesian_product(k, s)) → (x == y) == (∀ i : K, IN(i, k) → x(i) == y(i))"),
       t1948,
     ),
   )
@@ -21890,9 +21240,7 @@ fn step_445() -> Unit raise {
   let t1976 = @meson.asm_meson_tac(@list.List([]))
   let t1975 = @simp.simp_tac(@list.List([]))
   let t1974 = @simp.rewrite_tac(@list.List([extensional(), in_elim_thm()]))
-  let t1970 = @parser.parse_term(
-    "(\\j. if j IN k then if j = i then x else z j else ARB):K->A",
-  )
+  let t1970 = @term_syntax.parse_term("(j : K) => if IN(j, (k : (K) -> Bool)) { if j == (i : K) { (x : A) } else { (z : (K) -> A)(j) } } else { ARB }")
   let t1973 = @tactics.first_x_assum(fn(
     x1972 : @kernel.Thm,
   ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -21970,9 +21318,7 @@ fn step_445() -> Unit raise {
   let t1962 = @simp.rewrite_tac(
     @list.List([
       set_rule(
-        @parser.parse_term(
-          "~(?i. i IN k /\\ s i = {}) <=> (forall i. ?a. i IN k ==> a IN s i)",
-        ),
+        @term_syntax.parse_term("!(∃ i : _, IN(i, (k : (_) -> Bool)) && (s : (_, _) -> Bool)(i) == {}) == (∀ i : _, ∃ a : _, IN(i, k) → IN(a, s(i)))"),
       ),
     ]),
   )
@@ -22121,9 +21467,7 @@ fn step_445() -> Unit raise {
   )
   subset_cartesian_product_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s t:K->A->bool.\n        cartesian_product k s SUBSET cartesian_product k t <=>\n        cartesian_product k s = {} \\/ forall i. i IN k ==> s i SUBSET t i",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, ∀ t : (K, A) -> Bool, SUBSET(cartesian_product(k, s), cartesian_product(k, t)) == (cartesian_product(k, s) == {} || (∀ i : K, IN(i, k) → SUBSET(s(i), t(i))))"),
       t1977,
     ),
   )
@@ -22189,9 +21533,7 @@ fn step_446() -> Unit raise {
   )
   cartesian_product_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s t:K->A->bool.\n        cartesian_product k s = cartesian_product k t <=>\n        cartesian_product k s = {} /\\ cartesian_product k t = {} \\/\n        forall i. i IN k ==> s i = t i",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, ∀ t : (K, A) -> Bool, (cartesian_product(k, s) == cartesian_product(k, t)) == (cartesian_product(k, s) == {} && cartesian_product(k, t) == {} || (∀ i : K, IN(i, k) → s(i) == t(i)))"),
       t1987,
     ),
   )
@@ -22220,9 +21562,7 @@ fn step_447() -> Unit raise {
   )
   inter_cartesian_product_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s t:K->A->bool.\n        (cartesian_product k s) INTER (cartesian_product k t) =\n        cartesian_product k (\\i. s i INTER t i)",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, ∀ t : (K, A) -> Bool, INTER(cartesian_product(k, s), cartesian_product(k, t)) == cartesian_product(k, (i : K) => INTER(s(i), t(i)))"),
       t1989,
     ),
   )
@@ -22288,9 +21628,7 @@ fn step_449() -> Unit raise {
   )
   cartesian_product_sings_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k x:K->A. EXTENSIONAL k x ==> cartesian_product k (\\i. {x i}) = {x}",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ x : (K) -> A, EXTENSIONAL(k, x) → cartesian_product(k, (i : K) => {x(i)}) == {x}"),
       t1995,
     ),
   )
@@ -22329,9 +21667,7 @@ fn step_450() -> Unit raise {
   )
   cartesian_product_sings_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k (x:K->A). cartesian_product k (\\i. {x i}) = {RESTRICTION k x}",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ x : (K) -> A, cartesian_product(k, (i : K) => {x(i)}) == {RESTRICTION(k, x)}"),
       t1999,
     ),
   )
@@ -22354,9 +21690,7 @@ fn step_451() -> Unit raise {
   let t2020 = @meson.asm_meson_tac(@list.List([in_sing()]))
   let t2019 = @simp.asm_rewrite_tac(@list.List([]))
   let t2018 = @tactics.exists_tac(
-    @parser.parse_term(
-      "\\j. if j = i then x else if j IN k then (z:K->A) j else ARB",
-    ),
+    @term_syntax.parse_term("(j : K) => if j == (i : K) { (x : A) } else { if IN(j, (k : (K) -> Bool)) { (z : (K) -> A)(j) } else { ARB } }"),
   )
   let t2017 = @simp.rewrite_tac(@list.List([in_image(), in_elim_thm()]))
   let t2016 = @tactics.x_gen_tac(@term_syntax.parse_term("(z : (K) -> A)"))
@@ -22366,9 +21700,7 @@ fn step_451() -> Unit raise {
   let t2014 = @simp.rewrite_tac(
     @list.List([
       set_rule(
-        @parser.parse_term(
-          "~(?i. i IN k /\\ s i = {}) <=> (forall i. ?a. i IN k ==> a IN s i)",
-        ),
+        @term_syntax.parse_term("!(∃ i : _, IN(i, (k : (_) -> Bool)) && (s : (_, _) -> Bool)(i) == {}) == (∀ i : _, ∃ a : _, IN(i, k) → IN(a, s(i)))"),
       ),
     ]),
   )
@@ -22508,9 +21840,7 @@ fn step_451() -> Unit raise {
   )
   image_projection_cartesian_product_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s:K->A->bool i.\n        IMAGE (\\x. x i) (cartesian_product k s) =\n        if cartesian_product k s = {} then {}\n        else if i IN k then s i else {ARB}",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, ∀ i : K, IMAGE((x : (K) -> A) => x(i), cartesian_product(k, s)) == (if cartesian_product(k, s) == {} { {} } else { if IN(i, k) { s(i) } else { {ARB} } })"),
       t2021,
     ),
   )
@@ -22534,9 +21864,7 @@ fn step_452() -> Unit raise {
   let t2047 = @simp.asm_rewrite_tac(@list.List([extensional(), in_elim_thm()]))
   let t2042 = @term_syntax.parse_term("(i : K)")
   let t2043 = @list.List([
-    @parser.parse_term(
-      "\\j. if j = i then x else if j IN k then (z:K->A) j else ARB",
-    ),
+    @term_syntax.parse_term("(j : K) => if j == (i : K) { (x : A) } else { if IN(j, (k : (K) -> Bool)) { (z : (K) -> A)(j) } else { ARB } }"),
     t2042,
   ])
   let t2046 = @tactics.first_x_assum(fn(
@@ -22618,9 +21946,7 @@ fn step_452() -> Unit raise {
       @class.skolem_thm(),
       @theorems.left_imp_exists_thm(),
       set_rule(
-        @parser.parse_term(
-          "~(?i. i IN k /\\ s i = {}) <=> (forall i. ?x. i IN k ==> x IN s i)",
-        ),
+        @term_syntax.parse_term("!(∃ i : _, IN(i, (k : (_) -> Bool)) && (s : (_, _) -> Bool)(i) == {}) == (∀ i : _, ∃ x : _, IN(i, k) → IN(x, s(i)))"),
       ),
     ]),
   )
@@ -22754,9 +22080,7 @@ fn step_452() -> Unit raise {
   )
   forall_cartesian_product_elements_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P k s:K->A->bool.\n        (forall z i. z IN cartesian_product k s /\\ i IN k ==> P i (z i)) <=>\n        cartesian_product k s = {} \\/\n        (forall i x. i IN k /\\ x IN s i ==> P i x)",
-      ),
+      @term_syntax.parse_term("∀ P : (K, A) -> Bool, ∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, (∀ z : (K) -> A, ∀ i : K, IN(z, cartesian_product(k, s)) && IN(i, k) → P(i, z(i))) == (cartesian_product(k, s) == {} || (∀ i : K, ∀ x : A, IN(i, k) && IN(x, s(i)) → P(i, x)))"),
       t2049,
     ),
   )
@@ -22779,9 +22103,7 @@ fn step_453() -> Unit raise {
   let t2050 = @simp.simp_tac(@list.List([forall_cartesian_product_elements()]))
   forall_cartesian_product_elements_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P k (s:K->A->bool).\n        ~(cartesian_product k s = {})\n        ==> ((forall i x. i IN k /\\ x IN s i ==> P i x) <=>\n             forall z i. z IN cartesian_product k s /\\ i IN k ==> P i (z i))",
-      ),
+      @term_syntax.parse_term("∀ P : (K, A) -> Bool, ∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, !(cartesian_product(k, s) == {}) → (∀ i : K, ∀ x : A, IN(i, k) && IN(x, s(i)) → P(i, x)) == (∀ z : (K) -> A, ∀ i : K, IN(z, cartesian_product(k, s)) && IN(i, k) → P(i, z(i)))"),
       t2050,
     ),
   )
@@ -22815,9 +22137,7 @@ fn step_454() -> Unit raise {
   )
   exists_cartesian_product_element_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P k s:K->A->bool.\n        (?z. z IN cartesian_product k s /\\ (forall i. i IN k ==> P i (z i))) <=>\n        (forall i. i IN k ==> ?x. x IN (s i) /\\ P i x)",
-      ),
+      @term_syntax.parse_term("∀ P : (K, A) -> Bool, ∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, (∃ z : (K) -> A, IN(z, cartesian_product(k, s)) && (∀ i : K, IN(i, k) → P(i, z(i)))) == (∀ i : K, IN(i, k) → (∃ x : A, IN(x, s(i)) && P(i, x)))"),
       t2054,
     ),
   )
@@ -22839,9 +22159,7 @@ pub fn exists_cartesian_product_element() -> @kernel.Thm {
 fn step_455() -> Unit raise {
   product_map_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "product_map k (f:K->A->B) = \\x. RESTRICTION k (\\i. f i (x i))",
-      ),
+      @term_syntax.parse_term("(product_map : ((K) -> Bool, (K, A) -> B, (K) -> A, K) -> B)((k : (K) -> Bool), (f : (K, A) -> B)) == ((x : (K) -> A) => RESTRICTION(k, (i : K) => f(i, x(i))))"),
     ),
   )
 }
@@ -22868,9 +22186,7 @@ fn step_456() -> Unit raise {
   )
   product_map_restriction_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:K->A->B) k x.\n        product_map k f (RESTRICTION k x) = RESTRICTION k (\\i. f i (x i))",
-      ),
+      @term_syntax.parse_term("∀ f : (K, A) -> B, ∀ k : (K) -> Bool, ∀ x : (K) -> A, product_map(k, f, RESTRICTION(k, x)) == RESTRICTION(k, (i : K) => f(i, x(i)))"),
       t2055,
     ),
   )
@@ -22944,9 +22260,7 @@ fn step_457() -> Unit raise {
   )
   image_product_map_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:K->A->B) k s.\n        IMAGE (product_map k f) (cartesian_product k s) =\n        cartesian_product k (\\i. IMAGE (f i) (s i))",
-      ),
+      @term_syntax.parse_term("∀ f : (K, A) -> B, ∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, IMAGE(product_map(k, f), cartesian_product(k, s)) == cartesian_product(k, (i : K) => IMAGE(f(i), s(i)))"),
       t2065,
     ),
   )
@@ -22968,9 +22282,7 @@ pub fn image_product_map() -> @kernel.Thm {
 fn step_458() -> Unit raise {
   disjoint_union_v1_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "disjoint_union (k:K->bool) (s:K->A->bool) = { (i,x) | i IN k /\\ x IN s i}",
-      ),
+      @term_syntax.parse_term("(disjoint_union : ((K) -> Bool, (K, A) -> Bool, (K, A)) -> Bool)((k : (K) -> Bool), (s : (K, A) -> Bool)) == {((i : K), (x : A)) | IN(i, k) && IN(x, s(i))}"),
     ),
   )
 }
@@ -23002,9 +22314,7 @@ fn step_459() -> Unit raise {
   )
   subset_disjoint_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k (s:K->A->bool) t.\n        disjoint_union k s SUBSET disjoint_union k t <=>\n        forall i. i IN k ==> s i SUBSET t i",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, ∀ t : (K, A) -> Bool, SUBSET(disjoint_union(k, s), disjoint_union(k, t)) == (∀ i : K, IN(i, k) → SUBSET(s(i), t(i)))"),
       t2068,
     ),
   )
@@ -23033,9 +22343,7 @@ fn step_460() -> Unit raise {
   )
   disjoint_union_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k (s:K->A->bool) t.\n        disjoint_union k s = disjoint_union k t <=>\n        forall i. i IN k ==> s i = t i",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, ∀ t : (K, A) -> Bool, (disjoint_union(k, s) == disjoint_union(k, t)) == (∀ i : K, IN(i, k) → s(i) == t(i))"),
       t2070,
     ),
   )
@@ -23141,9 +22449,7 @@ fn step_461() -> Unit raise {
   )
   subset_disjoint_union_exists_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k (s:K->A->bool) u.\n        u SUBSET disjoint_union k s <=>\n        ?t. u = disjoint_union k t /\\ forall i. i IN k ==> t i SUBSET s i",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, ∀ u : ((K, A)) -> Bool, SUBSET(u, disjoint_union(k, s)) == (∃ t : (K, A) -> Bool, u == disjoint_union(k, t) && (∀ i : K, IN(i, k) → SUBSET(t(i), s(i))))"),
       t2080,
     ),
   )
@@ -23173,9 +22479,7 @@ fn step_462() -> Unit raise {
   )
   inter_disjoint_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s t:K->A->bool.\n        (disjoint_union k s) INTER (disjoint_union k t) =\n        disjoint_union k (\\i. s i INTER t i)",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, ∀ t : (K, A) -> Bool, INTER(disjoint_union(k, s), disjoint_union(k, t)) == disjoint_union(k, (i : K) => INTER(s(i), t(i)))"),
       t2083,
     ),
   )
@@ -23205,9 +22509,7 @@ fn step_463() -> Unit raise {
   )
   union_disjoint_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s t:K->A->bool.\n        (disjoint_union k s) UNION (disjoint_union k t) =\n        disjoint_union k (\\i. s i UNION t i)",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, ∀ t : (K, A) -> Bool, UNION(disjoint_union(k, s), disjoint_union(k, t)) == disjoint_union(k, (i : K) => UNION(s(i), t(i)))"),
       t2086,
     ),
   )
@@ -23242,9 +22544,7 @@ fn step_464() -> Unit raise {
   )
   disjoint_union_eq_empty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s:K->A->bool.\n        disjoint_union k s = {} <=> forall i. i IN k ==> s i = {}",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, (disjoint_union(k, s) == {}) == (∀ i : K, IN(i, k) → s(i) == {})"),
       t2088,
     ),
   )
@@ -23270,9 +22570,7 @@ fn step_465() -> Unit raise {
   let t2090 = @tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t2089)
   disjoint_disjoint_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s t:K->A->bool.\n        DISJOINT (disjoint_union k s) (disjoint_union k t) =\n        forall i. i IN k ==> DISJOINT (s i) (t i)",
-      ),
+      @term_syntax.parse_term("∀ k : (K) -> Bool, ∀ s : (K, A) -> Bool, ∀ t : (K, A) -> Bool, DISJOINT(disjoint_union(k, s), disjoint_union(k, t)) == (∀ i : K, IN(i, k) → DISJOINT(s(i), t(i)))"),
       t2090,
     ),
   )
@@ -23579,9 +22877,7 @@ fn step_466() -> Unit raise {
     @tactics.all_tac,
   ])
   let t2113 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "{f:A->B | (forall x. x IN a INSERT s ==> f x IN t) /\\\n              (forall x. ~(x IN a INSERT s) ==> (f x = d))} =\n    IMAGE (\\(b,g) x. if x = a then b else g(x))\n          {b,g | b IN t /\\\n                 g IN {f | (forall x. x IN s ==> f x IN t) /\\\n                           (forall x. ~(x IN s) ==> (f x = d))}}",
-    ),
+    @term_syntax.parse_term("{(f : (A) -> B) | (∀ x : A, IN(x, INSERT((a : A), (s : (A) -> Bool))) → IN(f(x), (t : (B) -> Bool))) && (∀ x : A, !IN(x, INSERT(a, s)) → f(x) == (d : B))} == IMAGE(fn { (b, g) => (x : A) => if x == a { b } else { g(x) } }, {((b : B), (g : (A) -> B)) | IN(b, t) && IN(g, {(f : (A) -> B) | (∀ x : A, IN(x, s) → IN(f(x), t)) && (∀ x : A, !IN(x, s) → f(x) == d)})})"),
     fn(
       x2110 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -23803,9 +23099,7 @@ fn step_466() -> Unit raise {
   )
   has_size_funspace_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall d n t:B->bool m s:A->bool.\n        s HAS_SIZE m /\\ t HAS_SIZE n\n        ==> {f | (forall x. x IN s ==> f(x) IN t) /\\ (forall x. ~(x IN s) ==> (f x = d))}\n            HAS_SIZE (n EXP m)",
-      ),
+      @term_syntax.parse_term("∀ d : B, ∀ n : Num, ∀ t : (B) -> Bool, ∀ m : Num, ∀ s : (A) -> Bool, HAS_SIZE(s, m) && HAS_SIZE(t, n) → HAS_SIZE({(f : (A) -> B) | (∀ x : A, IN(x, s) → IN(f(x), t)) && (∀ x : A, !IN(x, s) → f(x) == d)}, EXP(n, m))"),
       t2153,
     ),
   )
@@ -23828,9 +23122,7 @@ fn step_467() -> Unit raise {
   let t2154 = @meson.meson_tac(@list.List([has_size_funspace(), has_size()]))
   card_funspace_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. FINITE s /\\ FINITE t\n         ==> (CARD {f:A->B | (forall x. x IN s ==> f(x) IN t) /\\\n                             (forall x. ~(x IN s) ==> (f x = d))} =\n             (CARD t) EXP (CARD s))",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, FINITE(s) && FINITE(t) → CARD({(f : (A) -> B) | (∀ x : A, IN(x, s) → IN(f(x), t)) && (∀ x : A, !IN(x, s) → f(x) == (d : B))}) == EXP(CARD(t), CARD(s))"),
       t2154,
     ),
   )
@@ -23851,9 +23143,7 @@ fn step_468() -> Unit raise {
   let t2155 = @meson.meson_tac(@list.List([has_size_funspace(), has_size()]))
   finite_funspace_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. FINITE s /\\ FINITE t\n         ==> FINITE {f:A->B | (forall x. x IN s ==> f(x) IN t) /\\\n                              (forall x. ~(x IN s) ==> (f x = d))}",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, FINITE(s) && FINITE(t) → FINITE({(f : (A) -> B) | (∀ x : A, IN(x, s) → IN(f(x), t)) && (∀ x : A, !IN(x, s) → f(x) == (d : B))})"),
       t2155,
     ),
   )
@@ -23949,9 +23239,7 @@ fn step_469() -> Unit raise {
   )
   has_size_funspace_univ_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. (:A) HAS_SIZE m /\\ (:B) HAS_SIZE n ==> (:A->B) HAS_SIZE (n EXP m)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, (HAS_SIZE : ((A) -> Bool, Num) -> Bool)((UNIV : (A) -> Bool), m) && (HAS_SIZE : ((B) -> Bool, Num) -> Bool)((UNIV : (B) -> Bool), n) → (HAS_SIZE : (((A) -> B) -> Bool, Num) -> Bool)((UNIV : ((A) -> B) -> Bool), EXP(n, m))"),
       t2163,
     ),
   )
@@ -23976,9 +23264,7 @@ fn step_470() -> Unit raise {
   )
   card_funspace_univ_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "FINITE(:A) /\\ FINITE(:B) ==> CARD(:A->B) = CARD(:B) EXP CARD(:A)",
-      ),
+      @term_syntax.parse_term("(FINITE : ((A) -> Bool) -> Bool)((UNIV : (A) -> Bool)) && (FINITE : ((B) -> Bool) -> Bool)((UNIV : (B) -> Bool)) → (CARD : (((A) -> B) -> Bool) -> Num)((UNIV : ((A) -> B) -> Bool)) == EXP((CARD : ((B) -> Bool) -> Num)((UNIV : (B) -> Bool)), (CARD : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)))"),
       t2164,
     ),
   )
@@ -24223,9 +23509,7 @@ fn step_475() -> Unit raise {
     t2188,
   ])
   let t2178 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "{t | t SUBSET s} =\n    {f | (forall x:A. x IN s ==> f(x) IN UNIV) /\\ (forall x. ~(x IN s) ==> (f x = F))}",
-    ),
+    @term_syntax.parse_term("{(t : (A) -> Bool) | SUBSET(t, (s : (A) -> Bool))} == {(f : (A) -> Bool) | (∀ x : A, IN(x, s) → IN(f(x), UNIV)) && (∀ x : A, !IN(x, s) → f(x) == false)}"),
     fn(
       x2175 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -24279,9 +23563,7 @@ fn step_475() -> Unit raise {
   )
   has_size_powerset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) n. s HAS_SIZE n ==> {t | t SUBSET s} HAS_SIZE (2 EXP n)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ n : Num, HAS_SIZE(s, n) → HAS_SIZE({(t : (A) -> Bool) | SUBSET(t, s)}, EXP(2, n))"),
       t2190,
     ),
   )
@@ -24304,9 +23586,7 @@ fn step_476() -> Unit raise {
   let t2191 = @meson.meson_tac(@list.List([has_size_powerset(), has_size()]))
   card_powerset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. FINITE s ==> (CARD {t | t SUBSET s} = 2 EXP (CARD s))",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, FINITE(s) → CARD({(t : (A) -> Bool) | SUBSET(t, s)}) == EXP(2, CARD(s))"),
       t2191,
     ),
   )
@@ -24491,9 +23771,7 @@ fn step_479() -> Unit raise {
   )
   finite_restricted_subsets_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s:A->bool. FINITE s ==> FINITE {t | t SUBSET s /\\ P t}",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, FINITE(s) → FINITE({(t : (A) -> Bool) | SUBSET(t, s) && P(t)})"),
       t2210,
     ),
   )
@@ -24660,9 +23938,7 @@ fn step_480() -> Unit raise {
   )
   finite_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:(A->bool)->bool.\n        FINITE(UNIONS s) <=> FINITE s /\\ (forall t. t IN s ==> FINITE t)",
-      ),
+      @term_syntax.parse_term("∀ s : ((A) -> Bool) -> Bool, FINITE(UNIONS(s)) == (FINITE(s) && (∀ t : (A) -> Bool, IN(t, s) → FINITE(t)))"),
       t2225,
     ),
   )
@@ -24710,9 +23986,7 @@ fn step_481() -> Unit raise {
   )
   finite_card_le_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (t:A->B->bool) m n.\n        (forall x. x IN s ==> FINITE(t x) /\\ CARD(t x) <= n) /\\\n        FINITE s /\\ CARD s <= m\n        ==> FINITE(UNIONS {t x | x IN s}) /\\\n            CARD(UNIONS {t x | x IN s}) <= m * n",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A, B) -> Bool, ∀ m : Num, ∀ n : Num, (∀ x : A, IN(x, s) → FINITE(t(x)) && CARD(t(x)) <= n) && FINITE(s) && CARD(s) <= m → FINITE(UNIONS({t((x : A)) | IN(x, s)})) && CARD(UNIONS({t((x : A)) | IN(x, s)})) <= m * n"),
       t2232,
     ),
   )
@@ -24809,9 +24083,7 @@ fn step_482() -> Unit raise {
   )
   powerset_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "{s:A->bool | s SUBSET {}} = {{}} /\\\n   (forall a:A t. {s | s SUBSET (a INSERT t)} =\n            {s | s SUBSET t} UNION IMAGE (\\s. a INSERT s) {s | s SUBSET t})",
-      ),
+      @term_syntax.parse_term("{(s : (A) -> Bool) | SUBSET(s, {})} == {{}} && (∀ a : A, ∀ t : (A) -> Bool, {(s : (A) -> Bool) | SUBSET(s, INSERT(a, t))} == UNION({(s : (A) -> Bool) | SUBSET(s, t)}, IMAGE((s : (A) -> Bool) => INSERT(a, s), {(s : (A) -> Bool) | SUBSET(s, t)})))"),
       t2246,
     ),
   )
@@ -24845,9 +24117,7 @@ fn step_483() -> Unit raise {
     @tactics.all_tac,
   ])
   let t2254 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "s = UNIONS {{x | x IN s /\\ (f:A->B) x = y} |y| y IN IMAGE f s}",
-    ),
+    @term_syntax.parse_term("(s : (A) -> Bool) == UNIONS({{(x : A) | IN(x, s) && (f : (A) -> B)(x) == y} | y : B | IN(y, IMAGE(f, s))})"),
     fn(
       x2251 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -24935,9 +24205,7 @@ fn step_483() -> Unit raise {
   )
   finite_image_infinite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s.\n        INFINITE s /\\ FINITE(IMAGE f s)\n        ==> ?a. a IN s /\\ INFINITE {x | x IN s /\\ f x = f a}",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, INFINITE(s) && FINITE(IMAGE(f, s)) → (∃ a : A, IN(a, s) && INFINITE({(x : A) | IN(x, s) && f(x) == f(a)}))"),
       t2258,
     ),
   )
@@ -25086,9 +24354,7 @@ fn step_484() -> Unit raise {
       @simp.once_rewrite_tac(
         @list.List([
           set_rule(
-            @parser.parse_term(
-              "{x | P x /\\ Q x} = {x | x IN {y | P y} /\\ Q x}",
-            ),
+            @term_syntax.parse_term("{(x : _) | (P : (_) -> Bool)(x) && (Q : (_) -> Bool)(x)} == {(x : _) | IN(x, {(y : _) | P(y)}) && Q(x)}"),
           ),
         ]),
       ),
@@ -25128,9 +24394,7 @@ fn step_484() -> Unit raise {
   )
   finite_restricted_powerset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A->bool) n.\n        FINITE {t | t SUBSET s /\\ t HAS_SIZE n} <=>\n        FINITE s \\/ n = 0",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ n : Num, FINITE({(t : (A) -> Bool) | SUBSET(t, s) && HAS_SIZE(t, n)}) == (FINITE(s) || n == 0)"),
       t2284,
     ),
   )
@@ -25193,9 +24457,7 @@ fn step_485() -> Unit raise {
     @list.List([finite_powerset(), finite_cross(), finite_image()]),
   )
   let t2286 = @tactics.exists_tac(
-    @parser.parse_term(
-      "IMAGE (\\u:(A#B)->bool x. if ?y. (x,y) IN u then @y. (x,y) IN u else k x)\n          {u | u SUBSET (s CROSS t)}",
-    ),
+    @term_syntax.parse_term("IMAGE((u : ((A, B)) -> Bool) => (x : A) => if (∃ y : B, IN((x, y), u)) { select((y : B) => IN((x, y), u)) } else { (k : (A) -> B)(x) }, {(u : ((A, B)) -> Bool) | SUBSET(u, CROSS((s : (A) -> Bool), (t : (B) -> Bool)))})"),
   )
   let t2285 = @tactics.match_mp_tac(finite_subset())
   let t2303 = @tactics.then_tac(
@@ -25255,9 +24517,7 @@ fn step_485() -> Unit raise {
   )
   finite_restricted_funspace_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool t:B->bool k.\n        FINITE s /\\ FINITE t\n        ==> FINITE {f | IMAGE f s SUBSET t /\\ {x | ~(f x = k x)} SUBSET s}",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, ∀ k : (A) -> B, FINITE(s) && FINITE(t) → FINITE({(f : (A) -> B) | SUBSET(IMAGE(f, s), t) && SUBSET({(x : A) | !(f(x) == k(x))}, s)})"),
       t2303,
     ),
   )
@@ -25284,9 +24544,7 @@ fn step_486() -> Unit raise {
   )
   numseg_clauses_lt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "{i | i < 0} = {} /\\\n   (forall k. {i | i < SUC k} = k INSERT {i | i < k})",
-      ),
+      @term_syntax.parse_term("{(i : Num) | i < 0} == {} && (∀ k : Num, {(i : Num) | i < SUC(k)} == INSERT(k, {(i : Num) | i < k}))"),
       t2305,
     ),
   )
@@ -25395,9 +24653,7 @@ fn step_490() -> Unit raise {
   )
   numseg_clauses_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "{i | i <= 0} = {0} /\\\n   (forall k. {i | i <= SUC k} = SUC k INSERT {i | i <= k})",
-      ),
+      @term_syntax.parse_term("{(i : Num) | i <= 0} == {0} && (∀ k : Num, {(i : Num) | i <= SUC(k)} == INSERT(SUC(k), {(i : Num) | i <= k}))"),
       t2311,
     ),
   )
@@ -25592,9 +24848,7 @@ fn step_496() -> Unit raise {
   )
   num_infinite_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:num->bool. INFINITE s <=> forall N. ?n. N <= n /\\ n IN s",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, INFINITE(s) == (∀ N : Num, ∃ n : Num, N <= n && IN(n, s))"),
       t2330,
     ),
   )
@@ -25784,9 +25038,7 @@ fn step_499() -> Unit raise {
   let t2419 = @simp.asm_simp_tac(
     @list.List([
       @calc_rat.real_arith(
-        @parser.parse_term(
-          "~(b:real = a) ==>\n        (a <= x /\\ x <= b <=> (a < x /\\ x < b) \\/ ~(b <= a) /\\ x = a \\/\n        ~(b <= a) /\\ x = b)",
-        ),
+        @term_syntax.parse_term("!((b : Real) == (a : Real)) → (a <= (x : Real) && x <= b) == (a < x && x < b || !(b <= a) && x == a || !(b <= a) && x == b)"),
       ),
     ]),
   )
@@ -25808,18 +25060,14 @@ fn step_499() -> Unit raise {
   let t2421 = @simp.rewrite_tac(
     @list.List([
       @calc_rat.real_arith(
-        @parser.parse_term(
-          "a:real < x /\\ x <= b <=> (a < x /\\ x < b) \\/ ~(b <= a) /\\ x = b",
-        ),
+        @term_syntax.parse_term("((a : Real) < (x : Real) && x <= (b : Real)) == (a < x && x < b || !(b <= a) && x == b)"),
       ),
     ]),
   )
   let t2422 = @simp.rewrite_tac(
     @list.List([
       @calc_rat.real_arith(
-        @parser.parse_term(
-          "a:real <= x /\\ x < b <=> (a < x /\\ x < b) \\/ ~(b <= a) /\\ x = a",
-        ),
+        @term_syntax.parse_term("((a : Real) <= (x : Real) && x < (b : Real)) == (a < x && x < b || !(b <= a) && x == a)"),
       ),
     ]),
   )
@@ -26242,9 +25490,7 @@ fn step_499() -> Unit raise {
     @list.List([
       @realax.real_of_num_eq(),
       @calc_rat.real_field(
-        @parser.parse_term(
-          "a < b ==> (a + (b - a) / (&n + &2) = a + (b - a) / (&m + &2) <=>\n                 &n:real = &m)",
-        ),
+        @term_syntax.parse_term("(a : Real) < (b : Real) → (a + (b - a) / (real_of_num((n : Num)) + real_of_num(2)) == a + (b - a) / (real_of_num((m : Num)) + real_of_num(2))) == (real_of_num(n) == real_of_num(m))"),
       ),
     ]),
   )
@@ -26506,9 +25752,7 @@ fn step_499() -> Unit raise {
               @tactics.then_tac(
                 @tactics.thenl(
                   @tactics.subgoal_then(
-                    @parser.parse_term(
-                      "forall a b. FINITE {x:real | a < x /\\ x < b} <=> b <= a",
-                    ),
+                    @term_syntax.parse_term("∀ a : Real, ∀ b : Real, FINITE({(x : Real) | a < x && x < b}) == (b <= a)"),
                     fn(
                       x2347 : @kernel.Thm,
                     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -26581,9 +25825,7 @@ fn step_499() -> Unit raise {
   )
   finite_real_interval_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall a. ~FINITE {x:real | a < x}) /\\\n   (forall a. ~FINITE {x:real | a <= x}) /\\\n   (forall b. ~FINITE {x:real | x < b}) /\\\n   (forall b. ~FINITE {x:real | x <= b}) /\\\n   (forall a b. FINITE {x:real | a < x /\\ x < b} <=> b <= a) /\\\n   (forall a b. FINITE {x:real | a <= x /\\ x < b} <=> b <= a) /\\\n   (forall a b. FINITE {x:real | a < x /\\ x <= b} <=> b <= a) /\\\n   (forall a b. FINITE {x:real | a <= x /\\ x <= b} <=> b <= a)",
-      ),
+      @term_syntax.parse_term("(∀ a : Real, !FINITE({(x : Real) | a < x})) && (∀ a : Real, !FINITE({(x : Real) | a <= x})) && (∀ b : Real, !FINITE({(x : Real) | x < b})) && (∀ b : Real, !FINITE({(x : Real) | x <= b})) && (∀ a : Real, ∀ b : Real, FINITE({(x : Real) | a < x && x < b}) == (b <= a)) && (∀ a : Real, ∀ b : Real, FINITE({(x : Real) | a <= x && x < b}) == (b <= a)) && (∀ a : Real, ∀ b : Real, FINITE({(x : Real) | a < x && x <= b}) == (b <= a)) && (∀ a : Real, ∀ b : Real, FINITE({(x : Real) | a <= x && x <= b}) == (b <= a))"),
       t2430,
     ),
   )
@@ -27044,9 +26286,7 @@ fn step_501() -> Unit raise {
   )
   has_size_index_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s n. s HAS_SIZE n\n         ==> ?f:num->A. (forall m. m < n ==> f(m) IN s) /\\\n                        (forall x. x IN s ==> ?!m. m < n /\\ (f m = x))",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ n : Num, HAS_SIZE(s, n) → (∃ f : (Num) -> A, (∀ m : Num, m < n → IN(f(m), s)) && (∀ x : A, IN(x, s) → existsunique((m : Num) => m < n && f(m) == x)))"),
       t2482,
     ),
   )
@@ -27220,9 +26460,7 @@ fn step_502() -> Unit raise {
   )
   let t2506 = @tactics.x_gen_tac(@term_syntax.parse_term("(r : (Num) -> Num)"))
   let t2505 = @tactics.match_mp_tac(@theorems.mono_exists())
-  let t2502 = @parser.parse_term(
-    "(f(0) = next 0) /\\ (forall n. f(SUC n) = next(f n + 1))",
-  )
+  let t2502 = @term_syntax.parse_term("(f : (Num) -> Num)(0) == (next : (Num) -> Num)(0) && (∀ n : Num, f(SUC(n)) == next(f(n) + 1))")
   let t2503 = @recursion.prove_recursive_functions_exist(@nums.num_recursion())
   let t2504 = (fn(
     x2499 : @kernel.Thm,
@@ -27429,9 +26667,7 @@ fn step_502() -> Unit raise {
   )
   infinite_enumerate_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:num->bool.\n       INFINITE s\n       ==> ?r:num->num. (forall m n. m < n ==> r(m) < r(n)) /\\\n                        IMAGE r (:num) = s",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, INFINITE(s) → (∃ r : (Num) -> Num, (∀ m : Num, ∀ n : Num, m < n → r(m) < r(n)) && IMAGE(r, UNIV) == s)"),
       t2537,
     ),
   )
@@ -27506,9 +26742,7 @@ fn step_503() -> Unit raise {
   )
   infinite_enumerate_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:num->bool.\n     INFINITE s <=> ?r. (forall m n:num. m < n ==> r m < r n) /\\ IMAGE r (:num) = s",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, INFINITE(s) == (∃ r : (Num) -> Num, (∀ m : Num, ∀ n : Num, m < n → r(m) < r(n)) && IMAGE(r, UNIV) == s)"),
       t2546,
     ),
   )
@@ -27762,9 +26996,7 @@ fn step_504() -> Unit raise {
   let t2579 = @list.List([
     @tactics.thenl(
       @tactics.subgoal_then(
-        @parser.parse_term(
-          "?f:num->A. forall n. f n IN s /\\ forall m. m < n ==> ~(f m = f n)",
-        ),
+        @term_syntax.parse_term("∃ f : (Num) -> A, ∀ n : Num, IN(f(n), (s : (A) -> Bool)) && (∀ m : Num, m < n → !(f(m) == f(n)))"),
         fn(
           x2547 : @kernel.Thm,
         ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -27825,9 +27057,7 @@ fn step_504() -> Unit raise {
   )
   infinite_enumerate_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. INFINITE s <=>\n       ?f:num->A. (forall x. f x IN s) /\\ (forall x y. f x = f y ==> x = y)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, INFINITE(s) == (∃ f : (Num) -> A, (∀ x : Num, IN(f(x), s)) && (∀ x : Num, ∀ y : Num, f(x) == f(y) → x == y))"),
       t2580,
     ),
   )
@@ -27847,9 +27077,7 @@ pub fn infinite_enumerate_subset() -> @kernel.Thm {
 ///|
 /// set_of_list
 fn step_505() -> Unit raise {
-  let t2581 = @parser.parse_term(
-    "(set_of_list ([]:A list) = {}) /\\\n   (set_of_list (CONS (h:A) t) = h INSERT (set_of_list t))",
-  )
+  let t2581 = @term_syntax.parse_term("(set_of_list : (List[A], A) -> Bool)(NIL) == {} && set_of_list(CONS((h : A), (t : List[A]))) == INSERT(h, set_of_list(t))")
   set_of_list_c.set(
     @recursion.new_recursive_definition(@ind_types.list_recursion())(t2581),
   )
@@ -27869,9 +27097,7 @@ pub fn set_of_list() -> @kernel.Thm {
 fn step_506() -> Unit raise {
   list_of_set_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "list_of_set s = @l:A list. set_of_list l = s /\\ LENGTH l = CARD s",
-      ),
+      @term_syntax.parse_term("(list_of_set : ((A) -> Bool) -> List[A])((s : (A) -> Bool)) == select((l : List[A]) => set_of_list(l) == s && LENGTH(l) == CARD(s))"),
     ),
   )
 }
@@ -27957,9 +27183,7 @@ fn step_507() -> Unit raise {
   )
   list_of_set_properties_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. FINITE(s)\n               ==> (set_of_list(list_of_set s) = s) /\\\n                   (LENGTH(list_of_set s) = CARD s)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, FINITE(s) → set_of_list(list_of_set(s)) == s && LENGTH(list_of_set(s)) == CARD(s)"),
       t2594,
     ),
   )
@@ -27982,9 +27206,7 @@ fn step_508() -> Unit raise {
   let t2595 = @meson.meson_tac(@list.List([list_of_set_properties()]))
   set_of_list_of_set_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. FINITE(s) ==> (set_of_list(list_of_set s) = s)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, FINITE(s) → set_of_list(list_of_set(s)) == s"),
       t2595,
     ),
   )
@@ -28007,9 +27229,7 @@ fn step_509() -> Unit raise {
   let t2596 = @meson.meson_tac(@list.List([list_of_set_properties()]))
   length_list_of_set_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. FINITE(s) ==> (LENGTH(list_of_set s) = CARD s)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, FINITE(s) → LENGTH(list_of_set(s)) == CARD(s)"),
       t2596,
     ),
   )
@@ -28178,9 +27398,7 @@ fn step_510() -> Unit raise {
   )
   mem_list_of_set_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. FINITE(s) ==> forall x. MEM x (list_of_set s) <=> x IN s",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, FINITE(s) → (∀ x : A, MEM(x, list_of_set(s)) == IN(x, s))"),
       t2617,
     ),
   )
@@ -28262,9 +27480,7 @@ fn step_513() -> Unit raise {
   )
   set_of_list_append_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l1 l2:A list.\n        set_of_list(APPEND l1 l2) = set_of_list(l1) UNION set_of_list(l2)",
-      ),
+      @term_syntax.parse_term("∀ l1 : List[A], ∀ l2 : List[A], set_of_list(APPEND(l1, l2)) == UNION(set_of_list(l1), set_of_list(l2))"),
       t2622,
     ),
   )
@@ -28293,9 +27509,7 @@ fn step_514() -> Unit raise {
   )
   set_of_list_map_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) l. set_of_list(MAP f l) = IMAGE f (set_of_list l)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ l : List[A], set_of_list(MAP(f, l)) == IMAGE(f, set_of_list(l))"),
       t2624,
     ),
   )
@@ -28560,9 +27774,7 @@ pub fn mk_fset(x2644 : @list.List[@kernel.Term]) -> @kernel.Term raise {
 fn step_521() -> Unit raise {
   pairwise_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "pairwise r (s:A->bool) <=> forall x y. x IN s /\\ y IN s /\\ ~(x = y) ==> r x y",
-      ),
+      @term_syntax.parse_term("(pairwise : ((A, A) -> Bool, (A) -> Bool) -> Bool)((r : (A, A) -> Bool), (s : (A) -> Bool)) == (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && !(x == y) → r(x, y))"),
     ),
   )
 }
@@ -28633,9 +27845,7 @@ fn step_524() -> Unit raise {
   )
   pairwise_imp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P Q s:A->bool.\n        pairwise P s /\\\n        (forall x y. x IN s /\\ y IN s /\\ P x y /\\ ~(x = y) ==> Q x y)\n        ==> pairwise Q s",
-      ),
+      @term_syntax.parse_term("∀ P : (A, A) -> Bool, ∀ Q : (A, A) -> Bool, ∀ s : (A) -> Bool, pairwise(P, s) && (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && P(x, y) && !(x == y) → Q(x, y)) → pairwise(Q, s)"),
       t2650,
     ),
   )
@@ -28660,9 +27870,7 @@ fn step_525() -> Unit raise {
   )
   pairwise_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(r:A->A->bool) s t. pairwise r s /\\ t SUBSET s ==> pairwise r t",
-      ),
+      @term_syntax.parse_term("∀ r : (A, A) -> Bool, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, pairwise(r, s) && SUBSET(t, s) → pairwise(r, t)"),
       t2652,
     ),
   )
@@ -28687,9 +27895,7 @@ fn step_526() -> Unit raise {
   )
   pairwise_and_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R R' s. pairwise R s /\\ pairwise R' s <=>\n            pairwise (\\x y:A. R x y /\\ R' x y) s",
-      ),
+      @term_syntax.parse_term("∀ R : (A, A) -> Bool, ∀ R' : (A, A) -> Bool, ∀ s : (A) -> Bool, (pairwise(R, s) && pairwise(R', s)) == pairwise((x : A) => (y : A) => R(x, y) && R'(x, y), s)"),
       t2654,
     ),
   )
@@ -28714,9 +27920,7 @@ fn step_527() -> Unit raise {
   )
   pairwise_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r x s.\n        pairwise r (x INSERT s) <=>\n        (forall y:A. y IN s /\\ ~(y = x) ==> r x y /\\ r y x) /\\\n        pairwise r s",
-      ),
+      @term_syntax.parse_term("∀ r : (A, A) -> Bool, ∀ x : A, ∀ s : (A) -> Bool, pairwise(r, INSERT(x, s)) == ((∀ y : A, IN(y, s) && !(y == x) → r(x, y) && r(y, x)) && pairwise(r, s))"),
       t2656,
     ),
   )
@@ -28743,9 +27947,7 @@ fn step_528() -> Unit raise {
   )
   pairwise_insert_symmetric_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r (x:A) s.\n        (forall y. y IN s ==> (r x y <=> r y x))\n        ==> (pairwise r (x INSERT s) <=>\n             (forall y. y IN s /\\ ~(y = x) ==> r x y) /\\ pairwise r s)",
-      ),
+      @term_syntax.parse_term("∀ r : (A, A) -> Bool, ∀ x : A, ∀ s : (A) -> Bool, (∀ y : A, IN(y, s) → r(x, y) == r(y, x)) → pairwise(r, INSERT(x, s)) == ((∀ y : A, IN(y, s) && !(y == x) → r(x, y)) && pairwise(r, s))"),
       t2658,
     ),
   )
@@ -28772,9 +27974,7 @@ fn step_529() -> Unit raise {
   )
   pairwise_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r (f:A->B).\n        pairwise r (IMAGE f s) <=>\n        pairwise (\\x y. ~(f x = f y) ==> r (f x) (f y)) s",
-      ),
+      @term_syntax.parse_term("∀ r : (B, B) -> Bool, ∀ f : (A) -> B, pairwise(r, IMAGE(f, (s : (A) -> Bool))) == pairwise((x : A) => (y : A) => !(f(x) == f(y)) → r(f(x), f(y)), s)"),
       t2660,
     ),
   )
@@ -28799,9 +27999,7 @@ fn step_530() -> Unit raise {
   )
   pairwise_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R s t. pairwise R (s UNION t) <=>\n           pairwise R s /\\ pairwise R t /\\\n           (forall x y:A. x IN s DIFF t /\\ y IN t DIFF s ==> R x y /\\ R y x)",
-      ),
+      @term_syntax.parse_term("∀ R : (A, A) -> Bool, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, pairwise(R, UNION(s, t)) == (pairwise(R, s) && pairwise(R, t) && (∀ x : A, ∀ y : A, IN(x, DIFF(s, t)) && IN(y, DIFF(t, s)) → R(x, y) && R(y, x)))"),
       t2662,
     ),
   )
@@ -28826,9 +28024,7 @@ fn step_531() -> Unit raise {
   )
   pairwise_chain_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R:A->A->bool c.\n        (forall s. s IN c ==> pairwise R s) /\\\n        (forall s t. s IN c /\\ t IN c ==> s SUBSET t \\/ t SUBSET s)\n        ==> pairwise R (UNIONS c)",
-      ),
+      @term_syntax.parse_term("∀ R : (A, A) -> Bool, ∀ c : ((A) -> Bool) -> Bool, (∀ s : (A) -> Bool, IN(s, c) → pairwise(R, s)) && (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, IN(s, c) && IN(t, c) → SUBSET(s, t) || SUBSET(t, s)) → pairwise(R, UNIONS(c))"),
       t2664,
     ),
   )
@@ -28985,9 +28181,7 @@ fn step_532() -> Unit raise {
   )
   diff_unions_pairwise_disjoint_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:(A->bool)->bool.\n        pairwise DISJOINT s /\\ t SUBSET s\n        ==> UNIONS s DIFF UNIONS t = UNIONS(s DIFF t)",
-      ),
+      @term_syntax.parse_term("∀ s : ((A) -> Bool) -> Bool, ∀ t : ((A) -> Bool) -> Bool, pairwise(DISJOINT, s) && SUBSET(t, s) → DIFF(UNIONS(s), UNIONS(t)) == UNIONS(DIFF(s, t))"),
       t2681,
     ),
   )
@@ -29153,9 +28347,7 @@ fn step_533() -> Unit raise {
   )
   inter_unions_pairwise_disjoint_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t:(A->bool)->bool.\n        pairwise DISJOINT (s UNION t)\n        ==> UNIONS s INTER UNIONS t = UNIONS(s INTER t)",
-      ),
+      @term_syntax.parse_term("∀ s : ((A) -> Bool) -> Bool, ∀ t : ((A) -> Bool) -> Bool, pairwise(DISJOINT, UNION(s, t)) → INTER(UNIONS(s), UNIONS(t)) == UNIONS(INTER(s, t))"),
       t2706,
     ),
   )
@@ -29557,9 +28749,7 @@ fn step_534() -> Unit raise {
   )
   psubset_unions_pairwise_disjoint_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall u v:(A->bool)->bool.\n        pairwise DISJOINT v /\\ u PSUBSET (v DELETE {})\n        ==> UNIONS u PSUBSET UNIONS v",
-      ),
+      @term_syntax.parse_term("∀ u : ((A) -> Bool) -> Bool, ∀ v : ((A) -> Bool) -> Bool, pairwise(DISJOINT, v) && PSUBSET(u, DELETE(v, {})) → PSUBSET(UNIONS(u), UNIONS(v))"),
       t2736,
     ),
   )
@@ -29593,9 +28783,7 @@ fn step_536() -> Unit raise {
 fn step_537() -> Unit raise {
   union_of_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "P UNION_OF Q =\n   \\s:A->bool. ?u. P u /\\ (forall c. c IN u ==> Q c) /\\ UNIONS u = s",
-      ),
+      @term_syntax.parse_term("(UNION_OF : ((((A) -> Bool) -> Bool) -> Bool, ((A) -> Bool) -> Bool, (A) -> Bool) -> Bool)((P : (((A) -> Bool) -> Bool) -> Bool), (Q : ((A) -> Bool) -> Bool)) == ((s : (A) -> Bool) => ∃ u : ((A) -> Bool) -> Bool, P(u) && (∀ c : (A) -> Bool, IN(c, u) → Q(c)) && UNIONS(u) == s)"),
     ),
   )
 }
@@ -29614,9 +28802,7 @@ pub fn union_of() -> @kernel.Thm {
 fn step_538() -> Unit raise {
   intersection_of_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "P INTERSECTION_OF Q =\n   \\s:A->bool. ?u. P u /\\ (forall c. c IN u ==> Q c) /\\ INTERS u = s",
-      ),
+      @term_syntax.parse_term("(INTERSECTION_OF : ((((A) -> Bool) -> Bool) -> Bool, ((A) -> Bool) -> Bool, (A) -> Bool) -> Bool)((P : (((A) -> Bool) -> Bool) -> Bool), (Q : ((A) -> Bool) -> Bool)) == ((s : (A) -> Bool) => ∃ u : ((A) -> Bool) -> Bool, P(u) && (∀ c : (A) -> Bool, IN(c, u) → Q(c)) && INTERS(u) == s)"),
     ),
   )
 }
@@ -29677,9 +28863,7 @@ fn step_540() -> Unit raise {
   )
   intersection_of_inc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P Q s:A->bool. P {s} /\\ Q s ==> (P INTERSECTION_OF Q) s",
-      ),
+      @term_syntax.parse_term("∀ P : (((A) -> Bool) -> Bool) -> Bool, ∀ Q : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, P({s}) && Q(s) → INTERSECTION_OF(P, Q, s)"),
       t2744,
     ),
   )
@@ -29706,9 +28890,7 @@ fn step_541() -> Unit raise {
   )
   union_of_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P Q Q' s:A->bool.\n        (P UNION_OF Q) s /\\ (forall x. Q x ==> Q' x) ==> (P UNION_OF Q') s",
-      ),
+      @term_syntax.parse_term("∀ P : (((A) -> Bool) -> Bool) -> Bool, ∀ Q : ((A) -> Bool) -> Bool, ∀ Q' : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, UNION_OF(P, Q, s) && (∀ x : (A) -> Bool, Q(x) → Q'(x)) → UNION_OF(P, Q', s)"),
       t2746,
     ),
   )
@@ -29733,9 +28915,7 @@ fn step_542() -> Unit raise {
   )
   intersection_of_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P Q Q' s:A->bool.\n        (P INTERSECTION_OF Q) s /\\ (forall x. Q x ==> Q' x)\n        ==> (P INTERSECTION_OF Q') s",
-      ),
+      @term_syntax.parse_term("∀ P : (((A) -> Bool) -> Bool) -> Bool, ∀ Q : ((A) -> Bool) -> Bool, ∀ Q' : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, INTERSECTION_OF(P, Q, s) && (∀ x : (A) -> Bool, Q(x) → Q'(x)) → INTERSECTION_OF(P, Q', s)"),
       t2748,
     ),
   )
@@ -29762,9 +28942,7 @@ fn step_543() -> Unit raise {
   )
   forall_union_of_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall s:A->bool. (P UNION_OF Q) s ==> R s) <=>\n   (forall t. P t /\\ (forall c. c IN t ==> Q c) ==> R(UNIONS t))",
-      ),
+      @term_syntax.parse_term("(∀ s : (A) -> Bool, UNION_OF((P : (((A) -> Bool) -> Bool) -> Bool), (Q : ((A) -> Bool) -> Bool), s) → (R : ((A) -> Bool) -> Bool)(s)) == (∀ t : ((A) -> Bool) -> Bool, P(t) && (∀ c : (A) -> Bool, IN(c, t) → Q(c)) → R(UNIONS(t)))"),
       t2750,
     ),
   )
@@ -29791,9 +28969,7 @@ fn step_544() -> Unit raise {
   )
   forall_intersection_of_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall s:A->bool. (P INTERSECTION_OF Q) s ==> R s) <=>\n   (forall t. P t /\\ (forall c. c IN t ==> Q c) ==> R(INTERS t))",
-      ),
+      @term_syntax.parse_term("(∀ s : (A) -> Bool, INTERSECTION_OF((P : (((A) -> Bool) -> Bool) -> Bool), (Q : ((A) -> Bool) -> Bool), s) → (R : ((A) -> Bool) -> Bool)(s)) == (∀ t : ((A) -> Bool) -> Bool, P(t) && (∀ c : (A) -> Bool, IN(c, t) → Q(c)) → R(INTERS(t)))"),
       t2752,
     ),
   )
@@ -29855,9 +29031,7 @@ fn step_546() -> Unit raise {
   )
   intersection_of_empty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P Q:(A->bool)->bool. P {} ==> (P INTERSECTION_OF Q) UNIV",
-      ),
+      @term_syntax.parse_term("∀ P : (((A) -> Bool) -> Bool) -> Bool, ∀ Q : ((A) -> Bool) -> Bool, P({}) → INTERSECTION_OF(P, Q, UNIV)"),
       t2760,
     ),
   )
@@ -29918,9 +29092,7 @@ fn step_548() -> Unit raise {
                       @list.List([
                         @theorems.forall_and_thm(),
                         @class.taut(
-                          @parser.parse_term(
-                            "(p <=> q) <=> (p ==> q) /\\ (q ==> p)",
-                          ),
+                          @term_syntax.parse_term("((p : Bool) == (q : Bool)) == ((p → q) && (q → p))"),
                         ),
                       ]),
                     ),
@@ -29943,9 +29115,7 @@ fn step_548() -> Unit raise {
   )
   arbitrary_union_of_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall B s:A->bool.\n        (ARBITRARY UNION_OF B) s <=>\n        forall x. x IN s ==>  ?u. u IN B /\\ x IN u /\\ u SUBSET s",
-      ),
+      @term_syntax.parse_term("∀ B : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, UNION_OF(ARBITRARY, B, s) == (∀ x : A, IN(x, s) → (∃ u : (A) -> Bool, IN(u, B) && IN(x, u) && SUBSET(u, s)))"),
       t2767,
     ),
   )
@@ -29991,9 +29161,7 @@ fn step_550() -> Unit raise {
   let t2769 = @simp.simp_tac(@list.List([intersection_of_empty(), arbitrary()]))
   arbitrary_intersection_of_empty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->bool)->bool. (ARBITRARY INTERSECTION_OF P) UNIV",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, INTERSECTION_OF(ARBITRARY, P, UNIV)"),
       t2769,
     ),
   )
@@ -30039,9 +29207,7 @@ fn step_552() -> Unit raise {
   let t2771 = @simp.simp_tac(@list.List([intersection_of_inc(), arbitrary()]))
   arbitrary_intersection_of_inc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s:A->bool. P s ==> (ARBITRARY INTERSECTION_OF P) s",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, P(s) → INTERSECTION_OF(ARBITRARY, P, s)"),
       t2771,
     ),
   )
@@ -30108,9 +29274,7 @@ fn step_553() -> Unit raise {
   )
   arbitrary_union_of_complement_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s. (ARBITRARY UNION_OF P) s <=>\n         (ARBITRARY INTERSECTION_OF (\\s. P((:A) DIFF s))) ((:A) DIFF s)",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, UNION_OF(ARBITRARY, P, s) == INTERSECTION_OF(ARBITRARY, (s : (A) -> Bool) => P(DIFF(UNIV, s)), DIFF(UNIV, s))"),
       t2779,
     ),
   )
@@ -30137,9 +29301,7 @@ fn step_554() -> Unit raise {
   )
   arbitrary_intersection_of_complement_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s. (ARBITRARY INTERSECTION_OF P) s <=>\n         (ARBITRARY UNION_OF (\\s. P((:A) DIFF s))) ((:A) DIFF s)",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, INTERSECTION_OF(ARBITRARY, P, s) == UNION_OF(ARBITRARY, (s : (A) -> Bool) => P(DIFF(UNIV, s)), DIFF(UNIV, s))"),
       t2781,
     ),
   )
@@ -30168,9 +29330,7 @@ fn step_555() -> Unit raise {
   )
   let t2812 = @simp.asm_simp_tac(@list.List([arbitrary()]))
   let t2811 = @tactics.exists_tac(
-    @parser.parse_term(
-      "IMAGE SND {s,t | s IN u /\\ t IN (f:(A->bool)->(A->bool)->bool) s}",
-    ),
+    @term_syntax.parse_term("IMAGE(SND, {((s : (A) -> Bool), (t : (A) -> Bool)) | IN(s, (u : ((A) -> Bool) -> Bool)) && IN(t, (f : ((A) -> Bool, (A) -> Bool) -> Bool)(s))})"),
   )
   let t2810 = @tactics.x_gen_tac(
     @term_syntax.parse_term("(f : ((A) -> Bool, (A) -> Bool) -> Bool)"),
@@ -30480,9 +29640,7 @@ fn step_555() -> Unit raise {
   )
   arbitrary_union_of_idempot_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->bool)->bool.\n        ARBITRARY UNION_OF ARBITRARY UNION_OF P = ARBITRARY UNION_OF P",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, UNION_OF(ARBITRARY, UNION_OF(ARBITRARY, P)) == UNION_OF(ARBITRARY, P)"),
       t2818,
     ),
   )
@@ -30517,9 +29675,7 @@ fn step_556() -> Unit raise {
   )
   arbitrary_intersection_of_idempot_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->bool)->bool.\n        ARBITRARY INTERSECTION_OF ARBITRARY INTERSECTION_OF P =\n        ARBITRARY INTERSECTION_OF P",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, INTERSECTION_OF(ARBITRARY, INTERSECTION_OF(ARBITRARY, P)) == INTERSECTION_OF(ARBITRARY, P)"),
       t2820,
     ),
   )
@@ -30561,9 +29717,7 @@ fn step_557() -> Unit raise {
   )
   arbitrary_union_of_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P u:(A->bool)->bool.\n        (forall s. s IN u ==> (ARBITRARY UNION_OF P) s)\n        ==> (ARBITRARY UNION_OF P) (UNIONS u)",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, ∀ u : ((A) -> Bool) -> Bool, (∀ s : (A) -> Bool, IN(s, u) → UNION_OF(ARBITRARY, P, s)) → UNION_OF(ARBITRARY, P, UNIONS(u))"),
       t2826,
     ),
   )
@@ -30601,9 +29755,7 @@ fn step_558() -> Unit raise {
   )
   arbitrary_union_of_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s t:A->bool.\n        (ARBITRARY UNION_OF P) s /\\ (ARBITRARY UNION_OF P) t\n        ==> (ARBITRARY UNION_OF P) (s UNION t)",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, UNION_OF(ARBITRARY, P, s) && UNION_OF(ARBITRARY, P, t) → UNION_OF(ARBITRARY, P, UNION(s, t))"),
       t2831,
     ),
   )
@@ -30645,9 +29797,7 @@ fn step_559() -> Unit raise {
   )
   arbitrary_intersection_of_inters_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P u:(A->bool)->bool.\n        (forall s. s IN u ==> (ARBITRARY INTERSECTION_OF P) s)\n        ==> (ARBITRARY INTERSECTION_OF P) (INTERS u)",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, ∀ u : ((A) -> Bool) -> Bool, (∀ s : (A) -> Bool, IN(s, u) → INTERSECTION_OF(ARBITRARY, P, s)) → INTERSECTION_OF(ARBITRARY, P, INTERS(u))"),
       t2837,
     ),
   )
@@ -30685,9 +29835,7 @@ fn step_560() -> Unit raise {
   )
   arbitrary_intersection_of_inter_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s t:A->bool.\n        (ARBITRARY INTERSECTION_OF P) s /\\ (ARBITRARY INTERSECTION_OF P) t\n        ==> (ARBITRARY INTERSECTION_OF P) (s INTER t)",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, INTERSECTION_OF(ARBITRARY, P, s) && INTERSECTION_OF(ARBITRARY, P, t) → INTERSECTION_OF(ARBITRARY, P, INTER(s, t))"),
       t2842,
     ),
   )
@@ -30795,9 +29943,7 @@ fn step_561() -> Unit raise {
   )
   arbitrary_union_of_inter_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->bool)->bool.\n        (forall s t. (ARBITRARY UNION_OF P) s /\\ (ARBITRARY UNION_OF P) t\n               ==> (ARBITRARY UNION_OF P) (s INTER t)) <=>\n        (forall s t. P s /\\ P t ==> (ARBITRARY UNION_OF P) (s INTER t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, UNION_OF(ARBITRARY, P, s) && UNION_OF(ARBITRARY, P, t) → UNION_OF(ARBITRARY, P, INTER(s, t))) == (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, P(s) && P(t) → UNION_OF(ARBITRARY, P, INTER(s, t)))"),
       t2860,
     ),
   )
@@ -30824,9 +29970,7 @@ fn step_562() -> Unit raise {
   )
   arbitrary_union_of_inter_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->bool)->bool.\n        (forall s t. P s /\\ P t ==> P(s INTER t))\n        ==> (forall s t. (ARBITRARY UNION_OF P) s /\\ (ARBITRARY UNION_OF P) t\n                   ==> (ARBITRARY UNION_OF P) (s INTER t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, P(s) && P(t) → P(INTER(s, t))) → (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, UNION_OF(ARBITRARY, P, s) && UNION_OF(ARBITRARY, P, t) → UNION_OF(ARBITRARY, P, INTER(s, t)))"),
       t2862,
     ),
   )
@@ -30858,9 +30002,7 @@ fn step_563() -> Unit raise {
   let t2866 = @simp.rewrite_tac(
     @list.List([
       set_rule(
-        @parser.parse_term(
-          "s INTER t = UNIV DIFF ((UNIV DIFF s) UNION (UNIV DIFF t))",
-        ),
+        @term_syntax.parse_term("INTER((s : (_) -> Bool), (t : (_) -> Bool)) == DIFF(UNIV, UNION(DIFF(UNIV, s), DIFF(UNIV, t)))"),
       ),
     ]),
   )
@@ -30876,9 +30018,7 @@ fn step_563() -> Unit raise {
   let t2863 = @simp.rewrite_tac(
     @list.List([
       set_rule(
-        @parser.parse_term(
-          "UNIV DIFF (s UNION t) = (UNIV DIFF s) INTER (UNIV DIFF t)",
-        ),
+        @term_syntax.parse_term("DIFF(UNIV, UNION((s : (_) -> Bool), (t : (_) -> Bool))) == INTER(DIFF(UNIV, s), DIFF(UNIV, t))"),
       ),
     ]),
   )
@@ -30905,9 +30045,7 @@ fn step_563() -> Unit raise {
   )
   arbitrary_intersection_of_union_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->bool)->bool.\n        (forall s t. (ARBITRARY INTERSECTION_OF P) s /\\\n               (ARBITRARY INTERSECTION_OF P) t\n               ==> (ARBITRARY INTERSECTION_OF P) (s UNION t)) <=>\n        (forall s t. P s /\\ P t ==> (ARBITRARY INTERSECTION_OF P) (s UNION t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, INTERSECTION_OF(ARBITRARY, P, s) && INTERSECTION_OF(ARBITRARY, P, t) → INTERSECTION_OF(ARBITRARY, P, UNION(s, t))) == (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, P(s) && P(t) → INTERSECTION_OF(ARBITRARY, P, UNION(s, t)))"),
       t2869,
     ),
   )
@@ -30934,9 +30072,7 @@ fn step_564() -> Unit raise {
   )
   arbitrary_intersection_of_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->bool)->bool.\n        (forall s t. P s /\\ P t ==> P(s UNION t))\n        ==> (forall s t. (ARBITRARY INTERSECTION_OF P) s /\\\n                   (ARBITRARY INTERSECTION_OF P) t\n                   ==> (ARBITRARY INTERSECTION_OF P) (s UNION t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, P(s) && P(t) → P(UNION(s, t))) → (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, INTERSECTION_OF(ARBITRARY, P, s) && INTERSECTION_OF(ARBITRARY, P, t) → INTERSECTION_OF(ARBITRARY, P, UNION(s, t)))"),
       t2871,
     ),
   )
@@ -31097,9 +30233,7 @@ fn step_569() -> Unit raise {
   )
   finite_union_of_complement_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s. (FINITE UNION_OF P) s <=>\n         (FINITE INTERSECTION_OF (\\s. P((:A) DIFF s))) ((:A) DIFF s)",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, UNION_OF(FINITE, P, s) == INTERSECTION_OF(FINITE, (s : (A) -> Bool) => P(DIFF(UNIV, s)), DIFF(UNIV, s))"),
       t2883,
     ),
   )
@@ -31126,9 +30260,7 @@ fn step_570() -> Unit raise {
   )
   finite_intersection_of_complement_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s. (FINITE INTERSECTION_OF P) s <=>\n         (FINITE UNION_OF (\\s. P((:A) DIFF s))) ((:A) DIFF s)",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, INTERSECTION_OF(FINITE, P, s) == UNION_OF(FINITE, (s : (A) -> Bool) => P(DIFF(UNIV, s)), DIFF(UNIV, s))"),
       t2885,
     ),
   )
@@ -31159,9 +30291,7 @@ fn step_571() -> Unit raise {
     @list.List([finite_image(), finite_product_dependent()]),
   )
   let t2915 = @tactics.exists_tac(
-    @parser.parse_term(
-      "IMAGE SND {s,t | s IN u /\\ t IN (f:(A->bool)->(A->bool)->bool) s}",
-    ),
+    @term_syntax.parse_term("IMAGE(SND, {((s : (A) -> Bool), (t : (A) -> Bool)) | IN(s, (u : ((A) -> Bool) -> Bool)) && IN(t, (f : ((A) -> Bool, (A) -> Bool) -> Bool)(s))})"),
   )
   let t2914 = @tactics.x_gen_tac(
     @term_syntax.parse_term("(f : ((A) -> Bool, (A) -> Bool) -> Bool)"),
@@ -31471,9 +30601,7 @@ fn step_571() -> Unit raise {
   )
   finite_union_of_idempot_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->bool)->bool.\n        FINITE UNION_OF FINITE UNION_OF P = FINITE UNION_OF P",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, UNION_OF(FINITE, UNION_OF(FINITE, P)) == UNION_OF(FINITE, P)"),
       t2922,
     ),
   )
@@ -31508,9 +30636,7 @@ fn step_572() -> Unit raise {
   )
   finite_intersection_of_idempot_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->bool)->bool.\n        FINITE INTERSECTION_OF FINITE INTERSECTION_OF P =\n        FINITE INTERSECTION_OF P",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, INTERSECTION_OF(FINITE, INTERSECTION_OF(FINITE, P)) == INTERSECTION_OF(FINITE, P)"),
       t2924,
     ),
   )
@@ -31552,9 +30678,7 @@ fn step_573() -> Unit raise {
   )
   finite_union_of_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P u:(A->bool)->bool.\n        FINITE u /\\ (forall s. s IN u ==> (FINITE UNION_OF P) s)\n        ==> (FINITE UNION_OF P) (UNIONS u)",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, ∀ u : ((A) -> Bool) -> Bool, FINITE(u) && (∀ s : (A) -> Bool, IN(s, u) → UNION_OF(FINITE, P, s)) → UNION_OF(FINITE, P, UNIONS(u))"),
       t2930,
     ),
   )
@@ -31592,9 +30716,7 @@ fn step_574() -> Unit raise {
   )
   finite_union_of_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s t:A->bool.\n        (FINITE UNION_OF P) s /\\ (FINITE UNION_OF P) t\n        ==> (FINITE UNION_OF P) (s UNION t)",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, UNION_OF(FINITE, P, s) && UNION_OF(FINITE, P, t) → UNION_OF(FINITE, P, UNION(s, t))"),
       t2935,
     ),
   )
@@ -31636,9 +30758,7 @@ fn step_575() -> Unit raise {
   )
   finite_intersection_of_inters_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P u:(A->bool)->bool.\n        FINITE u /\\ (forall s. s IN u ==> (FINITE INTERSECTION_OF P) s)\n        ==> (FINITE INTERSECTION_OF P) (INTERS u)",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, ∀ u : ((A) -> Bool) -> Bool, FINITE(u) && (∀ s : (A) -> Bool, IN(s, u) → INTERSECTION_OF(FINITE, P, s)) → INTERSECTION_OF(FINITE, P, INTERS(u))"),
       t2941,
     ),
   )
@@ -31676,9 +30796,7 @@ fn step_576() -> Unit raise {
   )
   finite_intersection_of_inter_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s t:A->bool.\n        (FINITE INTERSECTION_OF P) s /\\ (FINITE INTERSECTION_OF P) t\n        ==> (FINITE INTERSECTION_OF P) (s INTER t)",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, INTERSECTION_OF(FINITE, P, s) && INTERSECTION_OF(FINITE, P, t) → INTERSECTION_OF(FINITE, P, INTER(s, t))"),
       t2946,
     ),
   )
@@ -31783,9 +30901,7 @@ fn step_577() -> Unit raise {
   )
   finite_union_of_inter_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->bool)->bool.\n        (forall s t. (FINITE UNION_OF P) s /\\ (FINITE UNION_OF P) t\n                   ==> (FINITE UNION_OF P) (s INTER t)) <=>\n        (forall s t. P s /\\ P t ==> (FINITE UNION_OF P) (s INTER t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, UNION_OF(FINITE, P, s) && UNION_OF(FINITE, P, t) → UNION_OF(FINITE, P, INTER(s, t))) == (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, P(s) && P(t) → UNION_OF(FINITE, P, INTER(s, t)))"),
       t2964,
     ),
   )
@@ -31812,9 +30928,7 @@ fn step_578() -> Unit raise {
   )
   finite_union_of_inter_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->bool)->bool.\n        (forall s t. P s /\\ P t ==> P(s INTER t))\n        ==> (forall s t. (FINITE UNION_OF P) s /\\ (FINITE UNION_OF P) t\n                   ==> (FINITE UNION_OF P) (s INTER t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, P(s) && P(t) → P(INTER(s, t))) → (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, UNION_OF(FINITE, P, s) && UNION_OF(FINITE, P, t) → UNION_OF(FINITE, P, INTER(s, t)))"),
       t2966,
     ),
   )
@@ -31846,9 +30960,7 @@ fn step_579() -> Unit raise {
   let t2970 = @simp.rewrite_tac(
     @list.List([
       set_rule(
-        @parser.parse_term(
-          "s INTER t = UNIV DIFF ((UNIV DIFF s) UNION (UNIV DIFF t))",
-        ),
+        @term_syntax.parse_term("INTER((s : (_) -> Bool), (t : (_) -> Bool)) == DIFF(UNIV, UNION(DIFF(UNIV, s), DIFF(UNIV, t)))"),
       ),
     ]),
   )
@@ -31864,9 +30976,7 @@ fn step_579() -> Unit raise {
   let t2967 = @simp.rewrite_tac(
     @list.List([
       set_rule(
-        @parser.parse_term(
-          "UNIV DIFF (s UNION t) = (UNIV DIFF s) INTER (UNIV DIFF t)",
-        ),
+        @term_syntax.parse_term("DIFF(UNIV, UNION((s : (_) -> Bool), (t : (_) -> Bool))) == INTER(DIFF(UNIV, s), DIFF(UNIV, t))"),
       ),
     ]),
   )
@@ -31893,9 +31003,7 @@ fn step_579() -> Unit raise {
   )
   finite_intersection_of_union_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->bool)->bool.\n        (forall s t. (FINITE INTERSECTION_OF P) s /\\\n               (FINITE INTERSECTION_OF P) t\n               ==> (FINITE INTERSECTION_OF P) (s UNION t)) <=>\n        (forall s t. P s /\\ P t ==> (FINITE INTERSECTION_OF P) (s UNION t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, INTERSECTION_OF(FINITE, P, s) && INTERSECTION_OF(FINITE, P, t) → INTERSECTION_OF(FINITE, P, UNION(s, t))) == (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, P(s) && P(t) → INTERSECTION_OF(FINITE, P, UNION(s, t)))"),
       t2973,
     ),
   )
@@ -31922,9 +31030,7 @@ fn step_580() -> Unit raise {
   )
   finite_intersection_of_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->bool)->bool.\n        (forall s t. P s /\\ P t ==> P(s UNION t))\n        ==> (forall s t. (FINITE INTERSECTION_OF P) s /\\\n                   (FINITE INTERSECTION_OF P) t\n                   ==> (FINITE INTERSECTION_OF P) (s UNION t))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, P(s) && P(t) → P(UNION(s, t))) → (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, INTERSECTION_OF(FINITE, P, s) && INTERSECTION_OF(FINITE, P, t) → INTERSECTION_OF(FINITE, P, UNION(s, t)))"),
       t2975,
     ),
   )
@@ -32017,9 +31123,7 @@ fn step_582() -> Unit raise {
   )
   has_size_set_of_list_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l. (set_of_list l) HAS_SIZE (LENGTH l) <=> PAIRWISE (\\x y:A. ~(x = y)) l",
-      ),
+      @term_syntax.parse_term("∀ l : List[A], HAS_SIZE(set_of_list(l), LENGTH(l)) == PAIRWISE((x : A) => (y : A) => !(x == y), l)"),
       t2980,
     ),
   )
@@ -32219,9 +31323,7 @@ fn step_583() -> Unit raise {
   )
   surjective_iff_injective_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t f:A->B.\n        FINITE s /\\ FINITE t /\\ (CARD s = CARD t) /\\ (IMAGE f s) SUBSET t\n        ==> ((forall y. y IN t ==> ?x. x IN s /\\ (f x = y)) <=>\n             (forall x y. x IN s /\\ y IN s /\\ (f x = f y) ==> (x = y)))",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, ∀ f : (A) -> B, FINITE(s) && FINITE(t) && CARD(s) == CARD(t) && SUBSET(IMAGE(f, s), t) → (∀ y : B, IN(y, t) → (∃ x : A, IN(x, s) && f(x) == y)) == (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y)"),
       t3005,
     ),
   )
@@ -32244,9 +31346,7 @@ fn step_584() -> Unit raise {
   let t3006 = @simp.simp_tac(@list.List([surjective_iff_injective_gen()]))
   surjective_iff_injective_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s f:A->A.\n        FINITE s /\\ (IMAGE f s) SUBSET s\n        ==> ((forall y. y IN s ==> ?x. x IN s /\\ (f x = y)) <=>\n             (forall x y. x IN s /\\ y IN s /\\ (f x = f y) ==> (x = y)))",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ f : (A) -> A, FINITE(s) && SUBSET(IMAGE(f, s), s) → (∀ y : A, IN(y, s) → (∃ x : A, IN(x, s) && f(x) == y)) == (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y)"),
       t3006,
     ),
   )
@@ -32356,9 +31456,7 @@ fn step_585() -> Unit raise {
   )
   image_imp_injective_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t f:A->B.\n        FINITE s /\\ (CARD s = CARD t) /\\ (IMAGE f s = t)\n        ==> forall x y. x IN s /\\ y IN s /\\ (f x = f y) ==> (x = y)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, ∀ f : (A) -> B, FINITE(s) && CARD(s) == CARD(t) && IMAGE(f, s) == t → (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y)"),
       t3017,
     ),
   )
@@ -32381,9 +31479,7 @@ fn step_586() -> Unit raise {
   let t3018 = @meson.meson_tac(@list.List([image_imp_injective_gen()]))
   image_imp_injective_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s f:A->A.\n        FINITE s /\\ IMAGE f s = s\n        ==> forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ f : (A) -> A, FINITE(s) && IMAGE(f, s) == s → (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y)"),
       t3018,
     ),
   )
@@ -32429,9 +31525,7 @@ fn step_587() -> Unit raise {
     t3029,
   ])
   let t3022 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "{x | x IN t /\\ P x} = IMAGE (f:A->B) {x | x IN s /\\ P(f x)}",
-    ),
+    @term_syntax.parse_term("{(x : B) | IN(x, (t : (B) -> Bool)) && (P : (B) -> Bool)(x)} == IMAGE((f : (A) -> B), {(x : A) | IN(x, (s : (A) -> Bool)) && P(f(x))})"),
     fn(
       x3019 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -32485,9 +31579,7 @@ fn step_587() -> Unit raise {
   )
   has_size_image_inj_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f:A->B) s t P n.\n      FINITE s /\\ FINITE t /\\ CARD s = CARD t /\\\n      IMAGE f s SUBSET t /\\\n      (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y) /\\\n      {x | x IN s /\\ P(f x)} HAS_SIZE n\n      ==> {x | x IN t /\\ P x} HAS_SIZE n",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ t : (B) -> Bool, ∀ P : (B) -> Bool, ∀ n : Num, FINITE(s) && FINITE(t) && CARD(s) == CARD(t) && SUBSET(IMAGE(f, s), t) && (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) && HAS_SIZE({(x : A) | IN(x, s) && P(f(x))}, n) → HAS_SIZE({(x : B) | IN(x, t) && P(x)}, n)"),
       t3031,
     ),
   )
@@ -32699,9 +31791,7 @@ fn step_588() -> Unit raise {
   )
   card_le_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. FINITE s /\\ FINITE t /\\ CARD s <= CARD t\n   ==> ?f:A->B. (IMAGE f s) SUBSET t /\\\n                forall x y. x IN s /\\ y IN s /\\ (f x = f y) ==> (x = y)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, FINITE(s) && FINITE(t) && CARD(s) <= CARD(t) → (∃ f : (A) -> B, SUBSET(IMAGE(f, s), t) && (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y))"),
       t3058,
     ),
   )
@@ -32726,9 +31816,7 @@ fn step_589() -> Unit raise {
   )
   forall_in_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall P. (forall x:A. x IN {} ==> P x) <=> T) /\\\n   (forall P a s. (forall x:A. x IN (a INSERT s) ==> P x) <=> P a /\\ (forall x. x IN s ==> P x))",
-      ),
+      @term_syntax.parse_term("(∀ P : (A) -> Bool, (∀ x : A, IN(x, {}) → P(x)) == true) && (∀ P : (A) -> Bool, ∀ a : A, ∀ s : (A) -> Bool, (∀ x : A, IN(x, INSERT(a, s)) → P(x)) == (P(a) && (∀ x : A, IN(x, s) → P(x))))"),
       t3060,
     ),
   )
@@ -32755,9 +31843,7 @@ fn step_590() -> Unit raise {
   )
   exists_in_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall P. (?x:A. x IN {} /\\ P x) <=> F) /\\\n   (forall P a s. (?x:A. x IN (a INSERT s) /\\ P x) <=> P a \\/ (?x. x IN s /\\ P x))",
-      ),
+      @term_syntax.parse_term("(∀ P : (A) -> Bool, (∃ x : A, IN(x, {}) && P(x)) == false) && (∀ P : (A) -> Bool, ∀ a : A, ∀ s : (A) -> Bool, (∃ x : A, IN(x, INSERT(a, s)) && P(x)) == (P(a) || (∃ x : A, IN(x, s) && P(x))))"),
       t3062,
     ),
   )
@@ -32881,9 +31967,7 @@ fn step_591() -> Unit raise {
   )
   injective_on_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B u.\n    (forall s t. s SUBSET u /\\ t SUBSET u /\\ IMAGE f s = IMAGE f t ==> s = t) <=>\n    (forall x y. x IN u /\\ y IN u /\\ f x = f y ==> x = y)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ u : (A) -> Bool, (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, SUBSET(s, u) && SUBSET(t, u) && IMAGE(f, s) == IMAGE(f, t) → s == t) == (∀ x : A, ∀ y : A, IN(x, u) && IN(y, u) && f(x) == f(y) → x == y)"),
       t3076,
     ),
   )
@@ -32919,9 +32003,7 @@ fn step_592() -> Unit raise {
   )
   injective_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B.\n    (forall s t. IMAGE f s = IMAGE f t ==> s = t) <=> (forall x y. f x = f y ==> x = y)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, (∀ s : (A) -> Bool, ∀ t : (A) -> Bool, IMAGE(f, s) == IMAGE(f, t) → s == t) == (∀ x : A, ∀ y : A, f(x) == f(y) → x == y)"),
       t3079,
     ),
   )
@@ -33050,9 +32132,7 @@ fn step_593() -> Unit raise {
   )
   surjective_on_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B u v.\n        (forall t. t SUBSET v ==> ?s. s SUBSET u /\\ IMAGE f s = t) <=>\n        (forall y. y IN v ==> ?x. x IN u /\\ f x = y)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ u : (A) -> Bool, ∀ v : (B) -> Bool, (∀ t : (B) -> Bool, SUBSET(t, v) → (∃ s : (A) -> Bool, SUBSET(s, u) && IMAGE(f, s) == t)) == (∀ y : B, IN(y, v) → (∃ x : A, IN(x, u) && f(x) == y))"),
       t3092,
     ),
   )
@@ -33089,9 +32169,7 @@ fn step_594() -> Unit raise {
   )
   surjective_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B. (forall t. ?s. IMAGE f s = t) <=> (forall y. ?x. f x = y)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, (∀ t : (B) -> Bool, ∃ s : (A) -> Bool, IMAGE(f, s) == t) == (∀ y : B, ∃ x : A, f(x) == y)"),
       t3096,
     ),
   )
@@ -33212,9 +32290,7 @@ fn step_595() -> Unit raise {
   )
   injective_on_preimage_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s u.\n        (forall t t'. t SUBSET u /\\ t' SUBSET u /\\\n                {x | x IN s /\\ f x IN t} = {x | x IN s /\\ f x IN t'}\n                ==> t = t') <=>\n        u SUBSET IMAGE f s",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ u : (B) -> Bool, (∀ t : (B) -> Bool, ∀ t' : (B) -> Bool, SUBSET(t, u) && SUBSET(t', u) && {(x : A) | IN(x, s) && IN(f(x), t)} == {(x : A) | IN(x, s) && IN(f(x), t')} → t == t') == SUBSET(u, IMAGE(f, s))"),
       t3109,
     ),
   )
@@ -33435,9 +32511,7 @@ fn step_596() -> Unit raise {
   )
   surjective_on_preimage_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B s u.\n        (forall k. k SUBSET s\n             ==> ?t. t SUBSET u /\\ {x | x IN s /\\ f x IN t} = k) <=>\n        IMAGE f s SUBSET u /\\\n        (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, ∀ s : (A) -> Bool, ∀ u : (B) -> Bool, (∀ k : (A) -> Bool, SUBSET(k, s) → (∃ t : (B) -> Bool, SUBSET(t, u) && {(x : A) | IN(x, s) && IN(f(x), t)} == k)) == (SUBSET(IMAGE(f, s), u) && (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y))"),
       t3133,
     ),
   )
@@ -33476,9 +32550,7 @@ fn step_597() -> Unit raise {
   )
   injective_preimage_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B.\n        (forall t t'. {x | f x IN t} = {x | f x IN t'} ==> t = t') <=>\n        IMAGE f UNIV = UNIV",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, (∀ t : (B) -> Bool, ∀ t' : (B) -> Bool, {(x : A) | IN(f(x), t)} == {(x : A) | IN(f(x), t')} → t == t') == (IMAGE(f, UNIV) == UNIV)"),
       t3139,
     ),
   )
@@ -33517,9 +32589,7 @@ fn step_598() -> Unit raise {
   )
   surjective_preimage_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B. (forall k. ?t. {x | f x IN t} = k) <=> (forall x y. f x = f y ==> x = y)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> B, (∀ k : (A) -> Bool, ∃ t : (B) -> Bool, {(x : A) | IN(f(x), t)} == k) == (∀ x : A, ∀ y : A, f(x) == f(y) → x == y)"),
       t3145,
     ),
   )
@@ -33591,9 +32661,7 @@ fn step_599() -> Unit raise {
   )
   card_eq_bijection_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. FINITE s /\\ FINITE t /\\ CARD s = CARD t\n   ==> ?f:A->B. (forall x. x IN s ==> f(x) IN t) /\\\n                (forall y. y IN t ==> ?x. x IN s /\\ f x = y) /\\\n                forall x y. x IN s /\\ y IN s /\\ (f x = f y) ==> (x = y)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, FINITE(s) && FINITE(t) && CARD(s) == CARD(t) → (∃ f : (A) -> B, (∀ x : A, IN(x, s) → IN(f(x), t)) && (∀ y : B, IN(y, t) → (∃ x : A, IN(x, s) && f(x) == y)) && (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y))"),
       t3154,
     ),
   )
@@ -33713,9 +32781,7 @@ fn step_600() -> Unit raise {
   )
   card_eq_bijections_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. FINITE s /\\ FINITE t /\\ CARD s = CARD t\n   ==> ?f:A->B g. (forall x. x IN s ==> f(x) IN t /\\ g(f x) = x) /\\\n                  (forall y. y IN t ==> g(y) IN s /\\ f(g y) = y)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, FINITE(s) && FINITE(t) && CARD(s) == CARD(t) → (∃ f : (A) -> B, ∃ g : (B) -> A, (∀ x : A, IN(x, s) → IN(f(x), t) && g(f(x)) == x) && (∀ y : B, IN(y, t) → IN(g(y), s) && f(g(y)) == y))"),
       t3166,
     ),
   )
@@ -33783,9 +32849,7 @@ fn step_601() -> Unit raise {
   )
   card_eq_bijections_special_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t (a:A) (b:B).\n         FINITE s /\\ FINITE t /\\ CARD s = CARD t /\\ a IN s /\\ b IN t\n         ==> ?f g. f a = b /\\ g b = a /\\\n                   (forall x. x IN s ==> f x IN t /\\ g (f x) = x) /\\\n                   (forall y. y IN t ==> g y IN s /\\ f (g y) = y)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, ∀ a : A, ∀ b : B, FINITE(s) && FINITE(t) && CARD(s) == CARD(t) && IN(a, s) && IN(b, t) → (∃ f : (A) -> B, ∃ g : (B) -> A, f(a) == b && g(b) == a && (∀ x : A, IN(x, s) → IN(f(x), t) && g(f(x)) == x) && (∀ y : B, IN(y, t) → IN(g(y), s) && f(g(y)) == y))"),
       t3175,
     ),
   )
@@ -33866,9 +32930,7 @@ fn step_602() -> Unit raise {
   )
   bijections_has_size_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t f:A->B g.\n        (forall x. x IN s ==> f(x) IN t /\\ g(f x) = x) /\\\n        (forall y. y IN t ==> g(y) IN s /\\ f(g y) = y) /\\\n        s HAS_SIZE n\n        ==> t HAS_SIZE n",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, ∀ f : (A) -> B, ∀ g : (B) -> A, (∀ x : A, IN(x, s) → IN(f(x), t) && g(f(x)) == x) && (∀ y : B, IN(y, t) → IN(g(y), s) && f(g(y)) == y) && HAS_SIZE(s, (n : Num)) → HAS_SIZE(t, n)"),
       t3183,
     ),
   )
@@ -34016,9 +33078,7 @@ fn step_603() -> Unit raise {
   )
   bijections_has_size_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t f:A->B g.\n        (forall x. x IN s ==> f(x) IN t /\\ g(f x) = x) /\\\n        (forall y. y IN t ==> g(y) IN s /\\ f(g y) = y)\n        ==> forall n. s HAS_SIZE n <=> t HAS_SIZE n",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, ∀ f : (A) -> B, ∀ g : (B) -> A, (∀ x : A, IN(x, s) → IN(f(x), t) && g(f(x)) == x) && (∀ y : B, IN(y, t) → IN(g(y), s) && f(g(y)) == y) → (∀ n : Num, HAS_SIZE(s, n) == HAS_SIZE(t, n))"),
       t3196,
     ),
   )
@@ -34164,9 +33224,7 @@ fn step_604() -> Unit raise {
   )
   bijections_card_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t f:A->B g.\n        (FINITE s \\/ FINITE t) /\\\n        (forall x. x IN s ==> f(x) IN t /\\ g(f x) = x) /\\\n        (forall y. y IN t ==> g(y) IN s /\\ f(g y) = y)\n        ==> CARD s = CARD t",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, ∀ f : (A) -> B, ∀ g : (B) -> A, (FINITE(s) || FINITE(t)) && (∀ x : A, IN(x, s) → IN(f(x), t) && g(f(x)) == x) && (∀ y : B, IN(y, t) → IN(g(y), s) && f(g(y)) == y) → CARD(s) == CARD(t)"),
       t3207,
     ),
   )
@@ -34391,9 +33449,7 @@ fn step_605() -> Unit raise {
   )
   wf_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(<<). (forall x. ~(x << x)) /\\ (forall x y z. x << y /\\ y << z ==> x << z) /\\\n          (forall x:A. FINITE {y | y << x})\n          ==> WF(<<)",
-      ),
+      @term_syntax.parse_term("∀ `<<` : (A, A) -> Bool, (∀ x : A, !`<<`(x, x)) && (∀ x : A, ∀ y : A, ∀ z : A, `<<`(x, y) && `<<`(y, z) → `<<`(x, z)) && (∀ x : A, FINITE({(y : A) | `<<`(y, x)})) → WF(`<<`)"),
       t3233,
     ),
   )
@@ -34448,9 +33504,7 @@ fn step_606() -> Unit raise {
   )
   wf_psubset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. FINITE s ==> WF (\\t1 t2. t1 PSUBSET t2 /\\ t2 SUBSET s)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, FINITE(s) → WF((t1 : (A) -> Bool) => (t2 : (A) -> Bool) => PSUBSET(t1, t2) && SUBSET(t2, s))"),
       t3242,
     ),
   )
@@ -34470,9 +33524,7 @@ pub fn wf_psubset() -> @kernel.Thm {
 fn step_607() -> Unit raise {
   le_c_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "s <=_c t <=>\n   ?f:A->B. (forall x. x IN s ==> f(x) IN t) /\\\n            (forall x y. x IN s /\\ y IN s /\\ f(x) = f(y) ==> x = y)",
-      ),
+      @term_syntax.parse_term("(op_lt_eq_us_c : ((A) -> Bool, (B) -> Bool) -> Bool)((s : (A) -> Bool), (t : (B) -> Bool)) == (∃ f : (A) -> B, (∀ x : A, IN(x, s) → IN(f(x), t)) && (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y))"),
     ),
   )
 }
@@ -34491,9 +33543,7 @@ pub fn le_c() -> @kernel.Thm {
 fn step_608() -> Unit raise {
   lt_c_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(s:A->bool) <_c (t:B->bool) <=> s <=_c t /\\ ~(t <=_c s)",
-      ),
+      @term_syntax.parse_term("(op_lt_us_c : ((A) -> Bool, (B) -> Bool) -> Bool)((s : (A) -> Bool), (t : (B) -> Bool)) == (op_lt_eq_us_c(s, t) && !op_lt_eq_us_c(t, s))"),
     ),
   )
 }
@@ -34512,9 +33562,7 @@ pub fn lt_c() -> @kernel.Thm {
 fn step_609() -> Unit raise {
   eq_c_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(s:A->bool) =_c (t:B->bool) <=>\n   ?f. (forall x. x IN s ==> f(x) IN t) /\\\n       forall y. y IN t ==> ?!x. x IN s /\\ (f x = y)",
-      ),
+      @term_syntax.parse_term("(op_eq_us_c : ((A) -> Bool, (B) -> Bool) -> Bool)((s : (A) -> Bool), (t : (B) -> Bool)) == (∃ f : (A) -> B, (∀ x : A, IN(x, s) → IN(f(x), t)) && (∀ y : B, IN(y, t) → existsunique((x : A) => IN(x, s) && f(x) == y)))"),
     ),
   )
 }
@@ -34585,9 +33633,7 @@ fn step_612() -> Unit raise {
   )
   le_c_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. s <=_c t <=> ?g:A->B. forall x. x IN s ==> ?y. y IN t /\\ g y = x",
-      ),
+      @term_syntax.parse_term("∀ s : (B) -> Bool, ∀ t : (A) -> Bool, op_lt_eq_us_c(s, t) == (∃ g : (A) -> B, ∀ x : B, IN(x, s) → (∃ y : A, IN(y, t) && g(y) == x))"),
       t3244,
     ),
   )
@@ -34612,9 +33658,7 @@ fn step_613() -> Unit raise {
   )
   ge_c_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. s >=_c t <=> ?f:A->B. forall y. y IN t ==> ?x. x IN s /\\ (y = f x)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (B) -> Bool, op_gt_eq_us_c(s, t) == (∃ f : (A) -> B, ∀ y : B, IN(y, t) → (∃ x : A, IN(x, s) && y == f(x)))"),
       t3246,
     ),
   )
@@ -34653,9 +33697,7 @@ pub fn countable() -> @kernel.Thm {
 fn step_615() -> Unit raise {
   sup_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "sup s = @a:real. (forall x. x IN s ==> x <= a) /\\\n                    forall b. (forall x. x IN s ==> x <= b) ==> a <= b",
-      ),
+      @term_syntax.parse_term("(sup : ((Real) -> Bool) -> Real)((s : (Real) -> Bool)) == select((a : Real) => (∀ x : Real, IN(x, s) → x <= a) && (∀ b : Real, (∀ x : Real, IN(x, s) → x <= b) → a <= b))"),
     ),
   )
 }
@@ -34675,9 +33717,7 @@ fn step_616() -> Unit raise {
   let t3247 = @simp.simp_tac(@list.List([sup()]))
   sup_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. (forall b. (forall x. x IN s ==> x <= b) <=> (forall x. x IN t ==> x <= b))\n         ==> sup s = sup t",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ t : (Real) -> Bool, (∀ b : Real, (∀ x : Real, IN(x, s) → x <= b) == (∀ x : Real, IN(x, t) → x <= b)) → sup(s) == sup(t)"),
       t3247,
     ),
   )
@@ -34711,9 +33751,7 @@ fn step_617() -> Unit raise {
   )
   sup_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. ~(s = {}) /\\ (?b. forall x. x IN s ==> x <= b)\n       ==> (forall x. x IN s ==> x <= sup s) /\\\n           forall b. (forall x. x IN s ==> x <= b) ==> sup s <= b",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, !(s == {}) && (∃ b : Real, ∀ x : Real, IN(x, s) → x <= b) → (∀ x : Real, IN(x, s) → x <= sup(s)) && (∀ b : Real, (∀ x : Real, IN(x, s) → x <= b) → sup(s) <= b)"),
       t3252,
     ),
   )
@@ -34752,9 +33790,7 @@ fn step_618() -> Unit raise {
   )
   sup_finite_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. FINITE s /\\ ~(s = {}) ==> ?b:real. b IN s /\\ forall x. x IN s ==> x <= b",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, FINITE(s) && !(s == {}) → (∃ b : Real, IN(b, s) && (∀ x : Real, IN(x, s) → x <= b))"),
       t3257,
     ),
   )
@@ -34855,9 +33891,7 @@ fn step_619() -> Unit raise {
   )
   sup_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. FINITE s /\\ ~(s = {}) ==> (sup s) IN s /\\ forall x. x IN s ==> x <= sup s",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, FINITE(s) && !(s == {}) → IN(sup(s), s) && (∀ x : Real, IN(x, s) → x <= sup(s))"),
       t3265,
     ),
   )
@@ -34880,9 +33914,7 @@ fn step_620() -> Unit raise {
   )
   real_le_sup_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a. FINITE s /\\ ~(s = {}) ==> (a <= sup s <=> ?x. x IN s /\\ a <= x)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, FINITE(s) && !(s == {}) → (a <= sup(s)) == (∃ x : Real, IN(x, s) && a <= x)"),
       t3266,
     ),
   )
@@ -34907,9 +33939,7 @@ fn step_621() -> Unit raise {
   )
   real_sup_le_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a. FINITE s /\\ ~(s = {}) ==> (sup s <= a <=> forall x. x IN s ==> x <= a)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, FINITE(s) && !(s == {}) → (sup(s) <= a) == (∀ x : Real, IN(x, s) → x <= a)"),
       t3267,
     ),
   )
@@ -34934,9 +33964,7 @@ fn step_622() -> Unit raise {
   )
   real_lt_sup_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a. FINITE s /\\ ~(s = {}) ==> (a < sup s <=> ?x. x IN s /\\ a < x)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, FINITE(s) && !(s == {}) → (a < sup(s)) == (∃ x : Real, IN(x, s) && a < x)"),
       t3268,
     ),
   )
@@ -34961,9 +33989,7 @@ fn step_623() -> Unit raise {
   )
   real_sup_lt_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a. FINITE s /\\ ~(s = {}) ==> (sup s < a <=> forall x. x IN s ==> x < a)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, FINITE(s) && !(s == {}) → (sup(s) < a) == (∀ x : Real, IN(x, s) → x < a)"),
       t3269,
     ),
   )
@@ -34997,9 +34023,7 @@ fn step_624() -> Unit raise {
   )
   real_sup_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s b. (forall x. x IN s ==> x <= b) /\\\n         (forall b'. b' < b ==> ?x. x IN s /\\ b' < x)\n         ==> sup s = b",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ b : Real, (∀ x : Real, IN(x, s) → x <= b) && (∀ b' : Real, b' < b → (∃ x : Real, IN(x, s) && b' < x)) → sup(s) == b"),
       t3273,
     ),
   )
@@ -35022,9 +34046,7 @@ fn step_625() -> Unit raise {
   let t3274 = @meson.meson_tac(@list.List([sup_v1()]))
   real_sup_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b. ~(s = {}) /\\ (forall x. x IN s ==> x <= b) ==> sup s <= b",
-      ),
+      @term_syntax.parse_term("∀ b : Real, !((s : (Real) -> Bool) == {}) && (∀ x : Real, IN(x, s) → x <= b) → sup(s) <= b"),
       t3274,
     ),
   )
@@ -35056,9 +34078,7 @@ fn step_626() -> Unit raise {
   )
   real_sup_le_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. ~(s = {}) /\\ s SUBSET t /\\ (?b. forall x. x IN t ==> x <= b)\n         ==> sup s <= sup t",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ t : (Real) -> Bool, !(s == {}) && SUBSET(s, t) && (∃ b : Real, ∀ x : Real, IN(x, t) → x <= b) → sup(s) <= sup(t)"),
       t3278,
     ),
   )
@@ -35180,9 +34200,7 @@ fn step_627() -> Unit raise {
   )
   real_sup_bounds_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a b. ~(s = {}) /\\ (forall x. x IN s ==> a <= x /\\ x <= b)\n           ==> a <= sup s /\\ sup s <= b",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, ∀ b : Real, !(s == {}) && (∀ x : Real, IN(x, s) → a <= x && x <= b) → a <= sup(s) && sup(s) <= b"),
       t3289,
     ),
   )
@@ -35207,9 +34225,7 @@ fn step_628() -> Unit raise {
   )
   real_abs_sup_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a. ~(s = {}) /\\ (forall x. x IN s ==> abs(x) <= a) ==> abs(sup s) <= a",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, !(s == {}) && (∀ x : Real, IN(x, s) → abs(x) <= a) → abs(sup(s)) <= a"),
       t3290,
     ),
   )
@@ -35234,9 +34250,7 @@ fn step_629() -> Unit raise {
     @simp.simp_tac(
       @list.List([
         @calc_rat.real_arith(
-          @parser.parse_term(
-            "abs(x - l):real <= e <=> l - e <= x /\\ x <= l + e",
-          ),
+          @term_syntax.parse_term("(abs((x : Real) - (l : Real)) <= (e : Real)) == (l - e <= x && x <= l + e)"),
         ),
       ]),
     ),
@@ -35244,9 +34258,7 @@ fn step_629() -> Unit raise {
   )
   real_sup_asclose_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s l e. ~(s = {}) /\\ (forall x. x IN s ==> abs(x - l) <= e)\n           ==> abs(sup s - l) <= e",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ l : Real, ∀ e : Real, !(s == {}) && (∀ x : Real, IN(x, s) → abs(x - l) <= e) → abs(sup(s) - l) <= e"),
       t3292,
     ),
   )
@@ -35288,9 +34300,7 @@ fn step_630() -> Unit raise {
   )
   sup_unique_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. FINITE s /\\ ~(s = {})\n       ==> (sup s = a <=> a IN s /\\ forall y. y IN s ==> y <= a)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, FINITE(s) && !(s == {}) → (sup(s) == (a : Real)) == (IN(a, s) && (∀ y : Real, IN(y, s) → y <= a))"),
       t3294,
     ),
   )
@@ -35352,9 +34362,7 @@ fn step_631() -> Unit raise {
   )
   sup_insert_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x s. FINITE s ==> sup(x INSERT s) = if s = {} then x else max x (sup s)",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ s : (Real) -> Bool, FINITE(s) → sup(INSERT(x, s)) == (if s == {} { x } else { max(x, sup(s)) })"),
       t3300,
     ),
   )
@@ -35415,9 +34423,7 @@ fn step_633() -> Unit raise {
   )
   sup_insert_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b s. sup (b INSERT a INSERT s) = sup (max a b INSERT s)",
-      ),
+      @term_syntax.parse_term("∀ a : Real, ∀ b : Real, ∀ s : (Real) -> Bool, sup(INSERT(b, INSERT(a, s))) == sup(INSERT(max(a, b), s))"),
       t3307,
     ),
   )
@@ -35442,9 +34448,7 @@ fn step_634() -> Unit raise {
   )
   real_le_sup_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a b y. y IN s /\\ a <= y /\\ (forall x. x IN s ==> x <= b) ==> a <= sup s",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, ∀ b : Real, ∀ y : Real, IN(y, s) && a <= y && (∀ x : Real, IN(x, s) → x <= b) → a <= sup(s)"),
       t3308,
     ),
   )
@@ -35465,9 +34469,7 @@ fn step_635() -> Unit raise {
   let t3309 = @meson.meson_tac(@list.List([sup_v1(), @realax.real_le_trans()]))
   real_sup_le_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s y. ~(s = {}) /\\ (?b. forall x. x IN s ==> x <= b)\n         ==> (sup s <= y <=> forall x. x IN s ==> x <= y)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ y : Real, !(s == {}) && (∃ b : Real, ∀ x : Real, IN(x, s) → x <= b) → (sup(s) <= y) == (∀ x : Real, IN(x, s) → x <= y)"),
       t3309,
     ),
   )
@@ -35505,9 +34507,7 @@ fn step_636() -> Unit raise {
   )
   sup_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s b. (forall c. (forall x. x IN s ==> x <= c) <=> b <= c) ==> sup s = b",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ b : Real, (∀ c : Real, (∀ x : Real, IN(x, s) → x <= c) == (b <= c)) → sup(s) == b"),
       t3316,
     ),
   )
@@ -35541,9 +34541,7 @@ fn step_637() -> Unit raise {
   )
   sup_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. ~(s = {}) /\\ ~(t = {}) /\\\n         (?b. forall x. x IN s ==> x <= b) /\\ (?c. forall x. x IN t ==> x <= c)\n         ==> sup(s UNION t) = max (sup s) (sup t)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ t : (Real) -> Bool, !(s == {}) && !(t == {}) && (∃ b : Real, ∀ x : Real, IN(x, s) → x <= b) && (∃ c : Real, ∀ x : Real, IN(x, t) → x <= c) → sup(UNION(s, t)) == max(sup(s), sup(t))"),
       t3320,
     ),
   )
@@ -35566,9 +34564,7 @@ fn step_638() -> Unit raise {
   )
   element_le_sup_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a. (?b. forall x. x IN s ==> x <= b) /\\ a IN s ==> a <= sup s",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, (∃ b : Real, ∀ x : Real, IN(x, s) → x <= b) && IN(a, s) → a <= sup(s)"),
       t3321,
     ),
   )
@@ -35835,9 +34831,7 @@ fn step_639() -> Unit raise {
   )
   sup_approach_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s c. ~(s = {}) /\\ (?b. forall x. x IN s ==> x <= b) /\\ c < sup s\n         ==> ?x. x IN s /\\ c < x",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ c : Real, !(s == {}) && (∃ b : Real, ∀ x : Real, IN(x, s) → x <= b) && c < sup(s) → (∃ x : Real, IN(x, s) && c < x)"),
       t3345,
     ),
   )
@@ -35893,9 +34887,7 @@ pub fn real_max_sup() -> @kernel.Thm {
 fn step_641() -> Unit raise {
   inf_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "inf s = @a:real. (forall x. x IN s ==> a <= x) /\\\n                    forall b. (forall x. x IN s ==> b <= x) ==> b <= a",
-      ),
+      @term_syntax.parse_term("(inf : ((Real) -> Bool) -> Real)((s : (Real) -> Bool)) == select((a : Real) => (∀ x : Real, IN(x, s) → a <= x) && (∀ b : Real, (∀ x : Real, IN(x, s) → b <= x) → b <= a))"),
     ),
   )
 }
@@ -35915,9 +34907,7 @@ fn step_642() -> Unit raise {
   let t3349 = @simp.simp_tac(@list.List([inf()]))
   inf_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. (forall a. (forall x. x IN s ==> a <= x) <=> (forall x. x IN t ==> a <= x))\n         ==> inf s = inf t",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ t : (Real) -> Bool, (∀ a : Real, (∀ x : Real, IN(x, s) → a <= x) == (∀ x : Real, IN(x, t) → a <= x)) → inf(s) == inf(t)"),
       t3349,
     ),
   )
@@ -35986,9 +34976,7 @@ fn step_643() -> Unit raise {
   )
   inf_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. ~(s = {}) /\\ (?b. forall x. x IN s ==> b <= x)\n       ==> (forall x. x IN s ==> inf s <= x) /\\\n           forall b. (forall x. x IN s ==> b <= x) ==> b <= inf s",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, !(s == {}) && (∃ b : Real, ∀ x : Real, IN(x, s) → b <= x) → (∀ x : Real, IN(x, s) → inf(s) <= x) && (∀ b : Real, (∀ x : Real, IN(x, s) → b <= x) → b <= inf(s))"),
       t3359,
     ),
   )
@@ -36027,9 +35015,7 @@ fn step_644() -> Unit raise {
   )
   inf_finite_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. FINITE s /\\ ~(s = {}) ==> ?b:real. b IN s /\\ forall x. x IN s ==> b <= x",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, FINITE(s) && !(s == {}) → (∃ b : Real, IN(b, s) && (∀ x : Real, IN(x, s) → b <= x))"),
       t3364,
     ),
   )
@@ -36130,9 +35116,7 @@ fn step_645() -> Unit raise {
   )
   inf_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. FINITE s /\\ ~(s = {}) ==> (inf s) IN s /\\ forall x. x IN s ==> inf s <= x",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, FINITE(s) && !(s == {}) → IN(inf(s), s) && (∀ x : Real, IN(x, s) → inf(s) <= x)"),
       t3372,
     ),
   )
@@ -36155,9 +35139,7 @@ fn step_646() -> Unit raise {
   )
   real_le_inf_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a. FINITE s /\\ ~(s = {}) ==> (a <= inf s <=> forall x. x IN s ==> a <= x)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, FINITE(s) && !(s == {}) → (a <= inf(s)) == (∀ x : Real, IN(x, s) → a <= x)"),
       t3373,
     ),
   )
@@ -36182,9 +35164,7 @@ fn step_647() -> Unit raise {
   )
   real_inf_le_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a. FINITE s /\\ ~(s = {}) ==> (inf s <= a <=> ?x. x IN s /\\ x <= a)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, FINITE(s) && !(s == {}) → (inf(s) <= a) == (∃ x : Real, IN(x, s) && x <= a)"),
       t3374,
     ),
   )
@@ -36209,9 +35189,7 @@ fn step_648() -> Unit raise {
   )
   real_lt_inf_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a. FINITE s /\\ ~(s = {}) ==> (a < inf s <=> forall x. x IN s ==> a < x)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, FINITE(s) && !(s == {}) → (a < inf(s)) == (∀ x : Real, IN(x, s) → a < x)"),
       t3375,
     ),
   )
@@ -36236,9 +35214,7 @@ fn step_649() -> Unit raise {
   )
   real_inf_lt_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a. FINITE s /\\ ~(s = {}) ==> (inf s < a <=> ?x. x IN s /\\ x < a)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, FINITE(s) && !(s == {}) → (inf(s) < a) == (∃ x : Real, IN(x, s) && x < a)"),
       t3376,
     ),
   )
@@ -36272,9 +35248,7 @@ fn step_650() -> Unit raise {
   )
   real_inf_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s b. (forall x. x IN s ==> b <= x) /\\\n         (forall b'. b < b' ==> ?x. x IN s /\\ x < b')\n         ==> inf s = b",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ b : Real, (∀ x : Real, IN(x, s) → b <= x) && (∀ b' : Real, b < b' → (∃ x : Real, IN(x, s) && x < b')) → inf(s) == b"),
       t3380,
     ),
   )
@@ -36297,9 +35271,7 @@ fn step_651() -> Unit raise {
   let t3381 = @meson.meson_tac(@list.List([inf_v1()]))
   real_le_inf_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b. ~(s = {}) /\\ (forall x. x IN s ==> b <= x) ==> b <= inf s",
-      ),
+      @term_syntax.parse_term("∀ b : Real, !((s : (Real) -> Bool) == {}) && (∀ x : Real, IN(x, s) → b <= x) → b <= inf(s)"),
       t3381,
     ),
   )
@@ -36331,9 +35303,7 @@ fn step_652() -> Unit raise {
   )
   real_le_inf_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. ~(t = {}) /\\ t SUBSET s /\\ (?b. forall x. x IN s ==> b <= x)\n         ==> inf s <= inf t",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ t : (Real) -> Bool, !(t == {}) && SUBSET(t, s) && (∃ b : Real, ∀ x : Real, IN(x, s) → b <= x) → inf(s) <= inf(t)"),
       t3385,
     ),
   )
@@ -36455,9 +35425,7 @@ fn step_653() -> Unit raise {
   )
   real_inf_bounds_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a b. ~(s = {}) /\\ (forall x. x IN s ==> a <= x /\\ x <= b)\n           ==> a <= inf s /\\ inf s <= b",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, ∀ b : Real, !(s == {}) && (∀ x : Real, IN(x, s) → a <= x && x <= b) → a <= inf(s) && inf(s) <= b"),
       t3396,
     ),
   )
@@ -36482,9 +35450,7 @@ fn step_654() -> Unit raise {
   )
   real_abs_inf_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a. ~(s = {}) /\\ (forall x. x IN s ==> abs(x) <= a) ==> abs(inf s) <= a",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, !(s == {}) && (∀ x : Real, IN(x, s) → abs(x) <= a) → abs(inf(s)) <= a"),
       t3397,
     ),
   )
@@ -36509,9 +35475,7 @@ fn step_655() -> Unit raise {
     @simp.simp_tac(
       @list.List([
         @calc_rat.real_arith(
-          @parser.parse_term(
-            "abs(x - l):real <= e <=> l - e <= x /\\ x <= l + e",
-          ),
+          @term_syntax.parse_term("(abs((x : Real) - (l : Real)) <= (e : Real)) == (l - e <= x && x <= l + e)"),
         ),
       ]),
     ),
@@ -36519,9 +35483,7 @@ fn step_655() -> Unit raise {
   )
   real_inf_asclose_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s l e. ~(s = {}) /\\ (forall x. x IN s ==> abs(x - l) <= e)\n           ==> abs(inf s - l) <= e",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ l : Real, ∀ e : Real, !(s == {}) && (∀ x : Real, IN(x, s) → abs(x - l) <= e) → abs(inf(s) - l) <= e"),
       t3399,
     ),
   )
@@ -36563,9 +35525,7 @@ fn step_656() -> Unit raise {
   )
   inf_unique_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. FINITE s /\\ ~(s = {})\n       ==> (inf s = a <=> a IN s /\\ forall y. y IN s ==> a <= y)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, FINITE(s) && !(s == {}) → (inf(s) == (a : Real)) == (IN(a, s) && (∀ y : Real, IN(y, s) → a <= y))"),
       t3401,
     ),
   )
@@ -36627,9 +35587,7 @@ fn step_657() -> Unit raise {
   )
   inf_insert_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x s. FINITE s ==> inf(x INSERT s) = if s = {} then x else min x (inf s)",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ s : (Real) -> Bool, FINITE(s) → inf(INSERT(x, s)) == (if s == {} { x } else { min(x, inf(s)) })"),
       t3407,
     ),
   )
@@ -36690,9 +35648,7 @@ fn step_659() -> Unit raise {
   )
   inf_insert_insert_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b s. inf (b INSERT a INSERT s) = inf (min a b INSERT s)",
-      ),
+      @term_syntax.parse_term("∀ a : Real, ∀ b : Real, ∀ s : (Real) -> Bool, inf(INSERT(b, INSERT(a, s))) == inf(INSERT(min(a, b), s))"),
       t3414,
     ),
   )
@@ -36751,9 +35707,7 @@ fn step_660() -> Unit raise {
   )
   real_sup_eq_inf_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. ~(s = {}) /\\ (?B. forall x. x IN s ==> abs(x) <= B)\n       ==> (sup s = inf s <=> ?a. s = {a})",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, !(s == {}) && (∃ B : Real, ∀ x : Real, IN(x, s) → abs(x) <= B) → (sup(s) == inf(s)) == (∃ a : Real, s == {a})"),
       t3420,
     ),
   )
@@ -36778,9 +35732,7 @@ fn step_661() -> Unit raise {
   )
   real_inf_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a b y. y IN s /\\ y <= b /\\ (forall x. x IN s ==> a <= x) ==> inf s <= b",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, ∀ b : Real, ∀ y : Real, IN(y, s) && y <= b && (∀ x : Real, IN(x, s) → a <= x) → inf(s) <= b"),
       t3421,
     ),
   )
@@ -36801,9 +35753,7 @@ fn step_662() -> Unit raise {
   let t3422 = @meson.meson_tac(@list.List([inf_v1(), @realax.real_le_trans()]))
   real_le_inf_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s y. ~(s = {}) /\\ (?b. forall x. x IN s ==> b <= x)\n         ==> (y <= inf s <=> forall x. x IN s ==> y <= x)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ y : Real, !(s == {}) && (∃ b : Real, ∀ x : Real, IN(x, s) → b <= x) → (y <= inf(s)) == (∀ x : Real, IN(x, s) → y <= x)"),
       t3422,
     ),
   )
@@ -36841,9 +35791,7 @@ fn step_663() -> Unit raise {
   )
   inf_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s b. (forall c. (forall x. x IN s ==> c <= x) <=> c <= b) ==> inf s = b",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ b : Real, (∀ c : Real, (∀ x : Real, IN(x, s) → c <= x) == (c <= b)) → inf(s) == b"),
       t3429,
     ),
   )
@@ -36877,9 +35825,7 @@ fn step_664() -> Unit raise {
   )
   inf_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. ~(s = {}) /\\ ~(t = {}) /\\\n         (?b. forall x. x IN s ==> b <= x) /\\ (?c. forall x. x IN t ==> c <= x)\n         ==> inf(s UNION t) = min (inf s) (inf t)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ t : (Real) -> Bool, !(s == {}) && !(t == {}) && (∃ b : Real, ∀ x : Real, IN(x, s) → b <= x) && (∃ c : Real, ∀ x : Real, IN(x, t) → c <= x) → inf(UNION(s, t)) == min(inf(s), inf(t))"),
       t3433,
     ),
   )
@@ -36902,9 +35848,7 @@ fn step_665() -> Unit raise {
   )
   inf_le_element_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a. (?b. forall x. x IN s ==> b <= x) /\\ a IN s ==> inf s <= a",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ a : Real, (∃ b : Real, ∀ x : Real, IN(x, s) → b <= x) && IN(a, s) → inf(s) <= a"),
       t3434,
     ),
   )
@@ -37171,9 +36115,7 @@ fn step_666() -> Unit raise {
   )
   inf_approach_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s c. ~(s = {}) /\\ (?b. forall x. x IN s ==> b <= x) /\\ inf s < c\n         ==> ?x. x IN s /\\ x < c",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ c : Real, !(s == {}) && (∃ b : Real, ∀ x : Real, IN(x, s) → b <= x) && inf(s) < c → (∃ x : Real, IN(x, s) && x < c)"),
       t3458,
     ),
   )
@@ -37241,9 +36183,7 @@ fn step_669() -> Unit raise {
 fn step_670() -> Unit raise {
   has_inf_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "s has_inf b <=> (forall c. (forall x:real. x IN s ==> c <= x) <=> c <= b)",
-      ),
+      @term_syntax.parse_term("(has_inf : ((Real) -> Bool, Real) -> Bool)((s : (Real) -> Bool), (b : Real)) == (∀ c : Real, (∀ x : Real, IN(x, s) → c <= x) == (c <= b))"),
     ),
   )
 }
@@ -37262,9 +36202,7 @@ pub fn has_inf() -> @kernel.Thm {
 fn step_671() -> Unit raise {
   has_sup_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "s has_sup b <=> (forall c. (forall x:real. x IN s ==> x <= c) <=> b <= c)",
-      ),
+      @term_syntax.parse_term("(has_sup : ((Real) -> Bool, Real) -> Bool)((s : (Real) -> Bool), (b : Real)) == (∀ c : Real, (∀ x : Real, IN(x, s) → x <= c) == (b <= c))"),
     ),
   )
 }
@@ -37583,9 +36521,7 @@ fn step_674() -> Unit raise {
   )
   has_inf_inf_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s l. s has_inf l <=>\n         ~(s = {}) /\\\n         (?b. forall x. x IN s ==> b <= x) /\\\n         inf s = l",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ l : Real, has_inf(s, l) == (!(s == {}) && (∃ b : Real, ∀ x : Real, IN(x, s) → b <= x) && inf(s) == l)"),
       t3495,
     ),
   )
@@ -37853,9 +36789,7 @@ fn step_675() -> Unit raise {
   )
   has_sup_sup_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s l. s has_sup l <=>\n         ~(s = {}) /\\\n         (?b. forall x. x IN s ==> x <= b) /\\\n         sup s = l",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ l : Real, has_sup(s, l) == (!(s == {}) && (∃ b : Real, ∀ x : Real, IN(x, s) → x <= b) && sup(s) == l)"),
       t3523,
     ),
   )
@@ -37876,9 +36810,7 @@ fn step_676() -> Unit raise {
   let t3524 = @meson.meson_tac(@list.List([has_inf_inf()]))
   inf_exists_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. (?l. s has_inf l) <=> ~(s = {}) /\\ (?b. forall x. x IN s ==> b <= x)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, (∃ l : Real, has_inf(s, l)) == (!(s == {}) && (∃ b : Real, ∀ x : Real, IN(x, s) → b <= x))"),
       t3524,
     ),
   )
@@ -37899,9 +36831,7 @@ fn step_677() -> Unit raise {
   let t3525 = @meson.meson_tac(@list.List([has_sup_sup()]))
   sup_exists_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. (?l. s has_sup l) <=> ~(s = {}) /\\ (?b. forall x. x IN s ==> x <= b)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, (∃ l : Real, has_sup(s, l)) == (!(s == {}) && (∃ b : Real, ∀ x : Real, IN(x, s) → x <= b))"),
       t3525,
     ),
   )
@@ -37926,9 +36856,7 @@ fn step_678() -> Unit raise {
   )
   has_inf_approach_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s l c. s has_inf l /\\ l < c ==> ?x. x IN s /\\ x < c",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ l : Real, ∀ c : Real, has_inf(s, l) && l < c → (∃ x : Real, IN(x, s) && x < c)"),
       t3527,
     ),
   )
@@ -37955,9 +36883,7 @@ fn step_679() -> Unit raise {
   )
   has_sup_approach_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s l c. s has_sup l /\\ c < l ==> ?x. x IN s /\\ c < x",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ l : Real, ∀ c : Real, has_sup(s, l) && c < l → (∃ x : Real, IN(x, s) && c < x)"),
       t3529,
     ),
   )
@@ -38166,9 +37092,7 @@ fn step_680() -> Unit raise {
   )
   has_inf_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s l. s has_inf l <=>\n         ~(s = {}) /\\\n         (forall x. x IN s ==> l <= x) /\\\n         (forall c. l < c ==> ?x. x IN s /\\ x < c)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ l : Real, has_inf(s, l) == (!(s == {}) && (∀ x : Real, IN(x, s) → l <= x) && (∀ c : Real, l < c → (∃ x : Real, IN(x, s) && x < c)))"),
       t3557,
     ),
   )
@@ -38375,9 +37299,7 @@ fn step_681() -> Unit raise {
   )
   has_sup_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s l. s has_sup l <=>\n         ~(s = {}) /\\\n         (forall x. x IN s ==> x <= l) /\\\n         (forall c. c < l ==> ?x. x IN s /\\ c < x)",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ l : Real, has_sup(s, l) == (!(s == {}) && (∀ x : Real, IN(x, s) → x <= l) && (∀ c : Real, c < l → (∃ x : Real, IN(x, s) && c < x)))"),
       t3585,
     ),
   )
@@ -38546,9 +37468,7 @@ fn step_682() -> Unit raise {
   )
   has_inf_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t l m. s has_inf l /\\ t has_inf m /\\\n             (forall y. y IN t ==> ?x. x IN s /\\ x <= y)\n             ==> l <= m",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ t : (Real) -> Bool, ∀ l : Real, ∀ m : Real, has_inf(s, l) && has_inf(t, m) && (∀ y : Real, IN(y, t) → (∃ x : Real, IN(x, s) && x <= y)) → l <= m"),
       t3608,
     ),
   )
@@ -38717,9 +37637,7 @@ fn step_683() -> Unit raise {
   )
   has_sup_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t l m. s has_sup l /\\ t has_sup m /\\\n             (forall y. y IN t ==> ?x. x IN s /\\ y <= x)\n             ==> m <= l",
-      ),
+      @term_syntax.parse_term("∀ s : (Real) -> Bool, ∀ t : (Real) -> Bool, ∀ l : Real, ∀ m : Real, has_sup(s, l) && has_sup(t, m) && (∀ y : Real, IN(y, t) → (∃ x : Real, IN(x, s) && y <= x)) → m <= l"),
       t3631,
     ),
   )
