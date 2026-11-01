@@ -11,9 +11,7 @@ fn step_1() -> Unit raise {
 fn step_2() -> Unit raise {
   wf_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "WF(<<) <=> forall P:A->bool. (?x. P(x)) ==> (?x. P(x) /\\ forall y. y << x ==> ~P(y))",
-      ),
+      @term_syntax.parse_term("(WF : ((A, A) -> Bool) -> Bool)((op_lt_lt : (A, A) -> Bool)) == (∀ P : (A) -> Bool, (∃ x : A, P(x)) → (∃ x : A, P(x) && (∀ y : A, op_lt_lt(y, x) → !P(y))))"),
     ),
   )
 }
@@ -34,9 +32,7 @@ fn step_3() -> Unit raise {
   let t2 = @tactics.then_tac(@simp.rewrite_tac(@list.List([wf()])), t1)
   wf_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "WF(<<) <=> forall P:A->bool. (?x. P(x)) <=> (?x. P(x) /\\ forall y. y << x ==> ~P(y))",
-      ),
+      @term_syntax.parse_term("WF((op_lt_lt : (A, A) -> Bool)) == (∀ P : (A) -> Bool, (∃ x : A, P(x)) == (∃ x : A, P(x) && (∀ y : A, op_lt_lt(y, x) → !P(y))))"),
       t2,
     ),
   )
@@ -146,9 +142,7 @@ fn step_4() -> Unit raise {
   )
   wf_ind_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "WF(<<) <=> forall P:A->bool. (forall x. (forall y. y << x ==> P(y)) ==> P(x)) ==> forall x. P(x)",
-      ),
+      @term_syntax.parse_term("WF((op_lt_lt : (A, A) -> Bool)) == (∀ P : (A) -> Bool, (∀ x : A, (∀ y : A, op_lt_lt(y, x) → P(y)) → P(x)) → (∀ x : A, P(x)))"),
       t12,
     ),
   )
@@ -519,9 +513,7 @@ fn step_6() -> Unit raise {
   )
   wf_dhain_transitive_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(<<):A->A->bool.\n        (forall x y z. x << y /\\ y << z ==> x << z)\n        ==> (WF(<<) <=> ~(?s:num->A. forall i j. i < j ==> s j << s i))",
-      ),
+      @term_syntax.parse_term("∀ `<<` : (A, A) -> Bool, (∀ x : A, ∀ y : A, ∀ z : A, `<<`(x, y) && `<<`(y, z) → `<<`(x, z)) → WF(`<<`) == !(∃ s : (Num) -> A, ∀ i : Num, ∀ j : Num, i < j → `<<`(s(j), s(i)))"),
       t52,
     ),
   )
@@ -611,9 +603,7 @@ fn step_7() -> Unit raise {
   )
   wf_urec_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "WF(<<) ==>\n       forall H. (forall f g x. (forall z. z << x ==> (f z = g z)) ==> (H f x = H g x))\n            ==> forall(f:A->B) g. (forall x. f x = H f x) /\\ (forall x. g x = H g x)\n                              ==> (f = g)",
-      ),
+      @term_syntax.parse_term("WF((op_lt_lt : (A, A) -> Bool)) → (∀ H : ((A) -> B, A) -> B, (∀ f : (A) -> B, ∀ g : (A) -> B, ∀ x : A, (∀ z : A, op_lt_lt(z, x) → f(z) == g(z)) → H(f, x) == H(g, x)) → (∀ f : (A) -> B, ∀ g : (A) -> B, (∀ x : A, f(x) == H(f, x)) && (∀ x : A, g(x) == H(g, x)) → f == g))"),
       t61,
     ),
   )
@@ -1034,9 +1024,7 @@ fn step_8() -> Unit raise {
   )
   wf_urec_wf_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall H. (forall f g x. (forall z. z << x ==> (f z = g z)) ==> (H f x = H g x))\n        ==> forall(f:A->bool) g. (forall x. f x = H f x) /\\ (forall x. g x = H g x)\n                          ==> (f = g))\n   ==> WF(<<)",
-      ),
+      @term_syntax.parse_term("(∀ H : ((A) -> Bool, A) -> Bool, (∀ f : (A) -> Bool, ∀ g : (A) -> Bool, ∀ x : A, (∀ z : A, (op_lt_lt : (A, A) -> Bool)(z, x) → f(z) == g(z)) → H(f, x) == H(g, x)) → (∀ f : (A) -> Bool, ∀ g : (A) -> Bool, (∀ x : A, f(x) == H(f, x)) && (∀ x : A, g(x) == H(g, x)) → f == g)) → WF(op_lt_lt)"),
       t93,
     ),
   )
@@ -1196,9 +1184,7 @@ fn step_9() -> Unit raise {
   )
   wf_rec_invariant_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "WF(<<)\n   ==> forall H S. (forall f g x. (forall z. z << x ==> (f z = g z) /\\ S z (f z))\n                      ==> (H f x = H g x) /\\ S x (H f x))\n             ==> ?f:A->B. forall x. (f x = H f x)",
-      ),
+      @term_syntax.parse_term("WF((op_lt_lt : (A, A) -> Bool)) → (∀ H : ((A) -> B, A) -> B, ∀ S : (A, B) -> Bool, (∀ f : (A) -> B, ∀ g : (A) -> B, ∀ x : A, (∀ z : A, op_lt_lt(z, x) → f(z) == g(z) && S(z, f(z))) → H(f, x) == H(g, x) && S(x, H(f, x))) → (∃ f : (A) -> B, ∀ x : A, f(x) == H(f, x)))"),
       t112,
     ),
   )
@@ -1253,9 +1239,7 @@ fn step_10() -> Unit raise {
   )
   wf_rec_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "WF(<<)\n   ==> forall H. (forall f g x. (forall z. z << x ==> (f z = g z)) ==> (H f x = H g x))\n           ==> ?f:A->B. forall x. f x = H f x",
-      ),
+      @term_syntax.parse_term("WF((op_lt_lt : (A, A) -> Bool)) → (∀ H : ((A) -> B, A) -> B, (∀ f : (A) -> B, ∀ g : (A) -> B, ∀ x : A, (∀ z : A, op_lt_lt(z, x) → f(z) == g(z)) → H(f, x) == H(g, x)) → (∃ f : (A) -> B, ∀ x : A, f(x) == H(f, x)))"),
       t118,
     ),
   )
@@ -1669,9 +1653,7 @@ fn step_11() -> Unit raise {
     @tactics.all_tac,
   ])
   let t135 = @simp.rewrite_tac(@list.List([@class.not_imp()]))
-  let t131 = @parser.parse_term(
-    "\\f:A->num. \\y:A. if ?p:num. y = x(p)\n                     then SUC(f(x(@m. x(m) << y)))\n                     else 0",
-  )
+  let t131 = @term_syntax.parse_term("(f : (A) -> Num) => (y : A) => if (∃ p : Num, y == (x : (Num) -> A)(p)) { SUC(f(x(select((m : Num) => (op_lt_lt : (A, A) -> Bool)(x(m), y))))) } else { 0 }")
   let t134 = @tactics.first_assum(fn(
     x133 : @kernel.Thm,
   ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -1846,9 +1828,7 @@ fn step_11() -> Unit raise {
   )
   wf_rec_wf_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall H. (forall f g x. (forall z. z << x ==> (f z = g z)) ==> (H f x = H g x))\n                 ==> ?f:A->num. forall x. f x = H f x)\n   ==> WF(<<)",
-      ),
+      @term_syntax.parse_term("(∀ H : ((A) -> Num, A) -> Num, (∀ f : (A) -> Num, ∀ g : (A) -> Num, ∀ x : A, (∀ z : A, (op_lt_lt : (A, A) -> Bool)(z, x) → f(z) == g(z)) → H(f, x) == H(g, x)) → (∃ f : (A) -> Num, ∀ x : A, f(x) == H(f, x))) → WF(op_lt_lt)"),
       t180,
     ),
   )
@@ -1869,9 +1849,7 @@ fn step_12() -> Unit raise {
   let t181 = @meson.meson_tac(@list.List([wf_rec(), wf_urec()]))
   wf_erec_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "WF(<<) ==>\n       forall H. (forall f g x. (forall z. z << x ==> (f z = g z)) ==> (H f x = H g x))\n            ==> ?!f:A->B. forall x. f x = H f x",
-      ),
+      @term_syntax.parse_term("WF((op_lt_lt : (A, A) -> Bool)) → (∀ H : ((A) -> B, A) -> B, (∀ f : (A) -> B, ∀ g : (A) -> B, ∀ x : A, (∀ z : A, op_lt_lt(z, x) → f(z) == g(z)) → H(f, x) == H(g, x)) → existsunique((f : (A) -> B) => ∀ x : A, f(x) == H(f, x)))"),
       t181,
     ),
   )
@@ -2064,9 +2042,7 @@ fn step_13() -> Unit raise {
   )
   wf_rec_exists_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "WF((<<):A->A->bool)\n   ==> forall P. (forall f g x y. (forall z. z << x ==> f z = g z) ==> (P f x y <=> P g x y)) /\\\n           (forall f x. (forall z. z << x ==> P f z (f z)) ==> ?y. P f x y)\n           ==> ?f:A->B. forall x. P f x (f x)",
-      ),
+      @term_syntax.parse_term("WF((op_lt_lt : (A, A) -> Bool)) → (∀ P : ((A) -> B, A, B) -> Bool, (∀ f : (A) -> B, ∀ g : (A) -> B, ∀ x : A, ∀ y : B, (∀ z : A, op_lt_lt(z, x) → f(z) == g(z)) → P(f, x, y) == P(g, x, y)) && (∀ f : (A) -> B, ∀ x : A, (∀ z : A, op_lt_lt(z, x) → P(f, z, f(z))) → (∃ y : B, P(f, x, y))) → (∃ f : (A) -> B, ∀ x : A, P(f, x, f(x))))"),
       t204,
     ),
   )
@@ -2260,9 +2236,7 @@ fn step_15() -> Unit raise {
   )
   wf_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(<<) (<<<). (forall(x:A) y. x << y ==> x <<< y) /\\ WF(<<<) ==> WF(<<)",
-      ),
+      @term_syntax.parse_term("∀ `<<` : (A, A) -> Bool, ∀ `<<<` : (A, A) -> Bool, (∀ x : A, ∀ y : A, `<<`(x, y) → `<<<`(x, y)) && WF(`<<<`) → WF(`<<`)"),
       t219,
     ),
   )
@@ -2290,9 +2264,7 @@ fn step_16() -> Unit raise {
   )
   wf_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(<<) P:A->bool. WF(<<) ==> WF(\\x y. P x /\\ P y /\\ x << y)",
-      ),
+      @term_syntax.parse_term("∀ `<<` : (A, A) -> Bool, ∀ P : (A) -> Bool, WF(`<<`) → WF((x : A) => (y : A) => P(x) && P(y) && `<<`(x, y))"),
       t222,
     ),
   )
@@ -2404,7 +2376,7 @@ fn step_17() -> Unit raise {
   )
   wf_measure_gen_c.set(
     @tactics.prove(
-      @parser.parse_term("forall(<<) (m:A->B). WF(<<) ==> WF(\\x x'. m x << m x')"),
+      @term_syntax.parse_term("∀ `<<` : (B, B) -> Bool, ∀ m : (A) -> B, WF(`<<`) → WF((x : A) => (x' : A) => `<<`(m(x), m(x')))"),
       t235,
     ),
   )
@@ -2996,9 +2968,7 @@ fn step_18() -> Unit raise {
   )
   wf_lex_dependent_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R:A->A->bool S:A->B->B->bool. WF(R) /\\ (forall a. WF(S a))\n         ==> WF(\\(r1,s1) (r2,s2). R r1 r2 \\/ (r1 = r2) /\\ S r1 s1 s2)",
-      ),
+      @term_syntax.parse_term("∀ R : (A, A) -> Bool, ∀ S : (A, B, B) -> Bool, WF(R) && (∀ a : A, WF(S(a))) → WF(fn { (r1, s1) => fn { (r2, s2) => R(r1, r2) || r1 == r2 && S(r1, s1, s2) } })"),
       t300,
     ),
   )
@@ -3021,9 +2991,7 @@ fn step_19() -> Unit raise {
   let t301 = @simp.simp_tac(@list.List([wf_lex_dependent(), @class.eta_ax()]))
   wf_lex_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R:A->A->bool S:B->B->bool. WF(R) /\\ WF(S)\n         ==> WF(\\(r1,s1) (r2,s2). R r1 r2 \\/ (r1 = r2) /\\ S s1 s2)",
-      ),
+      @term_syntax.parse_term("∀ R : (A, A) -> Bool, ∀ S : (B, B) -> Bool, WF(R) && WF(S) → WF(fn { (r1, s1) => fn { (r2, s2) => R(r1, r2) || r1 == r2 && S(s1, s2) } })"),
       t301,
     ),
   )
@@ -3052,9 +3020,7 @@ fn step_20() -> Unit raise {
     t305,
   ])
   let t302 = @tactics.exists_tac(
-    @parser.parse_term(
-      "\\(x1,y1) (x2,y2). x1 << x2 \\/ (x1:A = x2) /\\ (y1:B) <<< (y2:B)",
-    ),
+    @term_syntax.parse_term("fn { (x1, y1) => fn { (x2, y2) => (op_lt_lt : (A, A) -> Bool)(x1, x2) || x1 == x2 && (op_lt_lt_lt : (B, B) -> Bool)(y1, y2) } }"),
   )
   let t307 = @tactics.thenl(
     @tactics.then_tac(
@@ -3071,9 +3037,7 @@ fn step_20() -> Unit raise {
   )
   wf_pointwise_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "WF((<<) :A->A->bool) /\\ WF((<<<) :B->B->bool)\n   ==> WF(\\(x1,y1) (x2,y2). x1 << x2 /\\ y1 <<< y2)",
-      ),
+      @term_syntax.parse_term("WF((op_lt_lt : (A, A) -> Bool)) && WF((op_lt_lt_lt : (B, B) -> Bool)) → WF(fn { (x1, y1) => fn { (x2, y2) => op_lt_lt(x1, x2) && op_lt_lt_lt(y1, y2) } })"),
       t307,
     ),
   )
@@ -3110,9 +3074,7 @@ fn step_22() -> Unit raise {
   let t309 = @tactics.match_accept_tac(@drule.match_mp(wf_rec())(wf_num()))
   wf_rec_num_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall H. (forall f g n. (forall m. m < n ==> (f m = g m)) ==> (H f n = H g n))\n        ==> ?f:num->A. forall n. f n = H f n",
-      ),
+      @term_syntax.parse_term("∀ H : ((Num) -> A, Num) -> A, (∀ f : (Num) -> A, ∀ g : (Num) -> A, ∀ n : Num, (∀ m : Num, m < n → f(m) == g(m)) → H(f, n) == H(g, n)) → (∃ f : (Num) -> A, ∀ n : Num, f(n) == H(f, n))"),
       t309,
     ),
   )
@@ -3182,9 +3144,7 @@ fn step_25() -> Unit raise {
   let t315 = @tactics.then_tac(@simp.rewrite_tac(@list.List([measure()])), t314)
   measure_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m:A->num. (forall y. MEASURE m y a ==> MEASURE m y b) <=> m(a) <= m(b)",
-      ),
+      @term_syntax.parse_term("∀ m : (A) -> Num, (∀ y : A, MEASURE(m, y, (a : A)) → MEASURE(m, y, (b : A))) == (m(a) <= m(b))"),
       t315,
     ),
   )
@@ -3357,7 +3317,7 @@ fn step_26() -> Unit raise {
   )
   wf_antisym_c.set(
     @tactics.prove(
-      @parser.parse_term("forall(<<) x y:A. WF(<<) ==> ~(x << y /\\ y << x)"),
+      @term_syntax.parse_term("∀ `<<` : (A, A) -> Bool, ∀ x : A, ∀ y : A, WF(`<<`) → !(`<<`(x, y) && `<<`(y, x))"),
       t331,
     ),
   )
@@ -3499,9 +3459,7 @@ fn step_29() -> Unit raise {
     @list.List([
       @meson.meson(
         @list.List([]),
-        @parser.parse_term(
-          "(?a. (?y. P y /\\ Q y /\\ f y = a) /\\ (forall z. A z ==> ~B a z)) <=>\n     ?y. (P y /\\ Q y) /\\ (forall z. B (f y) z ==> ~A z)",
-        ),
+        @term_syntax.parse_term("(∃ a : _, (∃ y : _, (P : (_) -> Bool)(y) && (Q : (_) -> Bool)(y) && (f : (_) -> _)(y) == a) && (∀ z : _, (A : (_) -> Bool)(z) → !(B : (_, _) -> Bool)(a, z))) == (∃ y : _, (P(y) && Q(y)) && (∀ z : _, B(f(y), z) → !A(z)))"),
       ),
     ]),
   )
@@ -3524,9 +3482,7 @@ fn step_29() -> Unit raise {
     t340,
   ])
   let t337 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?x:num->A. forall n. (?y. bad y /\\ (forall k. k < n ==> y k = x k) /\\ y n = x n) /\\\n                   forall z. bad z /\\ (forall k. k < n ==> z k = x k) ==> ~(z n << x n)",
-    ),
+    @term_syntax.parse_term("∃ x : (Num) -> A, ∀ n : Num, (∃ y : (Num) -> A, (bad : ((Num) -> A) -> Bool)(y) && (∀ k : Num, k < n → y(k) == x(k)) && y(n) == x(n)) && (∀ z : (Num) -> A, bad(z) && (∀ k : Num, k < n → z(k) == x(k)) → !(op_lt_lt : (A, A) -> Bool)(z(n), x(n)))"),
     fn(
       x334 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3622,9 +3578,7 @@ fn step_29() -> Unit raise {
   )
   minimal_bad_sequence_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(<<) (bad:(num->A)->bool).\n        WF(<<) /\\\n        (forall x. ~bad x ==> ?n. forall y. (forall k. k < n ==> y k = x k) ==> ~bad y) /\\\n        (?x. bad x)\n         ==> ?y. bad y /\\\n                 forall z n. bad z /\\ (forall k. k < n ==> z k = y k) ==> ~(z n << y n)",
-      ),
+      @term_syntax.parse_term("∀ `<<` : (A, A) -> Bool, ∀ bad : ((Num) -> A) -> Bool, WF(`<<`) && (∀ x : (Num) -> A, !bad(x) → (∃ n : Num, ∀ y : (Num) -> A, (∀ k : Num, k < n → y(k) == x(k)) → !bad(y))) && (∃ x : (Num) -> A, bad(x)) → (∃ y : (Num) -> A, bad(y) && (∀ z : (Num) -> A, ∀ n : Num, bad(z) && (∀ k : Num, k < n → z(k) == y(k)) → !`<<`(z(n), y(n))))"),
       t360,
     ),
   )
@@ -3660,9 +3614,7 @@ fn step_30() -> Unit raise {
     t362,
   )
   let lemma2 = @tactics.prove(
-    @parser.parse_term(
-      "(P 0) ==> ((forall m. m < n ==> P(SUC m)) <=> (forall m. m < SUC n ==> P(m)))",
-    ),
+    @term_syntax.parse_term("(P : (Num) -> Bool)(0) → (∀ m : Num, m < (n : Num) → P(SUC(m))) == (∀ m : Num, m < SUC(n) → P(m))"),
     t363,
   )
   let t388 = @meson.asm_meson_tac(@list.List([@arith.lt()]))
@@ -3811,9 +3763,7 @@ fn step_30() -> Unit raise {
   )
   let t370 = @tactics.x_gen_tac(@term_syntax.parse_term("(x : A)"))
   let t369 = @tactics.exists_tac(
-    @parser.parse_term(
-      "\\x:A. if ?n:num. ~P(s x n)\n                    then (h:A->B)(@y. ?n. (y = s x n) /\\ ~P(s x n) /\\\n                                          forall m. m < n ==> P(s x m))\n                    else something_arbitrary:B",
-    ),
+    @term_syntax.parse_term("(x : A) => if (∃ n : Num, !(P : (A) -> Bool)((s : (A, Num) -> A)(x, n))) { (h : (A) -> B)(select((y : A) => ∃ n : Num, y == s(x, n) && !P(s(x, n)) && (∀ m : Num, m < n → P(s(x, m))))) } else { (something_arbitrary : B) }"),
   )
   let t368 = @tactics.disch_then(
     @tactics.x_choose_then(@term_syntax.parse_term("(s : (A, Num) -> A)"))(
@@ -3862,9 +3812,7 @@ fn step_30() -> Unit raise {
   )
   wf_rec_tail_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P g h. ?f:A->B. forall x. f x = if P(x) then f(g x) else h x",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ g : (A) -> A, ∀ h : (A) -> B, ∃ f : (A) -> B, ∀ x : A, f(x) == (if P(x) { f(g(x)) } else { h(x) })"),
       t392,
     ),
   )
@@ -4035,9 +3983,7 @@ fn step_31() -> Unit raise {
               @tactics.then_tac(
                 @tactics.then_tac(
                   @tactics.subgoal_then(
-                    @parser.parse_term(
-                      "forall f g x.\n           (forall x y. P f x /\\ y << G (f:A->B) x ==> y << x) /\\\n           (forall y:A. (forall z:A. z << y ==> z << x)\n                  ==> (P f y = P g y) /\\ (G f y = G g y))\n               ==> terminates f x ==> terminates g x",
-                    ),
+                    @term_syntax.parse_term("∀ f : (A) -> B, ∀ g : (A) -> B, ∀ x : A, (∀ x : A, ∀ y : A, (P : ((A) -> B, A) -> Bool)(f, x) && (op_lt_lt : (A, A) -> Bool)(y, (G : ((A) -> B, A) -> A)(f, x)) → op_lt_lt(y, x)) && (∀ y : A, (∀ z : A, op_lt_lt(z, y) → op_lt_lt(z, x)) → P(f, y) == P(g, y) && G(f, y) == G(g, y)) → (terminates : ((A) -> B, A) -> Bool)(f, x) → terminates(g, x)"),
                     fn(
                       x413 : @kernel.Thm,
                     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4093,9 +4039,7 @@ fn step_31() -> Unit raise {
   let t411 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([]),
-      @parser.parse_term(
-        "(a = b) /\\ (a /\\ b ==> (x = y) /\\ (f x = g x))\n      ==> ((if a then f x else d) = (if b then g y else d))",
-      ),
+      @term_syntax.parse_term("(a : Bool) == (b : Bool) && (a && b → (x : _) == (y : _) && (f : (_) -> _)(x) == (g : (_) -> _)(x)) → (if a { f(x) } else { (d : _) }) == (if b { g(y) } else { d })"),
     ),
   )
   let t410 = @tactics.repeat_tac(@tactics.strip_tac)
@@ -4248,9 +4192,7 @@ fn step_31() -> Unit raise {
   })
   let t398 = @simp.rewrite_tac(@list.List([@theorems.forall_and_thm()]))
   let t396 = @ind_defs.prove_inductive_relations_exist(
-    @parser.parse_term(
-      "(forall x:A. ~(P f x) ==> terminates f x) /\\\n      (forall x. P (f:A->B) x /\\ terminates f (G f x) ==> terminates f x)",
-    ),
+    @term_syntax.parse_term("(∀ x : A, !(P : ((A) -> B, A) -> Bool)((f : (A) -> B), x) → (terminates : ((A) -> B, A) -> Bool)(f, x)) && (∀ x : A, P(f, x) && terminates(f, (G : ((A) -> B, A) -> A)(f, x)) → terminates(f, x))"),
   )
   let t397 = @tactics.choose_then(fn(
     x393 : @kernel.Thm,
@@ -4319,9 +4261,7 @@ fn step_31() -> Unit raise {
   )
   wf_rec_tail_general_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P G H. WF(<<) /\\\n           (forall f g x. (forall z. z << x ==> (f z = g z))\n                    ==> (P f x <=> P g x) /\\ G f x = G g x /\\ H f x = H g x) /\\\n           (forall f g x. (forall z. z << x ==> (f z = g z)) ==> (H f x = H g x)) /\\\n           (forall f x y. P f x /\\ y << G f x ==> y << x)\n           ==> ?f:A->B. forall x. f x = if P f x then f(G f x) else H f x",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> B, A) -> Bool, ∀ G : ((A) -> B, A) -> A, ∀ H : ((A) -> B, A) -> B, WF((op_lt_lt : (A, A) -> Bool)) && (∀ f : (A) -> B, ∀ g : (A) -> B, ∀ x : A, (∀ z : A, op_lt_lt(z, x) → f(z) == g(z)) → P(f, x) == P(g, x) && G(f, x) == G(g, x) && H(f, x) == H(g, x)) && (∀ f : (A) -> B, ∀ g : (A) -> B, ∀ x : A, (∀ z : A, op_lt_lt(z, x) → f(z) == g(z)) → H(f, x) == H(g, x)) && (∀ f : (A) -> B, ∀ x : A, ∀ y : A, P(f, x) && op_lt_lt(y, G(f, x)) → op_lt_lt(y, x)) → (∃ f : (A) -> B, ∀ x : A, f(x) == (if P(f, x) { f(G(f, x)) } else { H(f, x) }))"),
       t444,
     ),
   )

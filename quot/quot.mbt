@@ -450,9 +450,7 @@ fn step_2() -> Unit raise {
   ])
   let t54 = @tactics.match_mp_tac(
     @class.taut(
-      @parser.parse_term(
-        "(a /\\ b /\\ c) /\\ (b ==> a ==> d)\n                       ==> a /\\ b /\\ c /\\ d",
-      ),
+      @term_syntax.parse_term("((a : Bool) && (b : Bool) && (c : Bool)) && (b → a → (d : Bool)) → a && b && c && d"),
     ),
   )
   let t53 = @list.List([@meson.asm_meson_tac(@list.List([])), @tactics.all_tac])
@@ -471,9 +469,7 @@ fn step_2() -> Unit raise {
                           @tactics.then_tac(
                             @tactics.strip_tac,
                             @tactics.subgoal_then(
-                              @parser.parse_term(
-                                "forall x y. (mk((R:Repty->Repty->bool) x):Absty = mk(R y)) <=> (R x = R y)",
-                              ),
+                              @term_syntax.parse_term("∀ x : Repty, ∀ y : Repty, ((mk : ((Repty) -> Bool) -> Absty)((R : (Repty, Repty) -> Bool)(x)) == mk(R(y))) == (R(x) == R(y))"),
                               fn(
                                 x50 : @kernel.Thm,
                               ) -> ((
@@ -573,9 +569,7 @@ fn step_2() -> Unit raise {
     t80,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "(forall x:Repty. R x x) /\\\n     (forall x y. R x y <=> R y x) /\\\n     (forall x y z. R x y /\\ R y z ==> R x z) /\\\n     (forall a. mk(dest a) = a) /\\\n     (forall r. (?x. r = R x) <=> (dest(mk r) = r))\n     ==> (forall x y. R x y <=> (mk(R x) = mk(R y))) /\\\n         (forall P. (forall x. P(mk(R x))) <=> (forall x. P x)) /\\\n         (forall P. (?x. P(mk(R x))) <=> (?x. P x)) /\\\n         (forall x:Absty. mk(R((@)(dest x))) = x)",
-    ),
+    @term_syntax.parse_term("(∀ x : Repty, (R : (Repty, Repty) -> Bool)(x, x)) && (∀ x : Repty, ∀ y : Repty, R(x, y) == R(y, x)) && (∀ x : Repty, ∀ y : Repty, ∀ z : Repty, R(x, y) && R(y, z) → R(x, z)) && (∀ a : Absty, (mk : ((Repty) -> Bool) -> Absty)((dest : (Absty, Repty) -> Bool)(a)) == a) && (∀ r : (Repty) -> Bool, (∃ x : Repty, r == R(x)) == (dest(mk(r)) == r)) → (∀ x : Repty, ∀ y : Repty, R(x, y) == (mk(R(x)) == mk(R(y)))) && (∀ P : (Absty) -> Bool, (∀ x : Repty, P(mk(R(x)))) == (∀ x : Absty, P(x))) && (∀ P : (Absty) -> Bool, (∃ x : Repty, P(mk(R(x)))) == (∃ x : Absty, P(x))) && (∀ x : Absty, mk(R(select(dest(x)))) == x)"),
     t81,
   )
   lift_theorem_c.set(fn(

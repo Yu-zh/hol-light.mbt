@@ -12975,35 +12975,35 @@ test "Library/prime matches Library/prime.ml" {
       #|  \226\136\128 x : Num, divides(1, x)
       #|  \226\136\128 x : Num, divides(x, x)
       #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, divides(a, b) && divides(b, c) \226\134\146 divides(a, c)
-      #|  forall d a b. d divides a /\\ d divides b ==> d divides (a + b)
+      #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, divides(d, a) && divides(d, b) \226\134\146 divides(d, a + b)
       #|  (a : Num) < (b : Num) && a - b == 0 || !(a < b) && a - b + b == a
-      #|  forall d a b. d divides (a - b) <=> a < b \\/ (a == b) (mod d)
-      #|  forall d a b. d divides a /\\ d divides b ==> d divides (a - b)
+      #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, divides(d, a - b) == (a < b || op_eq_eq(a, b, mod(d)))
+      #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, divides(d, a) && divides(d, b) \226\134\146 divides(d, a - b)
       #|  ((n : Num) < 1) == (n == 0)
       #|  \226\136\128 d : Num, \226\136\128 n : Num, divides(d, n - 1) == (n == 0 || op_eq_eq(n, 1, mod(d)))
       #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 x : Num, divides(d, a) \226\134\146 divides(d, x * a)
       #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 x : Num, divides(d, a) \226\134\146 divides(d, a * x)
-      #|  forall d a b. d divides a /\\ d divides (a + b) ==> d divides b
-      #|  forall d a b. d divides b /\\ d divides (a + b) ==> d divides a
+      #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, divides(d, a) && divides(d, a + b) \226\134\146 divides(d, b)
+      #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, divides(d, b) && divides(d, a + b) \226\134\146 divides(d, a)
       #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, divides(a, b) \226\134\146 divides(c * a, c * b)
       #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, divides(a, b) \226\134\146 divides(a * c, b * c)
       #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 x : Num, divides(x * d, a) \226\134\146 divides(d, a)
       #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 x : Num, divides(d * x, a) \226\134\146 divides(d, a)
-      #|  forall a b c. (c * a) divides (c * b) /\\ ~(c = 0) ==> a divides b
-      #|  forall a b c. ~(c = 0) ==> ((c * a) divides (c * b) <=> a divides b)
-      #|  forall a b c. ~(c = 0) ==> ((a * c) divides (b * c) <=> a divides b)
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, divides(c * a, c * b) && !(c == 0) \226\134\146 divides(a, b)
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, !(c == 0) \226\134\146 divides(c * a, c * b) == divides(a, b)
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, !(c == 0) \226\134\146 divides(a * c, b * c) == divides(a, b)
       #|  \226\136\128 p : Num, \226\136\128 n : Num, n < p \226\134\146 divides(p, n) == (n == 0)
-      #|  m = n \\/ 2 * n <= m <=> m = n * 1 \\/ n * 2 <= m
+      #|  ((m : Num) == (n : Num) || 2 * n <= m) == (m == n * 1 || n * 2 <= m)
       #|  \226\136\128 m : Num, \226\136\128 n : Num, divides(n, m) \226\134\146 m == 0 || m == n || 2 * n <= m
       #|  divides((n : Num), (q : Num) * n + (r : Num)) == divides(n, r)
-      #|  forall n x q r. x = q * n + r /\\ 0 < r /\\ r < n ==> ~(n divides x)
-      #|  forall a b c d. a divides b /\\ c divides d ==> (a * c) divides (b * d)
+      #|  \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 q : Num, \226\136\128 r : Num, x == q * n + r && 0 < r && r < n \226\134\146 !divides(n, x)
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, \226\136\128 d : Num, divides(a, b) && divides(c, d) \226\134\146 divides(a * c, b * d)
       #|  EXP((d : Num), (n : Num))
       #|  (d : Num)
       #|  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, divides(x, y) \226\134\146 divides(EXP(x, n), EXP(y, n))
-      #|  forall n x y. ~(n = 0) /\\ (x EXP n) divides y ==> x divides y
+      #|  \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 y : Num, !(n == 0) && divides(EXP(x, n), y) \226\134\146 divides(x, y)
       #|  \226\136\128 p : Num, \226\136\128 m : Num, \226\136\128 n : Num, m <= n \226\134\146 divides(EXP(p, m), EXP(p, n))
-      #|  forall p m n. 2 <= p ==> ((p EXP m) divides (p EXP n) <=> m <= n)
+      #|  \226\136\128 p : Num, \226\136\128 m : Num, \226\136\128 n : Num, 2 <= p \226\134\146 divides(EXP(p, m), EXP(p, n)) == (m <= n)
       #|  (n : Num)
       #|  (n : Num)
       #|  !((n : Num) == 0)
@@ -13012,38 +13012,38 @@ test "Library/prime matches Library/prime.ml" {
       #|  \226\136\128 n : Num, \226\136\128 p : Num, 1 <= p && p <= n \226\134\146 divides(p, FACT(n))
       #|  \226\136\128 n : Num, divides(2, n) == EVEN(n)
       #|  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, divides(x, y) \226\134\146 divides(x, EXP(y, SUC(n)))
-      #|  forall x y n. x divides y /\\ ~(n = 0) ==> x divides (y EXP n)
+      #|  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 n : Num, divides(x, y) && !(n == 0) \226\134\146 divides(x, EXP(y, n))
       #|  {(d : Num) | d <= (n : Num)}
       #|  \226\136\128 n : Num, !(n == 0) \226\134\146 FINITE({(d : Num) | divides(d, n)})
       #|  {(d : Num) | divides(d, (n : Num))}
       #|  \226\136\128 n : Num, !(n == 0) \226\134\146 FINITE({(d : Num) | (P : (Num) -> Bool)(d) && divides(d, n)})
       #|  \226\136\128 m : Num, \226\136\128 n : Num, (m == n) == (\226\136\128 d : Num, divides(d, m) == divides(d, n))
       #|  \226\136\128 m : Num, \226\136\128 n : Num, (m == n) == (\226\136\128 d : Num, divides(m, d) == divides(n, d))
-      #|  forall n f s. FINITE s /\\ (forall i. i IN s ==> n divides (f i))\n           ==> n divides nsum s f
-      #|  forall a b d. d divides gcd(a,b) <=> d divides a /\\ d divides b
+      #|  \226\136\128 n : Num, \226\136\128 f : (_) -> Num, \226\136\128 s : (_) -> Bool, FINITE(s) && (\226\136\128 i : _, IN(i, s) \226\134\146 divides(n, f(i))) \226\134\146 divides(n, nsum(s, f))
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 d : Num, divides(d, gcd((a, b))) == (divides(d, a) && divides(d, b))
       #|  (\226\136\128 a : Num, gcd((0, a)) == a) && (\226\136\128 a : Num, gcd((a, 0)) == a)
       #|  \226\136\128 a : Num, \226\136\128 b : Num, (gcd((a, b)) == 0) == (a == 0 && b == 0)
       #|  \226\136\128 a : Num, gcd((a, a)) == a
       #|  (\226\136\128 a : Num, gcd((1, a)) == 1) && (\226\136\128 a : Num, gcd((a, 1)) == 1)
       #|  \226\136\128 a : Num, \226\136\128 b : Num, gcd((b, a * b)) == b
-      #|  (forall a b. gcd(a + b,b) = gcd(a,b)) /\\\n   (forall a b. gcd(b + a,b) = gcd(a,b)) /\\\n   (forall a b. gcd(a,a + b) = gcd(a,b)) /\\\n   (forall a b. gcd(a,b + a) = gcd(a,b))
-      #|  (forall a b. b <= a ==> gcd(a - b,b) = gcd(a,b)) /\\\n   (forall a b. a <= b ==> gcd(a,b - a) = gcd(a,b))
+      #|  (\226\136\128 a : Num, \226\136\128 b : Num, gcd((a + b, b)) == gcd((a, b))) && (\226\136\128 a : Num, \226\136\128 b : Num, gcd((b + a, b)) == gcd((a, b))) && (\226\136\128 a : Num, \226\136\128 b : Num, gcd((a, a + b)) == gcd((a, b))) && (\226\136\128 a : Num, \226\136\128 b : Num, gcd((a, b + a)) == gcd((a, b)))
+      #|  (\226\136\128 a : Num, \226\136\128 b : Num, b <= a \226\134\146 gcd((a - b, b)) == gcd((a, b))) && (\226\136\128 a : Num, \226\136\128 b : Num, a <= b \226\134\146 gcd((a, b - a)) == gcd((a, b)))
       #|  \226\136\128 m : Num, \226\136\128 n : Num, divides(m, n) == (gcd((m, n)) == m)
       #|  \226\136\128 m : Num, \226\136\128 n : Num, divides(n, m) == (gcd((m, n)) == n)
-      #|  forall a b c. coprime(a,b) ==> gcd(a * b,c) = gcd(a,c) * gcd(b,c)
-      #|  forall a b c. coprime(a,b) ==> gcd(c,a * b) = gcd(c,a) * gcd(c,b)
-      #|  (forall d a b. d divides gcd(d,a) * b <=> d divides a * b) /\\\n   (forall d a b. d divides gcd(a,d) * b <=> d divides a * b)
-      #|  (forall d a b. d divides a * gcd(d,b) <=> d divides a * b) /\\\n   (forall d a b. d divides a * gcd(b,d) <=> d divides a * b)
-      #|  (forall a b c. coprime(a,b) ==> gcd(a,b * c) = gcd(a,c)) /\\\n   (forall a b c. coprime(a,c) ==> gcd(a,b * c) = gcd(a,b)) /\\\n   (forall a b c. coprime(b,c) ==> gcd(a,b * c) = gcd(a,b) * gcd(a,c)) /\\\n   (forall a b c. coprime(a,c) ==> gcd(a * b,c) = gcd(b,c)) /\\\n   (forall a b c. coprime(b,c) ==> gcd(a * b,c) = gcd(a,c)) /\\\n   (forall a b c. coprime(a,b) ==> gcd(a * b,c) = gcd(a,c) * gcd(b,c))
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, coprime((a, b)) \226\134\146 gcd((a * b, c)) == gcd((a, c)) * gcd((b, c))
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, coprime((a, b)) \226\134\146 gcd((c, a * b)) == gcd((c, a)) * gcd((c, b))
+      #|  (\226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, divides(d, gcd((d, a)) * b) == divides(d, a * b)) && (\226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, divides(d, gcd((a, d)) * b) == divides(d, a * b))
+      #|  (\226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, divides(d, a * gcd((d, b))) == divides(d, a * b)) && (\226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, divides(d, a * gcd((b, d))) == divides(d, a * b))
+      #|  (\226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, coprime((a, b)) \226\134\146 gcd((a, b * c)) == gcd((a, c))) && (\226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, coprime((a, c)) \226\134\146 gcd((a, b * c)) == gcd((a, b))) && (\226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, coprime((b, c)) \226\134\146 gcd((a, b * c)) == gcd((a, b)) * gcd((a, c))) && (\226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, coprime((a, c)) \226\134\146 gcd((a * b, c)) == gcd((b, c))) && (\226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, coprime((b, c)) \226\134\146 gcd((a * b, c)) == gcd((a, c))) && (\226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, coprime((a, b)) \226\134\146 gcd((a * b, c)) == gcd((a, c)) * gcd((b, c)))
       #|  \226\136\128 a : Num, \226\136\128 b : Num, gcd((a, b)) == gcd((b, a))
       #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, gcd((a, gcd((b, c)))) == gcd((gcd((a, b)), c))
       #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, gcd((c * a, c * b)) == c * gcd((a, b))
       #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, gcd((a * c, b * c)) == c * gcd((a, b))
       #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 d : Num, \226\136\128 x : Num, \226\136\128 y : Num, a * x + b * y == d \226\134\146 divides(gcd((a, b)), d)
-      #|  forall a b c:num. coprime(a,b) /\\ a divides c ==> gcd(a * b,c) = a * gcd(b,c)
-      #|  forall a b c:num. coprime(b,c) /\\ b divides a ==> gcd(a,b * c) = b * gcd(a,c)
-      #|  forall d a b. (d divides a /\\ d divides b) /\\\n           (forall e. e divides a /\\ e divides b ==> e divides d) <=>\n           d = gcd(a,b)
-      #|  (forall d. d divides x /\\ d divides y <=> d divides u /\\ d divides v)\n   ==> gcd(x,y) = gcd(u,v)
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, coprime((a, b)) && divides(a, c) \226\134\146 gcd((a * b, c)) == a * gcd((b, c))
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, coprime((b, c)) && divides(b, a) \226\134\146 gcd((a, b * c)) == b * gcd((a, c))
+      #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, ((divides(d, a) && divides(d, b)) && (\226\136\128 e : Num, divides(e, a) && divides(e, b) \226\134\146 divides(e, d))) == (d == gcd((a, b)))
+      #|  (\226\136\128 d : Num, (divides(d, (x : Num)) && divides(d, (y : Num))) == (divides(d, (u : Num)) && divides(d, (v : Num)))) \226\134\146 gcd((x, y)) == gcd((u, v))
       #|  (int_of_num((x : Num)) == -int_of_num((y : Num))) == (int_of_num(x) == int_of_num(0) && int_of_num(y) == int_of_num(0))
       #|  divides(int_of_num((a : Num)), int_of_num((b : Num)) * int_of_num((r : Num)) + gcd((int_of_num(a), int_of_num(b))))
       #|  (r : Num)
@@ -13053,25 +13053,25 @@ test "Library/prime matches Library/prime.ml" {
       #|  (x : Int)
       #|  \226\136\131 x : Int, \226\136\131 y : Int, int_of_num((a : Num)) * x == int_of_num((b : Num)) * y + gcd((int_of_num(a), int_of_num(b)))
       #|  \226\136\128 a : Num, \226\136\128 b : Num, !(a == 0) \226\134\146 (\226\136\131 x : Num, \226\136\131 y : Num, a * x == b * y + gcd((a, b)))
-      #|  forall a b. ~(a = 0)\n         ==> ?d x y. d divides a /\\ d divides b /\\ a * x = b * y + d
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, !(a == 0) \226\134\146 (\226\136\131 d : Num, \226\136\131 x : Num, \226\136\131 y : Num, divides(d, a) && divides(d, b) && a * x == b * y + d)
       #|  (a : Num)
       #|  (b : Num)
       #|  (b : Num)
       #|  (a : Num)
       #|  (a : Num) == 0 && (b : Num) == 0
-      #|  forall a b. ?x y. a * x - b * y = gcd(a,b) \\/ b * x - a * y = gcd(a,b)
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\131 x : Num, \226\136\131 y : Num, a * x - b * y == gcd((a, b)) || b * x - a * y == gcd((a, b))
       #|  (a : Num) == 0 && (b : Num) == 0
-      #|  forall a b. ?d x y. (d divides a /\\ d divides b) /\\\n                 (a * x = b * y + d \\/ b * x = a * y + d)
-      #|  forall a b. ?d x y. (d divides a /\\ d divides b) /\\\n                 (a * x - b * y = d \\/ b * x - a * y = d)
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\131 d : Num, \226\136\131 x : Num, \226\136\131 y : Num, (divides(d, a) && divides(d, b)) && (a * x == b * y + d || b * x == a * y + d)
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\131 d : Num, \226\136\131 x : Num, \226\136\131 y : Num, (divides(d, a) && divides(d, b)) && (a * x - b * y == d || b * x - a * y == d)
       #|  (y : Num) * (k : Num)
       #|  (x : Num) * (k : Num)
       #|  (b : Num)
       #|  (a : Num)
       #|  (k : Num)
-      #|  forall a b d. (?x y. a * x - b * y = d \\/ b * x - a * y = d) <=>\n           gcd(a,b) divides d
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 d : Num, (\226\136\131 x : Num, \226\136\131 y : Num, a * x - b * y == d || b * x - a * y == d) == divides(gcd((a, b)), d)
       #|  (n : Num) == 0
       #|  (m : Num) == 0
-      #|  (forall m n. gcd(m,n) <= m <=> (m = 0 ==> n = 0)) /\\\n   (forall m n. gcd(m,n) <= n <=> (n = 0 ==> m = 0))
+      #|  (\226\136\128 m : Num, \226\136\128 n : Num, (gcd((m, n)) <= m) == (m == 0 \226\134\146 n == 0)) && (\226\136\128 m : Num, \226\136\128 n : Num, (gcd((m, n)) <= n) == (n == 0 \226\134\146 m == 0))
       #|  ((p : Num) <= MIN((m : Num), (n : Num))) == (p <= m && p <= n)
       #|  MIN(0, (n : Num)) == 0
       #|  (m : Num) == 0
@@ -13085,45 +13085,45 @@ test "Library/prime matches Library/prime.ml" {
       #|  MAX((m : Num), 0) == m
       #|  (n : Num) == 0
       #|  \226\136\128 m : Num, \226\136\128 n : Num, gcd((m, n)) <= MAX(m, n)
-      #|  forall a b. coprime(a,b) <=> forall d. d divides a /\\ d divides b <=> d = 1
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, coprime((a, b)) == (\226\136\128 d : Num, (divides(d, a) && divides(d, b)) == (d == 1))
       #|  \226\136\128 a : Num, \226\136\128 b : Num, coprime((a, b)) == (gcd((a, b)) == 1)
       #|  \226\136\128 a : Num, \226\136\128 b : Num, coprime((a, b)) \226\134\146 gcd((a, b)) == 1
       #|  \226\136\128 a : Num, \226\136\128 b : Num, coprime((a, b)) == coprime((b, a))
-      #|  forall a b. coprime(a,b) <=> ?x y. a * x - b * y = 1 \\/ b * x - a * y = 1
-      #|  forall d a b. d divides (a * b) /\\ coprime(d,a) ==> d divides b
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, coprime((a, b)) == (\226\136\131 x : Num, \226\136\131 y : Num, a * x - b * y == 1 || b * x - a * y == 1)
+      #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, divides(d, a * b) && coprime((d, a)) \226\134\146 divides(d, b)
       #|  (\226\136\128 a : Num, coprime((a, 1))) && (\226\136\128 a : Num, coprime((1, a)))
-      #|  forall a b a' b'. ~(gcd(a,b) = 0) /\\ a = a' * gcd(a,b) /\\ b = b' * gcd(a,b)\n               ==> coprime(a',b')
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 a' : Num, \226\136\128 b' : Num, !(gcd((a, b)) == 0) && a == a' * gcd((a, b)) && b == b' * gcd((a, b)) \226\134\146 coprime((a', b'))
       #|  (b : Num)
       #|  (a : Num)
       #|  1
       #|  0
       #|  gcd(((a : Num), (b : Num))) == 0
-      #|  forall a b. ?a' b'. a = a' * gcd(a,b) /\\ b = b' * gcd(a,b) /\\ coprime(a',b')
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\131 a' : Num, \226\136\131 b' : Num, a == a' * gcd((a, b)) && b == b' * gcd((a, b)) && coprime((a', b'))
       #|  (a' : Num)
       #|  (b' : Num)
       #|  (a' : Num)
       #|  (a : Num)
       #|  (d : Num)
-      #|  forall d a. ~(d = 0)\n         ==> ((forall b. d divides a * b ==> d divides b) <=> coprime(d,a))
+      #|  \226\136\128 d : Num, \226\136\128 a : Num, !(d == 0) \226\134\146 (\226\136\128 b : Num, divides(d, a * b) \226\134\146 divides(d, b)) == coprime((d, a))
       #|  op_eq_eq(0, (x : Num), mod((n : Num))) == divides(n, x)
       #|  0
-      #|  forall a n. ~(n = 0)\n         ==> ((forall x y. (a * x == a * y) (mod n) ==> (x == y) (mod n)) <=>\n              coprime(a,n))
-      #|  forall a n. ~(n = 0)\n         ==> ((forall x y. (x * a == y * a) (mod n) ==> (x == y) (mod n)) <=>\n              coprime(a,n))
-      #|  (forall d. coprime(d,0) <=> d = 1) /\\\n   (forall d. coprime(0,d) <=> d = 1)
-      #|  forall d a b. coprime(d,a) /\\ coprime(d,b) ==> coprime(d,a * b)
+      #|  \226\136\128 a : Num, \226\136\128 n : Num, !(n == 0) \226\134\146 (\226\136\128 x : Num, \226\136\128 y : Num, op_eq_eq(a * x, a * y, mod(n)) \226\134\146 op_eq_eq(x, y, mod(n))) == coprime((a, n))
+      #|  \226\136\128 a : Num, \226\136\128 n : Num, !(n == 0) \226\134\146 (\226\136\128 x : Num, \226\136\128 y : Num, op_eq_eq(x * a, y * a, mod(n)) \226\134\146 op_eq_eq(x, y, mod(n))) == coprime((a, n))
+      #|  (\226\136\128 d : Num, coprime((d, 0)) == (d == 1)) && (\226\136\128 d : Num, coprime((0, d)) == (d == 1))
+      #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, coprime((d, a)) && coprime((d, b)) \226\134\146 coprime((d, a * b))
       #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, coprime((d, a * b)) \226\134\146 coprime((d, b))
       #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, coprime((d, a * b)) \226\134\146 coprime((d, a))
-      #|  forall d a b. coprime(a * b,d) <=> coprime(a,d) /\\ coprime(b,d)
-      #|  forall d a b. coprime(d,a * b) <=> coprime(d,a) /\\ coprime(d,b)
+      #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, coprime((a * b, d)) == (coprime((a, d)) && coprime((b, d)))
+      #|  \226\136\128 d : Num, \226\136\128 a : Num, \226\136\128 b : Num, coprime((d, a * b)) == (coprime((d, a)) && coprime((d, b)))
       #|  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 d : Num, coprime((d, a)) \226\134\146 coprime((d, EXP(a, n)))
       #|  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, coprime((a, b)) \226\134\146 coprime((EXP(a, n), EXP(b, n)))
-      #|  forall m n k. coprime(m,n EXP k) <=> coprime(m,n) \\/ k = 0
-      #|  forall m n k. coprime(m EXP k,n) <=> coprime(m,n) \\/ k = 0
-      #|  forall m n k. coprime(m EXP k,n EXP k) <=> coprime(m,n) \\/ k = 0
-      #|  forall n a b. coprime(a EXP (SUC n),b EXP (SUC n)) <=> coprime(a,b)
-      #|  (forall(f:A->num) a s.\n        FINITE s\n        ==> (coprime(a,nproduct s f) <=> forall i. i IN s ==> coprime(a,f i))) /\\\n   (forall(f:A->num) b s.\n        FINITE s\n        ==> (coprime(nproduct s f,b) <=> forall i. i IN s ==> coprime(f i,b)))
-      #|  forall s n. FINITE s /\\ (forall x. x IN s ==> coprime(n,a x))\n         ==> coprime(n,nproduct s a)
-      #|  forall a b d e. d divides a /\\ e divides b /\\ coprime(a,b) ==> coprime(d,e)
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 k : Num, coprime((m, EXP(n, k))) == (coprime((m, n)) || k == 0)
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 k : Num, coprime((EXP(m, k), n)) == (coprime((m, n)) || k == 0)
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 k : Num, coprime((EXP(m, k), EXP(n, k))) == (coprime((m, n)) || k == 0)
+      #|  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, coprime((EXP(a, SUC(n)), EXP(b, SUC(n)))) == coprime((a, b))
+      #|  (\226\136\128 f : (A) -> Num, \226\136\128 a : Num, \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 coprime((a, nproduct(s, f))) == (\226\136\128 i : A, IN(i, s) \226\134\146 coprime((a, f(i))))) && (\226\136\128 f : (A) -> Num, \226\136\128 b : Num, \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 coprime((nproduct(s, f), b)) == (\226\136\128 i : A, IN(i, s) \226\134\146 coprime((f(i), b))))
+      #|  \226\136\128 s : (_) -> Bool, \226\136\128 n : Num, FINITE(s) && (\226\136\128 x : _, IN(x, s) \226\134\146 coprime((n, (a : (_) -> Num)(x)))) \226\134\146 coprime((n, nproduct(s, a)))
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 d : Num, \226\136\128 e : Num, divides(d, a) && divides(e, b) && coprime((a, b)) \226\134\146 coprime((d, e))
       #|  \226\136\128 n : Num, coprime((n, n)) == (n == 1)
       #|  \226\136\128 n : Num, coprime((n + 1, n))
       #|  !((n : Num) == 0) \226\134\146 n - (n - 1) == 1
@@ -13134,29 +13134,29 @@ test "Library/prime matches Library/prime.ml" {
       #|  (b : Num)
       #|  (a : Num)
       #|  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, gcd((EXP(a, n), EXP(b, n))) == EXP(gcd((a, b)), n)
-      #|  forall n a b. (a EXP n) divides (b EXP n) /\\ ~(n = 0) ==> a divides b
-      #|  forall n a b. ~(n = 0) ==> ((a EXP n) divides (b EXP n) <=> a divides b)
-      #|  forall m n r. m divides r /\\ n divides r /\\ coprime(m,n) ==> (m * n) divides r
+      #|  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, divides(EXP(a, n), EXP(b, n)) && !(n == 0) \226\134\146 divides(a, b)
+      #|  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, !(n == 0) \226\134\146 divides(EXP(a, n), EXP(b, n)) == divides(a, b)
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 r : Num, divides(m, r) && divides(n, r) && coprime((m, n)) \226\134\146 divides(m * n, r)
       #|  (b : Num)
       #|  (a : Num)
       #|  1
       #|  gcd(((a : Num), (b : Num))) == 0
       #|  gcd(((a : Num), (b : Num)))
-      #|  forall a b c.\n        a divides (b * c)\n        ==> ?b' c'. a = b' * c' /\\ b' divides b /\\ c' divides c
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, divides(a, b * c) \226\134\146 (\226\136\131 b' : Num, \226\136\131 c' : Num, a == b' * c' && divides(b', b) && divides(c', c))
       #|  2
       #|  !prime(0)
       #|  !prime(1)
       #|  (p : Num) == 0
-      #|  forall p. prime p <=>\n       ~(p = 0) /\\ ~(p = 1) /\\ forall n. 1 < n /\\ n < p ==> ~(n divides p)
+      #|  \226\136\128 p : Num, prime(p) == (!(p == 0) && !(p == 1) && (\226\136\128 n : Num, 1 < n && n < p \226\134\146 !divides(n, p)))
       #|  prime(2)
       #|  \226\136\128 n : Num, \226\136\128 p : Num, prime(p) \226\134\146 divides(p, n) || coprime((p, n))
-      #|  forall n p. prime(p) ==> n = 1 \\/ p divides n \\/ coprime(p,n)
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, prime(p) \226\134\146 n == 1 || divides(p, n) || coprime((p, n))
       #|  \226\136\128 p : Num, \226\136\128 n : Num, prime(p) \226\134\146 coprime((p, n)) == !divides(p, n)
-      #|  forall p a b. coprime(a,b) ==> ~(prime(p) /\\ p divides a /\\ p divides b)
-      #|  forall p a b. prime(p) /\\ p divides (a * b) ==> p divides a \\/ p divides b
-      #|  forall p a b. prime(p) ==> (p divides (a * b) <=> p divides a \\/ p divides b)
+      #|  \226\136\128 p : Num, \226\136\128 a : Num, \226\136\128 b : Num, coprime((a, b)) \226\134\146 !(prime(p) && divides(p, a) && divides(p, b))
+      #|  \226\136\128 p : Num, \226\136\128 a : Num, \226\136\128 b : Num, prime(p) && divides(p, a * b) \226\134\146 divides(p, a) || divides(p, b)
+      #|  \226\136\128 p : Num, \226\136\128 a : Num, \226\136\128 b : Num, prime(p) \226\134\146 divides(p, a * b) == (divides(p, a) || divides(p, b))
       #|  divides((a : Int), -(b : Int)) == divides(a, b)
-      #|  forall p a b:int.\n        prime p ==> (&p divides a * b <=> &p divides a \\/ &p divides b)
+      #|  \226\136\128 p : Num, \226\136\128 a : Int, \226\136\128 b : Int, prime(p) \226\134\146 divides(int_of_num(p), a * b) == (divides(int_of_num(p), a) || divides(int_of_num(p), b))
       #|  (2 <= (p : Num)) == (!(p == 0) && !(p == 1))
       #|  \226\136\128 p : Num, prime(p) \226\134\146 2 <= p
       #|  prime((n : Num))
@@ -13168,39 +13168,39 @@ test "Library/prime matches Library/prime.ml" {
       #|  (p : Num)
       #|  (p : Num) == 1
       #|  (p : Num) == 0
-      #|  forall p. prime p <=>\n       ~(p = 0) /\\ ~(p = 1) /\\ forall m. 0 < m /\\ m < p ==> coprime(p,m)
+      #|  \226\136\128 p : Num, prime(p) == (!(p == 0) && !(p == 1) && (\226\136\128 m : Num, 0 < m && m < p \226\134\146 coprime((p, m))))
       #|  (p : Num)
       #|  (d : Num) == 1
       #|  (d : Num)
       #|  (n : Num) == 1
-      #|  forall n. prime n <=> ~(n = 1) /\\ forall p. prime p /\\ p divides n ==> p = n
+      #|  \226\136\128 n : Num, prime(n) == (!(n == 1) && (\226\136\128 p : Num, prime(p) && divides(p, n) \226\134\146 p == n))
       #|  ((m : Num) < (p : Num) * m) == (1 * m < p * m)
-      #|  forall n m p. prime(p) /\\ ~(n = 0) /\\ n = p * m ==> m < n
+      #|  \226\136\128 n : Num, \226\136\128 m : Num, \226\136\128 p : Num, prime(p) && !(n == 0) && n == p * m \226\134\146 m < n
       #|  (d : Num)
       #|  (p : Num)
       #|  (p : Num)
       #|  (d : Num)
-      #|  forall a b. coprime(a,b) <=> forall p. ~(prime(p) /\\ p divides a /\\ p divides b)
-      #|  (forall p n. prime p ==> gcd(p,n) = if p divides n then p else 1) /\\\n   (forall p n. prime p ==> gcd(n,p) = if p divides n then p else 1)
-      #|  (forall n. gcd(2,n) = if EVEN n then 2 else 1) /\\\n   (forall n. gcd(n,2) = if EVEN n then 2 else 1)
-      #|  forall p k m. prime p /\\ ~(k = 0) ==> (coprime(m,p EXP k) <=> ~(p divides m))
-      #|  forall a b. coprime(a,b) /\\ ~(b = 1) ==> ?x y. a * x = b * y + 1
-      #|  forall a b. coprime(a,b) /\\ ~(a = 0) ==> ?x y. a * x = b * y + 1
-      #|  forall a p. prime p /\\ ~(p divides a) ==> ?x y. a * x = p * y + 1
-      #|  forall n p x. prime(p) /\\ p divides (x EXP n) ==> p divides x
-      #|  forall n p x. prime(p) /\\ p divides (x EXP n) ==> (p EXP n) divides (x EXP n)
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, coprime((a, b)) == (\226\136\128 p : Num, !(prime(p) && divides(p, a) && divides(p, b)))
+      #|  (\226\136\128 p : Num, \226\136\128 n : Num, prime(p) \226\134\146 gcd((p, n)) == (if divides(p, n) { p } else { 1 })) && (\226\136\128 p : Num, \226\136\128 n : Num, prime(p) \226\134\146 gcd((n, p)) == (if divides(p, n) { p } else { 1 }))
+      #|  (\226\136\128 n : Num, gcd((2, n)) == (if EVEN(n) { 2 } else { 1 })) && (\226\136\128 n : Num, gcd((n, 2)) == (if EVEN(n) { 2 } else { 1 }))
+      #|  \226\136\128 p : Num, \226\136\128 k : Num, \226\136\128 m : Num, prime(p) && !(k == 0) \226\134\146 coprime((m, EXP(p, k))) == !divides(p, m)
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, coprime((a, b)) && !(b == 1) \226\134\146 (\226\136\131 x : Num, \226\136\131 y : Num, a * x == b * y + 1)
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, coprime((a, b)) && !(a == 0) \226\134\146 (\226\136\131 x : Num, \226\136\131 y : Num, a * x == b * y + 1)
+      #|  \226\136\128 a : Num, \226\136\128 p : Num, prime(p) && !divides(p, a) \226\134\146 (\226\136\131 x : Num, \226\136\131 y : Num, a * x == p * y + 1)
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, \226\136\128 x : Num, prime(p) && divides(p, EXP(x, n)) \226\134\146 divides(p, x)
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, \226\136\128 x : Num, prime(p) && divides(p, EXP(x, n)) \226\134\146 divides(EXP(p, n), EXP(x, n))
       #|  (n : Num) == 0
-      #|  forall n p x. prime p ==> (p divides x EXP n <=> p divides x /\\ ~(n = 0))
-      #|  forall x y. coprime(x,y) ==> coprime(x * y,(x EXP 2) + (y EXP 2))
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, \226\136\128 x : Num, prime(p) \226\134\146 divides(p, EXP(x, n)) == (divides(p, x) && !(n == 0))
+      #|  \226\136\128 x : Num, \226\136\128 y : Num, coprime((x, y)) \226\134\146 coprime((x * y, EXP(x, 2) + EXP(y, 2)))
       #|  \226\136\128 p : Num, prime(p) \226\134\146 !(p == 0)
-      #|  forall p q. prime p /\\ prime q /\\ ~(p = q) ==> coprime(p,q)
+      #|  \226\136\128 p : Num, \226\136\128 q : Num, prime(p) && prime(q) && !(p == q) \226\134\146 coprime((p, q))
       #|  \226\136\128 x : Num, \226\136\128 p : Num, prime(p) && 0 < x && x < p \226\134\146 coprime((x, p))
-      #|  forall p q. prime p /\\ prime q  ==> (p divides q <=> p = q)
-      #|  forall p q. prime p /\\ prime q ==> (coprime(p,q) <=> ~(p = q))
+      #|  \226\136\128 p : Num, \226\136\128 q : Num, prime(p) && prime(q) \226\134\146 divides(p, q) == (p == q)
+      #|  \226\136\128 p : Num, \226\136\128 q : Num, prime(p) && prime(q) \226\134\146 coprime((p, q)) == !(p == q)
       #|  (p : Num) == (q : Num)
       #|  !(SUC((m : Num)) <= 0)
-      #|  forall p q m n. prime p /\\ prime q\n             ==> ((p EXP m) divides (q EXP n) <=> m = 0 \\/ p = q /\\ m <= n)
-      #|  forall p q m n. prime p /\\ prime q\n             ==> (p EXP m = q EXP n <=> m = 0 /\\ n = 0 \\/ p = q /\\ m = n)
+      #|  \226\136\128 p : Num, \226\136\128 q : Num, \226\136\128 m : Num, \226\136\128 n : Num, prime(p) && prime(q) \226\134\146 divides(EXP(p, m), EXP(q, n)) == (m == 0 || p == q && m <= n)
+      #|  \226\136\128 p : Num, \226\136\128 q : Num, \226\136\128 m : Num, \226\136\128 n : Num, prime(p) && prime(q) \226\134\146 (EXP(p, m) == EXP(q, n)) == (m == 0 && n == 0 || p == q && m == n)
       #|  2
       #|  \226\136\128 p : Num, prime(p) \226\134\146 p == 2 || ODD(p)
       #|  (p : Num) == 2
@@ -13210,7 +13210,7 @@ test "Library/prime matches Library/prime.ml" {
       #|  !((p : Num) <= (n : Num)) && p <= SUC(n) \226\134\146 p == SUC(n)
       #|  \226\136\128 p : Num, prime(p) \226\134\146 (\226\136\128 n : Num, divides(p, FACT(n)) == (p <= n))
       #|  \226\136\128 p : Num, \226\136\128 m : Num, \226\136\128 n : Num, prime(p) \226\134\146 (EXP(p, m) == EXP(p, n)) == (m == n)
-      #|  (forall n. coprime(2,n) <=> ODD n) /\\ (forall n. coprime(n,2) <=> ODD n)
+      #|  (\226\136\128 n : Num, coprime((2, n)) == ODD(n)) && (\226\136\128 n : Num, coprime((n, 2)) == ODD(n))
       #|  SUC(2 * SUC((n : Num))) == SUC(2 * n) + 2
       #|  \226\136\128 n : Num, \226\136\128 k : Num, ODD(k) \226\134\146 divides(n + 1, EXP(n, k) + 1)
       #|  (k : Num)
@@ -13219,13 +13219,13 @@ test "Library/prime matches Library/prime.ml" {
       #|  (n : Num) == 0
       #|  \226\136\128 k : Num, \226\136\128 n : Num, divides(n - 1, EXP(n, k) - 1)
       #|  ((p : Num) > 1) == (!(p == 0) && !(p == 1))
-      #|  forall p. prime p <=>\n       p > 1 /\\ forall a b. p divides (a * b) ==> p divides a \\/ p divides b
-      #|  forall d n a b.\n      (d EXP n) divides (a * b) /\\ coprime(d,a) ==> (d EXP n) divides b
-      #|  forall p a b. prime p /\\ coprime(a,b) ==> coprime(p,a) \\/ coprime(p,b)
-      #|  forall n p a b.\n        prime p /\\ ~(p divides gcd(a,b)) /\\ p EXP n divides a * b\n        ==> p EXP n divides a \\/ p EXP n divides b
-      #|  forall n p a b.\n        prime p /\\ ~(p divides gcd(a,b))\n        ==> (p EXP n divides a * b <=>\n             p EXP n divides a \\/ p EXP n divides b)
-      #|  forall n p a b. prime(p) /\\ coprime(a,b) /\\ (p EXP n) divides (a * b)\n             ==> (p EXP n) divides a \\/ (p EXP n) divides b
-      #|  forall n p a b.\n        prime p /\\ coprime(a,b)\n        ==> (p EXP n divides a * b <=>\n             p EXP n divides a \\/ p EXP n divides b)
+      #|  \226\136\128 p : Num, prime(p) == (p > 1 && (\226\136\128 a : Num, \226\136\128 b : Num, divides(p, a * b) \226\134\146 divides(p, a) || divides(p, b)))
+      #|  \226\136\128 d : Num, \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, divides(EXP(d, n), a * b) && coprime((d, a)) \226\134\146 divides(EXP(d, n), b)
+      #|  \226\136\128 p : Num, \226\136\128 a : Num, \226\136\128 b : Num, prime(p) && coprime((a, b)) \226\134\146 coprime((p, a)) || coprime((p, b))
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, \226\136\128 a : Num, \226\136\128 b : Num, prime(p) && !divides(p, gcd((a, b))) && divides(EXP(p, n), a * b) \226\134\146 divides(EXP(p, n), a) || divides(EXP(p, n), b)
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, \226\136\128 a : Num, \226\136\128 b : Num, prime(p) && !divides(p, gcd((a, b))) \226\134\146 divides(EXP(p, n), a * b) == (divides(EXP(p, n), a) || divides(EXP(p, n), b))
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, \226\136\128 a : Num, \226\136\128 b : Num, prime(p) && coprime((a, b)) && divides(EXP(p, n), a * b) \226\134\146 divides(EXP(p, n), a) || divides(EXP(p, n), b)
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, \226\136\128 a : Num, \226\136\128 b : Num, prime(p) && coprime((a, b)) \226\134\146 divides(EXP(p, n), a * b) == (divides(EXP(p, n), a) || divides(EXP(p, n), b))
       #|  (d : Num)
       #|  (p : Num)
       #|  (d : Num)
@@ -13233,8 +13233,8 @@ test "Library/prime matches Library/prime.ml" {
       #|  (n : Num) == 1
       #|  (n : Num) == 0
       #|  (n : Num)
-      #|  forall P. P 0 /\\ P 1 /\\\n       (forall p n. prime p /\\ ~(n = 0) /\\ P n ==> P(p * n))\n       ==> forall n. P n
-      #|  forall P. P 0 /\\ P 1 /\\\n       (forall p. prime p ==> P p) /\\\n       (forall m n. P m /\\ P n ==> P(m * n))\n       ==> forall n. P n
+      #|  \226\136\128 P : (Num) -> Bool, P(0) && P(1) && (\226\136\128 p : Num, \226\136\128 n : Num, prime(p) && !(n == 0) && P(n) \226\134\146 P(p * n)) \226\134\146 (\226\136\128 n : Num, P(n))
+      #|  \226\136\128 P : (Num) -> Bool, P(0) && P(1) && (\226\136\128 p : Num, prime(p) \226\134\146 P(p)) && (\226\136\128 m : Num, \226\136\128 n : Num, P(m) && P(n) \226\134\146 P(m * n)) \226\134\146 (\226\136\128 n : Num, P(n))
       #|  (p : Num) * (n2 : Num)
       #|  (n1 : Num)
       #|  (n2 : Num)
@@ -13244,17 +13244,17 @@ test "Library/prime matches Library/prime.ml" {
       #|  (n1 : Num)
       #|  (n : Num)
       #|  (p : Num)
-      #|  forall Q n. ~(n = 0)\n         ==> ?n1 n2. n1 * n2 = n /\\\n                     (forall p. prime p /\\ p divides n1 ==> Q p) /\\\n                     (forall p. prime p /\\ p divides n2 ==> ~Q p)
+      #|  \226\136\128 Q : (Num) -> Bool, \226\136\128 n : Num, !(n == 0) \226\134\146 (\226\136\131 n1 : Num, \226\136\131 n2 : Num, n1 * n2 == n && (\226\136\128 p : Num, prime(p) && divides(p, n1) \226\134\146 Q(p)) && (\226\136\128 p : Num, prime(p) && divides(p, n2) \226\134\146 !Q(p)))
       #|  (m2 : Num)
       #|  (m1 : Num)
       #|  (m : Num)
       #|  (p : Num) => divides(p, (n2 : Num))
-      #|  forall n1 n2 m.\n        coprime(n1,n2) /\\ ~(m = 0)\n        ==> ?m1 m2. coprime(m1,n1) /\\ coprime(m2,n2) /\\\n                    coprime(m1,m2) /\\ m1 * m2 = m
+      #|  \226\136\128 n1 : Num, \226\136\128 n2 : Num, \226\136\128 m : Num, coprime((n1, n2)) && !(m == 0) \226\134\146 (\226\136\131 m1 : Num, \226\136\131 m2 : Num, coprime((m1, n1)) && coprime((m2, n2)) && coprime((m1, m2)) && m1 * m2 == m)
       #|  (p : Num)
       #|  (m : Num)
       #|  (k : Num)
       #|  (k : Num) == 0
-      #|  forall m n p k. ~(m = 0) /\\ m EXP k * n = p EXP k ==> ?q. n = q EXP k
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 p : Num, \226\136\128 k : Num, !(m == 0) && EXP(m, k) * n == EXP(p, k) \226\134\146 (\226\136\131 q : Num, n == EXP(q, k))
       #|  EXP((p : Num), (n : Num))
       #|  \226\136\128 p : Num, !(p == 0) && (a : Num) * p == (b : Num) * p \226\134\146 a == b
       #|  (a : Num)
@@ -13264,7 +13264,7 @@ test "Library/prime matches Library/prime.ml" {
       #|  (d : Num)
       #|  divides(EXP((p : Num), (n : Num)), (a : Num)) || divides(EXP(p, n), (b : Num))
       #|  (n : Num) == 0
-      #|  forall n a b c. coprime(a,b) /\\ a * b = c EXP n\n             ==> ?r s. a = r EXP n /\\ b = s EXP n
+      #|  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, coprime((a, b)) && a * b == EXP(c, n) \226\134\146 (\226\136\131 r : Num, \226\136\131 s : Num, a == EXP(r, n) && b == EXP(s, n))
       #|  !((p : Num) == 1)
       #|  !((p : Num) == 0)
       #|  (p : Num) < (pn : Num) \226\134\146 !(p == pn)
@@ -13286,9 +13286,9 @@ test "Library/prime matches Library/prime.ml" {
       #|  (d : Num)
       #|  !((p : Num) == 0)
       #|  divides((p : Num), (x : Num)) || divides(p, (y : Num))
-      #|  forall k x y p. prime p /\\ (x * y = p EXP k)\n           ==> ?i j. (x = p EXP i) /\\ (y = p EXP j)
+      #|  \226\136\128 k : Num, \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 p : Num, prime(p) && x * y == EXP(p, k) \226\134\146 (\226\136\131 i : Num, \226\136\131 j : Num, x == EXP(p, i) && y == EXP(p, j))
       #|  (n : Num) == 0
-      #|  forall n x p k. prime p /\\ ~(n = 0) /\\ (x EXP n = p EXP k) ==> ?i. x = p EXP i
+      #|  \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 p : Num, \226\136\128 k : Num, prime(p) && !(n == 0) && EXP(x, n) == EXP(p, k) \226\134\146 (\226\136\131 i : Num, x == EXP(p, i))
       #|  (p : Num) == 1
       #|  (p : Num) == 0
       #|  (p : Num)
@@ -13296,9 +13296,9 @@ test "Library/prime matches Library/prime.ml" {
       #|  (d : Num)
       #|  (k : Num)
       #|  (e : Num)
-      #|  forall p. prime p ==> forall d. d divides (p EXP k) <=> ?i. i <= k /\\ d = p EXP i
-      #|  a = b * c <=> b divides a /\\ c divides a /\\ b * c = a
-      #|  forall p k m n.\n        prime p /\\ (p EXP k) divides (m * n)\n        ==> ?i j. (p EXP i) divides m /\\ (p EXP j) divides n /\\ k = i + j
+      #|  \226\136\128 p : Num, prime(p) \226\134\146 (\226\136\128 d : Num, divides(d, EXP(p, (k : Num))) == (\226\136\131 i : Num, i <= k && d == EXP(p, i)))
+      #|  ((a : Num) == (b : Num) * (c : Num)) == (divides(b, a) && divides(c, a) && b * c == a)
+      #|  \226\136\128 p : Num, \226\136\128 k : Num, \226\136\128 m : Num, \226\136\128 n : Num, prime(p) && divides(EXP(p, k), m * n) \226\134\146 (\226\136\131 i : Num, \226\136\131 j : Num, divides(EXP(p, i), m) && divides(EXP(p, j), n) && k == i + j)
       #|  !((x : Num) + 1 == 0)
       #|  (p : Num) == 0 || 1 <= p
       #|  0 < (n : Num) \226\134\146 !(n + 1 == 1)
@@ -13311,7 +13311,7 @@ test "Library/prime matches Library/prime.ml" {
       #|  EXP(2, (l : Num))
       #|  (n : Num)
       #|  0
-      #|  forall n p. ~(n = 0) /\\ 2 <= p\n         ==> ?k. (p EXP k) divides n /\\\n                 forall l. k < l ==> ~((p EXP l) divides n)
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, !(n == 0) && 2 <= p \226\134\146 (\226\136\131 k : Num, divides(EXP(p, k), n) && (\226\136\128 l : Num, k < l \226\134\146 !divides(EXP(p, l), n)))
       #|  (k : Num) == 0
       #|  divides((p : Num), (n : Num))
       #|  (k : Num) < k + 1
@@ -13323,7 +13323,7 @@ test "Library/prime matches Library/prime.ml" {
       #|  (n : Num)
       #|  (p : Num)
       #|  (n : Num)
-      #|  forall n. 2 <= n\n       ==> ?p k m. prime p /\\ 1 <= k /\\ coprime(p,m) /\\ n = p EXP k * m
+      #|  \226\136\128 n : Num, 2 <= n \226\134\146 (\226\136\131 p : Num, \226\136\131 k : Num, \226\136\131 m : Num, prime(p) && 1 <= k && coprime((p, m)) && n == EXP(p, k) * m)
       #|  (l : Num)
       #|  (q : Num)
       #|  EXP((p : Num), (l : Num))
@@ -13352,12 +13352,12 @@ test "Library/prime matches Library/prime.ml" {
       #|  (m : Num) == 0
       #|  (n : Num)
       #|  (m : Num)
-      #|  (p <=> q) <=> (p ==> q) /\\ (q ==> p)
-      #|  forall m n. m divides n <=>\n         forall p k. prime p /\\ p EXP k divides m ==> p EXP k divides n
+      #|  ((p : Bool) == (q : Bool)) == ((p \226\134\146 q) && (q \226\134\146 p))
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, divides(m, n) == (\226\136\128 p : Num, \226\136\128 k : Num, prime(p) && divides(EXP(p, k), m) \226\134\146 divides(EXP(p, k), n))
       #|  divides((a : Num), a * (b : Num))
       #|  (k : Num)
       #|  (p : Num)
-      #|  forall m n. m = n <=>\n         forall p k. prime p ==> (p EXP k divides m <=> p EXP k divides n)
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, (m == n) == (\226\136\128 p : Num, \226\136\128 k : Num, prime(p) \226\134\146 divides(EXP(p, k), m) == divides(EXP(p, k), n))
       #|  (\226\136\131 d : Num, \226\136\131 x : _, \226\136\131 y : _, d == 1 && (P : (_, _, Num) -> Bool)(x, y, d)) == (\226\136\131 x : _, \226\136\131 y : _, P(x, y, 1))
       #|  (a : Num) * (x1 : Num) == (b : Num) * (y1 : Num) + 1
       #|  (b : Num) * (x2 : Num) == (a : Num) * (y2 : Num) + 1
@@ -13374,15 +13374,15 @@ test "Library/prime matches Library/prime.ml" {
       #|  (a : Num)
       #|  (a : Num)
       #|  (b : Num)
-      #|  forall a b u v. coprime(a,b) /\\ ~(a = 0) /\\ ~(b = 0)\n             ==> ?x q1 q2. x = u + q1 * a /\\ x = v + q2 * b
+      #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 u : Num, \226\136\128 v : Num, coprime((a, b)) && !(a == 0) && !(b == 0) \226\134\146 (\226\136\131 x : Num, \226\136\131 q1 : Num, \226\136\131 q2 : Num, x == u + q1 * a && x == v + q2 * b)
       #|  EXP(2, (i : Num))
       #|  EXP((p : Num), (i : Num))
       #|  (i : Num)
       #|  op_dot_dot(0, (n : Num))
       #|  \226\136\128 P : (Num) -> Bool, \226\136\128 p : Num, \226\136\128 n : Num, 2 <= p \226\134\146 FINITE({(j : Num) | P(j) && EXP(p, j) <= n})
       #|  {(j : Num) | (P : (Num) -> Bool)(j) && EXP((p : Num), j) <= (n : Num)}
-      #|  forall P p n. 2 <= p /\\ ~(n = 0) ==> FINITE {j | P j /\\ p EXP j divides n}
-      #|  index p n = if p <= 1 \\/ n = 0 then 0\n              else CARD {j | 1 <= j /\\ p EXP j divides n}
+      #|  \226\136\128 P : (Num) -> Bool, \226\136\128 p : Num, \226\136\128 n : Num, 2 <= p && !(n == 0) \226\134\146 FINITE({(j : Num) | P(j) && divides(EXP(p, j), n)})
+      #|  (index : (Num, Num) -> Num)((p : Num), (n : Num)) == (if p <= 1 || n == 0 { 0 } else { CARD({(j : Num) | 1 <= j && divides(EXP(p, j), n)}) })
       #|  \226\136\128 p : Num, index(p, 0) == 0
       #|  EXP((p : Num), (a : Num))
       #|  \226\136\128 k : Num, divides(EXP((p : Num), k), (n : Num)) == (k <= (a : Num))
@@ -13393,41 +13393,41 @@ test "Library/prime matches Library/prime.ml" {
       #|  (p : Num) == 1
       #|  (p : Num) == 0
       #|  (n : Num) == 0
-      #|  forall n p k. p EXP k divides n <=> n = 0 \\/ p = 1 \\/ k <= index p n
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, \226\136\128 k : Num, divides(EXP(p, k), n) == (n == 0 || p == 1 || k <= index(p, n))
       #|  (p : Num) == 1
       #|  (n : Num) == 0
-      #|  forall n p k. k <= index p n <=> (n = 0 \\/ p = 1 ==> k = 0) /\\ p EXP k divides n
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, \226\136\128 k : Num, (k <= index(p, n)) == ((n == 0 || p == 1 \226\134\146 k == 0) && divides(EXP(p, k), n))
       #|  \226\136\128 p : Num, \226\136\128 n : Num, divides(EXP(p, index(p, n)), n)
       #|  (n : Num) == 0
-      #|  forall n p k. (~(n = 0) \\/ ~(k = 0)) /\\ n < p EXP k ==> index p n < k
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, \226\136\128 k : Num, (!(n == 0) || !(k == 0)) && n < EXP(p, k) \226\134\146 index(p, n) < k
       #|  !(1 <= (j : Num) && j == 0)
       #|  !((p : Num) <= 1) \226\134\146 !(p == 1)
       #|  \226\136\128 p : Num, index(p, 1) == 0
       #|  (p : Num)
       #|  (\226\136\128 k : Num, k <= (m : Num) \226\134\146 k <= (n : Num)) \226\134\146 m <= n
       #|  !((p : Num) == 1)
-      #|  forall m n. prime p /\\ ~(m = 0) /\\ ~(n = 0)\n         ==> index p (m * n) = index p m + index p n
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, prime((p : Num)) && !(m == 0) && !(n == 0) \226\134\146 index(p, m * n) == index(p, m) + index(p, n)
       #|  (n : Num) == 0
-      #|  forall p n k. prime p ==> index p (n EXP k) = k * index p n
-      #|  forall p n. prime p ==> index p (FACT n) = nsum(1..n) (\\m. index p m)
+      #|  \226\136\128 p : Num, \226\136\128 n : Num, \226\136\128 k : Num, prime(p) \226\134\146 index(p, EXP(n, k)) == k * index(p, n)
+      #|  \226\136\128 p : Num, \226\136\128 n : Num, prime(p) \226\134\146 index(p, FACT(n)) == nsum(op_dot_dot(1, n), (m : Num) => index(p, m))
       #|  (1 <= (x : Num)) == !(x == 0)
       #|  (d : Num) == EXP((p : Num), (j : Num)) * (q : Num)
       #|  (q : Num)
       #|  (d : Num)
-      #|  {m | m IN 1..n /\\ p EXP j divides m} =\n                  IMAGE (\\q. p EXP j * q) (1..(n DIV p EXP j))
+      #|  {(m : Num) | IN(m, op_dot_dot(1, (n : Num))) && divides(EXP((p : Num), (j : Num)), m)} == IMAGE((q : Num) => EXP(p, j) * q, op_dot_dot(1, DIV(n, EXP(p, j))))
       #|  (j : Num)
       #|  (m : Num)
-      #|  nsum(1..n) (\\m. nsum {j | 1 <= j /\\ p EXP j <= n}\n                         (\\j. if p EXP j divides m then 1 else 0))
+      #|  nsum(op_dot_dot(1, (n : Num)), (m : Num) => nsum({(j : Num) | 1 <= j && EXP((p : Num), j) <= n}, (j : Num) => if divides(EXP(p, j), m) { 1 } else { 0 }))
       #|  !((p : Num) == 0) && !(p == 1) && 2 <= p && !(p <= 1)
-      #|  forall p n. prime p\n         ==> index p (FACT n) =\n             nsum {j | 1 <= j /\\ p EXP j <= n} (\\j. n DIV (p EXP j))
-      #|  forall p n. prime p\n         ==> index p (FACT n) = nsum {j | 1 <= j} (\\j. n DIV (p EXP j))
-      #|  forall p n k. prime p\n           ==> (p EXP k divides FACT n <=>\n                k <= nsum {j | 1 <= j /\\ p EXP j <= n} (\\j. n DIV (p EXP j)))
+      #|  \226\136\128 p : Num, \226\136\128 n : Num, prime(p) \226\134\146 index(p, FACT(n)) == nsum({(j : Num) | 1 <= j && EXP(p, j) <= n}, (j : Num) => DIV(n, EXP(p, j)))
+      #|  \226\136\128 p : Num, \226\136\128 n : Num, prime(p) \226\134\146 index(p, FACT(n)) == nsum({(j : Num) | 1 <= j}, (j : Num) => DIV(n, EXP(p, j)))
+      #|  \226\136\128 p : Num, \226\136\128 n : Num, \226\136\128 k : Num, prime(p) \226\134\146 divides(EXP(p, k), FACT(n)) == (k <= nsum({(j : Num) | 1 <= j && EXP(p, j) <= n}, (j : Num) => DIV(n, EXP(p, j))))
       #|  2 <= (n : Num)
       #|  divides((a : Num), (b : Num)) == divides(a, EXP(b, 1))
       #|  (n : Num) == 0
       #|  \226\136\128 n : Num, index(n, n) == (if n <= 1 { 0 } else { 1 })
       #|  ((n : Num) == 0) == !(1 <= n)
-      #|  forall p n. index p n = 0 <=> n = 0 \\/ p = 1 \\/ ~(p divides n)
+      #|  \226\136\128 p : Num, \226\136\128 n : Num, (index(p, n) == 0) == (n == 0 || p == 1 || !divides(p, n))
       #|  \226\136\128 p : Num, \226\136\128 n : Num, !divides(p, n) \226\134\146 index(p, n) == 0
       #|  (d : Num)
       #|  ((m : Num) == (n : Num)) == (\226\136\128 d : Num, (d <= m) == (d <= n))
@@ -13452,17 +13452,17 @@ test "Library/prime matches Library/prime.ml" {
       #|  index((p : Num), (n : Num))
       #|  (p : Num)
       #|  (n : Num)
-      #|  forall n p. ?m. p EXP (index p n) * m = n /\\ (n = 0 \\/ p = 1 \\/ ~(p divides m))
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, \226\136\131 m : Num, EXP(p, index(p, n)) * m == n && (n == 0 || p == 1 || !divides(p, m))
       #|  (n : Num) == 0
       #|  (p : Num) == 1
       #|  (m : Num)
       #|  (p : Num)
       #|  (n : Num)
-      #|  forall n p. prime p ==> ?m. p EXP (index p n) * m = n /\\ (n = 0 \\/ coprime(p,m))
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, prime(p) \226\134\146 (\226\136\131 m : Num, EXP(p, index(p, n)) * m == n && (n == 0 || coprime((p, m))))
       #|  (d : Num)
       #|  ((p : Bool) && !(q : Bool) && !(r : Bool) \226\134\146 (s : Bool)) == (!q \226\134\146 !s \226\134\146 p \226\134\146 r)
-      #|  forall p e1 m1 e2 m2.\n    p EXP e1 * m1 = p EXP e2 * m2 /\\ ~(p = 0) /\\ ~(p divides m2) ==> e1 <= e2
-      #|  forall p e1 m1 e2 m2.\n        p EXP e1 * m1 = p EXP e2 * m2 /\\\n        ~(p = 0) /\\ ~(p divides m1) /\\ ~(p divides m2)\n        ==> e1 = e2
+      #|  \226\136\128 p : Num, \226\136\128 e1 : Num, \226\136\128 m1 : Num, \226\136\128 e2 : Num, \226\136\128 m2 : Num, EXP(p, e1) * m1 == EXP(p, e2) * m2 && !(p == 0) && !divides(p, m2) \226\134\146 e1 <= e2
+      #|  \226\136\128 p : Num, \226\136\128 e1 : Num, \226\136\128 m1 : Num, \226\136\128 e2 : Num, \226\136\128 m2 : Num, EXP(p, e1) * m1 == EXP(p, e2) * m2 && !(p == 0) && !divides(p, m1) && !divides(p, m2) \226\134\146 e1 == e2
       #|  divides((p : Num), p * (q : Num))
       #|  (p : Num) == 0
       #|  (m : Num) == 0
@@ -13470,51 +13470,51 @@ test "Library/prime matches Library/prime.ml" {
       #|  (p : Num) == 0 \226\134\146 (e : Num) == 0
       #|  !((e : Num) + 1 == 0)
       #|  ((i : Num) == (e : Num)) == (e <= i && !(e + 1 <= i))
-      #|  forall p m n e.\n        p EXP e * m = n /\\ (p = 0 ==> e = 0) /\\ ~(p divides m)\n        ==> index p n = e
-      #|  forall n p k. index p n = k <=>\n           if p = 1 \\/ n = 0 then k = 0\n           else forall j. p EXP j divides n <=> j <= k
+      #|  \226\136\128 p : Num, \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 e : Num, EXP(p, e) * m == n && (p == 0 \226\134\146 e == 0) && !divides(p, m) \226\134\146 index(p, n) == e
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, \226\136\128 k : Num, (index(p, n) == k) == (if p == 1 || n == 0 { k == 0 } else { \226\136\128 j : Num, divides(EXP(p, j), n) == (j <= k) })
       #|  ((k : Num) < (j : Num)) == (k + 1 <= j)
       #|  !divides(EXP((p : Num), (k : Num) + 1), (n : Num))
       #|  (j : Num)
-      #|  forall n p k. index p n = k <=>\n           if p = 1 \\/ n = 0 then k = 0\n           else p EXP k divides n /\\ ~(p EXP (k + 1) divides n)
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, \226\136\128 k : Num, (index(p, n) == k) == (if p == 1 || n == 0 { k == 0 } else { divides(EXP(p, k), n) && !divides(EXP(p, k + 1), n) })
       #|  EXP((p : Num), index(p, (n : Num)))
       #|  EXP((p : Num), index(p, (m : Num)))
       #|  (MIN((a : Num), (b : Num)) == 0) == (a == 0 || b == 0)
       #|  (p : Num) == 1
-      #|  forall p m n. MIN (index p m) (index p n) <= index p (m + n)
+      #|  \226\136\128 p : Num, \226\136\128 m : Num, \226\136\128 n : Num, MIN(index(p, m), index(p, n)) <= index(p, m + n)
       #|  EXP((p : Num), index(p, (m : Num)))
       #|  EXP((p : Num), index(p, (n : Num)))
       #|  (n : Num)
       #|  (p : Num) == 1
-      #|  forall p m n. n < m ==> MIN (index p m) (index p n) <= index p (m - n)
-      #|  (p:num) divides m /\\ ~(p divides n) ==> ~(p divides m + n)
+      #|  \226\136\128 p : Num, \226\136\128 m : Num, \226\136\128 n : Num, n < m \226\134\146 MIN(index(p, m), index(p, n)) <= index(p, m - n)
+      #|  divides((p : Num), (m : Num)) && !divides(p, (n : Num)) \226\134\146 !divides(p, m + n)
       #|  (p : Num) == 1
       #|  (m : Num) == 0
-      #|  forall p n m.\n        ~(n = 0) /\\ (~(m = 0) ==> index p n < index p m)\n        ==> index p (m + n) = index p n
+      #|  \226\136\128 p : Num, \226\136\128 n : Num, \226\136\128 m : Num, !(n == 0) && (!(m == 0) \226\134\146 index(p, n) < index(p, m)) \226\134\146 index(p, m + n) == index(p, n)
       #|  (p : Num) == 0
       #|  ((p : Bool) \226\134\146 (q : Bool)) && p \226\134\146 p && q
-      #|  (forall p n. index p (p * n) = if p <= 1 \\/ n = 0 then 0 else index p n + 1) /\\\n   (forall p n. index p (n * p) = if p <= 1 \\/ n = 0 then 0 else index p n + 1)
+      #|  (\226\136\128 p : Num, \226\136\128 n : Num, index(p, p * n) == (if p <= 1 || n == 0 { 0 } else { index(p, n) + 1 })) && (\226\136\128 p : Num, \226\136\128 n : Num, index(p, n * p) == (if p <= 1 || n == 0 { 0 } else { index(p, n) + 1 }))
       #|  (n : Num) == 0
       #|  (p : Num) <= 1
       #|  (p : Num) == 0
-      #|  (p ==> q) /\\ p ==> p /\\ q
-      #|  (forall p n k. index p (p EXP k * n) =\n            if p <= 1 \\/ n = 0 then 0 else k + index p n) /\\\n   (forall p n k. index p (n * p EXP k) =\n            if n = 0 \\/ p <= 1 then 0 else index p n + k)
+      #|  ((p : Bool) \226\134\146 (q : Bool)) && p \226\134\146 p && q
+      #|  (\226\136\128 p : Num, \226\136\128 n : Num, \226\136\128 k : Num, index(p, EXP(p, k) * n) == (if p <= 1 || n == 0 { 0 } else { k + index(p, n) })) && (\226\136\128 p : Num, \226\136\128 n : Num, \226\136\128 k : Num, index(p, n * EXP(p, k)) == (if n == 0 || p <= 1 { 0 } else { index(p, n) + k }))
       #|  (p : Num) <= 1
       #|  ((p : Bool) \226\134\146 (q : Bool)) && p \226\134\146 p && q
-      #|  (forall p m n k.\n        ~(n = 0) /\\ index p n < k ==> index p (p EXP k * m + n) = index p n) /\\\n   (forall p m n k.\n        ~(n = 0) /\\ index p n < k ==> index p (m * p EXP k + n) = index p n) /\\\n   (forall p m n k.\n        ~(n = 0) /\\ index p n < k ==> index p (n + m * p EXP k) = index p n) /\\\n   (forall p m n k.\n        ~(n = 0) /\\ index p n < k ==> index p (n + p EXP k * m) = index p n)
+      #|  (\226\136\128 p : Num, \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 k : Num, !(n == 0) && index(p, n) < k \226\134\146 index(p, EXP(p, k) * m + n) == index(p, n)) && (\226\136\128 p : Num, \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 k : Num, !(n == 0) && index(p, n) < k \226\134\146 index(p, m * EXP(p, k) + n) == index(p, n)) && (\226\136\128 p : Num, \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 k : Num, !(n == 0) && index(p, n) < k \226\134\146 index(p, n + m * EXP(p, k)) == index(p, n)) && (\226\136\128 p : Num, \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 k : Num, !(n == 0) && index(p, n) < k \226\134\146 index(p, n + EXP(p, k) * m) == index(p, n))
       #|  (m : Num) => (n : Num) <= index((p : Num), m)
-      #|  forall(f:A->num) p n k.\n         FINITE k /\\ ~(k = {}) /\\ (forall a. a IN k ==> n <= index p (f a))\n         ==> n <= index p (nsum k f)
+      #|  \226\136\128 f : (A) -> Num, \226\136\128 p : Num, \226\136\128 n : Num, \226\136\128 k : (A) -> Bool, FINITE(k) && !(k == {}) && (\226\136\128 a : A, IN(a, k) \226\134\146 n <= index(p, f(a))) \226\134\146 n <= index(p, nsum(k, f))
       #|  prime((p : Num)) \226\134\146 !(p == 1)
       #|  ((m : Num) <= (n : Num)) == (\226\136\128 k : Num, k <= m \226\134\146 k <= n)
       #|  (m : Num) == 0
       #|  (n : Num) == 0
-      #|  forall m n. m divides n <=>\n         n = 0 \\/ ~(m = 0) /\\ forall p. prime p ==> index p m <= index p n
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, divides(m, n) == (n == 0 || !(m == 0) && (\226\136\128 p : Num, prime(p) \226\134\146 index(p, m) <= index(p, n)))
       #|  (n : Num) == 0
       #|  (m : Num) == 0
-      #|  forall m n. m = n <=> (m = 0 <=> n = 0) /\\ forall p. prime p ==> index p m = index p n
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, (m == n) == ((m == 0) == (n == 0) && (\226\136\128 p : Num, prime(p) \226\134\146 index(p, m) == index(p, n)))
       #|  prime((p : Num)) \226\134\146 !(p == 1)
       #|  (n : Num) == 0
       #|  (m : Num) == 0
-      #|  forall m n. coprime(m,n) <=>\n         (m = 0 ==> n = 1) /\\ (n = 0 ==> m = 1) /\\\n         forall p. prime p ==> index p m = 0 \\/ index p n = 0
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, coprime((m, n)) == ((m == 0 \226\134\146 n == 1) && (n == 0 \226\134\146 m == 1) && (\226\136\128 p : Num, prime(p) \226\134\146 index(p, m) == 0 || index(p, n) == 0))
       #|  ((k : Num) <= (m : Num) && k <= (n : Num)) == (k <= MIN(m, n))
       #|  prime((p : Num)) \226\134\146 !(p == 1)
       #|  EXP((p : Num), (k : Num))
@@ -13524,15 +13524,15 @@ test "Library/prime matches Library/prime.ml" {
       #|  MIN(0, (n : Num)) == 0 && MIN((m : Num), 0) == 0
       #|  (n : Num) == 0
       #|  (m : Num) == 0
-      #|  forall m n p.\n        prime p\n        ==> index p (gcd(m,n)) =\n            if m = 0 then index p n\n            else if n = 0 then index p m\n            else MIN (index p m) (index p n)
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 p : Num, prime(p) \226\134\146 index(p, gcd((m, n))) == (if m == 0 { index(p, n) } else { if n == 0 { index(p, m) } else { MIN(index(p, m), index(p, n)) } })
       #|  EXP((p : Num), (k : Num))
       #|  (k : Num)
-      #|  (forall p. prime p ==> forall P. ((forall x. P(index p x)) <=> forall k. P k)) /\\\n   (forall p. prime p ==> forall P. ((forall x. ~(x = 0) ==> P(index p x)) <=> forall k. P k))
+      #|  (\226\136\128 p : Num, prime(p) \226\134\146 (\226\136\128 P : (Num) -> Bool, (\226\136\128 x : Num, P(index(p, x))) == (\226\136\128 k : Num, P(k)))) && (\226\136\128 p : Num, prime(p) \226\134\146 (\226\136\128 P : (Num) -> Bool, (\226\136\128 x : Num, !(x == 0) \226\134\146 P(index(p, x))) == (\226\136\128 k : Num, P(k))))
       #|  (1 <= (n : Num)) == !(n == 0)
-      #|  (forall x. f x IN t <=> x IN s) /\\\n      (forall y. ~P y ==> y IN IMAGE f UNIV)\n      ==> IMAGE f s SUBSET t /\\ forall y. y IN t /\\ ~(y IN IMAGE f s) ==> P y
-      #|  nsum (IMAGE (\\i. p * i) (1..n)) (\\m. index p m)
+      #|  (\226\136\128 x : _, IN((f : (_) -> _)(x), (t : (_) -> Bool)) == IN(x, (s : (_) -> Bool))) && (\226\136\128 y : _, !(P : (_) -> Bool)(y) \226\134\146 IN(y, IMAGE(f, UNIV))) \226\134\146 SUBSET(IMAGE(f, s), t) && (\226\136\128 y : _, IN(y, t) && !IN(y, IMAGE(f, s)) \226\134\146 P(y))
+      #|  nsum(IMAGE((i : Num) => (p : Num) * i, op_dot_dot(1, (n : Num))), (m : Num) => index(p, m))
       #|  (n : Num) == 0
-      #|  forall p n. prime p ==> index p (FACT(p * n)) = n + index p (FACT n)
+      #|  \226\136\128 p : Num, \226\136\128 n : Num, prime(p) \226\134\146 index(p, FACT(p * n)) == n + index(p, FACT(n))
       #|  (q : Num)
       #|  (q : Num)
       #|  EXP((p : Num), (k : (Num) -> Num)(p)) * (n : Num)
@@ -13543,9 +13543,9 @@ test "Library/prime matches Library/prime.ml" {
       #|  (s : (Num) -> Bool)
       #|  (p : Num)
       #|  !(1 == 0)
-      #|  {p | prime p /\\ ~Z p} SUBSET {} <=> forall p. prime p ==> Z p
-      #|  forall s. FINITE s\n       ==> forall k. {p | prime p /\\ ~(k p = 0)} SUBSET s\n               ==> ?n. ~(n = 0) /\\ forall p. prime p ==> index p n = k p
-      #|  forall k. FINITE {p | prime p /\\ ~(k p = 0)}\n       ==> ?n. ~(n = 0) /\\ forall p. prime p ==> index p n = k p
+      #|  SUBSET({(p : Num) | prime(p) && !(Z : (Num) -> Bool)(p)}, {}) == (\226\136\128 p : Num, prime(p) \226\134\146 Z(p))
+      #|  \226\136\128 s : (Num) -> Bool, FINITE(s) \226\134\146 (\226\136\128 k : (Num) -> Num, SUBSET({(p : Num) | prime(p) && !(k(p) == 0)}, s) \226\134\146 (\226\136\131 n : Num, !(n == 0) && (\226\136\128 p : Num, prime(p) \226\134\146 index(p, n) == k(p))))
+      #|  \226\136\128 k : (Num) -> Num, FINITE({(p : Num) | prime(p) && !(k(p) == 0)}) \226\134\146 (\226\136\131 n : Num, !(n == 0) && (\226\136\128 p : Num, prime(p) \226\134\146 index(p, n) == k(p)))
       #|  (p : Num)
       #|  divides(EXP((p : Num), (k : Num)), (n : Num))
       #|  (k : Num) == 0
@@ -13556,30 +13556,30 @@ test "Library/prime matches Library/prime.ml" {
       #|  (p : Num)
       #|  (i : Num)
       #|  (p : Num)
-      #|  forall n q. prime q\n         ==> ((?i. n = q EXP i) <=>\n              (forall p. prime p /\\ p divides n ==> p = q))
+      #|  \226\136\128 n : Num, \226\136\128 q : Num, prime(q) \226\134\146 (\226\136\131 i : Num, n == EXP(q, i)) == (\226\136\128 p : Num, prime(p) && divides(p, n) \226\134\146 p == q)
       #|  2
       #|  2
       #|  2
       #|  2
       #|  2
       #|  3
-      #|  forall n p.\n         prime p\n         ==> ((?i. n = p EXP i) <=>\n              (forall d. d divides n ==> d = 1 \\/ p divides d))
+      #|  \226\136\128 n : Num, \226\136\128 p : Num, prime(p) \226\134\146 (\226\136\131 i : Num, n == EXP(p, i)) == (\226\136\128 d : Num, divides(d, n) \226\134\146 d == 1 || divides(p, d))
       #|  (x : Num) * (y : Num) == (z : Num) \226\134\146 x == (m : Num) && y == (n : Num) \226\134\146 z == m * n
       #|  (n : Num)
       #|  (m : Num)
       #|  (p : Num)
-      #|  forall n. ~(n = 0) ==> nproduct {p | prime p} (\\p. p EXP index p n) = n
-      #|  forall n. ~(n = 0)\n       ==> nproduct {p | prime p /\\ p divides n} (\\p. p EXP index p n) = n
-      #|  lcm(m,n) = if m * n = 0 then 0 else (m * n) DIV gcd(m,n)
-      #|  forall m n d. lcm(m,n) divides d <=> m divides d /\\ n divides d
-      #|  forall m n. m divides lcm(m,n) /\\\n         n divides lcm(m,n) /\\\n         (forall d. m divides d /\\ n divides d ==> lcm(m,n) divides d)
+      #|  \226\136\128 n : Num, !(n == 0) \226\134\146 nproduct({(p : Num) | prime(p)}, (p : Num) => EXP(p, index(p, n))) == n
+      #|  \226\136\128 n : Num, !(n == 0) \226\134\146 nproduct({(p : Num) | prime(p) && divides(p, n)}, (p : Num) => EXP(p, index(p, n))) == n
+      #|  lcm(((m : Num), (n : Num))) == (if m * n == 0 { 0 } else { DIV(m * n, gcd((m, n))) })
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 d : Num, divides(lcm((m, n)), d) == (divides(m, d) && divides(n, d))
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, divides(m, lcm((m, n))) && divides(n, lcm((m, n))) && (\226\136\128 d : Num, divides(m, d) && divides(n, d) \226\134\146 divides(lcm((m, n)), d))
       #|  \226\136\128 m : Num, \226\136\128 n : Num, divides(lcm((m, n)), m * n)
-      #|  forall m n r. r divides m \\/ r divides n\n           ==> r divides lcm(m,n)
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 r : Num, divides(r, m) || divides(r, n) \226\134\146 divides(r, lcm((m, n)))
       #|  (\226\136\128 n : Num, lcm((0, n)) == 0) && (\226\136\128 n : Num, lcm((n, 0)) == 0)
       #|  (\226\136\128 n : Num, lcm((1, n)) == n) && (\226\136\128 n : Num, lcm((n, 1)) == n)
       #|  MAX((m : Num), (n : Num)) == MAX(n, m)
       #|  \226\136\128 m : Num, \226\136\128 n : Num, lcm((m, n)) == lcm((n, m))
-      #|  forall m n d. d divides lcm(m,n) <=> d * gcd(m,n) divides m * n
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 d : Num, divides(d, lcm((m, n))) == divides(d * gcd((m, n)), m * n)
       #|  (k : Num) + MIN((a : Num), (b : Num)) <= a + b \226\134\146 k <= a || k <= b
       #|  (a : Num) < a + 1
       #|  (b : Num) + 1
@@ -13589,7 +13589,7 @@ test "Library/prime matches Library/prime.ml" {
       #|  prime((p : Num)) && !divides(p, (n : Num)) \226\134\146 coprime((p, n))
       #|  (a : Num) * (b : Num) * (c : Num) * (d : Num) == a * c * (b * d)
       #|  divides((a : Num) * (b : Num), (c : Num)) \226\134\146 divides(a, c)
-      #|  gcd(p EXP a * q,p EXP b * r) =\n    p EXP (MIN a b) * gcd(p EXP (a - MIN a b) * q,p EXP (b - MIN a b) * r)
+      #|  gcd((EXP((p : Num), (a : Num)) * (q : Num), EXP(p, (b : Num)) * (r : Num))) == EXP(p, MIN(a, b)) * gcd((EXP(p, a - MIN(a, b)) * q, EXP(p, b - MIN(a, b)) * r))
       #|  divides(EXP((p : Num), (k : Num)), lcm(((m : Num), (n : Num))))
       #|  (r : Num)
       #|  (b : Num)
@@ -13601,12 +13601,12 @@ test "Library/prime matches Library/prime.ml" {
       #|  (n : Num)
       #|  (n : Num) == 0
       #|  (m : Num) == 0
-      #|  forall m n p k.\n        prime p\n        ==> (p EXP k divides lcm(m,n) <=>\n             p EXP k divides m \\/ p EXP k divides n)
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 p : Num, \226\136\128 k : Num, prime(p) \226\134\146 divides(EXP(p, k), lcm((m, n))) == (divides(EXP(p, k), m) || divides(EXP(p, k), n))
       #|  1
       #|  (p : Num)
       #|  (n : Num)
       #|  (m : Num)
-      #|  forall m n p.\n        prime p\n        ==> (p divides lcm(m,n) <=> p divides m \\/ p divides n)
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 p : Num, prime(p) \226\134\146 divides(p, lcm((m, n))) == (divides(p, m) || divides(p, n))
       #|  (n : Num) == 0
       #|  (m : Num) == 0
       #|  \226\136\128 m : Num, \226\136\128 n : Num, (lcm((m, n)) == 0) == (m == 0 || n == 0)
@@ -13616,7 +13616,7 @@ test "Library/prime matches Library/prime.ml" {
       #|  (m : Num)
       #|  (n : Num) == 0
       #|  (m : Num) == 0
-      #|  forall m n p.\n        prime p\n        ==> index p (lcm(m,n)) =\n            if m = 0 \\/ n = 0 then 0\n            else MAX (index p m) (index p n)
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 p : Num, prime(p) \226\134\146 index(p, lcm((m, n))) == (if m == 0 || n == 0 { 0 } else { MAX(index(p, m), index(p, n)) })
       #|  (q : Num)
       #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 p : Num, lcm((m, lcm((n, p)))) == lcm((lcm((m, n)), p))
       #|  MAX((n : Num), n) == n
@@ -13624,8 +13624,8 @@ test "Library/prime matches Library/prime.ml" {
       #|  \226\136\128 a : Num, \226\136\128 b : Num, lcm((b, a * b)) == a * b
       #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, lcm((a, gcd((b, c)))) == gcd((lcm((a, b)), lcm((a, c))))
       #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, gcd((a, lcm((b, c)))) == lcm((gcd((a, b)), gcd((a, c))))
-      #|  forall d m n.\n       m divides d /\\ n divides d /\\\n       (forall e. m divides e /\\ n divides e ==> d divides e) <=>\n       d = lcm(m,n)
-      #|  forall x y u v. (forall d. x divides d /\\ y divides d <=> u divides d /\\ v divides d)\n             ==> lcm(x,y) = lcm(u,v)
+      #|  \226\136\128 d : Num, \226\136\128 m : Num, \226\136\128 n : Num, (divides(m, d) && divides(n, d) && (\226\136\128 e : Num, divides(m, e) && divides(n, e) \226\134\146 divides(d, e))) == (d == lcm((m, n)))
+      #|  \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 u : Num, \226\136\128 v : Num, (\226\136\128 d : Num, (divides(x, d) && divides(y, d)) == (divides(u, d) && divides(v, d))) \226\134\146 lcm((x, y)) == lcm((u, v))
       #|  \226\136\128 m : Num, \226\136\128 n : Num, (lcm((m, n)) == 1) == (m == 1 && n == 1)
       #|  \226\136\128 m : Num, \226\136\128 n : Num, divides(n, m) == (lcm((m, n)) == m)
       #|  \226\136\128 m : Num, \226\136\128 n : Num, divides(m, n) == (lcm((m, n)) == n)
@@ -13633,7 +13633,7 @@ test "Library/prime matches Library/prime.ml" {
       #|  (m : Num) == 0
       #|  \226\136\128 m : Num, \226\136\128 n : Num, lcm((m, n)) * gcd((m, n)) == m * n
       #|  \226\136\128 m : Num, \226\136\128 n : Num, gcd((m, n)) * lcm((m, n)) == m * n
-      #|  a * c * b:num = (c * d) * g <=> c * d * g = c * a * b
+      #|  ((a : Num) * ((c : Num) * (b : Num)) == c * (d : Num) * (g : Num)) == (c * (d * g) == c * (a * b))
       #|  0
       #|  (c : Num) == 0
       #|  \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 c : Num, lcm((c * a, c * b)) == c * lcm((a, b))
@@ -13657,55 +13657,55 @@ test "Library/prime matches Library/prime.ml" {
       #|  1
       #|  0
       #|  (m : Num) == 0
-      #|  forall m n:num.\n     ?m' n'.\n        m' divides m /\\ n' divides n /\\ coprime(m',n') /\\ m' * n' = lcm(m,n)
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\131 m' : Num, \226\136\131 n' : Num, divides(m', m) && divides(n', n) && coprime((m', n')) && m' * n' == lcm((m, n))
       #|  (n : Num) == 0
       #|  (m : Num) == 0
-      #|  (forall m n. m <= lcm(m,n) <=> n = 0 ==> m = 0) /\\\n   (forall m n. n <= lcm(m,n) <=> m = 0 ==> n = 0)
+      #|  (\226\136\128 m : Num, \226\136\128 n : Num, (m <= lcm((m, n))) == (n == 0 \226\134\146 m == 0)) && (\226\136\128 m : Num, \226\136\128 n : Num, (n <= lcm((m, n))) == (m == 0 \226\134\146 n == 0))
       #|  \226\136\128 m : Num, \226\136\128 n : Num, lcm((m, n)) <= m * n
       #|  (n : Num) == 0
       #|  (m : Num) == 0
-      #|  forall m n. lcm(m,n) = m * n <=> m = 0 \\/ n = 0 \\/ coprime(m,n)
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, (lcm((m, n)) == m * n) == (m == 0 || n == 0 || coprime((m, n)))
       #|  \226\136\128 m : Num, \226\136\128 n : Num, (MAX(m, n) <= lcm((m, n))) == ((m == 0) == (n == 0))
       #|  \226\136\128 m : Num, \226\136\128 n : Num, (m == 0) == (n == 0) \226\134\146 MAX(m, n) <= lcm((m, n))
       #|  neutral((m : Num) => (n : Num) => gcd((m, n))) == 0
       #|  monoidal((m : Num) => (n : Num) => gcd((m, n)))
       #|  neutral((m : Num) => (n : Num) => lcm((m, n))) == 1
       #|  monoidal((m : Num) => (n : Num) => lcm((m, n)))
-      #|  forall f k i:K.\n        FINITE k /\\ i IN k\n        ==> iterate (\\m n:num. gcd(m,n)) k f divides f i
+      #|  \226\136\128 f : (K) -> Num, \226\136\128 k : (K) -> Bool, \226\136\128 i : K, FINITE(k) && IN(i, k) \226\134\146 divides(iterate((m : Num) => (n : Num) => gcd((m, n)), k, f), f(i))
       #|  (f : (K) -> Num)((i : K)) == 0
-      #|  forall f k i:K.\n        i IN k\n        ==> (iterate (\\m n:num. gcd(m,n)) k f divides f i <=>\n             FINITE {j | j IN k /\\ ~(f j = 0)} \\/ f i = 0)
-      #|  forall f (k:K->bool) d.\n        FINITE k\n        ==> (d divides iterate (\\m n:num. gcd(m,n)) k f <=>\n             forall i. i IN k ==> d divides f i)
-      #|  forall f (k:K->bool) d.\n        d divides iterate (\\m n:num. gcd(m,n)) k f <=>\n        FINITE {j | j IN k /\\ ~(f j = 0)} ==> forall i. i IN k ==> d divides f i
-      #|  forall f k i:K.\n        FINITE k /\\ i IN k\n        ==> f i divides iterate (\\m n:num. lcm(m,n)) k f
+      #|  \226\136\128 f : (K) -> Num, \226\136\128 k : (K) -> Bool, \226\136\128 i : K, IN(i, k) \226\134\146 divides(iterate((m : Num) => (n : Num) => gcd((m, n)), k, f), f(i)) == (FINITE({(j : K) | IN(j, k) && !(f(j) == 0)}) || f(i) == 0)
+      #|  \226\136\128 f : (K) -> Num, \226\136\128 k : (K) -> Bool, \226\136\128 d : Num, FINITE(k) \226\134\146 divides(d, iterate((m : Num) => (n : Num) => gcd((m, n)), k, f)) == (\226\136\128 i : K, IN(i, k) \226\134\146 divides(d, f(i)))
+      #|  \226\136\128 f : (K) -> Num, \226\136\128 k : (K) -> Bool, \226\136\128 d : Num, divides(d, iterate((m : Num) => (n : Num) => gcd((m, n)), k, f)) == (FINITE({(j : K) | IN(j, k) && !(f(j) == 0)}) \226\134\146 (\226\136\128 i : K, IN(i, k) \226\134\146 divides(d, f(i))))
+      #|  \226\136\128 f : (K) -> Num, \226\136\128 k : (K) -> Bool, \226\136\128 i : K, FINITE(k) && IN(i, k) \226\134\146 divides(f(i), iterate((m : Num) => (n : Num) => lcm((m, n)), k, f))
       #|  (f : (K) -> Num)((i : K)) == 1
-      #|  forall f k i:K.\n        i IN k\n        ==> (f i divides iterate (\\m n:num. lcm(m,n)) k f <=>\n             FINITE {j | j IN k /\\ ~(f j = 1)} \\/ f i = 1)
-      #|  forall f (k:K->bool) n.\n        FINITE k\n        ==> (iterate (\\m n:num. lcm(m,n)) k f divides n <=>\n             forall i. i IN k ==> f i divides n)
-      #|  forall f (k:K->bool) n.\n        iterate (\\m n:num. lcm(m,n)) k f divides n <=>\n        FINITE {j | j IN k /\\ ~(f j = 1)} ==> forall i. i IN k ==> f i divides n
-      #|  forall f (k:K->bool) p m.\n        FINITE k /\\ prime p\n        ==> (p EXP m divides iterate (\\m n:num. lcm(m,n)) k f <=>\n             m = 0 \\/ ?i. i IN k /\\ p EXP m divides (f i))
+      #|  \226\136\128 f : (K) -> Num, \226\136\128 k : (K) -> Bool, \226\136\128 i : K, IN(i, k) \226\134\146 divides(f(i), iterate((m : Num) => (n : Num) => lcm((m, n)), k, f)) == (FINITE({(j : K) | IN(j, k) && !(f(j) == 1)}) || f(i) == 1)
+      #|  \226\136\128 f : (K) -> Num, \226\136\128 k : (K) -> Bool, \226\136\128 n : Num, FINITE(k) \226\134\146 divides(iterate((m : Num) => (n : Num) => lcm((m, n)), k, f), n) == (\226\136\128 i : K, IN(i, k) \226\134\146 divides(f(i), n))
+      #|  \226\136\128 f : (K) -> Num, \226\136\128 k : (K) -> Bool, \226\136\128 n : Num, divides(iterate((m : Num) => (n : Num) => lcm((m, n)), k, f), n) == (FINITE({(j : K) | IN(j, k) && !(f(j) == 1)}) \226\134\146 (\226\136\128 i : K, IN(i, k) \226\134\146 divides(f(i), n)))
+      #|  \226\136\128 f : (K) -> Num, \226\136\128 k : (K) -> Bool, \226\136\128 p : Num, \226\136\128 m : Num, FINITE(k) && prime(p) \226\134\146 divides(EXP(p, m), iterate((m : Num) => (n : Num) => lcm((m, n)), k, f)) == (m == 0 || (\226\136\131 i : K, IN(i, k) && divides(EXP(p, m), f(i))))
       #|  (m : Num) == 0
-      #|  forall f (k:K->bool) p m.\n        prime p\n        ==> (p EXP m divides iterate (\\m n:num. lcm(m,n)) k f <=>\n             m = 0 \\/\n             FINITE {j | j IN k /\\ ~(f j = 1)} /\\\n             ?i. i IN k /\\ p EXP m divides (f i))
+      #|  \226\136\128 f : (K) -> Num, \226\136\128 k : (K) -> Bool, \226\136\128 p : Num, \226\136\128 m : Num, prime(p) \226\134\146 divides(EXP(p, m), iterate((m : Num) => (n : Num) => lcm((m, n)), k, f)) == (m == 0 || FINITE({(j : K) | IN(j, k) && !(f(j) == 1)}) && (\226\136\131 i : K, IN(i, k) && divides(EXP(p, m), f(i))))
       #|  1
       #|  (p : Num)
       #|  (k : (K) -> Bool)
       #|  (f : (K) -> Num)
-      #|  forall f (k:K->bool) p.\n        prime p\n        ==> (p divides iterate (\\m n:num. lcm(m,n)) k f <=>\n             FINITE {j | j IN k /\\ ~(f j = 1)} /\\\n             ?i. i IN k /\\ p divides (f i))
-      #|  forall f (k:K->bool) p.\n        FINITE k /\\ prime p\n        ==> (p divides iterate (\\m n:num. lcm(m,n)) k f <=>\n             ?i. i IN k /\\ p divides (f i))
+      #|  \226\136\128 f : (K) -> Num, \226\136\128 k : (K) -> Bool, \226\136\128 p : Num, prime(p) \226\134\146 divides(p, iterate((m : Num) => (n : Num) => lcm((m, n)), k, f)) == (FINITE({(j : K) | IN(j, k) && !(f(j) == 1)}) && (\226\136\131 i : K, IN(i, k) && divides(p, f(i))))
+      #|  \226\136\128 f : (K) -> Num, \226\136\128 k : (K) -> Bool, \226\136\128 p : Num, FINITE(k) && prime(p) \226\134\146 divides(p, iterate((m : Num) => (n : Num) => lcm((m, n)), k, f)) == (\226\136\131 i : K, IN(i, k) && divides(p, f(i)))
       #|  (k : (K) -> Bool)
       #|  {(j : K) | IN(j, (k : (K) -> Bool)) && !((f : (K) -> Num)(j) == 1)}
-      #|  j IN k /\\ ~(f j = 1) /\\ f j = 0 <=>\n    j IN {j | j IN k /\\ ~(f j = 1)} /\\ f j = 0
+      #|  (IN((j : _), (k : (_) -> Bool)) && !((f : (_) -> Num)(j) == 1) && f(j) == 0) == (IN(j, {(j : _) | IN(j, k) && !(f(j) == 1)}) && f(j) == 0)
       #|  ((n : Num) == 0) == (!(n == 1) && n == 0)
-      #|  forall(k:K->bool) f.\n        iterate (\\m n. lcm(m,n)) k f = 0 <=>\n        FINITE {j | j IN k /\\ ~(f j = 1)} /\\\n        ?j. j IN k /\\ f j = 0
-      #|  forall(k:K->bool) f.\n        FINITE k\n        ==> (iterate (\\m n. lcm(m,n)) k f = 0 <=>\n             ?j. j IN k /\\ f j = 0)
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 f : (K) -> Num, (iterate((m : Num) => (n : Num) => lcm((m, n)), k, f) == 0) == (FINITE({(j : K) | IN(j, k) && !(f(j) == 1)}) && (\226\136\131 j : K, IN(j, k) && f(j) == 0))
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 f : (K) -> Num, FINITE(k) \226\134\146 (iterate((m : Num) => (n : Num) => lcm((m, n)), k, f) == 0) == (\226\136\131 j : K, IN(j, k) && f(j) == 0)
       #|  (k : (K) -> Bool)
       #|  {(j : K) | IN(j, (k : (K) -> Bool)) && !((f : (K) -> Num)(j) == 1)}
-      #|  (forall j. j IN k ==> f j = 1) <=>\n    forall j. j IN {j | j IN k /\\ ~(f j = 1)} ==> f j = 1
-      #|  forall(k:K->bool) f.\n        iterate (\\m n. lcm(m,n)) k f = 1 <=>\n        FINITE {j | j IN k /\\ ~(f j = 1)} ==> forall j. j IN k ==> f j = 1
-      #|  forall(k:K->bool) f.\n        FINITE k\n        ==> (iterate (\\m n. lcm(m,n)) k f = 1 <=>\n             forall j. j IN k ==> f j = 1)
+      #|  (\226\136\128 j : _, IN(j, (k : (_) -> Bool)) \226\134\146 (f : (_) -> Num)(j) == 1) == (\226\136\128 j : _, IN(j, {(j : _) | IN(j, k) && !(f(j) == 1)}) \226\134\146 f(j) == 1)
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 f : (K) -> Num, (iterate((m : Num) => (n : Num) => lcm((m, n)), k, f) == 1) == (FINITE({(j : K) | IN(j, k) && !(f(j) == 1)}) \226\134\146 (\226\136\128 j : K, IN(j, k) \226\134\146 f(j) == 1))
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 f : (K) -> Num, FINITE(k) \226\134\146 (iterate((m : Num) => (n : Num) => lcm((m, n)), k, f) == 1) == (\226\136\128 j : K, IN(j, k) \226\134\146 f(j) == 1)
       #|  (k : (K) -> Bool)
       #|  {(j : K) | IN(j, (k : (K) -> Bool)) && !((f : (K) -> Num)(j) == 0)}
-      #|  (forall j. j IN k ==> f j = 0) <=>\n    forall j. j IN {j | j IN k /\\ ~(f j = 0)} ==> f j = 0
-      #|  forall(k:K->bool) f.\n        iterate (\\m n. gcd(m,n)) k f = 0 <=>\n        FINITE {j | j IN k /\\ ~(f j = 0)} ==> forall j. j IN k ==> f j = 0
-      #|  forall(k:K->bool) f.\n        FINITE k\n        ==> (iterate (\\m n. gcd(m,n)) k f = 0 <=>\n             forall j. j IN k ==> f j = 0)
+      #|  (\226\136\128 j : _, IN(j, (k : (_) -> Bool)) \226\134\146 (f : (_) -> Num)(j) == 0) == (\226\136\128 j : _, IN(j, {(j : _) | IN(j, k) && !(f(j) == 0)}) \226\134\146 f(j) == 0)
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 f : (K) -> Num, (iterate((m : Num) => (n : Num) => gcd((m, n)), k, f) == 0) == (FINITE({(j : K) | IN(j, k) && !(f(j) == 0)}) \226\134\146 (\226\136\128 j : K, IN(j, k) \226\134\146 f(j) == 0))
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 f : (K) -> Num, FINITE(k) \226\134\146 (iterate((m : Num) => (n : Num) => gcd((m, n)), k, f) == 0) == (\226\136\128 j : K, IN(j, k) \226\134\146 f(j) == 0)
       #|  (m : Num) == 1 * m
       #|  (k : Num) < k + 1
       #|  (1 < (x : Num)) == (!(x == 0) && !(x == 1))
@@ -13713,7 +13713,7 @@ test "Library/prime matches Library/prime.ml" {
       #|  0 < 1
       #|  !((k : Num) == 0)
       #|  (m : Num) == 0
-      #|  forall p. (a /\\ b /\\ ~p) /\\ c /\\ (a /\\ ~p ==> b ==> d)\n        ==> a /\\ b /\\ c /\\ d
+      #|  \226\136\128 p : Bool, ((a : Bool) && (b : Bool) && !p) && (c : Bool) && (a && !p \226\134\146 b \226\134\146 (d : Bool)) \226\134\146 a && b && c && d
       #|  (m : Num) == 1
       #|  (m : Num)
       #|  (k : Num)
@@ -13723,15 +13723,15 @@ test "Library/prime matches Library/prime.ml" {
       #|  (p : Num)
       #|  1 < (n : Num) \226\134\146 !(n == 1)
       #|  (n : Num)
-      #|  forall P. (forall a b. 1 < a /\\ 1 < b /\\ coprime(a,b) /\\ P a /\\ P b ==> P(a * b)) /\\\n       (forall p k. prime p ==> P(p EXP k))\n       ==> forall n. 1 < n ==> P n
+      #|  \226\136\128 P : (Num) -> Bool, (\226\136\128 a : Num, \226\136\128 b : Num, 1 < a && 1 < b && coprime((a, b)) && P(a) && P(b) \226\134\146 P(a * b)) && (\226\136\128 p : Num, \226\136\128 k : Num, prime(p) \226\134\146 P(EXP(p, k))) \226\134\146 (\226\136\128 n : Num, 1 < n \226\134\146 P(n))
       #|  (k : Num) == 0
       #|  (k : Num)
       #|  (p : Num)
       #|  ((a : Bool) \226\134\146 (b : Bool)) == (a \226\134\146 a \226\134\146 b)
-      #|  forall P. (forall a b. 1 < a /\\ 1 < b /\\ coprime(a,b) /\\ P a /\\ P b ==> P(a * b)) /\\\n       (forall p k. prime p /\\ ~(k = 0) ==> P(p EXP k))\n       ==> forall n. 1 < n ==> P n
+      #|  \226\136\128 P : (Num) -> Bool, (\226\136\128 a : Num, \226\136\128 b : Num, 1 < a && 1 < b && coprime((a, b)) && P(a) && P(b) \226\134\146 P(a * b)) && (\226\136\128 p : Num, \226\136\128 k : Num, prime(p) && !(k == 0) \226\134\146 P(EXP(p, k))) \226\134\146 (\226\136\128 n : Num, 1 < n \226\134\146 P(n))
       #|  !(1 < (n : Num)) == (n == 0 || n == 1)
-      #|  (forall n. 1 < n ==> P n) /\\ (forall n. ~(1 < n) ==> P n) ==> forall n. P n
-      #|  forall P. P 0 /\\\n       (forall a b. 1 < a /\\ 1 < b /\\ coprime(a,b) /\\ P a /\\ P b ==> P(a * b)) /\\\n       (forall p k. prime p ==> P(p EXP k))\n       ==> forall n. P n
+      #|  (\226\136\128 n : Num, 1 < n \226\134\146 (P : (Num) -> Bool)(n)) && (\226\136\128 n : Num, !(1 < n) \226\134\146 P(n)) \226\134\146 (\226\136\128 n : Num, P(n))
+      #|  \226\136\128 P : (Num) -> Bool, P(0) && (\226\136\128 a : Num, \226\136\128 b : Num, 1 < a && 1 < b && coprime((a, b)) && P(a) && P(b) \226\134\146 P(a * b)) && (\226\136\128 p : Num, \226\136\128 k : Num, prime(p) \226\134\146 P(EXP(p, k))) \226\134\146 (\226\136\128 n : Num, P(n))
       #|  (b : Num)
       #|  !((a : Num) == 0) \226\134\146 divides(a, (b : Num)) == (MOD(b, a) == 0)
       #|  (a : Num)
@@ -13740,7 +13740,7 @@ test "Library/prime matches Library/prime.ml" {
       #|  divides
       #|  (m : Num) * (x : Num) == (n : Num) * (y : Num) + 1 \226\134\146 coprime((m, n)) == true
       #|  (m : Num) * (x : Num) == (n : Num) * (y : Num) + 1 \226\134\146 coprime((n, m)) == true
-      #|  (m = x * d) /\\ (n = y * d) /\\ ~(d = 1) ==> (coprime(m,n) <=> F)
+      #|  (m : Num) == (x : Num) * (d : Num) && (n : Num) == (y : Num) * d && !(d == 1) \226\134\146 coprime((m, n)) == false
       #|  1 == 0
       #|  coprime((0, 0)) == false
       #|  (m : Num)
@@ -13750,8 +13750,8 @@ test "Library/prime matches Library/prime.ml" {
       #|  (d : Num)
       #|  coprime
       #|  gcd((0, 0)) == 0
-      #|  forall m n x y d m' n'.\n      (m * x = n * y + d) /\\ (m = m' * d) /\\ (n = n' * d) ==> (gcd(m,n) = d)
-      #|  forall m n x y d m' n'.\n       (n * y = m * x + d) /\\ (m = m' * d) /\\ (n = n' * d) ==> (gcd(m,n) = d)
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 d : Num, \226\136\128 m' : Num, \226\136\128 n' : Num, m * x == n * y + d && m == m' * d && n == n' * d \226\134\146 gcd((m, n)) == d
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 d : Num, \226\136\128 m' : Num, \226\136\128 n' : Num, n * y == m * x + d && m == m' * d && n == n' * d \226\134\146 gcd((m, n)) == d
       #|  gcd
       #|DIVIDES_0 =  |- (#forall:fun(fun(num,bool),bool) (\x:num. ((#num_divides:fun(num,fun(num,bool)) x:num) (#NUMERAL:fun(num,num) #_0:num))))
       #|DIVIDES_ZERO =  |- (#forall:fun(fun(num,bool),bool) (\x:num. ((#=:fun(bool,fun(bool,bool)) ((#num_divides:fun(num,fun(num,bool)) (#NUMERAL:fun(num,num) #_0:num)) x:num)) ((#=:fun(num,fun(num,bool)) x:num) (#NUMERAL:fun(num,num) #_0:num)))))

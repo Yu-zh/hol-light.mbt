@@ -261,7 +261,7 @@ test "meson matches meson.ml" {
       #|  ((p : Bool) \226\134\146 !p) == !p
       #|  (!(p : Bool) \226\134\146 p) == p
       #|  (x : A) == (y : A)
-      #|  (x:A = x) /\\\n       (~(x:A = y) \\/ ~(x = z) \\/ (y = z))
+      #|  (x : A) == x && (!(x == (y : A)) || !(x == (z : A)) || y == z)
       #|  ((a : Bool) \226\134\146 (b : Bool)) == (!a || b)
       #|  (a : Bool) == (b : Bool) \226\134\146 b || !a
       #|  ((a : Bool) \226\134\146 (b : Bool)) == (!a || b)

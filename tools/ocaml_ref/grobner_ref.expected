@@ -611,7 +611,7 @@ grobner quotations (29):
   (d : A)
   (n : A)
   (n0 : A)
-  forall(add:A->A->A) (mul:A->A->A) (n0:A).\n          (forall x. mul n0 x = n0) /\\\n          (forall x y z. (add x y = add x z) <=> (y = z)) /\\\n          (forall w x y z. (add (mul w y) (mul x z) = add (mul w z) (mul x y)) <=>\n                     (w = x) \\/ (y = z))\n          ==> (forall a b c d. ~(a = b) /\\ ~(c = d) <=>\n                         ~(add (mul a c) (mul b d) =\n                           add (mul a d) (mul b c))) /\\\n              (forall n a b c d. ~(n = n0)\n                           ==> (a = b) /\\ ~(c = d)\n                               ==> ~(add a (mul n c) = add b (mul n d)))
+  \226\136\128 add : (A, A) -> A, \226\136\128 mul : (A, A) -> A, \226\136\128 n0 : A, (\226\136\128 x : A, mul(n0, x) == n0) && (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, (add(x, y) == add(x, z)) == (y == z)) && (\226\136\128 w : A, \226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, (add(mul(w, y), mul(x, z)) == add(mul(w, z), mul(x, y))) == (w == x || y == z)) \226\134\146 (\226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, \226\136\128 d : A, (!(a == b) && !(c == d)) == !(add(mul(a, c), mul(b, d)) == add(mul(a, d), mul(b, c)))) && (\226\136\128 n : A, \226\136\128 a : A, \226\136\128 b : A, \226\136\128 c : A, \226\136\128 d : A, !(n == n0) \226\134\146 a == b && !(c == d) \226\134\146 !(add(a, mul(n, c)) == add(b, mul(n, d))))
   ((p : Bool) \226\134\146 false) \226\134\146 !(q : Bool) == p \226\134\146 q
   false
   PRE
@@ -624,14 +624,14 @@ grobner quotations (29):
   (a : Num)
   (b : Num)
   op_minus
-  (EVEN(x) <=> (forall y. ~(x = SUC(2 * y)))) /\\\n     (ODD(x) <=> (forall y. ~(x = 2 * y))) /\\\n     (~EVEN(x) <=> (forall y. ~(x = 2 * y))) /\\\n     (~ODD(x) <=> (forall y. ~(x = SUC(2 * y))))
+  EVEN((x : Num)) == (\226\136\128 y : Num, !(x == SUC(2 * y))) && ODD(x) == (\226\136\128 y : Num, !(x == 2 * y)) && !EVEN(x) == (\226\136\128 y : Num, !(x == 2 * y)) && !ODD(x) == (\226\136\128 y : Num, !(x == SUC(2 * y)))
   (a : Num) + ((b : Num) + ((c : Num) + ((d : Num) + (e : Num)))) == a + (c + (e + (b + d)))
-  (w = x + d) /\\ (y = z + e)\n     ==> ((w * y + x * z = w * z + x * y) <=> (w = x) \\/ (y = z))
+  (w : Num) == (x : Num) + (d : Num) && (y : Num) == (z : Num) + (e : Num) \226\134\146 (w * y + x * z == w * z + x * y) == (w == x || y == z)
   (z : Num)
   (y : Num)
   (x : Num)
   (w : Num)
-  (forall x. 0 * x = 0) /\\\n     (forall x y z. (x + y = x + z) <=> (y = z)) /\\\n     (forall w x y z. (w * y + x * z = w * z + x * y) <=> (w = x) \\/ (y = z))
+  (\226\136\128 x : Num, 0 * x == 0) && (\226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 z : Num, (x + y == x + z) == (y == z)) && (\226\136\128 w : Num, \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 z : Num, (w * y + x * z == w * z + x * y) == (w == x || y == z))
   EXP
   op_star
   op_plus

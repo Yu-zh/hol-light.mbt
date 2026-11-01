@@ -8120,7 +8120,7 @@ Logic/unif quotations (666):
   (u : (Num) -> A)
   \226\136\128 n : Num, IN((u : (Num) -> A)(n), (s : (A) -> Bool))
   (u : (Num) -> A)
-  forall(<<) s. FINITE s /\\\n            (forall x:A. ~(TC(<<) x x)) /\\ (forall x y. x << y ==> y IN s)\n            ==> WF(<<)
+  \226\136\128 `<<` : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, FINITE(s) && (\226\136\128 x : A, !TC(`<<`, x, x)) && (\226\136\128 x : A, \226\136\128 y : A, `<<`(x, y) \226\134\146 IN(y, s)) \226\134\146 WF(`<<`)
   ((a : Bool) == (b : Bool)) == ((a \226\134\146 b) && (b \226\134\146 a))
   \226\136\128 x : A, \226\136\128 y : A, TC((u : A) => (v : A) => (R : (A, A) -> Bool)(v, u), x, y) == TC(R, y, x)
   (y : A) => (P : (A) -> Bool)(y) && TC((R : (A, A) -> Bool), y, (a : A))

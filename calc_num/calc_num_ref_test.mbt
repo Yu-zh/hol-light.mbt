@@ -661,24 +661,24 @@ test "calc_num matches calc_num.ml" {
       #|  NUMERAL(0) == 0 && BIT0(_0) == _0
       #|  BIT0(0) == 0
       #|  BIT1(0) == 1
-      #|  (forall n. SUC(NUMERAL n) = NUMERAL(SUC n)) /\\\n   (SUC _0 = BIT1 _0) /\\\n   (forall n. SUC (BIT0 n) = BIT1 n) /\\\n   (forall n. SUC (BIT1 n) = BIT0 (SUC n))
-      #|  (forall n. PRE(NUMERAL n) = NUMERAL(PRE n)) /\\\n   (PRE _0 = _0) /\\\n   (forall n. PRE(BIT0 n) = if n = _0 then _0 else BIT1 (PRE n)) /\\\n   (forall n. PRE(BIT1 n) = BIT0 n)
-      #|  (forall m n. NUMERAL(m) + NUMERAL(n) = NUMERAL(m + n)) /\\\n   (_0 + _0 = _0) /\\\n   (forall n. _0 + BIT0 n = BIT0 n) /\\\n   (forall n.        _0 + BIT1 n = BIT1 n) /\\\n   (forall n.   BIT0 n + _0 = BIT0 n) /\\\n   (forall n.   BIT1 n + _0 = BIT1 n) /\\\n   (forall m n. BIT0 m + BIT0 n = BIT0 (m + n)) /\\\n   (forall m n. BIT0 m + BIT1 n = BIT1 (m + n)) /\\\n   (forall m n. BIT1 m + BIT0 n = BIT1 (m + n)) /\\\n   (forall m n. BIT1 m + BIT1 n = BIT0 (SUC(m + n)))
-      #|  (forall m n. NUMERAL(m) * NUMERAL(n) = NUMERAL(m * n)) /\\\n   (_0 * _0 = _0) /\\\n   (forall n. _0 * BIT0 n = _0) /\\\n   (forall n. _0 * BIT1 n = _0) /\\\n   (forall n. BIT0 n * _0 = _0) /\\\n   (forall n. BIT1 n * _0 = _0) /\\\n   (forall m n. BIT0 m * BIT0 n = BIT0 (BIT0 (m * n))) /\\\n   (forall m n. BIT0 m * BIT1 n = BIT0 m + BIT0 (BIT0 (m * n))) /\\\n   (forall m n. BIT1 m * BIT0 n = BIT0 n + BIT0 (BIT0 (m * n))) /\\\n   (forall m n. BIT1 m * BIT1 n = BIT1 m + BIT0 n + BIT0 (BIT0 (m * n)))
-      #|  (forall m n. (NUMERAL m) EXP (NUMERAL n) = NUMERAL(m EXP n)) /\\\n   (_0 EXP _0 = BIT1 _0) /\\\n   (forall m. (BIT0 m) EXP _0 = BIT1 _0) /\\\n   (forall m. (BIT1 m) EXP _0 = BIT1 _0) /\\\n   (forall n. _0 EXP (BIT0 n) = (_0 EXP n) * (_0 EXP n)) /\\\n   (forall m n. (BIT0 m) EXP (BIT0 n) = ((BIT0 m) EXP n) * ((BIT0 m) EXP n)) /\\\n   (forall m n. (BIT1 m) EXP (BIT0 n) = ((BIT1 m) EXP n) * ((BIT1 m) EXP n)) /\\\n   (forall n. _0 EXP (BIT1 n) = _0) /\\\n   (forall m n. (BIT0 m) EXP (BIT1 n) =\n        BIT0 m * ((BIT0 m) EXP n) * ((BIT0 m) EXP n)) /\\\n   (forall m n. (BIT1 m) EXP (BIT1 n) =\n        BIT1 m * ((BIT1 m) EXP n) * ((BIT1 m) EXP n))
-      #|  (forall n. EVEN(NUMERAL n) <=> EVEN n) /\\\n   (EVEN _0 <=> T) /\\\n   (forall n. EVEN(BIT0 n) <=> T) /\\\n   (forall n. EVEN(BIT1 n) <=> F)
-      #|  (forall n. ODD(NUMERAL n) <=> ODD n) /\\\n   (ODD _0 <=> F) /\\\n   (forall n. ODD(BIT0 n) <=> F) /\\\n   (forall n. ODD(BIT1 n) <=> T)
+      #|  (\226\136\128 n : Num, SUC(NUMERAL(n)) == NUMERAL(SUC(n))) && SUC(_0) == BIT1(_0) && (\226\136\128 n : Num, SUC(BIT0(n)) == BIT1(n)) && (\226\136\128 n : Num, SUC(BIT1(n)) == BIT0(SUC(n)))
+      #|  (\226\136\128 n : Num, PRE(NUMERAL(n)) == NUMERAL(PRE(n))) && PRE(_0) == _0 && (\226\136\128 n : Num, PRE(BIT0(n)) == (if n == _0 { _0 } else { BIT1(PRE(n)) })) && (\226\136\128 n : Num, PRE(BIT1(n)) == BIT0(n))
+      #|  (\226\136\128 m : Num, \226\136\128 n : Num, NUMERAL(m) + NUMERAL(n) == NUMERAL(m + n)) && _0 + _0 == _0 && (\226\136\128 n : Num, _0 + BIT0(n) == BIT0(n)) && (\226\136\128 n : Num, _0 + BIT1(n) == BIT1(n)) && (\226\136\128 n : Num, BIT0(n) + _0 == BIT0(n)) && (\226\136\128 n : Num, BIT1(n) + _0 == BIT1(n)) && (\226\136\128 m : Num, \226\136\128 n : Num, BIT0(m) + BIT0(n) == BIT0(m + n)) && (\226\136\128 m : Num, \226\136\128 n : Num, BIT0(m) + BIT1(n) == BIT1(m + n)) && (\226\136\128 m : Num, \226\136\128 n : Num, BIT1(m) + BIT0(n) == BIT1(m + n)) && (\226\136\128 m : Num, \226\136\128 n : Num, BIT1(m) + BIT1(n) == BIT0(SUC(m + n)))
+      #|  (\226\136\128 m : Num, \226\136\128 n : Num, NUMERAL(m) * NUMERAL(n) == NUMERAL(m * n)) && _0 * _0 == _0 && (\226\136\128 n : Num, _0 * BIT0(n) == _0) && (\226\136\128 n : Num, _0 * BIT1(n) == _0) && (\226\136\128 n : Num, BIT0(n) * _0 == _0) && (\226\136\128 n : Num, BIT1(n) * _0 == _0) && (\226\136\128 m : Num, \226\136\128 n : Num, BIT0(m) * BIT0(n) == BIT0(BIT0(m * n))) && (\226\136\128 m : Num, \226\136\128 n : Num, BIT0(m) * BIT1(n) == BIT0(m) + BIT0(BIT0(m * n))) && (\226\136\128 m : Num, \226\136\128 n : Num, BIT1(m) * BIT0(n) == BIT0(n) + BIT0(BIT0(m * n))) && (\226\136\128 m : Num, \226\136\128 n : Num, BIT1(m) * BIT1(n) == BIT1(m) + (BIT0(n) + BIT0(BIT0(m * n))))
+      #|  (\226\136\128 m : Num, \226\136\128 n : Num, EXP(NUMERAL(m), NUMERAL(n)) == NUMERAL(EXP(m, n))) && EXP(_0, _0) == BIT1(_0) && (\226\136\128 m : Num, EXP(BIT0(m), _0) == BIT1(_0)) && (\226\136\128 m : Num, EXP(BIT1(m), _0) == BIT1(_0)) && (\226\136\128 n : Num, EXP(_0, BIT0(n)) == EXP(_0, n) * EXP(_0, n)) && (\226\136\128 m : Num, \226\136\128 n : Num, EXP(BIT0(m), BIT0(n)) == EXP(BIT0(m), n) * EXP(BIT0(m), n)) && (\226\136\128 m : Num, \226\136\128 n : Num, EXP(BIT1(m), BIT0(n)) == EXP(BIT1(m), n) * EXP(BIT1(m), n)) && (\226\136\128 n : Num, EXP(_0, BIT1(n)) == _0) && (\226\136\128 m : Num, \226\136\128 n : Num, EXP(BIT0(m), BIT1(n)) == BIT0(m) * (EXP(BIT0(m), n) * EXP(BIT0(m), n))) && (\226\136\128 m : Num, \226\136\128 n : Num, EXP(BIT1(m), BIT1(n)) == BIT1(m) * (EXP(BIT1(m), n) * EXP(BIT1(m), n)))
+      #|  (\226\136\128 n : Num, EVEN(NUMERAL(n)) == EVEN(n)) && EVEN(_0) == true && (\226\136\128 n : Num, EVEN(BIT0(n)) == true) && (\226\136\128 n : Num, EVEN(BIT1(n)) == false)
+      #|  (\226\136\128 n : Num, ODD(NUMERAL(n)) == ODD(n)) && ODD(_0) == false && (\226\136\128 n : Num, ODD(BIT0(n)) == false) && (\226\136\128 n : Num, ODD(BIT1(n)) == true)
       #|  EVEN
       #|  !(SUC(1) * (m : Num) == SUC(SUC(1) * (n : Num)))
       #|  (n : Num)
       #|  (m : Num)
       #|  2 == SUC(1)
-      #|  (forall m n. NUMERAL m <= NUMERAL n <=> m <= n) /\\\n   ((_0 <= _0) <=> T) /\\\n   (forall n. (BIT0 n <= _0) <=> n <= _0) /\\\n   (forall n. (BIT1 n <= _0) <=> F) /\\\n   (forall n. (_0 <= BIT0 n) <=> T) /\\\n   (forall n. (_0 <= BIT1 n) <=> T) /\\\n   (forall m n. (BIT0 m <= BIT0 n) <=> m <= n) /\\\n   (forall m n. (BIT0 m <= BIT1 n) <=> m <= n) /\\\n   (forall m n. (BIT1 m <= BIT0 n) <=> m < n) /\\\n   (forall m n. (BIT1 m <= BIT1 n) <=> m <= n)
-      #|  (forall m n. NUMERAL m < NUMERAL n <=> m < n) /\\\n   ((_0 < _0) <=> F) /\\\n   (forall n. (BIT0 n < _0) <=> F) /\\\n   (forall n. (BIT1 n < _0) <=> F) /\\\n   (forall n. (_0 < BIT0 n) <=> _0 < n) /\\\n   (forall n. (_0 < BIT1 n) <=> T) /\\\n   (forall m n. (BIT0 m < BIT0 n) <=> m < n) /\\\n   (forall m n. (BIT0 m < BIT1 n) <=> m <= n) /\\\n   (forall m n. (BIT1 m < BIT0 n) <=> m < n) /\\\n   (forall m n. (BIT1 m < BIT1 n) <=> m < n)
-      #|  (forall m n. (NUMERAL m = NUMERAL n) <=> (m = n)) /\\\n   ((_0 = _0) <=> T) /\\\n   (forall n. (BIT0 n = _0) <=> (n = _0)) /\\\n   (forall n. (BIT1 n = _0) <=> F) /\\\n   (forall n. (_0 = BIT0 n) <=> (_0 = n)) /\\\n   (forall n. (_0 = BIT1 n) <=> F) /\\\n   (forall m n. (BIT0 m = BIT0 n) <=> (m = n)) /\\\n   (forall m n. (BIT0 m = BIT1 n) <=> F) /\\\n   (forall m n. (BIT1 m = BIT0 n) <=> F) /\\\n   (forall m n. (BIT1 m = BIT1 n) <=> (m = n))
-      #|  (forall m n. NUMERAL m - NUMERAL n = NUMERAL(m - n)) /\\\n   (_0 - _0 = _0) /\\\n   (forall n. _0 - BIT0 n = _0) /\\\n   (forall n. _0 - BIT1 n = _0) /\\\n   (forall n. BIT0 n - _0 = BIT0 n) /\\\n   (forall n. BIT1 n - _0 = BIT1 n) /\\\n   (forall m n. BIT0 m - BIT0 n = BIT0 (m - n)) /\\\n   (forall m n. BIT0 m - BIT1 n = PRE(BIT0 (m - n))) /\\\n   (forall m n. BIT1 m - BIT0 n = if n <= m then BIT1 (m - n) else _0) /\\\n   (forall m n. BIT1 m - BIT1 n = BIT0 (m - n))
+      #|  (\226\136\128 m : Num, \226\136\128 n : Num, (NUMERAL(m) <= NUMERAL(n)) == (m <= n)) && (_0 <= _0) == true && (\226\136\128 n : Num, (BIT0(n) <= _0) == (n <= _0)) && (\226\136\128 n : Num, (BIT1(n) <= _0) == false) && (\226\136\128 n : Num, (_0 <= BIT0(n)) == true) && (\226\136\128 n : Num, (_0 <= BIT1(n)) == true) && (\226\136\128 m : Num, \226\136\128 n : Num, (BIT0(m) <= BIT0(n)) == (m <= n)) && (\226\136\128 m : Num, \226\136\128 n : Num, (BIT0(m) <= BIT1(n)) == (m <= n)) && (\226\136\128 m : Num, \226\136\128 n : Num, (BIT1(m) <= BIT0(n)) == (m < n)) && (\226\136\128 m : Num, \226\136\128 n : Num, (BIT1(m) <= BIT1(n)) == (m <= n))
+      #|  (\226\136\128 m : Num, \226\136\128 n : Num, (NUMERAL(m) < NUMERAL(n)) == (m < n)) && (_0 < _0) == false && (\226\136\128 n : Num, (BIT0(n) < _0) == false) && (\226\136\128 n : Num, (BIT1(n) < _0) == false) && (\226\136\128 n : Num, (_0 < BIT0(n)) == (_0 < n)) && (\226\136\128 n : Num, (_0 < BIT1(n)) == true) && (\226\136\128 m : Num, \226\136\128 n : Num, (BIT0(m) < BIT0(n)) == (m < n)) && (\226\136\128 m : Num, \226\136\128 n : Num, (BIT0(m) < BIT1(n)) == (m <= n)) && (\226\136\128 m : Num, \226\136\128 n : Num, (BIT1(m) < BIT0(n)) == (m < n)) && (\226\136\128 m : Num, \226\136\128 n : Num, (BIT1(m) < BIT1(n)) == (m < n))
+      #|  (\226\136\128 m : Num, \226\136\128 n : Num, (NUMERAL(m) == NUMERAL(n)) == (m == n)) && (_0 == _0) == true && (\226\136\128 n : Num, (BIT0(n) == _0) == (n == _0)) && (\226\136\128 n : Num, (BIT1(n) == _0) == false) && (\226\136\128 n : Num, (_0 == BIT0(n)) == (_0 == n)) && (\226\136\128 n : Num, (_0 == BIT1(n)) == false) && (\226\136\128 m : Num, \226\136\128 n : Num, (BIT0(m) == BIT0(n)) == (m == n)) && (\226\136\128 m : Num, \226\136\128 n : Num, (BIT0(m) == BIT1(n)) == false) && (\226\136\128 m : Num, \226\136\128 n : Num, (BIT1(m) == BIT0(n)) == false) && (\226\136\128 m : Num, \226\136\128 n : Num, (BIT1(m) == BIT1(n)) == (m == n))
+      #|  (\226\136\128 m : Num, \226\136\128 n : Num, NUMERAL(m) - NUMERAL(n) == NUMERAL(m - n)) && _0 - _0 == _0 && (\226\136\128 n : Num, _0 - BIT0(n) == _0) && (\226\136\128 n : Num, _0 - BIT1(n) == _0) && (\226\136\128 n : Num, BIT0(n) - _0 == BIT0(n)) && (\226\136\128 n : Num, BIT1(n) - _0 == BIT1(n)) && (\226\136\128 m : Num, \226\136\128 n : Num, BIT0(m) - BIT0(n) == BIT0(m - n)) && (\226\136\128 m : Num, \226\136\128 n : Num, BIT0(m) - BIT1(n) == PRE(BIT0(m - n))) && (\226\136\128 m : Num, \226\136\128 n : Num, BIT1(m) - BIT0(n) == (if n <= m { BIT1(m - n) } else { _0 })) && (\226\136\128 m : Num, \226\136\128 n : Num, BIT1(m) - BIT1(n) == BIT0(m - n))
       #|  \226\136\128 n : Num, !(EXP(2, n) == 0)
-      #|  (BIT0 m = BIT0 n <=> m = n) /\\\n       (BIT1 m = BIT1 n <=> m = n)
+      #|  (BIT0((m : Num)) == BIT0((n : Num))) == (m == n) && (BIT1(m) == BIT1(n)) == (m == n)
       #|  (m : Num) + _0 == m && _0 + (n : Num) == n
       #|  SUC((n : Num))
       #|  SUC(_0 + (n : Num))
@@ -692,10 +692,10 @@ test "calc_num matches calc_num.ml" {
       #|  _0
       #|  (_0 == (a : Num) + (p : Num) * (b : Num)) == (_0 == a + BIT0(p) * b)
       #|  (two : Num) == 2
-      #|  (n = a + p * b <=>\n        BIT0(BIT0(BIT0(BIT0 n))) =\n        BIT0(BIT0(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT0(BIT0(BIT0 n))) =\n        BIT1(BIT0(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT0(BIT1(BIT0(BIT0 n))) =\n        BIT0(BIT1(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT1(BIT0(BIT0 n))) =\n        BIT1(BIT1(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT0(BIT0(BIT1(BIT0 n))) =\n        BIT0(BIT0(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT0(BIT1(BIT0 n))) =\n        BIT1(BIT0(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT0(BIT1(BIT1(BIT0 n))) =\n        BIT0(BIT1(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT1(BIT1(BIT0 n))) =\n        BIT1(BIT1(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT0(BIT0(BIT0(BIT1 n))) =\n        BIT0(BIT0(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT0(BIT0(BIT1 n))) =\n        BIT1(BIT0(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT0(BIT1(BIT0(BIT1 n))) =\n        BIT0(BIT1(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT1(BIT0(BIT1 n))) =\n        BIT1(BIT1(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT0(BIT0(BIT1(BIT1 n))) =\n        BIT0(BIT0(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT0(BIT1(BIT1 n))) =\n        BIT1(BIT0(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT0(BIT1(BIT1(BIT1 n))) =\n        BIT0(BIT1(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = a + p * b <=>\n        BIT1(BIT1(BIT1(BIT1 n))) =\n        BIT1(BIT1(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b)
+      #|  ((n : Num) == (a : Num) + (p : Num) * (b : Num)) == (BIT0(BIT0(BIT0(BIT0(n)))) == BIT0(BIT0(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT0(BIT0(BIT0(n)))) == BIT1(BIT0(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT0(BIT1(BIT0(BIT0(n)))) == BIT0(BIT1(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT1(BIT0(BIT0(n)))) == BIT1(BIT1(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT0(BIT0(BIT1(BIT0(n)))) == BIT0(BIT0(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT0(BIT1(BIT0(n)))) == BIT1(BIT0(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT0(BIT1(BIT1(BIT0(n)))) == BIT0(BIT1(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT1(BIT1(BIT0(n)))) == BIT1(BIT1(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT0(BIT0(BIT0(BIT1(n)))) == BIT0(BIT0(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT0(BIT0(BIT1(n)))) == BIT1(BIT0(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT0(BIT1(BIT0(BIT1(n)))) == BIT0(BIT1(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT1(BIT0(BIT1(n)))) == BIT1(BIT1(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT0(BIT0(BIT1(BIT1(n)))) == BIT0(BIT0(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT0(BIT1(BIT1(n)))) == BIT1(BIT0(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT0(BIT1(BIT1(BIT1(n)))) == BIT0(BIT1(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == a + p * b) == (BIT1(BIT1(BIT1(BIT1(n)))) == BIT1(BIT1(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b)
       #|  (two : Num) == 2
       #|  _0 == 0
-      #|  (n = _0 + p * b <=>\n        BIT0(BIT0(BIT0(BIT0 n))) =\n        _0 + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT0(BIT0(BIT0 n))) =\n        BIT1 _0 + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT0(BIT1(BIT0(BIT0 n))) =\n        BIT0(BIT1 _0) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT1(BIT0(BIT0 n))) =\n        BIT1(BIT1 _0) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT0(BIT0(BIT1(BIT0 n))) =\n        BIT0(BIT0(BIT1 _0)) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT0(BIT1(BIT0 n))) =\n        BIT1(BIT0(BIT1 _0)) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT0(BIT1(BIT1(BIT0 n))) =\n        BIT0(BIT1(BIT1 _0)) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT1(BIT1(BIT0 n))) =\n        BIT1(BIT1(BIT1 _0)) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT0(BIT0(BIT0(BIT1 n))) =\n        BIT0(BIT0(BIT0(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT0(BIT0(BIT1 n))) =\n        BIT1(BIT0(BIT0(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT0(BIT1(BIT0(BIT1 n))) =\n        BIT0(BIT1(BIT0(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT1(BIT0(BIT1 n))) =\n        BIT1(BIT1(BIT0(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT0(BIT0(BIT1(BIT1 n))) =\n        BIT0(BIT0(BIT1(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT0(BIT1(BIT1 n))) =\n        BIT1(BIT0(BIT1(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT0(BIT1(BIT1(BIT1 n))) =\n        BIT0(BIT1(BIT1(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b) /\\\n       (n = _0 + p * b <=>\n        BIT1(BIT1(BIT1(BIT1 n))) =\n        BIT1(BIT1(BIT1(BIT1 _0))) + BIT0(BIT0(BIT0(BIT0 p))) * b)
+      #|  ((n : Num) == _0 + (p : Num) * (b : Num)) == (BIT0(BIT0(BIT0(BIT0(n)))) == _0 + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT0(BIT0(BIT0(n)))) == BIT1(_0) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT0(BIT1(BIT0(BIT0(n)))) == BIT0(BIT1(_0)) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT1(BIT0(BIT0(n)))) == BIT1(BIT1(_0)) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT0(BIT0(BIT1(BIT0(n)))) == BIT0(BIT0(BIT1(_0))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT0(BIT1(BIT0(n)))) == BIT1(BIT0(BIT1(_0))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT0(BIT1(BIT1(BIT0(n)))) == BIT0(BIT1(BIT1(_0))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT1(BIT1(BIT0(n)))) == BIT1(BIT1(BIT1(_0))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT0(BIT0(BIT0(BIT1(n)))) == BIT0(BIT0(BIT0(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT0(BIT0(BIT1(n)))) == BIT1(BIT0(BIT0(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT0(BIT1(BIT0(BIT1(n)))) == BIT0(BIT1(BIT0(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT1(BIT0(BIT1(n)))) == BIT1(BIT1(BIT0(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT0(BIT0(BIT1(BIT1(n)))) == BIT0(BIT0(BIT1(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT0(BIT1(BIT1(n)))) == BIT1(BIT0(BIT1(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT0(BIT1(BIT1(BIT1(n)))) == BIT0(BIT1(BIT1(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b) && (n == _0 + p * b) == (BIT1(BIT1(BIT1(BIT1(n)))) == BIT1(BIT1(BIT1(BIT1(_0)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b)
       #|  _0
       #|  (a : Num) + (p : Num) * _0 == a
       #|  BIT1(_0)
@@ -706,7 +706,7 @@ test "calc_num matches calc_num.ml" {
       #|  _0 + BIT0((p : Num)) * (b : Num) == BIT0(_0 + p * b)
       #|  (two : Num) == 2
       #|  _0 == 0
-      #|  (a + p * b = n <=>\n          BIT0(BIT0(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT0(BIT0(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT0(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT0(BIT0(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT0(BIT1(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT1(BIT0(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT1(BIT0(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT1(BIT0(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT0(BIT0(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT0(BIT1(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT0(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT0(BIT1(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT0(BIT1(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT1(BIT1(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT1(BIT1(BIT0 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT1(BIT1(BIT0 n)))) /\\\n         (a + p * b = n <=>\n          BIT0(BIT0(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT0(BIT0(BIT1 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT0(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT0(BIT0(BIT1 n)))) /\\\n         (a + p * b = n <=>\n          BIT0(BIT1(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT1(BIT0(BIT1 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT1(BIT0(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT1(BIT0(BIT1 n)))) /\\\n         (a + p * b = n <=>\n          BIT0(BIT0(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT0(BIT1(BIT1 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT0(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT0(BIT1(BIT1 n)))) /\\\n         (a + p * b = n <=>\n          BIT0(BIT1(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT0(BIT1(BIT1(BIT1 n)))) /\\\n         (a + p * b = n <=>\n          BIT1(BIT1(BIT1(BIT1 a))) + BIT0(BIT0(BIT0(BIT0 p))) * b =\n          BIT1(BIT1(BIT1(BIT1 n))))
+      #|  ((a : Num) + (p : Num) * (b : Num) == (n : Num)) == (BIT0(BIT0(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT0(BIT0(BIT0(n))))) && (a + p * b == n) == (BIT1(BIT0(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT0(BIT0(BIT0(n))))) && (a + p * b == n) == (BIT0(BIT1(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT1(BIT0(BIT0(n))))) && (a + p * b == n) == (BIT1(BIT1(BIT0(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT1(BIT0(BIT0(n))))) && (a + p * b == n) == (BIT0(BIT0(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT0(BIT1(BIT0(n))))) && (a + p * b == n) == (BIT1(BIT0(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT0(BIT1(BIT0(n))))) && (a + p * b == n) == (BIT0(BIT1(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT1(BIT1(BIT0(n))))) && (a + p * b == n) == (BIT1(BIT1(BIT1(BIT0(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT1(BIT1(BIT0(n))))) && (a + p * b == n) == (BIT0(BIT0(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT0(BIT0(BIT1(n))))) && (a + p * b == n) == (BIT1(BIT0(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT0(BIT0(BIT1(n))))) && (a + p * b == n) == (BIT0(BIT1(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT1(BIT0(BIT1(n))))) && (a + p * b == n) == (BIT1(BIT1(BIT0(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT1(BIT0(BIT1(n))))) && (a + p * b == n) == (BIT0(BIT0(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT0(BIT1(BIT1(n))))) && (a + p * b == n) == (BIT1(BIT0(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT0(BIT1(BIT1(n))))) && (a + p * b == n) == (BIT0(BIT1(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT0(BIT1(BIT1(BIT1(n))))) && (a + p * b == n) == (BIT1(BIT1(BIT1(BIT1(a)))) + BIT0(BIT0(BIT0(BIT0(p)))) * b == BIT1(BIT1(BIT1(BIT1(n)))))
       #|  EXP(0, 2)
       #|  EXP(_0, 2) == _0
       #|  EXP(1, 2)
@@ -719,20 +719,20 @@ test "calc_num matches calc_num.ml" {
       #|  (two : Num) == 2
       #|  (EXP((m : Num), 2) == (n : Num)) == (EXP(BIT1(m), 2) == BIT1(BIT0(m + n)))
       #|  (a : Num) + ((b : Num) + (c : Num)) == b + (a + c)
-      #|  (n + 16) + p + q + 49 = (n + p + q) + (16 + 49)
+      #|  (n : Num) + 16 + ((p : Num) + ((q : Num) + 49)) == n + (p + q) + (16 + 49)
       #|  8 * (n : Num) * NUMERAL((p : Num)) == 8 * NUMERAL(p) * n
       #|  16 * ((n : Num) + 1)
       #|  \226\136\128 m : Num, m + (n : Num) == m + (p : Num) \226\134\146 n == p
       #|  _0 == 0
-      #|  two = 2
-      #|  n + BIT1 _0 = m /\\\n       m EXP 2 = p /\\\n       m + a = BIT0(BIT0 p)\n       ==> (BIT1(BIT1(BIT1 n))) EXP 2 = BIT1(BIT0(BIT0(BIT0 a)))
-      #|  n = l + p * h /\\\n       h + l = m /\\\n       h EXP 2 = a /\\\n       l EXP 2 = c /\\\n       m EXP 2 = d /\\\n       a + c = e /\\\n       e + b = d\n       ==> n EXP 2 = c + p * (b + p * a)
+      #|  (two : Num) == 2
+      #|  (n : Num) + BIT1(_0) == (m : Num) && EXP(m, 2) == (p : Num) && m + (a : Num) == BIT0(BIT0(p)) \226\134\146 EXP(BIT1(BIT1(BIT1(n))), 2) == BIT1(BIT0(BIT0(BIT0(a))))
+      #|  (n : Num) == (l : Num) + (p : Num) * (h : Num) && h + l == (m : Num) && EXP(h, 2) == (a : Num) && EXP(l, 2) == (c : Num) && EXP(m, 2) == (d : Num) && a + c == (e : Num) && e + (b : Num) == d \226\134\146 EXP(n, 2) == c + p * (b + p * a)
       #|  op_plus
       #|  op_plus
       #|  op_plus
       #|  op_plus
-      #|  b = b' /\\ c = c' /\\ d = d'\n        ==> b + d':num = b' + d /\\ 4 * b + d' = 4 * b' + d
-      #|  b = b' /\\ c = c' /\\ d = d'\n        ==> 5 * b + c' + d' = 5 * b' + c + d
+      #|  (b : Num) == (b' : Num) && (c : _) == (c' : _) && (d : Num) == (d' : Num) \226\134\146 b + d' == b' + d && 4 * b + d' == 4 * b' + d
+      #|  (b : Num) == (b' : Num) && (c : Num) == (c' : Num) && (d : Num) == (d' : Num) \226\134\146 5 * b + (c' + d') == 5 * b' + (c + d)
       #|  (e' : Num) == (e : Num)
       #|  (a' : Num) == (a : Num)
       #|  2 * ((h : Num) * (m : Num)) == 2 * (m * h)
@@ -743,39 +743,39 @@ test "calc_num matches calc_num.ml" {
       #|  (c' : Num) == 2 * ((l : Num) * (h : Num)) + (m : Num) * m
       #|  (b' : Num) == 2 * ((l : Num) * (m : Num))
       #|  (a' : Num) == (l : Num) * l
-      #|  forall p x y z. (x + p * (y + p * z)) EXP 2 =\n                  x * x + p * (2 * x * y + p * ((2 * x * z + y * y) +\n                            p * (2 * y * z + p * z * z)))
+      #|  \226\136\128 p : Num, \226\136\128 x : Num, \226\136\128 y : Num, \226\136\128 z : Num, EXP(x + p * (y + p * z), 2) == x * x + p * (2 * (x * y) + p * (2 * (x * z) + y * y + p * (2 * (y * z) + p * (z * z))))
       #|  _0 == 0
-      #|  two = 2
-      #|  h EXP 2 = e /\\\n       l EXP 2 = a /\\\n       (l + BIT1 _0 * (m + BIT1 _0 * h)) EXP 2 =\n       a +  BIT1 _0 * (b +  BIT1 _0 * (c +  BIT1 _0 * (d +  BIT1 _0 * e))) /\\\n       (l + BIT0(BIT1 _0) * (m + BIT0(BIT1 _0) * h)) EXP 2 =\n       a + BIT0(BIT1 _0) * (b + BIT0(BIT1 _0) *\n       (c + BIT0(BIT1 _0) * (d + BIT0(BIT1 _0) * e))) /\\\n       (h + BIT0(BIT1 _0) * (m + BIT0(BIT1 _0) * l)) EXP 2 =\n       e + BIT0(BIT1 _0) * (d + BIT0(BIT1 _0) *\n       (c + BIT0(BIT1 _0) * (b + BIT0(BIT1 _0) * a)))\n       ==> (l + p * (m + p * h)) EXP 2 =\n           a + p * (b + p * (c + p * (d + p * e)))
-      #|  op_plus
-      #|  op_plus
-      #|  op_plus
-      #|  op_plus
-      #|  op_plus
-      #|  op_plus
-      #|  (2 * 2 * 2 * m) * 2 * 2 * 2 * m = 2 * 2 * 2 * 2 * 2 * 2 * m * m
       #|  (two : Num) == 2
-      #|  m EXP 2 = n <=>\n       (BIT0(BIT0(BIT0 m))) EXP 2 = BIT0(BIT0(BIT0(BIT0(BIT0(BIT0 n)))))
+      #|  EXP((h : Num), 2) == (e : Num) && EXP((l : Num), 2) == (a : Num) && EXP(l + BIT1(_0) * ((m : Num) + BIT1(_0) * h), 2) == a + BIT1(_0) * ((b : Num) + BIT1(_0) * ((c : Num) + BIT1(_0) * ((d : Num) + BIT1(_0) * e))) && EXP(l + BIT0(BIT1(_0)) * (m + BIT0(BIT1(_0)) * h), 2) == a + BIT0(BIT1(_0)) * (b + BIT0(BIT1(_0)) * (c + BIT0(BIT1(_0)) * (d + BIT0(BIT1(_0)) * e))) && EXP(h + BIT0(BIT1(_0)) * (m + BIT0(BIT1(_0)) * l), 2) == e + BIT0(BIT1(_0)) * (d + BIT0(BIT1(_0)) * (c + BIT0(BIT1(_0)) * (b + BIT0(BIT1(_0)) * a))) \226\134\146 EXP(l + (p : Num) * (m + p * h), 2) == a + p * (b + p * (c + p * (d + p * e)))
+      #|  op_plus
+      #|  op_plus
+      #|  op_plus
+      #|  op_plus
+      #|  op_plus
+      #|  op_plus
+      #|  2 * (2 * (2 * (m : Num))) * (2 * (2 * (2 * m))) == 2 * (2 * (2 * (2 * (2 * (2 * (m * m))))))
+      #|  (two : Num) == 2
+      #|  (EXP((m : Num), 2) == (n : Num)) == (EXP(BIT0(BIT0(BIT0(m))), 2) == BIT0(BIT0(BIT0(BIT0(BIT0(BIT0(n)))))))
       #|  _0 * (n : Num) == _0 && (m : Num) * _0 == _0
       #|  BIT1(_0) * (n : Num) == n && (m : Num) * BIT1(_0) == m
       #|  (m : Num) * (2 * (n : Num)) == 2 * (m * n)
-      #|  (m * n = p <=> (BIT0 m) * n = BIT0 p) /\\\n       (m * n = p <=> m * BIT0 n = BIT0 p)
+      #|  ((m : Num) * (n : Num) == (p : Num)) == (BIT0(m) * n == BIT0(p)) && (m * n == p) == (m * BIT0(n) == BIT0(p))
       #|  (m : Num) + m * (2 * (n : Num)) == 2 * (m * n) + m
-      #|  (m * n = p <=> BIT1 m * n = BIT0 p + n) /\\\n       (m * n = p <=> m * BIT1 n = BIT0 p + m)
+      #|  ((m : Num) * (n : Num) == (p : Num)) == (BIT1(m) * n == BIT0(p) + n) && (m * n == p) == (m * BIT1(n) == BIT0(p) + m)
       #|  (n : Num) + (p : Num) + n + 1 == p + (n + n) + 1
       #|  (two : Num) == 2
-      #|  n + p = m /\\ SUC(m + n) = a /\\ p EXP 2 = b /\\ a EXP 2 = c /\\ b + d = c\n        ==> ((BIT1 m) * (BIT1 n) = d)
+      #|  (n : Num) + (p : Num) == (m : Num) && SUC(m + n) == (a : Num) && EXP(p, 2) == (b : Num) && EXP(a, 2) == (c : Num) && b + (d : Num) == c \226\134\146 BIT1(m) * BIT1(n) == d
       #|  _0 == 0
       #|  SUC(_0 + (m : Num)) == (p : Num) \226\134\146 (p * (n : Num) == (a : Num) + n) == (m * n == a)
       #|  _0 == 0
       #|  SUC(_0 + (n : Num)) == (p : Num) \226\134\146 ((m : Num) * p == (a : Num) + m) == (m * n == a)
       #|  (EXP((m : Num), 2) == (p : Num)) == (m * m == p)
       #|  (SUC(_0 + (m : Num)) == (n : Num)) == (SUC(NUMERAL(m)) == NUMERAL(n))
-      #|  m + n = p <=> NUMERAL m + NUMERAL n = NUMERAL p
-      #|  m * n = p <=> NUMERAL m * NUMERAL n = NUMERAL p
-      #|  m EXP 2 = p <=> NUMERAL m * NUMERAL m = NUMERAL p
-      #|  (m EXP n = p) ==> (p * p = a) ==> (m EXP (BIT0 n) = a)
-      #|  (m EXP n = p) ==> (p * p = b) ==> (m * b = a) ==> (m EXP (BIT1 n) = a)
+      #|  ((m : Num) + (n : Num) == (p : Num)) == (NUMERAL(m) + NUMERAL(n) == NUMERAL(p))
+      #|  ((m : Num) * (n : Num) == (p : Num)) == (NUMERAL(m) * NUMERAL(n) == NUMERAL(p))
+      #|  (EXP((m : Num), 2) == (p : Num)) == (NUMERAL(m) * NUMERAL(m) == NUMERAL(p))
+      #|  EXP((m : Num), (n : Num)) == (p : Num) \226\134\146 p * p == (a : Num) \226\134\146 EXP(m, BIT0(n)) == a
+      #|  EXP((m : Num), (n : Num)) == (p : Num) \226\134\146 p * p == (b : Num) \226\134\146 m * b == (a : Num) \226\134\146 EXP(m, BIT1(n)) == a
       #|  EXP((m : Num), _0) == BIT1(_0)
       #|  EXP(NUMERAL((m : Num)), NUMERAL((n : Num))) == EXP(m, n)
       #|  (m : Num) == NUMERAL(m)
@@ -802,7 +802,7 @@ test "calc_num matches calc_num.ml" {
       #|  op_minus
       #|  op_plus
       #|  op_lt_eq
-      #|  q * n + r = m ==> r < n ==> m DIV n = q /\\ m MOD n = r
+      #|  (q : Num) * (n : Num) + (r : Num) == (m : Num) \226\134\146 r < n \226\134\146 DIV(m, n) == q && MOD(m, n) == r
       #|  \226\136\128 m : Num, DIV(m, 0) == 0 && MOD(m, 0) == m
       #|  (m : Num)
       #|  (n : Num)
@@ -813,7 +813,7 @@ test "calc_num matches calc_num.ml" {
       #|  SUC
       #|  op_star
       #|  FACT(0) == 1
-      #|  (SUC x = y) ==> (FACT x = w) ==> (y * w = z) ==> (FACT y = z)
+      #|  SUC((x : Num)) == (y : Num) \226\134\146 FACT(x) == (w : Num) \226\134\146 y * w == (z : Num) \226\134\146 FACT(y) == z
       #|  (w : Num)
       #|  (x : Num)
       #|  (y : Num)
@@ -845,8 +845,8 @@ test "calc_num matches calc_num.ml" {
       #|  (COND : (Bool, A, A) -> A)
       #|  SUC
       #|  (\226\136\128 n : Num, n < 0 \226\134\146 (P : (Num) -> Bool)(n)) == true
-      #|  (forall n. n < SUC k ==> P n) <=> (forall n. n < k ==> P n) /\\ P k
-      #|  (a EXP 0) MOD n = 1 MOD n /\\\n     (a EXP (NUMERAL(BIT0 k))) MOD n =\n     ((a EXP (NUMERAL k) MOD n) EXP 2) MOD n /\\\n     (a EXP (NUMERAL(BIT1 k))) MOD n =\n     (a * ((a EXP (NUMERAL k) MOD n) EXP 2) MOD n) MOD n
+      #|  (\226\136\128 n : Num, n < SUC((k : Num)) \226\134\146 (P : (Num) -> Bool)(n)) == ((\226\136\128 n : Num, n < k \226\134\146 P(n)) && P(k))
+      #|  MOD(EXP((a : Num), 0), (n : Num)) == MOD(1, n) && MOD(EXP(a, NUMERAL(BIT0((k : Num)))), n) == MOD(EXP(MOD(EXP(a, NUMERAL(k)), n), 2), n) && MOD(EXP(a, NUMERAL(BIT1(k))), n) == MOD(a * MOD(EXP(MOD(EXP(a, NUMERAL(k)), n), 2), n), n)
       #|ARITH_ZERO =  |- ((#/\:fun(bool,fun(bool,bool)) ((#=:fun(num,fun(num,bool)) (#NUMERAL:fun(num,num) (#NUMERAL:fun(num,num) #_0:num))) (#NUMERAL:fun(num,num) #_0:num))) ((#=:fun(num,fun(num,bool)) (#BIT0:fun(num,num) #_0:num)) #_0:num))
       #|BIT0_0 =  |- ((#=:fun(num,fun(num,bool)) (#BIT0:fun(num,num) (#NUMERAL:fun(num,num) #_0:num))) (#NUMERAL:fun(num,num) #_0:num))
       #|BIT1_0 =  |- ((#=:fun(num,fun(num,bool)) (#BIT1:fun(num,num) (#NUMERAL:fun(num,num) #_0:num))) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num)))

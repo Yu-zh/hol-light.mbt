@@ -5,9 +5,7 @@
 fn step_1() -> Unit raise {
   iter_c.set(
     @define.define_(
-      @parser.parse_term(
-        "(forall f. ITER 0 f x = x) /\\\n   (forall f n. ITER (SUC n) f x = f (ITER n f x))",
-      ),
+      @term_syntax.parse_term("(∀ f : (_) -> _, (ITER : (Num, (_) -> _, _) -> _)(0, f, (x : _)) == x) && (∀ f : (_) -> _, ∀ n : Num, ITER(SUC(n), f, x) == f(ITER(n, f, x)))"),
     ),
   )
 }
@@ -29,9 +27,7 @@ fn step_2() -> Unit raise {
   )
   iter_pointless_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall f. ITER 0 f = I) /\\\n    (forall f n. ITER (SUC n) f = f o ITER n f)",
-      ),
+      @term_syntax.parse_term("(∀ f : (_) -> _, ITER(0, f) == I) && (∀ f : (_) -> _, ∀ n : Num, ITER(SUC(n), f) == o(f, ITER(n, f)))"),
       t1,
     ),
   )
@@ -62,9 +58,7 @@ fn step_3() -> Unit raise {
   )
   iter_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall f x. ITER 0 f x = x) /\\\n    (forall f n x. ITER (SUC n) f x = ITER n f (f x))",
-      ),
+      @term_syntax.parse_term("(∀ f : (_) -> _, ∀ x : _, ITER(0, f, x) == x) && (∀ f : (_) -> _, ∀ n : Num, ∀ x : _, ITER(SUC(n), f, x) == ITER(n, f, f(x)))"),
       t3,
     ),
   )
@@ -92,9 +86,7 @@ fn step_4() -> Unit raise {
   )
   iter_alt_pointless_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall f. ITER 0 f = I) /\\\n    (forall f n. ITER (SUC n) f = ITER n f o f)",
-      ),
+      @term_syntax.parse_term("(∀ f : (_) -> _, ITER(0, f) == I) && (∀ f : (_) -> _, ∀ n : Num, ITER(SUC(n), f) == o(ITER(n, f), f))"),
       t4,
     ),
   )
@@ -551,9 +543,7 @@ fn step_10() -> Unit raise {
   )
   order_existence_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P f:num->A.\n         P(f 0) /\\ (forall m n. P(f m) /\\ ~(m = 0) ==> (P(f(m + n)) <=> P(f n)))\n         ==> ?d. forall n. P(f n) <=> d divides n",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ f : (Num) -> A, P(f(0)) && (∀ m : Num, ∀ n : Num, P(f(m)) && !(m == 0) → P(f(m + n)) == P(f(n))) → (∃ d : Num, ∀ n : Num, P(f(n)) == divides(d, n))"),
       t52,
     ),
   )
@@ -580,9 +570,7 @@ fn step_11() -> Unit raise {
   let t61 = @tactics.mp_tac(
     @meson.meson(
       @list.List([]),
-      @parser.parse_term(
-        "forall a b:num->A. (forall x y. R x y ==> R y x) /\\\n          (forall x y z. R x y /\\ R y z ==> R x z) /\\\n          (forall n. R (a n) (b n))\n          ==> (forall n. R (a n) z <=> R (b n) z)",
-      ),
+      @term_syntax.parse_term("∀ a : (Num) -> A, ∀ b : (Num) -> A, (∀ x : A, ∀ y : A, (R : (A, A) -> Bool)(x, y) → R(y, x)) && (∀ x : A, ∀ y : A, ∀ z : A, R(x, y) && R(y, z) → R(x, z)) && (∀ n : Num, R(a(n), b(n))) → (∀ n : Num, R(a(n), (z : A)) == R(b(n), z))"),
     ),
   )
   let t60 = @simp.rewrite_tac(@list.List([@equal.gsym(iter_add())]))
@@ -643,9 +631,7 @@ fn step_11() -> Unit raise {
   )
   order_existence_iter_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R f z:A.\n        R z z /\\\n        (forall x y. R x y ==> R y x) /\\\n        (forall x y z. R x y /\\ R y z ==> R x z) /\\\n        (forall x y. R x y ==> R (f x) (f y))\n        ==> ?d. forall n. R (ITER n f z) z <=> d divides n",
-      ),
+      @term_syntax.parse_term("∀ R : (A, A) -> Bool, ∀ f : (A) -> A, ∀ z : A, R(z, z) && (∀ x : A, ∀ y : A, R(x, y) → R(y, x)) && (∀ x : A, ∀ y : A, ∀ z : A, R(x, y) && R(y, z) → R(x, z)) && (∀ x : A, ∀ y : A, R(x, y) → R(f(x), f(y))) → (∃ d : Num, ∀ n : Num, R(ITER(n, f, z), z) == divides(d, n))"),
       t66,
     ),
   )
@@ -1086,9 +1072,7 @@ fn step_12() -> Unit raise {
     t113,
   ])
   let t88 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall d. d <= p\n             ==> (R:A->A->bool) (ITER (p - d) f z) (ITER (q - d) f z)",
-    ),
+    @term_syntax.parse_term("∀ d : Num, d <= (p : Num) → (R : (A, A) -> Bool)(ITER(p - d, (f : (A) -> A), (z : A)), ITER((q : Num) - d, f, z))"),
     fn(
       x85 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -1279,9 +1263,7 @@ fn step_12() -> Unit raise {
   )
   order_existence_card_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R f z:A k.\n     FINITE { R(ITER n f z) | n IN (:num)} /\\\n     CARD { R(ITER n f z) | n IN (:num)} <= k /\\\n     R z z /\\\n     (forall x y. R x y ==> R y x) /\\\n     (forall x y z. R x y /\\ R y z ==> R x z) /\\\n     (forall x y. R (f x) (f y) <=> R x y)\n     ==> ?d. 0 < d /\\ d <= k /\\ forall n. R (ITER n f z) z <=> d divides n",
-      ),
+      @term_syntax.parse_term("∀ R : (A, A) -> Bool, ∀ f : (A) -> A, ∀ z : A, ∀ k : Num, FINITE({R(ITER((n : Num), f, z)) | IN(n, UNIV)}) && CARD({R(ITER((n : Num), f, z)) | IN(n, UNIV)}) <= k && R(z, z) && (∀ x : A, ∀ y : A, R(x, y) → R(y, x)) && (∀ x : A, ∀ y : A, ∀ z : A, R(x, y) && R(y, z) → R(x, z)) && (∀ x : A, ∀ y : A, R(f(x), f(y)) == R(x, y)) → (∃ d : Num, 0 < d && d <= k && (∀ n : Num, R(ITER(n, f, z), z) == divides(d, n)))"),
       t140,
     ),
   )
@@ -1303,9 +1285,7 @@ pub fn order_existence_card() -> @kernel.Thm {
 fn step_13() -> Unit raise {
   let t146 = @meson.meson_tac(@list.List([]))
   let t145 = @simp.asm_rewrite_tac(@list.List([@arith.le_refl()]))
-  let t141 = @parser.parse_term(
-    "CARD {(R:A->A->bool)(ITER n f z) | n IN (:num)}",
-  )
+  let t141 = @term_syntax.parse_term("CARD({(R : (A, A) -> Bool)(ITER((n : Num), (f : (A) -> A), (z : A))) | IN(n, UNIV)})")
   let t142 = @term_syntax.parse_term("(z : A)")
   let t143 = @term_syntax.parse_term("(f : (A) -> A)")
   let t144 = @tactics.mp_tac(
@@ -1323,9 +1303,7 @@ fn step_13() -> Unit raise {
   )
   order_existence_finite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R f z:A.\n     FINITE { R(ITER n f z) | n IN (:num)} /\\\n     R z z /\\\n     (forall x y. R x y ==> R y x) /\\\n     (forall x y z. R x y /\\ R y z ==> R x z) /\\\n     (forall x y. R (f x) (f y) <=> R x y)\n     ==> ?d. 0 < d /\\ forall n. R (ITER n f z) z <=> d divides n",
-      ),
+      @term_syntax.parse_term("∀ R : (A, A) -> Bool, ∀ f : (A) -> A, ∀ z : A, FINITE({R(ITER((n : Num), f, z)) | IN(n, UNIV)}) && R(z, z) && (∀ x : A, ∀ y : A, R(x, y) → R(y, x)) && (∀ x : A, ∀ y : A, ∀ z : A, R(x, y) && R(y, z) → R(x, z)) && (∀ x : A, ∀ y : A, R(f(x), f(y)) == R(x, y)) → (∃ d : Num, 0 < d && (∀ n : Num, R(ITER(n, f, z), z) == divides(d, n)))"),
       t147,
     ),
   )

@@ -583,9 +583,7 @@ fn step_37() -> Unit raise {
   )
   dist_elim_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "P(dist(x,y)) <=> forall d. ((x = y + d) ==> P(d)) /\\ ((y = x + d) ==> P(d))",
-      ),
+      @term_syntax.parse_term("(P : (Num) -> Bool)(dist(((x : Num), (y : Num)))) == (∀ d : Num, (x == y + d → P(d)) && (y == x + d → P(d)))"),
       t47,
     ),
   )
@@ -856,9 +854,7 @@ fn step_38() -> Unit raise {
     t66,
   )
   let dist_le_cases = @tactics.prove(
-    @parser.parse_term(
-      "forall m n p. dist(m,n) <= p <=> (m <= n + p) /\\ (n <= m + p)",
-    ),
+    @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ∀ p : Num, (dist((m, n)) <= p) == (m <= n + p && n <= m + p)"),
     t67,
   )
   let t69 = @simp.rewrite_tac(
@@ -880,9 +876,7 @@ fn step_38() -> Unit raise {
     t70,
   )
   let t72 = (
-    @parser.parse_term(
-      "(forall m n p. dist(m,p) <= dist(m,n) + dist(n,p)) /\\\n     (forall m n p q. dist(m + n,p + q) <= dist(m,p) + dist(n,q)) /\\\n     (forall m n p q. dist(m,p) <= dist(m + n,p + q) + dist(n,q))",
-    ),
+    @term_syntax.parse_term("(∀ m : Num, ∀ n : Num, ∀ p : Num, dist((m, p)) <= dist((m, n)) + dist((n, p))) && (∀ m : Num, ∀ n : Num, ∀ p : Num, ∀ q : Num, dist((m + n, p + q)) <= dist((m, p)) + dist((n, q))) && (∀ m : Num, ∀ n : Num, ∀ p : Num, ∀ q : Num, dist((m, p)) <= dist((m + n, p + q)) + dist((n, q)))"),
     dist_elim_tac_p,
   )
   let (
@@ -948,9 +942,7 @@ fn step_39() -> Unit raise {
   )
   dist_triangle_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n p q. dist(m,n) + dist(n,p) <= q ==> dist(m,p) <= q",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ∀ p : Num, ∀ q : Num, dist((m, n)) + dist((n, p)) <= q → dist((m, p)) <= q"),
       t76,
     ),
   )
@@ -1037,9 +1029,7 @@ fn step_40() -> Unit raise {
   )
   dist_triangles_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n p q r s.\n        dist(m,n) <= r /\\ dist(p,q) <= s ==> dist(m,p) <= dist(n,q) + r + s",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ∀ p : Num, ∀ q : Num, ∀ r : Num, ∀ s : Num, dist((m, n)) <= r && dist((p, q)) <= s → dist((m, p)) <= dist((n, q)) + (r + s)"),
       t95,
     ),
   )
@@ -1641,9 +1631,7 @@ fn step_43() -> Unit raise {
   )
   bounds_divided_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (?B. forall n. P(n) <= B) <=>\n       (?A B. forall n. n * P(n) <= A * n + B)",
-      ),
+      @term_syntax.parse_term("∀ P : (Num) -> Num, (∃ B : Num, ∀ n : Num, P(n) <= B) == (∃ A : Num, ∃ B : Num, ∀ n : Num, n * P(n) <= A * n + B)"),
       t175,
     ),
   )
@@ -1716,9 +1704,7 @@ fn step_44() -> Unit raise {
   )
   bounds_notzero_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P A B. (P 0 0 = 0) /\\ (forall m n. P m n <= A * (m + n) + B) ==>\n       (?B. forall m n. P m n <= B * (m + n))",
-      ),
+      @term_syntax.parse_term("∀ P : (Num, Num) -> Num, ∀ A : Num, ∀ B : Num, P(0, 0) == 0 && (∀ m : Num, ∀ n : Num, P(m, n) <= A * (m + n) + B) → (∃ B : Num, ∀ m : Num, ∀ n : Num, P(m, n) <= B * (m + n))"),
       t189,
     ),
   )
@@ -1942,9 +1928,7 @@ fn step_45() -> Unit raise {
   )
   bounds_ignore_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P Q. (?B. forall i. P(i) <= Q(i) + B) <=>\n         (?B N. forall i. N <= i ==> P(i) <= Q(i) + B)",
-      ),
+      @term_syntax.parse_term("∀ P : (Num) -> Num, ∀ Q : (Num) -> Num, (∃ B : Num, ∀ i : Num, P(i) <= Q(i) + B) == (∃ B : Num, ∃ N : Num, ∀ i : Num, N <= i → P(i) <= Q(i) + B)"),
       t223,
     ),
   )
@@ -1964,9 +1948,7 @@ pub fn bounds_ignore() -> @kernel.Thm {
 fn step_46() -> Unit raise {
   is_nadd_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "is_nadd x <=> (?B. forall m n. dist(m * x(n),n * x(m)) <= B * (m + n))",
-      ),
+      @term_syntax.parse_term("(is_nadd : ((Num) -> Num) -> Bool)((x : (Num) -> Num)) == (∃ B : Num, ∀ m : Num, ∀ n : Num, dist((m * x(n), n * x(m))) <= B * (m + n))"),
     ),
   )
 }
@@ -2049,9 +2031,7 @@ fn step_51() -> Unit raise {
   )
   nadd_cauchy_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ?B. forall m n. dist(m * fn x n,n * fn x m) <= B * (m + n)",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, ∃ B : Num, ∀ m : Num, ∀ n : Num, dist((m * dest_nadd(x, n), n * dest_nadd(x, m))) <= B * (m + n)"),
       t225,
     ),
   )
@@ -2475,9 +2455,7 @@ fn step_53() -> Unit raise {
   )
   nadd_multiplicative_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ?B. forall m n. dist(fn x (m * n),m * fn x n) <= B * m + B",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, ∃ B : Num, ∀ m : Num, ∀ n : Num, dist((dest_nadd(x, m * n), m * dest_nadd(x, n))) <= B * m + B"),
       t283,
     ),
   )
@@ -2685,9 +2663,7 @@ fn step_54() -> Unit raise {
   )
   nadd_additive_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ?B. forall m n. dist(fn x (m + n),fn x m + fn x n) <= B",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, ∃ B : Num, ∀ m : Num, ∀ n : Num, dist((dest_nadd(x, m + n), dest_nadd(x, m) + dest_nadd(x, n))) <= B"),
       t322,
     ),
   )
@@ -3161,9 +3137,7 @@ fn step_58() -> Unit raise {
   )
   nadd_altmul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. ?A B. forall n. dist(n * fn x (fn y n),fn x n * fn y n) <= A * n + B",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, ∀ y : Nadd, ∃ A : Num, ∃ B : Num, ∀ n : Num, dist((n * dest_nadd(x, dest_nadd(y, n)), dest_nadd(x, n) * dest_nadd(y, n))) <= A * n + B"),
       t393,
     ),
   )
@@ -3734,9 +3708,7 @@ fn step_71() -> Unit raise {
   )
   nadd_le_welldef_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x' y y'. x === x' /\\ y === y' /\\ x <<= y ==> x' <<= y'",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, ∀ x' : Nadd, ∀ y : Nadd, ∀ y' : Nadd, nadd_eq(x, x') && nadd_eq(y, y') && nadd_le(x, y) → nadd_le(x', y')"),
       t456,
     ),
   )
@@ -3887,9 +3859,7 @@ fn step_72() -> Unit raise {
   )
   nadd_le_welldef_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x' y y'. x === x' /\\ y === y' ==> (x <<= y <=> x' <<= y')",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, ∀ x' : Nadd, ∀ y : Nadd, ∀ y' : Nadd, nadd_eq(x, x') && nadd_eq(y, y') → nadd_le(x, y) == nadd_le(x', y')"),
       t471,
     ),
   )
@@ -4305,9 +4275,7 @@ fn step_76() -> Unit raise {
   )
   nadd_le_total_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. ~(x <<= y) ==> forall B. ?n. ~(n = 0) /\\ fn y n + B < fn x n",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, ∀ y : Nadd, !nadd_le(x, y) → (∀ B : Num, ∃ n : Num, !(n == 0) && dest_nadd(y, n) + B < dest_nadd(x, n))"),
       t524,
     ),
   )
@@ -4355,9 +4323,7 @@ fn step_77() -> Unit raise {
     @list.List([@equal.gsym(@arith.right_add_distrib())]),
   )
   let t575 = @tactics.match_mp_tac(@arith.le_add2())
-  let t573 = @parser.parse_term(
-    "(a + b + c) + (d + e + f) = (d + b + e) + (a + c + f)",
-  )
+  let t573 = @term_syntax.parse_term("(a : Num) + ((b : Num) + (c : Num)) + ((d : Num) + ((e : Num) + (f : Num))) == d + (b + e) + (a + (c + f))")
   let t574 = @simp.once_rewrite_tac(
     @list.List([@theorems.ac(@arith.add_ac())(t573)]),
   )
@@ -4438,9 +4404,7 @@ fn step_77() -> Unit raise {
   )
   let t560 = @drule.match_mp(
     @itab.itaut(
-      @parser.parse_term(
-        "(~a /\\ b) /\\ (~c /\\ d) ==> ~(c \\/ ~b) /\\ ~(a \\/ ~d)",
-      ),
+      @term_syntax.parse_term("(!(a : Bool) && (b : Bool)) && !(c : Bool) && (d : Bool) → !(c || !b) && !(a || !d)"),
     ),
   )
   let t562 = @tactics.disch_then(fn(
@@ -5043,9 +5007,7 @@ fn step_83() -> Unit raise {
   )
   nadd_add_welldef_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x' y y'. x === x' /\\ y === y' ==> (x ++ y === x' ++ y')",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, ∀ x' : Nadd, ∀ y : Nadd, ∀ y' : Nadd, nadd_eq(x, x') && nadd_eq(y, y') → nadd_eq(nadd_add(x, y), nadd_add(x', y'))"),
       t624,
     ),
   )
@@ -6370,9 +6332,7 @@ fn step_99() -> Unit raise {
   )
   nadd_mul_welldef_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x' y y'. x === x' /\\ y === y'\n               ==> (x ** y) === (x' ** y')",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, ∀ x' : Nadd, ∀ y : Nadd, ∀ y' : Nadd, nadd_eq(x, x') && nadd_eq(y, y') → nadd_eq(nadd_mul(x, y), nadd_mul(x', y'))"),
       t830,
     ),
   )
@@ -8683,9 +8643,7 @@ fn step_111() -> Unit raise {
     t1060,
   ])
   let t998 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall n. ?r. (?x. P x /\\ &r <<= &n ** x) /\\\n             forall r'. (?x. P x /\\ &r' <<= &n ** x) ==> r' <= r",
-    ),
+    @term_syntax.parse_term("∀ n : Num, ∃ r : Num, (∃ x : Nadd, (P : (Nadd) -> Bool)(x) && nadd_le(nadd_of_num(r), nadd_mul(nadd_of_num(n), x))) && (∀ r' : Num, (∃ x : Nadd, P(x) && nadd_le(nadd_of_num(r'), nadd_mul(nadd_of_num(n), x))) → r' <= r)"),
     fn(
       x995 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -8777,9 +8735,7 @@ fn step_111() -> Unit raise {
   )
   nadd_complete_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (?x. P x) /\\ (?M. forall x. P x ==> x <<= M) ==>\n       ?M. (forall x. P x ==> x <<= M) /\\\n           forall M'. (forall x. P x ==> x <<= M') ==> M <<= M'",
-      ),
+      @term_syntax.parse_term("∀ P : (Nadd) -> Bool, (∃ x : Nadd, P(x)) && (∃ M : Nadd, ∀ x : Nadd, P(x) → nadd_le(x, M)) → (∃ M : Nadd, (∀ x : Nadd, P(x) → nadd_le(x, M)) && (∀ M' : Nadd, (∀ x : Nadd, P(x) → nadd_le(x, M')) → nadd_le(M, M')))"),
       t1198,
     ),
   )
@@ -9521,9 +9477,7 @@ fn step_114() -> Unit raise {
   )
   nadd_lbound_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ~(x === &0) ==> ?A N. forall n. N <= n ==> n <= A * fn x n",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, !nadd_eq(x, nadd_of_num(0)) → (∃ A : Num, ∃ N : Num, ∀ n : Num, N <= n → n <= A * dest_nadd(x, n))"),
       t1286,
     ),
   )
@@ -10003,9 +9957,7 @@ fn step_116() -> Unit raise {
   )
   nadd_mul_linv_lemma0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ~(x === &0) ==> ?A B. forall n. nadd_rinv x n <= A * n + B",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, !nadd_eq(x, nadd_of_num(0)) → (∃ A : Num, ∃ B : Num, ∀ n : Num, nadd_rinv(x, n) <= A * n + B)"),
       t1346,
     ),
   )
@@ -10313,9 +10265,7 @@ fn step_117() -> Unit raise {
   )
   nadd_mul_linv_lemma1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x n. ~(fn x n = 0) ==> dist(fn x n * nadd_rinv(x) n, n * n) <= fn x n",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, ∀ n : Num, !(dest_nadd(x, n) == 0) → dist((dest_nadd(x, n) * nadd_rinv(x, n), n * n)) <= dest_nadd(x, n)"),
       t1383,
     ),
   )
@@ -10440,9 +10390,7 @@ fn step_118() -> Unit raise {
   )
   nadd_mul_linv_lemma2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ~(x === &0) ==> ?N. forall n. N <= n ==>\n         dist(fn x n * nadd_rinv(x) n, n * n) <= fn x n",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, !nadd_eq(x, nadd_of_num(0)) → (∃ N : Num, ∀ n : Num, N <= n → dist((dest_nadd(x, n) * nadd_rinv(x, n), n * n)) <= dest_nadd(x, n))"),
       t1397,
     ),
   )
@@ -10581,9 +10529,7 @@ fn step_119() -> Unit raise {
   )
   nadd_mul_linv_lemma3_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ~(x === &0) ==> ?N. forall m n. N <= n ==>\n        dist(m * fn x m * fn x n * nadd_rinv(x) n,\n             m * fn x m * n * n) <= m * fn x m * fn x n",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, !nadd_eq(x, nadd_of_num(0)) → (∃ N : Num, ∀ m : Num, ∀ n : Num, N <= n → dist((m * (dest_nadd(x, m) * (dest_nadd(x, n) * nadd_rinv(x, n))), m * (dest_nadd(x, m) * (n * n)))) <= m * (dest_nadd(x, m) * dest_nadd(x, n)))"),
       t1412,
     ),
   )
@@ -10898,9 +10844,7 @@ fn step_120() -> Unit raise {
   )
   nadd_mul_linv_lemma4_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ~(x === &0) ==> ?N. forall m n. N <= m /\\ N <= n ==>\n        (fn x m * fn x n) * dist(m * nadd_rinv(x) n,n * nadd_rinv(x) m) <=\n          (m * n) * dist(m * fn x n,n * fn x m) + (fn x m * fn x n) * (m + n)",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, !nadd_eq(x, nadd_of_num(0)) → (∃ N : Num, ∀ m : Num, ∀ n : Num, N <= m && N <= n → dest_nadd(x, m) * dest_nadd(x, n) * dist((m * nadd_rinv(x, n), n * nadd_rinv(x, m))) <= m * n * dist((m * dest_nadd(x, n), n * dest_nadd(x, m))) + dest_nadd(x, m) * dest_nadd(x, n) * (m + n))"),
       t1451,
     ),
   )
@@ -10928,9 +10872,7 @@ fn step_121() -> Unit raise {
   let t1493 = @tactics.first_assum(@tactics.match_mp_tac)
   let t1492 = @tactics.match_mp_tac(@arith.le_mult2())
   let t1491 = @simp.rewrite_tac(@list.List([@arith.le_mult_rcancel()]))
-  let t1490 = @parser.parse_term(
-    "(a * b) * (c * d) * e = ((a * c) * (b * d)) * e",
-  )
+  let t1490 = @term_syntax.parse_term("(a : Num) * (b : Num) * ((c : Num) * (d : Num) * (e : Num)) == a * c * (b * d) * e")
   let t1497 = @tactics.then_tac(
     @tactics.then_tac(
       @tactics.then_tac(
@@ -11031,9 +10973,7 @@ fn step_121() -> Unit raise {
     t1475,
   ])
   let t1470 = @tactics.exists_tac(
-    @parser.parse_term(
-      "(m * n) * dist(m * fn x n,n * fn x m) +\n              (fn x m * fn x n) * (m + n)",
-    ),
+    @term_syntax.parse_term("(m : Num) * (n : Num) * dist((m * dest_nadd((x : Nadd), n), n * dest_nadd(x, m))) + dest_nadd(x, m) * dest_nadd(x, n) * (m + n)"),
   )
   let t1469 = @tactics.match_mp_tac(@arith.le_trans())
   let t1468 = @tactics.repeat_tac(@tactics.strip_tac)
@@ -11193,9 +11133,7 @@ fn step_121() -> Unit raise {
   )
   nadd_mul_linv_lemma5_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ~(x === &0) ==> ?B N. forall m n. N <= m /\\ N <= n ==>\n        (fn x m * fn x n) * dist(m * nadd_rinv(x) n,n * nadd_rinv(x) m) <=\n        B * (m * n) * (m + n)",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, !nadd_eq(x, nadd_of_num(0)) → (∃ B : Num, ∃ N : Num, ∀ m : Num, ∀ n : Num, N <= m && N <= n → dest_nadd(x, m) * dest_nadd(x, n) * dist((m * nadd_rinv(x, n), n * nadd_rinv(x, m))) <= B * (m * n * (m + n)))"),
       t1499,
     ),
   )
@@ -11222,9 +11160,7 @@ fn step_122() -> Unit raise {
   let t1532 = @tactics.match_mp_tac(@arith.le_trans())
   let t1529 = @tactics.first_assum(@tactics.match_mp_tac)
   let t1528 = @simp.rewrite_tac(@list.List([@arith.le_mult_lcancel()]))
-  let t1527 = @parser.parse_term(
-    "(a * b * c) * (d * e) * f = (b * c) * (a * (d * e) * f)",
-  )
+  let t1527 = @term_syntax.parse_term("(a : Num) * ((b : Num) * (c : Num)) * ((d : Num) * (e : Num) * (f : Num)) == b * c * (a * (d * e * f))")
   let t1530 = @tactics.then_tac(
     @tactics.then_tac(
       @tactics.then_tac(
@@ -11268,9 +11204,7 @@ fn step_122() -> Unit raise {
     t1530,
   ])
   let t1522 = @tactics.exists_tac(
-    @parser.parse_term(
-      "(B2 * B2) * (fn x m * fn x n) *\n              dist (m * nadd_rinv x n,n * nadd_rinv x m)",
-    ),
+    @term_syntax.parse_term("(B2 : Num) * B2 * (dest_nadd((x : Nadd), (m : Num)) * dest_nadd(x, (n : Num)) * dist((m * nadd_rinv(x, n), n * nadd_rinv(x, m))))"),
   )
   let t1521 = @tactics.match_mp_tac(@arith.le_trans())
   let t1520 = @tactics.repeat_tac(@tactics.strip_tac)
@@ -11473,9 +11407,7 @@ fn step_122() -> Unit raise {
   )
   nadd_mul_linv_lemma6_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ~(x === &0) ==> ?B N. forall m n. N <= m /\\ N <= n ==>\n        (m * n) * dist(m * nadd_rinv(x) n,n * nadd_rinv(x) m) <=\n        B * (m * n) * (m + n)",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, !nadd_eq(x, nadd_of_num(0)) → (∃ B : Num, ∃ N : Num, ∀ m : Num, ∀ n : Num, N <= m && N <= n → m * n * dist((m * nadd_rinv(x, n), n * nadd_rinv(x, m))) <= B * (m * n * (m + n)))"),
       t1535,
     ),
   )
@@ -11967,9 +11899,7 @@ fn step_123() -> Unit raise {
   )
   nadd_mul_linv_lemma7_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ~(x === &0) ==> ?B N. forall m n. N <= m /\\ N <= n ==>\n        dist(m * nadd_rinv(x) n,n * nadd_rinv(x) m) <= B * (m + n)",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, !nadd_eq(x, nadd_of_num(0)) → (∃ B : Num, ∃ N : Num, ∀ m : Num, ∀ n : Num, N <= m && N <= n → dist((m * nadd_rinv(x, n), n * nadd_rinv(x, m))) <= B * (m + n))"),
       t1583,
     ),
   )
@@ -12421,9 +12351,7 @@ fn step_124() -> Unit raise {
   )
   nadd_mul_linv_lemma7a_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ~(x === &0) ==> forall N. ?A B. forall m n. m <= N ==>\n        dist(m * nadd_rinv(x) n,n * nadd_rinv(x) m) <= A * n + B",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, !nadd_eq(x, nadd_of_num(0)) → (∀ N : Num, ∃ A : Num, ∃ B : Num, ∀ m : Num, ∀ n : Num, m <= N → dist((m * nadd_rinv(x, n), n * nadd_rinv(x, m))) <= A * n + B)"),
       t1644,
     ),
   )
@@ -13082,9 +13010,7 @@ fn step_125() -> Unit raise {
   )
   nadd_mul_linv_lemma8_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ~(x === &0) ==>\n        ?B. forall m n. dist(m * nadd_rinv(x) n,n * nadd_rinv(x) m) <= B * (m + n)",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, !nadd_eq(x, nadd_of_num(0)) → (∃ B : Num, ∀ m : Num, ∀ n : Num, dist((m * nadd_rinv(x, n), n * nadd_rinv(x, m))) <= B * (m + n))"),
       t1728,
     ),
   )
@@ -13106,9 +13032,7 @@ pub fn nadd_mul_linv_lemma8() -> @kernel.Thm {
 fn step_126() -> Unit raise {
   nadd_inv_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "nadd_inv(x) = if x === &0 then &0 else afn(nadd_rinv x)",
-      ),
+      @term_syntax.parse_term("(nadd_inv : (Nadd) -> Nadd)((x : Nadd)) == (if nadd_eq(x, nadd_of_num(0)) { nadd_of_num(0) } else { mk_nadd(nadd_rinv(x)) })"),
     ),
   )
 }
@@ -13206,9 +13130,7 @@ fn step_128() -> Unit raise {
   )
   nadd_inv_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. fn(nadd_inv x) = if x === &0 then (\\n. 0) else nadd_rinv x",
-      ),
+      @term_syntax.parse_term("∀ x : Nadd, dest_nadd(inv(x)) == (if nadd_eq(x, nadd_of_num(0)) { (n : Num) => 0 } else { nadd_rinv(x) })"),
       t1737,
     ),
   )
@@ -13437,9 +13359,7 @@ fn step_129() -> Unit raise {
     t1792,
   ])
   let t1755 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?A2 B2. forall n. dist(fn x n * nadd_rinv x n,n * n) <= A2 * n + B2",
-    ),
+    @term_syntax.parse_term("∃ A2 : Num, ∃ B2 : Num, ∀ n : Num, dist((dest_nadd((x : Nadd), n) * nadd_rinv(x, n), n * n)) <= A2 * n + B2"),
     @tactics.strip_assume_tac,
   )
   let t1753 = @bool.spec(@term_syntax.parse_term("(x : Nadd)"), nadd_bound())
@@ -14839,9 +14759,7 @@ fn step_151() -> Unit raise {
   )
   hreal_add_ac_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(m + n = n + m) /\\\n   ((m + n) + p = m + (n + p)) /\\\n   (m + (n + p) = n + (m + p))",
-      ),
+      @term_syntax.parse_term("(m : Hreal) + (n : Hreal) == n + m && m + n + (p : Hreal) == m + (n + p) && m + (n + p) == n + (m + p)"),
       t1867,
     ),
   )
@@ -15040,9 +14958,7 @@ pub fn treal_add() -> @kernel.Thm {
 fn step_157() -> Unit raise {
   treal_mul_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(x1,y1) treal_mul (x2,y2) = ((x1 * x2) + (y1 * y2),(x1 * y2) + (y1 * x2))",
-      ),
+      @term_syntax.parse_term("(treal_mul : ((Hreal, Hreal), (Hreal, Hreal)) -> (Hreal, Hreal))(((x1 : Hreal), (y1 : Hreal)), ((x2 : Hreal), (y2 : Hreal))) == (x1 * x2 + y1 * y2, x1 * y2 + y1 * x2)"),
     ),
   )
 }
@@ -15080,9 +14996,7 @@ pub fn treal_le() -> @kernel.Thm {
 fn step_159() -> Unit raise {
   treal_inv_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "treal_inv(x,y) = if x = y then (&0, &0)\n                    else if y <= x then (inv(@d. x = y + d), &0)\n                    else (&0, inv(@d. y = x + d))",
-      ),
+      @term_syntax.parse_term("(treal_inv : ((Hreal, Hreal)) -> (Hreal, Hreal))(((x : Hreal), (y : Hreal))) == (if x == y { (hreal_of_num(0), hreal_of_num(0)) } else { if y <= x { (inv(select((d : Hreal) => x == y + d)), hreal_of_num(0)) } else { (hreal_of_num(0), inv(select((d : Hreal) => y == x + d))) } })"),
     ),
   )
 }
@@ -15409,9 +15323,7 @@ fn step_163() -> Unit raise {
   )
   treal_eq_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y z. x treal_eq y /\\ y treal_eq z ==> x treal_eq z",
-      ),
+      @term_syntax.parse_term("∀ x : (Hreal, Hreal), ∀ y : (Hreal, Hreal), ∀ z : (Hreal, Hreal), treal_eq(x, y) && treal_eq(y, z) → treal_eq(x, z)"),
       t1917,
     ),
   )
@@ -15452,9 +15364,7 @@ fn step_165() -> Unit raise {
   )
   treal_of_num_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. (treal_of_num m treal_eq treal_of_num n) <=> (m = n)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, treal_eq(treal_of_num(m), treal_of_num(n)) == (m == n)"),
       t1919,
     ),
   )
@@ -15479,9 +15389,7 @@ fn step_166() -> Unit raise {
   )
   treal_of_num_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. (treal_of_num m treal_le treal_of_num n) <=> m <= n",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, treal_le(treal_of_num(m), treal_of_num(n)) == (m <= n)"),
       t1920,
     ),
   )
@@ -15513,9 +15421,7 @@ fn step_167() -> Unit raise {
   )
   treal_of_num_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. (treal_of_num m treal_add treal_of_num n) treal_eq\n         (treal_of_num(m + n))",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, treal_eq(treal_add(treal_of_num(m), treal_of_num(n)), treal_of_num(m + n))"),
       t1921,
     ),
   )
@@ -15551,9 +15457,7 @@ fn step_168() -> Unit raise {
   )
   treal_of_num_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. (treal_of_num m treal_mul treal_of_num n) treal_eq\n         (treal_of_num(m * n))",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, treal_eq(treal_mul(treal_of_num(m), treal_of_num(n)), treal_of_num(m * n))"),
       t1922,
     ),
   )
@@ -15669,9 +15573,7 @@ fn step_172() -> Unit raise {
   )
   treal_add_assoc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y z. (x treal_add (y treal_add z)) treal_eq\n           ((x treal_add y) treal_add z)",
-      ),
+      @term_syntax.parse_term("∀ x : (Hreal, Hreal), ∀ y : (Hreal, Hreal), ∀ z : (Hreal, Hreal), treal_eq(treal_add(x, treal_add(y, z)), treal_add(treal_add(x, y), z))"),
       t1928,
     ),
   )
@@ -15734,9 +15636,7 @@ fn step_174() -> Unit raise {
   )
   treal_add_linv_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ((treal_neg x) treal_add x) treal_eq (treal_of_num 0)",
-      ),
+      @term_syntax.parse_term("∀ x : (Hreal, Hreal), treal_eq(treal_add(treal_neg(x), x), treal_of_num(0))"),
       t1930,
     ),
   )
@@ -15788,9 +15688,7 @@ fn step_176() -> Unit raise {
   )
   treal_mul_assoc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y z. (x treal_mul (y treal_mul z)) treal_eq\n           ((x treal_mul y) treal_mul z)",
-      ),
+      @term_syntax.parse_term("∀ x : (Hreal, Hreal), ∀ y : (Hreal, Hreal), ∀ z : (Hreal, Hreal), treal_eq(treal_mul(x, treal_mul(y, z)), treal_mul(treal_mul(x, y), z))"),
       t1932,
     ),
   )
@@ -15862,9 +15760,7 @@ fn step_178() -> Unit raise {
   )
   treal_add_ldistrib_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y z. (x treal_mul (y treal_add z)) treal_eq\n           ((x treal_mul y) treal_add (x treal_mul z))",
-      ),
+      @term_syntax.parse_term("∀ x : (Hreal, Hreal), ∀ y : (Hreal, Hreal), ∀ z : (Hreal, Hreal), treal_eq(treal_mul(x, treal_add(y, z)), treal_add(treal_mul(x, y), treal_mul(x, z)))"),
       t1935,
     ),
   )
@@ -15914,9 +15810,7 @@ fn step_180() -> Unit raise {
   )
   treal_le_antisym_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. x treal_le y /\\ y treal_le x <=> (x treal_eq y)",
-      ),
+      @term_syntax.parse_term("∀ x : (Hreal, Hreal), ∀ y : (Hreal, Hreal), (treal_le(x, y) && treal_le(y, x)) == treal_eq(x, y)"),
       t1937,
     ),
   )
@@ -16124,9 +16018,7 @@ fn step_181() -> Unit raise {
   )
   treal_le_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y z. x treal_le y /\\ y treal_le z ==> x treal_le z",
-      ),
+      @term_syntax.parse_term("∀ x : (Hreal, Hreal), ∀ y : (Hreal, Hreal), ∀ z : (Hreal, Hreal), treal_le(x, y) && treal_le(y, z) → treal_le(x, z)"),
       t1961,
     ),
   )
@@ -16188,9 +16080,7 @@ fn step_183() -> Unit raise {
   )
   treal_le_ladd_imp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y z. (y treal_le z) ==> (x treal_add y) treal_le (x treal_add z)",
-      ),
+      @term_syntax.parse_term("∀ x : (Hreal, Hreal), ∀ y : (Hreal, Hreal), ∀ z : (Hreal, Hreal), treal_le(y, z) → treal_le(treal_add(x, y), treal_add(x, z))"),
       t1966,
     ),
   )
@@ -16434,9 +16324,7 @@ fn step_184() -> Unit raise {
   )
   treal_le_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. (treal_of_num 0) treal_le x /\\ (treal_of_num 0) treal_le y\n         ==> (treal_of_num 0) treal_le (x treal_mul y)",
-      ),
+      @term_syntax.parse_term("∀ x : (Hreal, Hreal), ∀ y : (Hreal, Hreal), treal_le(treal_of_num(0), x) && treal_le(treal_of_num(0), y) → treal_le(treal_of_num(0), treal_mul(x, y))"),
       t1991,
     ),
   )
@@ -16971,9 +16859,7 @@ fn step_186() -> Unit raise {
   )
   treal_mul_linv_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x. ~(x treal_eq treal_of_num 0) ==>\n        (treal_inv(x) treal_mul x) treal_eq (treal_of_num 1)",
-      ),
+      @term_syntax.parse_term("∀ x : (Hreal, Hreal), !treal_eq(x, treal_of_num(0)) → treal_eq(treal_mul(treal_inv(x), x), treal_of_num(1))"),
       t2051,
     ),
   )
@@ -17044,9 +16930,7 @@ fn step_187() -> Unit raise {
   )
   treal_of_num_welldef_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. (m = n) ==> (treal_of_num m) treal_eq (treal_of_num n)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, m == n → treal_eq(treal_of_num(m), treal_of_num(n))"),
       t2057,
     ),
   )
@@ -17083,9 +16967,7 @@ fn step_188() -> Unit raise {
   )
   treal_neg_welldef_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x1 x2. x1 treal_eq x2 ==> (treal_neg x1) treal_eq (treal_neg x2)",
-      ),
+      @term_syntax.parse_term("∀ x1 : (Hreal, Hreal), ∀ x2 : (Hreal, Hreal), treal_eq(x1, x2) → treal_eq(treal_neg(x1), treal_neg(x2))"),
       t2061,
     ),
   )
@@ -17126,9 +17008,7 @@ fn step_189() -> Unit raise {
   )
   treal_add_welldefr_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x1 x2 y. x1 treal_eq x2 ==> (x1 treal_add y) treal_eq (x2 treal_add y)",
-      ),
+      @term_syntax.parse_term("∀ x1 : (Hreal, Hreal), ∀ x2 : (Hreal, Hreal), ∀ y : (Hreal, Hreal), treal_eq(x1, x2) → treal_eq(treal_add(x1, y), treal_add(x2, y))"),
       t2065,
     ),
   )
@@ -17180,9 +17060,7 @@ fn step_190() -> Unit raise {
   )
   treal_add_welldef_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x1 x2 y1 y2. x1 treal_eq x2 /\\ y1 treal_eq y2 ==>\n     (x1 treal_add y1) treal_eq (x2 treal_add y2)",
-      ),
+      @term_syntax.parse_term("∀ x1 : (Hreal, Hreal), ∀ x2 : (Hreal, Hreal), ∀ y1 : (Hreal, Hreal), ∀ y2 : (Hreal, Hreal), treal_eq(x1, x2) && treal_eq(y1, y2) → treal_eq(treal_add(x1, y1), treal_add(x2, y2))"),
       t2071,
     ),
   )
@@ -17292,9 +17170,7 @@ fn step_191() -> Unit raise {
   )
   treal_mul_welldefr_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x1 x2 y. x1 treal_eq x2 ==> (x1 treal_mul y) treal_eq (x2 treal_mul y)",
-      ),
+      @term_syntax.parse_term("∀ x1 : (Hreal, Hreal), ∀ x2 : (Hreal, Hreal), ∀ y : (Hreal, Hreal), treal_eq(x1, x2) → treal_eq(treal_mul(x1, y), treal_mul(x2, y))"),
       t2082,
     ),
   )
@@ -17346,9 +17222,7 @@ fn step_192() -> Unit raise {
   )
   treal_mul_welldef_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x1 x2 y1 y2. x1 treal_eq x2 /\\ y1 treal_eq y2 ==>\n     (x1 treal_mul y1) treal_eq (x2 treal_mul y2)",
-      ),
+      @term_syntax.parse_term("∀ x1 : (Hreal, Hreal), ∀ x2 : (Hreal, Hreal), ∀ y1 : (Hreal, Hreal), ∀ y2 : (Hreal, Hreal), treal_eq(x1, x2) && treal_eq(y1, y2) → treal_eq(treal_mul(x1, y1), treal_mul(x2, y2))"),
       t2088,
     ),
   )
@@ -17462,9 +17336,7 @@ fn step_194() -> Unit raise {
   )
   treal_le_welldef_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x1 x2 y1 y2. x1 treal_eq x2 /\\ y1 treal_eq y2 ==>\n     (x1 treal_le y1 <=> x2 treal_le y2)",
-      ),
+      @term_syntax.parse_term("∀ x1 : (Hreal, Hreal), ∀ x2 : (Hreal, Hreal), ∀ y1 : (Hreal, Hreal), ∀ y2 : (Hreal, Hreal), treal_eq(x1, x2) && treal_eq(y1, y2) → treal_le(x1, y1) == treal_le(x2, y2)"),
       t2107,
     ),
   )
@@ -18551,9 +18423,7 @@ fn step_195() -> Unit raise {
   )
   treal_inv_welldef_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. x treal_eq y ==> (treal_inv x) treal_eq (treal_inv y)",
-      ),
+      @term_syntax.parse_term("∀ x : (Hreal, Hreal), ∀ y : (Hreal, Hreal), treal_eq(x, y) → treal_eq(treal_inv(x), treal_inv(y))"),
       t2247,
     ),
   )
@@ -19223,9 +19093,7 @@ pub fn real_abs() -> @kernel.Thm {
 ///|
 /// real_pow
 fn step_213() -> Unit raise {
-  let t2264 = @parser.parse_term(
-    "(x pow 0 = &1) /\\\n   (forall n. x pow (SUC n) = x * (x pow n))",
-  )
+  let t2264 = @term_syntax.parse_term("(real_pow : (Real, Num) -> Real)((x : Real), 0) == real_of_num(1) && (∀ n : Num, real_pow(x, SUC(n)) == x * real_pow(x, n))")
   real_pow_c.set(
     @recursion.new_recursive_definition(@nums.num_recursion())(t2264),
   )
@@ -19677,9 +19545,7 @@ fn step_217() -> Unit raise {
                                             @kernel.inst_rule(
                                               @list.List([
                                                 (
-                                                  @parser.parse_term(
-                                                    "dest_real x",
-                                                  ),
+                                                  @term_syntax.parse_term("dest_real((x : Real))"),
                                                   t2267,
                                                 ),
                                               ]),
@@ -19750,9 +19616,7 @@ fn step_217() -> Unit raise {
   )
   real_hreal_lemma1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "?r:hreal->real.\n       (forall x. &0 <= x <=> ?y. x = r y) /\\\n       (forall y z. y <= z <=> r y <= r z)",
-      ),
+      @term_syntax.parse_term("∃ r : (Hreal) -> Real, (∀ x : Real, (real_of_num(0) <= x) == (∃ y : Hreal, x == r(y))) && (∀ y : Hreal, ∀ z : Hreal, (y <= z) == (r(y) <= r(z)))"),
       t2326,
     ),
   )
@@ -19975,9 +19839,7 @@ fn step_218() -> Unit raise {
   )
   real_hreal_lemma2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "?h r. (forall x:hreal. h(r x) = x) /\\\n         (forall x. &0 <= x ==> (r(h x) = x)) /\\\n         (forall x:hreal. &0 <= r x) /\\\n         (forall x y. x <= y <=> r x <= r y)",
-      ),
+      @term_syntax.parse_term("∃ h : (Real) -> Hreal, ∃ r : (Hreal) -> Real, (∀ x : Hreal, h(r(x)) == x) && (∀ x : Real, real_of_num(0) <= x → r(h(x)) == x) && (∀ x : Hreal, real_of_num(0) <= r(x)) && (∀ x : Hreal, ∀ y : Hreal, (x <= y) == (r(x) <= r(y)))"),
       t2352,
     ),
   )
@@ -20739,9 +20601,7 @@ fn step_219() -> Unit raise {
   )
   real_complete_somepos_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (?x. P x /\\ &0 <= x) /\\\n       (?M. forall x. P x ==> x <= M)\n       ==> ?M. (forall x. P x ==> x <= M) /\\\n               forall M'. (forall x. P x ==> x <= M') ==> M <= M'",
-      ),
+      @term_syntax.parse_term("∀ P : (Real) -> Bool, (∃ x : Real, P(x) && real_of_num(0) <= x) && (∃ M : Real, ∀ x : Real, P(x) → x <= M) → (∃ M : Real, (∀ x : Real, P(x) → x <= M) && (∀ M' : Real, (∀ x : Real, P(x) → x <= M') → M <= M'))"),
       t2431,
     ),
   )
@@ -22098,9 +21958,7 @@ fn step_220() -> Unit raise {
   )
   real_complete_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (?x. P x) /\\\n       (?M. forall x. P x ==> x <= M)\n       ==> ?M. (forall x. P x ==> x <= M) /\\\n               forall M'. (forall x. P x ==> x <= M') ==> M <= M'",
-      ),
+      @term_syntax.parse_term("∀ P : (Real) -> Bool, (∃ x : Real, P(x)) && (∃ M : Real, ∀ x : Real, P(x) → x <= M) → (∃ M : Real, (∀ x : Real, P(x) → x <= M) && (∀ M' : Real, (∀ x : Real, P(x) → x <= M') → M <= M'))"),
       t2567,
     ),
   )

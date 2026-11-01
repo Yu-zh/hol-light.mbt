@@ -320,9 +320,7 @@ fn step_4() -> Unit raise {
     t36,
   )
   let t38 = (
-    @parser.parse_term(
-      "(~((forall) P) <=> ?x:A. ~(P x)) /\\\n     (~((?) P) <=> forall x:A. ~(P x)) /\\\n     (~((?!) P) <=> (forall x:A. ~(P x)) \\/ ?x y. P x /\\ P y /\\ ~(y = x))",
-    ),
+    @term_syntax.parse_term("!forall((P : (A) -> Bool)) == (∃ x : A, !P(x)) && !op_q(P) == (∀ x : A, !P(x)) && !existsunique(P) == ((∀ x : A, !P(x)) || (∃ x : A, ∃ y : A, P(x) && P(y) && !(y == x)))"),
     t37,
   )
   gen_nnf_conv_c.set(
@@ -393,9 +391,7 @@ fn step_4() -> Unit raise {
           t47,
         )
         let pth_exu = @tactics.prove(
-          @parser.parse_term(
-            "((?!) P) <=> (?x:A. P x) /\\ forall x y. ~(P x) \\/ ~(P y) \\/ (y = x)",
-          ),
+          @term_syntax.parse_term("existsunique((P : (A) -> Bool)) == ((∃ x : A, P(x)) && (∀ x : A, ∀ y : A, !P(x) || !P(y) || y == x))"),
           t48,
         )
         let p_tm = @term_syntax.parse_term("(p : Bool)")
@@ -2126,9 +2122,7 @@ fn step_12() -> Unit raise {
     @list.List([@theorems.left_forall_imp_thm(), @theorems.exists_refl()]),
   )
   let pth_1 = @tactics.prove(
-    @parser.parse_term(
-      "(forall a. (a = c) ==> (P = Q a)) ==> (P <=> forall a. (a = c) ==> Q a)",
-    ),
+    @term_syntax.parse_term("(∀ a : _, a == (c : _) → (P : Bool) == (Q : (_) -> Bool)(a)) → P == (∀ a : _, a == c → Q(a))"),
     t179,
   )
   let apply_pth : (@kernel.Thm) -> @kernel.Thm raise = @drule.match_mp(pth_1)
@@ -2246,9 +2240,7 @@ fn step_13() -> Unit raise {
     t184,
   )
   let th_cond = @tactics.prove(
-    @parser.parse_term(
-      "((b <=> F) ==> x = x0) /\\ ((b <=> T) ==> x = x1)\n     ==> x = (b /\\ x1 \\/ ~b /\\ x0)",
-    ),
+    @term_syntax.parse_term("((b : Bool) == false → (x : Bool) == (x0 : Bool)) && (b == true → x == (x1 : Bool)) → x == (b && x1 || !b && x0)"),
     t185,
   )
   let t186 = @simp.asm_rewrite_tac(@list.List([]))
@@ -2257,9 +2249,7 @@ fn step_13() -> Unit raise {
     t186,
   )
   let th_cond_p = @tactics.prove(
-    @parser.parse_term(
-      "((b <=> F) ==> x = x0) /\\ ((b <=> T) ==> x = x1)\n     ==> x = ((~b \\/ x1) /\\ (b \\/ x0))",
-    ),
+    @term_syntax.parse_term("((b : Bool) == false → (x : Bool) == (x0 : Bool)) && (b == true → x == (x1 : Bool)) → x == ((!b || x1) && (b || x0))"),
     t187,
   )
   let propsimps = @simp.basic_net()

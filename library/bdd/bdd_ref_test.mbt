@@ -5570,8 +5570,8 @@ test "Library/bdd matches Library/bdd.ml" {
       #|  (b1 : Bool)
       #|  (b2 : Bool)
       #|  (b : Bool) == (if (v : Bool) { b } else { b })
-      #|  (b <=> (if v then l else r))\n     ==> (~b <=> (if v then ~l else ~r))
-      #|  (b <=> (if v then l else ~r))\n     ==> (~b <=> (if v then ~l else r))
+      #|  (b : Bool) == (if (v : Bool) { (l : Bool) } else { (r : Bool) }) \226\134\146 !b == (if v { !l } else { !r })
+      #|  (b : Bool) == (if (v : Bool) { (l : Bool) } else { !(r : Bool) }) \226\134\146 !b == (if v { !l } else { r })
       #|  (b : Bool)
       #|  (v : Bool)
       #|  (l : Bool)
@@ -5580,9 +5580,9 @@ test "Library/bdd matches Library/bdd.ml" {
       #|  ((l1 : Bool) && true) == l1
       #|  ((l1 : Bool) && l1) == l1
       #|  (!(r1 : Bool) && r1) == !true
-      #|  (b1 <=> (if v then l1 else r1))\n     ==> (b2 <=> (if v then l2 else r2))\n         ==> (b3 <=> (if v then l3 else r3))\n             ==> (l1 /\\ l2 <=> l3) ==> (r1 /\\ r2 <=> r3) ==> (b1 /\\ b2 <=> b3)
-      #|  (b1 <=> (if v then l1 else r1))\n    ==> (b3 <=> (if v then l3 else r3))\n        ==> (l1 /\\ b2 <=> l3) ==> (r1 /\\ b2 <=> r3) ==> (b1 /\\ b2 <=> b3)
-      #|  (b2 <=> (if v then l2 else r2))\n     ==> (b3 <=> (if v then l3 else r3))\n         ==> (b1 /\\ l2 <=> l3) ==> (b1 /\\ r2 <=> r3) ==> (b1 /\\ b2 <=> b3)
+      #|  (b1 : Bool) == (if (v : Bool) { (l1 : Bool) } else { (r1 : Bool) }) \226\134\146 (b2 : Bool) == (if v { (l2 : Bool) } else { (r2 : Bool) }) \226\134\146 (b3 : Bool) == (if v { (l3 : Bool) } else { (r3 : Bool) }) \226\134\146 (l1 && l2) == l3 \226\134\146 (r1 && r2) == r3 \226\134\146 (b1 && b2) == b3
+      #|  (b1 : Bool) == (if (v : Bool) { (l1 : Bool) } else { (r1 : Bool) }) \226\134\146 (b3 : Bool) == (if v { (l3 : Bool) } else { (r3 : Bool) }) \226\134\146 (l1 && (b2 : Bool)) == l3 \226\134\146 (r1 && b2) == r3 \226\134\146 (b1 && b2) == b3
+      #|  (b2 : Bool) == (if (v : Bool) { (l2 : Bool) } else { (r2 : Bool) }) \226\134\146 (b3 : Bool) == (if v { (l3 : Bool) } else { (r3 : Bool) }) \226\134\146 ((b1 : Bool) && l2) == l3 \226\134\146 (b1 && r2) == r3 \226\134\146 (b1 && b2) == b3
       #|  ((l1 : Bool) && (r1 : Bool)) == (r1 && l1)
       #|  (b1 : Bool)
       #|  (b2 : Bool)
@@ -5610,7 +5610,7 @@ test "Library/bdd matches Library/bdd.ml" {
       #|  (!((a : Bool) && !(b : Bool)) && !(!a && b)) == (a == b)
       #|  (\226\136\131 p : Bool, !true) == !true
       #|  (\226\136\131 p : Bool, true) == true
-      #|  (?p. if x then q p else r p) <=> (if x then (?p. q p) else (?p. r p))
+      #|  (\226\136\131 p : _, (if (x : Bool) { (q : (_) -> Bool)(p) } else { (r : (_) -> Bool)(p) })) == (if x { \226\136\131 p : _, q(p) } else { \226\136\131 p : _, r(p) })
       #|  (\226\136\131 p : Bool, (if p { (q : Bool) } else { (r : Bool) })) == (q || r)
       #|types = tybit1/1 tybit0/1 finite_prod/2 finite_diff/2 finite_sum/2 cart/2 finite_image/1 int/0 real/0 hreal/0 nadd/0 char/0 list/1 option/1 sum/2 recspace/1 num/0 ind/0 prod/2 1/0 bool/0 fun/2
       #|constants = superadmissible tailadmissible admissible CASEWISE PCROSS vector mktybit1 _100531 _dest_tybit1 _mk_tybit1 mktybit0 _100512 _dest_tybit0 _mk_tybit0 dest_finite_prod mk_finite_prod dest_finite_diff mk_finite_diff sndcart fstcart pastecart dest_finite_sum mk_finite_sum lambda $ dest_cart mk_cart dest_finite_image finite_index dimindex polynomial_function sum nsum isum product iproduct nproduct iterato iterate support monoidal neutral .. has_sup has_inf inf sup COUNTABLE >_c >=_c =_c <_c <=_c ARBITRARY INTERSECTION_OF UNION_OF pairwise list_of_set set_of_list disjoint_union product_map cartesian_product RESTRICTION EXTENSIONAL ARB CROSS HAS_SIZE CARD ITSET FINREC REST CHOICE BIJ SURJ INJ IMAGE INFINITE FINITE SING DISJOINT PSUBSET SUBSET DELETE DIFF INTERS INTER UNIONS UNION UNIV INSERT EMPTY SETSPEC GSPEC IN real_zpow prime num_lcm num_gcd num_coprime num_mod num_divides num_of_int int_lcm int_gcd int_coprime int_mod int_divides real_mod == rem div int_pow int_min int_max int_sgn int_abs int_mul int_sub int_add int_neg int_of_num int_gt int_ge int_lt int_le real_of_int int_of_real integer DECIMAL sqrt real_sgn real_min real_max real_div real_pow real_abs real_gt real_ge real_lt real_sub real_inv real_le real_mul real_add real_neg real_of_num dest_real mk_real treal_eq treal_inv treal_le treal_mul treal_add treal_neg treal_of_num hreal_inv hreal_le hreal_mul hreal_add hreal_of_num dest_hreal mk_hreal nadd_inv nadd_rinv nadd_mul nadd_add nadd_le nadd_of_num nadd_eq dest_nadd mk_nadd is_nadd dist ASCII _22943 _dest_char _mk_char list_of_seq PAIRWISE ALLPAIRS ZIP ITLIST2 ASSOC FILTER EL MAP2 ALL2 MEM ITLIST EX ALL NULL REPLICATE BUTLAST LAST MAP LENGTH REVERSE APPEND TL HD ISO CONS NIL _dest_list _mk_list SOME NONE _dest_option _mk_option OUTR OUTL INR INL _dest_sum _mk_sum FNIL FCONS CONSTR BOTTOM _dest_rec _mk_rec ZRECSPACE ZBOT ZCONSTR INJP INJF INJA INJN NUMRIGHT NUMLEFT NUMSUM NUMSND NUMFST NUMPAIR MEASURE WF minimal MOD DIV FACT - ODD EVEN MIN MAX > >= < <= EXP * + PRE BIT1 BIT0 NUMERAL SUC _0 dest_num mk_num NUM_REP IND_0 IND_SUC ONTO ONE_ONE PASSOC UNCURRY CURRY SND FST , REP_prod ABS_prod mk_pair _FUNCTION _MATCH _GUARDED_PATTERN _UNGUARDED_PATTERN _SEQPATTERN GEQ GABS LET_END LET hashek one one_REP one_ABS I o COND @ _FALSITY_ ?! ~ F \/ ? forall ==> /\ T =

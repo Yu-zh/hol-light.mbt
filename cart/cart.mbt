@@ -5,9 +5,7 @@
 fn step_1() -> Unit raise {
   dimindex_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "dimindex(s:A->bool) = if FINITE(:A) then CARD(:A) else 1",
-      ),
+      @term_syntax.parse_term("(dimindex : ((A) -> Bool) -> Num)((s : (A) -> Bool)) == (if (FINITE : ((A) -> Bool) -> Bool)((UNIV : (A) -> Bool)) { (CARD : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) } else { 1 })"),
     ),
   )
 }
@@ -309,9 +307,7 @@ fn step_11() -> Unit raise {
   )
   finite_image_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "UNIV:(A)finite_image->bool = IMAGE finite_index (1..dimindex(:A))",
-      ),
+      @term_syntax.parse_term("(UNIV : (Finite_image[A]) -> Bool) == (IMAGE : ((Num) -> Finite_image[A], (Num) -> Bool, Finite_image[A]) -> Bool)((finite_index : (Num) -> Finite_image[A]), op_dot_dot(1, (dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool))))"),
       t19,
     ),
   )
@@ -353,9 +349,7 @@ fn step_12() -> Unit raise {
   )
   has_size_finite_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. (UNIV:(A)finite_image->bool) HAS_SIZE dimindex(s:A->bool)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, (HAS_SIZE : ((Finite_image[A]) -> Bool, Num) -> Bool)((UNIV : (Finite_image[A]) -> Bool), (dimindex : ((A) -> Bool) -> Num)(s))"),
       t24,
     ),
   )
@@ -380,9 +374,7 @@ fn step_13() -> Unit raise {
   )
   card_finite_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. CARD(UNIV:(A)finite_image->bool) = dimindex(s:A->bool)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, (CARD : ((Finite_image[A]) -> Bool) -> Num)((UNIV : (Finite_image[A]) -> Bool)) == (dimindex : ((A) -> Bool) -> Num)(s)"),
       t25,
     ),
   )
@@ -451,9 +443,7 @@ fn step_15() -> Unit raise {
   )
   dimindex_finite_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t. dimindex(s:(A)finite_image->bool) = dimindex(t:A->bool)",
-      ),
+      @term_syntax.parse_term("∀ s : (Finite_image[A]) -> Bool, ∀ t : (A) -> Bool, dimindex(s) == dimindex(t)"),
       t33,
     ),
   )
@@ -482,9 +472,7 @@ fn step_16() -> Unit raise {
   )
   finite_index_works_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall i:(A)finite_image.\n        ?!n. 1 <= n /\\ n <= dimindex(:A) /\\ (finite_index n = i)",
-      ),
+      @term_syntax.parse_term("∀ i : Finite_image[A], (existsunique : ((Num) -> Bool) -> Bool)((n : Num) => 1 <= n && n <= (dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) && (finite_index : (Num) -> Finite_image[A])(n) == i)"),
       t35,
     ),
   )
@@ -507,9 +495,7 @@ fn step_17() -> Unit raise {
   let t36 = @meson.meson_tac(@list.List([finite_index_works()]))
   finite_index_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall i j. 1 <= i /\\ i <= dimindex(:A) /\\\n         1 <= j /\\ j <= dimindex(:A)\n         ==> ((finite_index i :A finite_image = finite_index j) <=>\n              (i = j))",
-      ),
+      @term_syntax.parse_term("∀ i : Num, ∀ j : Num, 1 <= i && i <= (dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) && 1 <= j && j <= (dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) → ((finite_index : (Num) -> Finite_image[A])(i) == (finite_index : (Num) -> Finite_image[A])(j)) == (i == j)"),
       t36,
     ),
   )
@@ -532,9 +518,7 @@ fn step_18() -> Unit raise {
   let t37 = @meson.meson_tac(@list.List([finite_index_works()]))
   forall_finite_index_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall k:(N)finite_image. P k) =\n   (forall i. 1 <= i /\\ i <= dimindex(:N) ==> P(finite_index i))",
-      ),
+      @term_syntax.parse_term("(∀ k : Finite_image[N], (P : (Finite_image[N]) -> Bool)(k)) == (∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → P((finite_index : (Num) -> Finite_image[N])(i)))"),
       t37,
     ),
   )
@@ -617,9 +601,7 @@ fn step_22() -> Unit raise {
   )
   cart_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A^B y.\n    (x = y) <=> forall i. 1 <= i /\\ i <= dimindex(:B) ==> (x$i = y$i)",
-      ),
+      @term_syntax.parse_term("∀ x : Cart[A, B], ∀ y : Cart[A, B], (x == y) == (∀ i : Num, 1 <= i && i <= (dimindex : ((B) -> Bool) -> Num)((UNIV : (B) -> Bool)) → (op_dollar : (Cart[A, B], Num) -> A)(x, i) == (op_dollar : (Cart[A, B], Num) -> A)(y, i))"),
       t42,
     ),
   )
@@ -645,9 +627,7 @@ fn step_23() -> Unit raise {
 fn step_24() -> Unit raise {
   lambda_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(lambda) g =\n     @f:A^B. forall i. 1 <= i /\\ i <= dimindex(:B) ==> (f$i = g i)",
-      ),
+      @term_syntax.parse_term("(lambda : ((Num) -> A) -> Cart[A, B])((g : (Num) -> A)) == (select : ((Cart[A, B]) -> Bool) -> Cart[A, B])((f : Cart[A, B]) => ∀ i : Num, 1 <= i && i <= (dimindex : ((B) -> Bool) -> Num)((UNIV : (B) -> Bool)) → (op_dollar : (Cart[A, B], Num) -> A)(f, i) == g(i))"),
     ),
   )
 }
@@ -674,9 +654,7 @@ fn step_25() -> Unit raise {
     @list.List([finite_index(), @simp.rewrite_rule(@list.List([]))(cart_tybij())]),
   )
   let t44 = @tactics.exists_tac(
-    @parser.parse_term(
-      "mk_cart(\\k. g(@i. 1 <= i /\\  i <= dimindex(:B) /\\\n                                (finite_index i = k))):A^B",
-    ),
+    @term_syntax.parse_term("(mk_cart : ((Finite_image[B]) -> A) -> Cart[A, B])((k : Finite_image[B]) => (g : (Num) -> A)((select : ((Num) -> Bool) -> Num)((i : Num) => 1 <= i && i <= (dimindex : ((B) -> Bool) -> Num)((UNIV : (B) -> Bool)) && (finite_index : (Num) -> Finite_image[B])(i) == k)))"),
   )
   let t43 = @tactics.conv_tac(@class.select_conv)
   let t50 = @tactics.then_tac(
@@ -709,9 +687,7 @@ fn step_25() -> Unit raise {
   )
   lambda_beta_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall i. 1 <= i /\\ i <= dimindex(:B)\n       ==> (((lambda) g:A^B) $i = g i)",
-      ),
+      @term_syntax.parse_term("∀ i : Num, 1 <= i && i <= (dimindex : ((B) -> Bool) -> Num)((UNIV : (B) -> Bool)) → (op_dollar : (Cart[A, B], Num) -> A)((lambda : ((Num) -> A) -> Cart[A, B])((g : (Num) -> A)), i) == g(i)"),
       t50,
     ),
   )
@@ -736,9 +712,7 @@ fn step_26() -> Unit raise {
   )
   lambda_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A^B g.\n        (forall i. 1 <= i /\\ i <= dimindex(:B) ==> (f$i = g i)) <=>\n        ((lambda) g = f)",
-      ),
+      @term_syntax.parse_term("∀ f : Cart[A, B], ∀ g : (Num) -> A, (∀ i : Num, 1 <= i && i <= (dimindex : ((B) -> Bool) -> Num)((UNIV : (B) -> Bool)) → (op_dollar : (Cart[A, B], Num) -> A)(f, i) == g(i)) == ((lambda : ((Num) -> A) -> Cart[A, B])(g) == f)"),
       t52,
     ),
   )
@@ -781,9 +755,7 @@ fn step_28() -> Unit raise {
   )
   finite_index_inrange_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall i. ?k. 1 <= k /\\ k <= dimindex(:N) /\\ forall x:A^N. x$i = x$k",
-      ),
+      @term_syntax.parse_term("∀ i : Num, ∃ k : Num, 1 <= k && k <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (∀ x : Cart[A, N], (op_dollar : (Cart[A, N], Num) -> A)(x, i) == (op_dollar : (Cart[A, N], Num) -> A)(x, k))"),
       t55,
     ),
   )
@@ -810,9 +782,7 @@ fn step_29() -> Unit raise {
   )
   finite_index_inrange_2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall i. ?k. 1 <= k /\\ k <= dimindex(:N) /\\\n           (forall x:A^N. x$i = x$k) /\\ (forall y:B^N. y$i = y$k)",
-      ),
+      @term_syntax.parse_term("∀ i : Num, ∃ k : Num, 1 <= k && k <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (∀ x : Cart[A, N], (op_dollar : (Cart[A, N], Num) -> A)(x, i) == (op_dollar : (Cart[A, N], Num) -> A)(x, k)) && (∀ y : Cart[B, N], (op_dollar : (Cart[B, N], Num) -> B)(y, i) == (op_dollar : (Cart[B, N], Num) -> B)(y, k))"),
       t57,
     ),
   )
@@ -896,9 +866,7 @@ pub fn finite_sum_tybij() -> @kernel.Thm {
 fn step_32() -> Unit raise {
   pastecart_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(pastecart:A^M->A^N->A^(M,N)finite_sum) f g =\n        lambda i. if i <= dimindex(:M) then f$i\n                  else g$(i - dimindex(:M))",
-      ),
+      @term_syntax.parse_term("(pastecart : (Cart[A, M], Cart[A, N]) -> Cart[A, Finite_sum[M, N]])((f : Cart[A, M]), (g : Cart[A, N])) == (lambda : ((Num) -> A) -> Cart[A, Finite_sum[M, N]])((i : Num) => if i <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) { (op_dollar : (Cart[A, M], Num) -> A)(f, i) } else { (op_dollar : (Cart[A, N], Num) -> A)(g, i - (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))) })"),
     ),
   )
 }
@@ -936,9 +904,7 @@ pub fn fstcart() -> @kernel.Thm {
 fn step_34() -> Unit raise {
   sndcart_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(sndcart:A^(M,N)finite_sum->A^N) f =\n        lambda i. f$(i + dimindex(:M))",
-      ),
+      @term_syntax.parse_term("(sndcart : (Cart[A, Finite_sum[M, N]]) -> Cart[A, N])((f : Cart[A, Finite_sum[M, N]])) == (lambda : ((Num) -> A) -> Cart[A, N])((i : Num) => (op_dollar : (Cart[A, Finite_sum[M, N]], Num) -> A)(f, i + (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))))"),
     ),
   )
 }
@@ -964,9 +930,7 @@ fn step_35() -> Unit raise {
   )
   finite_sum_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "UNIV:(A,B)finite_sum->bool =\n       IMAGE mk_finite_sum (1..(dimindex(:A)+dimindex(:B)))",
-      ),
+      @term_syntax.parse_term("(UNIV : (Finite_sum[A, B]) -> Bool) == (IMAGE : ((Num) -> Finite_sum[A, B], (Num) -> Bool, Finite_sum[A, B]) -> Bool)((mk_finite_sum : (Num) -> Finite_sum[A, B]), op_dot_dot(1, (dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) + (dimindex : ((B) -> Bool) -> Num)((UNIV : (B) -> Bool))))"),
       t64,
     ),
   )
@@ -1002,9 +966,7 @@ fn step_36() -> Unit raise {
   )
   dimindex_has_size_finite_sum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(UNIV:(M,N)finite_sum->bool) HAS_SIZE (dimindex(:M) + dimindex(:N))",
-      ),
+      @term_syntax.parse_term("(HAS_SIZE : ((Finite_sum[M, N]) -> Bool, Num) -> Bool)((UNIV : (Finite_sum[M, N]) -> Bool), (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) + (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))"),
       t69,
     ),
   )
@@ -1045,9 +1007,7 @@ fn step_37() -> Unit raise {
   )
   dimindex_finite_sum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "dimindex(:(M,N)finite_sum) = dimindex(:M) + dimindex(:N)",
-      ),
+      @term_syntax.parse_term("(dimindex : ((Finite_sum[M, N]) -> Bool) -> Num)((UNIV : (Finite_sum[M, N]) -> Bool)) == (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) + (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))"),
       t74,
     ),
   )
@@ -1303,9 +1263,7 @@ fn step_40() -> Unit raise {
   )
   pastecart_fst_snd_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall z. pastecart (fstcart z) (sndcart z):A^(M,N)finite_sum = z",
-      ),
+      @term_syntax.parse_term("∀ z : Cart[A, Finite_sum[M, N]], pastecart(fstcart(z), sndcart(z)) == z"),
       t97,
     ),
   )
@@ -1328,9 +1286,7 @@ fn step_41() -> Unit raise {
   let t98 = @meson.meson_tac(@list.List([pastecart_fst_snd()]))
   pastecart_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:A^(M,N)finite_sum.\n        x = y <=> fstcart x = fstcart y /\\ sndcart x = sndcart y",
-      ),
+      @term_syntax.parse_term("∀ x : Cart[A, Finite_sum[M, N]], ∀ y : Cart[A, Finite_sum[M, N]], (x == y) == (fstcart(x) == fstcart(y) && sndcart(x) == sndcart(y))"),
       t98,
     ),
   )
@@ -1353,9 +1309,7 @@ fn step_42() -> Unit raise {
   )
   forall_pastecart_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall p:A^(M,N)finite_sum. P p) <=> forall x y. P (pastecart x y)",
-      ),
+      @term_syntax.parse_term("(∀ p : Cart[A, Finite_sum[M, N]], (P : (Cart[A, Finite_sum[M, N]]) -> Bool)(p)) == (∀ x : Cart[A, M], ∀ y : Cart[A, N], P(pastecart(x, y)))"),
       t99,
     ),
   )
@@ -1380,9 +1334,7 @@ fn step_43() -> Unit raise {
   )
   exists_pastecart_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(?p:A^(M,N)finite_sum. P p) <=> ?x y. P (pastecart x y)",
-      ),
+      @term_syntax.parse_term("(∃ p : Cart[A, Finite_sum[M, N]], (P : (Cart[A, Finite_sum[M, N]]) -> Bool)(p)) == (∃ x : Cart[A, M], ∃ y : Cart[A, N], P(pastecart(x, y)))"),
       t100,
     ),
   )
@@ -1407,9 +1359,7 @@ fn step_44() -> Unit raise {
   )
   pastecart_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A^M y:A^N w z. pastecart x y = pastecart w z <=> x = w /\\ y = z",
-      ),
+      @term_syntax.parse_term("∀ x : Cart[A, M], ∀ y : Cart[A, N], ∀ w : Cart[A, M], ∀ z : Cart[A, N], (pastecart(x, y) == pastecart(w, z)) == (x == w && y == z)"),
       t101,
     ),
   )
@@ -1430,9 +1380,7 @@ fn step_45() -> Unit raise {
   let t102 = @simp.simp_tac(@list.List([fstcart(), lambda_beta()]))
   fstcart_component_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A^(M,N)finite_sum i. 1 <= i /\\ i <= dimindex(:M)\n                           ==> fstcart x$i = x$i",
-      ),
+      @term_syntax.parse_term("∀ x : Cart[A, Finite_sum[M, N]], ∀ i : Num, 1 <= i && i <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) → (op_dollar : (Cart[A, M], Num) -> A)((fstcart : (Cart[A, Finite_sum[M, N]]) -> Cart[A, M])(x), i) == (op_dollar : (Cart[A, Finite_sum[M, N]], Num) -> A)(x, i)"),
       t102,
     ),
   )
@@ -1455,9 +1403,7 @@ fn step_46() -> Unit raise {
   let t103 = @simp.simp_tac(@list.List([sndcart(), lambda_beta()]))
   sndcart_component_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x:A^(M,N)finite_sum i. 1 <= i /\\ i <= dimindex(:N)\n                           ==> sndcart x$i = x$(i + dimindex(:M))",
-      ),
+      @term_syntax.parse_term("∀ x : Cart[A, Finite_sum[M, N]], ∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (op_dollar : (Cart[A, N], Num) -> A)((sndcart : (Cart[A, Finite_sum[M, N]]) -> Cart[A, N])(x), i) == (op_dollar : (Cart[A, Finite_sum[M, N]], Num) -> A)(x, i + (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)))"),
       t103,
     ),
   )
@@ -1549,9 +1495,7 @@ fn step_47() -> Unit raise {
   )
   pastecart_component_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall u:A^M v:A^N i. 1 <= i /\\ i <= dimindex(:M) ==> pastecart u v$i = u$i) /\\\n   (forall u:A^M v:A^N i. dimindex(:M) + 1 <= i /\\ i <= dimindex(:M) + dimindex(:N)\n                    ==> pastecart u v$i = v$(i - dimindex(:M)))",
-      ),
+      @term_syntax.parse_term("(∀ u : Cart[A, M], ∀ v : Cart[A, N], ∀ i : Num, 1 <= i && i <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) → (op_dollar : (Cart[A, Finite_sum[M, N]], Num) -> A)((pastecart : (Cart[A, M], Cart[A, N]) -> Cart[A, Finite_sum[M, N]])(u, v), i) == (op_dollar : (Cart[A, M], Num) -> A)(u, i)) && (∀ u : Cart[A, M], ∀ v : Cart[A, N], ∀ i : Num, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) + 1 <= i && i <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) + (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (op_dollar : (Cart[A, Finite_sum[M, N]], Num) -> A)((pastecart : (Cart[A, M], Cart[A, N]) -> Cart[A, Finite_sum[M, N]])(u, v), i) == (op_dollar : (Cart[A, N], Num) -> A)(v, i - (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool))))"),
       t111,
     ),
   )
@@ -1577,9 +1521,7 @@ fn step_48() -> Unit raise {
     @int.arith_tac,
   )
   let th = @tactics.prove(
-    @parser.parse_term(
-      "?x. x IN 1..(if dimindex(:B) < dimindex(:A)\n                  then dimindex(:A) - dimindex(:B) else 1)",
-    ),
+    @term_syntax.parse_term("∃ x : Num, IN(x, op_dot_dot(1, if (dimindex : ((B) -> Bool) -> Num)((UNIV : (B) -> Bool)) < (dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) { (dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) - (dimindex : ((B) -> Bool) -> Num)((UNIV : (B) -> Bool)) } else { 1 }))"),
     t113,
   )
   finite_diff_tybij_c.set(
@@ -1614,9 +1556,7 @@ fn step_49() -> Unit raise {
   )
   finite_diff_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "UNIV:(A,B)finite_diff->bool =\n       IMAGE mk_finite_diff\n       (1..(if dimindex(:B) < dimindex(:A)\n                  then dimindex(:A) - dimindex(:B) else 1))",
-      ),
+      @term_syntax.parse_term("(UNIV : (Finite_diff[A, B]) -> Bool) == (IMAGE : ((Num) -> Finite_diff[A, B], (Num) -> Bool, Finite_diff[A, B]) -> Bool)((mk_finite_diff : (Num) -> Finite_diff[A, B]), op_dot_dot(1, if (dimindex : ((B) -> Bool) -> Num)((UNIV : (B) -> Bool)) < (dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) { (dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) - (dimindex : ((B) -> Bool) -> Num)((UNIV : (B) -> Bool)) } else { 1 }))"),
       t115,
     ),
   )
@@ -1655,9 +1595,7 @@ fn step_50() -> Unit raise {
   )
   dimindex_has_size_finite_diff_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(UNIV:(M,N)finite_diff->bool) HAS_SIZE\n   (if dimindex(:N) < dimindex(:M) then dimindex(:M) - dimindex(:N) else 1)",
-      ),
+      @term_syntax.parse_term("(HAS_SIZE : ((Finite_diff[M, N]) -> Bool, Num) -> Bool)((UNIV : (Finite_diff[M, N]) -> Bool), if (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) < (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) { (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) - (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) } else { 1 })"),
       t120,
     ),
   )
@@ -1698,9 +1636,7 @@ fn step_51() -> Unit raise {
   )
   dimindex_finite_diff_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "dimindex(:(M,N)finite_diff) =\n     if dimindex(:N) < dimindex(:M) then dimindex(:M) - dimindex(:N) else 1",
-      ),
+      @term_syntax.parse_term("(dimindex : ((Finite_diff[M, N]) -> Bool) -> Num)((UNIV : (Finite_diff[M, N]) -> Bool)) == (if (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) < (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) { (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) - (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) } else { 1 })"),
       t125,
     ),
   )
@@ -1766,9 +1702,7 @@ fn step_53() -> Unit raise {
   )
   finite_prod_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "UNIV:(A,B)finite_prod->bool =\n       IMAGE mk_finite_prod (1..(dimindex(:A)*dimindex(:B)))",
-      ),
+      @term_syntax.parse_term("(UNIV : (Finite_prod[A, B]) -> Bool) == (IMAGE : ((Num) -> Finite_prod[A, B], (Num) -> Bool, Finite_prod[A, B]) -> Bool)((mk_finite_prod : (Num) -> Finite_prod[A, B]), op_dot_dot(1, (dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) * (dimindex : ((B) -> Bool) -> Num)((UNIV : (B) -> Bool))))"),
       t130,
     ),
   )
@@ -1807,9 +1741,7 @@ fn step_54() -> Unit raise {
   )
   dimindex_has_size_finite_prod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(UNIV:(M,N)finite_prod->bool) HAS_SIZE (dimindex(:M) * dimindex(:N))",
-      ),
+      @term_syntax.parse_term("(HAS_SIZE : ((Finite_prod[M, N]) -> Bool, Num) -> Bool)((UNIV : (Finite_prod[M, N]) -> Bool), (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) * (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))"),
       t135,
     ),
   )
@@ -1850,9 +1782,7 @@ fn step_55() -> Unit raise {
   )
   dimindex_finite_prod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "dimindex(:(M,N)finite_prod) = dimindex(:M) * dimindex(:N)",
-      ),
+      @term_syntax.parse_term("(dimindex : ((Finite_prod[M, N]) -> Bool) -> Num)((UNIV : (Finite_prod[M, N]) -> Bool)) == (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) * (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))"),
       t140,
     ),
   )
@@ -2344,9 +2274,7 @@ fn step_59() -> Unit raise {
   ])
   let t180 = @tactics.thenl(
     @tactics.subgoal_then(
-      @parser.parse_term(
-        "(:(A)tybit1) = IMAGE mktybit1 (:((A,A)finite_sum,1)finite_sum)",
-      ),
+      @term_syntax.parse_term("(UNIV : (Tybit1[A]) -> Bool) == (IMAGE : ((Finite_sum[Finite_sum[A, A], Unit]) -> Tybit1[A], (Finite_sum[Finite_sum[A, A], Unit]) -> Bool, Tybit1[A]) -> Bool)((mktybit1 : (Finite_sum[Finite_sum[A, A], Unit]) -> Tybit1[A]), (UNIV : (Finite_sum[Finite_sum[A, A], Unit]) -> Bool))"),
       fn(
         x161 : @kernel.Thm,
       ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2482,9 +2410,7 @@ fn step_62() -> Unit raise {
   )
   dimindex_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "dimindex(:1) = 1 /\\\n   dimindex(:(A)tybit0) = 2 * dimindex(:A) /\\\n   dimindex(:(A)tybit1) = 2 * dimindex(:A) + 1",
-      ),
+      @term_syntax.parse_term("(dimindex : ((Unit) -> Bool) -> Num)((UNIV : (Unit) -> Bool)) == 1 && (dimindex : ((Tybit0[A]) -> Bool) -> Num)((UNIV : (Tybit0[A]) -> Bool)) == 2 * (dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) && (dimindex : ((Tybit1[A]) -> Bool) -> Num)((UNIV : (Tybit1[A]) -> Bool)) == 2 * (dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) + 1"),
       t187,
     ),
   )
@@ -2561,9 +2487,7 @@ fn step_66() -> Unit raise {
   )
   finite_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "FINITE(:1) /\\ FINITE(:A tybit0) /\\ FINITE(:A tybit1)",
-      ),
+      @term_syntax.parse_term("(FINITE : ((Unit) -> Bool) -> Bool)((UNIV : (Unit) -> Bool)) && (FINITE : ((Tybit0[A]) -> Bool) -> Bool)((UNIV : (Tybit0[A]) -> Bool)) && (FINITE : ((Tybit1[A]) -> Bool) -> Bool)((UNIV : (Tybit1[A]) -> Bool))"),
       t191,
     ),
   )
@@ -2600,9 +2524,7 @@ fn step_67() -> Unit raise {
     @int.arith_tac,
   )
   let t196 = (
-    @parser.parse_term(
-      "(dimindex(:A) = n <=> dimindex(s:A->bool) = NUMERAL n) /\\\n     (dimindex(:A) = n <=> dimindex(:A tybit0) = BIT0 n) /\\\n     (dimindex(:A) = n <=> dimindex(:A tybit1) = BIT1 n) /\\\n     dimindex(:1) = BIT1 _0",
-    ),
+    @term_syntax.parse_term("((dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) == (n : Num)) == ((dimindex : ((A) -> Bool) -> Num)((s : (A) -> Bool)) == NUMERAL(n)) && ((dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) == n) == ((dimindex : ((Tybit0[A]) -> Bool) -> Num)((UNIV : (Tybit0[A]) -> Bool)) == BIT0(n)) && ((dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) == n) == ((dimindex : ((Tybit1[A]) -> Bool) -> Num)((UNIV : (Tybit1[A]) -> Bool)) == BIT1(n)) && (dimindex : ((Unit) -> Bool) -> Num)((UNIV : (Unit) -> Bool)) == BIT1(_0)"),
     t195,
   )
   dimindex_conv_c.set(
@@ -2928,9 +2850,7 @@ fn step_76() -> Unit raise {
     @tactics.all_tac,
   ])
   let t226 = @tactics.exists_tac(
-    @parser.parse_term(
-      "IMAGE (\\(x:A,v:A^N). (lambda i. if i = SUC n then x else v$i):A^N)\n          {x,v | x IN {x:A | P (SUC n) x} /\\\n                 v IN {v:A^N | (forall i. 1 <= i /\\ i <= dimindex(:N) /\\ i <= n\n                                ==> P i (v$i)) /\\\n                           (forall i. 1 <= i /\\ i <= dimindex (:N) /\\ n < i\n                                ==> v$i = (@x. F))}}",
-    ),
+    @term_syntax.parse_term("(IMAGE : (((A, Cart[A, N])) -> Cart[A, N], ((A, Cart[A, N])) -> Bool, Cart[A, N]) -> Bool)(fn { ((x : A), (v : Cart[A, N])) => (lambda : ((Num) -> A) -> Cart[A, N])((i : Num) => if i == SUC((n : Num)) { x } else { (op_dollar : (Cart[A, N], Num) -> A)(v, i) }) }, {((x : A), (v : Cart[A, N])) | (IN : (A, (A) -> Bool) -> Bool)(x, {(x : A) | (P : (Num, A) -> Bool)(SUC(n), x)}) && (IN : (Cart[A, N], (Cart[A, N]) -> Bool) -> Bool)(v, {(v : Cart[A, N]) | (∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && i <= n → P(i, (op_dollar : (Cart[A, N], Num) -> A)(v, i))) && (∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && n < i → (op_dollar : (Cart[A, N], Num) -> A)(v, i) == (select : ((A) -> Bool) -> A)((x : A) => false))})})"),
   )
   let t225 = @tactics.match_mp_tac(@sets.finite_subset())
   let t223 = @simp.simp_tac(
@@ -2943,9 +2863,7 @@ fn step_76() -> Unit raise {
     ]),
   )
   let t222 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "{v | forall i. 1 <= i /\\ i <= dimindex (:N) ==> v$i = (@x. F)} =\n      {(lambda i. @x. F):A^N}",
-    ),
+    @term_syntax.parse_term("{(v : Cart[A, N]) | ∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (op_dollar : (Cart[A, N], Num) -> A)(v, i) == (select : ((A) -> Bool) -> A)((x : A) => false)} == {(lambda : ((Num) -> A) -> Cart[A, N])((i : Num) => (select : ((A) -> Bool) -> A)((x : A) => false))}"),
     fn(
       x220 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3002,9 +2920,7 @@ fn step_76() -> Unit raise {
   )
   let t214 = @term_syntax.parse_term("(dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))")
   let t217 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall n. n <= dimindex(:N)\n        ==> FINITE {v:A^N | (forall i. 1 <= i /\\ i <= dimindex(:N) /\\ i <= n\n                                 ==> P i (v$i)) /\\\n                            (forall i. 1 <= i /\\ i <= dimindex(:N) /\\ n < i\n                                 ==> v$i = @x. F)}",
-    ),
+    @term_syntax.parse_term("∀ n : Num, n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (FINITE : ((Cart[A, N]) -> Bool) -> Bool)({(v : Cart[A, N]) | (∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && i <= n → (P : (Num, A) -> Bool)(i, (op_dollar : (Cart[A, N], Num) -> A)(v, i))) && (∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && n < i → (op_dollar : (Cart[A, N], Num) -> A)(v, i) == (select : ((A) -> Bool) -> A)((x : A) => false))})"),
     fn(
       x216 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3130,9 +3046,7 @@ fn step_76() -> Unit raise {
   )
   finite_cart_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (forall i. 1 <= i /\\ i <= dimindex(:N) ==> FINITE {x | P i x})\n       ==> FINITE {v:A^N | forall i. 1 <= i /\\ i <= dimindex(:N) ==> P i (v$i)}",
-      ),
+      @term_syntax.parse_term("∀ P : (Num, A) -> Bool, (∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (FINITE : ((A) -> Bool) -> Bool)({(x : A) | P(i, x)})) → (FINITE : ((Cart[A, N]) -> Bool) -> Bool)({(v : Cart[A, N]) | ∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → P(i, (op_dollar : (Cart[A, N], Num) -> A)(v, i))})"),
       t238,
     ),
   )
@@ -3350,9 +3264,7 @@ fn step_77() -> Unit raise {
   )
   has_size_cart_univ_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m. (:A) HAS_SIZE m ==> (:A^N) HAS_SIZE m EXP (dimindex(:N))",
-      ),
+      @term_syntax.parse_term("∀ m : Num, (HAS_SIZE : ((A) -> Bool, Num) -> Bool)((UNIV : (A) -> Bool), m) → (HAS_SIZE : ((Cart[A, N]) -> Bool, Num) -> Bool)((UNIV : (Cart[A, N]) -> Bool), EXP(m, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
       t259,
     ),
   )
@@ -3377,9 +3289,7 @@ fn step_78() -> Unit raise {
   )
   card_cart_univ_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "FINITE(:A) ==> CARD(:A^N) = CARD(:A) EXP dimindex(:N)",
-      ),
+      @term_syntax.parse_term("(FINITE : ((A) -> Bool) -> Bool)((UNIV : (A) -> Bool)) → (CARD : ((Cart[A, N]) -> Bool) -> Num)((UNIV : (Cart[A, N]) -> Bool)) == EXP((CARD : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))"),
       t260,
     ),
   )
@@ -3452,9 +3362,7 @@ fn step_81() -> Unit raise {
   )
   in_elim_pastecart_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (a:A^M) (b:A^N). pastecart a b IN {pastecart x y | P x y} <=> P a b",
-      ),
+      @term_syntax.parse_term("∀ P : (Cart[A, M], Cart[A, N]) -> Bool, ∀ a : Cart[A, M], ∀ b : Cart[A, N], IN(pastecart(a, b), {pastecart((x : Cart[A, M]), (y : Cart[A, N])) | P(x, y)}) == P(a, b)"),
       t263,
     ),
   )
@@ -3482,9 +3390,7 @@ fn step_82() -> Unit raise {
 fn step_83() -> Unit raise {
   pcross_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "s PCROSS t = {pastecart (x:A^M) (y:A^N) | x IN s /\\ y IN t}",
-      ),
+      @term_syntax.parse_term("(PCROSS : ((Cart[A, M]) -> Bool, (Cart[A, N]) -> Bool, Cart[A, Finite_sum[M, N]]) -> Bool)((s : (Cart[A, M]) -> Bool), (t : (Cart[A, N]) -> Bool)) == {pastecart((x : Cart[A, M]), (y : Cart[A, N])) | IN(x, s) && IN(y, t)}"),
     ),
   )
 }
@@ -3504,9 +3410,7 @@ fn step_84() -> Unit raise {
   let t264 = @simp.rewrite_tac(@list.List([pcross(), @sets.forall_in_gspec()]))
   forall_in_pcross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall z:A^(M,N)finite_sum. z IN s PCROSS t ==> P z) <=>\n   (forall x y. x IN s /\\ y IN t ==> P(pastecart x y))",
-      ),
+      @term_syntax.parse_term("(∀ z : Cart[A, Finite_sum[M, N]], IN(z, PCROSS((s : (Cart[A, M]) -> Bool), (t : (Cart[A, N]) -> Bool))) → (P : (Cart[A, Finite_sum[M, N]]) -> Bool)(z)) == (∀ x : Cart[A, M], ∀ y : Cart[A, N], IN(x, s) && IN(y, t) → P(pastecart(x, y)))"),
       t264,
     ),
   )
@@ -3531,9 +3435,7 @@ fn step_85() -> Unit raise {
   )
   exists_in_pcross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(?z:A^(M,N)finite_sum. z IN s PCROSS t /\\ P z) <=>\n   (?x y. x IN s /\\ y IN t /\\ P(pastecart x y))",
-      ),
+      @term_syntax.parse_term("(∃ z : Cart[A, Finite_sum[M, N]], IN(z, PCROSS((s : (Cart[A, M]) -> Bool), (t : (Cart[A, N]) -> Bool))) && (P : (Cart[A, Finite_sum[M, N]]) -> Bool)(z)) == (∃ x : Cart[A, M], ∃ y : Cart[A, N], IN(x, s) && IN(y, t) && P(pastecart(x, y)))"),
       t265,
     ),
   )
@@ -3556,9 +3458,7 @@ fn step_86() -> Unit raise {
   let t266 = @simp.rewrite_tac(@list.List([pcross(), in_elim_pastecart_thm()]))
   pastecart_in_pcross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t (x:A^M) (y:A^N). (pastecart x y) IN (s PCROSS t) <=> x IN s /\\ y IN t",
-      ),
+      @term_syntax.parse_term("∀ s : (Cart[A, M]) -> Bool, ∀ t : (Cart[A, N]) -> Bool, ∀ x : Cart[A, M], ∀ y : Cart[A, N], IN(pastecart(x, y), PCROSS(s, t)) == (IN(x, s) && IN(y, t))"),
       t266,
     ),
   )
@@ -3582,9 +3482,7 @@ fn step_87() -> Unit raise {
   let t268 = @tactics.then_tac(@simp.rewrite_tac(@list.List([pcross()])), t267)
   pcross_eq_empty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A^M->bool) (t:A^N->bool). s PCROSS t = {} <=> s = {} \\/ t = {}",
-      ),
+      @term_syntax.parse_term("∀ s : (Cart[A, M]) -> Bool, ∀ t : (Cart[A, N]) -> Bool, (PCROSS(s, t) == {}) == (s == {} || t == {})"),
       t268,
     ),
   )
@@ -3607,9 +3505,7 @@ fn step_88() -> Unit raise {
   let t269 = @simp.rewrite_tac(@list.List([pcross_eq_empty()]))
   pcross_empty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall s. (s PCROSS {}) :A^(M,N)finite_sum->bool = {}) /\\\n   (forall t. ({} PCROSS t) :A^(M,N)finite_sum->bool = {})",
-      ),
+      @term_syntax.parse_term("(∀ s : (Cart[A, M]) -> Bool, (PCROSS : ((Cart[A, M]) -> Bool, (Cart[A, N]) -> Bool, Cart[A, Finite_sum[M, N]]) -> Bool)(s, ({} : (Cart[A, N]) -> Bool)) == ({} : (Cart[A, Finite_sum[M, N]]) -> Bool)) && (∀ t : (Cart[A, N]) -> Bool, (PCROSS : ((Cart[A, M]) -> Bool, (Cart[A, N]) -> Bool, Cart[A, Finite_sum[M, N]]) -> Bool)(({} : (Cart[A, M]) -> Bool), t) == ({} : (Cart[A, Finite_sum[M, N]]) -> Bool))"),
       t269,
     ),
   )
@@ -3673,9 +3569,7 @@ fn step_90() -> Unit raise {
   )
   subset_pcross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A^M->bool) (t:A^N->bool) s' t'.\n        s PCROSS t SUBSET s' PCROSS t' <=>\n        s = {} \\/ t = {} \\/ s SUBSET s' /\\ t SUBSET t'",
-      ),
+      @term_syntax.parse_term("∀ s : (Cart[A, M]) -> Bool, ∀ t : (Cart[A, N]) -> Bool, ∀ s' : (Cart[A, M]) -> Bool, ∀ t' : (Cart[A, N]) -> Bool, SUBSET(PCROSS(s, t), PCROSS(s', t')) == (s == {} || t == {} || SUBSET(s, s') && SUBSET(t, t'))"),
       t272,
     ),
   )
@@ -3696,9 +3590,7 @@ fn step_91() -> Unit raise {
   let t273 = @simp.simp_tac(@list.List([subset_pcross()]))
   pcross_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A^M->bool) (t:A^N->bool) s' t'.\n        s SUBSET s' /\\ t SUBSET t' ==> s PCROSS t SUBSET s' PCROSS t'",
-      ),
+      @term_syntax.parse_term("∀ s : (Cart[A, M]) -> Bool, ∀ t : (Cart[A, N]) -> Bool, ∀ s' : (Cart[A, M]) -> Bool, ∀ t' : (Cart[A, N]) -> Bool, SUBSET(s, s') && SUBSET(t, t') → SUBSET(PCROSS(s, t), PCROSS(s', t'))"),
       t273,
     ),
   )
@@ -3725,9 +3617,7 @@ fn step_92() -> Unit raise {
   )
   pcross_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s s':real^M->bool t t':real^N->bool.\n        s PCROSS t = s' PCROSS t' <=>\n        (s = {} \\/ t = {}) /\\ (s' = {} \\/ t' = {}) \\/ s = s' /\\ t = t'",
-      ),
+      @term_syntax.parse_term("∀ s : (Cart[Real, M]) -> Bool, ∀ s' : (Cart[Real, M]) -> Bool, ∀ t : (Cart[Real, N]) -> Bool, ∀ t' : (Cart[Real, N]) -> Bool, (PCROSS(s, t) == PCROSS(s', t')) == ((s == {} || t == {}) && (s' == {} || t' == {}) || s == s' && t == t')"),
       t275,
     ),
   )
@@ -3896,9 +3786,7 @@ fn step_94() -> Unit raise {
   )
   has_size_pcross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A^M->bool) (t:A^N->bool) m n.\n        s HAS_SIZE m /\\ t HAS_SIZE n ==> (s PCROSS t) HAS_SIZE (m * n)",
-      ),
+      @term_syntax.parse_term("∀ s : (Cart[A, M]) -> Bool, ∀ t : (Cart[A, N]) -> Bool, ∀ m : Num, ∀ n : Num, HAS_SIZE(s, m) && HAS_SIZE(t, n) → HAS_SIZE(PCROSS(s, t), m * n)"),
       t292,
     ),
   )
@@ -3925,9 +3813,7 @@ fn step_95() -> Unit raise {
   )
   finite_pcross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A^M->bool) (t:A^N->bool).\n        FINITE s /\\ FINITE t ==> FINITE(s PCROSS t)",
-      ),
+      @term_syntax.parse_term("∀ s : (Cart[A, M]) -> Bool, ∀ t : (Cart[A, N]) -> Bool, FINITE(s) && FINITE(t) → FINITE(PCROSS(s, t))"),
       t293,
     ),
   )
@@ -4010,9 +3896,7 @@ fn step_96() -> Unit raise {
   )
   finite_pcross_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A^M->bool) (t:A^N->bool).\n        FINITE(s PCROSS t) <=> s = {} \\/ t = {} \\/ FINITE s /\\ FINITE t",
-      ),
+      @term_syntax.parse_term("∀ s : (Cart[A, M]) -> Bool, ∀ t : (Cart[A, N]) -> Bool, FINITE(PCROSS(s, t)) == (s == {} || t == {} || FINITE(s) && FINITE(t))"),
       t305,
     ),
   )
@@ -4064,9 +3948,7 @@ fn step_97() -> Unit raise {
   )
   image_fstcart_pcross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:real^M->bool t:real^N->bool.\n        IMAGE fstcart (s PCROSS t) = if t = {} then {} else s",
-      ),
+      @term_syntax.parse_term("∀ s : (Cart[Real, M]) -> Bool, ∀ t : (Cart[Real, N]) -> Bool, IMAGE(fstcart, PCROSS(s, t)) == (if t == {} { {} } else { s })"),
       t311,
     ),
   )
@@ -4118,9 +4000,7 @@ fn step_98() -> Unit raise {
   )
   image_sndcart_pcross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:real^M->bool t:real^N->bool.\n        IMAGE sndcart (s PCROSS t) = if s = {} then {} else t",
-      ),
+      @term_syntax.parse_term("∀ s : (Cart[Real, M]) -> Bool, ∀ t : (Cart[Real, N]) -> Bool, IMAGE(sndcart, PCROSS(s, t)) == (if s == {} { {} } else { t })"),
       t317,
     ),
   )
@@ -4158,9 +4038,7 @@ fn step_99() -> Unit raise {
   )
   pcross_inter_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(s:A^M->bool) (t:A^N->bool) u.\n        s PCROSS (t INTER u) = (s PCROSS t) INTER (s PCROSS u)) /\\\n   (forall(s:A^M->bool) t (u:A^N->bool).\n        (s INTER t) PCROSS u = (s PCROSS u) INTER (t PCROSS u))",
-      ),
+      @term_syntax.parse_term("(∀ s : (Cart[A, M]) -> Bool, ∀ t : (Cart[A, N]) -> Bool, ∀ u : (Cart[A, N]) -> Bool, PCROSS(s, INTER(t, u)) == INTER(PCROSS(s, t), PCROSS(s, u))) && (∀ s : (Cart[A, M]) -> Bool, ∀ t : (Cart[A, M]) -> Bool, ∀ u : (Cart[A, N]) -> Bool, PCROSS(INTER(s, t), u) == INTER(PCROSS(s, u), PCROSS(t, u)))"),
       t320,
     ),
   )
@@ -4196,9 +4074,7 @@ fn step_100() -> Unit raise {
   )
   pcross_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(s:A^M->bool) (t:A^N->bool) u.\n        s PCROSS (t UNION u) = (s PCROSS t) UNION (s PCROSS u)) /\\\n   (forall(s:A^M->bool) t (u:A^N->bool).\n        (s UNION t) PCROSS u = (s PCROSS u) UNION (t PCROSS u))",
-      ),
+      @term_syntax.parse_term("(∀ s : (Cart[A, M]) -> Bool, ∀ t : (Cart[A, N]) -> Bool, ∀ u : (Cart[A, N]) -> Bool, PCROSS(s, UNION(t, u)) == UNION(PCROSS(s, t), PCROSS(s, u))) && (∀ s : (Cart[A, M]) -> Bool, ∀ t : (Cart[A, M]) -> Bool, ∀ u : (Cart[A, N]) -> Bool, PCROSS(UNION(s, t), u) == UNION(PCROSS(s, u), PCROSS(t, u)))"),
       t323,
     ),
   )
@@ -4234,9 +4110,7 @@ fn step_101() -> Unit raise {
   )
   pcross_diff_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(s:A^M->bool) (t:A^N->bool) u.\n        s PCROSS (t DIFF u) = (s PCROSS t) DIFF (s PCROSS u)) /\\\n   (forall(s:A^M->bool) t (u:A^N->bool).\n        (s DIFF t) PCROSS u = (s PCROSS u) DIFF (t PCROSS u))",
-      ),
+      @term_syntax.parse_term("(∀ s : (Cart[A, M]) -> Bool, ∀ t : (Cart[A, N]) -> Bool, ∀ u : (Cart[A, N]) -> Bool, PCROSS(s, DIFF(t, u)) == DIFF(PCROSS(s, t), PCROSS(s, u))) && (∀ s : (Cart[A, M]) -> Bool, ∀ t : (Cart[A, M]) -> Bool, ∀ u : (Cart[A, N]) -> Bool, PCROSS(DIFF(s, t), u) == DIFF(PCROSS(s, u), PCROSS(t, u)))"),
       t326,
     ),
   )
@@ -4268,9 +4142,7 @@ fn step_102() -> Unit raise {
   )
   inter_pcross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(s:A^M->bool) s' (t:A^N->bool) t'.\n      (s PCROSS t) INTER (s' PCROSS t') = (s INTER s') PCROSS (t INTER t')",
-      ),
+      @term_syntax.parse_term("∀ s : (Cart[A, M]) -> Bool, ∀ s' : (Cart[A, M]) -> Bool, ∀ t : (Cart[A, N]) -> Bool, ∀ t' : (Cart[A, N]) -> Bool, INTER(PCROSS(s, t), PCROSS(s', t')) == PCROSS(INTER(s, s'), INTER(t, t'))"),
       t328,
     ),
   )
@@ -4322,9 +4194,7 @@ fn step_103() -> Unit raise {
     t330,
   )
   let t332 = (
-    @parser.parse_term(
-      "(forall f g. ((UNIONS f) PCROSS (UNIONS g)) :A^(M,N)finite_sum->bool =\n          UNIONS {s PCROSS t | s IN f /\\ t IN g}) /\\\n   (forall s f. (s PCROSS (UNIONS f)) :A^(M,N)finite_sum->bool =\n          UNIONS {s PCROSS t | t IN f}) /\\\n   (forall f t. ((UNIONS f) PCROSS t) :A^(M,N)finite_sum->bool =\n          UNIONS {s PCROSS t | s IN f})",
-    ),
+    @term_syntax.parse_term("(∀ f : ((Cart[A, M]) -> Bool) -> Bool, ∀ g : ((Cart[A, N]) -> Bool) -> Bool, PCROSS(UNIONS(f), UNIONS(g)) == UNIONS({PCROSS((s : (Cart[A, M]) -> Bool), (t : (Cart[A, N]) -> Bool)) | IN(s, f) && IN(t, g)})) && (∀ s : (Cart[A, M]) -> Bool, ∀ f : ((Cart[A, N]) -> Bool) -> Bool, PCROSS(s, UNIONS(f)) == UNIONS({PCROSS(s, (t : (Cart[A, N]) -> Bool)) | IN(t, f)})) && (∀ f : ((Cart[A, M]) -> Bool) -> Bool, ∀ t : (Cart[A, N]) -> Bool, PCROSS(UNIONS(f), t) == UNIONS({PCROSS((s : (Cart[A, M]) -> Bool), t) | IN(s, f)}))"),
     t331,
   )
   let (pcross_unions_unions, pcross_unions) = @bool.conj_pair(
@@ -4404,9 +4274,7 @@ fn step_104() -> Unit raise {
     t336,
   )
   let t338 = (
-    @parser.parse_term(
-      "(forall f g. ((INTERS f) PCROSS (INTERS g)) :A^(M,N)finite_sum->bool =\n          if f = {} then INTERS {UNIV PCROSS t | t IN g}\n          else if g = {} then INTERS {s PCROSS UNIV | s IN f}\n          else INTERS {s PCROSS t | s IN f /\\ t IN g}) /\\\n   (forall s f. (s PCROSS (INTERS f)) :A^(M,N)finite_sum->bool =\n          if f = {} then s PCROSS UNIV else INTERS {s PCROSS t | t IN f}) /\\\n   (forall f t. ((INTERS f) PCROSS t) :A^(M,N)finite_sum->bool =\n          if f = {} then UNIV PCROSS t else INTERS {s PCROSS t | s IN f})",
-    ),
+    @term_syntax.parse_term("(∀ f : ((Cart[A, M]) -> Bool) -> Bool, ∀ g : ((Cart[A, N]) -> Bool) -> Bool, PCROSS(INTERS(f), INTERS(g)) == (if f == {} { INTERS({PCROSS(UNIV, (t : (Cart[A, N]) -> Bool)) | IN(t, g)}) } else { if g == {} { INTERS({PCROSS((s : (Cart[A, M]) -> Bool), UNIV) | IN(s, f)}) } else { INTERS({PCROSS((s : (Cart[A, M]) -> Bool), (t : (Cart[A, N]) -> Bool)) | IN(s, f) && IN(t, g)}) } })) && (∀ s : (Cart[A, M]) -> Bool, ∀ f : ((Cart[A, N]) -> Bool) -> Bool, PCROSS(s, INTERS(f)) == (if f == {} { PCROSS(s, UNIV) } else { INTERS({PCROSS(s, (t : (Cart[A, N]) -> Bool)) | IN(t, f)}) })) && (∀ f : ((Cart[A, M]) -> Bool) -> Bool, ∀ t : (Cart[A, N]) -> Bool, PCROSS(INTERS(f), t) == (if f == {} { PCROSS(UNIV, t) } else { INTERS({PCROSS((s : (Cart[A, M]) -> Bool), t) | IN(s, f)}) }))"),
     t337,
   )
   let (pcross_inters_inters, pcross_inters) = @bool.conj_pair(
@@ -4449,9 +4317,7 @@ fn step_105() -> Unit raise {
   )
   disjoint_pcross_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A^M->bool t:A^N->bool s' t'.\n        DISJOINT (s PCROSS t) (s' PCROSS t') <=>\n        DISJOINT s s' \\/ DISJOINT t t'",
-      ),
+      @term_syntax.parse_term("∀ s : (Cart[A, M]) -> Bool, ∀ t : (Cart[A, N]) -> Bool, ∀ s' : (Cart[A, M]) -> Bool, ∀ t' : (Cart[A, N]) -> Bool, DISJOINT(PCROSS(s, t), PCROSS(s', t')) == (DISJOINT(s, s') || DISJOINT(t, t'))"),
       t339,
     ),
   )

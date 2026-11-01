@@ -5,9 +5,7 @@
 fn step_1() -> Unit raise {
   symmetric_group_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "symmetric_group (s:A->bool) =\n    group({p:A->A | p permutes s}, I:(A->A), (inverse:(A->A)->A->A), (o))",
-      ),
+      @term_syntax.parse_term("(symmetric_group : ((A) -> Bool) -> Group[(A) -> A])((s : (A) -> Bool)) == group(({(p : (A) -> A) | permutes(p, s)}, I, inverse, o))"),
     ),
   )
 }
@@ -71,9 +69,7 @@ fn step_2() -> Unit raise {
   )
   symmetric_group_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall s:A->bool.\n     group_carrier(symmetric_group s) = {p | p permutes s}) /\\\n   (forall s:A->bool. group_id(symmetric_group s) = I) /\\\n   (forall s:A->bool. group_inv(symmetric_group s) = (inverse:(A->A)->A->A)) /\\\n   (forall s:A->bool. group_mul(symmetric_group s) = (o))",
-      ),
+      @term_syntax.parse_term("(∀ s : (A) -> Bool, group_carrier(symmetric_group(s)) == {(p : (A) -> A) | permutes(p, s)}) && (∀ s : (A) -> Bool, group_id(symmetric_group(s)) == I) && (∀ s : (A) -> Bool, group_inv(symmetric_group(s)) == inverse) && (∀ s : (A) -> Bool, group_mul(symmetric_group(s)) == o)"),
       t5,
     ),
   )
@@ -98,9 +94,7 @@ fn step_3() -> Unit raise {
   )
   finite_symmetric_group_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. FINITE s ==> FINITE(group_carrier(symmetric_group s))",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, FINITE(s) → FINITE(group_carrier(symmetric_group(s)))"),
       t6,
     ),
   )
@@ -125,9 +119,7 @@ fn step_4() -> Unit raise {
   )
   card_symmetric_group_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. FINITE s\n    ==> CARD(group_carrier(symmetric_group s)) = FACT(CARD s)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, FINITE(s) → CARD(group_carrier(symmetric_group(s))) == FACT(CARD(s))"),
       t7,
     ),
   )
@@ -150,9 +142,7 @@ fn step_5() -> Unit raise {
   let t8 = @simp.rewrite_tac(@list.List([symmetric_group_v1()]))
   symmetric_group_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (p:A->A) q. group_mul (symmetric_group s) p q = p o q",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ p : (A) -> A, ∀ q : (A) -> A, group_mul(symmetric_group(s), p, q) == o(p, q)"),
       t8,
     ),
   )
@@ -175,9 +165,7 @@ fn step_6() -> Unit raise {
   let t9 = @simp.rewrite_tac(@list.List([symmetric_group_v1()]))
   symmetric_group_inv_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (p:A->A). group_inv (symmetric_group s) p = inverse p",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ p : (A) -> A, group_inv(symmetric_group(s), p) == inverse(p)"),
       t9,
     ),
   )
@@ -229,9 +217,7 @@ fn step_8() -> Unit raise {
   )
   swap_in_symmetric_group_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a b:A. a IN s /\\ b IN s\n             ==> swap(a,b) IN group_carrier(symmetric_group s)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ a : A, ∀ b : A, IN(a, s) && IN(b, s) → IN(swap((a, b)), group_carrier(symmetric_group(s)))"),
       t11,
     ),
   )
@@ -260,9 +246,7 @@ fn step_9() -> Unit raise {
   )
   three_cycle_in_symmetric_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a b c:A. a IN s /\\ b IN s /\\ c IN s /\\\n               ~(a = b) /\\ ~(b = c) /\\ ~(a = c)\n               ==> three_cycle a b c IN\n                   group_carrier(symmetric_group s)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ a : A, ∀ b : A, ∀ c : A, IN(a, s) && IN(b, s) && IN(c, s) && !(a == b) && !(b == c) && !(a == c) → IN(three_cycle(a, b, c), group_carrier(symmetric_group(s)))"),
       t12,
     ),
   )
@@ -438,9 +422,7 @@ fn step_10() -> Unit raise {
   )
   cayley_theorem_explicit_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall G:A group.\n        group_monomorphism (G,symmetric_group(group_carrier G))\n                           (\\a x. if x IN group_carrier G\n                                  then group_mul G a x else x)",
-      ),
+      @term_syntax.parse_term("∀ G : Group[A], group_monomorphism((G, symmetric_group(group_carrier(G))), (a : A) => (x : A) => if IN(x, group_carrier(G)) { group_mul(G, a, x) } else { x })"),
       t26,
     ),
   )
@@ -467,9 +449,7 @@ fn step_11() -> Unit raise {
     ]),
   )
   let t30 = @tactics.exists_tac(
-    @parser.parse_term(
-      "\\(a:A) (x:A). if x IN group_carrier (G:A group)\n                      then group_mul G a x else x",
-    ),
+    @term_syntax.parse_term("(a : A) => (x : A) => if IN(x, group_carrier((G : Group[A]))) { group_mul(G, a, x) } else { x }"),
   )
   let t32 = @tactics.then_tac(
     @tactics.then_tac(
@@ -493,9 +473,7 @@ fn step_11() -> Unit raise {
     t32,
   ])
   let t27 = @tactics.exists_tac(
-    @parser.parse_term(
-      "group_image ((G:A group),\n                 symmetric_group(group_carrier (G:A group)))\n                (\\(a:A) (x:A). if x IN group_carrier G\n                                then group_mul G a x else x)",
-    ),
+    @term_syntax.parse_term("group_image(((G : Group[A]), symmetric_group(group_carrier(G))), (a : A) => (x : A) => if IN(x, group_carrier(G)) { group_mul(G, a, x) } else { x })"),
   )
   let t34 = @tactics.thenl(
     @tactics.then_tac(
@@ -514,9 +492,7 @@ fn step_11() -> Unit raise {
   )
   cayley_theorem_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall G:A group.\n        ?h. h subgroup_of symmetric_group(group_carrier G) /\\\n            subgroup_generated (symmetric_group(group_carrier G)) h\n            isomorphic_group G",
-      ),
+      @term_syntax.parse_term("∀ G : Group[A], ∃ h : ((A) -> A) -> Bool, subgroup_of(h, symmetric_group(group_carrier(G))) && isomorphic_group(subgroup_generated(symmetric_group(group_carrier(G)), h), G)"),
       t34,
     ),
   )
@@ -568,9 +544,7 @@ fn step_12() -> Unit raise {
   )
   symmetric_group_action_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. group_action (symmetric_group s) s (\\f x. (f:A->A) x)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, group_action(symmetric_group(s), s, (f : (A) -> A) => (x : A) => f(x))"),
       t41,
     ),
   )
@@ -600,9 +574,7 @@ fn step_13() -> Unit raise {
     t78,
   ])
   let t76 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "three_cycle a b (c:A) =\n    inverse(three_cycle d a c) o\n    (inverse(three_cycle c e b) o\n    (three_cycle d a c o three_cycle c e b))",
-    ),
+    @term_syntax.parse_term("three_cycle((a : A), (b : A), (c : A)) == o(inverse(three_cycle((d : A), a, c)), o(inverse(three_cycle(c, (e : A), b)), o(three_cycle(d, a, c), three_cycle(c, e, b))))"),
     fn(
       x73 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -751,9 +723,7 @@ fn step_13() -> Unit raise {
           @tactics.then_tac(
             @tactics.match_mp_tac(
               @sets.set_rule(
-                @parser.parse_term(
-                  "~(s SUBSET {a,b,c,d:A})\n       ==> ?e. e IN s /\\ ~(e = a) /\\ ~(e = b) /\\ ~(e = c) /\\ ~(e = d)",
-                ),
+                @term_syntax.parse_term("!SUBSET((s : (A) -> Bool), {(a : A), (b : A), (c : A), (d : A)}) → (∃ e : A, IN(e, s) && !(e == a) && !(e == b) && !(e == c) && !(e == d))"),
               ),
             ),
             t60,
@@ -767,9 +737,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t54 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?e:A. e IN s /\\ ~(e = a) /\\ ~(e = b) /\\ ~(e = c) /\\ ~(e = d)",
-    ),
+    @term_syntax.parse_term("∃ e : A, IN(e, (s : (A) -> Bool)) && !(e == (a : A)) && !(e == (b : A)) && !(e == (c : A)) && !(e == (d : A))"),
     @tactics.strip_assume_tac,
   )
   let t50 = @term_syntax.parse_term("(c : A)")
@@ -861,9 +829,7 @@ fn step_13() -> Unit raise {
           @tactics.then_tac(
             @tactics.match_mp_tac(
               @sets.set_rule(
-                @parser.parse_term(
-                  "~(s SUBSET {a,b,c:A})\n       ==> ?d. d IN s /\\ ~(d = a) /\\ ~(d = b) /\\ ~(d = c)",
-                ),
+                @term_syntax.parse_term("!SUBSET((s : (A) -> Bool), {(a : A), (b : A), (c : A)}) → (∃ d : A, IN(d, s) && !(d == a) && !(d == b) && !(d == c))"),
               ),
             ),
             t48,
@@ -916,9 +882,7 @@ fn step_13() -> Unit raise {
   )
   chain_step_three_cycles_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool (H:(A->A) group) (n:(A->A)->bool).\n     5 <= CARD s /\\ FINITE s /\\\n     n normal_subgroup_of H /\\\n     abelian_group(quotient_group H n) /\\\n     group_mul H = (o) /\\ group_inv H = (inverse:(A->A)->A->A) /\\\n     (forall a b c. a IN s /\\ b IN s /\\ c IN s /\\\n              ~(a = b) /\\ ~(b = c) /\\ ~(a = c)\n              ==> three_cycle a b c IN group_carrier H)\n     ==> (forall a b c. a IN s /\\ b IN s /\\ c IN s /\\\n                   ~(a = b) /\\ ~(b = c) /\\ ~(a = c)\n                   ==> three_cycle a b c IN n)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ H : Group[(A) -> A], ∀ n : ((A) -> A) -> Bool, 5 <= CARD(s) && FINITE(s) && normal_subgroup_of(n, H) && abelian_group(quotient_group(H, n)) && group_mul(H) == o && group_inv(H) == inverse && (∀ a : A, ∀ b : A, ∀ c : A, IN(a, s) && IN(b, s) && IN(c, s) && !(a == b) && !(b == c) && !(a == c) → IN(three_cycle(a, b, c), group_carrier(H))) → (∀ a : A, ∀ b : A, ∀ c : A, IN(a, s) && IN(b, s) && IN(c, s) && !(a == b) && !(b == c) && !(a == c) → IN(three_cycle(a, b, c), n))"),
       t80,
     ),
   )
@@ -1109,9 +1073,7 @@ fn step_14() -> Unit raise {
           @tactics.then_tac(
             @tactics.match_mp_tac(
               @sets.set_rule(
-                @parser.parse_term(
-                  "~(s SUBSET {x:A, y}) ==> ?z. z IN s /\\ ~(z = x) /\\ ~(z = y)",
-                ),
+                @term_syntax.parse_term("!SUBSET((s : (A) -> Bool), {(x : A), (y : A)}) → (∃ z : A, IN(z, s) && !(z == x) && !(z == y))"),
               ),
             ),
             t174,
@@ -1212,9 +1174,7 @@ fn step_14() -> Unit raise {
           @tactics.then_tac(
             @tactics.match_mp_tac(
               @sets.set_rule(
-                @parser.parse_term(
-                  "~(s SUBSET {x:A}) ==> ?y. y IN s /\\ ~(y = x)",
-                ),
+                @term_syntax.parse_term("!SUBSET((s : (A) -> Bool), {(x : A)}) → (∃ y : A, IN(y, s) && !(y == x))"),
               ),
             ),
             t164,
@@ -1463,9 +1423,7 @@ fn step_14() -> Unit raise {
   let t138 = @tactics.repeat_tac(@tactics.conj_tac)
   let t137 = @simp.asm_rewrite_tac(@list.List([]))
   let t136 = @tactics.exists_tac(
-    @parser.parse_term(
-      "subgroup_generated (symmetric_group (s:A->bool))\n                    ((c:num->(A->A)->bool) i)",
-    ),
+    @term_syntax.parse_term("subgroup_generated(symmetric_group((s : (A) -> Bool)), (c : (Num, (A) -> A) -> Bool)((i : Num)))"),
   )
   let t135 = @tactics.match_mp_tac(chain_step_three_cycles_gen())
   let t134 = @list.List([@simp.asm_rewrite_tac(@list.List([])), @tactics.all_tac])
@@ -1493,9 +1451,7 @@ fn step_14() -> Unit raise {
     @tactics.all_tac,
   ])
   let t128 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(c:num->(A->A)->bool) (SUC i) subgroup_of\n         symmetric_group (s:A->bool) /\\\n         c(SUC i) SUBSET c i",
-    ),
+    @term_syntax.parse_term("subgroup_of((c : (Num, (A) -> A) -> Bool)(SUC((i : Num))), symmetric_group((s : (A) -> Bool))) && SUBSET(c(SUC(i)), c(i))"),
     @tactics.strip_assume_tac,
   )
   let t127 = @list.List([
@@ -1505,9 +1461,7 @@ fn step_14() -> Unit raise {
     @tactics.all_tac,
   ])
   let t126 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(c:num->(A->A)->bool) (SUC i) subgroup_of\n         subgroup_generated (symmetric_group (s:A->bool)) (c i)",
-    ),
+    @term_syntax.parse_term("subgroup_of((c : (Num, (A) -> A) -> Bool)(SUC((i : Num))), subgroup_generated(symmetric_group((s : (A) -> Bool)), c(i)))"),
     fn(
       x123 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -1632,9 +1586,7 @@ fn step_14() -> Unit raise {
     @tactics.all_tac,
   ])
   let t114 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(c:num->(A->A)->bool) (SUC i) normal_subgroup_of\n         subgroup_generated (symmetric_group (s:A->bool)) (c i) /\\\n         abelian_group(quotient_group\n           (subgroup_generated (symmetric_group s) (c i)) (c(SUC i)))",
-    ),
+    @term_syntax.parse_term("normal_subgroup_of((c : (Num, (A) -> A) -> Bool)(SUC((i : Num))), subgroup_generated(symmetric_group((s : (A) -> Bool)), c(i))) && abelian_group(quotient_group(subgroup_generated(symmetric_group(s), c(i)), c(SUC(i))))"),
     @tactics.strip_assume_tac,
   )
   let t113 = @tactics.subgoal_then(@term_syntax.parse_term("(i : Num) < (k : Num)"), fn(
@@ -1966,9 +1918,7 @@ fn step_14() -> Unit raise {
     t193,
   ])
   let t94 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall i. i <= k\n         ==> (c:num->(A->A)->bool) i subgroup_of symmetric_group (s:A->bool) /\\\n             (forall a b c'. a IN s /\\ b IN s /\\ c' IN s /\\\n                       ~(a = b) /\\ ~(b = c') /\\ ~(a = c')\n                       ==> three_cycle a b c' IN c i)",
-    ),
+    @term_syntax.parse_term("∀ i : Num, i <= (k : Num) → subgroup_of((c : (Num, (A) -> A) -> Bool)(i), symmetric_group((s : (A) -> Bool))) && (∀ a : A, ∀ b : A, ∀ c' : A, IN(a, s) && IN(b, s) && IN(c', s) && !(a == b) && !(b == c') && !(a == c') → IN(three_cycle(a, b, c'), c(i)))"),
     fn(
       x91 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2114,9 +2064,7 @@ fn step_14() -> Unit raise {
   )
   not_solvable_symmetric_group_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool. FINITE s /\\ 5 <= CARD s\n               ==> ~(solvable_group(symmetric_group s))",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, FINITE(s) && 5 <= CARD(s) → !solvable_group(symmetric_group(s))"),
       t195,
     ),
   )
@@ -2234,9 +2182,7 @@ fn step_15() -> Unit raise {
   )
   point_transpositions_generate_all_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (a:A) h.\n    a IN s /\\\n    h subgroup_of (symmetric_group s) /\\\n    (forall x. x IN s /\\ ~(x = a) ==> swap(a,x) IN h)\n    ==> (forall x y. x IN s /\\ y IN s /\\ ~(x = y) ==> swap(x,y) IN h)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ a : A, ∀ h : ((A) -> A) -> Bool, IN(a, s) && subgroup_of(h, symmetric_group(s)) && (∀ x : A, IN(x, s) && !(x == a) → IN(swap((a, x)), h)) → (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && !(x == y) → IN(swap((x, y)), h))"),
       t208,
     ),
   )
@@ -2418,9 +2364,7 @@ fn step_16() -> Unit raise {
     @tactics.all_tac,
   ])
   let t212 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "group_carrier(subgroup_generated (symmetric_group s) (h:(A->A)->bool)) = h",
-    ),
+    @term_syntax.parse_term("group_carrier(subgroup_generated(symmetric_group((s : (A) -> Bool)), (h : ((A) -> A) -> Bool))) == h"),
     fn(
       x209 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2501,9 +2445,7 @@ fn step_16() -> Unit raise {
   )
   restrict_symmetric_group_homomorphism_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t (h:(A->A)->bool).\n    FINITE t /\\ t SUBSET s /\\\n    h subgroup_of symmetric_group s /\\\n    (forall f. f IN h ==> IMAGE f t = t)\n    ==> group_homomorphism\n         (subgroup_generated (symmetric_group s) h,\n          symmetric_group t)\n         (\\f:A->A. \\x:A. if x IN t then f x else x)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ h : ((A) -> A) -> Bool, FINITE(t) && SUBSET(t, s) && subgroup_of(h, symmetric_group(s)) && (∀ f : (A) -> A, IN(f, h) → IMAGE(f, t) == t) → group_homomorphism((subgroup_generated(symmetric_group(s), h), symmetric_group(t)), (f : (A) -> A) => (x : A) => if IN(x, t) { f(x) } else { x })"),
       t245,
     ),
   )
@@ -2535,9 +2477,7 @@ fn step_17() -> Unit raise {
     @tactics.all_tac,
   ])
   let t273 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(p:A->A) o (q:A->A) =\n         group_mul (symmetric_group (s:A->bool)) p q",
-    ),
+    @term_syntax.parse_term("o((p : (A) -> A), (q : (A) -> A)) == group_mul(symmetric_group((s : (A) -> Bool)), p, q)"),
     fn(
       x270 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2613,9 +2553,7 @@ fn step_17() -> Unit raise {
           @tactics.then_tac(
             @tactics.thenl(
               @tactics.subgoal_then(
-                @parser.parse_term(
-                  "(p:A->A) IN group_carrier(symmetric_group (s:A->bool)) /\\\n                     (q:A->A) IN group_carrier(symmetric_group (s:A->bool))",
-                ),
+                @term_syntax.parse_term("IN((p : (A) -> A), group_carrier(symmetric_group((s : (A) -> Bool)))) && IN((q : (A) -> A), group_carrier(symmetric_group(s)))"),
                 @tactics.strip_assume_tac,
               ),
               t269,
@@ -2655,9 +2593,7 @@ fn step_17() -> Unit raise {
     @tactics.all_tac,
   ])
   let t259 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "inverse (p:A->A) =\n         group_inv (symmetric_group (s:A->bool)) p",
-    ),
+    @term_syntax.parse_term("inverse((p : (A) -> A)) == group_inv(symmetric_group((s : (A) -> Bool)), p)"),
     fn(
       x256 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2729,9 +2665,7 @@ fn step_17() -> Unit raise {
         @tactics.then_tac(
           @tactics.thenl(
             @tactics.subgoal_then(
-              @parser.parse_term(
-                "(p:A->A) IN group_carrier(symmetric_group (s:A->bool))",
-              ),
+              @term_syntax.parse_term("IN((p : (A) -> A), group_carrier(symmetric_group((s : (A) -> Bool))))"),
               fn(
                 x249 : @kernel.Thm,
               ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2831,9 +2765,7 @@ fn step_17() -> Unit raise {
   )
   subgroup_restrict_permutes_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t (h:(A->A)->bool).\n    t SUBSET s /\\\n    h subgroup_of (symmetric_group s)\n    ==> (h INTER group_carrier(symmetric_group t)) subgroup_of\n        (symmetric_group t)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ h : ((A) -> A) -> Bool, SUBSET(t, s) && subgroup_of(h, symmetric_group(s)) → subgroup_of(INTER(h, group_carrier(symmetric_group(t))), symmetric_group(t))"),
       t284,
     ),
   )
@@ -2950,9 +2882,7 @@ fn step_18() -> Unit raise {
   )
   all_transpositions_generate_symmetric_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (h:(A->A)->bool).\n    FINITE s /\\\n    h subgroup_of (symmetric_group s) /\\\n    (forall a b. a IN s /\\ b IN s /\\ ~(a = b) ==> swap(a,b) IN h)\n    ==> group_carrier(symmetric_group s) SUBSET h",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ h : ((A) -> A) -> Bool, FINITE(s) && subgroup_of(h, symmetric_group(s)) && (∀ a : A, ∀ b : A, IN(a, s) && IN(b, s) && !(a == b) → IN(swap((a, b)), h)) → SUBSET(group_carrier(symmetric_group(s)), h)"),
       t296,
     ),
   )
@@ -2987,9 +2917,7 @@ fn step_19() -> Unit raise {
   )
   symmetric_group_pow_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s t (sigma:A->A) n.\n     group_pow (symmetric_group s) sigma n =\n     group_pow (symmetric_group t) sigma n",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ t : (A) -> Bool, ∀ sigma : (A) -> A, ∀ n : Num, group_pow(symmetric_group(s), sigma, n) == group_pow(symmetric_group(t), sigma, n)"),
       t298,
     ),
   )
@@ -3033,9 +2961,7 @@ fn step_20() -> Unit raise {
   )
   symmetric_group_pow_in_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (sigma:A->A) n a.\n     sigma permutes s /\\ a IN s\n     ==> group_pow (symmetric_group s) sigma n a IN s",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ sigma : (A) -> A, ∀ n : Num, ∀ a : A, permutes(sigma, s) && IN(a, s) → IN(group_pow(symmetric_group(s), sigma, n, a), s)"),
       t302,
     ),
   )
@@ -3095,9 +3021,7 @@ fn step_21() -> Unit raise {
         @tactics.then_tac(
           @tactics.thenl(
             @tactics.subgoal_then(
-              @parser.parse_term(
-                "FINITE(group_carrier(symmetric_group(s DELETE (a:A))))",
-              ),
+              @term_syntax.parse_term("FINITE(group_carrier(symmetric_group(DELETE((s : (A) -> Bool), (a : A)))))"),
               fn(
                 x350 : @kernel.Thm,
               ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3250,9 +3174,7 @@ fn step_21() -> Unit raise {
     @tactics.all_tac,
   ])
   let t339 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "group_element_order (symmetric_group(s DELETE (a:A)))\n      (sigma:A->A) = 1 \\/\n     group_element_order (symmetric_group(s DELETE (a:A)))\n      (sigma:A->A) = CARD(s:A->bool)",
-    ),
+    @term_syntax.parse_term("group_element_order(symmetric_group(DELETE((s : (A) -> Bool), (a : A))), (sigma : (A) -> A)) == 1 || group_element_order(symmetric_group(DELETE(s, a)), sigma) == CARD(s)"),
     fn(
       x336 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3307,9 +3229,7 @@ fn step_21() -> Unit raise {
     @tactics.all_tac,
   ])
   let t334 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "group_element_order (symmetric_group(s DELETE (a:A)))\n    (sigma:A->A) divides CARD(s:A->bool)",
-    ),
+    @term_syntax.parse_term("divides(group_element_order(symmetric_group(DELETE((s : (A) -> Bool), (a : A))), (sigma : (A) -> A)), CARD(s))"),
     fn(
       x331 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3374,9 +3294,7 @@ fn step_21() -> Unit raise {
     @tactics.all_tac,
   ])
   let t325 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "group_pow (symmetric_group (s DELETE (a:A)))\n    (sigma:A->A) (CARD(s:A->bool)) =\n    group_id(symmetric_group(s DELETE a))",
-    ),
+    @term_syntax.parse_term("group_pow(symmetric_group(DELETE((s : (A) -> Bool), (a : A))), (sigma : (A) -> A), CARD(s)) == group_id(symmetric_group(DELETE(s, a)))"),
     fn(
       x322 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3436,9 +3354,7 @@ fn step_21() -> Unit raise {
     @tactics.all_tac,
   ])
   let t320 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "group_pow (symmetric_group (s:A->bool))\n    (sigma:A->A) (CARD s) = group_id(symmetric_group s)",
-    ),
+    @term_syntax.parse_term("group_pow(symmetric_group((s : (A) -> Bool)), (sigma : (A) -> A), CARD(s)) == group_id(symmetric_group(s))"),
     fn(
       x317 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3493,9 +3409,7 @@ fn step_21() -> Unit raise {
     @tactics.all_tac,
   ])
   let t315 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(sigma:A->A) IN\n    group_carrier(symmetric_group(s DELETE (a:A)))",
-    ),
+    @term_syntax.parse_term("IN((sigma : (A) -> A), group_carrier(symmetric_group(DELETE((s : (A) -> Bool), (a : A)))))"),
     fn(
       x312 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3657,9 +3571,7 @@ fn step_21() -> Unit raise {
   )
   prime_order_perm_no_fixpoint_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (sigma:A->A) a.\n     FINITE s /\\ prime(CARD s) /\\\n     sigma permutes s /\\\n     group_element_order (symmetric_group s) sigma = CARD s /\\\n     a IN s\n     ==> ~(sigma a = a)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ sigma : (A) -> A, ∀ a : A, FINITE(s) && prime(CARD(s)) && permutes(sigma, s) && group_element_order(symmetric_group(s), sigma) == CARD(s) && IN(a, s) → !(sigma(a) == a)"),
       t363,
     ),
   )
@@ -3786,9 +3698,7 @@ fn step_22() -> Unit raise {
   )
   prime_order_pow_perm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (sigma:A->A) d.\n     FINITE s /\\ prime(CARD s) /\\\n     sigma permutes s /\\\n     group_element_order (symmetric_group s) sigma = CARD s /\\\n     0 < d /\\ d < CARD s\n     ==> group_element_order (symmetric_group s)\n           (group_pow (symmetric_group s) sigma d) = CARD s",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ sigma : (A) -> A, ∀ d : Num, FINITE(s) && prime(CARD(s)) && permutes(sigma, s) && group_element_order(symmetric_group(s), sigma) == CARD(s) && 0 < d && d < CARD(s) → group_element_order(symmetric_group(s), group_pow(symmetric_group(s), sigma, d)) == CARD(s)"),
       t379,
     ),
   )
@@ -3811,9 +3721,7 @@ fn step_23() -> Unit raise {
   let t483 = @simp.rewrite_tac(@list.List([@sets.card_numseg_lt()]))
   let t482 = @simp.asm_rewrite_tac(@list.List([]))
   let t479 = @term_syntax.parse_term("(a : A)")
-  let t480 = @parser.parse_term(
-    "group_pow (symmetric_group (s:A->bool)) (sigma:A->A) d",
-  )
+  let t480 = @term_syntax.parse_term("group_pow(symmetric_group((s : (A) -> Bool)), (sigma : (A) -> A), (d : Num))")
   let t481 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([@term_syntax.parse_term("(s : (A) -> Bool)"), t480, t479]),
@@ -3826,9 +3734,7 @@ fn step_23() -> Unit raise {
     @tactics.all_tac,
   ])
   let t476 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "group_element_order (symmetric_group (s:A->bool))\n        (group_pow (symmetric_group s) (sigma:A->A) d) = CARD s",
-    ),
+    @term_syntax.parse_term("group_element_order(symmetric_group((s : (A) -> Bool)), group_pow(symmetric_group(s), (sigma : (A) -> A), (d : Num))) == CARD(s)"),
     fn(
       x473 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3898,9 +3804,7 @@ fn step_23() -> Unit raise {
     @tactics.all_tac,
   ])
   let t468 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "group_pow (symmetric_group (s:A->bool)) (sigma:A->A) d\n       permutes s",
-    ),
+    @term_syntax.parse_term("permutes(group_pow(symmetric_group((s : (A) -> Bool)), (sigma : (A) -> A), (d : Num)), s)"),
     fn(
       x465 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4006,9 +3910,7 @@ fn step_23() -> Unit raise {
     @tactics.then_tac(
       @tactics.then_tac(
         @tactics.undisch_tac(
-          @parser.parse_term(
-            "group_pow (symmetric_group (s:A->bool)) (sigma:A->A) i =\n            group_pow (symmetric_group s) sigma j o\n            group_pow (symmetric_group s) sigma (i - j)",
-          ),
+          @term_syntax.parse_term("group_pow(symmetric_group((s : (A) -> Bool)), (sigma : (A) -> A), (i : Num)) == o(group_pow(symmetric_group(s), sigma, (j : Num)), group_pow(symmetric_group(s), sigma, i - j))"),
         ),
         t456,
       ),
@@ -4043,9 +3945,7 @@ fn step_23() -> Unit raise {
       @bool.eq_imp_rule(
         @bool.specl(
           @list.List([
-            @parser.parse_term(
-              "group_pow (symmetric_group (s:A->bool)) (sigma:A->A) (i - j) (a:A)",
-            ),
+            @term_syntax.parse_term("group_pow(symmetric_group((s : (A) -> Bool)), (sigma : (A) -> A), (i : Num) - (j : Num), (a : A))"),
             t451,
           ]),
           th_2,
@@ -4078,9 +3978,7 @@ fn step_23() -> Unit raise {
   let t444 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([
-        @parser.parse_term(
-          "group_pow (symmetric_group (s:A->bool)) (sigma:A->A) j",
-        ),
+        @term_syntax.parse_term("group_pow(symmetric_group((s : (A) -> Bool)), (sigma : (A) -> A), (j : Num))"),
         t443,
       ]),
       @permutations.permutes_injective(),
@@ -4196,9 +4094,7 @@ fn step_23() -> Unit raise {
     @tactics.then_tac(
       @tactics.then_tac(
         @tactics.undisch_tac(
-          @parser.parse_term(
-            "group_pow (symmetric_group (s:A->bool)) (sigma:A->A) j =\n            group_pow (symmetric_group s) sigma i o\n            group_pow (symmetric_group s) sigma (j - i)",
-          ),
+          @term_syntax.parse_term("group_pow(symmetric_group((s : (A) -> Bool)), (sigma : (A) -> A), (j : Num)) == o(group_pow(symmetric_group(s), sigma, (i : Num)), group_pow(symmetric_group(s), sigma, j - i))"),
         ),
         t432,
       ),
@@ -4233,9 +4129,7 @@ fn step_23() -> Unit raise {
       @bool.eq_imp_rule(
         @bool.specl(
           @list.List([
-            @parser.parse_term(
-              "group_pow (symmetric_group (s:A->bool)) (sigma:A->A) (j - i) (a:A)",
-            ),
+            @term_syntax.parse_term("group_pow(symmetric_group((s : (A) -> Bool)), (sigma : (A) -> A), (j : Num) - (i : Num), (a : A))"),
             t427,
           ]),
           th,
@@ -4268,9 +4162,7 @@ fn step_23() -> Unit raise {
   let t420 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([
-        @parser.parse_term(
-          "group_pow (symmetric_group (s:A->bool)) (sigma:A->A) i",
-        ),
+        @term_syntax.parse_term("group_pow(symmetric_group((s : (A) -> Bool)), (sigma : (A) -> A), (i : Num))"),
         t419,
       ]),
       @permutations.permutes_injective(),
@@ -4359,9 +4251,7 @@ fn step_23() -> Unit raise {
     @tactics.all_tac,
   ])
   let t411 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?d. 0 < d /\\ d < CARD(s:A->bool) /\\\n      group_pow (symmetric_group s) (sigma:A->A) d a = a",
-    ),
+    @term_syntax.parse_term("∃ d : Num, 0 < d && d < CARD((s : (A) -> Bool)) && group_pow(symmetric_group(s), (sigma : (A) -> A), d, (a : A)) == a"),
     fn(
       x408 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4584,9 +4474,7 @@ fn step_23() -> Unit raise {
     ),
   ])
   let t383 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "IMAGE (\\k. group_pow (symmetric_group (s:A->bool)) (sigma:A->A) k a)\n           {k | k < CARD s} = s",
-    ),
+    @term_syntax.parse_term("IMAGE((k : Num) => group_pow(symmetric_group((s : (A) -> Bool)), (sigma : (A) -> A), k, (a : A)), {(k : Num) | k < CARD(s)}) == s"),
     fn(
       x380 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4667,9 +4555,7 @@ fn step_23() -> Unit raise {
   )
   prime_order_perm_orbit_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (sigma:A->A) a x.\n     FINITE s /\\ prime(CARD s) /\\\n     sigma permutes s /\\\n     group_element_order (symmetric_group s) sigma = CARD s /\\\n     a IN s /\\ x IN s\n     ==> ?k. k < CARD s /\\\n             group_pow (symmetric_group s) sigma k a = x",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ sigma : (A) -> A, ∀ a : A, ∀ x : A, FINITE(s) && prime(CARD(s)) && permutes(sigma, s) && group_element_order(symmetric_group(s), sigma) == CARD(s) && IN(a, s) && IN(x, s) → (∃ k : Num, k < CARD(s) && group_pow(symmetric_group(s), sigma, k, a) == x)"),
       t485,
     ),
   )
@@ -4725,9 +4611,7 @@ fn step_24() -> Unit raise {
   let t501 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([
-        @parser.parse_term(
-          "group_pow (symmetric_group (s:A->bool)) (sigma:A->A) k",
-        ),
+        @term_syntax.parse_term("group_pow(symmetric_group((s : (A) -> Bool)), (sigma : (A) -> A), (k : Num))"),
         t500,
         t499,
         t498,
@@ -4758,9 +4642,7 @@ fn step_24() -> Unit raise {
     @tactics.all_tac,
   ])
   let t497 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "swap(group_pow (symmetric_group (s:A->bool)) (sigma:A->A) k a,\n          group_pow (symmetric_group s) sigma k b) =\n     group_conjugation (symmetric_group s)\n       (group_pow (symmetric_group s) sigma k) (swap(a:A,b))",
-    ),
+    @term_syntax.parse_term("swap((group_pow(symmetric_group((s : (A) -> Bool)), (sigma : (A) -> A), (k : Num), (a : A)), group_pow(symmetric_group(s), sigma, k, (b : A)))) == group_conjugation(symmetric_group(s), group_pow(symmetric_group(s), sigma, k), swap((a, b)))"),
     fn(
       x494 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4830,9 +4712,7 @@ fn step_24() -> Unit raise {
     @tactics.all_tac,
   ])
   let t489 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "group_pow (symmetric_group (s:A->bool)) (sigma:A->A) k permutes s",
-    ),
+    @term_syntax.parse_term("permutes(group_pow(symmetric_group((s : (A) -> Bool)), (sigma : (A) -> A), (k : Num)), s)"),
     fn(
       x486 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4904,9 +4784,7 @@ fn step_24() -> Unit raise {
   )
   swap_conjugate_in_subgroup_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (sigma:A->A) a b h k.\n     FINITE s /\\\n     h subgroup_of symmetric_group s /\\\n     sigma permutes s /\\\n     sigma IN h /\\\n     swap(a,b) IN h /\\\n     a IN s /\\ b IN s\n     ==> swap(group_pow (symmetric_group s) sigma k a,\n              group_pow (symmetric_group s) sigma k b) IN h",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ sigma : (A) -> A, ∀ a : A, ∀ b : A, ∀ h : ((A) -> A) -> Bool, ∀ k : Num, FINITE(s) && subgroup_of(h, symmetric_group(s)) && permutes(sigma, s) && IN(sigma, h) && IN(swap((a, b)), h) && IN(a, s) && IN(b, s) → IN(swap((group_pow(symmetric_group(s), sigma, k, a), group_pow(symmetric_group(s), sigma, k, b))), h)"),
       t512,
     ),
   )
@@ -4947,9 +4825,7 @@ fn step_25() -> Unit raise {
     @tactics.all_tac,
   ])
   let t745 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "swap(a:A, (tau:A->A) x0) =\n    group_mul (symmetric_group (s:A->bool))\n      (swap(a,x0))\n      (group_mul (symmetric_group s) (swap(x0, tau x0)) (swap(a:A,x0)))",
-    ),
+    @term_syntax.parse_term("swap(((a : A), (tau : (A) -> A)((x0 : A)))) == group_mul(symmetric_group((s : (A) -> Bool)), swap((a, x0)), group_mul(symmetric_group(s), swap((x0, tau(x0))), swap((a, x0))))"),
     fn(
       x742 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5111,9 +4987,7 @@ fn step_25() -> Unit raise {
                       @tactics.then_tac(
                         @tactics.thenl(
                           @tactics.subgoal_then(
-                            @parser.parse_term(
-                              "(tau:A->A)(group_pow (symmetric_group (s:A->bool)) tau k a) =\n           group_pow (symmetric_group s) tau (SUC k) a",
-                            ),
+                            @term_syntax.parse_term("(tau : (A) -> A)(group_pow(symmetric_group((s : (A) -> Bool)), tau, (k : Num), (a : A))) == group_pow(symmetric_group(s), tau, SUC(k), a)"),
                             fn(
                               x716 : @kernel.Thm,
                             ) -> ((
@@ -5208,9 +5082,7 @@ fn step_25() -> Unit raise {
     @tactics.then_tac(
       @tactics.thenl(
         @tactics.subgoal_then(
-          @parser.parse_term(
-            "(tau:A->A)(group_pow (symmetric_group (s:A->bool)) tau k a) =\n         group_pow (symmetric_group s) tau k ((tau:A->A) a)",
-          ),
+          @term_syntax.parse_term("(tau : (A) -> A)(group_pow(symmetric_group((s : (A) -> Bool)), tau, (k : Num), (a : A))) == group_pow(symmetric_group(s), tau, k, tau(a))"),
           fn(
             x713 : @kernel.Thm,
           ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5265,9 +5137,7 @@ fn step_25() -> Unit raise {
     t739,
   ])
   let t712 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(tau:A->A)(group_pow (symmetric_group (s:A->bool)) tau k a) =\n       group_pow (symmetric_group s) tau k b",
-    ),
+    @term_syntax.parse_term("(tau : (A) -> A)(group_pow(symmetric_group((s : (A) -> Bool)), tau, (k : Num), (a : A))) == group_pow(symmetric_group(s), tau, k, (b : A))"),
     fn(
       x709 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5477,9 +5347,7 @@ fn step_25() -> Unit raise {
   ])
   let t686 = @simp.asm_rewrite_tac(@list.List([]))
   let t683 = @term_syntax.parse_term("(a : A)")
-  let t684 = @parser.parse_term(
-    "group_pow (symmetric_group (s:A->bool)) (tau:A->A) (SUC k)",
-  )
+  let t684 = @term_syntax.parse_term("group_pow(symmetric_group((s : (A) -> Bool)), (tau : (A) -> A), SUC((k : Num)))")
   let t685 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([@term_syntax.parse_term("(s : (A) -> Bool)"), t684, t683]),
@@ -5497,9 +5365,7 @@ fn step_25() -> Unit raise {
     @tactics.all_tac,
   ])
   let t681 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(tau:A->A) (group_pow (symmetric_group (s:A->bool)) tau k a) =\n       group_pow (symmetric_group s) tau (SUC k) a",
-    ),
+    @term_syntax.parse_term("(tau : (A) -> A)(group_pow(symmetric_group((s : (A) -> Bool)), tau, (k : Num), (a : A))) == group_pow(symmetric_group(s), tau, SUC(k), a)"),
     fn(
       x678 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5660,9 +5526,7 @@ fn step_25() -> Unit raise {
   ])
   let t663 = @simp.asm_rewrite_tac(@list.List([]))
   let t660 = @term_syntax.parse_term("(a : A)")
-  let t661 = @parser.parse_term(
-    "group_pow (symmetric_group (s:A->bool)) (tau:A->A) k",
-  )
+  let t661 = @term_syntax.parse_term("group_pow(symmetric_group((s : (A) -> Bool)), (tau : (A) -> A), (k : Num))")
   let t662 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([@term_syntax.parse_term("(s : (A) -> Bool)"), t661, t660]),
@@ -5778,9 +5642,7 @@ fn step_25() -> Unit raise {
     }
   })
   let t648 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "x0 = group_pow (symmetric_group (s:A->bool)) (tau:A->A) k (a:A)",
-    ),
+    @term_syntax.parse_term("(x0 : A) == group_pow(symmetric_group((s : (A) -> Bool)), (tau : (A) -> A), (k : Num), (a : A))"),
   )
   let t647 = @list.List([
     @simp.rewrite_tac(
@@ -5793,9 +5655,7 @@ fn step_25() -> Unit raise {
     @tactics.all_tac,
   ])
   let t646 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "group_pow (symmetric_group (s:A->bool)) (tau:A->A) (SUC k) a =\n     tau(group_pow (symmetric_group s) tau k a)",
-    ),
+    @term_syntax.parse_term("group_pow(symmetric_group((s : (A) -> Bool)), (tau : (A) -> A), SUC((k : Num)), (a : A)) == tau(group_pow(symmetric_group(s), tau, k, a))"),
     fn(
       x643 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5851,9 +5711,7 @@ fn step_25() -> Unit raise {
     @tactics.all_tac,
   ])
   let t641 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "swap(a:A, group_pow (symmetric_group (s:A->bool)) (tau:A->A) k a) IN h",
-    ),
+    @term_syntax.parse_term("IN(swap(((a : A), group_pow(symmetric_group((s : (A) -> Bool)), (tau : (A) -> A), (k : Num), a))), (h : ((A) -> A) -> Bool))"),
     fn(
       x638 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5915,9 +5773,7 @@ fn step_25() -> Unit raise {
   ])
   let t636 = @class.asm_cases_tac(@term_syntax.parse_term("(k : Num) == 0"))
   let t635 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall k. 0 < k /\\ k < CARD(s:A->bool)\n         ==> swap(a:A, group_pow (symmetric_group s) (tau:A->A) k a) IN h",
-    ),
+    @term_syntax.parse_term("∀ k : Num, 0 < k && k < CARD((s : (A) -> Bool)) → IN(swap(((a : A), group_pow(symmetric_group(s), (tau : (A) -> A), k, a))), (h : ((A) -> A) -> Bool))"),
     fn(
       x632 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5969,18 +5825,14 @@ fn step_25() -> Unit raise {
     @simp.rewrite_tac(@list.List([@equal.sym(th)]))
   })
   let t628 = @tactics.undisch_tac(
-    @parser.parse_term(
-      "group_pow (symmetric_group (s:A->bool)) (tau:A->A) n a = c",
-    ),
+    @term_syntax.parse_term("group_pow(symmetric_group((s : (A) -> Bool)), (tau : (A) -> A), (n : Num), (a : A)) == (c : A)"),
   )
   let t626 = @meson.asm_meson_tac(@list.List([]))
   let t625 = @simp.asm_rewrite_tac(
     @list.List([@grouptheory.group_pow(), symmetric_group_v1(), @trivia.i_thm()]),
   )
   let t624 = @tactics.undisch_tac(
-    @parser.parse_term(
-      "group_pow (symmetric_group (s:A->bool)) (tau:A->A) n a = c",
-    ),
+    @term_syntax.parse_term("group_pow(symmetric_group((s : (A) -> Bool)), (tau : (A) -> A), (n : Num), (a : A)) == (c : A)"),
   )
   let t623 = @simp.asm_rewrite_tac(@list.List([@arith.lt_nz()]))
   let t627 = @list.List([
@@ -6224,9 +6076,7 @@ fn step_25() -> Unit raise {
     @tactics.all_tac,
   ])
   let t589 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "group_element_order (symmetric_group (s:A->bool)) (tau:A->A) =\n                CARD s",
-    ),
+    @term_syntax.parse_term("group_element_order(symmetric_group((s : (A) -> Bool)), (tau : (A) -> A)) == CARD(s)"),
     fn(
       x586 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -6346,9 +6196,7 @@ fn step_25() -> Unit raise {
     @list.List([@grouptheory.group_pow(), symmetric_group_v1(), @trivia.i_thm()]),
   )
   let t572 = @tactics.undisch_tac(
-    @parser.parse_term(
-      "group_pow (symmetric_group (s:A->bool)) (sigma:A->A) m a = b",
-    ),
+    @term_syntax.parse_term("group_pow(symmetric_group((s : (A) -> Bool)), (sigma : (A) -> A), (m : Num), (a : A)) == (b : A)"),
   )
   let t571 = @simp.asm_rewrite_tac(@list.List([@arith.lt_nz()]))
   let t575 = @list.List([
@@ -6469,9 +6317,7 @@ fn step_25() -> Unit raise {
     @tactics.all_tac,
   ])
   let t546 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "swap(x':A,y') =\n      group_mul (symmetric_group (s:A->bool))\n        (swap(a,x'))\n        (group_mul (symmetric_group s) (swap(a,y')) (swap(a:A,x')))",
-    ),
+    @term_syntax.parse_term("swap(((x' : A), (y' : A))) == group_mul(symmetric_group((s : (A) -> Bool)), swap(((a : A), x')), group_mul(symmetric_group(s), swap((a, y')), swap((a, x'))))"),
     fn(
       x543 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -6959,9 +6805,7 @@ fn step_25() -> Unit raise {
   )
   transposition_pcycle_generates_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (sigma:A->A) a b h.\n     FINITE s /\\ prime(CARD s) /\\\n     h subgroup_of symmetric_group s /\\\n     sigma IN h /\\\n     group_element_order (symmetric_group s) sigma = CARD s /\\\n     swap(a,b) IN h /\\\n     a IN s /\\ b IN s /\\ ~(a = b)\n     ==> group_carrier(symmetric_group s) SUBSET h",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ sigma : (A) -> A, ∀ a : A, ∀ b : A, ∀ h : ((A) -> A) -> Bool, FINITE(s) && prime(CARD(s)) && subgroup_of(h, symmetric_group(s)) && IN(sigma, h) && group_element_order(symmetric_group(s), sigma) == CARD(s) && IN(swap((a, b)), h) && IN(a, s) && IN(b, s) && !(a == b) → SUBSET(group_carrier(symmetric_group(s)), h)"),
       t754,
     ),
   )
@@ -7089,9 +6933,7 @@ fn step_26() -> Unit raise {
     @tactics.then_tac(
       @tactics.then_tac(
         @tactics.undisch_tac(
-          @parser.parse_term(
-            "group_element_order (H:(A->A)group) (sigma:A->A) = CARD(s:A->bool)",
-          ),
+          @term_syntax.parse_term("group_element_order((H : Group[(A) -> A]), (sigma : (A) -> A)) == CARD((s : (A) -> Bool))"),
         ),
         t825,
       ),
@@ -7100,9 +6942,7 @@ fn step_26() -> Unit raise {
     @tactics.all_tac,
   ])
   let t824 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "group_element_order (symmetric_group (s:A->bool)) (sigma:A->A) = CARD s",
-    ),
+    @term_syntax.parse_term("group_element_order(symmetric_group((s : (A) -> Bool)), (sigma : (A) -> A)) == CARD(s)"),
     fn(
       x821 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -7166,9 +7006,7 @@ fn step_26() -> Unit raise {
   )
   let t814 = @meson.asm_meson_tac(@list.List([@arith.mult_sym()]))
   let t813 = @tactics.exists_tac(
-    @parser.parse_term(
-      "CARD(group_stabilizer (H:(A->A)group) (\\f x. f x) (a:A))",
-    ),
+    @term_syntax.parse_term("CARD(group_stabilizer((H : Group[(A) -> A]), (f : (A) -> A) => (x : A) => f(x), (a : A)))"),
   )
   let t812 = @simp.rewrite_tac(@list.List([@int.divides()]))
   let t811 = @simp.asm_rewrite_tac(@list.List([]))
@@ -7375,9 +7213,7 @@ fn step_26() -> Unit raise {
     @tactics.all_tac,
   ])
   let t786 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "group_orbit (H:(A->A)group) (s:A->bool) (\\f x. f x) a = s",
-    ),
+    @term_syntax.parse_term("group_orbit((H : Group[(A) -> A]), (s : (A) -> Bool), (f : (A) -> A) => (x : A) => f(x), (a : A)) == s"),
     fn(
       x783 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -7588,9 +7424,7 @@ fn step_26() -> Unit raise {
     },
   )
   let t763 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "H:(A->A)group = subgroup_generated (symmetric_group s) h",
-    ),
+    @term_syntax.parse_term("(H : Group[(A) -> A]) == subgroup_generated(symmetric_group((s : (A) -> Bool)), (h : ((A) -> A) -> Bool))"),
   )
   let t761 = @meson.asm_meson_tac(
     @list.List([@grouptheory.subgroup_of_imp_subset()]),
@@ -7738,9 +7572,7 @@ fn step_26() -> Unit raise {
   )
   transitive_transposition_generates_symmetric_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (a:A) b h.\n     FINITE s /\\ prime(CARD s) /\\\n     h subgroup_of symmetric_group s /\\\n     (forall x y. x IN s /\\ y IN s ==> ?sigma. sigma IN h /\\ sigma x = y) /\\\n     swap(a,b) IN h /\\\n     a IN s /\\ b IN s /\\ ~(a = b)\n     ==> group_carrier(symmetric_group s) SUBSET h",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ a : A, ∀ b : A, ∀ h : ((A) -> A) -> Bool, FINITE(s) && prime(CARD(s)) && subgroup_of(h, symmetric_group(s)) && (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) → (∃ sigma : (A) -> A, IN(sigma, h) && sigma(x) == y)) && IN(swap((a, b)), h) && IN(a, s) && IN(b, s) && !(a == b) → SUBSET(group_carrier(symmetric_group(s)), h)"),
       t841,
     ),
   )

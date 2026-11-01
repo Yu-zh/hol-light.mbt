@@ -1376,9 +1376,7 @@ fn step_1() -> Unit raise {
     @theorems.mono_or(),
   )
   let lem_2 = @class.taut(
-    @parser.parse_term(
-      "((A ==> B) ==> (C ==> D)) /\\ ((B ==> A) ==> (D ==> C)) ==> (A <=> B)\n      ==> (C <=> D)",
-    ),
+    @term_syntax.parse_term("(((A : Bool) → (B : Bool)) → (C : Bool) → (D : Bool)) && ((B → A) → D → C) → A == B → C == D"),
   )
   let mkimp_iff : (@kernel.Thm) -> ((@kernel.Thm) -> @kernel.Thm raise) raise = fn(
     x205 : @kernel.Thm,
@@ -1400,9 +1398,7 @@ fn step_1() -> Unit raise {
     }
   }
   let lem_3 = @class.taut(
-    @parser.parse_term(
-      "((A ==> B) ==> C) /\\ ((B ==> A) ==> D) ==> (A <=> B) ==> C /\\ D",
-    ),
+    @term_syntax.parse_term("(((A : Bool) → (B : Bool)) → (C : Bool)) && ((B → A) → (D : Bool)) → A == B → C && D"),
   )
   let mkimp_contra_iff : (@kernel.Thm) -> ((@kernel.Thm) -> @kernel.Thm raise) raise = fn(
     x208 : @kernel.Thm,
@@ -1452,9 +1448,7 @@ fn step_1() -> Unit raise {
     )
   }
   let lem_6 = @class.taut(
-    @parser.parse_term(
-      "(C ==> A ==> B) /\\ (D ==> B ==> A) ==> C /\\ D ==> (A <=> B)",
-    ),
+    @term_syntax.parse_term("((C : Bool) → (A : Bool) → (B : Bool)) && ((D : Bool) → B → A) → C && D → A == B"),
   )
   let mkimp_co_iff : (@kernel.Thm) -> ((@kernel.Thm) -> @kernel.Thm raise) raise = fn(
     x213 : @kernel.Thm,

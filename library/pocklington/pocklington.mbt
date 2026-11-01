@@ -184,9 +184,7 @@ fn step_5() -> Unit raise {
   )
   nat_mod_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y n:num. (x == y) (mod n) /\\ y <= x ==> ?q. x = y + n * q",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, ∀ n : Num, op_eq_eq(x, y, mod(n)) && y <= x → (∃ q : Num, x == y + n * q)"),
       t12,
     ),
   )
@@ -271,9 +269,7 @@ fn step_6() -> Unit raise {
   let t19 = @simp.rewrite_tac(
     @list.List([
       @class.taut(
-        @parser.parse_term(
-          "a \\/ b ==> c ==> d <=> (c /\\ b) \\/ (c /\\ a) ==> d",
-        ),
+        @term_syntax.parse_term("((a : Bool) || (b : Bool) → (c : Bool) → (d : Bool)) == (c && b || c && a → d)"),
       ),
     ]),
   )
@@ -317,9 +313,7 @@ fn step_6() -> Unit raise {
   )
   nat_mod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y n:num. (mod n) x y <=> ?q1 q2. x + n * q1 = y + n * q2",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, ∀ n : Num, mod(n, x, y) == (∃ q1 : Num, ∃ q2 : Num, x + n * q1 == y + n * q2)"),
       t26,
     ),
   )
@@ -411,9 +405,7 @@ fn step_7() -> Unit raise {
             @tactics.then_tac(
               @tactics.thenl(
                 @tactics.subgoal_then(
-                  @parser.parse_term(
-                    "{m | 0 < m /\\ m < SUC n} = n INSERT {m | 0 < m /\\ m < n}",
-                  ),
+                  @term_syntax.parse_term("{(m : Num) | 0 < m && m < SUC((n : Num))} == INSERT(n, {(m : Num) | 0 < m && m < n})"),
                   fn(
                     x40 : @kernel.Thm,
                   ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -873,9 +865,7 @@ fn step_13() -> Unit raise {
   )
   cong_sub_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y n. (x == y) (mod n) <=>\n           if x <= y then (y - x == 0) (mod n)\n           else (x - y == 0) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, ∀ n : Num, op_eq_eq(x, y, mod(n)) == (if x <= y { op_eq_eq(y - x, 0, mod(n)) } else { op_eq_eq(x - y, 0, mod(n)) })"),
       t75,
     ),
   )
@@ -924,9 +914,7 @@ fn step_14() -> Unit raise {
   )
   cong_minus1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n. (a == n - 1) (mod n) <=> n = 0 /\\ a = 0 \\/ n divides (a + 1)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, op_eq_eq(a, n - 1, mod(n)) == (n == 0 && a == 0 || divides(n, a + 1))"),
       t81,
     ),
   )
@@ -950,18 +938,14 @@ fn step_15() -> Unit raise {
       @arith.sub_add(),
       @arith.le_1(),
       @int.number_rule(
-        @parser.parse_term(
-          "(p EXP 2 == 1 + 2 * n + 1) (mod p) <=> p divides (2 * (n + 1))",
-        ),
+        @term_syntax.parse_term("op_eq_eq(EXP((p : Num), 2), 1 + (2 * (n : Num) + 1), mod(p)) == divides(p, 2 * (n + 1))"),
       ),
     ]),
   )
   let t83 = @simp.once_rewrite_tac(
     @list.List([
       @int.number_rule(
-        @parser.parse_term(
-          "(n EXP 2 == m) (mod p) <=> ((n + 1) EXP 2 == m + 2 * n + 1) (mod p)",
-        ),
+        @term_syntax.parse_term("op_eq_eq(EXP((n : Num), 2), (m : Num), mod((p : Num))) == op_eq_eq(EXP(n + 1, 2), m + (2 * n + 1), mod(p))"),
       ),
     ]),
   )
@@ -1010,9 +994,7 @@ fn step_16() -> Unit raise {
   )
   let t94 = @drule.match_mp(
     @int.arith_rule(
-      @parser.parse_term(
-        "x + a = y + b ==> x = (b - a) + y \\/ y = (a - b) + x",
-      ),
+      @term_syntax.parse_term("(x : Num) + (a : Num) == (y : Num) + (b : Num) → x == b - a + y || y == a - b + x"),
     ),
   )
   let t96 = @tactics.disch_then(fn(
@@ -1125,9 +1107,7 @@ fn step_16() -> Unit raise {
   )
   cong_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y n. (x == y) (mod n) <=> (?q. x = q * n + y) \\/ (?q. y = q * n + x)",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, ∀ n : Num, op_eq_eq(x, y, mod(n)) == ((∃ q : Num, x == q * n + y) || (∃ q : Num, y == q * n + x))"),
       t99,
     ),
   )
@@ -1175,9 +1155,7 @@ fn step_17() -> Unit raise {
   )
   cong_case_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a x:num. a < n ==> ((x == a) (mod n) <=> ?q. x = q * n + a)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, ∀ x : Num, a < n → op_eq_eq(x, a, mod(n)) == (∃ q : Num, x == q * n + a)"),
       t105,
     ),
   )
@@ -1197,9 +1175,7 @@ pub fn cong_case() -> @kernel.Thm {
 fn step_18() -> Unit raise {
   cong_mult_lcancel_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n x y. coprime(a,n) /\\ (a * x == a * y) (mod n) ==> (x == y) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, ∀ x : Num, ∀ y : Num, coprime((a, n)) && op_eq_eq(a * x, a * y, mod(n)) → op_eq_eq(x, y, mod(n))"),
       @int.number_tac,
     ),
   )
@@ -1221,9 +1197,7 @@ pub fn cong_mult_lcancel() -> @kernel.Thm {
 fn step_19() -> Unit raise {
   cong_mult_rcancel_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n x y. coprime(a,n) /\\ (x * a == y * a) (mod n) ==> (x == y) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, ∀ x : Num, ∀ y : Num, coprime((a, n)) && op_eq_eq(x * a, y * a, mod(n)) → op_eq_eq(x, y, mod(n))"),
       @int.number_tac,
     ),
   )
@@ -1306,9 +1280,7 @@ pub fn cong_sym() -> @kernel.Thm {
 fn step_23() -> Unit raise {
   cong_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y z n. (x == y) (mod n) /\\ (y == z) (mod n) ==> (x == z) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, ∀ z : Num, ∀ n : Num, op_eq_eq(x, y, mod(n)) && op_eq_eq(y, z, mod(n)) → op_eq_eq(x, z, mod(n))"),
       @int.number_tac,
     ),
   )
@@ -1328,9 +1300,7 @@ pub fn cong_trans() -> @kernel.Thm {
 fn step_24() -> Unit raise {
   cong_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x' y y'.\n     (x == x') (mod n) /\\ (y == y') (mod n) ==> (x + y == x' + y') (mod n)",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ x' : Num, ∀ y : Num, ∀ y' : Num, op_eq_eq(x, x', mod((n : Num))) && op_eq_eq(y, y', mod(n)) → op_eq_eq(x + y, x' + y', mod(n))"),
       @int.number_tac,
     ),
   )
@@ -1350,9 +1320,7 @@ pub fn cong_add() -> @kernel.Thm {
 fn step_25() -> Unit raise {
   cong_mult_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x' y y'.\n     (x == x') (mod n) /\\ (y == y') (mod n) ==> (x * y == x' * y') (mod n)",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ x' : Num, ∀ y : Num, ∀ y' : Num, op_eq_eq(x, x', mod((n : Num))) && op_eq_eq(y, y', mod(n)) → op_eq_eq(x * y, x' * y', mod(n))"),
       @int.number_tac,
     ),
   )
@@ -1372,9 +1340,7 @@ pub fn cong_mult() -> @kernel.Thm {
 fn step_26() -> Unit raise {
   cong_mult_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x y. (x == 1) (mod n) /\\ (y == 1) (mod n) ==> (x * y == 1) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Num, ∀ y : Num, op_eq_eq(x, 1, mod(n)) && op_eq_eq(y, 1, mod(n)) → op_eq_eq(x * y, 1, mod(n))"),
       @int.number_tac,
     ),
   )
@@ -1401,9 +1367,7 @@ fn step_27() -> Unit raise {
   )
   cong_exp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n k x y. (x == y) (mod n) ==> (x EXP k == y EXP k) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ k : Num, ∀ x : Num, ∀ y : Num, op_eq_eq(x, y, mod(n)) → op_eq_eq(EXP(x, k), EXP(y, k), mod(n))"),
       t108,
     ),
   )
@@ -1544,9 +1508,7 @@ fn step_29() -> Unit raise {
   )
   let t127 = @drule.match_mp(
     @int.arith_rule(
-      @parser.parse_term(
-        "(x + a = x' + a') /\\ (y + b = y' + b') /\\ y <= x /\\ y' <= x'\n    ==> ((x - y) + (a + b') = (x' - y') + (a' + b))",
-      ),
+      @term_syntax.parse_term("(x : Num) + (a : Num) == (x' : Num) + (a' : Num) && (y : Num) + (b : Num) == (y' : Num) + (b' : Num) && y <= x && y' <= x' → x - y + (a + b') == x' - y' + (a' + b)"),
     ),
   )
   let t129 = @tactics.disch_then(fn(
@@ -1647,9 +1609,7 @@ fn step_29() -> Unit raise {
   )
   cong_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x x' y y'.\n     (x == x') (mod n) /\\ (y == y') (mod n) /\\ y <= x /\\ y' <= x'\n     ==> (x - y == x' - y') (mod n)",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ x' : Num, ∀ y : Num, ∀ y' : Num, op_eq_eq(x, x', mod((n : Num))) && op_eq_eq(y, y', mod(n)) && y <= x && y' <= x' → op_eq_eq(x - y, x' - y', mod(n))"),
       t132,
     ),
   )
@@ -1669,9 +1629,7 @@ pub fn cong_sub() -> @kernel.Thm {
 fn step_30() -> Unit raise {
   cong_mult_lcancel_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n x y. coprime(a,n) ==> ((a * x == a * y) (mod n) <=> (x == y) (mod n))",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, ∀ x : Num, ∀ y : Num, coprime((a, n)) → op_eq_eq(a * x, a * y, mod(n)) == op_eq_eq(x, y, mod(n))"),
       @int.number_tac,
     ),
   )
@@ -1693,9 +1651,7 @@ pub fn cong_mult_lcancel_eq() -> @kernel.Thm {
 fn step_31() -> Unit raise {
   cong_mult_rcancel_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n x y. coprime(a,n) ==> ((x * a == y * a) (mod n) <=> (x == y) (mod n))",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, ∀ x : Num, ∀ y : Num, coprime((a, n)) → op_eq_eq(x * a, y * a, mod(n)) == op_eq_eq(x, y, mod(n))"),
       @int.number_tac,
     ),
   )
@@ -1717,9 +1673,7 @@ pub fn cong_mult_rcancel_eq() -> @kernel.Thm {
 fn step_32() -> Unit raise {
   cong_add_lcancel_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n x y. (a + x == a + y) (mod n) <=> (x == y) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, ∀ x : Num, ∀ y : Num, op_eq_eq(a + x, a + y, mod(n)) == op_eq_eq(x, y, mod(n))"),
       @int.number_tac,
     ),
   )
@@ -1741,9 +1695,7 @@ pub fn cong_add_lcancel_eq() -> @kernel.Thm {
 fn step_33() -> Unit raise {
   cong_add_rcancel_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n x y. (x + a == y + a) (mod n) <=> (x == y) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, ∀ x : Num, ∀ y : Num, op_eq_eq(x + a, y + a, mod(n)) == op_eq_eq(x, y, mod(n))"),
       @int.number_tac,
     ),
   )
@@ -1765,9 +1717,7 @@ pub fn cong_add_rcancel_eq() -> @kernel.Thm {
 fn step_34() -> Unit raise {
   cong_add_rcancel_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n x y. (x + a == y + a) (mod n) ==> (x == y) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, ∀ x : Num, ∀ y : Num, op_eq_eq(x + a, y + a, mod(n)) → op_eq_eq(x, y, mod(n))"),
       @int.number_tac,
     ),
   )
@@ -1789,9 +1739,7 @@ pub fn cong_add_rcancel() -> @kernel.Thm {
 fn step_35() -> Unit raise {
   cong_add_lcancel_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n x y. (a + x == a + y) (mod n) ==> (x == y) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, ∀ x : Num, ∀ y : Num, op_eq_eq(a + x, a + y, mod(n)) → op_eq_eq(x, y, mod(n))"),
       @int.number_tac,
     ),
   )
@@ -1915,9 +1863,7 @@ fn step_38() -> Unit raise {
   )
   cong_mult_lcancel_all_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a x y n. (a * x == a * y) (mod (a * n)) <=> a = 0 \\/ (x == y) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ x : Num, ∀ y : Num, ∀ n : Num, op_eq_eq(a * x, a * y, mod(a * n)) == (a == 0 || op_eq_eq(x, y, mod(n)))"),
       t139,
     ),
   )
@@ -1939,9 +1885,7 @@ pub fn cong_mult_lcancel_all() -> @kernel.Thm {
 fn step_39() -> Unit raise {
   cong_lmul_c.set(
     @int.number_rule(
-      @parser.parse_term(
-        "forall a x y n:num. (x == y) (mod n) ==> (a * x == a * y) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ x : Num, ∀ y : Num, ∀ n : Num, op_eq_eq(x, y, mod(n)) → op_eq_eq(a * x, a * y, mod(n))"),
     ),
   )
 }
@@ -1960,9 +1904,7 @@ pub fn cong_lmul() -> @kernel.Thm {
 fn step_40() -> Unit raise {
   cong_rmul_c.set(
     @int.number_rule(
-      @parser.parse_term(
-        "forall x y a n:num. (x == y) (mod n) ==> (x * a == y * a) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, ∀ a : Num, ∀ n : Num, op_eq_eq(x, y, mod(n)) → op_eq_eq(x * a, y * a, mod(n))"),
     ),
   )
 }
@@ -1991,9 +1933,7 @@ fn step_41() -> Unit raise {
   )
   cong_imp_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y n. x < n /\\ y < n /\\ (x == y) (mod n) ==> x = y",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, ∀ n : Num, x < n && y < n && op_eq_eq(x, y, mod(n)) → x == y"),
       t143,
     ),
   )
@@ -2013,9 +1953,7 @@ pub fn cong_imp_eq() -> @kernel.Thm {
 fn step_42() -> Unit raise {
   cong_divides_modulus_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y m n. (x == y) (mod m) /\\ n divides m ==> (x == y) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, ∀ m : Num, ∀ n : Num, op_eq_eq(x, y, mod(m)) && divides(n, m) → op_eq_eq(x, y, mod(n))"),
       @int.number_tac,
     ),
   )
@@ -2218,9 +2156,7 @@ fn step_45() -> Unit raise {
   )
   cong_1_divides_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x. (x == 1) (mod n) <=> (x = 0 ==> n = 1) /\\ n divides (x - 1)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Num, op_eq_eq(x, 1, mod(n)) == ((x == 0 → n == 1) && divides(n, x - 1))"),
       t166,
     ),
   )
@@ -2242,9 +2178,7 @@ pub fn cong_1_divides_eq() -> @kernel.Thm {
 fn step_46() -> Unit raise {
   cong_divides_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y n. (x == y) (mod n) ==> (n divides x <=> n divides y)",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, ∀ n : Num, op_eq_eq(x, y, mod(n)) → divides(n, x) == divides(n, y)"),
       @int.number_tac,
     ),
   )
@@ -2264,9 +2198,7 @@ pub fn cong_divides() -> @kernel.Thm {
 fn step_47() -> Unit raise {
   cong_coprime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y n. (x == y) (mod n) ==> (coprime(n,x) <=> coprime(n,y))",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, ∀ n : Num, op_eq_eq(x, y, mod(n)) → coprime((n, x)) == coprime((n, y))"),
       @int.number_tac,
     ),
   )
@@ -2753,9 +2685,7 @@ fn step_51() -> Unit raise {
   )
   mod_mult_cong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b x y. ((x MOD (a * b) == y) (mod a) <=> (x == y) (mod a))",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ b : Num, ∀ x : Num, ∀ y : Num, op_eq_eq(MOD(x, a * b), y, mod(a)) == op_eq_eq(x, y, mod(a))"),
       t213,
     ),
   )
@@ -2821,9 +2751,7 @@ fn step_53() -> Unit raise {
   )
   mod_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n p. m MOD n = p <=> ((n = 0 /\\ m = p) \\/ p < n) /\\ (m == p) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ∀ p : Num, (MOD(m, n) == p) == ((n == 0 && m == p || p < n) && op_eq_eq(m, p, mod(n)))"),
       t220,
     ),
   )
@@ -2844,9 +2772,7 @@ fn step_54() -> Unit raise {
   let t221 = @meson.meson_tac(@list.List([@int.cong_div2(), @arith.div_mult()]))
   cong_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n a b.\n        ~(m = 0) /\\ (a == m * b) (mod (m * n)) ==> (a DIV m == b) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ∀ a : Num, ∀ b : Num, !(m == 0) && op_eq_eq(a, m * b, mod(m * n)) → op_eq_eq(DIV(a, m), b, mod(n))"),
       t221,
     ),
   )
@@ -2938,9 +2864,7 @@ fn step_55() -> Unit raise {
   )
   cong_div_coprime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n a b.\n        coprime(m,n) /\\ m divides a /\\ (a == m * b) (mod n)\n        ==> (a DIV m == b) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ∀ a : Num, ∀ b : Num, coprime((m, n)) && divides(m, a) && op_eq_eq(a, m * b, mod(n)) → op_eq_eq(DIV(a, m), b, mod(n))"),
       t231,
     ),
   )
@@ -3198,9 +3122,7 @@ fn step_56() -> Unit raise {
   )
   cong_square_1_prime_power_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p k x.\n        prime p /\\ ~(p = 2)\n        ==> ((x EXP 2 == 1) (mod (p EXP k)) <=>\n             (x == 1) (mod (p EXP k)) \\/ (x == p EXP k - 1) (mod (p EXP k)))",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ k : Num, ∀ x : Num, prime(p) && !(p == 2) → op_eq_eq(EXP(x, 2), 1, mod(EXP(p, k))) == (op_eq_eq(x, 1, mod(EXP(p, k))) || op_eq_eq(x, EXP(p, k) - 1, mod(EXP(p, k))))"),
       t263,
     ),
   )
@@ -3617,9 +3539,7 @@ fn step_57() -> Unit raise {
   )
   cong_lt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y n. y < n ==> ((x == y) (mod n) <=> ?d. x = d * n + y)",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, ∀ n : Num, y < n → op_eq_eq(x, y, mod(n)) == (∃ d : Num, x == d * n + y)"),
       t305,
     ),
   )
@@ -3662,9 +3582,7 @@ fn step_58() -> Unit raise {
   )
   cong_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y n. y <= x ==> ((x == y) (mod n) <=> ?q. x = q * n + y)",
-      ),
+      @term_syntax.parse_term("∀ x : Num, ∀ y : Num, ∀ n : Num, y <= x → op_eq_eq(x, y, mod(n)) == (∃ q : Num, x == q * n + y)"),
       t310,
     ),
   )
@@ -3729,9 +3647,7 @@ fn step_59() -> Unit raise {
   )
   cong_to_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n. (a == 1) (mod n) <=> a = 0 /\\ n = 1 \\/ ?m. a = 1 + m * n",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, op_eq_eq(a, 1, mod(n)) == (a == 0 && n == 1 || (∃ m : Num, a == 1 + m * n))"),
       t318,
     ),
   )
@@ -3808,9 +3724,7 @@ fn step_62() -> Unit raise {
     t321,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "(x == y) (mod n) <=>\n     if x <= y then n divides (y - x) else n divides (x - y)",
-    ),
+    @term_syntax.parse_term("op_eq_eq((x : Num), (y : Num), mod((n : Num))) == (if x <= y { divides(n, y - x) } else { divides(n, x - y) })"),
     t322,
   )
   let t327 = @equal.rand_conv(@calc_num.num_sub_conv)
@@ -4107,9 +4021,7 @@ fn step_63() -> Unit raise {
   )
   cong_solve_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a b. (?x. (a * x == b) (mod n)) <=> gcd(a,n) divides b",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, ∀ b : Num, (∃ x : Num, op_eq_eq(a * x, b, mod(n))) == divides(gcd((a, n)), b)"),
       t354,
     ),
   )
@@ -4130,9 +4042,7 @@ fn step_64() -> Unit raise {
   let t362 = @simp.asm_simp_tac(@list.List([@int.cong_rmod(), cong_refl()]))
   let t361 = @tactics.match_mp_tac(
     @int.number_rule(
-      @parser.parse_term(
-        "(x == y) (mod n) ==> (a * x == b) (mod n) ==> (a * y == b) (mod n)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((x : Num), (y : Num), mod((n : Num))) → op_eq_eq((a : Num) * x, (b : Num), mod(n)) → op_eq_eq(a * y, b, mod(n))"),
     ),
   )
   let t360 = @tactics.x_gen_tac(@term_syntax.parse_term("(x : Num)"))
@@ -4140,9 +4050,7 @@ fn step_64() -> Unit raise {
   let t358 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([@arith.division()]),
-      @parser.parse_term(
-        "~(n = 0) /\\ (forall y. P y ==> P(y MOD n))\n    ==> ((?y. y < n /\\ P y) <=> (?y. P y))",
-      ),
+      @term_syntax.parse_term("!((n : Num) == 0) && (∀ y : Num, (P : (Num) -> Bool)(y) → P(MOD(y, n))) → (∃ y : Num, y < n && P(y)) == (∃ y : Num, P(y))"),
     ),
   )
   let t357 = @simp.rewrite_tac(@list.List([@equal.gsym(cong_solve_eq())]))
@@ -4172,9 +4080,7 @@ fn step_64() -> Unit raise {
   )
   cong_solve_lt_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a b. (?x. x < n /\\ (a * x == b) (mod n)) <=>\n           ~(n = 0) /\\ gcd(a,n) divides b",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, ∀ b : Num, (∃ x : Num, x < n && op_eq_eq(a * x, b, mod(n))) == (!(n == 0) && divides(gcd((a, n)), b))"),
       t363,
     ),
   )
@@ -4338,9 +4244,7 @@ fn step_66() -> Unit raise {
   )
   cong_solve_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b n. coprime(a,n) /\\ ~(n = 0) ==> ?!x. x < n /\\ (a * x == b) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ b : Num, ∀ n : Num, coprime((a, n)) && !(n == 0) → existsunique((x : Num) => x < n && op_eq_eq(a * x, b, mod(n)))"),
       t391,
     ),
   )
@@ -4559,9 +4463,7 @@ fn step_67() -> Unit raise {
   )
   cong_solve_unique_nontrivial_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a p x. prime p /\\ coprime(p,a) /\\ 0 < x /\\ x < p\n           ==> ?!y. 0 < y /\\ y < p /\\ (x * y == a) (mod p)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ p : Num, ∀ x : Num, prime(p) && coprime((p, a)) && 0 < x && x < p → existsunique((y : Num) => 0 < y && y < p && op_eq_eq(x * y, a, mod(p)))"),
       t423,
     ),
   )
@@ -4595,9 +4497,7 @@ fn step_68() -> Unit raise {
   )
   cong_unique_inverse_prime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p x. prime p /\\ 0 < x /\\ x < p\n         ==> ?!y. 0 < y /\\ y < p /\\ (x * y == 1) (mod p)",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ x : Num, prime(p) && 0 < x && x < p → existsunique((y : Num) => 0 < y && y < p && op_eq_eq(x * y, 1, mod(p)))"),
       t427,
     ),
   )
@@ -4731,9 +4631,7 @@ fn step_69() -> Unit raise {
     t447,
   ])
   let t432 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "{x | x < m * n /\\ (x == b) (mod n)} =\n    IMAGE (\\i. i * n + b MOD n) {i | i < m}",
-    ),
+    @term_syntax.parse_term("{(x : Num) | x < (m : Num) * (n : Num) && op_eq_eq(x, (b : Num), mod(n))} == IMAGE((i : Num) => i * n + MOD(b, n), {(i : Num) | i < m})"),
     fn(
       x429 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4804,9 +4702,7 @@ fn step_69() -> Unit raise {
   )
   count_cong_solve_simple_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n b. {x | x < m * n /\\ (x == b) (mod n)} HAS_SIZE\n           (if n = 0 then 0 else m)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ∀ b : Num, HAS_SIZE({(x : Num) | x < m * n && op_eq_eq(x, b, mod(n))}, if n == 0 { 0 } else { m })"),
       t449,
     ),
   )
@@ -5279,9 +5175,7 @@ fn step_70() -> Unit raise {
   )
   count_cong_solve_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n a b.\n        {x | x < m * n /\\ (a * x == b) (mod n)} HAS_SIZE\n        (if ~(n = 0) /\\ gcd(n,a) divides b then m * gcd(n,a) else 0)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ∀ a : Num, ∀ b : Num, HAS_SIZE({(x : Num) | x < m * n && op_eq_eq(a * x, b, mod(n))}, if !(n == 0) && divides(gcd((n, a)), b) { m * gcd((n, a)) } else { 0 })"),
       t496,
     ),
   )
@@ -5310,9 +5204,7 @@ fn step_71() -> Unit raise {
   )
   count_cong_solve_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a b. {x | x < n /\\ (a * x == b) (mod n)} HAS_SIZE\n           (if ~(n = 0) /\\ gcd(n,a) divides b then gcd(n,a) else 0)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, ∀ b : Num, HAS_SIZE({(x : Num) | x < n && op_eq_eq(a * x, b, mod(n))}, if !(n == 0) && divides(gcd((n, a)), b) { gcd((n, a)) } else { 0 })"),
       t498,
     ),
   )
@@ -5339,9 +5231,7 @@ fn step_72() -> Unit raise {
   )
   cong_chinese_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "coprime(a,b) /\\ (x == y) (mod a) /\\ (x == y) (mod b)\n   ==> (x == y) (mod (a * b))",
-      ),
+      @term_syntax.parse_term("coprime(((a : Num), (b : Num))) && op_eq_eq((x : Num), (y : Num), mod(a)) && op_eq_eq(x, y, mod(b)) → op_eq_eq(x, y, mod(a * b))"),
       t500,
     ),
   )
@@ -5621,9 +5511,7 @@ fn step_73() -> Unit raise {
   )
   chinese_remainder_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b m n.\n        coprime(a,b) /\\ ~(a = 0) /\\ ~(b = 0)\n        ==> ?!x. x < a * b /\\ (x == m) (mod a) /\\ (x == n) (mod b)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ b : Num, ∀ m : Num, ∀ n : Num, coprime((a, b)) && !(a == 0) && !(b == 0) → existsunique((x : Num) => x < a * b && op_eq_eq(x, m, mod(a)) && op_eq_eq(x, n, mod(b)))"),
       t540,
     ),
   )
@@ -5650,9 +5538,7 @@ fn step_74() -> Unit raise {
   let t546 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([]),
-      @parser.parse_term(
-        "(forall x. P(x) ==> Q(x)) ==> (?!x. P x) ==> ?!x. Q(x) /\\ P(x)",
-      ),
+      @term_syntax.parse_term("(∀ x : _, (P : (_) -> Bool)(x) → (Q : (_) -> Bool)(x)) → existsunique((x : _) => P(x)) → existsunique((x : _) => Q(x) && P(x))"),
     ),
   )
   let t545 = @simp.asm_rewrite_tac(@list.List([]))
@@ -5680,9 +5566,7 @@ fn step_74() -> Unit raise {
   )
   chinese_remainder_coprime_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b m n.\n        coprime(a,b) /\\ ~(a = 0) /\\ ~(b = 0) /\\ coprime(m,a) /\\ coprime(n,b)\n        ==> ?!x. coprime(x,a * b) /\\ x < a * b /\\\n                 (x == m) (mod a) /\\ (x == n) (mod b)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ b : Num, ∀ m : Num, ∀ n : Num, coprime((a, b)) && !(a == 0) && !(b == 0) && coprime((m, a)) && coprime((n, b)) → existsunique((x : Num) => coprime((x, a * b)) && x < a * b && op_eq_eq(x, m, mod(a)) && op_eq_eq(x, n, mod(b)))"),
       t549,
     ),
   )
@@ -5778,9 +5662,7 @@ fn step_75() -> Unit raise {
   )
   chinese_remainder_usual_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b u v:num. coprime(a,b) ==> ?x. (x == u) (mod a) /\\ (x == v) (mod b)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ b : Num, ∀ u : Num, ∀ v : Num, coprime((a, b)) → (∃ x : Num, op_eq_eq(x, u, mod(a)) && op_eq_eq(x, v, mod(b)))"),
       t565,
     ),
   )
@@ -5802,9 +5684,7 @@ pub fn chinese_remainder_usual() -> @kernel.Thm {
 fn step_76() -> Unit raise {
   cong_chinese_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b x y.\n     coprime(a,b)\n     ==> ((x == y) (mod (a * b)) <=> (x == y) (mod a) /\\ (x == y) (mod b))",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ b : Num, ∀ x : Num, ∀ y : Num, coprime((a, b)) → op_eq_eq(x, y, mod(a * b)) == (op_eq_eq(x, y, mod(a)) && op_eq_eq(x, y, mod(b)))"),
       @int.number_tac,
     ),
   )
@@ -5830,9 +5710,7 @@ fn step_77() -> Unit raise {
   let t609 = @simp.asm_simp_tac(
     @list.List([
       @int.number_rule(
-        @parser.parse_term(
-          "coprime(a,b)\n       ==> ((x == y) (mod (a * b)) <=>\n            (x == y) (mod a) /\\ (x == y) (mod b))",
-        ),
+        @term_syntax.parse_term("coprime(((a : Num), (b : Num))) → op_eq_eq((x : Num), (y : Num), mod(a * b)) == (op_eq_eq(x, y, mod(a)) && op_eq_eq(x, y, mod(b)))"),
       ),
     ]),
   )
@@ -5959,9 +5837,7 @@ fn step_77() -> Unit raise {
   let t590 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([@sets.has_size_image_inj_eq()]),
-      @parser.parse_term(
-        "forall f. (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y) /\\\n        IMAGE f s = t\n        ==> s HAS_SIZE p ==> t HAS_SIZE p",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> _, (∀ x : _, ∀ y : _, IN(x, (s : (_) -> Bool)) && IN(y, s) && f(x) == f(y) → x == y) && IMAGE(f, s) == (t : (_) -> Bool) → HAS_SIZE(s, (p : Num)) → HAS_SIZE(t, p)"),
     ),
   )
   let t586 = @term_syntax.parse_term("(f : (Num, Num) -> Num)")
@@ -6250,9 +6126,7 @@ fn step_77() -> Unit raise {
   )
   chinese_remainder_count_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P Q R a b m n.\n        coprime(a,b) /\\\n        (forall x. x < a * b ==> (R x <=> P (x MOD a) /\\ Q (x MOD b))) /\\\n        {x | x < a /\\ P x} HAS_SIZE m /\\ {x | x < b /\\ Q x} HAS_SIZE n\n        ==> {x | x < a * b /\\ R x} HAS_SIZE (m * n)",
-      ),
+      @term_syntax.parse_term("∀ P : (Num) -> Bool, ∀ Q : (Num) -> Bool, ∀ R : (Num) -> Bool, ∀ a : Num, ∀ b : Num, ∀ m : Num, ∀ n : Num, coprime((a, b)) && (∀ x : Num, x < a * b → R(x) == (P(MOD(x, a)) && Q(MOD(x, b)))) && HAS_SIZE({(x : Num) | x < a && P(x)}, m) && HAS_SIZE({(x : Num) | x < b && Q(x)}, n) → HAS_SIZE({(x : Num) | x < a * b && R(x)}, m * n)"),
       t614,
     ),
   )
@@ -6277,9 +6151,7 @@ fn step_78() -> Unit raise {
     @list.List([
       @int.coprime_rmod(),
       @int.number_rule(
-        @parser.parse_term(
-          "coprime(a:num,b)\n    ==> (coprime(a * b,x) <=> coprime(a,x) /\\ coprime(b,x))",
-        ),
+        @term_syntax.parse_term("coprime(((a : Num), (b : Num))) → coprime((a * b, (x : Num))) == (coprime((a, x)) && coprime((b, x)))"),
       ),
     ]),
   )
@@ -6305,9 +6177,7 @@ fn step_78() -> Unit raise {
   )
   chinese_remainder_coprime_count_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P Q R a b m n.\n        coprime(a,b) /\\\n        (forall x. x < a * b ==> (R x <=> P (x MOD a) /\\ Q (x MOD b))) /\\\n        {x | x < a /\\ coprime(a,x) /\\ P x} HAS_SIZE m /\\\n        {x | x < b /\\ coprime(b,x) /\\ Q x} HAS_SIZE n\n        ==> {x | x < a * b /\\ coprime(a * b,x) /\\ R x} HAS_SIZE (m * n)",
-      ),
+      @term_syntax.parse_term("∀ P : (Num) -> Bool, ∀ Q : (Num) -> Bool, ∀ R : (Num) -> Bool, ∀ a : Num, ∀ b : Num, ∀ m : Num, ∀ n : Num, coprime((a, b)) && (∀ x : Num, x < a * b → R(x) == (P(MOD(x, a)) && Q(MOD(x, b)))) && HAS_SIZE({(x : Num) | x < a && coprime((a, x)) && P(x)}, m) && HAS_SIZE({(x : Num) | x < b && coprime((b, x)) && Q(x)}, n) → HAS_SIZE({(x : Num) | x < a * b && coprime((a * b, x)) && R(x)}, m * n)"),
       t620,
     ),
   )
@@ -6333,9 +6203,7 @@ fn step_79() -> Unit raise {
   let t624 = @simp.asm_simp_tac(
     @list.List([
       @int.number_rule(
-        @parser.parse_term(
-          "coprime(a,b)\n       ==> ((x == y) (mod (a * b)) <=>\n            (x == y) (mod a) /\\ (x == y) (mod b))",
-        ),
+        @term_syntax.parse_term("coprime(((a : Num), (b : Num))) → op_eq_eq((x : Num), (y : Num), mod(a * b)) == (op_eq_eq(x, y, mod(a)) && op_eq_eq(x, y, mod(b)))"),
       ),
     ]),
   )
@@ -6361,9 +6229,7 @@ fn step_79() -> Unit raise {
   )
   count_roots_modulo_coprime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b k m n.\n        coprime(a,b) /\\\n        {x | x < a /\\ (x EXP k == 1) (mod a)} HAS_SIZE m /\\\n        {x | x < b /\\ (x EXP k == 1) (mod b)} HAS_SIZE n\n        ==> {x | x < a * b /\\ (x EXP k == 1) (mod (a * b))} HAS_SIZE (m * n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ b : Num, ∀ k : Num, ∀ m : Num, ∀ n : Num, coprime((a, b)) && HAS_SIZE({(x : Num) | x < a && op_eq_eq(EXP(x, k), 1, mod(a))}, m) && HAS_SIZE({(x : Num) | x < b && op_eq_eq(EXP(x, k), 1, mod(b))}, n) → HAS_SIZE({(x : Num) | x < a * b && op_eq_eq(EXP(x, k), 1, mod(a * b))}, m * n)"),
       t626,
     ),
   )
@@ -6385,9 +6251,7 @@ pub fn count_roots_modulo_coprime() -> @kernel.Thm {
 fn step_80() -> Unit raise {
   inverse_mod_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "inverse_mod n x =\n    if n <= 1 then 1\n    else @y. y < n /\\ (x * y == gcd(n,x)) (mod n)",
-      ),
+      @term_syntax.parse_term("(inverse_mod : (Num, Num) -> Num)((n : Num), (x : Num)) == (if n <= 1 { 1 } else { select((y : Num) => y < n && op_eq_eq(x * y, gcd((n, x)), mod(n))) })"),
     ),
   )
 }
@@ -6517,9 +6381,7 @@ fn step_81() -> Unit raise {
     t641,
   )
   let t643 = (
-    @parser.parse_term(
-      "(forall n x. inverse_mod n x < n <=> 2 <= n) /\\\n   (forall n x. (x * inverse_mod n x == gcd(n,x)) (mod n))",
-    ),
+    @term_syntax.parse_term("(∀ n : Num, ∀ x : Num, (inverse_mod(n, x) < n) == (2 <= n)) && (∀ n : Num, ∀ x : Num, op_eq_eq(x * inverse_mod(n, x), gcd((n, x)), mod(n)))"),
     t642,
   )
   let (inverse_mod_bound, inverse_mod_rmul_gen) = @bool.conj_pair(
@@ -6672,9 +6534,7 @@ fn step_83() -> Unit raise {
   )
   inverse_mod_rmul_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x. (x * inverse_mod n x == 1) (mod n) <=> coprime(n,x)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Num, op_eq_eq(x * inverse_mod(n, x), 1, mod(n)) == coprime((n, x))"),
       t653,
     ),
   )
@@ -6701,9 +6561,7 @@ fn step_84() -> Unit raise {
   )
   inverse_mod_lmul_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x. (inverse_mod n x * x == 1) (mod n) <=> coprime(n,x)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Num, op_eq_eq(inverse_mod(n, x) * x, 1, mod(n)) == coprime((n, x))"),
       t655,
     ),
   )
@@ -6726,9 +6584,7 @@ fn step_85() -> Unit raise {
   let t656 = @simp.rewrite_tac(@list.List([inverse_mod_lmul_eq()]))
   inverse_mod_lmul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x. coprime(n,x) ==> (inverse_mod n x * x == 1) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Num, coprime((n, x)) → op_eq_eq(inverse_mod(n, x) * x, 1, mod(n))"),
       t656,
     ),
   )
@@ -6751,9 +6607,7 @@ fn step_86() -> Unit raise {
   let t657 = @simp.rewrite_tac(@list.List([inverse_mod_rmul_eq()]))
   inverse_mod_rmul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x. coprime(n,x) ==> (x * inverse_mod n x == 1) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Num, coprime((n, x)) → op_eq_eq(x * inverse_mod(n, x), 1, mod(n))"),
       t657,
     ),
   )
@@ -6778,9 +6632,7 @@ fn step_87() -> Unit raise {
   let t677 = @simp.asm_rewrite_tac(@list.List([inverse_mod_rmul_eq()]))
   let t676 = @tactics.match_mp_tac(
     @int.number_rule(
-      @parser.parse_term(
-        "(a * x == 1) (mod n) /\\ (a * y == 1) (mod n) ==> (x == y) (mod n)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((a : Num) * (x : Num), 1, mod((n : Num))) && op_eq_eq(a * (y : Num), 1, mod(n)) → op_eq_eq(x, y, mod(n))"),
     ),
   )
   let t675 = @tactics.repeat_tac(
@@ -6795,9 +6647,7 @@ fn step_87() -> Unit raise {
   let t671 = @simp.asm_rewrite_tac(@list.List([]))
   let t668 = @drule.match_mp(
     @int.arith_rule(
-      @parser.parse_term(
-        "~(n = 1 /\\ x = 0) ==> ~(x = n) /\\ x <= n ==> ~(n = 1)",
-      ),
+      @term_syntax.parse_term("!((n : Num) == 1 && (x : Num) == 0) → !(x == n) && x <= n → !(n == 1)"),
     ),
   )
   let t670 = @tactics.first_x_assum(fn(
@@ -6944,9 +6794,7 @@ fn step_87() -> Unit raise {
   )
   inverse_mod_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a x.\n        (a * x == 1) (mod n) /\\ x <= n /\\ ~(n = 1 /\\ x = 0)\n        ==> inverse_mod n a = x",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, ∀ x : Num, op_eq_eq(a * x, 1, mod(n)) && x <= n && !(n == 1 && x == 0) → inverse_mod(n, a) == x"),
       t680,
     ),
   )
@@ -7110,9 +6958,7 @@ fn step_89() -> Unit raise {
   )
   inverse_mod_cong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x y. (x == y) (mod n) ==> inverse_mod n x = inverse_mod n y",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Num, ∀ y : Num, op_eq_eq(x, y, mod(n)) → inverse_mod(n, x) == inverse_mod(n, y)"),
       t695,
     ),
   )
@@ -7155,9 +7001,7 @@ fn step_90() -> Unit raise {
   let t697 = @tactics.exists_tac(@term_syntax.parse_term("inverse_mod((n : Num), (x : Num))"))
   let t696 = @tactics.match_mp_tac(
     @int.number_rule(
-      @parser.parse_term(
-        "forall x'. (x * x' == 1) (mod n) /\\ (x' * x'' == 1) (mod n)\n         ==> (x'' == x) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ x' : Num, op_eq_eq((x : Num) * x', 1, mod((n : Num))) && op_eq_eq(x' * (x'' : Num), 1, mod(n)) → op_eq_eq(x'', x, mod(n))"),
     ),
   )
   let t705 = @tactics.thenl(
@@ -7175,9 +7019,7 @@ fn step_90() -> Unit raise {
   )
   inverse_mod_inverse_mod_cong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x. coprime(n,x) ==> (inverse_mod n (inverse_mod n x) == x) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Num, coprime((n, x)) → op_eq_eq(inverse_mod(n, inverse_mod(n, x)), x, mod(n))"),
       t705,
     ),
   )
@@ -7207,9 +7049,7 @@ fn step_91() -> Unit raise {
   )
   inverse_mod_inverse_mod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x. coprime(n,x) /\\ 1 <= x /\\ x <= n\n         ==> inverse_mod n (inverse_mod n x) = x",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : Num, coprime((n, x)) && 1 <= x && x <= n → inverse_mod(n, inverse_mod(n, x)) == x"),
       t708,
     ),
   )
@@ -7365,9 +7205,7 @@ fn step_95() -> Unit raise {
   )
   let t756 = @tactics.match_mp_tac(
     @int.arith_rule(
-      @parser.parse_term(
-        "m * x <= m * n /\\ n * y <= n * m /\\ 2 * m * n <= q * m * n\n    ==> m * x + n * y = 1 + q * m * n ==> u:num = v",
-      ),
+      @term_syntax.parse_term("(m : Num) * (x : Num) <= m * (n : Num) && n * (y : Num) <= n * m && 2 * (m * n) <= (q : Num) * (m * n) → m * x + n * y == 1 + q * (m * n) → (u : Num) == (v : Num)"),
     ),
   )
   let t755 = @list.List([
@@ -7393,9 +7231,7 @@ fn step_95() -> Unit raise {
             @arith.mult_eq_0(),
             @arith.mult_eq_1(),
             @int.arith_rule(
-              @parser.parse_term(
-                "a + b = 1 <=> a = 0 /\\ b = 1 \\/ a = 1 /\\ b = 0",
-              ),
+              @term_syntax.parse_term("((a : Num) + (b : Num) == 1) == (a == 0 && b == 1 || a == 1 && b == 0)"),
             ),
           ]),
         ),
@@ -7556,9 +7392,7 @@ fn step_95() -> Unit raise {
     t735,
   ])
   let t730 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(m * inverse_mod n m + n * inverse_mod m n == 1) (mod (m * n))",
-    ),
+    @term_syntax.parse_term("op_eq_eq((m : Num) * inverse_mod((n : Num), m) + n * inverse_mod(m, n), 1, mod(m * n))"),
     fn(
       x727 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -7690,9 +7524,7 @@ fn step_95() -> Unit raise {
   )
   inverse_mod_inversion_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. coprime(m,n)\n         ==> m * inverse_mod n m + n * inverse_mod m n = m * n + 1",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, coprime((m, n)) → m * inverse_mod(n, m) + n * inverse_mod(m, n) == m * n + 1"),
       t759,
     ),
   )
@@ -7752,9 +7584,7 @@ fn step_96() -> Unit raise {
     @int.asm_arith_tac,
   )
   let t768 = (
-    @parser.parse_term(
-      "(inverse_mod 0 n = 1 /\\ inverse_mod 1 n = 1) /\\\n     (MAX 2 p <= n /\\ (m * p) MOD n = 1 ==> inverse_mod n m = p)",
-    ),
+    @term_syntax.parse_term("(inverse_mod(0, (n : Num)) == 1 && inverse_mod(1, n) == 1) && (MAX(2, (p : Num)) <= n && MOD((m : Num) * p, n) == 1 → inverse_mod(n, m) == p)"),
     t767,
   )
   let (pth_01, pth) = @bool.conj_pair(
@@ -8090,9 +7920,7 @@ fn step_101() -> Unit raise {
   let t781 = @list.List([@meson.meson_tac(@list.List([])), @tactics.all_tac])
   let t780 = @tactics.match_mp_tac(
     @class.taut(
-      @parser.parse_term(
-        "(q ==> r) /\\ (p ==> q) /\\ (r ==> p)\n    ==> (p <=> q) /\\ (p <=> r)",
-      ),
+      @term_syntax.parse_term("((q : Bool) → (r : Bool)) && ((p : Bool) → q) && (r → p) → p == q && p == r"),
     ),
   )
   let t779 = @tactics.x_gen_tac(@term_syntax.parse_term("(n : Num)"))
@@ -8157,9 +7985,7 @@ fn step_101() -> Unit raise {
     t802,
   )
   let t804 = (
-    @parser.parse_term(
-      "(forall n. squarefree n <=> forall p. prime p ==> ~(p EXP 2 divides n)) /\\\n   (forall n. squarefree n <=> forall p. prime p /\\ p divides n ==> ~(p EXP 2 divides n))",
-    ),
+    @term_syntax.parse_term("(∀ n : Num, squarefree(n) == (∀ p : Num, prime(p) → !divides(EXP(p, 2), n))) && (∀ n : Num, squarefree(n) == (∀ p : Num, prime(p) && divides(p, n) → !divides(EXP(p, 2), n)))"),
     t803,
   )
   let (squarefree_prime, squarefree_prime_divisor) = @bool.conj_pair(
@@ -8309,9 +8135,7 @@ fn step_103() -> Unit raise {
   )
   squarefree_prime_index_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. squarefree n <=>\n       ~(n = 0) /\\ forall p. prime p ==> index p n <= 1",
-      ),
+      @term_syntax.parse_term("∀ n : Num, squarefree(n) == (!(n == 0) && (∀ p : Num, prime(p) → index(p, n) <= 1))"),
       t820,
     ),
   )
@@ -8374,9 +8198,7 @@ fn step_104() -> Unit raise {
   let t824 = @tactics.repeat_tac(@tactics.conj_tac)
   let t823 = @tactics.match_mp_tac(
     @class.taut(
-      @parser.parse_term(
-        "(r ==> p) /\\ (q ==> r) /\\ (p ==> q)\n    ==> (p <=> q) /\\ (p <=> r)",
-      ),
+      @term_syntax.parse_term("((r : Bool) → (p : Bool)) && ((q : Bool) → r) && (p → q) → p == q && p == r"),
     ),
   )
   let t822 = @tactics.x_gen_tac(@term_syntax.parse_term("(n : Num)"))
@@ -8396,9 +8218,7 @@ fn step_104() -> Unit raise {
     t830,
   )
   let t832 = (
-    @parser.parse_term(
-      "(forall n. squarefree n <=> forall a b. a * b = n ==> coprime(a,b)) /\\\n   (forall n. squarefree n <=> forall a b. a * b divides n ==> coprime(a,b))",
-    ),
+    @term_syntax.parse_term("(∀ n : Num, squarefree(n) == (∀ a : Num, ∀ b : Num, a * b == n → coprime((a, b)))) && (∀ n : Num, squarefree(n) == (∀ a : Num, ∀ b : Num, divides(a * b, n) → coprime((a, b))))"),
     t831,
   )
   let (squarefree_coprime, squarefree_coprime_divisors) = @bool.conj_pair(
@@ -8636,9 +8456,7 @@ fn step_107() -> Unit raise {
   )
   squarefree_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. squarefree(m * n) <=> coprime(m,n) /\\ squarefree m /\\ squarefree n",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, squarefree(m * n) == (coprime((m, n)) && squarefree(m) && squarefree(n))"),
       t861,
     ),
   )
@@ -8772,9 +8590,7 @@ fn step_108() -> Unit raise {
   )
   squarefree_exp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n k. squarefree(n EXP k) <=> n = 1 \\/ k = 0 \\/ squarefree n /\\ k = 1",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ k : Num, squarefree(EXP(n, k)) == (n == 1 || k == 0 || squarefree(n) && k == 1)"),
       t878,
     ),
   )
@@ -8939,9 +8755,7 @@ fn step_109() -> Unit raise {
   )
   squarefree_divides_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall q n. squarefree q\n         ==> (q divides n <=> forall p. prime p /\\ p divides q ==> p divides n)",
-      ),
+      @term_syntax.parse_term("∀ q : Num, ∀ n : Num, squarefree(q) → divides(q, n) == (∀ p : Num, prime(p) && divides(p, q) → divides(p, n))"),
       t897,
     ),
   )
@@ -8970,9 +8784,7 @@ fn step_110() -> Unit raise {
   )
   squarefree_divexp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n q x. squarefree q /\\ q divides x EXP n ==> q divides x",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ q : Num, ∀ x : Num, squarefree(q) && divides(q, EXP(x, n)) → divides(q, x)"),
       t898,
     ),
   )
@@ -8997,9 +8809,7 @@ fn step_111() -> Unit raise {
   )
   squarefree_divexp_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n q x. squarefree q /\\ ~(n = 0) ==> (q divides x EXP n <=> q divides x)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ q : Num, ∀ x : Num, squarefree(q) && !(n == 0) → divides(q, EXP(x, n)) == divides(q, x)"),
       t899,
     ),
   )
@@ -9235,9 +9045,7 @@ fn step_112() -> Unit raise {
   ])
   let t901 = @tactics.match_mp_tac(
     @class.taut(
-      @parser.parse_term(
-        "((p ==> q) /\\ (q ==> r)) /\\ (r ==> p) ==> (p <=> q) /\\ (p <=> r)",
-      ),
+      @term_syntax.parse_term("(((p : Bool) → (q : Bool)) && (q → (r : Bool))) && (r → p) → p == q && p == r"),
     ),
   )
   let t934 = @tactics.then_tac(
@@ -9292,9 +9100,7 @@ fn step_112() -> Unit raise {
     t933,
   )
   let t935 = (
-    @parser.parse_term(
-      "(forall n. squarefree n <=> ~(n = 0) /\\ forall m k. n divides m EXP k ==> n divides m) /\\\n   (forall n. squarefree n <=> ~(n = 0) /\\ forall m. n divides m EXP 2 ==> n divides m)",
-    ),
+    @term_syntax.parse_term("(∀ n : Num, squarefree(n) == (!(n == 0) && (∀ m : Num, ∀ k : Num, divides(n, EXP(m, k)) → divides(n, m)))) && (∀ n : Num, squarefree(n) == (!(n == 0) && (∀ m : Num, divides(n, EXP(m, 2)) → divides(n, m))))"),
     t934,
   )
   let (squarefree_2, squarefree_alt) = @bool.conj_pair(
@@ -9335,9 +9141,7 @@ fn step_113() -> Unit raise {
   let t936 = @meson.meson_tac(@list.List([squarefree_divisor(), @int.gcd()]))
   squarefree_gcd_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. squarefree m \\/ squarefree n ==> squarefree(gcd(m,n))",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, squarefree(m) || squarefree(n) → squarefree(gcd((m, n)))"),
       t936,
     ),
   )
@@ -9644,9 +9448,7 @@ fn step_115() -> Unit raise {
   )
   squarefree_nproduct_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. FINITE s\n       ==> (squarefree(nproduct s (\\n. n)) <=>\n            pairwise (\\a b. coprime(a,b)) s /\\ forall n. n IN s ==> squarefree n)",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, FINITE(s) → squarefree(nproduct(s, (n : Num) => n)) == (pairwise((a : Num) => (b : Num) => coprime((a, b)), s) && (∀ n : Num, IN(n, s) → squarefree(n)))"),
       t968,
     ),
   )
@@ -10059,9 +9861,7 @@ fn step_116() -> Unit raise {
   )
   squarefree_expand_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. squarefree n\n       ==> nproduct {p | prime p /\\ p divides n} (\\p. p) = n",
-      ),
+      @term_syntax.parse_term("∀ n : Num, squarefree(n) → nproduct({(p : Num) | prime(p) && divides(p, n)}, (p : Num) => p) == n"),
       t998,
     ),
   )
@@ -10189,9 +9989,7 @@ fn step_117() -> Unit raise {
   )
   squarefree_expand_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. squarefree n <=>\n       ~(n = 0) /\\ nproduct {p | prime p /\\ p divides n} (\\p. p) = n",
-      ),
+      @term_syntax.parse_term("∀ n : Num, squarefree(n) == (!(n == 0) && nproduct({(p : Num) | prime(p) && divides(p, n)}, (p : Num) => p) == n)"),
       t1010,
     ),
   )
@@ -10585,9 +10383,7 @@ fn step_119() -> Unit raise {
   let t1060 = @simp.simp_tac(
     @list.List([
       @int.number_rule(
-        @parser.parse_term(
-          "coprime(m:num,n)\n    ==> ((a == b) (mod (m * n)) <=>\n         (a == b) (mod m) /\\ (a == b) (mod n))",
-        ),
+        @term_syntax.parse_term("coprime(((m : Num), (n : Num))) → op_eq_eq((a : Num), (b : Num), mod(m * n)) == (op_eq_eq(a, b, mod(m)) && op_eq_eq(a, b, mod(n)))"),
       ),
     ]),
   )
@@ -10675,9 +10471,7 @@ fn step_119() -> Unit raise {
   )
   cong_mod_squarefree_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a b. squarefree n /\\\n           (forall p. prime p /\\ p divides n ==> (a == b) (mod p))\n           ==> (a == b) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, ∀ b : Num, squarefree(n) && (∀ p : Num, prime(p) && divides(p, n) → op_eq_eq(a, b, mod(p))) → op_eq_eq(a, b, mod(n))"),
       t1066,
     ),
   )
@@ -10711,9 +10505,7 @@ fn step_120() -> Unit raise {
   )
   cong_mod_squarefree_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a b. squarefree n\n           ==> ((a == b) (mod n) <=>\n               forall p. prime p /\\ p divides n ==> (a == b) (mod p))",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, ∀ b : Num, squarefree(n) → op_eq_eq(a, b, mod(n)) == (∀ p : Num, prime(p) && divides(p, n) → op_eq_eq(a, b, mod(p)))"),
       t1069,
     ),
   )
@@ -10735,9 +10527,7 @@ pub fn cong_mod_squarefree_eq() -> @kernel.Thm {
 fn step_121() -> Unit raise {
   phi_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "phi(n) = CARD { m | 0 < m /\\ m <= n /\\ coprime(m,n) }",
-      ),
+      @term_syntax.parse_term("(phi : (Num) -> Num)((n : Num)) == CARD({(m : Num) | 0 < m && m <= n && coprime((m, n))})"),
     ),
   )
 }
@@ -10835,9 +10625,7 @@ fn step_122() -> Unit raise {
           @tactics.then_tac(
             @tactics.thenl(
               @tactics.subgoal_then(
-                @parser.parse_term(
-                  "({m | 0 < m /\\ m <= n /\\ coprime (m,n)} = {1}) /\\\n      ({m | coprime (m,n) /\\ m < n} = {0})",
-                ),
+                @term_syntax.parse_term("{(m : Num) | 0 < m && m <= (n : Num) && coprime((m, n))} == {1} && {(m : Num) | coprime((m, n)) && m < n} == {0}"),
                 t1077,
               ),
               t1078,
@@ -10984,9 +10772,7 @@ fn step_124() -> Unit raise {
   )
   phi_another_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. ~(n = 1) ==> (phi(n) = CARD {m | 0 < m /\\ m < n /\\ coprime(m,n)})",
-      ),
+      @term_syntax.parse_term("∀ n : Num, !(n == 1) → phi(n) == CARD({(m : Num) | 0 < m && m < n && coprime((m, n))})"),
       t1097,
     ),
   )
@@ -11748,9 +11534,7 @@ fn step_133() -> Unit raise {
     ),
   ])
   let t1189 = @tactics.exists_tac(
-    @parser.parse_term(
-      "{m | 0 < m /\\ m < n /\\ coprime (m,n)} = {m | 0 < m /\\ m < n}",
-    ),
+    @term_syntax.parse_term("{(m : Num) | 0 < m && m < (n : Num) && coprime((m, n))} == {(m : Num) | 0 < m && m < n}"),
   )
   let t1188 = @tactics.match_mp_tac(@theorems.eq_trans())
   let t1187 = @tactics.disch_then(
@@ -11938,9 +11722,7 @@ fn step_133() -> Unit raise {
   )
   phi_prime_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. (phi n = n - 1) /\\ ~(n = 0) /\\ ~(n = 1) <=> prime n",
-      ),
+      @term_syntax.parse_term("∀ n : Num, (phi(n) == n - 1 && !(n == 0) && !(n == 1)) == prime(n)"),
       t1197,
     ),
   )
@@ -12148,9 +11930,7 @@ fn step_135() -> Unit raise {
     ]),
   )
   let t1205 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "{m | p divides m /\\ m < p EXP (k + 1)} =\n                IMAGE (\\x. p * x) {m | m < p EXP k}",
-    ),
+    @term_syntax.parse_term("{(m : Num) | divides((p : Num), m) && m < EXP(p, (k : Num) + 1)} == IMAGE((x : Num) => p * x, {(m : Num) | m < EXP(p, k)})"),
     fn(
       x1203 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -12197,9 +11977,7 @@ fn step_135() -> Unit raise {
   let t1200 = @simp.rewrite_tac(
     @list.List([
       @sets.set_rule(
-        @parser.parse_term(
-          "{n | ~(P n) /\\ Q n} = {n | Q n} DIFF {n | P n /\\ Q n}",
-        ),
+        @term_syntax.parse_term("{(n : _) | !(P : (_) -> Bool)(n) && (Q : (_) -> Bool)(n)} == DIFF({(n : _) | Q(n)}, {(n : _) | P(n) && Q(n)})"),
       ),
     ]),
   )
@@ -12268,9 +12046,7 @@ fn step_135() -> Unit raise {
   )
   phi_primepow_suc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p k. prime(p) ==> phi(p EXP (k + 1)) = p EXP (k + 1) - p EXP k",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ k : Num, prime(p) → phi(EXP(p, k + 1)) == EXP(p, k + 1) - EXP(p, k)"),
       t1225,
     ),
   )
@@ -12314,9 +12090,7 @@ fn step_136() -> Unit raise {
   )
   phi_primepow_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p k. prime p\n         ==> phi(p EXP k) = if k = 0 then 1 else p EXP k - p EXP (k - 1)",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ k : Num, prime(p) → phi(EXP(p, k)) == (if k == 0 { 1 } else { EXP(p, k) - EXP(p, k - 1) })"),
       t1228,
     ),
   )
@@ -12369,9 +12143,7 @@ fn step_137() -> Unit raise {
   )
   phi_primepow_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p k. prime p\n         ==> phi(p EXP k) = if k = 0 then 1 else p EXP (k - 1) * (p - 1)",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ k : Num, prime(p) → phi(EXP(p, k)) == (if k == 0 { 1 } else { EXP(p, k - 1) * (p - 1) })"),
       t1234,
     ),
   )
@@ -12746,9 +12518,7 @@ fn step_143() -> Unit raise {
   )
   let t1305 = @drule.match_mp(
     @int.arith_rule(
-      @parser.parse_term(
-        "p EXP k - p EXP k1 = p EXP k - 1\n      ==> ~(p EXP k = 0) /\\ p EXP k1 <= p EXP k ==> p EXP k1 = 1",
-      ),
+      @term_syntax.parse_term("EXP((p : Num), (k : Num)) - EXP(p, (k1 : Num)) == EXP(p, k) - 1 → !(EXP(p, k) == 0) && EXP(p, k1) <= EXP(p, k) → EXP(p, k1) == 1"),
     ),
   )
   let t1307 = @tactics.first_x_assum(fn(
@@ -12862,9 +12632,7 @@ fn step_143() -> Unit raise {
   )
   let t1294 = @tactics.match_mp_tac(
     @int.arith_rule(
-      @parser.parse_term(
-        "~(m = 0 /\\ n = 0) /\\ (m + 1) * (n + 1) <= k ==> ~(m * n = k - 1)",
-      ),
+      @term_syntax.parse_term("!((m : Num) == 0 && (n : Num) == 0) && (m + 1) * (n + 1) <= (k : Num) → !(m * n == k - 1)"),
     ),
   )
   let t1293 = @tactics.match_mp_tac(
@@ -13053,9 +12821,7 @@ fn step_144() -> Unit raise {
   let t1315 = @tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t1314)
   phi_limit_composite_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. ~prime n /\\ ~(n = 0) /\\ ~(n = 1) ==> phi n < n - 1",
-      ),
+      @term_syntax.parse_term("∀ n : Num, !prime(n) && !(n == 0) && !(n == 1) → phi(n) < n - 1"),
       t1315,
     ),
   )
@@ -13102,9 +12868,7 @@ fn step_145() -> Unit raise {
   )
   nproduct_mod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a:A->num n.\n        FINITE s /\\ ~(n = 0)\n        ==> (nproduct s (\\m. a(m) MOD n) == nproduct s a) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ a : (A) -> Num, ∀ n : Num, FINITE(s) && !(n == 0) → op_eq_eq(nproduct(s, (m : A) => MOD(a(m), n)), nproduct(s, a), mod(n))"),
       t1322,
     ),
   )
@@ -13148,9 +12912,7 @@ fn step_146() -> Unit raise {
   )
   nproduct_cmul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a c.\n        FINITE s\n        ==> nproduct s (\\m. c * a(m)) = c EXP (CARD s) * nproduct s a",
-      ),
+      @term_syntax.parse_term("∀ s : (_) -> Bool, ∀ a : (_) -> Num, ∀ c : Num, FINITE(s) → nproduct(s, (m : _) => c * a(m)) == EXP(c, CARD(s)) * nproduct(s, a)"),
       t1326,
     ),
   )
@@ -13172,9 +12934,7 @@ fn step_147() -> Unit raise {
     @list.List([cong_refl(), cong_sym(), cong_trans(), cong_mult(), cong_mod()]),
   )
   let lemma = @tactics.prove(
-    @parser.parse_term(
-      "~(n = 0) ==> ((a * x MOD n == b) (mod n) <=> (a * x == b) (mod n))",
-    ),
+    @term_syntax.parse_term("!((n : Num) == 0) → op_eq_eq((a : Num) * MOD((x : Num), n), (b : Num), mod(n)) == op_eq_eq(a * x, b, mod(n))"),
     t1327,
   )
   let t1346 = @tactics.conv_tac(@int.number_rule)
@@ -13332,9 +13092,7 @@ fn step_147() -> Unit raise {
   )
   iterate_over_coprime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall op f n k.\n        monoidal(op) /\\ coprime(k,n) /\\\n        (forall x y. (x == y) (mod n) ==> f x = f y)\n        ==> iterate op {d | coprime(d,n) /\\ d < n} (\\m. f(k * m)) =\n            iterate op {d | coprime(d,n) /\\ d < n} f",
-      ),
+      @term_syntax.parse_term("∀ op : (_, _) -> _, ∀ f : (Num) -> _, ∀ n : Num, ∀ k : Num, monoidal(op) && coprime((k, n)) && (∀ x : Num, ∀ y : Num, op_eq_eq(x, y, mod(n)) → f(x) == f(y)) → iterate(op, {(d : Num) | coprime((d, n)) && d < n}, (m : Num) => f(k * m)) == iterate(op, {(d : Num) | coprime((d, n)) && d < n}, f)"),
       t1347,
     ),
   )
@@ -13621,9 +13379,7 @@ fn step_148() -> Unit raise {
   )
   iterate_iterate_divisors_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall op:A->A->A f x.\n        monoidal op\n        ==> iterate op (1..x) (\\n. iterate op {d | d divides n} (f n)) =\n            iterate op (1..x)\n                       (\\n. iterate op (1..(x DIV n)) (\\k. f (k * n) n))",
-      ),
+      @term_syntax.parse_term("∀ op : (A, A) -> A, ∀ f : (Num, Num) -> A, ∀ x : Num, monoidal(op) → iterate(op, op_dot_dot(1, x), (n : Num) => iterate(op, {(d : Num) | divides(d, n)}, f(n))) == iterate(op, op_dot_dot(1, x), (n : Num) => iterate(op, op_dot_dot(1, DIV(x, n)), (k : Num) => f(k * n, n)))"),
       t1375,
     ),
   )
@@ -13668,9 +13424,7 @@ fn step_149() -> Unit raise {
     @list.List([nproduct_mod(), phi_finite_lemma()]),
   )
   let t1387 = @tactics.exists_tac(
-    @parser.parse_term(
-      "nproduct {m | coprime(m,n) /\\ m < n} (\\m. (a * m) MOD n)",
-    ),
+    @term_syntax.parse_term("nproduct({(m : Num) | coprime((m, (n : Num))) && m < n}, (m : Num) => MOD((a : Num) * m, n))"),
   )
   let t1386 = @tactics.match_mp_tac(cong_trans())
   let t1385 = @simp.once_rewrite_tac(@list.List([cong_sym()]))
@@ -13777,9 +13531,7 @@ fn step_150() -> Unit raise {
   let t1399 = @meson.meson_tac(@list.List([fermat_little(), phi_prime_eq()]))
   fermat_little_prime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a p. prime p /\\ coprime(a,p) ==> (a EXP (p - 1) == 1) (mod p)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ p : Num, prime(p) && coprime((a, p)) → op_eq_eq(EXP(a, p - 1), 1, mod(p))"),
       t1399,
     ),
   )
@@ -14117,9 +13869,7 @@ fn step_151() -> Unit raise {
   )
   lucas_coprime_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n a. ~(m = 0) /\\ (a EXP m == 1) (mod n) ==> coprime(a,n)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ∀ a : Num, !(m == 0) && op_eq_eq(EXP(a, m), 1, mod(n)) → coprime((a, n))"),
       t1439,
     ),
   )
@@ -14281,9 +14031,7 @@ fn step_152() -> Unit raise {
   )
   lucas_weak_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n. 2 <= n /\\\n         (a EXP (n - 1) == 1) (mod n) /\\\n         (forall m. 0 < m /\\ m < n - 1 ==> ~(a EXP m == 1) (mod n))\n         ==> prime(n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, 2 <= n && op_eq_eq(EXP(a, n - 1), 1, mod(n)) && (∀ m : Num, 0 < m && m < n - 1 → !op_eq_eq(EXP(a, m), 1, mod(n))) → prime(n)"),
       t1459,
     ),
   )
@@ -14692,9 +14440,7 @@ fn step_153() -> Unit raise {
     })(((x1548 : @kernel.Thm) => @bool.spec(t1547, x1548))(x1549))
   })
   let t1543 = @tactics.undisch_tac(
-    @parser.parse_term(
-      "forall p. prime p /\\ p divides m * r\n                   ==> ~(a EXP ((m * r) DIV p) == 1) (mod n)",
-    ),
+    @term_syntax.parse_term("∀ p : Num, prime(p) && divides(p, (m : Num) * (r : Num)) → !op_eq_eq(EXP((a : Num), DIV(m * r, p)), 1, mod((n : Num)))"),
   )
   let t1542 = @tactics.disch_then(
     @tactics.x_choose_then(@term_syntax.parse_term("(p : Num)"))(fn(
@@ -15441,9 +15187,7 @@ fn step_153() -> Unit raise {
   )
   lucas_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n. 2 <= n /\\\n         (a EXP (n - 1) == 1) (mod n) /\\\n         (forall p. prime(p) /\\ p divides (n - 1)\n              ==> ~(a EXP ((n - 1) DIV p) == 1) (mod n))\n         ==> prime(n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, 2 <= n && op_eq_eq(EXP(a, n - 1), 1, mod(n)) && (∀ p : Num, prime(p) && divides(p, n - 1) → !op_eq_eq(EXP(a, DIV(n - 1, p)), 1, mod(n))) → prime(n)"),
       t1596,
     ),
   )
@@ -15463,9 +15207,7 @@ pub fn lucas() -> @kernel.Thm {
 fn step_154() -> Unit raise {
   order_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "order n a = @d. forall k. (a EXP k == 1) (mod n) <=> d divides k",
-      ),
+      @term_syntax.parse_term("(order : (Num, Num) -> Num)((n : Num), (a : Num)) == select((d : Num) => ∀ k : Num, op_eq_eq(EXP(a, k), 1, mod(n)) == divides(d, k))"),
     ),
   )
 }
@@ -15544,9 +15286,7 @@ fn step_156() -> Unit raise {
   )
   order_divides_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a d. (a EXP d == 1) (mod n) <=> order(n) a divides d",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, ∀ d : Num, op_eq_eq(EXP(a, d), 1, mod(n)) == divides(order(n, a), d)"),
       t1606,
     ),
   )
@@ -15598,9 +15338,7 @@ fn step_158() -> Unit raise {
   )
   order_unique_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a d. order n a = d <=> forall k. (a EXP k == 1) (mod n) <=> d divides k",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, ∀ d : Num, (order(n, a) == d) == (∀ k : Num, op_eq_eq(EXP(a, k), 1, mod(n)) == divides(d, k))"),
       t1609,
     ),
   )
@@ -15699,9 +15437,7 @@ fn step_159() -> Unit raise {
   )
   order_minimal_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a m. 0 < m /\\ m < order(n) a ==> ~((a EXP m == 1) (mod n))",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, ∀ m : Num, 0 < m && m < order(n, a) → !op_eq_eq(EXP(a, m), 1, mod(n))"),
       t1617,
     ),
   )
@@ -15722,9 +15458,7 @@ fn step_160() -> Unit raise {
   let t1618 = @meson.meson_tac(@list.List([order_v1(), order_minimal()]))
   order_works_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a. (a EXP (order(n) a) == 1) (mod n) /\\\n         forall m. 0 < m /\\ m < order(n) a ==> ~((a EXP m == 1) (mod n))",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, op_eq_eq(EXP(a, order(n, a)), 1, mod(n)) && (∀ m : Num, 0 < m && m < order(n, a) → !op_eq_eq(EXP(a, m), 1, mod(n)))"),
       t1618,
     ),
   )
@@ -15985,9 +15719,7 @@ fn step_164() -> Unit raise {
   )
   order_unique_prime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a p.\n        prime p\n        ==> (order n a = p <=> ~((a == 1) (mod n)) /\\ (a EXP p == 1) (mod n))",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, ∀ p : Num, prime(p) → (order(n, a) == p) == (!op_eq_eq(a, 1, mod(n)) && op_eq_eq(EXP(a, p), 1, mod(n)))"),
       t1646,
     ),
   )
@@ -16079,9 +15811,7 @@ fn step_167() -> Unit raise {
   )
   coprime_order_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a. coprime(n,a)\n         ==> order(n) a > 0 /\\\n            (a EXP (order(n) a) == 1) (mod n) /\\\n            forall m. 0 < m /\\ m < order(n) a ==> ~((a EXP m == 1) (mod n))",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, coprime((n, a)) → order(n, a) > 0 && op_eq_eq(EXP(a, order(n, a)), 1, mod(n)) && (∀ m : Num, 0 < m && m < order(n, a) → !op_eq_eq(EXP(a, m), 1, mod(n)))"),
       t1654,
     ),
   )
@@ -16319,9 +16049,7 @@ fn step_170() -> Unit raise {
               @tactics.then_tac(
                 @tactics.then_tac(
                   @tactics.subgoal_then(
-                    @parser.parse_term(
-                      "forall a n d e. coprime(n,a) /\\ e <= d\n              ==> ((a EXP d == a EXP e) (mod n) <=> (d == e) (mod (order n a)))",
-                    ),
+                    @term_syntax.parse_term("∀ a : Num, ∀ n : Num, ∀ d : Num, ∀ e : Num, coprime((n, a)) && e <= d → op_eq_eq(EXP(a, d), EXP(a, e), mod(n)) == op_eq_eq(d, e, mod(order(n, a)))"),
                     fn(
                       x1663 : @kernel.Thm,
                     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -16369,9 +16097,7 @@ fn step_170() -> Unit raise {
   )
   order_divides_expdiff_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n d e. coprime(n,a)\n             ==> ((a EXP d == a EXP e) (mod n) <=> (d == e) (mod (order n a)))",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, ∀ d : Num, ∀ e : Num, coprime((n, a)) → op_eq_eq(EXP(a, d), EXP(a, e), mod(n)) == op_eq_eq(d, e, mod(order(n, a)))"),
       t1682,
     ),
   )
@@ -16715,9 +16441,7 @@ fn step_171() -> Unit raise {
   )
   order_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a k. 0 < k /\\\n           (a EXP k == 1) (mod n) /\\\n           (forall m. 0 < m /\\ m < k ==> ~(a EXP m == 1) (mod n))\n           ==> order n a = k",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, ∀ k : Num, 0 < k && op_eq_eq(EXP(a, k), 1, mod(n)) && (∀ m : Num, 0 < m && m < k → !op_eq_eq(EXP(a, m), 1, mod(n))) → order(n, a) == k"),
       t1718,
     ),
   )
@@ -16741,9 +16465,7 @@ fn step_172() -> Unit raise {
   let t1720 = @simp.asm_simp_tac(
     @list.List([
       @int.number_rule(
-        @parser.parse_term(
-          "coprime(m,n)\n    ==> ((x == y) (mod (m * n)) <=>\n         (x == y) (mod m) /\\ (x == y) (mod n))",
-        ),
+        @term_syntax.parse_term("coprime(((m : Num), (n : Num))) → op_eq_eq((x : Num), (y : Num), mod(m * n)) == (op_eq_eq(x, y, mod(m)) && op_eq_eq(x, y, mod(n)))"),
       ),
     ]),
   )
@@ -16757,9 +16479,7 @@ fn step_172() -> Unit raise {
   )
   order_mul_lcm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n a. coprime(m,n) ==> order (m * n) a = lcm(order m a,order n a)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ∀ a : Num, coprime((m, n)) → order(m * n, a) == lcm((order(m, a), order(n, a)))"),
       t1722,
     ),
   )
@@ -16917,9 +16637,7 @@ fn step_173() -> Unit raise {
   )
   order_exp_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p a k. order p (a EXP k) =\n           if k = 0 then 1 else order p a DIV gcd(order p a,k)",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ a : Num, ∀ k : Num, order(p, EXP(a, k)) == (if k == 0 { 1 } else { DIV(order(p, a), gcd((order(p, a), k))) })"),
       t1747,
     ),
   )
@@ -16950,9 +16668,7 @@ fn step_174() -> Unit raise {
   )
   order_exp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p a k. ~(k = 0) /\\ k divides order p a\n           ==> order p (a EXP k) = order p a DIV k",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ a : Num, ∀ k : Num, !(k == 0) && divides(k, order(p, a)) → order(p, EXP(a, k)) == DIV(order(p, a), k)"),
       t1750,
     ),
   )
@@ -16975,9 +16691,7 @@ fn step_175() -> Unit raise {
   let t1761 = @simp.rewrite_tac(@list.List([@equal.gsym(@arith.mult_exp())]))
   let t1760 = @tactics.match_mp_tac(
     @int.number_rule(
-      @parser.parse_term(
-        "(a * b == 1) (mod n) ==> ((a == 1) (mod n) <=> (b == 1) (mod n))",
-      ),
+      @term_syntax.parse_term("op_eq_eq((a : Num) * (b : Num), 1, mod((n : Num))) → op_eq_eq(a, 1, mod(n)) == op_eq_eq(b, 1, mod(n))"),
     ),
   )
   let t1759 = @simp.rewrite_tac(@list.List([]))
@@ -17049,9 +16763,7 @@ fn step_175() -> Unit raise {
   )
   order_inverse_mod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a. coprime(n,a) ==> order n (inverse_mod n a) = order n a",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, coprime((n, a)) → order(n, inverse_mod(n, a)) == order(n, a)"),
       t1764,
     ),
   )
@@ -17090,9 +16802,7 @@ fn step_176() -> Unit raise {
   )
   order_mul_divides_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p a b. order p (a * b) divides order p a * order p b",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ a : Num, ∀ b : Num, divides(order(p, a * b), order(p, a) * order(p, b))"),
       t1769,
     ),
   )
@@ -17197,9 +16907,7 @@ fn step_177() -> Unit raise {
   let t1773 = @simp.asm_rewrite_tac(@list.List([@equal.gsym(order_divides())]))
   let t1772 = @tactics.match_mp_tac(
     @int.number_rule(
-      @parser.parse_term(
-        "(a:num) divides (b * c) /\\ b divides (a * c) /\\ coprime(a,b)\n    ==> (a * b) divides c",
-      ),
+      @term_syntax.parse_term("divides((a : Num), (b : Num) * (c : Num)) && divides(b, a * c) && coprime((a, b)) → divides(a * b, c)"),
     ),
   )
   let t1771 = @simp.asm_simp_tac(@list.List([order_mul_divides()]))
@@ -17248,9 +16956,7 @@ fn step_177() -> Unit raise {
   )
   order_mul_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p a b. coprime(order p a,order p b)\n           ==> order p (a * b) = order p a * order p b",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ a : Num, ∀ b : Num, coprime((order(p, a), order(p, b))) → order(p, a * b) == order(p, a) * order(p, b)"),
       t1798,
     ),
   )
@@ -17905,9 +17611,7 @@ fn step_179() -> Unit raise {
   )
   order_divides_maximal_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p. ~(p = 1)\n       ==> ?n. coprime(p,n) /\\\n               forall m. coprime(p,m) ==> order p m divides order p n",
-      ),
+      @term_syntax.parse_term("∀ p : Num, !(p == 1) → (∃ n : Num, coprime((p, n)) && (∀ m : Num, coprime((p, m)) → divides(order(p, m), order(p, n))))"),
       t1873,
     ),
   )
@@ -18184,9 +17888,7 @@ fn step_180() -> Unit raise {
   )
   power_residue_modulo_coprime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a k. coprime(n,a) /\\ coprime(k,phi n)\n           ==> ?x. (x EXP k == a) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, ∀ k : Num, coprime((n, a)) && coprime((k, phi(n))) → (∃ x : Num, op_eq_eq(EXP(x, k), a, mod(n)))"),
       t1904,
     ),
   )
@@ -18216,9 +17918,7 @@ fn step_181() -> Unit raise {
   )
   power_residue_modulo_prime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p a k. prime p /\\ ~(p divides a) /\\ coprime(k,p - 1)\n           ==> ?x. (x EXP k == a) (mod p)",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ a : Num, ∀ k : Num, prime(p) && !divides(p, a) && coprime((k, p - 1)) → (∃ x : Num, op_eq_eq(EXP(x, k), a, mod(p)))"),
       t1907,
     ),
   )
@@ -18241,9 +17941,7 @@ fn step_182() -> Unit raise {
   let t1924 = @simp.asm_simp_tac(@list.List([order_divides_phi()]))
   let t1921 = @drule.match_mp(
     @int.number_rule(
-      @parser.parse_term(
-        "(a:num == b) (mod d) ==> e divides d ==> (a == b) (mod e)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((a : Num), (b : Num), mod((d : Num))) → divides((e : Num), d) → op_eq_eq(a, b, mod(e))"),
     ),
   )
   let t1923 = @tactics.first_x_assum(fn(
@@ -18283,9 +17981,7 @@ fn step_182() -> Unit raise {
   )
   let t1915 = @tactics.match_mp_tac(
     @int.number_rule(
-      @parser.parse_term(
-        "(a':num == a) (mod n) /\\ (b' == b) (mod n)\n    ==> (a' == b') (mod n) ==> (a == b) (mod n)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((a' : Num), (a : Num), mod((n : Num))) && op_eq_eq((b' : Num), (b : Num), mod(n)) → op_eq_eq(a', b', mod(n)) → op_eq_eq(a, b, mod(n))"),
     ),
   )
   let t1914 = @list.List([
@@ -18382,9 +18078,7 @@ fn step_182() -> Unit raise {
   )
   injective_exp_modulo_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a b k.\n        coprime(k,phi n) /\\\n        coprime(n,a) /\\ coprime(n,b) /\\\n        (a EXP k == b EXP k) (mod n)\n        ==> (a == b) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, ∀ b : Num, ∀ k : Num, coprime((k, phi(n))) && coprime((n, a)) && coprime((n, b)) && op_eq_eq(EXP(a, k), EXP(b, k), mod(n)) → op_eq_eq(a, b, mod(n))"),
       t1925,
     ),
   )
@@ -18563,9 +18257,7 @@ fn step_185() -> Unit raise {
   let t1947 = @simp.rewrite_tac(
     @list.List([
       @sets.set_rule(
-        @parser.parse_term(
-          "t SUBSET IMAGE f s <=> forall y. y IN t ==> ?x. x IN s /\\ f x = y",
-        ),
+        @term_syntax.parse_term("SUBSET((t : (_) -> Bool), IMAGE((f : (_) -> _), (s : (_) -> Bool))) == (∀ y : _, IN(y, t) → (∃ x : _, IN(x, s) && f(x) == y))"),
       ),
     ]),
   )
@@ -18829,9 +18521,7 @@ fn step_185() -> Unit raise {
   )
   primitive_root_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n g. order n g = phi n\n         ==> IMAGE (\\i. (g EXP i) MOD n) {i | i < phi n} =\n             {a | coprime(a,n) /\\ a < n}",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ g : Num, order(n, g) == phi(n) → IMAGE((i : Num) => MOD(EXP(g, i), n), {(i : Num) | i < phi(n)}) == {(a : Num) | coprime((a, n)) && a < n}"),
       t1968,
     ),
   )
@@ -19128,9 +18818,7 @@ fn step_186() -> Unit raise {
   )
   primitive_root_image_prime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p g. order p g = p - 1\n         ==> IMAGE (\\i. (g EXP i) MOD p) {i | i < p - 1} =\n             {a | 0 < a /\\ a < p}",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ g : Num, order(p, g) == p - 1 → IMAGE((i : Num) => MOD(EXP(g, i), p), {(i : Num) | i < p - 1}) == {(a : Num) | 0 < a && a < p}"),
       t2000,
     ),
   )
@@ -19225,9 +18913,7 @@ fn step_187() -> Unit raise {
   })
   let t2010 = @drule.match_mp(
     @sets.set_rule(
-      @parser.parse_term(
-        "IMAGE f s = t ==> forall y. y IN t ==> ?x. x IN s /\\ f x = y",
-      ),
+      @term_syntax.parse_term("IMAGE((f : (_) -> _), (s : (_) -> Bool)) == (t : (_) -> Bool) → (∀ y : _, IN(y, t) → (∃ x : _, IN(x, s) && f(x) == y))"),
     ),
   )
   let t2012 = @tactics.disch_then(fn(
@@ -19382,9 +19068,7 @@ fn step_187() -> Unit raise {
   )
   primitive_root_surjective_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n g a. ~(n = 0) /\\ order n g = phi n /\\ coprime(a,n)\n           ==> ?m. m < phi n /\\ (a == g EXP m) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ g : Num, ∀ a : Num, !(n == 0) && order(n, g) == phi(n) && coprime((a, n)) → (∃ m : Num, m < phi(n) && op_eq_eq(a, EXP(g, m), mod(n)))"),
       t2022,
     ),
   )
@@ -19423,9 +19107,7 @@ fn step_188() -> Unit raise {
   )
   primitive_root_surjective_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n g a. order n g = phi n /\\ coprime(a,n)\n           ==> ?m. (a == g EXP m) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ g : Num, ∀ a : Num, order(n, g) == phi(n) && coprime((a, n)) → (∃ m : Num, op_eq_eq(a, EXP(g, m), mod(n)))"),
       t2027,
     ),
   )
@@ -19534,9 +19216,7 @@ fn step_189() -> Unit raise {
   })
   let t2037 = @drule.match_mp(
     @sets.set_rule(
-      @parser.parse_term(
-        "IMAGE f s = t ==> forall y. y IN t ==> ?x. x IN s /\\ f x = y",
-      ),
+      @term_syntax.parse_term("IMAGE((f : (_) -> _), (s : (_) -> Bool)) == (t : (_) -> Bool) → (∀ y : _, IN(y, t) → (∃ x : _, IN(x, s) && f(x) == y))"),
     ),
   )
   let t2039 = @tactics.disch_then(fn(
@@ -19694,9 +19374,7 @@ fn step_189() -> Unit raise {
   )
   primitive_root_surjective_prime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p g a. ~(p = 0) /\\ order p g = p - 1 /\\ coprime(a,p)\n           ==> ?m. m < p - 1 /\\ (a == g EXP m) (mod p)",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ g : Num, ∀ a : Num, !(p == 0) && order(p, g) == p - 1 && coprime((a, p)) → (∃ m : Num, m < p - 1 && op_eq_eq(a, EXP(g, m), mod(p)))"),
       t2051,
     ),
   )
@@ -19735,9 +19413,7 @@ fn step_190() -> Unit raise {
   )
   primitive_root_surjective_prime_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p g a. order p g = p - 1 /\\ coprime(a,p)\n           ==> ?m. (a == g EXP m) (mod p)",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ g : Num, ∀ a : Num, order(p, g) == p - 1 && coprime((a, p)) → (∃ m : Num, op_eq_eq(a, EXP(g, m), mod(p)))"),
       t2056,
     ),
   )
@@ -20349,9 +20025,7 @@ fn step_191() -> Unit raise {
   )
   prime_divisor_sqrt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. prime(n) <=> ~(n = 1) /\\ forall d. d divides n /\\ d EXP 2 <= n ==> (d = 1)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, prime(n) == (!(n == 1) && (∀ d : Num, divides(d, n) && EXP(d, 2) <= n → d == 1))"),
       t2120,
     ),
   )
@@ -20580,9 +20254,7 @@ fn step_192() -> Unit raise {
                                                   @tactics.then_tac(
                                                     @tactics.gen_tac,
                                                     @class.asm_cases_tac(
-                                                      @parser.parse_term(
-                                                        "n = 1",
-                                                      ),
+                                                      @term_syntax.parse_term("(n : Num) == 1"),
                                                     ),
                                                   ),
                                                   t2121,
@@ -20635,9 +20307,7 @@ fn step_192() -> Unit raise {
   )
   prime_prime_factor_sqrt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. prime n <=>\n       ~(n = 0) /\\ ~(n = 1) /\\ ~(?p. prime p /\\ p divides n /\\ p EXP 2 <= n)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, prime(n) == (!(n == 0) && !(n == 1) && !(∃ p : Num, prime(p) && divides(p, n) && EXP(p, 2) <= n))"),
       t2155,
     ),
   )
@@ -21644,9 +21314,7 @@ fn step_193() -> Unit raise {
   let t2178 = @simp.rewrite_tac(@list.List([nat_mod(), @int.cong()]))
   let t2175 = @drule.match_mp(
     @int.arith_rule(
-      @parser.parse_term(
-        "(p - 1 = q * d) ==> ~(p = 0) ==> (p + q * 0 = 1 + q * d)",
-      ),
+      @term_syntax.parse_term("(p : Num) - 1 == (q : Num) * (d : Num) → !(p == 0) → p + q * 0 == 1 + q * d"),
     ),
   )
   let t2177 = @tactics.disch_then(fn(
@@ -22160,9 +21828,7 @@ fn step_193() -> Unit raise {
   )
   pocklington_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n q r.\n        2 <= n /\\ (n - 1 = q * r) /\\\n        (a EXP (n - 1) == 1) (mod n) /\\\n        (forall p. prime(p) /\\ p divides q\n             ==> coprime(a EXP ((n - 1) DIV p) - 1,n))\n        ==> forall p. prime p /\\ p divides n ==> (p == 1) (mod q)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, ∀ q : Num, ∀ r : Num, 2 <= n && n - 1 == q * r && op_eq_eq(EXP(a, n - 1), 1, mod(n)) && (∀ p : Num, prime(p) && divides(p, q) → coprime((EXP(a, DIV(n - 1, p)) - 1, n))) → (∀ p : Num, prime(p) && divides(p, n) → op_eq_eq(p, 1, mod(q)))"),
       t2305,
     ),
   )
@@ -22592,9 +22258,7 @@ fn step_194() -> Unit raise {
   )
   pocklington_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n q r.\n        2 <= n /\\ (n - 1 = q * r) /\\ n <= q EXP 2 /\\\n        (a EXP (n - 1) == 1) (mod n) /\\\n        (forall p. prime(p) /\\ p divides q\n             ==> coprime(a EXP ((n - 1) DIV p) - 1,n))\n        ==> prime(n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, ∀ q : Num, ∀ r : Num, 2 <= n && n - 1 == q * r && n <= EXP(q, 2) && op_eq_eq(EXP(a, n - 1), 1, mod(n)) && (∀ p : Num, prime(p) && divides(p, q) → coprime((EXP(a, DIV(n - 1, p)) - 1, n))) → prime(n)"),
       t2348,
     ),
   )
@@ -23299,9 +22963,7 @@ fn step_195() -> Unit raise {
   )
   pocklington_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n q r.\n        2 <= n /\\ (n - 1 = q * r) /\\ n <= q EXP 2 /\\\n        (a EXP (n - 1) == 1) (mod n) /\\\n        (forall p. prime(p) /\\ p divides q\n             ==> ?b. (a EXP ((n - 1) DIV p) == b) (mod n) /\\\n                     coprime(b - 1,n))\n        ==> prime(n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, ∀ q : Num, ∀ r : Num, 2 <= n && n - 1 == q * r && n <= EXP(q, 2) && op_eq_eq(EXP(a, n - 1), 1, mod(n)) && (∀ p : Num, prime(p) && divides(p, q) → (∃ b : Num, op_eq_eq(EXP(a, DIV(n - 1, p)), b, mod(n)) && coprime((b - 1, n)))) → prime(n)"),
       t2438,
     ),
   )
@@ -23323,9 +22985,7 @@ pub fn pocklington_alt() -> @kernel.Thm {
 fn step_196() -> Unit raise {
   primefact_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "primefact ps n <=> (ITLIST (*) ps 1 = n) /\\ forall p. MEM p ps ==> prime(p)",
-      ),
+      @term_syntax.parse_term("(primefact : (List[Num], Num) -> Bool)((ps : List[Num]), (n : Num)) == (ITLIST(op_star, ps, 1) == n && (∀ p : Num, MEM(p, ps) → prime(p)))"),
     ),
   )
 }
@@ -23975,9 +23635,7 @@ fn step_198() -> Unit raise {
   )
   primafact_contains_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall ps n. primefact ps n ==> forall p. prime p /\\ p divides n ==> MEM p ps",
-      ),
+      @term_syntax.parse_term("∀ ps : List[Num], ∀ n : Num, primefact(ps, n) → (∀ p : Num, prime(p) && divides(p, n) → MEM(p, ps))"),
       t2512,
     ),
   )
@@ -24020,9 +23678,7 @@ fn step_199() -> Unit raise {
   )
   primefact_variant_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall ps n. primefact ps n <=> (ITLIST (*) ps 1 = n) /\\ ALL prime ps",
-      ),
+      @term_syntax.parse_term("∀ ps : List[Num], ∀ n : Num, primefact(ps, n) == (ITLIST(op_star, ps, 1) == n && ALL(prime, ps))"),
       t2518,
     ),
   )
@@ -24047,9 +23703,7 @@ fn step_200() -> Unit raise {
   let t2542 = @term_syntax.parse_term("(ps : List[Num])")
   let t2543 = @tactics.spec_tac(@term_syntax.parse_term("(ps : List[Num])"), t2542)
   let t2541 = @tactics.undisch_tac(
-    @parser.parse_term(
-      "ALL (\\p. prime p /\\ ~(a EXP ((n - 1) DIV p) == 1) (mod n)) ps",
-    ),
+    @term_syntax.parse_term("ALL((p : Num) => prime(p) && !op_eq_eq(EXP((a : Num), DIV((n : Num) - 1, p)), 1, mod(n)), (ps : List[Num]))"),
   )
   let t2540 = @tactics.disch_then(
     @tactics.ante_res_then(fn(
@@ -24281,9 +23935,7 @@ fn step_200() -> Unit raise {
   )
   lucas_primefact_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "2 <= n /\\\n   (a EXP (n - 1) == 1) (mod n) /\\\n   (ITLIST (*) ps 1 = n - 1) /\\\n   ALL (\\p. prime p /\\ ~(a EXP ((n - 1) DIV p) == 1) (mod n)) ps\n   ==> prime n",
-      ),
+      @term_syntax.parse_term("2 <= (n : Num) && op_eq_eq(EXP((a : Num), n - 1), 1, mod(n)) && ITLIST(op_star, (ps : List[Num]), 1) == n - 1 && ALL((p : Num) => prime(p) && !op_eq_eq(EXP(a, DIV(n - 1, p)), 1, mod(n)), ps) → prime(n)"),
       t2546,
     ),
   )
@@ -25226,9 +24878,7 @@ fn step_201() -> Unit raise {
   })
   let t2582 = @simp.asm_simp_tac(@list.List([]))
   let t2581 = @tactics.exists_tac(
-    @parser.parse_term(
-      "\\p. prime p /\\ coprime(a EXP (q DIV p * r) MOD n - 1,n)",
-    ),
+    @term_syntax.parse_term("(p : Num) => prime(p) && coprime((MOD(EXP((a : Num), DIV((q : Num), p) * (r : Num)), (n : Num)) - 1, n))"),
   )
   let t2580 = @tactics.match_mp_tac(@lists.all_imp())
   let t2583 = @list.List([
@@ -25888,9 +25538,7 @@ fn step_201() -> Unit raise {
   )
   pocklington_primefact_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "2 <= n /\\ (q * r = n - 1) /\\ n <= q * q\n   ==> ((a EXP r) MOD n = b)\n       ==> (ITLIST (*) ps 1 = q)\n           ==> ((b EXP q) MOD n = 1)\n               ==> ALL (\\p. prime p /\\\n                            coprime((b EXP (q DIV p)) MOD n - 1,n)) ps\n                   ==> prime n",
-      ),
+      @term_syntax.parse_term("2 <= (n : Num) && (q : Num) * (r : Num) == n - 1 && n <= q * q → MOD(EXP((a : Num), r), n) == (b : Num) → ITLIST(op_star, (ps : List[Num]), 1) == q → MOD(EXP(b, q), n) == 1 → ALL((p : Num) => prime(p) && coprime((MOD(EXP(b, DIV(q, p)), n) - 1, n)), ps) → prime(n)"),
       t2686,
     ),
   )
@@ -26706,9 +26354,7 @@ pub fn prove_primefact(x : @num.Num) -> @kernel.Thm raise {
 fn step_214() -> Unit raise {
   let t2785 = @meson.meson_tac(@list.List([@int.prime(), @int.divides()]))
   let not_prime_thm = @tactics.prove(
-    @parser.parse_term(
-      "((m = 1) <=> F) ==> ((m = p) <=> F) ==> (m * n = p) ==> (prime(p) <=> F)",
-    ),
+    @term_syntax.parse_term("((m : Num) == 1) == false → (m == (p : Num)) == false → m * (n : Num) == p → prime(p) == false"),
     t2785,
   )
   let m_tm = @term_syntax.parse_term("(m : Num)")

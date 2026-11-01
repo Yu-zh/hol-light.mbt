@@ -2506,9 +2506,7 @@ fn step_12() -> Unit raise {
     t356,
   )
   let t358 = (
-    @parser.parse_term(
-      "(x:A = x) /\\ (~(x = y) \\/ y = x) /\\\n     (~(x:A = y) \\/ ~(x = z) \\/ (y = z))",
-    ),
+    @term_syntax.parse_term("(x : A) == x && (!(x == (y : A)) || y == x) && (!(x == y) || !(x == (z : A)) || y == z)"),
     t357,
   )
   let eq_thms = @bool.conjuncts_rule(

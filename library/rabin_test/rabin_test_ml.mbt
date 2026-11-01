@@ -39,9 +39,7 @@ fn step_1() -> Unit raise {
     @tactics.all_tac,
   ])
   let t27 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_sub r (ring_pow r (ring_pow r (x:A) (m EXP k)) m) x = ring_add r\n       (ring_sub r (ring_pow r (ring_pow r x (m EXP k)) m) (ring_pow r x m))\n       (ring_sub r (ring_pow r x m) x)",
-    ),
+    @term_syntax.parse_term("ring_sub((r : Ring[A]), ring_pow(r, ring_pow(r, (x : A), EXP((m : Num), (k : Num))), m), x) == ring_add(r, ring_sub(r, ring_pow(r, ring_pow(r, x, EXP(m, k)), m), ring_pow(r, x, m)), ring_sub(r, ring_pow(r, x, m), x))"),
     fn(
       x24 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -99,9 +97,7 @@ fn step_1() -> Unit raise {
     @tactics.all_tac,
   ])
   let t20 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_pow r (x:A) (m EXP (SUC k)) =\n                ring_pow r (ring_pow r x (m EXP k)) m",
-    ),
+    @term_syntax.parse_term("ring_pow((r : Ring[A]), (x : A), EXP((m : Num), SUC((k : Num)))) == ring_pow(r, ring_pow(r, x, EXP(m, k)), m)"),
     fn(
       x17 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -209,9 +205,7 @@ fn step_1() -> Unit raise {
     @tactics.all_tac,
   ])
   let t8 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_divides r (p:A) (ring_sub r (ring_pow r x (m EXP k)) x)",
-    ),
+    @term_syntax.parse_term("ring_divides((r : Ring[A]), (p : A), ring_sub(r, ring_pow(r, (x : A), EXP((m : Num), (k : Num))), x))"),
     fn(
       x5 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -330,9 +324,7 @@ fn step_1() -> Unit raise {
   )
   ring_divides_pow_iterate_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r (p:A) x m k. integral_domain r /\\\n     p IN ring_carrier r /\\ x IN ring_carrier r /\\\n     ring_divides r p (ring_sub r (ring_pow r x m) x) /\\ ~(k = 0) /\\ 1 <= m\n     ==> ring_divides r p (ring_sub r (ring_pow r x (m EXP k)) x)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ p : A, ∀ x : A, ∀ m : Num, ∀ k : Num, integral_domain(r) && IN(p, ring_carrier(r)) && IN(x, ring_carrier(r)) && ring_divides(r, p, ring_sub(r, ring_pow(r, x, m), x)) && !(k == 0) && 1 <= m → ring_divides(r, p, ring_sub(r, ring_pow(r, x, EXP(m, k)), x))"),
       t37,
     ),
   )
@@ -375,9 +367,7 @@ fn step_2() -> Unit raise {
   )
   poly_nonunit_degree_ge_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A ring p (s:V->bool).\n     field f /\\\n     p IN ring_carrier(poly_ring f s) /\\\n     ~(p = ring_0(poly_ring f s)) /\\\n     ~(ring_unit (poly_ring f s) p)\n     ==> 1 <= poly_deg f p",
-      ),
+      @term_syntax.parse_term("∀ f : Ring[A], ∀ p : ((V) -> Num) -> A, ∀ s : (V) -> Bool, field(f) && IN(p, ring_carrier(poly_ring(f, s))) && !(p == ring_0(poly_ring(f, s))) && !ring_unit(poly_ring(f, s), p) → 1 <= poly_deg(f, p)"),
       t40,
     ),
   )
@@ -401,16 +391,12 @@ fn step_3() -> Unit raise {
     @list.List([
       @ringtheory.ring_pow_v1(),
       @ringtheory.ring_rule(
-        @parser.parse_term(
-          "ring_sub r (ring_sub r (a:A) b) (ring_sub r a c) = ring_sub r c b",
-        ),
+        @term_syntax.parse_term("ring_sub((r : Ring[A]), ring_sub(r, (a : A), (b : A)), ring_sub(r, a, (c : A))) == ring_sub(r, c, b)"),
       ),
     ]),
   )
   let t63 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_sub r (ring_sub r (ring_pow r (u:A) m) x)\n                (ring_sub r (ring_pow r u m) (ring_pow r x m)) =\n     ring_sub r (ring_pow r x m) x",
-    ),
+    @term_syntax.parse_term("ring_sub((r : Ring[A]), ring_sub(r, ring_pow(r, (u : A), (m : Num)), (x : A)), ring_sub(r, ring_pow(r, u, m), ring_pow(r, x, m))) == ring_sub(r, ring_pow(r, x, m), x)"),
     fn(
       x61 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -447,9 +433,7 @@ fn step_3() -> Unit raise {
     @tactics.all_tac,
   ])
   let t58 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_divides r (p:A)\n    (ring_sub r (ring_sub r (ring_pow r u m) x)\n                (ring_sub r (ring_pow r u m) (ring_pow r x m)))",
-    ),
+    @term_syntax.parse_term("ring_divides((r : Ring[A]), (p : A), ring_sub(r, ring_sub(r, ring_pow(r, (u : A), (m : Num)), (x : A)), ring_sub(r, ring_pow(r, u, m), ring_pow(r, x, m))))"),
     fn(
       x55 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -518,9 +502,7 @@ fn step_3() -> Unit raise {
     @tactics.all_tac,
   ])
   let t49 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_divides r (p:A)\n    (ring_sub r (ring_pow r u m) (ring_pow r x m))",
-    ),
+    @term_syntax.parse_term("ring_divides((r : Ring[A]), (p : A), ring_sub(r, ring_pow(r, (u : A), (m : Num)), ring_pow(r, (x : A), m)))"),
     fn(
       x46 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -651,9 +633,7 @@ fn step_3() -> Unit raise {
   )
   ring_divides_reduce_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r (p:A) u x m.\n    u IN ring_carrier r /\\ x IN ring_carrier r /\\\n    ring_divides r p (ring_sub r u x) /\\\n    ring_divides r p (ring_sub r (ring_pow r u m) x) /\\ ~(m = 0)\n    ==> ring_divides r p (ring_sub r (ring_pow r x m) x)",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ p : A, ∀ u : A, ∀ x : A, ∀ m : Num, IN(u, ring_carrier(r)) && IN(x, ring_carrier(r)) && ring_divides(r, p, ring_sub(r, u, x)) && ring_divides(r, p, ring_sub(r, ring_pow(r, u, m), x)) && !(m == 0) → ring_divides(r, p, ring_sub(r, ring_pow(r, x, m), x))"),
       t65,
     ),
   )
@@ -713,9 +693,7 @@ fn step_4() -> Unit raise {
     @tactics.all_tac,
   ])
   let t69 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_inv f (x:A) IN ring_carrier f /\\\n                ~(ring_inv f x = ring_0 f)",
-    ),
+    @term_syntax.parse_term("IN(ring_inv((f : Ring[A]), (x : A)), ring_carrier(f)) && !(ring_inv(f, x) == ring_0(f))"),
     @tactics.strip_assume_tac,
   )
   let t68 = @tactics.exists_tac(
@@ -764,9 +742,7 @@ fn step_4() -> Unit raise {
   )
   field_nonzero_product_permute_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A ring x. field f /\\ FINITE(ring_carrier f) /\\\n    x IN ring_carrier f /\\ ~(x = ring_0 f)\n    ==> ring_product f (ring_carrier f DELETE ring_0 f) (\\y. ring_mul f x y) =\n        ring_product f (ring_carrier f DELETE ring_0 f) (\\y. y)",
-      ),
+      @term_syntax.parse_term("∀ f : Ring[A], ∀ x : A, field(f) && FINITE(ring_carrier(f)) && IN(x, ring_carrier(f)) && !(x == ring_0(f)) → ring_product(f, DELETE(ring_carrier(f), ring_0(f)), (y : A) => ring_mul(f, x, y)) == ring_product(f, DELETE(ring_carrier(f), ring_0(f)), (y : A) => y)"),
       t81,
     ),
   )
@@ -845,9 +821,7 @@ fn step_5() -> Unit raise {
     @tactics.all_tac,
   ])
   let t128 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_product f s (\\y:A. ring_mul f x y) =\n     ring_mul f (ring_pow f x (CARD(s:A->bool)))\n               (ring_product f s (\\y:A. y))",
-    ),
+    @term_syntax.parse_term("ring_product((f : Ring[A]), (s : (A) -> Bool), (y : A) => ring_mul(f, (x : A), y)) == ring_mul(f, ring_pow(f, x, CARD(s)), ring_product(f, s, (y : A) => y))"),
     fn(
       x125 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -902,9 +876,7 @@ fn step_5() -> Unit raise {
     @tactics.all_tac,
   ])
   let t121 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_product f s (\\y:A. ring_mul f x y) =\n     ring_product f s (\\y:A. y)",
-    ),
+    @term_syntax.parse_term("ring_product((f : Ring[A]), (s : (A) -> Bool), (y : A) => ring_mul(f, (x : A), y)) == ring_product(f, s, (y : A) => y)"),
     fn(
       x118 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -1020,9 +992,7 @@ fn step_5() -> Unit raise {
     @tactics.all_tac,
   ])
   let t109 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall y:A. y IN s ==> y IN ring_carrier f /\\ ~(y = ring_0 f)",
-    ),
+    @term_syntax.parse_term("∀ y : A, IN(y, (s : (A) -> Bool)) → IN(y, ring_carrier((f : Ring[A]))) && !(y == ring_0(f))"),
     fn(
       x106 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -1133,18 +1103,14 @@ fn step_5() -> Unit raise {
     @tactics.all_tac,
   ])
   let t97 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "FINITE (s:A->bool) /\\ CARD s = CARD(ring_carrier(f:A ring)) - 1",
-    ),
+    @term_syntax.parse_term("FINITE((s : (A) -> Bool)) && CARD(s) == CARD(ring_carrier((f : Ring[A]))) - 1"),
     @tactics.strip_assume_tac,
   )
   let t96 = @simp.abbrev_tac(
     @term_syntax.parse_term("(s : (A) -> Bool) == DELETE(ring_carrier((f : Ring[A])), ring_0(f))"),
   )
   let t95 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_pow f x (CARD(ring_carrier(f:A ring)) - 1) = ring_1 f",
-    ),
+    @term_syntax.parse_term("ring_pow((f : Ring[A]), (x : A), CARD(ring_carrier(f)) - 1) == ring_1(f)"),
     fn(
       x93 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -1197,9 +1163,7 @@ fn step_5() -> Unit raise {
     @tactics.all_tac,
   ])
   let t88 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "CARD(ring_carrier(f:A ring)) =\n                (CARD(ring_carrier f) - 1) + 1",
-    ),
+    @term_syntax.parse_term("CARD(ring_carrier((f : Ring[A]))) == CARD(ring_carrier(f)) - 1 + 1"),
     fn(
       x85 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -1341,9 +1305,7 @@ fn step_5() -> Unit raise {
   )
   finite_field_element_pow_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A ring. field f /\\ FINITE(ring_carrier f) ==> forall x. x IN ring_carrier f\n       ==> ring_pow f x (CARD(ring_carrier f)) = x",
-      ),
+      @term_syntax.parse_term("∀ f : Ring[A], field(f) && FINITE(ring_carrier(f)) → (∀ x : A, IN(x, ring_carrier(f)) → ring_pow(f, x, CARD(ring_carrier(f))) == x)"),
       t141,
     ),
   )
@@ -1372,9 +1334,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t482 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "poly_mul (f:A ring) (p:(1->num)->A)\n        (ring_0 (R:((1->num)->A)ring)) =\n        ring_mul R p (ring_0 R)",
-    ),
+    @term_syntax.parse_term("poly_mul((f : Ring[A]), (p : ((Unit) -> Num) -> A), ring_0((R : Ring[((Unit) -> Num) -> A]))) == ring_mul(R, p, ring_0(R))"),
     fn(
       x479 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -1434,9 +1394,7 @@ fn step_6() -> Unit raise {
           @tactics.then_tac(
             @tactics.disch_tac,
             @tactics.subgoal_then(
-              @parser.parse_term(
-                "ring_mul (R:((1->num)->A)ring) (p:(1->num)->A)\n        (ring_0 R) = ring_0 R",
-              ),
+              @term_syntax.parse_term("ring_mul((R : Ring[((Unit) -> Num) -> A]), (p : ((Unit) -> Num) -> A), ring_0(R)) == ring_0(R)"),
               fn(
                 x474 : @kernel.Thm,
               ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -1576,9 +1534,7 @@ fn step_6() -> Unit raise {
                   @tactics.then_tac(
                     @tactics.thenl(
                       @tactics.subgoal_then(
-                        @parser.parse_term(
-                          "(q:(1->num)->A) = poly_mul (f:A ring) p s",
-                        ),
+                        @term_syntax.parse_term("(q : ((Unit) -> Num) -> A) == poly_mul((f : Ring[A]), (p : ((Unit) -> Num) -> A), (s : ((Unit) -> Num) -> A))"),
                         fn(
                           x458 : @kernel.Thm,
                         ) -> ((
@@ -1656,9 +1612,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t457 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "poly_deg (f:A ring) (q:(1->num)->A) =\n      poly_deg f (p:(1->num)->A) + poly_deg f (s:(1->num)->A)",
-    ),
+    @term_syntax.parse_term("poly_deg((f : Ring[A]), (q : ((Unit) -> Num) -> A)) == poly_deg(f, (p : ((Unit) -> Num) -> A)) + poly_deg(f, (s : ((Unit) -> Num) -> A))"),
     fn(
       x454 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2025,9 +1979,7 @@ fn step_6() -> Unit raise {
       @tactics.then_tac(
         @tactics.thenl(
           @tactics.subgoal_then(
-            @parser.parse_term(
-              "ring_kernel(R,K) (ring_coset R (J:((1->num)->A)->bool)) = J",
-            ),
+            @term_syntax.parse_term("ring_kernel(((R : Ring[((Unit) -> Num) -> A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), ring_coset(R, (J : (((Unit) -> Num) -> A) -> Bool))) == J"),
             fn(
               x419 : @kernel.Thm,
             ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2260,9 +2212,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t401 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_coset R (J:((1->num)->A)->bool) (q:(1->num)->A) =\n     ring_0 (K:(((1->num)->A)->bool)ring)",
-    ),
+    @term_syntax.parse_term("ring_coset((R : Ring[((Unit) -> Num) -> A]), (J : (((Unit) -> Num) -> A) -> Bool), (q : ((Unit) -> Num) -> A)) == ring_0((K : Ring[(((Unit) -> Num) -> A) -> Bool]))"),
     fn(
       x398 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2394,9 +2344,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t383 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(b:(((1->num)->A)->bool)->bool) SUBSET\n     ring_carrier (K:(((1->num)->A)->bool)ring)",
-    ),
+    @term_syntax.parse_term("SUBSET((b : ((((Unit) -> Num) -> A) -> Bool) -> Bool), ring_carrier((K : Ring[(((Unit) -> Num) -> A) -> Bool])))"),
     fn(
       x380 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2469,9 +2417,7 @@ fn step_6() -> Unit raise {
                                   @tactics.then_tac(
                                     @tactics.thenl(
                                       @tactics.subgoal_then(
-                                        @parser.parse_term(
-                                          "ring_span (f:A ring,K:(((1->num)->A)->bool)ring)\n     (h:A->((1->num)->A)->bool) (b:(((1->num)->A)->bool)->bool) =\n     ring_carrier K",
-                                        ),
+                                        @term_syntax.parse_term("ring_span(((f : Ring[A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), (h : (A, ((Unit) -> Num) -> A) -> Bool), (b : ((((Unit) -> Num) -> A) -> Bool) -> Bool)) == ring_carrier(K)"),
                                         fn(
                                           x376 : @kernel.Thm,
                                         ) -> ((
@@ -2650,9 +2596,7 @@ fn step_6() -> Unit raise {
   let t359 = @tactics.then_tac(
     @tactics.thenl(
       @tactics.subgoal_then(
-        @parser.parse_term(
-          "ring_span (f:A ring,K:(((1->num)->A)->bool)ring)\n        (h:A->((1->num)->A)->bool)\n        {ring_pow K (a:((1->num)->A)->bool) n | n < d} =\n       ring_carrier (K:(((1->num)->A)->bool)ring)",
-        ),
+        @term_syntax.parse_term("ring_span(((f : Ring[A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), (h : (A, ((Unit) -> Num) -> A) -> Bool), {ring_pow(K, (a : (((Unit) -> Num) -> A) -> Bool), (n : Num)) | n < (d : Num)}) == ring_carrier(K)"),
         fn(
           x355 : @kernel.Thm,
         ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2723,9 +2667,7 @@ fn step_6() -> Unit raise {
     @tactics.thenl(@tactics.repeat_tac(@tactics.conj_tac), t364),
     @tactics.all_tac,
   ])
-  let t345 = @parser.parse_term(
-    "{ring_pow (K:(((1->num)->A)->bool)ring)\n                (a:((1->num)->A)->bool) n | n < d}",
-  )
+  let t345 = @term_syntax.parse_term("{ring_pow((K : Ring[(((Unit) -> Num) -> A) -> Bool]), (a : (((Unit) -> Num) -> A) -> Bool), (n : Num)) | n < (d : Num)}")
   let t346 = @term_syntax.parse_term("(b : ((((Unit) -> Num) -> A) -> Bool) -> Bool)")
   let t347 = @term_syntax.parse_term("(K : Ring[(((Unit) -> Num) -> A) -> Bool])")
   let t348 = @term_syntax.parse_term("(f : Ring[A])")
@@ -2763,9 +2705,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t337 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(b:(((1->num)->A)->bool)->bool) SUBSET\n     ring_carrier (K:(((1->num)->A)->bool)ring)",
-    ),
+    @term_syntax.parse_term("SUBSET((b : ((((Unit) -> Num) -> A) -> Bool) -> Bool), ring_carrier((K : Ring[(((Unit) -> Num) -> A) -> Bool])))"),
     fn(
       x334 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2818,9 +2758,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t332 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_independent (f:A ring,K:(((1->num)->A)->bool)ring)\n     (h:A->((1->num)->A)->bool) (b:(((1->num)->A)->bool)->bool)",
-    ),
+    @term_syntax.parse_term("ring_independent(((f : Ring[A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), (h : (A, ((Unit) -> Num) -> A) -> Bool), (b : ((((Unit) -> Num) -> A) -> Bool) -> Bool))"),
     fn(
       x329 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2874,9 +2812,7 @@ fn step_6() -> Unit raise {
     @tactics.then_tac(
       @tactics.thenl(
         @tactics.subgoal_then(
-          @parser.parse_term(
-            "poly_extend (f:A ring,K:(((1->num)->A)->bool)ring)\n     h (\\v:1. a) (p:(1->num)->A) = ring_coset R J p",
-          ),
+          @term_syntax.parse_term("poly_extend(((f : Ring[A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), (h : (A, ((Unit) -> Num) -> A) -> Bool), (v : Unit) => (a : (((Unit) -> Num) -> A) -> Bool), (p : ((Unit) -> Num) -> A)) == ring_coset((R : Ring[((Unit) -> Num) -> A]), (J : (((Unit) -> Num) -> A) -> Bool), p)"),
           fn(
             x323 : @kernel.Thm,
           ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2931,9 +2867,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t322 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "poly_extend (f:A ring,K:(((1->num)->A)->bool)ring)\n     h (\\v:1. a) p = ring_0 K",
-    ),
+    @term_syntax.parse_term("poly_extend(((f : Ring[A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), (h : (A, ((Unit) -> Num) -> A) -> Bool), (v : Unit) => (a : (((Unit) -> Num) -> A) -> Bool), (p : ((Unit) -> Num) -> A)) == ring_0(K)"),
     fn(
       x319 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3006,9 +2940,7 @@ fn step_6() -> Unit raise {
                                       @tactics.then_tac(
                                         @tactics.thenl(
                                           @tactics.subgoal_then(
-                                            @parser.parse_term(
-                                              "~(p:(1->num)->A = ring_0 R)",
-                                            ),
+                                            @term_syntax.parse_term("!((p : ((Unit) -> Num) -> A) == ring_0((R : Ring[((Unit) -> Num) -> A])))"),
                                             fn(
                                               x315 : @kernel.Thm,
                                             ) -> ((
@@ -3171,9 +3103,7 @@ fn step_6() -> Unit raise {
     @term_syntax.parse_term("(d : Num) == poly_deg((f : Ring[A]), (p : ((Unit) -> Num) -> A))"),
   )
   let t312 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "CARD (b:(((1->num)->A)->bool)->bool) =\n                poly_deg (f:A ring) (p:(1->num)->A)",
-    ),
+    @term_syntax.parse_term("CARD((b : ((((Unit) -> Num) -> A) -> Bool) -> Bool)) == poly_deg((f : Ring[A]), (p : ((Unit) -> Num) -> A))"),
     fn(
       x310 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3419,9 +3349,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t280 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "finite_extension (f:A ring, K:(((1->num)->A)->bool)ring)\n    (h:A->((1->num)->A)->bool)",
-    ),
+    @term_syntax.parse_term("finite_extension(((f : Ring[A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), (h : (A, ((Unit) -> Num) -> A) -> Bool))"),
     fn(
       x277 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3483,9 +3411,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t269 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_carrier(K:(((1->num)->A)->bool)ring) =\n      {ring_coset R (J:((1->num)->A)->bool) x |x| x IN ring_carrier R}",
-    ),
+    @term_syntax.parse_term("ring_carrier((K : Ring[(((Unit) -> Num) -> A) -> Bool])) == {ring_coset((R : Ring[((Unit) -> Num) -> A]), (J : (((Unit) -> Num) -> A) -> Bool), x) | x : ((Unit) -> Num) -> A | IN(x, ring_carrier(R))}"),
     fn(
       x266 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3609,9 +3535,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t257 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "subring_generated K ((a:((1->num)->A)->bool) INSERT\n        IMAGE (h:A->((1->num)->A)->bool) (ring_carrier f)) = K",
-    ),
+    @term_syntax.parse_term("subring_generated((K : Ring[(((Unit) -> Num) -> A) -> Bool]), INSERT((a : (((Unit) -> Num) -> A) -> Bool), IMAGE((h : (A, ((Unit) -> Num) -> A) -> Bool), ring_carrier((f : Ring[A]))))) == K"),
     fn(
       x254 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3662,9 +3586,7 @@ fn step_6() -> Unit raise {
   let t252 = @simp.asm_rewrite_tac(@list.List([]))
   let t251 = @list.List([@simp.asm_simp_tac(@list.List([])), @tactics.all_tac])
   let t250 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "poly_extend (f:A ring,K:(((1->num)->A)->bool)ring)\n       h (\\v:1. a) p = ring_coset R (J:((1->num)->A)->bool) p",
-    ),
+    @term_syntax.parse_term("poly_extend(((f : Ring[A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), (h : (A, ((Unit) -> Num) -> A) -> Bool), (v : Unit) => (a : (((Unit) -> Num) -> A) -> Bool), (p : ((Unit) -> Num) -> A)) == ring_coset((R : Ring[((Unit) -> Num) -> A]), (J : (((Unit) -> Num) -> A) -> Bool), p)"),
     fn(
       x247 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3758,9 +3680,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t242 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "algebraic_over (f:A ring,K:(((1->num)->A)->bool)ring)\n      (h:A->((1->num)->A)->bool) (a:((1->num)->A)->bool)",
-    ),
+    @term_syntax.parse_term("algebraic_over(((f : Ring[A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), (h : (A, ((Unit) -> Num) -> A) -> Bool), (a : (((Unit) -> Num) -> A) -> Bool))"),
     fn(
       x239 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3817,9 +3737,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t235 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_coset R (J:((1->num)->A)->bool) (p:(1->num)->A) =\n     ring_0 (K:(((1->num)->A)->bool)ring)",
-    ),
+    @term_syntax.parse_term("ring_coset((R : Ring[((Unit) -> Num) -> A]), (J : (((Unit) -> Num) -> A) -> Bool), (p : ((Unit) -> Num) -> A)) == ring_0((K : Ring[(((Unit) -> Num) -> A) -> Bool]))"),
     fn(
       x232 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4046,9 +3964,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t203 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall g. g IN ring_carrier R\n         ==> poly_extend (f:A ring,K:(((1->num)->A)->bool)ring) h (\\v:1. a) g =\n             ring_coset R (J:((1->num)->A)->bool) g",
-    ),
+    @term_syntax.parse_term("∀ g : ((Unit) -> Num) -> A, IN(g, ring_carrier((R : Ring[((Unit) -> Num) -> A]))) → poly_extend(((f : Ring[A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), (h : (A, ((Unit) -> Num) -> A) -> Bool), (v : Unit) => (a : (((Unit) -> Num) -> A) -> Bool), g) == ring_coset(R, (J : (((Unit) -> Num) -> A) -> Bool), g)"),
     fn(
       x200 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4225,9 +4141,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t187 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_homomorphism (f:A ring, K:(((1->num)->A)->bool)ring)\n    (h:A->((1->num)->A)->bool)",
-    ),
+    @term_syntax.parse_term("ring_homomorphism(((f : Ring[A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), (h : (A, ((Unit) -> Num) -> A) -> Bool))"),
     fn(
       x184 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4283,9 +4197,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t181 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_homomorphism\n    (R:((1->num)->A)ring, K:(((1->num)->A)->bool)ring)\n    (ring_coset R (J:((1->num)->A)->bool))",
-    ),
+    @term_syntax.parse_term("ring_homomorphism(((R : Ring[((Unit) -> Num) -> A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), ring_coset(R, (J : (((Unit) -> Num) -> A) -> Bool)))"),
     fn(
       x178 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4362,9 +4274,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t170 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "field_extension (f:A ring, K:(((1->num)->A)->bool)ring)\n    (h:A->((1->num)->A)->bool)",
-    ),
+    @term_syntax.parse_term("field_extension(((f : Ring[A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), (h : (A, ((Unit) -> Num) -> A) -> Bool))"),
     fn(
       x167 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4479,9 +4389,7 @@ fn step_6() -> Unit raise {
     @tactics.all_tac,
   ])
   let t158 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "maximal_ideal R (J:((1->num)->A)->bool) /\\\n                ring_ideal R (J:((1->num)->A)->bool)",
-    ),
+    @term_syntax.parse_term("maximal_ideal((R : Ring[((Unit) -> Num) -> A]), (J : (((Unit) -> Num) -> A) -> Bool)) && ring_ideal(R, J)"),
     @tactics.strip_assume_tac,
   )
   let t156 = @meson.asm_meson_tac(@list.List([@ringtheory.pid_poly_ring()]))
@@ -4539,14 +4447,10 @@ fn step_6() -> Unit raise {
     },
   )
   let t151 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "a:((1->num)->A)->bool =\n    ring_coset R J (poly_var (f:A ring) one)",
-    ),
+    @term_syntax.parse_term("(a : (((Unit) -> Num) -> A) -> Bool) == ring_coset((R : Ring[((Unit) -> Num) -> A]), (J : (((Unit) -> Num) -> A) -> Bool), poly_var((f : Ring[A]), one))"),
   )
   let t150 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "h:A->((1->num)->A)->bool =\n    ring_coset R J o poly_const (f:A ring)",
-    ),
+    @term_syntax.parse_term("(h : (A, ((Unit) -> Num) -> A) -> Bool) == o(ring_coset((R : Ring[((Unit) -> Num) -> A]), (J : (((Unit) -> Num) -> A) -> Bool)), poly_const((f : Ring[A])))"),
   )
   let t149 = @simp.abbrev_tac(
     @term_syntax.parse_term("(K : Ring[(((Unit) -> Num) -> A) -> Bool]) == quotient_ring((R : Ring[((Unit) -> Num) -> A]), (J : (((Unit) -> Num) -> A) -> Bool))"),
@@ -4759,9 +4663,7 @@ fn step_6() -> Unit raise {
   )
   quotient_poly_ring_finite_card_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A ring p. field f /\\ FINITE(ring_carrier f) /\\\n   ring_irreducible (poly_ring f (:1)) p\n   ==> field(quotient_ring (poly_ring f (:1))\n              (ideal_generated (poly_ring f (:1)) {p})) /\\\n       FINITE(ring_carrier(quotient_ring (poly_ring f (:1))\n              (ideal_generated (poly_ring f (:1)) {p}))) /\\\n       CARD(ring_carrier(quotient_ring (poly_ring f (:1))\n              (ideal_generated (poly_ring f (:1)) {p}))) =\n       CARD(ring_carrier f) EXP (poly_deg f p)",
-      ),
+      @term_syntax.parse_term("∀ f : Ring[A], ∀ p : ((Unit) -> Num) -> A, field(f) && FINITE(ring_carrier(f)) && ring_irreducible(poly_ring(f, UNIV), p) → field(quotient_ring(poly_ring(f, UNIV), ideal_generated(poly_ring(f, UNIV), {p}))) && FINITE(ring_carrier(quotient_ring(poly_ring(f, UNIV), ideal_generated(poly_ring(f, UNIV), {p})))) && CARD(ring_carrier(quotient_ring(poly_ring(f, UNIV), ideal_generated(poly_ring(f, UNIV), {p})))) == EXP(CARD(ring_carrier(f)), poly_deg(f, p))"),
       t494,
     ),
   )
@@ -4964,9 +4866,7 @@ fn step_7() -> Unit raise {
   let t645 = @tactics.disch_then(@tactics.match_mp_tac)
   let t644 = @simp.asm_rewrite_tac(@list.List([]))
   let t639 = @term_syntax.parse_term("(k : Num)")
-  let t640 = @parser.parse_term(
-    "CARD(ring_carrier(f:A ring)) EXP poly_deg f (p:(1->num)->A)",
-  )
+  let t640 = @term_syntax.parse_term("EXP(CARD(ring_carrier((f : Ring[A]))), poly_deg(f, (p : ((Unit) -> Num) -> A)))")
   let t641 = @term_syntax.parse_term("poly_var((f : Ring[A]), one)")
   let t642 = @term_syntax.parse_term("(p : ((Unit) -> Num) -> A)")
   let t643 = @tactics.mp_tac(
@@ -4993,9 +4893,7 @@ fn step_7() -> Unit raise {
     @tactics.all_tac,
   ])
   let t636 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "CARD(ring_carrier(f:A ring)) EXP n =\n     (CARD(ring_carrier f) EXP (poly_deg f (p:(1->num)->A))) EXP k",
-    ),
+    @term_syntax.parse_term("EXP(CARD(ring_carrier((f : Ring[A]))), (n : Num)) == EXP(EXP(CARD(ring_carrier(f)), poly_deg(f, (p : ((Unit) -> Num) -> A))), (k : Num))"),
     fn(
       x633 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5054,9 +4952,7 @@ fn step_7() -> Unit raise {
     @tactics.all_tac,
   ])
   let t627 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_sub R (ring_pow R (poly_var (f:A ring) one) 1)\n        (poly_var f one) = ring_0 R",
-    ),
+    @term_syntax.parse_term("ring_sub((R : Ring[((Unit) -> Num) -> A]), ring_pow(R, poly_var((f : Ring[A]), one), 1), poly_var(f, one)) == ring_0(R)"),
     fn(
       x624 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5285,9 +5181,7 @@ fn step_7() -> Unit raise {
     @simp.rewrite_tac(@list.List([@equal.gsym(th_2)]))
   })
   let t602 = @list.List([@simp.asm_rewrite_tac(@list.List([])), @tactics.all_tac])
-  let t600 = @parser.parse_term(
-    "ring_sub R (ring_pow R (poly_var f one) (CARD(ring_carrier(f:A ring)) EXP\n           (poly_deg f (p:(1->num)->A))))\n       (poly_var (f:A ring) one)",
-  )
+  let t600 = @term_syntax.parse_term("ring_sub((R : Ring[((Unit) -> Num) -> A]), ring_pow(R, poly_var((f : Ring[A]), one), EXP(CARD(ring_carrier(f)), poly_deg(f, (p : ((Unit) -> Num) -> A)))), poly_var(f, one))")
   let t601 = @term_syntax.parse_term("(p : ((Unit) -> Num) -> A)")
   let t607 = @list.List([
     @tactics.then_tac(
@@ -5315,9 +5209,7 @@ fn step_7() -> Unit raise {
     @tactics.all_tac,
   ])
   let t599 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_divides R (p:(1->num)->A) (ring_sub R (ring_pow R (poly_var f one)\n             (CARD(ring_carrier(f:A ring)) EXP (poly_deg f (p:(1->num)->A))))\n          (poly_var f one))",
-    ),
+    @term_syntax.parse_term("ring_divides((R : Ring[((Unit) -> Num) -> A]), (p : ((Unit) -> Num) -> A), ring_sub(R, ring_pow(R, poly_var((f : Ring[A]), one), EXP(CARD(ring_carrier(f)), poly_deg(f, p))), poly_var(f, one)))"),
     fn(
       x596 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5388,9 +5280,7 @@ fn step_7() -> Unit raise {
         @tactics.then_tac(
           @tactics.thenl(
             @tactics.subgoal_then(
-              @parser.parse_term(
-                "ring_kernel(R,K) (ring_coset R (J:((1->num)->A)->bool)) = J",
-              ),
+              @term_syntax.parse_term("ring_kernel(((R : Ring[((Unit) -> Num) -> A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), ring_coset(R, (J : (((Unit) -> Num) -> A) -> Bool))) == J"),
               fn(
                 x589 : @kernel.Thm,
               ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5473,9 +5363,7 @@ fn step_7() -> Unit raise {
     @tactics.all_tac,
   ])
   let t585 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_sub R (ring_pow R (poly_var f one) (CARD(ring_carrier(f:A ring)) EXP\n           (poly_deg f (p:(1->num)->A))))\n       (poly_var (f:A ring) one) IN J",
-    ),
+    @term_syntax.parse_term("IN(ring_sub((R : Ring[((Unit) -> Num) -> A]), ring_pow(R, poly_var((f : Ring[A]), one), EXP(CARD(ring_carrier(f)), poly_deg(f, (p : ((Unit) -> Num) -> A)))), poly_var(f, one)), (J : (((Unit) -> Num) -> A) -> Bool))"),
     fn(
       x582 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5594,9 +5482,7 @@ fn step_7() -> Unit raise {
     ) -> @kernel.Thm raise,
   ) raise) raise {
     let th_1 = x570
-    let t572 = @parser.parse_term(
-      "CARD(ring_carrier(f:A ring)) EXP\n        (poly_deg f (p:(1->num)->A))",
-    )
+    let t572 = @term_syntax.parse_term("EXP(CARD(ring_carrier((f : Ring[A]))), poly_deg(f, (p : ((Unit) -> Num) -> A)))")
     @tactics.mp_tac(
       @bool.specl(
         @list.List([@term_syntax.parse_term("poly_var((f : Ring[A]), one)"), t572]),
@@ -5701,9 +5587,7 @@ fn step_7() -> Unit raise {
     @tactics.mp_tac(
       @bool.specl(
         @list.List([
-          @parser.parse_term(
-            "ring_pow R (poly_var f one)\n        (CARD(ring_carrier(f:A ring)) EXP\n         (poly_deg f (p:(1->num)->A)))",
-          ),
+          @term_syntax.parse_term("ring_pow((R : Ring[((Unit) -> Num) -> A]), poly_var((f : Ring[A]), one), EXP(CARD(ring_carrier(f)), poly_deg(f, (p : ((Unit) -> Num) -> A))))"),
           t560,
         ]),
         th,
@@ -5771,9 +5655,7 @@ fn step_7() -> Unit raise {
     @tactics.all_tac,
   ])
   let t555 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_coset R (J:((1->num)->A)->bool) (ring_sub R\n          (ring_pow R (poly_var f one) (CARD(ring_carrier(f:A ring)) EXP\n              (poly_deg f (p:(1->num)->A)))) (poly_var f one)) =\n     ring_0 (K:(((1->num)->A)->bool) ring)",
-    ),
+    @term_syntax.parse_term("ring_coset((R : Ring[((Unit) -> Num) -> A]), (J : (((Unit) -> Num) -> A) -> Bool), ring_sub(R, ring_pow(R, poly_var((f : Ring[A]), one), EXP(CARD(ring_carrier(f)), poly_deg(f, (p : ((Unit) -> Num) -> A)))), poly_var(f, one))) == ring_0((K : Ring[(((Unit) -> Num) -> A) -> Bool]))"),
     fn(
       x552 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5822,9 +5704,7 @@ fn step_7() -> Unit raise {
     },
   )
   let t550 = @simp.asm_rewrite_tac(@list.List([]))
-  let t546 = @parser.parse_term(
-    "ring_coset R (J:((1->num)->A)->bool) (poly_var (f:A ring) one)",
-  )
+  let t546 = @term_syntax.parse_term("ring_coset((R : Ring[((Unit) -> Num) -> A]), (J : (((Unit) -> Num) -> A) -> Bool), poly_var((f : Ring[A]), one))")
   let t549 = @tactics.disch_then(fn(
     x548 : @kernel.Thm,
   ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5908,9 +5788,7 @@ fn step_7() -> Unit raise {
           @tactics.then_tac(
             @tactics.thenl(
               @tactics.subgoal_then(
-                @parser.parse_term(
-                  "CARD(ring_carrier(f:A ring)) EXP (poly_deg f (p:(1->num)->A)) =\n      CARD(ring_carrier(K:(((1->num)->A)->bool) ring))",
-                ),
+                @term_syntax.parse_term("EXP(CARD(ring_carrier((f : Ring[A]))), poly_deg(f, (p : ((Unit) -> Num) -> A))) == CARD(ring_carrier((K : Ring[(((Unit) -> Num) -> A) -> Bool])))"),
                 fn(
                   x537 : @kernel.Thm,
                 ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -5973,9 +5851,7 @@ fn step_7() -> Unit raise {
     @tactics.all_tac,
   ])
   let t536 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_pow K\n       (ring_coset R (J:((1->num)->A)->bool) (poly_var (f:A ring) one))\n       (CARD(ring_carrier(f:A ring)) EXP (poly_deg f (p:(1->num)->A))) =\n     ring_coset R J (poly_var f one)",
-    ),
+    @term_syntax.parse_term("ring_pow((K : Ring[(((Unit) -> Num) -> A) -> Bool]), ring_coset((R : Ring[((Unit) -> Num) -> A]), (J : (((Unit) -> Num) -> A) -> Bool), poly_var((f : Ring[A]), one)), EXP(CARD(ring_carrier(f)), poly_deg(f, (p : ((Unit) -> Num) -> A)))) == ring_coset(R, J, poly_var(f, one))"),
     fn(
       x533 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -6034,9 +5910,7 @@ fn step_7() -> Unit raise {
     @tactics.all_tac,
   ])
   let t531 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_coset R (J:((1->num)->A)->bool)\n       (poly_var (f:A ring) one) IN ring_carrier K",
-    ),
+    @term_syntax.parse_term("IN(ring_coset((R : Ring[((Unit) -> Num) -> A]), (J : (((Unit) -> Num) -> A) -> Bool), poly_var((f : Ring[A]), one)), ring_carrier((K : Ring[(((Unit) -> Num) -> A) -> Bool])))"),
     fn(
       x528 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -6146,9 +6020,7 @@ fn step_7() -> Unit raise {
     @tactics.all_tac,
   ])
   let t519 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_homomorphism(R,K)\n                  (ring_coset R (J:((1->num)->A)->bool))",
-    ),
+    @term_syntax.parse_term("ring_homomorphism(((R : Ring[((Unit) -> Num) -> A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), ring_coset(R, (J : (((Unit) -> Num) -> A) -> Bool)))"),
     fn(
       x516 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -6211,9 +6083,7 @@ fn step_7() -> Unit raise {
     @tactics.all_tac,
   ])
   let t512 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "field (K:(((1->num)->A)->bool) ring) /\\ FINITE(ring_carrier K) /\\\n     CARD(ring_carrier K) =\n     CARD(ring_carrier(f:A ring)) EXP (poly_deg f (p:(1->num)->A))",
-    ),
+    @term_syntax.parse_term("field((K : Ring[(((Unit) -> Num) -> A) -> Bool])) && FINITE(ring_carrier(K)) && CARD(ring_carrier(K)) == EXP(CARD(ring_carrier((f : Ring[A]))), poly_deg(f, (p : ((Unit) -> Num) -> A)))"),
     @tactics.strip_assume_tac,
   )
   let t510 = @meson.asm_meson_tac(
@@ -6227,9 +6097,7 @@ fn step_7() -> Unit raise {
     @tactics.all_tac,
   ])
   let t509 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "maximal_ideal R (J:((1->num)->A)->bool) /\\\n                ring_ideal R (J:((1->num)->A)->bool)",
-    ),
+    @term_syntax.parse_term("maximal_ideal((R : Ring[((Unit) -> Num) -> A]), (J : (((Unit) -> Num) -> A) -> Bool)) && ring_ideal(R, J)"),
     @tactics.strip_assume_tac,
   )
   let t507 = @meson.asm_meson_tac(@list.List([@ringtheory.pid_poly_ring()]))
@@ -6482,9 +6350,7 @@ fn step_7() -> Unit raise {
   )
   irreducible_divides_xq_minus_x_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A ring p n. field f /\\ FINITE(ring_carrier f) /\\\n   ring_irreducible (poly_ring f (:1)) p /\\ (poly_deg f p) divides n\n   ==> ring_divides (poly_ring f (:1)) p (ring_sub (poly_ring f (:1))\n            (ring_pow (poly_ring f (:1)) (poly_var f one)\n                      (CARD(ring_carrier f) EXP n))\n            (poly_var f one))",
-      ),
+      @term_syntax.parse_term("∀ f : Ring[A], ∀ p : ((Unit) -> Num) -> A, ∀ n : Num, field(f) && FINITE(ring_carrier(f)) && ring_irreducible(poly_ring(f, UNIV), p) && divides(poly_deg(f, p), n) → ring_divides(poly_ring(f, UNIV), p, ring_sub(poly_ring(f, UNIV), ring_pow(poly_ring(f, UNIV), poly_var(f, one), EXP(CARD(ring_carrier(f)), n)), poly_var(f, one)))"),
       t665,
     ),
   )
@@ -6535,9 +6401,7 @@ fn step_8() -> Unit raise {
   )
   irreducible_divides_xq_minus_x_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A ring p. field f /\\ FINITE(ring_carrier f) /\\\n   ring_irreducible (poly_ring f (:1)) p\n   ==> ring_divides (poly_ring f (:1)) p (ring_sub (poly_ring f (:1))\n            (ring_pow (poly_ring f (:1)) (poly_var f one)\n                      (CARD(ring_carrier f) EXP (poly_deg f p)))\n            (poly_var f one))",
-      ),
+      @term_syntax.parse_term("∀ f : Ring[A], ∀ p : ((Unit) -> Num) -> A, field(f) && FINITE(ring_carrier(f)) && ring_irreducible(poly_ring(f, UNIV), p) → ring_divides(poly_ring(f, UNIV), p, ring_sub(poly_ring(f, UNIV), ring_pow(poly_ring(f, UNIV), poly_var(f, one), EXP(CARD(ring_carrier(f)), poly_deg(f, p))), poly_var(f, one)))"),
       t672,
     ),
   )
@@ -6588,9 +6452,7 @@ fn step_9() -> Unit raise {
   )
   finite_field_pow_iterate_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A ring x r. field f /\\ FINITE(ring_carrier f) /\\ x IN ring_carrier f\n     ==> ring_pow f x (CARD(ring_carrier f) EXP r) = x",
-      ),
+      @term_syntax.parse_term("∀ f : Ring[A], ∀ x : A, ∀ r : Num, field(f) && FINITE(ring_carrier(f)) && IN(x, ring_carrier(f)) → ring_pow(f, x, EXP(CARD(ring_carrier(f)), r)) == x"),
       t678,
     ),
   )
@@ -6617,9 +6479,7 @@ fn step_10() -> Unit raise {
   let t697 = @tactics.disch_then(@tactics.match_mp_tac)
   let t696 = @simp.asm_rewrite_tac(@list.List([]))
   let t693 = @term_syntax.parse_term("(x : A) => ring_pow((r : Ring[A]), x, EXP(ring_char(r), SUC((k : Num))))")
-  let t694 = @parser.parse_term(
-    "(\\x:A. ring_pow r x (ring_char r)) o\n      (\\x. ring_pow r x (ring_char r EXP k))",
-  )
+  let t694 = @term_syntax.parse_term("o((x : A) => ring_pow((r : Ring[A]), x, ring_char(r)), (x : A) => ring_pow(r, x, EXP(ring_char(r), (k : Num))))")
   let t695 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([@term_syntax.parse_term("(r : Ring[A])"), t694, t693]),
@@ -6670,9 +6530,7 @@ fn step_10() -> Unit raise {
                     @tactics.then_tac(
                       @tactics.disch_tac,
                       @tactics.subgoal_then(
-                        @parser.parse_term(
-                          "ring_endomorphism (r:A ring) ((\\x. ring_pow r x (ring_char r)) o\n        (\\x. ring_pow r x (ring_char r EXP k)))",
-                        ),
+                        @term_syntax.parse_term("ring_endomorphism((r : Ring[A]), o((x : A) => ring_pow(r, x, ring_char(r)), (x : A) => ring_pow(r, x, EXP(ring_char(r), (k : Num)))))"),
                         fn(
                           x683 : @kernel.Thm,
                         ) -> ((
@@ -6782,9 +6640,7 @@ fn step_10() -> Unit raise {
   )
   ring_endomorphism_frobenius_iterate_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r:A ring k. prime(ring_char r)\n     ==> ring_endomorphism r (\\x. ring_pow r x (ring_char r EXP k))",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ k : Num, prime(ring_char(r)) → ring_endomorphism(r, (x : A) => ring_pow(r, x, EXP(ring_char(r), k)))"),
       t704,
     ),
   )
@@ -6805,9 +6661,7 @@ pub fn ring_endomorphism_frobenius_iterate() -> @kernel.Thm {
 /// FIELD_ROOTS_BOUND
 fn step_11() -> Unit raise {
   let t777 = @simp.asm_rewrite_tac(@list.List([]))
-  let t775 = @parser.parse_term(
-    "{x:A | x IN ring_carrier r /\\ poly_eval r g x = ring_0 r}",
-  )
+  let t775 = @term_syntax.parse_term("{(x : A) | IN(x, ring_carrier((r : Ring[A]))) && poly_eval(r, (g : ((Unit) -> Num) -> A), x) == ring_0(r)}")
   let t776 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([@term_syntax.parse_term("ring_carrier((r : Ring[A]))"), t775]),
@@ -6884,9 +6738,7 @@ fn step_11() -> Unit raise {
     @tactics.all_tac,
   ])
   let t761 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_carrier r SUBSET\n    {x:A | x IN ring_carrier r /\\ poly_eval r g x = ring_0 r}",
-    ),
+    @term_syntax.parse_term("SUBSET(ring_carrier((r : Ring[A])), {(x : A) | IN(x, ring_carrier(r)) && poly_eval(r, (g : ((Unit) -> Num) -> A), x) == ring_0(r)})"),
     fn(
       x758 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -6963,9 +6815,7 @@ fn step_11() -> Unit raise {
     @tactics.all_tac,
   ])
   let t749 = @term_syntax.parse_term("poly_var((r : Ring[A]), one)")
-  let t750 = @parser.parse_term(
-    "ring_pow (poly_ring r (:1))\n     (poly_var r one:(1->num)->A) n",
-  )
+  let t750 = @term_syntax.parse_term("ring_pow(poly_ring((r : Ring[A]), UNIV), poly_var(r, one), (n : Num))")
   let t751 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([@term_syntax.parse_term("(r : Ring[A])"), t750, t749]),
@@ -7132,9 +6982,7 @@ fn step_11() -> Unit raise {
       @tactics.then_tac(
         @tactics.thenl(
           @tactics.subgoal_then(
-            @parser.parse_term(
-              "ring_sub P (ring_pow P (poly_var r one:(1->num)->A) n)\n                    (poly_var r one) = ring_0 P",
-            ),
+            @term_syntax.parse_term("ring_sub((P : Ring[((Unit) -> Num) -> A]), ring_pow(P, poly_var((r : Ring[A]), one), (n : Num)), poly_var(r, one)) == ring_0(P)"),
             fn(
               x726 : @kernel.Thm,
             ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -7200,9 +7048,7 @@ fn step_11() -> Unit raise {
                 @tactics.then_tac(
                   @tactics.disch_tac,
                   @tactics.subgoal_then(
-                    @parser.parse_term(
-                      "ring_pow P (poly_var r one:(1->num)->A) n =\n                  poly_var r one",
-                    ),
+                    @term_syntax.parse_term("ring_pow((P : Ring[((Unit) -> Num) -> A]), poly_var((r : Ring[A]), one), (n : Num)) == poly_var(r, one)"),
                     fn(
                       x723 : @kernel.Thm,
                     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -7380,9 +7226,7 @@ fn step_11() -> Unit raise {
     },
   )
   let t711 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "g = ring_sub P\n    (ring_pow P (poly_var r one) n) (poly_var (r:A ring) one)",
-    ),
+    @term_syntax.parse_term("(g : ((Unit) -> Num) -> A) == ring_sub((P : Ring[((Unit) -> Num) -> A]), ring_pow(P, poly_var((r : Ring[A]), one), (n : Num)), poly_var(r, one))"),
   )
   let t710 = @simp.abbrev_tac(
     @term_syntax.parse_term("(P : Ring[((Unit) -> Num) -> A]) == poly_ring((r : Ring[A]), UNIV)"),
@@ -7502,9 +7346,7 @@ fn step_11() -> Unit raise {
   )
   field_roots_bound_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall r:A ring n. field r /\\ FINITE(ring_carrier r) /\\ 2 <= n /\\\n     (forall a. a IN ring_carrier r ==> ring_pow r a n = a)\n     ==> CARD(ring_carrier r) <= n",
-      ),
+      @term_syntax.parse_term("∀ r : Ring[A], ∀ n : Num, field(r) && FINITE(ring_carrier(r)) && 2 <= n && (∀ a : A, IN(a, ring_carrier(r)) → ring_pow(r, a, n) == a) → CARD(ring_carrier(r)) <= n"),
       t778,
     ),
   )
@@ -7702,9 +7544,7 @@ fn step_12() -> Unit raise {
   )
   finite_field_card_char_power_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A ring. field f /\\ FINITE(ring_carrier f)\n   ==> ?e. ~(e = 0) /\\ CARD(ring_carrier f) = ring_char f EXP e",
-      ),
+      @term_syntax.parse_term("∀ f : Ring[A], field(f) && FINITE(ring_carrier(f)) → (∃ e : Num, !(e == 0) && CARD(ring_carrier(f)) == EXP(ring_char(f), e))"),
       t801,
     ),
   )
@@ -7787,9 +7627,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1058 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "CARD(ring_carrier(K:(((1->num)->A)->bool) ring)) <= q EXP n",
-    ),
+    @term_syntax.parse_term("CARD(ring_carrier((K : Ring[(((Unit) -> Num) -> A) -> Bool]))) <= EXP((q : Num), (n : Num))"),
     fn(
       x1055 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -8054,9 +7892,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1028 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_pow K ((proj:((1->num)->A) -> ((1->num)->A)->bool) (x:(1->num)->A))\n        (q EXP n) =\n      ((frob:(((1->num)->A)->bool) -> ((1->num)->A)->bool) o proj) x",
-    ),
+    @term_syntax.parse_term("ring_pow((K : Ring[(((Unit) -> Num) -> A) -> Bool]), (proj : (((Unit) -> Num) -> A, ((Unit) -> Num) -> A) -> Bool)((x : ((Unit) -> Num) -> A)), EXP((q : Num), (n : Num))) == o((frob : ((((Unit) -> Num) -> A) -> Bool, ((Unit) -> Num) -> A) -> Bool), proj, x)"),
     fn(
       x1025 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -8179,9 +8015,7 @@ fn step_13() -> Unit raise {
       @tactics.then_tac(
         @tactics.mp_tac(
           @kernel.assume_rule(
-            @parser.parse_term(
-              "ring_epimorphism (R:((1->num)->A)ring,\n      K:(((1->num)->A)->bool) ring)\n      (proj:((1->num)->A) -> ((1->num)->A)->bool)",
-            ),
+            @term_syntax.parse_term("ring_epimorphism(((R : Ring[((Unit) -> Num) -> A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), (proj : (((Unit) -> Num) -> A, ((Unit) -> Num) -> A) -> Bool))"),
           ),
         ),
         t1017,
@@ -8191,9 +8025,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1016 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?x:(1->num)->A. x IN ring_carrier R /\\\n     (proj:((1->num)->A) -> ((1->num)->A)->bool) x = y",
-    ),
+    @term_syntax.parse_term("∃ x : ((Unit) -> Num) -> A, IN(x, ring_carrier((R : Ring[((Unit) -> Num) -> A]))) && (proj : (((Unit) -> Num) -> A, ((Unit) -> Num) -> A) -> Bool)(x) == (y : (((Unit) -> Num) -> A) -> Bool)"),
     @tactics.strip_assume_tac,
   )
   let t1033 = @list.List([
@@ -8227,9 +8059,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1015 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall y:(((1->num)->A)->bool). y IN ring_carrier K\n     ==> ring_pow K y (q EXP n) = y",
-    ),
+    @term_syntax.parse_term("∀ y : (((Unit) -> Num) -> A) -> Bool, IN(y, ring_carrier((K : Ring[(((Unit) -> Num) -> A) -> Bool]))) → ring_pow(K, y, EXP((q : Num), (n : Num))) == y"),
     fn(
       x1012 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -8299,9 +8129,7 @@ fn step_13() -> Unit raise {
   let t1009 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([
-        @parser.parse_term(
-          "(frob:(((1->num)->A)->bool) -> ((1->num)->A)->bool) o\n     (proj:((1->num)->A) -> ((1->num)->A)->bool)",
-        ),
+        @term_syntax.parse_term("o((frob : ((((Unit) -> Num) -> A) -> Bool, ((Unit) -> Num) -> A) -> Bool), (proj : (((Unit) -> Num) -> A, ((Unit) -> Num) -> A) -> Bool))"),
         t1008,
         t1007,
         t1006,
@@ -8342,9 +8170,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t993 = @term_syntax.parse_term("poly_var((f : Ring[A]), one)")
-  let t994 = @parser.parse_term(
-    "ring_pow (R:((1->num)->A)ring) (poly_var (f:A ring) one) (q EXP n)",
-  )
+  let t994 = @term_syntax.parse_term("ring_pow((R : Ring[((Unit) -> Num) -> A]), poly_var((f : Ring[A]), one), EXP((q : Num), (n : Num)))")
   let t995 = @term_syntax.parse_term("(J : (((Unit) -> Num) -> A) -> Bool)")
   let t996 = @tactics.mp_tac(
     @bool.ispecl(
@@ -8424,9 +8250,7 @@ fn step_13() -> Unit raise {
   let t986 = @simp.rewrite_tac(
     @list.List([
       @kernel.assume_rule(
-        @parser.parse_term(
-          "poly_var (f:A ring) one IN ring_carrier (R:((1->num)->A)ring)",
-        ),
+        @term_syntax.parse_term("IN(poly_var((f : Ring[A]), one), ring_carrier((R : Ring[((Unit) -> Num) -> A])))"),
       ),
     ]),
   )
@@ -8490,9 +8314,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t976 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "poly_var (f:A ring) one IN ring_carrier (R:((1->num)->A)ring)",
-    ),
+    @term_syntax.parse_term("IN(poly_var((f : Ring[A]), one), ring_carrier((R : Ring[((Unit) -> Num) -> A])))"),
     fn(
       x973 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -8546,9 +8368,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t970 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(frob:(((1->num)->A)->bool) -> ((1->num)->A)->bool)\n        ((proj:((1->num)->A) -> ((1->num)->A)->bool) (poly_var (f:A ring) one)) =\n      ring_pow K (proj (poly_var f one)) (q EXP n)",
-    ),
+    @term_syntax.parse_term("(frob : ((((Unit) -> Num) -> A) -> Bool, ((Unit) -> Num) -> A) -> Bool)((proj : (((Unit) -> Num) -> A, ((Unit) -> Num) -> A) -> Bool)(poly_var((f : Ring[A]), one))) == ring_pow((K : Ring[(((Unit) -> Num) -> A) -> Bool]), proj(poly_var(f, one)), EXP((q : Num), (n : Num)))"),
     fn(
       x967 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -8651,9 +8471,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t966 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "((frob:(((1->num)->A)->bool) -> ((1->num)->A)->bool) o\n     (proj:((1->num)->A) -> ((1->num)->A)->bool))\n      (poly_var (f:A ring) one) = proj (poly_var f one)",
-    ),
+    @term_syntax.parse_term("o((frob : ((((Unit) -> Num) -> A) -> Bool, ((Unit) -> Num) -> A) -> Bool), (proj : (((Unit) -> Num) -> A, ((Unit) -> Num) -> A) -> Bool), poly_var((f : Ring[A]), one)) == proj(poly_var(f, one))"),
     fn(
       x963 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -8917,9 +8735,7 @@ fn step_13() -> Unit raise {
   let t937 = @simp.rewrite_tac(
     @list.List([
       @kernel.assume_rule(
-        @parser.parse_term(
-          "poly_const (f:A ring) c IN ring_carrier (R:((1->num)->A)ring)",
-        ),
+        @term_syntax.parse_term("IN(poly_const((f : Ring[A]), (c : A)), ring_carrier((R : Ring[((Unit) -> Num) -> A])))"),
       ),
     ]),
   )
@@ -8987,9 +8803,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t926 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "poly_const (f:A ring) c IN ring_carrier (R:((1->num)->A)ring)",
-    ),
+    @term_syntax.parse_term("IN(poly_const((f : Ring[A]), (c : A)), ring_carrier((R : Ring[((Unit) -> Num) -> A])))"),
     fn(
       x923 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -9043,9 +8857,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t920 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(frob:(((1->num)->A)->bool) -> ((1->num)->A)->bool)\n        ((proj:((1->num)->A) -> ((1->num)->A)->bool) (poly_const (f:A ring) c)) =\n      ring_pow K (proj (poly_const f c)) (q EXP n)",
-    ),
+    @term_syntax.parse_term("(frob : ((((Unit) -> Num) -> A) -> Bool, ((Unit) -> Num) -> A) -> Bool)((proj : (((Unit) -> Num) -> A, ((Unit) -> Num) -> A) -> Bool)(poly_const((f : Ring[A]), (c : A)))) == ring_pow((K : Ring[(((Unit) -> Num) -> A) -> Bool]), proj(poly_const(f, c)), EXP((q : Num), (n : Num)))"),
     fn(
       x917 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -9164,9 +8976,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t915 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall c:A. c IN ring_carrier f\n     ==> ((frob:(((1->num)->A)->bool) -> ((1->num)->A)->bool) o\n          (proj:((1->num)->A) -> ((1->num)->A)->bool)) (poly_const f c) =\n          proj (poly_const f c)",
-    ),
+    @term_syntax.parse_term("∀ c : A, IN(c, ring_carrier((f : Ring[A]))) → o((frob : ((((Unit) -> Num) -> A) -> Bool, ((Unit) -> Num) -> A) -> Bool), (proj : (((Unit) -> Num) -> A, ((Unit) -> Num) -> A) -> Bool), poly_const(f, c)) == proj(poly_const(f, c))"),
     fn(
       x912 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -9219,9 +9029,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t910 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_homomorphism(R,K)\n    (proj:((1->num)->A) -> ((1->num)->A)->bool)",
-    ),
+    @term_syntax.parse_term("ring_homomorphism(((R : Ring[((Unit) -> Num) -> A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), (proj : (((Unit) -> Num) -> A, ((Unit) -> Num) -> A) -> Bool))"),
     fn(
       x907 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -9300,9 +9108,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t901 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_homomorphism(R,K)\n    ((frob:(((1->num)->A)->bool) -> ((1->num)->A)->bool) o\n     (proj:((1->num)->A) -> ((1->num)->A)->bool))",
-    ),
+    @term_syntax.parse_term("ring_homomorphism(((R : Ring[((Unit) -> Num) -> A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), o((frob : ((((Unit) -> Num) -> A) -> Bool, ((Unit) -> Num) -> A) -> Bool), (proj : (((Unit) -> Num) -> A, ((Unit) -> Num) -> A) -> Bool)))"),
     fn(
       x898 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -9361,9 +9167,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t893 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_epimorphism(R,K)\n    (proj:((1->num)->A) -> ((1->num)->A)->bool)",
-    ),
+    @term_syntax.parse_term("ring_epimorphism(((R : Ring[((Unit) -> Num) -> A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), (proj : (((Unit) -> Num) -> A, ((Unit) -> Num) -> A) -> Bool))"),
     fn(
       x890 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -9419,9 +9223,7 @@ fn step_13() -> Unit raise {
   let t884 = @simp.rewrite_tac(
     @list.List([
       @kernel.assume_rule(
-        @parser.parse_term(
-          "q EXP n = ring_char(K:(((1->num)->A)->bool) ring) EXP (e * n)",
-        ),
+        @term_syntax.parse_term("EXP((q : Num), (n : Num)) == EXP(ring_char((K : Ring[(((Unit) -> Num) -> A) -> Bool])), (e : Num) * n)"),
       ),
     ]),
   )
@@ -9434,9 +9236,7 @@ fn step_13() -> Unit raise {
       @tactics.then_tac(
         @tactics.thenl(
           @tactics.subgoal_then(
-            @parser.parse_term(
-              "frob = (\\y:(((1->num)->A)->bool).\n     ring_pow K y (ring_char K EXP (e * n)))",
-            ),
+            @term_syntax.parse_term("(frob : ((((Unit) -> Num) -> A) -> Bool, ((Unit) -> Num) -> A) -> Bool) == ((y : (((Unit) -> Num) -> A) -> Bool) => ring_pow((K : Ring[(((Unit) -> Num) -> A) -> Bool]), y, EXP(ring_char(K), (e : Num) * (n : Num))))"),
             fn(
               x881 : @kernel.Thm,
             ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -9542,18 +9342,14 @@ fn step_13() -> Unit raise {
     },
   )
   let t876 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "frob = \\y:(((1->num)->A)->bool). ring_pow K y (q EXP n)",
-    ),
+    @term_syntax.parse_term("(frob : ((((Unit) -> Num) -> A) -> Bool, ((Unit) -> Num) -> A) -> Bool) == ((y : (((Unit) -> Num) -> A) -> Bool) => ring_pow((K : Ring[(((Unit) -> Num) -> A) -> Bool]), y, EXP((q : Num), (n : Num))))"),
   )
   let t875 = @list.List([
     @simp.asm_rewrite_tac(@list.List([@arith.exp_exp()])),
     @tactics.all_tac,
   ])
   let t874 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "q EXP n = ring_char(K:(((1->num)->A)->bool) ring) EXP (e * n)",
-    ),
+    @term_syntax.parse_term("EXP((q : Num), (n : Num)) == EXP(ring_char((K : Ring[(((Unit) -> Num) -> A) -> Bool])), (e : Num) * n)"),
     fn(
       x871 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -9692,9 +9488,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t856 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_char(K:(((1->num)->A)->bool) ring) =\n                ring_char(f:A ring)",
-    ),
+    @term_syntax.parse_term("ring_char((K : Ring[(((Unit) -> Num) -> A) -> Bool])) == ring_char((f : Ring[A]))"),
     fn(
       x853 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -9846,9 +9640,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t839 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_homomorphism(R,K)\n                  (ring_coset R (J:((1->num)->A)->bool))",
-    ),
+    @term_syntax.parse_term("ring_homomorphism(((R : Ring[((Unit) -> Num) -> A]), (K : Ring[(((Unit) -> Num) -> A) -> Bool])), ring_coset(R, (J : (((Unit) -> Num) -> A) -> Bool)))"),
     fn(
       x836 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -9957,9 +9749,7 @@ fn step_13() -> Unit raise {
   )
   let t829 = @list.List([@simp.asm_rewrite_tac(@list.List([])), @tactics.all_tac])
   let t828 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "CARD(ring_carrier(K:(((1->num)->A)->bool) ring)) = q EXP d",
-    ),
+    @term_syntax.parse_term("CARD(ring_carrier((K : Ring[(((Unit) -> Num) -> A) -> Bool]))) == EXP((q : Num), (d : Num))"),
     fn(
       x825 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -10022,9 +9812,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t821 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "field (K:(((1->num)->A)->bool) ring) /\\ FINITE(ring_carrier K) /\\\n     CARD(ring_carrier K) =\n     CARD(ring_carrier(f:A ring)) EXP (poly_deg f (p:(1->num)->A))",
-    ),
+    @term_syntax.parse_term("field((K : Ring[(((Unit) -> Num) -> A) -> Bool])) && FINITE(ring_carrier(K)) && CARD(ring_carrier(K)) == EXP(CARD(ring_carrier((f : Ring[A]))), poly_deg(f, (p : ((Unit) -> Num) -> A)))"),
     @tactics.strip_assume_tac,
   )
   let t819 = @meson.asm_meson_tac(
@@ -10038,9 +9826,7 @@ fn step_13() -> Unit raise {
     @tactics.all_tac,
   ])
   let t818 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "maximal_ideal R (J:((1->num)->A)->bool) /\\\n                ring_ideal R (J:((1->num)->A)->bool)",
-    ),
+    @term_syntax.parse_term("maximal_ideal((R : Ring[((Unit) -> Num) -> A]), (J : (((Unit) -> Num) -> A) -> Bool)) && ring_ideal(R, J)"),
     @tactics.strip_assume_tac,
   )
   let t816 = @meson.asm_meson_tac(@list.List([@ringtheory.pid_poly_ring()]))
@@ -10350,9 +10136,7 @@ fn step_13() -> Unit raise {
   )
   irreducible_divides_degree_bound_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A ring p n. field f /\\ FINITE(ring_carrier f) /\\\n   ring_irreducible (poly_ring f (:1)) p /\\ ring_divides (poly_ring f (:1)) p\n     (ring_sub (poly_ring f (:1)) (ring_pow (poly_ring f (:1)) (poly_var f one)\n                  (CARD(ring_carrier f) EXP n)) (poly_var f one)) /\\\n   1 <= n ==> poly_deg f p <= n",
-      ),
+      @term_syntax.parse_term("∀ f : Ring[A], ∀ p : ((Unit) -> Num) -> A, ∀ n : Num, field(f) && FINITE(ring_carrier(f)) && ring_irreducible(poly_ring(f, UNIV), p) && ring_divides(poly_ring(f, UNIV), p, ring_sub(poly_ring(f, UNIV), ring_pow(poly_ring(f, UNIV), poly_var(f, one), EXP(CARD(ring_carrier(f)), n)), poly_var(f, one))) && 1 <= n → poly_deg(f, p) <= n"),
       t1068,
     ),
   )
@@ -10417,9 +10201,7 @@ fn step_14() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1184 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_divides R (p:(1->num)->A)\n     (ring_sub R (ring_pow R x (q EXP r)) x)",
-    ),
+    @term_syntax.parse_term("ring_divides((R : Ring[((Unit) -> Num) -> A]), (p : ((Unit) -> Num) -> A), ring_sub(R, ring_pow(R, (x : ((Unit) -> Num) -> A), EXP((q : Num), (r : Num))), x))"),
     fn(
       x1181 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -10656,9 +10438,7 @@ fn step_14() -> Unit raise {
   let t1175 = @list.List([
     @tactics.thenl(
       @tactics.subgoal_then(
-        @parser.parse_term(
-          "ring_pow R (u:(1->num)->A) (q EXP r) =\n                 ring_pow R x (q EXP n)",
-        ),
+        @term_syntax.parse_term("ring_pow((R : Ring[((Unit) -> Num) -> A]), (u : ((Unit) -> Num) -> A), EXP((q : Num), (r : Num))) == ring_pow(R, (x : ((Unit) -> Num) -> A), EXP(q, (n : Num)))"),
         fn(
           x1157 : @kernel.Thm,
         ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -10711,9 +10491,7 @@ fn step_14() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1156 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_divides R (p:(1->num)->A)\n     (ring_sub R (ring_pow R u (q EXP r)) x)",
-    ),
+    @term_syntax.parse_term("ring_divides((R : Ring[((Unit) -> Num) -> A]), (p : ((Unit) -> Num) -> A), ring_sub(R, ring_pow(R, (u : ((Unit) -> Num) -> A), EXP((q : Num), (r : Num))), (x : ((Unit) -> Num) -> A)))"),
     fn(
       x1153 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -10850,9 +10628,7 @@ fn step_14() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1137 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_divides R (p:(1->num)->A)\n     (ring_sub R (ring_pow R x (q EXP (k * d))) x)",
-    ),
+    @term_syntax.parse_term("ring_divides((R : Ring[((Unit) -> Num) -> A]), (p : ((Unit) -> Num) -> A), ring_sub(R, ring_pow(R, (x : ((Unit) -> Num) -> A), EXP((q : Num), (k : Num) * (d : Num))), x))"),
     fn(
       x1134 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -11075,9 +10851,7 @@ fn step_14() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1113 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_divides R (p:(1->num)->A)\n     (ring_sub R (ring_pow R x (q EXP d)) x)",
-    ),
+    @term_syntax.parse_term("ring_divides((R : Ring[((Unit) -> Num) -> A]), (p : ((Unit) -> Num) -> A), ring_sub(R, ring_pow(R, (x : ((Unit) -> Num) -> A), EXP((q : Num), (d : Num))), x))"),
     fn(
       x1110 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -11563,9 +11337,7 @@ fn step_14() -> Unit raise {
   )
   irreducible_divides_degree_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A ring p n. field f /\\ FINITE(ring_carrier f) /\\\n   ring_irreducible (poly_ring f (:1)) p /\\ ring_divides (poly_ring f (:1)) p\n     (ring_sub (poly_ring f (:1)) (ring_pow (poly_ring f (:1)) (poly_var f one)\n                  (CARD(ring_carrier f) EXP n)) (poly_var f one))\n   ==> (poly_deg f p) divides n",
-      ),
+      @term_syntax.parse_term("∀ f : Ring[A], ∀ p : ((Unit) -> Num) -> A, ∀ n : Num, field(f) && FINITE(ring_carrier(f)) && ring_irreducible(poly_ring(f, UNIV), p) && ring_divides(poly_ring(f, UNIV), p, ring_sub(poly_ring(f, UNIV), ring_pow(poly_ring(f, UNIV), poly_var(f, one), EXP(CARD(ring_carrier(f)), n)), poly_var(f, one))) → divides(poly_deg(f, p), n)"),
       t1198,
     ),
   )
@@ -11846,9 +11618,7 @@ fn step_15() -> Unit raise {
     @int.asm_arith_tac,
   )
   let divides_div_prime_absurd = @tactics.prove(
-    @parser.parse_term(
-      "forall n q. prime q /\\ q divides n /\\ ~(n = 0) /\\ n divides (n DIV q) ==> F",
-    ),
+    @term_syntax.parse_term("∀ n : Num, ∀ q : Num, prime(q) && divides(q, n) && !(n == 0) && divides(n, DIV(n, q)) → false"),
     t1228,
   )
   let t1247 = @simp.asm_rewrite_tac(@list.List([]))
@@ -11904,9 +11674,7 @@ fn step_15() -> Unit raise {
     ),
     @tactics.all_tac,
   ])
-  let t1233 = @parser.parse_term(
-    "ring_sub (poly_ring (f:A ring) (:1))\n                     (ring_pow (poly_ring (f:A ring) (:1))\n                               (poly_var f one)\n                               (CARD(ring_carrier f) EXP (n DIV q')))\n                     (poly_var (f:A ring) one)",
-  )
+  let t1233 = @term_syntax.parse_term("ring_sub(poly_ring((f : Ring[A]), UNIV), ring_pow(poly_ring(f, UNIV), poly_var(f, one), EXP(CARD(ring_carrier(f)), DIV((n : Num), (q' : Num)))), poly_var(f, one))")
   let t1234 = @term_syntax.parse_term("(p : ((Unit) -> Num) -> A)")
   let t1235 = @tactics.mp_tac(
     @bool.ispecl(
@@ -11962,9 +11730,7 @@ fn step_15() -> Unit raise {
   )
   rabin_irreducibility_necessary_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A ring p n.\n   field f /\\ FINITE(ring_carrier f) /\\\n   p IN ring_carrier(poly_ring f (:1)) /\\\n   poly_deg f p = n /\\ ~(n = 0) /\\\n   ring_irreducible (poly_ring f (:1)) p\n   ==> ring_divides (poly_ring f (:1)) p\n         (ring_sub (poly_ring f (:1))\n            (ring_pow (poly_ring f (:1)) (poly_var f one)\n                      (CARD(ring_carrier f) EXP n))\n            (poly_var f one)) /\\\n       forall q. prime q /\\ q divides n\n           ==> ring_coprime (poly_ring f (:1))\n                 (p, ring_sub (poly_ring f (:1))\n                       (ring_pow (poly_ring f (:1)) (poly_var f one)\n                                 (CARD(ring_carrier f) EXP (n DIV q)))\n                       (poly_var f one))",
-      ),
+      @term_syntax.parse_term("∀ f : Ring[A], ∀ p : ((Unit) -> Num) -> A, ∀ n : Num, field(f) && FINITE(ring_carrier(f)) && IN(p, ring_carrier(poly_ring(f, UNIV))) && poly_deg(f, p) == n && !(n == 0) && ring_irreducible(poly_ring(f, UNIV), p) → ring_divides(poly_ring(f, UNIV), p, ring_sub(poly_ring(f, UNIV), ring_pow(poly_ring(f, UNIV), poly_var(f, one), EXP(CARD(ring_carrier(f)), n)), poly_var(f, one))) && (∀ q : Num, prime(q) && divides(q, n) → ring_coprime(poly_ring(f, UNIV), (p, ring_sub(poly_ring(f, UNIV), ring_pow(poly_ring(f, UNIV), poly_var(f, one), EXP(CARD(ring_carrier(f)), DIV(n, q))), poly_var(f, one)))))"),
       t1249,
     ),
   )
@@ -12290,9 +12056,7 @@ fn step_16() -> Unit raise {
     t1282,
   )
   let proper_divisor_prime_factor = @tactics.prove(
-    @parser.parse_term(
-      "forall d n. d divides n /\\ 1 <= d /\\ d < n\n           ==> ?q. prime q /\\ q divides n /\\ d divides (n DIV q)",
-    ),
+    @term_syntax.parse_term("∀ d : Num, ∀ n : Num, divides(d, n) && 1 <= d && d < n → (∃ q : Num, prime(q) && divides(q, n) && divides(d, DIV(n, q)))"),
     t1283,
   )
   let t1507 = @meson.asm_meson_tac(@list.List([@ringtheory.ring_irreducible()]))
@@ -12641,9 +12405,7 @@ fn step_16() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1471 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_divides R (g:(1->num)->A)\n     (ring_sub R (ring_pow R (poly_var f one)\n                  (CARD(ring_carrier f) EXP (n DIV l))) (poly_var f one))",
-    ),
+    @term_syntax.parse_term("ring_divides((R : Ring[((Unit) -> Num) -> A]), (g : ((Unit) -> Num) -> A), ring_sub(R, ring_pow(R, poly_var((f : Ring[A]), one), EXP(CARD(ring_carrier(f)), DIV((n : Num), (l : Num)))), poly_var(f, one)))"),
     fn(
       x1468 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -12893,9 +12655,7 @@ fn step_16() -> Unit raise {
                     @tactics.then_tac(
                       @tactics.thenl(
                         @tactics.subgoal_then(
-                          @parser.parse_term(
-                            "poly_deg f (a:(1->num)->A) =\n                  poly_deg f (poly_mul f (g:(1->num)->A) (h:(1->num)->A))",
-                          ),
+                          @term_syntax.parse_term("poly_deg((f : Ring[A]), (a : ((Unit) -> Num) -> A)) == poly_deg(f, poly_mul(f, (g : ((Unit) -> Num) -> A), (h : ((Unit) -> Num) -> A)))"),
                           fn(
                             x1436 : @kernel.Thm,
                           ) -> ((
@@ -12978,9 +12738,7 @@ fn step_16() -> Unit raise {
     @int.arith_tac,
   ])
   let t1435 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "poly_deg f (a:(1->num)->A) =\n                 poly_deg f (g:(1->num)->A) + poly_deg f (h:(1->num)->A)",
-    ),
+    @term_syntax.parse_term("poly_deg((f : Ring[A]), (a : ((Unit) -> Num) -> A)) == poly_deg(f, (g : ((Unit) -> Num) -> A)) + poly_deg(f, (h : ((Unit) -> Num) -> A))"),
     fn(
       x1432 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -13191,9 +12949,7 @@ fn step_16() -> Unit raise {
             @tactics.then_tac(
               @tactics.then_tac(
                 @tactics.undisch_tac(
-                  @parser.parse_term(
-                    "ring_divides R (g:(1->num)->A) (a:(1->num)->A)",
-                  ),
+                  @term_syntax.parse_term("ring_divides((R : Ring[((Unit) -> Num) -> A]), (g : ((Unit) -> Num) -> A), (a : ((Unit) -> Num) -> A))"),
                 ),
                 t1419,
               ),
@@ -13210,9 +12966,7 @@ fn step_16() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1418 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "poly_deg f (g:(1->num)->A) <= poly_deg f (a:(1->num)->A)",
-    ),
+    @term_syntax.parse_term("poly_deg((f : Ring[A]), (g : ((Unit) -> Num) -> A)) <= poly_deg(f, (a : ((Unit) -> Num) -> A))"),
     fn(
       x1415 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -13480,9 +13234,7 @@ fn step_16() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1385 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_divides R (g:(1->num)->A)\n     (ring_sub R (ring_pow R (poly_var f one)\n                  (CARD(ring_carrier f) EXP n)) (poly_var f one))",
-    ),
+    @term_syntax.parse_term("ring_divides((R : Ring[((Unit) -> Num) -> A]), (g : ((Unit) -> Num) -> A), ring_sub(R, ring_pow(R, poly_var((f : Ring[A]), one), EXP(CARD(ring_carrier(f)), (n : Num))), poly_var(f, one)))"),
     fn(
       x1382 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -13769,9 +13521,7 @@ fn step_16() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1346 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "1 <= poly_deg f (a:(1->num)->A) /\\\n                1 <= poly_deg f (b:(1->num)->A)",
-    ),
+    @term_syntax.parse_term("1 <= poly_deg((f : Ring[A]), (a : ((Unit) -> Num) -> A)) && 1 <= poly_deg(f, (b : ((Unit) -> Num) -> A))"),
     @tactics.strip_assume_tac,
   )
   let t1344 = @meson.asm_meson_tac(@list.List([]))
@@ -13783,9 +13533,7 @@ fn step_16() -> Unit raise {
     @tactics.then_tac(
       @tactics.thenl(
         @tactics.subgoal_then(
-          @parser.parse_term(
-            "poly_mul f (a:(1->num)->A) (b:(1->num)->A) = p:(1->num)->A",
-          ),
+          @term_syntax.parse_term("poly_mul((f : Ring[A]), (a : ((Unit) -> Num) -> A), (b : ((Unit) -> Num) -> A)) == (p : ((Unit) -> Num) -> A)"),
           fn(
             x1340 : @kernel.Thm,
           ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -13840,9 +13588,7 @@ fn step_16() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1339 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "poly_deg f (a:(1->num)->A) + poly_deg f (b:(1->num)->A) = n",
-    ),
+    @term_syntax.parse_term("poly_deg((f : Ring[A]), (a : ((Unit) -> Num) -> A)) + poly_deg(f, (b : ((Unit) -> Num) -> A)) == (n : Num)"),
     fn(
       x1336 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -13987,9 +13733,7 @@ fn step_16() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1325 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "poly_deg f (poly_mul f (a:(1->num)->A) (b:(1->num)->A)) =\n                poly_deg f a + poly_deg f b",
-    ),
+    @term_syntax.parse_term("poly_deg((f : Ring[A]), poly_mul(f, (a : ((Unit) -> Num) -> A), (b : ((Unit) -> Num) -> A))) == poly_deg(f, a) + poly_deg(f, b)"),
     fn(
       x1322 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -14067,9 +13811,7 @@ fn step_16() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1316 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "ring_polynomial f (a:(1->num)->A) /\\\n                ring_polynomial f (b:(1->num)->A)",
-    ),
+    @term_syntax.parse_term("ring_polynomial((f : Ring[A]), (a : ((Unit) -> Num) -> A)) && ring_polynomial(f, (b : ((Unit) -> Num) -> A))"),
     @tactics.strip_assume_tac,
   )
   let t1315 = @list.List([
@@ -14079,9 +13821,7 @@ fn step_16() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1314 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "~(a:(1->num)->A = ring_0 R) /\\ ~(b:(1->num)->A = ring_0 R)",
-    ),
+    @term_syntax.parse_term("!((a : ((Unit) -> Num) -> A) == ring_0((R : Ring[((Unit) -> Num) -> A]))) && !((b : ((Unit) -> Num) -> A) == ring_0(R))"),
     @tactics.strip_assume_tac,
   )
   let t1312 = @simp.asm_rewrite_tac(
@@ -14176,9 +13916,7 @@ fn step_16() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1303 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?a b:(1->num)->A.\n       a IN ring_carrier R /\\ b IN ring_carrier R /\\\n       ring_mul R a b = p /\\\n       ~(ring_unit R a) /\\ ~(ring_unit R b)",
-    ),
+    @term_syntax.parse_term("∃ a : ((Unit) -> Num) -> A, ∃ b : ((Unit) -> Num) -> A, IN(a, ring_carrier((R : Ring[((Unit) -> Num) -> A]))) && IN(b, ring_carrier(R)) && ring_mul(R, a, b) == (p : ((Unit) -> Num) -> A) && !ring_unit(R, a) && !ring_unit(R, b)"),
     @tactics.strip_assume_tac,
   )
   let t1302 = @tactics.match_mp_tac(
@@ -14491,9 +14229,7 @@ fn step_16() -> Unit raise {
   )
   rabin_irreducibility_sufficient_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A ring p n.\n   field f /\\ FINITE(ring_carrier f) /\\\n   p IN ring_carrier(poly_ring f (:1)) /\\\n   ~(p = ring_0(poly_ring f (:1))) /\\\n   poly_deg f p = n /\\ ~(n = 0) /\\\n   ring_divides (poly_ring f (:1)) p\n     (ring_sub (poly_ring f (:1))\n        (ring_pow (poly_ring f (:1)) (poly_var f one)\n                  (CARD(ring_carrier f) EXP n))\n        (poly_var f one)) /\\\n   (forall q. prime q /\\ q divides n\n        ==> ring_coprime (poly_ring f (:1))\n              (p, ring_sub (poly_ring f (:1))\n                    (ring_pow (poly_ring f (:1)) (poly_var f one)\n                              (CARD(ring_carrier f) EXP (n DIV q)))\n                    (poly_var f one)))\n   ==> ring_irreducible (poly_ring f (:1)) p",
-      ),
+      @term_syntax.parse_term("∀ f : Ring[A], ∀ p : ((Unit) -> Num) -> A, ∀ n : Num, field(f) && FINITE(ring_carrier(f)) && IN(p, ring_carrier(poly_ring(f, UNIV))) && !(p == ring_0(poly_ring(f, UNIV))) && poly_deg(f, p) == n && !(n == 0) && ring_divides(poly_ring(f, UNIV), p, ring_sub(poly_ring(f, UNIV), ring_pow(poly_ring(f, UNIV), poly_var(f, one), EXP(CARD(ring_carrier(f)), n)), poly_var(f, one))) && (∀ q : Num, prime(q) && divides(q, n) → ring_coprime(poly_ring(f, UNIV), (p, ring_sub(poly_ring(f, UNIV), ring_pow(poly_ring(f, UNIV), poly_var(f, one), EXP(CARD(ring_carrier(f)), DIV(n, q))), poly_var(f, one))))) → ring_irreducible(poly_ring(f, UNIV), p)"),
       t1508,
     ),
   )
@@ -14558,9 +14294,7 @@ fn step_17() -> Unit raise {
   )
   rabin_irreducibility_test_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A ring p n.\n   field f /\\ FINITE(ring_carrier f) /\\\n   p IN ring_carrier(poly_ring f (:1)) /\\\n   ~(p = ring_0(poly_ring f (:1))) /\\\n   ~(ring_unit (poly_ring f (:1)) p) /\\\n   poly_deg f p = n /\\ ~(n = 0)\n   ==> (ring_irreducible (poly_ring f (:1)) p <=>\n        ring_divides (poly_ring f (:1)) p\n          (ring_sub (poly_ring f (:1))\n             (ring_pow (poly_ring f (:1)) (poly_var f one)\n                       (CARD(ring_carrier f) EXP n))\n             (poly_var f one)) /\\\n        forall q. prime q /\\ q divides n\n            ==> ring_coprime (poly_ring f (:1))\n                  (p, ring_sub (poly_ring f (:1))\n                        (ring_pow (poly_ring f (:1)) (poly_var f one)\n                                  (CARD(ring_carrier f) EXP (n DIV q)))\n                        (poly_var f one)))",
-      ),
+      @term_syntax.parse_term("∀ f : Ring[A], ∀ p : ((Unit) -> Num) -> A, ∀ n : Num, field(f) && FINITE(ring_carrier(f)) && IN(p, ring_carrier(poly_ring(f, UNIV))) && !(p == ring_0(poly_ring(f, UNIV))) && !ring_unit(poly_ring(f, UNIV), p) && poly_deg(f, p) == n && !(n == 0) → ring_irreducible(poly_ring(f, UNIV), p) == (ring_divides(poly_ring(f, UNIV), p, ring_sub(poly_ring(f, UNIV), ring_pow(poly_ring(f, UNIV), poly_var(f, one), EXP(CARD(ring_carrier(f)), n)), poly_var(f, one))) && (∀ q : Num, prime(q) && divides(q, n) → ring_coprime(poly_ring(f, UNIV), (p, ring_sub(poly_ring(f, UNIV), ring_pow(poly_ring(f, UNIV), poly_var(f, one), EXP(CARD(ring_carrier(f)), DIV(n, q))), poly_var(f, one))))))"),
       t1517,
     ),
   )

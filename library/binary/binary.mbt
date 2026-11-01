@@ -55,9 +55,7 @@ fn step_2() -> Unit raise {
   )
   even_nsum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s. FINITE s /\\ (forall i. i IN s ==> EVEN(f i)) ==> EVEN(nsum s f)",
-      ),
+      @term_syntax.parse_term("∀ s : (_) -> Bool, FINITE(s) && (∀ i : _, IN(i, s) → EVEN((f : (_) -> Num)(i))) → EVEN(nsum(s, f))"),
       t7,
     ),
   )
@@ -362,9 +360,7 @@ fn step_9() -> Unit raise {
   )
   bitset_step_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n. bitset(2 * n) = IMAGE SUC (bitset n)) /\\\n   (forall n. bitset(2 * n + 1) = 0 INSERT (IMAGE SUC (bitset n)))",
-      ),
+      @term_syntax.parse_term("(∀ n : Num, bitset(2 * n) == IMAGE(SUC, bitset(n))) && (∀ n : Num, bitset(2 * n + 1) == INSERT(0, IMAGE(SUC, bitset(n))))"),
       t28,
     ),
   )
@@ -610,9 +606,7 @@ fn step_13() -> Unit raise {
   )
   binarysum_bound_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s. (forall i. i IN s ==> i < k) ==> nsum s (\\i. 2 EXP i) < 2 EXP k",
-      ),
+      @term_syntax.parse_term("∀ k : Num, ∀ s : (Num) -> Bool, (∀ i : Num, IN(i, s) → i < k) → nsum(s, (i : Num) => EXP(2, i)) < EXP(2, k)"),
       t53,
     ),
   )
@@ -669,9 +663,7 @@ fn step_14() -> Unit raise {
   )
   binarysum_div_divisible_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s k. FINITE s /\\ (forall i. i IN s ==> k <= i)\n         ==> nsum s (\\i. 2 EXP i) = 2 EXP k * nsum s (\\i. 2 EXP (i - k))",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, ∀ k : Num, FINITE(s) && (∀ i : Num, IN(i, s) → k <= i) → nsum(s, (i : Num) => EXP(2, i)) == EXP(2, k) * nsum(s, (i : Num) => EXP(2, i - k))"),
       t59,
     ),
   )
@@ -764,9 +756,7 @@ fn step_15() -> Unit raise {
     @tactics.all_tac,
   ])
   let t74 = @tactics.exists_tac(
-    @parser.parse_term(
-      "2 EXP k * nsum {i | k <= i /\\ i IN s} (\\i. 2 EXP (i - k))",
-    ),
+    @term_syntax.parse_term("EXP(2, (k : Num)) * nsum({(i : Num) | k <= i && IN(i, (s : (Num) -> Bool))}, (i : Num) => EXP(2, i - k))"),
   )
   let t73 = @tactics.match_mp_tac(@theorems.eq_trans())
   let t72 = @simp.rewrite_tac(
@@ -824,9 +814,7 @@ fn step_15() -> Unit raise {
     @tactics.all_tac,
   ])
   let t61 = @tactics.exists_tac(
-    @parser.parse_term(
-      "(nsum {i | i < k /\\ i IN s} (\\j. 2 EXP j) +\n               nsum {i | k <= i /\\ i IN s} (\\j. 2 EXP j)) DIV (2 EXP k)",
-    ),
+    @term_syntax.parse_term("DIV(nsum({(i : Num) | i < (k : Num) && IN(i, (s : (Num) -> Bool))}, (j : Num) => EXP(2, j)) + nsum({(i : Num) | k <= i && IN(i, s)}, (j : Num) => EXP(2, j)), EXP(2, k))"),
   )
   let t60 = @tactics.match_mp_tac(@theorems.eq_trans())
   let t91 = @tactics.then_tac(
@@ -894,9 +882,7 @@ fn step_15() -> Unit raise {
   )
   binarysum_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s. FINITE s\n         ==> (nsum s (\\j. 2 EXP j)) DIV (2 EXP k) =\n             nsum s (\\j. if j < k then 0 else 2 EXP (j - k))",
-      ),
+      @term_syntax.parse_term("∀ k : Num, ∀ s : (Num) -> Bool, FINITE(s) → DIV(nsum(s, (j : Num) => EXP(2, j)), EXP(2, k)) == nsum(s, (j : Num) => if j < k { 0 } else { EXP(2, j - k) })"),
       t91,
     ),
   )
@@ -1099,9 +1085,7 @@ fn step_17() -> Unit raise {
   )
   binarysum_bound_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall k s. (forall i. i IN s ==> i < k) ==> binarysum s < 2 EXP k",
-      ),
+      @term_syntax.parse_term("∀ k : Num, ∀ s : (Num) -> Bool, (∀ i : Num, IN(i, s) → i < k) → binarysum(s) < EXP(2, k)"),
       t113,
     ),
   )
@@ -1226,9 +1210,7 @@ fn step_20() -> Unit raise {
   )
   binarysum_bound_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s k. FINITE s ==> (binarysum s < 2 EXP k <=> (forall i. i IN s ==> i < k))",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, ∀ k : Num, FINITE(s) → (binarysum(s) < EXP(2, k)) == (∀ i : Num, IN(i, s) → i < k)"),
       t122,
     ),
   )

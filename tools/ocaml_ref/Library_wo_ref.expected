@@ -6339,22 +6339,22 @@ Library/wo quotations (595):
   \226\136\128 l : (A, A) -> Bool, \226\136\128 x : A, IN(x, fld(l)) == (\226\136\131 y : A, l(x, y) || l(y, x))
   \226\136\128 R : (A, A) -> Bool, (fld(R) == {}) == (R == ((x : A) => (y : A) => false))
   \226\136\128 l : (_, _) -> Bool, \226\136\128 r : (_, _) -> Bool, (\226\136\128 x : _, \226\136\128 y : _, l(x, y) \226\134\146 r(x, y)) \226\134\146 SUBSET(fld(l), fld(r))
-  forall l:A->A->bool. FINITE(fld l) <=> FINITE {(x,y) | l x y}
+  \226\136\128 l : (A, A) -> Bool, FINITE(fld(l)) == FINITE({((x : A), (y : A)) | l(x, y)})
   (SND : ((A, A)) -> A)
   (FST : ((A, A)) -> A)
-  qoset (l:A->A->bool) <=>\n       (forall x. x IN fld l ==> l x x) /\\\n       (forall x y z. l x y /\\ l y z ==> l x z)
-  poset (l:A->A->bool) <=>\n       (forall x. x IN fld l ==> l x x) /\\\n       (forall x y z. l x y /\\ l y z ==> l x z) /\\\n       (forall x y. l x y /\\ l y x ==> x = y)
-  toset (l:A->A->bool) <=>\n       (forall x. x IN fld l ==> l x x) /\\\n       (forall x y z. l x y /\\ l y z ==> l x z) /\\\n       (forall x y. l x y /\\ l y x ==> x = y) /\\\n       (forall x y. x IN fld l /\\ y IN fld l ==> l x y \\/ l y x)
-  woset (l:A->A->bool) <=>\n       (forall x. x IN fld l ==> l x x) /\\\n       (forall x y z. l x y /\\ l y z ==> l x z) /\\\n       (forall x y. l x y /\\ l y x ==> x = y) /\\\n       (forall x y. x IN fld l /\\ y IN fld l ==> l x y \\/ l y x) /\\\n       (forall s. s SUBSET fld l /\\ ~(s = {})\n            ==> ?x. x IN s /\\ forall y. y IN s ==> l x y)
-  wqoset (l:A->A->bool) <=>\n        (forall x. x IN fld l ==> l x x) /\\\n        (forall x y z. l x y /\\ l y z ==> l x z) /\\\n        (forall s. s SUBSET fld l\n             ==> ?t. FINITE t /\\ t SUBSET s /\\\n                     forall y. y IN s ==> ?x. x IN t /\\ l x y)
-  chain (l:A->A->bool) s <=>\n        forall x y. x IN s /\\ y IN s ==> l x y \\/ l y x
-  antichain (l:A->A->bool) s <=>\n        s SUBSET fld l /\\ pairwise (\\x y. ~(l x y)) s
-  forall l s:A->bool.\n        chain l s <=>\n        s SUBSET fld l /\\\n        forall x y. x IN s /\\ y IN s ==> l x y \\/ l y x
-  forall l s:A->bool.\n        antichain l s <=>\n        s SUBSET fld l /\\\n        forall x y. x IN s /\\ y IN s /\\ ~(x = y) ==> ~(l x y)
-  forall(l:A->A->bool) s t. chain l s /\\ t SUBSET s ==> chain l t
-  forall(l:A->A->bool) s t. antichain l s /\\ t SUBSET s ==> antichain l t
+  (qoset : ((A, A) -> Bool) -> Bool)((l : (A, A) -> Bool)) == ((\226\136\128 x : A, IN(x, fld(l)) \226\134\146 l(x, x)) && (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, l(x, y) && l(y, z) \226\134\146 l(x, z)))
+  (poset : ((A, A) -> Bool) -> Bool)((l : (A, A) -> Bool)) == ((\226\136\128 x : A, IN(x, fld(l)) \226\134\146 l(x, x)) && (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, l(x, y) && l(y, z) \226\134\146 l(x, z)) && (\226\136\128 x : A, \226\136\128 y : A, l(x, y) && l(y, x) \226\134\146 x == y))
+  (toset : ((A, A) -> Bool) -> Bool)((l : (A, A) -> Bool)) == ((\226\136\128 x : A, IN(x, fld(l)) \226\134\146 l(x, x)) && (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, l(x, y) && l(y, z) \226\134\146 l(x, z)) && (\226\136\128 x : A, \226\136\128 y : A, l(x, y) && l(y, x) \226\134\146 x == y) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, fld(l)) && IN(y, fld(l)) \226\134\146 l(x, y) || l(y, x)))
+  (woset : ((A, A) -> Bool) -> Bool)((l : (A, A) -> Bool)) == ((\226\136\128 x : A, IN(x, fld(l)) \226\134\146 l(x, x)) && (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, l(x, y) && l(y, z) \226\134\146 l(x, z)) && (\226\136\128 x : A, \226\136\128 y : A, l(x, y) && l(y, x) \226\134\146 x == y) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, fld(l)) && IN(y, fld(l)) \226\134\146 l(x, y) || l(y, x)) && (\226\136\128 s : (A) -> Bool, SUBSET(s, fld(l)) && !(s == {}) \226\134\146 (\226\136\131 x : A, IN(x, s) && (\226\136\128 y : A, IN(y, s) \226\134\146 l(x, y)))))
+  (wqoset : ((A, A) -> Bool) -> Bool)((l : (A, A) -> Bool)) == ((\226\136\128 x : A, IN(x, fld(l)) \226\134\146 l(x, x)) && (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, l(x, y) && l(y, z) \226\134\146 l(x, z)) && (\226\136\128 s : (A) -> Bool, SUBSET(s, fld(l)) \226\134\146 (\226\136\131 t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && (\226\136\128 y : A, IN(y, s) \226\134\146 (\226\136\131 x : A, IN(x, t) && l(x, y))))))
+  (chain : ((A, A) -> Bool, (A) -> Bool) -> Bool)((l : (A, A) -> Bool), (s : (A) -> Bool)) == (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) \226\134\146 l(x, y) || l(y, x))
+  (antichain : ((A, A) -> Bool, (A) -> Bool) -> Bool)((l : (A, A) -> Bool), (s : (A) -> Bool)) == (SUBSET(s, fld(l)) && pairwise((x : A) => (y : A) => !l(x, y), s))
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, chain(l, s) == (SUBSET(s, fld(l)) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) \226\134\146 l(x, y) || l(y, x)))
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, antichain(l, s) == (SUBSET(s, fld(l)) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && !(x == y) \226\134\146 !l(x, y)))
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, chain(l, s) && SUBSET(t, s) \226\134\146 chain(l, t)
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, antichain(l, s) && SUBSET(t, s) \226\134\146 antichain(l, t)
   \226\136\128 l : (A, A) -> Bool, qoset(l) \226\134\146 (\226\136\128 x : A, fld(l, x) \226\134\146 l(x, x))
-  forall l:A->A->bool. qoset l ==> forall x y z. l x y /\\ l y z ==> l x z
+  \226\136\128 l : (A, A) -> Bool, qoset(l) \226\134\146 (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, l(x, y) && l(y, z) \226\134\146 l(x, z))
   \226\136\128 l : (A, A) -> Bool, \226\136\128 x : A, qoset(l) \226\134\146 l(x, x) == IN(x, fld(l))
   \226\136\128 l : (A, A) -> Bool, qoset(l) \226\134\146 (\226\136\128 x : A, fld(l, x) == l(x, x))
   \226\136\128 l : (A, A) -> Bool, qoset(l) \226\134\146 fld(l) == {(x : A) | l(x, x)}
@@ -6369,24 +6369,24 @@ Library/wo quotations (595):
   (properly : ((A, A) -> Bool, A, A) -> Bool)((R : (A, A) -> Bool)) == ((x : A) => (y : A) => R(x, y) && !(x == y))
   \226\136\128 l : (A, A) -> Bool, poset(l) \226\134\146 properly(l) == strictly(l)
   \226\136\128 l : (A, A) -> Bool, poset(l) \226\134\146 strictly(l) == properly(l)
-  forall l x y:A. qoset l /\\ strictly l x y ==> properly l x y
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 x : A, \226\136\128 y : A, qoset(l) && strictly(l, x, y) \226\134\146 properly(l, x, y)
   \226\136\128 R : (A, A) -> Bool, strictly(strictly(R)) == strictly(R)
   \226\136\128 R : (A, A) -> Bool, properly(properly(R)) == properly(R)
   \226\136\128 R : (A, A) -> Bool, strictly(properly(R)) == strictly(R)
   \226\136\128 R : (A, A) -> Bool, properly(strictly(R)) == strictly(R)
-  forall R S. (forall x y. R x y ==> S x y)\n         ==> (forall x y. properly R x y ==> properly S x y)
-  forall l:A->A->bool.\n        poset l <=> qoset l /\\ (forall x y. l x y /\\ l y x ==> x = y)
-  forall l:A->A->bool.\n        toset l <=>\n        (forall x y z. l x y /\\ l y z ==> l x z) /\\\n        (forall x y. l x y /\\ l y x ==> x = y) /\\\n        (forall x y. x IN fld l /\\ y IN fld l ==> l x y \\/ l y x)
-  forall l:A->A->bool.\n        toset l <=>\n        poset l /\\ (forall x y. x IN fld l /\\ y IN fld l ==> l x y \\/ l y x)
-  forall l:A->A->bool.\n       woset l <=>\n       toset l /\\\n       forall s. s SUBSET fld l /\\ ~(s = {}) ==> ?x. x IN s /\\ forall y. y IN s ==> l x y
+  \226\136\128 R : (_, _) -> Bool, \226\136\128 S : (_, _) -> Bool, (\226\136\128 x : _, \226\136\128 y : _, R(x, y) \226\134\146 S(x, y)) \226\134\146 (\226\136\128 x : _, \226\136\128 y : _, properly(R, x, y) \226\134\146 properly(S, x, y))
+  \226\136\128 l : (A, A) -> Bool, poset(l) == (qoset(l) && (\226\136\128 x : A, \226\136\128 y : A, l(x, y) && l(y, x) \226\134\146 x == y))
+  \226\136\128 l : (A, A) -> Bool, toset(l) == ((\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, l(x, y) && l(y, z) \226\134\146 l(x, z)) && (\226\136\128 x : A, \226\136\128 y : A, l(x, y) && l(y, x) \226\134\146 x == y) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, fld(l)) && IN(y, fld(l)) \226\134\146 l(x, y) || l(y, x)))
+  \226\136\128 l : (A, A) -> Bool, toset(l) == (poset(l) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, fld(l)) && IN(y, fld(l)) \226\134\146 l(x, y) || l(y, x)))
+  \226\136\128 l : (A, A) -> Bool, woset(l) == (toset(l) && (\226\136\128 s : (A) -> Bool, SUBSET(s, fld(l)) && !(s == {}) \226\134\146 (\226\136\131 x : A, IN(x, s) && (\226\136\128 y : A, IN(y, s) \226\134\146 l(x, y)))))
   {(x : A)}
   (x : A)
-  forall l:A->A->bool.\n        wqoset l <=>\n        (forall x y z. l x y /\\ l y z ==> l x z) /\\\n        (forall s. s SUBSET fld l\n             ==> ?t. FINITE t /\\\n                     t SUBSET s /\\\n                     forall y. y IN s ==> ?x. x IN t /\\ l x y)
-  forall l:A->A->bool.\n       wqoset l <=>\n       qoset l /\\\n       forall s. s SUBSET fld l\n           ==> ?t. FINITE t /\\ t SUBSET s /\\\n                   forall y. y IN s ==> ?x. x IN t /\\ l x y
+  \226\136\128 l : (A, A) -> Bool, wqoset(l) == ((\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, l(x, y) && l(y, z) \226\134\146 l(x, z)) && (\226\136\128 s : (A) -> Bool, SUBSET(s, fld(l)) \226\134\146 (\226\136\131 t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && (\226\136\128 y : A, IN(y, s) \226\134\146 (\226\136\131 x : A, IN(x, t) && l(x, y))))))
+  \226\136\128 l : (A, A) -> Bool, wqoset(l) == (qoset(l) && (\226\136\128 s : (A) -> Bool, SUBSET(s, fld(l)) \226\134\146 (\226\136\131 t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && (\226\136\128 y : A, IN(y, s) \226\134\146 (\226\136\131 x : A, IN(x, t) && l(x, y))))))
   {(x : A), (y : A)}
   (y : A)
   (x : A)
-  forall l:A->A->bool.\n       woset l <=>\n       poset l /\\\n       forall s. s SUBSET fld l /\\ ~(s = {}) ==> ?x. x IN s /\\ forall y. y IN s ==> l x y
+  \226\136\128 l : (A, A) -> Bool, woset(l) == (poset(l) && (\226\136\128 s : (A) -> Bool, SUBSET(s, fld(l)) && !(s == {}) \226\134\146 (\226\136\131 x : A, IN(x, s) && (\226\136\128 y : A, IN(y, s) \226\134\146 l(x, y)))))
   {(x : A), (y : A), (z : A)}
   (z : A)
   (y : A)
@@ -6395,14 +6395,14 @@ Library/wo quotations (595):
   (y : A)
   (x : A)
   ((r : Bool) \226\134\146 (p : Bool)) && r && (q : Bool) \226\134\146 p && q && r
-  forall l:A->A->bool.\n       woset l <=>\n       (forall x y. l x y /\\ l y x ==> x = y) /\\\n       forall s. s SUBSET fld l /\\ ~(s = {}) ==> ?x. x IN s /\\ forall y. y IN s ==> l x y
+  \226\136\128 l : (A, A) -> Bool, woset(l) == ((\226\136\128 x : A, \226\136\128 y : A, l(x, y) && l(y, x) \226\134\146 x == y) && (\226\136\128 s : (A) -> Bool, SUBSET(s, fld(l)) && !(s == {}) \226\134\146 (\226\136\131 x : A, IN(x, s) && (\226\136\128 y : A, IN(y, s) \226\134\146 l(x, y)))))
   {(x : A) | IN(x, fld((l : (A, A) -> Bool))) && (P : (A) -> Bool)(x)}
   (P : (A) -> Bool)
   (x : A) => IN(x, (s : (A) -> Bool))
   (s : (A) -> Bool)
   ((p : Bool) \226\134\146 (q : Bool)) && (q \226\134\146 p == (r : Bool)) \226\134\146 (q && r) == p
-  (p ==> q) /\\ (q ==> (p <=> r)) ==> (p <=> q /\\ r)
-  forall l:A->A->bool.\n        woset l <=>\n        (forall x y. x IN fld l /\\ y IN fld l ==> l x y \\/ l y x) /\\\n        WF(properly l)
+  ((p : Bool) \226\134\146 (q : Bool)) && (q \226\134\146 p == (r : Bool)) \226\134\146 p == (q && r)
+  \226\136\128 l : (A, A) -> Bool, woset(l) == ((\226\136\128 x : A, \226\136\128 y : A, IN(x, fld(l)) && IN(y, fld(l)) \226\134\146 l(x, y) || l(y, x)) && WF(properly(l)))
   {(x : A)}
   (x : A)
   (s : (A) -> Bool)
@@ -6411,16 +6411,16 @@ Library/wo quotations (595):
   \226\136\128 l : (A, A) -> Bool, woset(l) \226\134\146 wqoset(l)
   (s : (A) -> Bool)
   (s : (A) -> Bool)
-  forall l m:A->A->bool.\n        wqoset l /\\\n        qoset m /\\\n        fld m SUBSET fld l /\\\n        (forall x y. l x y ==> m x y)\n        ==> wqoset m
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, wqoset(l) && qoset(m) && SUBSET(fld(m), fld(l)) && (\226\136\128 x : A, \226\136\128 y : A, l(x, y) \226\134\146 m(x, y)) \226\134\146 wqoset(m)
   FINITE(IMAGE((x : (Num) -> A), UNIV))
   (x : (Num) -> A)
-  \\y. y IN s /\\ forall m:num. m < n ==> ~((l:A->A->bool) (x m) y)
+  (y : A) => IN(y, (s : (A) -> Bool)) && (\226\136\128 m : Num, m < (n : Num) \226\134\146 !(l : (A, A) -> Bool)((x : (Num) -> A)(m), y))
   !((p : Bool) && (q : Bool)) == (p \226\134\146 !q)
   IMAGE((x : (Num) -> A), {(m : Num) | m < (n : Num)})
   (n : Num)
   (x : (Num) -> A)
-  ?x:num->A.\n        forall n. x n IN s DIFF UNIONS {{y | l (x m) y} | m < n} /\\\n            forall z. z IN s DIFF UNIONS {{y | l (x m) y} | m < n}\n                ==> ~(l z (x n) /\\ ~(l (x n) z))
-  (?x. P x /\\ Q x /\\ R x) <=> ~(forall x. P x /\\ Q x ==> ~R x)
+  \226\136\131 x : (Num) -> A, \226\136\128 n : Num, IN(x(n), DIFF((s : (A) -> Bool), UNIONS({{(y : A) | (l : (A, A) -> Bool)(x((m : Num)), y)} | m < n}))) && (\226\136\128 z : A, IN(z, DIFF(s, UNIONS({{(y : A) | l(x((m : Num)), y)} | m < n}))) \226\134\146 !(l(z, x(n)) && !l(x(n), z)))
+  (\226\136\131 x : _, (P : (_) -> Bool)(x) && (Q : (_) -> Bool)(x) && (R : (_) -> Bool)(x)) == !(\226\136\128 x : _, P(x) && Q(x) \226\134\146 !R(x))
   (s : (A) -> Bool)
   (x : (Num) -> A)((r : (Num) -> Num)(SUC((n : Num))))
   (x : (Num) -> A)((r : (Num) -> Num)((n : Num)))
@@ -6432,18 +6432,18 @@ Library/wo quotations (595):
   (s : (A) -> Bool)
   (n : Num) < SUC(n)
   (x : (Num) -> A)
-  forall m n:num. m < n ==> (l:A->A->bool) (x n) (x m) /\\ ~l (x m) (x n)
+  \226\136\128 m : Num, \226\136\128 n : Num, m < n \226\134\146 (l : (A, A) -> Bool)((x : (Num) -> A)(n), x(m)) && !l(x(m), x(n))
   (x : (Num) -> A)
   (i : Num) => (t : (Num) -> Num)(i) + ((p : Num) + 1)
   (t : (Num) -> Num)
-  (p ==> q) /\\ (p ==> (r <=> s)) ==> p /\\ r ==> q /\\ s
+  ((p : Bool) \226\134\146 (q : Bool)) && (p \226\134\146 (r : Bool) == (s : Bool)) \226\134\146 p && r \226\134\146 q && s
   (q : Num)
   (p : Num)
-  forall p. (forall m. P m ==> Q(m - (p + 1))) ==> (?m. P m) ==> (?m. Q m)
+  \226\136\128 p : Num, (\226\136\128 m : Num, (P : (Num) -> Bool)(m) \226\134\146 (Q : (Num) -> Bool)(m - (p + 1))) \226\134\146 (\226\136\131 m : Num, P(m)) \226\134\146 (\226\136\131 m : Num, Q(m))
   !((n : Num) + ((p : Num) + 1) <= p)
   (n : Num) + ((p : Num) + 1)
   (n : Num)
-  ?t:num->num.\n        (forall n:num. T) /\\\n        (forall n. t n < t (SUC n) /\\\n             (l:A->A->bool) (x(t n + p + 1)) (x(t(SUC n) + p + 1)))
+  \226\136\131 t : (Num) -> Num, (\226\136\128 n : Num, true) && (\226\136\128 n : Num, t(n) < t(SUC(n)) && (l : (A, A) -> Bool)((x : (Num) -> A)(t(n) + ((p : Num) + 1)), x(t(SUC(n)) + (p + 1))))
   (p : Num)
   o((x : (Num) -> A), (r : (Num) -> Num))
   (r : (Num) -> Num)
@@ -6451,13 +6451,13 @@ Library/wo quotations (595):
   (x : (Num) -> A)
   IMAGE((x : (Num) -> A), UNIV)
   (x : (Num) -> A)
-  (p ==> q) /\\ (q ==> r) /\\ (r ==> s) /\\ (s ==> p)\n    ==> (p <=> q) /\\ (p <=> r) /\\ (p <=> s)
+  ((p : Bool) \226\134\146 (q : Bool)) && (q \226\134\146 (r : Bool)) && (r \226\134\146 (s : Bool)) && (s \226\134\146 p) \226\134\146 p == q && p == r && p == s
   \226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, (l : (A, A) -> Bool)(x, y) && l(y, z) \226\134\146 l(x, z)
   \226\136\128 x : A, IN(x, fld((l : (A, A) -> Bool))) \226\134\146 l(x, x)
   (l : (A, A) -> Bool)
-  (forall l:A->A->bool.\n        wqoset l <=>\n        qoset l /\\\n        forall x. (forall n:num. x n IN fld l) ==> ?i j. i < j /\\ l (x i) (x j)) /\\\n   (forall l:A->A->bool.\n        wqoset l <=>\n        qoset l /\\\n        forall x. (forall n. x n IN fld l)\n            ==> ?r:num->num.\n                    (forall m n. m < n ==> r(m) < r(n)) /\\\n                    (forall i j. i <= j ==> l (x(r i)) (x(r j)))) /\\\n   (forall l:A->A->bool.\n        wqoset l <=>\n        qoset l /\\\n        WF(strictly l) /\\\n        forall s. antichain l s ==> FINITE s)
+  (\226\136\128 l : (A, A) -> Bool, wqoset(l) == (qoset(l) && (\226\136\128 x : (Num) -> A, (\226\136\128 n : Num, IN(x(n), fld(l))) \226\134\146 (\226\136\131 i : Num, \226\136\131 j : Num, i < j && l(x(i), x(j)))))) && (\226\136\128 l : (A, A) -> Bool, wqoset(l) == (qoset(l) && (\226\136\128 x : (Num) -> A, (\226\136\128 n : Num, IN(x(n), fld(l))) \226\134\146 (\226\136\131 r : (Num) -> Num, (\226\136\128 m : Num, \226\136\128 n : Num, m < n \226\134\146 r(m) < r(n)) && (\226\136\128 i : Num, \226\136\128 j : Num, i <= j \226\134\146 l(x(r(i)), x(r(j)))))))) && (\226\136\128 l : (A, A) -> Bool, wqoset(l) == (qoset(l) && WF(strictly(l)) && (\226\136\128 s : (A) -> Bool, antichain(l, s) \226\134\146 FINITE(s))))
   \226\136\128 l : (A, A) -> Bool, wqoset(l) \226\134\146 WF(strictly(l))
-  forall l m:A->A->bool.\n        wqoset l /\\ qoset m /\\ fld m SUBSET fld l /\\ (forall x y. l x y ==> m x y)\n        ==> WF(strictly m)
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, wqoset(l) && qoset(m) && SUBSET(fld(m), fld(l)) && (\226\136\128 x : A, \226\136\128 y : A, l(x, y) \226\134\146 m(x, y)) \226\134\146 WF(strictly(m))
   !((n : Num) < (l : Num)) && !((k : Num) < SUC(n)) \226\134\146 !(k < l)
   (l : Num)
   (k : Num)
@@ -6466,26 +6466,26 @@ Library/wo quotations (595):
   (n : Num)
   (a : (Num) -> A)
   (r : Bool) && (r \226\134\146 (p : Bool) && (q : Bool) && (s : Bool)) \226\134\146 p && q && r && s
-  \\x y:A. l x y \\/ ?i j:num. i < j /\\ l x (a j) /\\ l (a i) y
+  (x : A) => (y : A) => (l : (A, A) -> Bool)(x, y) || (\226\136\131 i : Num, \226\136\131 j : Num, i < j && l(x, (a : (Num) -> A)(j)) && l(a(i), y))
   !(\226\136\128 i : _, \226\136\128 j : _, (P : (_, _) -> Bool)(i, j) \226\134\146 !(Q : (_, _) -> Bool)(i, j)) \226\134\146 (\226\136\131 i : _, \226\136\131 j : _, P(i, j) && Q(i, j))
   (a : (Num) -> A)
-  forall l:A->A->bool.\n        wqoset l <=>\n        qoset l /\\\n        forall m. qoset m /\\ fld m = fld l /\\ (forall x y. l x y ==> m x y)\n            ==> WF(strictly m)
+  \226\136\128 l : (A, A) -> Bool, wqoset(l) == (qoset(l) && (\226\136\128 m : (A, A) -> Bool, qoset(m) && fld(m) == fld(l) && (\226\136\128 x : A, \226\136\128 y : A, l(x, y) \226\134\146 m(x, y)) \226\134\146 WF(strictly(m))))
   \226\136\128 l : (A, A) -> Bool, woset(l) == (toset(l) && wqoset(l))
-  forall(l:A->A->bool) P.\n        qoset l ==> fld (\\x y. P x /\\ P y /\\ l x y) = {x | x IN fld l /\\ P x}
-  forall(l:A->A->bool) P.\n        poset l ==> fld (\\x y. P x /\\ P y /\\ l x y) = {x | x IN fld l /\\ P x}
-  forall(l:A->A->bool) P.\n        toset l ==> fld (\\x y. P x /\\ P y /\\ l x y) = {x | x IN fld l /\\ P x}
-  forall(l:A->A->bool) P.\n        woset l ==> fld (\\x y. P x /\\ P y /\\ l x y) = {x | x IN fld l /\\ P x}
-  forall(l:A->A->bool) P.\n       wqoset l ==> fld (\\x y. P x /\\ P y /\\ l x y) = {x | x IN fld l /\\ P x}
-  forall(l:A->A->bool) P. qoset l ==> qoset (\\x y. P x /\\ P y /\\ l x y)
-  forall(l:A->A->bool) P. poset l ==> poset (\\x y. P x /\\ P y /\\ l x y)
-  forall(l:A->A->bool) P. toset l ==> toset (\\x y. P x /\\ P y /\\ l x y)
-  forall(l:A->A->bool) P. woset l ==> woset (\\x y. P x /\\ P y /\\ l x y)
-  forall(l:A->A->bool) P. wqoset l ==> wqoset (\\x y. P x /\\ P y /\\ l x y)
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 P : (A) -> Bool, qoset(l) \226\134\146 fld((x : A) => (y : A) => P(x) && P(y) && l(x, y)) == {(x : A) | IN(x, fld(l)) && P(x)}
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 P : (A) -> Bool, poset(l) \226\134\146 fld((x : A) => (y : A) => P(x) && P(y) && l(x, y)) == {(x : A) | IN(x, fld(l)) && P(x)}
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 P : (A) -> Bool, toset(l) \226\134\146 fld((x : A) => (y : A) => P(x) && P(y) && l(x, y)) == {(x : A) | IN(x, fld(l)) && P(x)}
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 P : (A) -> Bool, woset(l) \226\134\146 fld((x : A) => (y : A) => P(x) && P(y) && l(x, y)) == {(x : A) | IN(x, fld(l)) && P(x)}
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 P : (A) -> Bool, wqoset(l) \226\134\146 fld((x : A) => (y : A) => P(x) && P(y) && l(x, y)) == {(x : A) | IN(x, fld(l)) && P(x)}
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 P : (A) -> Bool, qoset(l) \226\134\146 qoset((x : A) => (y : A) => P(x) && P(y) && l(x, y))
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 P : (A) -> Bool, poset(l) \226\134\146 poset((x : A) => (y : A) => P(x) && P(y) && l(x, y))
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 P : (A) -> Bool, toset(l) \226\134\146 toset((x : A) => (y : A) => P(x) && P(y) && l(x, y))
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 P : (A) -> Bool, woset(l) \226\134\146 woset((x : A) => (y : A) => P(x) && P(y) && l(x, y))
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 P : (A) -> Bool, wqoset(l) \226\134\146 wqoset((x : A) => (y : A) => P(x) && P(y) && l(x, y))
   !((p : Bool) && !p)
   (s : (A) -> Bool) == {}
   (s : (A) -> Bool)
   (a : A)
-  (forall l s:A->bool.\n        qoset l /\\ FINITE s /\\ ~(s = {}) /\\ s SUBSET fld l\n        ==> ?a. a IN s /\\ forall x. x IN s ==> ~(strictly l x a)) /\\\n   (forall l s:A->bool.\n        qoset l /\\ FINITE s /\\ ~(s = {}) /\\ s SUBSET fld l\n        ==> ?a. a IN s /\\ forall x. x IN s ==> ~(strictly l a x))
+  (\226\136\128 l : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, qoset(l) && FINITE(s) && !(s == {}) && SUBSET(s, fld(l)) \226\134\146 (\226\136\131 a : A, IN(a, s) && (\226\136\128 x : A, IN(x, s) \226\134\146 !strictly(l, x, a)))) && (\226\136\128 l : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, qoset(l) && FINITE(s) && !(s == {}) && SUBSET(s, fld(l)) \226\134\146 (\226\136\131 a : A, IN(a, s) && (\226\136\128 x : A, IN(x, s) \226\134\146 !strictly(l, a, x))))
   op_bslash_slash
   op_bslash_slash
   op_bslash_slash
@@ -6499,8 +6499,8 @@ Library/wo quotations (595):
   op_bslash_slash
   op_bslash_slash
   false
-  (forall l s:A->bool.\n        poset l /\\ FINITE s /\\ ~(s = {}) /\\ s SUBSET fld l\n        ==> ?a. a IN s /\\ forall x. x IN s ==> ~(properly l x a)) /\\\n   (forall l s:A->bool.\n        poset l /\\ FINITE s /\\ ~(s = {}) /\\ s SUBSET fld l\n        ==> ?a. a IN s /\\ forall x. x IN s ==> ~(properly l a x))
-  (forall l s:A->bool.\n        toset l /\\ FINITE s /\\ ~(s = {}) /\\ s SUBSET fld l\n        ==> ?a. a IN s /\\ forall x. x IN s ==> l a x) /\\\n   (forall l s:A->bool.\n        toset l /\\ FINITE s /\\ ~(s = {}) /\\ s SUBSET fld l\n        ==> ?a. a IN s /\\ forall x. x IN s ==> l x a)
+  (\226\136\128 l : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, poset(l) && FINITE(s) && !(s == {}) && SUBSET(s, fld(l)) \226\134\146 (\226\136\131 a : A, IN(a, s) && (\226\136\128 x : A, IN(x, s) \226\134\146 !properly(l, x, a)))) && (\226\136\128 l : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, poset(l) && FINITE(s) && !(s == {}) && SUBSET(s, fld(l)) \226\134\146 (\226\136\131 a : A, IN(a, s) && (\226\136\128 x : A, IN(x, s) \226\134\146 !properly(l, a, x))))
+  (\226\136\128 l : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, toset(l) && FINITE(s) && !(s == {}) && SUBSET(s, fld(l)) \226\134\146 (\226\136\131 a : A, IN(a, s) && (\226\136\128 x : A, IN(x, s) \226\134\146 l(a, x)))) && (\226\136\128 l : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, toset(l) && FINITE(s) && !(s == {}) && SUBSET(s, fld(l)) \226\134\146 (\226\136\131 a : A, IN(a, s) && (\226\136\128 x : A, IN(x, s) \226\134\146 l(x, a))))
   fld((x : A) => (y : A) => false) == {}
   woset((x : A) => (y : A) => false)
   wqoset((x : A) => (y : A) => false)
@@ -6515,10 +6515,10 @@ Library/wo quotations (595):
   qoset(op_lt_eq)
   (i : K) => (y : A)
   (y : A)
-  (forall a. P (\\i. a) ==> Q a) ==> (forall a. P a) ==> forall b. Q b
+  (\226\136\128 a : _, (P : ((_) -> _) -> Bool)((i : _) => a) \226\134\146 (Q : (_) -> Bool)(a)) \226\134\146 (\226\136\128 a : (_) -> _, P(a)) \226\134\146 (\226\136\128 b : _, Q(b))
   (s : (K) -> Bool) == {}
-  forall l s. qoset(\\x y:K->A. forall i. i IN s ==> l (x i) (y i)) <=>\n         s = {} \\/ qoset l
-  forall l s. qoset l\n         ==> fld(\\x y:K->A. forall i. i IN s ==> l (x i) (y i)) =\n             {x | forall i. i IN s ==> x i IN fld l}
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 s : (K) -> Bool, qoset((x : (K) -> A) => (y : (K) -> A) => \226\136\128 i : K, IN(i, s) \226\134\146 l(x(i), y(i))) == (s == {} || qoset(l))
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 s : (K) -> Bool, qoset(l) \226\134\146 fld((x : (K) -> A) => (y : (K) -> A) => \226\136\128 i : K, IN(i, s) \226\134\146 l(x(i), y(i))) == {(x : (K) -> A) | \226\136\128 i : K, IN(i, s) \226\134\146 IN(x(i), fld(l))}
   o((l : (Num) -> Num), (r : (Num) -> Num))
   (r : (Num) -> Num)
   (i : Num) => (x : (Num, K) -> A)((l : (Num) -> Num)(i), (a : K))
@@ -6526,58 +6526,58 @@ Library/wo quotations (595):
   (s : (K) -> Bool)
   (a : K)
   (n : Num) => n
-  forall l s. wqoset l /\\ FINITE s\n         ==> wqoset(\\x y:K->A. forall i. i IN s ==> l (x i) (y i))
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 s : (K) -> Bool, wqoset(l) && FINITE(s) \226\134\146 wqoset((x : (K) -> A) => (y : (K) -> A) => \226\136\128 i : K, IN(i, s) \226\134\146 l(x(i), y(i)))
   (x : (Num, K) -> A)
   (x : (Num, K) -> A)
   {(m : Num) | m < (n : Num)}
   op_lt_eq
-  forall n x:num->num->num. ?i j. i < j /\\ (forall k. k < n ==> x i k <= x j k)
-  (l:A->A->bool) inseg m <=> forall x y. l x y <=> m x y /\\ fld(l) y
+  \226\136\128 n : Num, \226\136\128 x : (Num, Num) -> Num, \226\136\131 i : Num, \226\136\131 j : Num, i < j && (\226\136\128 k : Num, k < n \226\134\146 x(i, k) <= x(j, k))
+  (inseg : ((A, A) -> Bool, (A, A) -> Bool) -> Bool)((l : (A, A) -> Bool), (m : (A, A) -> Bool)) == (\226\136\128 x : A, \226\136\128 y : A, l(x, y) == (m(x, y) && fld(l, y)))
   \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, inseg(l, m) && inseg(m, l) \226\134\146 l == m
   \226\136\128 l : (A, A) -> Bool, inseg(l, l)
-  forall l m n:A->A->bool. l inseg m /\\ m inseg n ==> l inseg n
-  linseg (l:A->A->bool) a = \\ x y. l x y /\\ (properly l) y a
-  ordinal(l:A->A->bool) <=>\n    woset(l) /\\ (forall x. fld(l) x ==> (x = (@) (\\y. ~(properly l) y x)))
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, \226\136\128 n : (A, A) -> Bool, inseg(l, m) && inseg(m, n) \226\134\146 inseg(l, n)
+  (linseg : ((A, A) -> Bool, A, A, A) -> Bool)((l : (A, A) -> Bool), (a : A)) == ((x : A) => (y : A) => l(x, y) && properly(l, y, a))
+  (ordinal : ((A, A) -> Bool) -> Bool)((l : (A, A) -> Bool)) == (woset(l) && (\226\136\128 x : A, fld(l, x) \226\134\146 x == select((y : A) => !properly(l, y, x))))
   poset((l : (A, A) -> Bool))
   (l : (A, A) -> Bool)
   \226\136\128 l : (A, A) -> Bool, poset(l) \226\134\146 (\226\136\128 x : A, fld(l, x) == l(x, x))
   woset((l : (A, A) -> Bool))
   (l : (A, A) -> Bool)
   \226\136\128 l : (A, A) -> Bool, woset(l) \226\134\146 (\226\136\128 x : A, fld(l, x) == l(x, x))
-  forall l:A->A->bool. woset l ==>\n       forall x y z. (properly l) x y /\\ l y z ==> (properly l) x z
+  \226\136\128 l : (A, A) -> Bool, woset(l) \226\134\146 (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, properly(l, x, y) && l(y, z) \226\134\146 properly(l, x, z))
   \226\136\128 l : (A, B) -> C, \226\136\128 m : (A, B) -> C, (\226\136\128 x : A, \226\136\128 y : B, l(x, y) == m(x, y)) == (l == m)
-  forall l:A->A->bool. woset l ==>\n       forall x y z. l x y /\\ (properly l) y z ==> (properly l) x z
+  \226\136\128 l : (A, A) -> Bool, woset(l) \226\134\146 (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, l(x, y) && properly(l, y, z) \226\134\146 properly(l, x, z))
   (P : (A) -> Bool)
-  forall l:A->A->bool. woset l ==>\n                (forall P. (forall x. P x ==> fld(l) x) /\\ (?x. P x) ==>\n                     (?y. P y /\\ (forall z. (properly l) z y ==> ~P z)))
-  forall l:A->A->bool. woset l\n                 ==> forall x y. fld(l) x /\\ fld(l) y ==> l x y \\/ (properly l) y x
-  forall l:A->A->bool. woset l ==>\n     forall x y. fld(l) x /\\ fld(l) y\n           ==> x = y \\/ (properly l) x y \\/ (properly l) y x
+  \226\136\128 l : (A, A) -> Bool, woset(l) \226\134\146 (\226\136\128 P : (A) -> Bool, (\226\136\128 x : A, P(x) \226\134\146 fld(l, x)) && (\226\136\131 x : A, P(x)) \226\134\146 (\226\136\131 y : A, P(y) && (\226\136\128 z : A, properly(l, z, y) \226\134\146 !P(z))))
+  \226\136\128 l : (A, A) -> Bool, woset(l) \226\134\146 (\226\136\128 x : A, \226\136\128 y : A, fld(l, x) && fld(l, y) \226\134\146 l(x, y) || properly(l, y, x))
+  \226\136\128 l : (A, A) -> Bool, woset(l) \226\134\146 (\226\136\128 x : A, \226\136\128 y : A, fld(l, x) && fld(l, y) \226\134\146 x == y || properly(l, x, y) || properly(l, y, x))
   \226\136\128 l : (A, A) -> Bool, ordinal(l) \226\134\146 woset(l)
   (a : A)
-  forall l:A->A->bool. toset l /\\ FINITE {(x,y) | l x y} ==> woset l
-  forall P. fld(\\x y:A. ?l. P l /\\ l x y) x <=> ?l. P l /\\ fld(l) x
-  forall P (l:A->A->bool).\n        (forall m. P m ==> m inseg l)\n        ==> (\\x y. ?l. P l /\\ l x y) inseg l
-  forall(l:A->A->bool) m. m inseg l ==> forall x y. m x y ==> l x y
-  forall(l:A->A->bool) m. m inseg l ==> forall x. fld(m) x ==> fld(l) x
+  \226\136\128 l : (A, A) -> Bool, toset(l) && FINITE({((x : A), (y : A)) | l(x, y)}) \226\134\146 woset(l)
+  \226\136\128 P : ((A, A) -> Bool) -> Bool, fld((x : A) => (y : A) => \226\136\131 l : (A, A) -> Bool, P(l) && l(x, y), (x : A)) == (\226\136\131 l : (A, A) -> Bool, P(l) && fld(l, x))
+  \226\136\128 P : ((A, A) -> Bool) -> Bool, \226\136\128 l : (A, A) -> Bool, (\226\136\128 m : (A, A) -> Bool, P(m) \226\134\146 inseg(m, l)) \226\134\146 inseg((x : A) => (y : A) => \226\136\131 l : (A, A) -> Bool, P(l) && l(x, y), l)
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, inseg(m, l) \226\134\146 (\226\136\128 x : A, \226\136\128 y : A, m(x, y) \226\134\146 l(x, y))
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, inseg(m, l) \226\134\146 (\226\136\128 x : A, fld(m, x) \226\134\146 fld(l, x))
   \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, inseg(l, m) \226\134\146 SUBSET(fld(l), fld(m))
   (P : (A) -> Bool)
   (P : (A) -> Bool)
   \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, inseg(m, l) && woset(l) \226\134\146 woset(m)
   (x : A)
   (x : A)
-  forall l m:A->A->bool. m inseg l /\\ ordinal l ==> ordinal m
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, inseg(m, l) && ordinal(l) \226\134\146 ordinal(m)
   \226\136\128 l : (A, A) -> Bool, \226\136\128 a : A, woset(l) \226\134\146 inseg(linseg(l, a), l)
   \226\136\128 l : (A, A) -> Bool, \226\136\128 a : A, woset(l) \226\134\146 woset(linseg(l, a))
-  forall(l:A->A->bool) a x. woset l ==> (fld (linseg l a) x <=> (properly l) x a)
-  forall(l:A->A->bool) m. m inseg l /\\ ~(l = m) ==>\n                   ?x y. l x y /\\ ~m x y
-  forall(l:A->A->bool) m. m inseg l /\\ ~(l = m) ==>\n                   ?a. fld(l) a /\\ ~fld(m) a
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 a : A, \226\136\128 x : A, woset(l) \226\134\146 fld(linseg(l, a), x) == properly(l, x, a)
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, inseg(m, l) && !(l == m) \226\134\146 (\226\136\131 x : A, \226\136\131 y : A, l(x, y) && !m(x, y))
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, inseg(m, l) && !(l == m) \226\134\146 (\226\136\131 a : A, fld(l, a) && !fld(m, a))
   (a : A)
   (a : A)
   (x : A) => fld((l : (A, A) -> Bool), x) && !fld((m : (A, A) -> Bool), x)
   (m : (A, A) -> Bool) == (l : (A, A) -> Bool)
-  forall(l:A->A->bool) m. woset l ==>\n      (m inseg l <=> (m = l) \\/ (?a. fld(l) a /\\ (m = linseg l a)))
-  forall(l:A->A->bool) x. woset l ==> (fld (\\ x y. l x y /\\ l y a) x <=> l x a)
-  forall(l:A->A->bool) a. woset l /\\ fld(l) a ==> (\\ x y. l x y /\\ l y a) inseg l
-  forall(l:A->A->bool) a. woset l /\\ fld(l) a ==>\n       (\\ x y. linseg l a  x y \\/ (y = a) /\\ (fld(linseg l a) x \\/ (x = a)))\n                inseg l
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, woset(l) \226\134\146 inseg(m, l) == (m == l || (\226\136\131 a : A, fld(l, a) && m == linseg(l, a)))
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 x : A, woset(l) \226\134\146 fld((x : A) => (y : A) => l(x, y) && l(y, (a : A)), x) == l(x, a)
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 a : A, woset(l) && fld(l, a) \226\134\146 inseg((x : A) => (y : A) => l(x, y) && l(y, a), l)
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 a : A, woset(l) && fld(l, a) \226\134\146 inseg((x : A) => (y : A) => linseg(l, a, x, y) || y == a && (fld(linseg(l, a), x) || x == a), l)
   (k : (A, A) -> Bool) == linseg((m : (A, A) -> Bool), (b : A))
   (a : A) == (b : A)
   (a : A)
@@ -6585,7 +6585,7 @@ Library/wo quotations (595):
   (a : A)
   (k : (A, A) -> Bool) == (m : (A, A) -> Bool)
   (k : (A, A) -> Bool) == (l : (A, A) -> Bool)
-  forall(k:A->A->bool) l m.\n        ordinal(l) /\\ ordinal(m)\n        ==> k inseg l /\\ k inseg m\n            ==> k = l \\/ k = m \\/ ?a. fld(l) a /\\ fld(m) a /\\\n                                      k = linseg l a /\\\n                                      k = linseg m a
+  \226\136\128 k : (A, A) -> Bool, \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, ordinal(l) && ordinal(m) \226\134\146 inseg(k, l) && inseg(k, m) \226\134\146 k == l || k == m || (\226\136\131 a : A, fld(l, a) && fld(m, a) && k == linseg(l, a) && k == linseg(m, a))
   fld((l : (A, A) -> Bool), (a : A))
   fld((l : (A, A) -> Bool), (a : A))
   fld((l : (A, A) -> Bool), (a : A))
@@ -6602,26 +6602,26 @@ Library/wo quotations (595):
   fld((m : (A, A) -> Bool), (b : A))
   fld((m : (A, A) -> Bool), (b : A))
   fld((m : (A, A) -> Bool), (b : A))
-  (\\x y. ?k. (k inseg l /\\ k inseg m) /\\ k x y) = linseg l (a:A)
-  \\x y. linseg l a x y \\/ (y = a) /\\ (fld(linseg l a) x \\/ (x = a:A))
+  ((x : A) => (y : A) => \226\136\131 k : (A, A) -> Bool, (inseg(k, (l : (A, A) -> Bool)) && inseg(k, (m : (A, A) -> Bool))) && k(x, y)) == linseg(l, (a : A))
+  (x : A) => (y : A) => linseg((l : (A, A) -> Bool), (a : A), x, y) || y == a && (fld(linseg(l, a), x) || x == a)
   (a : A)
   (a : A)
-  (\\x y. ?k. (k inseg l /\\ k inseg m) /\\ k x y) = linseg l (a:A)
+  ((x : A) => (y : A) => \226\136\131 k : (A, A) -> Bool, (inseg(k, (l : (A, A) -> Bool)) && inseg(k, (m : (A, A) -> Bool))) && k(x, y)) == linseg(l, (a : A))
   (a : A)
   ((a : Bool) && (b : Bool) \226\134\146 a) && (a && b \226\134\146 b)
   (k : (A, A) -> Bool) => inseg(k, (l : (A, A) -> Bool)) && inseg(k, (m : (A, A) -> Bool))
-  forall(l:A->A->bool) m. ordinal(l) /\\ ordinal(m) ==> m inseg l \\/ l inseg m
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, ordinal(l) && ordinal(m) \226\134\146 inseg(m, l) || inseg(l, m)
   (m : (A, A) -> Bool)
   (l : (A, A) -> Bool)
   (m : (A, A) -> Bool)
   (l : (A, A) -> Bool)
-  forall l m:A->A->bool.\n        ordinal l /\\ ordinal m /\\ fld l = fld m ==> l = m
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, ordinal(l) && ordinal(m) && fld(l) == fld(m) \226\134\146 l == m
   (x : (_, _) -> Bool) == (y : (_, _) -> Bool) \226\134\146 inseg(x, y)
   (m : (A, A) -> Bool)
   (l : (A, A) -> Bool)
-  forall l m:A->A->bool.\n        ordinal l /\\ ordinal m /\\ fld l SUBSET fld m ==> l inseg m
-  forall l m:A->A->bool.\n        ordinal l /\\ ordinal m ==> (fld l SUBSET fld m <=> l inseg m)
-  forall(l:A->A->bool) a.\n     fld(\\ x y. l x y \\/ (y = a) /\\ (fld(l) x \\/ (x = a))) x <=>\n     fld(l) x \\/ (x = a)
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, ordinal(l) && ordinal(m) && SUBSET(fld(l), fld(m)) \226\134\146 inseg(l, m)
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 m : (A, A) -> Bool, ordinal(l) && ordinal(m) \226\134\146 SUBSET(fld(l), fld(m)) == inseg(l, m)
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 a : A, fld((x : A) => (y : A) => l(x, y) || y == a && (fld(l, x) || x == a), (x : A)) == (fld(l, x) || x == a)
   (a : A)
   (y : A) == (a : A)
   (y : A)
@@ -6630,7 +6630,7 @@ Library/wo quotations (595):
   fld((l : (A, A) -> Bool), (z : A))
   (y : A) == (z : A)
   (y : A)
-  forall x:A. fld l x ==> (x = (@y. ~properly l y x))
+  \226\136\128 x : A, fld((l : (A, A) -> Bool), x) \226\134\146 x == select((y : A) => !properly(l, y, x))
   (z : A)
   (w : A)
   \226\136\131 x : A, (P : (A) -> Bool)(x) && fld((l : (A, A) -> Bool), x)
@@ -6643,7 +6643,7 @@ Library/wo quotations (595):
   !fld((l : (A, A) -> Bool), (a : A))
   !fld((l : (A, A) -> Bool), (a : A))
   (a : A) == select((y : A) => !fld((l : (A, A) -> Bool), y))
-  forall l:A->A->bool. ordinal(l) /\\ (?x. ~(fld(l) x)) ==>\n                 ordinal(\\x y. l x y \\/ (y = @y. ~fld(l) y) /\\\n                                           (fld(l) x \\/ (x = @y. ~fld(l) y)))
+  \226\136\128 l : (A, A) -> Bool, ordinal(l) && (\226\136\131 x : A, !fld(l, x)) \226\134\146 ordinal((x : A) => (y : A) => l(x, y) || y == select((y : A) => !fld(l, y)) && (fld(l, x) || x == select((y : A) => !fld(l, y))))
   ordinal((l : (A, A) -> Bool)) && ordinal((m : (A, A) -> Bool))
   (m : (A, A) -> Bool)
   (l : (A, A) -> Bool)
@@ -6679,7 +6679,7 @@ Library/wo quotations (595):
   (l : (A, A) -> Bool)
   \226\136\128 x : A, (Q : (A) -> Bool)(x) \226\134\146 (\226\136\131 l : (A, A) -> Bool, (P : ((A, A) -> Bool) -> Bool)(l) && fld(l, x))
   (a : A)
-  Q:A->bool
+  (Q : (A) -> Bool)
   (m : (A, A) -> Bool)
   (l : (A, A) -> Bool)
   (m : (A, A) -> Bool)
@@ -6688,14 +6688,14 @@ Library/wo quotations (595):
   (l : (A, A) -> Bool)
   (y : A)
   (x : A)
-  forall P. (forall l:A->A->bool. P l ==> ordinal(l))\n       ==> ordinal(\\x y. ?l. P l /\\ l x y)
+  \226\136\128 P : ((A, A) -> Bool) -> Bool, (\226\136\128 l : (A, A) -> Bool, P(l) \226\134\146 ordinal(l)) \226\134\146 ordinal((x : A) => (y : A) => \226\136\131 l : (A, A) -> Bool, P(l) && l(x, y))
   (l : (A, A) -> Bool)
-  forall(l:A->A->bool) x.\n      ordinal l ==> fld(l) x ==> fld(\\a b. ?l. ordinal l /\\ l a b) x
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 x : A, ordinal(l) \226\134\146 fld(l, x) \226\134\146 fld((a : A) => (b : A) => \226\136\131 l : (A, A) -> Bool, ordinal(l) && l(a, b), x)
   select((y : A) => !fld((l : (A, A) -> Bool), y))
-  \\x y. l x y \\/ (y = @y:A. ~fld l y) /\\ (fld(l) x \\/ (x = @y. ~fld l y))
+  (x : A) => (y : A) => (l : (A, A) -> Bool)(x, y) || y == select((y : A) => !fld(l, y)) && (fld(l, x) || x == select((y : A) => !fld(l, y)))
   (l : (A, A) -> Bool)
   ((a : Bool) || (b : Bool)) == (!a \226\134\146 b)
-  forall l:A->A->bool. ordinal(l) ==> (forall x. fld(l) x) \\/\n                          (?m x. ordinal(m) /\\ fld(m) x /\\ ~fld(l) x)
+  \226\136\128 l : (A, A) -> Bool, ordinal(l) \226\134\146 (\226\136\128 x : A, fld(l, x)) || (\226\136\131 m : (A, A) -> Bool, \226\136\131 x : A, ordinal(m) && fld(m, x) && !fld(l, x))
   (x : A)
   (m : (A, A) -> Bool)
   (a : Bool) && (a \226\134\146 (b : Bool)) \226\134\146 a && b
@@ -6704,7 +6704,7 @@ Library/wo quotations (595):
   (y : A)
   (x : A)
   (y : A)
-  forall l. woset l ==>\n       forall P. fld(\\x y:A. P x /\\ P y /\\ l x y) x <=> P x /\\ fld(l) x
+  \226\136\128 l : (A, A) -> Bool, woset(l) \226\134\146 (\226\136\128 P : (A) -> Bool, fld((x : A) => (y : A) => P(x) && P(y) && l(x, y), (x : A)) == (P(x) && fld(l, x)))
   (y : A)
   (y : A)
   (Q : (A) -> Bool)
@@ -6724,12 +6724,12 @@ Library/wo quotations (595):
   (y : (A, A) -> Bool)
   (P : ((A, A) -> Bool) -> Bool)((y : (A, A) -> Bool))
   (y : (A, A) -> Bool)
-  forall y. ?(a:A) z. P y ==> P z /\\ fld y a /\\ linseg y a = z
+  \226\136\128 y : (A, A) -> Bool, \226\136\131 a : A, \226\136\131 z : (A, A) -> Bool, (P : ((A, A) -> Bool) -> Bool)(y) \226\134\146 P(z) && fld(y, a) && linseg(y, a) == z
   \226\136\128 x : (A, A) -> Bool, (P : ((A, A) -> Bool) -> Bool)(x) \226\134\146 woset(x)
   !((p : Bool) && (q : Bool)) == (p \226\134\146 !q)
   (\226\136\131 x : _, (P : (_) -> Bool)(x)) == !(\226\136\128 x : _, !P(x))
   (P : ((A, A) -> Bool) -> Bool)
-  WF(\\(x:A->A->bool) y. woset x /\\ woset y /\\ x inseg y /\\ ~(x = y))
+  WF((x : (A, A) -> Bool) => (y : (A, A) -> Bool) => woset(x) && woset(y) && inseg(x, y) && !(x == y))
   (w : (A, A) -> Bool)
   (w : (A, A) -> Bool)
   (w : (A, A) -> Bool)
@@ -6740,22 +6740,22 @@ Library/wo quotations (595):
   (w : (A, A) -> Bool)
   (w : (A, A) -> Bool)
   (l : ((A, A) -> Bool, A, A) -> Bool)((w : (A, A) -> Bool))
-  woset (\\(x:A->A->bool) y. ordinal x /\\ ordinal y /\\ x inseg y)
-  (forall x y. P x y /\\ P y x ==> Q x y)\n        ==> (forall x y. P x y) ==> (forall x y. Q x y)
+  woset((x : (A, A) -> Bool) => (y : (A, A) -> Bool) => ordinal(x) && ordinal(y) && inseg(x, y))
+  (\226\136\128 x : _, \226\136\128 y : _, (P : (_, _) -> Bool)(x, y) && P(y, x) \226\134\146 (Q : (_, _) -> Bool)(x, y)) \226\134\146 (\226\136\128 x : _, \226\136\128 y : _, P(x, y)) \226\134\146 (\226\136\128 x : _, \226\136\128 y : _, Q(x, y))
   (f : (A) -> A)((y : A))
   (x : A)
-  forall x y:A. x IN s /\\ y IN s /\\ properly l x y ==> properly l (f x) (f y)
-  forall x z:A. x IN s /\\ l z (f x) ==> ?u. u IN s /\\ l u x /\\ f u = z
-  forall x z:A. x IN s /\\ properly l z (f x)\n            ==> ?u. u IN s /\\ properly l u x /\\ f u = z
-  (:A) DIFF IMAGE (f:A->A) {u | u IN s /\\ properly l u x}
+  \226\136\128 x : A, \226\136\128 y : A, IN(x, (s : (A) -> Bool)) && IN(y, s) && properly((l : (A, A) -> Bool), x, y) \226\134\146 properly(l, (f : (A) -> A)(x), f(y))
+  \226\136\128 x : A, \226\136\128 z : A, IN(x, (s : (A) -> Bool)) && (l : (A, A) -> Bool)(z, (f : (A) -> A)(x)) \226\134\146 (\226\136\131 u : A, IN(u, s) && l(u, x) && f(u) == z)
+  \226\136\128 x : A, \226\136\128 z : A, IN(x, (s : (A) -> Bool)) && properly((l : (A, A) -> Bool), z, (f : (A) -> A)(x)) \226\134\146 (\226\136\131 u : A, IN(u, s) && properly(l, u, x) && f(u) == z)
+  DIFF(UNIV, IMAGE((f : (A) -> A), {(u : A) | IN(u, (s : (A) -> Bool)) && properly((l : (A, A) -> Bool), u, (x : A))}))
   (x : A)
-  (:A) DIFF IMAGE (f:A->A) {u | u IN s /\\ properly l u x}
+  DIFF(UNIV, IMAGE((f : (A) -> A), {(u : A) | IN(u, (s : (A) -> Bool)) && properly((l : (A, A) -> Bool), u, (x : A))}))
   (x : A)
   \226\136\128 x : A, IN(x, (s : (A) -> Bool)) \226\134\146 (l : (A, A) -> Bool)((f : (A) -> A)(x), x)
   (f : (A) -> A)
-  ?f:A->A. forall x. f(x) = m (UNIV DIFF IMAGE f {u | u IN s /\\ properly l u x})
+  \226\136\131 f : (A) -> A, \226\136\128 x : A, f(x) == (m : ((A) -> Bool) -> A)(DIFF(UNIV, IMAGE(f, {(u : A) | IN(u, (s : (A) -> Bool)) && properly((l : (A, A) -> Bool), u, x)})))
   (m : ((A) -> Bool) -> A)
-  forall l s. woset l /\\ fld l = (:A)\n         ==> ?f. (forall x y. x IN s /\\ y IN s ==> (l(f x) (f y) <=> l x y)) /\\\n                 (forall x y. y IN IMAGE f s /\\ l x y ==> x IN IMAGE f s)
+  \226\136\128 l : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, woset(l) && fld(l) == UNIV \226\134\146 (\226\136\131 f : (A) -> A, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) \226\134\146 l(f(x), f(y)) == l(x, y)) && (\226\136\128 x : A, \226\136\128 y : A, IN(y, IMAGE(f, s)) && l(x, y) \226\134\146 IN(x, IMAGE(f, s))))
   (z : A)
   (z : A)
   (y : A)
@@ -6767,7 +6767,7 @@ Library/wo quotations (595):
   (z : A)
   (z : A)
   chain((l : (A, A) -> Bool), (Q : (A) -> Bool))
-  fld(l:A->A->bool) z /\\\n                  forall y. (properly w) y z ==> l z (f y) \\/ l (f y) z
+  fld((l : (A, A) -> Bool), (z : A)) && (\226\136\128 y : A, properly((w : (A, A) -> Bool), y, z) \226\134\146 l(z, (f : (A) -> A)(y)) || l(f(y), z))
   (z : A)
   (z : A)
   (z : A)
@@ -6790,7 +6790,7 @@ Library/wo quotations (595):
   (b : A)
   (f : (A) -> A)((b : A)) == b
   WF((x : A) => (y : A) => properly((w : (A, A) -> Bool), x, y))
-  ?f. forall x. f x = if fld(l) x /\\\n                      forall y. properly w  y x ==> l x (f y) \\/ l (f y) x\n                   then (x:A) else b
+  \226\136\131 f : (A) -> A, \226\136\128 x : A, f(x) == (if fld((l : (A, A) -> Bool), x) && (\226\136\128 y : A, properly((w : (A, A) -> Bool), y, x) \226\134\146 l(x, f(y)) || l(f(y), x)) { x } else { (b : A) })
   (u : A)
   (u : A)
   (u : A)
@@ -6800,7 +6800,7 @@ Library/wo quotations (595):
   (x : A) => fld((l : (A, A) -> Bool), x)
   (x : A) => true
   (w : (A, A) -> Bool)
-  forall l:A->A->bool.\n        qoset l\n        ==> ?P. chain(l) P /\\ forall Q. chain(l) Q  /\\ P SUBSET Q ==> Q = P
+  \226\136\128 l : (A, A) -> Bool, qoset(l) \226\134\146 (\226\136\131 P : (A) -> Bool, chain(l, P) && (\226\136\128 Q : (A) -> Bool, chain(l, Q) && SUBSET(P, Q) \226\134\146 Q == P))
   SUBSET((M : (A) -> Bool), (x : A) => M(x) || x == (z : A))
   (m : A)
   (m : A)
@@ -6811,16 +6811,16 @@ Library/wo quotations (595):
   (m : A)
   (m : A)
   (M : (A) -> Bool)
-  forall c. chain(l:A->A->bool) c\n                   ==> (?y. fld(l) y /\\ forall x. c x ==> l x y)
+  \226\136\128 c : (A) -> Bool, chain((l : (A, A) -> Bool), c) \226\134\146 (\226\136\131 y : A, fld(l, y) && (\226\136\128 x : A, c(x) \226\134\146 l(x, y)))
   (M : (A) -> Bool)
-  forall l:A->A->bool.\n        qoset l /\\\n        (forall c. chain(l) c ==> ?y. y IN fld(l) /\\ forall x. x IN c ==> l x y)\n        ==> ?y. y IN fld(l) /\\ forall x. l y x ==> l x y
+  \226\136\128 l : (A, A) -> Bool, qoset(l) && (\226\136\128 c : (A) -> Bool, chain(l, c) \226\134\146 (\226\136\131 y : A, IN(y, fld(l)) && (\226\136\128 x : A, IN(x, c) \226\134\146 l(x, y)))) \226\134\146 (\226\136\131 y : A, IN(y, fld(l)) && (\226\136\128 x : A, l(y, x) \226\134\146 l(x, y)))
   (l : (A, A) -> Bool)
-  forall l:A->A->bool.\n        poset l /\\\n        (forall P. chain(l) P ==> ?y. fld(l) y /\\ forall x. P x ==> l x y)\n        ==> ?y. fld(l) y /\\ forall x. l y x ==> y = x
+  \226\136\128 l : (A, A) -> Bool, poset(l) && (\226\136\128 P : (A) -> Bool, chain(l, P) \226\134\146 (\226\136\131 y : A, fld(l, y) && (\226\136\128 x : A, P(x) \226\134\146 l(x, y)))) \226\134\146 (\226\136\131 y : A, fld(l, y) && (\226\136\128 x : A, l(y, x) \226\134\146 y == x))
   (Q : (A) -> Bool)
   (Q : (A) -> Bool)
   (Q : (A) -> Bool)
   (P : (A) -> Bool)
-  poset (\\ c1 c2. C SUBSET c1 /\\ c1 SUBSET c2 /\\ chain(l:A->A->bool) c2)
+  poset((c1 : (A) -> Bool) => (c2 : (A) -> Bool) => SUBSET((C : (A) -> Bool), c1) && SUBSET(c1, c2) && chain((l : (A, A) -> Bool), c2))
   (D : (A) -> Bool)
   (D : (A) -> Bool)
   (C : (A) -> Bool)
@@ -6845,20 +6845,20 @@ Library/wo quotations (595):
   UNIONS((P : ((A) -> Bool) -> Bool))
   \226\136\131 D : (A) -> Bool, (P : ((A) -> Bool) -> Bool)(D)
   (P : ((A) -> Bool) -> Bool)
-  \\c1 c2. C SUBSET c1 /\\ c1 SUBSET c2 /\\\n                          chain(l:A->A->bool) c2
-  forall l:A->A->bool. poset l ==>\n        forall C. chain(l) C ==>\n            ?P. (chain(l) P /\\ C SUBSET P) /\\\n                (forall R. chain(l) R /\\ P SUBSET R ==> (R = P))
+  (c1 : (A) -> Bool) => (c2 : (A) -> Bool) => SUBSET((C : (A) -> Bool), c1) && SUBSET(c1, c2) && chain((l : (A, A) -> Bool), c2)
+  \226\136\128 l : (A, A) -> Bool, poset(l) \226\134\146 (\226\136\128 C : (A) -> Bool, chain(l, C) \226\134\146 (\226\136\131 P : (A) -> Bool, (chain(l, P) && SUBSET(C, P)) && (\226\136\128 R : (A) -> Bool, chain(l, R) && SUBSET(P, R) \226\134\146 R == P)))
   \226\136\128 P : ((_) -> Bool) -> Bool, poset((x : (_) -> Bool) => (y : (_) -> Bool) => P(x) && P(y) && SUBSET(x, y))
   \226\136\128 P : ((_) -> Bool) -> Bool, fld((x : (_) -> Bool) => (y : (_) -> Bool) => P(x) && P(y) && SUBSET(x, y)) == P
-  \\x y. P(x:A->bool) /\\ P(y) /\\ x SUBSET y
-  forall P. (forall c. (forall x. x IN c ==> P x) /\\\n            (forall x y. x IN c /\\ y IN c ==> x SUBSET y \\/ y SUBSET x)\n            ==> ?z. P z /\\ (forall x. x IN c ==> x SUBSET z))\n       ==> ?a:A->bool. P a /\\ (forall x. P x /\\ a SUBSET x ==> (a = x))
+  (x : (A) -> Bool) => (y : (A) -> Bool) => (P : ((A) -> Bool) -> Bool)(x) && P(y) && SUBSET(x, y)
+  \226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 c : ((A) -> Bool) -> Bool, (\226\136\128 x : (A) -> Bool, IN(x, c) \226\134\146 P(x)) && (\226\136\128 x : (A) -> Bool, \226\136\128 y : (A) -> Bool, IN(x, c) && IN(y, c) \226\134\146 SUBSET(x, y) || SUBSET(y, x)) \226\134\146 (\226\136\131 z : (A) -> Bool, P(z) && (\226\136\128 x : (A) -> Bool, IN(x, c) \226\134\146 SUBSET(x, z)))) \226\134\146 (\226\136\131 a : (A) -> Bool, P(a) && (\226\136\128 x : (A) -> Bool, P(x) && SUBSET(a, x) \226\134\146 a == x))
   UNIONS((c : ((A) -> Bool) -> Bool))
-  forall P. (forall c. (forall x. x IN c ==> P x) /\\\n            (forall x y. x IN c /\\ y IN c ==> x SUBSET y \\/ y SUBSET x)\n            ==> P(UNIONS c))\n       ==> ?a:A->bool. P a /\\ (forall x. P x /\\ a SUBSET x ==> (a = x))
+  \226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 c : ((A) -> Bool) -> Bool, (\226\136\128 x : (A) -> Bool, IN(x, c) \226\134\146 P(x)) && (\226\136\128 x : (A) -> Bool, \226\136\128 y : (A) -> Bool, IN(x, c) && IN(y, c) \226\134\146 SUBSET(x, y) || SUBSET(y, x)) \226\134\146 P(UNIONS(c))) \226\134\146 (\226\136\131 a : (A) -> Bool, P(a) && (\226\136\128 x : (A) -> Bool, P(x) && SUBSET(a, x) \226\134\146 a == x))
   UNIONS((c : ((A) -> Bool) -> Bool))
   \226\136\131 x : (A) -> Bool, IN(x, (c : ((A) -> Bool) -> Bool))
-  forall P. (?x. P x) /\\\n       (forall c. (?x. x IN c) /\\\n            (forall x. x IN c ==> P x) /\\\n            (forall x y. x IN c /\\ y IN c ==> x SUBSET y \\/ y SUBSET x)\n            ==> P(UNIONS c))\n       ==> ?a:A->bool. P a /\\ (forall x. P x /\\ a SUBSET x ==> (a = x))
-  forall d. FINITE d ==> d SUBSET UNIONS c ==> ?e:A->bool. e IN c /\\ d SUBSET e
+  \226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\131 x : (A) -> Bool, P(x)) && (\226\136\128 c : ((A) -> Bool) -> Bool, (\226\136\131 x : (A) -> Bool, IN(x, c)) && (\226\136\128 x : (A) -> Bool, IN(x, c) \226\134\146 P(x)) && (\226\136\128 x : (A) -> Bool, \226\136\128 y : (A) -> Bool, IN(x, c) && IN(y, c) \226\134\146 SUBSET(x, y) || SUBSET(y, x)) \226\134\146 P(UNIONS(c))) \226\134\146 (\226\136\131 a : (A) -> Bool, P(a) && (\226\136\128 x : (A) -> Bool, P(x) && SUBSET(a, x) \226\134\146 a == x))
+  \226\136\128 d : (A) -> Bool, FINITE(d) \226\134\146 SUBSET(d, UNIONS((c : ((A) -> Bool) -> Bool))) \226\134\146 (\226\136\131 e : (A) -> Bool, IN(e, c) && SUBSET(d, e))
   (c : ((A) -> Bool) -> Bool)
-  forall s:(A->bool)->bool.\n        ~(s = {}) /\\\n        (forall t. (forall c. FINITE c /\\ c SUBSET t ==> c IN s) <=> t IN s)\n        ==> ?u. u IN s /\\ forall v. v IN s /\\ u SUBSET v ==> u = v
+  \226\136\128 s : ((A) -> Bool) -> Bool, !(s == {}) && (\226\136\128 t : (A) -> Bool, (\226\136\128 c : (A) -> Bool, FINITE(c) && SUBSET(c, t) \226\134\146 IN(c, s)) == IN(t, s)) \226\134\146 (\226\136\131 u : (A) -> Bool, IN(u, s) && (\226\136\128 v : (A) -> Bool, IN(v, s) && SUBSET(u, v) \226\134\146 u == v))
   (y : A)
   (x : A)
   (y : A) == (x : A)
@@ -6887,7 +6887,7 @@ Library/wo quotations (595):
   (x : A) == (z : A)
   (z : A)
   (y : A)
-  x:A
+  (x : A)
   (q : Bool) && (q \226\134\146 (p : Bool)) \226\134\146 p && q
   (y : A)
   (x : A)
@@ -6895,39 +6895,39 @@ Library/wo quotations (595):
   \226\136\128 x : A, \226\136\128 y : A, (p : (A, A) -> Bool)(x, y) \226\134\146 (t : (A, A) -> Bool)(x, y)
   (i : A)
   (i : A) => fld((p : (A, A) -> Bool), i) && !(p(i, (x : A)) == p(i, (y : A)))
-  forall x:A y:A. fld p x /\\ fld p y /\\ ~(x = y)\n              ==> ?i. fld p i /\\\n                      (forall j:A. w j i /\\ ~(j = i) ==> (p j x <=> p j y)) /\\\n                      ~(p i x <=> p i y)
+  \226\136\128 x : A, \226\136\128 y : A, fld((p : (A, A) -> Bool), x) && fld(p, y) && !(x == y) \226\134\146 (\226\136\131 i : A, fld(p, i) && (\226\136\128 j : A, (w : (A, A) -> Bool)(j, i) && !(j == i) \226\134\146 p(j, x) == p(j, y)) && !(p(i, x) == p(i, y)))
   (t : (A, A) -> Bool)
-  t = \\(x:A) (y:A). fld p x /\\ fld p y /\\\n                    (x = y \\/\n                     ?i. fld p i /\\\n                         (forall j. w j i /\\ ~(j = i) ==> (p j x <=> p j y)) /\\\n                         ~p i x /\\ p i y)
+  (t : (A, A) -> Bool) == ((x : A) => (y : A) => fld((p : (A, A) -> Bool), x) && fld(p, y) && (x == y || (\226\136\131 i : A, fld(p, i) && (\226\136\128 j : A, (w : (A, A) -> Bool)(j, i) && !(j == i) \226\134\146 p(j, x) == p(j, y)) && !p(i, x) && p(i, y))))
   (w : (A, A) -> Bool)
   fld((p : (A, A) -> Bool))
-  forall p:A->A->bool.\n     poset p ==> ?t. toset t /\\ fld(t) = fld(p) /\\ forall x y. p x y ==> t x y
+  \226\136\128 p : (A, A) -> Bool, poset(p) \226\134\146 (\226\136\131 t : (A, A) -> Bool, toset(t) && fld(t) == fld(p) && (\226\136\128 x : A, \226\136\128 y : A, p(x, y) \226\134\146 t(x, y)))
   (y : (A) -> Bool)
-  (forall z. P z ==> z IN IMAGE f s)\n    ==> (forall x. x IN s /\\ P(f x) ==> Q(f x))\n        ==> forall y. P y ==> Q y
+  (\226\136\128 z : _, (P : (_) -> Bool)(z) \226\134\146 IN(z, IMAGE((f : (_) -> _), (s : (_) -> Bool)))) \226\134\146 (\226\136\128 x : _, IN(x, s) && P(f(x)) \226\134\146 (Q : (_) -> Bool)(f(x))) \226\134\146 (\226\136\128 y : _, P(y) \226\134\146 Q(y))
   (f : ((A) -> Bool) -> A)((z : (A) -> Bool))
   (z : (A) -> Bool)
   (x : (A) -> Bool) => (P : (A) -> Bool)((f : ((A) -> Bool) -> A)(x))
   (P : (A) -> Bool)
   fld((l : (_, _) -> Bool), (x : _)) == IN(x, fld(l))
-  fld(\\ x y. x IN IMAGE (f:(A->bool)->A) {v | r v w /\\ ~(v = w)} /\\\n               y IN IMAGE (f:(A->bool)->A) {v | r v w /\\ ~(v = w)} /\\\n               l x y) =\n    IMAGE f {v | r v w /\\ ~(v = w)}
-  \\x y. x IN IMAGE (f:(A->bool)->A) {v | r v w /\\ ~(v = w)} /\\\n                    y IN IMAGE (f:(A->bool)->A) {v | r v w /\\ ~(v = w)} /\\\n                    l x y
+  fld((x : A) => (y : A) => IN(x, IMAGE((f : ((A) -> Bool) -> A), {(v : (A) -> Bool) | (r : ((A) -> Bool, (A) -> Bool) -> Bool)(v, (w : (A) -> Bool)) && !(v == w)})) && IN(y, IMAGE(f, {(v : (A) -> Bool) | r(v, w) && !(v == w)})) && (l : (A, A) -> Bool)(x, y)) == IMAGE(f, {(v : (A) -> Bool) | r(v, w) && !(v == w)})
+  (x : A) => (y : A) => IN(x, IMAGE((f : ((A) -> Bool) -> A), {(v : (A) -> Bool) | (r : ((A) -> Bool, (A) -> Bool) -> Bool)(v, (w : (A) -> Bool)) && !(v == w)})) && IN(y, IMAGE(f, {(v : (A) -> Bool) | r(v, w) && !(v == w)})) && (l : (A, A) -> Bool)(x, y)
   !((f : (_) -> _)((x : _)) == f((y : _))) \226\134\146 !(x == y)
-  (l a b \\/ l b a) /\\ (~(b = a) ==> ~l b a) ==> l a b
-  forall x y. r x y /\\ r y w /\\ ~(y = w) ==> l((f:(A->bool)->A) x) (f y)
+  ((l : (_, _) -> Bool)((a : _), (b : _)) || l(b, a)) && (!(b == a) \226\134\146 !l(b, a)) \226\134\146 l(a, b)
+  \226\136\128 x : (A) -> Bool, \226\136\128 y : (A) -> Bool, (r : ((A) -> Bool, (A) -> Bool) -> Bool)(x, y) && r(y, (w : (A) -> Bool)) && !(y == w) \226\134\146 (l : (A, A) -> Bool)((f : ((A) -> Bool) -> A)(x), f(y))
   (x : A) => !(g : (A, A) -> Bool)(x, x)
   (g : (A, A) -> Bool)
   (y : _) == select((x : _) => (P : (_) -> Bool)(x)) \226\134\146 (\226\136\131 x : _, P(x)) \226\134\146 P(y)
-  (forall x y. P x y ==> P y x) /\\ (forall x y. R x y ==> P x y)\n        ==> (forall x y. R x y \\/ R y x) ==> (forall x y. P x y)
+  (\226\136\128 x : _, \226\136\128 y : _, (P : (_, _) -> Bool)(x, y) \226\134\146 P(y, x)) && (\226\136\128 x : _, \226\136\128 y : _, (R : (_, _) -> Bool)(x, y) \226\134\146 P(x, y)) \226\134\146 (\226\136\128 x : _, \226\136\128 y : _, R(x, y) || R(y, x)) \226\134\146 (\226\136\128 x : _, \226\136\128 y : _, P(x, y))
   \226\136\128 v : (A) -> Bool, \226\136\128 w : (A) -> Bool, (f : ((A) -> Bool) -> A)(v) == f(w) \226\134\146 v == w
   !((p : Bool) && (q : Bool) && (r : Bool)) == (p && q \226\134\146 !r)
   (\226\136\131 w : _, (P : (_) -> Bool)(w)) == !(\226\136\128 w : _, !P(w))
-  ?w:A->bool. (forall x. x IN fld l ==> ?v. r v w /\\ ~(v = w) /\\ l (x:A) (f v)) /\\\n                forall z. (forall x. x IN fld l ==> ?v. r v z /\\ ~(v = z) /\\ l x (f v))\n                    ==> r w z
+  \226\136\131 w : (A) -> Bool, (\226\136\128 x : A, IN(x, fld((l : (A, A) -> Bool))) \226\134\146 (\226\136\131 v : (A) -> Bool, (r : ((A) -> Bool, (A) -> Bool) -> Bool)(v, w) && !(v == w) && l(x, (f : ((A) -> Bool) -> A)(v)))) && (\226\136\128 z : (A) -> Bool, (\226\136\128 x : A, IN(x, fld(l)) \226\134\146 (\226\136\131 v : (A) -> Bool, r(v, z) && !(v == z) && l(x, f(v)))) \226\134\146 r(w, z))
   \226\136\128 w : (A) -> Bool, IN((f : ((A) -> Bool) -> A)(w), fld((l : (A, A) -> Bool)))
-  (p <=> p') /\\ x' = x\n      ==> (if p then x else a) = (if p' then x' else a)
-  ?f. forall w. f w = if ?x:A. x IN fld l /\\\n                           forall v:A->bool. r v w /\\ ~(v = w) ==> ~l x (f v)\n                  then @x:A. x IN fld l /\\\n                             forall v. r v w /\\ ~(v = w) ==> ~l x (f v)\n                  else @x:A. x IN fld l
+  (p : Bool) == (p' : Bool) && (x' : _) == (x : _) \226\134\146 (if p { x } else { (a : _) }) == (if p' { x' } else { a })
+  \226\136\131 f : ((A) -> Bool) -> A, \226\136\128 w : (A) -> Bool, f(w) == (if (\226\136\131 x : A, IN(x, fld((l : (A, A) -> Bool))) && (\226\136\128 v : (A) -> Bool, (r : ((A) -> Bool, (A) -> Bool) -> Bool)(v, w) && !(v == w) \226\134\146 !l(x, f(v)))) { select((x : A) => IN(x, fld(l)) && (\226\136\128 v : (A) -> Bool, r(v, w) && !(v == w) \226\134\146 !l(x, f(v)))) } else { select((x : A) => IN(x, fld(l))) })
   \226\136\131 r : ((A) -> Bool, (A) -> Bool) -> Bool, ordinal(r) && fld(r) == UNIV
   (x : A) => (y : A) => false
   fld((l : (A, A) -> Bool)) == {}
-  forall l. toset l\n       ==> ?w. (forall x y. w x y ==> l x y) /\\ woset w /\\\n               forall x:A. x IN fld l ==> ?y. y IN fld w /\\ l x y
+  \226\136\128 l : (A, A) -> Bool, toset(l) \226\134\146 (\226\136\131 w : (A, A) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, w(x, y) \226\134\146 l(x, y)) && woset(w) && (\226\136\128 x : A, IN(x, fld(l)) \226\134\146 (\226\136\131 y : A, IN(y, fld(w)) && l(x, y))))
 SUBSET_PRED =  |- (#forall:fun(fun(fun('?1,bool),bool),bool) (\P:fun('?1,bool). (#forall:fun(fun(fun('?1,bool),bool),bool) (\Q:fun('?1,bool). ((#=:fun(bool,fun(bool,bool)) ((#SUBSET:fun(fun('?1,bool),fun(fun('?1,bool),bool)) P:fun('?1,bool)) Q:fun('?1,bool))) (#forall:fun(fun('?1,bool),bool) (\x:'?1. ((#==>:fun(bool,fun(bool,bool)) (P:fun('?1,bool) x:'?1)) (Q:fun('?1,bool) x:'?1)))))))))
 UNIONS_PRED =  |- ((#=:fun(fun('?2,bool),fun(fun('?2,bool),bool)) (#UNIONS:fun(fun(fun('?2,bool),bool),fun('?2,bool)) P:fun(fun('?2,bool),bool))) (\x:'?2. (#?:fun(fun(fun('?2,bool),bool),bool) (\p:fun('?2,bool). ((#/\:fun(bool,fun(bool,bool)) (P:fun(fun('?2,bool),bool) p:fun('?2,bool))) (p:fun('?2,bool) x:'?2))))))
 fld =  |- (#forall:fun(fun(fun('A,fun('A,bool)),bool),bool) (\R:fun('A,fun('A,bool)). ((#=:fun(fun('A,bool),fun(fun('A,bool),bool)) (#fld:fun(fun('A,fun('A,bool)),fun('A,bool)) R:fun('A,fun('A,bool)))) (#GSPEC:fun(fun('A,bool),fun('A,bool)) (\GEN%PVAR%1:'A. (#?:fun(fun('A,bool),bool) (\x:'A. (((#SETSPEC:fun('A,fun(bool,fun('A,bool))) GEN%PVAR%1:'A) (#?:fun(fun('A,bool),bool) (\y:'A. ((#\/:fun(bool,fun(bool,bool)) ((R:fun('A,fun('A,bool)) x:'A) y:'A)) ((R:fun('A,fun('A,bool)) y:'A) x:'A))))) x:'A))))))))

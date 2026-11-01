@@ -7618,39 +7618,39 @@ Warning: inventing type variables
 Library/card quotations (969):
   (\226\136\128 z : Sum[_, _], (P : (Sum[_, _]) -> Bool)(z)) == ((\226\136\128 x : _, P(INL(x))) && (\226\136\128 x : _, P(INR(x))))
   (\226\136\131 z : Sum[_, _], (P : (Sum[_, _]) -> Bool)(z)) == ((\226\136\131 x : _, P(INL(x))) || (\226\136\131 x : _, P(INR(x))))
-  (forall x. x IN s ==> (g(f(x)) = x)) <=> forall y x. x IN s /\\ (y = f x) ==> (g y = x)
+  (\226\136\128 x : _, IN(x, (s : (_) -> Bool)) \226\134\146 (g : (_) -> _)((f : (_) -> _)(x)) == x) == (\226\136\128 y : _, \226\136\128 x : _, IN(x, s) && y == f(x) \226\134\146 g(y) == x)
   SUBSET((f : ((A) -> Bool, A) -> Bool)((a : (A) -> Bool)), a)
   \226\136\128 b : (A) -> Bool, IN(b, (Y : ((A) -> Bool) -> Bool)) \226\134\146 SUBSET((f : ((A) -> Bool, A) -> Bool)((a : (A) -> Bool)), b)
   \226\136\128 b : (A) -> Bool, IN(b, (Y : ((A) -> Bool) -> Bool)) == SUBSET((f : ((A) -> Bool, A) -> Bool)(b), b)
   (a : (A) -> Bool) == INTERS((Y : ((A) -> Bool) -> Bool))
   (Y : ((A) -> Bool) -> Bool) == {(b : (A) -> Bool) | SUBSET((f : ((A) -> Bool, A) -> Bool)(b), b)}
-  forall f. (forall s t. s SUBSET t ==> f(s) SUBSET f(t)) ==> ?s:A->bool. f(s) = s
-  (?x. x IN s)\n   ==> ((forall x y. x IN s /\\ y IN s /\\ (f(x) = f(y)) ==> (x = y)) <=>\n        ?g. (forall y. y IN t ==> g(y) IN s) /\\\n            (forall x. x IN s ==> (g(f(x)) = x)))
-  (forall x. x IN s ==> f(x) IN t) /\\\n   (forall y. y IN t ==> ?!x. x IN s /\\ (f x = y)) <=>\n   (forall x. x IN s ==> f(x) IN t) /\\\n   (forall x y. x IN s /\\ y IN s /\\ (f(x) = f(y)) ==> (x = y)) /\\\n   (forall y. y IN t ==> ?x. x IN s /\\ (f x = y))
+  \226\136\128 f : ((A) -> Bool, A) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, t) \226\134\146 SUBSET(f(s), f(t))) \226\134\146 (\226\136\131 s : (A) -> Bool, f(s) == s)
+  (\226\136\131 x : _, IN(x, (s : (_) -> Bool))) \226\134\146 (\226\136\128 x : _, \226\136\128 y : _, IN(x, s) && IN(y, s) && (f : (_) -> _)(x) == f(y) \226\134\146 x == y) == (\226\136\131 g : (_) -> _, (\226\136\128 y : _, IN(y, (t : (_) -> Bool)) \226\134\146 IN(g(y), s)) && (\226\136\128 x : _, IN(x, s) \226\134\146 g(f(x)) == x))
+  ((\226\136\128 x : _, IN(x, (s : (_) -> Bool)) \226\134\146 IN((f : (_) -> _)(x), (t : (_) -> Bool))) && (\226\136\128 y : _, IN(y, t) \226\134\146 existsunique((x : _) => IN(x, s) && f(x) == y))) == ((\226\136\128 x : _, IN(x, s) \226\134\146 IN(f(x), t)) && (\226\136\128 x : _, \226\136\128 y : _, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) && (\226\136\128 y : _, IN(y, t) \226\134\146 (\226\136\131 x : _, IN(x, s) && f(x) == y)))
   ((a : Bool) \226\134\146 (b : Bool) == (c : Bool)) \226\134\146 (a && b) == (a && c)
-  (forall x. x IN s ==> f(x) IN t) /\\\n   (forall y. y IN t ==> ?!x. x IN s /\\ (f x = y)) <=>\n   (forall x. x IN s ==> f(x) IN t) /\\\n   ?g. (forall y. y IN t ==> g(y) IN s) /\\\n       (forall y. y IN t ==> (f(g(y)) = y)) /\\\n       (forall x. x IN s ==> (g(f(x)) = x))
+  ((\226\136\128 x : _, IN(x, (s : (_) -> Bool)) \226\134\146 IN((f : (_) -> _)(x), (t : (_) -> Bool))) && (\226\136\128 y : _, IN(y, t) \226\134\146 existsunique((x : _) => IN(x, s) && f(x) == y))) == ((\226\136\128 x : _, IN(x, s) \226\134\146 IN(f(x), t)) && (\226\136\131 g : (_) -> _, (\226\136\128 y : _, IN(y, t) \226\134\146 IN(g(y), s)) && (\226\136\128 y : _, IN(y, t) \226\134\146 f(g(y)) == y) && (\226\136\128 x : _, IN(x, s) \226\134\146 g(f(x)) == x)))
   (y : B) => select((x : A) => IN(x, (s : (A) -> Bool)) && (f : (A) -> B)(x) == y)
   (f : (A) -> B)
-  forall s:A->bool t:B->bool.\n        s =_c t <=> ?f g. (forall x. x IN s ==> f x IN t /\\ g(f x) = x) /\\\n                          (forall y. y IN t ==> g y IN s /\\ f(g y) = y)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_eq_us_c(s, t) == (\226\136\131 f : (A) -> B, \226\136\131 g : (B) -> A, (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t) && g(f(x)) == x) && (\226\136\128 y : B, IN(y, t) \226\134\146 IN(g(y), s) && f(g(y)) == y))
   fn { (x, y) => IN(x, (s : (A) -> Bool)) && IN(y, (t : (B) -> Bool)) && y == (f : (A) -> B)(x) }
   (f : (A) -> B)
-  s =_c t <=>\n   ?R:A#B->bool. (forall x y. R(x,y) ==> x IN s /\\ y IN t) /\\\n                 (forall x. x IN s ==> ?!y. y IN t /\\ R(x,y)) /\\\n                 (forall y. y IN t ==> ?!x. x IN s /\\ R(x,y))
+  op_eq_us_c((s : (A) -> Bool), (t : (B) -> Bool)) == (\226\136\131 R : ((A, B)) -> Bool, (\226\136\128 x : A, \226\136\128 y : B, R((x, y)) \226\134\146 IN(x, s) && IN(y, t)) && (\226\136\128 x : A, IN(x, s) \226\134\146 existsunique((y : B) => IN(y, t) && R((x, y)))) && (\226\136\128 y : B, IN(y, t) \226\134\146 existsunique((x : A) => IN(x, s) && R((x, y)))))
   GABS((f : ((A, B)) -> Bool) => \226\136\128 x : A, \226\136\128 y : B, GEQ(f((x, y)), (R : ((A, B)) -> Bool)((x, y)) && IN(x, (s : (A) -> Bool)) && IN(y, (t : (B) -> Bool))))
   (R : ((A, B)) -> Bool)
-  s =_c t <=>\n   ?R:A#B->bool. (forall x. x IN s ==> ?!y. y IN t /\\ R(x,y)) /\\\n                 (forall y. y IN t ==> ?!x. x IN s /\\ R(x,y))
+  op_eq_us_c((s : (A) -> Bool), (t : (B) -> Bool)) == (\226\136\131 R : ((A, B)) -> Bool, (\226\136\128 x : A, IN(x, s) \226\134\146 existsunique((y : B) => IN(y, t) && R((x, y)))) && (\226\136\128 y : B, IN(y, t) \226\134\146 existsunique((x : A) => IN(x, s) && R((x, y)))))
   (x : A) => x
   \226\136\128 s : (A) -> Bool, op_lt_eq_us_c(s, s)
   \226\136\128 s : (B) -> Bool, (op_lt_eq_us_c : ((A) -> Bool, (B) -> Bool) -> Bool)(({} : (A) -> Bool), s)
   o((g : (B) -> C), (f : (A) -> B))
   (g : (B) -> C)
   (f : (A) -> B)
-  forall s:A->bool t:B->bool u:C->bool.\n       s <=_c t /\\ t <=_c u ==> s <=_c u
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, op_lt_eq_us_c(s, t) && op_lt_eq_us_c(t, u) \226\134\146 op_lt_eq_us_c(s, u)
   \226\136\128 s : (A) -> Bool, !op_lt_us_c(s, s)
-  (a /\\ b ==> c) /\\ (c' /\\ a ==> b')\n                     ==> a /\\ b /\\ ~b' ==> c /\\ ~c'
-  forall s:A->bool t:B->bool u:C->bool.\n       s <=_c t /\\ t <_c u ==> s <_c u
-  (a /\\ b ==> c) /\\ (b /\\ c' ==> a')\n                     ==> (a /\\ ~a') /\\ b ==> c /\\ ~c'
-  forall s:A->bool t:B->bool u:C->bool.\n       s <_c t /\\ t <=_c u ==> s <_c u
-  forall s:A->bool t:B->bool u:C->bool.\n       s <_c t /\\ t <_c u ==> s <_c u
+  ((a : Bool) && (b : Bool) \226\134\146 (c : Bool)) && ((c' : Bool) && a \226\134\146 (b' : Bool)) \226\134\146 a && b && !b' \226\134\146 c && !c'
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, op_lt_eq_us_c(s, t) && op_lt_us_c(t, u) \226\134\146 op_lt_us_c(s, u)
+  ((a : Bool) && (b : Bool) \226\134\146 (c : Bool)) && (b && (c' : Bool) \226\134\146 (a' : Bool)) \226\134\146 (a && !a') && b \226\134\146 c && !c'
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, op_lt_us_c(s, t) && op_lt_eq_us_c(t, u) \226\134\146 op_lt_us_c(s, u)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, op_lt_us_c(s, t) && op_lt_us_c(t, u) \226\134\146 op_lt_us_c(s, u)
   (x : A) => x
   \226\136\128 s : (A) -> Bool, op_eq_us_c(s, s)
   \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, s == t \226\134\146 op_eq_us_c(s, t)
@@ -7658,46 +7658,46 @@ Library/card quotations (969):
   \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, op_eq_us_c(s, t) \226\134\146 op_lt_eq_us_c(s, t)
   \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, op_lt_us_c(s, t) \226\134\146 op_lt_eq_us_c(s, t)
   (y : B) => select((x : A) => IN(x, (s : (A) -> Bool)) && (R : (A, B) -> Bool)(x, y))
-  forall R:A->B->bool.\n        (forall x y y'. x IN s /\\ R x y /\\ R x y' ==> y = y')\n        ==> {y | ?x. x IN s /\\ R x y} <=_c s
+  \226\136\128 R : (A, B) -> Bool, (\226\136\128 x : A, \226\136\128 y : B, \226\136\128 y' : B, IN(x, (s : (A) -> Bool)) && R(x, y) && R(x, y') \226\134\146 y == y') \226\134\146 op_lt_eq_us_c({(y : B) | \226\136\131 x : A, IN(x, s) && R(x, y)}, s)
   (y : B) => select((x : A) => IN(x, (s : (A) -> Bool)) && (R : (A, B) -> Bool)(x, y))
-  forall R:A->B->bool s t.\n        (forall y. y IN t ==> ?x. x IN s /\\ R x y) /\\\n        (forall x y y'. x IN s /\\ y IN t /\\ y' IN t /\\ R x y /\\ R x y' ==> y = y')\n        ==> t <=_c s
+  \226\136\128 R : (A, B) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (\226\136\128 y : B, IN(y, t) \226\134\146 (\226\136\131 x : A, IN(x, s) && R(x, y))) && (\226\136\128 x : A, \226\136\128 y : B, \226\136\128 y' : B, IN(x, s) && IN(y, t) && IN(y', t) && R(x, y) && R(x, y') \226\134\146 y == y') \226\134\146 op_lt_eq_us_c(t, s)
   \226\136\128 s : (_) -> Bool, (op_lt_eq_us_c : ((_) -> Bool, (_) -> Bool) -> Bool)(s, ({} : (_) -> Bool)) == (s == {})
   \226\136\128 s : (_) -> Bool, (op_eq_us_c : ((_) -> Bool, (_) -> Bool) -> Bool)(s, ({} : (_) -> Bool)) == (s == {})
   IN((y : B), IMAGE((f : (A) -> B), DIFF((s : (A) -> Bool), (u : (A) -> Bool))))
   (y : B)
-  \\(x:A,y:B). x IN s /\\ y IN t /\\\n                          (~(x IN u) /\\ y = f x \\/ x IN u /\\ x = g y)
+  fn { (x, y) => IN(x, (s : (A) -> Bool)) && IN(y, (t : (B) -> Bool)) && (!IN(x, (u : (A) -> Bool)) && y == (f : (A) -> B)(x) || IN(x, u) && x == (g : (B) -> A)(y)) }
   (u : (A) -> Bool)
-  \\X. IMAGE (g:B->A) (t DIFF IMAGE (f:A->B) (s DIFF X))
+  (X : (A) -> Bool) => IMAGE((g : (B) -> A), DIFF((t : (B) -> Bool), IMAGE((f : (A) -> B), DIFF((s : (A) -> Bool), X))))
   (g : (B) -> A)
   (f : (A) -> B)
-  forall s:A->bool t:B->bool. s <=_c t /\\ t <=_c s <=> (s =_c t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (op_lt_eq_us_c(s, t) && op_lt_eq_us_c(t, s)) == op_eq_us_c(s, t)
   GABS((f : ((A, B)) -> Bool) => \226\136\128 x : A, \226\136\128 y : B, GEQ(f((x, y)), x == (a : A) && y == (b : B) || (R : ((A, B)) -> Bool)((x, y))))
   (b : B)
   (a : A)
   GABS((f : ((A, B)) -> Bool) => \226\136\128 x : A, \226\136\128 y : B, GEQ(f((x, y)), true))
-  (forall x:A. x IN s ==> ?y:B. y IN t /\\ R(x,y)) \\/\n                 (forall y:B. y IN t ==> ?x:A. x IN s /\\ R(x,y))
+  (\226\136\128 x : A, IN(x, (s : (A) -> Bool)) \226\134\146 (\226\136\131 y : B, IN(y, (t : (B) -> Bool)) && (R : ((A, B)) -> Bool)((x, y)))) || (\226\136\128 y : B, IN(y, t) \226\134\146 (\226\136\131 x : A, IN(x, s) && R((x, y))))
   (R : ((A, B)) -> Bool)
   (P : (((A, B)) -> Bool) -> Bool)
-  P = \\R. (forall x:A y:B. R(x,y) ==> x IN s /\\ y IN t) /\\\n            (forall x y y'. R(x,y) /\\ R(x,y') ==> (y = y')) /\\\n            (forall x x' y. R(x,y) /\\ R(x',y) ==> (x = x'))
+  (P : (((A, B)) -> Bool) -> Bool) == ((R : ((A, B)) -> Bool) => (\226\136\128 x : A, \226\136\128 y : B, R((x, y)) \226\134\146 IN(x, (s : (A) -> Bool)) && IN(y, (t : (B) -> Bool))) && (\226\136\128 x : A, \226\136\128 y : B, \226\136\128 y' : B, R((x, y)) && R((x, y')) \226\134\146 y == y') && (\226\136\128 x : A, \226\136\128 x' : A, \226\136\128 y : B, R((x, y)) && R((x', y)) \226\134\146 x == x'))
   \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_lt_eq_us_c(s, t) || op_lt_eq_us_c(t, s)
   \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_lt_eq_us_c(s, t) || op_lt_us_c(t, s)
   \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_lt_us_c(s, t) || op_lt_eq_us_c(t, s)
-  forall s:A->bool t:B->bool. s =_c t \\/ s <_c t \\/ t <_c s
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_eq_us_c(s, t) || op_lt_us_c(s, t) || op_lt_us_c(t, s)
   \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, !op_lt_eq_us_c(s, t) == op_lt_us_c(t, s)
   \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, !op_lt_us_c(s, t) == op_lt_eq_us_c(t, s)
   \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, op_lt_us_c(s, t) == (op_lt_eq_us_c(s, t) && !op_eq_us_c(s, t))
   \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, op_lt_eq_us_c(s, t) == (op_lt_us_c(s, t) || op_eq_us_c(s, t))
   op_lt_eq_us_c((s : (A) -> Bool), (t' : (D) -> Bool))
   op_lt_eq_us_c((s' : (B) -> Bool), (t : (C) -> Bool))
-  forall x y. (b /\\ e ==> x) /\\ (x /\\ c ==> f) /\\ (a /\\ f ==> y) /\\ (y /\\ d ==> e)\n          ==> (a /\\ b) /\\ (c /\\ d) ==> (e <=> f)
-  forall s:A->bool s':B->bool t:C->bool t':D->bool.\n      s =_c s' /\\ t =_c t' ==> (s <=_c t <=> s' <=_c t')
-  forall s:A->bool s':B->bool t:C->bool t':D->bool.\n      s =_c s' /\\ t =_c t' ==> (s <_c t <=> s' <_c t')
-  forall s:A->bool t:B->bool u:C->bool.\n       s =_c t /\\ t =_c u ==> s =_c u
+  \226\136\128 x : Bool, \226\136\128 y : Bool, ((b : Bool) && (e : Bool) \226\134\146 x) && (x && (c : Bool) \226\134\146 (f : Bool)) && ((a : Bool) && f \226\134\146 y) && (y && (d : Bool) \226\134\146 e) \226\134\146 (a && b) && c && d \226\134\146 e == f
+  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (B) -> Bool, \226\136\128 t : (C) -> Bool, \226\136\128 t' : (D) -> Bool, op_eq_us_c(s, s') && op_eq_us_c(t, t') \226\134\146 op_lt_eq_us_c(s, t) == op_lt_eq_us_c(s', t')
+  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (B) -> Bool, \226\136\128 t : (C) -> Bool, \226\136\128 t' : (D) -> Bool, op_eq_us_c(s, s') && op_eq_us_c(t, t') \226\134\146 op_lt_us_c(s, t) == op_lt_us_c(s', t')
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, op_eq_us_c(s, t) && op_eq_us_c(t, u) \226\134\146 op_eq_us_c(s, u)
   (t' : (D) -> Bool)
   (s' : (B) -> Bool)
   (s : (A) -> Bool)
   (t : (C) -> Bool)
-  forall s:A->bool s':B->bool t:C->bool t':D->bool.\n      s =_c s' /\\ t =_c t' ==> (s =_c t <=> s' =_c t')
+  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (B) -> Bool, \226\136\128 t : (C) -> Bool, \226\136\128 t' : (D) -> Bool, op_eq_us_c(s, s') && op_eq_us_c(t, t') \226\134\146 op_eq_us_c(s, t) == op_eq_us_c(s', t')
   \226\136\128 s : (A) -> Bool, (INFINITE : ((A) -> Bool) -> Bool)(s) == (op_lt_eq_us_c : ((Num) -> Bool, (A) -> Bool) -> Bool)((UNIV : (Num) -> Bool), s)
   ((a : Bool) == (b : Bool)) == (!a == !b)
   \226\136\128 s : (A) -> Bool, (FINITE : ((A) -> Bool) -> Bool)(s) == (op_lt_us_c : ((A) -> Bool, (Num) -> Bool) -> Bool)(s, (UNIV : (Num) -> Bool))
@@ -7712,53 +7712,53 @@ Library/card quotations (969):
   IMAGE((f : (A) -> B), (s : (A) -> Bool))
   (f : (A) -> B)
   (a : Bool) == (b : Bool) \226\134\146 b \226\134\146 a
-  forall s:A->bool t:B->bool. s <=_c t <=> ?u. u SUBSET t /\\ (s =_c u)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_lt_eq_us_c(s, t) == (\226\136\131 u : (B) -> Bool, SUBSET(u, t) && op_eq_us_c(s, u))
   \226\136\128 s : (A) -> Bool, (\226\136\131 t : (B) -> Bool, (op_eq_us_c : ((B) -> Bool, (A) -> Bool) -> Bool)(t, s)) == (op_lt_eq_us_c : ((A) -> Bool, (B) -> Bool) -> Bool)(s, (UNIV : (B) -> Bool))
-  forall s:A->bool t:B->bool. s =_c t ==> (INFINITE s <=> INFINITE t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_eq_us_c(s, t) \226\134\146 INFINITE(s) == INFINITE(t)
   ((a : Bool) == (b : Bool)) == (!a == !b)
-  forall s:A->bool t:B->bool. s =_c t ==> (FINITE s <=> FINITE t)
-  forall s:A->bool t:B->bool. FINITE t /\\ s <=_c t ==> FINITE s
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_eq_us_c(s, t) \226\134\146 FINITE(s) == FINITE(t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(t) && op_lt_eq_us_c(s, t) \226\134\146 FINITE(s)
   \226\136\128 s : (_) -> Bool, \226\136\128 t : (A) -> Bool, FINITE(t) && op_eq_us_c(s, t) \226\134\146 FINITE(s)
-  forall(s:A->bool) (t:B->bool). INFINITE t /\\ s =_c t ==> INFINITE s
-  forall s:A->bool t:B->bool. INFINITE s /\\ s <=_c t ==> INFINITE t
-  forall s:A->bool t:B->bool. FINITE s /\\ INFINITE t ==> s <_c t
-  forall s:A->bool t:B->bool.\n        FINITE s /\\ INFINITE t ==> s <=_c t
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, INFINITE(t) && op_eq_us_c(s, t) \226\134\146 INFINITE(s)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, INFINITE(s) && op_lt_eq_us_c(s, t) \226\134\146 INFINITE(t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && INFINITE(t) \226\134\146 op_lt_us_c(s, t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && INFINITE(t) \226\134\146 op_lt_eq_us_c(s, t)
   (m : Num) == (n : Num) \226\134\146 n <= m
   CARD(IMAGE((f : (A) -> B), (s : (A) -> Bool)))
   (f : (A) -> B)
   FINITE((s : (A) -> Bool))
-  forall s:A->bool t:B->bool. FINITE t /\\ s <=_c t ==> CARD s <= CARD t
-  forall s:A->bool t:B->bool. FINITE t /\\ s =_c t ==> (CARD s = CARD t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(t) && op_lt_eq_us_c(s, t) \226\134\146 CARD(s) <= CARD(t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(t) && op_eq_us_c(s, t) \226\134\146 CARD(s) == CARD(t)
   (u : (A) -> Bool) == (s : (A) -> Bool)
   (u : (A) -> Bool)
   ((c : Bool) \226\134\146 (a : Bool) \226\134\146 (b : Bool)) \226\134\146 a && !b \226\134\146 !c
   ((a : Bool) \226\134\146 (b : Bool)) && (!a \226\134\146 !b) \226\134\146 a == b
-  forall s:A->bool t:B->bool.\n        FINITE s /\\ FINITE t ==> (s <=_c t <=> CARD s <= CARD t)
-  forall s:A->bool t:B->bool.\n        FINITE s /\\ FINITE t ==> (s =_c t <=> (CARD s = CARD t))
-  forall s:A->bool t:B->bool.\n        FINITE s /\\ FINITE t ==> (s <_c t <=> CARD s < CARD t)
-  forall(s:A->bool) (t:B->bool) n. s =_c t ==> (s HAS_SIZE n <=> t HAS_SIZE n)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && FINITE(t) \226\134\146 op_lt_eq_us_c(s, t) == (CARD(s) <= CARD(t))
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && FINITE(t) \226\134\146 op_eq_us_c(s, t) == (CARD(s) == CARD(t))
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && FINITE(t) \226\134\146 op_lt_us_c(s, t) == (CARD(s) < CARD(t))
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 n : Num, op_eq_us_c(s, t) \226\134\146 HAS_SIZE(s, n) == HAS_SIZE(t, n)
   FINITE((s : (A) -> Bool))
-  forall(s:A->bool). (1..n) <=_c s <=> (FINITE s ==> n <= CARD s)
+  \226\136\128 s : (A) -> Bool, op_lt_eq_us_c(op_dot_dot(1, (n : Num)), s) == (FINITE(s) \226\134\146 n <= CARD(s))
   \226\136\128 f : (_) -> _, \226\136\128 s : (_) -> Bool, op_lt_eq_us_c(IMAGE(f, s), s)
   IMAGE((f : (A) -> B), (s : (A) -> Bool))
   \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, SUBSET(t, IMAGE(f, s)) \226\134\146 op_lt_eq_us_c(t, s)
   (f : (A) -> B)
-  forall f:A->B s.\n        (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y)\n        ==> IMAGE f s =_c s
+  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) \226\134\146 op_eq_us_c(IMAGE(f, s), s)
   (f : (A) -> B)
-  forall(f:A->B) s t.\n        t SUBSET IMAGE f s ==> t <=_c {x | x IN s /\\ f x IN t}
+  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, SUBSET(t, IMAGE(f, s)) \226\134\146 op_lt_eq_us_c(t, {(x : A) | IN(x, s) && IN(f(x), t)})
   (f : (A) -> B)
-  forall(f:A->B) s t.\n        (forall x y. x IN s /\\ y IN s /\\ f x IN t /\\ f y IN t /\\ f x = f y ==> x = y)\n        ==> {x | x IN s /\\ f x IN t} <=_c t
-  forall(f:A->B) s t.\n     (forall x y. x IN s /\\ y IN s /\\ f x IN t /\\ f y IN t /\\ f x = f y ==> x = y) /\\\n     t SUBSET IMAGE f s\n     ==> {x | x IN s /\\ f x IN t} =_c t
+  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && IN(f(x), t) && IN(f(y), t) && f(x) == f(y) \226\134\146 x == y) \226\134\146 op_lt_eq_us_c({(x : A) | IN(x, s) && IN(f(x), t)}, t)
+  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && IN(f(x), t) && IN(f(y), t) && f(x) == f(y) \226\134\146 x == y) && SUBSET(t, IMAGE(f, s)) \226\134\146 op_eq_us_c({(x : A) | IN(x, s) && IN(f(x), t)}, t)
   IMAGE((f : (A) -> B), (s : (A) -> Bool)) == IMAGE((h : (C) -> B), IMAGE((g : (A) -> C), s))
   (h : (C) -> B)
-  forall(f:A->B) (g:A->C) s.\n        (forall x y. x IN s /\\ y IN s /\\ g x = g y ==> f x = f y)\n        ==> IMAGE f s <=_c IMAGE g s
-  forall(f:A->B) (g:A->C) s.\n        (forall x y. x IN s /\\ y IN s ==> (f x = f y <=> g x = g y))\n        ==> IMAGE f s =_c IMAGE g s
+  \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> C, \226\136\128 s : (A) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && g(x) == g(y) \226\134\146 f(x) == f(y)) \226\134\146 op_lt_eq_us_c(IMAGE(f, s), IMAGE(g, s))
+  \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> C, \226\136\128 s : (A) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) \226\134\146 (f(x) == f(y)) == (g(x) == g(y))) \226\134\146 op_eq_us_c(IMAGE(f, s), IMAGE(g, s))
   (x : B) => if IN((f : (B) -> A)(x), (s : (A) -> Bool)) { f(x) } else { (a : A) }
   (f : (B) -> A)
   (a : A)
   (s : (A) -> Bool) == {}
-  forall s:A->bool t:B->bool.\n        s <=_c t <=> s = {} \\/ ?f. IMAGE f t = s
-  forall s:A->bool t:B->bool. s <=_c t <=> ?f. s SUBSET IMAGE f t
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_lt_eq_us_c(s, t) == (s == {} || (\226\136\131 f : (B) -> A, IMAGE(f, t) == s))
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_lt_eq_us_c(s, t) == (\226\136\131 f : (B) -> A, SUBSET(s, IMAGE(f, t)))
   FINITE((s : (A) -> Bool))
   \226\136\128 c : B, \226\136\128 s : (A) -> Bool, op_lt_eq_us_c(s, {c}) == (\226\136\131 a : A, SUBSET(s, {a}))
   (x : A) => (b : B)
@@ -7766,7 +7766,7 @@ Library/card quotations (969):
   (s : (B) -> Bool) == {}
   \226\136\128 a : A, \226\136\128 s : (B) -> Bool, op_lt_eq_us_c({a}, s) == !(s == {})
   ((x : _) => IN(x, (s : (_) -> Bool))) == s
-  \\x y. x IN IMAGE (f:A->A) s /\\ y IN IMAGE f s /\\ l x y
+  (x : A) => (y : A) => IN(x, IMAGE((f : (A) -> A), (s : (A) -> Bool))) && IN(y, IMAGE(f, s)) && (l : (A, A) -> Bool)(x, y)
   (f : (A) -> A)
   ((s : (_) -> Bool) == UNIV) == (\226\136\128 x : _, s(x))
   (s : (A) -> Bool)
@@ -7784,58 +7784,58 @@ Library/card quotations (969):
   :A
   :B
   (w : ((A) -> Bool, A, A) -> Bool)
-  ?w:(A->bool)->A->A->bool. (forall s. ordinal(w s)) /\\ (forall s. fld(w s) =_c s)
+  \226\136\131 w : ((A) -> Bool, A, A) -> Bool, (\226\136\128 s : (A) -> Bool, ordinal(w(s))) && (\226\136\128 s : (A) -> Bool, op_eq_us_c(fld(w(s)), s))
   (WF : (((A) -> Bool, (A) -> Bool) -> Bool) -> Bool)((op_lt_us_c : ((A) -> Bool, (A) -> Bool) -> Bool))
   (op_plus_us_c : ((_) -> Bool, (_) -> Bool, Sum[_, _]) -> Bool)((s : (_) -> Bool), (t : (_) -> Bool)) == UNION({INL((x : _)) | IN(x, s)}, {INR((y : _)) | IN(y, t)})
   (op_star_us_c : ((_) -> Bool, (_) -> Bool, (_, _)) -> Bool)((s : (_) -> Bool), (t : (_) -> Bool)) == {((x : _), (y : _)) | IN(x, s) && IN(y, t)}
   (h : (Sum[A, C]) -> Sum[B, D])
-  (forall x. h(INL x) = INL((f:A->B) x)) /\\ (forall y. h(INR y) = INR((g:C->D) y))
+  (\226\136\128 x : A, (h : (Sum[A, C]) -> Sum[B, D])(INL(x)) == INL((f : (A) -> B)(x))) && (\226\136\128 y : C, h(INR(y)) == INR((g : (C) -> D)(y)))
   (g : (C) -> D)
   (f : (A) -> B)
-  forall s:A->bool s':B->bool t:C->bool t':D->bool.\n      s <=_c s' /\\ t <=_c t' ==> s +_c t <=_c s' +_c t'
+  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (B) -> Bool, \226\136\128 t : (C) -> Bool, \226\136\128 t' : (D) -> Bool, op_lt_eq_us_c(s, s') && op_lt_eq_us_c(t, t') \226\134\146 op_lt_eq_us_c(op_plus_us_c(s, t), op_plus_us_c(s', t'))
   fn { (x, y) => ((f : (A) -> B)(x), (g : (C) -> D)(y)) }
   (g : (C) -> D)
   (f : (A) -> B)
-  forall s:A->bool s':B->bool t:C->bool t':D->bool.\n      s <=_c s' /\\ t <=_c t' ==> s *_c t <=_c s' *_c t'
+  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (B) -> Bool, \226\136\128 t : (C) -> Bool, \226\136\128 t' : (D) -> Bool, op_lt_eq_us_c(s, s') && op_lt_eq_us_c(t, t') \226\134\146 op_lt_eq_us_c(op_star_us_c(s, t), op_star_us_c(s', t'))
   (h : (A) -> B) => o((g : (B) -> B'), o(h, (f' : (A') -> A)))
   \226\136\131 f' : (A') -> A, \226\136\128 x : A, f'((f : (A) -> A')(x)) == x
   (g : (B) -> B')
   (f : (A) -> A')
-  (:A) <=_c (:A') /\\ (:B) <=_c (:B') ==> (:A->B) <=_c (:A'->B')
-  forall s:A->bool s':B->bool t:C->bool t':D->bool.\n      s =_c s' /\\ t =_c t' ==> s +_c t =_c s' +_c t'
-  forall s:A->bool s':B->bool t:C->bool t':D->bool.\n      s =_c s' /\\ t =_c t' ==> s *_c t =_c s' *_c t'
-  (:A) =_c (:A') /\\ (:B) =_c (:B') ==> (:A->B) =_c (:A'->B')
+  (op_lt_eq_us_c : ((A) -> Bool, (A') -> Bool) -> Bool)((UNIV : (A) -> Bool), (UNIV : (A') -> Bool)) && (op_lt_eq_us_c : ((B) -> Bool, (B') -> Bool) -> Bool)((UNIV : (B) -> Bool), (UNIV : (B') -> Bool)) \226\134\146 (op_lt_eq_us_c : (((A) -> B) -> Bool, ((A') -> B') -> Bool) -> Bool)((UNIV : ((A) -> B) -> Bool), (UNIV : ((A') -> B') -> Bool))
+  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (B) -> Bool, \226\136\128 t : (C) -> Bool, \226\136\128 t' : (D) -> Bool, op_eq_us_c(s, s') && op_eq_us_c(t, t') \226\134\146 op_eq_us_c(op_plus_us_c(s, t), op_plus_us_c(s', t'))
+  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (B) -> Bool, \226\136\128 t : (C) -> Bool, \226\136\128 t' : (D) -> Bool, op_eq_us_c(s, s') && op_eq_us_c(t, t') \226\134\146 op_eq_us_c(op_star_us_c(s, t), op_star_us_c(s', t'))
+  (op_eq_us_c : ((A) -> Bool, (A') -> Bool) -> Bool)((UNIV : (A) -> Bool), (UNIV : (A') -> Bool)) && (op_eq_us_c : ((B) -> Bool, (B') -> Bool) -> Bool)((UNIV : (B) -> Bool), (UNIV : (B') -> Bool)) \226\134\146 (op_eq_us_c : (((A) -> B) -> Bool, ((A') -> B') -> Bool) -> Bool)((UNIV : ((A) -> B) -> Bool), (UNIV : ((A') -> B') -> Bool))
   (op_star_us_c : ((A) -> Bool, (B) -> Bool, (A, B)) -> Bool)((UNIV : (A) -> Bool), (UNIV : (B) -> Bool)) == (UNIV : ((A, B)) -> Bool)
   (g : ((A, B)) -> C) => (x : A) => (y : B) => g((x, y))
   (f : (A, B) -> C) => fn { (x, y) => f(x, y) }
   (op_eq_us_c : (((A, B) -> C) -> Bool, (((A, B)) -> C) -> Bool) -> Bool)((UNIV : ((A, B) -> C) -> Bool), (UNIV : (((A, B)) -> C) -> Bool))
-  (forall x. INL(x) IN (s +_c t) <=> x IN s) /\\\n   (forall y. INR(y) IN (s +_c t) <=> y IN t)
+  (\226\136\128 x : _, IN(INL(x), op_plus_us_c((s : (_) -> Bool), (t : (_) -> Bool))) == IN(x, s)) && (\226\136\128 y : _, IN(INR(y), op_plus_us_c(s, t)) == IN(y, t))
   \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, \226\136\128 x : _, \226\136\128 y : _, IN((x, y), op_star_us_c(s, t)) == (IN(x, s) && IN(y, t))
   (x : A) => (x, select((z : A) => IN(z, (s : (A) -> Bool))))
   \226\136\128 s : (A) -> Bool, op_lt_eq_us_c(s, op_star_us_c(s, s))
   GABS((f : ((Num, Num)) -> Num) => \226\136\128 x : Num, \226\136\128 y : Num, GEQ(f((x, y)), NUMPAIR(x, y)))
-  (UNIV:num->bool) *_c (UNIV:num->bool) =_c (UNIV:num->bool)
+  (op_eq_us_c : (((Num, Num)) -> Bool, (Num) -> Bool) -> Bool)((op_star_us_c : ((Num) -> Bool, (Num) -> Bool, (Num, Num)) -> Bool)((UNIV : (Num) -> Bool), (UNIV : (Num) -> Bool)), (UNIV : (Num) -> Bool))
   fn { (INL : (A) -> Sum[A, A])((x : A)) => x; (INR : (A) -> Sum[A, A])((x : A)) => x }
   \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, op_lt_eq_us_c(UNION(s, t), op_plus_us_c(s, t))
-  IMAGE f s INTER IMAGE g t = {} <=>\n                        forall x y. x IN s /\\ y IN t ==> ~(f x = g y)
-  forall s t. FINITE s /\\ FINITE t ==> CARD(s +_c t) = CARD s + CARD t
-  forall s t. FINITE s /\\ FINITE t ==> CARD(s *_c t) = CARD s * CARD t
-  (forall x. (h:A+B->B+A) (INL x) = INR x) /\\ (forall y. h(INR y) = INL y)
+  (INTER(IMAGE((f : (_) -> _), (s : (_) -> Bool)), IMAGE((g : (_) -> _), (t : (_) -> Bool))) == {}) == (\226\136\128 x : _, \226\136\128 y : _, IN(x, s) && IN(y, t) \226\134\146 !(f(x) == g(y)))
+  \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, FINITE(s) && FINITE(t) \226\134\146 CARD(op_plus_us_c(s, t)) == CARD(s) + CARD(t)
+  \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, FINITE(s) && FINITE(t) \226\134\146 CARD(op_star_us_c(s, t)) == CARD(s) * CARD(t)
+  (\226\136\128 x : A, (h : (Sum[A, B]) -> Sum[B, A])(INL(x)) == INR(x)) && (\226\136\128 y : B, h(INR(y)) == INL(y))
   \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_eq_us_c(op_plus_us_c(s, t), op_plus_us_c(t, s))
-  (forall x. (h:A+B+C->(A+B)+C) (INL x) = INL(INL x)) /\\\n     (forall z. h(INR z) = i(z))
-  (forall u. (i:B+C->(A+B)+C) (INL u) = INL(INR u)) /\\\n     (forall v. i(INR v) = INR v)
-  forall s:A->bool t:B->bool u:C->bool. s +_c (t +_c u) =_c (s +_c t) +_c u
+  (\226\136\128 x : A, (h : (Sum[A, Sum[B, C]]) -> Sum[Sum[A, B], C])(INL(x)) == INL(INL(x))) && (\226\136\128 z : Sum[B, C], h(INR(z)) == (i : (Sum[B, C]) -> Sum[Sum[A, B], C])(z))
+  (\226\136\128 u : B, (i : (Sum[B, C]) -> Sum[Sum[A, B], C])(INL(u)) == INL(INR(u))) && (\226\136\128 v : C, i(INR(v)) == INR(v))
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, op_eq_us_c(op_plus_us_c(s, op_plus_us_c(t, u)), op_plus_us_c(op_plus_us_c(s, t), u))
   \226\136\128 x : A, \226\136\128 y : B, (h : ((A, B)) -> (B, A))((x, y)) == (y, x)
   \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_eq_us_c(op_star_us_c(s, t), op_star_us_c(t, s))
   \226\136\128 x : A, \226\136\128 p : (B, C), (h : ((A, B, C)) -> ((A, B), C))((x, p)) == (i : (A, (B, C)) -> ((A, B), C))(x, p)
-  (forall x y z. (i:A->B#C->(A#B)#C) x (y,z) = (x,y),z)
-  forall s:A->bool t:B->bool u:C->bool. s *_c (t *_c u) =_c (s *_c t) *_c u
-  (forall x s. (h:A#(B+C)->(A#B)+(A#C)) (x,s) = i x s)
-  (forall x y. (i:A->(B+C)->A#B+A#C) x (INL y) = INL(x,y)) /\\\n     (forall x z. (i:A->(B+C)->A#B+A#C) x (INR z) = INR(x,z))
-  forall s:A->bool t:B->bool u:C->bool.\n        s *_c (t +_c u) =_c (s *_c t) +_c (s *_c u)
-  (u:C->bool) *_c (s:A->bool) +_c (u:C->bool) *_c (t:B->bool)
+  \226\136\128 x : A, \226\136\128 y : B, \226\136\128 z : C, (i : (A, (B, C)) -> ((A, B), C))(x, (y, z)) == ((x, y), z)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, op_eq_us_c(op_star_us_c(s, op_star_us_c(t, u)), op_star_us_c(op_star_us_c(s, t), u))
+  \226\136\128 x : A, \226\136\128 s : Sum[B, C], (h : ((A, Sum[B, C])) -> Sum[(A, B), (A, C)])((x, s)) == (i : (A, Sum[B, C]) -> Sum[(A, B), (A, C)])(x, s)
+  (\226\136\128 x : A, \226\136\128 y : B, (i : (A, Sum[B, C]) -> Sum[(A, B), (A, C)])(x, INL(y)) == INL((x, y))) && (\226\136\128 x : A, \226\136\128 z : C, i(x, INR(z)) == INR((x, z)))
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, op_eq_us_c(op_star_us_c(s, op_plus_us_c(t, u)), op_plus_us_c(op_star_us_c(s, t), op_star_us_c(s, u)))
+  op_plus_us_c(op_star_us_c((u : (C) -> Bool), (s : (A) -> Bool)), op_star_us_c(u, (t : (B) -> Bool)))
   op_star_us_c((u : (C) -> Bool), op_plus_us_c((s : (A) -> Bool), (t : (B) -> Bool)))
-  forall s:A->bool t:B->bool u:C->bool.\n        (s +_c t) *_c u =_c (s *_c u) +_c (t *_c u)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, op_eq_us_c(op_star_us_c(op_plus_us_c(s, t), u), op_plus_us_c(op_star_us_c(s, u), op_star_us_c(t, u)))
   (INL : (A) -> Sum[A, B])
   \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_lt_eq_us_c(s, op_plus_us_c(s, t))
   (INR : (B) -> Sum[A, B])
@@ -7848,25 +7848,25 @@ Library/card quotations (969):
   \226\136\128 s : (A) -> Bool, \226\136\128 b : B, op_eq_us_c(op_star_us_c(s, {b}), s)
   1 == 0
   (h : (Sum[A, A]) -> (A, A))
-  (forall x. h(INL x) = (f(0),x):A#A) /\\ (forall x. h(INR x) = (f(1),x))
+  (\226\136\128 x : A, (h : (Sum[A, A]) -> (A, A))(INL(x)) == ((f : (Num) -> A)(0), x)) && (\226\136\128 x : A, h(INR(x)) == (f(1), x))
   (f : (Num) -> A)
   \226\136\128 s : (A) -> Bool, INFINITE(s) \226\134\146 op_lt_eq_us_c(op_plus_us_c(s, s), op_star_us_c(s, s))
   (if (b : Bool) { (x : Bool) } else { (y : Bool) }) == (b && x || !b && y)
   (x : A) => if IN(x, (s : (A) -> Bool)) { INL(x) } else { INR(x) }
-  forall s:A->bool t. (s INTER t = {}) ==> (s UNION t =_c s +_c t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INTER(s, t) == {} \226\134\146 op_eq_us_c(UNION(s, t), op_plus_us_c(s, t))
   op_plus_us_c((s : (A) -> Bool), (u : (B) -> Bool))
   UNION(IMAGE((f : (A) -> B), (s : (A) -> Bool)), DIFF((t : (B) -> Bool), IMAGE(f, s)))
   DIFF((t : (B) -> Bool), IMAGE((f : (A) -> B), (s : (A) -> Bool)))
   (f : (A) -> B)
-  forall s:A->bool t:B->bool. s <=_c t <=> ?u:B->bool. t =_c s +_c u
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_lt_eq_us_c(s, t) == (\226\136\131 u : (B) -> Bool, op_eq_us_c(t, op_plus_us_c(s, u)))
   op_plus_us_c(IMAGE((f : (A) -> B), (s : (A) -> Bool)), {(b : B)})
   !IN((b : _), IMAGE((f : (_) -> _), (s : (_) -> Bool))) == (\226\136\128 x : _, IN(x, s) \226\134\146 !(f(x) == b))
   (b : B)
   (f : (A) -> B)
   \226\136\131 b : B, IN(b, DIFF((t : (B) -> Bool), IMAGE((f : (A) -> B), (s : (A) -> Bool))))
   (f : (A) -> B)
-  forall s:A->bool t:B->bool a:C. s <_c t ==> s +_c {a} <=_c t
-  INFINITE(s:A->bool) /\\ s SUBSET k /\\\n     (forall x y. R(x,y) ==> x IN (s *_c s) /\\ y IN s) /\\\n     (forall x. x IN (s *_c s) ==> ?!y. y IN s /\\ R(x,y)) /\\\n     (forall y:A. y IN s ==> ?!x. x IN (s *_c s) /\\ R(x,y))\n     ==> (s = {z | ?p. R(p,z)})
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 a : C, op_lt_us_c(s, t) \226\134\146 op_lt_eq_us_c(op_plus_us_c(s, {a}), t)
+  INFINITE((s : (A) -> Bool)) && SUBSET(s, (k : (A) -> Bool)) && (\226\136\128 x : (A, A), \226\136\128 y : A, (R : (((A, A), A)) -> Bool)((x, y)) \226\134\146 IN(x, op_star_us_c(s, s)) && IN(y, s)) && (\226\136\128 x : (A, A), IN(x, op_star_us_c(s, s)) \226\134\146 existsunique((y : A) => IN(y, s) && R((x, y)))) && (\226\136\128 y : A, IN(y, s) \226\134\146 existsunique((x : (A, A)) => IN(x, op_star_us_c(s, s)) && R((x, y)))) \226\134\146 s == {(z : A) | \226\136\131 p : (A, A), R((p, z))}
   SUBSET((d : (A) -> Bool), DIFF((k : (A) -> Bool), (s : (A) -> Bool)))
   SUBSET((s : (A) -> Bool), (k : (A) -> Bool))
   SUBSET((s : (A) -> Bool), (k : (A) -> Bool))
@@ -7888,17 +7888,17 @@ Library/card quotations (969):
   (s : (A) -> Bool)
   SUBSET((d : (A) -> Bool), DIFF((k : (A) -> Bool), (s : (A) -> Bool)))
   INTER((s : (A) -> Bool), DIFF((k : (A) -> Bool), s)) == {}
-  ((s:A->bool) *_c d) +_c ((d *_c s) UNION (d *_c d))
-  ((s:A->bool) *_c (d:A->bool)) +_c ((d *_c s) +_c (d *_c d))
-  (s:A->bool *_c d) UNION (d *_c s) UNION (d *_c d) =_c d
+  op_plus_us_c(op_star_us_c((s : (A) -> Bool), (d : (A) -> Bool)), UNION(op_star_us_c(d, s), op_star_us_c(d, d)))
+  op_plus_us_c(op_star_us_c((s : (A) -> Bool), (d : (A) -> Bool)), op_plus_us_c(op_star_us_c(d, s), op_star_us_c(d, d)))
+  op_eq_us_c(UNION(op_star_us_c((s : (A) -> Bool), (d : (A) -> Bool)), UNION(op_star_us_c(d, s), op_star_us_c(d, d))), d)
   (d : (A) -> Bool)
   op_lt_eq_us_c((s : (A) -> Bool), DIFF((k : (A) -> Bool), s))
   (s : (A) -> Bool)
   (s : (A) -> Bool)
   op_star_us_c((s : (A) -> Bool), s)
   op_star_us_c(op_plus_us_c((s : (A) -> Bool), s), op_plus_us_c(s, s))
-  ((s:A->bool) +_c (k DIFF s:A->bool)) *_c (s +_c k DIFF s)
-  k = (s:A->bool) UNION (k DIFF s)
+  op_star_us_c(op_plus_us_c((s : (A) -> Bool), DIFF((k : (A) -> Bool), s)), op_plus_us_c(s, DIFF(k, s)))
+  (k : (A) -> Bool) == UNION((s : (A) -> Bool), DIFF(k, s))
   (s : (A) -> Bool)
   DIFF((k : (A) -> Bool), (s : (A) -> Bool))
   INTER((s : (A) -> Bool), DIFF((k : (A) -> Bool), s)) == {}
@@ -7911,37 +7911,37 @@ Library/card quotations (969):
   ((a : Bool) && (b : Bool) \226\134\146 (c : Bool)) == (b \226\134\146 a \226\134\146 c)
   (s : (((A, A), A)) -> Bool)
   (s : (((A, A), A)) -> Bool)
-  (c /\\ d ==> f) /\\ (a /\\ b ==> e)\n      ==> (a /\\ (b /\\ c) /\\ d ==> e /\\ f)
+  ((c : Bool) && (d : Bool) \226\134\146 (f : Bool)) && ((a : Bool) && (b : Bool) \226\134\146 (e : Bool)) \226\134\146 a && (b && c) && d \226\134\146 e && f
   ((a : Bool) \226\134\146 (b : Bool) && (c : Bool)) == ((a \226\134\146 b) && (a \226\134\146 c))
   ((a : Bool) \226\134\146 (b : Bool)) \226\134\146 a == (b && a)
-  P = \\R. INFINITE {z | ?x y. R((x,y),z)} /\\\n              (forall x:A y z. R((x,y),z) ==> x IN k /\\ y IN k /\\ z IN k) /\\\n              (forall x y. (?u v. R((u,v),x)) /\\ (?u v. R((u,v),y))\n                     ==> ?z. R((x,y),z)) /\\\n              (forall x y. (?z. R((x,y),z))\n                     ==> (?u v. R((u,v),x)) /\\ (?u v. R((u,v),y))) /\\\n              (forall x y z1 z2. R((x,y),z1) /\\ R((x,y),z2) ==> (z1 = z2)) /\\\n              (forall x1 y1 x2 y2 z. R((x1,y1),z) /\\ R((x2,y2),z)\n                               ==> (x1 = x2) /\\ (y1 = y2))
+  (P : ((((A, A), A)) -> Bool) -> Bool) == ((R : (((A, A), A)) -> Bool) => INFINITE({(z : A) | \226\136\131 x : A, \226\136\131 y : A, R(((x, y), z))}) && (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, R(((x, y), z)) \226\134\146 IN(x, (k : (A) -> Bool)) && IN(y, k) && IN(z, k)) && (\226\136\128 x : A, \226\136\128 y : A, (\226\136\131 u : A, \226\136\131 v : A, R(((u, v), x))) && (\226\136\131 u : A, \226\136\131 v : A, R(((u, v), y))) \226\134\146 (\226\136\131 z : A, R(((x, y), z)))) && (\226\136\128 x : A, \226\136\128 y : A, (\226\136\131 z : A, R(((x, y), z))) \226\134\146 (\226\136\131 u : A, \226\136\131 v : A, R(((u, v), x))) && (\226\136\131 u : A, \226\136\131 v : A, R(((u, v), y)))) && (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z1 : A, \226\136\128 z2 : A, R(((x, y), z1)) && R(((x, y), z2)) \226\134\146 z1 == z2) && (\226\136\128 x1 : A, \226\136\128 y1 : A, \226\136\128 x2 : A, \226\136\128 y2 : A, \226\136\128 z : A, R(((x1, y1), z)) && R(((x2, y2), z)) \226\134\146 x1 == x2 && y1 == y2))
   (s : (A) -> Bool)
   (P : ((((A, A), A)) -> Bool) -> Bool)
-  P = \\R. ?s. INFINITE(s:A->bool) /\\ s SUBSET k /\\\n                 (forall x y. R(x,y) ==> x IN (s *_c s) /\\ y IN s) /\\\n                 (forall x. x IN (s *_c s) ==> ?!y. y IN s /\\ R(x,y)) /\\\n                 (forall y. y IN s ==> ?!x. x IN (s *_c s) /\\ R(x,y))
+  (P : ((((A, A), A)) -> Bool) -> Bool) == ((R : (((A, A), A)) -> Bool) => \226\136\131 s : (A) -> Bool, INFINITE(s) && SUBSET(s, (k : (A) -> Bool)) && (\226\136\128 x : (A, A), \226\136\128 y : A, R((x, y)) \226\134\146 IN(x, op_star_us_c(s, s)) && IN(y, s)) && (\226\136\128 x : (A, A), IN(x, op_star_us_c(s, s)) \226\134\146 existsunique((y : A) => IN(y, s) && R((x, y)))) && (\226\136\128 y : A, IN(y, s) \226\134\146 existsunique((x : (A, A)) => IN(x, op_star_us_c(s, s)) && R((x, y)))))
   \226\136\128 k : (A) -> Bool, INFINITE(k) \226\134\146 op_eq_us_c(op_star_us_c(k, k), k)
   \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, FINITE(s) && FINITE(t) \226\134\146 FINITE(op_plus_us_c(s, t))
-  forall s:A->bool t:B->bool. FINITE(s +_c t) <=> FINITE s /\\ FINITE t
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(op_plus_us_c(s, t)) == (FINITE(s) && FINITE(t))
   \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, FINITE(s) && FINITE(t) \226\134\146 FINITE(op_star_us_c(s, t))
-  forall s:A->bool t:B->bool.\n        FINITE(s *_c t) <=> s = {} \\/ t = {} \\/ FINITE s /\\ FINITE t
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(op_star_us_c(s, t)) == (s == {} || t == {} || FINITE(s) && FINITE(t))
   op_star_us_c((t : (B) -> Bool), t)
-  forall s:A->bool t:B->bool. INFINITE(t) /\\ s <=_c t ==> s *_c t <=_c t
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, INFINITE(t) && op_lt_eq_us_c(s, t) \226\134\146 op_lt_eq_us_c(op_star_us_c(s, t), t)
   op_star_us_c((s : (A) -> Bool), (u : (C) -> Bool))
-  forall s:A->bool t:B->bool u:C->bool.\n     INFINITE(u) /\\ s <=_c u /\\ t <=_c u ==> s *_c t <=_c u
-  forall(s:A->bool) (t:B->bool) (u:C->bool).\n        (INFINITE s \\/ INFINITE t) /\\ s <=_c u /\\ t <=_c u\n        ==> s *_c t <=_c u
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, INFINITE(u) && op_lt_eq_us_c(s, u) && op_lt_eq_us_c(t, u) \226\134\146 op_lt_eq_us_c(op_star_us_c(s, t), u)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, (INFINITE(s) || INFINITE(t)) && op_lt_eq_us_c(s, u) && op_lt_eq_us_c(t, u) \226\134\146 op_lt_eq_us_c(op_star_us_c(s, t), u)
   op_plus_us_c((t : (B) -> Bool), t)
   op_star_us_c((t : (B) -> Bool), t)
-  forall s:A->bool t:B->bool. INFINITE(t) /\\ s <=_c t ==> s +_c t <=_c t
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, INFINITE(t) && op_lt_eq_us_c(s, t) \226\134\146 op_lt_eq_us_c(op_plus_us_c(s, t), t)
   op_plus_us_c((s : (A) -> Bool), (u : (C) -> Bool))
-  forall s:A->bool t:B->bool u:C->bool.\n     INFINITE(u) /\\ s <=_c u /\\ t <=_c u ==> s +_c t <=_c u
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, INFINITE(u) && op_lt_eq_us_c(s, u) && op_lt_eq_us_c(t, u) \226\134\146 op_lt_eq_us_c(op_plus_us_c(s, t), u)
   (x : B) => ((a : A), x)
   (a : A)
-  forall s:A->bool t:B->bool.\n     INFINITE(t) /\\ ~(s = {}) /\\ s <=_c t ==> s *_c t =_c t
-  forall s:A->bool t:B->bool. INFINITE(t) /\\ s <=_c t ==> s +_c t =_c t
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, INFINITE(t) && !(s == {}) && op_lt_eq_us_c(s, t) \226\134\146 op_eq_us_c(op_star_us_c(s, t), t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, INFINITE(t) && op_lt_eq_us_c(s, t) \226\134\146 op_eq_us_c(op_plus_us_c(s, t), t)
   op_plus_us_c((t : (B) -> Bool), (s : (A) -> Bool))
-  forall s:A->bool t:B->bool. INFINITE(s) /\\ t <=_c s ==> s +_c t =_c s
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, INFINITE(s) && op_lt_eq_us_c(t, s) \226\134\146 op_eq_us_c(op_plus_us_c(s, t), s)
   op_plus_us_c((s : (A) -> Bool), (t : (A) -> Bool))
-  forall s t:A->bool. INFINITE(t) /\\ s <=_c t ==> s UNION t =_c t
-  forall s t:A->bool. INFINITE(s) /\\ t <=_c s ==> s UNION t =_c s
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INFINITE(t) && op_lt_eq_us_c(s, t) \226\134\146 op_eq_us_c(UNION(s, t), t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INFINITE(s) && op_lt_eq_us_c(t, s) \226\134\146 op_eq_us_c(UNION(s, t), s)
   (s : (A) -> Bool)
   FINITE((s : (A) -> Bool))
   (t : (B) -> Bool)
@@ -7949,74 +7949,74 @@ Library/card quotations (969):
   (t : (B) -> Bool)
   (s : (A) -> Bool)
   FINITE(op_plus_us_c((s : (A) -> Bool), (t : (B) -> Bool)))
-  forall s:A->bool t:B->bool u:C->bool.\n        INFINITE u /\\ s <_c u /\\ t <_c u ==> s +_c t <_c u
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, INFINITE(u) && op_lt_us_c(s, u) && op_lt_us_c(t, u) \226\134\146 op_lt_us_c(op_plus_us_c(s, t), u)
   op_plus_us_c(DIFF((s : (A) -> Bool), (t : (A) -> Bool)), t)
   SUBSET((s : (A) -> Bool), UNION(DIFF(s, (t : (A) -> Bool)), t))
-  forall s t:A->bool. INFINITE s /\\ t <_c s ==> s DIFF t =_c s
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INFINITE(s) && op_lt_us_c(t, s) \226\134\146 op_eq_us_c(DIFF(s, t), s)
   (t' : (D) -> Bool)
   (s' : (B) -> Bool)
   op_lt_us_c((t : (C) -> Bool), (t' : (D) -> Bool))
   op_lt_us_c((s : (A) -> Bool), (s' : (B) -> Bool))
   FINITE((s : (A) -> Bool)) && FINITE((t : (C) -> Bool))
   FINITE(op_plus_us_c((s' : (B) -> Bool), (t' : (D) -> Bool)))
-  forall s:A->bool s':B->bool t:C->bool t':D->bool.\n        s <_c s' /\\ t <_c t' ==> s +_c t <_c s' +_c t'
+  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (B) -> Bool, \226\136\128 t : (C) -> Bool, \226\136\128 t' : (D) -> Bool, op_lt_us_c(s, s') && op_lt_us_c(t, t') \226\134\146 op_lt_us_c(op_plus_us_c(s, t), op_plus_us_c(s', t'))
   op_lt_eq_us_c((s : (A) -> Bool), (t : (B) -> Bool))
   op_lt_eq_us_c((s : (A) -> Bool), (u : (C) -> Bool))
   FINITE((t : (B) -> Bool))
   FINITE((s : (A) -> Bool))
   FINITE((u : (C) -> Bool))
-  forall(s:A->bool) (t:B->bool) (u:C->bool).\n        (FINITE s \\/ s <=_c u) /\\\n        s +_c t <=_c s +_c u\n        ==> t <=_c u
-  forall(s:A->bool) (t:B->bool) (u:C->bool).\n        (FINITE s \\/ s <=_c u)\n        ==> (s +_c t <=_c s +_c u <=> t <=_c u)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, (FINITE(s) || op_lt_eq_us_c(s, u)) && op_lt_eq_us_c(op_plus_us_c(s, t), op_plus_us_c(s, u)) \226\134\146 op_lt_eq_us_c(t, u)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, FINITE(s) || op_lt_eq_us_c(s, u) \226\134\146 op_lt_eq_us_c(op_plus_us_c(s, t), op_plus_us_c(s, u)) == op_lt_eq_us_c(t, u)
   op_lt_eq_us_c(op_plus_us_c((s : (_) -> Bool), (u : (_) -> Bool)), op_plus_us_c((t : (_) -> Bool), u)) == op_lt_eq_us_c(op_plus_us_c(u, s), op_plus_us_c(u, t))
-  forall(s:A->bool) (t:B->bool) (u:C->bool).\n        (FINITE u \\/ u <=_c t) /\\\n        s +_c u <=_c t +_c u\n        ==> s <=_c t
-  forall(s:A->bool) (t:B->bool) (u:C->bool).\n        (FINITE u \\/ u <=_c t)\n        ==> (s +_c u <=_c t +_c u <=> s <=_c t)
-  forall(s:A->bool) (t:B->bool) (u:C->bool).\n        (FINITE s \\/ s <=_c t /\\ s <=_c u) /\\\n        s +_c t =_c s +_c u\n        ==> t =_c u
-  forall(s:A->bool) (t:B->bool) (u:C->bool).\n        (FINITE s \\/ s <=_c t /\\ s <=_c u)\n        ==> (s +_c t =_c s +_c u <=> t =_c u)
-  forall(s:A->bool) (t:B->bool) (u:C->bool).\n        (FINITE u \\/ u <=_c s /\\ u <=_c t) /\\\n        s +_c u =_c t +_c u\n        ==> s =_c t
-  forall(s:A->bool) (t:B->bool) (u:C->bool).\n        (FINITE u \\/ u <=_c s /\\ u <=_c t)\n        ==> (s +_c u =_c t +_c u <=> s =_c t)
-  IMAGE (\\(x,y). (g:(A->bool)->C->A) (f x) y)\n          ((k:B->bool) *_c (l:C->bool))
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, (FINITE(u) || op_lt_eq_us_c(u, t)) && op_lt_eq_us_c(op_plus_us_c(s, u), op_plus_us_c(t, u)) \226\134\146 op_lt_eq_us_c(s, t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, FINITE(u) || op_lt_eq_us_c(u, t) \226\134\146 op_lt_eq_us_c(op_plus_us_c(s, u), op_plus_us_c(t, u)) == op_lt_eq_us_c(s, t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, (FINITE(s) || op_lt_eq_us_c(s, t) && op_lt_eq_us_c(s, u)) && op_eq_us_c(op_plus_us_c(s, t), op_plus_us_c(s, u)) \226\134\146 op_eq_us_c(t, u)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, FINITE(s) || op_lt_eq_us_c(s, t) && op_lt_eq_us_c(s, u) \226\134\146 op_eq_us_c(op_plus_us_c(s, t), op_plus_us_c(s, u)) == op_eq_us_c(t, u)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, (FINITE(u) || op_lt_eq_us_c(u, s) && op_lt_eq_us_c(u, t)) && op_eq_us_c(op_plus_us_c(s, u), op_plus_us_c(t, u)) \226\134\146 op_eq_us_c(s, t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, FINITE(u) || op_lt_eq_us_c(u, s) && op_lt_eq_us_c(u, t) \226\134\146 op_eq_us_c(op_plus_us_c(s, u), op_plus_us_c(t, u)) == op_eq_us_c(s, t)
+  IMAGE(fn { (x, y) => (g : ((A) -> Bool, C) -> A)((f : (B, A) -> Bool)(x), y) }, op_star_us_c((k : (B) -> Bool), (l : (C) -> Bool)))
   (g : ((A) -> Bool, C) -> A)
   (f : (B, A) -> Bool)
-  forall u:((A->bool)->bool) k:B->bool l:C->bool.\n     u <=_c k /\\ (forall s. s IN u ==> s <=_c l) ==> UNIONS u <=_c k *_c l
-  forall k:B->bool u:(A->bool)->bool.\n        INFINITE k /\\ u <=_c k /\\ (forall s. s IN u ==> s <=_c k)\n        ==> UNIONS u <=_c k
+  \226\136\128 u : ((A) -> Bool) -> Bool, \226\136\128 k : (B) -> Bool, \226\136\128 l : (C) -> Bool, op_lt_eq_us_c(u, k) && (\226\136\128 s : (A) -> Bool, IN(s, u) \226\134\146 op_lt_eq_us_c(s, l)) \226\134\146 op_lt_eq_us_c(UNIONS(u), op_star_us_c(k, l))
+  \226\136\128 k : (B) -> Bool, \226\136\128 u : ((A) -> Bool) -> Bool, INFINITE(k) && op_lt_eq_us_c(u, k) && (\226\136\128 s : (A) -> Bool, IN(s, u) \226\134\146 op_lt_eq_us_c(s, k)) \226\134\146 op_lt_eq_us_c(UNIONS(u), k)
   fn { (u, y) => (f : ((A) -> Bool, B) -> A)(u, y) }
   (f : ((A) -> Bool, B) -> A)
   DISJOINT((s : (_) -> Bool), (t : (_) -> Bool)) == (\226\136\128 x : _, !(IN(x, s) && IN(x, t)))
-  forall(s:(A->bool)->bool) (t:B->bool).\n        pairwise DISJOINT s /\\ (forall u. u IN s ==> t <=_c u)\n        ==> s *_c t <=_c UNIONS s
-  forall(s:(A->bool)->bool) (t:B->bool).\n        pairwise DISJOINT s /\\ (forall u. u IN s ==> u =_c t)\n        ==> UNIONS s =_c s *_c t
+  \226\136\128 s : ((A) -> Bool) -> Bool, \226\136\128 t : (B) -> Bool, pairwise(DISJOINT, s) && (\226\136\128 u : (A) -> Bool, IN(u, s) \226\134\146 op_lt_eq_us_c(t, u)) \226\134\146 op_lt_eq_us_c(op_star_us_c(s, t), UNIONS(s))
+  \226\136\128 s : ((A) -> Bool) -> Bool, \226\136\128 t : (B) -> Bool, pairwise(DISJOINT, s) && (\226\136\128 u : (A) -> Bool, IN(u, s) \226\134\146 op_eq_us_c(u, t)) \226\134\146 op_eq_us_c(UNIONS(s), op_star_us_c(s, t))
   GABS((f : ((B, C)) -> A) => \226\136\128 y : B, \226\136\128 z : C, GEQ(f((y, z)), (k : (A, C) -> A)((h : (B) -> A)(y), z)))
   (h : (B) -> A)
   \226\136\128 y : B, IN(y, IMAGE((f : (A) -> B), (s : (A) -> Bool))) \226\134\146 (\226\136\131 x : A, IN(x, s) && f(x) == y)
   (k : (A, C) -> A)
-  forall(f:A->B) s (t:C->bool).\n           (forall x. x IN s ==> {z | z IN s /\\ f z = f x} =_c t)\n           ==> IMAGE f s *_c t =_c s
+  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (C) -> Bool, (\226\136\128 x : A, IN(x, s) \226\134\146 op_eq_us_c({(z : A) | IN(z, s) && f(z) == f(x)}, t)) \226\134\146 op_eq_us_c(op_star_us_c(IMAGE(f, s), t), s)
   FINITE((t : (B) -> Bool))
   (t : (B) -> Bool)
   (s : (A) -> Bool)
   INFINITE((s : (A) -> Bool))
-  forall(s:A->bool) s' (t:B->bool) t'.\n        s' SUBSET s /\\ t' SUBSET t /\\\n        s =_c t /\\ s' =_c t' /\\\n        (INFINITE s ==> s' <_c s)\n        ==> s DIFF s' =_c t DIFF t'
+  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 t' : (B) -> Bool, SUBSET(s', s) && SUBSET(t', t) && op_eq_us_c(s, t) && op_eq_us_c(s', t') && (INFINITE(s) \226\134\146 op_lt_us_c(s', s)) \226\134\146 op_eq_us_c(DIFF(s, s'), DIFF(t, t'))
   (y : B) => if IN(y, (t : (B) -> Bool)) { (g : (B) -> A)(y) } else { (g' : (B) -> A)(y) }
   (x : A) => if IN(x, (s : (A) -> Bool)) { (f : (A) -> B)(x) } else { (f' : (A) -> B)(x) }
   (g' : (B) -> A)
   (f' : (A) -> B)
   (g : (B) -> A)
   (f : (A) -> B)
-  forall(s:A->bool) s' (t:B->bool) t'.\n        DISJOINT s s' /\\ DISJOINT t t'\n        ==> (s =_c t /\\ s' =_c t' <=>\n             ?f g. (forall x. x IN s ==> f x IN t /\\ g (f x) = x) /\\\n                   (forall y. y IN t ==> g y IN s /\\ f (g y) = y) /\\\n                   (forall x. x IN s' ==> f x IN t' /\\ g (f x) = x) /\\\n                   (forall y. y IN t' ==> g y IN s' /\\ f (g y) = y))
+  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 t' : (B) -> Bool, DISJOINT(s, s') && DISJOINT(t, t') \226\134\146 (op_eq_us_c(s, t) && op_eq_us_c(s', t')) == (\226\136\131 f : (A) -> B, \226\136\131 g : (B) -> A, (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t) && g(f(x)) == x) && (\226\136\128 y : B, IN(y, t) \226\134\146 IN(g(y), s) && f(g(y)) == y) && (\226\136\128 x : A, IN(x, s') \226\134\146 IN(f(x), t') && g(f(x)) == x) && (\226\136\128 y : B, IN(y, t') \226\134\146 IN(g(y), s') && f(g(y)) == y))
   DISJOINT((t : (_) -> Bool), DIFF((s : (_) -> Bool), t))
-  forall(s:A->bool) s' (t:B->bool) t'.\n        s' SUBSET s /\\ t' SUBSET t\n        ==> (s' =_c t' /\\ s DIFF s' =_c t DIFF t' <=>\n             ?f g. (forall x. x IN s ==> f x IN t /\\ g (f x) = x) /\\\n                   (forall y. y IN t ==> g y IN s /\\ f (g y) = y) /\\\n                   IMAGE f s' = t' /\\ IMAGE g t' = s')
-  forall(s:A->bool) s' (t:B->bool) t'.\n        s' SUBSET s /\\ t' SUBSET t /\\ (INFINITE s ==> s' <_c s)\n        ==> (s =_c t /\\ s' =_c t' <=>\n             ?f g. (forall x. x IN s ==> f x IN t /\\ g (f x) = x) /\\\n                   (forall y. y IN t ==> g y IN s /\\ f (g y) = y) /\\\n                   IMAGE f s' = t' /\\ IMAGE g t' = s')
+  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 t' : (B) -> Bool, SUBSET(s', s) && SUBSET(t', t) \226\134\146 (op_eq_us_c(s', t') && op_eq_us_c(DIFF(s, s'), DIFF(t, t'))) == (\226\136\131 f : (A) -> B, \226\136\131 g : (B) -> A, (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t) && g(f(x)) == x) && (\226\136\128 y : B, IN(y, t) \226\134\146 IN(g(y), s) && f(g(y)) == y) && IMAGE(f, s') == t' && IMAGE(g, t') == s')
+  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 t' : (B) -> Bool, SUBSET(s', s) && SUBSET(t', t) && (INFINITE(s) \226\134\146 op_lt_us_c(s', s)) \226\134\146 (op_eq_us_c(s, t) && op_eq_us_c(s', t')) == (\226\136\131 f : (A) -> B, \226\136\131 g : (B) -> A, (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t) && g(f(x)) == x) && (\226\136\128 y : B, IN(y, t) \226\134\146 IN(g(y), s) && f(g(y)) == y) && IMAGE(f, s') == t' && IMAGE(g, t') == s')
   (y : B) => if IN(y, (t : (B) -> Bool)) { (g : (B) -> A)(y) } else { (g' : (B) -> A)(y) }
   (x : A) => if IN(x, (s : (A) -> Bool)) { (f : (A) -> B)(x) } else { (f' : (A) -> B)(x) }
   (g' : (B) -> A)
   (f' : (A) -> B)
-  forall(f:A->B) g (s:A->bool) s' (t:B->bool) t'.\n        s SUBSET s' /\\ t SUBSET t' /\\ s' DIFF s =_c t' DIFF t /\\\n        (forall x. x IN s ==> f x IN t /\\ g (f x) = x) /\\\n        (forall y. y IN t ==> g y IN s /\\ f (g y) = y)\n        ==> ?f' g'. (forall x. x IN s' ==> f' x IN t' /\\ g' (f' x) = x) /\\\n                    (forall y. y IN t' ==> g' y IN s' /\\ f' (g' y) = y) /\\\n                    (forall x. x IN s ==> f' x = f x) /\\\n                    (forall y. y IN t ==> g' y = g y)
+  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> A, \226\136\128 s : (A) -> Bool, \226\136\128 s' : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 t' : (B) -> Bool, SUBSET(s, s') && SUBSET(t, t') && op_eq_us_c(DIFF(s', s), DIFF(t', t)) && (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t) && g(f(x)) == x) && (\226\136\128 y : B, IN(y, t) \226\134\146 IN(g(y), s) && f(g(y)) == y) \226\134\146 (\226\136\131 f' : (A) -> B, \226\136\131 g' : (B) -> A, (\226\136\128 x : A, IN(x, s') \226\134\146 IN(f'(x), t') && g'(f'(x)) == x) && (\226\136\128 y : B, IN(y, t') \226\134\146 IN(g'(y), s') && f'(g'(y)) == y) && (\226\136\128 x : A, IN(x, s) \226\134\146 f'(x) == f(x)) && (\226\136\128 y : B, IN(y, t) \226\134\146 g'(y) == g(y)))
   (f : (A) -> A)
-  forall f s t:A->bool.\n        (forall x. x IN s ==> f x IN t) /\\ (forall x. x IN t ==> f x IN s) /\\\n        (forall x. x IN s \\/ x IN t ==> f(f x) = x)\n        ==> s =_c t
+  \226\136\128 f : (A) -> A, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t)) && (\226\136\128 x : A, IN(x, t) \226\134\146 IN(f(x), s)) && (\226\136\128 x : A, IN(x, s) || IN(x, t) \226\134\146 f(f(x)) == x) \226\134\146 op_eq_us_c(s, t)
   FINITE((t : (B) -> Bool))
-  forall s t:B->bool u. s <=_c t /\\ t <_c u /\\ INFINITE u ==> s *_c t <_c u
+  \226\136\128 s : (_) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (_) -> Bool, op_lt_eq_us_c(s, t) && op_lt_us_c(t, u) && INFINITE(u) \226\134\146 op_lt_us_c(op_star_us_c(s, t), u)
   op_star_us_c((t : (B) -> Bool), (s : (A) -> Bool))
   (t : (B) -> Bool)
   (s : (A) -> Bool)
-  forall s:A->bool t:B->bool u. s <_c u /\\ t <_c u /\\ INFINITE u ==> s *_c t <_c u
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (_) -> Bool, op_lt_us_c(s, u) && op_lt_us_c(t, u) && INFINITE(u) \226\134\146 op_lt_us_c(op_star_us_c(s, t), u)
   (x : A) => (s : (A) -> Bool)(x) && !(g : (A, A) -> Bool)(x, x)
   (g : (A, A) -> Bool)
   (op_eq : (A, A) -> Bool)
@@ -8027,32 +8027,32 @@ Library/card quotations (969):
   \226\136\128 s : (_) -> Bool, (COUNTABLE : ((_) -> Bool) -> Bool)(s) == (op_lt_eq_us_c : ((_) -> Bool, (Num) -> Bool) -> Bool)(s, (UNIV : (Num) -> Bool))
   \226\136\128 s : (_) -> Bool, (COUNTABLE : ((_) -> Bool) -> Bool)(s) == ((FINITE : ((_) -> Bool) -> Bool)(s) || (op_eq_us_c : ((_) -> Bool, (Num) -> Bool) -> Bool)(s, (UNIV : (Num) -> Bool)))
   (t : (A) -> Bool)
-  forall s t:A->bool. COUNTABLE t /\\ s <=_c t ==> COUNTABLE s
-  forall s t:A->bool. COUNTABLE t /\\ s =_c t ==> COUNTABLE s
+  \226\136\128 s : (_) -> Bool, \226\136\128 t : (A) -> Bool, COUNTABLE(t) && op_lt_eq_us_c(s, t) \226\134\146 COUNTABLE(s)
+  \226\136\128 s : (_) -> Bool, \226\136\128 t : (A) -> Bool, COUNTABLE(t) && op_eq_us_c(s, t) \226\134\146 COUNTABLE(s)
   \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, op_eq_us_c(s, t) \226\134\146 COUNTABLE(s) == COUNTABLE(t)
   (t : (A) -> Bool)
-  forall s t:A->bool. COUNTABLE t /\\ s SUBSET t ==> COUNTABLE s
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, COUNTABLE(t) && SUBSET(s, t) \226\134\146 COUNTABLE(s)
   \226\136\128 s : (_) -> Bool, \226\136\128 P : (_) -> Bool, COUNTABLE(s) \226\134\146 COUNTABLE({(x : _) | IN(x, s) && P(x)})
   \226\136\128 s : (Num) -> Bool, COUNTABLE(s)
   \226\136\128 s : (_) -> Bool, FINITE(s) \226\134\146 COUNTABLE(s)
-  forall(s:A->bool) (t:B->bool). COUNTABLE s /\\ INFINITE t ==> s <=_c t
-  forall(s:A->bool) (t:B->bool).\n        COUNTABLE s /\\ ~COUNTABLE t ==> s <_c t
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, COUNTABLE(s) && INFINITE(t) \226\134\146 op_lt_eq_us_c(s, t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, COUNTABLE(s) && !COUNTABLE(t) \226\134\146 op_lt_us_c(s, t)
   (s : (A) -> Bool)
   \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, COUNTABLE(s) \226\134\146 COUNTABLE(IMAGE(f, s))
   IMAGE((g : (B) -> A), (A : (B) -> Bool))
   (g : (B) -> A)
-  forall(f:A->B) A s.\n        (forall x y. x IN s /\\ y IN s /\\ f(x) = f(y) ==> x = y) /\\\n        COUNTABLE A\n        ==> COUNTABLE {x | x IN s /\\ f(x) IN A}
-  forall(f:A->B) s.\n        (forall x y. x IN s /\\ y IN s /\\ (f(x) = f(y)) ==> (x = y))\n        ==> (COUNTABLE(IMAGE f s) <=> COUNTABLE s)
+  \226\136\128 f : (A) -> B, \226\136\128 A : (B) -> Bool, \226\136\128 s : (A) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) && COUNTABLE(A) \226\134\146 COUNTABLE({(x : A) | IN(x, s) && IN(f(x), A)})
+  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) \226\134\146 COUNTABLE(IMAGE(f, s)) == COUNTABLE(s)
   (UNIV : (A) -> Bool)
   (A : (B) -> Bool)
   (f : (A) -> B)
-  forall(f:A->B) A.\n        (forall x y. (f(x) = f(y)) ==> (x = y)) /\\\n         COUNTABLE A\n         ==> COUNTABLE {x | f(x) IN A}
+  \226\136\128 f : (A) -> B, \226\136\128 A : (B) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, f(x) == f(y) \226\134\146 x == y) && COUNTABLE(A) \226\134\146 COUNTABLE({(x : A) | IN(f(x), A)})
   (COUNTABLE : ((_) -> Bool) -> Bool)(({} : (_) -> Bool))
-  (a \\/ b ==> c) <=> (a ==> c) /\\ (b ==> c)
-  forall s t. COUNTABLE s \\/ COUNTABLE t ==> COUNTABLE (s INTER t)
+  ((a : Bool) || (b : Bool) \226\134\146 (c : Bool)) == ((a \226\134\146 c) && (b \226\134\146 c))
+  \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, COUNTABLE(s) || COUNTABLE(t) \226\134\146 COUNTABLE(INTER(s, t))
   op_plus_us_c((s : (A) -> Bool), (t : (A) -> Bool))
-  forall s t:A->bool. COUNTABLE s /\\ COUNTABLE t ==> COUNTABLE(s UNION t)
-  forall s t:A->bool. COUNTABLE(s UNION t) <=> COUNTABLE s /\\ COUNTABLE t
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, COUNTABLE(s) && COUNTABLE(t) \226\134\146 COUNTABLE(UNION(s, t))
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, COUNTABLE(UNION(s, t)) == (COUNTABLE(s) && COUNTABLE(t))
   \226\136\128 x : _, COUNTABLE({x})
   INSERT((x : _), (s : (_) -> Bool)) == UNION({x}, s)
   \226\136\128 x : _, \226\136\128 s : (_) -> Bool, COUNTABLE(INSERT(x, s)) == COUNTABLE(s)
@@ -8061,45 +8061,45 @@ Library/card quotations (969):
   IN((x : A), (s : (A) -> Bool))
   \226\136\128 x : A, \226\136\128 s : (A) -> Bool, COUNTABLE(DELETE(s, x)) == COUNTABLE(s)
   DIFF((s : (_) -> Bool), INSERT((x : _), (t : (_) -> Bool))) == DELETE(DIFF(s, t), x)
-  forall s t. FINITE s ==> (COUNTABLE(t DIFF s) <=> COUNTABLE t)
+  \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, FINITE(s) \226\134\146 COUNTABLE(DIFF(t, s)) == COUNTABLE(t)
   SUBSET(DIFF((s : (_) -> Bool), (t : (_) -> Bool)), s)
   \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, COUNTABLE(s) \226\134\146 COUNTABLE(DIFF(s, t))
-  forall s t. COUNTABLE s /\\ COUNTABLE t ==> COUNTABLE(s CROSS t)
+  \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, COUNTABLE(s) && COUNTABLE(t) \226\134\146 COUNTABLE(CROSS(s, t))
   \226\136\128 s : (_) -> Bool, COUNTABLE(s) \226\134\146 (\226\136\131 f : (Num) -> _, SUBSET(s, IMAGE(f, UNIV)))
-  forall s:A->bool. COUNTABLE s <=> ?f. s SUBSET (IMAGE f (:num))
+  \226\136\128 s : (A) -> Bool, COUNTABLE(s) == (\226\136\131 f : (Num) -> A, SUBSET(s, IMAGE(f, UNIV)))
   (n : Num) => if IN((f : (Num) -> A)(n), (s : (A) -> Bool)) { f(n) } else { (a : A) }
   (f : (Num) -> A)
   (a : A)
-  forall s:A->bool. COUNTABLE s /\\ ~(s = {}) ==> ?f. s = IMAGE f (:num)
-  (forall d. COUNTABLE d ==> P d) <=> P {} /\\ (forall f. P(IMAGE f (:num)))
-  forall s. COUNTABLE s /\\ INFINITE s\n       ==> ?f. s = IMAGE f (:num) /\\ (forall m n. f(m) = f(n) ==> m = n)
+  \226\136\128 s : (A) -> Bool, COUNTABLE(s) && !(s == {}) \226\134\146 (\226\136\131 f : (Num) -> A, s == IMAGE(f, UNIV))
+  (\226\136\128 d : (_) -> Bool, COUNTABLE(d) \226\134\146 (P : ((_) -> Bool) -> Bool)(d)) == (P({}) && (\226\136\128 f : (Num) -> _, P(IMAGE(f, UNIV))))
+  \226\136\128 s : (_) -> Bool, COUNTABLE(s) && INFINITE(s) \226\134\146 (\226\136\131 f : (Num) -> _, s == IMAGE(f, UNIV) && (\226\136\128 m : Num, \226\136\128 n : Num, f(m) == f(n) \226\134\146 m == n))
   FINITE((s : (A) -> Bool))
-  (r ==> q) /\\ (q ==> p) /\\ (p ==> r) ==> (p <=> q) /\\ (p <=> r)
+  ((r : Bool) \226\134\146 (q : Bool)) && (q \226\134\146 (p : Bool)) && (p \226\134\146 r) \226\134\146 p == q && p == r
   (s : (A) -> Bool)
-  (forall s. COUNTABLE s <=> ?(f:num->A) k. s = IMAGE f k) /\\\n   (forall s. COUNTABLE s <=>\n       ?(f:num->A) k. s = IMAGE f k /\\\n                      (forall m n. m IN k /\\ n IN k /\\ f m = f n ==> m = n))
-  forall A:(A->bool)->bool.\n        COUNTABLE A /\\ (forall s. s IN A ==> COUNTABLE s)\n        ==> COUNTABLE (UNIONS A)
-  IMAGE (\\(m,n). (f:num->A) m,(g:A->num->B)(f m) n)\n                    ((:num) CROSS (:num))
+  (\226\136\128 s : (A) -> Bool, COUNTABLE(s) == (\226\136\131 f : (Num) -> A, \226\136\131 k : (Num) -> Bool, s == IMAGE(f, k))) && (\226\136\128 s : (A) -> Bool, COUNTABLE(s) == (\226\136\131 f : (Num) -> A, \226\136\131 k : (Num) -> Bool, s == IMAGE(f, k) && (\226\136\128 m : Num, \226\136\128 n : Num, IN(m, k) && IN(n, k) && f(m) == f(n) \226\134\146 m == n)))
+  \226\136\128 A : ((A) -> Bool) -> Bool, COUNTABLE(A) && (\226\136\128 s : (A) -> Bool, IN(s, A) \226\134\146 COUNTABLE(s)) \226\134\146 COUNTABLE(UNIONS(A))
+  IMAGE(fn { (m, n) => ((f : (Num) -> A)(m), (g : (A, Num) -> B)(f(m), n)) }, CROSS(UNIV, UNIV))
   (g : (A, Num) -> B)
   (f : (Num) -> A)
-  {(f:A->B->C) x y | x IN s /\\ y IN (t x)} =\n                IMAGE (\\(x,y). f x y) {(x,y) | x IN s /\\ y IN (t x)}
-  forall f:A->B->C s t.\n        COUNTABLE s /\\ (forall x. x IN s ==> COUNTABLE(t x))\n        ==> COUNTABLE {f x y | x IN s /\\ y IN (t x)}
+  {(f : (A, B) -> C)((x : A), (y : B)) | IN(x, (s : (A) -> Bool)) && IN(y, (t : (A, B) -> Bool)(x))} == IMAGE(fn { (x, y) => f(x, y) }, {((x : A), (y : B)) | IN(x, s) && IN(y, t(x))})
+  \226\136\128 f : (A, B) -> C, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A, B) -> Bool, COUNTABLE(s) && (\226\136\128 x : A, IN(x, s) \226\134\146 COUNTABLE(t(x))) \226\134\146 COUNTABLE({f((x : A), (y : B)) | IN(x, s) && IN(y, t(x))})
   (op_plus_us_c : ((Num) -> Bool, (Num) -> Bool, Sum[Num, Num]) -> Bool)((UNIV : (Num) -> Bool), (UNIV : (Num) -> Bool))
-  forall s:A->bool t:B->bool. COUNTABLE s /\\ COUNTABLE t ==> COUNTABLE(s +_c t)
-  forall s:A->bool t:B->bool. COUNTABLE(s +_c t) <=> COUNTABLE s /\\ COUNTABLE t
-  forall s:A->bool t:B->bool. COUNTABLE s /\\ COUNTABLE t ==> COUNTABLE(s *_c t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, COUNTABLE(s) && COUNTABLE(t) \226\134\146 COUNTABLE(op_plus_us_c(s, t))
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, COUNTABLE(op_plus_us_c(s, t)) == (COUNTABLE(s) && COUNTABLE(t))
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, COUNTABLE(s) && COUNTABLE(t) \226\134\146 COUNTABLE(op_star_us_c(s, t))
   IMAGE(SND, op_star_us_c((s : (A) -> Bool), (t : (B) -> Bool)))
   IMAGE(FST, op_star_us_c((s : (A) -> Bool), (t : (B) -> Bool)))
   {((x : _), (y : _)) | false} == {}
   (t : (B) -> Bool) == {}
   (s : (A) -> Bool) == {}
-  forall s:A->bool t:B->bool.\n        COUNTABLE(s *_c t) <=> s = {} \\/ t = {} \\/ COUNTABLE s /\\ COUNTABLE t
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, COUNTABLE(op_star_us_c(s, t)) == (s == {} || t == {} || COUNTABLE(s) && COUNTABLE(t))
   GABS((f : ((Cart[A, M], Cart[A, N])) -> Cart[A, Finite_sum[M, N]]) => \226\136\128 x : Cart[A, M], \226\136\128 y : Cart[A, N], GEQ(f((x, y)), pastecart(x, y)))
   (z : Cart[A, Finite_sum[M, N]]) => (fstcart(z), sndcart(z))
   \226\136\128 s : (Cart[A, M]) -> Bool, \226\136\128 t : (Cart[A, N]) -> Bool, op_eq_us_c(PCROSS(s, t), op_star_us_c(s, t))
   COUNTABLE(op_star_us_c((s : (Cart[A, M]) -> Bool), (t : (Cart[A, N]) -> Bool)))
-  forall s:A^M->bool t:A^N->bool.\n        COUNTABLE(s PCROSS t) <=>\n        s = {} \\/ t = {} \\/ COUNTABLE s /\\ COUNTABLE t
-  forall s:A^M->bool t:A^N->bool.\n        COUNTABLE s /\\ COUNTABLE t ==> COUNTABLE(s PCROSS t)
-  IMAGE (\\n. (&n:int)) (:num) UNION IMAGE (\\n. --(&n)) (:num)
+  \226\136\128 s : (Cart[A, M]) -> Bool, \226\136\128 t : (Cart[A, N]) -> Bool, COUNTABLE(PCROSS(s, t)) == (s == {} || t == {} || COUNTABLE(s) && COUNTABLE(t))
+  \226\136\128 s : (Cart[A, M]) -> Bool, \226\136\128 t : (Cart[A, N]) -> Bool, COUNTABLE(s) && COUNTABLE(t) \226\134\146 COUNTABLE(PCROSS(s, t))
+  UNION(IMAGE((n : Num) => int_of_num(n), UNIV), IMAGE((n : Num) => -int_of_num(n), UNIV))
   (COUNTABLE : ((Int) -> Bool) -> Bool)((UNIV : (Int) -> Bool))
   int_of_num
   (op_eq_us_c : ((Int) -> Bool, (Num) -> Bool) -> Bool)((UNIV : (Int) -> Bool), (UNIV : (Num) -> Bool))
@@ -8112,28 +8112,28 @@ Library/card quotations (969):
   (v : Cart[A, N])
   SUC((n : Num)) <= (m : Num) \226\134\146 n <= m
   1 <= SUC((n : Num))
-  IMAGE (\\(x:A,v:A^N). (lambda i. if i = SUC n then x else v$i):A^N)\n          {x,v | x IN {x:A | P (SUC n) x} /\\\n                 v IN {v:A^N | (forall i. 1 <= i /\\ i <= dimindex(:N) /\\ i <= n\n                                ==> P i (v$i)) /\\\n                           (forall i. 1 <= i /\\ i <= dimindex (:N) /\\ n < i\n                                ==> v$i = (@x. F))}}
-  {v | forall i. 1 <= i /\\ i <= dimindex (:N) ==> v$i = (@x. F)} =\n      {(lambda i. @x. F):A^N}
+  (IMAGE : (((A, Cart[A, N])) -> Cart[A, N], ((A, Cart[A, N])) -> Bool, Cart[A, N]) -> Bool)(fn { ((x : A), (v : Cart[A, N])) => (lambda : ((Num) -> A) -> Cart[A, N])((i : Num) => if i == SUC((n : Num)) { x } else { (op_dollar : (Cart[A, N], Num) -> A)(v, i) }) }, {((x : A), (v : Cart[A, N])) | (IN : (A, (A) -> Bool) -> Bool)(x, {(x : A) | (P : (Num, A) -> Bool)(SUC(n), x)}) && (IN : (Cart[A, N], (Cart[A, N]) -> Bool) -> Bool)(v, {(v : Cart[A, N]) | (\226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && i <= n \226\134\146 P(i, (op_dollar : (Cart[A, N], Num) -> A)(v, i))) && (\226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && n < i \226\134\146 (op_dollar : (Cart[A, N], Num) -> A)(v, i) == (select : ((A) -> Bool) -> A)((x : A) => false))})})
+  {(v : Cart[A, N]) | \226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (op_dollar : (Cart[A, N], Num) -> A)(v, i) == (select : ((A) -> Bool) -> A)((x : A) => false)} == {(lambda : ((Num) -> A) -> Cart[A, N])((i : Num) => (select : ((A) -> Bool) -> A)((x : A) => false))}
   (1 <= (i : Num) && i <= (n : Num) && 0 < i) == (1 <= i && i <= n)
   (1 <= (i : Num) && i <= (n : Num) && i <= 0) == false
   (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))
-  forall n. n <= dimindex(:N)\n        ==> COUNTABLE {v:A^N | (forall i. 1 <= i /\\ i <= dimindex(:N) /\\ i <= n\n                                 ==> P i (v$i)) /\\\n                            (forall i. 1 <= i /\\ i <= dimindex(:N) /\\ n < i\n                                 ==> v$i = @x. F)}
-  forall P. (forall i. 1 <= i /\\ i <= dimindex(:N) ==> COUNTABLE {x | P i x})\n       ==> COUNTABLE {v:A^N | forall i. 1 <= i /\\ i <= dimindex(:N) ==> P i (v$i)}
+  \226\136\128 n : Num, n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (COUNTABLE : ((Cart[A, N]) -> Bool) -> Bool)({(v : Cart[A, N]) | (\226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && i <= n \226\134\146 (P : (Num, A) -> Bool)(i, (op_dollar : (Cart[A, N], Num) -> A)(v, i))) && (\226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && n < i \226\134\146 (op_dollar : (Cart[A, N], Num) -> A)(v, i) == (select : ((A) -> Bool) -> A)((x : A) => false))})
+  \226\136\128 P : (Num, A) -> Bool, (\226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (COUNTABLE : ((A) -> Bool) -> Bool)({(x : A) | P(i, x)})) \226\134\146 (COUNTABLE : ((Cart[A, N]) -> Bool) -> Bool)({(v : Cart[A, N]) | \226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 P(i, (op_dollar : (Cart[A, N], Num) -> A)(v, i))})
   ((p : Bool) && (q : Bool) && (r : Bool)) == (q && p && r)
-  forall P f s.\n    (?t. COUNTABLE t /\\ t SUBSET IMAGE f s /\\ P t) <=>\n    (?t. COUNTABLE t /\\ t SUBSET s /\\\n         (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y)) /\\\n         P (IMAGE f t))
+  \226\136\128 P : ((_) -> Bool) -> Bool, \226\136\128 f : (_) -> _, \226\136\128 s : (_) -> Bool, (\226\136\131 t : (_) -> Bool, COUNTABLE(t) && SUBSET(t, IMAGE(f, s)) && P(t)) == (\226\136\131 t : (_) -> Bool, COUNTABLE(t) && SUBSET(t, s) && (\226\136\128 x : _, \226\136\128 y : _, IN(x, t) && IN(y, t) \226\134\146 (f(x) == f(y)) == (x == y)) && P(IMAGE(f, t)))
   (\226\136\128 t : _, (p : (_) -> Bool)(t)) == !(\226\136\131 t : _, !p(t))
-  forall P f s. (forall t. COUNTABLE t /\\ t SUBSET IMAGE f s ==> P t) <=>\n           (forall t. COUNTABLE t /\\ t SUBSET s /\\\n                (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y))\n                 ==> P(IMAGE f t))
-  forall P f s.\n    (?t. COUNTABLE t /\\ t SUBSET IMAGE f s /\\ P t) <=>\n    (?t. COUNTABLE t /\\ t SUBSET s /\\ P (IMAGE f t))
+  \226\136\128 P : ((_) -> Bool) -> Bool, \226\136\128 f : (_) -> _, \226\136\128 s : (_) -> Bool, (\226\136\128 t : (_) -> Bool, COUNTABLE(t) && SUBSET(t, IMAGE(f, s)) \226\134\146 P(t)) == (\226\136\128 t : (_) -> Bool, COUNTABLE(t) && SUBSET(t, s) && (\226\136\128 x : _, \226\136\128 y : _, IN(x, t) && IN(y, t) \226\134\146 (f(x) == f(y)) == (x == y)) \226\134\146 P(IMAGE(f, t)))
+  \226\136\128 P : ((_) -> Bool) -> Bool, \226\136\128 f : (_) -> _, \226\136\128 s : (_) -> Bool, (\226\136\131 t : (_) -> Bool, COUNTABLE(t) && SUBSET(t, IMAGE(f, s)) && P(t)) == (\226\136\131 t : (_) -> Bool, COUNTABLE(t) && SUBSET(t, s) && P(IMAGE(f, t)))
   (\226\136\128 x : _, (P : (_) -> Bool)(x)) == !(\226\136\131 x : _, !P(x))
-  forall P f s. (forall t. COUNTABLE t /\\ t SUBSET IMAGE f s ==> P t) <=>\n           (forall t. COUNTABLE t /\\ t SUBSET s ==> P(IMAGE f t))
+  \226\136\128 P : ((_) -> Bool) -> Bool, \226\136\128 f : (_) -> _, \226\136\128 s : (_) -> Bool, (\226\136\128 t : (_) -> Bool, COUNTABLE(t) && SUBSET(t, IMAGE(f, s)) \226\134\146 P(t)) == (\226\136\128 t : (_) -> Bool, COUNTABLE(t) && SUBSET(t, s) \226\134\146 P(IMAGE(f, t)))
   (t : (B) -> Bool)
   (t : (B) -> Bool)
-  forall f:A->B s t.\n        COUNTABLE(t) /\\ t SUBSET (IMAGE f s) <=>\n        ?s'. COUNTABLE s' /\\ s' SUBSET s /\\ (t = IMAGE f s')
-  forall(f:A->B) s. COUNTABLE(IMAGE f s) <=>\n                ?t. COUNTABLE t /\\ t SUBSET s /\\ IMAGE f s = IMAGE f t
+  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (COUNTABLE(t) && SUBSET(t, IMAGE(f, s))) == (\226\136\131 s' : (A) -> Bool, COUNTABLE(s') && SUBSET(s', s) && t == IMAGE(f, s'))
+  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, COUNTABLE(IMAGE(f, s)) == (\226\136\131 t : (A) -> Bool, COUNTABLE(t) && SUBSET(t, s) && IMAGE(f, s) == IMAGE(f, t))
   (s : (A) -> Bool)
   IMAGE((f : (A) -> B), (s : (A) -> Bool))
   (f : (A) -> B)
-  forall(f:A->B) s. COUNTABLE(IMAGE f s) <=>\n                ?t. COUNTABLE t /\\ t SUBSET s /\\ IMAGE f s = IMAGE f t /\\\n                    (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y))
+  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, COUNTABLE(IMAGE(f, s)) == (\226\136\131 t : (A) -> Bool, COUNTABLE(t) && SUBSET(t, s) && IMAGE(f, s) == IMAGE(f, t) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, t) && IN(y, t) \226\134\146 (f(x) == f(y)) == (x == y)))
   op_bslash_slash
   op_bslash_slash
   op_bslash_slash
@@ -8172,95 +8172,95 @@ Library/card quotations (969):
   op_tilde
   op_bslash_slash
   false
-  forall l:A->A->bool. COUNTABLE(fld l) <=> COUNTABLE {(x,y) | l x y}
+  \226\136\128 l : (A, A) -> Bool, COUNTABLE(fld(l)) == COUNTABLE({((x : A), (y : A)) | l(x, y)})
   (SND : ((A, A)) -> A)
   (FST : ((A, A)) -> A)
   \226\136\128 P : ((A) -> Bool) -> Bool, UNION_OF(COUNTABLE, P, {})
-  forall P:(A->bool)->bool. (COUNTABLE INTERSECTION_OF P) UNIV
+  \226\136\128 P : ((A) -> Bool) -> Bool, INTERSECTION_OF(COUNTABLE, P, UNIV)
   \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, P(s) \226\134\146 UNION_OF(COUNTABLE, P, s)
-  forall P s:A->bool. P s ==> (COUNTABLE INTERSECTION_OF P) s
+  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, P(s) \226\134\146 INTERSECTION_OF(COUNTABLE, P, s)
   {(f : (_) -> _)((y : _)) | IN(y, IMAGE((g : (_) -> _), (s : (_) -> Bool)))} == IMAGE((x : _) => f(g(x)), s)
   IMAGE((c : (A) -> Bool) => DIFF(UNIV, c), (u : ((A) -> Bool) -> Bool))
   (u : ((A) -> Bool) -> Bool)
-  forall P s. (COUNTABLE UNION_OF P) s <=>\n         (COUNTABLE INTERSECTION_OF (\\s. P((:A) DIFF s))) ((:A) DIFF s)
-  forall P s. (COUNTABLE INTERSECTION_OF P) s <=>\n         (COUNTABLE UNION_OF (\\s. P((:A) DIFF s))) ((:A) DIFF s)
+  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, UNION_OF(COUNTABLE, P, s) == INTERSECTION_OF(COUNTABLE, (s : (A) -> Bool) => P(DIFF(UNIV, s)), DIFF(UNIV, s))
+  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, INTERSECTION_OF(COUNTABLE, P, s) == UNION_OF(COUNTABLE, (s : (A) -> Bool) => P(DIFF(UNIV, s)), DIFF(UNIV, s))
   {(t : (Num, A) -> Bool)((n : Num)) | IN(n, UNIV)}
   (t : (Num, A) -> Bool)
   (u : ((A) -> Bool) -> Bool)
   (n : Num) => ({} : (A) -> Bool)
   (u : ((A) -> Bool) -> Bool) == {}
   (u : ((A) -> Bool) -> Bool)
-  forall P s:A->bool.\n        P {}\n        ==> ((COUNTABLE UNION_OF P) s <=>\n             ?t. (forall n. P(t n)) /\\ UNIONS {t n | n IN (:num)} = s)
+  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, P({}) \226\134\146 UNION_OF(COUNTABLE, P, s) == (\226\136\131 t : (Num, A) -> Bool, (\226\136\128 n : Num, P(t(n))) && UNIONS({t((n : Num)) | IN(n, UNIV)}) == s)
   {(f : (_) -> _)((x : _)) | x == (a : _)} == {f(a)}
-  {f x | P x \\/ Q x} = {f x | P x} UNION {f x | Q x}
+  {(f : (_) -> _)((x : _)) | (P : (_) -> Bool)(x) || (Q : (_) -> Bool)(x)} == UNION({f((x : _)) | P(x)}, {f((x : _)) | Q(x)})
   (n : Num) => UNIONS({(t : (Num, A) -> Bool)((m : Num)) | m <= n})
   (t : (Num, A) -> Bool)
-  forall P s:A->bool.\n        P {} /\\ (forall t u. P t /\\ P u ==> P(t UNION u))\n        ==> ((COUNTABLE UNION_OF P) s <=>\n             ?t. (forall n. P(t n)) /\\\n                 (forall n. t n SUBSET t(SUC n)) /\\\n                 UNIONS {t n | n IN (:num)} = s)
-  IMAGE SND {s,t | s IN u /\\ t IN (f:(A->bool)->(A->bool)->bool) s}
+  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, P({}) && (\226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, P(t) && P(u) \226\134\146 P(UNION(t, u))) \226\134\146 UNION_OF(COUNTABLE, P, s) == (\226\136\131 t : (Num, A) -> Bool, (\226\136\128 n : Num, P(t(n))) && (\226\136\128 n : Num, SUBSET(t(n), t(SUC(n)))) && UNIONS({t((n : Num)) | IN(n, UNIV)}) == s)
+  IMAGE(SND, {((s : (A) -> Bool), (t : (A) -> Bool)) | IN(s, (u : ((A) -> Bool) -> Bool)) && IN(t, (f : ((A) -> Bool, (A) -> Bool) -> Bool)(s))})
   (f : ((A) -> Bool, (A) -> Bool) -> Bool)
   (u : ((A) -> Bool) -> Bool)
   (s : (A) -> Bool)
-  forall P:(A->bool)->bool.\n        COUNTABLE UNION_OF COUNTABLE UNION_OF P = COUNTABLE UNION_OF P
-  forall P:(A->bool)->bool.\n        COUNTABLE INTERSECTION_OF COUNTABLE INTERSECTION_OF P =\n        COUNTABLE INTERSECTION_OF P
+  \226\136\128 P : ((A) -> Bool) -> Bool, UNION_OF(COUNTABLE, UNION_OF(COUNTABLE, P)) == UNION_OF(COUNTABLE, P)
+  \226\136\128 P : ((A) -> Bool) -> Bool, INTERSECTION_OF(COUNTABLE, INTERSECTION_OF(COUNTABLE, P)) == INTERSECTION_OF(COUNTABLE, P)
   (u : ((A) -> Bool) -> Bool)
-  forall P u:(A->bool)->bool.\n        COUNTABLE u /\\ (forall s. s IN u ==> (COUNTABLE UNION_OF P) s)\n        ==> (COUNTABLE UNION_OF P) (UNIONS u)
-  forall P s t. (COUNTABLE UNION_OF P) s /\\ (COUNTABLE UNION_OF P) t\n           ==> (COUNTABLE UNION_OF P) (s UNION t)
+  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 u : ((A) -> Bool) -> Bool, COUNTABLE(u) && (\226\136\128 s : (A) -> Bool, IN(s, u) \226\134\146 UNION_OF(COUNTABLE, P, s)) \226\134\146 UNION_OF(COUNTABLE, P, UNIONS(u))
+  \226\136\128 P : ((_) -> Bool) -> Bool, \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, UNION_OF(COUNTABLE, P, s) && UNION_OF(COUNTABLE, P, t) \226\134\146 UNION_OF(COUNTABLE, P, UNION(s, t))
   (u : ((A) -> Bool) -> Bool)
-  forall P u:(A->bool)->bool.\n        COUNTABLE u /\\ (forall s. s IN u ==> (COUNTABLE INTERSECTION_OF P) s)\n        ==> (COUNTABLE INTERSECTION_OF P) (INTERS u)
-  forall P s t. (COUNTABLE INTERSECTION_OF P) s /\\ (COUNTABLE INTERSECTION_OF P) t\n           ==> (COUNTABLE INTERSECTION_OF P) (s INTER t)
-  forall P:(A->bool)->bool.\n        (forall s t. (COUNTABLE UNION_OF P) s /\\ (COUNTABLE UNION_OF P) t\n                   ==> (COUNTABLE UNION_OF P) (s INTER t)) <=>\n        (forall s t. P s /\\ P t ==> (COUNTABLE UNION_OF P) (s INTER t))
-  forall P:(A->bool)->bool.\n        (forall s t. P s /\\ P t ==> P(s INTER t))\n        ==> (forall s t. (COUNTABLE UNION_OF P) s /\\ (COUNTABLE UNION_OF P) t\n                   ==> (COUNTABLE UNION_OF P) (s INTER t))
+  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 u : ((A) -> Bool) -> Bool, COUNTABLE(u) && (\226\136\128 s : (A) -> Bool, IN(s, u) \226\134\146 INTERSECTION_OF(COUNTABLE, P, s)) \226\134\146 INTERSECTION_OF(COUNTABLE, P, INTERS(u))
+  \226\136\128 P : ((_) -> Bool) -> Bool, \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, INTERSECTION_OF(COUNTABLE, P, s) && INTERSECTION_OF(COUNTABLE, P, t) \226\134\146 INTERSECTION_OF(COUNTABLE, P, INTER(s, t))
+  \226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, UNION_OF(COUNTABLE, P, s) && UNION_OF(COUNTABLE, P, t) \226\134\146 UNION_OF(COUNTABLE, P, INTER(s, t))) == (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 UNION_OF(COUNTABLE, P, INTER(s, t)))
+  \226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 P(INTER(s, t))) \226\134\146 (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, UNION_OF(COUNTABLE, P, s) && UNION_OF(COUNTABLE, P, t) \226\134\146 UNION_OF(COUNTABLE, P, INTER(s, t)))
   (\226\136\128 s : (_) -> Bool, (P : ((_) -> Bool) -> Bool)(DIFF(UNIV, s))) == (\226\136\128 s : (_) -> Bool, P(s))
-  s INTER t = UNIV DIFF ((UNIV DIFF s) UNION (UNIV DIFF t))
+  INTER((s : (_) -> Bool), (t : (_) -> Bool)) == DIFF(UNIV, UNION(DIFF(UNIV, s), DIFF(UNIV, t)))
   (\226\136\128 s : (_) -> Bool, (P : ((_) -> Bool) -> Bool)(DIFF(UNIV, s))) == (\226\136\128 s : (_) -> Bool, P(s))
-  UNIV DIFF (s UNION t) = (UNIV DIFF s) INTER (UNIV DIFF t)
-  forall P:(A->bool)->bool.\n        (forall s t. (COUNTABLE INTERSECTION_OF P) s /\\\n               (COUNTABLE INTERSECTION_OF P) t\n               ==> (COUNTABLE INTERSECTION_OF P) (s UNION t)) <=>\n        (forall s t. P s /\\ P t ==> (COUNTABLE INTERSECTION_OF P) (s UNION t))
-  forall P:(A->bool)->bool.\n        (forall s t. P s /\\ P t ==> P(s UNION t))\n        ==> (forall s t. (COUNTABLE INTERSECTION_OF P) s /\\\n                   (COUNTABLE INTERSECTION_OF P) t\n                   ==> (COUNTABLE INTERSECTION_OF P) (s UNION t))
+  DIFF(UNIV, UNION((s : (_) -> Bool), (t : (_) -> Bool))) == INTER(DIFF(UNIV, s), DIFF(UNIV, t))
+  \226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INTERSECTION_OF(COUNTABLE, P, s) && INTERSECTION_OF(COUNTABLE, P, t) \226\134\146 INTERSECTION_OF(COUNTABLE, P, UNION(s, t))) == (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 INTERSECTION_OF(COUNTABLE, P, UNION(s, t)))
+  \226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 P(UNION(s, t))) \226\134\146 (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INTERSECTION_OF(COUNTABLE, P, s) && INTERSECTION_OF(COUNTABLE, P, t) \226\134\146 INTERSECTION_OF(COUNTABLE, P, UNION(s, t)))
   (u : ((A) -> Bool) -> Bool) == {}
   (u : ((A) -> Bool) -> Bool)
   (s : (A) -> Bool)
-  forall P u:(A->bool)->bool.\n        (forall s t. P s /\\ P t ==> P (s UNION t)) /\\\n        FINITE u /\\ ~(u = {}) /\\\n        (forall s. s IN u ==> (COUNTABLE INTERSECTION_OF P) s)\n        ==> (COUNTABLE INTERSECTION_OF P) (UNIONS u)
+  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 u : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 P(UNION(s, t))) && FINITE(u) && !(u == {}) && (\226\136\128 s : (A) -> Bool, IN(s, u) \226\134\146 INTERSECTION_OF(COUNTABLE, P, s)) \226\134\146 INTERSECTION_OF(COUNTABLE, P, UNIONS(u))
   (u : ((A) -> Bool) -> Bool) == {}
-  forall P u:(A->bool)->bool.\n        (COUNTABLE INTERSECTION_OF P) {} /\\\n        (forall s t. P s /\\ P t ==> P (s UNION t)) /\\\n        FINITE u /\\\n        (forall s. s IN u ==> (COUNTABLE INTERSECTION_OF P) s)\n        ==> (COUNTABLE INTERSECTION_OF P) (UNIONS u)
+  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 u : ((A) -> Bool) -> Bool, INTERSECTION_OF(COUNTABLE, P, {}) && (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 P(UNION(s, t))) && FINITE(u) && (\226\136\128 s : (A) -> Bool, IN(s, u) \226\134\146 INTERSECTION_OF(COUNTABLE, P, s)) \226\134\146 INTERSECTION_OF(COUNTABLE, P, UNIONS(u))
   (u : ((A) -> Bool) -> Bool) == {}
   (u : ((A) -> Bool) -> Bool)
   (s : (A) -> Bool)
-  forall P u:(A->bool)->bool.\n        (forall s t. P s /\\ P t ==> P (s INTER t)) /\\\n        FINITE u /\\ ~(u = {}) /\\\n        (forall s. s IN u ==> (COUNTABLE UNION_OF P) s)\n        ==> (COUNTABLE UNION_OF P) (INTERS u)
+  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 u : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 P(INTER(s, t))) && FINITE(u) && !(u == {}) && (\226\136\128 s : (A) -> Bool, IN(s, u) \226\134\146 UNION_OF(COUNTABLE, P, s)) \226\134\146 UNION_OF(COUNTABLE, P, INTERS(u))
   (u : ((A) -> Bool) -> Bool) == {}
-  forall P u:(A->bool)->bool.\n        (COUNTABLE UNION_OF P) (:A) /\\\n        (forall s t. P s /\\ P t ==> P (s INTER t)) /\\\n        FINITE u /\\\n        (forall s. s IN u ==> (COUNTABLE UNION_OF P) s)\n        ==> (COUNTABLE UNION_OF P) (INTERS u)
+  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 u : ((A) -> Bool) -> Bool, UNION_OF(COUNTABLE, P, UNIV) && (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 P(INTER(s, t))) && FINITE(u) && (\226\136\128 s : (A) -> Bool, IN(s, u) \226\134\146 UNION_OF(COUNTABLE, P, s)) \226\134\146 UNION_OF(COUNTABLE, P, INTERS(u))
   (s2 : (A) -> Bool) == (s1 : (A) -> Bool)
   (t2 : (A) -> Bool)
   (s2 : (A) -> Bool)
   (t1 : (A) -> Bool)
   (s1 : (A) -> Bool)
-  IMAGE SND {s,t | s IN u /\\ t IN (f:(A->bool)->(A->bool)->bool) s}
+  IMAGE(SND, {((s : (A) -> Bool), (t : (A) -> Bool)) | IN(s, (u : ((A) -> Bool) -> Bool)) && IN(t, (f : ((A) -> Bool, (A) -> Bool) -> Bool)(s))})
   (f : ((A) -> Bool, (A) -> Bool) -> Bool)
   (u : ((A) -> Bool) -> Bool)
   INTER((s : (_) -> Bool), (t : (_) -> Bool)) == ((x : _) => s(x) && t(x))
   (s : (A) -> Bool)
-  forall P:(A->bool)->bool.\n        ((COUNTABLE INTER pairwise DISJOINT) UNION_OF\n         (COUNTABLE INTER pairwise DISJOINT) UNION_OF P) =\n        (COUNTABLE INTER pairwise DISJOINT) UNION_OF P
+  \226\136\128 P : ((A) -> Bool) -> Bool, UNION_OF(INTER(COUNTABLE, pairwise(DISJOINT)), UNION_OF(INTER(COUNTABLE, pairwise(DISJOINT)), P)) == UNION_OF(INTER(COUNTABLE, pairwise(DISJOINT)), P)
   (UNION((a : (_) -> Bool), (b : (_) -> Bool)) == b) == SUBSET(a, b)
   (UNION((a : (_) -> Bool), (b : (_) -> Bool)) == a) == SUBSET(b, a)
-  a IN f /\\ b IN f /\\ (a UNION b = a \\/ a UNION b = b)\n      ==> (a UNION b) IN f
+  IN((a : (_) -> Bool), (f : ((_) -> Bool) -> Bool)) && IN((b : (_) -> Bool), f) && (UNION(a, b) == a || UNION(a, b) == b) \226\134\146 IN(UNION(a, b), f)
   (n : Num) => UNIONS(IMAGE((b : (Num, A) -> Bool), op_dot_dot(0, n)))
   (b : (Num, A) -> Bool)
   (f : ((A) -> Bool) -> Bool)
-  forall f:(A->bool)->bool.\n        COUNTABLE f /\\ ~(f = {}) /\\\n        (forall s t. s IN f /\\ t IN f ==> s SUBSET t \\/ t SUBSET s)\n        ==> ?u. (forall n. u(n) IN f) /\\ (forall n. u(n) SUBSET u(SUC n)) /\\\n                UNIONS {u n | n IN (:num)} = UNIONS f
+  \226\136\128 f : ((A) -> Bool) -> Bool, COUNTABLE(f) && !(f == {}) && (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, IN(s, f) && IN(t, f) \226\134\146 SUBSET(s, t) || SUBSET(t, s)) \226\134\146 (\226\136\131 u : (Num, A) -> Bool, (\226\136\128 n : Num, IN(u(n), f)) && (\226\136\128 n : Num, SUBSET(u(n), u(SUC(n)))) && UNIONS({u((n : Num)) | IN(n, UNIV)}) == UNIONS(f))
   (INTER((a : (_) -> Bool), (b : (_) -> Bool)) == b) == SUBSET(b, a)
   (INTER((a : (_) -> Bool), (b : (_) -> Bool)) == a) == SUBSET(a, b)
-  a IN f /\\ b IN f /\\ (a INTER b = a \\/ a INTER b = b)\n      ==> (a INTER b) IN f
+  IN((a : (_) -> Bool), (f : ((_) -> Bool) -> Bool)) && IN((b : (_) -> Bool), f) && (INTER(a, b) == a || INTER(a, b) == b) \226\134\146 IN(INTER(a, b), f)
   (n : Num) => INTERS(IMAGE((b : (Num, A) -> Bool), op_dot_dot(0, n)))
   (b : (Num, A) -> Bool)
   (f : ((A) -> Bool) -> Bool)
-  forall f:(A->bool)->bool.\n\n        COUNTABLE f /\\ ~(f = {}) /\\\n        (forall s t. s IN f /\\ t IN f ==> s SUBSET t \\/ t SUBSET s)\n        ==> ?u. (forall n. u(n) IN f) /\\ (forall n. u(SUC n) SUBSET u(n)) /\\\n                INTERS {u n | n IN (:num)} = INTERS f
-  forall l:A list. (forall x. MEM x l ==> x IN s) ==> (ITLIST pair l b) IN s
+  \226\136\128 f : ((A) -> Bool) -> Bool, COUNTABLE(f) && !(f == {}) && (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, IN(s, f) && IN(t, f) \226\134\146 SUBSET(s, t) || SUBSET(t, s)) \226\134\146 (\226\136\131 u : (Num, A) -> Bool, (\226\136\128 n : Num, IN(u(n), f)) && (\226\136\128 n : Num, SUBSET(u(SUC(n)), u(n))) && INTERS({u((n : Num)) | IN(n, UNIV)}) == INTERS(f))
+  \226\136\128 l : List[A], (\226\136\128 x : A, MEM(x, l) \226\134\146 IN(x, (s : (A) -> Bool))) \226\134\146 IN(ITLIST((pair : (A, A) -> A), l, (b : A)), s)
   (l : List[A]) => (LENGTH(l), ITLIST((pair : (A, A) -> A), l, (b : A)))
   \226\136\131 b : A, IN(b, (s : (A) -> Bool))
   (pair : (A, A) -> A)
   op_lt_eq_us_c(op_star_us_c((s : (A) -> Bool), s), s)
   (op_star_us_c : ((Num) -> Bool, (A) -> Bool, (Num, A)) -> Bool)((UNIV : (Num) -> Bool), (s : (A) -> Bool))
   (x : A) => [x]
-  forall s:A->bool. INFINITE(s) ==> {l | forall x. MEM x l ==> x IN s} =_c s
+  \226\136\128 s : (A) -> Bool, INFINITE(s) \226\134\146 op_eq_us_c({(l : List[A]) | \226\136\128 x : A, MEM(x, l) \226\134\146 IN(x, s)}, s)
   {(x : _) | true} == UNIV
   (INFINITE : ((A) -> Bool) -> Bool)((UNIV : (A) -> Bool)) \226\134\146 (op_eq_us_c : ((List[A]) -> Bool, (A) -> Bool) -> Bool)((UNIV : (List[A]) -> Bool), (UNIV : (A) -> Bool))
   ((i : Num) < (n : Num) + 1) == (i <= n)
@@ -8284,9 +8284,9 @@ Library/card quotations (969):
   (m : Num) <= (n : Num)
   (n : Num) - (m : Num)
   sum(op_dot_dot((m : Num), (n : Num)), (i : Num) => inv(pow(real_of_num(3), i)))
-  forall s m n. sum (s INTER (m..n)) (\\i. inv(&3 pow i)) < &3 / &2 / &3 pow m
+  \226\136\128 s : (Num) -> Bool, \226\136\128 m : Num, \226\136\128 n : Num, sum(INTER(s, op_dot_dot(m, n)), (i : Num) => inv(pow(real_of_num(3), i))) < real_of_num(3) / real_of_num(2) / pow(real_of_num(3), m)
   real_of_num(3) / real_of_num(2) / pow(real_of_num(3), 0)
-  { sum (x INTER (0..n)) (\\i. inv(&3 pow i)) | n IN (:num) }
+  {sum(INTER((x : (Num) -> Bool), op_dot_dot(0, (n : Num))), (i : Num) => inv(pow(real_of_num(3), i))) | IN(n, UNIV)}
   (real_of_num(1) / real_of_num(2) * (x : Real) < x) == (real_of_num(0) < x)
   !((n : Num) == 0) && (m : Num) <= n - 1 \226\134\146 m < n
   (s : Real) == (t : Real) && (d : Real) < (e : Real) \226\134\146 s + d < t + e
@@ -8297,18 +8297,18 @@ Library/card quotations (969):
   \226\136\128 d : Real, (s : Real) == (t : Real) + d && d <= (e : Real) \226\134\146 s <= t + e
   (n : Num) <= (p : Num)
   (p : Num)
-  sum (y INTER (0..n)) (\\i. inv(&3 pow i)) +\n        &3 / &2 / &3 pow (SUC n)
+  sum(INTER((y : (Num) -> Bool), op_dot_dot(0, (n : Num))), (i : Num) => inv(pow(real_of_num(3), i))) + real_of_num(3) / real_of_num(2) / pow(real_of_num(3), SUC(n))
   sum(INTER((x : (Num) -> Bool), op_dot_dot(0, (n : Num))), (i : Num) => inv(pow(real_of_num(3), i)))
   \226\136\128 z : Real, (y : Real) < z && z <= (x : Real) \226\134\146 !(x == y)
   (n : Num)
   (y : (Num) -> Bool)
   (x : (Num) -> Bool)
-  ((forall P Q n. R P Q n <=> R Q P n) /\\ (forall P Q. S P Q <=> S Q P)) /\\\n      (forall P Q. (?n. n IN P /\\ ~(n IN Q) /\\ R P Q n) ==> S P Q)\n      ==> forall P Q. (?n:num. ~(n IN P <=> n IN Q) /\\ R P Q n) ==> S P Q
+  ((\226\136\128 P : (Num) -> Bool, \226\136\128 Q : (Num) -> Bool, \226\136\128 n : Num, (R : ((Num) -> Bool, (Num) -> Bool, Num) -> Bool)(P, Q, n) == R(Q, P, n)) && (\226\136\128 P : (Num) -> Bool, \226\136\128 Q : (Num) -> Bool, (S : ((Num) -> Bool, (Num) -> Bool) -> Bool)(P, Q) == S(Q, P))) && (\226\136\128 P : (Num) -> Bool, \226\136\128 Q : (Num) -> Bool, (\226\136\131 n : Num, IN(n, P) && !IN(n, Q) && R(P, Q, n)) \226\134\146 S(P, Q)) \226\134\146 (\226\136\128 P : (Num) -> Bool, \226\136\128 Q : (Num) -> Bool, (\226\136\131 n : Num, !(IN(n, P) == IN(n, Q)) && R(P, Q, n)) \226\134\146 S(P, Q))
   (x : (Num) -> Bool)
   (y : (Num) -> Bool)
   (y : (Num) -> Bool)
   (x : (Num) -> Bool)
-  \\s:num->bool. sup { sum (s INTER (0..n)) (\\i. inv(&3 pow i)) |\n                                    n IN (:num) }
+  (s : (Num) -> Bool) => sup({sum(INTER(s, op_dot_dot(0, (n : Num))), (i : Num) => inv(pow(real_of_num(3), i))) | IN(n, UNIV)})
   (q : Num)
   (q : Num)
   ((x : Real) < real_of_num(0)) == !(real_of_num(0) <= x)
@@ -8322,7 +8322,7 @@ Library/card quotations (969):
   (p : Num)
   (y : Real)
   (x : Real)
-  \\x:real n:num. &(FST(unpair n)) * x <= &(SND(unpair n))
+  (x : Real) => (n : Num) => real_of_num(FST((unpair : (Num) -> (Num, Num))(n))) * x <= real_of_num(SND(unpair(n)))
   (unpair : (Num) -> (Num, Num))
   (pair : ((Num, Num)) -> Num)
   (UNIV : (Num) -> Bool)
@@ -8340,51 +8340,51 @@ Library/card quotations (969):
   \226\136\128 s : (_) -> Bool, (op_eq_us_c : ((_) -> Bool, (Real) -> Bool) -> Bool)(s, (UNIV : (Real) -> Bool)) \226\134\146 !(COUNTABLE : ((_) -> Bool) -> Bool)(s)
   \226\136\128 s : (A) -> Bool, (COUNTABLE : ((A) -> Bool) -> Bool)(s) \226\134\146 (op_lt_us_c : ((A) -> Bool, (Real) -> Bool) -> Bool)(s, (UNIV : (Real) -> Bool))
   (op_lt_us_c : ((Num) -> Bool, (Real) -> Bool) -> Bool)((UNIV : (Num) -> Bool), (UNIV : (Real) -> Bool))
-  (a < (a + b) / &2 + (b - a) / &2 * x <=>\n     (b - a) * -- &1 < (b - a) * x) /\\\n    ((a + b) / &2 + (b - a) / &2 * x < b <=>\n     (b - a) * x < (b - a) * &1)
+  ((a : Real) < (a + (b : Real)) / real_of_num(2) + (b - a) / real_of_num(2) * (x : Real)) == ((b - a) * -real_of_num(1) < (b - a) * x) && ((a + b) / real_of_num(2) + (b - a) / real_of_num(2) * x < b) == ((b - a) * x < (b - a) * real_of_num(1))
   (x : Real)
   (x : Real) => ((a : Real) + (b : Real)) / real_of_num(2) + (b - a) / real_of_num(2) * (x / (real_of_num(1) + abs(x)))
-  forall s a b:real.\n        a < b /\\ (forall x. a < x /\\ x < b ==> x IN s) ==> s =_c (:real)
-  s ^_c t = {f:B->A | (forall x. x IN t ==> f x IN s) /\\\n                       (forall x. ~(x IN t) ==> f x = @y. F)}
-  forall(s:A->bool) (t:B->bool).\n        s ^_c t = {f:B->A | IMAGE f t SUBSET s /\\ EXTENSIONAL t f}
+  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, \226\136\128 b : Real, a < b && (\226\136\128 x : Real, a < x && x < b \226\134\146 (IN : (Real, (Real) -> Bool) -> Bool)(x, s)) \226\134\146 (op_eq_us_c : ((Real) -> Bool, (Real) -> Bool) -> Bool)(s, (UNIV : (Real) -> Bool))
+  (op_caret_us_c : ((A) -> Bool, (B) -> Bool, (B) -> A) -> Bool)((s : (A) -> Bool), (t : (B) -> Bool)) == {(f : (B) -> A) | (\226\136\128 x : B, IN(x, t) \226\134\146 IN(f(x), s)) && (\226\136\128 x : B, !IN(x, t) \226\134\146 f(x) == select((y : A) => false))}
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_caret_us_c(s, t) == {(f : (B) -> A) | SUBSET(IMAGE(f, t), s) && EXTENSIONAL(t, f)}
   (op_caret_us_c : ((A) -> Bool, (B) -> Bool, (B) -> A) -> Bool)((UNIV : (A) -> Bool), (UNIV : (B) -> Bool)) == (UNIV : ((B) -> A) -> Bool)
-  \\(R:B->A->bool) x. if x IN t then @y. R x y else @y. F
+  (R : (B, A) -> Bool) => (x : B) => if IN(x, (t : (B) -> Bool)) { select((y : A) => R(x, y)) } else { select((y : A) => false) }
   (f : (B) -> A) => (x : B) => (y : A) => IN(x, (t : (B) -> Bool)) && f(x) == y
-  forall s:A->bool t:B->bool.\n        (s ^_c t) =_c {R:B->A->bool | (forall x y. R x y ==> x IN t /\\ y IN s) /\\\n                                      (forall x. x IN t ==> ?!y. R x y)}
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_eq_us_c(op_caret_us_c(s, t), {(R : (B, A) -> Bool) | (\226\136\128 x : B, \226\136\128 y : A, R(x, y) \226\134\146 IN(x, t) && IN(y, s)) && (\226\136\128 x : B, IN(x, t) \226\134\146 existsunique((y : A) => R(x, y)))})
   (R : ((B, A)) -> Bool) => (x : B) => (y : A) => R((x, y))
   (R : (B, A) -> Bool) => GABS((f : ((B, A)) -> Bool) => \226\136\128 x : B, \226\136\128 y : A, GEQ(f((x, y)), R(x, y)))
-  forall s:A->bool t:B->bool.\n        (s ^_c t) =_c {R:B#A->bool | (forall x y. R(x,y) ==> x IN t /\\ y IN s) /\\\n                                     (forall x. x IN t ==> ?!y. R(x,y))}
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_eq_us_c(op_caret_us_c(s, t), {(R : ((B, A)) -> Bool) | (\226\136\128 x : B, \226\136\128 y : A, R((x, y)) \226\134\146 IN(x, t) && IN(y, s)) && (\226\136\128 x : B, IN(x, t) \226\134\146 existsunique((y : A) => R((x, y))))})
   {(x : _) | x == (a : _)} == {a}
   \226\136\128 s : (A) -> Bool, \226\136\128 c : C, (op_eq_us_c : (((B) -> A) -> Bool, (C) -> Bool) -> Bool)((op_caret_us_c : ((A) -> Bool, (B) -> Bool, (B) -> A) -> Bool)(s, ({} : (B) -> Bool)), {c})
   {(x : _) | x == (a : _)} == {a}
   !((s : (_) -> Bool) == {}) \226\134\146 !(\226\136\128 x : _, !IN(x, s))
-  forall s:B->bool c:C. ({}:A->bool) ^_c s =_c if s = {} then {c} else {}
-  \\(g:B->A,h:C->A) z. if ?x. x IN t /\\ INL x = z\n                         then g(@x. x IN t /\\ INL x = z)\n                         else if ?y. y IN u /\\ INR y = z\n                         then h(@y. y IN u /\\ INR y = z)\n                         else @y. F
-  \\f:B+C->A. (\\x. if x IN t then f(INL x) else @x. F),\n                (\\x. if x IN u then f(INR x) else @x. F)
-  forall s:A->bool t:B->bool u:C->bool.\n        s ^_c (t +_c u) =_c (s ^_c t) *_c (s ^_c u)
-  \\f:C->B->A (x,y). if x IN t /\\ y IN u then f y x else @x. F
+  \226\136\128 s : (B) -> Bool, \226\136\128 c : C, (op_eq_us_c : (((B) -> A) -> Bool, (C) -> Bool) -> Bool)((op_caret_us_c : ((A) -> Bool, (B) -> Bool, (B) -> A) -> Bool)(({} : (A) -> Bool), s), if s == {} { {c} } else { {} })
+  fn { (g, h) => (z : Sum[B, C]) => if (\226\136\131 x : B, IN(x, (t : (B) -> Bool)) && INL(x) == z) { g(select((x : B) => IN(x, t) && INL(x) == z)) } else { if (\226\136\131 y : C, IN(y, (u : (C) -> Bool)) && INR(y) == z) { h(select((y : C) => IN(y, u) && INR(y) == z)) } else { select((y : A) => false) } } }
+  (f : (Sum[B, C]) -> A) => ((x : B) => if IN(x, (t : (B) -> Bool)) { f(INL(x)) } else { select((x : A) => false) }, (x : C) => if IN(x, (u : (C) -> Bool)) { f(INR(x)) } else { select((x : A) => false) })
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, op_eq_us_c(op_caret_us_c(s, op_plus_us_c(t, u)), op_star_us_c(op_caret_us_c(s, t), op_caret_us_c(s, u)))
+  (f : (C, B) -> A) => fn { (x, y) => if IN(x, (t : (B) -> Bool)) && IN(y, (u : (C) -> Bool)) { f(y, x) } else { select((x : A) => false) } }
   (f : ((B, C)) -> A) => (y : C) => if IN(y, (u : (C) -> Bool)) { (x : B) => f((x, y)) } else { select((x : (B) -> A) => false) }
-  forall s:A->bool t:B->bool u:C->bool.\n        s ^_c (t *_c u) =_c (s ^_c t) ^_c u
-  \\(g:C->A,h:C->B) x. if x IN u then (g x,h x) else @x. F
-  \\f:C->A#B. (\\x. if x IN u then FST(f x) else @x. F),\n                (\\x. if x IN u then SND(f x) else @x. F)
-  forall s:A->bool t:B->bool u:C->bool.\n        (s *_c t) ^_c u =_c (s ^_c u) *_c (t ^_c u)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, op_eq_us_c(op_caret_us_c(s, op_star_us_c(t, u)), op_caret_us_c(op_caret_us_c(s, t), u))
+  fn { (g, h) => (x : C) => if IN(x, (u : (C) -> Bool)) { (g(x), h(x)) } else { select((x : (A, B)) => false) } }
+  (f : (C) -> (A, B)) => ((x : C) => if IN(x, (u : (C) -> Bool)) { FST(f(x)) } else { select((x : A) => false) }, (x : C) => if IN(x, u) { SND(f(x)) } else { select((x : B) => false) })
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, op_eq_us_c(op_caret_us_c(op_star_us_c(s, t), u), op_star_us_c(op_caret_us_c(s, u), op_caret_us_c(t, u)))
   (x : A) => (y : B) => if y == (b : B) { x } else { select((y : A) => false) }
   (f : (B) -> A) => f((b : B))
   \226\136\128 s : (A) -> Bool, \226\136\128 b : B, op_eq_us_c(op_caret_us_c(s, {b}), s)
   (g : (C) -> A) => (z : C) => if IN(z, (t : (C) -> Bool)) { (f : (A) -> B)(g(z)) } else { select((x : B) => false) }
   (f : (A) -> B)
-  forall s:A->bool s':B->bool t:C->bool. s <=_c s' ==> s ^_c t <=_c s' ^_c t
+  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (B) -> Bool, \226\136\128 t : (C) -> Bool, op_lt_eq_us_c(s, s') \226\134\146 op_lt_eq_us_c(op_caret_us_c(s, t), op_caret_us_c(s', t))
   (f : (B) -> C)((b : B))
   IN((b : B), (t : (B) -> Bool))
   (b : B)
   (l : (B) -> A)
   (k : (B) -> A)
-  \\g:(B->A) c:C. if c IN t' then if h c IN t then g(h c) else a\n                             else @x:A. F
+  (g : (B) -> A) => (c : C) => if IN(c, (t' : (C) -> Bool)) { if IN((h : (C) -> B)(c), (t : (B) -> Bool)) { g(h(c)) } else { (a : A) } } else { select((x : A) => false) }
   (h : (C) -> B)
   (f : (B) -> C)
   (a : A)
-  forall s:A->bool t:B->bool t':C->bool.\n      ~(s = {}) /\\ t <=_c t' ==> s ^_c t <=_c s ^_c t'
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 t' : (C) -> Bool, !(s == {}) && op_lt_eq_us_c(t, t') \226\134\146 op_lt_eq_us_c(op_caret_us_c(s, t), op_caret_us_c(s, t'))
   op_caret_us_c((s : (A) -> Bool), (t' : (D) -> Bool))
-  forall s:A->bool s':B->bool t:C->bool t':D->bool.\n        ~(s = {}) /\\ s <=_c s' /\\ t <=_c t' ==> s ^_c t <=_c s' ^_c t'
+  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (B) -> Bool, \226\136\128 t : (C) -> Bool, \226\136\128 t' : (D) -> Bool, !(s == {}) && op_lt_eq_us_c(s, s') && op_lt_eq_us_c(t, t') \226\134\146 op_lt_eq_us_c(op_caret_us_c(s, t), op_caret_us_c(s', t'))
   (s' : (B) -> Bool) == {}
   0
   (t' : (D) -> Bool)
@@ -8396,16 +8396,16 @@ Library/card quotations (969):
   (t : (C) -> Bool) == {}
   {0}
   (t' : (D) -> Bool) == {}
-  forall s:A->bool s':B->bool t:C->bool t':D->bool.\n      s =_c s' /\\ t =_c t' ==> s ^_c t =_c s' ^_c t'
+  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (B) -> Bool, \226\136\128 t : (C) -> Bool, \226\136\128 t' : (D) -> Bool, op_eq_us_c(s, s') && op_eq_us_c(t, t') \226\134\146 op_eq_us_c(op_caret_us_c(s, t), op_caret_us_c(s', t'))
   (t : (B) -> Bool)
   (s : (A) -> Bool)
-  forall s:A->bool t:B->bool. FINITE s /\\ FINITE t ==> FINITE(s ^_c t)
-  CARD(((s:A->bool) ^_c {b:B}) *_c (s ^_c (t:B->bool)))
-  CARD((s:A->bool) ^_c ({b:B} +_c (t:B->bool)))
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && FINITE(t) \226\134\146 FINITE(op_caret_us_c(s, t))
+  CARD(op_star_us_c(op_caret_us_c((s : (A) -> Bool), {(b : B)}), op_caret_us_c(s, (t : (B) -> Bool))))
+  CARD(op_caret_us_c((s : (A) -> Bool), op_plus_us_c({(b : B)}, (t : (B) -> Bool))))
   (t : (B) -> Bool)
   (b : B)
   0
-  forall s:A->bool t:B->bool.\n        FINITE s /\\ FINITE t ==> CARD(s ^_c t) = (CARD s) EXP (CARD t)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && FINITE(t) \226\134\146 CARD(op_caret_us_c(s, t)) == EXP(CARD(s), CARD(t))
   (t : (A) -> Bool) => (x : A) => if IN(x, (s : (A) -> Bool)) { IN(x, t) } else { select((b : Bool) => false) }
   (P : (A) -> Bool) => {(x : A) | IN(x, (s : (A) -> Bool)) && P(x)}
   \226\136\128 s : (A) -> Bool, (op_eq_us_c : (((A) -> Bool) -> Bool, ((A) -> Bool) -> Bool) -> Bool)((op_caret_us_c : ((Bool) -> Bool, (A) -> Bool, (A) -> Bool) -> Bool)((UNIV : (Bool) -> Bool), s), {(t : (A) -> Bool) | (SUBSET : ((A) -> Bool, (A) -> Bool) -> Bool)(t, s)})
@@ -8413,40 +8413,40 @@ Library/card quotations (969):
   \226\136\128 s : (A) -> Bool, (op_lt_us_c : ((A) -> Bool, ((A) -> Bool) -> Bool) -> Bool)(s, (op_caret_us_c : ((Bool) -> Bool, (A) -> Bool, (A) -> Bool) -> Bool)((UNIV : (Bool) -> Bool), s))
   (op_caret_us_c : ((Bool) -> Bool, ((B, B)) -> Bool, ((B, B)) -> Bool) -> Bool)((UNIV : (Bool) -> Bool), (op_star_us_c : ((B) -> Bool, (B) -> Bool, (B, B)) -> Bool)((t : (B) -> Bool), t))
   (op_caret_us_c : (((B) -> Bool) -> Bool, (B) -> Bool, (B, B) -> Bool) -> Bool)((op_caret_us_c : ((Bool) -> Bool, (B) -> Bool, (B) -> Bool) -> Bool)((UNIV : (Bool) -> Bool), (t : (B) -> Bool)), t)
-  forall s:A->bool t:B->bool.\n        INFINITE t /\\ (:bool) <=_c s /\\ s <=_c (:bool) ^_c t\n        ==> s ^_c t =_c (:bool) ^_c t
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (INFINITE : ((B) -> Bool) -> Bool)(t) && (op_lt_eq_us_c : ((Bool) -> Bool, (A) -> Bool) -> Bool)((UNIV : (Bool) -> Bool), s) && (op_lt_eq_us_c : ((A) -> Bool, ((B) -> Bool) -> Bool) -> Bool)(s, (op_caret_us_c : ((Bool) -> Bool, (B) -> Bool, (B) -> Bool) -> Bool)((UNIV : (Bool) -> Bool), t)) \226\134\146 (op_eq_us_c : (((B) -> A) -> Bool, ((B) -> Bool) -> Bool) -> Bool)((op_caret_us_c : ((A) -> Bool, (B) -> Bool, (B) -> A) -> Bool)(s, t), (op_caret_us_c : ((Bool) -> Bool, (B) -> Bool, (B) -> Bool) -> Bool)((UNIV : (Bool) -> Bool), t))
   (UNIV : ((Num) -> Bool) -> Bool)
   (UNIV : (((Num, Num)) -> Bool) -> Bool)
   (UNIV : (Real) -> Bool)
   (UNIV : ((Num, Num) -> Bool) -> Bool)
   (s : (A) -> Bool) == {}
-  forall s:A->bool t:B->bool.\n        s <=_c (:real) /\\ COUNTABLE t ==> s ^_c t <=_c (:real)
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (op_lt_eq_us_c : ((A) -> Bool, (Real) -> Bool) -> Bool)(s, (UNIV : (Real) -> Bool)) && (COUNTABLE : ((B) -> Bool) -> Bool)(t) \226\134\146 (op_lt_eq_us_c : (((B) -> A) -> Bool, (Real) -> Bool) -> Bool)((op_caret_us_c : ((A) -> Bool, (B) -> Bool, (B) -> A) -> Bool)(s, t), (UNIV : (Real) -> Bool))
   (op_caret_us_c : ((Real) -> Bool, (A) -> Bool, (A) -> Real) -> Bool)((UNIV : (Real) -> Bool), {(a : A)})
-  forall s:A->bool. COUNTABLE s /\\ ~(s = {}) ==> (:real) ^_c s =_c (:real)
+  \226\136\128 s : (A) -> Bool, (COUNTABLE : ((A) -> Bool) -> Bool)(s) && !(s == ({} : (A) -> Bool)) \226\134\146 (op_eq_us_c : (((A) -> Real) -> Bool, (Real) -> Bool) -> Bool)((op_caret_us_c : ((Real) -> Bool, (A) -> Bool, (A) -> Real) -> Bool)((UNIV : (Real) -> Bool), s), (UNIV : (Real) -> Bool))
   (s : (A) -> Bool)
   (t : (B) -> Bool)
-  forall s:A->bool t:B->bool u:C->bool.\n          s <=_c t /\\ t <=_c u /\\ u <=_c s\n          ==> s =_c u /\\ t =_c u
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (C) -> Bool, op_lt_eq_us_c(s, t) && op_lt_eq_us_c(t, u) && op_lt_eq_us_c(u, s) \226\134\146 op_eq_us_c(s, u) && op_eq_us_c(t, u)
   (u : ((B, A)) -> Bool)
   (u : ((B, A)) -> Bool)
   IMAGE((p : ((B, A)) -> A))
   (p : ((B, A)) -> A)
-  (t:B->bool) *_c (s:A->bool) <=_c s
+  op_lt_eq_us_c(op_star_us_c((t : (B) -> Bool), (s : (A) -> Bool)), s)
   (FST : ((B, A)) -> B)
   (R : ((B, A)) -> Bool)
   (t : (B) -> Bool)
   (s : (A) -> Bool)
-  {k | k SUBSET ((t:B->bool) *_c (s:A->bool)) /\\ k =_c t}
+  {(k : ((B, A)) -> Bool) | SUBSET(k, op_star_us_c((t : (B) -> Bool), (s : (A) -> Bool))) && op_eq_us_c(k, t)}
   ({(a : _)} == {(b : _)}) == (a == b)
   (x : A) => {x}
   INFINITE((s : (A) -> Bool))
   ((p : Bool) \226\134\146 (q : Bool)) && p \226\134\146 p && q
   (k : (A) -> Bool) == {}
   (k : (A) -> Bool)
-  {{}} UNION\n      {k:A->bool | k SUBSET s /\\ ~(k = {}) /\\ k <=_c (t:B->bool)}
+  UNION({{}}, {(k : (A) -> Bool) | SUBSET(k, (s : (A) -> Bool)) && !(k == {}) && op_lt_eq_us_c(k, (t : (B) -> Bool))})
   (y : B) => if IN(y, (t : (B) -> Bool)) { (f : (B) -> A)(y) } else { select((y : A) => false) }
   (f : (B) -> A)
   (k : (A) -> Bool)
   (f : (B) -> A) => IMAGE(f, (t : (B) -> Bool))
-  {k:A->bool | k SUBSET s /\\ ~(k = {}) /\\ k <=_c (t:B->bool)}
+  {(k : (A) -> Bool) | SUBSET(k, (s : (A) -> Bool)) && !(k == {}) && op_lt_eq_us_c(k, (t : (B) -> Bool))}
   (SUBSET((k : (_) -> Bool), (s : (_) -> Bool)) && k == {}) == (k == {})
   (t : (B) -> Bool) == {}
   (s : (A) -> Bool)
@@ -8456,42 +8456,42 @@ Library/card quotations (969):
   (k : (A) -> Bool)
   (k : (A) -> Bool)
   INFINITE((s : (A) -> Bool))
-  (forall s:A->bool t:B->bool.\n        INFINITE s\n        ==> { k | k SUBSET s /\\ k =_c t} =_c\n            (if t <=_c s then s ^_c t else {})) /\\\n   (forall s:A->bool t:B->bool.\n        INFINITE s\n        ==> if t <=_c s then { k | k SUBSET s /\\ k <=_c t} =_c s ^_c t\n            else { k | k SUBSET s /\\ k <=_c t} =_c (:bool) ^_c s)
+  (\226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (INFINITE : ((A) -> Bool) -> Bool)(s) \226\134\146 (op_eq_us_c : (((A) -> Bool) -> Bool, ((B) -> A) -> Bool) -> Bool)({(k : (A) -> Bool) | (SUBSET : ((A) -> Bool, (A) -> Bool) -> Bool)(k, s) && (op_eq_us_c : ((A) -> Bool, (B) -> Bool) -> Bool)(k, t)}, if (op_lt_eq_us_c : ((B) -> Bool, (A) -> Bool) -> Bool)(t, s) { (op_caret_us_c : ((A) -> Bool, (B) -> Bool, (B) -> A) -> Bool)(s, t) } else { ({} : ((B) -> A) -> Bool) })) && (\226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (INFINITE : ((A) -> Bool) -> Bool)(s) \226\134\146 (if (op_lt_eq_us_c : ((B) -> Bool, (A) -> Bool) -> Bool)(t, s) { (op_eq_us_c : (((A) -> Bool) -> Bool, ((B) -> A) -> Bool) -> Bool)({(k : (A) -> Bool) | (SUBSET : ((A) -> Bool, (A) -> Bool) -> Bool)(k, s) && (op_lt_eq_us_c : ((A) -> Bool, (B) -> Bool) -> Bool)(k, t)}, (op_caret_us_c : ((A) -> Bool, (B) -> Bool, (B) -> A) -> Bool)(s, t)) } else { (op_eq_us_c : (((A) -> Bool) -> Bool, ((A) -> Bool) -> Bool) -> Bool)({(k : (A) -> Bool) | (SUBSET : ((A) -> Bool, (A) -> Bool) -> Bool)(k, s) && (op_lt_eq_us_c : ((A) -> Bool, (B) -> Bool) -> Bool)(k, t)}, (op_caret_us_c : ((Bool) -> Bool, (A) -> Bool, (A) -> Bool) -> Bool)((UNIV : (Bool) -> Bool), s)) }))
   (op_caret_us_c : ((Bool) -> Bool, (A) -> Bool, (A) -> Bool) -> Bool)((UNIV : (Bool) -> Bool), (s : (A) -> Bool))
   (s : (A) -> Bool)
-  forall s:A->bool.\n        INFINITE s ==> {t | t SUBSET s /\\ t =_c s} =_c {t | t SUBSET s}
+  \226\136\128 s : (A) -> Bool, INFINITE(s) \226\134\146 op_eq_us_c({(t : (A) -> Bool) | SUBSET(t, s) && op_eq_us_c(t, s)}, {(t : (A) -> Bool) | SUBSET(t, s)})
   op_caret_us_c((s : (A) -> Bool), op_plus_us_c({(b : B)}, (t : (B) -> Bool)))
   INSERT((a : _), (s : (_) -> Bool)) == UNION({a}, s)
   op_star_us_c((s : (A) -> Bool), s)
   (t : (B) -> Bool) == {}
   (t : (B) -> Bool)
   (b : B)
-  forall(s:A->bool) (t:B->bool).\n       INFINITE s /\\ FINITE t /\\ ~(t = {}) ==> s ^_c t =_c s
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, INFINITE(s) && FINITE(t) && !(t == {}) \226\134\146 op_eq_us_c(op_caret_us_c(s, t), s)
   (x : A) => {x}
   list_of_set((t : (A) -> Bool))
   (t : (A) -> Bool)
   (set_of_list : (List[A], A) -> Bool)
   {(l : List[A]) | \226\136\128 x : A, MEM(x, l) \226\134\146 IN(x, (s : (A) -> Bool))}
-  forall s:A->bool. INFINITE(s) ==> {t | t SUBSET s /\\ FINITE t} =_c s
+  \226\136\128 s : (A) -> Bool, INFINITE(s) \226\134\146 op_eq_us_c({(t : (A) -> Bool) | SUBSET(t, s) && FINITE(t)}, s)
   (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
   MAP((f : (A) -> B))
   (f : (A) -> B)
-  forall s:A->bool t:B->bool.\n        s <=_c t\n        ==> {l | forall x. MEM x l ==> x IN s} <=_c {l | forall x. MEM x l ==> x IN t}
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_lt_eq_us_c(s, t) \226\134\146 op_lt_eq_us_c({(l : List[A]) | \226\136\128 x : A, MEM(x, l) \226\134\146 IN(x, s)}, {(l : List[B]) | \226\136\128 x : B, MEM(x, l) \226\134\146 IN(x, t)})
   IMAGE((f : (A) -> B))
   (f : (A) -> B)
-  forall s:A->bool t:B->bool.\n        s <=_c t /\\ (forall f s. P s ==> Q(IMAGE f s))\n        ==> {u | u SUBSET s /\\ P u} <=_c {v | v SUBSET t /\\ Q v}
-  forall s:A->bool t:B->bool.\n    s <=_c t\n    ==> {u | u SUBSET s /\\ FINITE u} <=_c {v | v SUBSET t /\\ FINITE v}
-  forall s:A->bool t:B->bool.\n    s <=_c t\n    ==> {u | u SUBSET s /\\ COUNTABLE u} <=_c {v | v SUBSET t /\\ COUNTABLE v}
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_lt_eq_us_c(s, t) && (\226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (P : ((A) -> Bool) -> Bool)(s) \226\134\146 (Q : ((B) -> Bool) -> Bool)(IMAGE(f, s))) \226\134\146 op_lt_eq_us_c({(u : (A) -> Bool) | SUBSET(u, s) && P(u)}, {(v : (B) -> Bool) | SUBSET(v, t) && Q(v)})
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_lt_eq_us_c(s, t) \226\134\146 op_lt_eq_us_c({(u : (A) -> Bool) | SUBSET(u, s) && FINITE(u)}, {(v : (B) -> Bool) | SUBSET(v, t) && FINITE(v)})
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_lt_eq_us_c(s, t) \226\134\146 op_lt_eq_us_c({(u : (A) -> Bool) | SUBSET(u, s) && COUNTABLE(u)}, {(v : (B) -> Bool) | SUBSET(v, t) && COUNTABLE(v)})
   {(x : (_) -> Bool) | SUBSET(x, (y : (_) -> Bool))} == {(x : (_) -> Bool) | SUBSET(x, y) && true}
-  forall s:A->bool t:B->bool.\n    s <=_c t ==> {u | u SUBSET s} <=_c {v | v SUBSET t}
-  forall s:A->bool t:B->bool.\n        s =_c t ==> {u | u SUBSET s} =_c {v | v SUBSET t}
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_lt_eq_us_c(s, t) \226\134\146 op_lt_eq_us_c({(u : (A) -> Bool) | SUBSET(u, s)}, {(v : (B) -> Bool) | SUBSET(v, t)})
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_eq_us_c(s, t) \226\134\146 op_eq_us_c({(u : (A) -> Bool) | SUBSET(u, s)}, {(v : (B) -> Bool) | SUBSET(v, t)})
   {(x : _) | true} == UNIV
-  forall s:A->bool. COUNTABLE s ==> COUNTABLE {l | forall x. MEM x l ==> x IN s}
+  \226\136\128 s : (A) -> Bool, COUNTABLE(s) \226\134\146 COUNTABLE({(l : List[A]) | \226\136\128 x : A, MEM(x, l) \226\134\146 IN(x, s)})
   {(x : _) | true} == UNIV
   (UNIV : (A) -> Bool)
   (COUNTABLE : ((A) -> Bool) -> Bool)((UNIV : (A) -> Bool)) \226\134\146 (COUNTABLE : ((List[A]) -> Bool) -> Bool)((UNIV : (List[A]) -> Bool))
   {(x : _) | true} == UNIV
-  forall s:A->bool. COUNTABLE(s) ==> COUNTABLE {t | t SUBSET s /\\ FINITE t}
+  \226\136\128 s : (A) -> Bool, COUNTABLE(s) \226\134\146 COUNTABLE({(t : (A) -> Bool) | SUBSET(t, s) && FINITE(t)})
   (UNIV : ((Num) -> Bool) -> Bool)
   (UNIV : (((Num, Num)) -> Bool) -> Bool)
   (UNIV : ((Num, Num) -> Bool) -> Bool)
@@ -8500,7 +8500,7 @@ Library/card quotations (969):
   (UNIV : (Real) -> Bool)
   (UNIV : ((Num) -> Bool) -> Bool)
   (UNIV : (Num) -> Bool)
-  forall s:A->bool. INFINITE s /\\ s <=_c (:real)\n               ==> {t | t SUBSET s /\\ COUNTABLE t} =_c (:real)
+  \226\136\128 s : (A) -> Bool, (INFINITE : ((A) -> Bool) -> Bool)(s) && (op_lt_eq_us_c : ((A) -> Bool, (Real) -> Bool) -> Bool)(s, (UNIV : (Real) -> Bool)) \226\134\146 (op_eq_us_c : (((A) -> Bool) -> Bool, (Real) -> Bool) -> Bool)({(t : (A) -> Bool) | (SUBSET : ((A) -> Bool, (A) -> Bool) -> Bool)(t, s) && (COUNTABLE : ((A) -> Bool) -> Bool)(t)}, (UNIV : (Real) -> Bool))
   (UNIV : (Real) -> Bool)
   (op_eq_us_c : (((Real) -> Bool) -> Bool, (Real) -> Bool) -> Bool)({(s : (Real) -> Bool) | (COUNTABLE : ((Real) -> Bool) -> Bool)(s)}, (UNIV : (Real) -> Bool))
   \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, SUBSET(t, IMAGE(f, s)) \226\134\146 op_lt_eq_us_c(t, s)
@@ -8508,10 +8508,10 @@ Library/card quotations (969):
   (x : A)
   IMAGE((x : A) => (x, (f : (A) -> B)(x)), {(x : A) | !(f(x) == (k : (A) -> B)(x))})
   (f : (A) -> B)
-  \\u:(A#B)->bool x. if ?y. (x,y) IN u then @y. (x,y) IN u else k x
-  forall s:A->bool t:B->bool k.\n        {f | IMAGE f s SUBSET t /\\\n             {x | ~(f x = k x)} SUBSET s /\\\n             FINITE {x | ~(f x = k x)}}\n        <=_c {u | u SUBSET (s CROSS t) /\\ FINITE u}
-  forall s:A->bool t:B->bool k.\n        COUNTABLE s /\\ COUNTABLE t\n        ==> COUNTABLE {f | IMAGE f s SUBSET t /\\\n                           {x | ~(f x = k x)} SUBSET s /\\\n                           FINITE {x | ~(f x = k x)}}
-  forall(s:A->bool) (t:B->bool) k.\n        INFINITE s /\\ ~(t = {})\n        ==> {f | IMAGE f s SUBSET t /\\\n                 {x | ~(f x = k x)} SUBSET s /\\\n                 FINITE {x | ~(f x = k x)}} <=_c\n            s *_c t
+  (u : ((A, B)) -> Bool) => (x : A) => if (\226\136\131 y : B, IN((x, y), u)) { select((y : B) => IN((x, y), u)) } else { (k : (A) -> B)(x) }
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 k : (A) -> B, op_lt_eq_us_c({(f : (A) -> B) | SUBSET(IMAGE(f, s), t) && SUBSET({(x : A) | !(f(x) == k(x))}, s) && FINITE({(x : A) | !(f(x) == k(x))})}, {(u : ((A, B)) -> Bool) | SUBSET(u, CROSS(s, t)) && FINITE(u)})
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 k : (A) -> B, COUNTABLE(s) && COUNTABLE(t) \226\134\146 COUNTABLE({(f : (A) -> B) | SUBSET(IMAGE(f, s), t) && SUBSET({(x : A) | !(f(x) == k(x))}, s) && FINITE({(x : A) | !(f(x) == k(x))})})
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 k : (A) -> B, INFINITE(s) && !(t == {}) \226\134\146 op_lt_eq_us_c({(f : (A) -> B) | SUBSET(IMAGE(f, s), t) && SUBSET({(x : A) | !(f(x) == k(x))}, s) && FINITE({(x : A) | !(f(x) == k(x))})}, op_star_us_c(s, t))
   {(a : A)}
   (b : B)
   (b : B) => (x : A) => if x == (a : A) { b } else { (k : (A) -> B)(x) }
@@ -8520,29 +8520,29 @@ Library/card quotations (969):
   (a : A) => (x : A) => if x == a { (f : (A) -> B)(x) } else { (k : (A) -> B)(x) }
   (f : (A) -> B)
   \226\136\128 x : A, \226\136\131 y : B, IN(y, (t : (B) -> Bool)) && !((k : (A) -> B)(x) == y)
-  forall(s:A->bool) (t:B->bool) k.\n        INFINITE s /\\ ~(?a. t SUBSET {a}) /\\ IMAGE k s SUBSET t\n        ==> {f | IMAGE f s SUBSET t /\\\n                 {x | ~(f x = k x)} SUBSET s /\\\n                 FINITE {x | ~(f x = k x)}} =_c\n            s *_c t
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 k : (A) -> B, INFINITE(s) && !(\226\136\131 a : B, SUBSET(t, {a})) && SUBSET(IMAGE(k, s), t) \226\134\146 op_eq_us_c({(f : (A) -> B) | SUBSET(IMAGE(f, s), t) && SUBSET({(x : A) | !(f(x) == k(x))}, s) && FINITE({(x : A) | !(f(x) == k(x))})}, op_star_us_c(s, t))
   (f : (A) -> B) => (x : A) => if IN(x, (s : (A) -> Bool)) { f(x) } else { (k : (A) -> B)(x) }
   (f : (A) -> B) => (x : A) => if IN(x, (s : (A) -> Bool)) { f(x) } else { ARB }
-  forall(s:A->bool) (t:B->bool) k.\n        {f | IMAGE f s SUBSET t /\\ {x | ~(f x = k x)} SUBSET s} =_c\n        t ^_c s
-  forall(s:A->bool) (t:B->bool).\n        cartesian_product t (\\i. s) = s ^_c t
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 k : (A) -> B, op_eq_us_c({(f : (A) -> B) | SUBSET(IMAGE(f, s), t) && SUBSET({(x : A) | !(f(x) == k(x))}, s)}, op_caret_us_c(t, s))
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, cartesian_product(t, (i : B) => s) == op_caret_us_c(s, t)
   (i : K)
   (i : K)
   (s : (K, A) -> Bool)
   (k : (K) -> Bool)
-  \\g i. if i IN k then (f:K->A->B) i ((g:K->A) i) else ARB
+  (g : (K) -> A) => (i : K) => if IN(i, (k : (K) -> Bool)) { (f : (K, A) -> B)(i, g(i)) } else { ARB }
   (f : (K, A) -> B)
-  forall(s:K->A->bool) (t:K->B->bool) k.\n        (forall i. i IN k ==> s i <=_c t i)\n        ==> cartesian_product k s <=_c cartesian_product k t
-  forall(s:K->A->bool) (t:K->B->bool) k.\n        (forall i. i IN k ==> s i =_c t i)\n        ==> cartesian_product k s =_c cartesian_product k t
+  \226\136\128 s : (K, A) -> Bool, \226\136\128 t : (K, B) -> Bool, \226\136\128 k : (K) -> Bool, (\226\136\128 i : K, IN(i, k) \226\134\146 op_lt_eq_us_c(s(i), t(i))) \226\134\146 op_lt_eq_us_c(cartesian_product(k, s), cartesian_product(k, t))
+  \226\136\128 s : (K, A) -> Bool, \226\136\128 t : (K, B) -> Bool, \226\136\128 k : (K) -> Bool, (\226\136\128 i : K, IN(i, k) \226\134\146 op_eq_us_c(s(i), t(i))) \226\134\146 op_eq_us_c(cartesian_product(k, s), cartesian_product(k, t))
   (i : K) => if IN(i, (k : (K) -> Bool)) { (x : (K) -> A)(i) } else { (z : (K) -> A)(i) }
   (x : (K) -> A)
   (z : (K) -> A)
-  IMAGE (\\(f:K->A) i. if i IN k then f i else ARB)\n          (cartesian_product l s)
-  forall(s:K->A->bool) k l.\n        k SUBSET l /\\ ~(cartesian_product l s = {})\n        ==> cartesian_product k s <=_c cartesian_product l s
+  IMAGE((f : (K) -> A) => (i : K) => if IN(i, (k : (K) -> Bool)) { f(i) } else { ARB }, cartesian_product((l : (K) -> Bool), (s : (K, A) -> Bool)))
+  \226\136\128 s : (K, A) -> Bool, \226\136\128 k : (K) -> Bool, \226\136\128 l : (K) -> Bool, SUBSET(k, l) && !(cartesian_product(l, s) == {}) \226\134\146 op_lt_eq_us_c(cartesian_product(k, s), cartesian_product(l, s))
   (f : (K) -> A)
-  {f | IMAGE f l SUBSET UNIONS {(s:K->A->bool) i | i IN l} /\\\n             {i | ~(f i = if i IN k then a i else ARB)} SUBSET l}
+  {(f : (K) -> A) | SUBSET(IMAGE(f, (l : (K) -> Bool)), UNIONS({(s : (K, A) -> Bool)((i : K)) | IN(i, l)})) && SUBSET({(i : K) | !(f(i) == (if IN(i, (k : (K) -> Bool)) { (a : (K) -> A)(i) } else { ARB }))}, l)}
   (i : K)
   \226\136\131 a : (K) -> A, \226\136\128 i : K, IN(i, DIFF((k : (K) -> Bool), (l : (K) -> Bool))) \226\134\146 (s : (K, A) -> Bool)(i) == {a(i)}
-  l = {i | i IN k /\\ ~(?a. (s:K->A->bool) i SUBSET {a})}
+  (l : (K) -> Bool) == {(i : K) | IN(i, (k : (K) -> Bool)) && !(\226\136\131 a : A, SUBSET((s : (K, A) -> Bool)(i), {a}))}
   (j : K) => if j == (i : K) { (x : A) } else { (z : (K) -> A)(j) }
   (x : A)
   (z : (K) -> A)
@@ -8553,16 +8553,16 @@ Library/card quotations (969):
   (UNIV : (Real) -> Bool)
   (cartesian_product : ((K) -> Bool, (K, Bool) -> Bool, (K) -> Bool) -> Bool)((l : (K) -> Bool), (i : K) => (UNIV : (Bool) -> Bool))
   cartesian_product((l : (K) -> Bool), (s : (K, A) -> Bool))
-  l = {i | i IN k /\\ ~(?a. (s:K->A->bool) i SUBSET {a})}
-  FINITE (cartesian_product k (s:K->A->bool))
+  (l : (K) -> Bool) == {(i : K) | IN(i, (k : (K) -> Bool)) && !(\226\136\131 a : A, SUBSET((s : (K, A) -> Bool)(i), {a}))}
+  FINITE(cartesian_product((k : (K) -> Bool), (s : (K, A) -> Bool)))
   cartesian_product((k : (K) -> Bool), (s : (K, A) -> Bool)) == {}
-  forall(s:K->A->bool) k.\n        FINITE(cartesian_product k s) <=>\n        cartesian_product k s = {} \\/\n        FINITE {i | i IN k /\\ ~(?a. s i SUBSET {a})} /\\\n        (forall i. i IN k ==> FINITE(s i))
-  FINITE t ==> (s SUBSET t /\\ FINITE s <=> s SUBSET t)
+  \226\136\128 s : (K, A) -> Bool, \226\136\128 k : (K) -> Bool, FINITE(cartesian_product(k, s)) == (cartesian_product(k, s) == {} || FINITE({(i : K) | IN(i, k) && !(\226\136\131 a : A, SUBSET(s(i), {a}))}) && (\226\136\128 i : K, IN(i, k) \226\134\146 FINITE(s(i))))
+  FINITE((t : (_) -> Bool)) \226\134\146 (SUBSET((s : (_) -> Bool), t) && FINITE(s)) == SUBSET(s, t)
   (f : (K) -> A)
-  {f | IMAGE f l SUBSET UNIONS {(s:K->A->bool) i | i IN l} /\\\n             {i | ~(f i = if i IN k then a i else ARB)} SUBSET l /\\\n             FINITE {i | ~(f i = if i IN k then a i else ARB)}}
+  {(f : (K) -> A) | SUBSET(IMAGE(f, (l : (K) -> Bool)), UNIONS({(s : (K, A) -> Bool)((i : K)) | IN(i, l)})) && SUBSET({(i : K) | !(f(i) == (if IN(i, (k : (K) -> Bool)) { (a : (K) -> A)(i) } else { ARB }))}, l) && FINITE({(i : K) | !(f(i) == (if IN(i, k) { a(i) } else { ARB }))})}
   (i : K)
   \226\136\131 a : (K) -> A, \226\136\128 i : K, IN(i, DIFF((k : (K) -> Bool), (l : (K) -> Bool))) \226\134\146 (s : (K, A) -> Bool)(i) == {a(i)}
-  l = {i | i IN k /\\ ~(?a. (s:K->A->bool) i SUBSET {a})}
+  (l : (K) -> Bool) == {(i : K) | IN(i, (k : (K) -> Bool)) && !(\226\136\131 a : A, SUBSET((s : (K, A) -> Bool)(i), {a}))}
   (j : K) => if j == (i : K) { (x : A) } else { (z : (K) -> A)(j) }
   (x : A)
   (z : (K) -> A)
@@ -8573,18 +8573,18 @@ Library/card quotations (969):
   (UNIV : (Real) -> Bool)
   (cartesian_product : ((K) -> Bool, (K, Bool) -> Bool, (K) -> Bool) -> Bool)((l : (K) -> Bool), (i : K) => (UNIV : (Bool) -> Bool))
   cartesian_product((l : (K) -> Bool), (s : (K, A) -> Bool))
-  l = {i | i IN k /\\ ~(?a. (s:K->A->bool) i SUBSET {a})}
-  COUNTABLE(cartesian_product k (s:K->A->bool))
+  (l : (K) -> Bool) == {(i : K) | IN(i, (k : (K) -> Bool)) && !(\226\136\131 a : A, SUBSET((s : (K, A) -> Bool)(i), {a}))}
+  COUNTABLE(cartesian_product((k : (K) -> Bool), (s : (K, A) -> Bool)))
   cartesian_product((k : (K) -> Bool), (s : (K, A) -> Bool)) == {}
-  forall(s:K->A->bool) k.\n        COUNTABLE(cartesian_product k s) <=>\n        cartesian_product k s = {} \\/\n        FINITE {i | i IN k /\\ ~(?a. s i SUBSET {a})} /\\\n        (forall i. i IN k ==> COUNTABLE(s i))
+  \226\136\128 s : (K, A) -> Bool, \226\136\128 k : (K) -> Bool, COUNTABLE(cartesian_product(k, s)) == (cartesian_product(k, s) == {} || FINITE({(i : K) | IN(i, k) && !(\226\136\131 a : A, SUBSET(s(i), {a}))}) && (\226\136\128 i : K, IN(i, k) \226\134\146 COUNTABLE(s(i))))
   !((t : (_) -> Bool) == {}) \226\134\146 (\226\136\128 a : _, IN(a, t) \226\134\146 (P : Bool)) == P
   (\226\136\131 x : _, (P : (_) -> Bool)(x) && (Q : (_) -> Bool)(x)) == !(\226\136\128 x : _, P(x) \226\134\146 !Q(x))
   \226\136\131 a : A, SUBSET((s : (A) -> Bool), {a})
   (t : (B) -> Bool) == {}
-  forall(s:A->bool) (t:B->bool).\n        FINITE(s ^_c t) <=>\n        (?a. s SUBSET {a}) \\/ t = {} \\/ FINITE s /\\ FINITE t
+  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(op_caret_us_c(s, t)) == ((\226\136\131 a : A, SUBSET(s, {a})) || t == {} || FINITE(s) && FINITE(t))
   fn { ((f : (K) -> A), (g : (K) -> A)) => (x : K) => if (IN : (K, (K) -> Bool) -> Bool)(x, (k : (K) -> Bool)) { f(x) } else { g(x) } }
   (f : (K) -> A) => (RESTRICTION((k : (K) -> Bool), f), RESTRICTION((l : (K) -> Bool), f))
-  forall(f:K->A->bool) k l.\n        DISJOINT k l\n        ==> cartesian_product (k UNION l) f =_c\n            cartesian_product k f CROSS cartesian_product l f
+  \226\136\128 f : (K, A) -> Bool, \226\136\128 k : (K) -> Bool, \226\136\128 l : (K) -> Bool, DISJOINT(k, l) \226\134\146 op_eq_us_c(cartesian_product(UNION(k, l), f), CROSS(cartesian_product(k, f), cartesian_product(l, f)))
 sum_DISTINCT =  |- (#forall:fun(fun('A,bool),bool) (\a:'A. (#forall:fun(fun('B,bool),bool) (\a':'B. (#~:fun(bool,bool) ((#=:fun(sum('A,'B),fun(sum('A,'B),bool)) (#INL:fun('A,sum('A,'B)) a:'A)) (#INR:fun('B,sum('A,'B)) a':'B)))))))
 sum_INJECTIVE =  |- ((#/\:fun(bool,fun(bool,bool)) (#forall:fun(fun('A,bool),bool) (\a:'A. (#forall:fun(fun('A,bool),bool) (\a':'A. ((#=:fun(bool,fun(bool,bool)) ((#=:fun(sum('A,'B),fun(sum('A,'B),bool)) (#INL:fun('A,sum('A,'B)) a:'A)) (#INL:fun('A,sum('A,'B)) a':'A))) ((#=:fun('A,fun('A,bool)) a:'A) a':'A))))))) (#forall:fun(fun('B,bool),bool) (\a:'B. (#forall:fun(fun('B,bool),bool) (\a':'B. ((#=:fun(bool,fun(bool,bool)) ((#=:fun(sum('A,'B),fun(sum('A,'B),bool)) (#INR:fun('B,sum('A,'B)) a:'B)) (#INR:fun('B,sum('A,'B)) a':'B))) ((#=:fun('B,fun('B,bool)) a:'B) a':'B)))))))
 sum_CASES =  |- (#forall:fun(fun(sum('A,'B),bool),bool) (\x:sum('A,'B). ((#\/:fun(bool,fun(bool,bool)) (#?:fun(fun('A,bool),bool) (\a:'A. ((#=:fun(sum('A,'B),fun(sum('A,'B),bool)) x:sum('A,'B)) (#INL:fun('A,sum('A,'B)) a:'A))))) (#?:fun(fun('B,bool),bool) (\a:'B. ((#=:fun(sum('A,'B),fun(sum('A,'B),bool)) x:sum('A,'B)) (#INR:fun('B,sum('A,'B)) a:'B)))))))

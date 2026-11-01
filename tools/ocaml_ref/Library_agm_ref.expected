@@ -5668,12 +5668,12 @@ Library/agm quotations (46):
   (1 <= (i : Num) && i <= 2) == (i == 1 || i == 2)
   \226\136\128 P : (Num) -> Bool, (\226\136\128 i : Num, 1 <= i && i <= 2 \226\134\146 P(i)) == (P(1) && P(2))
   op_dot_dot(1, 2) == {1, 2}
-  x * y <= ((x + y) / &2) pow 2 <=> &0 <= (x - y) * (x - y)
+  ((x : Real) * (y : Real) <= pow((x + y) / real_of_num(2), 2)) == (real_of_num(0) <= (x - y) * (x - y))
   \226\136\128 x : Real, \226\136\128 y : Real, x * y <= pow((x + y) / real_of_num(2), 2)
   1 <= (n : Num) + 1
   sum(op_dot_dot(1, 2 * (n : Num)), (f : (Num) -> Real)) == sum(op_dot_dot(1, n), f) + sum(op_dot_dot(n + 1, 2 * n), f)
   1 <= (n : Num) + 1
-  product(1..2*n) f = product(1..n) f * product(n+1..2*n) f
+  product(op_dot_dot(1, 2 * (n : Num)), (f : (Num) -> Real)) == product(op_dot_dot(1, n), f) * product(op_dot_dot(n + 1, 2 * n), f)
   SUC(2 * (m : Num)) + 1 == 2 * (m + 1)
   SUC(2 * (m : Num)) == 1 || m + 1 < SUC(2 * m)
   2 * (n : Num) == 0 || n < 2 * n
@@ -5681,7 +5681,7 @@ Library/agm quotations (46):
   1 == 0 + 1 && 2 == 1 + 1
   (P : (Num) -> Bool)(0) && P(1)
   (n : Num)
-  forall P. P 2 /\\ (forall n. P n ==> P(2 * n)) /\\ (forall n. P(n + 1) ==> P n) ==> forall n. P n
+  \226\136\128 P : (Num) -> Bool, P(2) && (\226\136\128 n : Num, P(n) \226\134\146 P(2 * n)) && (\226\136\128 n : Num, P(n + 1) \226\134\146 P(n)) \226\134\146 (\226\136\128 n : Num, P(n))
   1 <= SUC((n : Num))
   1 + (n : Num) == SUC(n)
   (n : Num)
@@ -5698,19 +5698,19 @@ Library/agm quotations (46):
   1 <= (n : Num) + 1
   (i : Num) => if i <= (n : Num) { (a : (Num) -> Real)(i) } else { sum(op_dot_dot(1, n), a) / real_of_num(n) }
   (a : (Num) -> Real)
-  n:num
+  (n : Num)
   ((x : Real) + (y : Real)) * ((a : Real) * (b : Real)) == (x * a + y * a) * b
   real_of_num(2) * real_of_num((n : Num)) == real_of_num(n) * real_of_num(2)
   1 <= 2 * (n : Num) \226\134\146 1 <= n
-  1 <= i /\\ i <= n ==> 1 <= i + n /\\ i + n <= 2 * n
+  1 <= (i : Num) && i <= (n : Num) \226\134\146 1 <= i + n && i + n <= 2 * n
   (n : Num) + 1 <= (i : Num) \226\134\146 1 <= i
   1 <= 2 * (n : Num) \226\134\146 1 <= n
   (i : Num) <= (n : Num) \226\134\146 i <= 2 * n
   (i : Num) <= (n : Num) \226\134\146 i <= 2 * n
-  (sum(1..n) a / &n) pow n * (sum(n+1..2*n) a / &n) pow n
+  pow(sum(op_dot_dot(1, (n : Num)), (a : (Num) -> Real)) / real_of_num(n), n) * pow(sum(op_dot_dot(n + 1, 2 * n), a) / real_of_num(n), n)
   (a : (Num) -> Real)
-  n:num
-  forall n a. 1 <= n /\\ (forall i. 1 <= i /\\ i <= n ==> &0 <= a(i))\n         ==> product(1..n) a <= (sum(1..n) a / &n) pow n
+  (n : Num)
+  \226\136\128 n : Num, \226\136\128 a : (Num) -> Real, 1 <= n && (\226\136\128 i : Num, 1 <= i && i <= n \226\134\146 real_of_num(0) <= a(i)) \226\134\146 product(op_dot_dot(1, n), a) <= pow(sum(op_dot_dot(1, n), a) / real_of_num(n), n)
 FORALL_2 =  |- (#forall:fun(fun(fun(num,bool),bool),bool) (\P:fun(num,bool). ((#=:fun(bool,fun(bool,bool)) (#forall:fun(fun(num,bool),bool) (\i:num. ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) ((#<=:fun(num,fun(num,bool)) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num))) i:num)) ((#<=:fun(num,fun(num,bool)) i:num) (#NUMERAL:fun(num,num) (#BIT0:fun(num,num) (#BIT1:fun(num,num) #_0:num)))))) (P:fun(num,bool) i:num))))) ((#/\:fun(bool,fun(bool,bool)) (P:fun(num,bool) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num)))) (P:fun(num,bool) (#NUMERAL:fun(num,num) (#BIT0:fun(num,num) (#BIT1:fun(num,num) #_0:num))))))))
 NUMSEG_2 =  |- ((#=:fun(fun(num,bool),fun(fun(num,bool),bool)) ((#..:fun(num,fun(num,fun(num,bool))) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num))) (#NUMERAL:fun(num,num) (#BIT0:fun(num,num) (#BIT1:fun(num,num) #_0:num))))) ((#INSERT:fun(num,fun(fun(num,bool),fun(num,bool))) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num))) ((#INSERT:fun(num,fun(fun(num,bool),fun(num,bool))) (#NUMERAL:fun(num,num) (#BIT0:fun(num,num) (#BIT1:fun(num,num) #_0:num)))) #EMPTY:fun(num,bool))))
 AGM_2 =  |- (#forall:fun(fun(real,bool),bool) (\x:real. (#forall:fun(fun(real,bool),bool) (\y:real. ((#real_le:fun(real,fun(real,bool)) ((#real_mul:fun(real,fun(real,real)) x:real) y:real)) ((#real_pow:fun(real,fun(num,real)) ((#real_div:fun(real,fun(real,real)) ((#real_add:fun(real,fun(real,real)) x:real) y:real)) (#real_of_num:fun(num,real) (#NUMERAL:fun(num,num) (#BIT0:fun(num,num) (#BIT1:fun(num,num) #_0:num)))))) (#NUMERAL:fun(num,num) (#BIT0:fun(num,num) (#BIT1:fun(num,num) #_0:num)))))))))

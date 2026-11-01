@@ -377,9 +377,7 @@ fn step_8() -> Unit raise {
   )
   finite_fld_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool. FINITE(fld l) <=> FINITE {(x,y) | l x y}",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, FINITE(fld(l)) == FINITE({((x : A), (y : A)) | l(x, y)})"),
       t35,
     ),
   )
@@ -399,9 +397,7 @@ pub fn finite_fld() -> @kernel.Thm {
 fn step_9() -> Unit raise {
   qoset_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "qoset (l:A->A->bool) <=>\n       (forall x. x IN fld l ==> l x x) /\\\n       (forall x y z. l x y /\\ l y z ==> l x z)",
-      ),
+      @term_syntax.parse_term("(qoset : ((A, A) -> Bool) -> Bool)((l : (A, A) -> Bool)) == ((∀ x : A, IN(x, fld(l)) → l(x, x)) && (∀ x : A, ∀ y : A, ∀ z : A, l(x, y) && l(y, z) → l(x, z)))"),
     ),
   )
 }
@@ -420,9 +416,7 @@ pub fn qoset() -> @kernel.Thm {
 fn step_10() -> Unit raise {
   poset_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "poset (l:A->A->bool) <=>\n       (forall x. x IN fld l ==> l x x) /\\\n       (forall x y z. l x y /\\ l y z ==> l x z) /\\\n       (forall x y. l x y /\\ l y x ==> x = y)",
-      ),
+      @term_syntax.parse_term("(poset : ((A, A) -> Bool) -> Bool)((l : (A, A) -> Bool)) == ((∀ x : A, IN(x, fld(l)) → l(x, x)) && (∀ x : A, ∀ y : A, ∀ z : A, l(x, y) && l(y, z) → l(x, z)) && (∀ x : A, ∀ y : A, l(x, y) && l(y, x) → x == y))"),
     ),
   )
 }
@@ -441,9 +435,7 @@ pub fn poset() -> @kernel.Thm {
 fn step_11() -> Unit raise {
   toset_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "toset (l:A->A->bool) <=>\n       (forall x. x IN fld l ==> l x x) /\\\n       (forall x y z. l x y /\\ l y z ==> l x z) /\\\n       (forall x y. l x y /\\ l y x ==> x = y) /\\\n       (forall x y. x IN fld l /\\ y IN fld l ==> l x y \\/ l y x)",
-      ),
+      @term_syntax.parse_term("(toset : ((A, A) -> Bool) -> Bool)((l : (A, A) -> Bool)) == ((∀ x : A, IN(x, fld(l)) → l(x, x)) && (∀ x : A, ∀ y : A, ∀ z : A, l(x, y) && l(y, z) → l(x, z)) && (∀ x : A, ∀ y : A, l(x, y) && l(y, x) → x == y) && (∀ x : A, ∀ y : A, IN(x, fld(l)) && IN(y, fld(l)) → l(x, y) || l(y, x)))"),
     ),
   )
 }
@@ -462,9 +454,7 @@ pub fn toset() -> @kernel.Thm {
 fn step_12() -> Unit raise {
   woset_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "woset (l:A->A->bool) <=>\n       (forall x. x IN fld l ==> l x x) /\\\n       (forall x y z. l x y /\\ l y z ==> l x z) /\\\n       (forall x y. l x y /\\ l y x ==> x = y) /\\\n       (forall x y. x IN fld l /\\ y IN fld l ==> l x y \\/ l y x) /\\\n       (forall s. s SUBSET fld l /\\ ~(s = {})\n            ==> ?x. x IN s /\\ forall y. y IN s ==> l x y)",
-      ),
+      @term_syntax.parse_term("(woset : ((A, A) -> Bool) -> Bool)((l : (A, A) -> Bool)) == ((∀ x : A, IN(x, fld(l)) → l(x, x)) && (∀ x : A, ∀ y : A, ∀ z : A, l(x, y) && l(y, z) → l(x, z)) && (∀ x : A, ∀ y : A, l(x, y) && l(y, x) → x == y) && (∀ x : A, ∀ y : A, IN(x, fld(l)) && IN(y, fld(l)) → l(x, y) || l(y, x)) && (∀ s : (A) -> Bool, SUBSET(s, fld(l)) && !(s == {}) → (∃ x : A, IN(x, s) && (∀ y : A, IN(y, s) → l(x, y)))))"),
     ),
   )
 }
@@ -483,9 +473,7 @@ pub fn woset() -> @kernel.Thm {
 fn step_13() -> Unit raise {
   wqoset_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "wqoset (l:A->A->bool) <=>\n        (forall x. x IN fld l ==> l x x) /\\\n        (forall x y z. l x y /\\ l y z ==> l x z) /\\\n        (forall s. s SUBSET fld l\n             ==> ?t. FINITE t /\\ t SUBSET s /\\\n                     forall y. y IN s ==> ?x. x IN t /\\ l x y)",
-      ),
+      @term_syntax.parse_term("(wqoset : ((A, A) -> Bool) -> Bool)((l : (A, A) -> Bool)) == ((∀ x : A, IN(x, fld(l)) → l(x, x)) && (∀ x : A, ∀ y : A, ∀ z : A, l(x, y) && l(y, z) → l(x, z)) && (∀ s : (A) -> Bool, SUBSET(s, fld(l)) → (∃ t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && (∀ y : A, IN(y, s) → (∃ x : A, IN(x, t) && l(x, y))))))"),
     ),
   )
 }
@@ -504,9 +492,7 @@ pub fn wqoset() -> @kernel.Thm {
 fn step_14() -> Unit raise {
   chain_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "chain (l:A->A->bool) s <=>\n        forall x y. x IN s /\\ y IN s ==> l x y \\/ l y x",
-      ),
+      @term_syntax.parse_term("(chain : ((A, A) -> Bool, (A) -> Bool) -> Bool)((l : (A, A) -> Bool), (s : (A) -> Bool)) == (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) → l(x, y) || l(y, x))"),
     ),
   )
 }
@@ -525,9 +511,7 @@ pub fn chain() -> @kernel.Thm {
 fn step_15() -> Unit raise {
   antichain_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "antichain (l:A->A->bool) s <=>\n        s SUBSET fld l /\\ pairwise (\\x y. ~(l x y)) s",
-      ),
+      @term_syntax.parse_term("(antichain : ((A, A) -> Bool, (A) -> Bool) -> Bool)((l : (A, A) -> Bool), (s : (A) -> Bool)) == (SUBSET(s, fld(l)) && pairwise((x : A) => (y : A) => !l(x, y), s))"),
     ),
   )
 }
@@ -551,9 +535,7 @@ fn step_16() -> Unit raise {
   )
   chain_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l s:A->bool.\n        chain l s <=>\n        s SUBSET fld l /\\\n        forall x y. x IN s /\\ y IN s ==> l x y \\/ l y x",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ s : (A) -> Bool, chain(l, s) == (SUBSET(s, fld(l)) && (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) → l(x, y) || l(y, x)))"),
       t37,
     ),
   )
@@ -578,9 +560,7 @@ fn step_17() -> Unit raise {
   )
   antichain_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l s:A->bool.\n        antichain l s <=>\n        s SUBSET fld l /\\\n        forall x y. x IN s /\\ y IN s /\\ ~(x = y) ==> ~(l x y)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ s : (A) -> Bool, antichain(l, s) == (SUBSET(s, fld(l)) && (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) && !(x == y) → !l(x, y)))"),
       t39,
     ),
   )
@@ -602,9 +582,7 @@ fn step_18() -> Unit raise {
   let t41 = @tactics.then_tac(@simp.rewrite_tac(@list.List([chain()])), t40)
   chain_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) s t. chain l s /\\ t SUBSET s ==> chain l t",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, chain(l, s) && SUBSET(t, s) → chain(l, t)"),
       t41,
     ),
   )
@@ -629,9 +607,7 @@ fn step_19() -> Unit raise {
   )
   antichain_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) s t. antichain l s /\\ t SUBSET s ==> antichain l t",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ s : (A) -> Bool, ∀ t : (A) -> Bool, antichain(l, s) && SUBSET(t, s) → antichain(l, t)"),
       t43,
     ),
   )
@@ -680,9 +656,7 @@ fn step_21() -> Unit raise {
   let t47 = @tactics.then_tac(@simp.rewrite_tac(@list.List([qoset()])), t46)
   qoset_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool. qoset l ==> forall x y z. l x y /\\ l y z ==> l x z",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, qoset(l) → (∀ x : A, ∀ y : A, ∀ z : A, l(x, y) && l(y, z) → l(x, z))"),
       t47,
     ),
   )
@@ -1107,9 +1081,7 @@ fn step_36() -> Unit raise {
   )
   strictly_imp_properly_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l x y:A. qoset l /\\ strictly l x y ==> properly l x y",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ x : A, ∀ y : A, qoset(l) && strictly(l, x, y) → properly(l, x, y)"),
       t72,
     ),
   )
@@ -1241,9 +1213,7 @@ fn step_41() -> Unit raise {
   let t82 = @tactics.then_tac(@simp.rewrite_tac(@list.List([properly()])), t81)
   properly_mono_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R S. (forall x y. R x y ==> S x y)\n         ==> (forall x y. properly R x y ==> properly S x y)",
-      ),
+      @term_syntax.parse_term("∀ R : (_, _) -> Bool, ∀ S : (_, _) -> Bool, (∀ x : _, ∀ y : _, R(x, y) → S(x, y)) → (∀ x : _, ∀ y : _, properly(R, x, y) → properly(S, x, y))"),
       t82,
     ),
   )
@@ -1266,9 +1236,7 @@ fn step_42() -> Unit raise {
   )
   poset_qoset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool.\n        poset l <=> qoset l /\\ (forall x y. l x y /\\ l y x ==> x = y)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, poset(l) == (qoset(l) && (∀ x : A, ∀ y : A, l(x, y) && l(y, x) → x == y))"),
       t83,
     ),
   )
@@ -1290,9 +1258,7 @@ fn step_43() -> Unit raise {
   let t85 = @tactics.then_tac(@simp.rewrite_tac(@list.List([toset()])), t84)
   toset_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool.\n        toset l <=>\n        (forall x y z. l x y /\\ l y z ==> l x z) /\\\n        (forall x y. l x y /\\ l y x ==> x = y) /\\\n        (forall x y. x IN fld l /\\ y IN fld l ==> l x y \\/ l y x)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, toset(l) == ((∀ x : A, ∀ y : A, ∀ z : A, l(x, y) && l(y, z) → l(x, z)) && (∀ x : A, ∀ y : A, l(x, y) && l(y, x) → x == y) && (∀ x : A, ∀ y : A, IN(x, fld(l)) && IN(y, fld(l)) → l(x, y) || l(y, x)))"),
       t85,
     ),
   )
@@ -1315,9 +1281,7 @@ fn step_44() -> Unit raise {
   )
   toset_poset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool.\n        toset l <=>\n        poset l /\\ (forall x y. x IN fld l /\\ y IN fld l ==> l x y \\/ l y x)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, toset(l) == (poset(l) && (∀ x : A, ∀ y : A, IN(x, fld(l)) && IN(y, fld(l)) → l(x, y) || l(y, x)))"),
       t86,
     ),
   )
@@ -1340,9 +1304,7 @@ fn step_45() -> Unit raise {
   )
   woset_toset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool.\n       woset l <=>\n       toset l /\\\n       forall s. s SUBSET fld l /\\ ~(s = {}) ==> ?x. x IN s /\\ forall y. y IN s ==> l x y",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, woset(l) == (toset(l) && (∀ s : (A) -> Bool, SUBSET(s, fld(l)) && !(s == {}) → (∃ x : A, IN(x, s) && (∀ y : A, IN(y, s) → l(x, y)))))"),
       t87,
     ),
   )
@@ -1459,9 +1421,7 @@ fn step_46() -> Unit raise {
   )
   wqoset_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool.\n        wqoset l <=>\n        (forall x y z. l x y /\\ l y z ==> l x z) /\\\n        (forall s. s SUBSET fld l\n             ==> ?t. FINITE t /\\\n                     t SUBSET s /\\\n                     forall y. y IN s ==> ?x. x IN t /\\ l x y)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, wqoset(l) == ((∀ x : A, ∀ y : A, ∀ z : A, l(x, y) && l(y, z) → l(x, z)) && (∀ s : (A) -> Bool, SUBSET(s, fld(l)) → (∃ t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && (∀ y : A, IN(y, s) → (∃ x : A, IN(x, t) && l(x, y))))))"),
       t98,
     ),
   )
@@ -1484,9 +1444,7 @@ fn step_47() -> Unit raise {
   )
   wqoset_qoset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool.\n       wqoset l <=>\n       qoset l /\\\n       forall s. s SUBSET fld l\n           ==> ?t. FINITE t /\\ t SUBSET s /\\\n                   forall y. y IN s ==> ?x. x IN t /\\ l x y",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, wqoset(l) == (qoset(l) && (∀ s : (A) -> Bool, SUBSET(s, fld(l)) → (∃ t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && (∀ y : A, IN(y, s) → (∃ x : A, IN(x, t) && l(x, y))))))"),
       t99,
     ),
   )
@@ -1607,9 +1565,7 @@ fn step_48() -> Unit raise {
   )
   woset_poset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool.\n       woset l <=>\n       poset l /\\\n       forall s. s SUBSET fld l /\\ ~(s = {}) ==> ?x. x IN s /\\ forall y. y IN s ==> l x y",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, woset(l) == (poset(l) && (∀ s : (A) -> Bool, SUBSET(s, fld(l)) && !(s == {}) → (∃ x : A, IN(x, s) && (∀ y : A, IN(y, s) → l(x, y)))))"),
       t111,
     ),
   )
@@ -1830,9 +1786,7 @@ fn step_49() -> Unit raise {
   )
   woset_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool.\n       woset l <=>\n       (forall x y. l x y /\\ l y x ==> x = y) /\\\n       forall s. s SUBSET fld l /\\ ~(s = {}) ==> ?x. x IN s /\\ forall y. y IN s ==> l x y",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, woset(l) == ((∀ x : A, ∀ y : A, l(x, y) && l(y, x) → x == y) && (∀ s : (A) -> Bool, SUBSET(s, fld(l)) && !(s == {}) → (∃ x : A, IN(x, s) && (∀ y : A, IN(y, s) → l(x, y)))))"),
       t138,
     ),
   )
@@ -2123,9 +2077,7 @@ fn step_50() -> Unit raise {
                         @tactics.gen_tac,
                         @tactics.match_mp_tac(
                           @class.taut(
-                            @parser.parse_term(
-                              "(p ==> q) /\\ (q ==> (p <=> r)) ==> (p <=> q /\\ r)",
-                            ),
+                            @term_syntax.parse_term("((p : Bool) → (q : Bool)) && (q → p == (r : Bool)) → p == (q && r)"),
                           ),
                         ),
                       ),
@@ -2151,9 +2103,7 @@ fn step_50() -> Unit raise {
   )
   woset_wf_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool.\n        woset l <=>\n        (forall x y. x IN fld l /\\ y IN fld l ==> l x y \\/ l y x) /\\\n        WF(properly l)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, woset(l) == ((∀ x : A, ∀ y : A, IN(x, fld(l)) && IN(y, fld(l)) → l(x, y) || l(y, x)) && WF(properly(l)))"),
       t171,
     ),
   )
@@ -2413,9 +2363,7 @@ fn step_52() -> Unit raise {
   )
   wqoset_superset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l m:A->A->bool.\n        wqoset l /\\\n        qoset m /\\\n        fld m SUBSET fld l /\\\n        (forall x y. l x y ==> m x y)\n        ==> wqoset m",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ m : (A, A) -> Bool, wqoset(l) && qoset(m) && SUBSET(fld(m), fld(l)) && (∀ x : A, ∀ y : A, l(x, y) → m(x, y)) → wqoset(m)"),
       t201,
     ),
   )
@@ -2592,9 +2540,7 @@ fn step_53() -> Unit raise {
     },
     @list.List([@wf.wf()]),
   )
-  let t370 = @parser.parse_term(
-    "\\y. y IN s /\\ forall m:num. m < n ==> ~((l:A->A->bool) (x m) y)",
-  )
+  let t370 = @term_syntax.parse_term("(y : A) => IN(y, (s : (A) -> Bool)) && (∀ m : Num, m < (n : Num) → !(l : (A, A) -> Bool)((x : (Num) -> A)(m), y))")
   let t376 = @tactics.first_x_assum(fn(
     x375 : @kernel.Thm,
   ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2876,9 +2822,7 @@ fn step_53() -> Unit raise {
     t395,
   ])
   let t346 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?x:num->A.\n        forall n. x n IN s DIFF UNIONS {{y | l (x m) y} | m < n} /\\\n            forall z. z IN s DIFF UNIONS {{y | l (x m) y} | m < n}\n                ==> ~(l z (x n) /\\ ~(l (x n) z))",
-    ),
+    @term_syntax.parse_term("∃ x : (Num) -> A, ∀ n : Num, IN(x(n), DIFF((s : (A) -> Bool), UNIONS({{(y : A) | (l : (A, A) -> Bool)(x((m : Num)), y)} | m < n}))) && (∀ z : A, IN(z, DIFF(s, UNIONS({{(y : A) | l(x((m : Num)), y)} | m < n}))) → !(l(z, x(n)) && !l(x(n), z)))"),
     fn(
       x343 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2954,9 +2898,7 @@ fn step_53() -> Unit raise {
     @list.List([
       @meson.meson(
         @list.List([]),
-        @parser.parse_term(
-          "(?x. P x /\\ Q x /\\ R x) <=> ~(forall x. P x /\\ Q x ==> ~R x)",
-        ),
+        @term_syntax.parse_term("(∃ x : _, (P : (_) -> Bool)(x) && (Q : (_) -> Bool)(x) && (R : (_) -> Bool)(x)) == !(∀ x : _, P(x) && Q(x) → !R(x))"),
       ),
     ]),
   )
@@ -3440,9 +3382,7 @@ fn step_53() -> Unit raise {
     t289,
   ])
   let t279 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall m n:num. m < n ==> (l:A->A->bool) (x n) (x m) /\\ ~l (x m) (x n)",
-    ),
+    @term_syntax.parse_term("∀ m : Num, ∀ n : Num, m < n → (l : (A, A) -> Bool)((x : (Num) -> A)(n), x(m)) && !l(x(m), x(n))"),
     fn(
       x276 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -3569,9 +3509,7 @@ fn step_53() -> Unit raise {
   let t263 = @tactics.repeat_tac(@tactics.strip_tac)
   let t262 = @tactics.match_mp_tac(
     @class.taut(
-      @parser.parse_term(
-        "(p ==> q) /\\ (p ==> (r <=> s)) ==> p /\\ r ==> q /\\ s",
-      ),
+      @term_syntax.parse_term("((p : Bool) → (q : Bool)) && (p → (r : Bool) == (s : Bool)) → p && r → q && s"),
     ),
   )
   let t261 = @tactics.x_gen_tac(@term_syntax.parse_term("(q : Num)"))
@@ -3579,9 +3517,7 @@ fn step_53() -> Unit raise {
   let t259 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([]),
-      @parser.parse_term(
-        "forall p. (forall m. P m ==> Q(m - (p + 1))) ==> (?m. P m) ==> (?m. Q m)",
-      ),
+      @term_syntax.parse_term("∀ p : Num, (∀ m : Num, (P : (Num) -> Bool)(m) → (Q : (Num) -> Bool)(m - (p + 1))) → (∃ m : Num, P(m)) → (∃ m : Num, Q(m))"),
     ),
   )
   let t258 = @simp.rewrite_tac(
@@ -3730,9 +3666,7 @@ fn step_53() -> Unit raise {
     t273,
   ])
   let t245 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?t:num->num.\n        (forall n:num. T) /\\\n        (forall n. t n < t (SUC n) /\\\n             (l:A->A->bool) (x(t n + p + 1)) (x(t(SUC n) + p + 1)))",
-    ),
+    @term_syntax.parse_term("∃ t : (Num) -> Num, (∀ n : Num, true) && (∀ n : Num, t(n) < t(SUC(n)) && (l : (A, A) -> Bool)((x : (Num) -> A)(t(n) + ((p : Num) + 1)), x(t(SUC(n)) + (p + 1))))"),
     fn(
       x242 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4068,9 +4002,7 @@ fn step_53() -> Unit raise {
   let t210 = @tactics.repeat_tac(@tactics.conj_tac)
   let t209 = @tactics.match_mp_tac(
     @class.taut(
-      @parser.parse_term(
-        "(p ==> q) /\\ (q ==> r) /\\ (r ==> s) /\\ (s ==> p)\n    ==> (p <=> q) /\\ (p <=> r) /\\ (p <=> s)",
-      ),
+      @term_syntax.parse_term("((p : Bool) → (q : Bool)) && (q → (r : Bool)) && (r → (s : Bool)) && (s → p) → p == q && p == r && p == s"),
     ),
   )
   let t208 = @simp.asm_rewrite_tac(@list.List([]))
@@ -4114,9 +4046,7 @@ fn step_53() -> Unit raise {
     t400,
   )
   let t402 = (
-    @parser.parse_term(
-      "(forall l:A->A->bool.\n        wqoset l <=>\n        qoset l /\\\n        forall x. (forall n:num. x n IN fld l) ==> ?i j. i < j /\\ l (x i) (x j)) /\\\n   (forall l:A->A->bool.\n        wqoset l <=>\n        qoset l /\\\n        forall x. (forall n. x n IN fld l)\n            ==> ?r:num->num.\n                    (forall m n. m < n ==> r(m) < r(n)) /\\\n                    (forall i j. i <= j ==> l (x(r i)) (x(r j)))) /\\\n   (forall l:A->A->bool.\n        wqoset l <=>\n        qoset l /\\\n        WF(strictly l) /\\\n        forall s. antichain l s ==> FINITE s)",
-    ),
+    @term_syntax.parse_term("(∀ l : (A, A) -> Bool, wqoset(l) == (qoset(l) && (∀ x : (Num) -> A, (∀ n : Num, IN(x(n), fld(l))) → (∃ i : Num, ∃ j : Num, i < j && l(x(i), x(j)))))) && (∀ l : (A, A) -> Bool, wqoset(l) == (qoset(l) && (∀ x : (Num) -> A, (∀ n : Num, IN(x(n), fld(l))) → (∃ r : (Num) -> Num, (∀ m : Num, ∀ n : Num, m < n → r(m) < r(n)) && (∀ i : Num, ∀ j : Num, i <= j → l(x(r(i)), x(r(j)))))))) && (∀ l : (A, A) -> Bool, wqoset(l) == (qoset(l) && WF(strictly(l)) && (∀ s : (A) -> Bool, antichain(l, s) → FINITE(s))))"),
     t401,
   )
   match
@@ -4188,9 +4118,7 @@ fn step_55() -> Unit raise {
   let t404 = @meson.meson_tac(@list.List([wqoset_superset(), wqoset_imp_wf()]))
   wqoset_wf_superset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l m:A->A->bool.\n        wqoset l /\\ qoset m /\\ fld m SUBSET fld l /\\ (forall x y. l x y ==> m x y)\n        ==> WF(strictly m)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ m : (A, A) -> Bool, wqoset(l) && qoset(m) && SUBSET(fld(m), fld(l)) && (∀ x : A, ∀ y : A, l(x, y) → m(x, y)) → WF(strictly(m))"),
       t404,
     ),
   )
@@ -4337,9 +4265,7 @@ fn step_56() -> Unit raise {
   let t416 = @simp.rewrite_tac(
     @list.List([qoset(), @class.not_imp(), @equal.gsym(@theorems.conj_assoc())]),
   )
-  let t412 = @parser.parse_term(
-    "\\x y:A. l x y \\/ ?i j:num. i < j /\\ l x (a j) /\\ l (a i) y",
-  )
+  let t412 = @term_syntax.parse_term("(x : A) => (y : A) => (l : (A, A) -> Bool)(x, y) || (∃ i : Num, ∃ j : Num, i < j && l(x, (a : (Num) -> A)(j)) && l(a(i), y))")
   let t415 = @tactics.first_x_assum(fn(
     x414 : @kernel.Thm,
   ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4502,9 +4428,7 @@ fn step_56() -> Unit raise {
   )
   wqoset_wf_superset_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool.\n        wqoset l <=>\n        qoset l /\\\n        forall m. qoset m /\\ fld m = fld l /\\ (forall x y. l x y ==> m x y)\n            ==> WF(strictly m)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, wqoset(l) == (qoset(l) && (∀ m : (A, A) -> Bool, qoset(m) && fld(m) == fld(l) && (∀ x : A, ∀ y : A, l(x, y) → m(x, y)) → WF(strictly(m))))"),
       t440,
     ),
   )
@@ -4578,9 +4502,7 @@ fn step_58() -> Unit raise {
   )
   fld_restrict_qoset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) P.\n        qoset l ==> fld (\\x y. P x /\\ P y /\\ l x y) = {x | x IN fld l /\\ P x}",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ P : (A) -> Bool, qoset(l) → fld((x : A) => (y : A) => P(x) && P(y) && l(x, y)) == {(x : A) | IN(x, fld(l)) && P(x)}"),
       t447,
     ),
   )
@@ -4605,9 +4527,7 @@ fn step_59() -> Unit raise {
   )
   fld_restrict_poset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) P.\n        poset l ==> fld (\\x y. P x /\\ P y /\\ l x y) = {x | x IN fld l /\\ P x}",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ P : (A) -> Bool, poset(l) → fld((x : A) => (y : A) => P(x) && P(y) && l(x, y)) == {(x : A) | IN(x, fld(l)) && P(x)}"),
       t448,
     ),
   )
@@ -4632,9 +4552,7 @@ fn step_60() -> Unit raise {
   )
   fld_restrict_toset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) P.\n        toset l ==> fld (\\x y. P x /\\ P y /\\ l x y) = {x | x IN fld l /\\ P x}",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ P : (A) -> Bool, toset(l) → fld((x : A) => (y : A) => P(x) && P(y) && l(x, y)) == {(x : A) | IN(x, fld(l)) && P(x)}"),
       t449,
     ),
   )
@@ -4659,9 +4577,7 @@ fn step_61() -> Unit raise {
   )
   fld_restrict_woset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) P.\n        woset l ==> fld (\\x y. P x /\\ P y /\\ l x y) = {x | x IN fld l /\\ P x}",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ P : (A) -> Bool, woset(l) → fld((x : A) => (y : A) => P(x) && P(y) && l(x, y)) == {(x : A) | IN(x, fld(l)) && P(x)}"),
       t450,
     ),
   )
@@ -4686,9 +4602,7 @@ fn step_62() -> Unit raise {
   )
   fld_restrict_wqoset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) P.\n       wqoset l ==> fld (\\x y. P x /\\ P y /\\ l x y) = {x | x IN fld l /\\ P x}",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ P : (A) -> Bool, wqoset(l) → fld((x : A) => (y : A) => P(x) && P(y) && l(x, y)) == {(x : A) | IN(x, fld(l)) && P(x)}"),
       t451,
     ),
   )
@@ -4715,9 +4629,7 @@ fn step_63() -> Unit raise {
   )
   qoset_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) P. qoset l ==> qoset (\\x y. P x /\\ P y /\\ l x y)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ P : (A) -> Bool, qoset(l) → qoset((x : A) => (y : A) => P(x) && P(y) && l(x, y))"),
       t453,
     ),
   )
@@ -4742,9 +4654,7 @@ fn step_64() -> Unit raise {
   )
   poset_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) P. poset l ==> poset (\\x y. P x /\\ P y /\\ l x y)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ P : (A) -> Bool, poset(l) → poset((x : A) => (y : A) => P(x) && P(y) && l(x, y))"),
       t455,
     ),
   )
@@ -4769,9 +4679,7 @@ fn step_65() -> Unit raise {
   )
   toset_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) P. toset l ==> toset (\\x y. P x /\\ P y /\\ l x y)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ P : (A) -> Bool, toset(l) → toset((x : A) => (y : A) => P(x) && P(y) && l(x, y))"),
       t457,
     ),
   )
@@ -4799,9 +4707,7 @@ fn step_66() -> Unit raise {
   )
   woset_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) P. woset l ==> woset (\\x y. P x /\\ P y /\\ l x y)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ P : (A) -> Bool, woset(l) → woset((x : A) => (y : A) => P(x) && P(y) && l(x, y))"),
       t460,
     ),
   )
@@ -4829,9 +4735,7 @@ fn step_67() -> Unit raise {
   )
   wqoset_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) P. wqoset l ==> wqoset (\\x y. P x /\\ P y /\\ l x y)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ P : (A) -> Bool, wqoset(l) → wqoset((x : A) => (y : A) => P(x) && P(y) && l(x, y))"),
       t463,
     ),
   )
@@ -4993,9 +4897,7 @@ fn step_68() -> Unit raise {
     t477,
   )
   let t479 = (
-    @parser.parse_term(
-      "(forall l s:A->bool.\n        qoset l /\\ FINITE s /\\ ~(s = {}) /\\ s SUBSET fld l\n        ==> ?a. a IN s /\\ forall x. x IN s ==> ~(strictly l x a)) /\\\n   (forall l s:A->bool.\n        qoset l /\\ FINITE s /\\ ~(s = {}) /\\ s SUBSET fld l\n        ==> ?a. a IN s /\\ forall x. x IN s ==> ~(strictly l a x))",
-    ),
+    @term_syntax.parse_term("(∀ l : (A, A) -> Bool, ∀ s : (A) -> Bool, qoset(l) && FINITE(s) && !(s == {}) && SUBSET(s, fld(l)) → (∃ a : A, IN(a, s) && (∀ x : A, IN(x, s) → !strictly(l, x, a)))) && (∀ l : (A, A) -> Bool, ∀ s : (A) -> Bool, qoset(l) && FINITE(s) && !(s == {}) && SUBSET(s, fld(l)) → (∃ a : A, IN(a, s) && (∀ x : A, IN(x, s) → !strictly(l, a, x))))"),
     t478,
   )
   let (qoset_min, qoset_max) = @bool.conj_pair(
@@ -5060,9 +4962,7 @@ fn step_69() -> Unit raise {
     ]),
   )
   let t482 = (
-    @parser.parse_term(
-      "(forall l s:A->bool.\n        poset l /\\ FINITE s /\\ ~(s = {}) /\\ s SUBSET fld l\n        ==> ?a. a IN s /\\ forall x. x IN s ==> ~(properly l x a)) /\\\n   (forall l s:A->bool.\n        poset l /\\ FINITE s /\\ ~(s = {}) /\\ s SUBSET fld l\n        ==> ?a. a IN s /\\ forall x. x IN s ==> ~(properly l a x))",
-    ),
+    @term_syntax.parse_term("(∀ l : (A, A) -> Bool, ∀ s : (A) -> Bool, poset(l) && FINITE(s) && !(s == {}) && SUBSET(s, fld(l)) → (∃ a : A, IN(a, s) && (∀ x : A, IN(x, s) → !properly(l, x, a)))) && (∀ l : (A, A) -> Bool, ∀ s : (A) -> Bool, poset(l) && FINITE(s) && !(s == {}) && SUBSET(s, fld(l)) → (∃ a : A, IN(a, s) && (∀ x : A, IN(x, s) → !properly(l, a, x))))"),
     t481,
   )
   let (poset_min, poset_max) = @bool.conj_pair(
@@ -5180,9 +5080,7 @@ fn step_70() -> Unit raise {
     t493,
   )
   let t495 = (
-    @parser.parse_term(
-      "(forall l s:A->bool.\n        toset l /\\ FINITE s /\\ ~(s = {}) /\\ s SUBSET fld l\n        ==> ?a. a IN s /\\ forall x. x IN s ==> l a x) /\\\n   (forall l s:A->bool.\n        toset l /\\ FINITE s /\\ ~(s = {}) /\\ s SUBSET fld l\n        ==> ?a. a IN s /\\ forall x. x IN s ==> l x a)",
-    ),
+    @term_syntax.parse_term("(∀ l : (A, A) -> Bool, ∀ s : (A) -> Bool, toset(l) && FINITE(s) && !(s == {}) && SUBSET(s, fld(l)) → (∃ a : A, IN(a, s) && (∀ x : A, IN(x, s) → l(a, x)))) && (∀ l : (A, A) -> Bool, ∀ s : (A) -> Bool, toset(l) && FINITE(s) && !(s == {}) && SUBSET(s, fld(l)) → (∃ a : A, IN(a, s) && (∀ x : A, IN(x, s) → l(x, a))))"),
     t494,
   )
   let (toset_min, toset_max) = @bool.conj_pair(
@@ -5481,9 +5379,7 @@ fn step_83() -> Unit raise {
       @tactics.match_mp_tac(
         @meson.meson(
           @list.List([]),
-          @parser.parse_term(
-            "(forall a. P (\\i. a) ==> Q a) ==> (forall a. P a) ==> forall b. Q b",
-          ),
+          @term_syntax.parse_term("(∀ a : _, (P : ((_) -> _) -> Bool)((i : _) => a) → (Q : (_) -> Bool)(a)) → (∀ a : (_) -> _, P(a)) → (∀ b : _, Q(b))"),
         ),
       ),
       @tactics.gen_tac,
@@ -5551,9 +5447,7 @@ fn step_83() -> Unit raise {
   )
   qoset_pointwise_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l s. qoset(\\x y:K->A. forall i. i IN s ==> l (x i) (y i)) <=>\n         s = {} \\/ qoset l",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ s : (K) -> Bool, qoset((x : (K) -> A) => (y : (K) -> A) => ∀ i : K, IN(i, s) → l(x(i), y(i))) == (s == {} || qoset(l))"),
       t527,
     ),
   )
@@ -5795,9 +5689,7 @@ fn step_84() -> Unit raise {
   )
   fld_pointwise_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l s. qoset l\n         ==> fld(\\x y:K->A. forall i. i IN s ==> l (x i) (y i)) =\n             {x | forall i. i IN s ==> x i IN fld l}",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ s : (K) -> Bool, qoset(l) → fld((x : (K) -> A) => (y : (K) -> A) => ∀ i : K, IN(i, s) → l(x(i), y(i))) == {(x : (K) -> A) | ∀ i : K, IN(i, s) → IN(x(i), fld(l))}"),
       t546,
     ),
   )
@@ -6078,9 +5970,7 @@ fn step_85() -> Unit raise {
   )
   wqoset_pointwise_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l s. wqoset l /\\ FINITE s\n         ==> wqoset(\\x y:K->A. forall i. i IN s ==> l (x i) (y i))",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ s : (K) -> Bool, wqoset(l) && FINITE(s) → wqoset((x : (K) -> A) => (y : (K) -> A) => ∀ i : K, IN(i, s) → l(x(i), y(i)))"),
       t577,
     ),
   )
@@ -6157,9 +6047,7 @@ fn step_86() -> Unit raise {
   )
   dickson_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n x:num->num->num. ?i j. i < j /\\ (forall k. k < n ==> x i k <= x j k)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ x : (Num, Num) -> Num, ∃ i : Num, ∃ j : Num, i < j && (∀ k : Num, k < n → x(i, k) <= x(j, k))"),
       t590,
     ),
   )
@@ -6185,9 +6073,7 @@ fn step_87() -> Unit raise {
 fn step_88() -> Unit raise {
   inseg_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(l:A->A->bool) inseg m <=> forall x y. l x y <=> m x y /\\ fld(l) y",
-      ),
+      @term_syntax.parse_term("(inseg : ((A, A) -> Bool, (A, A) -> Bool) -> Bool)((l : (A, A) -> Bool), (m : (A, A) -> Bool)) == (∀ x : A, ∀ y : A, l(x, y) == (m(x, y) && fld(l, y)))"),
     ),
   )
 }
@@ -6274,9 +6160,7 @@ fn step_91() -> Unit raise {
   )
   inseg_trans_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l m n:A->A->bool. l inseg m /\\ m inseg n ==> l inseg n",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ m : (A, A) -> Bool, ∀ n : (A, A) -> Bool, inseg(l, m) && inseg(m, n) → inseg(l, n)"),
       t597,
     ),
   )
@@ -6296,9 +6180,7 @@ pub fn inseg_trans() -> @kernel.Thm {
 fn step_92() -> Unit raise {
   linseg_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "linseg (l:A->A->bool) a = \\ x y. l x y /\\ (properly l) y a",
-      ),
+      @term_syntax.parse_term("(linseg : ((A, A) -> Bool, A, A, A) -> Bool)((l : (A, A) -> Bool), (a : A)) == ((x : A) => (y : A) => l(x, y) && properly(l, y, a))"),
     ),
   )
 }
@@ -6317,9 +6199,7 @@ pub fn linseg() -> @kernel.Thm {
 fn step_93() -> Unit raise {
   ordinal_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "ordinal(l:A->A->bool) <=>\n    woset(l) /\\ (forall x. fld(l) x ==> (x = (@) (\\y. ~(properly l) y x)))",
-      ),
+      @term_syntax.parse_term("(ordinal : ((A, A) -> Bool) -> Bool)((l : (A, A) -> Bool)) == (woset(l) && (∀ x : A, fld(l, x) → x == select((y : A) => !properly(l, y, x))))"),
     ),
   )
 }
@@ -6533,9 +6413,7 @@ fn step_98() -> Unit raise {
   )
   woset_trans_less_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool. woset l ==>\n       forall x y z. (properly l) x y /\\ l y z ==> (properly l) x z",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, woset(l) → (∀ x : A, ∀ y : A, ∀ z : A, properly(l, x, y) && l(y, z) → properly(l, x, z))"),
       t611,
     ),
   )
@@ -6583,9 +6461,7 @@ fn step_100() -> Unit raise {
   )
   woset_trans_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool. woset l ==>\n       forall x y z. l x y /\\ (properly l) y z ==> (properly l) x z",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, woset(l) → (∀ x : A, ∀ y : A, ∀ z : A, l(x, y) && properly(l, y, z) → properly(l, x, z))"),
       t614,
     ),
   )
@@ -6708,9 +6584,7 @@ fn step_101() -> Unit raise {
   )
   woset_well_contrapos_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool. woset l ==>\n                (forall P. (forall x. P x ==> fld(l) x) /\\ (?x. P x) ==>\n                     (?y. P y /\\ (forall z. (properly l) z y ==> ~P z)))",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, woset(l) → (∀ P : (A) -> Bool, (∀ x : A, P(x) → fld(l, x)) && (∃ x : A, P(x)) → (∃ y : A, P(y) && (∀ z : A, properly(l, z, y) → !P(z))))"),
       t625,
     ),
   )
@@ -6737,9 +6611,7 @@ fn step_102() -> Unit raise {
   )
   woset_total_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool. woset l\n                 ==> forall x y. fld(l) x /\\ fld(l) y ==> l x y \\/ (properly l) y x",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, woset(l) → (∀ x : A, ∀ y : A, fld(l, x) && fld(l, y) → l(x, y) || properly(l, y, x))"),
       t627,
     ),
   )
@@ -6764,9 +6636,7 @@ fn step_103() -> Unit raise {
   )
   woset_total_lt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool. woset l ==>\n     forall x y. fld(l) x /\\ fld(l) y\n           ==> x = y \\/ (properly l) x y \\/ (properly l) y x",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, woset(l) → (∀ x : A, ∀ y : A, fld(l, x) && fld(l, y) → x == y || properly(l, x, y) || properly(l, y, x))"),
       t629,
     ),
   )
@@ -6888,9 +6758,7 @@ fn step_105() -> Unit raise {
   )
   woset_finite_toset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool. toset l /\\ FINITE {(x,y) | l x y} ==> woset l",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, toset(l) && FINITE({((x : A), (y : A)) | l(x, y)}) → woset(l)"),
       t643,
     ),
   )
@@ -6920,9 +6788,7 @@ fn step_106() -> Unit raise {
   )
   union_fld_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. fld(\\x y:A. ?l. P l /\\ l x y) x <=> ?l. P l /\\ fld(l) x",
-      ),
+      @term_syntax.parse_term("∀ P : ((A, A) -> Bool) -> Bool, fld((x : A) => (y : A) => ∃ l : (A, A) -> Bool, P(l) && l(x, y), (x : A)) == (∃ l : (A, A) -> Bool, P(l) && fld(l, x))"),
       t646,
     ),
   )
@@ -6947,9 +6813,7 @@ fn step_107() -> Unit raise {
   )
   union_inseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P (l:A->A->bool).\n        (forall m. P m ==> m inseg l)\n        ==> (\\x y. ?l. P l /\\ l x y) inseg l",
-      ),
+      @term_syntax.parse_term("∀ P : ((A, A) -> Bool) -> Bool, ∀ l : (A, A) -> Bool, (∀ m : (A, A) -> Bool, P(m) → inseg(m, l)) → inseg((x : A) => (y : A) => ∃ l : (A, A) -> Bool, P(l) && l(x, y), l)"),
       t648,
     ),
   )
@@ -6975,9 +6839,7 @@ fn step_108() -> Unit raise {
   )
   inseg_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) m. m inseg l ==> forall x y. m x y ==> l x y",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ m : (A, A) -> Bool, inseg(m, l) → (∀ x : A, ∀ y : A, m(x, y) → l(x, y))"),
       t651,
     ),
   )
@@ -7004,9 +6866,7 @@ fn step_109() -> Unit raise {
   )
   inseg_subset_fld_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) m. m inseg l ==> forall x. fld(m) x ==> fld(l) x",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ m : (A, A) -> Bool, inseg(m, l) → (∀ x : A, fld(m, x) → fld(l, x))"),
       t653,
     ),
   )
@@ -7472,9 +7332,7 @@ fn step_112() -> Unit raise {
   )
   inseg_ordinal_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l m:A->A->bool. m inseg l /\\ ordinal l ==> ordinal m",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ m : (A, A) -> Bool, inseg(m, l) && ordinal(l) → ordinal(m)"),
       t698,
     ),
   )
@@ -7571,9 +7429,7 @@ fn step_115() -> Unit raise {
   )
   linseg_fld_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) a x. woset l ==> (fld (linseg l a) x <=> (properly l) x a)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ a : A, ∀ x : A, woset(l) → fld(linseg(l, a), x) == properly(l, x, a)"),
       t704,
     ),
   )
@@ -7598,9 +7454,7 @@ fn step_116() -> Unit raise {
   )
   inseg_proper_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) m. m inseg l /\\ ~(l = m) ==>\n                   ?x y. l x y /\\ ~m x y",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ m : (A, A) -> Bool, inseg(m, l) && !(l == m) → (∃ x : A, ∃ y : A, l(x, y) && !m(x, y))"),
       t706,
     ),
   )
@@ -7629,9 +7483,7 @@ fn step_117() -> Unit raise {
   )
   inseg_proper_subset_fld_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) m. m inseg l /\\ ~(l = m) ==>\n                   ?a. fld(l) a /\\ ~fld(m) a",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ m : (A, A) -> Bool, inseg(m, l) && !(l == m) → (∃ a : A, fld(l, a) && !fld(m, a))"),
       t707,
     ),
   )
@@ -8136,9 +7988,7 @@ fn step_118() -> Unit raise {
   )
   inseg_linseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) m. woset l ==>\n      (m inseg l <=> (m = l) \\/ (?a. fld(l) a /\\ (m = linseg l a)))",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ m : (A, A) -> Bool, woset(l) → inseg(m, l) == (m == l || (∃ a : A, fld(l, a) && m == linseg(l, a)))"),
       t745,
     ),
   )
@@ -8175,9 +8025,7 @@ fn step_119() -> Unit raise {
   )
   extend_fld_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) x. woset l ==> (fld (\\ x y. l x y /\\ l y a) x <=> l x a)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ x : A, woset(l) → fld((x : A) => (y : A) => l(x, y) && l(y, (a : A)), x) == l(x, a)"),
       t748,
     ),
   )
@@ -8233,9 +8081,7 @@ fn step_120() -> Unit raise {
   )
   extend_inseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) a. woset l /\\ fld(l) a ==> (\\ x y. l x y /\\ l y a) inseg l",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ a : A, woset(l) && fld(l, a) → inseg((x : A) => (y : A) => l(x, y) && l(y, a), l)"),
       t754,
     ),
   )
@@ -8340,9 +8186,7 @@ fn step_121() -> Unit raise {
   )
   extend_linseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) a. woset l /\\ fld(l) a ==>\n       (\\ x y. linseg l a  x y \\/ (y = a) /\\ (fld(linseg l a) x \\/ (x = a)))\n                inseg l",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ a : A, woset(l) && fld(l, a) → inseg((x : A) => (y : A) => linseg(l, a, x, y) || y == a && (fld(linseg(l, a), x) || x == a), l)"),
       t767,
     ),
   )
@@ -8579,9 +8423,7 @@ fn step_122() -> Unit raise {
   )
   ordinal_chained_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(k:A->A->bool) l m.\n        ordinal(l) /\\ ordinal(m)\n        ==> k inseg l /\\ k inseg m\n            ==> k = l \\/ k = m \\/ ?a. fld(l) a /\\ fld(m) a /\\\n                                      k = linseg l a /\\\n                                      k = linseg m a",
-      ),
+      @term_syntax.parse_term("∀ k : (A, A) -> Bool, ∀ l : (A, A) -> Bool, ∀ m : (A, A) -> Bool, ordinal(l) && ordinal(m) → inseg(k, l) && inseg(k, m) → k == l || k == m || (∃ a : A, fld(l, a) && fld(m, a) && k == linseg(l, a) && k == linseg(m, a))"),
       t796,
     ),
   )
@@ -8678,9 +8520,7 @@ fn step_123() -> Unit raise {
     @tactics.then_tac(
       @tactics.then_tac(
         @tactics.undisch_tac(
-          @parser.parse_term(
-            "(\\x y. ?k. (k inseg l /\\ k inseg m) /\\ k x y) = linseg l (a:A)",
-          ),
+          @term_syntax.parse_term("((x : A) => (y : A) => ∃ k : (A, A) -> Bool, (inseg(k, (l : (A, A) -> Bool)) && inseg(k, (m : (A, A) -> Bool))) && k(x, y)) == linseg(l, (a : A))"),
         ),
         t837,
       ),
@@ -8689,9 +8529,7 @@ fn step_123() -> Unit raise {
   ])
   let t836 = @simp.rewrite_tac(@list.List([]))
   let t835 = @tactics.exists_tac(
-    @parser.parse_term(
-      "\\x y. linseg l a x y \\/ (y = a) /\\ (fld(linseg l a) x \\/ (x = a:A))",
-    ),
+    @term_syntax.parse_term("(x : A) => (y : A) => linseg((l : (A, A) -> Bool), (a : A), x, y) || y == a && (fld(linseg(l, a), x) || x == a)"),
   )
   let t834 = @simp.rewrite_tac(@list.List([properly()]))
   let t833 = @simp.rewrite_tac(@list.List([linseg()]))
@@ -8792,9 +8630,7 @@ fn step_123() -> Unit raise {
   let t821 = @tactics.conv_tac(@class.contrapos_conv)
   let t820 = @tactics.mp_tac(
     @kernel.assume_rule(
-      @parser.parse_term(
-        "(\\x y. ?k. (k inseg l /\\ k inseg m) /\\ k x y) = linseg l (a:A)",
-      ),
+      @term_syntax.parse_term("((x : A) => (y : A) => ∃ k : (A, A) -> Bool, (inseg(k, (l : (A, A) -> Bool)) && inseg(k, (m : (A, A) -> Bool))) && k(x, y)) == linseg(l, (a : A))"),
     ),
   )
   let t819 = @tactics.disch_then(
@@ -9043,9 +8879,7 @@ fn step_123() -> Unit raise {
   )
   ordinal_chained_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) m. ordinal(l) /\\ ordinal(m) ==> m inseg l \\/ l inseg m",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ m : (A, A) -> Bool, ordinal(l) && ordinal(m) → inseg(m, l) || inseg(l, m)"),
       t847,
     ),
   )
@@ -9087,9 +8921,7 @@ fn step_124() -> Unit raise {
   )
   ordinal_fld_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l m:A->A->bool.\n        ordinal l /\\ ordinal m /\\ fld l = fld m ==> l = m",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ m : (A, A) -> Bool, ordinal(l) && ordinal(m) && fld(l) == fld(m) → l == m"),
       t852,
     ),
   )
@@ -9215,9 +9047,7 @@ fn step_125() -> Unit raise {
   )
   ordinal_fld_subset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l m:A->A->bool.\n        ordinal l /\\ ordinal m /\\ fld l SUBSET fld m ==> l inseg m",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ m : (A, A) -> Bool, ordinal(l) && ordinal(m) && SUBSET(fld(l), fld(m)) → inseg(l, m)"),
       t865,
     ),
   )
@@ -9242,9 +9072,7 @@ fn step_126() -> Unit raise {
   )
   ordinal_fld_subset_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l m:A->A->bool.\n        ordinal l /\\ ordinal m ==> (fld l SUBSET fld m <=> l inseg m)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ m : (A, A) -> Bool, ordinal(l) && ordinal(m) → SUBSET(fld(l), fld(m)) == inseg(l, m)"),
       t866,
     ),
   )
@@ -9289,9 +9117,7 @@ fn step_127() -> Unit raise {
   )
   fld_suc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) a.\n     fld(\\ x y. l x y \\/ (y = a) /\\ (fld(l) x \\/ (x = a))) x <=>\n     fld(l) x \\/ (x = a)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ a : A, fld((x : A) => (y : A) => l(x, y) || y == a && (fld(l, x) || x == a), (x : A)) == (fld(l, x) || x == a)"),
       t872,
     ),
   )
@@ -9549,9 +9375,7 @@ fn step_128() -> Unit raise {
                               @tactics.then_tac(
                                 @tactics.then_tac(
                                   @tactics.undisch_tac(
-                                    @parser.parse_term(
-                                      "forall x:A. fld l x ==> (x = (@y. ~properly l y x))",
-                                    ),
+                                    @term_syntax.parse_term("∀ x : A, fld((l : (A, A) -> Bool), x) → x == select((y : A) => !properly(l, y, x))"),
                                   ),
                                   t944,
                                 ),
@@ -10201,9 +10025,7 @@ fn step_128() -> Unit raise {
   )
   ordinal_suc_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool. ordinal(l) /\\ (?x. ~(fld(l) x)) ==>\n                 ordinal(\\x y. l x y \\/ (y = @y. ~fld(l) y) /\\\n                                           (fld(l) x \\/ (x = @y. ~fld(l) y)))",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ordinal(l) && (∃ x : A, !fld(l, x)) → ordinal((x : A) => (y : A) => l(x, y) || y == select((y : A) => !fld(l, y)) && (fld(l, x) || x == select((y : A) => !fld(l, y))))"),
       t982,
     ),
   )
@@ -11422,9 +11244,7 @@ fn step_129() -> Unit raise {
                                               @tactics.then_tac(
                                                 @tactics.then_tac(
                                                   @tactics.x_gen_tac(
-                                                    @parser.parse_term(
-                                                      "Q:A->bool",
-                                                    ),
+                                                    @term_syntax.parse_term("(Q : (A) -> Bool)"),
                                                   ),
                                                   t1015,
                                                 ),
@@ -11766,9 +11586,7 @@ fn step_129() -> Unit raise {
   )
   ordinal_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (forall l:A->A->bool. P l ==> ordinal(l))\n       ==> ordinal(\\x y. ?l. P l /\\ l x y)",
-      ),
+      @term_syntax.parse_term("∀ P : ((A, A) -> Bool) -> Bool, (∀ l : (A, A) -> Bool, P(l) → ordinal(l)) → ordinal((x : A) => (y : A) => ∃ l : (A, A) -> Bool, P(l) && l(x, y))"),
       t1163,
     ),
   )
@@ -11798,9 +11616,7 @@ fn step_130() -> Unit raise {
   )
   ordinal_union_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(l:A->A->bool) x.\n      ordinal l ==> fld(l) x ==> fld(\\a b. ?l. ordinal l /\\ l a b) x",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ x : A, ordinal(l) → fld(l, x) → fld((a : A) => (b : A) => ∃ l : (A, A) -> Bool, ordinal(l) && l(a, b), x)"),
       t1167,
     ),
   )
@@ -11872,9 +11688,7 @@ fn step_131() -> Unit raise {
       }
     },
     @list.List([
-      @parser.parse_term(
-        "\\x y. l x y \\/ (y = @y:A. ~fld l y) /\\ (fld(l) x \\/ (x = @y. ~fld l y))",
-      ),
+      @term_syntax.parse_term("(x : A) => (y : A) => (l : (A, A) -> Bool)(x, y) || y == select((y : A) => !fld(l, y)) && (fld(l, x) || x == select((y : A) => !fld(l, y)))"),
       t1178,
     ]),
   )
@@ -11927,9 +11741,7 @@ fn step_131() -> Unit raise {
   )
   ordinal_up_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool. ordinal(l) ==> (forall x. fld(l) x) \\/\n                          (?m x. ordinal(m) /\\ fld(m) x /\\ ~fld(l) x)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ordinal(l) → (∀ x : A, fld(l, x)) || (∃ m : (A, A) -> Bool, ∃ x : A, ordinal(m) && fld(m, x) && !fld(l, x))"),
       t1183,
     ),
   )
@@ -12134,9 +11946,7 @@ fn step_133() -> Unit raise {
   )
   fld_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l. woset l ==>\n       forall P. fld(\\x y:A. P x /\\ P y /\\ l x y) x <=> P x /\\ fld(l) x",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, woset(l) → (∀ P : (A) -> Bool, fld((x : A) => (y : A) => P(x) && P(y) && l(x, y), (x : A)) == (P(x) && fld(l, x)))"),
       t1209,
     ),
   )
@@ -13341,9 +13151,7 @@ fn step_135() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1275 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall y. ?(a:A) z. P y ==> P z /\\ fld y a /\\ linseg y a = z",
-    ),
+    @term_syntax.parse_term("∀ y : (A, A) -> Bool, ∃ a : A, ∃ z : (A, A) -> Bool, (P : ((A, A) -> Bool) -> Bool)(y) → P(z) && fld(y, a) && linseg(y, a) == z"),
     fn(
       x1272 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -13626,9 +13434,7 @@ fn step_135() -> Unit raise {
   )
   wf_inseg_woset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "WF(\\(x:A->A->bool) y. woset x /\\ woset y /\\ x inseg y /\\ ~(x = y))",
-      ),
+      @term_syntax.parse_term("WF((x : (A, A) -> Bool) => (y : (A, A) -> Bool) => woset(x) && woset(y) && inseg(x, y) && !(x == y))"),
       t1373,
     ),
   )
@@ -13680,9 +13486,7 @@ fn step_136() -> Unit raise {
   )
   woset_inseg_ordinal_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "woset (\\(x:A->A->bool) y. ordinal x /\\ ordinal y /\\ x inseg y)",
-      ),
+      @term_syntax.parse_term("woset((x : (A, A) -> Bool) => (y : (A, A) -> Bool) => ordinal(x) && ordinal(y) && inseg(x, y))"),
       t1377,
     ),
   )
@@ -13814,9 +13618,7 @@ fn step_137() -> Unit raise {
         @tactics.match_mp_tac(
           @meson.meson(
             @list.List([]),
-            @parser.parse_term(
-              "(forall x y. P x y /\\ P y x ==> Q x y)\n        ==> (forall x y. P x y) ==> (forall x y. Q x y)",
-            ),
+            @term_syntax.parse_term("(∀ x : _, ∀ y : _, (P : (_, _) -> Bool)(x, y) && P(y, x) → (Q : (_, _) -> Bool)(x, y)) → (∀ x : _, ∀ y : _, P(x, y)) → (∀ x : _, ∀ y : _, Q(x, y))"),
           ),
         ),
         t1527,
@@ -13963,9 +13765,7 @@ fn step_137() -> Unit raise {
   let t1538 = @list.List([
     @tactics.thenl(
       @tactics.subgoal_then(
-        @parser.parse_term(
-          "forall x y:A. x IN s /\\ y IN s /\\ properly l x y ==> properly l (f x) (f y)",
-        ),
+        @term_syntax.parse_term("∀ x : A, ∀ y : A, IN(x, (s : (A) -> Bool)) && IN(y, s) && properly((l : (A, A) -> Bool), x, y) → properly(l, (f : (A) -> A)(x), f(y))"),
         fn(
           x1507 : @kernel.Thm,
         ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -14077,9 +13877,7 @@ fn step_137() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1500 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall x z:A. x IN s /\\ l z (f x) ==> ?u. u IN s /\\ l u x /\\ f u = z",
-    ),
+    @term_syntax.parse_term("∀ x : A, ∀ z : A, IN(x, (s : (A) -> Bool)) && (l : (A, A) -> Bool)(z, (f : (A) -> A)(x)) → (∃ u : A, IN(u, s) && l(u, x) && f(u) == z)"),
     fn(
       x1497 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -14187,9 +13985,7 @@ fn step_137() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1490 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall x z:A. x IN s /\\ properly l z (f x)\n            ==> ?u. u IN s /\\ properly l u x /\\ f u = z",
-    ),
+    @term_syntax.parse_term("∀ x : A, ∀ z : A, IN(x, (s : (A) -> Bool)) && properly((l : (A, A) -> Bool), z, (f : (A) -> A)(x)) → (∃ u : A, IN(u, s) && properly(l, u, x) && f(u) == z)"),
     fn(
       x1487 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -14352,9 +14148,7 @@ fn step_137() -> Unit raise {
     t1484,
   ])
   let t1474 = @simp.asm_rewrite_tac(@list.List([]))
-  let t1470 = @parser.parse_term(
-    "(:A) DIFF IMAGE (f:A->A) {u | u IN s /\\ properly l u x}",
-  )
+  let t1470 = @term_syntax.parse_term("DIFF(UNIV, IMAGE((f : (A) -> A), {(u : A) | IN(u, (s : (A) -> Bool)) && properly((l : (A, A) -> Bool), u, (x : A))}))")
   let t1467 = @term_syntax.parse_term("(x : A)")
   let t1465 = @drule.match_mp(@theorems.mono_forall())
   let t1473 = @tactics.first_x_assum(fn(
@@ -14650,9 +14444,7 @@ fn step_137() -> Unit raise {
     t1459,
   ])
   let t1443 = @simp.asm_rewrite_tac(@list.List([]))
-  let t1439 = @parser.parse_term(
-    "(:A) DIFF IMAGE (f:A->A) {u | u IN s /\\ properly l u x}",
-  )
+  let t1439 = @term_syntax.parse_term("DIFF(UNIV, IMAGE((f : (A) -> A), {(u : A) | IN(u, (s : (A) -> Bool)) && properly((l : (A, A) -> Bool), u, (x : A))}))")
   let t1442 = @tactics.first_x_assum(fn(
     x1441 : @kernel.Thm,
   ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -15126,9 +14918,7 @@ fn step_137() -> Unit raise {
     t1414,
   ])
   let t1401 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?f:A->A. forall x. f(x) = m (UNIV DIFF IMAGE f {u | u IN s /\\ properly l u x})",
-    ),
+    @term_syntax.parse_term("∃ f : (A) -> A, ∀ x : A, f(x) == (m : ((A) -> Bool) -> A)(DIFF(UNIV, IMAGE(f, {(u : A) | IN(u, (s : (A) -> Bool)) && properly((l : (A, A) -> Bool), u, x)})))"),
     fn(
       x1398 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -15400,9 +15190,7 @@ fn step_137() -> Unit raise {
   )
   subwoset_iso_inseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l s. woset l /\\ fld l = (:A)\n         ==> ?f. (forall x y. x IN s /\\ y IN s ==> (l(f x) (f y) <=> l x y)) /\\\n                 (forall x y. y IN IMAGE f s /\\ l x y ==> x IN IMAGE f s)",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, ∀ s : (A) -> Bool, woset(l) && fld(l) == UNIV → (∃ f : (A) -> A, (∀ x : A, ∀ y : A, IN(x, s) && IN(y, s) → l(f(x), f(y)) == l(x, y)) && (∀ x : A, ∀ y : A, IN(y, IMAGE(f, s)) && l(x, y) → IN(x, IMAGE(f, s))))"),
       t1539,
     ),
   )
@@ -15659,9 +15447,7 @@ fn step_138() -> Unit raise {
     t1800,
   ])
   let t1771 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "fld(l:A->A->bool) z /\\\n                  forall y. (properly w) y z ==> l z (f y) \\/ l (f y) z",
-    ),
+    @term_syntax.parse_term("fld((l : (A, A) -> Bool), (z : A)) && (∀ y : A, properly((w : (A, A) -> Bool), y, z) → l(z, (f : (A) -> A)(y)) || l(f(y), z))"),
     fn(
       x1769 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -17338,9 +17124,7 @@ fn step_138() -> Unit raise {
     @tactics.all_tac,
   ])
   let t1607 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?f. forall x. f x = if fld(l) x /\\\n                      forall y. properly w  y x ==> l x (f y) \\/ l (f y) x\n                   then (x:A) else b",
-    ),
+    @term_syntax.parse_term("∃ f : (A) -> A, ∀ x : A, f(x) == (if fld((l : (A, A) -> Bool), x) && (∀ y : A, properly((w : (A, A) -> Bool), y, x) → l(x, f(y)) || l(f(y), x)) { x } else { (b : A) })"),
     fn(
       x1606 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -18073,9 +17857,7 @@ fn step_138() -> Unit raise {
   )
   hp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool.\n        qoset l\n        ==> ?P. chain(l) P /\\ forall Q. chain(l) Q  /\\ P SUBSET Q ==> Q = P",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, qoset(l) → (∃ P : (A) -> Bool, chain(l, P) && (∀ Q : (A) -> Bool, chain(l, Q) && SUBSET(P, Q) → Q == P))"),
       t1806,
     ),
   )
@@ -18562,9 +18344,7 @@ fn step_139() -> Unit raise {
     })(((x1816 : @kernel.Thm) => @bool.spec(t1815, x1816))(x1817))
   })
   let t1811 = @tactics.undisch_tac(
-    @parser.parse_term(
-      "forall c. chain(l:A->A->bool) c\n                   ==> (?y. fld(l) y /\\ forall x. c x ==> l x y)",
-    ),
+    @term_syntax.parse_term("∀ c : (A) -> Bool, chain((l : (A, A) -> Bool), c) → (∃ y : A, fld(l, y) && (∀ x : A, c(x) → l(x, y)))"),
   )
   let t1807 = @drule.match_mp(hp())
   let t1808 = @tactics.x_choose_then(@term_syntax.parse_term("(M : (A) -> Bool)"))(
@@ -18644,9 +18424,7 @@ fn step_139() -> Unit raise {
   )
   zl_strong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool.\n        qoset l /\\\n        (forall c. chain(l) c ==> ?y. y IN fld(l) /\\ forall x. x IN c ==> l x y)\n        ==> ?y. y IN fld(l) /\\ forall x. l y x ==> l x y",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, qoset(l) && (∀ c : (A) -> Bool, chain(l, c) → (∃ y : A, IN(y, fld(l)) && (∀ x : A, IN(x, c) → l(x, y)))) → (∃ y : A, IN(y, fld(l)) && (∀ x : A, l(y, x) → l(x, y)))"),
       t1871,
     ),
   )
@@ -18682,9 +18460,7 @@ fn step_140() -> Unit raise {
   )
   zl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool.\n        poset l /\\\n        (forall P. chain(l) P ==> ?y. fld(l) y /\\ forall x. P x ==> l x y)\n        ==> ?y. fld(l) y /\\ forall x. l y x ==> y = x",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, poset(l) && (∀ P : (A) -> Bool, chain(l, P) → (∃ y : A, fld(l, y) && (∀ x : A, P(x) → l(x, y)))) → (∃ y : A, fld(l, y) && (∀ x : A, l(y, x) → y == x))"),
       t1876,
     ),
   )
@@ -18773,9 +18549,7 @@ fn step_141() -> Unit raise {
   )
   kl_poset_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "poset (\\ c1 c2. C SUBSET c1 /\\ c1 SUBSET c2 /\\ chain(l:A->A->bool) c2)",
-      ),
+      @term_syntax.parse_term("poset((c1 : (A) -> Bool) => (c2 : (A) -> Bool) => SUBSET((C : (A) -> Bool), c1) && SUBSET(c1, c2) && chain((l : (A, A) -> Bool), c2))"),
       t1891,
     ),
   )
@@ -19488,9 +19262,7 @@ fn step_142() -> Unit raise {
   )
   let t1892 = @tactics.mp_tac(
     @bool.ispec(
-      @parser.parse_term(
-        "\\c1 c2. C SUBSET c1 /\\ c1 SUBSET c2 /\\\n                          chain(l:A->A->bool) c2",
-      ),
+      @term_syntax.parse_term("(c1 : (A) -> Bool) => (c2 : (A) -> Bool) => SUBSET((C : (A) -> Bool), c1) && SUBSET(c1, c2) && chain((l : (A, A) -> Bool), c2)"),
       zl(),
     ),
   )
@@ -19756,9 +19528,7 @@ fn step_142() -> Unit raise {
   )
   kl_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l:A->A->bool. poset l ==>\n        forall C. chain(l) C ==>\n            ?P. (chain(l) P /\\ C SUBSET P) /\\\n                (forall R. chain(l) R /\\ P SUBSET R ==> (R = P))",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, poset(l) → (∀ C : (A) -> Bool, chain(l, C) → (∃ P : (A) -> Bool, (chain(l, P) && SUBSET(C, P)) && (∀ R : (A) -> Bool, chain(l, R) && SUBSET(P, R) → R == P)))"),
       t2006,
     ),
   )
@@ -19881,9 +19651,7 @@ fn step_145() -> Unit raise {
                     @tactics.gen_tac,
                     @tactics.mp_tac(
                       @bool.ispec(
-                        @parser.parse_term(
-                          "\\x y. P(x:A->bool) /\\ P(y) /\\ x SUBSET y",
-                        ),
+                        @term_syntax.parse_term("(x : (A) -> Bool) => (y : (A) -> Bool) => (P : ((A) -> Bool) -> Bool)(x) && P(y) && SUBSET(x, y)"),
                         zl(),
                       ),
                     ),
@@ -19906,9 +19674,7 @@ fn step_145() -> Unit raise {
   )
   zl_subsets_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (forall c. (forall x. x IN c ==> P x) /\\\n            (forall x y. x IN c /\\ y IN c ==> x SUBSET y \\/ y SUBSET x)\n            ==> ?z. P z /\\ (forall x. x IN c ==> x SUBSET z))\n       ==> ?a:A->bool. P a /\\ (forall x. P x /\\ a SUBSET x ==> (a = x))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, (∀ c : ((A) -> Bool) -> Bool, (∀ x : (A) -> Bool, IN(x, c) → P(x)) && (∀ x : (A) -> Bool, ∀ y : (A) -> Bool, IN(x, c) && IN(y, c) → SUBSET(x, y) || SUBSET(y, x)) → (∃ z : (A) -> Bool, P(z) && (∀ x : (A) -> Bool, IN(x, c) → SUBSET(x, z)))) → (∃ a : (A) -> Bool, P(a) && (∀ x : (A) -> Bool, P(x) && SUBSET(a, x) → a == x))"),
       t2021,
     ),
   )
@@ -19946,9 +19712,7 @@ fn step_146() -> Unit raise {
   )
   zl_subsets_unions_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (forall c. (forall x. x IN c ==> P x) /\\\n            (forall x y. x IN c /\\ y IN c ==> x SUBSET y \\/ y SUBSET x)\n            ==> P(UNIONS c))\n       ==> ?a:A->bool. P a /\\ (forall x. P x /\\ a SUBSET x ==> (a = x))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, (∀ c : ((A) -> Bool) -> Bool, (∀ x : (A) -> Bool, IN(x, c) → P(x)) && (∀ x : (A) -> Bool, ∀ y : (A) -> Bool, IN(x, c) && IN(y, c) → SUBSET(x, y) || SUBSET(y, x)) → P(UNIONS(c))) → (∃ a : (A) -> Bool, P(a) && (∀ x : (A) -> Bool, P(x) && SUBSET(a, x) → a == x))"),
       t2026,
     ),
   )
@@ -19996,9 +19760,7 @@ fn step_147() -> Unit raise {
   )
   zl_subsets_unions_nonempty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (?x. P x) /\\\n       (forall c. (?x. x IN c) /\\\n            (forall x. x IN c ==> P x) /\\\n            (forall x y. x IN c /\\ y IN c ==> x SUBSET y \\/ y SUBSET x)\n            ==> P(UNIONS c))\n       ==> ?a:A->bool. P a /\\ (forall x. P x /\\ a SUBSET x ==> (a = x))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> Bool) -> Bool, (∃ x : (A) -> Bool, P(x)) && (∀ c : ((A) -> Bool) -> Bool, (∃ x : (A) -> Bool, IN(x, c)) && (∀ x : (A) -> Bool, IN(x, c) → P(x)) && (∀ x : (A) -> Bool, ∀ y : (A) -> Bool, IN(x, c) && IN(y, c) → SUBSET(x, y) || SUBSET(y, x)) → P(UNIONS(c))) → (∃ a : (A) -> Bool, P(a) && (∀ x : (A) -> Bool, P(x) && SUBSET(a, x) → a == x))"),
       t2034,
     ),
   )
@@ -20027,9 +19789,7 @@ fn step_148() -> Unit raise {
     @tactics.then_tac(@tactics.match_mp_tac(@theorems.mono_forall()), t2050),
   ])
   let t2049 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall d. FINITE d ==> d SUBSET UNIONS c ==> ?e:A->bool. e IN c /\\ d SUBSET e",
-    ),
+    @term_syntax.parse_term("∀ d : (A) -> Bool, FINITE(d) → SUBSET(d, UNIONS((c : ((A) -> Bool) -> Bool))) → (∃ e : (A) -> Bool, IN(e, c) && SUBSET(d, e))"),
     fn(
       x2046 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -20198,9 +19958,7 @@ fn step_148() -> Unit raise {
   )
   tukey_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:(A->bool)->bool.\n        ~(s = {}) /\\\n        (forall t. (forall c. FINITE c /\\ c SUBSET t ==> c IN s) <=> t IN s)\n        ==> ?u. u IN s /\\ forall v. v IN s /\\ u SUBSET v ==> u = v",
-      ),
+      @term_syntax.parse_term("∀ s : ((A) -> Bool) -> Bool, !(s == {}) && (∀ t : (A) -> Bool, (∀ c : (A) -> Bool, FINITE(c) && SUBSET(c, t) → IN(c, s)) == IN(t, s)) → (∃ u : (A) -> Bool, IN(u, s) && (∀ v : (A) -> Bool, IN(v, s) && SUBSET(u, v) → u == v))"),
       t2055,
     ),
   )
@@ -20996,9 +20754,7 @@ fn step_149() -> Unit raise {
                                                       @tactics.map_every(
                                                         @tactics.x_gen_tac,
                                                         @list.List([
-                                                          @parser.parse_term(
-                                                            "x:A",
-                                                          ),
+                                                          @term_syntax.parse_term("(x : A)"),
                                                           t2147,
                                                           t2146,
                                                         ]),
@@ -21748,9 +21504,7 @@ fn step_149() -> Unit raise {
     @tactics.all_tac,
   ])
   let t2065 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall x:A y:A. fld p x /\\ fld p y /\\ ~(x = y)\n              ==> ?i. fld p i /\\\n                      (forall j:A. w j i /\\ ~(j = i) ==> (p j x <=> p j y)) /\\\n                      ~(p i x <=> p i y)",
-    ),
+    @term_syntax.parse_term("∀ x : A, ∀ y : A, fld((p : (A, A) -> Bool), x) && fld(p, y) && !(x == y) → (∃ i : A, fld(p, i) && (∀ j : A, (w : (A, A) -> Bool)(j, i) && !(j == i) → p(j, x) == p(j, y)) && !(p(i, x) == p(i, y)))"),
     fn(
       x2062 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -21802,9 +21556,7 @@ fn step_149() -> Unit raise {
   )
   let t2060 = @tactics.exists_tac(@term_syntax.parse_term("(t : (A, A) -> Bool)"))
   let t2059 = @simp.abbrev_tac(
-    @parser.parse_term(
-      "t = \\(x:A) (y:A). fld p x /\\ fld p y /\\\n                    (x = y \\/\n                     ?i. fld p i /\\\n                         (forall j. w j i /\\ ~(j = i) ==> (p j x <=> p j y)) /\\\n                         ~p i x /\\ p i y)",
-    ),
+    @term_syntax.parse_term("(t : (A, A) -> Bool) == ((x : A) => (y : A) => fld((p : (A, A) -> Bool), x) && fld(p, y) && (x == y || (∃ i : A, fld(p, i) && (∀ j : A, (w : (A, A) -> Bool)(j, i) && !(j == i) → p(j, x) == p(j, y)) && !p(i, x) && p(i, y))))"),
   )
   let t2058 = @tactics.disch_then(
     @tactics.x_choose_then(@term_syntax.parse_term("(w : (A, A) -> Bool)"))(
@@ -21875,9 +21627,7 @@ fn step_149() -> Unit raise {
   )
   oep_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p:A->A->bool.\n     poset p ==> ?t. toset t /\\ fld(t) = fld(p) /\\ forall x y. p x y ==> t x y",
-      ),
+      @term_syntax.parse_term("∀ p : (A, A) -> Bool, poset(p) → (∃ t : (A, A) -> Bool, toset(t) && fld(t) == fld(p) && (∀ x : A, ∀ y : A, p(x, y) → t(x, y)))"),
       t2245,
     ),
   )
@@ -21950,9 +21700,7 @@ fn step_150() -> Unit raise {
   let t2445 = @tactics.x_gen_tac(@term_syntax.parse_term("(y : (A) -> Bool)"))
   let t2442 = @drule.match_mp(
     @sets.set_rule(
-      @parser.parse_term(
-        "(forall z. P z ==> z IN IMAGE f s)\n    ==> (forall x. x IN s /\\ P(f x) ==> Q(f x))\n        ==> forall y. P y ==> Q y",
-      ),
+      @term_syntax.parse_term("(∀ z : _, (P : (_) -> Bool)(z) → IN(z, IMAGE((f : (_) -> _), (s : (_) -> Bool)))) → (∀ x : _, IN(x, s) && P(f(x)) → (Q : (_) -> Bool)(f(x))) → (∀ y : _, P(y) → Q(y))"),
     ),
   )
   let t2444 = @tactics.first_assum(fn(
@@ -22317,9 +22065,7 @@ fn step_150() -> Unit raise {
     @tactics.all_tac,
   ])
   let t2394 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "fld(\\ x y. x IN IMAGE (f:(A->bool)->A) {v | r v w /\\ ~(v = w)} /\\\n               y IN IMAGE (f:(A->bool)->A) {v | r v w /\\ ~(v = w)} /\\\n               l x y) =\n    IMAGE f {v | r v w /\\ ~(v = w)}",
-    ),
+    @term_syntax.parse_term("fld((x : A) => (y : A) => IN(x, IMAGE((f : ((A) -> Bool) -> A), {(v : (A) -> Bool) | (r : ((A) -> Bool, (A) -> Bool) -> Bool)(v, (w : (A) -> Bool)) && !(v == w)})) && IN(y, IMAGE(f, {(v : (A) -> Bool) | r(v, w) && !(v == w)})) && (l : (A, A) -> Bool)(x, y)) == IMAGE(f, {(v : (A) -> Bool) | r(v, w) && !(v == w)})"),
     fn(
       x2391 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -22368,9 +22114,7 @@ fn step_150() -> Unit raise {
     },
   )
   let t2390 = @tactics.exists_tac(
-    @parser.parse_term(
-      "\\x y. x IN IMAGE (f:(A->bool)->A) {v | r v w /\\ ~(v = w)} /\\\n                    y IN IMAGE (f:(A->bool)->A) {v | r v w /\\ ~(v = w)} /\\\n                    l x y",
-    ),
+    @term_syntax.parse_term("(x : A) => (y : A) => IN(x, IMAGE((f : ((A) -> Bool) -> A), {(v : (A) -> Bool) | (r : ((A) -> Bool, (A) -> Bool) -> Bool)(v, (w : (A) -> Bool)) && !(v == w)})) && IN(y, IMAGE(f, {(v : (A) -> Bool) | r(v, w) && !(v == w)})) && (l : (A, A) -> Bool)(x, y)"),
   )
   let t2386 = @meson.asm_meson_tac(@list.List([]))
   let t2384 = @drule.match_mp(ordinal_imp_woset())
@@ -22655,9 +22399,7 @@ fn step_150() -> Unit raise {
   let t2357 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([]),
-      @parser.parse_term(
-        "(l a b \\/ l b a) /\\ (~(b = a) ==> ~l b a) ==> l a b",
-      ),
+      @term_syntax.parse_term("((l : (_, _) -> Bool)((a : _), (b : _)) || l(b, a)) && (!(b == a) → !l(b, a)) → l(a, b)"),
     ),
   )
   let t2389 = @list.List([
@@ -22680,9 +22422,7 @@ fn step_150() -> Unit raise {
     @tactics.all_tac,
   ])
   let t2356 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall x y. r x y /\\ r y w /\\ ~(y = w) ==> l((f:(A->bool)->A) x) (f y)",
-    ),
+    @term_syntax.parse_term("∀ x : (A) -> Bool, ∀ y : (A) -> Bool, (r : ((A) -> Bool, (A) -> Bool) -> Bool)(x, y) && r(y, (w : (A) -> Bool)) && !(y == w) → (l : (A, A) -> Bool)((f : ((A) -> Bool) -> A)(x), f(y))"),
     fn(
       x2353 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -22953,9 +22693,7 @@ fn step_150() -> Unit raise {
   let t2315 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([]),
-      @parser.parse_term(
-        "(forall x y. P x y ==> P y x) /\\ (forall x y. R x y ==> P x y)\n        ==> (forall x y. R x y \\/ R y x) ==> (forall x y. P x y)",
-      ),
+      @term_syntax.parse_term("(∀ x : _, ∀ y : _, (P : (_, _) -> Bool)(x, y) → P(y, x)) && (∀ x : _, ∀ y : _, (R : (_, _) -> Bool)(x, y) → P(x, y)) → (∀ x : _, ∀ y : _, R(x, y) || R(y, x)) → (∀ x : _, ∀ y : _, P(x, y))"),
     ),
   )
   let t2314 = @simp.rewrite_tac(@list.List([@sets.univ()]))
@@ -23566,9 +23304,7 @@ fn step_150() -> Unit raise {
     @tactics.all_tac,
   ])
   let t2278 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?w:A->bool. (forall x. x IN fld l ==> ?v. r v w /\\ ~(v = w) /\\ l (x:A) (f v)) /\\\n                forall z. (forall x. x IN fld l ==> ?v. r v z /\\ ~(v = z) /\\ l x (f v))\n                    ==> r w z",
-    ),
+    @term_syntax.parse_term("∃ w : (A) -> Bool, (∀ x : A, IN(x, fld((l : (A, A) -> Bool))) → (∃ v : (A) -> Bool, (r : ((A) -> Bool, (A) -> Bool) -> Bool)(v, w) && !(v == w) && l(x, (f : ((A) -> Bool) -> A)(v)))) && (∀ z : (A) -> Bool, (∀ x : A, IN(x, fld(l)) → (∃ v : (A) -> Bool, r(v, z) && !(v == z) && l(x, f(v)))) → r(w, z))"),
     @tactics.strip_assume_tac,
   )
   let t2276 = @simp.asm_rewrite_tac(@list.List([@sets.member_not_empty()]))
@@ -23650,9 +23386,7 @@ fn step_150() -> Unit raise {
   let t2266 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([]),
-      @parser.parse_term(
-        "(p <=> p') /\\ x' = x\n      ==> (if p then x else a) = (if p' then x' else a)",
-      ),
+      @term_syntax.parse_term("(p : Bool) == (p' : Bool) && (x' : _) == (x : _) → (if p { x } else { (a : _) }) == (if p' { x' } else { a })"),
     ),
   )
   let t2265 = @tactics.repeat_tac(@tactics.strip_tac)
@@ -23810,9 +23544,7 @@ fn step_150() -> Unit raise {
     @tactics.all_tac,
   ])
   let t2253 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "?f. forall w. f w = if ?x:A. x IN fld l /\\\n                           forall v:A->bool. r v w /\\ ~(v = w) ==> ~l x (f v)\n                  then @x:A. x IN fld l /\\\n                             forall v. r v w /\\ ~(v = w) ==> ~l x (f v)\n                  else @x:A. x IN fld l",
-    ),
+    @term_syntax.parse_term("∃ f : ((A) -> Bool) -> A, ∀ w : (A) -> Bool, f(w) == (if (∃ x : A, IN(x, fld((l : (A, A) -> Bool))) && (∀ v : (A) -> Bool, (r : ((A) -> Bool, (A) -> Bool) -> Bool)(v, w) && !(v == w) → !l(x, f(v)))) { select((x : A) => IN(x, fld(l)) && (∀ v : (A) -> Bool, r(v, w) && !(v == w) → !l(x, f(v)))) } else { select((x : A) => IN(x, fld(l))) })"),
     @tactics.strip_assume_tac,
   )
   let t2251 = @simp.rewrite_tac(@list.List([@sets.in_(), wo_ordinal()]))
@@ -23970,9 +23702,7 @@ fn step_150() -> Unit raise {
   )
   toset_cofinal_woset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall l. toset l\n       ==> ?w. (forall x y. w x y ==> l x y) /\\ woset w /\\\n               forall x:A. x IN fld l ==> ?y. y IN fld w /\\ l x y",
-      ),
+      @term_syntax.parse_term("∀ l : (A, A) -> Bool, toset(l) → (∃ w : (A, A) -> Bool, (∀ x : A, ∀ y : A, w(x, y) → l(x, y)) && woset(w) && (∀ x : A, IN(x, fld(l)) → (∃ y : A, IN(y, fld(w)) && l(x, y))))"),
       t2453,
     ),
   )

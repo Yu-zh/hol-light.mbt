@@ -5386,7 +5386,7 @@ test "sets matches sets.ml" {
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, (s == t) == (\226\136\128 x : A, IN(x, s) == IN(x, t))
       #|  (GSPEC : ((A) -> Bool, A) -> Bool)((p : (A) -> Bool)) == p
       #|  (SETSPEC : (A, Bool, A) -> Bool)((v : A), (P : Bool), (t : A)) == (P && v == t)
-      #|  (forall P x:A. x IN GSPEC (\\v. P (SETSPEC v)) <=> P (\\p t. p /\\ (x = t))) /\\\n   (forall p x:A. x IN GSPEC (\\v. ?y. SETSPEC v (p y) y) <=> p x) /\\\n   (forall P x:A. GSPEC (\\v. P (SETSPEC v)) x <=> P (\\p t. p /\\ (x = t))) /\\\n   (forall p x:A. GSPEC (\\v. ?y. SETSPEC v (p y) y) x <=> p x) /\\\n   (forall p x:A. x IN (\\y. p y) <=> p x)
+      #|  (\226\136\128 P : ((Bool, A) -> Bool) -> Bool, \226\136\128 x : A, IN(x, GSPEC((v : A) => P(SETSPEC(v)))) == P((p : Bool) => (t : A) => p && x == t)) && (\226\136\128 p : (A) -> Bool, \226\136\128 x : A, IN(x, GSPEC((v : A) => \226\136\131 y : A, SETSPEC(v, p(y), y))) == p(x)) && (\226\136\128 P : ((Bool, A) -> Bool) -> Bool, \226\136\128 x : A, GSPEC((v : A) => P(SETSPEC(v)), x) == P((p : Bool) => (t : A) => p && x == t)) && (\226\136\128 p : (A) -> Bool, \226\136\128 x : A, GSPEC((v : A) => \226\136\131 y : A, SETSPEC(v, p(y), y), x) == p(x)) && (\226\136\128 p : (A) -> Bool, \226\136\128 x : A, IN(x, (y : A) => p(y)) == p(x))
       #|  (EMPTY : (A) -> Bool) == ((x : A) => false)
       #|  (INSERT : (A, (A) -> Bool, A) -> Bool)((x : A), (s : (A) -> Bool)) == ((y : A) => IN(y, s) || y == x)
       #|  (UNIV : (A) -> Bool) == ((x : A) => true)
@@ -5401,11 +5401,11 @@ test "sets matches sets.ml" {
       #|  (PSUBSET : ((A) -> Bool, (A) -> Bool) -> Bool)((s : (A) -> Bool), (t : (A) -> Bool)) == (SUBSET(s, t) && !(s == t))
       #|  (DISJOINT : ((A) -> Bool, (A) -> Bool) -> Bool)((s : (A) -> Bool), (t : (A) -> Bool)) == (INTER(s, t) == {})
       #|  (SING : ((A) -> Bool) -> Bool)((s : (A) -> Bool)) == (\226\136\131 x : A, s == {x})
-      #|  FINITE (EMPTY:A->bool) /\\\n     forall(x:A) s. FINITE s ==> FINITE (x INSERT s)
+      #|  (FINITE : ((A) -> Bool) -> Bool)({}) && (\226\136\128 x : A, \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 FINITE(INSERT(x, s)))
       #|  (INFINITE : ((A) -> Bool) -> Bool)((s : (A) -> Bool)) == !FINITE(s)
       #|  (IMAGE : ((A) -> B, (A) -> Bool, B) -> Bool)((f : (A) -> B), (s : (A) -> Bool)) == {(y : B) | \226\136\131 x : A, IN(x, s) && y == f(x)}
-      #|  INJ (f:A->B) s t <=>\n     (forall x. x IN s ==> (f x) IN t) /\\\n     (forall x y. x IN s /\\ y IN s /\\ (f x = f y) ==> (x = y))
-      #|  SURJ (f:A->B) s t <=>\n     (forall x. x IN s ==> (f x) IN t) /\\\n     (forall x. (x IN t) ==> ?y. y IN s /\\ (f y = x))
+      #|  (INJ : ((A) -> B, (A) -> Bool, (B) -> Bool) -> Bool)((f : (A) -> B), (s : (A) -> Bool), (t : (B) -> Bool)) == ((\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t)) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y))
+      #|  (SURJ : ((A) -> B, (A) -> Bool, (B) -> Bool) -> Bool)((f : (A) -> B), (s : (A) -> Bool), (t : (B) -> Bool)) == ((\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t)) && (\226\136\128 x : B, IN(x, t) \226\134\146 (\226\136\131 y : A, IN(y, s) && f(y) == x)))
       #|  (BIJ : ((A) -> B, (A) -> Bool, (B) -> Bool) -> Bool)((f : (A) -> B), (s : (A) -> Bool), (t : (B) -> Bool)) == (INJ(f, s, t) && SURJ(f, s, t))
       #|  (CHOICE : ((A) -> Bool) -> A)((s : (A) -> Bool)) == select((x : A) => IN(x, s))
       #|  (REST : ((A) -> Bool, A) -> Bool)((s : (A) -> Bool)) == DELETE(s, CHOICE(s))
@@ -5415,33 +5415,33 @@ test "sets matches sets.ml" {
       #|  \226\136\128 s : ((A) -> Bool) -> Bool, \226\136\128 x : A, IN(x, UNIONS(s)) == (\226\136\131 t : (A) -> Bool, IN(t, s) && IN(x, t))
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 x : A, IN(x, INTER(s, t)) == (IN(x, s) && IN(x, t))
       #|  \226\136\128 s : ((A) -> Bool) -> Bool, \226\136\128 x : A, IN(x, INTERS(s)) == (\226\136\128 t : (A) -> Bool, IN(t, s) \226\134\146 IN(x, t))
-      #|  forall(s:A->bool) t x. x IN (s DIFF t) <=> x IN s /\\ ~(x IN t)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 x : A, IN(x, DIFF(s, t)) == (IN(x, s) && !IN(x, t))
       #|  \226\136\128 x : A, \226\136\128 y : A, \226\136\128 s : (A) -> Bool, IN(x, INSERT(y, s)) == (x == y || IN(x, s))
-      #|  forall s. forall x:A. forall y. x IN (s DELETE y) <=> x IN s /\\ ~(x = y)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 x : A, \226\136\128 y : A, IN(x, DELETE(s, y)) == (IN(x, s) && !(x == y))
       #|  \226\136\128 x : A, \226\136\128 y : A, IN(x, {y}) == (x == y)
-      #|  forall y:B. forall s f. (y IN (IMAGE f s)) <=> ?x:A. (y = f x) /\\ x IN s
-      #|  forall x:A. forall s. x IN (REST s) <=> x IN s /\\ ~(x = CHOICE s)
-      #|  forall P a s. (forall x:A. x IN (a INSERT s) ==> P x) <=> P a /\\ (forall x. x IN s ==> P x)
-      #|  forall P a s. (?x:A. x IN (a INSERT s) /\\ P x) <=> P a \\/ ?x. x IN s /\\ P x
-      #|  forall P s t:A->bool.\n        (forall x. x IN s UNION t ==> P x) <=>\n        (forall x. x IN s ==> P x) /\\ (forall x. x IN t ==> P x)
-      #|  forall P s t:A->bool.\n        (?x. x IN s UNION t /\\ P x) <=>\n        (?x. x IN s /\\ P x) \\/ (?x. x IN t /\\ P x)
-      #|  forall(f:A->B) s. (forall y. y IN IMAGE f s ==> P y) <=> (forall x. x IN s ==> P(f x))
-      #|  forall(f:A->B) s. (?y. y IN IMAGE f s /\\ P y) <=> ?x. x IN s /\\ P(f x)
-      #|  (forall P Q (f:A->B). (forall z. z IN {f x | P x} ==> Q z) <=> (forall x. P x ==> Q(f x))) /\\\n   (forall P Q (f:A->B->C).\n        (forall z. z IN {f x y | P x y} ==> Q z) <=>\n        (forall x y. P x y ==> Q(f x y))) /\\\n   (forall P Q (f:A->B->C->D).\n        (forall z. z IN {f w x y | P w x y} ==> Q z) <=>\n        (forall w x y. P w x y ==> Q(f w x y))) /\\\n   (forall P Q (f:A->B->C->D->E).\n        (forall z. z IN {f v w x y | P v w x y} ==> Q z) <=>\n        (forall v w x y. P v w x y ==> Q(f v w x y)))
-      #|  (forall P Q (f:A->B). (?z. z IN {f x | P x} /\\ Q z) <=> (?x. P x /\\ Q(f x))) /\\\n   (forall P Q (f:A->B->C).\n        (?z. z IN {f x y | P x y} /\\ Q z) <=>\n        (?x y. P x y /\\ Q(f x y))) /\\\n   (forall P Q (f:A->B->C->D).\n        (?z. z IN {f w x y | P w x y} /\\ Q z) <=>\n        (?w x y. P w x y /\\ Q(f w x y))) /\\\n   (forall P Q (f:A->B->C->D->E).\n        (?z. z IN {f v w x y | P v w x y} /\\ Q z) <=>\n        (?v w x y. P v w x y /\\ Q(f v w x y)))
-      #|  forall(f:A->B->bool) s. UNIONS (IMAGE f s) = {y | ?x. x IN s /\\ y IN f x}
-      #|  forall(f:A->B->bool) s. INTERS (IMAGE f s) = {y | forall x. x IN s ==> y IN f x}
-      #|  (forall P (f:A->B->bool).\n        UNIONS {f x | P x} = {a | ?x. P x /\\ a IN (f x)}) /\\\n   (forall P (f:A->B->C->bool).\n        UNIONS {f x y | P x y} = {a | ?x y. P x y /\\ a IN (f x y)}) /\\\n   (forall P (f:A->B->C->D->bool).\n        UNIONS {f x y z | P x y z} =\n        {a | ?x y z. P x y z /\\ a IN (f x y z)})
-      #|  (forall P (f:A->B->bool).\n        INTERS {f x | P x} = {a | forall x. P x ==> a IN (f x)}) /\\\n   (forall P (f:A->B->C->bool).\n        INTERS {f x y | P x y} = {a | forall x y. P x y ==> a IN (f x y)}) /\\\n   (forall P (f:A->B->C->D->bool).\n        INTERS {f x y z | P x y z} =\n        {a | forall x y z. P x y z ==> a IN (f x y z)})
+      #|  \226\136\128 y : B, \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> B, IN(y, IMAGE(f, s)) == (\226\136\131 x : A, y == f(x) && IN(x, s))
+      #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, IN(x, REST(s)) == (IN(x, s) && !(x == CHOICE(s)))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 a : A, \226\136\128 s : (A) -> Bool, (\226\136\128 x : A, IN(x, INSERT(a, s)) \226\134\146 P(x)) == (P(a) && (\226\136\128 x : A, IN(x, s) \226\134\146 P(x)))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 a : A, \226\136\128 s : (A) -> Bool, (\226\136\131 x : A, IN(x, INSERT(a, s)) && P(x)) == (P(a) || (\226\136\131 x : A, IN(x, s) && P(x)))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, (\226\136\128 x : A, IN(x, UNION(s, t)) \226\134\146 P(x)) == ((\226\136\128 x : A, IN(x, s) \226\134\146 P(x)) && (\226\136\128 x : A, IN(x, t) \226\134\146 P(x)))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, (\226\136\131 x : A, IN(x, UNION(s, t)) && P(x)) == ((\226\136\131 x : A, IN(x, s) && P(x)) || (\226\136\131 x : A, IN(x, t) && P(x)))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\128 y : B, IN(y, IMAGE(f, s)) \226\134\146 (P : (B) -> Bool)(y)) == (\226\136\128 x : A, IN(x, s) \226\134\146 P(f(x)))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\131 y : B, IN(y, IMAGE(f, s)) && (P : (B) -> Bool)(y)) == (\226\136\131 x : A, IN(x, s) && P(f(x)))
+      #|  (\226\136\128 P : (A) -> Bool, \226\136\128 Q : (B) -> Bool, \226\136\128 f : (A) -> B, (\226\136\128 z : B, IN(z, {f((x : A)) | P(x)}) \226\134\146 Q(z)) == (\226\136\128 x : A, P(x) \226\134\146 Q(f(x)))) && (\226\136\128 P : (A, B) -> Bool, \226\136\128 Q : (C) -> Bool, \226\136\128 f : (A, B) -> C, (\226\136\128 z : C, IN(z, {f((x : A), (y : B)) | P(x, y)}) \226\134\146 Q(z)) == (\226\136\128 x : A, \226\136\128 y : B, P(x, y) \226\134\146 Q(f(x, y)))) && (\226\136\128 P : (A, B, C) -> Bool, \226\136\128 Q : (D) -> Bool, \226\136\128 f : (A, B, C) -> D, (\226\136\128 z : D, IN(z, {f((w : A), (x : B), (y : C)) | P(w, x, y)}) \226\134\146 Q(z)) == (\226\136\128 w : A, \226\136\128 x : B, \226\136\128 y : C, P(w, x, y) \226\134\146 Q(f(w, x, y)))) && (\226\136\128 P : (A, B, C, D) -> Bool, \226\136\128 Q : (E) -> Bool, \226\136\128 f : (A, B, C, D) -> E, (\226\136\128 z : E, IN(z, {f((v : A), (w : B), (x : C), (y : D)) | P(v, w, x, y)}) \226\134\146 Q(z)) == (\226\136\128 v : A, \226\136\128 w : B, \226\136\128 x : C, \226\136\128 y : D, P(v, w, x, y) \226\134\146 Q(f(v, w, x, y))))
+      #|  (\226\136\128 P : (A) -> Bool, \226\136\128 Q : (B) -> Bool, \226\136\128 f : (A) -> B, (\226\136\131 z : B, IN(z, {f((x : A)) | P(x)}) && Q(z)) == (\226\136\131 x : A, P(x) && Q(f(x)))) && (\226\136\128 P : (A, B) -> Bool, \226\136\128 Q : (C) -> Bool, \226\136\128 f : (A, B) -> C, (\226\136\131 z : C, IN(z, {f((x : A), (y : B)) | P(x, y)}) && Q(z)) == (\226\136\131 x : A, \226\136\131 y : B, P(x, y) && Q(f(x, y)))) && (\226\136\128 P : (A, B, C) -> Bool, \226\136\128 Q : (D) -> Bool, \226\136\128 f : (A, B, C) -> D, (\226\136\131 z : D, IN(z, {f((w : A), (x : B), (y : C)) | P(w, x, y)}) && Q(z)) == (\226\136\131 w : A, \226\136\131 x : B, \226\136\131 y : C, P(w, x, y) && Q(f(w, x, y)))) && (\226\136\128 P : (A, B, C, D) -> Bool, \226\136\128 Q : (E) -> Bool, \226\136\128 f : (A, B, C, D) -> E, (\226\136\131 z : E, IN(z, {f((v : A), (w : B), (x : C), (y : D)) | P(v, w, x, y)}) && Q(z)) == (\226\136\131 v : A, \226\136\131 w : B, \226\136\131 x : C, \226\136\131 y : D, P(v, w, x, y) && Q(f(v, w, x, y))))
+      #|  \226\136\128 f : (A, B) -> Bool, \226\136\128 s : (A) -> Bool, UNIONS(IMAGE(f, s)) == {(y : B) | \226\136\131 x : A, IN(x, s) && IN(y, f(x))}
+      #|  \226\136\128 f : (A, B) -> Bool, \226\136\128 s : (A) -> Bool, INTERS(IMAGE(f, s)) == {(y : B) | \226\136\128 x : A, IN(x, s) \226\134\146 IN(y, f(x))}
+      #|  (\226\136\128 P : (A) -> Bool, \226\136\128 f : (A, B) -> Bool, UNIONS({f((x : A)) | P(x)}) == {(a : B) | \226\136\131 x : A, P(x) && IN(a, f(x))}) && (\226\136\128 P : (A, B) -> Bool, \226\136\128 f : (A, B, C) -> Bool, UNIONS({f((x : A), (y : B)) | P(x, y)}) == {(a : C) | \226\136\131 x : A, \226\136\131 y : B, P(x, y) && IN(a, f(x, y))}) && (\226\136\128 P : (A, B, C) -> Bool, \226\136\128 f : (A, B, C, D) -> Bool, UNIONS({f((x : A), (y : B), (z : C)) | P(x, y, z)}) == {(a : D) | \226\136\131 x : A, \226\136\131 y : B, \226\136\131 z : C, P(x, y, z) && IN(a, f(x, y, z))})
+      #|  (\226\136\128 P : (A) -> Bool, \226\136\128 f : (A, B) -> Bool, INTERS({f((x : A)) | P(x)}) == {(a : B) | \226\136\128 x : A, P(x) \226\134\146 IN(a, f(x))}) && (\226\136\128 P : (A, B) -> Bool, \226\136\128 f : (A, B, C) -> Bool, INTERS({f((x : A), (y : B)) | P(x, y)}) == {(a : C) | \226\136\128 x : A, \226\136\128 y : B, P(x, y) \226\134\146 IN(a, f(x, y))}) && (\226\136\128 P : (A, B, C) -> Bool, \226\136\128 f : (A, B, C, D) -> Bool, INTERS({f((x : A), (y : B), (z : C)) | P(x, y, z)}) == {(a : D) | \226\136\128 x : A, \226\136\128 y : B, \226\136\128 z : C, P(x, y, z) \226\134\146 IN(a, f(x, y, z))})
       #|  \226\136\128 s : (A) -> Bool, !(s == {}) \226\134\146 IN(CHOICE(s), s)
-      #|  forall s:A->bool. forall t. ~(s = t) <=> ?x. x IN t <=> ~(x IN s)
-      #|  forall P s a:A.\n        {x | x IN a INSERT s /\\ P x} =\n        if P a then a INSERT {x | x IN s /\\ P x} else {x | x IN s /\\ P x}
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, !(s == t) == (\226\136\131 x : A, IN(x, t) == !IN(x, s))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 a : A, {(x : A) | IN(x, INSERT(a, s)) && P(x)} == (if P(a) { INSERT(a, {(x : A) | IN(x, s) && P(x)}) } else { {(x : A) | IN(x, s) && P(x)} })
       #|  UNIV == {one}
       #|  \226\136\128 s : (A) -> Bool, (\226\136\131 x : A, IN(x, s)) == !(s == {})
       #|  !((UNIV : (A) -> Bool) == ({} : (A) -> Bool))
       #|  !(({} : (A) -> Bool) == (UNIV : (A) -> Bool))
       #|  (\226\136\128 x : A, IN(x, (s : (A) -> Bool))) == (s == UNIV)
-      #|  forall(s:A->bool) t u. s SUBSET t /\\ t SUBSET u ==> s SUBSET u
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, SUBSET(s, t) && SUBSET(t, u) \226\134\146 SUBSET(s, u)
       #|  \226\136\128 s : (A) -> Bool, SUBSET(s, s)
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, t) && SUBSET(t, s) \226\134\146 s == t
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, (SUBSET(s, t) && SUBSET(t, s)) == (s == t)
@@ -5451,52 +5451,52 @@ test "sets matches sets.ml" {
       #|  \226\136\128 s : (A) -> Bool, SUBSET(UNIV, s) == (s == UNIV)
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 x : A, SUBSET({x}, s) == IN(x, s)
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 P : (A) -> Bool, SUBSET({(x : A) | IN(x, s) && P(x)}, s)
-      #|  forall(s:A->bool) t u. s PSUBSET t /\\ t PSUBSET u ==> s PSUBSET u
-      #|  forall(s:A->bool) t u. s PSUBSET t /\\ t SUBSET u ==> s PSUBSET u
-      #|  forall(s:A->bool) t u. s SUBSET t /\\ t PSUBSET u ==> s PSUBSET u
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, PSUBSET(s, t) && PSUBSET(t, u) \226\134\146 PSUBSET(s, u)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, PSUBSET(s, t) && SUBSET(t, u) \226\134\146 PSUBSET(s, u)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, SUBSET(s, t) && PSUBSET(t, u) \226\134\146 PSUBSET(s, u)
       #|  \226\136\128 s : (A) -> Bool, !PSUBSET(s, s)
       #|  \226\136\128 s : (A) -> Bool, !PSUBSET(s, {})
       #|  \226\136\128 s : (A) -> Bool, !PSUBSET(UNIV, s)
       #|  \226\136\128 s : (A) -> Bool, PSUBSET(s, UNIV) == (\226\136\131 x : A, !IN(x, s))
-      #|  forall s t:A->bool. s PSUBSET t <=> s SUBSET t /\\ (?a. a IN t /\\ ~(a IN s))
-      #|  forall(s:A->bool) t u. (s UNION t) UNION u = s UNION (t UNION u)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, PSUBSET(s, t) == (SUBSET(s, t) && (\226\136\131 a : A, IN(a, t) && !IN(a, s)))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, UNION(UNION(s, t), u) == UNION(s, UNION(t, u))
       #|  \226\136\128 s : (A) -> Bool, UNION(s, s) == s
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, UNION(s, t) == UNION(t, s)
-      #|  (forall s:A->bool. forall t. s SUBSET (s UNION t)) /\\\n   (forall s:A->bool. forall t. s SUBSET (t UNION s))
+      #|  (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, UNION(s, t))) && (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, UNION(t, s)))
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, t) == (UNION(s, t) == t)
-      #|  (forall s:A->bool. EMPTY UNION s = s) /\\\n   (forall s:A->bool. s UNION EMPTY = s)
-      #|  (forall s:A->bool. UNIV UNION s = UNIV) /\\\n   (forall s:A->bool. s UNION UNIV = UNIV)
-      #|  forall s:A->bool. forall t. (s UNION t = EMPTY) <=> (s = EMPTY) /\\ (t = EMPTY)
-      #|  forall s t u:A->bool. (s UNION t) SUBSET u <=> s SUBSET u /\\ t SUBSET u
-      #|  forall P s t:A->bool.\n        {x | x IN (s UNION t) /\\ P x} =\n        {x | x IN s /\\ P x} UNION {x | x IN t /\\ P x}
+      #|  (\226\136\128 s : (A) -> Bool, UNION({}, s) == s) && (\226\136\128 s : (A) -> Bool, UNION(s, {}) == s)
+      #|  (\226\136\128 s : (A) -> Bool, UNION(UNIV, s) == UNIV) && (\226\136\128 s : (A) -> Bool, UNION(s, UNIV) == UNIV)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, (UNION(s, t) == {}) == (s == {} && t == {})
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, SUBSET(UNION(s, t), u) == (SUBSET(s, u) && SUBSET(t, u))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, {(x : A) | IN(x, UNION(s, t)) && P(x)} == UNION({(x : A) | IN(x, s) && P(x)}, {(x : A) | IN(x, t) && P(x)})
       #|  INTER((s : (A) -> Bool), (u : (A) -> Bool))
       #|  INTER((s : (A) -> Bool), (t : (A) -> Bool))
       #|  (s : (A) -> Bool)
-      #|  forall t u:A->bool.\n        (forall s. s SUBSET t UNION u ==> P s) <=>\n        (forall t' u'. t' SUBSET t /\\ u' SUBSET u ==> P(t' UNION u'))
+      #|  \226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, (\226\136\128 s : (A) -> Bool, SUBSET(s, UNION(t, u)) \226\134\146 (P : ((A) -> Bool) -> Bool)(s)) == (\226\136\128 t' : (A) -> Bool, \226\136\128 u' : (A) -> Bool, SUBSET(t', t) && SUBSET(u', u) \226\134\146 P(UNION(t', u')))
       #|  (\226\136\131 x : _, (P : (_) -> Bool)(x) && (Q : (_) -> Bool)(x)) == !(\226\136\128 x : _, P(x) \226\134\146 !Q(x))
-      #|  forall t u:A->bool.\n        (?s. s SUBSET t UNION u /\\ P s) <=>\n        (?t' u'. t' SUBSET t /\\ u' SUBSET u /\\ P(t' UNION u'))
+      #|  \226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, (\226\136\131 s : (A) -> Bool, SUBSET(s, UNION(t, u)) && (P : ((A) -> Bool) -> Bool)(s)) == (\226\136\131 t' : (A) -> Bool, \226\136\131 u' : (A) -> Bool, SUBSET(t', t) && SUBSET(u', u) && P(UNION(t', u')))
       #|  SUBSET((s : (_) -> Bool), {(a : _)}) == (s == {} || s == {a})
       #|  INSERT((a : _), (s : (_) -> Bool)) == UNION({a}, s)
-      #|  forall a:A t. (forall s. s SUBSET a INSERT t ==> P s) <=>\n           (forall s. s SUBSET t ==> P s /\\ P (a INSERT s))
+      #|  \226\136\128 a : A, \226\136\128 t : (A) -> Bool, (\226\136\128 s : (A) -> Bool, SUBSET(s, INSERT(a, t)) \226\134\146 (P : ((A) -> Bool) -> Bool)(s)) == (\226\136\128 s : (A) -> Bool, SUBSET(s, t) \226\134\146 P(s) && P(INSERT(a, s)))
       #|  (\226\136\131 x : _, (P : (_) -> Bool)(x) && (Q : (_) -> Bool)(x)) == !(\226\136\128 x : _, P(x) \226\134\146 !Q(x))
-      #|  forall a:A t. (?s. s SUBSET a INSERT t /\\ P s) <=>\n           (?s. s SUBSET t /\\ (P s \\/ P (a INSERT s)))
-      #|  forall(s:A->bool) t u. (s INTER t) INTER u = s INTER (t INTER u)
+      #|  \226\136\128 a : A, \226\136\128 t : (A) -> Bool, (\226\136\131 s : (A) -> Bool, SUBSET(s, INSERT(a, t)) && (P : ((A) -> Bool) -> Bool)(s)) == (\226\136\131 s : (A) -> Bool, SUBSET(s, t) && (P(s) || P(INSERT(a, s))))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, INTER(INTER(s, t), u) == INTER(s, INTER(t, u))
       #|  \226\136\128 s : (A) -> Bool, INTER(s, s) == s
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INTER(s, t) == INTER(t, s)
-      #|  (forall s:A->bool. forall t. (s INTER t) SUBSET s) /\\\n   (forall s:A->bool. forall t. (t INTER s) SUBSET s)
+      #|  (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(INTER(s, t), s)) && (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(INTER(t, s), s))
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, t) == (INTER(s, t) == s)
-      #|  (forall s:A->bool. EMPTY INTER s = EMPTY) /\\\n   (forall s:A->bool. s INTER EMPTY = EMPTY)
-      #|  (forall s:A->bool. UNIV INTER s = s) /\\\n   (forall s:A->bool. s INTER UNIV = s)
-      #|  forall s t u:A->bool. s SUBSET (t INTER u) <=> s SUBSET t /\\ s SUBSET u
-      #|  forall P s (t:A->bool).\n        {x | x IN (s INTER t) /\\ P x} =\n        {x | x IN s /\\ P x} INTER {x | x IN t /\\ P x}
-      #|  forall s:A->bool. forall t u. s INTER (t UNION u) = (s INTER t) UNION (s INTER u)
-      #|  forall s:A->bool. forall t u. s UNION (t INTER u) = (s UNION t) INTER (s UNION u)
-      #|  forall s:A->bool. forall t. DISJOINT s t <=> ~(?x. x IN s /\\ x IN t)
+      #|  (\226\136\128 s : (A) -> Bool, INTER({}, s) == {}) && (\226\136\128 s : (A) -> Bool, INTER(s, {}) == {})
+      #|  (\226\136\128 s : (A) -> Bool, INTER(UNIV, s) == s) && (\226\136\128 s : (A) -> Bool, INTER(s, UNIV) == s)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, SUBSET(s, INTER(t, u)) == (SUBSET(s, t) && SUBSET(s, u))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, {(x : A) | IN(x, INTER(s, t)) && P(x)} == INTER({(x : A) | IN(x, s) && P(x)}, {(x : A) | IN(x, t) && P(x)})
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, INTER(s, UNION(t, u)) == UNION(INTER(s, t), INTER(s, u))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, UNION(s, INTER(t, u)) == INTER(UNION(s, t), UNION(s, u))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, DISJOINT(s, t) == !(\226\136\131 x : A, IN(x, s) && IN(x, t))
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, DISJOINT(s, t) == DISJOINT(t, s)
       #|  \226\136\128 s : (A) -> Bool, DISJOINT({}, s) && DISJOINT(s, {})
       #|  \226\136\128 s : (A) -> Bool, (s == {}) == DISJOINT(s, s)
-      #|  forall s:A->bool. forall t u. DISJOINT (s UNION t) u <=> DISJOINT s u /\\ DISJOINT t u
-      #|  (forall s a:A. DISJOINT s {a} <=> ~(a IN s)) /\\\n   (forall s a:A. DISJOINT {a} s <=> ~(a IN s))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, DISJOINT(UNION(s, t), u) == (DISJOINT(s, u) && DISJOINT(t, u))
+      #|  (\226\136\128 s : (A) -> Bool, \226\136\128 a : A, DISJOINT(s, {a}) == !IN(a, s)) && (\226\136\128 s : (A) -> Bool, \226\136\128 a : A, DISJOINT({a}, s) == !IN(a, s))
       #|  \226\136\128 s : (A) -> Bool, DIFF(s, {}) == s
       #|  \226\136\128 s : (A) -> Bool, DIFF({}, s) == {}
       #|  \226\136\128 s : (A) -> Bool, DIFF(s, UNIV) == {}
@@ -5504,163 +5504,163 @@ test "sets matches sets.ml" {
       #|  \226\136\128 s : (A) -> Bool, DIFF(s, s) == {}
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(DIFF(s, t), s)
       #|  \226\136\128 s : (A) -> Bool, DIFF(UNIV, DIFF(UNIV, s)) == s
-      #|  forall P s (t:A->bool).\n        {x | x IN (s DIFF t) /\\ P x} =\n        {x | x IN s /\\ P x} DIFF {x | x IN t /\\ P x}
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, {(x : A) | IN(x, DIFF(s, t)) && P(x)} == DIFF({(x : A) | IN(x, s) && P(x)}, {(x : A) | IN(x, t) && P(x)})
       #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, IN(x, INSERT(x, s))
       #|  DELETE((s : (A) -> Bool), (x : A))
-      #|  forall s:A->bool. forall x. x IN s <=> ?t. (s = x INSERT t) /\\ ~(x IN t)
-      #|  forall s:A->bool. (s = EMPTY) \\/ ?x:A. ?t. (s = x INSERT t) /\\ ~(x IN t)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 x : A, IN(x, s) == (\226\136\131 t : (A) -> Bool, s == INSERT(x, t) && !IN(x, t))
+      #|  \226\136\128 s : (A) -> Bool, s == {} || (\226\136\131 x : A, \226\136\131 t : (A) -> Bool, s == INSERT(x, t) && !IN(x, t))
       #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, IN(x, s) == (INSERT(x, s) == s)
       #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, INSERT(x, INSERT(x, s)) == INSERT(x, s)
-      #|  forall x:A. forall y s. x INSERT (y INSERT s) = y INSERT (x INSERT s)
+      #|  \226\136\128 x : A, \226\136\128 y : A, \226\136\128 s : (A) -> Bool, INSERT(x, INSERT(y, s)) == INSERT(y, INSERT(x, s))
       #|  \226\136\128 x : A, INSERT(x, UNIV) == UNIV
       #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, !(INSERT(x, s) == {})
       #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, !({} == INSERT(x, s))
-      #|  forall x:A. forall s t. (x INSERT s) UNION t =\n               if x IN t then s UNION t else x INSERT (s UNION t)
-      #|  forall x:A. forall s t. (x INSERT s) UNION t = x INSERT (s UNION t)
-      #|  forall x:A. forall s t. (x INSERT s) INTER t =\n               if x IN t then x INSERT (s INTER t) else s INTER t
-      #|  forall(x:A) s t. DISJOINT (x INSERT s) t <=> (DISJOINT s t) /\\ ~(x IN t)
-      #|  forall x:A. forall s t. (x INSERT s) SUBSET t <=> (x IN t /\\ s SUBSET t)
-      #|  forall x:A. forall s. ~(x IN s) ==> forall t. s SUBSET (x INSERT t) <=> s SUBSET t
-      #|  forall s t. forall x:A. (x INSERT s) DIFF t =\n               if x IN t then s DIFF t else x INSERT (s DIFF t)
-      #|  (x:A) INSERT (y INSERT s) = y INSERT (x INSERT s) /\\\n   x INSERT (x INSERT s) = x INSERT s
-      #|  ((p:A->bool) INTER q = q INTER p) /\\\n   ((p INTER q) INTER r = p INTER q INTER r) /\\\n   (p INTER q INTER r = q INTER p INTER r) /\\\n   (p INTER p = p) /\\\n   (p INTER p INTER q = p INTER q)
-      #|  ((p:A->bool) UNION q = q UNION p) /\\\n   ((p UNION q) UNION r = p UNION q UNION r) /\\\n   (p UNION q UNION r = q UNION p UNION r) /\\\n   (p UNION p = p) /\\\n   (p UNION p UNION q = p UNION q)
+      #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, UNION(INSERT(x, s), t) == (if IN(x, t) { UNION(s, t) } else { INSERT(x, UNION(s, t)) })
+      #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, UNION(INSERT(x, s), t) == INSERT(x, UNION(s, t))
+      #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INTER(INSERT(x, s), t) == (if IN(x, t) { INSERT(x, INTER(s, t)) } else { INTER(s, t) })
+      #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, DISJOINT(INSERT(x, s), t) == (DISJOINT(s, t) && !IN(x, t))
+      #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(INSERT(x, s), t) == (IN(x, t) && SUBSET(s, t))
+      #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, !IN(x, s) \226\134\146 (\226\136\128 t : (A) -> Bool, SUBSET(s, INSERT(x, t)) == SUBSET(s, t))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 x : A, DIFF(INSERT(x, s), t) == (if IN(x, t) { DIFF(s, t) } else { INSERT(x, DIFF(s, t)) })
+      #|  INSERT((x : A), INSERT((y : A), (s : (A) -> Bool))) == INSERT(y, INSERT(x, s)) && INSERT(x, INSERT(x, s)) == INSERT(x, s)
+      #|  INTER((p : (A) -> Bool), (q : (A) -> Bool)) == INTER(q, p) && INTER(INTER(p, q), (r : (A) -> Bool)) == INTER(p, INTER(q, r)) && INTER(p, INTER(q, r)) == INTER(q, INTER(p, r)) && INTER(p, p) == p && INTER(p, INTER(p, q)) == INTER(p, q)
+      #|  UNION((p : (A) -> Bool), (q : (A) -> Bool)) == UNION(q, p) && UNION(UNION(p, q), (r : (A) -> Bool)) == UNION(p, UNION(q, r)) && UNION(p, UNION(q, r)) == UNION(q, UNION(p, r)) && UNION(p, p) == p && UNION(p, UNION(p, q)) == UNION(p, q)
       #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, !IN(x, s) == (DELETE(s, x) == s)
-      #|  forall s x. forall x':A.\n     (x IN s <=> x' IN s) <=> (x IN (s DELETE x') <=> x' IN (s DELETE x))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 x : A, \226\136\128 x' : A, (IN(x, s) == IN(x', s)) == (IN(x, DELETE(s, x')) == IN(x', DELETE(s, x)))
       #|  \226\136\128 x : A, DELETE({}, x) == {}
       #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, DELETE(DELETE(s, x), x) == DELETE(s, x)
-      #|  forall x:A. forall y. forall s. (s DELETE x) DELETE y = (s DELETE y) DELETE x
+      #|  \226\136\128 x : A, \226\136\128 y : A, \226\136\128 s : (A) -> Bool, DELETE(DELETE(s, x), y) == DELETE(DELETE(s, y), x)
       #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, SUBSET(DELETE(s, x), s)
-      #|  forall x:A. forall s t. s SUBSET (t DELETE x) <=> ~(x IN s) /\\ (s SUBSET t)
-      #|  forall x:A. forall s t. s SUBSET (x INSERT t) <=> ((s DELETE x) SUBSET t)
-      #|  forall s t. forall x:A. s DIFF (x INSERT t) = (s DELETE x) DIFF t
-      #|  forall s t. s PSUBSET t <=> ?x:A. ~(x IN s) /\\ (x INSERT s) SUBSET t
-      #|  forall x:A. forall y s.\n      (x INSERT s) DELETE y =\n        if x = y then s DELETE y else x INSERT (s DELETE y)
+      #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, DELETE(t, x)) == (!IN(x, s) && SUBSET(s, t))
+      #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, INSERT(x, t)) == SUBSET(DELETE(s, x), t)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 x : A, DIFF(s, INSERT(x, t)) == DIFF(DELETE(s, x), t)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, PSUBSET(s, t) == (\226\136\131 x : A, !IN(x, s) && SUBSET(INSERT(x, s), t))
+      #|  \226\136\128 x : A, \226\136\128 y : A, \226\136\128 s : (A) -> Bool, DELETE(INSERT(x, s), y) == (if x == y { DELETE(s, y) } else { INSERT(x, DELETE(s, y)) })
       #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, IN(x, s) \226\134\146 INSERT(x, DELETE(s, x)) == s
-      #|  forall s t. forall x:A. (s DELETE x) INTER t = (s INTER t) DELETE x
-      #|  forall s t. forall x:A. DISJOINT (s DELETE x) t = DISJOINT (t DELETE x) s
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 x : A, INTER(DELETE(s, x), t) == DELETE(INTER(s, t), x)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 x : A, DISJOINT(DELETE(s, x), t) == DISJOINT(DELETE(t, x), s)
       #|  (UNIONS : (((A) -> Bool) -> Bool, A) -> Bool)(({} : ((A) -> Bool) -> Bool)) == ({} : (A) -> Bool)
       #|  \226\136\128 s : (A) -> Bool, UNIONS({s}) == s
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, UNIONS({s, t}) == UNION(s, t)
-      #|  forall(s:A->bool) u. UNIONS (s INSERT u) = s UNION (UNIONS u)
-      #|  forall P s. (forall x:A. x IN UNIONS s ==> P x) <=> forall t x. t IN s /\\ x IN t ==> P x
-      #|  forall P s. (?x:A. x IN UNIONS s /\\ P x) <=> (?t x. t IN s /\\ x IN t /\\ P x)
-      #|  forall s. (UNIONS s = {}) <=> forall t:A->bool. t IN s ==> t = {}
-      #|  (forall s (t:A->bool). UNIONS s INTER t = UNIONS {x INTER t | x IN s}) /\\\n   (forall s (t:A->bool). t INTER UNIONS s = UNIONS {t INTER x | x IN s})
-      #|  forall f (t:A->bool). UNIONS f SUBSET t <=> forall s. s IN f ==> s SUBSET t
-      #|  forall(f:(A->bool)->bool) g. f SUBSET g ==> UNIONS f SUBSET UNIONS g
-      #|  forall s t:(A->bool)->bool. UNIONS(s UNION t) = (UNIONS s) UNION (UNIONS t)
-      #|  forall s t:(A->bool)->bool. INTERS (s UNION t) = INTERS s INTER INTERS t
-      #|  forall s t:(A->bool)->bool.\n    (forall x. x IN s ==> ?y. y IN t /\\ x SUBSET y) ==> UNIONS s SUBSET UNIONS t
-      #|  forall(f:A->B->bool) g s.\n        (forall x. x IN s ==> f x SUBSET g x)\n        ==> UNIONS(IMAGE f s) SUBSET UNIONS(IMAGE g s)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 u : ((A) -> Bool) -> Bool, UNIONS(INSERT(s, u)) == UNION(s, UNIONS(u))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 s : ((A) -> Bool) -> Bool, (\226\136\128 x : A, IN(x, UNIONS(s)) \226\134\146 P(x)) == (\226\136\128 t : (A) -> Bool, \226\136\128 x : A, IN(t, s) && IN(x, t) \226\134\146 P(x))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 s : ((A) -> Bool) -> Bool, (\226\136\131 x : A, IN(x, UNIONS(s)) && P(x)) == (\226\136\131 t : (A) -> Bool, \226\136\131 x : A, IN(t, s) && IN(x, t) && P(x))
+      #|  \226\136\128 s : ((A) -> Bool) -> Bool, (UNIONS(s) == {}) == (\226\136\128 t : (A) -> Bool, IN(t, s) \226\134\146 t == {})
+      #|  (\226\136\128 s : ((A) -> Bool) -> Bool, \226\136\128 t : (A) -> Bool, INTER(UNIONS(s), t) == UNIONS({INTER((x : (A) -> Bool), t) | IN(x, s)})) && (\226\136\128 s : ((A) -> Bool) -> Bool, \226\136\128 t : (A) -> Bool, INTER(t, UNIONS(s)) == UNIONS({INTER(t, (x : (A) -> Bool)) | IN(x, s)}))
+      #|  \226\136\128 f : ((A) -> Bool) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(UNIONS(f), t) == (\226\136\128 s : (A) -> Bool, IN(s, f) \226\134\146 SUBSET(s, t))
+      #|  \226\136\128 f : ((A) -> Bool) -> Bool, \226\136\128 g : ((A) -> Bool) -> Bool, SUBSET(f, g) \226\134\146 SUBSET(UNIONS(f), UNIONS(g))
+      #|  \226\136\128 s : ((A) -> Bool) -> Bool, \226\136\128 t : ((A) -> Bool) -> Bool, UNIONS(UNION(s, t)) == UNION(UNIONS(s), UNIONS(t))
+      #|  \226\136\128 s : ((A) -> Bool) -> Bool, \226\136\128 t : ((A) -> Bool) -> Bool, INTERS(UNION(s, t)) == INTER(INTERS(s), INTERS(t))
+      #|  \226\136\128 s : ((A) -> Bool) -> Bool, \226\136\128 t : ((A) -> Bool) -> Bool, (\226\136\128 x : (A) -> Bool, IN(x, s) \226\134\146 (\226\136\131 y : (A) -> Bool, IN(y, t) && SUBSET(x, y))) \226\134\146 SUBSET(UNIONS(s), UNIONS(t))
+      #|  \226\136\128 f : (A, B) -> Bool, \226\136\128 g : (A, B) -> Bool, \226\136\128 s : (A) -> Bool, (\226\136\128 x : A, IN(x, s) \226\134\146 SUBSET(f(x), g(x))) \226\134\146 SUBSET(UNIONS(IMAGE(f, s)), UNIONS(IMAGE(g, s)))
       #|  (UNIONS : (((A) -> Bool) -> Bool, A) -> Bool)((UNIV : ((A) -> Bool) -> Bool)) == (UNIV : (A) -> Bool)
       #|  \226\136\128 s : ((A) -> Bool) -> Bool, UNIONS(INSERT({}, s)) == UNIONS(s)
       #|  \226\136\128 s : ((A) -> Bool) -> Bool, UNIONS(DELETE(s, {})) == UNIONS(s)
       #|  (INTERS : (((A) -> Bool) -> Bool, A) -> Bool)(({} : ((A) -> Bool) -> Bool)) == (UNIV : (A) -> Bool)
       #|  \226\136\128 s : (A) -> Bool, INTERS({s}) == s
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INTERS({s, t}) == INTER(s, t)
-      #|  forall(s:A->bool) u. INTERS (s INSERT u) = s INTER (INTERS u)
-      #|  forall(s:A->bool) f. s SUBSET INTERS f <=> (forall t. t IN f ==> s SUBSET t)
-      #|  forall u s:A->bool.\n    ~(u = {}) /\\ (forall t. t IN u ==> t SUBSET s) ==> INTERS u SUBSET s
-      #|  forall u s:A->bool. (?t. t IN u /\\ t SUBSET s) ==> INTERS u SUBSET s
-      #|  forall(f:(A->bool)->bool) g. g SUBSET f ==> INTERS f SUBSET INTERS g
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 u : ((A) -> Bool) -> Bool, INTERS(INSERT(s, u)) == INTER(s, INTERS(u))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : ((A) -> Bool) -> Bool, SUBSET(s, INTERS(f)) == (\226\136\128 t : (A) -> Bool, IN(t, f) \226\134\146 SUBSET(s, t))
+      #|  \226\136\128 u : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, !(u == {}) && (\226\136\128 t : (A) -> Bool, IN(t, u) \226\134\146 SUBSET(t, s)) \226\134\146 SUBSET(INTERS(u), s)
+      #|  \226\136\128 u : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, (\226\136\131 t : (A) -> Bool, IN(t, u) && SUBSET(t, s)) \226\134\146 SUBSET(INTERS(u), s)
+      #|  \226\136\128 f : ((A) -> Bool) -> Bool, \226\136\128 g : ((A) -> Bool) -> Bool, SUBSET(g, f) \226\134\146 SUBSET(INTERS(f), INTERS(g))
       #|  \226\136\128 f : ((A) -> Bool) -> Bool, (INTERS(f) == UNIV) == (\226\136\128 s : (A) -> Bool, IN(s, f) \226\134\146 s == UNIV)
-      #|  forall s (t:(A->bool)->bool).\n        (forall y. y IN t ==> ?x. x IN s /\\ x SUBSET y)\n        ==> INTERS s SUBSET INTERS t
-      #|  (IMAGE (f:A->B) {} = {}) /\\\n   (IMAGE f (x INSERT s) = (f x) INSERT (IMAGE f s))
-      #|  forall(f:A->B) s t. IMAGE f (s UNION t) = (IMAGE f s) UNION (IMAGE f t)
+      #|  \226\136\128 s : ((A) -> Bool) -> Bool, \226\136\128 t : ((A) -> Bool) -> Bool, (\226\136\128 y : (A) -> Bool, IN(y, t) \226\134\146 (\226\136\131 x : (A) -> Bool, IN(x, s) && SUBSET(x, y))) \226\134\146 SUBSET(INTERS(s), INTERS(t))
+      #|  IMAGE((f : (A) -> B), {}) == {} && IMAGE(f, INSERT((x : A), (s : (A) -> Bool))) == INSERT(f(x), IMAGE(f, s))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, IMAGE(f, UNION(s, t)) == UNION(IMAGE(f, s), IMAGE(f, t))
       #|  \226\136\128 s : (A) -> Bool, IMAGE((x : A) => x, s) == s
       #|  \226\136\128 s : (A) -> Bool, IMAGE(I, s) == s
-      #|  forall(f:B->C) (g:A->B) s. IMAGE (f o g) s = IMAGE f (IMAGE g s)
-      #|  forall(f:A->B) s t. s SUBSET t ==> (IMAGE f s) SUBSET (IMAGE f t)
-      #|  forall(f:A->B) s t.\n        (forall x y. f(x) = f(y) ==> x = y)\n        ==> (IMAGE f (s INTER t) = (IMAGE f s) INTER (IMAGE f t))
-      #|  forall f:A->B s t.\n        (forall x y. x IN s /\\ y IN t /\\ f x = f y ==> x = y)\n        ==> IMAGE f (s DIFF t) = IMAGE f s DIFF IMAGE f t
-      #|  forall f:A->B s t.\n        (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y) /\\ t SUBSET s\n        ==> IMAGE f (s DIFF t) = IMAGE f s DIFF IMAGE f t
-      #|  forall f:A->B s a.\n        (forall x. x IN s /\\ f x = f a ==> x = a)\n        ==> IMAGE f (s DELETE a) = IMAGE f s DELETE f a
-      #|  forall f:A->B s a.\n        (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y) /\\ a IN s\n        ==> IMAGE f (s DELETE a) = IMAGE f s DELETE f a
+      #|  \226\136\128 f : (B) -> C, \226\136\128 g : (A) -> B, \226\136\128 s : (A) -> Bool, IMAGE(o(f, g), s) == IMAGE(f, IMAGE(g, s))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, t) \226\134\146 SUBSET(IMAGE(f, s), IMAGE(f, t))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, f(x) == f(y) \226\134\146 x == y) \226\134\146 IMAGE(f, INTER(s, t)) == INTER(IMAGE(f, s), IMAGE(f, t))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, t) && f(x) == f(y) \226\134\146 x == y) \226\134\146 IMAGE(f, DIFF(s, t)) == DIFF(IMAGE(f, s), IMAGE(f, t))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) && SUBSET(t, s) \226\134\146 IMAGE(f, DIFF(s, t)) == DIFF(IMAGE(f, s), IMAGE(f, t))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 a : A, (\226\136\128 x : A, IN(x, s) && f(x) == f(a) \226\134\146 x == a) \226\134\146 IMAGE(f, DELETE(s, a)) == DELETE(IMAGE(f, s), f(a))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 a : A, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) && IN(a, s) \226\134\146 IMAGE(f, DELETE(s, a)) == DELETE(IMAGE(f, s), f(a))
       #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (IMAGE(f, s) == {}) == (s == {})
-      #|  forall(f:A->B) P s. (forall x y. x IN IMAGE f s /\\ y IN IMAGE f s ==> P x y) <=>\n                 (forall x y. x IN s /\\ y IN s ==> P (f x) (f y))
-      #|  forall(s:A->bool) (c:B). IMAGE (\\x. c) s = if s = {} then {} else {c}
+      #|  \226\136\128 f : (A) -> B, \226\136\128 P : (B, B) -> Bool, \226\136\128 s : (A) -> Bool, (\226\136\128 x : B, \226\136\128 y : B, IN(x, IMAGE(f, s)) && IN(y, IMAGE(f, s)) \226\134\146 P(x, y)) == (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) \226\134\146 P(f(x), f(y)))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 c : B, IMAGE((x : A) => c, s) == (if s == {} { {} } else { {c} })
       #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, {f((x : A)) | IN(x, s)} == IMAGE(f, s)
       #|  \226\136\128 f : (A) -> B, \226\136\128 P : (A) -> Bool, {f((x : A)) | P(x)} == IMAGE(f, {(x : A) | P(x)})
-      #|  forall(f:A->B) s. IMAGE f (UNIONS s) = UNIONS (IMAGE (IMAGE f) s)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : ((A) -> Bool) -> Bool, IMAGE(f, UNIONS(s)) == UNIONS(IMAGE(IMAGE(f), s))
       #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), IMAGE(f, s))
-      #|  forall(f:A->B) s t.\n        (forall y. y IN t ==> ?x. f x = y) /\\ (forall x. (f x) IN t <=> x IN s)\n        ==> IMAGE f s = t
-      #|  forall(f:A->B) g s. (forall x. x IN s ==> f x = g x) ==> IMAGE f s = IMAGE g s
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (\226\136\128 y : B, IN(y, t) \226\134\146 (\226\136\131 x : A, f(x) == y)) && (\226\136\128 x : A, IN(f(x), t) == IN(x, s)) \226\134\146 IMAGE(f, s) == t
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\128 x : A, IN(x, s) \226\134\146 f(x) == g(x)) \226\134\146 IMAGE(f, s) == IMAGE(g, s)
       #|  {(x : A) | false} == {}
       #|  {(x : A) | true} == UNIV
-      #|  (forall a:A. {x | x = a} = {a}) /\\\n   (forall a:A. {x | a = x} = {a})
+      #|  (\226\136\128 a : A, {(x : A) | x == a} == {a}) && (\226\136\128 a : A, {(x : A) | a == x} == {a})
       #|  \226\136\128 s : (A) -> Bool, (\226\136\131 x : A, s == {x}) == existsunique((x : A) => IN(x, s))
       #|  \226\136\128 s : (A) -> Bool, {(x : A) | IN(x, s)} == s
-      #|  forall(P:A->B->bool) a b. (a,b) IN {(x,y) | P x y} <=> P a b
-      #|  (forall(P:A->B->C->bool) a b c. (a,b,c) IN {(x,y,z) | P x y z} <=> P a b c) /\\\n   (forall(P:A->B->C->bool) a b c. ((a,b),c) IN {((x,y),z) | P x y z} <=> P a b c)
-      #|  (forall(P:A->B->C->D->bool) a b c d.\n        (a,b,c,d) IN {w,x,y,z | P w x y z} <=> P a b c d) /\\\n   (forall(P:A->B->C->D->bool) a b c d.\n        ((a,b),(c,d)) IN {(w,x),(y,z) | P w x y z} <=> P a b c d) /\\\n   (forall(P:A->B->C->D->bool) a b c d.\n        (((a,b),c),d) IN {(((w,x),y),z) | P w x y z} <=> P a b c d)
+      #|  \226\136\128 P : (A, B) -> Bool, \226\136\128 a : A, \226\136\128 b : B, IN((a, b), {((x : A), (y : B)) | P(x, y)}) == P(a, b)
+      #|  (\226\136\128 P : (A, B, C) -> Bool, \226\136\128 a : A, \226\136\128 b : B, \226\136\128 c : C, IN((a, b, c), {((x : A), (y : B), (z : C)) | P(x, y, z)}) == P(a, b, c)) && (\226\136\128 P : (A, B, C) -> Bool, \226\136\128 a : A, \226\136\128 b : B, \226\136\128 c : C, IN(((a, b), c), {(((x : A), (y : B)), (z : C)) | P(x, y, z)}) == P(a, b, c))
+      #|  (\226\136\128 P : (A, B, C, D) -> Bool, \226\136\128 a : A, \226\136\128 b : B, \226\136\128 c : C, \226\136\128 d : D, IN((a, b, c, d), {((w : A), (x : B), (y : C), (z : D)) | P(w, x, y, z)}) == P(a, b, c, d)) && (\226\136\128 P : (A, B, C, D) -> Bool, \226\136\128 a : A, \226\136\128 b : B, \226\136\128 c : C, \226\136\128 d : D, IN(((a, b), c, d), {(((w : A), (x : B)), (y : C), (z : D)) | P(w, x, y, z)}) == P(a, b, c, d)) && (\226\136\128 P : (A, B, C, D) -> Bool, \226\136\128 a : A, \226\136\128 b : B, \226\136\128 c : C, \226\136\128 d : D, IN((((a, b), c), d), {((((w : A), (x : B)), (y : C)), (z : D)) | P(w, x, y, z)}) == P(a, b, c, d))
       #|  \226\136\128 P : ((A, B)) -> Bool, {(p : (A, B)) | P(p)} == {((a : A), (b : B)) | P((a, b))}
-      #|  forall P:(A->bool)->bool.\n       P {} /\\ (forall a s. ~(a IN s) ==> P(a INSERT s))\n       ==> forall s. P s
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, P({}) && (\226\136\128 a : A, \226\136\128 s : (A) -> Bool, !IN(a, s) \226\134\146 P(INSERT(a, s))) \226\134\146 (\226\136\128 s : (A) -> Bool, P(s))
       #|  \226\136\128 P : (A) -> Bool, UNIONS({{(x : A)} | P(x)}) == {(x : A) | P(x)}
       #|  \226\136\128 s : (A) -> Bool, UNIONS({{(x : A)} | IN(x, s)}) == s
-      #|  forall(f:A->B) s.\n        ~(s = {}) /\\\n        (forall x y. x IN UNIONS s /\\ y IN UNIONS s /\\ f x = f y ==> x = y)\n        ==> IMAGE f (INTERS s) = INTERS(IMAGE (IMAGE f) s)
-      #|  forall(u:A->bool) s. u DIFF INTERS s = UNIONS {u DIFF t | t IN s}
-      #|  forall s. INTERS s = UNIV DIFF (UNIONS {(:A) DIFF t | t IN s})
-      #|  forall s. UNIONS s = UNIV DIFF (INTERS {(:A) DIFF t | t IN s})
-      #|  forall s t:A->bool. UNIONS s DIFF t = UNIONS {x DIFF t | x IN s}
-      #|  forall(u:A->bool) s. u DIFF UNIONS s = u INTER INTERS {u DIFF t | t IN s}
-      #|  forall(u:A->bool) s. ~(s = {}) ==> u DIFF UNIONS s = INTERS {u DIFF t | t IN s}
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : ((A) -> Bool) -> Bool, !(s == {}) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, UNIONS(s)) && IN(y, UNIONS(s)) && f(x) == f(y) \226\134\146 x == y) \226\134\146 IMAGE(f, INTERS(s)) == INTERS(IMAGE(IMAGE(f), s))
+      #|  \226\136\128 u : (A) -> Bool, \226\136\128 s : ((A) -> Bool) -> Bool, DIFF(u, INTERS(s)) == UNIONS({DIFF(u, (t : (A) -> Bool)) | IN(t, s)})
+      #|  \226\136\128 s : ((A) -> Bool) -> Bool, INTERS(s) == DIFF(UNIV, UNIONS({DIFF(UNIV, (t : (A) -> Bool)) | IN(t, s)}))
+      #|  \226\136\128 s : ((A) -> Bool) -> Bool, UNIONS(s) == DIFF(UNIV, INTERS({DIFF(UNIV, (t : (A) -> Bool)) | IN(t, s)}))
+      #|  \226\136\128 s : ((A) -> Bool) -> Bool, \226\136\128 t : (A) -> Bool, DIFF(UNIONS(s), t) == UNIONS({DIFF((x : (A) -> Bool), t) | IN(x, s)})
+      #|  \226\136\128 u : (A) -> Bool, \226\136\128 s : ((A) -> Bool) -> Bool, DIFF(u, UNIONS(s)) == INTER(u, INTERS({DIFF(u, (t : (A) -> Bool)) | IN(t, s)}))
+      #|  \226\136\128 u : (A) -> Bool, \226\136\128 s : ((A) -> Bool) -> Bool, !(s == {}) \226\134\146 DIFF(u, UNIONS(s)) == INTERS({DIFF(u, (t : (A) -> Bool)) | IN(t, s)})
       #|  (b : B)
-      #|  forall f:A->(B->bool)->bool s.\n        INTERS { UNIONS(f x) | x IN s} =\n        UNIONS { INTERS {g x | x IN s} |g| forall x. x IN s ==> g x IN f x}
-      #|  (forall f s:A->bool.\n        s INTER INTERS f =\n        if f = {} then s else INTERS {s INTER t | t IN f}) /\\\n   (forall f s:A->bool.\n        INTERS f INTER s =\n        if f = {} then s else INTERS {t INTER s | t IN f})
+      #|  \226\136\128 f : (A, (B) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, INTERS({UNIONS(f((x : A))) | IN(x, s)}) == UNIONS({INTERS({g((x : A)) | IN(x, s)}) | g : (A, B) -> Bool | \226\136\128 x : A, IN(x, s) \226\134\146 IN(g(x), f(x))})
+      #|  (\226\136\128 f : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, INTER(s, INTERS(f)) == (if f == {} { s } else { INTERS({INTER(s, (t : (A) -> Bool)) | IN(t, f)}) })) && (\226\136\128 f : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, INTER(INTERS(f), s) == (if f == {} { s } else { INTERS({INTER((t : (A) -> Bool), s) | IN(t, f)}) }))
       #|  ((p : Bool) == (q : Bool)) == (!p == !q)
-      #|  forall f:A->(B->bool)->bool s.\n        UNIONS { INTERS(f x) | x IN s} =\n        INTERS { UNIONS {g x | x IN s} |g| forall x. x IN s ==> g x IN f x}
-      #|  (?s. f = {s}) <=> ~(f = {}) /\\ forall s t. s IN f /\\ t IN f ==> s = t
-      #|  forall f:(A->bool)->bool. UNIONS f = INTERS f <=> ?s. f = {s}
-      #|  forall P. (?!s:A->bool. P s) <=> UNIONS {s | P s} = INTERS {s | P s}
-      #|  forall(f:A->B) g. IMAGE f (INTERS g) SUBSET INTERS (IMAGE (IMAGE f) g)
-      #|  forall(f:A->B) s t. IMAGE f (s INTER t) SUBSET IMAGE f s INTER IMAGE f t
-      #|  forall f:A->B s t u.\n        {x | x IN u /\\ f(x) IN IMAGE f s} SUBSET s /\\ t SUBSET u \\/\n        {x | x IN u /\\ f(x) IN IMAGE f t} SUBSET t /\\ s SUBSET u\n        ==> IMAGE f (s INTER t) = IMAGE f s INTER IMAGE f t
-      #|  ~(g = {}) /\\\n     (forall t. t IN g ==> t SUBSET u /\\ {x | x IN u /\\ f(x) IN IMAGE f t} SUBSET t)\n     ==> IMAGE f (INTERS g) = INTERS (IMAGE (IMAGE f) g)
+      #|  \226\136\128 f : (A, (B) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, UNIONS({INTERS(f((x : A))) | IN(x, s)}) == INTERS({UNIONS({g((x : A)) | IN(x, s)}) | g : (A, B) -> Bool | \226\136\128 x : A, IN(x, s) \226\134\146 IN(g(x), f(x))})
+      #|  (\226\136\131 s : _, (f : (_) -> Bool) == {s}) == (!(f == {}) && (\226\136\128 s : _, \226\136\128 t : _, IN(s, f) && IN(t, f) \226\134\146 s == t))
+      #|  \226\136\128 f : ((A) -> Bool) -> Bool, (UNIONS(f) == INTERS(f)) == (\226\136\131 s : (A) -> Bool, f == {s})
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, existsunique((s : (A) -> Bool) => P(s)) == (UNIONS({(s : (A) -> Bool) | P(s)}) == INTERS({(s : (A) -> Bool) | P(s)}))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : ((A) -> Bool) -> Bool, SUBSET(IMAGE(f, INTERS(g)), INTERS(IMAGE(IMAGE(f), g)))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(IMAGE(f, INTER(s, t)), INTER(IMAGE(f, s), IMAGE(f, t)))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, SUBSET({(x : A) | IN(x, u) && IN(f(x), IMAGE(f, s))}, s) && SUBSET(t, u) || SUBSET({(x : A) | IN(x, u) && IN(f(x), IMAGE(f, t))}, t) && SUBSET(s, u) \226\134\146 IMAGE(f, INTER(s, t)) == INTER(IMAGE(f, s), IMAGE(f, t))
+      #|  !((g : ((_) -> Bool) -> Bool) == {}) && (\226\136\128 t : (_) -> Bool, IN(t, g) \226\134\146 SUBSET(t, (u : (_) -> Bool)) && SUBSET({(x : _) | IN(x, u) && IN((f : (_) -> _)(x), IMAGE(f, t))}, t)) \226\134\146 IMAGE(f, INTERS(g)) == INTERS(IMAGE(IMAGE(f), g))
       #|  (u : (A) -> Bool)
-      #|  IMAGE f (s INTER t) = IMAGE f s INTER IMAGE f t /\\\n    IMAGE f t = u ==> IMAGE f (s INTER t) = IMAGE f s INTER u
+      #|  IMAGE((f : (_) -> _), INTER((s : (_) -> Bool), (t : (_) -> Bool))) == INTER(IMAGE(f, s), IMAGE(f, t)) && IMAGE(f, t) == (u : (_) -> Bool) \226\134\146 IMAGE(f, INTER(s, t)) == INTER(IMAGE(f, s), u)
       #|  DELETE((g : ((A) -> Bool) -> Bool), (s : (A) -> Bool)) == {}
       #|  IN((x : _), (s : (_) -> Bool)) \226\134\146 s == INSERT(x, DELETE(s, x))
       #|  !IN((s : _), (g : (_) -> Bool)) \226\134\146 DELETE(g, s) == g
       #|  IN((s : (A) -> Bool), (g : ((A) -> Bool) -> Bool))
-      #|  forall f:A->B g s u.\n        ~(g = {}) /\\\n        (forall t. t IN g ==> t SUBSET u) /\\\n        (forall t. t IN g DELETE s ==> {x | x IN u /\\ f(x) IN IMAGE f t} SUBSET t)\n        ==> IMAGE f (INTERS g) = INTERS (IMAGE (IMAGE f) g)
-      #|  forall f:A->B s t.\n        {x | f(x) IN IMAGE f s} SUBSET s \\/ {x | f(x) IN IMAGE f t} SUBSET t\n         ==> IMAGE f (s INTER t) = IMAGE f s INTER IMAGE f t
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 u : (A) -> Bool, !(g == {}) && (\226\136\128 t : (A) -> Bool, IN(t, g) \226\134\146 SUBSET(t, u)) && (\226\136\128 t : (A) -> Bool, IN(t, DELETE(g, s)) \226\134\146 SUBSET({(x : A) | IN(x, u) && IN(f(x), IMAGE(f, t))}, t)) \226\134\146 IMAGE(f, INTERS(g)) == INTERS(IMAGE(IMAGE(f), g))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET({(x : A) | IN(f(x), IMAGE(f, s))}, s) || SUBSET({(x : A) | IN(f(x), IMAGE(f, t))}, t) \226\134\146 IMAGE(f, INTER(s, t)) == INTER(IMAGE(f, s), IMAGE(f, t))
       #|  (UNIV : (A) -> Bool)
       #|  (s : (A) -> Bool)
-      #|  forall f:A->B g s.\n        ~(g = {}) /\\ (forall t. t IN g DELETE s ==> {x | f(x) IN IMAGE f t} SUBSET t)\n        ==> IMAGE f (INTERS g) = INTERS (IMAGE (IMAGE f) g)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, !(g == {}) && (\226\136\128 t : (A) -> Bool, IN(t, DELETE(g, s)) \226\134\146 SUBSET({(x : A) | IN(f(x), IMAGE(f, t))}, t)) \226\134\146 IMAGE(f, INTERS(g)) == INTERS(IMAGE(IMAGE(f), g))
       #|  IN((x : A), (s : (A) -> Bool))
       #|  INSERT((x : A), (s : (A) -> Bool)) == s
       #|  IN((x : A), (s : (A) -> Bool))
       #|  \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 FINITE(s) && (P : ((A) -> Bool) -> Bool)(s)
-      #|  forall P:(A->bool)->bool.\n        P {} /\\ (forall x s. P s /\\ ~(x IN s) /\\ FINITE s ==> P(x INSERT s))\n        ==> forall s. FINITE s ==> P s
-      #|  forall P f:A->B.\n        (forall x y. P x /\\ P y /\\ f x = f y ==> x = y) <=>\n        (forall x y. P x /\\ P y ==> (f x = f y <=> x = y))
-      #|  forall f:A->B. (forall x y. f x = f y ==> x = y) <=> (forall x y. f x = f y <=> x = y)
-      #|  forall(f:A->B) t.\n        (forall y. y IN t ==> ?x. x IN s /\\ (f(x) = y)) <=>\n        (?g. forall y. y IN t ==> g(y) IN s /\\ (f(g(y)) = y))
-      #|  (forall x. x IN s ==> (g(f(x)) = x)) <=>\n    (forall y x. x IN s /\\ (y = (f:A->B) x) ==> (g y = x))
-      #|  forall(f:A->B) s. (forall x y. x IN s /\\ y IN s /\\ (f x = f y) ==> (x = y)) <=>\n         (?g. forall x. x IN s ==> (g(f(x)) = x))
-      #|  forall(f:A->B) s t.\n        (forall x. x IN s ==> f(x) IN t)\n        ==> ((forall x y. x IN s /\\ y IN s /\\ f(x) = f(y) ==> x = y) /\\\n             (forall y. y IN t ==> ?x. x IN s /\\ f x = y) <=>\n            ?g. (forall y. y IN t ==> g(y) IN s) /\\\n                (forall y. y IN t ==> (f(g(y)) = y)) /\\\n                (forall x. x IN s ==> (g(f(x)) = x)))
-      #|  forall f:A->B. (forall y. ?x. f(x) = y) <=> (?g. forall y. f(g(y)) = y)
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, P({}) && (\226\136\128 x : A, \226\136\128 s : (A) -> Bool, P(s) && !IN(x, s) && FINITE(s) \226\134\146 P(INSERT(x, s))) \226\134\146 (\226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 P(s))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 f : (A) -> B, (\226\136\128 x : A, \226\136\128 y : A, P(x) && P(y) && f(x) == f(y) \226\134\146 x == y) == (\226\136\128 x : A, \226\136\128 y : A, P(x) && P(y) \226\134\146 (f(x) == f(y)) == (x == y))
+      #|  \226\136\128 f : (A) -> B, (\226\136\128 x : A, \226\136\128 y : A, f(x) == f(y) \226\134\146 x == y) == (\226\136\128 x : A, \226\136\128 y : A, (f(x) == f(y)) == (x == y))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 t : (B) -> Bool, (\226\136\128 y : B, IN(y, t) \226\134\146 (\226\136\131 x : A, IN(x, (s : (A) -> Bool)) && f(x) == y)) == (\226\136\131 g : (B) -> A, \226\136\128 y : B, IN(y, t) \226\134\146 IN(g(y), s) && f(g(y)) == y)
+      #|  (\226\136\128 x : A, IN(x, (s : (A) -> Bool)) \226\134\146 (g : (B) -> A)((f : (A) -> B)(x)) == x) == (\226\136\128 y : B, \226\136\128 x : A, IN(x, s) && y == f(x) \226\134\146 g(y) == x)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) == (\226\136\131 g : (B) -> A, \226\136\128 x : A, IN(x, s) \226\134\146 g(f(x)) == x)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t)) \226\134\146 ((\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) && (\226\136\128 y : B, IN(y, t) \226\134\146 (\226\136\131 x : A, IN(x, s) && f(x) == y))) == (\226\136\131 g : (B) -> A, (\226\136\128 y : B, IN(y, t) \226\134\146 IN(g(y), s)) && (\226\136\128 y : B, IN(y, t) \226\134\146 f(g(y)) == y) && (\226\136\128 x : A, IN(x, s) \226\134\146 g(f(x)) == x))
+      #|  \226\136\128 f : (A) -> B, (\226\136\128 y : B, \226\136\131 x : A, f(x) == y) == (\226\136\131 g : (B) -> A, \226\136\128 y : B, f(g(y)) == y)
       #|  (UNIV : (A) -> Bool)
       #|  (f : (A) -> B)
-      #|  forall f:A->B. (forall x y. f x = f y ==> x = y) <=> (?g. forall x. g(f(x)) = x)
+      #|  \226\136\128 f : (A) -> B, (\226\136\128 x : A, \226\136\128 y : A, f(x) == f(y) \226\134\146 x == y) == (\226\136\131 g : (B) -> A, \226\136\128 x : A, g(f(x)) == x)
       #|  (UNIV : (B) -> Bool)
       #|  (UNIV : (A) -> Bool)
       #|  (f : (A) -> B)
-      #|  forall f:A->B.\n       (forall x y. f(x) = f(y) ==> x = y) /\\ (forall y. ?x. f x = y) <=>\n       ?g. (forall y. f(g(y)) = y) /\\ (forall x. g(f(x)) = x)
-      #|  (forall x. P x ==> f(x) = g(k x)) <=> (forall y x. P x /\\ y = k x ==> f x = g y)
-      #|  forall P (f:A->B) (g:A->C).\n        (forall x y. P x /\\ P y /\\ g x = g y ==> f x = f y) <=>\n        (?h. forall x. P x ==> f(x) = h(g x))
+      #|  \226\136\128 f : (A) -> B, ((\226\136\128 x : A, \226\136\128 y : A, f(x) == f(y) \226\134\146 x == y) && (\226\136\128 y : B, \226\136\131 x : A, f(x) == y)) == (\226\136\131 g : (B) -> A, (\226\136\128 y : B, f(g(y)) == y) && (\226\136\128 x : A, g(f(x)) == x))
+      #|  (\226\136\128 x : _, (P : (_) -> Bool)(x) \226\134\146 (f : (_) -> _)(x) == (g : (_) -> _)((k : (_) -> _)(x))) == (\226\136\128 y : _, \226\136\128 x : _, P(x) && y == k(x) \226\134\146 f(x) == g(y))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> C, (\226\136\128 x : A, \226\136\128 y : A, P(x) && P(y) && g(x) == g(y) \226\134\146 f(x) == f(y)) == (\226\136\131 h : (C) -> B, \226\136\128 x : A, P(x) \226\134\146 f(x) == h(g(x)))
       #|  (x : _) => true
-      #|  forall(f:A->B) (g:A->C). (forall x y. g x = g y ==> f x = f y) <=> ?h. f = h o g
-      #|  forall P (f:A->C) (g:B->C).\n        (forall x. P x ==> ?y. g(y) = f(x)) <=>\n        (?h. forall x. P x ==> f(x) = g(h x))
-      #|  forall(f:A->C) (g:B->C). (forall x. ?y. g(y) = f(x)) <=> ?h. f = g o h
-      #|  forall f:A->B. (forall y. ?x. f x = y) <=> (forall P. (forall x. P(f x)) <=> (forall y. P y))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> C, (\226\136\128 x : A, \226\136\128 y : A, g(x) == g(y) \226\134\146 f(x) == f(y)) == (\226\136\131 h : (C) -> B, f == o(h, g))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 f : (A) -> C, \226\136\128 g : (B) -> C, (\226\136\128 x : A, P(x) \226\134\146 (\226\136\131 y : B, g(y) == f(x))) == (\226\136\131 h : (A) -> B, \226\136\128 x : A, P(x) \226\134\146 f(x) == g(h(x)))
+      #|  \226\136\128 f : (A) -> C, \226\136\128 g : (B) -> C, (\226\136\128 x : A, \226\136\131 y : B, g(y) == f(x)) == (\226\136\131 h : (A) -> B, f == o(g, h))
+      #|  \226\136\128 f : (A) -> B, (\226\136\128 y : B, \226\136\131 x : A, f(x) == y) == (\226\136\128 P : (B) -> Bool, (\226\136\128 x : A, P(f(x))) == (\226\136\128 y : B, P(y)))
       #|  (y : B) => \226\136\128 x : A, !((f : (A) -> B)(x) == y)
-      #|  forall f:A->B. (forall y. ?x. f x = y) <=> (forall P. (?x. P(f x)) <=> (?y. P y))
+      #|  \226\136\128 f : (A) -> B, (\226\136\128 y : B, \226\136\131 x : A, f(x) == y) == (\226\136\128 P : (B) -> Bool, (\226\136\131 x : A, P(f(x))) == (\226\136\131 y : B, P(y)))
       #|  (y : B) => true
-      #|  forall f:A->B. (forall y. ?x. f x = y) <=> (forall P. IMAGE f {x | P(f x)} = {x | P x})
+      #|  \226\136\128 f : (A) -> B, (\226\136\128 y : B, \226\136\131 x : A, f(x) == y) == (\226\136\128 P : (B) -> Bool, IMAGE(f, {(x : A) | P(f(x))}) == {(x : B) | P(x)})
       #|  IMAGE((g : (B) -> A), IMAGE((f : (A) -> B), (s : (A) -> Bool)))
-      #|  ?g. forall y. y IN IMAGE (f:A->B) s ==> g(y) IN s /\\ f(g(y)) = y
-      #|  forall f:A->B s.\n     ?t. t SUBSET s /\\\n         IMAGE f s = IMAGE f t /\\\n         (forall x y. x IN t /\\ y IN t /\\ f x = f y ==> x = y)
+      #|  \226\136\131 g : (B) -> A, \226\136\128 y : B, IN(y, IMAGE((f : (A) -> B), (s : (A) -> Bool))) \226\134\146 IN(g(y), s) && f(g(y)) == y
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\131 t : (A) -> Bool, SUBSET(t, s) && IMAGE(f, s) == IMAGE(f, t) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, t) && IN(y, t) && f(x) == f(y) \226\134\146 x == y)
       #|  (FINITE : ((A) -> Bool) -> Bool)(({} : (A) -> Bool))
       #|  !IN((x : A), (t : (A) -> Bool))
       #|  SUBSET((t : (A) -> Bool), INSERT((x : A), (u : (A) -> Bool)))
@@ -5673,12 +5673,12 @@ test "sets matches sets.ml" {
       #|  (u : (A) -> Bool)
       #|  (x : A)
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, FINITE(t) && SUBSET(s, t) \226\134\146 FINITE(s)
-      #|  forall s:A->bool P. FINITE s ==> FINITE {x | x IN s /\\ P x}
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 P : (A) -> Bool, FINITE(s) \226\134\146 FINITE({(x : A) | IN(x, s) && P(x)})
       #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, UNION(INSERT(x, s), t) == INSERT(x, UNION(s, t))
-      #|  forall(s:A->bool) t. FINITE s /\\ FINITE t ==> FINITE (s UNION t)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, FINITE(s) && FINITE(t) \226\134\146 FINITE(UNION(s, t))
       #|  UNION((s : (A) -> Bool), (t : (A) -> Bool))
-      #|  forall(s:A->bool) t. FINITE(s UNION t) <=> FINITE(s) /\\ FINITE(t)
-      #|  forall(s:A->bool) t. FINITE s \\/ FINITE t ==> FINITE (s INTER t)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, FINITE(UNION(s, t)) == (FINITE(s) && FINITE(t))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, FINITE(s) || FINITE(t) \226\134\146 FINITE(INTER(s, t))
       #|  INSERT((x : A), (s : (A) -> Bool))
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 x : A, FINITE(INSERT(x, s)) == FINITE(s)
       #|  \226\136\128 a : A, FINITE({a})
@@ -5687,61 +5687,61 @@ test "sets matches sets.ml" {
       #|  (s : (A) -> Bool) == INSERT((x : A), DELETE(s, x))
       #|  IN((x : A), (s : (A) -> Bool))
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 x : A, FINITE(DELETE(s, x)) == FINITE(s)
-      #|  forall s:(A->bool)->bool.\n        FINITE(s) ==> (FINITE(UNIONS s) <=> (forall t. t IN s ==> FINITE(t)))
-      #|  {y | ?z. z IN (x INSERT s) /\\ (y = (f:A->B) z)} =\n                {y | ?z. z IN s /\\ (y = f z)} UNION {(f x)}
-      #|  forall(f:A->B) s. FINITE s ==> FINITE {y | ?x. x IN s /\\ (y = f x)}
+      #|  \226\136\128 s : ((A) -> Bool) -> Bool, FINITE(s) \226\134\146 FINITE(UNIONS(s)) == (\226\136\128 t : (A) -> Bool, IN(t, s) \226\134\146 FINITE(t))
+      #|  {(y : B) | \226\136\131 z : A, IN(z, INSERT((x : A), (s : (A) -> Bool))) && y == (f : (A) -> B)(z)} == UNION({(y : B) | \226\136\131 z : A, IN(z, s) && y == f(z)}, {f(x)})
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 FINITE({(y : B) | \226\136\131 x : A, IN(x, s) && y == f(x)})
       #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 FINITE(IMAGE(f, s))
       #|  IMAGE((g : (B) -> A), (A : (B) -> Bool))
       #|  (g : (B) -> A)
-      #|  forall(f:A->B) A s.\n        (forall x y. x IN s /\\ y IN s /\\ f(x) = f(y) ==> x = y) /\\\n        FINITE A\n        ==> FINITE {x | x IN s /\\ f(x) IN A}
-      #|  {x | x IN s /\\ (f:A->B)(x) IN t} =\n    UNIONS (IMAGE (\\a. {x | x IN s /\\ f x = a}) t)
-      #|  forall f:A->B s t.\n        FINITE t /\\\n        (forall y. y IN t ==> FINITE {x | x IN s /\\ f(x) = y})\n        ==> FINITE {x | x IN s /\\ f(x) IN t}
+      #|  \226\136\128 f : (A) -> B, \226\136\128 A : (B) -> Bool, \226\136\128 s : (A) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) && FINITE(A) \226\134\146 FINITE({(x : A) | IN(x, s) && IN(f(x), A)})
+      #|  {(x : A) | IN(x, (s : (A) -> Bool)) && IN((f : (A) -> B)(x), (t : (B) -> Bool))} == UNIONS(IMAGE((a : B) => {(x : A) | IN(x, s) && f(x) == a}, t))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(t) && (\226\136\128 y : B, IN(y, t) \226\134\146 FINITE({(x : A) | IN(x, s) && f(x) == y})) \226\134\146 FINITE({(x : A) | IN(x, s) && IN(f(x), t)})
       #|  (t : (B) -> Bool)
       #|  (UNIV : (A) -> Bool)
       #|  (f : (A) -> B)
-      #|  forall f:A->B t.\n        FINITE t /\\\n        (forall y. y IN t ==> FINITE {x | f(x) = y})\n        ==> FINITE {x | f(x) IN t}
-      #|  forall(f:A->B) s.\n        (forall x y. x IN s /\\ y IN s /\\ f(x) = f(y) ==> x = y)\n        ==> (FINITE(IMAGE f s) <=> FINITE s)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 t : (B) -> Bool, FINITE(t) && (\226\136\128 y : B, IN(y, t) \226\134\146 FINITE({(x : A) | f(x) == y})) \226\134\146 FINITE({(x : A) | IN(f(x), t)})
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) \226\134\146 FINITE(IMAGE(f, s)) == FINITE(s)
       #|  (UNIV : (A) -> Bool)
       #|  (A : (B) -> Bool)
       #|  (f : (A) -> B)
-      #|  forall(f:A->B) A.\n        (forall x y. f(x) = f(y) ==> x = y) /\\ FINITE A\n        ==> FINITE {x | f(x) IN A}
+      #|  \226\136\128 f : (A) -> B, \226\136\128 A : (B) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, f(x) == f(y) \226\134\146 x == y) && FINITE(A) \226\134\146 FINITE({(x : A) | IN(f(x), A)})
       #|  IMAGE((g : (A) -> C), (s : (A) -> Bool)) == IMAGE((h : (B) -> C), IMAGE((f : (A) -> B), s))
       #|  (h : (B) -> C)
-      #|  forall(f:A->B) (g:A->C) s t.\n        IMAGE f s SUBSET t /\\ FINITE t /\\\n        (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> g x = g y)\n        ==> FINITE(IMAGE g s)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> C, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, SUBSET(IMAGE(f, s), t) && FINITE(t) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 g(x) == g(y)) \226\134\146 FINITE(IMAGE(g, s))
       #|  (s : (A) -> Bool) == IMAGE((g : (B) -> A), IMAGE((f : (A) -> B), s))
       #|  (g : (B) -> A)
-      #|  forall f:A->B s.\n        INFINITE s /\\ (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y)\n        ==> INFINITE (IMAGE f s)
-      #|  forall f:A->B. (forall x y. (f x = f y) ==> (x = y))\n            ==> forall s. INFINITE s ==> INFINITE(IMAGE f s)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, INFINITE(s) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) \226\134\146 INFINITE(IMAGE(f, s))
+      #|  \226\136\128 f : (A) -> B, (\226\136\128 x : A, \226\136\128 y : A, f(x) == f(y) \226\134\146 x == y) \226\134\146 (\226\136\128 s : (A) -> Bool, INFINITE(s) \226\134\146 INFINITE(IMAGE(f, s)))
       #|  \226\136\128 s : (A) -> Bool, INFINITE(s) \226\134\146 !(s == {})
       #|  UNION((t : (A) -> Bool), DIFF((s : (A) -> Bool), t))
       #|  ((b : Bool) && !(c : Bool) \226\134\146 !(a : Bool)) \226\134\146 a && b \226\134\146 c
-      #|  forall s:A->bool t. INFINITE(s) /\\ FINITE(t) ==> INFINITE(s DIFF t)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INFINITE(s) && FINITE(t) \226\134\146 INFINITE(DIFF(s, t))
       #|  IMAGE((g : (B) -> A), (s : (B) -> Bool))
       #|  (g : (B) -> A)
-      #|  s SUBSET IMAGE f t ==> forall x. x IN s ==> ?y. y IN t /\\ f y = x
-      #|  forall f:A->B s t.\n        s SUBSET (IMAGE f t) <=>\n        ?u. u SUBSET t /\\\n            (forall x y. x IN u /\\ y IN u ==> (f x = f y <=> x = y)) /\\\n            s = IMAGE f u
-      #|  forall f:A->B s t. s SUBSET (IMAGE f t) <=> ?u. u SUBSET t /\\ (s = IMAGE f u)
-      #|  forall P (f:A->B) s.\n    (?t. t SUBSET IMAGE f s /\\ P t) <=> (?t. t SUBSET s /\\ P (IMAGE f t))
-      #|  forall P (f:A->B) s.\n        (forall t. t SUBSET IMAGE f s ==> P t) <=>\n        (forall t. t SUBSET s ==> P(IMAGE f t))
-      #|  forall P (f:A->B) s.\n    (?t. t SUBSET IMAGE f s /\\ P t) <=>\n    (?t. t SUBSET s /\\\n         (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y)) /\\\n         P (IMAGE f t))
+      #|  SUBSET((s : (_) -> Bool), IMAGE((f : (_) -> _), (t : (_) -> Bool))) \226\134\146 (\226\136\128 x : _, IN(x, s) \226\134\146 (\226\136\131 y : _, IN(y, t) && f(y) == x))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (B) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, IMAGE(f, t)) == (\226\136\131 u : (A) -> Bool, SUBSET(u, t) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, u) && IN(y, u) \226\134\146 (f(x) == f(y)) == (x == y)) && s == IMAGE(f, u))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (B) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, IMAGE(f, t)) == (\226\136\131 u : (A) -> Bool, SUBSET(u, t) && s == IMAGE(f, u))
+      #|  \226\136\128 P : ((B) -> Bool) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\131 t : (B) -> Bool, SUBSET(t, IMAGE(f, s)) && P(t)) == (\226\136\131 t : (A) -> Bool, SUBSET(t, s) && P(IMAGE(f, t)))
+      #|  \226\136\128 P : ((B) -> Bool) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\128 t : (B) -> Bool, SUBSET(t, IMAGE(f, s)) \226\134\146 P(t)) == (\226\136\128 t : (A) -> Bool, SUBSET(t, s) \226\134\146 P(IMAGE(f, t)))
+      #|  \226\136\128 P : ((B) -> Bool) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\131 t : (B) -> Bool, SUBSET(t, IMAGE(f, s)) && P(t)) == (\226\136\131 t : (A) -> Bool, SUBSET(t, s) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, t) && IN(y, t) \226\134\146 (f(x) == f(y)) == (x == y)) && P(IMAGE(f, t)))
       #|  (\226\136\128 t : _, (p : (_) -> Bool)(t)) == !(\226\136\131 t : _, !p(t))
-      #|  forall P (f:A->B) s.\n        (forall t. t SUBSET IMAGE f s ==> P t) <=>\n        (forall t. t SUBSET s /\\\n             (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y))\n             ==> P(IMAGE f t))
+      #|  \226\136\128 P : ((B) -> Bool) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\128 t : (B) -> Bool, SUBSET(t, IMAGE(f, s)) \226\134\146 P(t)) == (\226\136\128 t : (A) -> Bool, SUBSET(t, s) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, t) && IN(y, t) \226\134\146 (f(x) == f(y)) == (x == y)) \226\134\146 P(IMAGE(f, t)))
       #|  ((p : Bool) && (q : Bool) && (r : Bool)) == (q && p && r)
-      #|  forall P (f:A->B) s.\n    (?t. FINITE t /\\ t SUBSET IMAGE f s /\\ P t) <=>\n    (?t. FINITE t /\\ t SUBSET s /\\\n         (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y)) /\\\n         P (IMAGE f t))
+      #|  \226\136\128 P : ((B) -> Bool) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\131 t : (B) -> Bool, FINITE(t) && SUBSET(t, IMAGE(f, s)) && P(t)) == (\226\136\131 t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, t) && IN(y, t) \226\134\146 (f(x) == f(y)) == (x == y)) && P(IMAGE(f, t)))
       #|  (\226\136\128 t : _, (p : (_) -> Bool)(t)) == !(\226\136\131 t : _, !p(t))
-      #|  forall P (f:A->B) s.\n        (forall t. FINITE t /\\ t SUBSET IMAGE f s ==> P t) <=>\n        (forall t. FINITE t /\\ t SUBSET s /\\\n             (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y))\n             ==> P(IMAGE f t))
-      #|  forall P (f:A->B) s.\n    (?t. FINITE t /\\ t SUBSET IMAGE f s /\\ P t) <=>\n    (?t. FINITE t /\\ t SUBSET s /\\ P (IMAGE f t))
+      #|  \226\136\128 P : ((B) -> Bool) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\128 t : (B) -> Bool, FINITE(t) && SUBSET(t, IMAGE(f, s)) \226\134\146 P(t)) == (\226\136\128 t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, t) && IN(y, t) \226\134\146 (f(x) == f(y)) == (x == y)) \226\134\146 P(IMAGE(f, t)))
+      #|  \226\136\128 P : ((B) -> Bool) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\131 t : (B) -> Bool, FINITE(t) && SUBSET(t, IMAGE(f, s)) && P(t)) == (\226\136\131 t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && P(IMAGE(f, t)))
       #|  (\226\136\128 x : _, (P : (_) -> Bool)(x)) == !(\226\136\131 x : _, !P(x))
-      #|  forall P (f:A->B) s.\n        (forall t. FINITE t /\\ t SUBSET IMAGE f s ==> P t) <=>\n        (forall t. FINITE t /\\ t SUBSET s ==> P(IMAGE f t))
+      #|  \226\136\128 P : ((B) -> Bool) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\128 t : (B) -> Bool, FINITE(t) && SUBSET(t, IMAGE(f, s)) \226\134\146 P(t)) == (\226\136\128 t : (A) -> Bool, FINITE(t) && SUBSET(t, s) \226\134\146 P(IMAGE(f, t)))
       #|  (t : (B) -> Bool)
       #|  (t : (B) -> Bool)
-      #|  forall f:A->B s t.\n        FINITE(t) /\\ t SUBSET (IMAGE f s) <=>\n        ?s'. FINITE s' /\\ s' SUBSET s /\\ (t = IMAGE f s')
-      #|  forall f:A->B s t.\n        FINITE(t) /\\ t SUBSET (IMAGE f s)\n        ==> ?s'. FINITE s' /\\ s' SUBSET s /\\ t SUBSET (IMAGE f s')
-      #|  forall(f:A->B) s. FINITE(IMAGE f s) <=>\n                ?t. FINITE t /\\ t SUBSET s /\\ IMAGE f s = IMAGE f t
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (FINITE(t) && SUBSET(t, IMAGE(f, s))) == (\226\136\131 s' : (A) -> Bool, FINITE(s') && SUBSET(s', s) && t == IMAGE(f, s'))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(t) && SUBSET(t, IMAGE(f, s)) \226\134\146 (\226\136\131 s' : (A) -> Bool, FINITE(s') && SUBSET(s', s) && SUBSET(t, IMAGE(f, s')))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, FINITE(IMAGE(f, s)) == (\226\136\131 t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && IMAGE(f, s) == IMAGE(f, t))
       #|  (s : (A) -> Bool)
       #|  IMAGE((f : (A) -> B), (s : (A) -> Bool))
       #|  (f : (A) -> B)
-      #|  forall(f:A->B) s. FINITE(IMAGE f s) <=>\n                ?t. FINITE t /\\ t SUBSET s /\\ IMAGE f s = IMAGE f t /\\\n                    (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, FINITE(IMAGE(f, s)) == (\226\136\131 t : (A) -> Bool, FINITE(t) && SUBSET(t, s) && IMAGE(f, s) == IMAGE(f, t) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, t) && IN(y, t) \226\134\146 (f(x) == f(y)) == (x == y)))
       #|  op_bslash_slash
       #|  op_bslash_slash
       #|  op_bslash_slash
@@ -5781,48 +5781,48 @@ test "sets matches sets.ml" {
       #|  op_bslash_slash
       #|  false
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, FINITE(s) \226\134\146 FINITE(DIFF(s, t))
-      #|  forall s t:A->bool. INFINITE s /\\ s SUBSET t ==> INFINITE t
-      #|  forall R s:A->bool.\n        FINITE s /\\\n        (forall x. ~(R x x)) /\\\n        (forall x y z. R x y /\\ R y z ==> R x z) /\\\n        (forall x. x IN s ==> ?y. y IN s /\\ R x y)\n        ==> s = {}
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INFINITE(s) && SUBSET(s, t) \226\134\146 INFINITE(t)
+      #|  \226\136\128 R : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, FINITE(s) && (\226\136\128 x : A, !R(x, x)) && (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, R(x, y) && R(y, z) \226\134\146 R(x, z)) && (\226\136\128 x : A, IN(x, s) \226\134\146 (\226\136\131 y : A, IN(y, s) && R(x, y))) \226\134\146 s == {}
       #|  {(t : (A) -> Bool) | IN(t, (f : ((A) -> Bool) -> Bool)) && SUBSET((s : (A) -> Bool), t)}
       #|  (t : (A) -> Bool) => (u : (A) -> Bool) => SUBSET((s : (A) -> Bool), t) && PSUBSET(t, u)
       #|  (p : Bool) == !!p
       #|  (s : (A) -> Bool)
-      #|  forall f. FINITE f\n       ==> UNIONS {t:A->bool | t IN f /\\ forall u. u IN f ==> ~(t PSUBSET u)} =\n           UNIONS f
+      #|  \226\136\128 f : ((A) -> Bool) -> Bool, FINITE(f) \226\134\146 UNIONS({(t : (A) -> Bool) | IN(t, f) && (\226\136\128 u : (A) -> Bool, IN(u, f) \226\134\146 !PSUBSET(t, u))}) == UNIONS(f)
       #|  IMAGE((u : (A, A) -> Bool), (s : (A) -> Bool))
       #|  (u : (A, A) -> Bool)
-      #|  forall f s:A->bool.\n        FINITE s /\\ s SUBSET UNIONS f\n        ==> ?f'. FINITE f' /\\ f' SUBSET f /\\ s SUBSET UNIONS f'
-      #|  s UNION t = s \\/ s UNION t = t\n    ==> t IN f ==> s UNION t = s \\/ s UNION t IN f
+      #|  \226\136\128 f : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, FINITE(s) && SUBSET(s, UNIONS(f)) \226\134\146 (\226\136\131 f' : ((A) -> Bool) -> Bool, FINITE(f') && SUBSET(f', f) && SUBSET(s, UNIONS(f')))
+      #|  UNION((s : (_) -> Bool), (t : (_) -> Bool)) == s || UNION(s, t) == t \226\134\146 IN(t, (f : ((_) -> Bool) -> Bool)) \226\134\146 UNION(s, t) == s || IN(UNION(s, t), f)
       #|  (f : ((A) -> Bool) -> Bool) == {}
       #|  (f : ((A) -> Bool) -> Bool)
       #|  (s : (A) -> Bool)
       #|  ((p : Bool) \226\134\146 (q : Bool) && (r : Bool)) == ((p \226\134\146 q) && (p \226\134\146 r))
-      #|  forall f:(A->bool)->bool.\n        FINITE f /\\ ~(f = {}) /\\\n        (forall s t. s IN f /\\ t IN f ==> s SUBSET t \\/ t SUBSET s)\n        ==> UNIONS f IN f
-      #|  s INTER t = s \\/ s INTER t = t\n    ==> t IN f ==> s INTER t = s \\/ s INTER t IN f
+      #|  \226\136\128 f : ((A) -> Bool) -> Bool, FINITE(f) && !(f == {}) && (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, IN(s, f) && IN(t, f) \226\134\146 SUBSET(s, t) || SUBSET(t, s)) \226\134\146 IN(UNIONS(f), f)
+      #|  INTER((s : (_) -> Bool), (t : (_) -> Bool)) == s || INTER(s, t) == t \226\134\146 IN(t, (f : ((_) -> Bool) -> Bool)) \226\134\146 INTER(s, t) == s || IN(INTER(s, t), f)
       #|  (f : ((A) -> Bool) -> Bool) == {}
       #|  (f : ((A) -> Bool) -> Bool)
       #|  (s : (A) -> Bool)
       #|  ((p : Bool) \226\134\146 (q : Bool) && (r : Bool)) == ((p \226\134\146 q) && (p \226\134\146 r))
-      #|  forall f:(A->bool)->bool.\n        FINITE f /\\ ~(f = {}) /\\\n        (forall s t. s IN f /\\ t IN f ==> s SUBSET t \\/ t SUBSET s)\n        ==> INTERS f IN f
-      #|  forall f s:A->bool.\n        ~(f = {}) /\\\n        (forall t u. t IN f /\\ u IN f\n               ==> ?v. v IN f /\\ t SUBSET v /\\ u SUBSET v) /\\\n        FINITE s\n        ==> (s SUBSET UNIONS f <=> ?t. t IN f /\\ s SUBSET t)
-      #|  forall f s:A->bool.\n        ~(f = {}) /\\\n        (forall t u. t IN f /\\ u IN f ==> t SUBSET u \\/ u SUBSET t) /\\\n        FINITE s\n        ==> (s SUBSET UNIONS f <=> ?t. t IN f /\\ s SUBSET t)
-      #|  forall f s:A->bool.\n        FINITE s /\\ s SUBSET UNIONS f /\\ ~(f = {}) /\\\n        (forall t u. t IN f /\\ u IN f ==> t SUBSET u \\/ u SUBSET t)\n        ==> ?t. t IN f /\\ s SUBSET t
-      #|  (FINREC (f:A->B->B) b s a 0 <=> (s = {}) /\\ (a = b)) /\\\n   (FINREC (f:A->B->B) b s a (SUC n) <=>\n                ?x c. x IN s /\\\n                      FINREC f b (s DELETE x) c n  /\\\n                      (a = f x c))
-      #|  forall(f:A->B->B) b s a. FINREC f b s a (SUC 0) <=> ?x. s = {x} /\\ a = f x b
+      #|  \226\136\128 f : ((A) -> Bool) -> Bool, FINITE(f) && !(f == {}) && (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, IN(s, f) && IN(t, f) \226\134\146 SUBSET(s, t) || SUBSET(t, s)) \226\134\146 IN(INTERS(f), f)
+      #|  \226\136\128 f : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, !(f == {}) && (\226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, IN(t, f) && IN(u, f) \226\134\146 (\226\136\131 v : (A) -> Bool, IN(v, f) && SUBSET(t, v) && SUBSET(u, v))) && FINITE(s) \226\134\146 SUBSET(s, UNIONS(f)) == (\226\136\131 t : (A) -> Bool, IN(t, f) && SUBSET(s, t))
+      #|  \226\136\128 f : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, !(f == {}) && (\226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, IN(t, f) && IN(u, f) \226\134\146 SUBSET(t, u) || SUBSET(u, t)) && FINITE(s) \226\134\146 SUBSET(s, UNIONS(f)) == (\226\136\131 t : (A) -> Bool, IN(t, f) && SUBSET(s, t))
+      #|  \226\136\128 f : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, FINITE(s) && SUBSET(s, UNIONS(f)) && !(f == {}) && (\226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, IN(t, f) && IN(u, f) \226\134\146 SUBSET(t, u) || SUBSET(u, t)) \226\134\146 (\226\136\131 t : (A) -> Bool, IN(t, f) && SUBSET(s, t))
+      #|  (FINREC : ((A, B) -> B, B, (A) -> Bool, B, Num) -> Bool)((f : (A, B) -> B), (b : B), (s : (A) -> Bool), (a : B), 0) == (s == {} && a == b) && FINREC(f, b, s, a, SUC((n : Num))) == (\226\136\131 x : A, \226\136\131 c : B, IN(x, s) && FINREC(f, b, DELETE(s, x), c, n) && a == f(x, c))
+      #|  \226\136\128 f : (A, B) -> B, \226\136\128 b : B, \226\136\128 s : (A) -> Bool, \226\136\128 a : B, FINREC(f, b, s, a, SUC(0)) == (\226\136\131 x : A, s == {x} && a == f(x, b))
       #|  DELETE(DELETE((s : (A) -> Bool), (x : A)), (y : A)) == DELETE(DELETE(s, y), x)
       #|  (v : B)
       #|  (y : A)
       #|  (f : (A, B) -> B)((y : A), (v : B))
       #|  (v : B)
       #|  (x : A)
-      #|  FINREC (f:A->B->B) b (s DELETE y) c (SUC n)
+      #|  FINREC((f : (A, B) -> B), (b : B), DELETE((s : (A) -> Bool), (y : A)), (c : B), SUC((n : Num)))
       #|  (c : B)
       #|  (x : A) == (y : A)
       #|  (x : A)
       #|  (c : B)
       #|  (y : A)
       #|  (b : B)
-      #|  forall(f:A->B->B) b.\n         (forall x y s. ~(x = y) ==> (f x (f y s) = f y (f x s)))\n         ==> forall n s z.\n                FINREC f b s z (SUC n)\n                ==> forall x. x IN s ==> ?w. FINREC f b (s DELETE x) w n /\\\n                                       (z = f x w)
-      #|  forall(f:A->B->B) b.\n         (forall x y s. ~(x = y) ==> (f x (f y s) = f y (f x s)))\n         ==> forall n1 n2 s a1 a2.\n                FINREC f b s a1 n1 /\\ FINREC f b s a2 n2\n                ==> (a1 = a2) /\\ (n1 = n2)
+      #|  \226\136\128 f : (A, B) -> B, \226\136\128 b : B, (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 s : B, !(x == y) \226\134\146 f(x, f(y, s)) == f(y, f(x, s))) \226\134\146 (\226\136\128 n : Num, \226\136\128 s : (A) -> Bool, \226\136\128 z : B, FINREC(f, b, s, z, SUC(n)) \226\134\146 (\226\136\128 x : A, IN(x, s) \226\134\146 (\226\136\131 w : B, FINREC(f, b, DELETE(s, x), w, n) && z == f(x, w))))
+      #|  \226\136\128 f : (A, B) -> B, \226\136\128 b : B, (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 s : B, !(x == y) \226\134\146 f(x, f(y, s)) == f(y, f(x, s))) \226\134\146 (\226\136\128 n1 : Num, \226\136\128 n2 : Num, \226\136\128 s : (A) -> Bool, \226\136\128 a1 : B, \226\136\128 a2 : B, FINREC(f, b, s, a1, n1) && FINREC(f, b, s, a2, n2) \226\134\146 a1 == a2 && n1 == n2)
       #|  !IN((x : A), (s : (A) -> Bool)) \226\134\146 DELETE(INSERT(x, s), x) == s
       #|  (a : B)
       #|  (x : A)
@@ -5830,9 +5830,9 @@ test "sets matches sets.ml" {
       #|  (f : (A, B) -> B)((x : A), (a : B))
       #|  0
       #|  (b : B)
-      #|  forall(f:A->B->B) b s. FINITE s ==> ?a n. FINREC f b s a n
+      #|  \226\136\128 f : (A, B) -> B, \226\136\128 b : B, \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 (\226\136\131 a : B, \226\136\131 n : Num, FINREC(f, b, s, a, n))
       #|  (s : A) => select((a : B) => \226\136\131 n : C, (R : (A, B, C) -> Bool)(s, a, n))
-      #|  forall P (R:A->B->C->bool).\n       (forall s. P s ==> ?a n. R s a n) /\\\n       (forall n1 n2 s a1 a2. R s a1 n1 /\\ R s a2 n2 ==> (a1 = a2) /\\ (n1 = n2))\n       ==> ?f. forall s a. P s ==> ((?n. R s a n) <=> (f s = a))
+      #|  \226\136\128 P : (A) -> Bool, \226\136\128 R : (A, B, C) -> Bool, (\226\136\128 s : A, P(s) \226\134\146 (\226\136\131 a : B, \226\136\131 n : C, R(s, a, n))) && (\226\136\128 n1 : C, \226\136\128 n2 : C, \226\136\128 s : A, \226\136\128 a1 : B, \226\136\128 a2 : B, R(s, a1, n1) && R(s, a2, n2) \226\134\146 a1 == a2 && n1 == n2) \226\134\146 (\226\136\131 f : (A) -> B, \226\136\128 s : A, \226\136\128 a : B, P(s) \226\134\146 (\226\136\131 n : C, R(s, a, n)) == (f(s) == a))
       #|  (n : Num)
       #|  (s : (A) -> Bool)
       #|  FINITE(DELETE((s : (A) -> Bool), (x : A)))
@@ -5849,27 +5849,27 @@ test "sets matches sets.ml" {
       #|  (b : B)
       #|  (f : (A, B) -> B)
       #|  (b : B)
-      #|  forall(f:A->B->B) b.\n        (forall x y s. ~(x = y) ==> (f x (f y s) = f y (f x s)))\n        ==> ?g. (g {} = b) /\\\n                forall s x. FINITE s /\\ x IN s\n                      ==> (g s = f x (g (s DELETE x)))
+      #|  \226\136\128 f : (A, B) -> B, \226\136\128 b : B, (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 s : B, !(x == y) \226\134\146 f(x, f(y, s)) == f(y, f(x, s))) \226\134\146 (\226\136\131 g : ((A) -> Bool) -> B, g({}) == b && (\226\136\128 s : (A) -> Bool, \226\136\128 x : A, FINITE(s) && IN(x, s) \226\134\146 g(s) == f(x, g(DELETE(s, x)))))
       #|  !IN((x : A), (s : (A) -> Bool))
       #|  FINITE(INSERT((x : A), (s : (A) -> Bool))) && IN(x, INSERT(x, s))
       #|  (g : ((A) -> Bool) -> B)
       #|  (g : ((A) -> Bool) -> B)
       #|  (b : B)
-      #|  forall(f:A->B->B) b.\n        (forall x y s. ~(x = y) ==> (f x (f y s) = f y (f x s)))\n        ==> ?g. (g {} = b) /\\\n                forall x s. FINITE s\n                      ==> (g (x INSERT s) =\n                                if x IN s then g s else f x (g s))
-      #|  ITSET (f:A->B->B) s b =\n        (@g. (g {} = b) /\\\n             forall x s. FINITE s\n                   ==> (g (x INSERT s) = if x IN s then g s else f x (g s)))\n        s
-      #|  forall(f:A->B->B) b.\n        (forall x y s. ~(x = y) ==> (f x (f y s) = f y (f x s)))\n        ==> (ITSET f {} b = b) /\\\n            forall x s. FINITE s\n                  ==> (ITSET f (x INSERT s) b =\n                       if x IN s then ITSET f s b\n                                 else f x (ITSET f s b))
+      #|  \226\136\128 f : (A, B) -> B, \226\136\128 b : B, (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 s : B, !(x == y) \226\134\146 f(x, f(y, s)) == f(y, f(x, s))) \226\134\146 (\226\136\131 g : ((A) -> Bool) -> B, g({}) == b && (\226\136\128 x : A, \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 g(INSERT(x, s)) == (if IN(x, s) { g(s) } else { f(x, g(s)) })))
+      #|  (ITSET : ((A, B) -> B, (A) -> Bool, B) -> B)((f : (A, B) -> B), (s : (A) -> Bool), (b : B)) == select((g : ((A) -> Bool) -> B) => g({}) == b && (\226\136\128 x : A, \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 g(INSERT(x, s)) == (if IN(x, s) { g(s) } else { f(x, g(s)) })), s)
+      #|  \226\136\128 f : (A, B) -> B, \226\136\128 b : B, (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 s : B, !(x == y) \226\134\146 f(x, f(y, s)) == f(y, f(x, s))) \226\134\146 ITSET(f, {}, b) == b && (\226\136\128 x : A, \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 ITSET(f, INSERT(x, s), b) == (if IN(x, s) { ITSET(f, s, b) } else { f(x, ITSET(f, s, b)) }))
       #|  !IN((x : A), (s : (A) -> Bool))
       #|  IN((x : A), (s : (A) -> Bool))
       #|  (x : A)
       #|  (x : A)
       #|  IN((x : A), (s : (A) -> Bool))
       #|  (b : B)
-      #|  forall(f:A->B->B) b.\n        (forall x y s. ~(x = y) ==> (f x (f y s) = f y (f x s)))\n        ==> (ITSET f {} b = b) /\\\n            forall x s. FINITE s\n                  ==> (ITSET f s b =\n                       if x IN s then f x (ITSET f (s DELETE x) b)\n                                 else ITSET f (s DELETE x) b)
-      #|  forall s (f:A->B->B) g b.\n        FINITE(s) /\\ (forall x. x IN s ==> (f x = g x)) /\\\n        (forall x y s. ~(x = y) ==> (f x (f y s) = f y (f x s))) /\\\n        (forall x y s. ~(x = y) ==> (g x (g y s) = g y (g x s)))\n        ==> (ITSET f s b = ITSET g s b)
+      #|  \226\136\128 f : (A, B) -> B, \226\136\128 b : B, (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 s : B, !(x == y) \226\134\146 f(x, f(y, s)) == f(y, f(x, s))) \226\134\146 ITSET(f, {}, b) == b && (\226\136\128 x : A, \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 ITSET(f, s, b) == (if IN(x, s) { f(x, ITSET(f, DELETE(s, x), b)) } else { ITSET(f, DELETE(s, x), b) }))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A, B) -> B, \226\136\128 g : (A, B) -> B, \226\136\128 b : B, FINITE(s) && (\226\136\128 x : A, IN(x, s) \226\134\146 f(x) == g(x)) && (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 s : B, !(x == y) \226\134\146 f(x, f(y, s)) == f(y, f(x, s))) && (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 s : B, !(x == y) \226\134\146 g(x, g(y, s)) == g(y, g(x, s))) \226\134\146 ITSET(f, s, b) == ITSET(g, s, b)
       #|  (CARD : ((A) -> Bool) -> Num)((s : (A) -> Bool)) == ITSET((x : A) => (n : Num) => SUC(n), s, 0)
       #|  0
       #|  (x : A) => (n : Num) => SUC(n)
-      #|  (CARD ({}:A->bool) = 0) /\\\n   (forall(x:A) s. FINITE s ==>\n                 (CARD (x INSERT s) =\n                      if x IN s then CARD s else SUC(CARD s)))
+      #|  (CARD : ((A) -> Bool) -> Num)(({} : (A) -> Bool)) == 0 && (\226\136\128 x : A, \226\136\128 s : (A) -> Bool, (FINITE : ((A) -> Bool) -> Bool)(s) \226\134\146 (CARD : ((A) -> Bool) -> Num)((INSERT : (A, (A) -> Bool, A) -> Bool)(x, s)) == (if (IN : (A, (A) -> Bool) -> Bool)(x, s) { (CARD : ((A) -> Bool) -> Num)(s) } else { SUC((CARD : ((A) -> Bool) -> Num)(s)) }))
       #|  INTER(INSERT((x : A), (s : (A) -> Bool)), (t : (A) -> Bool)) == {}
       #|  INTER(INSERT((x : A), (s : (A) -> Bool)), (t : (A) -> Bool)) == {}
       #|  !IN((x : A), UNION((s : (A) -> Bool), (t : (A) -> Bool)))
@@ -5881,15 +5881,15 @@ test "sets matches sets.ml" {
       #|  UNION(INSERT((x : A), (s : (A) -> Bool)), (t : (A) -> Bool)) == INSERT(x, UNION(s, t))
       #|  (s : (A) -> Bool)
       #|  (x : A)
-      #|  a /\\ b /\\ c ==> d <=> a ==> b /\\ c ==> d
-      #|  forall(s:A->bool) t. FINITE(s) /\\ FINITE(t) /\\ (s INTER t = EMPTY)\n         ==> (CARD (s UNION t) = CARD s + CARD t)
+      #|  ((a : Bool) && (b : Bool) && (c : Bool) \226\134\146 (d : Bool)) == (a \226\134\146 b && c \226\134\146 d)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, FINITE(s) && FINITE(t) && INTER(s, t) == {} \226\134\146 CARD(UNION(s, t)) == CARD(s) + CARD(t)
       #|  !IN((x : A), (s : (A) -> Bool))
       #|  IN((x : A), (s : (A) -> Bool))
       #|  (s : (A) -> Bool) == INSERT((x : A), DELETE(s, x))
-      #|  forall x:A s. FINITE(s)\n           ==> (CARD(s DELETE x) = if x IN s then CARD(s) - 1 else CARD(s))
-      #|  forall s t u:A->bool.\n        FINITE u /\\ s INTER t = {} /\\ s UNION t = u\n        ==> (CARD s + CARD t = CARD u)
+      #|  \226\136\128 x : A, \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 CARD(DELETE(s, x)) == (if IN(x, s) { CARD(s) - 1 } else { CARD(s) })
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, FINITE(u) && INTER(s, t) == {} && UNION(s, t) == u \226\134\146 CARD(s) + CARD(t) == CARD(u)
       #|  (a : Num) + (b : Num) == (c : Num) \226\134\146 a == c - b
-      #|  forall s t:A->bool. FINITE s /\\ t SUBSET s ==> CARD(s DIFF t) = CARD s - CARD t
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, FINITE(s) && SUBSET(t, s) \226\134\146 CARD(DIFF(s, t)) == CARD(s) - CARD(t)
       #|  \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 (CARD(s) == 0) == (s == {})
       #|  \226\136\128 a : A, CARD({a}) == 1
       #|  \226\136\128 a : A, \226\136\128 b : A, CARD({a, b}) <= 2
@@ -5899,10 +5899,10 @@ test "sets matches sets.ml" {
       #|  DELETE((s : (A) -> Bool), (x : A))
       #|  (x : A)
       #|  (s : (A) -> Bool)
-      #|  forall s. FINITE s /\\ ~(s = {}) ==> ?x:A. x IN s /\\ (P(s DELETE x) ==> P s)
+      #|  \226\136\128 s : (A) -> Bool, FINITE(s) && !(s == {}) \226\134\146 (\226\136\131 x : A, IN(x, s) && ((P : ((A) -> Bool) -> Bool)(DELETE(s, x)) \226\134\146 P(s)))
       #|  (s : (A) -> Bool) == {}
       #|  CARD((s : (A) -> Bool))
-      #|  forall P. P {} /\\\n       (forall s. FINITE s /\\ ~(s = {}) ==> ?x. x IN s /\\ (P(s DELETE x) ==> P s))\n       ==> forall s:A->bool. FINITE s ==> P s
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, P({}) && (\226\136\128 s : (A) -> Bool, FINITE(s) && !(s == {}) \226\134\146 (\226\136\131 x : A, IN(x, s) && (P(DELETE(s, x)) \226\134\146 P(s)))) \226\134\146 (\226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 P(s))
       #|  (HAS_SIZE : ((A) -> Bool, Num) -> Bool)((s : (A) -> Bool), (n : Num)) == (FINITE(s) && CARD(s) == n)
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 n : Num, HAS_SIZE(s, n) \226\134\146 CARD(s) == n
       #|  (s : (A) -> Bool)
@@ -5919,23 +5919,23 @@ test "sets matches sets.ml" {
       #|  (a : A)
       #|  FINITE((s : (A) -> Bool))
       #|  (s : (A) -> Bool) == {}
-      #|  forall(s:A->bool) n. s HAS_SIZE (SUC n) <=>\n                   ~(s = {}) /\\ forall a. a IN s ==> (s DELETE a) HAS_SIZE n
-      #|  forall(s:A->bool) t m n.\n        s HAS_SIZE m /\\ t HAS_SIZE n /\\ DISJOINT s t\n        ==> (s UNION t) HAS_SIZE (m + n)
-      #|  forall(s:A->bool) t m n.\n        s HAS_SIZE m /\\ t HAS_SIZE n /\\ t SUBSET s\n        ==> (s DIFF t) HAS_SIZE (m - n)
-      #|  DISJOINT a (UNIONS s) <=> forall x. x IN s ==> DISJOINT a x
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 n : Num, HAS_SIZE(s, SUC(n)) == (!(s == {}) && (\226\136\128 a : A, IN(a, s) \226\134\146 HAS_SIZE(DELETE(s, a), n)))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 m : Num, \226\136\128 n : Num, HAS_SIZE(s, m) && HAS_SIZE(t, n) && DISJOINT(s, t) \226\134\146 HAS_SIZE(UNION(s, t), m + n)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 m : Num, \226\136\128 n : Num, HAS_SIZE(s, m) && HAS_SIZE(t, n) && SUBSET(t, s) \226\134\146 HAS_SIZE(DIFF(s, t), m - n)
+      #|  DISJOINT((a : (_) -> Bool), UNIONS((s : ((_) -> Bool) -> Bool))) == (\226\136\128 x : (_) -> Bool, IN(x, s) \226\134\146 DISJOINT(a, x))
       #|  SUC((a : Num)) * (b : Num) == b + a * b
-      #|  UNIONS {t y | y IN x INSERT s} = t x UNION UNIONS {t y | y IN s}
+      #|  UNIONS({(t : (_, _) -> Bool)((y : _)) | IN(y, INSERT((x : _), (s : (_) -> Bool)))}) == UNION(t(x), UNIONS({t((y : _)) | IN(y, s)}))
       #|  (n : Num)
       #|  (m : Num)
       #|  (t : (A, B) -> Bool)
       #|  (s : (A) -> Bool)
       #|  (x : A)
-      #|  forall s t:A->B->bool m n.\n        s HAS_SIZE m /\\\n        (forall x. x IN s ==> t(x) HAS_SIZE n) /\\\n        (forall x y. x IN s /\\ y IN s /\\ ~(x = y) ==> DISJOINT (t x) (t y))\n        ==> UNIONS {t(x) | x IN s} HAS_SIZE (m * n)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A, B) -> Bool, \226\136\128 m : Num, \226\136\128 n : Num, HAS_SIZE(s, m) && (\226\136\128 x : A, IN(x, s) \226\134\146 HAS_SIZE(t(x), n)) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && !(x == y) \226\134\146 DISJOINT(t(x), t(y))) \226\134\146 HAS_SIZE(UNIONS({t((x : A)) | IN(x, s)}), m * n)
       #|  \226\136\128 s : (A) -> Bool, FINITE(s) == HAS_SIZE(s, CARD(s))
       #|  IN((a : _), (s : (_) -> Bool)) \226\134\146 s == INSERT(a, DELETE(s, a))
-      #|  (s HAS_SIZE 0 <=> s = {}) /\\\n   (s HAS_SIZE (SUC n) <=>\n        ?(a:A) t. t HAS_SIZE n /\\ ~(a IN t) /\\ (s = a INSERT t))
-      #|  (~((a:A) IN {}) /\\ P <=> P) /\\\n     (~(a IN {b}) /\\ P <=> ~(a = b) /\\ P) /\\\n     (~(a IN (b INSERT cs)) /\\ P <=> ~(a = b) /\\ ~(a IN cs) /\\ P)
-      #|  ((?s. s HAS_SIZE 0 /\\ P s) <=> P {}) /\\\n     ((?s. s HAS_SIZE (SUC n) /\\ P s) <=>\n      (?(a:A) s. s HAS_SIZE n /\\ ~(a IN s) /\\ P(a INSERT s)))
+      #|  HAS_SIZE((s : (A) -> Bool), 0) == (s == {}) && HAS_SIZE(s, SUC((n : Num))) == (\226\136\131 a : A, \226\136\131 t : (A) -> Bool, HAS_SIZE(t, n) && !IN(a, t) && s == INSERT(a, t))
+      #|  (!IN((a : A), {}) && (P : Bool)) == P && (!IN(a, {(b : A)}) && P) == (!(a == b) && P) && (!IN(a, INSERT(b, (cs : (A) -> Bool))) && P) == (!(a == b) && !IN(a, cs) && P)
+      #|  (\226\136\131 s : (A) -> Bool, HAS_SIZE(s, 0) && (P : ((A) -> Bool) -> Bool)(s)) == P({}) && (\226\136\131 s : (A) -> Bool, HAS_SIZE(s, SUC((n : Num))) && P(s)) == (\226\136\131 a : A, \226\136\131 s : (A) -> Bool, HAS_SIZE(s, n) && !IN(a, s) && P(INSERT(a, s)))
       #|  SUBSET((a : (A) -> Bool), (b : (A) -> Bool))
       #|  DIFF((b : (A) -> Bool), (a : (A) -> Bool)) == {}
       #|  ((a : Num) == a + (b : Num)) == (b == 0)
@@ -5947,50 +5947,50 @@ test "sets matches sets.ml" {
       #|  FINITE((a : (A) -> Bool))
       #|  DIFF((b : (A) -> Bool), (a : (A) -> Bool))
       #|  (a : (A) -> Bool)
-      #|  forall(a:A->bool) b. FINITE b /\\ a SUBSET b /\\ (CARD a = CARD b) ==> (a = b)
+      #|  \226\136\128 a : (A) -> Bool, \226\136\128 b : (A) -> Bool, FINITE(b) && SUBSET(a, b) && CARD(a) == CARD(b) \226\134\146 a == b
       #|  (b : (A) -> Bool)
       #|  (b : (A) -> Bool)
-      #|  CARD (a UNION b DIFF a) = CARD(a:A->bool) + CARD(b DIFF a)
+      #|  CARD(UNION((a : (A) -> Bool), DIFF((b : (A) -> Bool), a))) == CARD(a) + CARD(DIFF(b, a))
       #|  SUBSET((a : (A) -> Bool), (b : (A) -> Bool))
       #|  (b : (A) -> Bool) == UNION((a : (A) -> Bool), DIFF(b, a))
-      #|  forall(a:A->bool) b. a SUBSET b /\\ FINITE(b) ==> CARD(a) <= CARD(b)
-      #|  forall(a:A->bool) b. FINITE b /\\ a SUBSET b /\\ CARD b <= CARD a ==> a = b
-      #|  forall s t:A->bool. FINITE t /\\ s SUBSET t ==> (CARD s = CARD t <=> s = t)
-      #|  forall s (t:A->bool) n.\n        s SUBSET t /\\ FINITE t /\\ CARD t <= n\n        ==> FINITE s /\\ CARD s <= n
+      #|  \226\136\128 a : (A) -> Bool, \226\136\128 b : (A) -> Bool, SUBSET(a, b) && FINITE(b) \226\134\146 CARD(a) <= CARD(b)
+      #|  \226\136\128 a : (A) -> Bool, \226\136\128 b : (A) -> Bool, FINITE(b) && SUBSET(a, b) && CARD(b) <= CARD(a) \226\134\146 a == b
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, FINITE(t) && SUBSET(s, t) \226\134\146 (CARD(s) == CARD(t)) == (s == t)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 n : Num, SUBSET(s, t) && FINITE(t) && CARD(t) <= n \226\134\146 FINITE(s) && CARD(s) <= n
       #|  ((n : Num) - 1 < n) == !(n == 0)
       #|  CARD(DELETE((b : (A) -> Bool), (x : A)))
       #|  (x : A)
-      #|  a PSUBSET b <=> ?x. x IN b /\\ ~(x IN a) /\\ a SUBSET (b DELETE x)
-      #|  forall(a:A->bool) b. a PSUBSET b /\\ FINITE(b) ==> CARD(a) < CARD(b)
-      #|  forall a b:A->bool. a SUBSET b /\\ ~(CARD a = CARD b) ==> a PSUBSET b
-      #|  forall a b:A->bool. FINITE b /\\ a SUBSET b ==> (a PSUBSET b <=> CARD a < CARD b)
+      #|  PSUBSET((a : (_) -> Bool), (b : (_) -> Bool)) == (\226\136\131 x : _, IN(x, b) && !IN(x, a) && SUBSET(a, DELETE(b, x)))
+      #|  \226\136\128 a : (A) -> Bool, \226\136\128 b : (A) -> Bool, PSUBSET(a, b) && FINITE(b) \226\134\146 CARD(a) < CARD(b)
+      #|  \226\136\128 a : (A) -> Bool, \226\136\128 b : (A) -> Bool, SUBSET(a, b) && !(CARD(a) == CARD(b)) \226\134\146 PSUBSET(a, b)
+      #|  \226\136\128 a : (A) -> Bool, \226\136\128 b : (A) -> Bool, FINITE(b) && SUBSET(a, b) \226\134\146 PSUBSET(a, b) == (CARD(a) < CARD(b))
       #|  UNION((s : (_) -> Bool), (t : (_) -> Bool)) == UNION(s, DIFF(t, s))
       #|  CARD((s : (A) -> Bool)) + CARD(DIFF((t : (A) -> Bool), s))
-      #|  forall s t:A->bool.\n        FINITE s /\\ FINITE t ==> CARD(s UNION t) <= CARD(s) + CARD(t)
-      #|  forall s (t:A->bool) m n.\n        (FINITE s /\\ CARD s <= m) /\\\n        (FINITE t /\\ CARD t <= n)\n        ==> FINITE(s UNION t) /\\ CARD(s UNION t) <= m + n
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, FINITE(s) && FINITE(t) \226\134\146 CARD(UNION(s, t)) <= CARD(s) + CARD(t)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 m : Num, \226\136\128 n : Num, (FINITE(s) && CARD(s) <= m) && FINITE(t) && CARD(t) <= n \226\134\146 FINITE(UNION(s, t)) && CARD(UNION(s, t)) <= m + n
       #|  (a : Num) <= (n : Num) && (b : Num) <= (x : Num) * n \226\134\146 a + b <= SUC(x) * n
       #|  {(t : (_) -> _)((x : _)) | IN(x, (s : (_) -> Bool))} == IMAGE(t, s)
-      #|  CARD((t:A->B->bool) x) + CARD(UNIONS {(t:A->B->bool) y | y IN s})
-      #|  UNIONS {t x | x IN a INSERT s} = t(a) UNION UNIONS {t x | x IN s}
+      #|  CARD((t : (A, B) -> Bool)((x : A))) + CARD(UNIONS({t((y : A)) | IN(y, (s : (A) -> Bool))}))
+      #|  UNIONS({(t : (_, _) -> Bool)((x : _)) | IN(x, INSERT((a : _), (s : (_) -> Bool)))}) == UNION(t(a), UNIONS({t((x : _)) | IN(x, s)}))
       #|  UNIONS({(t : (_, _) -> Bool)((x : _)) | IN(x, {})}) == {}
-      #|  forall s t:A->B->bool m n.\n        s HAS_SIZE m /\\ (forall x. x IN s ==> FINITE(t x) /\\ CARD(t x) <= n)\n        ==> CARD(UNIONS {t(x) | x IN s}) <= m * n
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A, B) -> Bool, \226\136\128 m : Num, \226\136\128 n : Num, HAS_SIZE(s, m) && (\226\136\128 x : A, IN(x, s) \226\134\146 FINITE(t(x)) && CARD(t(x)) <= n) \226\134\146 CARD(UNIONS({t((x : A)) | IN(x, s)})) <= m * n
       #|  DIFF((t : (_) -> Bool), INTER((s : (_) -> Bool), t)) == DIFF(t, s)
       #|  (x : Num) <= (y : Num) \226\134\146 (a : Num) + y - x == a + (y - x)
       #|  UNION((s : (_) -> Bool), (t : (_) -> Bool)) == UNION(s, DIFF(t, s))
-      #|  forall s t:A->bool.\n        FINITE s /\\ FINITE t\n        ==> CARD(s UNION t) = (CARD(s) + CARD(t)) - CARD(s INTER t)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, FINITE(s) && FINITE(t) \226\134\146 CARD(UNION(s, t)) == CARD(s) + CARD(t) - CARD(INTER(s, t))
       #|  ((a : Num) - (b : Num) == a) == (b == 0 || a == 0)
-      #|  forall s t:A->bool.\n        FINITE s /\\ FINITE t\n        ==> (CARD(s UNION t) = CARD s + CARD t <=> s INTER t = {})
-      #|  forall s t:A->bool.\n        FINITE s /\\ FINITE t /\\ CARD(s UNION t) < CARD(s) + CARD(t)\n        ==> ~(s INTER t = {})
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, FINITE(s) && FINITE(t) \226\134\146 (CARD(UNION(s, t)) == CARD(s) + CARD(t)) == (INTER(s, t) == {})
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, FINITE(s) && FINITE(t) && CARD(UNION(s, t)) < CARD(s) + CARD(t) \226\134\146 !(INTER(s, t) == {})
       #|  ((a : Bool) && (b : Bool) \226\134\146 (c : Bool)) == (b \226\134\146 a \226\134\146 c)
-      #|  forall(f:A->B) s. (forall x y. x IN s /\\ y IN s /\\ (f(x) = f(y)) ==> (x = y)) /\\\n                FINITE s ==> (CARD (IMAGE f s) = CARD s)
-      #|  forall(f:A->B) s n.\n        (forall x y. x IN s /\\ y IN s /\\ (f(x) = f(y)) ==> (x = y)) /\\ s HAS_SIZE n\n        ==> (IMAGE f s) HAS_SIZE n
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) && FINITE(s) \226\134\146 CARD(IMAGE(f, s)) == CARD(s)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 n : Num, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) && HAS_SIZE(s, n) \226\134\146 HAS_SIZE(IMAGE(f, s), n)
       #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 CARD(IMAGE(f, s)) <= CARD(s)
-      #|  forall(f:A->B) s n.\n        FINITE s /\\ CARD s <= n ==> FINITE(IMAGE f s) /\\ CARD(IMAGE f s) <= n
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 n : Num, FINITE(s) && CARD(s) <= n \226\134\146 FINITE(IMAGE(f, s)) && CARD(IMAGE(f, s)) <= n
       #|  (t : (B) -> Bool) == IMAGE((f : (A) -> B), (s : (A) -> Bool))
-      #|  forall f:A->B s t.\n        FINITE s /\\\n        (forall x. x IN s ==> f(x) IN t) /\\\n        (forall y. y IN t ==> ?!x. x IN s /\\ f(x) = y)\n        ==> CARD t = CARD s
-      #|  forall(f:A->B) s t. FINITE t /\\ s SUBSET IMAGE f t ==> CARD s <= CARD t
-      #|  (a' <=> a) /\\ (a ==> (b' <=> b)) ==> (a' /\\ b' <=> a /\\ b)
-      #|  forall(f:A->B) s n.\n        (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y)\n        ==> ((IMAGE f s) HAS_SIZE n <=> s HAS_SIZE n)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t)) && (\226\136\128 y : B, IN(y, t) \226\134\146 existsunique((x : A) => IN(x, s) && f(x) == y)) \226\134\146 CARD(t) == CARD(s)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (B) -> Bool, \226\136\128 t : (A) -> Bool, FINITE(t) && SUBSET(s, IMAGE(f, t)) \226\134\146 CARD(s) <= CARD(t)
+      #|  (a' : Bool) == (a : Bool) && (a \226\134\146 (b' : Bool) == (b : Bool)) \226\134\146 (a' && b') == (a && b)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 n : Num, (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) \226\134\146 HAS_SIZE(IMAGE(f, s), n) == HAS_SIZE(s, n)
       #|  ((n : Num) - 1 < n) == !(n == 0)
       #|  CARD(DELETE((s : (A) -> Bool), (y : A)))
       #|  \226\136\128 n : Num, (m : Num) <= n && n < (p : Num) \226\134\146 !(m == p)
@@ -5999,32 +5999,32 @@ test "sets matches sets.ml" {
       #|  (x : A) == (y : A)
       #|  (y : A)
       #|  (x : A)
-      #|  forall f:A->B s.\n        FINITE s\n        ==> (CARD(IMAGE f s) = CARD s <=>\n             forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y)
-      #|  (p ==> (q <=> s)) /\\ (p /\\ s ==> (r <=> t))\n    ==> ((p /\\ q) /\\ r <=> (p /\\ s) /\\ t)
-      #|  p /\\ q /\\ r /\\ s <=> r /\\ s /\\ p /\\ q
-      #|  forall P (f:A->B) s n.\n    (?t. FINITE t /\\ CARD t < n /\\ t SUBSET IMAGE f s /\\ P t) <=>\n    (?t. FINITE t /\\ CARD t < n /\\ t SUBSET s /\\\n         (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y)) /\\\n         P (IMAGE f t))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 (CARD(IMAGE(f, s)) == CARD(s)) == (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y)
+      #|  ((p : Bool) \226\134\146 (q : Bool) == (s : Bool)) && (p && s \226\134\146 (r : Bool) == (t : Bool)) \226\134\146 ((p && q) && r) == ((p && s) && t)
+      #|  ((p : Bool) && (q : Bool) && (r : Bool) && (s : Bool)) == (r && s && p && q)
+      #|  \226\136\128 P : ((B) -> Bool) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 n : Num, (\226\136\131 t : (B) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, IMAGE(f, s)) && P(t)) == (\226\136\131 t : (A) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, s) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, t) && IN(y, t) \226\134\146 (f(x) == f(y)) == (x == y)) && P(IMAGE(f, t)))
       #|  (\226\136\128 t : _, (p : (_) -> Bool)(t)) == !(\226\136\131 t : _, !p(t))
-      #|  forall P (f:A->B) s n.\n    (forall t. FINITE t /\\ CARD t < n /\\ t SUBSET IMAGE f s ==> P t) <=>\n    (forall t. FINITE t /\\ CARD t < n /\\ t SUBSET s /\\\n         (forall x y. x IN t /\\ y IN t ==> (f x = f y <=> x = y))\n         ==> P (IMAGE f t))
-      #|  forall P (f:A->B) s n.\n    (?t. FINITE t /\\ CARD t < n /\\ t SUBSET IMAGE f s /\\ P t) <=>\n    (?t. FINITE t /\\ CARD t < n /\\ t SUBSET s /\\\n         P (IMAGE f t))
+      #|  \226\136\128 P : ((B) -> Bool) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 n : Num, (\226\136\128 t : (B) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, IMAGE(f, s)) \226\134\146 P(t)) == (\226\136\128 t : (A) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, s) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, t) && IN(y, t) \226\134\146 (f(x) == f(y)) == (x == y)) \226\134\146 P(IMAGE(f, t)))
+      #|  \226\136\128 P : ((B) -> Bool) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 n : Num, (\226\136\131 t : (B) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, IMAGE(f, s)) && P(t)) == (\226\136\131 t : (A) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, s) && P(IMAGE(f, t)))
       #|  (\226\136\128 t : _, (p : (_) -> Bool)(t)) == !(\226\136\131 t : _, !p(t))
-      #|  forall P (f:A->B) s n.\n    (forall t. FINITE t /\\ CARD t < n /\\ t SUBSET IMAGE f s ==> P t) <=>\n    (forall t. FINITE t /\\ CARD t < n /\\ t SUBSET s ==> P (IMAGE f t))
+      #|  \226\136\128 P : ((B) -> Bool) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 n : Num, (\226\136\128 t : (B) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, IMAGE(f, s)) \226\134\146 P(t)) == (\226\136\128 t : (A) -> Bool, FINITE(t) && CARD(t) < n && SUBSET(t, s) \226\134\146 P(IMAGE(f, t)))
       #|  CARD(IMAGE(o((h : (C) -> B), (g : (A) -> C)), (s : (A) -> Bool)))
       #|  (h : (C) -> B)
-      #|  forall(f:A->B) (g:A->C) s.\n        FINITE s /\\\n        (forall x y. x IN s /\\ y IN s /\\ g x = g y ==> f x = f y)\n        ==> CARD(IMAGE f s) <= CARD(IMAGE g s)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> C, \226\136\128 s : (A) -> Bool, FINITE(s) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && g(x) == g(y) \226\134\146 f(x) == f(y)) \226\134\146 CARD(IMAGE(f, s)) <= CARD(IMAGE(g, s))
       #|  IMAGE((f : (A) -> B), (s : (A) -> Bool)) == IMAGE((h : (C) -> B), IMAGE((g : (A) -> C), s))
       #|  (h : (C) -> B)
-      #|  forall(f:A->B) (g:A->C) s.\n        FINITE s /\\\n        (forall x y. x IN s /\\ y IN s /\\ g x = g y ==> f x = f y) /\\\n        ~(forall x y. x IN s /\\ y IN s /\\ f x = f y ==> g x = g y)\n        ==> CARD(IMAGE f s) < CARD(IMAGE g s)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> C, \226\136\128 s : (A) -> Bool, FINITE(s) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && g(x) == g(y) \226\134\146 f(x) == f(y)) && !(\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 g(x) == g(y)) \226\134\146 CARD(IMAGE(f, s)) < CARD(IMAGE(g, s))
       #|  INSERT((a : A), (t : (A) -> Bool))
       #|  (t : (A) -> Bool)
       #|  (s : (A) -> Bool)
       #|  (s : (A) -> Bool)
       #|  (a : A)
       #|  !(SUC((n : Num)) <= 0)
-      #|  forall n s:A->bool.\n        (FINITE s ==> n <= CARD s) ==> ?t. t SUBSET s /\\ t HAS_SIZE n
+      #|  \226\136\128 n : Num, \226\136\128 s : (A) -> Bool, (FINITE(s) \226\134\146 n <= CARD(s)) \226\134\146 (\226\136\131 t : (A) -> Bool, SUBSET(t, s) && HAS_SIZE(t, n))
       #|  CARD((t : (A) -> Bool))
       #|  (t : (A) -> Bool)
-      #|  forall n s:A->bool.\n     (FINITE s ==> n <= CARD s) <=> (?t. t SUBSET s /\\ t HAS_SIZE n)
-      #|  forall s:A->bool. FINITE s ==> forall n. n <= CARD s ==> ?t. t SUBSET s /\\ t HAS_SIZE n
+      #|  \226\136\128 n : Num, \226\136\128 s : (A) -> Bool, (FINITE(s) \226\134\146 n <= CARD(s)) == (\226\136\131 t : (A) -> Bool, SUBSET(t, s) && HAS_SIZE(t, n))
+      #|  \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 (\226\136\128 n : Num, n <= CARD(s) \226\134\146 (\226\136\131 t : (A) -> Bool, SUBSET(t, s) && HAS_SIZE(t, n)))
       #|  (n : Num) == CARD((s : (A) -> Bool)) + (n - CARD(s))
       #|  UNION((s : (A) -> Bool), (t : (A) -> Bool))
       #|  (t : (A) -> Bool)
@@ -6034,14 +6034,14 @@ test "sets matches sets.ml" {
       #|  FINITE((u : (A) -> Bool))
       #|  DIFF((u : (A) -> Bool), (s : (A) -> Bool))
       #|  (n : Num) - CARD((s : (A) -> Bool))
-      #|  forall n s u:A->bool.\n        s SUBSET u /\\ FINITE s /\\ CARD s <= n /\\ (FINITE u ==> n <= CARD u)\n        ==> ?t. s SUBSET t /\\ t SUBSET u /\\ t HAS_SIZE n
+      #|  \226\136\128 n : Num, \226\136\128 s : (A) -> Bool, \226\136\128 u : (A) -> Bool, SUBSET(s, u) && FINITE(s) && CARD(s) <= n && (FINITE(u) \226\134\146 n <= CARD(u)) \226\134\146 (\226\136\131 t : (A) -> Bool, SUBSET(s, t) && SUBSET(t, u) && HAS_SIZE(t, n))
       #|  (s : (A) -> Bool)
       #|  !((x : Num) <= (n : Num)) == (SUC(n) <= x)
       #|  !((p : Bool) && (q : Bool)) == (p \226\134\146 !q)
       #|  (f : ((A) -> Bool) -> Bool) == {}
-      #|  forall(f:(A->bool)->bool) n.\n        (forall t u. t IN f /\\ u IN f ==> t SUBSET u \\/ u SUBSET t) /\\\n        (forall t. t IN f ==> FINITE t /\\ CARD t <= n)\n        ==> FINITE(UNIONS f) /\\ CARD(UNIONS f) <= n
+      #|  \226\136\128 f : ((A) -> Bool) -> Bool, \226\136\128 n : Num, (\226\136\128 t : (A) -> Bool, \226\136\128 u : (A) -> Bool, IN(t, f) && IN(u, f) \226\134\146 SUBSET(t, u) || SUBSET(u, t)) && (\226\136\128 t : (A) -> Bool, IN(t, f) \226\134\146 FINITE(t) && CARD(t) <= n) \226\134\146 FINITE(UNIONS(f)) && CARD(UNIONS(f)) <= n
       #|  ((c : Num) <= 1) == (c == 0 || c == 1)
-      #|  forall s:A->bool. FINITE s /\\ CARD s <= 1 <=> ?a. s SUBSET {a}
+      #|  \226\136\128 s : (A) -> Bool, (FINITE(s) && CARD(s) <= 1) == (\226\136\131 a : A, SUBSET(s, {a}))
       #|  (n : Num) == 2
       #|  ((n : Num) <= 2) == (n == 0 || n == 1 || n == 2)
       #|  DELETE((s : (A) -> Bool), (f : (A) -> A)((a : A)))
@@ -6057,13 +6057,13 @@ test "sets matches sets.ml" {
       #|  (s : (A) -> Bool)
       #|  ((p : Bool) \226\134\146 (q : Bool) && (r : Bool) \226\134\146 (s : Bool)) == ((q && p) && r \226\134\146 s)
       #|  (n : Num) == CARD((s : (A) -> Bool))
-      #|  forall f (s:A->bool).\n        FINITE s /\\ (forall x. x IN s ==> f x IN s /\\ ~(f x = x) /\\ f(f x) = x)\n        ==> EVEN(CARD s)
+      #|  \226\136\128 f : (A) -> A, \226\136\128 s : (A) -> Bool, FINITE(s) && (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), s) && !(f(x) == x) && f(f(x)) == x) \226\134\146 EVEN(CARD(s))
       #|  (f : (A) -> A)
       #|  ((p : Bool) == (p == (q : Bool))) == q
-      #|  {x | x IN s /\\ P x} INTER {x | x IN s /\\ ~P x} = {}
-      #|  EVEN(CARD({x:A | x IN s /\\ f x = x} UNION {x | x IN s /\\ ~(f x = x)}))
-      #|  forall f (s:A->bool).\n        FINITE s /\\ (forall x. x IN s ==> f x IN s /\\ f(f x) = x)\n        ==> (EVEN(CARD {x | x IN s /\\ f x = x}) <=> EVEN(CARD s))
-      #|  {(x,y) | (x = a \\/ x IN s) /\\ y IN t(x)} =\n     {(x,y) | x IN s /\\ y IN t(x)} UNION\n     IMAGE (\\y. (a,y)) (t a)
+      #|  INTER({(x : _) | IN(x, (s : (_) -> Bool)) && (P : (_) -> Bool)(x)}, {(x : _) | IN(x, s) && !P(x)}) == {}
+      #|  EVEN(CARD(UNION({(x : A) | IN(x, (s : (A) -> Bool)) && (f : (A) -> A)(x) == x}, {(x : A) | IN(x, s) && !(f(x) == x)})))
+      #|  \226\136\128 f : (A) -> A, \226\136\128 s : (A) -> Bool, FINITE(s) && (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), s) && f(f(x)) == x) \226\134\146 EVEN(CARD({(x : A) | IN(x, s) && f(x) == x})) == EVEN(CARD(s))
+      #|  {((x : _), (y : _)) | (x == (a : _) || IN(x, (s : (_) -> Bool))) && IN(y, (t : (_, _) -> Bool)(x))} == UNION({((x : _), (y : _)) | IN(x, s) && IN(y, t(x))}, IMAGE((y : _) => (a, y), t(a)))
       #|  CARD((s : (A) -> Bool))
       #|  ((a : Bool) || (b : Bool) \226\134\146 (c : Bool)) == ((a \226\134\146 c) && (b \226\134\146 c))
       #|  (n : Num)
@@ -6071,8 +6071,8 @@ test "sets matches sets.ml" {
       #|  (m : Num)
       #|  (s : (A) -> Bool)
       #|  (x : A)
-      #|  forall s m t n.\n         s HAS_SIZE m /\\ (forall x. x IN s ==> t(x) HAS_SIZE n)\n         ==> {(x:A,y:B) | x IN s /\\ y IN t(x)} HAS_SIZE (m * n)
-      #|  {(x:A,y:B) | x IN (a INSERT s) /\\ y IN (t x)} =\n    IMAGE (\\y. a,y) (t a) UNION {(x,y) | x IN s /\\ y IN (t x)}
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 m : Num, \226\136\128 t : (A, B) -> Bool, \226\136\128 n : Num, HAS_SIZE(s, m) && (\226\136\128 x : A, IN(x, s) \226\134\146 HAS_SIZE(t(x), n)) \226\134\146 HAS_SIZE({((x : A), (y : B)) | IN(x, s) && IN(y, t(x))}, m * n)
+      #|  {((x : A), (y : B)) | IN(x, INSERT((a : A), (s : (A) -> Bool))) && IN(y, (t : (A, B) -> Bool)(x))} == UNION(IMAGE((y : B) => (a, y), t(a)), {((x : A), (y : B)) | IN(x, s) && IN(y, t(x))})
       #|  (t : (A, B) -> Bool)
       #|  (s : (A) -> Bool)
       #|  (a : A)
@@ -6081,133 +6081,133 @@ test "sets matches sets.ml" {
       #|  (t : (A, B) -> Bool)
       #|  FINITE((s : (A) -> Bool))
       #|  \226\136\128 x : A, IN(x, (s : (A) -> Bool)) \226\134\146 FINITE((t : (A, B) -> Bool)(x))
-      #|  IMAGE (\\(x,y). (f:A->B->C) x y) {x,y | x IN s /\\ y IN t x}
-      #|  forall f:A->B->C s t.\n        FINITE s /\\ (forall x. x IN s ==> FINITE(t x))\n        ==> FINITE {f x y | x IN s /\\ y IN (t x)}
-      #|  forall s t. FINITE s /\\ FINITE t ==> FINITE {(x:A,y:B) | x IN s /\\ y IN t}
+      #|  IMAGE(fn { (x, y) => (f : (A, B) -> C)(x, y) }, {((x : A), (y : B)) | IN(x, (s : (A) -> Bool)) && IN(y, (t : (A, B) -> Bool)(x))})
+      #|  \226\136\128 f : (A, B) -> C, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A, B) -> Bool, FINITE(s) && (\226\136\128 x : A, IN(x, s) \226\134\146 FINITE(t(x))) \226\134\146 FINITE({f((x : A), (y : B)) | IN(x, s) && IN(y, t(x))})
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && FINITE(t) \226\134\146 FINITE({((x : A), (y : B)) | IN(x, s) && IN(y, t)})
       #|  CARD((t : (B) -> Bool))
       #|  (x : A) => (t : (B) -> Bool)
       #|  CARD((s : (A) -> Bool))
       #|  (s : (A) -> Bool)
-      #|  forall s t. FINITE s /\\ FINITE t\n         ==> (CARD {(x:A,y:B) | x IN s /\\ y IN t} = CARD s * CARD t)
-      #|  forall s m t n. s HAS_SIZE m /\\ t HAS_SIZE n\n             ==> {(x:A,y:B) | x IN s /\\ y IN t} HAS_SIZE (m * n)
-      #|  (s:A->bool) CROSS (t:B->bool) = {x,y | x IN s /\\ y IN t}
-      #|  forall(x:A) (y:B) s t. (x,y) IN (s CROSS t) <=> x IN s /\\ y IN t
-      #|  forall(s:A->bool) (t:B->bool) m n.\n        s HAS_SIZE m /\\ t HAS_SIZE n ==> (s CROSS t) HAS_SIZE (m * n)
-      #|  forall(s:A->bool) (t:B->bool). FINITE s /\\ FINITE t ==> FINITE(s CROSS t)
-      #|  forall(s:A->bool) (t:B->bool). FINITE s /\\ FINITE t ==> CARD(s CROSS t) = CARD s * CARD t
-      #|  forall(s:A->bool) (t:B->bool). s CROSS t = {} <=> s = {} \\/ t = {}
-      #|  (forall s:A->bool. s CROSS {} = {}) /\\ (forall t:B->bool. {} CROSS t = {})
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && FINITE(t) \226\134\146 CARD({((x : A), (y : B)) | IN(x, s) && IN(y, t)}) == CARD(s) * CARD(t)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 m : Num, \226\136\128 t : (B) -> Bool, \226\136\128 n : Num, HAS_SIZE(s, m) && HAS_SIZE(t, n) \226\134\146 HAS_SIZE({((x : A), (y : B)) | IN(x, s) && IN(y, t)}, m * n)
+      #|  (CROSS : ((A) -> Bool, (B) -> Bool, (A, B)) -> Bool)((s : (A) -> Bool), (t : (B) -> Bool)) == {((x : A), (y : B)) | IN(x, s) && IN(y, t)}
+      #|  \226\136\128 x : A, \226\136\128 y : B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, IN((x, y), CROSS(s, t)) == (IN(x, s) && IN(y, t))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 m : Num, \226\136\128 n : Num, HAS_SIZE(s, m) && HAS_SIZE(t, n) \226\134\146 HAS_SIZE(CROSS(s, t), m * n)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && FINITE(t) \226\134\146 FINITE(CROSS(s, t))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && FINITE(t) \226\134\146 CARD(CROSS(s, t)) == CARD(s) * CARD(t)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (CROSS(s, t) == {}) == (s == {} || t == {})
+      #|  (\226\136\128 s : (A) -> Bool, (CROSS : ((A) -> Bool, (_) -> Bool, (A, _)) -> Bool)(s, ({} : (_) -> Bool)) == ({} : ((A, _)) -> Bool)) && (\226\136\128 t : (B) -> Bool, (CROSS : ((_) -> Bool, (B) -> Bool, (_, B)) -> Bool)(({} : (_) -> Bool), t) == ({} : ((_, B)) -> Bool))
       #|  \226\136\128 x : A, \226\136\128 y : B, CROSS({x}, {y}) == {(x, y)}
       #|  (CROSS : ((A) -> Bool, (B) -> Bool, (A, B)) -> Bool)((UNIV : (A) -> Bool), (UNIV : (B) -> Bool)) == (UNIV : ((A, B)) -> Bool)
       #|  (SND : ((A, B)) -> B)
       #|  (FST : ((A, B)) -> A)
       #|  (t : (B) -> Bool) == {}
       #|  (s : (A) -> Bool) == {}
-      #|  forall s:A->bool t:B->bool.\n        FINITE(s CROSS t) <=> s = {} \\/ t = {} \\/ FINITE s /\\ FINITE t
-      #|  forall(s:A->bool) (t:B->bool).\n        INFINITE(s CROSS t) <=>\n        ~(s = {}) /\\ INFINITE t \\/ INFINITE s /\\ ~(t = {})
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(CROSS(s, t)) == (s == {} || t == {} || FINITE(s) && FINITE(t))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, INFINITE(CROSS(s, t)) == (!(s == {}) && INFINITE(t) || INFINITE(s) && !(t == {}))
       #|  (FINITE : (((A, B)) -> Bool) -> Bool)((UNIV : ((A, B)) -> Bool)) == ((FINITE : ((A) -> Bool) -> Bool)((UNIV : (A) -> Bool)) && (FINITE : ((B) -> Bool) -> Bool)((UNIV : (B) -> Bool)))
       #|  (INFINITE : (((A, B)) -> Bool) -> Bool)((UNIV : ((A, B)) -> Bool)) == ((INFINITE : ((A) -> Bool) -> Bool)((UNIV : (A) -> Bool)) || (INFINITE : ((B) -> Bool) -> Bool)((UNIV : (B) -> Bool)))
       #|  (FINITE : (((A, A)) -> Bool) -> Bool)((UNIV : ((A, A)) -> Bool)) == (FINITE : ((A) -> Bool) -> Bool)((UNIV : (A) -> Bool))
       #|  (INFINITE : (((A, A)) -> Bool) -> Bool)((UNIV : ((A, A)) -> Bool)) == (INFINITE : ((A) -> Bool) -> Bool)((UNIV : (A) -> Bool))
-      #|  forall P s t. (forall z:A#B. z IN s CROSS t ==> P z) <=>\n           (forall x y. x IN s /\\ y IN t ==> P(x,y))
-      #|  forall P s t. (?z:A#B. z IN s CROSS t /\\ P z) <=>\n           (?x y. x IN s /\\ y IN t /\\ P(x,y))
-      #|  forall(s:A->bool) (t:B->bool) s' t'.\n        s CROSS t SUBSET s' CROSS t' <=>\n        s = {} \\/ t = {} \\/ s SUBSET s' /\\ t SUBSET t'
-      #|  forall(s:A->bool) (t:B->bool) s' t'. s SUBSET s' /\\ t SUBSET t' ==> s CROSS t SUBSET s' CROSS t'
-      #|  forall s s':A->bool t t':B->bool.\n        s CROSS t = s' CROSS t' <=>\n        (s = {} \\/ t = {}) /\\ (s' = {} \\/ t' = {}) \\/ s = s' /\\ t = t'
-      #|  forall s:A->bool t:B->bool.\n        IMAGE FST (s CROSS t) = if t = {} then {} else s
-      #|  forall s:A->bool t:B->bool.\n        IMAGE SND (s CROSS t) = if s = {} then {} else t
-      #|  forall(f:A->B) (g:C->D) s t.\n         IMAGE (\\(x,y). f x,g y) (s CROSS t) = (IMAGE f s) CROSS (IMAGE g t)
-      #|  (forall(s:A->bool) (t:B->bool) u.\n        s CROSS (t INTER u) = (s CROSS t) INTER (s CROSS u)) /\\\n   (forall(s:A->bool) t (u:B->bool).\n        (s INTER t) CROSS u = (s CROSS u) INTER (t CROSS u))
-      #|  (forall(s:A->bool) (t:B->bool) u.\n        s CROSS (t UNION u) = (s CROSS t) UNION (s CROSS u)) /\\\n   (forall(s:A->bool) t (u:B->bool).\n        (s UNION t) CROSS u = (s CROSS u) UNION (t CROSS u))
-      #|  (forall(s:A->bool) (t:B->bool) u.\n        s CROSS (t DIFF u) = (s CROSS t) DIFF (s CROSS u)) /\\\n   (forall(s:A->bool) t (u:B->bool).\n        (s DIFF t) CROSS u = (s CROSS u) DIFF (t CROSS u))
-      #|  forall(s:A->bool) s' (t:B->bool) t'.\n      (s CROSS t) INTER (s' CROSS t') = (s INTER s') CROSS (t INTER t')
-      #|  (forall(f:(A->bool)->bool) (g:(B->bool)->bool).\n        (UNIONS f) CROSS (UNIONS g) =\n        UNIONS {s CROSS t | s IN f /\\ t IN g}) /\\\n   (forall(s:A->bool) (f:(A->bool)->bool).\n        s CROSS (UNIONS f) = UNIONS {s CROSS t | t IN f}) /\\\n   (forall(f:(A->bool)->bool) (t:B->bool).\n        (UNIONS f) CROSS t = UNIONS {s CROSS t | s IN f})
-      #|  (forall(f:(A->bool)->bool) (g:(B->bool)->bool).\n        (INTERS f) CROSS (INTERS g) =\n        if f = {} then INTERS {UNIV CROSS t | t IN g}\n        else if g = {} then INTERS {s CROSS UNIV | s IN f}\n        else INTERS {s CROSS t | s IN f /\\ t IN g}) /\\\n   (forall(s:A->bool) (f:(A->bool)->bool).\n        s CROSS (INTERS f) =\n        if f = {} then s CROSS UNIV else INTERS {s CROSS t | t IN f}) /\\\n   (forall(f:(A->bool)->bool) (t:B->bool).\n        (INTERS f) CROSS t =\n        if f = {} then UNIV CROSS t else INTERS {s CROSS t | s IN f})
-      #|  forall s:A->bool t:B->bool s' t'.\n        DISJOINT (s CROSS t) (s' CROSS t') <=>\n        DISJOINT s s' \\/ DISJOINT t t'
+      #|  \226\136\128 P : ((A, B)) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (\226\136\128 z : (A, B), IN(z, CROSS(s, t)) \226\134\146 P(z)) == (\226\136\128 x : A, \226\136\128 y : B, IN(x, s) && IN(y, t) \226\134\146 P((x, y)))
+      #|  \226\136\128 P : ((A, B)) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, (\226\136\131 z : (A, B), IN(z, CROSS(s, t)) && P(z)) == (\226\136\131 x : A, \226\136\131 y : B, IN(x, s) && IN(y, t) && P((x, y)))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 s' : (A) -> Bool, \226\136\128 t' : (B) -> Bool, SUBSET(CROSS(s, t), CROSS(s', t')) == (s == {} || t == {} || SUBSET(s, s') && SUBSET(t, t'))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 s' : (A) -> Bool, \226\136\128 t' : (B) -> Bool, SUBSET(s, s') && SUBSET(t, t') \226\134\146 SUBSET(CROSS(s, t), CROSS(s', t'))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 t' : (B) -> Bool, (CROSS(s, t) == CROSS(s', t')) == ((s == {} || t == {}) && (s' == {} || t' == {}) || s == s' && t == t')
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, IMAGE(FST, CROSS(s, t)) == (if t == {} { {} } else { s })
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, IMAGE(SND, CROSS(s, t)) == (if s == {} { {} } else { t })
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (C) -> D, \226\136\128 s : (A) -> Bool, \226\136\128 t : (C) -> Bool, IMAGE(fn { (x, y) => (f(x), g(y)) }, CROSS(s, t)) == CROSS(IMAGE(f, s), IMAGE(g, t))
+      #|  (\226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (B) -> Bool, CROSS(s, INTER(t, u)) == INTER(CROSS(s, t), CROSS(s, u))) && (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (B) -> Bool, CROSS(INTER(s, t), u) == INTER(CROSS(s, u), CROSS(t, u)))
+      #|  (\226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (B) -> Bool, CROSS(s, UNION(t, u)) == UNION(CROSS(s, t), CROSS(s, u))) && (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (B) -> Bool, CROSS(UNION(s, t), u) == UNION(CROSS(s, u), CROSS(t, u)))
+      #|  (\226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 u : (B) -> Bool, CROSS(s, DIFF(t, u)) == DIFF(CROSS(s, t), CROSS(s, u))) && (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 u : (B) -> Bool, CROSS(DIFF(s, t), u) == DIFF(CROSS(s, u), CROSS(t, u)))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 s' : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 t' : (B) -> Bool, INTER(CROSS(s, t), CROSS(s', t')) == CROSS(INTER(s, s'), INTER(t, t'))
+      #|  (\226\136\128 f : ((A) -> Bool) -> Bool, \226\136\128 g : ((B) -> Bool) -> Bool, CROSS(UNIONS(f), UNIONS(g)) == UNIONS({CROSS((s : (A) -> Bool), (t : (B) -> Bool)) | IN(s, f) && IN(t, g)})) && (\226\136\128 s : (A) -> Bool, \226\136\128 f : ((A) -> Bool) -> Bool, CROSS(s, UNIONS(f)) == UNIONS({CROSS(s, (t : (A) -> Bool)) | IN(t, f)})) && (\226\136\128 f : ((A) -> Bool) -> Bool, \226\136\128 t : (B) -> Bool, CROSS(UNIONS(f), t) == UNIONS({CROSS((s : (A) -> Bool), t) | IN(s, f)}))
+      #|  (\226\136\128 f : ((A) -> Bool) -> Bool, \226\136\128 g : ((B) -> Bool) -> Bool, CROSS(INTERS(f), INTERS(g)) == (if f == {} { INTERS({CROSS(UNIV, (t : (B) -> Bool)) | IN(t, g)}) } else { if g == {} { INTERS({CROSS((s : (A) -> Bool), UNIV) | IN(s, f)}) } else { INTERS({CROSS((s : (A) -> Bool), (t : (B) -> Bool)) | IN(s, f) && IN(t, g)}) } })) && (\226\136\128 s : (A) -> Bool, \226\136\128 f : ((A) -> Bool) -> Bool, CROSS(s, INTERS(f)) == (if f == {} { CROSS(s, UNIV) } else { INTERS({CROSS(s, (t : (A) -> Bool)) | IN(t, f)}) })) && (\226\136\128 f : ((A) -> Bool) -> Bool, \226\136\128 t : (B) -> Bool, CROSS(INTERS(f), t) == (if f == {} { CROSS(UNIV, t) } else { INTERS({CROSS((s : (A) -> Bool), t) | IN(s, f)}) }))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 s' : (A) -> Bool, \226\136\128 t' : (B) -> Bool, DISJOINT(CROSS(s, t), CROSS(s', t')) == (DISJOINT(s, s') || DISJOINT(t, t'))
       #|  (ARB : A) == select((x : A) => false)
-      #|  EXTENSIONAL s = {f:A->B | forall x. ~(x IN s) ==> f x = ARB}
-      #|  forall s f:A->B. f IN EXTENSIONAL s <=> (forall x. ~(x IN s) ==> f x = ARB)
-      #|  forall s f:A->B x. f IN EXTENSIONAL s /\\ ~(x IN s) ==> f x = ARB
+      #|  (EXTENSIONAL : ((A) -> Bool, (A) -> B) -> Bool)((s : (A) -> Bool)) == {(f : (A) -> B) | \226\136\128 x : A, !IN(x, s) \226\134\146 f(x) == ARB}
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> B, IN(f, EXTENSIONAL(s)) == (\226\136\128 x : A, !IN(x, s) \226\134\146 f(x) == ARB)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 x : A, IN(f, EXTENSIONAL(s)) && !IN(x, s) \226\134\146 f(x) == ARB
       #|  (EXTENSIONAL : ((A) -> Bool, (A) -> B) -> Bool)({}) == {(x : A) => (ARB : B)}
       #|  \226\136\128 f : (A) -> B, EXTENSIONAL(UNIV, f)
       #|  IN((x : A), (s : (A) -> Bool))
-      #|  forall s f g:A->B.\n     f IN EXTENSIONAL s /\\ g IN EXTENSIONAL s /\\ (forall x. x IN s ==> f x = g x)\n     ==> f = g
-      #|  RESTRICTION s (f:A->B) x = if x IN s then f x else ARB
-      #|  forall s (f:A->B). RESTRICTION s f = \\x. if x IN s then f x else ARB
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> B, IN(f, EXTENSIONAL(s)) && IN(g, EXTENSIONAL(s)) && (\226\136\128 x : A, IN(x, s) \226\134\146 f(x) == g(x)) \226\134\146 f == g
+      #|  (RESTRICTION : ((A) -> Bool, (A) -> B, A) -> B)((s : (A) -> Bool), (f : (A) -> B), (x : A)) == (if IN(x, s) { f(x) } else { ARB })
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> B, RESTRICTION(s, f) == ((x : A) => if IN(x, s) { f(x) } else { ARB })
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 x : A, IN(x, s) \226\134\146 RESTRICTION(s, f, x) == f(x)
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 x : A, !IN(x, s) \226\134\146 RESTRICTION(s, f, x) == ARB
-      #|  forall s f:A->B x y. x IN s /\\ f x = y ==> RESTRICTION s f x = y
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 x : A, \226\136\128 y : B, IN(x, s) && f(x) == y \226\134\146 RESTRICTION(s, f, x) == y
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> B, IN(RESTRICTION(s, f), EXTENSIONAL(s))
-      #|  forall s f g:A->B. RESTRICTION s f = RESTRICTION s g <=>\n                (forall x. x IN s ==> f x = g x)
-      #|  forall s f:A->B. RESTRICTION s f = f <=> f IN EXTENSIONAL s
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> B, (RESTRICTION(s, f) == RESTRICTION(s, g)) == (\226\136\128 x : A, IN(x, s) \226\134\146 f(x) == g(x))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> B, (RESTRICTION(s, f) == f) == IN(f, EXTENSIONAL(s))
       #|  \226\136\128 f : (A) -> B, RESTRICTION(UNIV, f) == f
-      #|  forall s t f:A->B.\n        s SUBSET t ==> RESTRICTION s (RESTRICTION t f) = RESTRICTION s f
-      #|  forall s f:A->B. RESTRICTION s (RESTRICTION s f) = RESTRICTION s f
-      #|  forall f:A->B s t. s SUBSET t ==> IMAGE (RESTRICTION t f) s = IMAGE f s
-      #|  forall f:A->B g:B->C s.\n        RESTRICTION s (g o RESTRICTION s f) =\n        RESTRICTION s (g o f)
-      #|  forall f:A->B g:B->C s t.\n        IMAGE f s SUBSET t\n        ==> RESTRICTION s (RESTRICTION t g o f) =\n            RESTRICTION s (g o f)
-      #|  forall f:A->B g:B->C s t.\n        IMAGE f s SUBSET t\n        ==> RESTRICTION s (RESTRICTION t g o RESTRICTION s f) =\n            RESTRICTION s (g o f)
-      #|  forall s (f:A->B) g.\n        RESTRICTION s f = g <=> EXTENSIONAL s g /\\ forall x. x IN s ==> f x = g x
-      #|  forall s (f:A->B) g.\n        f = RESTRICTION s g <=> EXTENSIONAL s f /\\ forall x. x IN s ==> f x = g x
-      #|  cartesian_product k s =\n        {f:K->A | EXTENSIONAL k f /\\ forall i. i IN k ==> f i IN s i}
-      #|  forall k s (x:K->A).\n        x IN cartesian_product k s <=>\n        EXTENSIONAL k x /\\ (forall i. i IN k ==> x i IN s i)
-      #|  forall k s. cartesian_product k s =\n         {f:K->A | forall i. f i IN (if i IN k then s i else {ARB})}
-      #|  forall k s (f:K->A).\n        RESTRICTION k f IN cartesian_product k s <=>\n        forall i. i IN k ==> (f i) IN (s i)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, \226\136\128 f : (A) -> B, SUBSET(s, t) \226\134\146 RESTRICTION(s, RESTRICTION(t, f)) == RESTRICTION(s, f)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> B, RESTRICTION(s, RESTRICTION(s, f)) == RESTRICTION(s, f)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, t) \226\134\146 IMAGE(RESTRICTION(t, f), s) == IMAGE(f, s)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 s : (A) -> Bool, RESTRICTION(s, o(g, RESTRICTION(s, f))) == RESTRICTION(s, o(g, f))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, SUBSET(IMAGE(f, s), t) \226\134\146 RESTRICTION(s, o(RESTRICTION(t, g), f)) == RESTRICTION(s, o(g, f))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> C, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, SUBSET(IMAGE(f, s), t) \226\134\146 RESTRICTION(s, o(RESTRICTION(t, g), RESTRICTION(s, f))) == RESTRICTION(s, o(g, f))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> B, (RESTRICTION(s, f) == g) == (EXTENSIONAL(s, g) && (\226\136\128 x : A, IN(x, s) \226\134\146 f(x) == g(x)))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 g : (A) -> B, (f == RESTRICTION(s, g)) == (EXTENSIONAL(s, f) && (\226\136\128 x : A, IN(x, s) \226\134\146 f(x) == g(x)))
+      #|  (cartesian_product : ((K) -> Bool, (K, A) -> Bool, (K) -> A) -> Bool)((k : (K) -> Bool), (s : (K, A) -> Bool)) == {(f : (K) -> A) | EXTENSIONAL(k, f) && (\226\136\128 i : K, IN(i, k) \226\134\146 IN(f(i), s(i)))}
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, \226\136\128 x : (K) -> A, IN(x, cartesian_product(k, s)) == (EXTENSIONAL(k, x) && (\226\136\128 i : K, IN(i, k) \226\134\146 IN(x(i), s(i))))
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, cartesian_product(k, s) == {(f : (K) -> A) | \226\136\128 i : K, IN(f(i), if IN(i, k) { s(i) } else { {ARB} })}
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, \226\136\128 f : (K) -> A, IN(RESTRICTION(k, f), cartesian_product(k, s)) == (\226\136\128 i : K, IN(i, k) \226\134\146 IN(f(i), s(i)))
       #|  (x : (K) -> A)
       #|  (x : (K) -> A)
-      #|  forall k (s:K->A->bool).\n      cartesian_product k s =\n      {RESTRICTION k f |f| forall i. i IN k ==> f i IN s i}
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, cartesian_product(k, s) == {RESTRICTION(k, f) | f : (K) -> A | \226\136\128 i : K, IN(i, k) \226\134\146 IN(f(i), s(i))}
       #|  (i : K) => if IN(i, (k : (K) -> Bool)) { (f : (K) -> A)(i) } else { ARB }
       #|  (f : (K) -> A)
-      #|  (?i. i IN k /\\ s i = {}) <=> ~(forall i. ?a. i IN k ==> a IN s i)
-      #|  forall k s:K->A->bool.\n        cartesian_product k s = {} <=> ?i. i IN k /\\ s i = {}
-      #|  forall(s:K->A->bool). cartesian_product {} s = {(\\i. ARB)}
+      #|  (\226\136\131 i : _, IN(i, (k : (_) -> Bool)) && (s : (_, _) -> Bool)(i) == {}) == !(\226\136\128 i : _, \226\136\131 a : _, IN(i, k) \226\134\146 IN(a, s(i)))
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, (cartesian_product(k, s) == {}) == (\226\136\131 i : K, IN(i, k) && s(i) == {})
+      #|  \226\136\128 s : (K, A) -> Bool, cartesian_product({}, s) == {(i : K) => ARB}
       #|  (k : (K) -> Bool)
-      #|  forall k s x y:K->A.\n        x IN cartesian_product k s /\\ y IN cartesian_product k s /\\\n        (forall i. i IN k ==> x i = y i)\n        ==> x = y
-      #|  forall k s x y:K->A.\n        x IN cartesian_product k s /\\\n        y IN cartesian_product k s\n        ==> (x = y <=> forall i. i IN k ==> x i = y i)
-      #|  (\\j. if j IN k then if j = i then x else z j else ARB):K->A
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, \226\136\128 x : (K) -> A, \226\136\128 y : (K) -> A, IN(x, cartesian_product(k, s)) && IN(y, cartesian_product(k, s)) && (\226\136\128 i : K, IN(i, k) \226\134\146 x(i) == y(i)) \226\134\146 x == y
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, \226\136\128 x : (K) -> A, \226\136\128 y : (K) -> A, IN(x, cartesian_product(k, s)) && IN(y, cartesian_product(k, s)) \226\134\146 (x == y) == (\226\136\128 i : K, IN(i, k) \226\134\146 x(i) == y(i))
+      #|  (j : K) => if IN(j, (k : (K) -> Bool)) { if j == (i : K) { (x : A) } else { (z : (K) -> A)(j) } } else { ARB }
       #|  (x : A)
       #|  (i : K)
       #|  (z : (K) -> A)
-      #|  ~(?i. i IN k /\\ s i = {}) <=> (forall i. ?a. i IN k ==> a IN s i)
+      #|  !(\226\136\131 i : _, IN(i, (k : (_) -> Bool)) && (s : (_, _) -> Bool)(i) == {}) == (\226\136\128 i : _, \226\136\131 a : _, IN(i, k) \226\134\146 IN(a, s(i)))
       #|  cartesian_product((k : (K) -> Bool), (s : (K, A) -> Bool)) == {}
-      #|  forall k s t:K->A->bool.\n        cartesian_product k s SUBSET cartesian_product k t <=>\n        cartesian_product k s = {} \\/ forall i. i IN k ==> s i SUBSET t i
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, \226\136\128 t : (K, A) -> Bool, SUBSET(cartesian_product(k, s), cartesian_product(k, t)) == (cartesian_product(k, s) == {} || (\226\136\128 i : K, IN(i, k) \226\134\146 SUBSET(s(i), t(i))))
       #|  cartesian_product((k : (K) -> Bool), (s : (K, A) -> Bool)) == {}
       #|  cartesian_product((k : (K) -> Bool), (t : (K, A) -> Bool)) == {}
       #|  \226\136\128 i : K, IN(i, (k : (K) -> Bool)) \226\134\146 (s : (K, A) -> Bool)(i) == (t : (K, A) -> Bool)(i)
-      #|  forall k s t:K->A->bool.\n        cartesian_product k s = cartesian_product k t <=>\n        cartesian_product k s = {} /\\ cartesian_product k t = {} \\/\n        forall i. i IN k ==> s i = t i
-      #|  forall k s t:K->A->bool.\n        (cartesian_product k s) INTER (cartesian_product k t) =\n        cartesian_product k (\\i. s i INTER t i)
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, \226\136\128 t : (K, A) -> Bool, (cartesian_product(k, s) == cartesian_product(k, t)) == (cartesian_product(k, s) == {} && cartesian_product(k, t) == {} || (\226\136\128 i : K, IN(i, k) \226\134\146 s(i) == t(i)))
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, \226\136\128 t : (K, A) -> Bool, INTER(cartesian_product(k, s), cartesian_product(k, t)) == cartesian_product(k, (i : K) => INTER(s(i), t(i)))
       #|  (cartesian_product : ((K) -> Bool, (K, A) -> Bool, (K) -> A) -> Bool)(UNIV, (i : K) => (UNIV : (A) -> Bool)) == (UNIV : ((K) -> A) -> Bool)
-      #|  forall k x:K->A. EXTENSIONAL k x ==> cartesian_product k (\\i. {x i}) = {x}
-      #|  forall k (x:K->A). cartesian_product k (\\i. {x i}) = {RESTRICTION k x}
-      #|  \\j. if j = i then x else if j IN k then (z:K->A) j else ARB
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 x : (K) -> A, EXTENSIONAL(k, x) \226\134\146 cartesian_product(k, (i : K) => {x(i)}) == {x}
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 x : (K) -> A, cartesian_product(k, (i : K) => {x(i)}) == {RESTRICTION(k, x)}
+      #|  (j : K) => if j == (i : K) { (x : A) } else { if IN(j, (k : (K) -> Bool)) { (z : (K) -> A)(j) } else { ARB } }
       #|  (z : (K) -> A)
-      #|  ~(?i. i IN k /\\ s i = {}) <=> (forall i. ?a. i IN k ==> a IN s i)
+      #|  !(\226\136\131 i : _, IN(i, (k : (_) -> Bool)) && (s : (_, _) -> Bool)(i) == {}) == (\226\136\128 i : _, \226\136\131 a : _, IN(i, k) \226\134\146 IN(a, s(i)))
       #|  (x : A)
       #|  cartesian_product((k : (K) -> Bool), (s : (K, A) -> Bool)) == {}
-      #|  forall k s:K->A->bool i.\n        IMAGE (\\x. x i) (cartesian_product k s) =\n        if cartesian_product k s = {} then {}\n        else if i IN k then s i else {ARB}
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, \226\136\128 i : K, IMAGE((x : (K) -> A) => x(i), cartesian_product(k, s)) == (if cartesian_product(k, s) == {} { {} } else { if IN(i, k) { s(i) } else { {ARB} } })
       #|  (i : K)
-      #|  \\j. if j = i then x else if j IN k then (z:K->A) j else ARB
+      #|  (j : K) => if j == (i : K) { (x : A) } else { if IN(j, (k : (K) -> Bool)) { (z : (K) -> A)(j) } else { ARB } }
       #|  (x : A)
       #|  (i : K)
       #|  (z : (K) -> A)
-      #|  ~(?i. i IN k /\\ s i = {}) <=> (forall i. ?x. i IN k ==> x IN s i)
+      #|  !(\226\136\131 i : _, IN(i, (k : (_) -> Bool)) && (s : (_, _) -> Bool)(i) == {}) == (\226\136\128 i : _, \226\136\131 x : _, IN(i, k) \226\134\146 IN(x, s(i)))
       #|  cartesian_product((k : (K) -> Bool), (s : (K, A) -> Bool)) == {}
-      #|  forall P k s:K->A->bool.\n        (forall z i. z IN cartesian_product k s /\\ i IN k ==> P i (z i)) <=>\n        cartesian_product k s = {} \\/\n        (forall i x. i IN k /\\ x IN s i ==> P i x)
-      #|  forall P k (s:K->A->bool).\n        ~(cartesian_product k s = {})\n        ==> ((forall i x. i IN k /\\ x IN s i ==> P i x) <=>\n             forall z i. z IN cartesian_product k s /\\ i IN k ==> P i (z i))
-      #|  forall P k s:K->A->bool.\n        (?z. z IN cartesian_product k s /\\ (forall i. i IN k ==> P i (z i))) <=>\n        (forall i. i IN k ==> ?x. x IN (s i) /\\ P i x)
-      #|  product_map k (f:K->A->B) = \\x. RESTRICTION k (\\i. f i (x i))
-      #|  forall(f:K->A->B) k x.\n        product_map k f (RESTRICTION k x) = RESTRICTION k (\\i. f i (x i))
+      #|  \226\136\128 P : (K, A) -> Bool, \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, (\226\136\128 z : (K) -> A, \226\136\128 i : K, IN(z, cartesian_product(k, s)) && IN(i, k) \226\134\146 P(i, z(i))) == (cartesian_product(k, s) == {} || (\226\136\128 i : K, \226\136\128 x : A, IN(i, k) && IN(x, s(i)) \226\134\146 P(i, x)))
+      #|  \226\136\128 P : (K, A) -> Bool, \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, !(cartesian_product(k, s) == {}) \226\134\146 (\226\136\128 i : K, \226\136\128 x : A, IN(i, k) && IN(x, s(i)) \226\134\146 P(i, x)) == (\226\136\128 z : (K) -> A, \226\136\128 i : K, IN(z, cartesian_product(k, s)) && IN(i, k) \226\134\146 P(i, z(i)))
+      #|  \226\136\128 P : (K, A) -> Bool, \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, (\226\136\131 z : (K) -> A, IN(z, cartesian_product(k, s)) && (\226\136\128 i : K, IN(i, k) \226\134\146 P(i, z(i)))) == (\226\136\128 i : K, IN(i, k) \226\134\146 (\226\136\131 x : A, IN(x, s(i)) && P(i, x)))
+      #|  (product_map : ((K) -> Bool, (K, A) -> B, (K) -> A, K) -> B)((k : (K) -> Bool), (f : (K, A) -> B)) == ((x : (K) -> A) => RESTRICTION(k, (i : K) => f(i, x(i))))
+      #|  \226\136\128 f : (K, A) -> B, \226\136\128 k : (K) -> Bool, \226\136\128 x : (K) -> A, product_map(k, f, RESTRICTION(k, x)) == RESTRICTION(k, (i : K) => f(i, x(i)))
       #|  (g : (K) -> B)
-      #|  forall(f:K->A->B) k s.\n        IMAGE (product_map k f) (cartesian_product k s) =\n        cartesian_product k (\\i. IMAGE (f i) (s i))
-      #|  disjoint_union (k:K->bool) (s:K->A->bool) = { (i,x) | i IN k /\\ x IN s i}
-      #|  forall k (s:K->A->bool) t.\n        disjoint_union k s SUBSET disjoint_union k t <=>\n        forall i. i IN k ==> s i SUBSET t i
-      #|  forall k (s:K->A->bool) t.\n        disjoint_union k s = disjoint_union k t <=>\n        forall i. i IN k ==> s i = t i
+      #|  \226\136\128 f : (K, A) -> B, \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, IMAGE(product_map(k, f), cartesian_product(k, s)) == cartesian_product(k, (i : K) => IMAGE(f(i), s(i)))
+      #|  (disjoint_union : ((K) -> Bool, (K, A) -> Bool, (K, A)) -> Bool)((k : (K) -> Bool), (s : (K, A) -> Bool)) == {((i : K), (x : A)) | IN(i, k) && IN(x, s(i))}
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, \226\136\128 t : (K, A) -> Bool, SUBSET(disjoint_union(k, s), disjoint_union(k, t)) == (\226\136\128 i : K, IN(i, k) \226\134\146 SUBSET(s(i), t(i)))
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, \226\136\128 t : (K, A) -> Bool, (disjoint_union(k, s) == disjoint_union(k, t)) == (\226\136\128 i : K, IN(i, k) \226\134\146 s(i) == t(i))
       #|  (i : K) => {(x : A) | IN((i, x), (u : ((K, A)) -> Bool))}
-      #|  forall k (s:K->A->bool) u.\n        u SUBSET disjoint_union k s <=>\n        ?t. u = disjoint_union k t /\\ forall i. i IN k ==> t i SUBSET s i
-      #|  forall k s t:K->A->bool.\n        (disjoint_union k s) INTER (disjoint_union k t) =\n        disjoint_union k (\\i. s i INTER t i)
-      #|  forall k s t:K->A->bool.\n        (disjoint_union k s) UNION (disjoint_union k t) =\n        disjoint_union k (\\i. s i UNION t i)
-      #|  forall k s:K->A->bool.\n        disjoint_union k s = {} <=> forall i. i IN k ==> s i = {}
-      #|  forall k s t:K->A->bool.\n        DISJOINT (disjoint_union k s) (disjoint_union k t) =\n        forall i. i IN k ==> DISJOINT (s i) (t i)
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, \226\136\128 u : ((K, A)) -> Bool, SUBSET(u, disjoint_union(k, s)) == (\226\136\131 t : (K, A) -> Bool, u == disjoint_union(k, t) && (\226\136\128 i : K, IN(i, k) \226\134\146 SUBSET(t(i), s(i))))
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, \226\136\128 t : (K, A) -> Bool, INTER(disjoint_union(k, s), disjoint_union(k, t)) == disjoint_union(k, (i : K) => INTER(s(i), t(i)))
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, \226\136\128 t : (K, A) -> Bool, UNION(disjoint_union(k, s), disjoint_union(k, t)) == disjoint_union(k, (i : K) => UNION(s(i), t(i)))
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, (disjoint_union(k, s) == {}) == (\226\136\128 i : K, IN(i, k) \226\134\146 s(i) == {})
+      #|  \226\136\128 k : (K) -> Bool, \226\136\128 s : (K, A) -> Bool, \226\136\128 t : (K, A) -> Bool, DISJOINT(disjoint_union(k, s), disjoint_union(k, t)) == (\226\136\128 i : K, IN(i, k) \226\134\146 DISJOINT(s(i), t(i)))
       #|  (x : A)
       #|  (x : A)
       #|  (a : A)
@@ -6216,17 +6216,17 @@ test "sets matches sets.ml" {
       #|  (x : A) => if IN(x, (s : (A) -> Bool)) { (f : (A) -> B)(x) } else { (d : B) }
       #|  (f : (A) -> B)((a : A))
       #|  (f : (A) -> B)
-      #|  {f:A->B | (forall x. x IN a INSERT s ==> f x IN t) /\\\n              (forall x. ~(x IN a INSERT s) ==> (f x = d))} =\n    IMAGE (\\(b,g) x. if x = a then b else g(x))\n          {b,g | b IN t /\\\n                 g IN {f | (forall x. x IN s ==> f x IN t) /\\\n                           (forall x. ~(x IN s) ==> (f x = d))}}
+      #|  {(f : (A) -> B) | (\226\136\128 x : A, IN(x, INSERT((a : A), (s : (A) -> Bool))) \226\134\146 IN(f(x), (t : (B) -> Bool))) && (\226\136\128 x : A, !IN(x, INSERT(a, s)) \226\134\146 f(x) == (d : B))} == IMAGE(fn { (b, g) => (x : A) => if x == a { b } else { g(x) } }, {((b : B), (g : (A) -> B)) | IN(b, t) && IN(g, {(f : (A) -> B) | (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t)) && (\226\136\128 x : A, !IN(x, s) \226\134\146 f(x) == d)})})
       #|  (s : (A) -> Bool)
       #|  (s : (A) -> Bool)
       #|  (a : A)
       #|  (s0 : (A) -> Bool)
       #|  (x : A) => (d : B)
-      #|  forall d n t:B->bool m s:A->bool.\n        s HAS_SIZE m /\\ t HAS_SIZE n\n        ==> {f | (forall x. x IN s ==> f(x) IN t) /\\ (forall x. ~(x IN s) ==> (f x = d))}\n            HAS_SIZE (n EXP m)
-      #|  forall s t. FINITE s /\\ FINITE t\n         ==> (CARD {f:A->B | (forall x. x IN s ==> f(x) IN t) /\\\n                             (forall x. ~(x IN s) ==> (f x = d))} =\n             (CARD t) EXP (CARD s))
-      #|  forall s t. FINITE s /\\ FINITE t\n         ==> FINITE {f:A->B | (forall x. x IN s ==> f(x) IN t) /\\\n                              (forall x. ~(x IN s) ==> (f x = d))}
-      #|  forall m n. (:A) HAS_SIZE m /\\ (:B) HAS_SIZE n ==> (:A->B) HAS_SIZE (n EXP m)
-      #|  FINITE(:A) /\\ FINITE(:B) ==> CARD(:A->B) = CARD(:B) EXP CARD(:A)
+      #|  \226\136\128 d : B, \226\136\128 n : Num, \226\136\128 t : (B) -> Bool, \226\136\128 m : Num, \226\136\128 s : (A) -> Bool, HAS_SIZE(s, m) && HAS_SIZE(t, n) \226\134\146 HAS_SIZE({(f : (A) -> B) | (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t)) && (\226\136\128 x : A, !IN(x, s) \226\134\146 f(x) == d)}, EXP(n, m))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && FINITE(t) \226\134\146 CARD({(f : (A) -> B) | (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t)) && (\226\136\128 x : A, !IN(x, s) \226\134\146 f(x) == (d : B))}) == EXP(CARD(t), CARD(s))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && FINITE(t) \226\134\146 FINITE({(f : (A) -> B) | (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t)) && (\226\136\128 x : A, !IN(x, s) \226\134\146 f(x) == (d : B))})
+      #|  \226\136\128 m : Num, \226\136\128 n : Num, (HAS_SIZE : ((A) -> Bool, Num) -> Bool)((UNIV : (A) -> Bool), m) && (HAS_SIZE : ((B) -> Bool, Num) -> Bool)((UNIV : (B) -> Bool), n) \226\134\146 (HAS_SIZE : (((A) -> B) -> Bool, Num) -> Bool)((UNIV : ((A) -> B) -> Bool), EXP(n, m))
+      #|  (FINITE : ((A) -> Bool) -> Bool)((UNIV : (A) -> Bool)) && (FINITE : ((B) -> Bool) -> Bool)((UNIV : (B) -> Bool)) \226\134\146 (CARD : (((A) -> B) -> Bool) -> Num)((UNIV : ((A) -> B) -> Bool)) == EXP((CARD : ((B) -> Bool) -> Num)((UNIV : (B) -> Bool)), (CARD : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)))
       #|  (FINITE : ((A) -> Bool) -> Bool)((UNIV : (A) -> Bool)) && (FINITE : ((B) -> Bool) -> Bool)((UNIV : (B) -> Bool)) \226\134\146 (FINITE : (((A) -> B) -> Bool) -> Bool)((UNIV : ((A) -> B) -> Bool))
       #|  UNIV == {false, true}
       #|  (HAS_SIZE : ((Bool) -> Bool, Num) -> Bool)((UNIV : (Bool) -> Bool), 2)
@@ -6234,47 +6234,47 @@ test "sets matches sets.ml" {
       #|  (FINITE : ((Bool) -> Bool) -> Bool)((UNIV : (Bool) -> Bool))
       #|  false
       #|  true
-      #|  {t | t SUBSET s} =\n    {f | (forall x:A. x IN s ==> f(x) IN UNIV) /\\ (forall x. ~(x IN s) ==> (f x = F))}
-      #|  forall(s:A->bool) n. s HAS_SIZE n ==> {t | t SUBSET s} HAS_SIZE (2 EXP n)
-      #|  forall s:A->bool. FINITE s ==> (CARD {t | t SUBSET s} = 2 EXP (CARD s))
+      #|  {(t : (A) -> Bool) | SUBSET(t, (s : (A) -> Bool))} == {(f : (A) -> Bool) | (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), UNIV)) && (\226\136\128 x : A, !IN(x, s) \226\134\146 f(x) == false)}
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 n : Num, HAS_SIZE(s, n) \226\134\146 HAS_SIZE({(t : (A) -> Bool) | SUBSET(t, s)}, EXP(2, n))
+      #|  \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 CARD({(t : (A) -> Bool) | SUBSET(t, s)}) == EXP(2, CARD(s))
       #|  \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 FINITE({(t : (A) -> Bool) | SUBSET(t, s)})
       #|  FINITE(IMAGE((x : A) => {x}, (s : (A) -> Bool)))
       #|  \226\136\128 s : (A) -> Bool, FINITE({(t : (A) -> Bool) | SUBSET(t, s)}) == FINITE(s)
       #|  {(t : (A) -> Bool) | SUBSET(t, (s : (A) -> Bool))}
-      #|  forall P s:A->bool. FINITE s ==> FINITE {t | t SUBSET s /\\ P t}
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 FINITE({(t : (A) -> Bool) | SUBSET(t, s) && P(t)})
       #|  FINITE((s : ((A) -> Bool) -> Bool))
-      #|  forall s:(A->bool)->bool.\n        FINITE(UNIONS s) <=> FINITE s /\\ (forall t. t IN s ==> FINITE t)
+      #|  \226\136\128 s : ((A) -> Bool) -> Bool, FINITE(UNIONS(s)) == (FINITE(s) && (\226\136\128 t : (A) -> Bool, IN(t, s) \226\134\146 FINITE(t)))
       #|  CARD((s : (A) -> Bool)) * (n : Num)
-      #|  forall s (t:A->B->bool) m n.\n        (forall x. x IN s ==> FINITE(t x) /\\ CARD(t x) <= n) /\\\n        FINITE s /\\ CARD s <= m\n        ==> FINITE(UNIONS {t x | x IN s}) /\\\n            CARD(UNIONS {t x | x IN s}) <= m * n
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (A, B) -> Bool, \226\136\128 m : Num, \226\136\128 n : Num, (\226\136\128 x : A, IN(x, s) \226\134\146 FINITE(t(x)) && CARD(t(x)) <= n) && FINITE(s) && CARD(s) <= m \226\134\146 FINITE(UNIONS({t((x : A)) | IN(x, s)})) && CARD(UNIONS({t((x : A)) | IN(x, s)})) <= m * n
       #|  DELETE((s : (A) -> Bool), (a : A))
       #|  IN((a : A), (s : (A) -> Bool))
       #|  (s : (A) -> Bool)
       #|  (t : (A) -> Bool)
       #|  (a : A)
-      #|  {s:A->bool | s SUBSET {}} = {{}} /\\\n   (forall a:A t. {s | s SUBSET (a INSERT t)} =\n            {s | s SUBSET t} UNION IMAGE (\\s. a INSERT s) {s | s SUBSET t})
-      #|  s = UNIONS {{x | x IN s /\\ (f:A->B) x = y} |y| y IN IMAGE f s}
+      #|  {(s : (A) -> Bool) | SUBSET(s, {})} == {{}} && (\226\136\128 a : A, \226\136\128 t : (A) -> Bool, {(s : (A) -> Bool) | SUBSET(s, INSERT(a, t))} == UNION({(s : (A) -> Bool) | SUBSET(s, t)}, IMAGE((s : (A) -> Bool) => INSERT(a, s), {(s : (A) -> Bool) | SUBSET(s, t)})))
+      #|  (s : (A) -> Bool) == UNIONS({{(x : A) | IN(x, s) && (f : (A) -> B)(x) == y} | y : B | IN(y, IMAGE(f, s))})
       #|  !((p : Bool) && (q : Bool)) == (p \226\134\146 !q)
-      #|  forall f:A->B s.\n        INFINITE s /\\ FINITE(IMAGE f s)\n        ==> ?a. a IN s /\\ INFINITE {x | x IN s /\\ f x = f a}
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, INFINITE(s) && FINITE(IMAGE(f, s)) \226\134\146 (\226\136\131 a : A, IN(a, s) && INFINITE({(x : A) | IN(x, s) && f(x) == f(a)}))
       #|  ((P : Bool) && IN((x : _), (t : (_) -> Bool))) == (SUBSET({x}, t) && P)
       #|  (x : A)
       #|  UNIONS({(t : (A) -> Bool) | SUBSET(t, (s : (A) -> Bool)) && HAS_SIZE(t, (n : Num))})
       #|  FINITE((s : (A) -> Bool))
-      #|  {x | P x /\\ Q x} = {x | x IN {y | P y} /\\ Q x}
+      #|  {(x : _) | (P : (_) -> Bool)(x) && (Q : (_) -> Bool)(x)} == {(x : _) | IN(x, {(y : _) | P(y)}) && Q(x)}
       #|  FINITE((s : (A) -> Bool))
       #|  (SUBSET((t : (_) -> Bool), (s : (_) -> Bool)) && t == {}) == (t == {})
       #|  (n : Num) == 0
-      #|  forall(s:A->bool) n.\n        FINITE {t | t SUBSET s /\\ t HAS_SIZE n} <=>\n        FINITE s \\/ n = 0
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 n : Num, FINITE({(t : (A) -> Bool) | SUBSET(t, s) && HAS_SIZE(t, n)}) == (FINITE(s) || n == 0)
       #|  (f : (A) -> B)((x : A)) == (k : (A) -> B)(x)
       #|  (x : A)
       #|  IMAGE((x : A) => (x, (f : (A) -> B)(x)), {(x : A) | !(f(x) == (k : (A) -> B)(x))})
       #|  (f : (A) -> B)
-      #|  IMAGE (\\u:(A#B)->bool x. if ?y. (x,y) IN u then @y. (x,y) IN u else k x)\n          {u | u SUBSET (s CROSS t)}
-      #|  forall s:A->bool t:B->bool k.\n        FINITE s /\\ FINITE t\n        ==> FINITE {f | IMAGE f s SUBSET t /\\ {x | ~(f x = k x)} SUBSET s}
-      #|  {i | i < 0} = {} /\\\n   (forall k. {i | i < SUC k} = k INSERT {i | i < k})
+      #|  IMAGE((u : ((A, B)) -> Bool) => (x : A) => if (\226\136\131 y : B, IN((x, y), u)) { select((y : B) => IN((x, y), u)) } else { (k : (A) -> B)(x) }, {(u : ((A, B)) -> Bool) | SUBSET(u, CROSS((s : (A) -> Bool), (t : (B) -> Bool)))})
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 k : (A) -> B, FINITE(s) && FINITE(t) \226\134\146 FINITE({(f : (A) -> B) | SUBSET(IMAGE(f, s), t) && SUBSET({(x : A) | !(f(x) == k(x))}, s)})
+      #|  {(i : Num) | i < 0} == {} && (\226\136\128 k : Num, {(i : Num) | i < SUC(k)} == INSERT(k, {(i : Num) | i < k}))
       #|  \226\136\128 n : Num, HAS_SIZE({(m : Num) | m < n}, n)
       #|  \226\136\128 n : Num, CARD({(m : Num) | m < n}) == n
       #|  \226\136\128 n : Num, FINITE({(m : Num) | m < n})
-      #|  {i | i <= 0} = {0} /\\\n   (forall k. {i | i <= SUC k} = SUC k INSERT {i | i <= k})
+      #|  {(i : Num) | i <= 0} == {0} && (\226\136\128 k : Num, {(i : Num) | i <= SUC(k)} == INSERT(SUC(k), {(i : Num) | i <= k}))
       #|  \226\136\128 n : Num, HAS_SIZE({(m : Num) | m <= n}, n + 1)
       #|  \226\136\128 n : Num, FINITE({(m : Num) | m <= n})
       #|  \226\136\128 n : Num, CARD({(m : Num) | m <= n}) == n + 1
@@ -6284,21 +6284,21 @@ test "sets matches sets.ml" {
       #|  (s : (Num) -> Bool)
       #|  \226\136\128 s : (Num) -> Bool, FINITE(s) == (\226\136\131 a : Num, \226\136\128 x : Num, IN(x, s) \226\134\146 x <= a)
       #|  \226\136\128 s : (Num) -> Bool, FINITE(s) \226\134\146 (\226\136\131 a : Num, !IN(a, s))
-      #|  forall s:num->bool. INFINITE s <=> forall N. ?n. N <= n /\\ n IN s
+      #|  \226\136\128 s : (Num) -> Bool, INFINITE(s) == (\226\136\128 N : Num, \226\136\131 n : Num, N <= n && IN(n, s))
       #|  (INFINITE : ((Num) -> Bool) -> Bool)((UNIV : (Num) -> Bool))
       #|  (LENGTH : (List[Char]) -> Num)
       #|  (INFINITE : ((List[Char]) -> Bool) -> Bool)((UNIV : (List[Char]) -> Bool))
       #|  (b : Real) <= (a : Real)
       #|  {(x : _) | (p : (_) -> Bool)(x) || (q : (_) -> Bool)(x)} == UNION({(x : _) | p(x)}, {(x : _) | q(x)})
-      #|  ~(b:real = a) ==>\n        (a <= x /\\ x <= b <=> (a < x /\\ x < b) \\/ ~(b <= a) /\\ x = a \\/\n        ~(b <= a) /\\ x = b)
+      #|  !((b : Real) == (a : Real)) \226\134\146 (a <= (x : Real) && x <= b) == (a < x && x < b || !(b <= a) && x == a || !(b <= a) && x == b)
       #|  (b : Real) == (a : Real)
-      #|  a:real < x /\\ x <= b <=> (a < x /\\ x < b) \\/ ~(b <= a) /\\ x = b
-      #|  a:real <= x /\\ x < b <=> (a < x /\\ x < b) \\/ ~(b <= a) /\\ x = a
+      #|  ((a : Real) < (x : Real) && x <= (b : Real)) == (a < x && x < b || !(b <= a) && x == b)
+      #|  ((a : Real) <= (x : Real) && x < (b : Real)) == (a < x && x < b || !(b <= a) && x == a)
       #|  {(x : Real) | (b : Real) - real_of_num(1) < x && x < b}
       #|  {(x : Real) | (b : Real) - real_of_num(1) < x && x < b}
       #|  {(x : Real) | (a : Real) < x && x < a + real_of_num(1)}
       #|  {(x : Real) | (a : Real) < x && x < a + real_of_num(1)}
-      #|  a < b ==> (a + (b - a) / (&n + &2) = a + (b - a) / (&m + &2) <=>\n                 &n:real = &m)
+      #|  (a : Real) < (b : Real) \226\134\146 (a + (b - a) / (real_of_num((n : Num)) + real_of_num(2)) == a + (b - a) / (real_of_num((m : Num)) + real_of_num(2))) == (real_of_num(n) == real_of_num(m))
       #|  real_of_num(0) < real_of_num((n : Num)) + real_of_num(1)
       #|  ((x : Real) < x * ((n : Real) + real_of_num(2))) == (real_of_num(0) < x * (n + real_of_num(1)))
       #|  real_of_num(0) < real_of_num((n : Num)) + real_of_num(2)
@@ -6306,8 +6306,8 @@ test "sets matches sets.ml" {
       #|  IMAGE((n : Num) => (a : Real) + ((b : Real) - a) / (real_of_num(n) + real_of_num(2)), UNIV)
       #|  !((a : Real) < (b : Real)) \226\134\146 !(a < (x : Real) && x < b)
       #|  (a : Real) < (b : Real)
-      #|  forall a b. FINITE {x:real | a < x /\\ x < b} <=> b <= a
-      #|  (forall a. ~FINITE {x:real | a < x}) /\\\n   (forall a. ~FINITE {x:real | a <= x}) /\\\n   (forall b. ~FINITE {x:real | x < b}) /\\\n   (forall b. ~FINITE {x:real | x <= b}) /\\\n   (forall a b. FINITE {x:real | a < x /\\ x < b} <=> b <= a) /\\\n   (forall a b. FINITE {x:real | a <= x /\\ x < b} <=> b <= a) /\\\n   (forall a b. FINITE {x:real | a < x /\\ x <= b} <=> b <= a) /\\\n   (forall a b. FINITE {x:real | a <= x /\\ x <= b} <=> b <= a)
+      #|  \226\136\128 a : Real, \226\136\128 b : Real, FINITE({(x : Real) | a < x && x < b}) == (b <= a)
+      #|  (\226\136\128 a : Real, !FINITE({(x : Real) | a < x})) && (\226\136\128 a : Real, !FINITE({(x : Real) | a <= x})) && (\226\136\128 b : Real, !FINITE({(x : Real) | x < b})) && (\226\136\128 b : Real, !FINITE({(x : Real) | x <= b})) && (\226\136\128 a : Real, \226\136\128 b : Real, FINITE({(x : Real) | a < x && x < b}) == (b <= a)) && (\226\136\128 a : Real, \226\136\128 b : Real, FINITE({(x : Real) | a <= x && x < b}) == (b <= a)) && (\226\136\128 a : Real, \226\136\128 b : Real, FINITE({(x : Real) | a < x && x <= b}) == (b <= a)) && (\226\136\128 a : Real, \226\136\128 b : Real, FINITE({(x : Real) | a <= x && x <= b}) == (b <= a))
       #|  {(x : Real) | real_of_num(0) <= x}
       #|  (INFINITE : ((Real) -> Bool) -> Bool)((UNIV : (Real) -> Bool))
       #|  (a : A) == (x : A)
@@ -6319,7 +6319,7 @@ test "sets matches sets.ml" {
       #|  (a : A)
       #|  (a : A)
       #|  (s : (A) -> Bool)
-      #|  forall s n. s HAS_SIZE n\n         ==> ?f:num->A. (forall m. m < n ==> f(m) IN s) /\\\n                        (forall x. x IN s ==> ?!m. m < n /\\ (f m = x))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 n : Num, HAS_SIZE(s, n) \226\134\146 (\226\136\131 f : (Num) -> A, (\226\136\128 m : Num, m < n \226\134\146 IN(f(m), s)) && (\226\136\128 x : A, IN(x, s) \226\134\146 existsunique((m : Num) => m < n && f(m) == x)))
       #|  0
       #|  ((r : Num) < (p : Num)) == (r + 1 <= p)
       #|  SUC((q : Num))
@@ -6332,108 +6332,108 @@ test "sets matches sets.ml" {
       #|  (m : Num) <= (n : Num) && n + 1 <= (p : Num) \226\134\146 m < p
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
       #|  (r : (Num) -> Num)
-      #|  (f(0) = next 0) /\\ (forall n. f(SUC n) = next(f n + 1))
+      #|  (f : (Num) -> Num)(0) == (next : (Num) -> Num)(0) && (\226\136\128 n : Num, f(SUC(n)) == next(f(n) + 1))
       #|  (next : (Num) -> Num)
       #|  ((p : Bool) \226\134\146 !((q : Bool) && (r : Bool))) == (q && p \226\134\146 !r)
       #|  \226\136\128 n : Num, \226\136\131 x : Num, n <= x && IN(x, (s : (Num) -> Bool))
-      #|  forall s:num->bool.\n       INFINITE s\n       ==> ?r:num->num. (forall m n. m < n ==> r(m) < r(n)) /\\\n                        IMAGE r (:num) = s
+      #|  \226\136\128 s : (Num) -> Bool, INFINITE(s) \226\134\146 (\226\136\131 r : (Num) -> Num, (\226\136\128 m : Num, \226\136\128 n : Num, m < n \226\134\146 r(m) < r(n)) && IMAGE(r, UNIV) == s)
       #|  (r : (Num) -> Num)
-      #|  forall s:num->bool.\n     INFINITE s <=> ?r. (forall m n:num. m < n ==> r m < r n) /\\ IMAGE r (:num) = s
+      #|  \226\136\128 s : (Num) -> Bool, INFINITE(s) == (\226\136\131 r : (Num) -> Num, (\226\136\128 m : Num, \226\136\128 n : Num, m < n \226\134\146 r(m) < r(n)) && IMAGE(r, UNIV) == s)
       #|  IMAGE((f : (Num) -> A), UNIV)
       #|  IMAGE((f : (Num) -> A), {(m : Num) | m < (n : Num)})
       #|  (n : Num)
       #|  (f : (Num) -> A)
-      #|  ?f:num->A. forall n. f n IN s /\\ forall m. m < n ==> ~(f m = f n)
-      #|  forall s. INFINITE s <=>\n       ?f:num->A. (forall x. f x IN s) /\\ (forall x y. f x = f y ==> x = y)
-      #|  (set_of_list ([]:A list) = {}) /\\\n   (set_of_list (CONS (h:A) t) = h INSERT (set_of_list t))
-      #|  list_of_set s = @l:A list. set_of_list l = s /\\ LENGTH l = CARD s
+      #|  \226\136\131 f : (Num) -> A, \226\136\128 n : Num, IN(f(n), (s : (A) -> Bool)) && (\226\136\128 m : Num, m < n \226\134\146 !(f(m) == f(n)))
+      #|  \226\136\128 s : (A) -> Bool, INFINITE(s) == (\226\136\131 f : (Num) -> A, (\226\136\128 x : Num, IN(f(x), s)) && (\226\136\128 x : Num, \226\136\128 y : Num, f(x) == f(y) \226\134\146 x == y))
+      #|  (set_of_list : (List[A], A) -> Bool)(NIL) == {} && set_of_list(CONS((h : A), (t : List[A]))) == INSERT(h, set_of_list(t))
+      #|  (list_of_set : ((A) -> Bool) -> List[A])((s : (A) -> Bool)) == select((l : List[A]) => set_of_list(l) == s && LENGTH(l) == CARD(s))
       #|  CONS((x : A), (l : List[A]))
       #|  (NIL : List[A])
-      #|  forall s:A->bool. FINITE(s)\n               ==> (set_of_list(list_of_set s) = s) /\\\n                   (LENGTH(list_of_set s) = CARD s)
-      #|  forall s:A->bool. FINITE(s) ==> (set_of_list(list_of_set s) = s)
-      #|  forall s:A->bool. FINITE(s) ==> (LENGTH(list_of_set s) = CARD s)
+      #|  \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 set_of_list(list_of_set(s)) == s && LENGTH(list_of_set(s)) == CARD(s)
+      #|  \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 set_of_list(list_of_set(s)) == s
+      #|  \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 LENGTH(list_of_set(s)) == CARD(s)
       #|  (l : List[A])
       #|  list_of_set((s : (A) -> Bool))
-      #|  forall s:A->bool. FINITE(s) ==> forall x. MEM x (list_of_set s) <=> x IN s
+      #|  \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 (\226\136\128 x : A, MEM(x, list_of_set(s)) == IN(x, s))
       #|  \226\136\128 l : List[A], FINITE(set_of_list(l))
       #|  \226\136\128 x : A, \226\136\128 l : List[A], IN(x, set_of_list(l)) == MEM(x, l)
-      #|  forall l1 l2:A list.\n        set_of_list(APPEND l1 l2) = set_of_list(l1) UNION set_of_list(l2)
-      #|  forall(f:A->B) l. set_of_list(MAP f l) = IMAGE f (set_of_list l)
+      #|  \226\136\128 l1 : List[A], \226\136\128 l2 : List[A], set_of_list(APPEND(l1, l2)) == UNION(set_of_list(l1), set_of_list(l2))
+      #|  \226\136\128 f : (A) -> B, \226\136\128 l : List[A], set_of_list(MAP(f, l)) == IMAGE(f, set_of_list(l))
       #|  \226\136\128 l : List[A], (set_of_list(l) == {}) == (l == NIL)
       #|  (list_of_set : ((A) -> Bool) -> List[A])(({} : (A) -> Bool)) == (NIL : List[A])
       #|  \226\136\128 a : A, list_of_set({a}) == [a]
       #|  (INSERT : (A, (A) -> Bool, A) -> Bool)
       #|  ({} : (A) -> Bool)
-      #|  pairwise r (s:A->bool) <=> forall x y. x IN s /\\ y IN s /\\ ~(x = y) ==> r x y
+      #|  (pairwise : ((A, A) -> Bool, (A) -> Bool) -> Bool)((r : (A, A) -> Bool), (s : (A) -> Bool)) == (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && !(x == y) \226\134\146 r(x, y))
       #|  \226\136\128 r : (A, A) -> Bool, pairwise(r, {}) == true
       #|  \226\136\128 r : (A, A) -> Bool, \226\136\128 x : A, pairwise(r, {x}) == true
-      #|  forall P Q s:A->bool.\n        pairwise P s /\\\n        (forall x y. x IN s /\\ y IN s /\\ P x y /\\ ~(x = y) ==> Q x y)\n        ==> pairwise Q s
-      #|  forall(r:A->A->bool) s t. pairwise r s /\\ t SUBSET s ==> pairwise r t
-      #|  forall R R' s. pairwise R s /\\ pairwise R' s <=>\n            pairwise (\\x y:A. R x y /\\ R' x y) s
-      #|  forall r x s.\n        pairwise r (x INSERT s) <=>\n        (forall y:A. y IN s /\\ ~(y = x) ==> r x y /\\ r y x) /\\\n        pairwise r s
-      #|  forall r (x:A) s.\n        (forall y. y IN s ==> (r x y <=> r y x))\n        ==> (pairwise r (x INSERT s) <=>\n             (forall y. y IN s /\\ ~(y = x) ==> r x y) /\\ pairwise r s)
-      #|  forall r (f:A->B).\n        pairwise r (IMAGE f s) <=>\n        pairwise (\\x y. ~(f x = f y) ==> r (f x) (f y)) s
-      #|  forall R s t. pairwise R (s UNION t) <=>\n           pairwise R s /\\ pairwise R t /\\\n           (forall x y:A. x IN s DIFF t /\\ y IN t DIFF s ==> R x y /\\ R y x)
-      #|  forall R:A->A->bool c.\n        (forall s. s IN c ==> pairwise R s) /\\\n        (forall s t. s IN c /\\ t IN c ==> s SUBSET t \\/ t SUBSET s)\n        ==> pairwise R (UNIONS c)
+      #|  \226\136\128 P : (A, A) -> Bool, \226\136\128 Q : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, pairwise(P, s) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && P(x, y) && !(x == y) \226\134\146 Q(x, y)) \226\134\146 pairwise(Q, s)
+      #|  \226\136\128 r : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, pairwise(r, s) && SUBSET(t, s) \226\134\146 pairwise(r, t)
+      #|  \226\136\128 R : (A, A) -> Bool, \226\136\128 R' : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, (pairwise(R, s) && pairwise(R', s)) == pairwise((x : A) => (y : A) => R(x, y) && R'(x, y), s)
+      #|  \226\136\128 r : (A, A) -> Bool, \226\136\128 x : A, \226\136\128 s : (A) -> Bool, pairwise(r, INSERT(x, s)) == ((\226\136\128 y : A, IN(y, s) && !(y == x) \226\134\146 r(x, y) && r(y, x)) && pairwise(r, s))
+      #|  \226\136\128 r : (A, A) -> Bool, \226\136\128 x : A, \226\136\128 s : (A) -> Bool, (\226\136\128 y : A, IN(y, s) \226\134\146 r(x, y) == r(y, x)) \226\134\146 pairwise(r, INSERT(x, s)) == ((\226\136\128 y : A, IN(y, s) && !(y == x) \226\134\146 r(x, y)) && pairwise(r, s))
+      #|  \226\136\128 r : (B, B) -> Bool, \226\136\128 f : (A) -> B, pairwise(r, IMAGE(f, (s : (A) -> Bool))) == pairwise((x : A) => (y : A) => !(f(x) == f(y)) \226\134\146 r(f(x), f(y)), s)
+      #|  \226\136\128 R : (A, A) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, pairwise(R, UNION(s, t)) == (pairwise(R, s) && pairwise(R, t) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, DIFF(s, t)) && IN(y, DIFF(t, s)) \226\134\146 R(x, y) && R(y, x)))
+      #|  \226\136\128 R : (A, A) -> Bool, \226\136\128 c : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, IN(s, c) \226\134\146 pairwise(R, s)) && (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, IN(s, c) && IN(t, c) \226\134\146 SUBSET(s, t) || SUBSET(t, s)) \226\134\146 pairwise(R, UNIONS(c))
       #|  UNION((t : (_) -> Bool), (u : (_) -> Bool)) == (s : (_) -> Bool) && DISJOINT(t, u) \226\134\146 DIFF(s, t) == u
-      #|  forall s t:(A->bool)->bool.\n        pairwise DISJOINT s /\\ t SUBSET s\n        ==> UNIONS s DIFF UNIONS t = UNIONS(s DIFF t)
+      #|  \226\136\128 s : ((A) -> Bool) -> Bool, \226\136\128 t : ((A) -> Bool) -> Bool, pairwise(DISJOINT, s) && SUBSET(t, s) \226\134\146 DIFF(UNIONS(s), UNIONS(t)) == UNIONS(DIFF(s, t))
       #|  (u : (A) -> Bool) == (v : (A) -> Bool)
       #|  (v : (A) -> Bool)
       #|  (u : (A) -> Bool)
       #|  (v : (A) -> Bool)
       #|  (u : (A) -> Bool)
       #|  (z : A)
-      #|  forall s t:(A->bool)->bool.\n        pairwise DISJOINT (s UNION t)\n        ==> UNIONS s INTER UNIONS t = UNIONS(s INTER t)
+      #|  \226\136\128 s : ((A) -> Bool) -> Bool, \226\136\128 t : ((A) -> Bool) -> Bool, pairwise(DISJOINT, UNION(s, t)) \226\134\146 INTER(UNIONS(s), UNIONS(t)) == UNIONS(INTER(s, t))
       #|  SUBSET((u : (_) -> Bool), (v : (_) -> Bool)) && !(DIFF(v, u) == {}) \226\134\146 PSUBSET(u, v)
-      #|  forall u v:(A->bool)->bool.\n        pairwise DISJOINT v /\\ u PSUBSET (v DELETE {})\n        ==> UNIONS u PSUBSET UNIONS v
-      #|  P UNION_OF Q =\n   \\s:A->bool. ?u. P u /\\ (forall c. c IN u ==> Q c) /\\ UNIONS u = s
-      #|  P INTERSECTION_OF Q =\n   \\s:A->bool. ?u. P u /\\ (forall c. c IN u ==> Q c) /\\ INTERS u = s
+      #|  \226\136\128 u : ((A) -> Bool) -> Bool, \226\136\128 v : ((A) -> Bool) -> Bool, pairwise(DISJOINT, v) && PSUBSET(u, DELETE(v, {})) \226\134\146 PSUBSET(UNIONS(u), UNIONS(v))
+      #|  (UNION_OF : ((((A) -> Bool) -> Bool) -> Bool, ((A) -> Bool) -> Bool, (A) -> Bool) -> Bool)((P : (((A) -> Bool) -> Bool) -> Bool), (Q : ((A) -> Bool) -> Bool)) == ((s : (A) -> Bool) => \226\136\131 u : ((A) -> Bool) -> Bool, P(u) && (\226\136\128 c : (A) -> Bool, IN(c, u) \226\134\146 Q(c)) && UNIONS(u) == s)
+      #|  (INTERSECTION_OF : ((((A) -> Bool) -> Bool) -> Bool, ((A) -> Bool) -> Bool, (A) -> Bool) -> Bool)((P : (((A) -> Bool) -> Bool) -> Bool), (Q : ((A) -> Bool) -> Bool)) == ((s : (A) -> Bool) => \226\136\131 u : ((A) -> Bool) -> Bool, P(u) && (\226\136\128 c : (A) -> Bool, IN(c, u) \226\134\146 Q(c)) && INTERS(u) == s)
       #|  {(s : (A) -> Bool)}
       #|  \226\136\128 P : (((A) -> Bool) -> Bool) -> Bool, \226\136\128 Q : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, P({s}) && Q(s) \226\134\146 UNION_OF(P, Q, s)
       #|  {(s : (A) -> Bool)}
-      #|  forall P Q s:A->bool. P {s} /\\ Q s ==> (P INTERSECTION_OF Q) s
-      #|  forall P Q Q' s:A->bool.\n        (P UNION_OF Q) s /\\ (forall x. Q x ==> Q' x) ==> (P UNION_OF Q') s
-      #|  forall P Q Q' s:A->bool.\n        (P INTERSECTION_OF Q) s /\\ (forall x. Q x ==> Q' x)\n        ==> (P INTERSECTION_OF Q') s
-      #|  (forall s:A->bool. (P UNION_OF Q) s ==> R s) <=>\n   (forall t. P t /\\ (forall c. c IN t ==> Q c) ==> R(UNIONS t))
-      #|  (forall s:A->bool. (P INTERSECTION_OF Q) s ==> R s) <=>\n   (forall t. P t /\\ (forall c. c IN t ==> Q c) ==> R(INTERS t))
+      #|  \226\136\128 P : (((A) -> Bool) -> Bool) -> Bool, \226\136\128 Q : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, P({s}) && Q(s) \226\134\146 INTERSECTION_OF(P, Q, s)
+      #|  \226\136\128 P : (((A) -> Bool) -> Bool) -> Bool, \226\136\128 Q : ((A) -> Bool) -> Bool, \226\136\128 Q' : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, UNION_OF(P, Q, s) && (\226\136\128 x : (A) -> Bool, Q(x) \226\134\146 Q'(x)) \226\134\146 UNION_OF(P, Q', s)
+      #|  \226\136\128 P : (((A) -> Bool) -> Bool) -> Bool, \226\136\128 Q : ((A) -> Bool) -> Bool, \226\136\128 Q' : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, INTERSECTION_OF(P, Q, s) && (\226\136\128 x : (A) -> Bool, Q(x) \226\134\146 Q'(x)) \226\134\146 INTERSECTION_OF(P, Q', s)
+      #|  (\226\136\128 s : (A) -> Bool, UNION_OF((P : (((A) -> Bool) -> Bool) -> Bool), (Q : ((A) -> Bool) -> Bool), s) \226\134\146 (R : ((A) -> Bool) -> Bool)(s)) == (\226\136\128 t : ((A) -> Bool) -> Bool, P(t) && (\226\136\128 c : (A) -> Bool, IN(c, t) \226\134\146 Q(c)) \226\134\146 R(UNIONS(t)))
+      #|  (\226\136\128 s : (A) -> Bool, INTERSECTION_OF((P : (((A) -> Bool) -> Bool) -> Bool), (Q : ((A) -> Bool) -> Bool), s) \226\134\146 (R : ((A) -> Bool) -> Bool)(s)) == (\226\136\128 t : ((A) -> Bool) -> Bool, P(t) && (\226\136\128 c : (A) -> Bool, IN(c, t) \226\134\146 Q(c)) \226\134\146 R(INTERS(t)))
       #|  ({} : ((A) -> Bool) -> Bool)
       #|  \226\136\128 P : (((A) -> Bool) -> Bool) -> Bool, \226\136\128 Q : ((A) -> Bool) -> Bool, P({}) \226\134\146 UNION_OF(P, Q, {})
       #|  ({} : ((A) -> Bool) -> Bool)
-      #|  forall P Q:(A->bool)->bool. P {} ==> (P INTERSECTION_OF Q) UNIV
+      #|  \226\136\128 P : (((A) -> Bool) -> Bool) -> Bool, \226\136\128 Q : ((A) -> Bool) -> Bool, P({}) \226\134\146 INTERSECTION_OF(P, Q, UNIV)
       #|  (ARBITRARY : (((A) -> Bool) -> Bool) -> Bool)((s : ((A) -> Bool) -> Bool)) == true
       #|  {(u : (A) -> Bool) | IN(u, (B : ((A) -> Bool) -> Bool)) && SUBSET(u, (s : (A) -> Bool))}
       #|  (s : (A) -> Bool)
-      #|  (p <=> q) <=> (p ==> q) /\\ (q ==> p)
-      #|  forall B s:A->bool.\n        (ARBITRARY UNION_OF B) s <=>\n        forall x. x IN s ==>  ?u. u IN B /\\ x IN u /\\ u SUBSET s
+      #|  ((p : Bool) == (q : Bool)) == ((p \226\134\146 q) && (q \226\134\146 p))
+      #|  \226\136\128 B : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, UNION_OF(ARBITRARY, B, s) == (\226\136\128 x : A, IN(x, s) \226\134\146 (\226\136\131 u : (A) -> Bool, IN(u, B) && IN(x, u) && SUBSET(u, s)))
       #|  \226\136\128 P : ((A) -> Bool) -> Bool, UNION_OF(ARBITRARY, P, {})
-      #|  forall P:(A->bool)->bool. (ARBITRARY INTERSECTION_OF P) UNIV
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, INTERSECTION_OF(ARBITRARY, P, UNIV)
       #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, P(s) \226\134\146 UNION_OF(ARBITRARY, P, s)
-      #|  forall P s:A->bool. P s ==> (ARBITRARY INTERSECTION_OF P) s
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, P(s) \226\134\146 INTERSECTION_OF(ARBITRARY, P, s)
       #|  {(f : (_) -> _)((y : _)) | IN(y, IMAGE((g : (_) -> _), (s : (_) -> Bool)))} == IMAGE((x : _) => f(g(x)), s)
       #|  IMAGE((c : (A) -> Bool) => DIFF(UNIV, c), (u : ((A) -> Bool) -> Bool))
       #|  (u : ((A) -> Bool) -> Bool)
-      #|  forall P s. (ARBITRARY UNION_OF P) s <=>\n         (ARBITRARY INTERSECTION_OF (\\s. P((:A) DIFF s))) ((:A) DIFF s)
-      #|  forall P s. (ARBITRARY INTERSECTION_OF P) s <=>\n         (ARBITRARY UNION_OF (\\s. P((:A) DIFF s))) ((:A) DIFF s)
-      #|  IMAGE SND {s,t | s IN u /\\ t IN (f:(A->bool)->(A->bool)->bool) s}
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, UNION_OF(ARBITRARY, P, s) == INTERSECTION_OF(ARBITRARY, (s : (A) -> Bool) => P(DIFF(UNIV, s)), DIFF(UNIV, s))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, INTERSECTION_OF(ARBITRARY, P, s) == UNION_OF(ARBITRARY, (s : (A) -> Bool) => P(DIFF(UNIV, s)), DIFF(UNIV, s))
+      #|  IMAGE(SND, {((s : (A) -> Bool), (t : (A) -> Bool)) | IN(s, (u : ((A) -> Bool) -> Bool)) && IN(t, (f : ((A) -> Bool, (A) -> Bool) -> Bool)(s))})
       #|  (f : ((A) -> Bool, (A) -> Bool) -> Bool)
       #|  (u : ((A) -> Bool) -> Bool)
       #|  (s : (A) -> Bool)
-      #|  forall P:(A->bool)->bool.\n        ARBITRARY UNION_OF ARBITRARY UNION_OF P = ARBITRARY UNION_OF P
-      #|  forall P:(A->bool)->bool.\n        ARBITRARY INTERSECTION_OF ARBITRARY INTERSECTION_OF P =\n        ARBITRARY INTERSECTION_OF P
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, UNION_OF(ARBITRARY, UNION_OF(ARBITRARY, P)) == UNION_OF(ARBITRARY, P)
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, INTERSECTION_OF(ARBITRARY, INTERSECTION_OF(ARBITRARY, P)) == INTERSECTION_OF(ARBITRARY, P)
       #|  (u : ((A) -> Bool) -> Bool)
-      #|  forall P u:(A->bool)->bool.\n        (forall s. s IN u ==> (ARBITRARY UNION_OF P) s)\n        ==> (ARBITRARY UNION_OF P) (UNIONS u)
-      #|  forall P s t:A->bool.\n        (ARBITRARY UNION_OF P) s /\\ (ARBITRARY UNION_OF P) t\n        ==> (ARBITRARY UNION_OF P) (s UNION t)
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 u : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, IN(s, u) \226\134\146 UNION_OF(ARBITRARY, P, s)) \226\134\146 UNION_OF(ARBITRARY, P, UNIONS(u))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, UNION_OF(ARBITRARY, P, s) && UNION_OF(ARBITRARY, P, t) \226\134\146 UNION_OF(ARBITRARY, P, UNION(s, t))
       #|  (u : ((A) -> Bool) -> Bool)
-      #|  forall P u:(A->bool)->bool.\n        (forall s. s IN u ==> (ARBITRARY INTERSECTION_OF P) s)\n        ==> (ARBITRARY INTERSECTION_OF P) (INTERS u)
-      #|  forall P s t:A->bool.\n        (ARBITRARY INTERSECTION_OF P) s /\\ (ARBITRARY INTERSECTION_OF P) t\n        ==> (ARBITRARY INTERSECTION_OF P) (s INTER t)
-      #|  forall P:(A->bool)->bool.\n        (forall s t. (ARBITRARY UNION_OF P) s /\\ (ARBITRARY UNION_OF P) t\n               ==> (ARBITRARY UNION_OF P) (s INTER t)) <=>\n        (forall s t. P s /\\ P t ==> (ARBITRARY UNION_OF P) (s INTER t))
-      #|  forall P:(A->bool)->bool.\n        (forall s t. P s /\\ P t ==> P(s INTER t))\n        ==> (forall s t. (ARBITRARY UNION_OF P) s /\\ (ARBITRARY UNION_OF P) t\n                   ==> (ARBITRARY UNION_OF P) (s INTER t))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 u : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, IN(s, u) \226\134\146 INTERSECTION_OF(ARBITRARY, P, s)) \226\134\146 INTERSECTION_OF(ARBITRARY, P, INTERS(u))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INTERSECTION_OF(ARBITRARY, P, s) && INTERSECTION_OF(ARBITRARY, P, t) \226\134\146 INTERSECTION_OF(ARBITRARY, P, INTER(s, t))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, UNION_OF(ARBITRARY, P, s) && UNION_OF(ARBITRARY, P, t) \226\134\146 UNION_OF(ARBITRARY, P, INTER(s, t))) == (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 UNION_OF(ARBITRARY, P, INTER(s, t)))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 P(INTER(s, t))) \226\134\146 (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, UNION_OF(ARBITRARY, P, s) && UNION_OF(ARBITRARY, P, t) \226\134\146 UNION_OF(ARBITRARY, P, INTER(s, t)))
       #|  (\226\136\128 s : (_) -> Bool, (P : ((_) -> Bool) -> Bool)(DIFF(UNIV, s))) == (\226\136\128 s : (_) -> Bool, P(s))
-      #|  s INTER t = UNIV DIFF ((UNIV DIFF s) UNION (UNIV DIFF t))
+      #|  INTER((s : (_) -> Bool), (t : (_) -> Bool)) == DIFF(UNIV, UNION(DIFF(UNIV, s), DIFF(UNIV, t)))
       #|  (\226\136\128 s : (_) -> Bool, (P : ((_) -> Bool) -> Bool)(DIFF(UNIV, s))) == (\226\136\128 s : (_) -> Bool, P(s))
-      #|  UNIV DIFF (s UNION t) = (UNIV DIFF s) INTER (UNIV DIFF t)
-      #|  forall P:(A->bool)->bool.\n        (forall s t. (ARBITRARY INTERSECTION_OF P) s /\\\n               (ARBITRARY INTERSECTION_OF P) t\n               ==> (ARBITRARY INTERSECTION_OF P) (s UNION t)) <=>\n        (forall s t. P s /\\ P t ==> (ARBITRARY INTERSECTION_OF P) (s UNION t))
-      #|  forall P:(A->bool)->bool.\n        (forall s t. P s /\\ P t ==> P(s UNION t))\n        ==> (forall s t. (ARBITRARY INTERSECTION_OF P) s /\\\n                   (ARBITRARY INTERSECTION_OF P) t\n                   ==> (ARBITRARY INTERSECTION_OF P) (s UNION t))
+      #|  DIFF(UNIV, UNION((s : (_) -> Bool), (t : (_) -> Bool))) == INTER(DIFF(UNIV, s), DIFF(UNIV, t))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INTERSECTION_OF(ARBITRARY, P, s) && INTERSECTION_OF(ARBITRARY, P, t) \226\134\146 INTERSECTION_OF(ARBITRARY, P, UNION(s, t))) == (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 INTERSECTION_OF(ARBITRARY, P, UNION(s, t)))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 P(UNION(s, t))) \226\134\146 (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INTERSECTION_OF(ARBITRARY, P, s) && INTERSECTION_OF(ARBITRARY, P, t) \226\134\146 INTERSECTION_OF(ARBITRARY, P, UNION(s, t)))
       #|  \226\136\128 P : ((A) -> Bool) -> Bool, UNION_OF(FINITE, P, {})
       #|  \226\136\128 P : ((A) -> Bool) -> Bool, INTERSECTION_OF(FINITE, P, UNIV)
       #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, P(s) \226\134\146 UNION_OF(FINITE, P, s)
@@ -6441,48 +6441,48 @@ test "sets matches sets.ml" {
       #|  {(f : (_) -> _)((y : _)) | IN(y, IMAGE((g : (_) -> _), (s : (_) -> Bool)))} == IMAGE((x : _) => f(g(x)), s)
       #|  IMAGE((c : (A) -> Bool) => DIFF(UNIV, c), (u : ((A) -> Bool) -> Bool))
       #|  (u : ((A) -> Bool) -> Bool)
-      #|  forall P s. (FINITE UNION_OF P) s <=>\n         (FINITE INTERSECTION_OF (\\s. P((:A) DIFF s))) ((:A) DIFF s)
-      #|  forall P s. (FINITE INTERSECTION_OF P) s <=>\n         (FINITE UNION_OF (\\s. P((:A) DIFF s))) ((:A) DIFF s)
-      #|  IMAGE SND {s,t | s IN u /\\ t IN (f:(A->bool)->(A->bool)->bool) s}
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, UNION_OF(FINITE, P, s) == INTERSECTION_OF(FINITE, (s : (A) -> Bool) => P(DIFF(UNIV, s)), DIFF(UNIV, s))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, INTERSECTION_OF(FINITE, P, s) == UNION_OF(FINITE, (s : (A) -> Bool) => P(DIFF(UNIV, s)), DIFF(UNIV, s))
+      #|  IMAGE(SND, {((s : (A) -> Bool), (t : (A) -> Bool)) | IN(s, (u : ((A) -> Bool) -> Bool)) && IN(t, (f : ((A) -> Bool, (A) -> Bool) -> Bool)(s))})
       #|  (f : ((A) -> Bool, (A) -> Bool) -> Bool)
       #|  (u : ((A) -> Bool) -> Bool)
       #|  (s : (A) -> Bool)
-      #|  forall P:(A->bool)->bool.\n        FINITE UNION_OF FINITE UNION_OF P = FINITE UNION_OF P
-      #|  forall P:(A->bool)->bool.\n        FINITE INTERSECTION_OF FINITE INTERSECTION_OF P =\n        FINITE INTERSECTION_OF P
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, UNION_OF(FINITE, UNION_OF(FINITE, P)) == UNION_OF(FINITE, P)
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, INTERSECTION_OF(FINITE, INTERSECTION_OF(FINITE, P)) == INTERSECTION_OF(FINITE, P)
       #|  (u : ((A) -> Bool) -> Bool)
-      #|  forall P u:(A->bool)->bool.\n        FINITE u /\\ (forall s. s IN u ==> (FINITE UNION_OF P) s)\n        ==> (FINITE UNION_OF P) (UNIONS u)
-      #|  forall P s t:A->bool.\n        (FINITE UNION_OF P) s /\\ (FINITE UNION_OF P) t\n        ==> (FINITE UNION_OF P) (s UNION t)
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 u : ((A) -> Bool) -> Bool, FINITE(u) && (\226\136\128 s : (A) -> Bool, IN(s, u) \226\134\146 UNION_OF(FINITE, P, s)) \226\134\146 UNION_OF(FINITE, P, UNIONS(u))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, UNION_OF(FINITE, P, s) && UNION_OF(FINITE, P, t) \226\134\146 UNION_OF(FINITE, P, UNION(s, t))
       #|  (u : ((A) -> Bool) -> Bool)
-      #|  forall P u:(A->bool)->bool.\n        FINITE u /\\ (forall s. s IN u ==> (FINITE INTERSECTION_OF P) s)\n        ==> (FINITE INTERSECTION_OF P) (INTERS u)
-      #|  forall P s t:A->bool.\n        (FINITE INTERSECTION_OF P) s /\\ (FINITE INTERSECTION_OF P) t\n        ==> (FINITE INTERSECTION_OF P) (s INTER t)
-      #|  forall P:(A->bool)->bool.\n        (forall s t. (FINITE UNION_OF P) s /\\ (FINITE UNION_OF P) t\n                   ==> (FINITE UNION_OF P) (s INTER t)) <=>\n        (forall s t. P s /\\ P t ==> (FINITE UNION_OF P) (s INTER t))
-      #|  forall P:(A->bool)->bool.\n        (forall s t. P s /\\ P t ==> P(s INTER t))\n        ==> (forall s t. (FINITE UNION_OF P) s /\\ (FINITE UNION_OF P) t\n                   ==> (FINITE UNION_OF P) (s INTER t))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 u : ((A) -> Bool) -> Bool, FINITE(u) && (\226\136\128 s : (A) -> Bool, IN(s, u) \226\134\146 INTERSECTION_OF(FINITE, P, s)) \226\134\146 INTERSECTION_OF(FINITE, P, INTERS(u))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INTERSECTION_OF(FINITE, P, s) && INTERSECTION_OF(FINITE, P, t) \226\134\146 INTERSECTION_OF(FINITE, P, INTER(s, t))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, UNION_OF(FINITE, P, s) && UNION_OF(FINITE, P, t) \226\134\146 UNION_OF(FINITE, P, INTER(s, t))) == (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 UNION_OF(FINITE, P, INTER(s, t)))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 P(INTER(s, t))) \226\134\146 (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, UNION_OF(FINITE, P, s) && UNION_OF(FINITE, P, t) \226\134\146 UNION_OF(FINITE, P, INTER(s, t)))
       #|  (\226\136\128 s : (_) -> Bool, (P : ((_) -> Bool) -> Bool)(DIFF(UNIV, s))) == (\226\136\128 s : (_) -> Bool, P(s))
-      #|  s INTER t = UNIV DIFF ((UNIV DIFF s) UNION (UNIV DIFF t))
+      #|  INTER((s : (_) -> Bool), (t : (_) -> Bool)) == DIFF(UNIV, UNION(DIFF(UNIV, s), DIFF(UNIV, t)))
       #|  (\226\136\128 s : (_) -> Bool, (P : ((_) -> Bool) -> Bool)(DIFF(UNIV, s))) == (\226\136\128 s : (_) -> Bool, P(s))
-      #|  UNIV DIFF (s UNION t) = (UNIV DIFF s) INTER (UNIV DIFF t)
-      #|  forall P:(A->bool)->bool.\n        (forall s t. (FINITE INTERSECTION_OF P) s /\\\n               (FINITE INTERSECTION_OF P) t\n               ==> (FINITE INTERSECTION_OF P) (s UNION t)) <=>\n        (forall s t. P s /\\ P t ==> (FINITE INTERSECTION_OF P) (s UNION t))
-      #|  forall P:(A->bool)->bool.\n        (forall s t. P s /\\ P t ==> P(s UNION t))\n        ==> (forall s t. (FINITE INTERSECTION_OF P) s /\\\n                   (FINITE INTERSECTION_OF P) t\n                   ==> (FINITE INTERSECTION_OF P) (s UNION t))
+      #|  DIFF(UNIV, UNION((s : (_) -> Bool), (t : (_) -> Bool))) == INTER(DIFF(UNIV, s), DIFF(UNIV, t))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INTERSECTION_OF(FINITE, P, s) && INTERSECTION_OF(FINITE, P, t) \226\134\146 INTERSECTION_OF(FINITE, P, UNION(s, t))) == (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 INTERSECTION_OF(FINITE, P, UNION(s, t)))
+      #|  \226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, P(s) && P(t) \226\134\146 P(UNION(s, t))) \226\134\146 (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, INTERSECTION_OF(FINITE, P, s) && INTERSECTION_OF(FINITE, P, t) \226\134\146 INTERSECTION_OF(FINITE, P, UNION(s, t)))
       #|  \226\136\128 l : List[A], CARD(set_of_list(l)) <= LENGTH(l)
       #|  !(SUC((n : Num)) <= n)
-      #|  forall l. (set_of_list l) HAS_SIZE (LENGTH l) <=> PAIRWISE (\\x y:A. ~(x = y)) l
+      #|  \226\136\128 l : List[A], HAS_SIZE(set_of_list(l), LENGTH(l)) == PAIRWISE((x : A) => (y : A) => !(x == y), l)
       #|  IMAGE((f : (A) -> B), (s : (A) -> Bool)) == (t : (B) -> Bool)
       #|  ((x : Num) - 1 < x) == !(x == 0)
       #|  CARD(DELETE((s : (A) -> Bool), (y : A)))
       #|  CARD((s : (A) -> Bool)) <= CARD(IMAGE((f : (A) -> B), DELETE(s, (y : A))))
       #|  (x : A) == (y : A)
-      #|  forall s t f:A->B.\n        FINITE s /\\ FINITE t /\\ (CARD s = CARD t) /\\ (IMAGE f s) SUBSET t\n        ==> ((forall y. y IN t ==> ?x. x IN s /\\ (f x = y)) <=>\n             (forall x y. x IN s /\\ y IN s /\\ (f x = f y) ==> (x = y)))
-      #|  forall s f:A->A.\n        FINITE s /\\ (IMAGE f s) SUBSET s\n        ==> ((forall y. y IN s ==> ?x. x IN s /\\ (f x = y)) <=>\n             (forall x y. x IN s /\\ y IN s /\\ (f x = f y) ==> (x = y)))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 f : (A) -> B, FINITE(s) && FINITE(t) && CARD(s) == CARD(t) && SUBSET(IMAGE(f, s), t) \226\134\146 (\226\136\128 y : B, IN(y, t) \226\134\146 (\226\136\131 x : A, IN(x, s) && f(x) == y)) == (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> A, FINITE(s) && SUBSET(IMAGE(f, s), s) \226\134\146 (\226\136\128 y : A, IN(y, s) \226\134\146 (\226\136\131 x : A, IN(x, s) && f(x) == y)) == (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y)
       #|  (f : (A) -> B)
       #|  (t : (B) -> Bool)
       #|  (s : (A) -> Bool)
-      #|  forall s t f:A->B.\n        FINITE s /\\ (CARD s = CARD t) /\\ (IMAGE f s = t)\n        ==> forall x y. x IN s /\\ y IN s /\\ (f x = f y) ==> (x = y)
-      #|  forall s f:A->A.\n        FINITE s /\\ IMAGE f s = s\n        ==> forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 f : (A) -> B, FINITE(s) && CARD(s) == CARD(t) && IMAGE(f, s) == t \226\134\146 (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> A, FINITE(s) && IMAGE(f, s) == s \226\134\146 (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y)
       #|  (f : (A) -> B)
       #|  (t : (B) -> Bool)
       #|  (s : (A) -> Bool)
-      #|  {x | x IN t /\\ P x} = IMAGE (f:A->B) {x | x IN s /\\ P(f x)}
-      #|  forall(f:A->B) s t P n.\n      FINITE s /\\ FINITE t /\\ CARD s = CARD t /\\\n      IMAGE f s SUBSET t /\\\n      (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y) /\\\n      {x | x IN s /\\ P(f x)} HAS_SIZE n\n      ==> {x | x IN t /\\ P x} HAS_SIZE n
+      #|  {(x : B) | IN(x, (t : (B) -> Bool)) && (P : (B) -> Bool)(x)} == IMAGE((f : (A) -> B), {(x : A) | IN(x, (s : (A) -> Bool)) && P(f(x))})
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 P : (B) -> Bool, \226\136\128 n : Num, FINITE(s) && FINITE(t) && CARD(s) == CARD(t) && SUBSET(IMAGE(f, s), t) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y) && HAS_SIZE({(x : A) | IN(x, s) && P(f(x))}, n) \226\134\146 HAS_SIZE({(x : B) | IN(x, t) && P(x)}, n)
       #|  (z : A) => if z == (x : A) { (y : B) } else { (f : (A) -> B)(z) }
       #|  (f : (A) -> B)
       #|  (t : (B) -> Bool)
@@ -6490,30 +6490,30 @@ test "sets matches sets.ml" {
       #|  (y : B)
       #|  (s : (A) -> Bool)
       #|  (x : A)
-      #|  forall s t. FINITE s /\\ FINITE t /\\ CARD s <= CARD t\n   ==> ?f:A->B. (IMAGE f s) SUBSET t /\\\n                forall x y. x IN s /\\ y IN s /\\ (f x = f y) ==> (x = y)
-      #|  (forall P. (forall x:A. x IN {} ==> P x) <=> T) /\\\n   (forall P a s. (forall x:A. x IN (a INSERT s) ==> P x) <=> P a /\\ (forall x. x IN s ==> P x))
-      #|  (forall P. (?x:A. x IN {} /\\ P x) <=> F) /\\\n   (forall P a s. (?x:A. x IN (a INSERT s) /\\ P x) <=> P a \\/ (?x. x IN s /\\ P x))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && FINITE(t) && CARD(s) <= CARD(t) \226\134\146 (\226\136\131 f : (A) -> B, SUBSET(IMAGE(f, s), t) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y))
+      #|  (\226\136\128 P : (A) -> Bool, (\226\136\128 x : A, IN(x, {}) \226\134\146 P(x)) == true) && (\226\136\128 P : (A) -> Bool, \226\136\128 a : A, \226\136\128 s : (A) -> Bool, (\226\136\128 x : A, IN(x, INSERT(a, s)) \226\134\146 P(x)) == (P(a) && (\226\136\128 x : A, IN(x, s) \226\134\146 P(x))))
+      #|  (\226\136\128 P : (A) -> Bool, (\226\136\131 x : A, IN(x, {}) && P(x)) == false) && (\226\136\128 P : (A) -> Bool, \226\136\128 a : A, \226\136\128 s : (A) -> Bool, (\226\136\131 x : A, IN(x, INSERT(a, s)) && P(x)) == (P(a) || (\226\136\131 x : A, IN(x, s) && P(x))))
       #|  {(y : A)}
       #|  {(x : A)}
       #|  (y : A)
       #|  (x : A)
-      #|  forall f:A->B u.\n    (forall s t. s SUBSET u /\\ t SUBSET u /\\ IMAGE f s = IMAGE f t ==> s = t) <=>\n    (forall x y. x IN u /\\ y IN u /\\ f x = f y ==> x = y)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 u : (A) -> Bool, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, SUBSET(s, u) && SUBSET(t, u) && IMAGE(f, s) == IMAGE(f, t) \226\134\146 s == t) == (\226\136\128 x : A, \226\136\128 y : A, IN(x, u) && IN(y, u) && f(x) == f(y) \226\134\146 x == y)
       #|  (UNIV : (A) -> Bool)
       #|  (f : (A) -> B)
-      #|  forall f:A->B.\n    (forall s t. IMAGE f s = IMAGE f t ==> s = t) <=> (forall x y. f x = f y ==> x = y)
+      #|  \226\136\128 f : (A) -> B, (\226\136\128 s : (A) -> Bool, \226\136\128 t : (A) -> Bool, IMAGE(f, s) == IMAGE(f, t) \226\134\146 s == t) == (\226\136\128 x : A, \226\136\128 y : A, f(x) == f(y) \226\134\146 x == y)
       #|  {(x : A) | IN(x, (u : (A) -> Bool)) && IN((f : (A) -> B)(x), (t : (B) -> Bool))}
       #|  (t : (B) -> Bool)
       #|  {(y : B)}
       #|  (y : B)
-      #|  forall f:A->B u v.\n        (forall t. t SUBSET v ==> ?s. s SUBSET u /\\ IMAGE f s = t) <=>\n        (forall y. y IN v ==> ?x. x IN u /\\ f x = y)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 u : (A) -> Bool, \226\136\128 v : (B) -> Bool, (\226\136\128 t : (B) -> Bool, SUBSET(t, v) \226\134\146 (\226\136\131 s : (A) -> Bool, SUBSET(s, u) && IMAGE(f, s) == t)) == (\226\136\128 y : B, IN(y, v) \226\134\146 (\226\136\131 x : A, IN(x, u) && f(x) == y))
       #|  (UNIV : (B) -> Bool)
       #|  (UNIV : (A) -> Bool)
       #|  (f : (A) -> B)
-      #|  forall f:A->B. (forall t. ?s. IMAGE f s = t) <=> (forall y. ?x. f x = y)
+      #|  \226\136\128 f : (A) -> B, (\226\136\128 t : (B) -> Bool, \226\136\131 s : (A) -> Bool, IMAGE(f, s) == t) == (\226\136\128 y : B, \226\136\131 x : A, f(x) == y)
       #|  ({} : (B) -> Bool)
       #|  {(y : B)}
       #|  (y : B)
-      #|  forall f:A->B s u.\n        (forall t t'. t SUBSET u /\\ t' SUBSET u /\\\n                {x | x IN s /\\ f x IN t} = {x | x IN s /\\ f x IN t'}\n                ==> t = t') <=>\n        u SUBSET IMAGE f s
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 u : (B) -> Bool, (\226\136\128 t : (B) -> Bool, \226\136\128 t' : (B) -> Bool, SUBSET(t, u) && SUBSET(t', u) && {(x : A) | IN(x, s) && IN(f(x), t)} == {(x : A) | IN(x, s) && IN(f(x), t')} \226\134\146 t == t') == SUBSET(u, IMAGE(f, s))
       #|  IMAGE((f : (A) -> B), (k : (A) -> Bool))
       #|  (k : (A) -> Bool)
       #|  {(x : A)}
@@ -6521,152 +6521,152 @@ test "sets matches sets.ml" {
       #|  (x : A)
       #|  {(x : A)}
       #|  (x : A)
-      #|  forall f:A->B s u.\n        (forall k. k SUBSET s\n             ==> ?t. t SUBSET u /\\ {x | x IN s /\\ f x IN t} = k) <=>\n        IMAGE f s SUBSET u /\\\n        (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y)
+      #|  \226\136\128 f : (A) -> B, \226\136\128 s : (A) -> Bool, \226\136\128 u : (B) -> Bool, (\226\136\128 k : (A) -> Bool, SUBSET(k, s) \226\134\146 (\226\136\131 t : (B) -> Bool, SUBSET(t, u) && {(x : A) | IN(x, s) && IN(f(x), t)} == k)) == (SUBSET(IMAGE(f, s), u) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y))
       #|  (UNIV : (B) -> Bool)
       #|  (UNIV : (A) -> Bool)
       #|  (f : (A) -> B)
-      #|  forall f:A->B.\n        (forall t t'. {x | f x IN t} = {x | f x IN t'} ==> t = t') <=>\n        IMAGE f UNIV = UNIV
+      #|  \226\136\128 f : (A) -> B, (\226\136\128 t : (B) -> Bool, \226\136\128 t' : (B) -> Bool, {(x : A) | IN(f(x), t)} == {(x : A) | IN(f(x), t')} \226\134\146 t == t') == (IMAGE(f, UNIV) == UNIV)
       #|  (UNIV : (B) -> Bool)
       #|  (UNIV : (A) -> Bool)
       #|  (f : (A) -> B)
-      #|  forall f:A->B. (forall k. ?t. {x | f x IN t} = k) <=> (forall x y. f x = f y ==> x = y)
-      #|  forall s t. FINITE s /\\ FINITE t /\\ CARD s = CARD t\n   ==> ?f:A->B. (forall x. x IN s ==> f(x) IN t) /\\\n                (forall y. y IN t ==> ?x. x IN s /\\ f x = y) /\\\n                forall x y. x IN s /\\ y IN s /\\ (f x = f y) ==> (x = y)
-      #|  forall s t. FINITE s /\\ FINITE t /\\ CARD s = CARD t\n   ==> ?f:A->B g. (forall x. x IN s ==> f(x) IN t /\\ g(f x) = x) /\\\n                  (forall y. y IN t ==> g(y) IN s /\\ f(g y) = y)
+      #|  \226\136\128 f : (A) -> B, (\226\136\128 k : (A) -> Bool, \226\136\131 t : (B) -> Bool, {(x : A) | IN(f(x), t)} == k) == (\226\136\128 x : A, \226\136\128 y : A, f(x) == f(y) \226\134\146 x == y)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && FINITE(t) && CARD(s) == CARD(t) \226\134\146 (\226\136\131 f : (A) -> B, (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t)) && (\226\136\128 y : B, IN(y, t) \226\134\146 (\226\136\131 x : A, IN(x, s) && f(x) == y)) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, FINITE(s) && FINITE(t) && CARD(s) == CARD(t) \226\134\146 (\226\136\131 f : (A) -> B, \226\136\131 g : (B) -> A, (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t) && g(f(x)) == x) && (\226\136\128 y : B, IN(y, t) \226\134\146 IN(g(y), s) && f(g(y)) == y))
       #|  (y : B) => if y == (b : B) { (a : A) } else { (g : (B) -> A)(y) }
       #|  (x : A) => if x == (a : A) { (b : B) } else { (f : (A) -> B)(x) }
       #|  (g : (B) -> A)
       #|  (f : (A) -> B)
       #|  DELETE((t : (B) -> Bool), (b : B))
       #|  DELETE((s : (A) -> Bool), (a : A))
-      #|  forall s t (a:A) (b:B).\n         FINITE s /\\ FINITE t /\\ CARD s = CARD t /\\ a IN s /\\ b IN t\n         ==> ?f g. f a = b /\\ g b = a /\\\n                   (forall x. x IN s ==> f x IN t /\\ g (f x) = x) /\\\n                   (forall y. y IN t ==> g y IN s /\\ f (g y) = y)
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 a : A, \226\136\128 b : B, FINITE(s) && FINITE(t) && CARD(s) == CARD(t) && IN(a, s) && IN(b, t) \226\134\146 (\226\136\131 f : (A) -> B, \226\136\131 g : (B) -> A, f(a) == b && g(b) == a && (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t) && g(f(x)) == x) && (\226\136\128 y : B, IN(y, t) \226\134\146 IN(g(y), s) && f(g(y)) == y))
       #|  (t : (B) -> Bool) == IMAGE((f : (A) -> B), (s : (A) -> Bool))
-      #|  forall s t f:A->B g.\n        (forall x. x IN s ==> f(x) IN t /\\ g(f x) = x) /\\\n        (forall y. y IN t ==> g(y) IN s /\\ f(g y) = y) /\\\n        s HAS_SIZE n\n        ==> t HAS_SIZE n
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> A, (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t) && g(f(x)) == x) && (\226\136\128 y : B, IN(y, t) \226\134\146 IN(g(y), s) && f(g(y)) == y) && HAS_SIZE(s, (n : Num)) \226\134\146 HAS_SIZE(t, n)
       #|  (f : (A) -> B)
       #|  (g : (B) -> A)
       #|  (g : (B) -> A)
       #|  (f : (A) -> B)
       #|  ((a : Bool) && (b : Bool) && (c : Bool) \226\134\146 (d : Bool)) == (a && b \226\134\146 c \226\134\146 d)
-      #|  forall s t f:A->B g.\n        (forall x. x IN s ==> f(x) IN t /\\ g(f x) = x) /\\\n        (forall y. y IN t ==> g(y) IN s /\\ f(g y) = y)\n        ==> forall n. s HAS_SIZE n <=> t HAS_SIZE n
-      #|  forall s t f:A->B g.\n        (FINITE s \\/ FINITE t) /\\\n        (forall x. x IN s ==> f(x) IN t /\\ g(f x) = x) /\\\n        (forall y. y IN t ==> g(y) IN s /\\ f(g y) = y)\n        ==> CARD s = CARD t
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> A, (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t) && g(f(x)) == x) && (\226\136\128 y : B, IN(y, t) \226\134\146 IN(g(y), s) && f(g(y)) == y) \226\134\146 (\226\136\128 n : Num, HAS_SIZE(s, n) == HAS_SIZE(t, n))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 g : (B) -> A, (FINITE(s) || FINITE(t)) && (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t) && g(f(x)) == x) && (\226\136\128 y : B, IN(y, t) \226\134\146 IN(g(y), s) && f(g(y)) == y) \226\134\146 CARD(s) == CARD(t)
       #|  INSERT((s : (Num) -> A)(0), {(y : A) | (op_lt_lt : (A, A) -> Bool)(y, s(0))})
       #|  (UNIV : (Num) -> Bool)
       #|  (s : (Num) -> A)
       #|  \226\136\128 m : Num, \226\136\128 n : Num, m < n \226\134\146 (op_lt_lt : (A, A) -> Bool)((s : (Num) -> A)(n), s(m))
       #|  (s : (Num) -> A)
-      #|  forall(<<). (forall x. ~(x << x)) /\\ (forall x y z. x << y /\\ y << z ==> x << z) /\\\n          (forall x:A. FINITE {y | y << x})\n          ==> WF(<<)
+      #|  \226\136\128 `<<` : (A, A) -> Bool, (\226\136\128 x : A, !`<<`(x, x)) && (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, `<<`(x, y) && `<<`(y, z) \226\134\146 `<<`(x, z)) && (\226\136\128 x : A, FINITE({(y : A) | `<<`(y, x)})) \226\134\146 WF(`<<`)
       #|  {(t : (A) -> Bool) | SUBSET(t, (s : (A) -> Bool))}
       #|  (t : (A) -> Bool)
-      #|  forall s:A->bool. FINITE s ==> WF (\\t1 t2. t1 PSUBSET t2 /\\ t2 SUBSET s)
-      #|  s <=_c t <=>\n   ?f:A->B. (forall x. x IN s ==> f(x) IN t) /\\\n            (forall x y. x IN s /\\ y IN s /\\ f(x) = f(y) ==> x = y)
-      #|  (s:A->bool) <_c (t:B->bool) <=> s <=_c t /\\ ~(t <=_c s)
-      #|  (s:A->bool) =_c (t:B->bool) <=>\n   ?f. (forall x. x IN s ==> f(x) IN t) /\\\n       forall y. y IN t ==> ?!x. x IN s /\\ (f x = y)
+      #|  \226\136\128 s : (A) -> Bool, FINITE(s) \226\134\146 WF((t1 : (A) -> Bool) => (t2 : (A) -> Bool) => PSUBSET(t1, t2) && SUBSET(t2, s))
+      #|  (op_lt_eq_us_c : ((A) -> Bool, (B) -> Bool) -> Bool)((s : (A) -> Bool), (t : (B) -> Bool)) == (\226\136\131 f : (A) -> B, (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t)) && (\226\136\128 x : A, \226\136\128 y : A, IN(x, s) && IN(y, s) && f(x) == f(y) \226\134\146 x == y))
+      #|  (op_lt_us_c : ((A) -> Bool, (B) -> Bool) -> Bool)((s : (A) -> Bool), (t : (B) -> Bool)) == (op_lt_eq_us_c(s, t) && !op_lt_eq_us_c(t, s))
+      #|  (op_eq_us_c : ((A) -> Bool, (B) -> Bool) -> Bool)((s : (A) -> Bool), (t : (B) -> Bool)) == (\226\136\131 f : (A) -> B, (\226\136\128 x : A, IN(x, s) \226\134\146 IN(f(x), t)) && (\226\136\128 y : B, IN(y, t) \226\134\146 existsunique((x : A) => IN(x, s) && f(x) == y)))
       #|  (op_gt_eq_us_c : ((A) -> Bool, (B) -> Bool) -> Bool)((s : (A) -> Bool), (t : (B) -> Bool)) == op_lt_eq_us_c(t, s)
       #|  (op_gt_us_c : ((A) -> Bool, (B) -> Bool) -> Bool)((s : (A) -> Bool), (t : (B) -> Bool)) == op_lt_us_c(t, s)
-      #|  forall s t. s <=_c t <=> ?g:A->B. forall x. x IN s ==> ?y. y IN t /\\ g y = x
-      #|  forall s t. s >=_c t <=> ?f:A->B. forall y. y IN t ==> ?x. x IN s /\\ (y = f x)
+      #|  \226\136\128 s : (B) -> Bool, \226\136\128 t : (A) -> Bool, op_lt_eq_us_c(s, t) == (\226\136\131 g : (A) -> B, \226\136\128 x : B, IN(x, s) \226\134\146 (\226\136\131 y : A, IN(y, t) && g(y) == x))
+      #|  \226\136\128 s : (A) -> Bool, \226\136\128 t : (B) -> Bool, op_gt_eq_us_c(s, t) == (\226\136\131 f : (A) -> B, \226\136\128 y : B, IN(y, t) \226\134\146 (\226\136\131 x : A, IN(x, s) && y == f(x)))
       #|  (COUNTABLE : ((A) -> Bool) -> Bool)((t : (A) -> Bool)) == (op_gt_eq_us_c : ((Num) -> Bool, (A) -> Bool) -> Bool)((UNIV : (Num) -> Bool), t)
-      #|  sup s = @a:real. (forall x. x IN s ==> x <= a) /\\\n                    forall b. (forall x. x IN s ==> x <= b) ==> a <= b
-      #|  forall s t. (forall b. (forall x. x IN s ==> x <= b) <=> (forall x. x IN t ==> x <= b))\n         ==> sup s = sup t
-      #|  forall s. ~(s = {}) /\\ (?b. forall x. x IN s ==> x <= b)\n       ==> (forall x. x IN s ==> x <= sup s) /\\\n           forall b. (forall x. x IN s ==> x <= b) ==> sup s <= b
-      #|  forall s. FINITE s /\\ ~(s = {}) ==> ?b:real. b IN s /\\ forall x. x IN s ==> x <= b
-      #|  forall s. FINITE s /\\ ~(s = {}) ==> (sup s) IN s /\\ forall x. x IN s ==> x <= sup s
-      #|  forall s a. FINITE s /\\ ~(s = {}) ==> (a <= sup s <=> ?x. x IN s /\\ a <= x)
-      #|  forall s a. FINITE s /\\ ~(s = {}) ==> (sup s <= a <=> forall x. x IN s ==> x <= a)
-      #|  forall s a. FINITE s /\\ ~(s = {}) ==> (a < sup s <=> ?x. x IN s /\\ a < x)
-      #|  forall s a. FINITE s /\\ ~(s = {}) ==> (sup s < a <=> forall x. x IN s ==> x < a)
-      #|  forall s b. (forall x. x IN s ==> x <= b) /\\\n         (forall b'. b' < b ==> ?x. x IN s /\\ b' < x)\n         ==> sup s = b
-      #|  forall b. ~(s = {}) /\\ (forall x. x IN s ==> x <= b) ==> sup s <= b
+      #|  (sup : ((Real) -> Bool) -> Real)((s : (Real) -> Bool)) == select((a : Real) => (\226\136\128 x : Real, IN(x, s) \226\134\146 x <= a) && (\226\136\128 b : Real, (\226\136\128 x : Real, IN(x, s) \226\134\146 x <= b) \226\134\146 a <= b))
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 t : (Real) -> Bool, (\226\136\128 b : Real, (\226\136\128 x : Real, IN(x, s) \226\134\146 x <= b) == (\226\136\128 x : Real, IN(x, t) \226\134\146 x <= b)) \226\134\146 sup(s) == sup(t)
+      #|  \226\136\128 s : (Real) -> Bool, !(s == {}) && (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 x <= b) \226\134\146 (\226\136\128 x : Real, IN(x, s) \226\134\146 x <= sup(s)) && (\226\136\128 b : Real, (\226\136\128 x : Real, IN(x, s) \226\134\146 x <= b) \226\134\146 sup(s) <= b)
+      #|  \226\136\128 s : (Real) -> Bool, FINITE(s) && !(s == {}) \226\134\146 (\226\136\131 b : Real, IN(b, s) && (\226\136\128 x : Real, IN(x, s) \226\134\146 x <= b))
+      #|  \226\136\128 s : (Real) -> Bool, FINITE(s) && !(s == {}) \226\134\146 IN(sup(s), s) && (\226\136\128 x : Real, IN(x, s) \226\134\146 x <= sup(s))
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, FINITE(s) && !(s == {}) \226\134\146 (a <= sup(s)) == (\226\136\131 x : Real, IN(x, s) && a <= x)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, FINITE(s) && !(s == {}) \226\134\146 (sup(s) <= a) == (\226\136\128 x : Real, IN(x, s) \226\134\146 x <= a)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, FINITE(s) && !(s == {}) \226\134\146 (a < sup(s)) == (\226\136\131 x : Real, IN(x, s) && a < x)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, FINITE(s) && !(s == {}) \226\134\146 (sup(s) < a) == (\226\136\128 x : Real, IN(x, s) \226\134\146 x < a)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 b : Real, (\226\136\128 x : Real, IN(x, s) \226\134\146 x <= b) && (\226\136\128 b' : Real, b' < b \226\134\146 (\226\136\131 x : Real, IN(x, s) && b' < x)) \226\134\146 sup(s) == b
+      #|  \226\136\128 b : Real, !((s : (Real) -> Bool) == {}) && (\226\136\128 x : Real, IN(x, s) \226\134\146 x <= b) \226\134\146 sup(s) <= b
       #|  (t : (Real) -> Bool)
-      #|  forall s t. ~(s = {}) /\\ s SUBSET t /\\ (?b. forall x. x IN t ==> x <= b)\n         ==> sup s <= sup t
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 t : (Real) -> Bool, !(s == {}) && SUBSET(s, t) && (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, t) \226\134\146 x <= b) \226\134\146 sup(s) <= sup(t)
       #|  (s : (Real) -> Bool)
-      #|  forall s a b. ~(s = {}) /\\ (forall x. x IN s ==> a <= x /\\ x <= b)\n           ==> a <= sup s /\\ sup s <= b
-      #|  forall s a. ~(s = {}) /\\ (forall x. x IN s ==> abs(x) <= a) ==> abs(sup s) <= a
-      #|  abs(x - l):real <= e <=> l - e <= x /\\ x <= l + e
-      #|  forall s l e. ~(s = {}) /\\ (forall x. x IN s ==> abs(x - l) <= e)\n           ==> abs(sup s - l) <= e
-      #|  forall s. FINITE s /\\ ~(s = {})\n       ==> (sup s = a <=> a IN s /\\ forall y. y IN s ==> y <= a)
-      #|  forall x s. FINITE s ==> sup(x INSERT s) = if s = {} then x else max x (sup s)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, \226\136\128 b : Real, !(s == {}) && (\226\136\128 x : Real, IN(x, s) \226\134\146 a <= x && x <= b) \226\134\146 a <= sup(s) && sup(s) <= b
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, !(s == {}) && (\226\136\128 x : Real, IN(x, s) \226\134\146 abs(x) <= a) \226\134\146 abs(sup(s)) <= a
+      #|  (abs((x : Real) - (l : Real)) <= (e : Real)) == (l - e <= x && x <= l + e)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 l : Real, \226\136\128 e : Real, !(s == {}) && (\226\136\128 x : Real, IN(x, s) \226\134\146 abs(x - l) <= e) \226\134\146 abs(sup(s) - l) <= e
+      #|  \226\136\128 s : (Real) -> Bool, FINITE(s) && !(s == {}) \226\134\146 (sup(s) == (a : Real)) == (IN(a, s) && (\226\136\128 y : Real, IN(y, s) \226\134\146 y <= a))
+      #|  \226\136\128 x : Real, \226\136\128 s : (Real) -> Bool, FINITE(s) \226\134\146 sup(INSERT(x, s)) == (if s == {} { x } else { max(x, sup(s)) })
       #|  \226\136\128 a : Real, sup({a}) == a
       #|  \226\136\128 x : Real, IN(x, (s : (Real) -> Bool)) \226\134\146 x <= (c : Real)
       #|  (c : Real)
-      #|  forall a b s. sup (b INSERT a INSERT s) = sup (max a b INSERT s)
-      #|  forall s a b y. y IN s /\\ a <= y /\\ (forall x. x IN s ==> x <= b) ==> a <= sup s
-      #|  forall s y. ~(s = {}) /\\ (?b. forall x. x IN s ==> x <= b)\n         ==> (sup s <= y <=> forall x. x IN s ==> x <= y)
-      #|  forall s b. (forall c. (forall x. x IN s ==> x <= c) <=> b <= c) ==> sup s = b
-      #|  forall s t. ~(s = {}) /\\ ~(t = {}) /\\\n         (?b. forall x. x IN s ==> x <= b) /\\ (?c. forall x. x IN t ==> x <= c)\n         ==> sup(s UNION t) = max (sup s) (sup t)
-      #|  forall s a. (?b. forall x. x IN s ==> x <= b) /\\ a IN s ==> a <= sup s
-      #|  forall s c. ~(s = {}) /\\ (?b. forall x. x IN s ==> x <= b) /\\ c < sup s\n         ==> ?x. x IN s /\\ c < x
+      #|  \226\136\128 a : Real, \226\136\128 b : Real, \226\136\128 s : (Real) -> Bool, sup(INSERT(b, INSERT(a, s))) == sup(INSERT(max(a, b), s))
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, \226\136\128 b : Real, \226\136\128 y : Real, IN(y, s) && a <= y && (\226\136\128 x : Real, IN(x, s) \226\134\146 x <= b) \226\134\146 a <= sup(s)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 y : Real, !(s == {}) && (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 x <= b) \226\134\146 (sup(s) <= y) == (\226\136\128 x : Real, IN(x, s) \226\134\146 x <= y)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 b : Real, (\226\136\128 c : Real, (\226\136\128 x : Real, IN(x, s) \226\134\146 x <= c) == (b <= c)) \226\134\146 sup(s) == b
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 t : (Real) -> Bool, !(s == {}) && !(t == {}) && (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 x <= b) && (\226\136\131 c : Real, \226\136\128 x : Real, IN(x, t) \226\134\146 x <= c) \226\134\146 sup(UNION(s, t)) == max(sup(s), sup(t))
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 x <= b) && IN(a, s) \226\134\146 a <= sup(s)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 c : Real, !(s == {}) && (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 x <= b) && c < sup(s) \226\134\146 (\226\136\131 x : Real, IN(x, s) && c < x)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, max(x, y) == sup({x, y})
-      #|  inf s = @a:real. (forall x. x IN s ==> a <= x) /\\\n                    forall b. (forall x. x IN s ==> b <= x) ==> b <= a
-      #|  forall s t. (forall a. (forall x. x IN s ==> a <= x) <=> (forall x. x IN t ==> a <= x))\n         ==> inf s = inf t
+      #|  (inf : ((Real) -> Bool) -> Real)((s : (Real) -> Bool)) == select((a : Real) => (\226\136\128 x : Real, IN(x, s) \226\134\146 a <= x) && (\226\136\128 b : Real, (\226\136\128 x : Real, IN(x, s) \226\134\146 b <= x) \226\134\146 b <= a))
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 t : (Real) -> Bool, (\226\136\128 a : Real, (\226\136\128 x : Real, IN(x, s) \226\134\146 a <= x) == (\226\136\128 x : Real, IN(x, t) \226\134\146 a <= x)) \226\134\146 inf(s) == inf(t)
       #|  (a : Real) == sup(IMAGE(op_minus_minus, (s : (Real) -> Bool)))
       #|  IMAGE(op_minus_minus, (s : (Real) -> Bool))
       #|  -sup(IMAGE(op_minus_minus, (s : (Real) -> Bool)))
-      #|  forall s. ~(s = {}) /\\ (?b. forall x. x IN s ==> b <= x)\n       ==> (forall x. x IN s ==> inf s <= x) /\\\n           forall b. (forall x. x IN s ==> b <= x) ==> b <= inf s
-      #|  forall s. FINITE s /\\ ~(s = {}) ==> ?b:real. b IN s /\\ forall x. x IN s ==> b <= x
-      #|  forall s. FINITE s /\\ ~(s = {}) ==> (inf s) IN s /\\ forall x. x IN s ==> inf s <= x
-      #|  forall s a. FINITE s /\\ ~(s = {}) ==> (a <= inf s <=> forall x. x IN s ==> a <= x)
-      #|  forall s a. FINITE s /\\ ~(s = {}) ==> (inf s <= a <=> ?x. x IN s /\\ x <= a)
-      #|  forall s a. FINITE s /\\ ~(s = {}) ==> (a < inf s <=> forall x. x IN s ==> a < x)
-      #|  forall s a. FINITE s /\\ ~(s = {}) ==> (inf s < a <=> ?x. x IN s /\\ x < a)
-      #|  forall s b. (forall x. x IN s ==> b <= x) /\\\n         (forall b'. b < b' ==> ?x. x IN s /\\ x < b')\n         ==> inf s = b
-      #|  forall b. ~(s = {}) /\\ (forall x. x IN s ==> b <= x) ==> b <= inf s
+      #|  \226\136\128 s : (Real) -> Bool, !(s == {}) && (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 b <= x) \226\134\146 (\226\136\128 x : Real, IN(x, s) \226\134\146 inf(s) <= x) && (\226\136\128 b : Real, (\226\136\128 x : Real, IN(x, s) \226\134\146 b <= x) \226\134\146 b <= inf(s))
+      #|  \226\136\128 s : (Real) -> Bool, FINITE(s) && !(s == {}) \226\134\146 (\226\136\131 b : Real, IN(b, s) && (\226\136\128 x : Real, IN(x, s) \226\134\146 b <= x))
+      #|  \226\136\128 s : (Real) -> Bool, FINITE(s) && !(s == {}) \226\134\146 IN(inf(s), s) && (\226\136\128 x : Real, IN(x, s) \226\134\146 inf(s) <= x)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, FINITE(s) && !(s == {}) \226\134\146 (a <= inf(s)) == (\226\136\128 x : Real, IN(x, s) \226\134\146 a <= x)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, FINITE(s) && !(s == {}) \226\134\146 (inf(s) <= a) == (\226\136\131 x : Real, IN(x, s) && x <= a)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, FINITE(s) && !(s == {}) \226\134\146 (a < inf(s)) == (\226\136\128 x : Real, IN(x, s) \226\134\146 a < x)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, FINITE(s) && !(s == {}) \226\134\146 (inf(s) < a) == (\226\136\131 x : Real, IN(x, s) && x < a)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 b : Real, (\226\136\128 x : Real, IN(x, s) \226\134\146 b <= x) && (\226\136\128 b' : Real, b < b' \226\134\146 (\226\136\131 x : Real, IN(x, s) && x < b')) \226\134\146 inf(s) == b
+      #|  \226\136\128 b : Real, !((s : (Real) -> Bool) == {}) && (\226\136\128 x : Real, IN(x, s) \226\134\146 b <= x) \226\134\146 b <= inf(s)
       #|  (s : (Real) -> Bool)
-      #|  forall s t. ~(t = {}) /\\ t SUBSET s /\\ (?b. forall x. x IN s ==> b <= x)\n         ==> inf s <= inf t
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 t : (Real) -> Bool, !(t == {}) && SUBSET(t, s) && (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 b <= x) \226\134\146 inf(s) <= inf(t)
       #|  (s : (Real) -> Bool)
-      #|  forall s a b. ~(s = {}) /\\ (forall x. x IN s ==> a <= x /\\ x <= b)\n           ==> a <= inf s /\\ inf s <= b
-      #|  forall s a. ~(s = {}) /\\ (forall x. x IN s ==> abs(x) <= a) ==> abs(inf s) <= a
-      #|  abs(x - l):real <= e <=> l - e <= x /\\ x <= l + e
-      #|  forall s l e. ~(s = {}) /\\ (forall x. x IN s ==> abs(x - l) <= e)\n           ==> abs(inf s - l) <= e
-      #|  forall s. FINITE s /\\ ~(s = {})\n       ==> (inf s = a <=> a IN s /\\ forall y. y IN s ==> a <= y)
-      #|  forall x s. FINITE s ==> inf(x INSERT s) = if s = {} then x else min x (inf s)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, \226\136\128 b : Real, !(s == {}) && (\226\136\128 x : Real, IN(x, s) \226\134\146 a <= x && x <= b) \226\134\146 a <= inf(s) && inf(s) <= b
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, !(s == {}) && (\226\136\128 x : Real, IN(x, s) \226\134\146 abs(x) <= a) \226\134\146 abs(inf(s)) <= a
+      #|  (abs((x : Real) - (l : Real)) <= (e : Real)) == (l - e <= x && x <= l + e)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 l : Real, \226\136\128 e : Real, !(s == {}) && (\226\136\128 x : Real, IN(x, s) \226\134\146 abs(x - l) <= e) \226\134\146 abs(inf(s) - l) <= e
+      #|  \226\136\128 s : (Real) -> Bool, FINITE(s) && !(s == {}) \226\134\146 (inf(s) == (a : Real)) == (IN(a, s) && (\226\136\128 y : Real, IN(y, s) \226\134\146 a <= y))
+      #|  \226\136\128 x : Real, \226\136\128 s : (Real) -> Bool, FINITE(s) \226\134\146 inf(INSERT(x, s)) == (if s == {} { x } else { min(x, inf(s)) })
       #|  \226\136\128 a : Real, inf({a}) == a
       #|  \226\136\128 x : Real, IN(x, (s : (Real) -> Bool)) \226\134\146 (c : Real) <= x
       #|  (c : Real)
-      #|  forall a b s. inf (b INSERT a INSERT s) = inf (min a b INSERT s)
+      #|  \226\136\128 a : Real, \226\136\128 b : Real, \226\136\128 s : (Real) -> Bool, inf(INSERT(b, INSERT(a, s))) == inf(INSERT(min(a, b), s))
       #|  !((s : (_) -> Bool) == {}) && (\226\136\128 x : _, IN(x, s) \226\134\146 x == (a : _)) \226\134\146 s == {a}
       #|  sup((s : (Real) -> Bool))
-      #|  forall s. ~(s = {}) /\\ (?B. forall x. x IN s ==> abs(x) <= B)\n       ==> (sup s = inf s <=> ?a. s = {a})
-      #|  forall s a b y. y IN s /\\ y <= b /\\ (forall x. x IN s ==> a <= x) ==> inf s <= b
-      #|  forall s y. ~(s = {}) /\\ (?b. forall x. x IN s ==> b <= x)\n         ==> (y <= inf s <=> forall x. x IN s ==> y <= x)
-      #|  forall s b. (forall c. (forall x. x IN s ==> c <= x) <=> c <= b) ==> inf s = b
-      #|  forall s t. ~(s = {}) /\\ ~(t = {}) /\\\n         (?b. forall x. x IN s ==> b <= x) /\\ (?c. forall x. x IN t ==> c <= x)\n         ==> inf(s UNION t) = min (inf s) (inf t)
-      #|  forall s a. (?b. forall x. x IN s ==> b <= x) /\\ a IN s ==> inf s <= a
-      #|  forall s c. ~(s = {}) /\\ (?b. forall x. x IN s ==> b <= x) /\\ inf s < c\n         ==> ?x. x IN s /\\ x < c
+      #|  \226\136\128 s : (Real) -> Bool, !(s == {}) && (\226\136\131 B : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 abs(x) <= B) \226\134\146 (sup(s) == inf(s)) == (\226\136\131 a : Real, s == {a})
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, \226\136\128 b : Real, \226\136\128 y : Real, IN(y, s) && y <= b && (\226\136\128 x : Real, IN(x, s) \226\134\146 a <= x) \226\134\146 inf(s) <= b
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 y : Real, !(s == {}) && (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 b <= x) \226\134\146 (y <= inf(s)) == (\226\136\128 x : Real, IN(x, s) \226\134\146 y <= x)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 b : Real, (\226\136\128 c : Real, (\226\136\128 x : Real, IN(x, s) \226\134\146 c <= x) == (c <= b)) \226\134\146 inf(s) == b
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 t : (Real) -> Bool, !(s == {}) && !(t == {}) && (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 b <= x) && (\226\136\131 c : Real, \226\136\128 x : Real, IN(x, t) \226\134\146 c <= x) \226\134\146 inf(UNION(s, t)) == min(inf(s), inf(t))
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 a : Real, (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 b <= x) && IN(a, s) \226\134\146 inf(s) <= a
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 c : Real, !(s == {}) && (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 b <= x) && inf(s) < c \226\134\146 (\226\136\131 x : Real, IN(x, s) && x < c)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, min(x, y) == inf({x, y})
-      #|  s has_inf b <=> (forall c. (forall x:real. x IN s ==> c <= x) <=> c <= b)
-      #|  s has_sup b <=> (forall c. (forall x:real. x IN s ==> x <= c) <=> b <= c)
+      #|  (has_inf : ((Real) -> Bool, Real) -> Bool)((s : (Real) -> Bool), (b : Real)) == (\226\136\128 c : Real, (\226\136\128 x : Real, IN(x, s) \226\134\146 c <= x) == (c <= b))
+      #|  (has_sup : ((Real) -> Bool, Real) -> Bool)((s : (Real) -> Bool), (b : Real)) == (\226\136\128 c : Real, (\226\136\128 x : Real, IN(x, s) \226\134\146 x <= c) == (b <= c))
       #|  \226\136\128 s : (Real) -> Bool, \226\136\128 b : Real, \226\136\128 x : Real, has_inf(s, b) && IN(x, s) \226\134\146 b <= x
       #|  \226\136\128 s : (Real) -> Bool, \226\136\128 b : Real, \226\136\128 x : Real, has_sup(s, b) && IN(x, s) \226\134\146 x <= b
       #|  (l : Real)
       #|  (s : (Real) -> Bool)
       #|  (l : Real) + real_of_num(1)
-      #|  forall s l. s has_inf l <=>\n         ~(s = {}) /\\\n         (?b. forall x. x IN s ==> b <= x) /\\\n         inf s = l
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 l : Real, has_inf(s, l) == (!(s == {}) && (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 b <= x) && inf(s) == l)
       #|  (l : Real)
       #|  (s : (Real) -> Bool)
       #|  (l : Real) - real_of_num(1)
-      #|  forall s l. s has_sup l <=>\n         ~(s = {}) /\\\n         (?b. forall x. x IN s ==> x <= b) /\\\n         sup s = l
-      #|  forall s. (?l. s has_inf l) <=> ~(s = {}) /\\ (?b. forall x. x IN s ==> b <= x)
-      #|  forall s. (?l. s has_sup l) <=> ~(s = {}) /\\ (?b. forall x. x IN s ==> x <= b)
-      #|  forall s l c. s has_inf l /\\ l < c ==> ?x. x IN s /\\ x < c
-      #|  forall s l c. s has_sup l /\\ c < l ==> ?x. x IN s /\\ c < x
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 l : Real, has_sup(s, l) == (!(s == {}) && (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 x <= b) && sup(s) == l)
+      #|  \226\136\128 s : (Real) -> Bool, (\226\136\131 l : Real, has_inf(s, l)) == (!(s == {}) && (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 b <= x))
+      #|  \226\136\128 s : (Real) -> Bool, (\226\136\131 l : Real, has_sup(s, l)) == (!(s == {}) && (\226\136\131 b : Real, \226\136\128 x : Real, IN(x, s) \226\134\146 x <= b))
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 l : Real, \226\136\128 c : Real, has_inf(s, l) && l < c \226\134\146 (\226\136\131 x : Real, IN(x, s) && x < c)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 l : Real, \226\136\128 c : Real, has_sup(s, l) && c < l \226\134\146 (\226\136\131 x : Real, IN(x, s) && c < x)
       #|  (l : Real)
       #|  ((l : Real) + (c : Real)) / real_of_num(2)
-      #|  forall s l. s has_inf l <=>\n         ~(s = {}) /\\\n         (forall x. x IN s ==> l <= x) /\\\n         (forall c. l < c ==> ?x. x IN s /\\ x < c)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 l : Real, has_inf(s, l) == (!(s == {}) && (\226\136\128 x : Real, IN(x, s) \226\134\146 l <= x) && (\226\136\128 c : Real, l < c \226\134\146 (\226\136\131 x : Real, IN(x, s) && x < c)))
       #|  (l : Real)
       #|  ((l : Real) + (c : Real)) / real_of_num(2)
-      #|  forall s l. s has_sup l <=>\n         ~(s = {}) /\\\n         (forall x. x IN s ==> x <= l) /\\\n         (forall c. c < l ==> ?x. x IN s /\\ c < x)
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 l : Real, has_sup(s, l) == (!(s == {}) && (\226\136\128 x : Real, IN(x, s) \226\134\146 x <= l) && (\226\136\128 c : Real, c < l \226\134\146 (\226\136\131 x : Real, IN(x, s) && c < x)))
       #|  (y : Real)
       #|  \226\136\131 y : Real, IN(y, (s : (Real) -> Bool)) && y <= (x : Real)
       #|  (c : Real)
       #|  ((l : Real) + (m : Real)) / real_of_num(2)
       #|  \226\136\131 c : Real, (m : Real) < c && c < (l : Real)
-      #|  forall s t l m. s has_inf l /\\ t has_inf m /\\\n             (forall y. y IN t ==> ?x. x IN s /\\ x <= y)\n             ==> l <= m
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 t : (Real) -> Bool, \226\136\128 l : Real, \226\136\128 m : Real, has_inf(s, l) && has_inf(t, m) && (\226\136\128 y : Real, IN(y, t) \226\134\146 (\226\136\131 x : Real, IN(x, s) && x <= y)) \226\134\146 l <= m
       #|  (y : Real)
       #|  \226\136\131 y : Real, IN(y, (s : (Real) -> Bool)) && (x : Real) <= y
       #|  (c : Real)
       #|  ((l : Real) + (m : Real)) / real_of_num(2)
       #|  \226\136\131 c : Real, (l : Real) < c && c < (m : Real)
-      #|  forall s t l m. s has_sup l /\\ t has_sup m /\\\n             (forall y. y IN t ==> ?x. x IN s /\\ y <= x)\n             ==> m <= l
+      #|  \226\136\128 s : (Real) -> Bool, \226\136\128 t : (Real) -> Bool, \226\136\128 l : Real, \226\136\128 m : Real, has_sup(s, l) && has_sup(t, m) && (\226\136\128 y : Real, IN(y, t) \226\134\146 (\226\136\131 x : Real, IN(x, s) && y <= x)) \226\134\146 m <= l
       #|  op_slash_bslash
       #|IN =  |- (#forall:fun(fun(fun('A,bool),bool),bool) (\P:fun('A,bool). (#forall:fun(fun('A,bool),bool) (\x:'A. ((#=:fun(bool,fun(bool,bool)) ((#IN:fun('A,fun(fun('A,bool),bool)) x:'A) P:fun('A,bool))) (P:fun('A,bool) x:'A))))))
       #|EXTENSION =  |- (#forall:fun(fun(fun('A,bool),bool),bool) (\s:fun('A,bool). (#forall:fun(fun(fun('A,bool),bool),bool) (\t:fun('A,bool). ((#=:fun(bool,fun(bool,bool)) ((#=:fun(fun('A,bool),fun(fun('A,bool),bool)) s:fun('A,bool)) t:fun('A,bool))) (#forall:fun(fun('A,bool),bool) (\x:'A. ((#=:fun(bool,fun(bool,bool)) ((#IN:fun('A,fun(fun('A,bool),bool)) x:'A) s:fun('A,bool))) ((#IN:fun('A,fun(fun('A,bool),bool)) x:'A) t:fun('A,bool))))))))))

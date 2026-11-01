@@ -340,9 +340,7 @@ fn step_9() -> Unit raise {
   )
   pat_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "p = mk_bitpat (n, f) /\\ (forall a. f a ==> a < 2 EXP n) ==>\n  pat_size p = n /\\ forall s. pat_set p s = f s",
-      ),
+      @term_syntax.parse_term("(p : Bitpat) == mk_bitpat(((n : Num), (f : (Num) -> Bool))) && (∀ a : Num, f(a) → a < EXP(2, n)) → pat_size(p) == n && (∀ s : Num, pat_set(p, s) == f(s))"),
       t24,
     ),
   )
@@ -497,9 +495,7 @@ fn step_11() -> Unit raise {
 fn step_12() -> Unit raise {
   conspat_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "CONSPAT p (a:N word) =\n  let n = dimindex(:N) in\n  mk_bitpat(n + pat_size p,\n    \\s:num. (?t. pat_set p t /\\ s = val a + 2 EXP n * t))",
-      ),
+      @term_syntax.parse_term("(CONSPAT : (Bitpat, Word[N]) -> Bitpat)((p : Bitpat), (a : Word[N])) == (LET : ((Num) -> Bitpat, Num) -> Bitpat)((n : Num) => (LET_END : (Bitpat) -> Bitpat)(mk_bitpat((n + pat_size(p), (s : Num) => ∃ t : Num, pat_set(p, t) && s == (val : (Word[N]) -> Num)(a) + EXP(2, n) * t))), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))"),
     ),
   )
 }
@@ -648,9 +644,7 @@ fn step_13() -> Unit raise {
     t45,
   )
   let t47 = (
-    @parser.parse_term(
-      "pat_size (CONSPAT p (a:N word)) = dimindex(:N) + pat_size p /\\\n   forall s. pat_set (CONSPAT p (a:N word)) s <=>\n     ?t. pat_set p t /\\ s = val a + 2 EXP dimindex(:N) * t",
-    ),
+    @term_syntax.parse_term("pat_size((CONSPAT : (Bitpat, Word[N]) -> Bitpat)((p : Bitpat), (a : Word[N]))) == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) + pat_size(p) && (∀ s : Num, pat_set((CONSPAT : (Bitpat, Word[N]) -> Bitpat)(p, a), s) == (∃ t : Num, pat_set(p, t) && s == (val : (Word[N]) -> Num)(a) + EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) * t))"),
     t46,
   )
   let (conspat_pat_size, conspat_pat_set) = @bool.conj_pair(
@@ -1214,9 +1208,7 @@ pub fn dest_word_ty(x140 : @kernel.HolType) -> @kernel.HolType raise {
 ///|
 /// SPLIT_IF
 fn step_31() -> Unit raise {
-  let t141 = @parser.parse_term(
-    "(p ==> a:A = t1) ==> (~p ==> a = t2) ==> a = if p then t1 else t2",
-  )
+  let t141 = @term_syntax.parse_term("((p : Bool) → (a : A) == (t1 : A)) → (!p → a == (t2 : A)) → a == (if p { t1 } else { t2 })")
   let th = @bool.undisch_all(@class.taut(t141))
   split_if_c.set(
     match @kernel.frees(@kernel.concl(th)) {
@@ -1276,9 +1268,7 @@ fn step_32() -> Unit raise {
   )
   match_seqpattern_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "_MATCH (e:A) (_SEQPATTERN c cs) =\n   if ?y:B. c e y then _MATCH e c else _MATCH e cs",
-      ),
+      @term_syntax.parse_term("_MATCH((e : A), _SEQPATTERN((c : (A, B) -> Bool), (cs : (A, B) -> Bool))) == (if (∃ y : B, c(e, y)) { _MATCH(e, c) } else { _MATCH(e, cs) })"),
       t150,
     ),
   )
@@ -1301,9 +1291,7 @@ fn step_33() -> Unit raise {
   let t151 = @simp.rewrite_tac(@list.List([_bitmatch(), match_seqpattern()]))
   bitmatch_seqpattern_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "_BITMATCH (e:N word) (_SEQPATTERN c cs) =\n   if ?y:B. c (val e) y then _BITMATCH e c else _BITMATCH e cs",
-      ),
+      @term_syntax.parse_term("_BITMATCH((e : Word[N]), _SEQPATTERN((c : (Num, B) -> Bool), (cs : (Num, B) -> Bool))) == (if (∃ y : B, c(val(e), y)) { _BITMATCH(e, c) } else { _BITMATCH(e, cs) })"),
       t151,
     ),
   )
@@ -1333,9 +1321,7 @@ fn step_34() -> Unit raise {
   )
   bitmatch_seqpattern2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "_BITMATCH (e:N word) (_SEQPATTERN c cs) =\n   if ?y:B. c (val e) y then\n     _BITMATCH e (_SEQPATTERN c (_ELSEPATTERN ARB))\n   else _BITMATCH e cs",
-      ),
+      @term_syntax.parse_term("_BITMATCH((e : Word[N]), _SEQPATTERN((c : (Num, B) -> Bool), (cs : (Num, B) -> Bool))) == (if (∃ y : B, c(val(e), y)) { _BITMATCH(e, _SEQPATTERN(c, _ELSEPATTERN(ARB))) } else { _BITMATCH(e, cs) })"),
       t153,
     ),
   )
@@ -1407,9 +1393,7 @@ pub fn bitmatch_elsepattern() -> @kernel.Thm {
 fn step_37() -> Unit raise {
   pat_extract_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "pat_extract p i b <=>\n  (forall n. pat_set p n ==> numbit i n = b)",
-      ),
+      @term_syntax.parse_term("(pat_extract : (Bitpat, Num, Bool) -> Bool)((p : Bitpat), (i : Num), (b : Bool)) == (∀ n : Num, pat_set(p, n) → numbit(i, n) == b)"),
     ),
   )
 }
@@ -1845,9 +1829,7 @@ fn step_38() -> Unit raise {
     t202,
   )
   let t204 = (
-    @parser.parse_term(
-      "dimindex(:N) = n ==> numbit i m = b ==> (i < n <=> T) ==>\n     pat_extract (CONSPAT p (word m:N word)) i b",
-    ),
+    @term_syntax.parse_term("(dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) == (n : Num) → numbit((i : Num), (m : Num)) == (b : Bool) → (i < n) == true → pat_extract((CONSPAT : (Bitpat, Word[N]) -> Bitpat)((p : Bitpat), (word : (Num) -> Word[N])(m)), i, b)"),
     t203,
   )
   let word_lt = @bool.undisch_all(
@@ -2112,9 +2094,7 @@ fn step_38() -> Unit raise {
     t223,
   )
   let t225 = (
-    @parser.parse_term(
-      "dimindex(:N) = n ==> m + n = i ==> pat_extract p m b ==>\n     pat_extract (CONSPAT p (a:N word)) i b",
-    ),
+    @term_syntax.parse_term("(dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) == (n : Num) → (m : Num) + n == (i : Num) → pat_extract((p : Bitpat), m, (b : Bool)) → pat_extract((CONSPAT : (Bitpat, Word[N]) -> Bitpat)(p, (a : Word[N])), i, b)"),
     t224,
   )
   let word_skip = @bool.undisch_all(
@@ -2519,9 +2499,7 @@ fn step_40() -> Unit raise {
     t272,
   )
   let t274 = (
-    @parser.parse_term(
-      "(?) (r (val e)) = F ==>\n      (_BITMATCH e (_SEQPATTERN r rs):B) = _BITMATCH (e:N word) rs",
-    ),
+    @term_syntax.parse_term("op_q((r : (Num, B) -> Bool)(val((e : Word[N])))) == false → _BITMATCH(e, _SEQPATTERN(r, (rs : (Num, B) -> Bool))) == _BITMATCH(e, rs)"),
     t273,
   )
   let th = @bool.undisch(
@@ -2839,9 +2817,7 @@ fn step_41() -> Unit raise {
     @simp.asm_rewrite_tac(@list.List([bitmatch_seqpattern()])),
   )
   let t302 = (
-    @parser.parse_term(
-      "_BITMATCH (e:N word) (rs1:num->B->bool) = _BITMATCH e rs2 ==>\n        _BITMATCH e (_SEQPATTERN r rs1) = _BITMATCH e (_SEQPATTERN r rs2)",
-    ),
+    @term_syntax.parse_term("_BITMATCH((e : Word[N]), (rs1 : (Num, B) -> Bool)) == _BITMATCH(e, (rs2 : (Num, B) -> Bool)) → _BITMATCH(e, _SEQPATTERN((r : (Num, B) -> Bool), rs1)) == _BITMATCH(e, _SEQPATTERN(r, rs2))"),
     t301,
   )
   let th = @bool.undisch(
@@ -3247,9 +3223,7 @@ pub fn match_eq() -> @kernel.Thm {
 fn step_44() -> Unit raise {
   bitpat_inverts_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "bitpat_inverts p f (x:A) <=> (forall y. pat_set p y ==> f y = x)",
-      ),
+      @term_syntax.parse_term("(bitpat_inverts : (Bitpat, (Num) -> A, A) -> Bool)((p : Bitpat), (f : (Num) -> A), (x : A)) == (∀ y : Num, pat_set(p, y) → f(y) == x)"),
     ),
   )
 }
@@ -3268,9 +3242,7 @@ pub fn bitpat_inverts() -> @kernel.Thm {
 fn step_45() -> Unit raise {
   bitpat_down_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "bitpat_down(:N) (f:num->A) (n:num) = f (n DIV 2 EXP dimindex(:N))",
-      ),
+      @term_syntax.parse_term("(bitpat_down : ((N) -> Bool, (Num) -> A, Num) -> A)((UNIV : (N) -> Bool), (f : (Num) -> A), (n : Num)) == f(DIV(n, EXP(2, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))"),
     ),
   )
 }
@@ -3364,9 +3336,7 @@ fn step_46() -> Unit raise {
   )
   conspat_down_inverts_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "bitpat_inverts p f (x:A) ==>\n   bitpat_inverts (CONSPAT p (a:N word)) (bitpat_down(:N) f) x",
-      ),
+      @term_syntax.parse_term("(bitpat_inverts : (Bitpat, (Num) -> A, A) -> Bool)((p : Bitpat), (f : (Num) -> A), (x : A)) → (bitpat_inverts : (Bitpat, (Num) -> A, A) -> Bool)((CONSPAT : (Bitpat, Word[N]) -> Bitpat)(p, (a : Word[N])), (bitpat_down : ((N) -> Bool, (Num) -> A, Num) -> A)((UNIV : (N) -> Bool), f), x)"),
       t350,
     ),
   )
@@ -3477,9 +3447,7 @@ fn step_48() -> Unit raise {
   bitpat_inverts_comp_c.set(
     @meson.meson(
       @list.List([bitpat_inverts(), @trivia.o_def()]),
-      @parser.parse_term(
-        "bitpat_inverts p f (x:A) ==> bitpat_inverts p (g o f) (g x:B)",
-      ),
+      @term_syntax.parse_term("bitpat_inverts((p : Bitpat), (f : (Num) -> A), (x : A)) → bitpat_inverts(p, o((g : (A) -> B), f), g(x))"),
     ),
   )
 }
@@ -3750,9 +3718,7 @@ fn step_51() -> Unit raise {
     t383,
   )
   let t385 = (
-    @parser.parse_term(
-      "r (val (e:N word)) = (\\y:A. x = y) ==> _BITMATCH e (_SEQPATTERN r s) = x",
-    ),
+    @term_syntax.parse_term("(r : (Num, A) -> Bool)(val((e : Word[N]))) == ((y : A) => (x : A) == y) → _BITMATCH(e, _SEQPATTERN(r, (s : (Num, A) -> Bool))) == x"),
     t384,
   )
   let th1 = @bool.undisch(
@@ -4361,17 +4327,13 @@ fn step_52() -> Unit raise {
     t460,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "pat_set p x ==>\n       pat_set (CONSPAT p (word a:N word)) (num_shift_add a x (dimindex(:N)))",
-    ),
+    @term_syntax.parse_term("pat_set((p : Bitpat), (x : Num)) → pat_set((CONSPAT : (Bitpat, Word[N]) -> Bitpat)(p, (word : (Num) -> Word[N])((a : Num))), num_shift_add(a, x, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))"),
     t461,
   )
   let t499 = @simp.rewrite_tac(@list.List([@calc_num.bit0_0(), @arith.one()]))
   let t498 = @tactics.conv_tac(@equal.once_depth_conv(@cart.dimindex_conv))
   let t497 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "num_shift_add 0 x (dimindex(:1)) = num_shift_add (BIT0 0) x (SUC 0)",
-    ),
+    @term_syntax.parse_term("num_shift_add(0, (x : Num), (dimindex : ((Unit) -> Bool) -> Num)((UNIV : (Unit) -> Bool))) == num_shift_add(BIT0(0), x, SUC(0))"),
     fn(
       x495 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4485,9 +4447,7 @@ fn step_52() -> Unit raise {
   let t487 = @simp.rewrite_tac(@list.List([@calc_num.bit1_0(), @arith.one()]))
   let t486 = @tactics.conv_tac(@equal.once_depth_conv(@cart.dimindex_conv))
   let t485 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "num_shift_add 1 x (dimindex(:1)) = num_shift_add (BIT1 0) x (SUC 0)",
-    ),
+    @term_syntax.parse_term("num_shift_add(1, (x : Num), (dimindex : ((Unit) -> Bool) -> Num)((UNIV : (Unit) -> Bool))) == num_shift_add(BIT1(0), x, SUC(0))"),
     fn(
       x483 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4633,9 +4593,7 @@ fn step_52() -> Unit raise {
     t501,
   )
   let t503 = (
-    @parser.parse_term(
-      "pat_set p x ==>\n       pat_set (CONSPAT p (word1 T)) (BIT1 x) /\\\n       pat_set (CONSPAT p (word1 F)) (BIT0 x)",
-    ),
+    @term_syntax.parse_term("pat_set((p : Bitpat), (x : Num)) → pat_set(CONSPAT(p, word1(true)), BIT1(x)) && pat_set(CONSPAT(p, word1(false)), BIT0(x))"),
     t502,
   )
   let t504 = (fn(x471 : @kernel.Thm) -> (@kernel.Thm, @kernel.Thm) raise {
@@ -4744,9 +4702,7 @@ fn step_52() -> Unit raise {
     t468,
   )
   let t470 = (
-    @parser.parse_term(
-      "dimindex(:N) = NUMERAL n ==> num_shift_add a x n = i ==> pat_set p x ==>\n       pat_set (CONSPAT p (word (NUMERAL a):N word)) i",
-    ),
+    @term_syntax.parse_term("(dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) == NUMERAL((n : Num)) → num_shift_add((a : Num), (x : Num), n) == (i : Num) → pat_set((p : Bitpat), x) → pat_set((CONSPAT : (Bitpat, Word[N]) -> Bitpat)(p, (word : (Num) -> Word[N])(NUMERAL(a))), i)"),
     t469,
   )
   let (ws, (w1t, w1f)) = (
@@ -5040,9 +4996,7 @@ fn step_52() -> Unit raise {
     t523,
   )
   let t525 = (
-    @parser.parse_term(
-      "pat_size p = NUMERAL n ==> dimindex(:N) = NUMERAL n ==>\n     pat_set p x ==> pat_set p (val (word (NUMERAL x):N word))",
-    ),
+    @term_syntax.parse_term("pat_size((p : Bitpat)) == NUMERAL((n : Num)) → (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) == NUMERAL(n) → pat_set(p, (x : Num)) → pat_set(p, (val : (Word[N]) -> Num)((word : (Num) -> Word[N])(NUMERAL(x))))"),
     t524,
   )
   let pth2 = @bool.undisch_all(
@@ -5615,9 +5569,7 @@ fn step_53() -> Unit raise {
     t587,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "dimindex(:N) = n ==> pat_set p (e DIV 2 EXP n) ==>\n       pat_set (CONSPAT p (word e:N word)) e",
-    ),
+    @term_syntax.parse_term("(dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) == (n : Num) → pat_set((p : Bitpat), DIV((e : Num), EXP(2, n))) → pat_set((CONSPAT : (Bitpat, Word[N]) -> Bitpat)(p, (word : (Num) -> Word[N])(e)), e)"),
     t588,
   )
   let t590 = @cart.dimindex_conv(@term_syntax.parse_term("(dimindex : ((Unit) -> Bool) -> Num)((UNIV : (Unit) -> Bool))"))
@@ -5627,9 +5579,7 @@ fn step_53() -> Unit raise {
     t591,
   )
   let t593 = (
-    @parser.parse_term(
-      "pat_set p (e DIV 2 EXP 1) ==> pat_set (CONSPAT p (word1 (ODD e))) e",
-    ),
+    @term_syntax.parse_term("pat_set((p : Bitpat), DIV((e : Num), EXP(2, 1))) → pat_set(CONSPAT(p, word1(ODD(e))), e)"),
     t592,
   )
   let t594 = @bool.undisch(
@@ -5772,9 +5722,7 @@ fn step_53() -> Unit raise {
     t603,
   )
   let t605 = (
-    @parser.parse_term(
-      "n + m = k ==>\n    e < 2 EXP k ==> e DIV 2 EXP n < 2 EXP m",
-    ),
+    @term_syntax.parse_term("(n : Num) + (m : Num) == (k : Num) → (e : Num) < EXP(2, k) → DIV(e, EXP(2, n)) < EXP(2, m)"),
     t604,
   )
   let pths = @bool.undisch_all(
