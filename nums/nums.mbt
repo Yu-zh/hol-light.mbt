@@ -11,9 +11,7 @@ fn step_1() -> Unit raise {
 fn step_2() -> Unit raise {
   one_one_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "ONE_ONE(f:A->B) = forall x1 x2. (f x1 = f x2) ==> (x1 = x2)",
-      ),
+      @term_syntax.parse_term("(ONE_ONE : ((A) -> B) -> Bool)((f : (A) -> B)) == (∀ x1 : A, ∀ x2 : A, f(x1) == f(x2) → x1 == x2)"),
     ),
   )
 }
@@ -130,9 +128,7 @@ fn step_5() -> Unit raise {
   )
   ind_suc_0_exists_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "?(f:ind->ind) z. (forall x1 x2. (f x1 = f x2) = (x1 = x2)) /\\ (forall x. ~(f x = z))",
-      ),
+      @term_syntax.parse_term("∃ f : (Ind) -> Ind, ∃ z : Ind, (∀ x1 : Ind, ∀ x2 : Ind, (f(x1) == f(x2)) == (x1 == x2)) && (∀ x : Ind, !(f(x) == z))"),
       t8,
     ),
   )
@@ -153,16 +149,12 @@ pub fn ind_suc_0_exists() -> @kernel.Thm {
 /// IND_SUC_SPEC
 fn step_6() -> Unit raise {
   let th1 = @pair.new_definition(
-    @parser.parse_term(
-      "IND_SUC = @f:ind->ind. ?z. (forall x1 x2. (f x1 = f x2) = (x1 = x2)) /\\\n                                (forall x. ~(f x = z))",
-    ),
+    @term_syntax.parse_term("(IND_SUC : (Ind) -> Ind) == select((f : (Ind) -> Ind) => ∃ z : Ind, (∀ x1 : Ind, ∀ x2 : Ind, (f(x1) == f(x2)) == (x1 == x2)) && (∀ x : Ind, !(f(x) == z)))"),
   )
   let t9 = @class.select_rule(ind_suc_0_exists())
   let th2 = @simp.rewrite_rule(@list.List([@equal.gsym(th1)]))(t9)
   let th3 = @pair.new_definition(
-    @parser.parse_term(
-      "IND_0 = @z:ind. (forall x1 x2. IND_SUC x1 = IND_SUC x2 <=> x1 = x2) /\\\n                    (forall x. ~(IND_SUC x = z))",
-    ),
+    @term_syntax.parse_term("(IND_0 : Ind) == select((z : Ind) => (∀ x1 : Ind, ∀ x2 : Ind, (IND_SUC(x1) == IND_SUC(x2)) == (x1 == x2)) && (∀ x : Ind, !(IND_SUC(x) == z)))"),
   )
   let t10 = @class.select_rule(th2)
   ind_suc_spec_c.set(@simp.rewrite_rule(@list.List([@equal.gsym(th3)]))(t10))
@@ -234,9 +226,7 @@ pub fn num_rep_cases() -> @kernel.Thm {
 /// NUM_REP_RULES, NUM_REP_INDUCT, NUM_REP_CASES
 fn step_8() -> Unit raise {
   let (num_rep_rules, num_rep_induct, num_rep_cases) = @ind_defs.new_inductive_definition(
-    @parser.parse_term(
-      "NUM_REP IND_0 /\\\n    (forall i. NUM_REP i ==> NUM_REP (IND_SUC i))",
-    ),
+    @term_syntax.parse_term("(NUM_REP : (Ind) -> Bool)(IND_0) && (∀ i : Ind, NUM_REP(i) → NUM_REP(IND_SUC(i)))"),
   )
   num_rep_rules_c.set(num_rep_rules)
   num_rep_induct_c.set(num_rep_induct)
@@ -1721,9 +1711,7 @@ fn step_15() -> Unit raise {
       ),
     ),
   )
-  let t85 = @parser.parse_term(
-    "PRG _0 e /\\ (forall b:A n:num. PRG n b ==> PRG (SUC n) (f b n))",
-  )
+  let t85 = @term_syntax.parse_term("(PRG : (Num, A) -> Bool)(_0, (e : A)) && (∀ b : A, ∀ n : Num, PRG(n, b) → PRG(SUC(n), (f : (A, Num) -> A)(b, n)))")
   let t153 = @list.List([
     @tactics.thenl(
       @tactics.then_tac(

@@ -239,15 +239,15 @@ Warning: inventing type variables
 0..0..solved at 3
 0..0..solved at 2
 nums quotations (35):
-  ONE_ONE(f:A->B) = forall x1 x2. (f x1 = f x2) ==> (x1 = x2)
+  (ONE_ONE : ((A) -> B) -> Bool)((f : (A) -> B)) == (\226\136\128 x1 : A, \226\136\128 x2 : A, f(x1) == f(x2) \226\134\146 x1 == x2)
   (ONTO : ((A) -> B) -> Bool)((f : (A) -> B)) == (\226\136\128 y : B, \226\136\131 x : A, y == f(x))
   \226\136\131 f : (Ind) -> Ind, ONE_ONE(f) && !ONTO(f)
   (f : (Ind) -> Ind)
   (f : (Ind) -> Ind)
-  ?(f:ind->ind) z. (forall x1 x2. (f x1 = f x2) = (x1 = x2)) /\\ (forall x. ~(f x = z))
-  IND_SUC = @f:ind->ind. ?z. (forall x1 x2. (f x1 = f x2) = (x1 = x2)) /\\\n                                (forall x. ~(f x = z))
-  IND_0 = @z:ind. (forall x1 x2. IND_SUC x1 = IND_SUC x2 <=> x1 = x2) /\\\n                    (forall x. ~(IND_SUC x = z))
-  NUM_REP IND_0 /\\\n    (forall i. NUM_REP i ==> NUM_REP (IND_SUC i))
+  \226\136\131 f : (Ind) -> Ind, \226\136\131 z : Ind, (\226\136\128 x1 : Ind, \226\136\128 x2 : Ind, (f(x1) == f(x2)) == (x1 == x2)) && (\226\136\128 x : Ind, !(f(x) == z))
+  (IND_SUC : (Ind) -> Ind) == select((f : (Ind) -> Ind) => \226\136\131 z : Ind, (\226\136\128 x1 : Ind, \226\136\128 x2 : Ind, (f(x1) == f(x2)) == (x1 == x2)) && (\226\136\128 x : Ind, !(f(x) == z)))
+  (IND_0 : Ind) == select((z : Ind) => (\226\136\128 x1 : Ind, \226\136\128 x2 : Ind, (IND_SUC(x1) == IND_SUC(x2)) == (x1 == x2)) && (\226\136\128 x : Ind, !(IND_SUC(x) == z)))
+  (NUM_REP : (Ind) -> Bool)(IND_0) && (\226\136\128 i : Ind, NUM_REP(i) \226\134\146 NUM_REP(IND_SUC(i)))
   (_0 : Num) == mk_num(IND_0)
   (SUC : (Num) -> Num)((n : Num)) == mk_num(IND_SUC(dest_num(n)))
   \226\136\128 n : Num, !(SUC(n) == _0)
@@ -266,7 +266,7 @@ nums quotations (35):
   (y : A)
   existsunique((y : A) => (PRG : (Num, A) -> Bool)((n : Num), y))
   \226\136\128 n : Num, existsunique((y : A) => (PRG : (Num, A) -> Bool)(n, y))
-  PRG _0 e /\\ (forall b:A n:num. PRG n b ==> PRG (SUC n) (f b n))
+  (PRG : (Num, A) -> Bool)(_0, (e : A)) && (\226\136\128 b : A, \226\136\128 n : Num, PRG(n, b) \226\134\146 PRG(SUC(n), (f : (A, Num) -> A)(b, n)))
   forall(e:A) f. ?!fn. (fn _0 = e) /\\\n                   (forall n. fn (SUC n) = f (fn n) n)
   _0 == 0
   \226\136\128 m : Num, m == 0 || (\226\136\131 n : Num, m == SUC(n))
