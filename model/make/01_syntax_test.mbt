@@ -7933,7 +7933,7 @@ test "Model/syntax matches Model/syntax.ml" {
       #|  (codomain : (Type) -> Type)(Fun((s : Type), (t : Type))) == t
       #|  (\226\136\128 n : List[Char], \226\136\128 ty : Type, (has_type : (Term, Type) -> Bool)(Var(n, ty), ty)) && (\226\136\128 ty : Type, has_type(Equal(ty), Fun(ty, Fun(ty, Bool)))) && (\226\136\128 ty : Type, has_type(Select(ty), Fun(Fun(ty, Bool), ty))) && (\226\136\128 s : Term, \226\136\128 t : Term, \226\136\128 dty : Type, \226\136\128 rty : Type, has_type(s, Fun(dty, rty)) && has_type(t, dty) \226\134\146 has_type(Comb(s, t), rty)) && (\226\136\128 n : List[Char], \226\136\128 dty : Type, \226\136\128 t : Term, \226\136\128 rty : Type, has_type(t, rty) \226\134\146 has_type(Abs(n, dty, t), Fun(dty, rty)))
       #|  (welltyped : (Term) -> Bool)((tm : Term)) == (\226\136\131 ty : Type, has_type(tm, ty))
-      #|  (typeof_ (Var n ty) = ty) /\\\n  (typeof_ (Equal ty) = Fun ty (Fun ty Bool)) /\\\n  (typeof_ (Select ty) = Fun (Fun ty Bool) ty) /\\\n  (typeof_ (Comb s t) = codomain (typeof_ s)) /\\\n  (typeof_ (Abs n ty t) = Fun ty (typeof_ t))
+      #|  (typeof_ : (Term) -> Type)(Var((n : List[Char]), (ty : Type))) == ty && typeof_(Equal(ty)) == Fun(ty, Fun(ty, Bool)) && typeof_(Select(ty)) == Fun(Fun(ty, Bool), ty) && typeof_(Comb((s : Term), (t : Term))) == codomain(typeof_(s)) && typeof_(Abs(n, ty, t)) == Fun(ty, typeof_(t))
       #|  :P
       #|  :P
       #|  :P

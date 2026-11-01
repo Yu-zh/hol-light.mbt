@@ -202,7 +202,7 @@ pub fn welltyped() -> @kernel.Thm {
 ///|
 /// typeof
 fn step_12() -> Unit raise {
-  typeof_c.set(@define.define_(@parser.parse_term("(typeof_ (Var n ty) = ty) /\\\n  (typeof_ (Equal ty) = Fun ty (Fun ty Bool)) /\\\n  (typeof_ (Select ty) = Fun (Fun ty Bool) ty) /\\\n  (typeof_ (Comb s t) = codomain (typeof_ s)) /\\\n  (typeof_ (Abs n ty t) = Fun ty (typeof_ t))")))
+  typeof_c.set(@define.define_(@term_syntax.parse_term("(typeof_ : (Term) -> Type)(Var((n : List[Char]), (ty : Type))) == ty && typeof_(Equal(ty)) == Fun(ty, Fun(ty, Bool)) && typeof_(Select(ty)) == Fun(Fun(ty, Bool), ty) && typeof_(Comb((s : Term), (t : Term))) == codomain(typeof_(s)) && typeof_(Abs(n, ty, t)) == Fun(ty, typeof_(t))")))
 }
 
 ///|
