@@ -59,9 +59,7 @@ fn step_1() -> Unit raise {
   )
   mult_eq_2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. m * n = 2 <=> m = 1 /\\ n = 2 \\/ m = 2 /\\ n = 1",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, (m * n == 2) == (m == 1 && n == 2 || m == 2 && n == 1)"),
       t11,
     ),
   )
@@ -81,9 +79,7 @@ pub fn mult_eq_2() -> @kernel.Thm {
 fn step_2() -> Unit raise {
   modmul_group_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "modmul_group n =\n        if n <= 1 then singleton_group 1\n        else group({m | m < n /\\ coprime(m,n)},\n                   1,inverse_mod n,(\\a b. (a * b) MOD n))",
-      ),
+      @term_syntax.parse_term("(modmul_group : (Num) -> Group[Num])((n : Num)) == (if n <= 1 { singleton_group(1) } else { group(({(m : Num) | m < n && coprime((m, n))}, 1, inverse_mod(n), (a : Num) => (b : Num) => MOD(a * b, n))) })"),
     ),
   )
 }
@@ -260,9 +256,7 @@ fn step_3() -> Unit raise {
   )
   modmul_group_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n. group_carrier(modmul_group n) =\n        if n <= 1 then {1} else {m | m < n /\\ coprime(m,n)}) /\\\n   (forall n. group_id(modmul_group n) = 1) /\\\n   (forall n. group_inv(modmul_group n) = inverse_mod n) /\\\n   (forall n. group_mul(modmul_group n) =\n        if n <= 1 then (\\a b. 1) else (\\a b. (a * b) MOD n))",
-      ),
+      @term_syntax.parse_term("(∀ n : Num, group_carrier(modmul_group(n)) == (if n <= 1 { {1} } else { {(m : Num) | m < n && coprime((m, n))} })) && (∀ n : Num, group_id(modmul_group(n)) == 1) && (∀ n : Num, group_inv(modmul_group(n)) == inverse_mod(n)) && (∀ n : Num, group_mul(modmul_group(n)) == (if n <= 1 { (a : Num) => (b : Num) => 1 } else { (a : Num) => (b : Num) => MOD(a * b, n) }))"),
       t42,
     ),
   )
@@ -370,9 +364,7 @@ fn step_5() -> Unit raise {
   )
   order_modmul_group_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. CARD(group_carrier(modmul_group n)) =\n       if n = 0 then 1 else phi n",
-      ),
+      @term_syntax.parse_term("∀ n : Num, CARD(group_carrier(modmul_group(n))) == (if n == 0 { 1 } else { phi(n) })"),
       t54,
     ),
   )
@@ -399,9 +391,7 @@ fn step_6() -> Unit raise {
   )
   has_size_modmul_group_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. ~(n = 0) ==> group_carrier(modmul_group n) HAS_SIZE phi n",
-      ),
+      @term_syntax.parse_term("∀ n : Num, !(n == 0) → HAS_SIZE(group_carrier(modmul_group(n)), phi(n))"),
       t56,
     ),
   )
@@ -608,9 +598,7 @@ fn step_9() -> Unit raise {
   )
   group_homomorphism_prod_modmul_group_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. 2 <= m /\\ 2 <= n\n         ==> group_homomorphism (modmul_group(m * n),\n                                 prod_group (modmul_group m)\n                                            (modmul_group n))\n                                (\\a. (a MOD m),(a MOD n))",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, 2 <= m && 2 <= n → group_homomorphism((modmul_group(m * n), prod_group(modmul_group(m), modmul_group(n))), (a : Num) => (MOD(a, m), MOD(a, n)))"),
       t78,
     ),
   )
@@ -633,9 +621,7 @@ fn step_10() -> Unit raise {
   let t103 = @meson.asm_meson_tac(
     @list.List([
       @int.number_rule(
-        @parser.parse_term(
-          "coprime(m:num,n) /\\ (x == y) (mod m) /\\ (x == y) (mod n)\n    ==> (x == y) (mod(m * n))",
-        ),
+        @term_syntax.parse_term("coprime(((m : Num), (n : Num))) && op_eq_eq((x : Num), (y : Num), mod(m)) && op_eq_eq(x, y, mod(n)) → op_eq_eq(x, y, mod(m * n))"),
       ),
     ]),
   )
@@ -945,9 +931,7 @@ fn step_10() -> Unit raise {
   )
   group_isomorphism_prod_modmul_group_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. 2 <= m /\\ 2 <= n /\\ coprime(m,n)\n         ==> group_isomorphism (modmul_group(m * n),\n                                prod_group (modmul_group m)\n                                           (modmul_group n))\n                               (\\a. (a MOD m),(a MOD n))",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, 2 <= m && 2 <= n && coprime((m, n)) → group_isomorphism((modmul_group(m * n), prod_group(modmul_group(m), modmul_group(n))), (a : Num) => (MOD(a, m), MOD(a, n)))"),
       t104,
     ),
   )
@@ -1089,9 +1073,7 @@ fn step_11() -> Unit raise {
   let t105 = @tactics.match_mp_tac(
     @meson.meson(
       @list.List([@grouptheory.isomorphic_trivial_groups()]),
-      @parser.parse_term(
-        "(trivial_group G <=> trivial_group H) /\\\n    (~trivial_group G /\\ ~trivial_group H ==> G isomorphic_group H)\n    ==> G isomorphic_group H",
-      ),
+      @term_syntax.parse_term("trivial_group((G : Group[_])) == trivial_group((H : Group[_])) && (!trivial_group(G) && !trivial_group(H) → isomorphic_group(G, H)) → isomorphic_group(G, H)"),
     ),
   )
   let t129 = @tactics.then_tac(
@@ -1165,9 +1147,7 @@ fn step_11() -> Unit raise {
   )
   isomorphic_group_modmul_group_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. coprime(m,n)\n         ==> prod_group (modmul_group m)\n                        (modmul_group n)\n             isomorphic_group (modmul_group (m * n))",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, coprime((m, n)) → isomorphic_group(prod_group(modmul_group(m), modmul_group(n)), modmul_group(m * n))"),
       t129,
     ),
   )
@@ -1224,9 +1204,7 @@ fn step_12() -> Unit raise {
   )
   group_pow_modmul_group_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a k. group_pow (modmul_group n) a k =\n           if n <= 1 then 1 else (a EXP k) MOD n",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, ∀ k : Num, group_pow(modmul_group(n), a, k) == (if n <= 1 { 1 } else { MOD(EXP(a, k), n) })"),
       t135,
     ),
   )
@@ -1367,9 +1345,7 @@ fn step_13() -> Unit raise {
   )
   group_element_order_modmul_group_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a. a IN group_carrier(modmul_group n)\n         ==> group_element_order (modmul_group n) a = order n a",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, IN(a, group_carrier(modmul_group(n))) → group_element_order(modmul_group(n), a) == order(n, a)"),
       t150,
     ),
   )
@@ -1687,9 +1663,7 @@ fn step_14() -> Unit raise {
   )
   cyclic_modmul_group_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. cyclic_group(modmul_group n) <=>\n       n = 0 \\/ n = 1 \\/ n = 2 \\/ n = 4 \\/\n       ?p k. prime p /\\ 3 <= p /\\ (n = p EXP k \\/ n = 2 * p EXP k)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, cyclic_group(modmul_group(n)) == (n == 0 || n == 1 || n == 2 || n == 4 || (∃ p : Num, ∃ k : Num, prime(p) && 3 <= p && (n == EXP(p, k) || n == 2 * EXP(p, k))))"),
       t187,
     ),
   )

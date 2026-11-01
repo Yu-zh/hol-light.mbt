@@ -28439,8 +28439,8 @@ Library/modmul_group quotations (59):
   (m : Num) == 1
   (n : Num) == 0
   (m : Num) == 0
-  forall m n. m * n = 2 <=> m = 1 /\\ n = 2 \\/ m = 2 /\\ n = 1
-  modmul_group n =\n        if n <= 1 then singleton_group 1\n        else group({m | m < n /\\ coprime(m,n)},\n                   1,inverse_mod n,(\\a b. (a * b) MOD n))
+  \226\136\128 m : Num, \226\136\128 n : Num, (m * n == 2) == (m == 1 && n == 2 || m == 2 && n == 1)
+  (modmul_group : (Num) -> Group[Num])((n : Num)) == (if n <= 1 { singleton_group(1) } else { group(({(m : Num) | m < n && coprime((m, n))}, 1, inverse_mod(n), (a : Num) => (b : Num) => MOD(a * b, n))) })
   2 <= (n : Num) \226\134\146 1 < n
   2 <= (n : Num) \226\134\146 !(n == 0)
   (m : Num)
@@ -28451,13 +28451,13 @@ Library/modmul_group quotations (59):
   !((n : Num) <= 1) == (2 <= n)
   (n : Num) <= 1
   (n : Num)
-  (forall n. group_carrier(modmul_group n) =\n        if n <= 1 then {1} else {m | m < n /\\ coprime(m,n)}) /\\\n   (forall n. group_id(modmul_group n) = 1) /\\\n   (forall n. group_inv(modmul_group n) = inverse_mod n) /\\\n   (forall n. group_mul(modmul_group n) =\n        if n <= 1 then (\\a b. 1) else (\\a b. (a * b) MOD n))
+  (\226\136\128 n : Num, group_carrier(modmul_group(n)) == (if n <= 1 { {1} } else { {(m : Num) | m < n && coprime((m, n))} })) && (\226\136\128 n : Num, group_id(modmul_group(n)) == 1) && (\226\136\128 n : Num, group_inv(modmul_group(n)) == inverse_mod(n)) && (\226\136\128 n : Num, group_mul(modmul_group(n)) == (if n <= 1 { (a : Num) => (b : Num) => 1 } else { (a : Num) => (b : Num) => MOD(a * b, n) }))
   op_dot_dot(0, (n : Num))
   \226\136\128 n : Num, FINITE(group_carrier(modmul_group(n)))
   ((n : Num) <= 1) == (n == 0 || n == 1)
   (n : Num) == 1
-  forall n. CARD(group_carrier(modmul_group n)) =\n       if n = 0 then 1 else phi n
-  forall n. ~(n = 0) ==> group_carrier(modmul_group n) HAS_SIZE phi n
+  \226\136\128 n : Num, CARD(group_carrier(modmul_group(n))) == (if n == 0 { 1 } else { phi(n) })
+  \226\136\128 n : Num, !(n == 0) \226\134\146 HAS_SIZE(group_carrier(modmul_group(n)), phi(n))
   \226\136\128 n : Num, abelian_group(modmul_group(n))
   !((n : Num) <= 2) && 2 <= (p : Num) \226\134\146 (p == 1) == (n <= 2)
   (n : Num) == 2
@@ -28465,24 +28465,24 @@ Library/modmul_group quotations (59):
   \226\136\128 n : Num, trivial_group(modmul_group(n)) == (n <= 2)
   2 <= (n : Num) \226\134\146 !(n == 0) && !(n == 1)
   ((n : Num) <= 1) == (n == 0 || n == 1)
-  forall m n. 2 <= m /\\ 2 <= n\n         ==> group_homomorphism (modmul_group(m * n),\n                                 prod_group (modmul_group m)\n                                            (modmul_group n))\n                                (\\a. (a MOD m),(a MOD n))
-  coprime(m:num,n) /\\ (x == y) (mod m) /\\ (x == y) (mod n)\n    ==> (x == y) (mod(m * n))
+  \226\136\128 m : Num, \226\136\128 n : Num, 2 <= m && 2 <= n \226\134\146 group_homomorphism((modmul_group(m * n), prod_group(modmul_group(m), modmul_group(n))), (a : Num) => (MOD(a, m), MOD(a, n)))
+  coprime(((m : Num), (n : Num))) && op_eq_eq((x : Num), (y : Num), mod(m)) && op_eq_eq(x, y, mod(n)) \226\134\146 op_eq_eq(x, y, mod(m * n))
   (m : Num) * (n : Num)
   2 <= (n : Num) \226\134\146 !(n == 0) && !(n == 1)
   ((n : Num) <= 1) == (n == 0 || n == 1)
   2 <= (n : Num) \226\134\146 !(n == 0)
-  forall m n. 2 <= m /\\ 2 <= n /\\ coprime(m,n)\n         ==> group_isomorphism (modmul_group(m * n),\n                                prod_group (modmul_group m)\n                                           (modmul_group n))\n                               (\\a. (a MOD m),(a MOD n))
+  \226\136\128 m : Num, \226\136\128 n : Num, 2 <= m && 2 <= n && coprime((m, n)) \226\134\146 group_isomorphism((modmul_group(m * n), prod_group(modmul_group(m), modmul_group(n))), (a : Num) => (MOD(a, m), MOD(a, n)))
   (a : Num) => (MOD(a, (m : Num)), MOD(a, (n : Num)))
   ((n : Num) <= 2) == (n == 0 || n == 1 || n == 2)
   (n : Num) == 1
   (m : Num) == 1
   (n : Num) == 0
   (m : Num) == 0
-  (trivial_group G <=> trivial_group H) /\\\n    (~trivial_group G /\\ ~trivial_group H ==> G isomorphic_group H)\n    ==> G isomorphic_group H
-  forall m n. coprime(m,n)\n         ==> prod_group (modmul_group m)\n                        (modmul_group n)\n             isomorphic_group (modmul_group (m * n))
-  forall n a k. group_pow (modmul_group n) a k =\n           if n <= 1 then 1 else (a EXP k) MOD n
+  trivial_group((G : Group[_])) == trivial_group((H : Group[_])) && (!trivial_group(G) && !trivial_group(H) \226\134\146 isomorphic_group(G, H)) \226\134\146 isomorphic_group(G, H)
+  \226\136\128 m : Num, \226\136\128 n : Num, coprime((m, n)) \226\134\146 isomorphic_group(prod_group(modmul_group(m), modmul_group(n)), modmul_group(m * n))
+  \226\136\128 n : Num, \226\136\128 a : Num, \226\136\128 k : Num, group_pow(modmul_group(n), a, k) == (if n <= 1 { 1 } else { MOD(EXP(a, k), n) })
   (k : Num)
-  forall n a. a IN group_carrier(modmul_group n)\n         ==> group_element_order (modmul_group n) a = order n a
+  \226\136\128 n : Num, \226\136\128 a : Num, IN(a, group_carrier(modmul_group(n))) \226\134\146 group_element_order(modmul_group(n), a) == order(n, a)
   2 < (n : Num) \226\134\146 !(n == 0)
   (!(p : Bool) \226\134\146 !(q : Bool)) && q \226\134\146 p && q
   2 < (n : Num) \226\134\146 !(n == 0)
@@ -28492,7 +28492,7 @@ Library/modmul_group quotations (59):
   (n : Num)
   ((p : Bool) && (q : Bool)) == !(p \226\134\146 !q)
   (n : Num) <= 2
-  forall n. cyclic_group(modmul_group n) <=>\n       n = 0 \\/ n = 1 \\/ n = 2 \\/ n = 4 \\/\n       ?p k. prime p /\\ 3 <= p /\\ (n = p EXP k \\/ n = 2 * p EXP k)
+  \226\136\128 n : Num, cyclic_group(modmul_group(n)) == (n == 0 || n == 1 || n == 2 || n == 4 || (\226\136\131 p : Num, \226\136\131 k : Num, prime(p) && 3 <= p && (n == EXP(p, k) || n == 2 * EXP(p, k))))
 MULT_EQ_2 =  |- (#forall:fun(fun(num,bool),bool) (\m:num. (#forall:fun(fun(num,bool),bool) (\n:num. ((#=:fun(bool,fun(bool,bool)) ((#=:fun(num,fun(num,bool)) ((#*:fun(num,fun(num,num)) m:num) n:num)) (#NUMERAL:fun(num,num) (#BIT0:fun(num,num) (#BIT1:fun(num,num) #_0:num))))) ((#\/:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) ((#=:fun(num,fun(num,bool)) m:num) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num)))) ((#=:fun(num,fun(num,bool)) n:num) (#NUMERAL:fun(num,num) (#BIT0:fun(num,num) (#BIT1:fun(num,num) #_0:num)))))) ((#/\:fun(bool,fun(bool,bool)) ((#=:fun(num,fun(num,bool)) m:num) (#NUMERAL:fun(num,num) (#BIT0:fun(num,num) (#BIT1:fun(num,num) #_0:num))))) ((#=:fun(num,fun(num,bool)) n:num) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num))))))))))
 modmul_group =  |- (#forall:fun(fun(num,bool),bool) (\n:num. ((#=:fun(group(num),fun(group(num),bool)) (#modmul_group:fun(num,group(num)) n:num)) (((#COND:fun(bool,fun(group(num),fun(group(num),group(num)))) ((#<=:fun(num,fun(num,bool)) n:num) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num)))) (#singleton_group:fun(num,group(num)) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num)))) (#group:fun(prod(fun(num,bool),prod(num,prod(fun(num,num),fun(num,fun(num,num))))),group(num)) ((#,:fun(fun(num,bool),fun(prod(num,prod(fun(num,num),fun(num,fun(num,num)))),prod(fun(num,bool),prod(num,prod(fun(num,num),fun(num,fun(num,num))))))) (#GSPEC:fun(fun(num,bool),fun(num,bool)) (\GEN%PVAR%1:num. (#?:fun(fun(num,bool),bool) (\m:num. (((#SETSPEC:fun(num,fun(bool,fun(num,bool))) GEN%PVAR%1:num) ((#/\:fun(bool,fun(bool,bool)) ((#<:fun(num,fun(num,bool)) m:num) n:num)) (#num_coprime:fun(prod(num,num),bool) ((#,:fun(num,fun(num,prod(num,num))) m:num) n:num)))) m:num)))))) ((#,:fun(num,fun(prod(fun(num,num),fun(num,fun(num,num))),prod(num,prod(fun(num,num),fun(num,fun(num,num)))))) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num))) ((#,:fun(fun(num,num),fun(fun(num,fun(num,num)),prod(fun(num,num),fun(num,fun(num,num))))) (#inverse_mod:fun(num,fun(num,num)) n:num)) (\a:num. (\b:num. ((#MOD:fun(num,fun(num,num)) ((#*:fun(num,fun(num,num)) a:num) b:num)) n:num)))))))))))
 MODMUL_GROUP =  |- ((#/\:fun(bool,fun(bool,bool)) (#forall:fun(fun(num,bool),bool) (\n:num. ((#=:fun(fun(num,bool),fun(fun(num,bool),bool)) (#group_carrier:fun(group(num),fun(num,bool)) (#modmul_group:fun(num,group(num)) n:num))) (((#COND:fun(bool,fun(fun(num,bool),fun(fun(num,bool),fun(num,bool)))) ((#<=:fun(num,fun(num,bool)) n:num) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num)))) ((#INSERT:fun(num,fun(fun(num,bool),fun(num,bool))) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num))) #EMPTY:fun(num,bool))) (#GSPEC:fun(fun(num,bool),fun(num,bool)) (\GEN%PVAR%2:num. (#?:fun(fun(num,bool),bool) (\m:num. (((#SETSPEC:fun(num,fun(bool,fun(num,bool))) GEN%PVAR%2:num) ((#/\:fun(bool,fun(bool,bool)) ((#<:fun(num,fun(num,bool)) m:num) n:num)) (#num_coprime:fun(prod(num,num),bool) ((#,:fun(num,fun(num,prod(num,num))) m:num) n:num)))) m:num)))))))))) ((#/\:fun(bool,fun(bool,bool)) (#forall:fun(fun(num,bool),bool) (\n:num. ((#=:fun(num,fun(num,bool)) (#group_id:fun(group(num),num) (#modmul_group:fun(num,group(num)) n:num))) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num)))))) ((#/\:fun(bool,fun(bool,bool)) (#forall:fun(fun(num,bool),bool) (\n:num. ((#=:fun(fun(num,num),fun(fun(num,num),bool)) (#group_inv:fun(group(num),fun(num,num)) (#modmul_group:fun(num,group(num)) n:num))) (#inverse_mod:fun(num,fun(num,num)) n:num))))) (#forall:fun(fun(num,bool),bool) (\n:num. ((#=:fun(fun(num,fun(num,num)),fun(fun(num,fun(num,num)),bool)) (#group_mul:fun(group(num),fun(num,fun(num,num))) (#modmul_group:fun(num,group(num)) n:num))) (((#COND:fun(bool,fun(fun(num,fun(num,num)),fun(fun(num,fun(num,num)),fun(num,fun(num,num))))) ((#<=:fun(num,fun(num,bool)) n:num) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num)))) (\a:num. (\b:num. (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num))))) (\a:num. (\b:num. ((#MOD:fun(num,fun(num,num)) ((#*:fun(num,fun(num,num)) a:num) b:num)) n:num))))))))))
