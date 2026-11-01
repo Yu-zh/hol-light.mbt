@@ -100,7 +100,7 @@ fn step_4() -> Unit raise {
   let t13 = @tactics.disch_then((x12 : @kernel.Thm) => @tactics.x_choose_tac(t11, x12))
   let t10 = @simp.rewrite_tac(@list.List([@wf.wf_dchain()]))
   let t45 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t10), t13), t17), t18), t20), t21), t25), t26), t27), t30), t31), t32), @tactics.gen_tac), t33), t35), t36), t40), t44)
-  wf_finite_lemma_c.set(@tactics.prove(@parser.parse_term("forall(<<) s. FINITE s /\\\n            (forall x:A. ~(TC(<<) x x)) /\\ (forall x y. x << y ==> y IN s)\n            ==> WF(<<)"), t45))
+  wf_finite_lemma_c.set(@tactics.prove(@term_syntax.parse_term("∀ `<<` : (A, A) -> Bool, ∀ s : (A) -> Bool, FINITE(s) && (∀ x : A, !TC(`<<`, x, x)) && (∀ x : A, ∀ y : A, `<<`(x, y) → IN(y, s)) → WF(`<<`)"), t45))
 }
 
 ///|
