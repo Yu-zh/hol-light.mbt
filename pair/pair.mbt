@@ -73,9 +73,7 @@ pub fn geq_def() -> @kernel.Thm {
 fn step_5() -> Unit raise {
   _seqpattern_c.set(
     @drule.new_definition(
-      @parser.parse_term(
-        "_SEQPATTERN = \\(r:A->B->bool) s x. if ?y. r x y then r x else s x",
-      ),
+      @term_syntax.parse_term("(_SEQPATTERN : ((A, B) -> Bool, (A, B) -> Bool, A, B) -> Bool) == ((r : (A, B) -> Bool) => (s : (A, B) -> Bool) => (x : A) => if (∃ y : B, r(x, y)) { r(x) } else { s(x) })"),
     ),
   )
 }
@@ -136,9 +134,7 @@ pub fn _guarded_pattern() -> @kernel.Thm {
 fn step_8() -> Unit raise {
   _match_c.set(
     @drule.new_definition(
-      @parser.parse_term(
-        "_MATCH =  \\e (r:A->B->bool). if (?!) (r e) then (@) (r e) else @z. F",
-      ),
+      @term_syntax.parse_term("(_MATCH : (A, (A, B) -> Bool) -> B) == ((e : A) => (r : (A, B) -> Bool) => if existsunique(r(e)) { select(r(e)) } else { select((z : B) => false) })"),
     ),
   )
 }
@@ -157,9 +153,7 @@ pub fn _match() -> @kernel.Thm {
 fn step_9() -> Unit raise {
   _function_c.set(
     @drule.new_definition(
-      @parser.parse_term(
-        "_FUNCTION = \\(r:A->B->bool) x. if (?!) (r x) then (@) (r x) else @z. F",
-      ),
+      @term_syntax.parse_term("(_FUNCTION : ((A, B) -> Bool, A) -> B) == ((r : (A, B) -> Bool) => (x : A) => if existsunique(r(x)) { select(r(x)) } else { select((z : B) => false) })"),
     ),
   )
 }
@@ -239,9 +233,7 @@ fn step_13() -> Unit raise {
   let t2 = @meson.meson_tac(@list.List([prod_tybij()]))
   rep_abs_pair_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:A) (y:B). REP_prod (ABS_prod (mk_pair x y)) = mk_pair x y",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ y : B, REP_prod(ABS_prod(mk_pair(x, y))) == mk_pair(x, y)"),
       t2,
     ),
   )
@@ -409,9 +401,7 @@ fn step_18() -> Unit raise {
   )
   pair_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:A) (y:B) a b. (x,y = a,b) <=> (x = a) /\\ (y = b)",
-      ),
+      @term_syntax.parse_term("∀ x : A, ∀ y : B, ∀ a : A, ∀ b : B, ((x, y) == (a, b)) == (x == a && y == b)"),
       t14,
     ),
   )
@@ -1249,9 +1239,7 @@ pub fn uncurry_def() -> @kernel.Thm {
 fn step_33() -> Unit raise {
   passoc_def_c.set(
     new_definition(
-      @parser.parse_term(
-        "forall f x y z. PASSOC (f:(A#B)#C->D) (x,y,z) = f ((x,y),z)",
-      ),
+      @term_syntax.parse_term("∀ f : (((A, B), C)) -> D, ∀ x : A, ∀ y : B, ∀ z : C, (PASSOC : ((((A, B), C)) -> D, (A, B, C)) -> D)(f, (x, y, z)) == f(((x, y), z))"),
     ),
   )
 }
@@ -1685,9 +1673,7 @@ fn step_40() -> Unit raise {
   let t147 = @simp.rewrite_tac(@list.List([lambda_pair_thm()]))
   lambda_pair_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B->C. (\\(x,y). f x y) = (\\p. f (FST p) (SND p))",
-      ),
+      @term_syntax.parse_term("∀ f : (A, B) -> C, fn { (x, y) => f(x, y) } == ((p : (A, B)) => f(FST(p), SND(p)))"),
       t147,
     ),
   )
@@ -1733,9 +1719,7 @@ fn step_42() -> Unit raise {
   let t149 = @simp.rewrite_tac(@list.List([lambda_triple_thm()]))
   lambda_triple_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->B->C->D.\n   (\\(x,y,z). f x y z) = (\\t. f (FST t) (FST(SND t)) (SND(SND t)))",
-      ),
+      @term_syntax.parse_term("∀ f : (A, B, C) -> D, fn { (x, y, z) => f(x, y, z) } == ((t : (A, B, C)) => f(FST(t), FST(SND(t)), SND(SND(t))))"),
       t149,
     ),
   )
@@ -1759,9 +1743,7 @@ fn step_43() -> Unit raise {
   let t151 = @tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t150)
   paired_eta_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall f:A#B->C. (\\(x,y). f (x,y)) = f) /\\\n   (forall f:A#B#C->D. (\\(x,y,z). f (x,y,z)) = f) /\\\n   (forall f:A#B#C#D->E. (\\(w,x,y,z). f (w,x,y,z)) = f)",
-      ),
+      @term_syntax.parse_term("(∀ f : ((A, B)) -> C, fn { (x, y) => f((x, y)) } == f) && (∀ f : ((A, B, C)) -> D, fn { (x, y, z) => f((x, y, z)) } == f) && (∀ f : ((A, B, C, D)) -> E, fn { (w, x, y, z) => f((w, x, y, z)) } == f)"),
       t151,
     ),
   )
@@ -1922,9 +1904,7 @@ fn step_46() -> Unit raise {
   let t165 = @simp.rewrite_tac(@list.List([exists_uncurry(), paired_eta_thm()]))
   exists_curry_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A#B->C)->bool. (?f. P f) <=> (?f. P (\\(a,b). f a b))",
-      ),
+      @term_syntax.parse_term("∀ P : (((A, B)) -> C) -> Bool, (∃ f : ((A, B)) -> C, P(f)) == (∃ f : (A, B) -> C, P(fn { (a, b) => f(a, b) }))"),
       t165,
     ),
   )
@@ -1945,9 +1925,7 @@ fn step_47() -> Unit raise {
   let t166 = @simp.rewrite_tac(@list.List([forall_uncurry(), paired_eta_thm()]))
   forall_curry_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A#B->C)->bool. (forall f. P f) <=> (forall f. P (\\(a,b). f a b))",
-      ),
+      @term_syntax.parse_term("∀ P : (((A, B)) -> C) -> Bool, (∀ f : ((A, B)) -> C, P(f)) == (∀ f : (A, B) -> C, P(fn { (a, b) => f(a, b) }))"),
       t166,
     ),
   )
@@ -1972,9 +1950,7 @@ fn step_48() -> Unit raise {
   )
   forall_unpair_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:A->B->bool. (forall x y. P x y) <=> forall z. P (FST z) (SND z)",
-      ),
+      @term_syntax.parse_term("∀ P : (A, B) -> Bool, (∀ x : A, ∀ y : B, P(x, y)) == (∀ z : (A, B), P(FST(z), SND(z)))"),
       t168,
     ),
   )
@@ -2001,9 +1977,7 @@ fn step_49() -> Unit raise {
   )
   exists_unpair_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:A->B->bool. (?x y. P x y) <=> ?z. P (FST z) (SND z)",
-      ),
+      @term_syntax.parse_term("∀ P : (A, B) -> Bool, (∃ x : A, ∃ y : B, P(x, y)) == (∃ z : (A, B), P(FST(z), SND(z)))"),
       t170,
     ),
   )
@@ -2123,9 +2097,7 @@ fn step_52() -> Unit raise {
   )
   forall_unpair_fun_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->B)->(A->C)->bool. (forall f g. P f g) <=> (forall h. P (FST o h) (SND o h))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> B, (A) -> C) -> Bool, (∀ f : (A) -> B, ∀ g : (A) -> C, P(f, g)) == (∀ h : (A) -> (B, C), P(o(FST, h), o(SND, h)))"),
       t184,
     ),
   )
@@ -2150,9 +2122,7 @@ fn step_53() -> Unit raise {
   )
   exists_unpair_fun_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->B)->(A->C)->bool. (?f g. P f g) <=> (?h. P (FST o h) (SND o h))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A) -> B, (A) -> C) -> Bool, (∃ f : (A) -> B, ∃ g : (A) -> C, P(f, g)) == (∃ h : (A) -> (B, C), P(o(FST, h), o(SND, h)))"),
       t185,
     ),
   )
@@ -2201,9 +2171,7 @@ fn step_54() -> Unit raise {
   )
   exists_swap_fun_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:(A->B->C)->bool. (?f. P f) <=> (?f. P (\\a b. f b a))",
-      ),
+      @term_syntax.parse_term("∀ P : ((A, B) -> C) -> Bool, (∃ f : (A, B) -> C, P(f)) == (∃ f : (B, A) -> C, P((a : A) => (b : B) => f(b, a)))"),
       t195,
     ),
   )
@@ -2342,9 +2310,7 @@ fn step_57() -> Unit raise {
   )
   forall_tripled_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:A->B->C->bool. (forall(x,y,z). P x y z) <=> (forall x y z. P x y z)",
-      ),
+      @term_syntax.parse_term("∀ P : (A, B, C) -> Bool, (∀ (x, y, z) : (A, B, C), P(x, y, z)) == (∀ x : A, ∀ y : B, ∀ z : C, P(x, y, z))"),
       t215,
     ),
   )
@@ -2381,9 +2347,7 @@ fn step_58() -> Unit raise {
   )
   exists_tripled_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:A->B->C->bool. (?(x,y,z). P x y z) <=> (?x y z. P x y z)",
-      ),
+      @term_syntax.parse_term("∀ P : (A, B, C) -> Bool, (∃ (x, y, z) : (A, B, C), P(x, y, z)) == (∃ x : A, ∃ y : B, ∃ z : C, P(x, y, z))"),
       t217,
     ),
   )
@@ -2512,9 +2476,7 @@ fn step_60() -> Unit raise {
   )
   choice_paired_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P Q. (?x:A y:B. P x y) /\\ (forall x y. P x y ==> Q(x,y)) ==> Q (@(x,y). P x y)",
-      ),
+      @term_syntax.parse_term("∀ P : (A, B) -> Bool, ∀ Q : ((A, B)) -> Bool, (∃ x : A, ∃ y : B, P(x, y)) && (∀ x : A, ∀ y : B, P(x, y) → Q((x, y))) → Q(select(fn { (x, y) => P(x, y) }))"),
       t230,
     ),
   )
