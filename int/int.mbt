@@ -112,9 +112,7 @@ fn step_5() -> Unit raise {
   )
   dest_int_rep_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall i. ?n. (real_of_int i = &n) \\/ (real_of_int i = --(&n))",
-      ),
+      @term_syntax.parse_term("∀ i : Int, ∃ n : Num, real_of_int(i) == real_of_num(n) || real_of_int(i) == -real_of_num(n)"),
       t5,
     ),
   )
@@ -494,9 +492,7 @@ pub fn int_neg_th() -> @kernel.Thm {
 fn step_17() -> Unit raise {
   int_add_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "x + y = int_of_real((real_of_int x) + (real_of_int y))",
-      ),
+      @term_syntax.parse_term("(int_add : (Int, Int) -> Int)((x : Int), (y : Int)) == int_of_real(real_of_int(x) + real_of_int(y))"),
     ),
   )
 }
@@ -698,9 +694,7 @@ fn step_18() -> Unit raise {
   )
   int_add_th_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. real_of_int(x + y) = (real_of_int x) + (real_of_int y)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, real_of_int(x + y) == real_of_int(x) + real_of_int(y)"),
       t58,
     ),
   )
@@ -747,9 +741,7 @@ fn step_20() -> Unit raise {
   )
   int_sub_th_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. real_of_int(x - y) = (real_of_int x) - (real_of_int y)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, real_of_int(x - y) == real_of_int(x) - real_of_int(y)"),
       t61,
     ),
   )
@@ -769,9 +761,7 @@ pub fn int_sub_th() -> @kernel.Thm {
 fn step_21() -> Unit raise {
   int_mul_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "x * y = int_of_real ((real_of_int x) * (real_of_int y))",
-      ),
+      @term_syntax.parse_term("(int_mul : (Int, Int) -> Int)((x : Int), (y : Int)) == int_of_real(real_of_int(x) * real_of_int(y))"),
     ),
   )
 }
@@ -839,9 +829,7 @@ fn step_22() -> Unit raise {
   )
   int_mul_th_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. real_of_int(x * y) = (real_of_int x) * (real_of_int y)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, real_of_int(x * y) == real_of_int(x) * real_of_int(y)"),
       t70,
     ),
   )
@@ -971,9 +959,7 @@ pub fn int_sgn_th() -> @kernel.Thm {
 fn step_27() -> Unit raise {
   int_max_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "int_max x y = int_of_real(max (real_of_int x) (real_of_int y))",
-      ),
+      @term_syntax.parse_term("(int_max : (Int, Int) -> Int)((x : Int), (y : Int)) == int_of_real(max(real_of_int(x), real_of_int(y)))"),
     ),
   )
 }
@@ -1001,9 +987,7 @@ fn step_28() -> Unit raise {
   )
   int_max_th_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. real_of_int(max x y) = max (real_of_int x) (real_of_int y)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, real_of_int(max(x, y)) == max(real_of_int(x), real_of_int(y))"),
       t78,
     ),
   )
@@ -1023,9 +1007,7 @@ pub fn int_max_th() -> @kernel.Thm {
 fn step_29() -> Unit raise {
   int_min_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "int_min x y = int_of_real(min (real_of_int x) (real_of_int y))",
-      ),
+      @term_syntax.parse_term("(int_min : (Int, Int) -> Int)((x : Int), (y : Int)) == int_of_real(min(real_of_int(x), real_of_int(y)))"),
     ),
   )
 }
@@ -1053,9 +1035,7 @@ fn step_30() -> Unit raise {
   )
   int_min_th_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. real_of_int(min x y) = min (real_of_int x) (real_of_int y)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, real_of_int(min(x, y)) == min(real_of_int(x), real_of_int(y))"),
       t81,
     ),
   )
@@ -1227,9 +1207,7 @@ fn step_33() -> Unit raise {
   )
   real_of_int_clauses_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x y. real_of_int x = real_of_int y <=> x = y) /\\\n   (forall x y. real_of_int x >= real_of_int y <=> x >= y) /\\\n   (forall x y. real_of_int x > real_of_int y <=> x > y) /\\\n   (forall x y. real_of_int x <= real_of_int y <=> x <= y) /\\\n   (forall x y. real_of_int x < real_of_int y <=> x < y) /\\\n   (forall x y. max (real_of_int x) (real_of_int y) = real_of_int(max x y)) /\\\n   (forall x y. min (real_of_int x) (real_of_int y) = real_of_int(min x y)) /\\\n   (forall n. &n = real_of_int(&n)) /\\\n   (forall x. --real_of_int x = real_of_int(--x)) /\\\n   (forall x. abs(real_of_int x) = real_of_int(abs x)) /\\\n   (forall x y. max (real_of_int x) (real_of_int y) = real_of_int(max x y)) /\\\n   (forall x y. min (real_of_int x) (real_of_int y) = real_of_int(min x y)) /\\\n   (forall x. real_sgn (real_of_int x) = real_of_int(int_sgn x)) /\\\n   (forall x y. real_of_int x + real_of_int y = real_of_int(x + y)) /\\\n   (forall x y. real_of_int x - real_of_int y = real_of_int(x - y)) /\\\n   (forall x y. real_of_int x * real_of_int y = real_of_int(x * y)) /\\\n   (forall x n. real_of_int x pow n = real_of_int(x pow n))",
-      ),
+      @term_syntax.parse_term("(∀ x : Int, ∀ y : Int, (real_of_int(x) == real_of_int(y)) == (x == y)) && (∀ x : Int, ∀ y : Int, (real_of_int(x) >= real_of_int(y)) == (x >= y)) && (∀ x : Int, ∀ y : Int, (real_of_int(x) > real_of_int(y)) == (x > y)) && (∀ x : Int, ∀ y : Int, (real_of_int(x) <= real_of_int(y)) == (x <= y)) && (∀ x : Int, ∀ y : Int, (real_of_int(x) < real_of_int(y)) == (x < y)) && (∀ x : Int, ∀ y : Int, max(real_of_int(x), real_of_int(y)) == real_of_int(max(x, y))) && (∀ x : Int, ∀ y : Int, min(real_of_int(x), real_of_int(y)) == real_of_int(min(x, y))) && (∀ n : Num, real_of_num(n) == real_of_int(int_of_num(n))) && (∀ x : Int, -real_of_int(x) == real_of_int(-x)) && (∀ x : Int, abs(real_of_int(x)) == real_of_int(abs(x))) && (∀ x : Int, ∀ y : Int, max(real_of_int(x), real_of_int(y)) == real_of_int(max(x, y))) && (∀ x : Int, ∀ y : Int, min(real_of_int(x), real_of_int(y)) == real_of_int(min(x, y))) && (∀ x : Int, real_sgn(real_of_int(x)) == real_of_int(int_sgn(x))) && (∀ x : Int, ∀ y : Int, real_of_int(x) + real_of_int(y) == real_of_int(x + y)) && (∀ x : Int, ∀ y : Int, real_of_int(x) - real_of_int(y) == real_of_int(x - y)) && (∀ x : Int, ∀ y : Int, real_of_int(x) * real_of_int(y) == real_of_int(x * y)) && (∀ x : Int, ∀ n : Num, pow(real_of_int(x), n) == real_of_int(pow(x, n)))"),
       t91,
     ),
   )
@@ -1425,9 +1403,7 @@ fn step_35() -> Unit raise {
   let t110 = @meson.meson_tac(@list.List([int_image()]))
   forall_int_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:int->bool. (forall x. P x) <=> (forall n. P(&n)) /\\ (forall n. P(-- &n))",
-      ),
+      @term_syntax.parse_term("∀ P : (Int) -> Bool, (∀ x : Int, P(x)) == ((∀ n : Num, P(int_of_num(n))) && (∀ n : Num, P(-int_of_num(n))))"),
       t110,
     ),
   )
@@ -1450,9 +1426,7 @@ fn step_36() -> Unit raise {
   let t111 = @meson.meson_tac(@list.List([int_image()]))
   exists_int_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:int->bool. (?x. P x) <=> (?n. P(&n)) \\/ (?n. P(-- &n))",
-      ),
+      @term_syntax.parse_term("∀ P : (Int) -> Bool, (∃ x : Int, P(x)) == ((∃ n : Num, P(int_of_num(n))) || (∃ n : Num, P(-int_of_num(n))))"),
       t111,
     ),
   )
@@ -1781,9 +1755,7 @@ fn step_40() -> Unit raise {
     @simp.rewrite_tac(@list.List([])),
   )
   let cond_th = @tactics.prove(
-    @parser.parse_term(
-      "real_of_int(if b then x else y) =\n       if b then real_of_int x else real_of_int y",
-    ),
+    @term_syntax.parse_term("real_of_int(if (b : Bool) { (x : Int) } else { (y : Int) }) == (if b { real_of_int(x) } else { real_of_int(y) })"),
     t144,
   )
   let thlist = @lib.map(
@@ -6129,9 +6101,7 @@ fn step_317() -> Unit raise {
   let t154 = @meson.meson_tac(@list.List([int_le_total()]))
   int_wlog_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x y:int. P x y <=> P y x) /\\ (forall x y. x <= y ==> P x y) ==> forall x y. P x y",
-      ),
+      @term_syntax.parse_term("(∀ x : Int, ∀ y : Int, (P : (Int, Int) -> Bool)(x, y) == P(y, x)) && (∀ x : Int, ∀ y : Int, x <= y → P(x, y)) → (∀ x : Int, ∀ y : Int, P(x, y))"),
       t154,
     ),
   )
@@ -6152,9 +6122,7 @@ fn step_318() -> Unit raise {
   let t155 = @meson.meson_tac(@list.List([int_lt_total()]))
   int_wlog_lt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall x:int. P x x) /\\ (forall x y. P x y <=> P y x) /\\ (forall x y. x < y ==> P x y)\n   ==> forall x y. P x y",
-      ),
+      @term_syntax.parse_term("(∀ x : Int, (P : (Int, Int) -> Bool)(x, x)) && (∀ x : Int, ∀ y : Int, P(x, y) == P(y, x)) && (∀ x : Int, ∀ y : Int, x < y → P(x, y)) → (∀ x : Int, ∀ y : Int, P(x, y))"),
       t155,
     ),
   )
@@ -6175,9 +6143,7 @@ fn step_319() -> Unit raise {
   let t156 = @meson.meson_tac(@list.List([int_le_total()]))
   int_wlog_le_3_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (forall x y z. P x y z ==> P y x z /\\ P x z y) /\\\n       (forall x y z:int. x <= y /\\ y <= z ==> P x y z)\n       ==> forall x y z. P x y z",
-      ),
+      @term_syntax.parse_term("∀ P : (Int, Int, Int) -> Bool, (∀ x : Int, ∀ y : Int, ∀ z : Int, P(x, y, z) → P(y, x, z) && P(x, z, y)) && (∀ x : Int, ∀ y : Int, ∀ z : Int, x <= y && y <= z → P(x, y, z)) → (∀ x : Int, ∀ y : Int, ∀ z : Int, P(x, y, z))"),
       t156,
     ),
   )
@@ -6457,9 +6423,7 @@ fn step_324() -> Unit raise {
   )
   int_pow_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(x pow 0 = &1) /\\\n   (forall n. x pow (SUC n) = x * x pow n)",
-      ),
+      @term_syntax.parse_term("pow((x : Int), 0) == int_of_num(1) && (∀ n : Num, pow(x, SUC(n)) == x * pow(x, n))"),
       t181,
     ),
   )
@@ -6576,9 +6540,7 @@ fn step_329() -> Unit raise {
     @list.List([int_not_le(), int_not_lt(), int_not_eq(), int_lt_discrete()]),
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "(~(x:int <= y) <=> y + &1 <= x) /\\\n        (~(x < y) <=> y <= x) /\\\n        (~(x = y) <=> x + &1 <= y \\/ y + &1 <= x) /\\\n        (x < y <=> x + &1 <= y)",
-    ),
+    @term_syntax.parse_term("!((x : Int) <= (y : Int)) == (y + int_of_num(1) <= x) && !(x < y) == (y <= x) && !(x == y) == (x + int_of_num(1) <= y || y + int_of_num(1) <= x) && (x < y) == (x + int_of_num(1) <= y)"),
     t187,
   )
   let atom_conv : (@kernel.Term) -> @kernel.Thm raise = @simp.gen_rewrite_conv(
@@ -7095,9 +7057,7 @@ fn step_339() -> Unit raise {
   )
   int_mul_eq_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:int. x * y = &1 <=> x = &1 /\\ y = &1 \\/ x = --(&1) /\\ y = --(&1)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, (x * y == int_of_num(1)) == (x == int_of_num(1) && y == int_of_num(1) || x == -int_of_num(1) && y == -int_of_num(1))"),
       t231,
     ),
   )
@@ -7152,9 +7112,7 @@ fn step_340() -> Unit raise {
   )
   int_abs_mul_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. abs(x * y) = &1 <=> abs(x) = &1 /\\ abs(y) = &1",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, (abs(x * y) == int_of_num(1)) == (abs(x) == int_of_num(1) && abs(y) == int_of_num(1))"),
       t240,
     ),
   )
@@ -7214,9 +7172,7 @@ fn step_341() -> Unit raise {
   )
   int_wop_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(?x. &0 <= x /\\ P x) <=>\n   (?x. &0 <= x /\\ P x /\\ forall y. &0 <= y /\\ P y ==> x <= y)",
-      ),
+      @term_syntax.parse_term("(∃ x : Int, int_of_num(0) <= x && (P : (Int) -> Bool)(x)) == (∃ x : Int, int_of_num(0) <= x && P(x) && (∀ y : Int, int_of_num(0) <= y && P(y) → x <= y))"),
       t248,
     ),
   )
@@ -7303,9 +7259,7 @@ fn step_342() -> Unit raise {
       int_pos(),
       int_le_lmul(),
       int_arith_v1(
-        @parser.parse_term(
-          "x + &1 <= &n /\\ &n * &1 <= &n * d ==> x + &1 <= &n * d",
-        ),
+        @term_syntax.parse_term("(x : Int) + int_of_num(1) <= int_of_num((n : Num)) && int_of_num(n) * int_of_num(1) <= int_of_num(n) * (d : Int) → x + int_of_num(1) <= int_of_num(n) * d"),
       ),
     ]),
   )
@@ -7914,9 +7868,7 @@ fn step_343() -> Unit raise {
   )
   int_divmod_exist_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n:int. ?q r. if n = &0 then q = &0 /\\ r = m\n                   else &0 <= r /\\ r < abs(n) /\\ m = q * n + r",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, ∃ q : Int, ∃ r : Int, (if n == int_of_num(0) { q == int_of_num(0) && r == m } else { int_of_num(0) <= r && r < abs(n) && m == q * n + r })"),
       t322,
     ),
   )
@@ -7971,9 +7923,7 @@ fn step_347() -> Unit raise {
   let t324 = @meson.meson_tac(@list.List([int_division_0()]))
   int_division_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. ~(n = &0)\n         ==> m = m div n * n + m rem n /\\ &0 <= m rem n /\\ m rem n < abs n",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, !(n == int_of_num(0)) → m == div(m, n) * n + rem(m, n) && int_of_num(0) <= rem(m, n) && rem(m, n) < abs(n)"),
       t324,
     ),
   )
@@ -8246,9 +8196,7 @@ pub fn int_eq_conv(x : @kernel.Term) -> @kernel.Thm raise {
 /// INT_LE_CONV, INT_LT_CONV, INT_GE_CONV, INT_GT_CONV, INT_EQ_CONV
 fn step_356() -> Unit raise {
   let tth = @class.taut(
-    @parser.parse_term(
-      "(F /\\ F <=> F) /\\ (F /\\ T <=> F) /\\\n          (T /\\ F <=> F) /\\ (T /\\ T <=> T)",
-    ),
+    @term_syntax.parse_term("(false && false) == false && (false && true) == false && (true && false) == false && (true && true) == true"),
   )
   let nth = @class.taut(@term_syntax.parse_term("!true == false && !false == true"))
   let t345 = @simp.gen_rewrite_conv(
@@ -8288,9 +8236,7 @@ fn step_356() -> Unit raise {
     t351,
   )
   let t353 = (
-    @parser.parse_term(
-      "(--(&m) <= &n <=> T) /\\\n     (&m <= &n <=> m <= n) /\\\n     (--(&m) <= --(&n) <=> n <= m) /\\\n     (&m <= --(&n) <=> (m = 0) /\\ (n = 0))",
-    ),
+    @term_syntax.parse_term("(-int_of_num((m : Num)) <= int_of_num((n : Num))) == true && (int_of_num(m) <= int_of_num(n)) == (m <= n) && (-int_of_num(m) <= -int_of_num(n)) == (n <= m) && (int_of_num(m) <= -int_of_num(n)) == (m == 0 && n == 0)"),
     t352,
   )
   let (int_le_conv_1, int_lt_conv_1, int_ge_conv_1, int_gt_conv_1, int_eq_conv_1
@@ -8378,9 +8324,7 @@ fn step_356() -> Unit raise {
         t360,
       )
       let t362 = (
-        @parser.parse_term(
-          "(&m < --(&n) <=> F) /\\\n     (&m < &n <=> m < n) /\\\n     (--(&m) < --(&n) <=> n < m) /\\\n     (--(&m) < &n <=> ~((m = 0) /\\ (n = 0)))",
-        ),
+        @term_syntax.parse_term("(int_of_num((m : Num)) < -int_of_num((n : Num))) == false && (int_of_num(m) < int_of_num(n)) == (m < n) && (-int_of_num(m) < -int_of_num(n)) == (n < m) && (-int_of_num(m) < int_of_num(n)) == !(m == 0 && n == 0)"),
         t361,
       )
       match
@@ -8463,9 +8407,7 @@ fn step_356() -> Unit raise {
             t369,
           )
           let t371 = (
-            @parser.parse_term(
-              "(&m >= --(&n) <=> T) /\\\n     (&m >= &n <=> n <= m) /\\\n     (--(&m) >= --(&n) <=> m <= n) /\\\n     (--(&m) >= &n <=> (m = 0) /\\ (n = 0))",
-            ),
+            @term_syntax.parse_term("(int_of_num((m : Num)) >= -int_of_num((n : Num))) == true && (int_of_num(m) >= int_of_num(n)) == (n <= m) && (-int_of_num(m) >= -int_of_num(n)) == (m <= n) && (-int_of_num(m) >= int_of_num(n)) == (m == 0 && n == 0)"),
             t370,
           )
           match
@@ -8550,9 +8492,7 @@ fn step_356() -> Unit raise {
                 t378,
               )
               let t380 = (
-                @parser.parse_term(
-                  "(--(&m) > &n <=> F) /\\\n     (&m > &n <=> n < m) /\\\n     (--(&m) > --(&n) <=> m < n) /\\\n     (&m > --(&n) <=> ~((m = 0) /\\ (n = 0)))",
-                ),
+                @term_syntax.parse_term("(-int_of_num((m : Num)) > int_of_num((n : Num))) == false && (int_of_num(m) > int_of_num(n)) == (n < m) && (-int_of_num(m) > -int_of_num(n)) == (m < n) && (int_of_num(m) > -int_of_num(n)) == !(m == 0 && n == 0)"),
                 t379,
               )
               match
@@ -8651,9 +8591,7 @@ fn step_356() -> Unit raise {
                     t389,
                   )
                   let t391 = (
-                    @parser.parse_term(
-                      "((&m = &n) <=> (m = n)) /\\\n     ((--(&m) = --(&n)) <=> (m = n)) /\\\n     ((--(&m) = &n) <=> (m = 0) /\\ (n = 0)) /\\\n     ((&m = --(&n)) <=> (m = 0) /\\ (n = 0))",
-                    ),
+                    @term_syntax.parse_term("(int_of_num((m : Num)) == int_of_num((n : Num))) == (m == n) && (-int_of_num(m) == -int_of_num(n)) == (m == n) && (-int_of_num(m) == int_of_num(n)) == (m == 0 && n == 0) && (int_of_num(m) == -int_of_num(n)) == (m == 0 && n == 0)"),
                     t390,
                   )
                   match
@@ -8780,9 +8718,7 @@ pub fn int_neg_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_358() -> Unit raise {
   let t397 = @simp.rewrite_tac(@list.List([int_mul_lzero(), int_mul_rzero()]))
   let pth0 = @tactics.prove(
-    @parser.parse_term(
-      "(&0 * &x = &0) /\\\n     (&0 * --(&x) = &0) /\\\n     (&x * &0 = &0) /\\\n     (--(&x) * &0 = &0)",
-    ),
+    @term_syntax.parse_term("int_of_num(0) * int_of_num((x : Num)) == int_of_num(0) && int_of_num(0) * -int_of_num(x) == int_of_num(0) && int_of_num(x) * int_of_num(0) == int_of_num(0) && -int_of_num(x) * int_of_num(0) == int_of_num(0)"),
     t397,
   )
   let t399 = @simp.rewrite_tac(@list.List([int_of_num_mul()]))
@@ -8793,9 +8729,7 @@ fn step_358() -> Unit raise {
     t399,
   )
   let t401 = (
-    @parser.parse_term(
-      "((&m * &n = &(m * n)) /\\\n      (--(&m) * --(&n) = &(m * n))) /\\\n     ((--(&m) * &n = --(&(m * n))) /\\\n      (&m * --(&n) = --(&(m * n))))",
-    ),
+    @term_syntax.parse_term("(int_of_num((m : Num)) * int_of_num((n : Num)) == int_of_num(m * n) && -int_of_num(m) * -int_of_num(n) == int_of_num(m * n)) && -int_of_num(m) * int_of_num(n) == -int_of_num(m * n) && int_of_num(m) * -int_of_num(n) == -int_of_num(m * n)"),
     t400,
   )
   let (pth1, pth2) = @bool.conj_pair(
@@ -8922,9 +8856,7 @@ fn step_359() -> Unit raise {
     t417,
   )
   let t419 = (
-    @parser.parse_term(
-      "(--(&m) + --(&n) = --(&(m + n))) /\\\n     (--(&m) + &(m + n) = &n) /\\\n     (--(&(m + n)) + &m = --(&n)) /\\\n     (&(m + n) + --(&m) = &n) /\\\n     (&m + --(&(m + n)) = --(&n)) /\\\n     (&m + &n = &(m + n))",
-    ),
+    @term_syntax.parse_term("-int_of_num((m : Num)) + -int_of_num((n : Num)) == -int_of_num(m + n) && -int_of_num(m) + int_of_num(m + n) == int_of_num(n) && -int_of_num(m + n) + int_of_num(m) == -int_of_num(n) && int_of_num(m + n) + -int_of_num(m) == int_of_num(n) && int_of_num(m) + -int_of_num(m + n) == -int_of_num(n) && int_of_num(m) + int_of_num(n) == int_of_num(m + n)"),
     t418,
   )
   int_add_conv_c.set(
@@ -9149,9 +9081,7 @@ pub fn int_sub_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_361() -> Unit raise {
   let t429 = @simp.rewrite_tac(@list.List([int_of_num_pow(), int_pow_neg()]))
   let t430 = (
-    @parser.parse_term(
-      "(&x pow n = &(x EXP n)) /\\\n     ((--(&x)) pow n = if EVEN n then &(x EXP n) else --(&(x EXP n)))",
-    ),
+    @term_syntax.parse_term("pow(int_of_num((x : Num)), (n : Num)) == int_of_num(EXP(x, n)) && pow(-int_of_num(x), n) == (if EVEN(n) { int_of_num(EXP(x, n)) } else { -int_of_num(EXP(x, n)) })"),
     t429,
   )
   let (pth1, pth2) = @bool.conj_pair(
@@ -9184,9 +9114,7 @@ fn step_361() -> Unit raise {
   )
   let t431 = @simp.rewrite_tac(@list.List([]))
   let tth = @tactics.prove(
-    @parser.parse_term(
-      "((if T then x:int else y) = x) /\\ ((if F then x:int else y) = y)",
-    ),
+    @term_syntax.parse_term("(if true { (x : Int) } else { (y : Int) }) == x && (if false { x } else { y }) == y"),
     t431,
   )
   let neg_tm = @term_syntax.parse_term("int_neg")
@@ -9407,15 +9335,11 @@ fn step_366() -> Unit raise {
     int_arith_tac_v1,
   )
   let sth = @tactics.prove(
-    @parser.parse_term(
-      "(forall x y z. x + (y + z) = (x + y) + z) /\\\n     (forall x y. x + y = y + x) /\\\n     (forall x. &0 + x = x) /\\\n     (forall x y z. x * (y * z) = (x * y) * z) /\\\n     (forall x y. x * y = y * x) /\\\n     (forall x. &1 * x = x) /\\\n     (forall x. &0 * x = &0) /\\\n     (forall x y z. x * (y + z) = x * y + x * z) /\\\n     (forall x. x pow 0 = &1) /\\\n     (forall x n. x pow (SUC n) = x * x pow n)",
-    ),
+    @term_syntax.parse_term("(∀ x : Int, ∀ y : Int, ∀ z : Int, x + (y + z) == x + y + z) && (∀ x : Int, ∀ y : Int, x + y == y + x) && (∀ x : Int, int_of_num(0) + x == x) && (∀ x : Int, ∀ y : Int, ∀ z : Int, x * (y * z) == x * y * z) && (∀ x : Int, ∀ y : Int, x * y == y * x) && (∀ x : Int, int_of_num(1) * x == x) && (∀ x : Int, int_of_num(0) * x == int_of_num(0)) && (∀ x : Int, ∀ y : Int, ∀ z : Int, x * (y + z) == x * y + x * z) && (∀ x : Int, pow(x, 0) == int_of_num(1)) && (∀ x : Int, ∀ n : Num, pow(x, SUC(n)) == x * pow(x, n))"),
     t457,
   )
   let rth = @tactics.prove(
-    @parser.parse_term(
-      "(forall x. --x = --(&1) * x) /\\\n     (forall x y. x - y = x + --(&1) * y)",
-    ),
+    @term_syntax.parse_term("(∀ x : Int, -x == -int_of_num(1) * x) && (∀ x : Int, ∀ y : Int, x - y == x + -int_of_num(1) * y)"),
     int_arith_tac_v1,
   )
   let is_semiring_constant : (@kernel.Term) -> Bool raise = is_intconst
@@ -9495,9 +9419,7 @@ fn step_367() -> Unit raise {
     int_arith_tac_v1,
   )
   let int_integral = @tactics.prove(
-    @parser.parse_term(
-      "(forall x. &0 * x = &0) /\\\n     (forall x y z. (x + y = x + z) <=> (y = z)) /\\\n     (forall w x y z. (w * y + x * z = w * z + x * y) <=> (w = x) \\/ (y = z))",
-    ),
+    @term_syntax.parse_term("(∀ x : Int, int_of_num(0) * x == int_of_num(0)) && (∀ x : Int, ∀ y : Int, ∀ z : Int, (x + y == x + z) == (y == z)) && (∀ w : Int, ∀ x : Int, ∀ y : Int, ∀ z : Int, (w * y + x * z == w * z + x * y) == (w == x || y == z))"),
     t465,
   )
   let int_ty = @parser.parse_type("int")
@@ -9610,9 +9532,7 @@ pub fn cong() -> @kernel.Thm {
 fn step_375() -> Unit raise {
   real_mod_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "real_mod n (x:real) y = ?q. integer q /\\ x - y = q * n",
-      ),
+      @term_syntax.parse_term("(real_mod : (Real, Real, Real) -> Bool)((n : Real), (x : Real), (y : Real)) == (∃ q : Real, integer(q) && x - y == q * n)"),
     ),
   )
 }
@@ -9706,9 +9626,7 @@ fn step_380() -> Unit raise {
   )
   int_divides_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:int. x divides y ==> abs(x) <= abs(y) \\/ y = &0",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, divides(x, y) → abs(x) <= abs(y) || y == int_of_num(0)"),
       t479,
     ),
   )
@@ -9863,9 +9781,7 @@ fn step_385() -> Unit raise {
   )
   int_cong_imp_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y n:int. abs(x - y) < n /\\ (x == y) (mod n) ==> x = y",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, ∀ n : Int, abs(x - y) < n && op_eq_eq(x, y, mod(n)) → x == y"),
       t488,
     ),
   )
@@ -10741,9 +10657,7 @@ fn step_389() -> Unit raise {
   ])
   let t607 = @tactics.match_mp_tac(
     int_arith_v1(
-      @parser.parse_term(
-        "&1 * abs n <= abs(q - m div n) * abs n /\\\n    abs(m rem n - r) = abs((q - m div n) * n)\n    ==> ~(abs(m rem n - r) < abs n)",
-      ),
+      @term_syntax.parse_term("int_of_num(1) * abs((n : Int)) <= abs((q : Int) - div((m : Int), n)) * abs(n) && abs(rem(m, n) - (r : Int)) == abs((q - div(m, n)) * n) → !(abs(rem(m, n) - r) < abs(n))"),
     ),
   )
   let t606 = @list.List([
@@ -10986,9 +10900,7 @@ fn step_389() -> Unit raise {
   )
   int_divmod_uniq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n q r. m = q * n + r /\\ &0 <= r /\\ r < abs n\n             ==> m div n = q /\\ m rem n = r",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, ∀ q : Int, ∀ r : Int, m == q * n + r && int_of_num(0) <= r && r < abs(n) → div(m, n) == q && rem(m, n) == r"),
       t614,
     ),
   )
@@ -11011,9 +10923,7 @@ fn step_390() -> Unit raise {
   let t615 = @meson.meson_tac(@list.List([int_divmod_uniq()]))
   int_div_uniq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n q r. m = q * n + r /\\ &0 <= r /\\ r < abs n\n             ==> m div n = q",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, ∀ q : Int, ∀ r : Int, m == q * n + r && int_of_num(0) <= r && r < abs(n) → div(m, n) == q"),
       t615,
     ),
   )
@@ -11034,9 +10944,7 @@ fn step_391() -> Unit raise {
   let t616 = @meson.meson_tac(@list.List([int_divmod_uniq()]))
   int_rem_uniq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n q r. m = q * n + r /\\ &0 <= r /\\ r < abs n\n             ==> m rem n = r",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, ∀ q : Int, ∀ r : Int, m == q * n + r && int_of_num(0) <= r && r < abs(n) → rem(m, n) == r"),
       t616,
     ),
   )
@@ -11106,9 +11014,7 @@ fn step_392() -> Unit raise {
     asm_int_arith_tac_v1,
   )
   let t624 = (
-    @parser.parse_term(
-      "(forall m n. (~(n = &0) ==> &0 <= m) /\\ m < n ==> m div n = &0) /\\\n   (forall m n. (~(n = &0) ==> &0 <= m) /\\ m < n ==> m rem n = m)",
-    ),
+    @term_syntax.parse_term("(∀ m : Int, ∀ n : Int, (!(n == int_of_num(0)) → int_of_num(0) <= m) && m < n → div(m, n) == int_of_num(0)) && (∀ m : Int, ∀ n : Int, (!(n == int_of_num(0)) → int_of_num(0) <= m) && m < n → rem(m, n) == m)"),
     t623,
   )
   let (int_div_lt, int_rem_lt) = @bool.conj_pair(
@@ -11194,9 +11100,7 @@ fn step_393() -> Unit raise {
     asm_int_arith_tac_v1,
   )
   let t633 = (
-    @parser.parse_term(
-      "(forall m n. m div (--n) = --(m div n)) /\\\n   (forall m n. m rem (--n) = m rem n)",
-    ),
+    @term_syntax.parse_term("(∀ m : Int, ∀ n : Int, div(m, -n) == -div(m, n)) && (∀ m : Int, ∀ n : Int, rem(m, -n) == rem(m, n))"),
     t632,
   )
   let (int_div_rneg, int_rem_rneg) = @bool.conj_pair(
@@ -11586,9 +11490,7 @@ fn step_399() -> Unit raise {
   )
   int_mul_div_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m n. n * m div n = m <=> n divides m) /\\\n   (forall m n. m div n * n = m <=> n divides m)",
-      ),
+      @term_syntax.parse_term("(∀ m : Int, ∀ n : Int, (n * div(m, n) == m) == divides(n, m)) && (∀ m : Int, ∀ n : Int, (div(m, n) * n == m) == divides(n, m))"),
       t680,
     ),
   )
@@ -11704,9 +11606,7 @@ fn step_403() -> Unit raise {
   )
   int_rem_rem_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m n p. m rem (n * p) rem n = m rem n) /\\\n   (forall m n p. m rem (n * p) rem p = m rem p)",
-      ),
+      @term_syntax.parse_term("(∀ m : Int, ∀ n : Int, ∀ p : Int, rem(rem(m, n * p), n) == rem(m, n)) && (∀ m : Int, ∀ n : Int, ∀ p : Int, rem(rem(m, n * p), p) == rem(m, p))"),
       t691,
     ),
   )
@@ -11729,9 +11629,7 @@ fn step_404() -> Unit raise {
   let t692 = @meson.meson_tac(@list.List([int_division(), int_rem_mod_self()]))
   int_cong_solve_bounds_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n:int. ~(n = &0) ==> ?x. &0 <= x /\\ x < abs n /\\ (x == a) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ a : Int, ∀ n : Int, !(n == int_of_num(0)) → (∃ x : Int, int_of_num(0) <= x && x < abs(n) && op_eq_eq(x, a, mod(n)))"),
       t692,
     ),
   )
@@ -11788,9 +11686,7 @@ fn step_406() -> Unit raise {
   let t699 = @simp.rewrite_tac(@list.List([int_rem_mod_self()]))
   let t698 = @tactics.match_mp_tac(
     integer_rule_v1(
-      @parser.parse_term(
-        "(x:int == x') (mod n) /\\ (y == y') (mod n)\n    ==> (x + y == x' + y') (mod n)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((x : Int), (x' : Int), mod((n : Int))) && op_eq_eq((y : Int), (y' : Int), mod(n)) → op_eq_eq(x + y, x' + y', mod(n))"),
     ),
   )
   let t697 = @simp.rewrite_tac(@list.List([int_rem_eq()]))
@@ -11824,9 +11720,7 @@ fn step_407() -> Unit raise {
   let t703 = @simp.rewrite_tac(@list.List([int_rem_mod_self()]))
   let t702 = @tactics.match_mp_tac(
     integer_rule_v1(
-      @parser.parse_term(
-        "(x:int == x') (mod n) /\\ (y == y') (mod n)\n    ==> (x - y == x' - y') (mod n)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((x : Int), (x' : Int), mod((n : Int))) && op_eq_eq((y : Int), (y' : Int), mod(n)) → op_eq_eq(x - y, x' - y', mod(n))"),
     ),
   )
   let t701 = @simp.rewrite_tac(@list.List([int_rem_eq()]))
@@ -11860,9 +11754,7 @@ fn step_408() -> Unit raise {
   let t707 = @simp.rewrite_tac(@list.List([int_rem_mod_self()]))
   let t706 = @tactics.match_mp_tac(
     integer_rule_v1(
-      @parser.parse_term(
-        "(x:int == x') (mod n) /\\ (y == y') (mod n)\n    ==> (x * y == x' * y') (mod n)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((x : Int), (x' : Int), mod((n : Int))) && op_eq_eq((y : Int), (y' : Int), mod(n)) → op_eq_eq(x * y, x' * y', mod(n))"),
     ),
   )
   let t705 = @simp.rewrite_tac(@list.List([int_rem_eq()]))
@@ -12003,9 +11895,7 @@ fn step_410() -> Unit raise {
     t726,
   )
   let t728 = (
-    @parser.parse_term(
-      "(forall m n. &m div &n = &(m DIV n)) /\\\n   (forall m n. &m rem &n = &(m MOD n))",
-    ),
+    @term_syntax.parse_term("(∀ m : Num, ∀ n : Num, div(int_of_num(m), int_of_num(n)) == int_of_num(DIV(m, n))) && (∀ m : Num, ∀ n : Num, rem(int_of_num(m), int_of_num(n)) == int_of_num(MOD(m, n)))"),
     t727,
   )
   let (int_of_num_div, int_of_num_rem) = @bool.conj_pair(
@@ -12084,9 +11974,7 @@ fn step_411() -> Unit raise {
     asm_int_arith_tac_v1,
   )
   let t734 = (
-    @parser.parse_term(
-      "(forall n. n div n = if n = &0 then &0 else &1) /\\\n   (forall n. n rem n = &0)",
-    ),
+    @term_syntax.parse_term("(∀ n : Int, div(n, n) == (if n == int_of_num(0) { int_of_num(0) } else { int_of_num(1) })) && (∀ n : Int, rem(n, n) == int_of_num(0))"),
     t733,
   )
   let (int_div_refl, int_rem_refl) = @bool.conj_pair(
@@ -12147,9 +12035,7 @@ fn step_412() -> Unit raise {
     @list.List([
       int_sgn_abs_alt(),
       int_arith_v1(
-        @parser.parse_term(
-          "--m:int = (--x - y) * z + w <=> m = x * z + y * z - w",
-        ),
+        @term_syntax.parse_term("(-(m : Int) == (-(x : Int) - (y : Int)) * (z : Int) + (w : Int)) == (m == x * z + (y * z - w))"),
       ),
     ]),
   )
@@ -12288,9 +12174,7 @@ fn step_412() -> Unit raise {
     asm_int_arith_tac_v1,
   )
   let t753 = (
-    @parser.parse_term(
-      "(forall m n. --m div n =\n          if m rem n = &0 then --(m div n) else --(m div n) - int_sgn n) /\\\n   (forall m n. --m rem n =\n          if m rem n = &0 then &0 else abs n - m rem n)",
-    ),
+    @term_syntax.parse_term("(∀ m : Int, ∀ n : Int, div(-m, n) == (if rem(m, n) == int_of_num(0) { -div(m, n) } else { -div(m, n) - int_sgn(n) })) && (∀ m : Int, ∀ n : Int, rem(-m, n) == (if rem(m, n) == int_of_num(0) { int_of_num(0) } else { abs(n) - rem(m, n) }))"),
     t752,
   )
   let (int_div_lneg, int_rem_lneg) = @bool.conj_pair(
@@ -12336,9 +12220,7 @@ fn step_413() -> Unit raise {
   )
   int_div_neg2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. --m div --n = if m rem n = &0 then m div n else m div n + int_sgn n",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, div(-m, -n) == (if rem(m, n) == int_of_num(0) { div(m, n) } else { div(m, n) + int_sgn(n) })"),
       t754,
     ),
   )
@@ -12362,9 +12244,7 @@ fn step_414() -> Unit raise {
   )
   int_rem_neg2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. --m rem --n = if m rem n = &0 then &0 else abs n - m rem n",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, rem(-m, -n) == (if rem(m, n) == int_of_num(0) { int_of_num(0) } else { abs(n) - rem(m, n) })"),
       t755,
     ),
   )
@@ -12483,9 +12363,7 @@ fn step_416() -> Unit raise {
               @tactics.then_tac(
                 @tactics.match_mp_tac(
                   @class.taut(
-                    @parser.parse_term(
-                      "((p ==> p') /\\ (q ==> q')) /\\ p /\\ q ==> (p /\\ p') /\\ (q /\\ q')",
-                    ),
+                    @term_syntax.parse_term("(((p : Bool) → (p' : Bool)) && ((q : Bool) → (q' : Bool))) && p && q → (p && p') && q && q'"),
                   ),
                 ),
                 @tactics.conj_tac,
@@ -12503,9 +12381,7 @@ fn step_416() -> Unit raise {
     asm_int_arith_tac_v1,
   )
   let t768 = (
-    @parser.parse_term(
-      "((forall m n. ~(n = &0) ==> (m * n) div n = m) /\\\n    (forall m n. ~(m = &0) ==> (m * n) div m = n)) /\\\n   ((forall m n. (m * n) rem n = &0) /\\\n    (forall m n. (m * n) rem m = &0))",
-    ),
+    @term_syntax.parse_term("((∀ m : Int, ∀ n : Int, !(n == int_of_num(0)) → div(m * n, n) == m) && (∀ m : Int, ∀ n : Int, !(m == int_of_num(0)) → div(m * n, m) == n)) && (∀ m : Int, ∀ n : Int, rem(m * n, n) == int_of_num(0)) && (∀ m : Int, ∀ n : Int, rem(m * n, m) == int_of_num(0))"),
     t767,
   )
   let (int_div_mul, int_rem_mul) = @bool.conj_pair(
@@ -12547,9 +12423,7 @@ fn step_417() -> Unit raise {
   let t792 = @simp.rewrite_tac(
     @list.List([
       int_arith_v1(
-        @parser.parse_term(
-          "(~(m:int < n * --c) <=> --m < n * c) <=> ~(m = n * --c)",
-        ),
+        @term_syntax.parse_term("(!((m : Int) < (n : Int) * -(c : Int)) == (-m < n * c)) == !(m == n * -c)"),
       ),
     ]),
   )
@@ -12747,9 +12621,7 @@ fn step_419() -> Unit raise {
   let t796 = @simp.simp_tac(@list.List([int_le_discrete(), int_div_lt_eq()]))
   int_div_le_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b c. &0 < a ==> (b div a <= c <=> b < a * (c + &1))",
-      ),
+      @term_syntax.parse_term("∀ a : Int, ∀ b : Int, ∀ c : Int, int_of_num(0) < a → (div(b, a) <= c) == (b < a * (c + int_of_num(1)))"),
       t796,
     ),
   )
@@ -12772,9 +12644,7 @@ fn step_420() -> Unit raise {
   )
   int_lt_div_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b c. &0 < a ==> (c < b div a <=> a * (c + &1) <= b)",
-      ),
+      @term_syntax.parse_term("∀ a : Int, ∀ b : Int, ∀ c : Int, int_of_num(0) < a → (c < div(b, a)) == (a * (c + int_of_num(1)) <= b)"),
       t797,
     ),
   )
@@ -12798,9 +12668,7 @@ fn step_421() -> Unit raise {
   let t811 = @simp.asm_simp_tac(@list.List([int_of_num_lt(), @arith.le_1()]))
   let t810 = @tactics.match_mp_tac(
     int_arith_v1(
-      @parser.parse_term(
-        "&0:int < n /\\ abs m * &1 <= abs m * n\n    ==> n * --abs m <= m /\\ m < n * (abs m + &1)",
-      ),
+      @term_syntax.parse_term("int_of_num(0) < (n : Int) && abs((m : Int)) * int_of_num(1) <= abs(m) * n → n * -abs(m) <= m && m < n * (abs(m) + int_of_num(1))"),
     ),
   )
   let t809 = @tactics.x_gen_tac(@term_syntax.parse_term("(m : Int)"))
@@ -13047,9 +12915,7 @@ fn step_422() -> Unit raise {
     t840,
   )
   let t842 = (
-    @parser.parse_term(
-      "(forall m n p. &0 <= n ==> (m div n) div p = m div (n * p)) /\\\n   (forall m n p. &0 <= n ==> m rem (n * p) = n * (m div n) rem p + m rem n)",
-    ),
+    @term_syntax.parse_term("(∀ m : Int, ∀ n : Int, ∀ p : Int, int_of_num(0) <= n → div(div(m, n), p) == div(m, n * p)) && (∀ m : Int, ∀ n : Int, ∀ p : Int, int_of_num(0) <= n → rem(m, n * p) == n * rem(div(m, n), p) + rem(m, n))"),
     t841,
   )
   let (int_div_div, int_rem_mul_rem) = @bool.conj_pair(
@@ -13138,9 +13004,7 @@ fn step_423() -> Unit raise {
   )
   int_div_eq_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. m div n = &0 <=> n = &0 \\/ &0 <= m /\\ m < abs n",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, (div(m, n) == int_of_num(0)) == (n == int_of_num(0) || int_of_num(0) <= m && m < abs(n))"),
       t852,
     ),
   )
@@ -13173,9 +13037,7 @@ fn step_424() -> Unit raise {
   )
   int_rem_eq_self_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. m rem n = m <=> n = &0 \\/ &0 <= m /\\ m < abs n",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, (rem(m, n) == m) == (n == int_of_num(0) || int_of_num(0) <= m && m < abs(n))"),
       t854,
     ),
   )
@@ -13299,9 +13161,7 @@ fn step_425() -> Unit raise {
   )
   int_rem_unique_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n p. m rem n = p <=>\n           (n = &0 /\\ m = p \\/ &0 <= p /\\ p < abs n) /\\ (m == p) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, ∀ p : Int, (rem(m, n) == p) == ((n == int_of_num(0) && m == p || int_of_num(0) <= p && p < abs(n)) && op_eq_eq(m, p, mod(n)))"),
       t866,
     ),
   )
@@ -13358,9 +13218,7 @@ fn step_426() -> Unit raise {
   )
   int_div_rem_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n p. &0 <= n ==> (m div n) rem p = (m rem (n * p)) div n",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, ∀ p : Int, int_of_num(0) <= n → rem(div(m, n), p) == div(rem(m, n * p), n)"),
       t875,
     ),
   )
@@ -13399,9 +13257,7 @@ fn step_427() -> Unit raise {
   )
   int_rem_rem_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n p. ~(n = &0) /\\ abs n <= abs p ==> m rem n rem p = m rem n",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, ∀ p : Int, !(n == int_of_num(0)) && abs(n) <= abs(p) → rem(rem(m, n), p) == rem(m, n)"),
       t882,
     ),
   )
@@ -13577,9 +13433,7 @@ fn step_431() -> Unit raise {
   let t901 = @meson.meson_tac(@list.List([int_rem_le_eq(), int_le_trans()]))
   int_rem_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n p. (n = &0 \\/ &0 <= m) /\\ m <= p ==> m rem n <= p",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, ∀ p : Int, (n == int_of_num(0) || int_of_num(0) <= m) && m <= p → rem(m, n) <= p"),
       t901,
     ),
   )
@@ -13606,9 +13460,7 @@ fn step_432() -> Unit raise {
   )
   int_rem_mul_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m n p. (m * n + p) rem n = p rem n) /\\\n   (forall m n p. (n * m + p) rem n = p rem n) /\\\n   (forall m n p. (p + m * n) rem n = p rem n) /\\\n   (forall m n p. (p + n * m) rem n = p rem n)",
-      ),
+      @term_syntax.parse_term("(∀ m : Int, ∀ n : Int, ∀ p : Int, rem(m * n + p, n) == rem(p, n)) && (∀ m : Int, ∀ n : Int, ∀ p : Int, rem(n * m + p, n) == rem(p, n)) && (∀ m : Int, ∀ n : Int, ∀ p : Int, rem(p + m * n, n) == rem(p, n)) && (∀ m : Int, ∀ n : Int, ∀ p : Int, rem(p + n * m, n) == rem(p, n))"),
       t903,
     ),
   )
@@ -13650,9 +13502,7 @@ fn step_433() -> Unit raise {
   )
   int_div_mul_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m n p. ~(n = &0) ==> (m * n + p) div n = m + p div n) /\\\n   (forall m n p. ~(n = &0) ==> (n * m + p) div n = m + p div n) /\\\n   (forall m n p. ~(n = &0) ==> (p + m * n) div n = p div n + m) /\\\n   (forall m n p. ~(n = &0) ==> (p + n * m) div n = p div n + m)",
-      ),
+      @term_syntax.parse_term("(∀ m : Int, ∀ n : Int, ∀ p : Int, !(n == int_of_num(0)) → div(m * n + p, n) == m + div(p, n)) && (∀ m : Int, ∀ n : Int, ∀ p : Int, !(n == int_of_num(0)) → div(n * m + p, n) == m + div(p, n)) && (∀ m : Int, ∀ n : Int, ∀ p : Int, !(n == int_of_num(0)) → div(p + m * n, n) == div(p, n) + m) && (∀ m : Int, ∀ n : Int, ∀ p : Int, !(n == int_of_num(0)) → div(p + n * m, n) == div(p, n) + m)"),
       t909,
     ),
   )
@@ -13711,9 +13561,7 @@ fn step_434() -> Unit raise {
   )
   int_cong_div2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b m n.\n      (a == b) (mod (m * n)) ==> (a div m == b div m) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ a : Int, ∀ b : Int, ∀ m : Int, ∀ n : Int, op_eq_eq(a, b, mod(m * n)) → op_eq_eq(div(a, m), div(b, m), mod(n))"),
       t917,
     ),
   )
@@ -13780,9 +13628,7 @@ fn step_436() -> Unit raise {
   )
   not_int_rem_2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n. ~(n rem &2 = &0) <=> n rem &2 = &1) /\\\n   (forall n. ~(n rem &2 = &1) <=> n rem &2 = &0)",
-      ),
+      @term_syntax.parse_term("(∀ n : Int, !(rem(n, int_of_num(2)) == int_of_num(0)) == (rem(n, int_of_num(2)) == int_of_num(1))) && (∀ n : Int, !(rem(n, int_of_num(2)) == int_of_num(1)) == (rem(n, int_of_num(2)) == int_of_num(0)))"),
       t922,
     ),
   )
@@ -13809,9 +13655,7 @@ fn step_437() -> Unit raise {
   )
   int_rem_2_divides_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n. n rem &2 = &0 <=> &2 divides n) /\\\n   (forall n. n rem &2 = &1 <=> ~(&2 divides n))",
-      ),
+      @term_syntax.parse_term("(∀ n : Int, (rem(n, int_of_num(2)) == int_of_num(0)) == divides(int_of_num(2), n)) && (∀ n : Int, (rem(n, int_of_num(2)) == int_of_num(1)) == !divides(int_of_num(2), n))"),
       t924,
     ),
   )
@@ -13911,17 +13755,13 @@ fn step_441() -> Unit raise {
       int_divides_div_self(),
       int_mul_div_eq(),
       int_ring(
-        @parser.parse_term(
-          "a * x:int = n /\\ a * y = n /\\ ~(n = &0) ==> x = y",
-        ),
+        @term_syntax.parse_term("(a : Int) * (x : Int) == (n : Int) && a * (y : Int) == n && !(n == int_of_num(0)) → x == y"),
       ),
     ]),
   )
   int_div_by_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n:int. ~(n = &0) /\\ m divides n ==> n div (n div m) = m",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, !(n == int_of_num(0)) && divides(m, n) → div(n, div(n, m)) == m"),
       t929,
     ),
   )
@@ -13973,9 +13813,7 @@ fn step_442() -> Unit raise {
   )
   int_divides_div_divides_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n d e. d divides n /\\ (n = &0 ==> e = &0)\n           ==> (n div d divides e <=> n divides d * e)",
-      ),
+      @term_syntax.parse_term("∀ n : Int, ∀ d : Int, ∀ e : Int, divides(d, n) && (n == int_of_num(0) → e == int_of_num(0)) → divides(div(n, d), e) == divides(n, d * e)"),
       t940,
     ),
   )
@@ -14018,9 +13856,7 @@ fn step_443() -> Unit raise {
   )
   int_divides_divides_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n d e. d divides n ==> (e divides (n div d) <=> (d * e) divides n)",
-      ),
+      @term_syntax.parse_term("∀ n : Int, ∀ d : Int, ∀ e : Int, divides(d, n) → divides(e, div(n, d)) == divides(d * e, n)"),
       t947,
     ),
   )
@@ -14055,9 +13891,7 @@ fn step_444() -> Unit raise {
   )
   int_divides_divides_div_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n d e. d divides n /\\ e divides (n div d) <=> (d * e) divides n",
-      ),
+      @term_syntax.parse_term("∀ n : Int, ∀ d : Int, ∀ e : Int, (divides(d, n) && divides(e, div(n, d))) == divides(d * e, n)"),
       t950,
     ),
   )
@@ -14101,9 +13935,7 @@ pub fn int_rem_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_445() -> Unit raise {
   let t951 = @meson.meson_tac(@list.List([int_divmod_uniq()]))
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "q * n + r = m ==> &0 <= r ==> r < abs n ==> m div n = q /\\ m rem n = r",
-    ),
+    @term_syntax.parse_term("(q : Int) * (n : Int) + (r : Int) == (m : Int) → int_of_num(0) <= r → r < abs(n) → div(m, n) == q && rem(m, n) == r"),
     t951,
   )
   let m = @term_syntax.parse_term("(m : Int)")
@@ -14400,9 +14232,7 @@ fn step_451() -> Unit raise {
   )
   int_2_divides_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n:int. &2 divides (m + n) <=> (&2 divides m <=> &2 divides n)",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, divides(int_of_num(2), m + n) == (divides(int_of_num(2), m) == divides(int_of_num(2), n))"),
       t999,
     ),
   )
@@ -14450,9 +14280,7 @@ fn step_452() -> Unit raise {
   )
   int_2_divides_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n:int. &2 divides (m - n) <=> (&2 divides m <=> &2 divides n)",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, divides(int_of_num(2), m - n) == (divides(int_of_num(2), m) == divides(int_of_num(2), n))"),
       t1006,
     ),
   )
@@ -14500,9 +14328,7 @@ fn step_453() -> Unit raise {
   )
   int_2_divides_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n:int. &2 divides (m * n) <=> &2 divides m \\/ &2 divides n",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, divides(int_of_num(2), m * n) == (divides(int_of_num(2), m) || divides(int_of_num(2), n))"),
       t1013,
     ),
   )
@@ -14547,9 +14373,7 @@ fn step_454() -> Unit raise {
   )
   int_2_divides_pow_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n k. &2 divides (n pow k) <=> &2 divides n /\\ ~(k = 0)",
-      ),
+      @term_syntax.parse_term("∀ n : Int, ∀ k : Num, divides(int_of_num(2), pow(n, k)) == (divides(int_of_num(2), n) && !(k == 0))"),
       t1019,
     ),
   )
@@ -14653,9 +14477,7 @@ fn step_456() -> Unit raise {
     @tactics.refl_tac,
   )
   let t1037 = (
-    @parser.parse_term(
-      "((&m pow k) rem &n = &(m EXP k MOD n) /\\\n      (&m pow k) rem (-- &n) = &(m EXP k MOD n)) /\\\n     ((-- &m pow k) rem &n =\n      if EVEN k then &(m EXP k MOD n) else (-- &(m EXP k MOD n)) rem &n) /\\\n     ((-- &m pow k) rem (-- &n) =\n      if EVEN k then &(m EXP k MOD n) else (-- &(m EXP k MOD n)) rem &n)",
-    ),
+    @term_syntax.parse_term("(rem(pow(int_of_num((m : Num)), (k : Num)), int_of_num((n : Num))) == int_of_num(MOD(EXP(m, k), n)) && rem(pow(int_of_num(m), k), -int_of_num(n)) == int_of_num(MOD(EXP(m, k), n))) && rem(pow(-int_of_num(m), k), int_of_num(n)) == (if EVEN(k) { int_of_num(MOD(EXP(m, k), n)) } else { rem(-int_of_num(MOD(EXP(m, k), n)), int_of_num(n)) }) && rem(pow(-int_of_num(m), k), -int_of_num(n)) == (if EVEN(k) { int_of_num(MOD(EXP(m, k), n)) } else { rem(-int_of_num(MOD(EXP(m, k), n)), int_of_num(n)) })"),
     t1036,
   )
   let (pth_0, pth_1) = @bool.conj_pair(
@@ -14838,9 +14660,7 @@ fn step_457() -> Unit raise {
   )
   wf_int_measure_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P m. (forall x. &0 <= m(x)) /\\ (forall x. (forall y. m(y) < m(x) ==> P(y)) ==> P(x))\n         ==> forall x:A. P(x)",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ m : (A) -> Int, (∀ x : A, int_of_num(0) <= m(x)) && (∀ x : A, (∀ y : A, m(y) < m(x) → P(y)) → P(x)) → (∀ x : A, P(x))"),
       t1056,
     ),
   )
@@ -14867,9 +14687,7 @@ fn step_458() -> Unit raise {
   )
   wf_int_measure_2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P m. (forall x y. &0 <= m x y) /\\\n         (forall x y. (forall x' y'. m x' y' < m x y ==> P x' y') ==> P x y)\n         ==> forall x:A y:B. P x y",
-      ),
+      @term_syntax.parse_term("∀ P : (A, B) -> Bool, ∀ m : (A, B) -> Int, (∀ x : A, ∀ y : B, int_of_num(0) <= m(x, y)) && (∀ x : A, ∀ y : B, (∀ x' : A, ∀ y' : B, m(x', y') < m(x, y) → P(x', y')) → P(x, y)) → (∀ x : A, ∀ y : B, P(x, y))"),
       t1057,
     ),
   )
@@ -14890,9 +14708,7 @@ pub fn wf_int_measure_2() -> @kernel.Thm {
 /// INT_GCD_EXISTS
 fn step_459() -> Unit raise {
   let int_gcd_exists_cases = int_arith_v1(
-    @parser.parse_term(
-      "(a = &0 \\/ b = &0) \\/\n    abs(a - b) + abs b < abs a + abs b \\/ abs(a + b) + abs b < abs a + abs b \\/\n    abs a + abs(b - a) < abs a + abs b \\/ abs a + abs(b + a) < abs a + abs b",
-    ),
+    @term_syntax.parse_term("((a : Int) == int_of_num(0) || (b : Int) == int_of_num(0)) || abs(a - b) + abs(b) < abs(a) + abs(b) || abs(a + b) + abs(b) < abs(a) + abs(b) || abs(a) + abs(b - a) < abs(a) + abs(b) || abs(a) + abs(b + a) < abs(a) + abs(b)"),
   )
   let t1071 = @tactics.match_mp_tac(@theorems.mono_exists())
   let t1070 = @tactics.ante_res_then(fn(
@@ -15039,9 +14855,7 @@ fn step_459() -> Unit raise {
   )
   int_gcd_exists_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b. ?d. d divides a /\\ d divides b /\\ ?x y. d = a * x + b * y",
-      ),
+      @term_syntax.parse_term("∀ a : Int, ∀ b : Int, ∃ d : Int, divides(d, a) && divides(d, b) && (∃ x : Int, ∃ y : Int, d == a * x + b * y)"),
       t1074,
     ),
   )
@@ -15086,9 +14900,7 @@ fn step_460() -> Unit raise {
   )
   int_gcd_exists_pos_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b. ?d. &0 <= d /\\ d divides a /\\ d divides b /\\ ?x y. d = a * x + b * y",
-      ),
+      @term_syntax.parse_term("∀ a : Int, ∀ b : Int, ∃ d : Int, int_of_num(0) <= d && divides(d, a) && divides(d, b) && (∃ x : Int, ∃ y : Int, d == a * x + b * y)"),
       t1081,
     ),
   )
@@ -15140,9 +14952,7 @@ pub fn int_gcd() -> @kernel.Thm {
 fn step_464() -> Unit raise {
   int_lcm_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "int_lcm(m,n) = if m * n = &0 then &0 else abs(m * n) div gcd(m,n)",
-      ),
+      @term_syntax.parse_term("(int_lcm : ((Int, Int)) -> Int)(((m : Int), (n : Int))) == (if m * n == int_of_num(0) { int_of_num(0) } else { div(abs(m * n), gcd((m, n))) })"),
     ),
   )
 }
@@ -15224,9 +15034,7 @@ fn step_467() -> Unit raise {
   )
   int_divides_abs_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall d n. abs(d) divides n <=> d divides n) /\\\n   (forall d n. d divides (abs n) <=> d divides n)",
-      ),
+      @term_syntax.parse_term("(∀ d : Int, ∀ n : Int, divides(abs(d), n) == divides(d, n)) && (∀ d : Int, ∀ n : Int, divides(d, abs(n)) == divides(d, n))"),
       t1087,
     ),
   )
@@ -15278,9 +15086,7 @@ fn step_469() -> Unit raise {
     @list.List([
       int_gcd(),
       integer_rule_v1(
-        @parser.parse_term(
-          "d divides m ==> d divides (m * n:int) /\\ d divides --(m * n)",
-        ),
+        @term_syntax.parse_term("divides((d : Int), (m : Int)) → divides(d, m * (n : Int)) && divides(d, -(m * n))"),
       ),
     ]),
   )
@@ -15590,9 +15396,7 @@ fn step_471() -> Unit raise {
   )
   int_divides_lcm_gcd_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n d:int. d divides lcm(m,n) <=> d * gcd(m,n) divides m * n",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, ∀ d : Int, divides(d, lcm((m, n))) == divides(d * gcd((m, n)), m * n)"),
       t1117,
     ),
   )
@@ -15867,9 +15671,7 @@ fn step_472() -> Unit raise {
   )
   int_lcm_divides_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n d:int. lcm(m,n) divides d <=> m divides d /\\ n divides d",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, ∀ d : Int, divides(lcm((m, n)), d) == (divides(m, d) && divides(n, d))"),
       t1138,
     ),
   )
@@ -15908,9 +15710,7 @@ fn step_473() -> Unit raise {
   )
   int_lcm_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. m divides lcm(m,n) /\\\n         n divides lcm(m,n) /\\\n         (forall d. m divides d /\\ n divides d ==> lcm(m,n) divides d)",
-      ),
+      @term_syntax.parse_term("∀ m : Int, ∀ n : Int, divides(m, lcm((m, n))) && divides(n, lcm((m, n))) && (∀ d : Int, divides(m, d) && divides(n, d) → divides(lcm((m, n)), d))"),
       t1142,
     ),
   )
@@ -16132,9 +15932,7 @@ fn step_474() -> Unit raise {
   })
   let t1159 = @tactics.then_tac(gcd_elim_tac, integer_tac_v1)
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "forall d a b:int. d divides gcd(a,b) <=> d divides a /\\ d divides b",
-    ),
+    @term_syntax.parse_term("∀ d : Int, ∀ a : Int, ∀ b : Int, divides(d, gcd((a, b))) == (divides(d, a) && divides(d, b))"),
     t1159,
   )
   let t1163 = @tactics.repeat_tac(
@@ -16297,9 +16095,7 @@ fn step_479() -> Unit raise {
   )
   num_of_int_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. &0 <= x /\\ &0 <= y\n         ==> num_of_int(x + y) = num_of_int x + num_of_int y",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, int_of_num(0) <= x && int_of_num(0) <= y → num_of_int(x + y) == num_of_int(x) + num_of_int(y)"),
       t1171,
     ),
   )
@@ -16332,9 +16128,7 @@ fn step_480() -> Unit raise {
   )
   num_of_int_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. &0 <= x /\\ &0 <= y\n         ==> num_of_int(x * y) = num_of_int x * num_of_int y",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, int_of_num(0) <= x && int_of_num(0) <= y → num_of_int(x * y) == num_of_int(x) * num_of_int(y)"),
       t1173,
     ),
   )
@@ -16372,9 +16166,7 @@ fn step_481() -> Unit raise {
   )
   num_of_int_pow_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x n. &0 <= x ==> num_of_int(x pow n) = num_of_int x EXP n",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ n : Num, int_of_num(0) <= x → num_of_int(pow(x, n)) == EXP(num_of_int(x), n)"),
       t1176,
     ),
   )
@@ -16549,9 +16341,7 @@ fn step_493() -> Unit raise {
     t1178,
   )
   let pth_relativize = @tactics.prove(
-    @parser.parse_term(
-      "((forall n. P(&n)) <=> (forall i. ~(&0 <= i) \\/ P i)) /\\\n     ((?n. P(&n)) <=> (?i. &0 <= i /\\ P i))",
-    ),
+    @term_syntax.parse_term("(∀ n : Num, (P : (Int) -> Bool)(int_of_num(n))) == (∀ i : Int, !(int_of_num(0) <= i) || P(i)) && (∃ n : Num, P(int_of_num(n))) == (∃ i : Int, int_of_num(0) <= i && P(i))"),
     t1179,
   )
   let relation_conv : (@kernel.Term) -> @kernel.Thm raise = ((
@@ -16897,9 +16687,7 @@ fn step_497() -> Unit raise {
     @list.List([int_not_le(), int_not_lt(), int_not_eq(), int_lt_discrete()]),
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "(~(x:int <= y) <=> y + &1 <= x) /\\\n        (~(x < y) <=> y <= x) /\\\n        (~(x = y) <=> x + &1 <= y \\/ y + &1 <= x) /\\\n        (x < y <=> x + &1 <= y)",
-    ),
+    @term_syntax.parse_term("!((x : Int) <= (y : Int)) == (y + int_of_num(1) <= x) && !(x < y) == (y <= x) && !(x == y) == (x + int_of_num(1) <= y || y + int_of_num(1) <= x) && (x < y) == (x + int_of_num(1) <= y)"),
     t1231,
   )
   let atom_conv : (@kernel.Term) -> @kernel.Thm raise = @simp.gen_rewrite_conv(
@@ -17111,22 +16899,16 @@ fn step_497() -> Unit raise {
     t1253,
   )
   let divrem_elim_thm = @tactics.prove(
-    @parser.parse_term(
-      "P (m div n) (m rem n) <=>\n       ?q r. (n = &0 /\\ q = &0 /\\ r = m \\/\n              m = q * n + r /\\\n              &0 <= r /\\ r + &1 <= abs n) /\\\n             P q r",
-    ),
+    @term_syntax.parse_term("(P : (Int, Int) -> Bool)(div((m : Int), (n : Int)), rem(m, n)) == (∃ q : Int, ∃ r : Int, (n == int_of_num(0) && q == int_of_num(0) && r == m || m == q * n + r && int_of_num(0) <= r && r + int_of_num(1) <= abs(n)) && P(q, r))"),
     tac,
   )
   let divrem_elim_thm_p = @tactics.prove(
-    @parser.parse_term(
-      "P (m div n) (m rem n) <=>\n       ?q r. (n = &0 /\\ q = &0 /\\ r = m \\/\n              m = q * n + r /\\\n              (&0 <= m /\\ &0 <= n ==> &0 <= q) /\\\n              &0 <= r /\\ r + &1 <= abs n) /\\\n             P q r",
-    ),
+    @term_syntax.parse_term("(P : (Int, Int) -> Bool)(div((m : Int), (n : Int)), rem(m, n)) == (∃ q : Int, ∃ r : Int, (n == int_of_num(0) && q == int_of_num(0) && r == m || m == q * n + r && (int_of_num(0) <= m && int_of_num(0) <= n → int_of_num(0) <= q) && int_of_num(0) <= r && r + int_of_num(1) <= abs(n)) && P(q, r))"),
     tac,
   )
   let t1254 = @simp.simp_tac(@list.List([divrem_elim_thm_p, int_abs_v1()]))
   let divrem_elim_thm_pos = @tactics.prove(
-    @parser.parse_term(
-      "&0 <= m /\\ &0 <= n\n       ==> (P (m div n) (m rem n) <=>\n            ?q r. (n = &0 /\\ q = &0 /\\ r = m \\/\n                   m = q * n + r /\\\n                   &0 <= q /\\\n                   &0 <= r /\\ r + &1 <= n) /\\\n                  P q r)",
-    ),
+    @term_syntax.parse_term("int_of_num(0) <= (m : Int) && int_of_num(0) <= (n : Int) → (P : (Int, Int) -> Bool)(div(m, n), rem(m, n)) == (∃ q : Int, ∃ r : Int, (n == int_of_num(0) && q == int_of_num(0) && r == m || m == q * n + r && int_of_num(0) <= q && int_of_num(0) <= r && r + int_of_num(1) <= n) && P(q, r))"),
     t1254,
   )
   let beta2_conv : (@kernel.Term) -> @kernel.Thm raise = @equal.thenc(
@@ -17456,9 +17238,7 @@ fn step_500() -> Unit raise {
   let t1293 = @meson.asm_meson_tac(@list.List([]))
   let t1292 = @tactics.strip_assume_tac(
     arith_rule(
-      @parser.parse_term(
-        "n = 0 \\/ n DIV 2 < n /\\ (n = 2 * n DIV 2 \\/ n = 2 * n DIV 2 + 1)",
-      ),
+      @term_syntax.parse_term("(n : Num) == 0 || DIV(n, 2) < n && (n == 2 * DIV(n, 2) || n == 2 * DIV(n, 2) + 1)"),
     ),
   )
   let t1291 = @tactics.match_mp_tac(@arith.num_wf())
@@ -17477,9 +17257,7 @@ fn step_500() -> Unit raise {
   )
   binary_induct_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. P 0 /\\ (forall n. P n ==> P(2 * n) /\\ P(2 * n + 1)) ==> forall n. P n",
-      ),
+      @term_syntax.parse_term("∀ P : (Num) -> Bool, P(0) && (∀ n : Num, P(n) → P(2 * n) && P(2 * n + 1)) → (∀ n : Num, P(n))"),
       t1294,
     ),
   )
@@ -17504,9 +17282,7 @@ fn step_501() -> Unit raise {
   )
   num_cases_binary_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (forall n. P n) <=> (forall n. P(2 * n)) /\\ (forall n. P(2 * n + 1))",
-      ),
+      @term_syntax.parse_term("∀ P : (Num) -> Bool, (∀ n : Num, P(n)) == ((∀ n : Num, P(2 * n)) && (∀ n : Num, P(2 * n + 1)))"),
       t1295,
     ),
   )
@@ -17743,9 +17519,7 @@ fn step_502() -> Unit raise {
   )
   num_wf_down_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P m:num.\n        (forall n. m <= n ==> P n) /\\\n        (forall n. n < m /\\ (forall p. n < p ==> P p) ==> P n)\n        ==> (forall n. P n)",
-      ),
+      @term_syntax.parse_term("∀ P : (Num) -> Bool, ∀ m : Num, (∀ n : Num, m <= n → P(n)) && (∀ n : Num, n < m && (∀ p : Num, n < p → P(p)) → P(n)) → (∀ n : Num, P(n))"),
       t1320,
     ),
   )
@@ -17923,9 +17697,7 @@ fn step_503() -> Unit raise {
   )
   int_rem_rem_pow_min_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x p m n. x rem (p pow m) rem (p pow n) = x rem (p pow MIN m n)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ p : Int, ∀ m : Num, ∀ n : Num, rem(rem(x, pow(p, m)), pow(p, n)) == rem(x, pow(p, MIN(m, n)))"),
       t1344,
     ),
   )
@@ -18058,9 +17830,7 @@ fn step_509() -> Unit raise {
   let t1350 = @simp.simp_tac(@list.List([cong_v1(), @arith.div_mod()]))
   cong_div2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b m n. (a == b) (mod (m * n)) ==> (a DIV m == b DIV m) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ b : Num, ∀ m : Num, ∀ n : Num, op_eq_eq(a, b, mod(m * n)) → op_eq_eq(DIV(a, m), DIV(b, m), mod(n))"),
       t1350,
     ),
   )
@@ -18291,9 +18061,7 @@ fn step_514() -> Unit raise {
   )
   properly_divides_le_imp_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. m divides n /\\ ~(n = 0) /\\ ~(m = n) ==> 2 * m <= n",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, divides(m, n) && !(n == 0) && !(m == n) → 2 * m <= n"),
       t1375,
     ),
   )
@@ -18471,9 +18239,7 @@ fn step_517() -> Unit raise {
   )
   div_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall d a b. d divides a \\/ d divides b\n           ==> (a + b) DIV d = a DIV d + b DIV d",
-      ),
+      @term_syntax.parse_term("∀ d : Num, ∀ a : Num, ∀ b : Num, divides(d, a) || divides(d, b) → DIV(a + b, d) == DIV(a, d) + DIV(b, d)"),
       t1391,
     ),
   )
@@ -18561,9 +18327,7 @@ fn step_520() -> Unit raise {
   )
   div_by_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. ~(n = 0) /\\ m divides n ==> n DIV (n DIV m) = m",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, !(n == 0) && divides(m, n) → DIV(n, DIV(n, m)) == m"),
       t1399,
     ),
   )
@@ -18594,9 +18358,7 @@ fn step_521() -> Unit raise {
   )
   divides_div_divides_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n d e. d divides n /\\ (n = 0 ==> e = 0)\n           ==> (n DIV d divides e <=> n divides d * e)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ d : Num, ∀ e : Num, divides(d, n) && (n == 0 → e == 0) → divides(DIV(n, d), e) == divides(n, d * e)"),
       t1402,
     ),
   )
@@ -18658,9 +18420,7 @@ fn step_523() -> Unit raise {
   )
   divides_divides_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n d e. d divides n ==> (e divides (n DIV d) <=> (d * e) divides n)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ d : Num, ∀ e : Num, divides(d, n) → divides(e, DIV(n, d)) == divides(d * e, n)"),
       t1406,
     ),
   )
@@ -18690,9 +18450,7 @@ fn step_524() -> Unit raise {
   )
   divides_divides_div_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n d e:num. d divides n /\\ e divides n DIV d <=> d * e divides n",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ d : Num, ∀ e : Num, (divides(d, n) && divides(e, DIV(n, d))) == divides(d * e, n)"),
       t1409,
     ),
   )
@@ -18772,9 +18530,7 @@ fn step_526() -> Unit raise {
   )
   mult_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m n p. p divides m ==> (m * n) DIV p = m DIV p * n) /\\\n   (forall m n p. p divides n ==> (m * n) DIV p = m * n DIV p)",
-      ),
+      @term_syntax.parse_term("(∀ m : Num, ∀ n : Num, ∀ p : Num, divides(p, m) → DIV(m * n, p) == DIV(m, p) * n) && (∀ m : Num, ∀ n : Num, ∀ p : Num, divides(p, n) → DIV(m * n, p) == m * DIV(n, p))"),
       t1416,
     ),
   )
@@ -18835,9 +18591,7 @@ fn step_527() -> Unit raise {
     t1425,
   )
   let pth_relativize = @tactics.prove(
-    @parser.parse_term(
-      "((forall n. P(&n)) <=> (forall i:int. &0 <= i ==> P i)) /\\\n     ((?n. P(&n)) <=> (?i:int. &0 <= i /\\ P i))",
-    ),
+    @term_syntax.parse_term("(∀ n : Num, (P : (Int) -> Bool)(int_of_num(n))) == (∀ i : Int, int_of_num(0) <= i → P(i)) && (∃ n : Num, P(int_of_num(n))) == (∃ i : Int, int_of_num(0) <= i && P(i))"),
     t1426,
   )
   let relation_conv : (@kernel.Term) -> @kernel.Thm raise = @simp.gen_rewrite_conv(
@@ -19393,9 +19147,7 @@ fn step_530() -> Unit raise {
   )
   int_cong_num_exists_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y:int.\n        (y = &0 ==> &0 <= x)\n        ==> ?n. (&n == x) (mod y)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, (y == int_of_num(0) → int_of_num(0) <= x) → (∃ n : Num, op_eq_eq(int_of_num(n), x, mod(y)))"),
       t1475,
     ),
   )
@@ -19417,9 +19169,7 @@ pub fn int_cong_num_exists() -> @kernel.Thm {
 fn step_531() -> Unit raise {
   gcd_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b. (gcd(a,b) divides a /\\ gcd(a,b) divides b) /\\\n         (forall e. e divides a /\\ e divides b ==> e divides gcd(a,b))",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ b : Num, (divides(gcd((a, b)), a) && divides(gcd((a, b)), b)) && (∀ e : Num, divides(e, a) && divides(e, b) → divides(e, gcd((a, b))))"),
       number_tac,
     ),
   )
@@ -19522,9 +19272,7 @@ fn step_532() -> Unit raise {
   )
   coprime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "coprime(a,b) <=> forall d. d divides a /\\ d divides b ==> d = 1",
-      ),
+      @term_syntax.parse_term("coprime(((a : Num), (b : Num))) == (∀ d : Num, divides(d, a) && divides(d, b) → d == 1)"),
       t1484,
     ),
   )
@@ -19544,9 +19292,7 @@ pub fn coprime() -> @kernel.Thm {
 fn step_533() -> Unit raise {
   prime_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "prime(p) <=> ~(p = 1) /\\ forall x. x divides p ==> x = 1 \\/ x = p",
-      ),
+      @term_syntax.parse_term("(prime : (Num) -> Bool)((p : Num)) == (!(p == 1) && (∀ x : Num, divides(x, p) → x == 1 || x == p))"),
     ),
   )
 }
@@ -19577,9 +19323,7 @@ fn step_534() -> Unit raise {
   )
   one_or_prime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p. p = 1 \\/ prime p <=> forall n. n divides p ==> n = 1 \\/ n = p",
-      ),
+      @term_syntax.parse_term("∀ p : Num, (p == 1 || prime(p)) == (∀ n : Num, divides(n, p) → n == 1 || n == p)"),
       t1487,
     ),
   )
@@ -19766,9 +19510,7 @@ fn step_535() -> Unit raise {
   )
   one_or_prime_divides_or_coprime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p. p = 1 \\/ prime p <=> forall n. p divides n \\/ coprime(p,n)",
-      ),
+      @term_syntax.parse_term("∀ p : Num, (p == 1 || prime(p)) == (∀ n : Num, divides(p, n) || coprime((p, n)))"),
       t1507,
     ),
   )
@@ -20045,9 +19787,7 @@ fn step_537() -> Unit raise {
       prime(),
       coprime(),
       number_rule(
-        @parser.parse_term(
-          "forall d a b:num. d divides (a * b) /\\ coprime(d,a) ==> d divides b",
-        ),
+        @term_syntax.parse_term("∀ d : Num, ∀ a : Num, ∀ b : Num, divides(d, a * b) && coprime((d, a)) → divides(d, b)"),
       ),
     ]),
   )
@@ -20076,9 +19816,7 @@ fn step_537() -> Unit raise {
   )
   zero_one_or_prime_divprod_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p a b.\n        p = 0 \\/ p = 1 \\/ prime p\n        ==> (p divides (a * b) <=> p divides a \\/ p divides b)",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ a : Num, ∀ b : Num, p == 0 || p == 1 || prime(p) → divides(p, a * b) == (divides(p, a) || divides(p, b))"),
       t1540,
     ),
   )
@@ -20467,9 +20205,7 @@ fn step_538() -> Unit raise {
   )
   zero_one_or_prime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall p. p = 0 \\/ p = 1 \\/ prime p <=>\n       forall a b. p divides (a * b) ==> p divides a \\/ p divides b",
-      ),
+      @term_syntax.parse_term("∀ p : Num, (p == 0 || p == 1 || prime(p)) == (∀ a : Num, ∀ b : Num, divides(p, a * b) → divides(p, a) || divides(p, b))"),
       t1577,
     ),
   )
@@ -20512,9 +20248,7 @@ fn step_541() -> Unit raise {
 fn step_542() -> Unit raise {
   real_zpow_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(z:real) zpow (i:int) = if &0 <= i then z pow (num_of_int i)\n                          else inv(z pow (num_of_int(--i)))",
-      ),
+      @term_syntax.parse_term("(real_zpow : (Real, Int) -> Real)((z : Real), (i : Int)) == (if int_of_num(0) <= i { pow(z, num_of_int(i)) } else { inv(pow(z, num_of_int(-i))) })"),
     ),
   )
 }
@@ -20759,9 +20493,7 @@ fn step_552() -> Unit raise {
   let t1593 = @simp.rewrite_tac(@list.List([real_zpow_neg(), real_zpow_num()]))
   real_zpow_pow_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall(x:real) n. x zpow (&n) = x pow n) /\\\n   (forall(x:real) n. x zpow (-- &n) = inv(x pow n))",
-      ),
+      @term_syntax.parse_term("(∀ x : Real, ∀ n : Num, zpow(x, int_of_num(n)) == pow(x, n)) && (∀ x : Real, ∀ n : Num, zpow(x, -int_of_num(n)) == inv(pow(x, n)))"),
       t1593,
     ),
   )
@@ -20880,9 +20612,7 @@ fn step_556() -> Unit raise {
   )
   real_zpow_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:real) (y:real) n. (x * y) zpow n = x zpow n * y zpow n",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ y : Real, ∀ n : Int, zpow(x * y, n) == zpow(x, n) * zpow(y, n)"),
       t1600,
     ),
   )
@@ -20905,9 +20635,7 @@ fn step_557() -> Unit raise {
   )
   real_zpow_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:real) (y:real) n. (x / y) zpow n = x zpow n / y zpow n",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ y : Real, ∀ n : Int, zpow(x / y, n) == zpow(x, n) / zpow(y, n)"),
       t1601,
     ),
   )
@@ -21061,9 +20789,7 @@ fn step_558() -> Unit raise {
   )
   real_zpow_add_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:real) m n.\n        ~(x = &0) ==> x zpow (m + n) = x zpow m * x zpow n",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ m : Int, ∀ n : Int, !(x == real_of_num(0)) → zpow(x, m + n) == zpow(x, m) * zpow(x, n)"),
       t1633,
     ),
   )
@@ -21091,9 +20817,7 @@ fn step_559() -> Unit raise {
   )
   real_zpow_sub_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(x:real) m n.\n        ~(x = &0) ==> x zpow (m - n) = x zpow m / x zpow n",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ m : Int, ∀ n : Int, !(x == real_of_num(0)) → zpow(x, m - n) == zpow(x, m) / zpow(x, n)"),
       t1634,
     ),
   )
