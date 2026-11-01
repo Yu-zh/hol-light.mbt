@@ -43,9 +43,7 @@ fn step_3() -> Unit raise {
   )
   nproduct_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s t. FINITE s /\\ FINITE t /\\ DISJOINT s t\n           ==> (nproduct (s UNION t) f = nproduct s f * nproduct t f)",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Num, ∀ s : (_) -> Bool, ∀ t : (_) -> Bool, FINITE(s) && FINITE(t) && DISJOINT(s, t) → nproduct(UNION(s, t), f) == nproduct(s, f) * nproduct(t, f)"),
       t2,
     ),
   )
@@ -76,9 +74,7 @@ fn step_4() -> Unit raise {
   )
   nproduct_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g s. (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y)\n           ==> (nproduct (IMAGE f s) g = nproduct s (g o f))",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> _, ∀ g : (_) -> Num, ∀ s : (_) -> Bool, (∀ x : _, ∀ y : _, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) → nproduct(IMAGE(f, s), g) == nproduct(s, o(g, f))"),
       t5,
     ),
   )
@@ -104,9 +100,7 @@ fn step_5() -> Unit raise {
   )
   nproduct_injection_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f p s. FINITE s /\\\n           (forall x. x IN s ==> p x IN s) /\\\n           (forall x y. x IN s /\\ y IN s /\\ p x = p y ==> x = y)\n           ==> nproduct s (f o p) = nproduct s f",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Num, ∀ p : (_) -> _, ∀ s : (_) -> Bool, FINITE(s) && (∀ x : _, IN(x, s) → IN(p(x), s)) && (∀ x : _, ∀ y : _, IN(x, s) && IN(y, s) && p(x) == p(y) → x == y) → nproduct(s, o(f, p)) == nproduct(s, f)"),
       t8,
     ),
   )
@@ -137,9 +131,7 @@ fn step_6() -> Unit raise {
   )
   nproduct_add_split_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n p.\n        m <= n + 1\n        ==> (nproduct (m..(n+p)) f = nproduct(m..n) f * nproduct(n+1..n+p) f)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Num, ∀ m : Num, ∀ n : Num, ∀ p : Num, m <= n + 1 → nproduct(op_dot_dot(m, n + p), f) == nproduct(op_dot_dot(m, n), f) * nproduct(op_dot_dot(n + 1, n + p), f)"),
       t9,
     ),
   )
@@ -180,9 +172,7 @@ fn step_7() -> Unit raise {
   )
   nproduct_pos_lt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s /\\ (forall x. x IN s ==> 0 < f x) ==> 0 < nproduct s f",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Num, ∀ s : (_) -> Bool, FINITE(s) && (∀ x : _, IN(x, s) → 0 < f(x)) → 0 < nproduct(s, f)"),
       t12,
     ),
   )
@@ -211,9 +201,7 @@ fn step_8() -> Unit raise {
   )
   nproduct_pos_lt_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. (forall x. m <= x /\\ x <= n ==> 0 < f x) ==> 0 < nproduct(m..n) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Num, ∀ m : Num, ∀ n : Num, (∀ x : Num, m <= x && x <= n → 0 < f(x)) → 0 < nproduct(op_dot_dot(m, n), f)"),
       t13,
     ),
   )
@@ -247,9 +235,7 @@ fn step_9() -> Unit raise {
   )
   nproduct_offset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m p. nproduct(m+p..n+p) f = nproduct(m..n) (\\i. f(i + p))",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Num, ∀ m : Num, ∀ p : Num, nproduct(op_dot_dot(m + p, (n : Num) + p), f) == nproduct(op_dot_dot(m, n), (i : Num) => f(i + p))"),
       t15,
     ),
   )
@@ -346,9 +332,7 @@ fn step_12() -> Unit raise {
   )
   nproduct_clauses_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m. nproduct(m..0) f = if m = 0 then f(0) else 1) /\\\n   (forall m n. nproduct(m..SUC n) f = if m <= SUC n then nproduct(m..n) f * f(SUC n)\n                                else nproduct(m..n) f)",
-      ),
+      @term_syntax.parse_term("(∀ m : Num, nproduct(op_dot_dot(m, 0), (f : (Num) -> Num)) == (if m == 0 { f(0) } else { 1 })) && (∀ m : Num, ∀ n : Num, nproduct(op_dot_dot(m, SUC(n)), f) == (if m <= SUC(n) { nproduct(op_dot_dot(m, n), f) * f(SUC(n)) } else { nproduct(op_dot_dot(m, n), f) }))"),
       t21,
     ),
   )
@@ -376,9 +360,7 @@ fn step_13() -> Unit raise {
   )
   nproduct_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g s. (forall x. x IN s ==> (f x = g x)) ==> nproduct s f = nproduct s g",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Num, ∀ g : (_) -> Num, ∀ s : (_) -> Bool, (∀ x : _, IN(x, s) → f(x) == g(x)) → nproduct(s, f) == nproduct(s, g)"),
       t24,
     ),
   )
@@ -401,9 +383,7 @@ fn step_14() -> Unit raise {
   )
   nproduct_eq_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g m n. (forall i. m <= i /\\ i <= n ==> (f(i) = g(i)))\n             ==> (nproduct(m..n) f = nproduct(m..n) g)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Num, ∀ g : (Num) -> Num, ∀ m : Num, ∀ n : Num, (∀ i : Num, m <= i && i <= n → f(i) == g(i)) → nproduct(op_dot_dot(m, n), f) == nproduct(op_dot_dot(m, n), g)"),
       t25,
     ),
   )
@@ -445,9 +425,7 @@ fn step_15() -> Unit raise {
   )
   nproduct_eq_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s ==> (nproduct s f = 0 <=> ?x. x IN s /\\ f(x) = 0)",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Num, ∀ s : (_) -> Bool, FINITE(s) → (nproduct(s, f) == 0) == (∃ x : _, IN(x, s) && f(x) == 0)"),
       t28,
     ),
   )
@@ -475,9 +453,7 @@ fn step_16() -> Unit raise {
   )
   nproduct_eq_0_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. nproduct(m..n) f = 0 <=> ?x. m <= x /\\ x <= n /\\ f(x) = 0",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Num, ∀ m : Num, ∀ n : Num, (nproduct(op_dot_dot(m, n), f) == 0) == (∃ x : Num, m <= x && x <= n && f(x) == 0)"),
       t29,
     ),
   )
@@ -505,9 +481,7 @@ fn step_17() -> Unit raise {
   )
   nproduct_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s\n         ==> nproduct s (\\i. if i IN s then f i else 1) = nproduct s f",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Num, ∀ s : (_) -> Bool, FINITE(s) → nproduct(s, (i : _) => if IN(i, s) { f(i) } else { 1 }) == nproduct(s, f)"),
       t32,
     ),
   )
@@ -540,9 +514,7 @@ fn step_18() -> Unit raise {
   )
   nproduct_restrict_set_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s f. nproduct {i:A | i IN s /\\ P i} f =\n           nproduct s (\\i. if P i then f i else 1)",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ s : (A) -> Bool, ∀ f : (A) -> Num, nproduct({(i : A) | IN(i, s) && P(i)}, f) == nproduct(s, (i : A) => if P(i) { f(i) } else { 1 })"),
       t35,
     ),
   )
@@ -587,9 +559,7 @@ fn step_19() -> Unit raise {
   )
   nproduct_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s /\\ (forall x. x IN s ==> f(x) <= g(x))\n         ==> nproduct s f <= nproduct s g",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Num, ∀ s : (_) -> Bool, FINITE(s) && (∀ x : _, IN(x, s) → f(x) <= (g : (_) -> Num)(x)) → nproduct(s, f) <= nproduct(s, g)"),
       t39,
     ),
   )
@@ -612,9 +582,7 @@ fn step_20() -> Unit raise {
   )
   nproduct_le_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. (forall i. m <= i /\\ i <= n ==> f(i) <= g(i))\n           ==> nproduct(m..n) f <= nproduct(m..n) g",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Num, ∀ m : Num, ∀ n : Num, (∀ i : Num, m <= i && i <= n → f(i) <= (g : (Num) -> Num)(i)) → nproduct(op_dot_dot(m, n), f) <= nproduct(op_dot_dot(m, n), g)"),
       t40,
     ),
   )
@@ -645,9 +613,7 @@ fn step_21() -> Unit raise {
   )
   nproduct_eq_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. (forall x:A. x IN s ==> f(x) = 1) ==> nproduct s f = 1",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> Num, ∀ s : (A) -> Bool, (∀ x : A, IN(x, s) → f(x) == 1) → nproduct(s, f) == 1"),
       t42,
     ),
   )
@@ -668,9 +634,7 @@ fn step_22() -> Unit raise {
   let t43 = @simp.simp_tac(@list.List([nproduct_eq_1(), @iterate.in_numseg()]))
   nproduct_eq_1_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. (forall i. m <= i /\\ i <= n ==> f(i) = 1) ==> nproduct(m..n) f = 1",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Num, ∀ m : Num, ∀ n : Num, (∀ i : Num, m <= i && i <= n → f(i) == 1) → nproduct(op_dot_dot(m, n), f) == 1"),
       t43,
     ),
   )
@@ -708,9 +672,7 @@ fn step_23() -> Unit raise {
   )
   nproduct_mul_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g s.\n       FINITE {x | x IN s /\\ ~(f x = 1)} /\\ FINITE {x | x IN s /\\ ~(g x = 1)}\n       ==> nproduct s (\\x. f x * g x) = nproduct s f * nproduct s g",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Num, ∀ g : (_) -> Num, ∀ s : (_) -> Bool, FINITE({(x : _) | IN(x, s) && !(f(x) == 1)}) && FINITE({(x : _) | IN(x, s) && !(g(x) == 1)}) → nproduct(s, (x : _) => f(x) * g(x)) == nproduct(s, f) * nproduct(s, g)"),
       t47,
     ),
   )
@@ -747,9 +709,7 @@ fn step_24() -> Unit raise {
   )
   nproduct_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g s. FINITE s\n           ==> nproduct s (\\x. f x * g x) = nproduct s f * nproduct s g",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Num, ∀ g : (_) -> Num, ∀ s : (_) -> Bool, FINITE(s) → nproduct(s, (x : _) => f(x) * g(x)) == nproduct(s, f) * nproduct(s, g)"),
       t50,
     ),
   )
@@ -772,9 +732,7 @@ fn step_25() -> Unit raise {
   )
   nproduct_mul_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g m n.\n     nproduct(m..n) (\\x. f x * g x) = nproduct(m..n) f * nproduct(m..n) g",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Num, ∀ g : (Num) -> Num, ∀ m : Num, ∀ n : Num, nproduct(op_dot_dot(m, n), (x : Num) => f(x) * g(x)) == nproduct(op_dot_dot(m, n), f) * nproduct(op_dot_dot(m, n), g)"),
       t51,
     ),
   )
@@ -806,9 +764,7 @@ fn step_26() -> Unit raise {
   )
   nproduct_const_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall c s. FINITE s ==> nproduct s (\\x. c) = c EXP (CARD s)",
-      ),
+      @term_syntax.parse_term("∀ c : Num, ∀ s : (_) -> Bool, FINITE(s) → nproduct(s, (x : _) => c) == EXP(c, CARD(s))"),
       t53,
     ),
   )
@@ -835,9 +791,7 @@ fn step_27() -> Unit raise {
   )
   nproduct_const_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall c m n. nproduct (m..n) (\\x. c) = c EXP ((n + 1) - m)",
-      ),
+      @term_syntax.parse_term("∀ c : Num, ∀ m : Num, ∀ n : Num, nproduct(op_dot_dot(m, n), (x : Num) => c) == EXP(c, n + 1 - m)"),
       t54,
     ),
   )
@@ -988,9 +942,7 @@ fn step_30() -> Unit raise {
   )
   nproduct_closed_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P f:A->num s.\n        P(1) /\\ (forall x y. P x /\\ P y ==> P(x * y)) /\\ (forall a. a IN s ==> P(f a))\n        ==> P(nproduct s f)",
-      ),
+      @term_syntax.parse_term("∀ P : (Num) -> Bool, ∀ f : (A) -> Num, ∀ s : (A) -> Bool, P(1) && (∀ x : Num, ∀ y : Num, P(x) && P(y) → P(x * y)) && (∀ a : A, IN(a, s) → P(f(a))) → P(nproduct(s, f))"),
       t66,
     ),
   )
@@ -1042,9 +994,7 @@ fn step_31() -> Unit raise {
   )
   nproduct_related_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R (f:A->num) g s.\n        R 1 1 /\\\n        (forall m n m' n'. R m n /\\ R m' n' ==> R (m * m') (n * n')) /\\\n        FINITE s /\\ (forall i. i IN s ==> R (f i) (g i))\n        ==> R (nproduct s f) (nproduct s g)",
-      ),
+      @term_syntax.parse_term("∀ R : (Num, Num) -> Bool, ∀ f : (A) -> Num, ∀ g : (A) -> Num, ∀ s : (A) -> Bool, R(1, 1) && (∀ m : Num, ∀ n : Num, ∀ m' : Num, ∀ n' : Num, R(m, n) && R(m', n') → R(m * m', n * n')) && FINITE(s) && (∀ i : A, IN(i, s) → R(f(i), g(i))) → R(nproduct(s, f), nproduct(s, g))"),
       t72,
     ),
   )
@@ -1148,9 +1098,7 @@ fn step_32() -> Unit raise {
   )
   nproduct_closed_nonempty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P f:A->num s.\n        FINITE s /\\ ~(s = {}) /\\\n        (forall x y. P x /\\ P y ==> P(x * y)) /\\ (forall a. a IN s ==> P(f a))\n        ==> P(nproduct s f)",
-      ),
+      @term_syntax.parse_term("∀ P : (Num) -> Bool, ∀ f : (A) -> Num, ∀ s : (A) -> Bool, FINITE(s) && !(s == {}) && (∀ x : Num, ∀ y : Num, P(x) && P(y) → P(x * y)) && (∀ a : A, IN(a, s) → P(f(a))) → P(nproduct(s, f))"),
       t82,
     ),
   )
@@ -1204,9 +1152,7 @@ fn step_33() -> Unit raise {
   )
   nproduct_related_nonempty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R (f:A->num) g s.\n        (forall m n m' n'. R m n /\\ R m' n' ==> R (m * m') (n * n')) /\\\n        FINITE s /\\ ~(s = {}) /\\ (forall i. i IN s ==> R (f i) (g i))\n        ==> R (nproduct s f) (nproduct s g)",
-      ),
+      @term_syntax.parse_term("∀ R : (Num, Num) -> Bool, ∀ f : (A) -> Num, ∀ g : (A) -> Num, ∀ s : (A) -> Bool, (∀ m : Num, ∀ n : Num, ∀ m' : Num, ∀ n' : Num, R(m, n) && R(m', n') → R(m * m', n * n')) && FINITE(s) && !(s == {}) && (∀ i : A, IN(i, s) → R(f(i), g(i))) → R(nproduct(s, f), nproduct(s, g))"),
       t88,
     ),
   )
@@ -1255,9 +1201,7 @@ fn step_34() -> Unit raise {
   )
   cong_nproduct_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n f g s:A->bool.\n         FINITE s /\\ (forall x. x IN s ==> (f x == g x) (mod n))\n         ==> (nproduct s f == nproduct s g) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ f : (A) -> Num, ∀ g : (A) -> Num, ∀ s : (A) -> Bool, FINITE(s) && (∀ x : A, IN(x, s) → op_eq_eq(f(x), g(x), mod(n))) → op_eq_eq(nproduct(s, f), nproduct(s, g), mod(n))"),
       t96,
     ),
   )
@@ -1288,9 +1232,7 @@ fn step_35() -> Unit raise {
   )
   nproduct_clauses_left_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. m <= n ==> nproduct(m..n) f = f(m) * nproduct(m+1..n) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Num, ∀ m : Num, ∀ n : Num, m <= n → nproduct(op_dot_dot(m, n), f) == f(m) * nproduct(op_dot_dot(m + 1, n), f)"),
       t97,
     ),
   )
@@ -1322,9 +1264,7 @@ fn step_36() -> Unit raise {
   )
   nproduct_clauses_right_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. 0 < n /\\ m <= n ==> nproduct(m..n) f = nproduct(m..n-1) f * f(n)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Num, ∀ m : Num, ∀ n : Num, 0 < n && m <= n → nproduct(op_dot_dot(m, n), f) == nproduct(op_dot_dot(m, n - 1), f) * f(n)"),
       t99,
     ),
   )
@@ -1354,9 +1294,7 @@ fn step_37() -> Unit raise {
   )
   nproduct_superset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->num u v.\n        u SUBSET v /\\ (forall x. x IN v /\\ ~(x IN u) ==> f(x) = 1)\n        ==> nproduct v f = nproduct u f",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> Num, ∀ u : (A) -> Bool, ∀ v : (A) -> Bool, SUBSET(u, v) && (∀ x : A, IN(x, v) && !IN(x, u) → f(x) == 1) → nproduct(v, f) == nproduct(u, f)"),
       t100,
     ),
   )
@@ -1387,9 +1325,7 @@ fn step_38() -> Unit raise {
   )
   nproduct_univ_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->num s.\n        support ( * ) f (:A) SUBSET s ==> nproduct s f = nproduct (:A) f",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> Num, ∀ s : (A) -> Bool, SUBSET(support(op_star, f, UNIV), s) → nproduct(s, f) == nproduct(UNIV, f)"),
       t103,
     ),
   )
@@ -1418,9 +1354,7 @@ fn step_39() -> Unit raise {
   )
   nproduct_pair_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. nproduct(2*m..2*n+1) f = nproduct(m..n) (\\i. f(2*i) * f(2*i+1))",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Num, ∀ m : Num, ∀ n : Num, nproduct(op_dot_dot(2 * m, 2 * n + 1), f) == nproduct(op_dot_dot(m, n), (i : Num) => f(2 * i) * f(2 * i + 1))"),
       t105,
     ),
   )
@@ -1460,9 +1394,7 @@ fn step_40() -> Unit raise {
   )
   nproduct_reflect_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x m n. nproduct(m..n) x =\n           if n < m then 1 else nproduct(0..n-m) (\\i. x(n - i))",
-      ),
+      @term_syntax.parse_term("∀ x : (Num) -> Num, ∀ m : Num, ∀ n : Num, nproduct(op_dot_dot(m, n), x) == (if n < m { 1 } else { nproduct(op_dot_dot(0, n - m), (i : Num) => x(n - i)) })"),
       t112,
     ),
   )
@@ -1491,9 +1423,7 @@ fn step_41() -> Unit raise {
   )
   nproduct_delete_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s a. FINITE s /\\ a IN s\n           ==> f(a) * nproduct(s DELETE a) f = nproduct s f",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Num, ∀ s : (_) -> Bool, ∀ a : _, FINITE(s) && IN(a, s) → f(a) * nproduct(DELETE(s, a), f) == nproduct(s, f)"),
       t113,
     ),
   )
@@ -1559,9 +1489,7 @@ fn step_43() -> Unit raise {
   )
   nproduct_delta_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a. nproduct s (\\x. if x = a then b else 1) =\n         (if a IN s then b else 1)",
-      ),
+      @term_syntax.parse_term("∀ s : (_) -> Bool, ∀ a : _, nproduct(s, (x : _) => if x == a { (b : Num) } else { 1 }) == (if IN(a, s) { b } else { 1 })"),
       t117,
     ),
   )
@@ -1597,9 +1525,7 @@ fn step_44() -> Unit raise {
   )
   exp_nsum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n s:A->bool.\n        FINITE s ==> m EXP (nsum s n) = nproduct s (\\i. m EXP n i)",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : (A) -> Num, ∀ s : (A) -> Bool, FINITE(s) → EXP(m, nsum(s, n)) == nproduct(s, (i : A) => EXP(m, n(i)))"),
       t120,
     ),
   )
@@ -1996,9 +1922,7 @@ fn step_45() -> Unit raise {
     t188,
   ])
   let t137 = @tactics.exists_tac(
-    @parser.parse_term(
-      "IMAGE (\\(x:A,v:A^N). (lambda i. if i = SUC n then x else v$i):A^N)\n          {x,v | x IN {x:A | P (SUC n) x} /\\\n                 v IN {v:A^N | (forall i. 1 <= i /\\ i <= dimindex(:N) /\\ i <= n\n                                ==> P i (v$i)) /\\\n                           (forall i. 1 <= i /\\ i <= dimindex (:N) /\\ n < i\n                                ==> v$i = (@x. F))}}",
-    ),
+    @term_syntax.parse_term("(IMAGE : (((A, Cart[A, N])) -> Cart[A, N], ((A, Cart[A, N])) -> Bool, Cart[A, N]) -> Bool)(fn { ((x : A), (v : Cart[A, N])) => (lambda : ((Num) -> A) -> Cart[A, N])((i : Num) => if i == SUC((n : Num)) { x } else { (op_dollar : (Cart[A, N], Num) -> A)(v, i) }) }, {((x : A), (v : Cart[A, N])) | (IN : (A, (A) -> Bool) -> Bool)(x, {(x : A) | (P : (Num, A) -> Bool)(SUC(n), x)}) && (IN : (Cart[A, N], (Cart[A, N]) -> Bool) -> Bool)(v, {(v : Cart[A, N]) | (∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && i <= n → P(i, (op_dollar : (Cart[A, N], Num) -> A)(v, i))) && (∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && n < i → (op_dollar : (Cart[A, N], Num) -> A)(v, i) == (select : ((A) -> Bool) -> A)((x : A) => false))})})"),
   )
   let t136 = @tactics.match_mp_tac(
     @meson.meson(
@@ -2016,9 +1940,7 @@ fn step_45() -> Unit raise {
     ]),
   )
   let t133 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "{v | forall i. 1 <= i /\\ i <= dimindex (:N) ==> v$i = (@x. F)} =\n      {(lambda i. @x. F):A^N}",
-    ),
+    @term_syntax.parse_term("{(v : Cart[A, N]) | ∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (op_dollar : (Cart[A, N], Num) -> A)(v, i) == (select : ((A) -> Bool) -> A)((x : A) => false)} == {(lambda : ((Num) -> A) -> Cart[A, N])((i : Num) => (select : ((A) -> Bool) -> A)((x : A) => false))}"),
     fn(
       x131 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2085,9 +2007,7 @@ fn step_45() -> Unit raise {
   )
   let t124 = @term_syntax.parse_term("(dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))")
   let t127 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "forall n. n <= dimindex(:N)\n        ==> {v:A^N | (forall i. 1 <= i /\\ i <= dimindex(:N) /\\ i <= n\n                          ==> P i (v$i)) /\\\n                     (forall i. 1 <= i /\\ i <= dimindex(:N) /\\ n < i\n                          ==> v$i = @x. F)}\n            HAS_SIZE nproduct(1..n) m",
-    ),
+    @term_syntax.parse_term("∀ n : Num, n <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (HAS_SIZE : ((Cart[A, N]) -> Bool, Num) -> Bool)({(v : Cart[A, N]) | (∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && i <= n → (P : (Num, A) -> Bool)(i, (op_dollar : (Cart[A, N], Num) -> A)(v, i))) && (∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && n < i → (op_dollar : (Cart[A, N], Num) -> A)(v, i) == (select : ((A) -> Bool) -> A)((x : A) => false))}, (nproduct : ((Num) -> Bool, (Num) -> Num) -> Num)(op_dot_dot(1, n), (m : (Num) -> Num)))"),
     fn(
       x126 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -2190,9 +2110,7 @@ fn step_45() -> Unit raise {
   )
   has_size_cart_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P m. (forall i. 1 <= i /\\ i <= dimindex(:N) ==> {x | P i x} HAS_SIZE m i)\n         ==> {v:A^N | forall i. 1 <= i /\\ i <= dimindex(:N) ==> P i (v$i)}\n             HAS_SIZE nproduct (1..dimindex(:N)) m",
-      ),
+      @term_syntax.parse_term("∀ P : (Num, A) -> Bool, ∀ m : (Num) -> Num, (∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (HAS_SIZE : ((A) -> Bool, Num) -> Bool)({(x : A) | P(i, x)}, m(i))) → (HAS_SIZE : ((Cart[A, N]) -> Bool, Num) -> Bool)({(v : Cart[A, N]) | ∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → P(i, (op_dollar : (Cart[A, N], Num) -> A)(v, i))}, (nproduct : ((Num) -> Bool, (Num) -> Num) -> Num)(op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))), m))"),
       t190,
     ),
   )
@@ -2229,9 +2147,7 @@ fn step_46() -> Unit raise {
   )
   card_cart_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. (forall i. 1 <= i /\\ i <= dimindex(:N) ==> FINITE {x | P i x})\n       ==> CARD {v:A^N | forall i. 1 <= i /\\ i <= dimindex(:N) ==> P i (v$i)} =\n           nproduct (1..dimindex(:N)) (\\i. CARD {x | P i x})",
-      ),
+      @term_syntax.parse_term("∀ P : (Num, A) -> Bool, (∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (FINITE : ((A) -> Bool) -> Bool)({(x : A) | P(i, x)})) → (CARD : ((Cart[A, N]) -> Bool) -> Num)({(v : Cart[A, N]) | ∀ i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → P(i, (op_dollar : (Cart[A, N], Num) -> A)(v, i))}) == (nproduct : ((Num) -> Bool, (Num) -> Num) -> Num)(op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))), (i : Num) => (CARD : ((A) -> Bool) -> Num)({(x : A) | P(i, x)}))"),
       t194,
     ),
   )
@@ -2258,9 +2174,7 @@ fn step_47() -> Unit raise {
     t196,
   )
   let th = @tactics.prove(
-    @parser.parse_term(
-      "(forall f g s.   (forall x. x IN s ==> f(x) = g(x))\n                ==> nproduct s (\\i. f(i)) = nproduct s g) /\\\n     (forall f g a b. (forall i. a <= i /\\ i <= b ==> f(i) = g(i))\n                ==> nproduct(a..b) (\\i. f(i)) = nproduct(a..b) g) /\\\n     (forall f g p.   (forall x. p x ==> f x = g x)\n                ==> nproduct {y | p y} (\\i. f(i)) = nproduct {y | p y} g)",
-    ),
+    @term_syntax.parse_term("(∀ f : (_) -> Num, ∀ g : (_) -> Num, ∀ s : (_) -> Bool, (∀ x : _, IN(x, s) → f(x) == g(x)) → nproduct(s, (i : _) => f(i)) == nproduct(s, g)) && (∀ f : (Num) -> Num, ∀ g : (Num) -> Num, ∀ a : Num, ∀ b : Num, (∀ i : Num, a <= i && i <= b → f(i) == g(i)) → nproduct(op_dot_dot(a, b), (i : Num) => f(i)) == nproduct(op_dot_dot(a, b), g)) && (∀ f : (_) -> Num, ∀ g : (_) -> Num, ∀ p : (_) -> Bool, (∀ x : _, p(x) → f(x) == g(x)) → nproduct({(y : _) | p(y)}, (i : _) => f(i)) == nproduct({(y : _) | p(y)}, g))"),
     t197,
   )
   @simp.extend_basic_congs(@lib.map(@bool.spec_all, @bool.conjuncts_rule(th)))
@@ -2303,9 +2217,7 @@ fn step_49() -> Unit raise {
   )
   iproduct_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s t. FINITE s /\\ FINITE t /\\ DISJOINT s t\n           ==> (iproduct (s UNION t) f = iproduct s f * iproduct t f)",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Int, ∀ s : (_) -> Bool, ∀ t : (_) -> Bool, FINITE(s) && FINITE(t) && DISJOINT(s, t) → iproduct(UNION(s, t), f) == iproduct(s, f) * iproduct(t, f)"),
       t199,
     ),
   )
@@ -2339,9 +2251,7 @@ fn step_50() -> Unit raise {
   )
   iproduct_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g s. (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y)\n           ==> (iproduct (IMAGE f s) g = iproduct s (g o f))",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> _, ∀ g : (_) -> Int, ∀ s : (_) -> Bool, (∀ x : _, ∀ y : _, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) → iproduct(IMAGE(f, s), g) == iproduct(s, o(g, f))"),
       t202,
     ),
   )
@@ -2370,9 +2280,7 @@ fn step_51() -> Unit raise {
   )
   iproduct_injection_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f p s. FINITE s /\\\n           (forall x. x IN s ==> p x IN s) /\\\n           (forall x y. x IN s /\\ y IN s /\\ p x = p y ==> x = y)\n           ==> iproduct s (f o p) = iproduct s f",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Int, ∀ p : (_) -> _, ∀ s : (_) -> Bool, FINITE(s) && (∀ x : _, IN(x, s) → IN(p(x), s)) && (∀ x : _, ∀ y : _, IN(x, s) && IN(y, s) && p(x) == p(y) → x == y) → iproduct(s, o(f, p)) == iproduct(s, f)"),
       t205,
     ),
   )
@@ -2403,9 +2311,7 @@ fn step_52() -> Unit raise {
   )
   iproduct_add_split_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n p.\n        m <= n + 1\n        ==> (iproduct (m..(n+p)) f = iproduct(m..n) f * iproduct(n+1..n+p) f)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Int, ∀ m : Num, ∀ n : Num, ∀ p : Num, m <= n + 1 → iproduct(op_dot_dot(m, n + p), f) == iproduct(op_dot_dot(m, n), f) * iproduct(op_dot_dot(n + 1, n + p), f)"),
       t206,
     ),
   )
@@ -2446,9 +2352,7 @@ fn step_53() -> Unit raise {
   )
   iproduct_pos_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s /\\ (forall x. x IN s ==> &0 <= f x) ==> &0 <= iproduct s f",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Int, ∀ s : (_) -> Bool, FINITE(s) && (∀ x : _, IN(x, s) → int_of_num(0) <= f(x)) → int_of_num(0) <= iproduct(s, f)"),
       t209,
     ),
   )
@@ -2477,9 +2381,7 @@ fn step_54() -> Unit raise {
   )
   iproduct_pos_le_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. (forall x. m <= x /\\ x <= n ==> &0 <= f x) ==> &0 <= iproduct(m..n) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Int, ∀ m : Num, ∀ n : Num, (∀ x : Num, m <= x && x <= n → int_of_num(0) <= f(x)) → int_of_num(0) <= iproduct(op_dot_dot(m, n), f)"),
       t210,
     ),
   )
@@ -2520,9 +2422,7 @@ fn step_55() -> Unit raise {
   )
   iproduct_pos_lt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s /\\ (forall x. x IN s ==> &0 < f x) ==> &0 < iproduct s f",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Int, ∀ s : (_) -> Bool, FINITE(s) && (∀ x : _, IN(x, s) → int_of_num(0) < f(x)) → int_of_num(0) < iproduct(s, f)"),
       t213,
     ),
   )
@@ -2551,9 +2451,7 @@ fn step_56() -> Unit raise {
   )
   iproduct_pos_lt_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. (forall x. m <= x /\\ x <= n ==> &0 < f x) ==> &0 < iproduct(m..n) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Int, ∀ m : Num, ∀ n : Num, (∀ x : Num, m <= x && x <= n → int_of_num(0) < f(x)) → int_of_num(0) < iproduct(op_dot_dot(m, n), f)"),
       t214,
     ),
   )
@@ -2587,9 +2485,7 @@ fn step_57() -> Unit raise {
   )
   iproduct_offset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m p. iproduct(m+p..n+p) f = iproduct(m..n) (\\i. f(i + p))",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Int, ∀ m : Num, ∀ p : Num, iproduct(op_dot_dot(m + p, (n : Num) + p), f) == iproduct(op_dot_dot(m, n), (i : Num) => f(i + p))"),
       t216,
     ),
   )
@@ -2686,9 +2582,7 @@ fn step_60() -> Unit raise {
   )
   iproduct_clauses_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m. iproduct(m..0) f = if m = 0 then f(0) else &1) /\\\n   (forall m n. iproduct(m..SUC n) f = if m <= SUC n then iproduct(m..n) f * f(SUC n)\n                                else iproduct(m..n) f)",
-      ),
+      @term_syntax.parse_term("(∀ m : Num, iproduct(op_dot_dot(m, 0), (f : (Num) -> Int)) == (if m == 0 { f(0) } else { int_of_num(1) })) && (∀ m : Num, ∀ n : Num, iproduct(op_dot_dot(m, SUC(n)), f) == (if m <= SUC(n) { iproduct(op_dot_dot(m, n), f) * f(SUC(n)) } else { iproduct(op_dot_dot(m, n), f) }))"),
       t222,
     ),
   )
@@ -2719,9 +2613,7 @@ fn step_61() -> Unit raise {
   )
   iproduct_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g s. (forall x. x IN s ==> (f x = g x)) ==> iproduct s f = iproduct s g",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Int, ∀ g : (_) -> Int, ∀ s : (_) -> Bool, (∀ x : _, IN(x, s) → f(x) == g(x)) → iproduct(s, f) == iproduct(s, g)"),
       t225,
     ),
   )
@@ -2744,9 +2636,7 @@ fn step_62() -> Unit raise {
   )
   iproduct_eq_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g m n. (forall i. m <= i /\\ i <= n ==> (f(i) = g(i)))\n             ==> (iproduct(m..n) f = iproduct(m..n) g)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Int, ∀ g : (Num) -> Int, ∀ m : Num, ∀ n : Num, (∀ i : Num, m <= i && i <= n → f(i) == g(i)) → iproduct(op_dot_dot(m, n), f) == iproduct(op_dot_dot(m, n), g)"),
       t226,
     ),
   )
@@ -2789,9 +2679,7 @@ fn step_63() -> Unit raise {
   )
   iproduct_eq_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s ==> (iproduct s f = &0 <=> ?x. x IN s /\\ f(x) = &0)",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Int, ∀ s : (_) -> Bool, FINITE(s) → (iproduct(s, f) == int_of_num(0)) == (∃ x : _, IN(x, s) && f(x) == int_of_num(0))"),
       t229,
     ),
   )
@@ -2819,9 +2707,7 @@ fn step_64() -> Unit raise {
   )
   iproduct_eq_0_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. iproduct(m..n) f = &0 <=> ?x. m <= x /\\ x <= n /\\ f(x) = &0",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Int, ∀ m : Num, ∀ n : Num, (iproduct(op_dot_dot(m, n), f) == int_of_num(0)) == (∃ x : Num, m <= x && x <= n && f(x) == int_of_num(0))"),
       t230,
     ),
   )
@@ -2849,9 +2735,7 @@ fn step_65() -> Unit raise {
   )
   iproduct_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s\n         ==> iproduct s (\\i. if i IN s then f i else &1) = iproduct s f",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Int, ∀ s : (_) -> Bool, FINITE(s) → iproduct(s, (i : _) => if IN(i, s) { f(i) } else { int_of_num(1) }) == iproduct(s, f)"),
       t233,
     ),
   )
@@ -2887,9 +2771,7 @@ fn step_66() -> Unit raise {
   )
   iproduct_restrict_set_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s f. iproduct {i:A | i IN s /\\ P i} f =\n           iproduct s (\\i. if P i then f i else &1)",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ s : (A) -> Bool, ∀ f : (A) -> Int, iproduct({(i : A) | IN(i, s) && P(i)}, f) == iproduct(s, (i : A) => if P(i) { f(i) } else { int_of_num(1) })"),
       t236,
     ),
   )
@@ -2936,9 +2818,7 @@ fn step_67() -> Unit raise {
   )
   iproduct_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s /\\ (forall x. x IN s ==> &0 <= f(x) /\\ f(x) <= g(x))\n         ==> iproduct s f <= iproduct s g",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Int, ∀ s : (_) -> Bool, FINITE(s) && (∀ x : _, IN(x, s) → int_of_num(0) <= f(x) && f(x) <= (g : (_) -> Int)(x)) → iproduct(s, f) <= iproduct(s, g)"),
       t240,
     ),
   )
@@ -2961,9 +2841,7 @@ fn step_68() -> Unit raise {
   )
   iproduct_le_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. (forall i. m <= i /\\ i <= n ==> &0 <= f(i) /\\ f(i) <= g(i))\n           ==> iproduct(m..n) f <= iproduct(m..n) g",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Int, ∀ m : Num, ∀ n : Num, (∀ i : Num, m <= i && i <= n → int_of_num(0) <= f(i) && f(i) <= (g : (Num) -> Int)(i)) → iproduct(op_dot_dot(m, n), f) <= iproduct(op_dot_dot(m, n), g)"),
       t241,
     ),
   )
@@ -2994,9 +2872,7 @@ fn step_69() -> Unit raise {
   )
   iproduct_eq_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. (forall x:A. x IN s ==> (f(x) = &1)) ==> (iproduct s f = &1)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> Int, ∀ s : (A) -> Bool, (∀ x : A, IN(x, s) → f(x) == int_of_num(1)) → iproduct(s, f) == int_of_num(1)"),
       t243,
     ),
   )
@@ -3017,9 +2893,7 @@ fn step_70() -> Unit raise {
   let t244 = @simp.simp_tac(@list.List([iproduct_eq_1(), @iterate.in_numseg()]))
   iproduct_eq_1_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. (forall i. m <= i /\\ i <= n ==> (f(i) = &1)) ==> (iproduct(m..n) f = &1)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Int, ∀ m : Num, ∀ n : Num, (∀ i : Num, m <= i && i <= n → f(i) == int_of_num(1)) → iproduct(op_dot_dot(m, n), f) == int_of_num(1)"),
       t244,
     ),
   )
@@ -3057,9 +2931,7 @@ fn step_71() -> Unit raise {
   )
   iproduct_mul_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g s.\n       FINITE {x | x IN s /\\ ~(f x = &1)} /\\ FINITE {x | x IN s /\\ ~(g x = &1)}\n       ==> iproduct s (\\x. f x * g x) = iproduct s f * iproduct s g",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Int, ∀ g : (_) -> Int, ∀ s : (_) -> Bool, FINITE({(x : _) | IN(x, s) && !(f(x) == int_of_num(1))}) && FINITE({(x : _) | IN(x, s) && !(g(x) == int_of_num(1))}) → iproduct(s, (x : _) => f(x) * g(x)) == iproduct(s, f) * iproduct(s, g)"),
       t248,
     ),
   )
@@ -3096,9 +2968,7 @@ fn step_72() -> Unit raise {
   )
   iproduct_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g s. FINITE s\n           ==> iproduct s (\\x. f x * g x) = iproduct s f * iproduct s g",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Int, ∀ g : (_) -> Int, ∀ s : (_) -> Bool, FINITE(s) → iproduct(s, (x : _) => f(x) * g(x)) == iproduct(s, f) * iproduct(s, g)"),
       t251,
     ),
   )
@@ -3121,9 +2991,7 @@ fn step_73() -> Unit raise {
   )
   iproduct_mul_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g m n.\n     iproduct(m..n) (\\x. f x * g x) = iproduct(m..n) f * iproduct(m..n) g",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Int, ∀ g : (Num) -> Int, ∀ m : Num, ∀ n : Num, iproduct(op_dot_dot(m, n), (x : Num) => f(x) * g(x)) == iproduct(op_dot_dot(m, n), f) * iproduct(op_dot_dot(m, n), g)"),
       t252,
     ),
   )
@@ -3159,9 +3027,7 @@ fn step_74() -> Unit raise {
   )
   iproduct_const_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall c s. FINITE s ==> iproduct s (\\x. c) = c pow (CARD s)",
-      ),
+      @term_syntax.parse_term("∀ c : Int, ∀ s : (_) -> Bool, FINITE(s) → iproduct(s, (x : _) => c) == pow(c, CARD(s))"),
       t254,
     ),
   )
@@ -3188,9 +3054,7 @@ fn step_75() -> Unit raise {
   )
   iproduct_const_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall c m n. iproduct (m..n) (\\x. c) = c pow ((n + 1) - m)",
-      ),
+      @term_syntax.parse_term("∀ c : Int, ∀ m : Num, ∀ n : Num, iproduct(op_dot_dot(m, n), (x : Num) => c) == pow(c, n + 1 - m)"),
       t255,
     ),
   )
@@ -3249,9 +3113,7 @@ fn step_77() -> Unit raise {
   )
   iproduct_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s:A->bool.\n     FINITE s\n     ==> iproduct s (\\i. --(f i)) = --(&1) pow (CARD s) * iproduct s f",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> Int, ∀ s : (A) -> Bool, FINITE(s) → iproduct(s, (i : A) => -f(i)) == pow(-int_of_num(1), CARD(s)) * iproduct(s, f)"),
       t259,
     ),
   )
@@ -3278,9 +3140,7 @@ fn step_78() -> Unit raise {
   )
   iproduct_neg_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. iproduct(m..n) (\\i. --(f i)) =\n           --(&1) pow ((n + 1) - m) * iproduct(m..n) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Int, ∀ m : Num, ∀ n : Num, iproduct(op_dot_dot(m, n), (i : Num) => -f(i)) == pow(-int_of_num(1), n + 1 - m) * iproduct(op_dot_dot(m, n), f)"),
       t260,
     ),
   )
@@ -3305,9 +3165,7 @@ fn step_79() -> Unit raise {
   )
   iproduct_neg_numseg_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f n. iproduct(1..n) (\\i. --(f i)) = --(&1) pow n * iproduct(1..n) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Int, ∀ n : Num, iproduct(op_dot_dot(1, n), (i : Num) => -f(i)) == pow(-int_of_num(1), n) * iproduct(op_dot_dot(1, n), f)"),
       t261,
     ),
   )
@@ -3389,9 +3247,7 @@ fn step_81() -> Unit raise {
   )
   iproduct_le_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s /\\ (forall x. x IN s ==> &0 <= f x /\\ f x <= &1)\n         ==> iproduct s f <= &1",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Int, ∀ s : (_) -> Bool, FINITE(s) && (∀ x : _, IN(x, s) → int_of_num(0) <= f(x) && f(x) <= int_of_num(1)) → iproduct(s, f) <= int_of_num(1)"),
       t272,
     ),
   )
@@ -3425,9 +3281,7 @@ fn step_82() -> Unit raise {
   )
   iproduct_abs_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s ==> iproduct s (\\x. abs(f x)) = abs(iproduct s f)",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Int, ∀ s : (_) -> Bool, FINITE(s) → iproduct(s, (x : _) => abs(f(x))) == abs(iproduct(s, f))"),
       t274,
     ),
   )
@@ -3529,9 +3383,7 @@ fn step_83() -> Unit raise {
   )
   iproduct_closed_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P f:A->int s.\n        P(&1) /\\ (forall x y. P x /\\ P y ==> P(x * y)) /\\ (forall a. a IN s ==> P(f a))\n        ==> P(iproduct s f)",
-      ),
+      @term_syntax.parse_term("∀ P : (Int) -> Bool, ∀ f : (A) -> Int, ∀ s : (A) -> Bool, P(int_of_num(1)) && (∀ x : Int, ∀ y : Int, P(x) && P(y) → P(x * y)) && (∀ a : A, IN(a, s) → P(f(a))) → P(iproduct(s, f))"),
       t284,
     ),
   )
@@ -3585,9 +3437,7 @@ fn step_84() -> Unit raise {
   )
   iproduct_related_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R (f:A->int) g s.\n        R (&1) (&1) /\\\n        (forall m n m' n'. R m n /\\ R m' n' ==> R (m * m') (n * n')) /\\\n        FINITE s /\\ (forall i. i IN s ==> R (f i) (g i))\n        ==> R (iproduct s f) (iproduct s g)",
-      ),
+      @term_syntax.parse_term("∀ R : (Int, Int) -> Bool, ∀ f : (A) -> Int, ∀ g : (A) -> Int, ∀ s : (A) -> Bool, R(int_of_num(1), int_of_num(1)) && (∀ m : Int, ∀ n : Int, ∀ m' : Int, ∀ n' : Int, R(m, n) && R(m', n') → R(m * m', n * n')) && FINITE(s) && (∀ i : A, IN(i, s) → R(f(i), g(i))) → R(iproduct(s, f), iproduct(s, g))"),
       t290,
     ),
   )
@@ -3693,9 +3543,7 @@ fn step_85() -> Unit raise {
   )
   iproduct_closed_nonempty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P f:A->int s.\n        FINITE s /\\ ~(s = {}) /\\\n        (forall x y. P x /\\ P y ==> P(x * y)) /\\ (forall a. a IN s ==> P(f a))\n        ==> P(iproduct s f)",
-      ),
+      @term_syntax.parse_term("∀ P : (Int) -> Bool, ∀ f : (A) -> Int, ∀ s : (A) -> Bool, FINITE(s) && !(s == {}) && (∀ x : Int, ∀ y : Int, P(x) && P(y) → P(x * y)) && (∀ a : A, IN(a, s) → P(f(a))) → P(iproduct(s, f))"),
       t300,
     ),
   )
@@ -3749,9 +3597,7 @@ fn step_86() -> Unit raise {
   )
   iproduct_related_nonempty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R (f:A->int) g s.\n        (forall m n m' n'. R m n /\\ R m' n' ==> R (m * m') (n * n')) /\\\n        FINITE s /\\ ~(s = {}) /\\ (forall i. i IN s ==> R (f i) (g i))\n        ==> R (iproduct s f) (iproduct s g)",
-      ),
+      @term_syntax.parse_term("∀ R : (Int, Int) -> Bool, ∀ f : (A) -> Int, ∀ g : (A) -> Int, ∀ s : (A) -> Bool, (∀ m : Int, ∀ n : Int, ∀ m' : Int, ∀ n' : Int, R(m, n) && R(m', n') → R(m * m', n * n')) && FINITE(s) && !(s == {}) && (∀ i : A, IN(i, s) → R(f(i), g(i))) → R(iproduct(s, f), iproduct(s, g))"),
       t306,
     ),
   )
@@ -3784,9 +3630,7 @@ fn step_87() -> Unit raise {
   )
   iproduct_clauses_left_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. m <= n ==> iproduct(m..n) f = f(m) * iproduct(m+1..n) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Int, ∀ m : Num, ∀ n : Num, m <= n → iproduct(op_dot_dot(m, n), f) == f(m) * iproduct(op_dot_dot(m + 1, n), f)"),
       t307,
     ),
   )
@@ -3818,9 +3662,7 @@ fn step_88() -> Unit raise {
   )
   iproduct_clauses_right_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. 0 < n /\\ m <= n ==> iproduct(m..n) f = iproduct(m..n-1) f * f(n)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Int, ∀ m : Num, ∀ n : Num, 0 < n && m <= n → iproduct(op_dot_dot(m, n), f) == iproduct(op_dot_dot(m, n - 1), f) * f(n)"),
       t309,
     ),
   )
@@ -3856,9 +3698,7 @@ fn step_89() -> Unit raise {
   )
   int_of_num_nproduct_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->num s. FINITE s ==> &(nproduct s f) = iproduct s (\\x. &(f x))",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> Num, ∀ s : (A) -> Bool, FINITE(s) → int_of_num(nproduct(s, f)) == iproduct(s, (x : A) => int_of_num(f(x)))"),
       t311,
     ),
   )
@@ -3888,9 +3728,7 @@ fn step_90() -> Unit raise {
   )
   iproduct_superset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->int u v.\n        u SUBSET v /\\ (forall x. x IN v /\\ ~(x IN u) ==> f(x) = &1)\n        ==> iproduct v f = iproduct u f",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> Int, ∀ u : (A) -> Bool, ∀ v : (A) -> Bool, SUBSET(u, v) && (∀ x : A, IN(x, v) && !IN(x, u) → f(x) == int_of_num(1)) → iproduct(v, f) == iproduct(u, f)"),
       t312,
     ),
   )
@@ -3921,9 +3759,7 @@ fn step_91() -> Unit raise {
   )
   iproduct_univ_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->int s.\n        support ( * ) f (:A) SUBSET s ==> iproduct s f = iproduct (:A) f",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> Int, ∀ s : (A) -> Bool, SUBSET(support(op_star, f, UNIV), s) → iproduct(s, f) == iproduct(UNIV, f)"),
       t315,
     ),
   )
@@ -3952,9 +3788,7 @@ fn step_92() -> Unit raise {
   )
   iproduct_pair_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. iproduct(2*m..2*n+1) f = iproduct(m..n) (\\i. f(2*i) * f(2*i+1))",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Int, ∀ m : Num, ∀ n : Num, iproduct(op_dot_dot(2 * m, 2 * n + 1), f) == iproduct(op_dot_dot(m, n), (i : Num) => f(2 * i) * f(2 * i + 1))"),
       t317,
     ),
   )
@@ -3994,9 +3828,7 @@ fn step_93() -> Unit raise {
   )
   iproduct_reflect_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x m n. iproduct(m..n) x =\n           if n < m then &1 else iproduct(0..n-m) (\\i. x(n - i))",
-      ),
+      @term_syntax.parse_term("∀ x : (Num) -> Int, ∀ m : Num, ∀ n : Num, iproduct(op_dot_dot(m, n), x) == (if n < m { int_of_num(1) } else { iproduct(op_dot_dot(0, n - m), (i : Num) => x(n - i)) })"),
       t324,
     ),
   )
@@ -4025,9 +3857,7 @@ fn step_94() -> Unit raise {
   )
   iproduct_delete_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s a.\n    FINITE s /\\ a IN s ==> f(a) * iproduct(s DELETE a) f = iproduct s f",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Int, ∀ s : (_) -> Bool, ∀ a : _, FINITE(s) && IN(a, s) → f(a) * iproduct(DELETE(s, a), f) == iproduct(s, f)"),
       t325,
     ),
   )
@@ -4058,9 +3888,7 @@ fn step_95() -> Unit raise {
   )
   iproduct_delta_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a. iproduct s (\\x. if x = a then b else &1) =\n         (if a IN s then b else &1)",
-      ),
+      @term_syntax.parse_term("∀ s : (_) -> Bool, ∀ a : _, iproduct(s, (x : _) => if x == a { (b : Int) } else { int_of_num(1) }) == (if IN(a, s) { b } else { int_of_num(1) })"),
       t327,
     ),
   )
@@ -4096,9 +3924,7 @@ fn step_96() -> Unit raise {
   )
   int_pow_nsum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x n s:A->bool.\n        FINITE s ==> x pow (nsum s n) = iproduct s (\\i. x pow n i)",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ n : (A) -> Num, ∀ s : (A) -> Bool, FINITE(s) → pow(x, nsum(s, n)) == iproduct(s, (i : A) => pow(x, n(i)))"),
       t330,
     ),
   )
@@ -4125,9 +3951,7 @@ fn step_97() -> Unit raise {
     t332,
   )
   let th = @tactics.prove(
-    @parser.parse_term(
-      "(forall f g s.   (forall x. x IN s ==> f(x) = g(x))\n                ==> iproduct s (\\i. f(i)) = iproduct s g) /\\\n     (forall f g a b. (forall i. a <= i /\\ i <= b ==> f(i) = g(i))\n                ==> iproduct(a..b) (\\i. f(i)) = iproduct(a..b) g) /\\\n     (forall f g p.   (forall x. p x ==> f x = g x)\n                ==> iproduct {y | p y} (\\i. f(i)) = iproduct {y | p y} g)",
-    ),
+    @term_syntax.parse_term("(∀ f : (_) -> Int, ∀ g : (_) -> Int, ∀ s : (_) -> Bool, (∀ x : _, IN(x, s) → f(x) == g(x)) → iproduct(s, (i : _) => f(i)) == iproduct(s, g)) && (∀ f : (Num) -> Int, ∀ g : (Num) -> Int, ∀ a : Num, ∀ b : Num, (∀ i : Num, a <= i && i <= b → f(i) == g(i)) → iproduct(op_dot_dot(a, b), (i : Num) => f(i)) == iproduct(op_dot_dot(a, b), g)) && (∀ f : (_) -> Int, ∀ g : (_) -> Int, ∀ p : (_) -> Bool, (∀ x : _, p(x) → f(x) == g(x)) → iproduct({(y : _) | p(y)}, (i : _) => f(i)) == iproduct({(y : _) | p(y)}, g))"),
     t333,
   )
   @simp.extend_basic_congs(@lib.map(@bool.spec_all, @bool.conjuncts_rule(th)))
@@ -4176,9 +4000,7 @@ fn step_100() -> Unit raise {
   )
   product_union_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s t. FINITE s /\\ FINITE t /\\ DISJOINT s t\n           ==> (product (s UNION t) f = product s f * product t f)",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Real, ∀ s : (_) -> Bool, ∀ t : (_) -> Bool, FINITE(s) && FINITE(t) && DISJOINT(s, t) → product(UNION(s, t), f) == product(s, f) * product(t, f)"),
       t335,
     ),
   )
@@ -4212,9 +4034,7 @@ fn step_101() -> Unit raise {
   )
   product_image_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g s. (forall x y. x IN s /\\ y IN s /\\ f x = f y ==> x = y)\n           ==> (product (IMAGE f s) g = product s (g o f))",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> _, ∀ g : (_) -> Real, ∀ s : (_) -> Bool, (∀ x : _, ∀ y : _, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) → product(IMAGE(f, s), g) == product(s, o(g, f))"),
       t338,
     ),
   )
@@ -4240,9 +4060,7 @@ fn step_102() -> Unit raise {
   )
   product_injection_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f p s. FINITE s /\\\n           (forall x. x IN s ==> p x IN s) /\\\n           (forall x y. x IN s /\\ y IN s /\\ p x = p y ==> x = y)\n           ==> product s (f o p) = product s f",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Real, ∀ p : (_) -> _, ∀ s : (_) -> Bool, FINITE(s) && (∀ x : _, IN(x, s) → IN(p(x), s)) && (∀ x : _, ∀ y : _, IN(x, s) && IN(y, s) && p(x) == p(y) → x == y) → product(s, o(f, p)) == product(s, f)"),
       t341,
     ),
   )
@@ -4273,9 +4091,7 @@ fn step_103() -> Unit raise {
   )
   product_add_split_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n p.\n        m <= n + 1\n        ==> (product (m..(n+p)) f = product(m..n) f * product(n+1..n+p) f)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, ∀ p : Num, m <= n + 1 → product(op_dot_dot(m, n + p), f) == product(op_dot_dot(m, n), f) * product(op_dot_dot(n + 1, n + p), f)"),
       t342,
     ),
   )
@@ -4316,9 +4132,7 @@ fn step_104() -> Unit raise {
   )
   product_pos_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s /\\ (forall x. x IN s ==> &0 <= f x) ==> &0 <= product s f",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Real, ∀ s : (_) -> Bool, FINITE(s) && (∀ x : _, IN(x, s) → real_of_num(0) <= f(x)) → real_of_num(0) <= product(s, f)"),
       t345,
     ),
   )
@@ -4345,9 +4159,7 @@ fn step_105() -> Unit raise {
   )
   product_pos_le_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. (forall x. m <= x /\\ x <= n ==> &0 <= f x) ==> &0 <= product(m..n) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, (∀ x : Num, m <= x && x <= n → real_of_num(0) <= f(x)) → real_of_num(0) <= product(op_dot_dot(m, n), f)"),
       t346,
     ),
   )
@@ -4388,9 +4200,7 @@ fn step_106() -> Unit raise {
   )
   product_pos_lt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s /\\ (forall x. x IN s ==> &0 < f x) ==> &0 < product s f",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Real, ∀ s : (_) -> Bool, FINITE(s) && (∀ x : _, IN(x, s) → real_of_num(0) < f(x)) → real_of_num(0) < product(s, f)"),
       t349,
     ),
   )
@@ -4417,9 +4227,7 @@ fn step_107() -> Unit raise {
   )
   product_pos_lt_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. (forall x. m <= x /\\ x <= n ==> &0 < f x) ==> &0 < product(m..n) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, (∀ x : Num, m <= x && x <= n → real_of_num(0) < f(x)) → real_of_num(0) < product(op_dot_dot(m, n), f)"),
       t350,
     ),
   )
@@ -4453,9 +4261,7 @@ fn step_108() -> Unit raise {
   )
   product_offset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m p. product(m+p..n+p) f = product(m..n) (\\i. f(i + p))",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ m : Num, ∀ p : Num, product(op_dot_dot(m + p, (n : Num) + p), f) == product(op_dot_dot(m, n), (i : Num) => f(i + p))"),
       t352,
     ),
   )
@@ -4550,9 +4356,7 @@ fn step_111() -> Unit raise {
   )
   product_clauses_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall m. product(m..0) f = if m = 0 then f(0) else &1) /\\\n   (forall m n. product(m..SUC n) f = if m <= SUC n then product(m..n) f * f(SUC n)\n                                else product(m..n) f)",
-      ),
+      @term_syntax.parse_term("(∀ m : Num, product(op_dot_dot(m, 0), (f : (Num) -> Real)) == (if m == 0 { f(0) } else { real_of_num(1) })) && (∀ m : Num, ∀ n : Num, product(op_dot_dot(m, SUC(n)), f) == (if m <= SUC(n) { product(op_dot_dot(m, n), f) * f(SUC(n)) } else { product(op_dot_dot(m, n), f) }))"),
       t358,
     ),
   )
@@ -4580,9 +4384,7 @@ fn step_112() -> Unit raise {
   )
   product_eq_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g s. (forall x. x IN s ==> (f x = g x)) ==> product s f = product s g",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Real, ∀ g : (_) -> Real, ∀ s : (_) -> Bool, (∀ x : _, IN(x, s) → f(x) == g(x)) → product(s, f) == product(s, g)"),
       t361,
     ),
   )
@@ -4605,9 +4407,7 @@ fn step_113() -> Unit raise {
   )
   product_eq_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g m n. (forall i. m <= i /\\ i <= n ==> (f(i) = g(i)))\n             ==> (product(m..n) f = product(m..n) g)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, ∀ m : Num, ∀ n : Num, (∀ i : Num, m <= i && i <= n → f(i) == g(i)) → product(op_dot_dot(m, n), f) == product(op_dot_dot(m, n), g)"),
       t362,
     ),
   )
@@ -4650,9 +4450,7 @@ fn step_114() -> Unit raise {
   )
   product_eq_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s ==> (product s f = &0 <=> ?x. x IN s /\\ f(x) = &0)",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Real, ∀ s : (_) -> Bool, FINITE(s) → (product(s, f) == real_of_num(0)) == (∃ x : _, IN(x, s) && f(x) == real_of_num(0))"),
       t365,
     ),
   )
@@ -4680,9 +4478,7 @@ fn step_115() -> Unit raise {
   )
   product_eq_0_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. product(m..n) f = &0 <=> ?x. m <= x /\\ x <= n /\\ f(x) = &0",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, (product(op_dot_dot(m, n), f) == real_of_num(0)) == (∃ x : Num, m <= x && x <= n && f(x) == real_of_num(0))"),
       t366,
     ),
   )
@@ -4710,9 +4506,7 @@ fn step_116() -> Unit raise {
   )
   product_restrict_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s\n         ==> product s (\\i. if i IN s then f i else &1) = product s f",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Real, ∀ s : (_) -> Bool, FINITE(s) → product(s, (i : _) => if IN(i, s) { f(i) } else { real_of_num(1) }) == product(s, f)"),
       t369,
     ),
   )
@@ -4748,9 +4542,7 @@ fn step_117() -> Unit raise {
   )
   product_restrict_set_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P s f. product {i:A | i IN s /\\ P i} f =\n           product s (\\i. if P i then f i else &1)",
-      ),
+      @term_syntax.parse_term("∀ P : (A) -> Bool, ∀ s : (A) -> Bool, ∀ f : (A) -> Real, product({(i : A) | IN(i, s) && P(i)}, f) == product(s, (i : A) => if P(i) { f(i) } else { real_of_num(1) })"),
       t372,
     ),
   )
@@ -4797,9 +4589,7 @@ fn step_118() -> Unit raise {
   )
   product_le_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s /\\ (forall x. x IN s ==> &0 <= f(x) /\\ f(x) <= g(x))\n         ==> product s f <= product s g",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Real, ∀ s : (_) -> Bool, FINITE(s) && (∀ x : _, IN(x, s) → real_of_num(0) <= f(x) && f(x) <= (g : (_) -> Real)(x)) → product(s, f) <= product(s, g)"),
       t376,
     ),
   )
@@ -4822,9 +4612,7 @@ fn step_119() -> Unit raise {
   )
   product_le_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. (forall i. m <= i /\\ i <= n ==> &0 <= f(i) /\\ f(i) <= g(i))\n           ==> product(m..n) f <= product(m..n) g",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, (∀ i : Num, m <= i && i <= n → real_of_num(0) <= f(i) && f(i) <= (g : (Num) -> Real)(i)) → product(op_dot_dot(m, n), f) <= product(op_dot_dot(m, n), g)"),
       t377,
     ),
   )
@@ -4855,9 +4643,7 @@ fn step_120() -> Unit raise {
   )
   product_eq_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. (forall x:A. x IN s ==> (f(x) = &1)) ==> (product s f = &1)",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> Real, ∀ s : (A) -> Bool, (∀ x : A, IN(x, s) → f(x) == real_of_num(1)) → product(s, f) == real_of_num(1)"),
       t379,
     ),
   )
@@ -4878,9 +4664,7 @@ fn step_121() -> Unit raise {
   let t380 = @simp.simp_tac(@list.List([product_eq_1(), @iterate.in_numseg()]))
   product_eq_1_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. (forall i. m <= i /\\ i <= n ==> (f(i) = &1)) ==> (product(m..n) f = &1)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, (∀ i : Num, m <= i && i <= n → f(i) == real_of_num(1)) → product(op_dot_dot(m, n), f) == real_of_num(1)"),
       t380,
     ),
   )
@@ -4918,9 +4702,7 @@ fn step_122() -> Unit raise {
   )
   product_mul_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g s.\n       FINITE {x | x IN s /\\ ~(f x = &1)} /\\ FINITE {x | x IN s /\\ ~(g x = &1)}\n       ==> product s (\\x. f x * g x) = product s f * product s g",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Real, ∀ g : (_) -> Real, ∀ s : (_) -> Bool, FINITE({(x : _) | IN(x, s) && !(f(x) == real_of_num(1))}) && FINITE({(x : _) | IN(x, s) && !(g(x) == real_of_num(1))}) → product(s, (x : _) => f(x) * g(x)) == product(s, f) * product(s, g)"),
       t384,
     ),
   )
@@ -4957,9 +4739,7 @@ fn step_123() -> Unit raise {
   )
   product_mul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g s. FINITE s ==> product s (\\x. f x * g x) = product s f * product s g",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Real, ∀ g : (_) -> Real, ∀ s : (_) -> Bool, FINITE(s) → product(s, (x : _) => f(x) * g(x)) == product(s, f) * product(s, g)"),
       t387,
     ),
   )
@@ -4982,9 +4762,7 @@ fn step_124() -> Unit raise {
   )
   product_mul_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g m n.\n     product(m..n) (\\x. f x * g x) = product(m..n) f * product(m..n) g",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, ∀ m : Num, ∀ n : Num, product(op_dot_dot(m, n), (x : Num) => f(x) * g(x)) == product(op_dot_dot(m, n), f) * product(op_dot_dot(m, n), g)"),
       t388,
     ),
   )
@@ -5020,9 +4798,7 @@ fn step_125() -> Unit raise {
   )
   product_const_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall c s. FINITE s ==> product s (\\x. c) = c pow (CARD s)",
-      ),
+      @term_syntax.parse_term("∀ c : Real, ∀ s : (_) -> Bool, FINITE(s) → product(s, (x : _) => c) == pow(c, CARD(s))"),
       t390,
     ),
   )
@@ -5049,9 +4825,7 @@ fn step_126() -> Unit raise {
   )
   product_const_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall c m n. product (m..n) (\\x. c) = c pow ((n + 1) - m)",
-      ),
+      @term_syntax.parse_term("∀ c : Real, ∀ m : Num, ∀ n : Num, product(op_dot_dot(m, n), (x : Num) => c) == pow(c, n + 1 - m)"),
       t391,
     ),
   )
@@ -5110,9 +4884,7 @@ fn step_128() -> Unit raise {
   )
   product_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s:A->bool.\n     FINITE s ==> product s (\\i. --(f i)) = --(&1) pow (CARD s) * product s f",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> Real, ∀ s : (A) -> Bool, FINITE(s) → product(s, (i : A) => -f(i)) == pow(-real_of_num(1), CARD(s)) * product(s, f)"),
       t395,
     ),
   )
@@ -5135,9 +4907,7 @@ fn step_129() -> Unit raise {
   )
   product_neg_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. product(m..n) (\\i. --(f i)) =\n           --(&1) pow ((n + 1) - m) * product(m..n) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, product(op_dot_dot(m, n), (i : Num) => -f(i)) == pow(-real_of_num(1), n + 1 - m) * product(op_dot_dot(m, n), f)"),
       t396,
     ),
   )
@@ -5162,9 +4932,7 @@ fn step_130() -> Unit raise {
   )
   product_neg_numseg_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f n. product(1..n) (\\i. --(f i)) = --(&1) pow n * product(1..n) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ n : Num, product(op_dot_dot(1, n), (i : Num) => -f(i)) == pow(-real_of_num(1), n) * product(op_dot_dot(1, n), f)"),
       t397,
     ),
   )
@@ -5200,9 +4968,7 @@ fn step_131() -> Unit raise {
   )
   product_inv_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s ==> product s (\\x. inv(f x)) = inv(product s f)",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Real, ∀ s : (_) -> Bool, FINITE(s) → product(s, (x : _) => inv(f(x))) == inv(product(s, f))"),
       t399,
     ),
   )
@@ -5225,9 +4991,7 @@ fn step_132() -> Unit raise {
   )
   product_div_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g s. FINITE s ==> product s (\\x. f x / g x) = product s f / product s g",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Real, ∀ g : (_) -> Real, ∀ s : (_) -> Bool, FINITE(s) → product(s, (x : _) => f(x) / g(x)) == product(s, f) / product(s, g)"),
       t400,
     ),
   )
@@ -5250,9 +5014,7 @@ fn step_133() -> Unit raise {
   )
   product_div_numseg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f g m n.\n         product(m..n) (\\x. f x / g x) = product(m..n) f / product(m..n) g",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ g : (Num) -> Real, ∀ m : Num, ∀ n : Num, product(op_dot_dot(m, n), (x : Num) => f(x) / g(x)) == product(op_dot_dot(m, n), f) / product(op_dot_dot(m, n), g)"),
       t401,
     ),
   )
@@ -5334,9 +5096,7 @@ fn step_135() -> Unit raise {
   )
   product_le_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s /\\ (forall x. x IN s ==> &0 <= f x /\\ f x <= &1)\n         ==> product s f <= &1",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Real, ∀ s : (_) -> Bool, FINITE(s) && (∀ x : _, IN(x, s) → real_of_num(0) <= f(x) && f(x) <= real_of_num(1)) → product(s, f) <= real_of_num(1)"),
       t412,
     ),
   )
@@ -5370,9 +5130,7 @@ fn step_136() -> Unit raise {
   )
   product_abs_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s. FINITE s ==> product s (\\x. abs(f x)) = abs(product s f)",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Real, ∀ s : (_) -> Bool, FINITE(s) → product(s, (x : _) => abs(f(x))) == abs(product(s, f))"),
       t414,
     ),
   )
@@ -5474,9 +5232,7 @@ fn step_137() -> Unit raise {
   )
   product_closed_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P f:A->real s.\n        P(&1) /\\ (forall x y. P x /\\ P y ==> P(x * y)) /\\ (forall a. a IN s ==> P(f a))\n        ==> P(product s f)",
-      ),
+      @term_syntax.parse_term("∀ P : (Real) -> Bool, ∀ f : (A) -> Real, ∀ s : (A) -> Bool, P(real_of_num(1)) && (∀ x : Real, ∀ y : Real, P(x) && P(y) → P(x * y)) && (∀ a : A, IN(a, s) → P(f(a))) → P(product(s, f))"),
       t424,
     ),
   )
@@ -5528,9 +5284,7 @@ fn step_138() -> Unit raise {
   )
   product_related_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R (f:A->real) g s.\n        R (&1) (&1) /\\\n        (forall m n m' n'. R m n /\\ R m' n' ==> R (m * m') (n * n')) /\\\n        FINITE s /\\ (forall i. i IN s ==> R (f i) (g i))\n        ==> R (product s f) (product s g)",
-      ),
+      @term_syntax.parse_term("∀ R : (Real, Real) -> Bool, ∀ f : (A) -> Real, ∀ g : (A) -> Real, ∀ s : (A) -> Bool, R(real_of_num(1), real_of_num(1)) && (∀ m : Real, ∀ n : Real, ∀ m' : Real, ∀ n' : Real, R(m, n) && R(m', n') → R(m * m', n * n')) && FINITE(s) && (∀ i : A, IN(i, s) → R(f(i), g(i))) → R(product(s, f), product(s, g))"),
       t430,
     ),
   )
@@ -5636,9 +5390,7 @@ fn step_139() -> Unit raise {
   )
   product_closed_nonempty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P f:A->real s.\n        FINITE s /\\ ~(s = {}) /\\\n        (forall x y. P x /\\ P y ==> P(x * y)) /\\ (forall a. a IN s ==> P(f a))\n        ==> P(product s f)",
-      ),
+      @term_syntax.parse_term("∀ P : (Real) -> Bool, ∀ f : (A) -> Real, ∀ s : (A) -> Bool, FINITE(s) && !(s == {}) && (∀ x : Real, ∀ y : Real, P(x) && P(y) → P(x * y)) && (∀ a : A, IN(a, s) → P(f(a))) → P(product(s, f))"),
       t440,
     ),
   )
@@ -5692,9 +5444,7 @@ fn step_140() -> Unit raise {
   )
   product_related_nonempty_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall R (f:A->real) g s.\n        (forall m n m' n'. R m n /\\ R m' n' ==> R (m * m') (n * n')) /\\\n        FINITE s /\\ ~(s = {}) /\\ (forall i. i IN s ==> R (f i) (g i))\n        ==> R (product s f) (product s g)",
-      ),
+      @term_syntax.parse_term("∀ R : (Real, Real) -> Bool, ∀ f : (A) -> Real, ∀ g : (A) -> Real, ∀ s : (A) -> Bool, (∀ m : Real, ∀ n : Real, ∀ m' : Real, ∀ n' : Real, R(m, n) && R(m', n') → R(m * m', n * n')) && FINITE(s) && !(s == {}) && (∀ i : A, IN(i, s) → R(f(i), g(i))) → R(product(s, f), product(s, g))"),
       t446,
     ),
   )
@@ -5727,9 +5477,7 @@ fn step_141() -> Unit raise {
   )
   product_clauses_left_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. m <= n ==> product(m..n) f = f(m) * product(m+1..n) f",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, m <= n → product(op_dot_dot(m, n), f) == f(m) * product(op_dot_dot(m + 1, n), f)"),
       t447,
     ),
   )
@@ -5761,9 +5509,7 @@ fn step_142() -> Unit raise {
   )
   product_clauses_right_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. 0 < n /\\ m <= n ==> product(m..n) f = product(m..n-1) f * f(n)",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, 0 < n && m <= n → product(op_dot_dot(m, n), f) == product(op_dot_dot(m, n - 1), f) * f(n)"),
       t449,
     ),
   )
@@ -5799,9 +5545,7 @@ fn step_143() -> Unit raise {
   )
   real_of_num_nproduct_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->num s. FINITE s ==> &(nproduct s f) = product s (\\x. &(f x))",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> Num, ∀ s : (A) -> Bool, FINITE(s) → real_of_num(nproduct(s, f)) == product(s, (x : A) => real_of_num(f(x)))"),
       t451,
     ),
   )
@@ -5831,9 +5575,7 @@ fn step_144() -> Unit raise {
   )
   product_superset_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->real u v.\n        u SUBSET v /\\ (forall x. x IN v /\\ ~(x IN u) ==> f(x) = &1)\n        ==> product v f = product u f",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> Real, ∀ u : (A) -> Bool, ∀ v : (A) -> Bool, SUBSET(u, v) && (∀ x : A, IN(x, v) && !IN(x, u) → f(x) == real_of_num(1)) → product(v, f) == product(u, f)"),
       t452,
     ),
   )
@@ -5861,9 +5603,7 @@ fn step_145() -> Unit raise {
   )
   product_univ_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f:A->real s.\n        support ( * ) f (:A) SUBSET s ==> product s f = product (:A) f",
-      ),
+      @term_syntax.parse_term("∀ f : (A) -> Real, ∀ s : (A) -> Bool, SUBSET(support(op_star, f, UNIV), s) → product(s, f) == product(UNIV, f)"),
       t455,
     ),
   )
@@ -5892,9 +5632,7 @@ fn step_146() -> Unit raise {
   )
   product_pair_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f m n. product(2*m..2*n+1) f = product(m..n) (\\i. f(2*i) * f(2*i+1))",
-      ),
+      @term_syntax.parse_term("∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, product(op_dot_dot(2 * m, 2 * n + 1), f) == product(op_dot_dot(m, n), (i : Num) => f(2 * i) * f(2 * i + 1))"),
       t457,
     ),
   )
@@ -5934,9 +5672,7 @@ fn step_147() -> Unit raise {
   )
   product_reflect_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x m n. product(m..n) x =\n           if n < m then &1 else product(0..n-m) (\\i. x(n - i))",
-      ),
+      @term_syntax.parse_term("∀ x : (Num) -> Real, ∀ m : Num, ∀ n : Num, product(op_dot_dot(m, n), x) == (if n < m { real_of_num(1) } else { product(op_dot_dot(0, n - m), (i : Num) => x(n - i)) })"),
       t464,
     ),
   )
@@ -5965,9 +5701,7 @@ fn step_148() -> Unit raise {
   )
   product_delete_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f s a. FINITE s /\\ a IN s ==> f(a) * product(s DELETE a) f = product s f",
-      ),
+      @term_syntax.parse_term("∀ f : (_) -> Real, ∀ s : (_) -> Bool, ∀ a : _, FINITE(s) && IN(a, s) → f(a) * product(DELETE(s, a), f) == product(s, f)"),
       t465,
     ),
   )
@@ -5996,9 +5730,7 @@ fn step_149() -> Unit raise {
   )
   product_delta_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a. product s (\\x. if x = a then b else &1) =\n         (if a IN s then b else &1)",
-      ),
+      @term_syntax.parse_term("∀ s : (_) -> Bool, ∀ a : _, product(s, (x : _) => if x == a { (b : Real) } else { real_of_num(1) }) == (if IN(a, s) { b } else { real_of_num(1) })"),
       t467,
     ),
   )
@@ -6034,9 +5766,7 @@ fn step_150() -> Unit raise {
   )
   real_pow_nsum_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x n s:A->bool.\n        FINITE s ==> x pow (nsum s n) = product s (\\i. x pow n i)",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ n : (A) -> Num, ∀ s : (A) -> Bool, FINITE(s) → pow(x, nsum(s, n)) == product(s, (i : A) => pow(x, n(i)))"),
       t470,
     ),
   )
@@ -6078,9 +5808,7 @@ fn step_151() -> Unit raise {
   )
   polynomial_function_product_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s:A->bool p.\n        FINITE s /\\ (forall i. i IN s ==> polynomial_function(\\x. p x i))\n        ==> polynomial_function (\\x. product s (p x))",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ p : (Real, A) -> Real, FINITE(s) && (∀ i : A, IN(i, s) → polynomial_function((x : Real) => p(x, i))) → polynomial_function((x : Real) => product(s, p(x)))"),
       t474,
     ),
   )
@@ -6109,9 +5837,7 @@ fn step_152() -> Unit raise {
     t476,
   )
   let th = @tactics.prove(
-    @parser.parse_term(
-      "(forall f g s.   (forall x. x IN s ==> f(x) = g(x))\n                ==> product s (\\i. f(i)) = product s g) /\\\n     (forall f g a b. (forall i. a <= i /\\ i <= b ==> f(i) = g(i))\n                ==> product(a..b) (\\i. f(i)) = product(a..b) g) /\\\n     (forall f g p.   (forall x. p x ==> f x = g x)\n                ==> product {y | p y} (\\i. f(i)) = product {y | p y} g)",
-    ),
+    @term_syntax.parse_term("(∀ f : (_) -> Real, ∀ g : (_) -> Real, ∀ s : (_) -> Bool, (∀ x : _, IN(x, s) → f(x) == g(x)) → product(s, (i : _) => f(i)) == product(s, g)) && (∀ f : (Num) -> Real, ∀ g : (Num) -> Real, ∀ a : Num, ∀ b : Num, (∀ i : Num, a <= i && i <= b → f(i) == g(i)) → product(op_dot_dot(a, b), (i : Num) => f(i)) == product(op_dot_dot(a, b), g)) && (∀ f : (_) -> Real, ∀ g : (_) -> Real, ∀ p : (_) -> Bool, (∀ x : _, p(x) → f(x) == g(x)) → product({(y : _) | p(y)}, (i : _) => f(i)) == product({(y : _) | p(y)}, g))"),
     t477,
   )
   @simp.extend_basic_congs(@lib.map(@bool.spec_all, @bool.conjuncts_rule(th)))
