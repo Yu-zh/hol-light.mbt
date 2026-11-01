@@ -13852,7 +13852,7 @@ Examples/pell quotations (1059):
   2 * ((a : Num) * (n : Num)) == 2 * (n * a)
   (4 * ((k : Num) * (an : Num)) + (x : Num) < 2 * (an * (2 * k)) + (y : Num)) == (x < y)
   (a : Num) + (b : Num) < (c : Num) \226\134\146 a < c - b
-  (2 * k) * (2 * an) * two_kn < a2na * two_kn * kmn <=>\n    two_kn * 4 * k * an < two_kn * a2na * kmn
+  (2 * (k : Num) * (2 * (an : Num) * (two_kn : Num)) < (a2na : Num) * (two_kn * (kmn : Num))) == (two_kn * (4 * (k * an)) < two_kn * (a2na * kmn))
   (2 * EXP((a : Num), (n : Num)) + 1) * (EXP(2 * (k : Num), n) * (2 * k - n))
   2 * (k : Num) * ((l : Num) * (m : Num)) == l * (2 * k * m)
   2 * (k : Num) * (2 * EXP((a : Num), (n : Num)) * EXP(2 * k, n)) < 2 * k * ((2 * EXP(a, n) + 1) * EXP(2 * k - 1, n))
