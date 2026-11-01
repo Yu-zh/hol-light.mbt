@@ -198,7 +198,7 @@ fn step_12() -> Unit raise {
   let t12 = @term_syntax.parse_term("(s : A) => (s' : A) => (invariant : (A) -> Bool)(s) → invariant(s')")
   let t13 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("(transition : (A, A) -> Bool)"), t12]), @rstc.rtc_induct()))
   let t15 = @tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t13), t14)
-  inductive_invariant_c.set(@tactics.prove(@parser.parse_term("forall init invariant transition P.\n        (forall s. init s ==> invariant s) /\\\n        (forall s s'. invariant s /\\ transition s s' ==> invariant s') /\\\n        (forall s. invariant s ==> P s)\n        ==> forall s s':A. init s /\\ RTC transition s s' ==> P s'"), t15))
+  inductive_invariant_c.set(@tactics.prove(@term_syntax.parse_term("∀ init : (A) -> Bool, ∀ invariant : (A) -> Bool, ∀ transition : (A, A) -> Bool, ∀ P : (A) -> Bool, (∀ s : A, init(s) → invariant(s)) && (∀ s : A, ∀ s' : A, invariant(s) && transition(s, s') → invariant(s')) && (∀ s : A, invariant(s) → P(s)) → (∀ s : A, ∀ s' : A, init(s) && RTC(transition, s, s') → P(s'))"), t15))
 }
 
 ///|
