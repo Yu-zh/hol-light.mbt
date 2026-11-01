@@ -9,7 +9,7 @@ fn step_1() -> Unit raise {
 ///|
 /// move
 fn step_2() -> Unit raise {
-  move__c.set(@pair.new_definition(@parser.parse_term("move ((ax,ay),(bx,by),(cx,cy)) ((ax',ay'),(bx',by'),(cx',cy')) <=>\n        (?a. ax' = ax + a * (cx - bx) /\\ ay' = ay + a * (cy - by) /\\\n             bx' = bx /\\ by' = by /\\ cx' = cx /\\ cy' = cy) \\/\n        (?b. bx' = bx + b * (ax - cx) /\\ by' = by + b * (ay - cy) /\\\n             ax' = ax /\\ ay' = ay /\\ cx' = cx /\\ cy' = cy) \\/\n        (?c. ax' = ax /\\ ay' = ay /\\ bx' = bx /\\ by' = by /\\\n             cx' = cx + c * (bx - ax) /\\ cy' = cy + c * (by - ay))")))
+  move__c.set(@pair.new_definition(@parser.parse_term("move_ ((ax,ay),(bx,by),(cx,cy)) ((ax',ay'),(bx',by'),(cx',cy')) <=>\n        (?a. ax' = ax + a * (cx - bx) /\\ ay' = ay + a * (cy - by) /\\\n             bx' = bx /\\ by' = by /\\ cx' = cx /\\ cy' = cy) \\/\n        (?b. bx' = bx + b * (ax - cx) /\\ by' = by + b * (ay - cy) /\\\n             ax' = ax /\\ ay' = ay /\\ cx' = cx /\\ cy' = cy) \\/\n        (?c. ax' = ax /\\ ay' = ay /\\ bx' = bx /\\ by' = by /\\\n             cx' = cx + c * (bx - ax) /\\ cy' = cy + c * (by - ay))")))
 }
 
 ///|
@@ -51,7 +51,7 @@ pub fn reachable_cases() -> @kernel.Thm {
 ///|
 /// reachable_RULES, reachable_INDUCT, reachable_CASES
 fn step_3() -> Unit raise {
-  let (reachable_rules, reachable_induct, reachable_cases) = @ind_defs.new_inductive_definition(@term_syntax.parse_term("(∀ p : ((Real, Real), (Real, Real), Real, Real), (reachable : (((Real, Real), (Real, Real), Real, Real), ((Real, Real), (Real, Real), Real, Real)) -> Bool)(p, p)) && (∀ p : ((Real, Real), (Real, Real), Real, Real), ∀ q : ((Real, Real), (Real, Real), Real, Real), ∀ r : ((Real, Real), (Real, Real), Real, Real), op_move(p, q) && reachable(q, r) → reachable(p, r))"))
+  let (reachable_rules, reachable_induct, reachable_cases) = @ind_defs.new_inductive_definition(@term_syntax.parse_term("(∀ p : ((Real, Real), (Real, Real), Real, Real), (reachable : (((Real, Real), (Real, Real), Real, Real), ((Real, Real), (Real, Real), Real, Real)) -> Bool)(p, p)) && (∀ p : ((Real, Real), (Real, Real), Real, Real), ∀ q : ((Real, Real), (Real, Real), Real, Real), ∀ r : ((Real, Real), (Real, Real), Real, Real), move_(p, q) && reachable(q, r) → reachable(p, r))"))
   reachable_rules_c.set(reachable_rules)
   reachable_induct_c.set(reachable_induct)
   reachable_cases_c.set(reachable_cases)
@@ -77,7 +77,7 @@ pub fn oriented_area() -> @kernel.Thm {
 fn step_5() -> Unit raise {
   let t1 = @tactics.conv_tac(@calc_rat.real_ring)
   let t2 = @tactics.then_tac(@simp.rewrite_tac(@list.List([@pair.forall_pair_thm(), move_(), oriented_area()])), t1)
-  move_invariant_c.set(@tactics.prove(@term_syntax.parse_term("∀ p : ((Real, Real), (Real, Real), Real, Real), ∀ p' : ((Real, Real), (Real, Real), Real, Real), op_move(p, p') → oriented_area(p) == oriented_area(p')"), t2))
+  move_invariant_c.set(@tactics.prove(@term_syntax.parse_term("∀ p : ((Real, Real), (Real, Real), Real, Real), ∀ p' : ((Real, Real), (Real, Real), Real, Real), move_(p, p') → oriented_area(p) == oriented_area(p')"), t2))
 }
 
 ///|

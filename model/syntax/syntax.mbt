@@ -202,7 +202,7 @@ pub fn welltyped() -> @kernel.Thm {
 ///|
 /// typeof
 fn step_12() -> Unit raise {
-  typeof_c.set(@define.define_(@parser.parse_term("(typeof (Var n ty) = ty) /\\\n  (typeof (Equal ty) = Fun ty (Fun ty Bool)) /\\\n  (typeof (Select ty) = Fun (Fun ty Bool) ty) /\\\n  (typeof (Comb s t) = codomain (typeof s)) /\\\n  (typeof (Abs n ty t) = Fun ty (typeof t))")))
+  typeof_c.set(@define.define_(@parser.parse_term("(typeof_ (Var n ty) = ty) /\\\n  (typeof_ (Equal ty) = Fun ty (Fun ty Bool)) /\\\n  (typeof_ (Select ty) = Fun (Fun ty Bool) ty) /\\\n  (typeof_ (Comb s t) = codomain (typeof_ s)) /\\\n  (typeof_ (Abs n ty t) = Fun ty (typeof_ t))")))
 }
 
 ///|
@@ -219,7 +219,7 @@ pub fn typeof_() -> @kernel.Thm {
 fn step_13() -> Unit raise {
   let t1 = @simp.simp_tac(@list.List([typeof_(), has_type_rules(), codomain()]))
   let t2 = @tactics.then_tac(@tactics.match_mp_tac(has_type_induct()), t1)
-  welltyped_lemma_c.set(@tactics.prove(@term_syntax.parse_term("∀ tm : Term, ∀ ty : Type, has_type(tm, ty) → op_typeof(tm) == ty"), t2))
+  welltyped_lemma_c.set(@tactics.prove(@term_syntax.parse_term("∀ tm : Term, ∀ ty : Type, has_type(tm, ty) → typeof_(tm) == ty"), t2))
 }
 
 ///|
@@ -236,7 +236,7 @@ pub fn welltyped_lemma() -> @kernel.Thm {
 fn step_14() -> Unit raise {
   let t3 = @meson.meson_tac(@list.List([welltyped_lemma()]))
   let t4 = @tactics.then_tac(@simp.rewrite_tac(@list.List([welltyped()])), t3)
-  welltyped_v1_c.set(@tactics.prove(@term_syntax.parse_term("∀ tm : Term, welltyped(tm) == has_type(tm, op_typeof(tm))"), t4))
+  welltyped_v1_c.set(@tactics.prove(@term_syntax.parse_term("∀ tm : Term, welltyped(tm) == has_type(tm, typeof_(tm))"), t4))
 }
 
 ///|
@@ -274,7 +274,7 @@ fn step_15() -> Unit raise {
   }, @list.List([has_type_cases()])), t16)
   let t5 = @simp.rewrite_tac(@list.List([welltyped()]))
   let t20 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t5), t17), t18), t19)
-  welltyped_clauses_c.set(@tactics.prove(@term_syntax.parse_term("(∀ n : List[Char], ∀ ty : Type, welltyped(Var(n, ty))) && (∀ ty : Type, welltyped(Equal(ty))) && (∀ ty : Type, welltyped(Select(ty))) && (∀ s : Term, ∀ t : Term, welltyped(Comb(s, t)) == (welltyped(s) && welltyped(t) && (∃ rty : Type, op_typeof(s) == Fun(op_typeof(t), rty)))) && (∀ n : List[Char], ∀ ty : Type, ∀ t : Term, welltyped(Abs(n, ty, t)) == welltyped(t))"), t20))
+  welltyped_clauses_c.set(@tactics.prove(@term_syntax.parse_term("(∀ n : List[Char], ∀ ty : Type, welltyped(Var(n, ty))) && (∀ ty : Type, welltyped(Equal(ty))) && (∀ ty : Type, welltyped(Select(ty))) && (∀ s : Term, ∀ t : Term, welltyped(Comb(s, t)) == (welltyped(s) && welltyped(t) && (∃ rty : Type, typeof_(s) == Fun(typeof_(t), rty)))) && (∀ n : List[Char], ∀ ty : Type, ∀ t : Term, welltyped(Abs(n, ty, t)) == welltyped(t))"), t20))
 }
 
 ///|
@@ -295,7 +295,7 @@ fn step_16() -> Unit raise {
 ///|
 /// equation
 fn step_17() -> Unit raise {
-  equation_c.set(@pair.new_definition(@term_syntax.parse_term("(op_eq_eq_eq : (Term, Term) -> Term)((s : Term), (t : Term)) == Comb(Comb(Equal(op_typeof(s)), s), t)")))
+  equation_c.set(@pair.new_definition(@term_syntax.parse_term("(op_eq_eq_eq : (Term, Term) -> Term)((s : Term), (t : Term)) == Comb(Comb(Equal(typeof_(s)), s), t)")))
 }
 
 ///|
@@ -361,7 +361,7 @@ fn step_18() -> Unit raise {
   let t22 = @simp.rewrite_tac(@list.List([term_distinct(), term_inj()]))
   let t21 = @simp.once_rewrite_tac(@list.List([has_type_cases()]))
   let t56 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([equation()])), t21), t22), t23), t24), t25), t37), t38), t39), t40), t53), t54), t55)
-  equation_has_type_bool_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : Term, ∀ t : Term, has_type(op_eq_eq_eq(s, t), Bool) == (welltyped(s) && welltyped(t) && op_typeof(s) == op_typeof(t))"), t56))
+  equation_has_type_bool_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : Term, ∀ t : Term, has_type(op_eq_eq_eq(s, t), Bool) == (welltyped(s) && welltyped(t) && typeof_(s) == typeof_(t))"), t56))
 }
 
 ///|
@@ -534,7 +534,7 @@ fn step_26() -> Unit raise {
   let t82 = @tactics.conv_tac(@equal.once_depth_conv(@pair.gen_beta_conv))
   let t81 = @simp.rewrite_tac(@list.List([@pair.forall_pair_thm(), alphavars(), @lists.all(), @pair.pair_eq()]))
   let t86 = @tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(@ind_types.list_induct()), t81), t82), @tactics.conj_tac), t83), t84), t85)
-  alphavars_type_c.set(@tactics.prove(@term_syntax.parse_term("∀ env : List[(Term, Term)], ∀ s : Term, ∀ t : Term, ALPHAVARS(env, (s, t)) && ALL(GABS((f : ((Term, Term)) -> Bool) => ∀ x : Term, ∀ y : Term, GEQ(f((x, y)), welltyped(x) && welltyped(y) && op_typeof(x) == op_typeof(y))), env) && welltyped(s) && welltyped(t) → op_typeof(s) == op_typeof(t)"), t86))
+  alphavars_type_c.set(@tactics.prove(@term_syntax.parse_term("∀ env : List[(Term, Term)], ∀ s : Term, ∀ t : Term, ALPHAVARS(env, (s, t)) && ALL(GABS((f : ((Term, Term)) -> Bool) => ∀ x : Term, ∀ y : Term, GEQ(f((x, y)), welltyped(x) && welltyped(y) && typeof_(x) == typeof_(y))), env) && welltyped(s) && welltyped(t) → typeof_(s) == typeof_(t)"), t86))
 }
 
 ///|
@@ -562,7 +562,7 @@ fn step_27() -> Unit raise {
   let t88 = @tactics.repeat_tac(@tactics.strip_tac)
   let t87 = @simp.rewrite_tac(@list.List([@pair.forall_pair_thm(), typeof_()]))
   let t99 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(raconv_induct()), t87), t88), t98)
-  raconv_type_c.set(@tactics.prove(@term_syntax.parse_term("∀ env : List[(Term, Term)], ∀ p : (Term, Term), RACONV(env, p) → ALL(GABS((f : ((Term, Term)) -> Bool) => ∀ x : Term, ∀ y : Term, GEQ(f((x, y)), welltyped(x) && welltyped(y) && op_typeof(x) == op_typeof(y))), env) && welltyped(FST(p)) && welltyped(SND(p)) → op_typeof(FST(p)) == op_typeof(SND(p))"), t99))
+  raconv_type_c.set(@tactics.prove(@term_syntax.parse_term("∀ env : List[(Term, Term)], ∀ p : (Term, Term), RACONV(env, p) → ALL(GABS((f : ((Term, Term)) -> Bool) => ∀ x : Term, ∀ y : Term, GEQ(f((x, y)), welltyped(x) && welltyped(y) && typeof_(x) == typeof_(y))), env) && welltyped(FST(p)) && welltyped(SND(p)) → typeof_(FST(p)) == typeof_(SND(p))"), t99))
 }
 
 ///|
@@ -582,7 +582,7 @@ fn step_28() -> Unit raise {
   let t100 = @term_syntax.parse_term("((s : Term), (t : Term))")
   let t101 = @tactics.mp_tac(@bool.specl(@list.List([@term_syntax.parse_term("(NIL : List[(Term, Term)])"), t100]), raconv_type()))
   let t104 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t101), t102), t103)
-  aconv_type_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : Term, ∀ t : Term, ACONV(s, t) → welltyped(s) && welltyped(t) → op_typeof(s) == op_typeof(t)"), t104))
+  aconv_type_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : Term, ∀ t : Term, ACONV(s, t) → welltyped(s) && welltyped(t) → typeof_(s) == typeof_(t)"), t104))
 }
 
 ///|

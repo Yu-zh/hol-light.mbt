@@ -2760,7 +2760,7 @@ pub fn sub_subsumes_unused() -> @kernel.Thm {
 ///|
 /// break
 fn step_68() -> Unit raise {
-  let t1476 = @parser.parse_term("(break init 0 = LENGTH(SND(given 0 init))) /\\\n   (break init (SUC n) =\n        break init n + LENGTH(SND(given (break init n) init)))")
+  let t1476 = @parser.parse_term("(break_ init 0 = LENGTH(SND(given 0 init))) /\\\n   (break_ init (SUC n) =\n        break_ init n + LENGTH(SND(given (break_ init n) init)))")
   break__c.set(@recursion.new_recursive_definition(@nums.num_recursion())(t1476))
 }
 
@@ -2776,7 +2776,7 @@ pub fn break_() -> @kernel.Thm {
 ///|
 /// level
 fn step_69() -> Unit raise {
-  level_c.set(@pair.new_definition(@term_syntax.parse_term("(level : ((List[(Form) -> Bool], List[(Form) -> Bool]), Num, (Form) -> Bool) -> Bool)((init : (List[(Form) -> Bool], List[(Form) -> Bool])), (n : Num)) == Sub(init, op_break(init, n))")))
+  level_c.set(@pair.new_definition(@term_syntax.parse_term("(level : ((List[(Form) -> Bool], List[(Form) -> Bool]), Num, (Form) -> Bool) -> Bool)((init : (List[(Form) -> Bool], List[(Form) -> Bool])), (n : Num)) == Sub(init, break_(init, n))")))
 }
 
 ///|
@@ -2833,7 +2833,7 @@ fn step_71() -> Unit raise {
   let t1498 = @list.List([@meson.asm_meson_tac(@list.List([given_invariant()])), @tactics.all_tac, t1497])
   let t1496 = @tactics.repeat_tac(@tactics.conj_tac)
   let t1495 = @simp.rewrite_tac(@list.List([level()]))
-  let t1494 = @tactics.exists_tac(@term_syntax.parse_term("UNION(Sub(((used : List[(Form) -> Bool]), (unused : List[(Form) -> Bool])), op_break((used, unused), (n : Num))), Unused((used, unused), op_break((used, unused), n)))"))
+  let t1494 = @tactics.exists_tac(@term_syntax.parse_term("UNION(Sub(((used : List[(Form) -> Bool]), (unused : List[(Form) -> Bool])), break_((used, unused), (n : Num))), Unused((used, unused), break_((used, unused), n)))"))
   let t1493 = @tactics.match_mp_tac(subsumes_trans_v1())
   let t1501 = @tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t1493), t1494), t1495), t1496), t1498), t1499), t1500)
   level_step_c.set(@tactics.prove(@term_syntax.parse_term("∀ used : List[(Form) -> Bool], ∀ unused : List[(Form) -> Bool], (∀ c : (Form) -> Bool, MEM(c, used) → clause(c)) && (∀ c : (Form) -> Bool, MEM(c, unused) → clause(c)) → (∀ n : Num, SUBSUMES(level((used, unused), SUC(n)), allntresolvents(level((used, unused), n), UNION(set_of_list(used), level((used, unused), n)))))"), t1501))
@@ -2870,11 +2870,11 @@ pub fn level_clause() -> @kernel.Thm {
 fn step_73() -> Unit raise {
   let t1507 = @meson.asm_meson_tac(@list.List([@arith.le_trans(), @arith.le_add()]))
   let t1506 = @simp.rewrite_tac(@list.List([@arith.add_clauses(), break_(), @arith.le_refl()]))
-  let t1508 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.subgoal_then(@term_syntax.parse_term("∀ init : (List[(Form) -> Bool], List[(Form) -> Bool]), ∀ m : Num, ∀ d : Num, op_break(init, m) <= op_break(init, m + d)"), fn(x1504 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
+  let t1508 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.subgoal_then(@term_syntax.parse_term("∀ init : (List[(Form) -> Bool], List[(Form) -> Bool]), ∀ m : Num, ∀ d : Num, break_(init, m) <= break_(init, m + d)"), fn(x1504 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let th = x1504
     @meson.meson_tac(@list.List([th, @arith.le_exists()]))
   }), @tactics.gen_tac), @tactics.gen_tac), @nums.induct_tac), t1506), t1507)
-  break_mono_c.set(@tactics.prove(@term_syntax.parse_term("∀ init : (List[(Form) -> Bool], List[(Form) -> Bool]), ∀ m : Num, ∀ n : Num, m <= n → op_break(init, m) <= op_break(init, n)"), t1508))
+  break_mono_c.set(@tactics.prove(@term_syntax.parse_term("∀ init : (List[(Form) -> Bool], List[(Form) -> Bool]), ∀ m : Num, ∀ n : Num, m <= n → break_(init, m) <= break_(init, n)"), t1508))
 }
 
 ///|

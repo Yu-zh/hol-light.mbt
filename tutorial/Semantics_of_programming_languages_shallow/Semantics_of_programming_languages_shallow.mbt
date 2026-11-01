@@ -96,7 +96,7 @@ pub fn while_cases() -> @kernel.Thm {
 ///|
 /// while_RULES, while_INDUCT, while_CASES
 fn step_6() -> Unit raise {
-  let (while_rules, while_induct, while_cases) = @ind_defs.new_inductive_definition(@parser.parse_term("forall q s. If e (c ;; while e c) q s ==> while e c q s"))
+  let (while_rules, while_induct, while_cases) = @ind_defs.new_inductive_definition(@parser.parse_term("forall q s. If e (c ;; while_ e c) q s ==> while_ e c q s"))
   while_rules_c.set(while_rules)
   while_induct_c.set(while_induct)
   while_cases_c.set(while_cases)
@@ -450,7 +450,7 @@ pub fn correct_while() -> @kernel.Thm {
 ///|
 /// assert_def
 fn step_24() -> Unit raise {
-  assert_def_c.set(@pair.new_definition(@parser.parse_term("assert (p:S->bool) (q:S->bool) = q")))
+  assert_def_c.set(@pair.new_definition(@parser.parse_term("assert_ (p:S->bool) (q:S->bool) = q")))
 }
 
 ///|
@@ -482,7 +482,7 @@ pub fn variant_def() -> @kernel.Thm {
 fn step_26() -> Unit raise {
   let t75 = @sets.set_tac(@list.List([]))
   let t76 = @tactics.then_tac(@simp.rewrite_tac(@list.List([correct(), sequence(), monotonic(), assert_def(), @trivia.o_thm()])), t75)
-  correct_seq_vc_c.set(@tactics.prove(@term_syntax.parse_term("∀ p : (_) -> Bool, ∀ q : (_) -> Bool, ∀ r : (_) -> Bool, ∀ c1 : ((_) -> Bool, _) -> Bool, ∀ c2 : ((_) -> Bool, _) -> Bool, monotonic(c1) && correct(p, c1, r) && correct(r, c2, q) → correct(p, op_semi_semi(c1, op_semi_semi(op_assert(r), c2)), q)"), t76))
+  correct_seq_vc_c.set(@tactics.prove(@term_syntax.parse_term("∀ p : (_) -> Bool, ∀ q : (_) -> Bool, ∀ r : (_) -> Bool, ∀ c1 : ((_) -> Bool, _) -> Bool, ∀ c2 : ((_) -> Bool, _) -> Bool, monotonic(c1) && correct(p, c1, r) && correct(r, c2, q) → correct(p, op_semi_semi(c1, op_semi_semi(assert_(r), c2)), q)"), t76))
 }
 
 ///|
@@ -500,7 +500,7 @@ fn step_27() -> Unit raise {
   let t78 = @meson.asm_meson_tac(@list.List([correct_while()]))
   let t77 = @simp.rewrite_tac(@list.List([sequence(), variant_def(), assert_def(), @trivia.o_def(), @class.eta_ax()]))
   let t79 = @tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t77), t78)
-  correct_while_vc_c.set(@tactics.prove(@term_syntax.parse_term("∀ `<<` : (S, S) -> Bool, ∀ p : (S) -> Bool, ∀ c : ((S) -> Bool, S) -> Bool, ∀ q : (S) -> Bool, ∀ e : (S) -> Bool, ∀ invariant : (S) -> Bool, monotonic(c) && WF(`<<`) && SUBSET(p, invariant) && SUBSET(INTER(DIFF(UNIV, e), invariant), q) && (∀ X : S, correct(INTER(invariant, INTER(e, (s : S) => X == s)), c, INTER(invariant, (s : S) => `<<`(s, X)))) → correct(p, While(e, op_semi_semi(op_assert(invariant), op_semi_semi(variant(`<<`), c))), q)"), t79))
+  correct_while_vc_c.set(@tactics.prove(@term_syntax.parse_term("∀ `<<` : (S, S) -> Bool, ∀ p : (S) -> Bool, ∀ c : ((S) -> Bool, S) -> Bool, ∀ q : (S) -> Bool, ∀ e : (S) -> Bool, ∀ invariant : (S) -> Bool, monotonic(c) && WF(`<<`) && SUBSET(p, invariant) && SUBSET(INTER(DIFF(UNIV, e), invariant), q) && (∀ X : S, correct(INTER(invariant, INTER(e, (s : S) => X == s)), c, INTER(invariant, (s : S) => `<<`(s, X)))) → correct(p, While(e, op_semi_semi(assert_(invariant), op_semi_semi(variant(`<<`), c))), q)"), t79))
 }
 
 ///|
@@ -516,7 +516,7 @@ pub fn correct_while_vc() -> @kernel.Thm {
 /// MONOTONIC_ASSERT
 fn step_28() -> Unit raise {
   let t80 = @simp.rewrite_tac(@list.List([assert_def(), monotonic()]))
-  monotonic_assert_c.set(@tactics.prove(@term_syntax.parse_term("monotonic(op_assert((p : (_) -> Bool)))"), t80))
+  monotonic_assert_c.set(@tactics.prove(@term_syntax.parse_term("monotonic(assert_((p : (_) -> Bool)))"), t80))
 }
 
 ///|
@@ -592,7 +592,7 @@ pub fn vc_tac(x : @tactics.Goal) -> @tactics.Goalstate raise {
 ///|
 /// Tutorial/Semantics_of_programming_languages_shallow.ml:182
 fn step_32() -> Unit raise {
-  ignore(@tactics.g(@term_syntax.parse_term("correct(fn { (m, n, x, y) => true }, op_semi_semi(Assign(fn { (m, n, x, y) => (m, n, m, n) }), op_semi_semi(op_assert(fn { (m, n, x, y) => x == m && y == n }), op_semi_semi(While(fn { (m, n, x, y) => !(x == 0 || y == 0) }, op_semi_semi(op_assert(fn { (m, n, x, y) => gcd((x, y)) == gcd((m, n)) }), op_semi_semi(variant(MEASURE(fn { (m, n, x, y) => x + y })), Ite(fn { (m, n, x, y) => x < y }, Assign(fn { (m, n, x, y) => (m, n, x, y - x) }), Assign(fn { (m, n, x, y) => (m, n, x - y, y) }))))), op_semi_semi(op_assert(fn { (m, n, x, y) => (x == 0 || y == 0) && gcd((x, y)) == gcd((m, n)) }), If(fn { (m, n, x, y) => x == 0 }, Assign(fn { (m, n, x, y) => (m, n, y, y) })))))), fn { (m, n, x, y) => gcd((m, n)) == x })")))
+  ignore(@tactics.g(@term_syntax.parse_term("correct(fn { (m, n, x, y) => true }, op_semi_semi(Assign(fn { (m, n, x, y) => (m, n, m, n) }), op_semi_semi(assert_(fn { (m, n, x, y) => x == m && y == n }), op_semi_semi(While(fn { (m, n, x, y) => !(x == 0 || y == 0) }, op_semi_semi(assert_(fn { (m, n, x, y) => gcd((x, y)) == gcd((m, n)) }), op_semi_semi(variant(MEASURE(fn { (m, n, x, y) => x + y })), Ite(fn { (m, n, x, y) => x < y }, Assign(fn { (m, n, x, y) => (m, n, x, y - x) }), Assign(fn { (m, n, x, y) => (m, n, x - y, y) }))))), op_semi_semi(assert_(fn { (m, n, x, y) => (x == 0 || y == 0) && gcd((x, y)) == gcd((m, n)) }), If(fn { (m, n, x, y) => x == 0 }, Assign(fn { (m, n, x, y) => (m, n, y, y) })))))), fn { (m, n, x, y) => gcd((m, n)) == x })")))
 }
 
 ///|

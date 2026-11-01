@@ -1871,7 +1871,7 @@ pub fn apply_def() -> @kernel.Thm {
 ///|
 /// abstract
 fn step_95() -> Unit raise {
-  abstract__c.set(@pair.new_definition(@parser.parse_term("abstract s t f =\n        (cartproduct s t) suchthat (\\z. forall x y. (pair x y = z) ==> (y = f x))")))
+  abstract__c.set(@pair.new_definition(@parser.parse_term("abstract_ s t f =\n        (cartproduct s t) suchthat (\\z. forall x y. (pair x y = z) ==> (y = f x))")))
 }
 
 ///|
@@ -1891,7 +1891,7 @@ fn step_96() -> Unit raise {
   let t417 = @tactics.match_mp_tac(@class.select_unique())
   let t416 = @simp.rewrite_tac(@list.List([apply_def(), abstract_(), in_cartproduct(), suchthat()]))
   let t420 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t416), t417), t418), t419)
-  apply_abstract_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : V, ∀ s : V, ∀ t : V, op_lt_colon(x, s) && op_lt_colon((f : (V) -> V)(x), t) → apply(op_abstract(s, t, f), x) == f(x)"), t420))
+  apply_abstract_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : V, ∀ s : V, ∀ t : V, op_lt_colon(x, s) && op_lt_colon((f : (V) -> V)(x), t) → apply(abstract_(s, t, f), x) == f(x)"), t420))
 }
 
 ///|
@@ -1928,7 +1928,7 @@ fn step_98() -> Unit raise {
   let t425 = @simp.rewrite_tac(@list.List([@theorems.unwind_thm1(), @theorems.exists_refl()]))
   let t424 = @simp.simp_tac(@list.List([@theorems.left_forall_imp_thm(), @equal.gsym(@theorems.conj_assoc()), @theorems.right_exists_and_thm()]))
   let t427 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([funspace(), abstract_(), suchthat(), in_powerset(), in_cartproduct(), subset_def(), pair_inj()])), t424), t425), t426)
-  abstract_in_funspace_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (V) -> V, ∀ x : _, ∀ s : V, ∀ t : V, (∀ x : V, op_lt_colon(x, s) → op_lt_colon(f(x), t)) → op_lt_colon(op_abstract(s, t, f), funspace(s, t))"), t427))
+  abstract_in_funspace_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (V) -> V, ∀ x : _, ∀ s : V, ∀ t : V, (∀ x : V, op_lt_colon(x, s) → op_lt_colon(f(x), t)) → op_lt_colon(abstract_(s, t, f), funspace(s, t))"), t427))
 }
 
 ///|
@@ -1945,7 +1945,7 @@ pub fn abstract_in_funspace() -> @kernel.Thm {
 fn step_99() -> Unit raise {
   let t430 = @meson.asm_meson_tac(@list.List([]))
   let t429 = @tactics.match_mp_tac(abstract_in_funspace())
-  let t428 = @tactics.exists_tac(@term_syntax.parse_term("op_abstract((s : V), (t : V), (x : V) => select((y : V) => op_lt_colon(y, t)))"))
+  let t428 = @tactics.exists_tac(@term_syntax.parse_term("abstract_((s : V), (t : V), (x : V) => select((y : V) => op_lt_colon(y, t)))"))
   let t431 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t428), t429), t430)
   funspace_inhabited_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : V, ∀ t : V, ((∃ x : V, op_lt_colon(x, s)) → (∃ y : V, op_lt_colon(y, t))) → (∃ f : V, op_lt_colon(f, funspace(s, t)))"), t431))
 }
@@ -1978,7 +1978,7 @@ fn step_100() -> Unit raise {
   let t433 = @tactics.match_mp_tac(extensionality_nonempty())
   let t432 = @tactics.repeat_tac(@tactics.strip_tac)
   let t447 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([abstract_()])), t432), t433), t434), t435), t436), t437), t438), t439), t441), t442), t443), t444), @tactics.gen_tac), @tactics.eq_tac), @tactics.strip_tac), t445), t446)
-  abstract_eq_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : V, ∀ t1 : V, ∀ t2 : V, ∀ f : (V) -> V, ∀ g : (V) -> V, (∃ x : V, op_lt_colon(x, s)) && (∀ x : V, op_lt_colon(x, s) → op_lt_colon(f(x), t1) && op_lt_colon(g(x), t2) && f(x) == g(x)) → op_abstract(s, t1, f) == op_abstract(s, t2, g)"), t447))
+  abstract_eq_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : V, ∀ t1 : V, ∀ t2 : V, ∀ f : (V) -> V, ∀ g : (V) -> V, (∃ x : V, op_lt_colon(x, s)) && (∀ x : V, op_lt_colon(x, s) → op_lt_colon(f(x), t1) && op_lt_colon(g(x), t2) && f(x) == g(x)) → abstract_(s, t1, f) == abstract_(s, t2, g)"), t447))
 }
 
 ///|

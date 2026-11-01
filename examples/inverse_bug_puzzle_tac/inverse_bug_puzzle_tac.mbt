@@ -264,7 +264,7 @@ pub fn oriented_areasymmetry() -> @kernel.Thm {
 ///|
 /// move
 fn step_9() -> Unit raise {
-  move__c.set(@pair.new_definition(@parser.parse_term("forall A B C A' B' C':real^2. move (A,B,C) (A',B',C') <=>\n  (B = B' /\\ C = C' /\\ collinear {vec 0,C - B,A' - A} \\/\n  A = A' /\\ C = C' /\\ collinear {vec 0,C - A,B' - B} \\/\n  A = A' /\\ B = B' /\\ collinear {vec 0,B - A,C' - C})")))
+  move__c.set(@pair.new_definition(@parser.parse_term("forall A B C A' B' C':real^2. move_ (A,B,C) (A',B',C') <=>\n  (B = B' /\\ C = C' /\\ collinear {vec 0,C - B,A' - A} \\/\n  A = A' /\\ C = C' /\\ collinear {vec 0,C - A,B' - B} \\/\n  A = A' /\\ B = B' /\\ collinear {vec 0,B - A,C' - C})")))
 }
 
 ///|
@@ -280,7 +280,7 @@ pub fn move_() -> @kernel.Thm {
 /// moveInvariant
 fn step_10() -> Unit raise {
   let t61 = @tactics.then_tac(@simp.rewrite_tac(@list.List([@pair.forall_pair_thm(), move_(), oriented_area(), @vectors.collinear_lemma(), @vectors.vector_mul()])), vec2_tac)
-  moveinvariant_c.set(@tactics.prove(@term_syntax.parse_term("∀ p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∀ p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), op_move(p, p') → oriented_area(p) == oriented_area(p')"), t61))
+  moveinvariant_c.set(@tactics.prove(@term_syntax.parse_term("∀ p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∀ p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), move_(p, p') → oriented_area(p) == oriented_area(p')"), t61))
 }
 
 ///|
@@ -295,7 +295,7 @@ pub fn moveinvariant() -> @kernel.Thm {
 ///|
 /// reachable
 fn step_11() -> Unit raise {
-  reachable_c.set(@pair.new_definition(@term_syntax.parse_term("∀ p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∀ p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), (reachable : ((Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) -> Bool)(p, p') == (∃ n : Num, ∃ s : (Num) -> (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), s(0) == p && s(n) == p' && (∀ m : Num, 0 <= m && m < n → op_move(s(m), s(SUC(m)))))")))
+  reachable_c.set(@pair.new_definition(@term_syntax.parse_term("∀ p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∀ p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), (reachable : ((Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) -> Bool)(p, p') == (∃ n : Num, ∃ s : (Num) -> (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), s(0) == p && s(n) == p' && (∀ m : Num, 0 <= m && m < n → move_(s(m), s(SUC(m)))))")))
 }
 
 ///|
@@ -310,7 +310,7 @@ pub fn reachable() -> @kernel.Thm {
 ///|
 /// reachableN
 fn step_12() -> Unit raise {
-  reachablen_c.set(@pair.new_definition(@term_syntax.parse_term("∀ p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∀ p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∀ n : Num, (reachableN : ((Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), Num) -> Bool)(p, p', n) == (∃ s : (Num) -> (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), s(0) == p && s(n) == p' && (∀ m : Num, 0 <= m && m < n → op_move(s(m), s(SUC(m)))))")))
+  reachablen_c.set(@pair.new_definition(@term_syntax.parse_term("∀ p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∀ p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∀ n : Num, (reachableN : ((Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), Num) -> Bool)(p, p', n) == (∃ s : (Num) -> (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), s(0) == p && s(n) == p' && (∀ m : Num, 0 <= m && m < n → move_(s(m), s(SUC(m)))))")))
 }
 
 ///|
@@ -346,24 +346,24 @@ fn step_14() -> Unit raise {
   let t79 = @tactics.exists_tac(@term_syntax.parse_term("(m : Num) => if m < SUC((n : Num)) { (s : (Num) -> (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]))(m) } else { (p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) }"))
   let t78 = @simp.rewrite_tac(@list.List([reachablen(), @arith.lt(), @arith.le_0()]))
   let t76 = @list.List([@tactics.hyp_tac(@meson.meson_tac, "nReach")(@list.List([reachablen(), @arith.lt(), @arith.le_0()]))])
-  let t77 = consider("s such that", @term_syntax.parse_term("(s : (Num) -> (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]))(0) == (p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) && s((n : Num)) == (q : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) && (∀ m : Num, m < n → op_move(s(m), s(SUC(m))))"), t76, "sDef")
+  let t77 = consider("s such that", @term_syntax.parse_term("(s : (Num) -> (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]))(0) == (p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) && s((n : Num)) == (q : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) && (∀ m : Num, m < n → move_(s(m), s(SUC(m))))"), t76, "sDef")
   let t75 = @theorems.intro_tac("forall q; nReach; move_qp'")
   let t74 = @simp.rewrite_tac(@list.List([@theorems.imp_conj(), @theorems.left_imp_exists_thm()]))
   let t81 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@theorems.intro_tac("forall n"), t74), t75), t77), t78), t79), t80)])
-  let t82 = @tactics.subgoal_tac("Imp2", @term_syntax.parse_term("∀ n : Num, (∃ q : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), reachableN((p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), q, n) && op_move(q, (p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])))) → reachableN(p, p', SUC(n))"), t81)
+  let t82 = @tactics.subgoal_tac("Imp2", @term_syntax.parse_term("∀ n : Num, (∃ q : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), reachableN((p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), q, n) && move_(q, (p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])))) → reachableN(p, p', SUC(n))"), t81)
   let t71 = @tactics.hyp_tac(@meson.meson_tac, "sDef qDef")(@list.List([@arith.le_0(), reachablen(), @arith.lt()]))
   let t69 = @list.List([@meson.meson_tac(@list.List([]))])
   let t70 = consider("q such that", @term_syntax.parse_term("(q : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) == (s : (_) -> (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]))((n : _))"), t69, "qDef")
   let t67 = @list.List([@tactics.hyp_tac(@meson.meson_tac, "H1")(@list.List([@arith.le_0(), reachablen()]))])
-  let t68 = consider("s such that", @term_syntax.parse_term("(s : (Num) -> (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]))(0) == (p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) && s(SUC((n : Num))) == (p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) && (∀ m : Num, m < SUC(n) → op_move(s(m), s(SUC(m))))"), t67, "sDef")
+  let t68 = consider("s such that", @term_syntax.parse_term("(s : (Num) -> (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]))(0) == (p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) && s(SUC((n : Num))) == (p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) && (∀ m : Num, m < SUC(n) → move_(s(m), s(SUC(m))))"), t67, "sDef")
   let t72 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@theorems.intro_tac("forall n; H1"), t68), t70), t71)])
-  let t73 = @tactics.subgoal_tac("Imp1", @term_syntax.parse_term("∀ n : Num, reachableN((p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), (p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), SUC(n)) → (∃ q : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), reachableN(p, q, n) && op_move(q, p'))"), t72)
+  let t73 = @tactics.subgoal_tac("Imp1", @term_syntax.parse_term("∀ n : Num, reachableN((p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), (p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), SUC(n)) → (∃ q : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), reachableN(p, q, n) && move_(q, p'))"), t72)
   let t65 = @list.List([@tactics.hyp_tac(@meson.meson_tac, "s0exists")(@list.List([@arith.le_0(), reachablen(), @arith.lt()]))])
   let t66 = @tactics.subgoal_tac("0CLAUSE", @term_syntax.parse_term("reachableN((p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), (p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), 0) == (p == p')"), t65)
   let t63 = @list.List([@meson.meson_tac(@list.List([]))])
   let t64 = consider("s0 such that", @term_syntax.parse_term("(s0 : (Num) -> (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) == ((m : Num) => (p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])))"), t63, "s0exists")
   let t84 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@theorems.intro_tac("forall p p'"), t64), t66), t73), t82), t83)
-  reachablen_clauses_c.set(@tactics.prove(@term_syntax.parse_term("∀ p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∀ p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), reachableN(p, p', 0) == (p == p') && (∀ n : Num, reachableN(p, p', SUC(n)) == (∃ q : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), reachableN(p, q, n) && op_move(q, p')))"), t84))
+  reachablen_clauses_c.set(@tactics.prove(@term_syntax.parse_term("∀ p : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∀ p' : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), reachableN(p, p', 0) == (p == p') && (∀ n : Num, reachableN(p, p', SUC(n)) == (∃ q : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), reachableN(p, q, n) && move_(q, p')))"), t84))
 }
 
 ///|
@@ -411,7 +411,7 @@ pub fn move2cond() -> @kernel.Thm {
 /// reachableN_One
 fn step_17() -> Unit raise {
   let t87 = @meson.meson_tac(@list.List([@arith.one(), reachablen(), reachablen_clauses()]))
-  reachablen_one_c.set(@tactics.prove(@term_syntax.parse_term("reachableN((P0 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), (P1 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), 1) == op_move(P0, P1)"), t87))
+  reachablen_one_c.set(@tactics.prove(@term_syntax.parse_term("reachableN((P0 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), (P1 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), 1) == move_(P0, P1)"), t87))
 }
 
 ///|
@@ -427,7 +427,7 @@ pub fn reachablen_one() -> @kernel.Thm {
 /// reachableN_Two
 fn step_18() -> Unit raise {
   let t88 = @meson.meson_tac(@list.List([@arith.two(), reachablen_one(), reachablen_clauses()]))
-  reachablen_two_c.set(@tactics.prove(@term_syntax.parse_term("reachableN((P0 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), (P2 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), 2) == (∃ P1 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), op_move(P0, P1) && op_move(P1, P2))"), t88))
+  reachablen_two_c.set(@tactics.prove(@term_syntax.parse_term("reachableN((P0 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), (P2 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), 2) == (∃ P1 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), move_(P0, P1) && move_(P1, P2))"), t88))
 }
 
 ///|
@@ -443,7 +443,7 @@ pub fn reachablen_two() -> @kernel.Thm {
 /// reachableN_Three
 fn step_19() -> Unit raise {
   let t89 = @meson.meson_tac(@list.List([@int.arith_rule(@term_syntax.parse_term("3 == SUC(2)")), reachablen_two(), reachablen_clauses()]))
-  reachablen_three_c.set(@tactics.prove(@term_syntax.parse_term("reachableN((P0 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), (P3 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), 3) == (∃ P1 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∃ P2 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), op_move(P0, P1) && op_move(P1, P2) && op_move(P2, P3))"), t89))
+  reachablen_three_c.set(@tactics.prove(@term_syntax.parse_term("reachableN((P0 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), (P3 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), 3) == (∃ P1 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∃ P2 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), move_(P0, P1) && move_(P1, P2) && move_(P2, P3))"), t89))
 }
 
 ///|
@@ -459,7 +459,7 @@ pub fn reachablen_three() -> @kernel.Thm {
 /// reachableN_Four
 fn step_20() -> Unit raise {
   let t90 = @meson.meson_tac(@list.List([@int.arith_rule(@term_syntax.parse_term("4 == SUC(3)")), reachablen_three(), reachablen_clauses()]))
-  reachablen_four_c.set(@tactics.prove(@term_syntax.parse_term("reachableN((P0 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), (P4 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), 4) == (∃ P1 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∃ P2 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∃ P3 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), op_move(P0, P1) && op_move(P1, P2) && op_move(P2, P3) && op_move(P3, P4))"), t90))
+  reachablen_four_c.set(@tactics.prove(@term_syntax.parse_term("reachableN((P0 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), (P4 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), 4) == (∃ P1 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∃ P2 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∃ P3 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), move_(P0, P1) && move_(P1, P2) && move_(P2, P3) && move_(P3, P4))"), t90))
 }
 
 ///|
@@ -476,7 +476,7 @@ pub fn reachablen_four() -> @kernel.Thm {
 fn step_21() -> Unit raise {
   let t91 = @meson.meson_tac(@list.List([reachablen_four()]))
   let t92 = @tactics.then_tac(@simp.rewrite_tac(@list.List([@int.arith_rule(@term_syntax.parse_term("5 == SUC(4)")), reachablen_clauses()])), t91)
-  reachablen_five_c.set(@tactics.prove(@term_syntax.parse_term("reachableN((P0 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), (P5 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), 5) == (∃ P1 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∃ P2 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∃ P3 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∃ P4 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), op_move(P0, P1) && op_move(P1, P2) && op_move(P2, P3) && op_move(P3, P4) && op_move(P4, P5))"), t92))
+  reachablen_five_c.set(@tactics.prove(@term_syntax.parse_term("reachableN((P0 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), (P5 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])), 5) == (∃ P1 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∃ P2 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∃ P3 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), ∃ P4 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), move_(P0, P1) && move_(P1, P2) && move_(P2, P3) && move_(P3, P4) && move_(P4, P5))"), t92))
 }
 
 ///|
@@ -495,7 +495,7 @@ fn step_22() -> Unit raise {
   let t94 = so(@simp.rewrite_tac(@list.List([move_()])))
   let t93 = @list.List([@tactics.then_tac(@simp.rewrite_tac(@list.List([collinear_3_2dzero()])), vec2_tac)])
   let t96 = @tactics.then_tac(@tactics.then_tac(@tactics.subgoal_tac("", @term_syntax.parse_term("∀ A : Cart[Real, Tybit0[Unit]], ∀ B : Cart[Real, Tybit0[Unit]], ∀ C : Cart[Real, Tybit0[Unit]], ∀ A' : Cart[Real, Tybit0[Unit]], collinear({vec(0), C - B, A' - A}) → collinear({vec(0), B - C, A' - A})"), t93), t94), t95)
-  movesymmetry_c.set(@tactics.prove(@term_syntax.parse_term("op_move(((A : Cart[Real, Tybit0[Unit]]), (B : Cart[Real, Tybit0[Unit]]), (C : Cart[Real, Tybit0[Unit]])), ((A' : Cart[Real, Tybit0[Unit]]), (B' : Cart[Real, Tybit0[Unit]]), (C' : Cart[Real, Tybit0[Unit]]))) → op_move((B, C, A), (B', C', A')) && op_move((C, A, B), (C', A', B')) && op_move((A, C, B), (A', C', B')) && op_move((B, A, C), (B', A', C')) && op_move((C, B, A), (C', B', A'))"), t96))
+  movesymmetry_c.set(@tactics.prove(@term_syntax.parse_term("move_(((A : Cart[Real, Tybit0[Unit]]), (B : Cart[Real, Tybit0[Unit]]), (C : Cart[Real, Tybit0[Unit]])), ((A' : Cart[Real, Tybit0[Unit]]), (B' : Cart[Real, Tybit0[Unit]]), (C' : Cart[Real, Tybit0[Unit]]))) → move_((B, C, A), (B', C', A')) && move_((C, A, B), (C', A', B')) && move_((A, C, B), (A', C', B')) && move_((B, A, C), (B', A', C')) && move_((C, B, A), (C', B', A'))"), t96))
 }
 
 ///|
@@ -580,7 +580,7 @@ fn step_25() -> Unit raise {
   let t120 = @tactics.subgoal_tac("H2'", @term_syntax.parse_term("!(∃ r : Real, (A' : Cart[Real, Tybit0[Unit]]) - (A : Cart[Real, Tybit0[Unit]]) == op_pct(r, A - (B : Cart[Real, Tybit0[Unit]])))"), t119)
   let t118 = @tactics.subgoal_tac("add0vector_mul", @term_syntax.parse_term("∀ r : Real, op_pct(r, (A : Cart[Real, Tybit0[Unit]]) - (B : Cart[Real, Tybit0[Unit]])) == op_pct(-r, B - A) && op_pct(r, A - B) == op_pct(r, A - B) + op_pct(real_of_num(0), (C : Cart[Real, Tybit0[Unit]]) - B)"), @list.List([vec2_tac]))
   let t134 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@theorems.intro_tac("forall A B C A'; H1 H2"), t118), t120), t122), t124), t126), t128), t130), t132), t133)
-  basic2move_thm_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Real, Tybit0[Unit]], ∀ B : Cart[Real, Tybit0[Unit]], ∀ C : Cart[Real, Tybit0[Unit]], ∀ A' : Cart[Real, Tybit0[Unit]], !collinear({A, B, C}) && !collinear({B, A, A'}) → (∃ X : Cart[Real, Tybit0[Unit]], op_move((A, B, C), (A, B, X)) && op_move((A, B, X), (A', B, X)))"), t134))
+  basic2move_thm_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Real, Tybit0[Unit]], ∀ B : Cart[Real, Tybit0[Unit]], ∀ C : Cart[Real, Tybit0[Unit]], ∀ A' : Cart[Real, Tybit0[Unit]], !collinear({A, B, C}) && !collinear({B, A, A'}) → (∃ X : Cart[Real, Tybit0[Unit]], move_((A, B, C), (A, B, X)) && move_((A, B, X), (A', B, X)))"), t134))
 }
 
 ///|
@@ -597,17 +597,17 @@ pub fn basic2move_thm() -> @kernel.Thm {
 fn step_26() -> Unit raise {
   let t145 = so(@tactics.hyp_tac(@meson.meson_tac, "ABX")(@list.List([])))
   let t143 = @list.List([@tactics.hyp_tac(@meson.meson_tac, "BA'Y")(@list.List([movesymmetry()]))])
-  let t144 = @tactics.subgoal_tac("", @term_syntax.parse_term("op_move(((A' : Cart[Real, Tybit0[Unit]]), (B : Cart[Real, Tybit0[Unit]]), (X : Cart[Real, Tybit0[Unit]])), (A', B, (Y : Cart[Real, Tybit0[Unit]]))) && op_move((A', B, Y), (A', (B' : Cart[Real, Tybit0[Unit]]), Y))"), t143)
+  let t144 = @tactics.subgoal_tac("", @term_syntax.parse_term("move_(((A' : Cart[Real, Tybit0[Unit]]), (B : Cart[Real, Tybit0[Unit]]), (X : Cart[Real, Tybit0[Unit]])), (A', B, (Y : Cart[Real, Tybit0[Unit]]))) && move_((A', B, Y), (A', (B' : Cart[Real, Tybit0[Unit]]), Y))"), t143)
   let t141 = @list.List([so(@tactics.hyp_tac(@meson.meson_tac, "H2")(@list.List([basic2move_thm()])))])
-  let t142 = consider("Y such that", @term_syntax.parse_term("op_move(((B : Cart[Real, Tybit0[Unit]]), (A' : Cart[Real, Tybit0[Unit]]), (X : Cart[Real, Tybit0[Unit]])), (B, A', (Y : Cart[Real, Tybit0[Unit]]))) && op_move((B, A', Y), ((B' : Cart[Real, Tybit0[Unit]]), A', Y))"), t141, "BA'Y")
+  let t142 = consider("Y such that", @term_syntax.parse_term("move_(((B : Cart[Real, Tybit0[Unit]]), (A' : Cart[Real, Tybit0[Unit]]), (X : Cart[Real, Tybit0[Unit]])), (B, A', (Y : Cart[Real, Tybit0[Unit]]))) && move_((B, A', Y), ((B' : Cart[Real, Tybit0[Unit]]), A', Y))"), t141, "BA'Y")
   let t139 = @list.List([so(@meson.meson_tac(@list.List([collinearsymmetry()])))])
   let t140 = @tactics.subgoal_tac("", @term_syntax.parse_term("!collinear({(B : Cart[Real, Tybit0[Unit]]), (A' : Cart[Real, Tybit0[Unit]]), (X : Cart[Real, Tybit0[Unit]])})"), t139)
   let t137 = @list.List([so(@tactics.hyp_tac(@meson.meson_tac, "H1")(@list.List([moveinvariant(), oriented_area_collinear_cong()])))])
   let t138 = @tactics.subgoal_tac("", @term_syntax.parse_term("!collinear({(A : Cart[Real, Tybit0[Unit]]), (B : Cart[Real, Tybit0[Unit]]), (X : Cart[Real, Tybit0[Unit]])}) && !collinear({(A' : Cart[Real, Tybit0[Unit]]), B, X})"), t137)
   let t135 = @list.List([@tactics.hyp_tac(@meson.meson_tac, "H1 H2")(@list.List([basic2move_thm()]))])
-  let t136 = consider("X such that", @term_syntax.parse_term("op_move(((A : Cart[Real, Tybit0[Unit]]), (B : Cart[Real, Tybit0[Unit]]), (C : Cart[Real, Tybit0[Unit]])), (A, B, (X : Cart[Real, Tybit0[Unit]]))) && op_move((A, B, X), ((A' : Cart[Real, Tybit0[Unit]]), B, X))"), t135, "ABX")
+  let t136 = consider("X such that", @term_syntax.parse_term("move_(((A : Cart[Real, Tybit0[Unit]]), (B : Cart[Real, Tybit0[Unit]]), (C : Cart[Real, Tybit0[Unit]])), (A, B, (X : Cart[Real, Tybit0[Unit]]))) && move_((A, B, X), ((A' : Cart[Real, Tybit0[Unit]]), B, X))"), t135, "ABX")
   let t146 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@theorems.intro_tac("forall A B C A' B'; H1; H2"), t136), t138), t140), t142), t144), t145)
-  fourstepmoveab_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Real, Tybit0[Unit]], ∀ B : Cart[Real, Tybit0[Unit]], ∀ C : Cart[Real, Tybit0[Unit]], ∀ A' : Cart[Real, Tybit0[Unit]], ∀ B' : Cart[Real, Tybit0[Unit]], !collinear({A, B, C}) → !collinear({B, A, A'}) && !collinear({A', B, B'}) → (∃ X : Cart[Real, Tybit0[Unit]], ∃ Y : Cart[Real, Tybit0[Unit]], op_move((A, B, C), (A, B, X)) && op_move((A, B, X), (A', B, X)) && op_move((A', B, X), (A', B, Y)) && op_move((A', B, Y), (A', B', Y)))"), t146))
+  fourstepmoveab_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Real, Tybit0[Unit]], ∀ B : Cart[Real, Tybit0[Unit]], ∀ C : Cart[Real, Tybit0[Unit]], ∀ A' : Cart[Real, Tybit0[Unit]], ∀ B' : Cart[Real, Tybit0[Unit]], !collinear({A, B, C}) → !collinear({B, A, A'}) && !collinear({A', B, B'}) → (∃ X : Cart[Real, Tybit0[Unit]], ∃ Y : Cart[Real, Tybit0[Unit]], move_((A, B, C), (A, B, X)) && move_((A, B, X), (A', B, X)) && move_((A', B, X), (A', B, Y)) && move_((A', B, Y), (A', B', Y)))"), t146))
 }
 
 ///|
@@ -624,7 +624,7 @@ pub fn fourstepmoveab() -> @kernel.Thm {
 fn step_27() -> Unit raise {
   let t156 = @tactics.hyp_tac(@meson.meson_tac, "BAX")(@list.List([movesymmetry(), reachablen_four()]))
   let t154 = @list.List([so(@tactics.hyp_tac(@meson.meson_tac, "Case2")(@list.List([fourstepmoveab()])))])
-  let t155 = consider("X Y such that", @term_syntax.parse_term("op_move(((B : Cart[Real, Tybit0[Unit]]), (A : Cart[Real, Tybit0[Unit]]), (C : Cart[Real, Tybit0[Unit]])), (B, A, (X : Cart[Real, Tybit0[Unit]]))) && op_move((B, A, X), ((B' : Cart[Real, Tybit0[Unit]]), A, X)) && op_move((B', A, X), (B', A, (Y : Cart[Real, Tybit0[Unit]]))) && op_move((B', A, Y), (B', (A' : Cart[Real, Tybit0[Unit]]), Y))"), t154, "BAX")
+  let t155 = consider("X Y such that", @term_syntax.parse_term("move_(((B : Cart[Real, Tybit0[Unit]]), (A : Cart[Real, Tybit0[Unit]]), (C : Cart[Real, Tybit0[Unit]])), (B, A, (X : Cart[Real, Tybit0[Unit]]))) && move_((B, A, X), ((B' : Cart[Real, Tybit0[Unit]]), A, X)) && move_((B', A, X), (B', A, (Y : Cart[Real, Tybit0[Unit]]))) && move_((B', A, Y), (B', (A' : Cart[Real, Tybit0[Unit]]), Y))"), t154, "BAX")
   let t152 = @list.List([@tactics.hyp_tac(@meson.meson_tac, "H1")(@list.List([collinearsymmetry()]))])
   let t153 = @tactics.subgoal_tac("", @term_syntax.parse_term("!collinear({(B : Cart[Real, Tybit0[Unit]]), (A : Cart[Real, Tybit0[Unit]]), (C : Cart[Real, Tybit0[Unit]])})"), t152)
   let t149 = @list.List([@tactics.hyp_tac(@meson.meson_tac, "H1")(@list.List([collinearsymmetry()]))])
@@ -702,7 +702,7 @@ fn step_30() -> Unit raise {
   let t185 = so(@tactics.hyp_tac(@meson.meson_tac, "H1")(@list.List([fourstepmoveabbareach()])))
   let t181 = @tactics.hyp_tac(@meson.meson_tac, "BCX")(@list.List([reachablen_two(), reachablensymmetry()]))
   let t180 = @list.List([so(@tactics.hyp_tac(@meson.meson_tac, "easy_set H1 H2")(@list.List([collinearsymmetry(), basic2move_thm()])))])
-  let t186 = @list.List([@tactics.then_tac(consider("X such that", @term_syntax.parse_term("op_move(((B : Cart[Real, Tybit0[Unit]]), (C : Cart[Real, Tybit0[Unit]]), (A : Cart[Real, Tybit0[Unit]])), (B, C, (X : Cart[Real, Tybit0[Unit]]))) && op_move((B, C, X), ((B' : Cart[Real, Tybit0[Unit]]), (C' : Cart[Real, Tybit0[Unit]]), X))"), t180, "BCX"), t181), t185, t184])
+  let t186 = @list.List([@tactics.then_tac(consider("X such that", @term_syntax.parse_term("move_(((B : Cart[Real, Tybit0[Unit]]), (C : Cart[Real, Tybit0[Unit]]), (A : Cart[Real, Tybit0[Unit]])), (B, C, (X : Cart[Real, Tybit0[Unit]]))) && move_((B, C, X), ((B' : Cart[Real, Tybit0[Unit]]), (C' : Cart[Real, Tybit0[Unit]]), X))"), t180, "BCX"), t181), t185, t184])
   let t178 = @list.List([@meson.meson_tac(@list.List([]))])
   let t179 = cases("Ncol | move | col_Nmove", @term_syntax.parse_term("!collinear({(C : Cart[Real, Tybit0[Unit]]), (B : Cart[Real, Tybit0[Unit]]), (B' : Cart[Real, Tybit0[Unit]])}) || move2Cond((A : Cart[Real, Tybit0[Unit]]), B, (A' : Cart[Real, Tybit0[Unit]]), B') || collinear({C, B, B'}) && !move2Cond(A, B, A', B')"), t178)
   let t176 = @list.List([@sets.set_tac(@list.List([]))])
@@ -750,7 +750,7 @@ pub fn fourmovestocorrecttwo() -> @kernel.Thm {
 /// CorrectFinalPoint
 fn step_32() -> Unit raise {
   let t199 = @tactics.then_tac(@simp.rewrite_tac(@list.List([move_(), oriented_area(), collinear_3_2dzero()])), vec2_tac)
-  correctfinalpoint_c.set(@tactics.prove(@term_syntax.parse_term("oriented_area(((A : Cart[Real, Tybit0[Unit]]), (B : Cart[Real, Tybit0[Unit]]), (C : Cart[Real, Tybit0[Unit]]))) == oriented_area((A, B, (C' : Cart[Real, Tybit0[Unit]]))) → op_move((A, B, C), (A, B, C'))"), t199))
+  correctfinalpoint_c.set(@tactics.prove(@term_syntax.parse_term("oriented_area(((A : Cart[Real, Tybit0[Unit]]), (B : Cart[Real, Tybit0[Unit]]), (C : Cart[Real, Tybit0[Unit]]))) == oriented_area((A, B, (C' : Cart[Real, Tybit0[Unit]]))) → move_((A, B, C), (A, B, C'))"), t199))
 }
 
 ///|
@@ -767,17 +767,17 @@ pub fn correctfinalpoint() -> @kernel.Thm {
 fn step_33() -> Unit raise {
   let t219 = so(@tactics.hyp_tac(@meson.meson_tac, "YB'C' 2Correct")(@list.List([reachablen_clauses(), @arith.le_suc_lt()])))
   let t217 = @list.List([so(@tactics.hyp_tac(@meson.meson_tac, "Distinct")(@list.List([correctfinalpoint(), movesymmetry()])))])
-  let t218 = @tactics.subgoal_tac("", @term_syntax.parse_term("op_move(((Y : Cart[Real, Tybit0[Unit]]), (B' : Cart[Real, Tybit0[Unit]]), (C' : Cart[Real, Tybit0[Unit]])), ((A' : Cart[Real, Tybit0[Unit]]), B', C'))"), t217)
+  let t218 = @tactics.subgoal_tac("", @term_syntax.parse_term("move_(((Y : Cart[Real, Tybit0[Unit]]), (B' : Cart[Real, Tybit0[Unit]]), (C' : Cart[Real, Tybit0[Unit]])), ((A' : Cart[Real, Tybit0[Unit]]), B', C'))"), t217)
   let t216 = @list.List([so(@tactics.hyp_tac(@meson.meson_tac, "H2")(@list.List([reachlemma(), reachableinvariant(), oriented_areasymmetry()])))])
   let t220 = @tactics.then_tac(@tactics.then_tac(@tactics.subgoal_tac("", @term_syntax.parse_term("oriented_area(((B' : Cart[Real, Tybit0[Unit]]), (C' : Cart[Real, Tybit0[Unit]]), (Y : Cart[Real, Tybit0[Unit]]))) == oriented_area((B', C', (A' : Cart[Real, Tybit0[Unit]])))"), t216), t218), t219)
   let t215 = so(@tactics.hyp_tac(@meson.meson_tac, "A'YC' 2Correct")(@list.List([reachablen_clauses(), @arith.le_suc_lt()])))
   let t213 = @list.List([so(@tactics.hyp_tac(@meson.meson_tac, "Distinct")(@list.List([correctfinalpoint(), movesymmetry()])))])
-  let t214 = @tactics.subgoal_tac("", @term_syntax.parse_term("op_move(((A' : Cart[Real, Tybit0[Unit]]), (Y : Cart[Real, Tybit0[Unit]]), (C' : Cart[Real, Tybit0[Unit]])), (A', (B' : Cart[Real, Tybit0[Unit]]), C'))"), t213)
+  let t214 = @tactics.subgoal_tac("", @term_syntax.parse_term("move_(((A' : Cart[Real, Tybit0[Unit]]), (Y : Cart[Real, Tybit0[Unit]]), (C' : Cart[Real, Tybit0[Unit]])), (A', (B' : Cart[Real, Tybit0[Unit]]), C'))"), t213)
   let t212 = @list.List([so(@tactics.hyp_tac(@meson.meson_tac, "H2")(@list.List([reachlemma(), reachableinvariant(), oriented_areasymmetry()])))])
   let t221 = @tactics.then_tac(@tactics.then_tac(@tactics.subgoal_tac("", @term_syntax.parse_term("oriented_area(((A' : Cart[Real, Tybit0[Unit]]), (C' : Cart[Real, Tybit0[Unit]]), (Y : Cart[Real, Tybit0[Unit]]))) == oriented_area((A', C', (B' : Cart[Real, Tybit0[Unit]])))"), t212), t214), t215)
   let t211 = so(@tactics.hyp_tac(@meson.meson_tac, "A'B'Y 2Correct")(@list.List([reachablen_clauses(), @arith.le_suc_lt()])))
   let t209 = @list.List([so(@tactics.hyp_tac(@meson.meson_tac, "Distinct")(@list.List([correctfinalpoint()])))])
-  let t210 = @tactics.subgoal_tac("", @term_syntax.parse_term("op_move(((A' : Cart[Real, Tybit0[Unit]]), (B' : Cart[Real, Tybit0[Unit]]), (Y : Cart[Real, Tybit0[Unit]])), (A', B', (C' : Cart[Real, Tybit0[Unit]])))"), t209)
+  let t210 = @tactics.subgoal_tac("", @term_syntax.parse_term("move_(((A' : Cart[Real, Tybit0[Unit]]), (B' : Cart[Real, Tybit0[Unit]]), (Y : Cart[Real, Tybit0[Unit]])), (A', B', (C' : Cart[Real, Tybit0[Unit]])))"), t209)
   let t208 = @list.List([so(@tactics.hyp_tac(@meson.meson_tac, "H2")(@list.List([reachlemma(), reachableinvariant()])))])
   let t222 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.subgoal_tac("", @term_syntax.parse_term("oriented_area(((A' : Cart[Real, Tybit0[Unit]]), (B' : Cart[Real, Tybit0[Unit]]), (Y : Cart[Real, Tybit0[Unit]]))) == oriented_area((A', B', (C' : Cart[Real, Tybit0[Unit]])))"), t208), t210), t211), t221, t220])
   let t206 = @list.List([@tactics.hyp_tac(@meson.meson_tac, "2Correct")(@list.List([]))])
@@ -828,7 +828,7 @@ pub fn notenough_4() -> @kernel.Thm {
 fn step_35() -> Unit raise {
   let t240 = so(@meson.meson_tac(@list.List([reachablen_five(), @arith.le_refl()])))
   let t238 = @list.List([@tactics.hyp_tac(@meson.meson_tac, "ABCcol A'B'C'col EZcollinear P1234exist")(@list.List([collinearsymmetry(), movesymmetry()]))])
-  let t239 = @tactics.subgoal_tac("", @term_syntax.parse_term("op_move(((A : Cart[Real, Tybit0[Unit]]), (B : Cart[Real, Tybit0[Unit]]), (C : Cart[Real, Tybit0[Unit]])), (P1 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]))) && op_move(P1, (P2 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]))) && op_move(P2, (P3 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]))) && op_move(P3, (P4 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]))) && op_move(P4, ((A' : Cart[Real, Tybit0[Unit]]), (B' : Cart[Real, Tybit0[Unit]]), (C' : Cart[Real, Tybit0[Unit]])))"), t238)
+  let t239 = @tactics.subgoal_tac("", @term_syntax.parse_term("move_(((A : Cart[Real, Tybit0[Unit]]), (B : Cart[Real, Tybit0[Unit]]), (C : Cart[Real, Tybit0[Unit]])), (P1 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]))) && move_(P1, (P2 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]))) && move_(P2, (P3 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]))) && move_(P3, (P4 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]))) && move_(P4, ((A' : Cart[Real, Tybit0[Unit]]), (B' : Cart[Real, Tybit0[Unit]]), (C' : Cart[Real, Tybit0[Unit]])))"), t238)
   let t236 = @list.List([@meson.meson_tac(@list.List([]))])
   let t237 = consider("P1 P2 P3 P4 such that", @term_syntax.parse_term("(P1 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) == ((A : Cart[Real, Tybit0[Unit]]), (C : Cart[Real, Tybit0[Unit]]), C) && (P2 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) == ((B' : Cart[Real, Tybit0[Unit]]), C, C) && (P3 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) == (B', B', C) && (P4 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) == (B', B', (C' : Cart[Real, Tybit0[Unit]]))"), t236, "P1234exist")
   let t235 = @list.List([so(@tactics.hyp_tac(@meson.meson_tac, "H1")(@list.List([oriented_area_collinear_cong()])))])
@@ -837,7 +837,7 @@ fn step_35() -> Unit raise {
   let t233 = @list.List([@meson.meson_tac(@list.List([]))])
   let t234 = cases("ABCncol | ABCcol", @term_syntax.parse_term("!collinear({(A : Cart[Real, Tybit0[Unit]]), (B : Cart[Real, Tybit0[Unit]]), (C : Cart[Real, Tybit0[Unit]])}) || collinear({A, B, C})"), t233)
   let t231 = @list.List([@tactics.then_tac(@simp.rewrite_tac(@list.List([move_(), @vectors.collinear_3_2d()])), vec2_tac)])
-  let t232 = @tactics.subgoal_tac("EZcollinear", @term_syntax.parse_term("(∀ X : Cart[Real, Tybit0[Unit]], ∀ Y : Cart[Real, Tybit0[Unit]], collinear({X, Y, Y})) && (∀ A : Cart[Real, Tybit0[Unit]], ∀ B : Cart[Real, Tybit0[Unit]], ∀ A' : Cart[Real, Tybit0[Unit]], op_move((A, B, B), (A', B, B))) && (∀ A : Cart[Real, Tybit0[Unit]], ∀ B : Cart[Real, Tybit0[Unit]], ∀ C : Cart[Real, Tybit0[Unit]], ∀ B' : Cart[Real, Tybit0[Unit]], collinear({A, B, C}) && collinear({A, B', C}) → op_move((A, B, C), (A, B', C)))"), t231)
+  let t232 = @tactics.subgoal_tac("EZcollinear", @term_syntax.parse_term("(∀ X : Cart[Real, Tybit0[Unit]], ∀ Y : Cart[Real, Tybit0[Unit]], collinear({X, Y, Y})) && (∀ A : Cart[Real, Tybit0[Unit]], ∀ B : Cart[Real, Tybit0[Unit]], ∀ A' : Cart[Real, Tybit0[Unit]], move_((A, B, B), (A', B, B))) && (∀ A : Cart[Real, Tybit0[Unit]], ∀ B : Cart[Real, Tybit0[Unit]], ∀ C : Cart[Real, Tybit0[Unit]], ∀ B' : Cart[Real, Tybit0[Unit]], collinear({A, B, C}) && collinear({A, B', C}) → move_((A, B, C), (A, B', C)))"), t231)
   let t243 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@theorems.intro_tac("forall A B C A' B' C'; H1"), t232), t234), t242)
   fivemovesorless_strong_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Real, Tybit0[Unit]], ∀ B : Cart[Real, Tybit0[Unit]], ∀ C : Cart[Real, Tybit0[Unit]], ∀ A' : Cart[Real, Tybit0[Unit]], ∀ B' : Cart[Real, Tybit0[Unit]], ∀ C' : Cart[Real, Tybit0[Unit]], oriented_area((A, B, C)) == oriented_area((A', B', C')) → (∃ n : Num, n <= 5 && reachableN((A, B, C), (A', B', C'), n))"), t243))
 }
