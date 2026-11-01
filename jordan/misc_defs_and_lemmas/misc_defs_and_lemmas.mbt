@@ -1732,7 +1732,7 @@ fn step_72() -> Unit raise {
   let t699 = @tactics_ext.taut_tac(@term_syntax.parse_term("(P : Bool) → !P → false"))
   let t650 = @tactics_ext2.quant_left_conv("b")
   let t700 = @list.List([@tactics_ext.disch_all_tac, @tactics_ext2.proof_by_contr_tac, @tactics_ext2.use_(3L, (x651 : @kernel.Thm) => @equal.conv_rule(t650, x651)), (x652 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @tactics_ext2.und(0L, x652), t699, t698, t697, t696, @tactics.gen_tac, t695, t694, @tactics.eq_tac, @tactics_ext.disch_all_tac, t693, t692, t691, t690, t689, t688, t687, t686, t685, @tactics_ext2.name_conflict_tac, t684, t683, t682, t681, t680, @tactics.disch_tac, t679, t678, t677, t676, t675, t674, t673, @tactics.disch_tac, t672, t671, t670, t669, t668, @tactics.disch_tac, @tactics.gen_tac, t667, t666, t665, t664, (x659 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @tactics_ext2.und(3L, x659), t663, (x660 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @tactics_ext2.und(3L, x660), t662, t661])
-  infinite_pigeonhole_c.set(@tactics_refine.prove_by_refinement(@parser.parse_term("forall I (f:A->B) B C. (~(FINITE {i | (I i) /\\ (C (f i))})) /\\ (FINITE B) /\\\n    (C SUBSET (UNIONS B)) ==>\n    (?b. (B b) /\\ ~(FINITE {i | (I i) /\\ (C INTER b) (f i) }))"), t700))
+  infinite_pigeonhole_c.set(@tactics_refine.prove_by_refinement(@term_syntax.parse_term("∀ I : (A) -> Bool, ∀ f : (A) -> B, ∀ B : ((B) -> Bool) -> Bool, ∀ C : (B) -> Bool, !FINITE({(i : A) | I(i) && C(f(i))}) && FINITE(B) && SUBSET(C, UNIONS(B)) → (∃ b : (B) -> Bool, B(b) && !FINITE({(i : A) | I(i) && INTER(C, b, f(i))}))"), t700))
 }
 
 ///|
