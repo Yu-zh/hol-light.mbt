@@ -7376,7 +7376,7 @@ test "Library/analysis matches Library/analysis.ml" {
       #|  \226\136\128 n : Num, FST((f : (Num) -> (Real, Real))(n)) <= SND(f(n))
       #|  (n : Num) => SND((f : (Num) -> (Real, Real))(n))
       #|  (n : Num) => FST((f : (Num) -> (Real, Real))(n))
-      #|  \\fn (n:num). if P(FST fn,(FST fn + SND fn)/ &2) then\n                        ((FST fn + SND fn)/ &2,SND fn) else\n                        (FST fn,(FST fn + SND fn)/ &2)
+      #|  \\fn_ (n:num). if P(FST fn_,(FST fn_ + SND fn_)/ &2) then\n                        ((FST fn_ + SND fn_)/ &2,SND fn_) else\n                        (FST fn_,(FST fn_ + SND fn_)/ &2)
       #|  ((a : Real), (b : Real))
       #|  (f : (Num) -> (Real, Real))
       #|  (a : Bool) == !!a

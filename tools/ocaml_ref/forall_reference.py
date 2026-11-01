@@ -415,7 +415,7 @@ def prepare():
         if types:
             text = rename_type_variables(text, types, TYPE_PATCHES.get(path, ()),
                                          TYPE_RENAME_TERM_NAMES.get(path, ()))
-        if terms:
+        if terms is not None:
             text = rename_ocaml(text, terms, TERM_PATCHES.get(path, ()), TEXT_CALLEES.get(path, ()))
         if names:
             text = rename_names(text, NAME_PATCHES[path], path)
