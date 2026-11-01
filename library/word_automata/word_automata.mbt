@@ -79,9 +79,7 @@ fn step_1() -> Unit raise {
   )
   overapproximate_reachable_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall init step final invariant.\n        (forall s. init s ==> invariant s) /\\\n        (forall s s'. invariant s /\\ step s s' ==> invariant s') /\\\n        (forall s. invariant s ==> final s)\n        ==> (forall s s':S. init s /\\ RTC step s s' ==> final s')",
-      ),
+      @term_syntax.parse_term("∀ init : (S) -> Bool, ∀ step : (S, S) -> Bool, ∀ final_ : (S) -> Bool, ∀ invariant : (S) -> Bool, (∀ s : S, init(s) → invariant(s)) && (∀ s : S, ∀ s' : S, invariant(s) && step(s, s') → invariant(s')) && (∀ s : S, invariant(s) → final_(s)) → (∀ s : S, ∀ s' : S, init(s) && RTC(step, s, s') → final_(s'))"),
       t9,
     ),
   )
@@ -245,7 +243,7 @@ pub fn reachable_state_tac(
       let th_final = @bool.eqt_elim(@bdd.bdd_imp(bddstate)((pk_1, bdd_final)).1)
       let th_init_p = @bool.genl(vars, th_init)
       let t41 = @drule.match_mp(
-        @class.taut(@parser.parse_term("(p \\/ q <=> r) ==> q ==> r")),
+        @class.taut(@term_syntax.parse_term("((p : Bool) || (q : Bool)) == (r : Bool) → q → r")),
       )(th_fix)
       let t42 = @simp.pure_once_rewrite_rule(
         @list.List([@theorems.left_imp_exists_thm()]),
@@ -1272,9 +1270,7 @@ fn step_15() -> Unit raise {
     t134,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "forall step init final b n.\n          (forall s s':S. init s /\\ RTC step s s' ==> final s')\n          ==> init(b 0)\n              ==> (forall i. i + 1 < n ==> step (b i) (b(i+1)))\n                  ==> forall i. i < n ==> final(b i)",
-    ),
+    @term_syntax.parse_term("∀ step : (S, S) -> Bool, ∀ init : (S) -> Bool, ∀ final_ : (S) -> Bool, ∀ b : (Num) -> S, ∀ n : Num, (∀ s : S, ∀ s' : S, init(s) && RTC(step, s, s') → final_(s')) → init(b(0)) → (∀ i : Num, i + 1 < n → step(b(i), b(i + 1))) → (∀ i : Num, i < n → final_(b(i)))"),
     t135,
   )
   let n_ty = @parser.parse_type("N")
@@ -1365,7 +1361,7 @@ fn step_15() -> Unit raise {
     let init_p = @basics.mk_gabs(
       btup,
       @basics.subst(
-        @lib.zip(bvs, @lib.map(mk_bit(@parser.parse_term("0")), wvs)),
+        @lib.zip(bvs, @lib.map(mk_bit(@term_syntax.parse_term("0")), wvs)),
         init_,
       ),
     )

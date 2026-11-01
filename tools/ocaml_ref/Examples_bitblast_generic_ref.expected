@@ -7358,279 +7358,279 @@ Examples/bitblast_generic quotations (277):
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 z : Word[N], \226\136\128 c : Word[N], (word_xor(word_and(z, c), word_or(c, word(1))) == word_neg(word_or(z, word_not(c)))) == (word_and(c, word(1)) == word(0))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 z : Word[N], \226\136\128 c : Word[N], word_add(word_xor(word_or(z, word_not(c)), c), word(1)) == word_neg(word_and(z, c))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 z : Word[N], \226\136\128 c : Word[N], word_add(word_xor(word_and(z, c), c), word(1)) == word_neg(word_or(z, word_not(c)))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], word_add(word_add(x, word(1)), word_not(y)) == word_sub(x, y)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], word_add(word_not(x), word_not(y)) == word_sub(word_sub(word(0), word(2)), word_add(x, y))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 c1 : Word[N], \226\136\128 c2 : Word[N], c2 == word_neg(c1) \226\134\146 word_add(word_or(x, c2), c1) == word_xor(word_or(x, c2), c2)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 c1 : Word[N], \226\136\128 c2 : Word[N], word_and(c2, word_sub(c2, word(1))) == word(0) && word_and(c1, word_sub(c2, word(1))) == word(0) && !(word_and(c1, c2) == word(0)) \226\134\146 word_and(word_add(x, c1), c2) == word_xor(word_and(x, c2), c2)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], word_and(word_not(x), word_sub(x, word(1))) == word_not(word_or(x, word_neg(x)))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], (word_and(x, word_not(word(1))) == word(0)) == (x == word(0) || x == word(1))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   word_xor((x : Word[S]), (y : Word[S])) == word_sub(word_or(x, y), word_and(x, y))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   word_add((x : Word[M]), (y : Word[M])) == word_sub(word_shl(word_or(x, y), 1), word_xor(x, y))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[R], (word_and(x, word_sub(x, word(1))) == word(0) && word_and(x, word_not(word(1))) == word(0)) == (x == word(0) || x == word(1))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 b : Word[N], \226\136\128 x : Word[N], !(b == word(0)) && word_shl(b, 1) == word(0) \226\134\146 !(x == word(0)) == (word_and(b, word_or(x, word_neg(x))) == b)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 b : Word[N], \226\136\128 x : Word[N], !(b == word(0)) && word_shl(b, 1) == word(0) \226\134\146 (x == word(0)) == (word_and(b, word_or(x, word_neg(x))) == word(0))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 b : Word[N], \226\136\128 c : Word[N], !(b == word(0)) && word_shl(b, 1) == word(0) && word_add(c, word(1)) == word_not(c) && !(c == word_not(word(0))) \226\134\146 b == word_not(c)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 m : Word[N], \226\136\128 x : Word[N], m == word_neg(word_and((b : Word[N]), word(1))) \226\134\146 word_sub(word_xor(x, m), m) == word_xor(word_add(x, m), m)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], word_and(word(3), word_shl(x, 2)) == word(0)
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], word_and(word(3), word_mul(word(5), x)) == word_and(x, word(3))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[R], \226\136\128 y : Word[R], (word_xor(x, word_ushr(x, 1)) == word_xor(y, word_ushr(y, 1))) == (x == y)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[M], word_and(word_xor(word_add(word_ushr(x, 2), word_ushr(x, 2)), word_ushr(x, 1)), word_not(word(1))) == word(0)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], word_add(word_and(x, y), word_ushr(word_xor(x, y), 1)) == word_add(word_add(word_ushr(x, 1), word_ushr(y, 1)), word_and(word(1), word_and(x, y)))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], \226\136\128 z : Word[N], word_ule(x, y) && word_ule(y, z) \226\134\146 word_ule(x, z)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], \226\136\128 z : Word[N], word_ule(x, y) && word_ult(y, z) \226\134\146 word_ugt(z, x)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], \226\136\128 z : Word[N], word_ile(x, y) && word_ile(y, z) \226\134\146 word_ile(x, z)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], \226\136\128 z : Word[N], word_ile(x, y) && word_ilt(y, z) \226\134\146 word_igt(z, x)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], word_ushr(word_shl(x, 1), 1) == x && word_ushr(word_shl(y, 1), 1) == y \226\134\146 word_ule(x, y) == word_ile(x, y)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], word_ule(word_and(x, y), x)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], word_ule(word_xor(x, y), word_or(x, y))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], word_not(word_or(x, word_neg(x))) == word_sub(word_and(x, word_neg(x)), word(1))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], word_and(word_add(word_or(x, word_sub(x, word(1))), word(1)), x) == word_and(word_add(word_and(x, word_neg(x)), x), x)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], word_not(word_add(x, (y : Word[N]))) == word_sub(word_not(x), y)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], word_or(x, y) == word_add(word_and(x, word_not(y)), y)
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], word_sub(x, y) == word_sub(word_mul(word(2), word_and(x, word_not(y))), word_xor(x, y))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], word_ilt(x, y) == !(word_and(word_INT_MIN, word_sub(word_sub(word_ishr(x, 1), word_ishr(y, 1)), word_and(word_and(word_not(x), y), word(1)))) == word(0))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], word_ult(x, y) == !(word_and(word_INT_MIN, word_sub(word_sub(word_ushr(x, 1), word_ushr(y, 1)), word_and(word_and(word_not(x), y), word(1)))) == word(0))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], !(x == word(0)) == (ival(word_or(x, word_neg(x))) < int_of_num(0))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], (x == y) == (ival(word_or(word_sub(x, y), word_sub(y, x))) >= int_of_num(0))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], word_igt(x, word(0)) == (ival(word_sub(word_ishr(x, 1), x)) < int_of_num(0))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 x : Word[N], word_igt(x, word(0)) == (ival(word_and(word_neg(x), word_not(x))) < int_of_num(0))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 a : Word[N], \226\136\128 b : Word[N], \226\136\128 x : Word[N], word_ile(a, b) \226\134\146 (word_ile(a, x) && word_ile(x, b)) == word_ule(word_sub(x, a), word_sub(b, a))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   \226\136\128 a : Word[N], \226\136\128 b : Word[N], \226\136\128 x : Word[N], word_ile(a, b) \226\134\146 (word_ile(a, x) && word_ilt(x, b)) == word_ult(word_sub(x, a), word_sub(b, a))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
   (val : (Word[N]) -> Num)((x : Word[N])) < (val : (Word[N]) -> Num)((word : (Num) -> Word[N])(64)) \226\134\146 (word_sub : (Word[N], Word[N]) -> Word[N])((word : (Num) -> Word[N])(63), x) == (word_xor : (Word[N], Word[N]) -> Word[N])(x, (word : (Num) -> Word[N])(63))
   true
   0
   true
-  (p \\/ q <=> r) ==> q ==> r
+  ((p : Bool) || (q : Bool)) == (r : Bool) \226\134\146 q \226\134\146 r
 types = word/1 tybit1/1 tybit0/1 finite_prod/2 finite_diff/2 finite_sum/2 cart/2 finite_image/1 int/0 real/0 hreal/0 nadd/0 char/0 list/1 option/1 sum/2 recspace/1 num/0 ind/0 prod/2 1/0 bool/0 fun/2
 constants = word_shladd simd16 usimd16 simd8 usimd8 simd4 usimd4 simd2 usimd2 word_jrol word_jror word_jrem word_jdiv word_jushr word_jshr word_jshl aligned word_pmul word_bytereverse word_reversefields word_clz word_ctz word_duplicate word_insert word_subword word_join word_cor word_cand word_sxfrom word_sx word_zx word_igt word_ilt word_ige word_ile word_ugt word_ult word_uge word_ule word_rol word_ror word_ishr word_ushr word_shl word_imin word_umin word_imax word_umax word_umod word_udiv word_mul word_neg word_sub word_add word_xor word_or word_and word_not bitwise2 bitwise1 irelational2 relational2 imodular modular word_oddparity word_evenparity word_popcount iword_saturate word_saturate word_INT_MAX word_INT_MIN word_UINT_MAX num_shift_add bits_of_num numbit word_sgn iword ival word val word_of_bits bits_of_word bit bitvector mk_word bitval RELPOW INV RSTC STC RTC RSC TC SC RC superadmissible tailadmissible admissible CASEWISE PCROSS vector mktybit1 _100531 _dest_tybit1 _mk_tybit1 mktybit0 _100512 _dest_tybit0 _mk_tybit0 dest_finite_prod mk_finite_prod dest_finite_diff mk_finite_diff sndcart fstcart pastecart dest_finite_sum mk_finite_sum lambda $ dest_cart mk_cart dest_finite_image finite_index dimindex polynomial_function sum nsum isum product iproduct nproduct iterato iterate support monoidal neutral .. has_sup has_inf inf sup COUNTABLE >_c >=_c =_c <_c <=_c ARBITRARY INTERSECTION_OF UNION_OF pairwise list_of_set set_of_list disjoint_union product_map cartesian_product RESTRICTION EXTENSIONAL ARB CROSS HAS_SIZE CARD ITSET FINREC REST CHOICE BIJ SURJ INJ IMAGE INFINITE FINITE SING DISJOINT PSUBSET SUBSET DELETE DIFF INTERS INTER UNIONS UNION UNIV INSERT EMPTY SETSPEC GSPEC IN real_zpow prime num_lcm num_gcd num_coprime num_mod num_divides num_of_int int_lcm int_gcd int_coprime int_mod int_divides real_mod == rem div int_pow int_min int_max int_sgn int_abs int_mul int_sub int_add int_neg int_of_num int_gt int_ge int_lt int_le real_of_int int_of_real integer DECIMAL sqrt real_sgn real_min real_max real_div real_pow real_abs real_gt real_ge real_lt real_sub real_inv real_le real_mul real_add real_neg real_of_num dest_real mk_real treal_eq treal_inv treal_le treal_mul treal_add treal_neg treal_of_num hreal_inv hreal_le hreal_mul hreal_add hreal_of_num dest_hreal mk_hreal nadd_inv nadd_rinv nadd_mul nadd_add nadd_le nadd_of_num nadd_eq dest_nadd mk_nadd is_nadd dist ASCII _22943 _dest_char _mk_char list_of_seq PAIRWISE ALLPAIRS ZIP ITLIST2 ASSOC FILTER EL MAP2 ALL2 MEM ITLIST EX ALL NULL REPLICATE BUTLAST LAST MAP LENGTH REVERSE APPEND TL HD ISO CONS NIL _dest_list _mk_list SOME NONE _dest_option _mk_option OUTR OUTL INR INL _dest_sum _mk_sum FNIL FCONS CONSTR BOTTOM _dest_rec _mk_rec ZRECSPACE ZBOT ZCONSTR INJP INJF INJA INJN NUMRIGHT NUMLEFT NUMSUM NUMSND NUMFST NUMPAIR MEASURE WF minimal MOD DIV FACT - ODD EVEN MIN MAX > >= < <= EXP * + PRE BIT1 BIT0 NUMERAL SUC _0 dest_num mk_num NUM_REP IND_0 IND_SUC ONTO ONE_ONE PASSOC UNCURRY CURRY SND FST , REP_prod ABS_prod mk_pair _FUNCTION _MATCH _GUARDED_PATTERN _UNGUARDED_PATTERN _SEQPATTERN GEQ GABS LET_END LET hashek one one_REP one_ABS I o COND @ _FALSITY_ ?! ~ F \/ ? forall ==> /\ T =
 definitions = 356
