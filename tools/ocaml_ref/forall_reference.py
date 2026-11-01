@@ -386,7 +386,7 @@ def prepare():
     alias = '  override_interface("forall",`(!):(A->bool)->bool`);\n'
     assert boolean.count(alias) == 1, 'upstream forall alias changed'
     (ref / '_build/bool_forall.ml').write_text(boolean.replace(alias, ''))
-    from term_renames import TERM_PATCHES, rename_ocaml
+    from term_renames import TERM_PATCHES, TEXT_CALLEES, rename_ocaml
     from name_renames import NAME_PATCHES, rename_names
     for path, (types, terms, names) in renamed_files().items():
         copy = ref / renamed_copy(path)
@@ -398,7 +398,7 @@ def prepare():
         if types:
             text = rename_type_variables(text, types, TYPE_PATCHES.get(path, ()))
         if terms:
-            text = rename_ocaml(text, terms, TERM_PATCHES.get(path, ()))
+            text = rename_ocaml(text, terms, TERM_PATCHES.get(path, ()), TEXT_CALLEES.get(path, ()))
         if names:
             text = rename_names(text, NAME_PATCHES[path], path)
         copy.write_text(text)
