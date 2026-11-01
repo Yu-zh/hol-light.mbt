@@ -1306,7 +1306,7 @@ fn step_59() -> Unit raise {
     }
   })))
   let t434 = @tactics.x_gen_tac(@term_syntax.parse_term("(p : (Num, Num))"))
-  let t435 = @tactics.exists_tac(@parser.parse_term("fn_:num -> (num#num)"))
+  let t435 = @tactics.exists_tac(@term_syntax.parse_term("(fn_ : (Num) -> (Num, Num))"))
   let t436 = @simp.rewrite_tac(@list.List([@sets.countable(), @sets.ge_c_v1(), in_elim_thm_p()]))
   let t361 = @term_syntax.parse_term("GABS((f : ((Num, Num), Num) -> (Num, Num)) => ∀ a : Num, ∀ b : Num, GEQ(f((a, b)), (n : Num) => if b == 0 { (0, a + (b + 1)) } else { (a + 1, b - 1) }))")
   let t437 = @list.List([@tactics.choose_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("(0, 0)"), t361]), @nums.num_recursion())), t436, @tactics_ext2.name_conflict_tac, t435, t434, t433, t432, t431, t430, t429, t428, t427, t426, t425, t424, @nums.induct_tac, @tactics_ext2.reduce_tac, @tactics_ext.rep_gen_tac, t423, t422, t421, t420, @nums.induct_tac, @tactics_ext2.reduce_tac, @tactics.gen_tac, t419, t418, t417, t416, t415, (x379 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @tactics_ext2.und(0L, x379), (x380 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @tactics_ext2.und(1L, x380), t414, t413, @tactics.beta_tac, @tactics_ext2.reduce_tac, @tactics_ext.disch_all_tac, t412, t411, t410, t409, t408, @tactics.gen_tac, t407, t406, @tactics.disch_tac, (x385 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @tactics_ext2.und(2L, x385), t405, t404, t403, t402, t401, t400, (x390 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @tactics_ext2.und(0L, x390), (x391 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @tactics_ext2.und(2L, x391), t399, t398, @tactics.beta_tac, @tactics_ext2.reduce_tac, t397, t396])
