@@ -79,9 +79,7 @@ fn step_1() -> Unit raise {
   )
   overapproximate_reachable_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall init step final_ invariant.\n        (forall s. init s ==> invariant s) /\\\n        (forall s s'. invariant s /\\ step s s' ==> invariant s') /\\\n        (forall s. invariant s ==> final_ s)\n        ==> (forall s s':S. init s /\\ RTC step s s' ==> final_ s')",
-      ),
+      @term_syntax.parse_term("∀ init : (S) -> Bool, ∀ step : (S, S) -> Bool, ∀ final_ : (S) -> Bool, ∀ invariant : (S) -> Bool, (∀ s : S, init(s) → invariant(s)) && (∀ s : S, ∀ s' : S, invariant(s) && step(s, s') → invariant(s')) && (∀ s : S, invariant(s) → final_(s)) → (∀ s : S, ∀ s' : S, init(s) && RTC(step, s, s') → final_(s'))"),
       t9,
     ),
   )
@@ -1272,9 +1270,7 @@ fn step_15() -> Unit raise {
     t134,
   )
   let pth = @tactics.prove(
-    @parser.parse_term(
-      "forall step init final_ b n.\n          (forall s s':S. init s /\\ RTC step s s' ==> final_ s')\n          ==> init(b 0)\n              ==> (forall i. i + 1 < n ==> step (b i) (b(i+1)))\n                  ==> forall i. i < n ==> final_(b i)",
-    ),
+    @term_syntax.parse_term("∀ step : (S, S) -> Bool, ∀ init : (S) -> Bool, ∀ final_ : (S) -> Bool, ∀ b : (Num) -> S, ∀ n : Num, (∀ s : S, ∀ s' : S, init(s) && RTC(step, s, s') → final_(s')) → init(b(0)) → (∀ i : Num, i + 1 < n → step(b(i), b(i + 1))) → (∀ i : Num, i < n → final_(b(i)))"),
     t135,
   )
   let n_ty = @parser.parse_type("N")

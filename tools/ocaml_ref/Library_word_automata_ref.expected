@@ -6969,7 +6969,7 @@ Warning: inventing type variables
 1 basis elements and 0 critical pairs
 Library/word_automata quotations (48):
   \226\136\128 s : S, \226\136\128 s' : S, (init : (S) -> Bool)(s) && RTC((step : (S, S) -> Bool), s, s') \226\134\146 (invariant : (S) -> Bool)(s')
-  forall init step final_ invariant.\n        (forall s. init s ==> invariant s) /\\\n        (forall s s'. invariant s /\\ step s s' ==> invariant s') /\\\n        (forall s. invariant s ==> final_ s)\n        ==> (forall s s':S. init s /\\ RTC step s s' ==> final_ s')
+  \226\136\128 init : (S) -> Bool, \226\136\128 step : (S, S) -> Bool, \226\136\128 final_ : (S) -> Bool, \226\136\128 invariant : (S) -> Bool, (\226\136\128 s : S, init(s) \226\134\146 invariant(s)) && (\226\136\128 s : S, \226\136\128 s' : S, invariant(s) && step(s, s') \226\134\146 invariant(s')) && (\226\136\128 s : S, invariant(s) \226\134\146 final_(s)) \226\134\146 (\226\136\128 s : S, \226\136\128 s' : S, init(s) && RTC(step, s, s') \226\134\146 final_(s'))
   (\226\136\128 x : Word[N], \226\136\128 n : Num, word_shl(x, SUC(n)) == word_shl(word_shl(x, 1), n)) && (\226\136\128 x : Word[N], \226\136\128 n : Num, word_ushr(x, SUC(n)) == word_ushr(word_ushr(x, 1), n)) && (\226\136\128 x : Word[N], \226\136\128 n : Num, word_ishr(x, SUC(n)) == word_ishr(word_ishr(x, 1), n))
   (word_shladd : (Word[N], Bool) -> Word[N])((x : Word[N]), (b : Bool)) == word_or(word_shl(x, 1), word(bitval(b)))
   \226\136\128 x : Word[N], \226\136\128 b : Bool, word_shladd(x, b) == word_add(word_shl(x, 1), word(bitval(b)))
@@ -6998,7 +6998,7 @@ Library/word_automata quotations (48):
   \226\136\128 x : Word[N], \226\136\128 y : Word[N], (x == word(0) || y == word(0)) == (word_and(word_or(x, word_neg(x)), word_or(y, word_neg(y))) == word(0))
   (i : Num) + 1 < (n : Num) \226\134\146 i < n
   \226\136\128 i : Num, i < (n : Num) \226\134\146 RTC((step : (S, S) -> Bool), (b : (Num) -> S)(0), b(i))
-  forall step init final_ b n.\n          (forall s s':S. init s /\\ RTC step s s' ==> final_ s')\n          ==> init(b 0)\n              ==> (forall i. i + 1 < n ==> step (b i) (b(i+1)))\n                  ==> forall i. i < n ==> final_(b i)
+  \226\136\128 step : (S, S) -> Bool, \226\136\128 init : (S) -> Bool, \226\136\128 final_ : (S) -> Bool, \226\136\128 b : (Num) -> S, \226\136\128 n : Num, (\226\136\128 s : S, \226\136\128 s' : S, init(s) && RTC(step, s, s') \226\134\146 final_(s')) \226\134\146 init(b(0)) \226\134\146 (\226\136\128 i : Num, i + 1 < n \226\134\146 step(b(i), b(i + 1))) \226\134\146 (\226\136\128 i : Num, i < n \226\134\146 final_(b(i)))
   :N
   op_plus
   1
