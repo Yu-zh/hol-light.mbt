@@ -7229,14 +7229,14 @@ test "Logic/fol matches Logic/fol.ml" {
       #|  (l : List[Term])
       #|  (l : List[Term])
       #|  (l : List[Term])
-      #|  fn_:term ->Z
-      #|  fn_:term ->Z
+      #|  (fn_ : (Term) -> Z)
+      #|  (fn_ : (Term) -> Z)
       #|  (mf : (List[Term]) -> List[Z])
       #|  (x : Term) => (y : List[Term]) => (z : Z) => (w : List[Z]) => CONS(z, w)
       #|  (NIL : List[Z])
       #|  (h : (Num, List[Term], List[Z]) -> Z)
       #|  (f : (Num) -> Z)
-      #|  forall f h. ?fn_:term->Z.\n        (forall v. fn_(V v) = f v) /\\\n        (forall s l. fn_(Fn s l) = h s l (MAP fn_ l))
+      #|  \226\136\128 f : (Num) -> Z, \226\136\128 h : (Num, List[Term], List[Z]) -> Z, \226\136\131 fn_ : (Term) -> Z, (\226\136\128 v : Num, fn_(V(v)) == f(v)) && (\226\136\128 s : Num, \226\136\128 l : List[Term], fn_(Fn(s, l)) == h(s, l, MAP(fn_, l)))
       #|  (Not : (Form) -> Form)((p : Form)) == op_minus_minus_gt(p, False)
       #|  (True : Form) == Not(False)
       #|  (op_bar_bar : (Form, Form) -> Form)((p : Form), (q : Form)) == op_minus_minus_gt(op_minus_minus_gt(p, q), q)

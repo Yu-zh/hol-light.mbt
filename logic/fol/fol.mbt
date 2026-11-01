@@ -150,8 +150,8 @@ fn step_7() -> Unit raise {
   let t38 = @tactics.spec_tac(@term_syntax.parse_term("(l : List[Term])"), t37)
   let t36 = @tactics.x_gen_tac(@term_syntax.parse_term("(l : List[Term])"))
   let t35 = @simp.asm_rewrite_tac(@list.List([]))
-  let t34 = @tactics.exists_tac(@parser.parse_term("fn_:term ->Z"))
-  let t32 = @tactics.x_choose_then(@parser.parse_term("fn_:term ->Z"))(@tactics.strip_assume_tac)
+  let t34 = @tactics.exists_tac(@term_syntax.parse_term("(fn_ : (Term) -> Z)"))
+  let t32 = @tactics.x_choose_then(@term_syntax.parse_term("(fn_ : (Term) -> Z)"))(@tactics.strip_assume_tac)
   let t33 = @tactics.disch_then(@tactics.x_choose_then(@term_syntax.parse_term("(mf : (List[Term]) -> List[Z])"))(t32))
   let t31 = @simp.rewrite_tac(@list.List([]))
   let t27 = @term_syntax.parse_term("(x : Term) => (y : List[Term]) => (z : Z) => (w : List[Z]) => CONS(z, w)")
@@ -159,7 +159,7 @@ fn step_7() -> Unit raise {
   let t29 = @term_syntax.parse_term("(h : (Num, List[Term], List[Z]) -> Z)")
   let t30 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("(f : (Num) -> Z)"), t29, t28, t27]), term_raw_recursion()))
   let t40 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t30), t31), t33), t34), t35), @tactics.gen_tac), t36), @tactics.ap_term_tac), t38), @lists.list_induct_tac), t39)
-  term_recursion_c.set(@tactics.prove(@parser.parse_term("forall f h. ?fn_:term->Z.\n        (forall v. fn_(V v) = f v) /\\\n        (forall s l. fn_(Fn s l) = h s l (MAP fn_ l))"), t40))
+  term_recursion_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num) -> Z, ∀ h : (Num, List[Term], List[Z]) -> Z, ∃ fn_ : (Term) -> Z, (∀ v : Num, fn_(V(v)) == f(v)) && (∀ s : Num, ∀ l : List[Term], fn_(Fn(s, l)) == h(s, l, MAP(fn_, l)))"), t40))
 }
 
 ///|
