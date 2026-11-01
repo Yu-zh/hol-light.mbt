@@ -20785,7 +20785,7 @@ Multivariate/metric quotations (14748):
   (interior_of : (Topology[_], (_) -> Bool, _) -> Bool)((top : Topology[_]), (s : (_) -> Bool)) == {(x : _) | \226\136\131 t : (_) -> Bool, open_in(top, t) && IN(x, t) && SUBSET(t, s)}
   \226\136\128 top : Topology[A], \226\136\128 s : (A) -> Bool, interior_of(top, s) == interior_of(top, INTER(topspace(top), s))
   \226\136\128 top : Topology[A], \226\136\128 s : (A) -> Bool, (interior_of(top, s) == s) == open_in(top, s)
-  forall top s:Z->bool. open_in top s ==> top interior_of s = s
+  \226\136\128 top : Topology[Z], \226\136\128 s : (Z) -> Bool, open_in(top, s) \226\134\146 interior_of(top, s) == s
   \226\136\128 top : Topology[A], interior_of(top, {}) == {}
   \226\136\128 top : Topology[A], interior_of(top, topspace(top)) == topspace(top)
   \226\136\128 top : Topology[A], \226\136\128 s : (A) -> Bool, open_in(top, interior_of(top, s))
@@ -27511,8 +27511,8 @@ Multivariate/metric quotations (14748):
   (x : A)
   (v : (A) -> Bool)
   \226\136\128 u : (A) -> Bool, locally_connected_space(discrete_topology(u))
-  forall top x:Z. locally_path_connected_at x top ==> locally_connected_at x top
-  forall top x:Z. weakly_locally_path_connected_at x top\n             ==> weakly_locally_connected_at x top
+  \226\136\128 top : Topology[Z], \226\136\128 x : Z, locally_path_connected_at(x, top) \226\134\146 locally_connected_at(x, top)
+  \226\136\128 top : Topology[Z], \226\136\128 x : Z, weakly_locally_path_connected_at(x, top) \226\134\146 weakly_locally_connected_at(x, top)
   interior_of((top : Topology[A]), (s : (A) -> Bool))
   subtopology((top : Topology[A]), (s : (A) -> Bool))
   SUBSET((d : (_) -> Bool), (e : (_) -> Bool)) \226\134\146 SUBSET(INTER((c : (_) -> Bool), d), e)
