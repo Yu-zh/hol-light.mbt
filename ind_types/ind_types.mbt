@@ -224,9 +224,7 @@ fn step_1() -> Unit raise {
   )
   inj_inverse2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:A->B->C.\n    (forall x1 y1 x2 y2. (P x1 y1 = P x2 y2) <=> (x1 = x2) /\\ (y1 = y2))\n    ==> ?X Y. forall x y. (X(P x y) = x) /\\ (Y(P x y) = y)",
-      ),
+      @term_syntax.parse_term("∀ P : (A, B) -> C, (∀ x1 : A, ∀ y1 : B, ∀ x2 : A, ∀ y2 : B, (P(x1, y1) == P(x2, y2)) == (x1 == x2 && y1 == y2)) → (∃ X : (C) -> A, ∃ Y : (C) -> B, ∀ x : A, ∀ y : B, X(P(x, y)) == x && Y(P(x, y)) == y)"),
       t17,
     ),
   )
@@ -362,9 +360,7 @@ fn step_3() -> Unit raise {
   )
   numpair_inj_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x1 y1 x2 y2. (NUMPAIR x1 y1 = NUMPAIR x2 y2) ==> (x1 = x2)",
-      ),
+      @term_syntax.parse_term("∀ x1 : Num, ∀ y1 : Num, ∀ x2 : Num, ∀ y2 : Num, NUMPAIR(x1, y1) == NUMPAIR(x2, y2) → x1 == x2"),
       t29,
     ),
   )
@@ -533,9 +529,7 @@ fn step_4() -> Unit raise {
   )
   numpair_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x1 y1 x2 y2. (NUMPAIR x1 y1 = NUMPAIR x2 y2) <=> (x1 = x2) /\\ (y1 = y2)",
-      ),
+      @term_syntax.parse_term("∀ x1 : Num, ∀ y1 : Num, ∀ x2 : Num, ∀ y2 : Num, (NUMPAIR(x1, y1) == NUMPAIR(x2, y2)) == (x1 == x2 && y1 == y2)"),
       t43,
     ),
   )
@@ -717,9 +711,7 @@ fn step_7() -> Unit raise {
   )
   numsum_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall b1 x1 b2 x2. (NUMSUM b1 x1 = NUMSUM b2 x2) <=> (b1 = b2) /\\ (x1 = x2)",
-      ),
+      @term_syntax.parse_term("∀ b1 : Bool, ∀ x1 : Num, ∀ b2 : Bool, ∀ x2 : Num, (NUMSUM(b1, x1) == NUMSUM(b2, x2)) == (b1 == b2 && x1 == x2)"),
       t59,
     ),
   )
@@ -976,9 +968,7 @@ fn step_10() -> Unit raise {
   )
   injn_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n1 n2. (INJN n1 :num->A->bool = INJN n2) <=> (n1 = n2)",
-      ),
+      @term_syntax.parse_term("∀ n1 : Num, ∀ n2 : Num, ((INJN : (Num, Num, A) -> Bool)(n1) == (INJN : (Num, Num, A) -> Bool)(n2)) == (n1 == n2)"),
       t83,
     ),
   )
@@ -1169,9 +1159,7 @@ pub fn inja_inj() -> @kernel.Thm {
 fn step_13() -> Unit raise {
   injf_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "INJF (f:num->(num->A->bool)) = \\n. f (NUMFST n) (NUMSND n)",
-      ),
+      @term_syntax.parse_term("(INJF : ((Num, Num, A) -> Bool, Num, A) -> Bool)((f : (Num, Num, A) -> Bool)) == ((n : Num) => f(NUMFST(n), NUMSND(n)))"),
     ),
   )
 }
@@ -1403,9 +1391,7 @@ fn step_14() -> Unit raise {
   )
   injf_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall f1 f2. (INJF f1 :num->A->bool = INJF f2) <=> (f1 = f2)",
-      ),
+      @term_syntax.parse_term("∀ f1 : (Num, Num, A) -> Bool, ∀ f2 : (Num, Num, A) -> Bool, (INJF(f1) == INJF(f2)) == (f1 == f2)"),
       t125,
     ),
   )
@@ -1425,9 +1411,7 @@ pub fn injf_inj() -> @kernel.Thm {
 fn step_15() -> Unit raise {
   injp_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "INJP f1 f2:num->A->bool =\n        \\n a. if NUMLEFT n then f1 (NUMRIGHT n) a else f2 (NUMRIGHT n) a",
-      ),
+      @term_syntax.parse_term("(INJP : ((Num, A) -> Bool, (Num, A) -> Bool, Num, A) -> Bool)((f1 : (Num, A) -> Bool), (f2 : (Num, A) -> Bool)) == ((n : Num) => (a : A) => if NUMLEFT(n) { f1(NUMRIGHT(n), a) } else { f2(NUMRIGHT(n), a) })"),
     ),
   )
 }
@@ -1679,9 +1663,7 @@ fn step_16() -> Unit raise {
   )
   injp_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(f1:num->A->bool) f1' f2 f2'.\n        (INJP f1 f2 = INJP f1' f2') <=> (f1 = f1') /\\ (f2 = f2')",
-      ),
+      @term_syntax.parse_term("∀ f1 : (Num, A) -> Bool, ∀ f1' : (Num, A) -> Bool, ∀ f2 : (Num, A) -> Bool, ∀ f2' : (Num, A) -> Bool, (INJP(f1, f2) == INJP(f1', f2')) == (f1 == f1' && f2 == f2')"),
       t153,
     ),
   )
@@ -1701,9 +1683,7 @@ pub fn injp_inj() -> @kernel.Thm {
 fn step_17() -> Unit raise {
   zconstr_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "ZCONSTR c i r :num->A->bool\n     = INJP (INJN (SUC c)) (INJP (INJA i) (INJF r))",
-      ),
+      @term_syntax.parse_term("(ZCONSTR : (Num, A, (Num, Num, A) -> Bool, Num, A) -> Bool)((c : Num), (i : A), (r : (Num, Num, A) -> Bool)) == INJP(INJN(SUC(c)), INJP(INJA(i), INJF(r)))"),
     ),
   )
 }
@@ -1796,9 +1776,7 @@ pub fn zrecspace_cases() -> @kernel.Thm {
 /// ZRECSPACE_RULES, ZRECSPACE_INDUCT, ZRECSPACE_CASES
 fn step_20() -> Unit raise {
   let (zrecspace_rules, zrecspace_induct, zrecspace_cases) = @ind_defs.new_inductive_definition(
-    @parser.parse_term(
-      "ZRECSPACE (ZBOT:num->A->bool) /\\\n    (forall c i r. (forall n. ZRECSPACE (r n)) ==> ZRECSPACE (ZCONSTR c i r))",
-    ),
+    @term_syntax.parse_term("(ZRECSPACE : ((Num, A) -> Bool) -> Bool)(ZBOT) && (∀ c : Num, ∀ i : A, ∀ r : (Num, Num, A) -> Bool, (∀ n : Num, ZRECSPACE(r(n))) → ZRECSPACE(ZCONSTR(c, i, r)))"),
   )
   zrecspace_rules_c.set(zrecspace_rules)
   zrecspace_induct_c.set(zrecspace_induct)
@@ -1853,9 +1831,7 @@ pub fn bottom() -> @kernel.Thm {
 fn step_23() -> Unit raise {
   constr_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "CONSTR c i r :(A)recspace\n     = _mk_rec (ZCONSTR c i (\\n. _dest_rec(r n)))",
-      ),
+      @term_syntax.parse_term("(CONSTR : (Num, A, (Num) -> Recspace[A]) -> Recspace[A])((c : Num), (i : A), (r : (Num) -> Recspace[A])) == _mk_rec(ZCONSTR(c, i, (n : Num) => _dest_rec(r(n))))"),
     ),
   )
 }
@@ -1913,9 +1889,7 @@ fn step_24() -> Unit raise {
   )
   mk_rec_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. (_mk_rec x :(A)recspace = _mk_rec y)\n         ==> (ZRECSPACE x /\\ ZRECSPACE y ==> (x = y))",
-      ),
+      @term_syntax.parse_term("∀ x : (Num, A) -> Bool, ∀ y : (Num, A) -> Bool, _mk_rec(x) == _mk_rec(y) → ZRECSPACE(x) && ZRECSPACE(y) → x == y"),
       t160,
     ),
   )
@@ -2022,9 +1996,7 @@ fn step_25() -> Unit raise {
   )
   dest_rec_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x y. (_dest_rec x = _dest_rec y) <=> (x:(A)recspace = y)",
-      ),
+      @term_syntax.parse_term("∀ x : Recspace[A], ∀ y : Recspace[A], (_dest_rec(x) == _dest_rec(y)) == (x == y)"),
       t170,
     ),
   )
@@ -2601,9 +2573,7 @@ fn step_27() -> Unit raise {
   )
   constr_inj_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall c1 i1 r1 c2 i2 r2. (CONSTR c1 i1 r1 :(A)recspace = CONSTR c2 i2 r2) <=>\n                       (c1 = c2) /\\ (i1 = i2) /\\ (r1 = r2)",
-      ),
+      @term_syntax.parse_term("∀ c1 : Num, ∀ i1 : A, ∀ r1 : (Num) -> Recspace[A], ∀ c2 : Num, ∀ i2 : A, ∀ r2 : (Num) -> Recspace[A], (CONSTR(c1, i1, r1) == CONSTR(c2, i2, r2)) == (c1 == c2 && i1 == i2 && r1 == r2)"),
       t215,
     ),
   )
@@ -3075,9 +3045,7 @@ fn step_28() -> Unit raise {
   )
   constr_ind_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P. P(BOTTOM) /\\\n       (forall c i r. (forall n. P(r n)) ==> P(CONSTR c i r))\n       ==> forall x:(A)recspace. P(x)",
-      ),
+      @term_syntax.parse_term("∀ P : (Recspace[A]) -> Bool, P(BOTTOM) && (∀ c : Num, ∀ i : A, ∀ r : (Num) -> Recspace[A], (∀ n : Num, P(r(n))) → P(CONSTR(c, i, r))) → (∀ x : Recspace[A], P(x))"),
       t255,
     ),
   )
@@ -3285,9 +3253,7 @@ fn step_29() -> Unit raise {
         @tactics.then_tac(
           @tactics.then_tac(
             @tactics.exists_tac(
-              @parser.parse_term(
-                "(Fn:num->A->(num->(A)recspace)->(num->B)->B) c i r y",
-              ),
+              @term_syntax.parse_term("(Fn : (Num, A, (Num) -> Recspace[A], (Num) -> B) -> B)((c : Num), (i : A), (r : (Num) -> Recspace[A]), (y : (Num) -> B))"),
             ),
             t319,
           ),
@@ -4031,9 +3997,7 @@ fn step_29() -> Unit raise {
       }),
     ),
   )
-  let t259 = @parser.parse_term(
-    "(Z:(A)recspace->B->bool) BOTTOM b /\\\n     (forall c i r y. (forall n. Z (r n) (y n)) ==> Z (CONSTR c i r) (Fn c i r y))",
-  )
+  let t259 = @term_syntax.parse_term("(Z : (Recspace[A], B) -> Bool)(BOTTOM, (b : B)) && (∀ c : Num, ∀ i : A, ∀ r : (Num) -> Recspace[A], ∀ y : (Num) -> B, (∀ n : Num, Z(r(n), y(n))) → Z(CONSTR(c, i, r), (Fn : (Num, A, (Num) -> Recspace[A], (Num) -> B) -> B)(c, i, r, y)))")
   let t260 = (fn(
     x256 : @kernel.Thm,
   ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4095,9 +4059,7 @@ fn step_29() -> Unit raise {
   )
   constr_rec_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall Fn:num->A->(num->(A)recspace)->(num->B)->B.\n     ?f. (forall c i r. f (CONSTR c i r) = Fn c i r (\\n. f (r n)))",
-      ),
+      @term_syntax.parse_term("∀ Fn : (Num, A, (Num) -> Recspace[A], (Num) -> B) -> B, ∃ f : (Recspace[A]) -> B, ∀ c : Num, ∀ i : A, ∀ r : (Num) -> Recspace[A], f(CONSTR(c, i, r)) == Fn(c, i, r, (n : Num) => f(r(n)))"),
       t352,
     ),
   )
@@ -4115,9 +4077,7 @@ pub fn constr_rec() -> @kernel.Thm {
 ///|
 /// FCONS
 fn step_30() -> Unit raise {
-  let t353 = @parser.parse_term(
-    "(forall a f. FCONS (a:A) f 0 = a) /\\\n  (forall a f n. FCONS (a:A) f (SUC n) = f n)",
-  )
+  let t353 = @term_syntax.parse_term("(∀ a : A, ∀ f : (Num) -> A, (FCONS : (A, (Num) -> A, Num) -> A)(a, f, 0) == a) && (∀ a : A, ∀ f : (Num) -> A, ∀ n : Num, FCONS(a, f, SUC(n)) == f(n))")
   fcons_c.set(@recursion.new_recursive_definition(@nums.num_recursion())(t353))
 }
 
@@ -6766,9 +6726,7 @@ fn step_41() -> Unit raise {
   )
   forall_option_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:A option->bool. (forall x. P x) <=> P NONE /\\ forall a. P(SOME a)",
-      ),
+      @term_syntax.parse_term("∀ P : (Option[A]) -> Bool, (∀ x : Option[A], P(x)) == (P(NONE) && (∀ a : A, P(SOME(a))))"),
       t797,
     ),
   )
@@ -6809,9 +6767,7 @@ fn step_42() -> Unit raise {
   )
   exists_option_thm_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall P:A option->bool. (?x. P x) <=> P NONE \\/ ?a. P(SOME a)",
-      ),
+      @term_syntax.parse_term("∀ P : (Option[A]) -> Bool, (∃ x : Option[A], P(x)) == (P(NONE) || (∃ a : A, P(SOME(a))))"),
       t800,
     ),
   )
@@ -7615,9 +7571,7 @@ pub fn option_inj() -> @kernel.Thm {
 fn step_53() -> Unit raise {
   iso_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "ISO (f:A->B) (g:B->A) <=> (forall x. f(g x) = x) /\\ (forall y. g(f y) = y)",
-      ),
+      @term_syntax.parse_term("(ISO : ((A) -> B, (B) -> A) -> Bool)((f : (A) -> B), (g : (B) -> A)) == ((∀ x : B, f(g(x)) == x) && (∀ y : A, g(f(y)) == y))"),
     ),
   )
 }
@@ -7659,9 +7613,7 @@ fn step_55() -> Unit raise {
   )
   iso_fun_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "ISO (f:A->A') f' /\\ ISO (g:B->B') g'\n   ==> ISO (\\h a'. g(h(f' a'))) (\\h a. g'(h(f a)))",
-      ),
+      @term_syntax.parse_term("ISO((f : (A) -> A'), (f' : (A') -> A)) && ISO((g : (B) -> B'), (g' : (B') -> B)) → ISO((h : (A) -> B) => (a' : A') => g(h(f'(a'))), (h : (A') -> B') => (a : A) => g'(h(f(a))))"),
       t936,
     ),
   )
@@ -7686,9 +7638,7 @@ fn step_56() -> Unit raise {
   )
   iso_usage_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "ISO f g\n   ==> (forall P. (forall x. P x) <=> (forall x. P(g x))) /\\\n       (forall P. (?x. P x) <=> (?x. P(g x))) /\\\n       (forall(a:A) (b:B). (a = g b) <=> (f a = b))",
-      ),
+      @term_syntax.parse_term("ISO((f : (A) -> B), (g : (B) -> A)) → (∀ P : (A) -> Bool, (∀ x : A, P(x)) == (∀ x : B, P(g(x)))) && (∀ P : (A) -> Bool, (∃ x : A, P(x)) == (∃ x : B, P(g(x)))) && (∀ a : A, ∀ b : B, (a == g(b)) == (f(a) == b))"),
       t938,
     ),
   )
@@ -9579,9 +9529,7 @@ fn step_59() -> Unit raise {
     t1234,
   )
   let pth_0 = @tactics.prove(
-    @parser.parse_term(
-      "(if ?!x. x = a /\\ p then @x. x = a /\\ p else @x. F) =\n     (if p then a else @x. F)",
-    ),
+    @term_syntax.parse_term("(if existsunique((x : _) => x == (a : _) && (p : Bool)) { select((x : _) => x == a && p) } else { select((x : _) => false) }) == (if p { a } else { select((x : _) => false) })"),
     t1235,
   )
   let t1236 = @meson.meson_tac(@list.List([]))
@@ -9592,9 +9540,7 @@ fn step_59() -> Unit raise {
     t1236,
   )
   let pth_1 = @tactics.prove(
-    @parser.parse_term(
-      "_MATCH x (_SEQPATTERN r s) =\n     (if ?y. r x y then _MATCH x r else _MATCH x s) /\\\n    _FUNCTION (_SEQPATTERN r s) x =\n     (if ?y. r x y then _FUNCTION r x else _FUNCTION s x)",
-    ),
+    @term_syntax.parse_term("_MATCH((x : _), _SEQPATTERN((r : (_, _) -> Bool), (s : (_, _) -> Bool))) == (if (∃ y : _, r(x, y)) { _MATCH(x, r) } else { _MATCH(x, s) }) && _FUNCTION(_SEQPATTERN(r, s), x) == (if (∃ y : _, r(x, y)) { _FUNCTION(r, x) } else { _FUNCTION(s, x) })"),
     t1237,
   )
   let t1238 = @meson.meson_tac(@list.List([]))
@@ -9609,16 +9555,12 @@ fn step_59() -> Unit raise {
     t1238,
   )
   let pth_2 = @tactics.prove(
-    @parser.parse_term(
-      "((?y. _UNGUARDED_PATTERN (GEQ s t) (GEQ u y)) <=> s = t) /\\\n     ((?y. _GUARDED_PATTERN (GEQ s t) p (GEQ u y)) <=> s = t /\\ p)",
-    ),
+    @term_syntax.parse_term("(∃ y : _, _UNGUARDED_PATTERN(GEQ((s : _), (t : _)), GEQ((u : _), y))) == (s == t) && (∃ y : _, _GUARDED_PATTERN(GEQ(s, t), (p : Bool), GEQ(u, y))) == (s == t && p)"),
     t1239,
   )
   let t1240 = @simp.rewrite_tac(@list.List([@pair._match(), @pair._function()]))
   let pth_3 = @tactics.prove(
-    @parser.parse_term(
-      "(_MATCH x (\\y z. P y z) = if ?!z. P x z then @z. P x z else @x. F) /\\\n     (_FUNCTION (\\y z. P y z) x = if ?!z. P x z then @z. P x z else @x. F)",
-    ),
+    @term_syntax.parse_term("_MATCH((x : _), (y : _) => (z : _) => (P : (_, _) -> Bool)(y, z)) == (if existsunique((z : _) => P(x, z)) { select((z : _) => P(x, z)) } else { select((x : _) => false) }) && _FUNCTION((y : _) => (z : _) => P(y, z), x) == (if existsunique((z : _) => P(x, z)) { select((z : _) => P(x, z)) } else { select((x : _) => false) })"),
     t1240,
   )
   let t1241 = @meson.meson_tac(@list.List([]))
@@ -9633,9 +9575,7 @@ fn step_59() -> Unit raise {
     t1241,
   )
   let pth_4 = @tactics.prove(
-    @parser.parse_term(
-      "(_UNGUARDED_PATTERN (GEQ s t) (GEQ u y) <=> y = u /\\ s = t) /\\\n     (_GUARDED_PATTERN (GEQ s t) p (GEQ u y) <=> y = u /\\ s = t /\\ p)",
-    ),
+    @term_syntax.parse_term("_UNGUARDED_PATTERN(GEQ((s : _), (t : _)), GEQ((u : _), (y : _))) == (y == u && s == t) && _GUARDED_PATTERN(GEQ(s, t), (p : Bool), GEQ(u, y)) == (y == u && s == t && p)"),
     t1242,
   )
   let t1243 = @meson.meson_tac(@list.List([]))
