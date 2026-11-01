@@ -7,7 +7,8 @@ Runs each reference script (by default, every one that loads a file
 TERM_RENAMES lists, term_renames.py) twice with run.sh, with
 HOL_REF_ORIGINAL_TERM_NAMES set and unset (type renames apply to both). For
 the script of a renamed file, the renamed run's output must be exactly the
-original's with that file's variables renamed (term_renames.renamed_output:
+original's with that file's variables renamed, less the lines
+TERM_RENAME_DROPS declares by count (term_renames.renamed_output:
 its quotation trace and the variables of its theorems), none of the new
 names may occur in the original's and none of the old in the renamed one's.
 A script that only loads a renamed file must print exactly what it did: its
@@ -21,7 +22,7 @@ import re
 import subprocess
 import sys
 
-from term_renames import TERM_RENAMES, renamed_output, structural_variable, uses, hol_names, decode_escaped
+from term_renames import TERM_RENAMES, TERM_RENAME_DROPS, renamed_output, structural_variable, uses, hol_names, decode_escaped
 
 REF = os.path.dirname(os.path.abspath(__file__))
 
@@ -80,6 +81,13 @@ def check(script):
         # renamed by mistake shows in its constants line, which stays
         theorems = set(re.findall(r'(?m)^attempt "([^"]+)"', text))
         expected = renamed_output(original, target, renames, theorems)
+        # the lines the rename is declared to remove, by exact count
+        for line, n in TERM_RENAME_DROPS.get(own, {}).items():
+            had, has = expected.splitlines().count(line), renamed.splitlines().count(line)
+            if had - has != n:
+                problems.append(f'{line!r}: {had} lines before, {has} after; {n} should go')
+            drop = lambda out: ''.join(l for l in out.splitlines(keepends=True) if l.rstrip('\n') != line)
+            expected, renamed = drop(expected), drop(renamed)
     else:
         expected = original
     if expected != renamed:

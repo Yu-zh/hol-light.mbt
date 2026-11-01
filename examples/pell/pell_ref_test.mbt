@@ -12992,7 +12992,6 @@ test "Examples/pell matches Examples/pell.ml" {
       #|0..0..4..9..27..58..solved at 65
       #|0..0..6..12..solved at 16
       #|0..0..1..2..7..15..solved at 21
-      #|Warning: Non-numeral begins with a digit
       #|Warning: inventing type variables
       #|0..0..solved at 2
       #|0..0..0..0..0..solved at 5
@@ -13971,7 +13970,7 @@ test "Examples/pell matches Examples/pell.ml" {
       #|  2 * ((a : Num) * (n : Num)) == 2 * (n * a)
       #|  (4 * ((k : Num) * (an : Num)) + (x : Num) < 2 * (an * (2 * k)) + (y : Num)) == (x < y)
       #|  (a : Num) + (b : Num) < (c : Num) \226\134\146 a < c - b
-      #|  (2 * k) * (2 * an) * 2kn < a2na * 2kn * kmn <=>\n    2kn * 4 * k * an < 2kn * a2na * kmn
+      #|  (2 * k) * (2 * an) * two_kn < a2na * two_kn * kmn <=>\n    two_kn * 4 * k * an < two_kn * a2na * kmn
       #|  (2 * EXP((a : Num), (n : Num)) + 1) * (EXP(2 * (k : Num), n) * (2 * k - n))
       #|  2 * (k : Num) * ((l : Num) * (m : Num)) == l * (2 * k * m)
       #|  2 * (k : Num) * (2 * EXP((a : Num), (n : Num)) * EXP(2 * k, n)) < 2 * k * ((2 * EXP(a, n) + 1) * EXP(2 * k - 1, n))
