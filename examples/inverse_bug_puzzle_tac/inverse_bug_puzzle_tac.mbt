@@ -264,7 +264,7 @@ pub fn oriented_areasymmetry() -> @kernel.Thm {
 ///|
 /// move
 fn step_9() -> Unit raise {
-  move__c.set(@pair.new_definition(@parser.parse_term("forall A B C A' B' C':real^2. move_ (A,B,C) (A',B',C') <=>\n  (B = B' /\\ C = C' /\\ collinear {vec 0,C - B,A' - A} \\/\n  A = A' /\\ C = C' /\\ collinear {vec 0,C - A,B' - B} \\/\n  A = A' /\\ B = B' /\\ collinear {vec 0,B - A,C' - C})")))
+  move__c.set(@pair.new_definition(@term_syntax.parse_term("∀ A : Cart[Real, Tybit0[Unit]], ∀ B : Cart[Real, Tybit0[Unit]], ∀ C : Cart[Real, Tybit0[Unit]], ∀ A' : Cart[Real, Tybit0[Unit]], ∀ B' : Cart[Real, Tybit0[Unit]], ∀ C' : Cart[Real, Tybit0[Unit]], (move_ : ((Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) -> Bool)((A, B, C), (A', B', C')) == (B == B' && C == C' && collinear({vec(0), C - B, A' - A}) || A == A' && C == C' && collinear({vec(0), C - A, B' - B}) || A == A' && B == B' && collinear({vec(0), B - A, C' - C}))")))
 }
 
 ///|
