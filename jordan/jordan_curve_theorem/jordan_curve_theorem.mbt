@@ -71972,8 +71972,8 @@ pub fn jordan_k33f_bij() -> @kernel.Thm {
 fn step_1523() -> Unit raise {
   let t55545 = @simp.asm_rewrite_tac(@list.List([]))
   let t55546 = @tactics_ext2.imatch_mp_tac(@class.eq_ext())
-  let t55543 = @parser.parse_term("(\\ e. fn_ e) = fn_")
-  let t55541 = @parser.parse_term("fn_ = k33f {w1,w2,x2} {v1,v2,x1}")
+  let t55543 = @term_syntax.parse_term("((e : _) => (fn_ : (_) -> _)(e)) == fn_")
+  let t55541 = @term_syntax.parse_term("(fn_ : ((_) -> Bool) -> (_, _)) == jordan_k33f({(w1 : _), (w2 : _), (x2 : _)}, {(v1 : _), (v2 : _), (x1 : _)})")
   let t55547 = @tactics_ext2.full_rewrite_tac(@list.List([jordan_curve_k33(), graph_edge_mk_graph()]))
   let t55548 = @tactics_ext2.killh(2219L)
   let t55549 = @simp.asm_rewrite_tac(@list.List([]))
