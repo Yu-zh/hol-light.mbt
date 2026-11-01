@@ -50,7 +50,7 @@ TERM_RENAMES = {
     'Multivariate/derivatives.ml': {"f'x": 'f_x', "f'y": 'f_y'},
     'Unity/mk_unless.ml': {"p's": 'p_s', "q's": 'q_s'},
     # Cu'v' is the prime family of the stem Cu'v
-    'Jordan/jordan_curve_theorem.ml': {"Cu'v": 'Cu_v'},
+    'Jordan/jordan_curve_theorem.ml': {"Cu'v": 'Cu_v', 'fn': 'fn_'},
     'Logic/birkhoff.ml': {'fn': 'fn_'},
     # _ is a wildcard to formal_ineqs' ssreflect patterns, as is any name
     # that starts with _ (wild_frees), so it becomes _any, not u_; each of
@@ -60,6 +60,21 @@ TERM_RENAMES = {
     'Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl': {'_': '_any'},
     'Formal_ineqs/taylor/theory/taylor_interval-compiled.hl': {'_': '_any'},
     'GL/completeness.ml': {'_': '_any'},
+    # core: fn is a global rename (GLOBAL_TERM_RENAMES), since define_type
+    # and num_RECURSION put it in theorems every theory uses; realax's fn is
+    # an interface alias of the constant dest_nadd, no variable
+    'nums.ml': {'fn': 'fn_'},
+    'pair.ml': {'fn': 'fn_'},
+    'trivia.ml': {'fn': 'fn_'},
+    'ind_types.ml': {'fn': 'fn_'},
+    'Library/analysis.ml': {'fn': 'fn_'},
+    'Logic/fol.ml': {'fn': 'fn_'},
+    'Jordan/misc_defs_and_lemmas.ml': {'fn': 'fn_'},
+    'Jordan/metric_spaces.ml': {'fn': 'fn_'},
+    # no rename, only TERM_PATCHES: Jordan's proofs pick hypotheses by
+    # hash numbers (UNDH 3313), which hash_of_term computes from free
+    # variables' names, so it hashes fn_ under its upstream name fn
+    'Jordan/tactics_fix.ml': {},
     'Arithmetic/definability.ml': {'fn': 'fn_'},
     # instantiates definability's PRIMREC_SIGMA by its variable fn
     'Arithmetic/tarski.ml': {'fn': 'fn_'},
@@ -91,6 +106,24 @@ def discards(text, i):
 # upstream file -> [(text, replacement)], each text occurring once, applied
 # before the rename (for a name built in code)
 TERM_PATCHES = {
+    'ind_types.ml': [
+        ('let fn = mk_var("fn",mk_fun_ty recty ranty)', 'let fn = mk_var("fn_",mk_fun_ty recty ranty)'),
+        # make_args s makes s itself for one type, s0, s1, ... for more: the
+        # one name is the variable; fn0, fn1 are fine names and stay
+        ('and fns = make_args "fn" [] (map (C mk_fun_ty ranty) domtys) in',
+         'and fns = let tys = map (C mk_fun_ty ranty) domtys in\n'
+         '      make_args (if length tys = 1 then "fn_" else "fn") [] tys in'),
+    ],
+    'Jordan/tactics_fix.ml': [
+        ('let hash_of_term =\n',
+         'let upstream_variable s =\n'
+         '  let n = String.length s in\n'
+         '  if n >= 3 && String.sub s 0 3 = "fn_" && String.for_all (fun c -> c = \'\\\'\') (String.sub s 3 (n-3))\n'
+         '  then "fn" ^ String.sub s 3 (n-3) else s;;\n\n'
+         'let hash_of_term =\n'),
+        ('      (prime210*(memhash_of_string s) + hash_of_type t) mod prime1220',
+         '      (prime210*(memhash_of_string (upstream_variable s)) + hash_of_type t) mod prime1220'),
+    ],
 }
 # upstream file -> callees whose string argument is HOL text (a term built
 # from strings): renamed as a quotation is, upstream (a string quotation,
@@ -102,6 +135,14 @@ TEXT_CALLEES = {
 }
 # callees whose string argument names a term variable, upstream and port
 NAME_CALLEES = ('EXPAND_TAC', '@simp.expand_tac')
+# variables renamed in every theory: every file's quotation traces (but
+# GLOBAL_EXCEPT's) and every theorem a script prints
+GLOBAL_TERM_RENAMES = {'fn': 'fn_'}
+# realax's fn is an interface alias of dest_nadd
+GLOBAL_EXCEPT = ('realax',)
+# callees whose string argument is a name prefix (make_args "fn" makes fn0,
+# fn1, ...), no variable
+PREFIX_CALLEES = ('else', 'make_args', '@ind_types.make_args')
 # callees whose string argument is an assumption label
 LABEL_CALLEES = ('LABEL_TAC', 'USE_THEN', 'REMOVE_THEN', 'ASSUME_TAC', 'FIND_ASSUM',
                  '@tactics.label_tac', '@tactics.use_then', '@tactics.remove_then')
@@ -271,7 +312,7 @@ def rename_ocaml(text, renames, patches=(), text_callees=()):
             if callee in NAME_CALLEES:
                 piece = '"' + renamed(piece[1:-1], renames) + '"'
             else:
-                assert callee in LABEL_CALLEES, f'string {piece} after {callee!r}: rename by a patch'
+                assert callee in LABEL_CALLEES + PREFIX_CALLEES, f'string {piece} after {callee!r}: rename by a patch'
         elif kind == 'quotation':
             assert not uses(hol_names(piece[1:-2]), renames), f'old name in a type quotation {piece[:60]!r}'
         out.append(piece)
@@ -319,7 +360,7 @@ def rename_moonbit(text, renames, text_callees=()):
             if callee in NAME_CALLEES:
                 new = renamed(body, renames)
             else:
-                assert callee in LABEL_CALLEES, f'string "{body}" after {callee!r}: rename by hand'
+                assert callee in LABEL_CALLEES + PREFIX_CALLEES, f'string "{body}" after {callee!r}: rename by hand'
                 continue
         else:
             assert not uses([body], renames, new=True), f'string "{body}" is a new name'
