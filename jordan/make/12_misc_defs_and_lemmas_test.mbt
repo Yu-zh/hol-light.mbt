@@ -6813,7 +6813,7 @@ test "Jordan/misc_defs_and_lemmas matches Jordan/misc_defs_and_lemmas.ml" {
       #|  (j : A) == (x : A)
       #|  {(i : A) | (I' : (A) -> Bool)(i) && (C : (B) -> Bool)((f : (A) -> B)(i))} == UNIONS(IMAGE((b : (B) -> Bool) => {(i : A) | I'(i) && INTER(C, b, f(i))}, (B : ((B) -> Bool) -> Bool)))
       #|  (P : Bool) \226\134\146 !P \226\134\146 false
-      #|  forall I (f:A->B) B C. (~(FINITE {i | (I i) /\\ (C (f i))})) /\\ (FINITE B) /\\\n    (C SUBSET (UNIONS B)) ==>\n    (?b. (B b) /\\ ~(FINITE {i | (I i) /\\ (C INTER b) (f i) }))
+      #|  \226\136\128 I : (A) -> Bool, \226\136\128 f : (A) -> B, \226\136\128 B : ((B) -> Bool) -> Bool, \226\136\128 C : (B) -> Bool, !FINITE({(i : A) | I(i) && C(f(i))}) && FINITE(B) && SUBSET(C, UNIONS(B)) \226\134\146 (\226\136\131 b : (B) -> Bool, B(b) && !FINITE({(i : A) | I(i) && INTER(C, b, f(i))}))
       #|  TAGB
       #|  TAGB
       #|  TAGB
