@@ -9,7 +9,7 @@ fn step_1() -> Unit raise {
 ///|
 /// move
 fn step_2() -> Unit raise {
-  move__c.set(@pair.new_definition(@parser.parse_term("move_ ((ax,ay),(bx,by),(cx,cy)) ((ax',ay'),(bx',by'),(cx',cy')) <=>\n        (?a. ax' = ax + a * (cx - bx) /\\ ay' = ay + a * (cy - by) /\\\n             bx' = bx /\\ by' = by /\\ cx' = cx /\\ cy' = cy) \\/\n        (?b. bx' = bx + b * (ax - cx) /\\ by' = by + b * (ay - cy) /\\\n             ax' = ax /\\ ay' = ay /\\ cx' = cx /\\ cy' = cy) \\/\n        (?c. ax' = ax /\\ ay' = ay /\\ bx' = bx /\\ by' = by /\\\n             cx' = cx + c * (bx - ax) /\\ cy' = cy + c * (by - ay))")))
+  move__c.set(@pair.new_definition(@term_syntax.parse_term("(move_ : (((Real, Real), (Real, Real), Real, Real), ((Real, Real), (Real, Real), Real, Real)) -> Bool)((((ax : Real), (ay : Real)), ((bx : Real), (by : Real)), (cx : Real), (cy : Real)), (((ax' : Real), (ay' : Real)), ((bx' : Real), (by' : Real)), (cx' : Real), (cy' : Real))) == ((∃ a : Real, ax' == ax + a * (cx - bx) && ay' == ay + a * (cy - by) && bx' == bx && by' == by && cx' == cx && cy' == cy) || (∃ b : Real, bx' == bx + b * (ax - cx) && by' == by + b * (ay - cy) && ax' == ax && ay' == ay && cx' == cx && cy' == cy) || (∃ c : Real, ax' == ax && ay' == ay && bx' == bx && by' == by && cx' == cx + c * (bx - ax) && cy' == cy + c * (by - ay)))")))
 }
 
 ///|
