@@ -52885,9 +52885,7 @@ fn step_427() -> Unit raise {
       nest_lemma_uniq(),
     ),
   )
-  let t5279 = @parser.parse_term(
-    "\\fn_ (n:num). if P(FST fn_,(FST fn_ + SND fn_)/ &2) then\n                        ((FST fn_ + SND fn_)/ &2,SND fn_) else\n                        (FST fn_,(FST fn_ + SND fn_)/ &2)",
-  )
+  let t5279 = @term_syntax.parse_term("(fn_ : (Real, Real)) => (n : Num) => if (P : ((Real, Real)) -> Bool)((FST(fn_), (FST(fn_) + SND(fn_)) / real_of_num(2))) { ((FST(fn_) + SND(fn_)) / real_of_num(2), SND(fn_)) } else { (FST(fn_), (FST(fn_) + SND(fn_)) / real_of_num(2)) }")
   let t5280 = @list.List([@term_syntax.parse_term("((a : Real), (b : Real))"), t5279])
   let t5273 = @tactics.x_choose_then(@term_syntax.parse_term("(f : (Num) -> (Real, Real))"))(
     @tactics.strip_assume_tac,
