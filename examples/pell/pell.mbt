@@ -4117,7 +4117,7 @@ fn step_56() -> Unit raise {
   let t2795 = @tactics.match_mp_tac(@int.arith_rule(@term_syntax.parse_term("(a : Num) + (b : Num) < (c : Num) → a < c - b")))
   let t2794 = @simp.rewrite_tac(@list.List([@arith.left_sub_distrib()]))
   let t2793 = @simp.asm_simp_tac(@list.List([@arith.lt_mult_lcancel(), @arith.exp_eq_0(), @arith.mult_eq_0(), @calc_num.arith_eq()]))
-  let t2792 = @simp.rewrite_tac(@list.List([@int.arith_rule(@parser.parse_term("(2 * k) * (2 * an) * two_kn < a2na * two_kn * kmn <=>\n    two_kn * 4 * k * an < two_kn * a2na * kmn"))]))
+  let t2792 = @simp.rewrite_tac(@list.List([@int.arith_rule(@term_syntax.parse_term("(2 * (k : Num) * (2 * (an : Num) * (two_kn : Num)) < (a2na : Num) * (two_kn * (kmn : Num))) == (two_kn * (4 * (k * an)) < two_kn * (a2na * kmn))"))]))
   let t2791 = @list.List([@tactics.all_tac, @simp.rewrite_tac(@list.List([@arith.le_mult_lcancel(), binomialish_lemma()]))])
   let t2790 = @tactics.exists_tac(@term_syntax.parse_term("(2 * EXP((a : Num), (n : Num)) + 1) * (EXP(2 * (k : Num), n) * (2 * k - n))"))
   let t2789 = @tactics.match_mp_tac(@arith.lte_trans())
