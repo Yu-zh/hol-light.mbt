@@ -1871,7 +1871,7 @@ pub fn apply_def() -> @kernel.Thm {
 ///|
 /// abstract
 fn step_95() -> Unit raise {
-  abstract__c.set(@pair.new_definition(@parser.parse_term("abstract_ s t f =\n        (cartproduct s t) suchthat (\\z. forall x y. (pair x y = z) ==> (y = f x))")))
+  abstract__c.set(@pair.new_definition(@term_syntax.parse_term("(abstract_ : (V, V, (V) -> V) -> V)((s : V), (t : V), (f : (V) -> V)) == suchthat(cartproduct(s, t), (z : V) => ∀ x : V, ∀ y : V, pair(x, y) == z → y == f(x))")))
 }
 
 ///|

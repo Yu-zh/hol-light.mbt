@@ -8116,7 +8116,7 @@ Model/modelset quotations (165):
   (\226\136\131 x : V, op_lt_colon(x, (s : V))) && (\226\136\131 y : V, op_lt_colon(y, (t : V))) \226\134\146 (\226\136\131 z : V, op_lt_colon(z, cartproduct(s, t)))
   (funspace : (V, V) -> V)((s : V), (t : V)) == suchthat(powerset(cartproduct(s, t)), (u : V) => \226\136\128 x : V, op_lt_colon(x, s) \226\134\146 existsunique((y : V) => op_lt_colon(pair(x, y), u)))
   (apply : (V, V) -> V)((f : V), (x : V)) == select((y : V) => op_lt_colon(pair(x, y), f))
-  abstract_ s t f =\n        (cartproduct s t) suchthat (\\z. forall x y. (pair x y = z) ==> (y = f x))
+  (abstract_ : (V, V, (V) -> V) -> V)((s : V), (t : V), (f : (V) -> V)) == suchthat(cartproduct(s, t), (z : V) => \226\136\128 x : V, \226\136\128 y : V, pair(x, y) == z \226\134\146 y == f(x))
   \226\136\128 x : V, \226\136\128 s : V, \226\136\128 t : V, op_lt_colon(x, s) && op_lt_colon((f : (V) -> V)(x), t) \226\134\146 apply(abstract_(s, t, f), x) == f(x)
   \226\136\128 f : V, \226\136\128 x : V, \226\136\128 s : V, \226\136\128 t : V, op_lt_colon(x, s) && op_lt_colon(f, funspace(s, t)) \226\134\146 op_lt_colon(apply(f, x), t)
   \226\136\128 f : (V) -> V, \226\136\128 x : _, \226\136\128 s : V, \226\136\128 t : V, (\226\136\128 x : V, op_lt_colon(x, s) \226\134\146 op_lt_colon(f(x), t)) \226\134\146 op_lt_colon(abstract_(s, t, f), funspace(s, t))
