@@ -285,14 +285,10 @@ fn[TB : Eq + @lib.OCompare + @lib.OHash] bdd_expand_1_l(
 fn step_5() -> Unit raise {
   let pth1 = @class.taut(@term_syntax.parse_term("(b : Bool) == (if (v : Bool) { b } else { b })"))
   let pth2 = @class.taut(
-    @parser.parse_term(
-      "(b <=> (if v then l else r))\n     ==> (~b <=> (if v then ~l else ~r))",
-    ),
+    @term_syntax.parse_term("(b : Bool) == (if (v : Bool) { (l : Bool) } else { (r : Bool) }) → !b == (if v { !l } else { !r })"),
   )
   let pth3 = @class.taut(
-    @parser.parse_term(
-      "(b <=> (if v then l else ~r))\n     ==> (~b <=> (if v then ~l else r))",
-    ),
+    @term_syntax.parse_term("(b : Bool) == (if (v : Bool) { (l : Bool) } else { !(r : Bool) }) → !b == (if v { !l } else { r })"),
   )
   let b_tm = @term_syntax.parse_term("(b : Bool)")
   let v_tm = @term_syntax.parse_term("(v : Bool)")
@@ -439,19 +435,13 @@ fn step_6() -> Unit raise {
   let pth3 = @class.taut(@term_syntax.parse_term("((l1 : Bool) && l1) == l1"))
   let pth4 = @class.taut(@term_syntax.parse_term("(!(r1 : Bool) && r1) == !true"))
   let pth5 = @class.taut(
-    @parser.parse_term(
-      "(b1 <=> (if v then l1 else r1))\n     ==> (b2 <=> (if v then l2 else r2))\n         ==> (b3 <=> (if v then l3 else r3))\n             ==> (l1 /\\ l2 <=> l3) ==> (r1 /\\ r2 <=> r3) ==> (b1 /\\ b2 <=> b3)",
-    ),
+    @term_syntax.parse_term("(b1 : Bool) == (if (v : Bool) { (l1 : Bool) } else { (r1 : Bool) }) → (b2 : Bool) == (if v { (l2 : Bool) } else { (r2 : Bool) }) → (b3 : Bool) == (if v { (l3 : Bool) } else { (r3 : Bool) }) → (l1 && l2) == l3 → (r1 && r2) == r3 → (b1 && b2) == b3"),
   )
   let pth6 = @class.taut(
-    @parser.parse_term(
-      "(b1 <=> (if v then l1 else r1))\n    ==> (b3 <=> (if v then l3 else r3))\n        ==> (l1 /\\ b2 <=> l3) ==> (r1 /\\ b2 <=> r3) ==> (b1 /\\ b2 <=> b3)",
-    ),
+    @term_syntax.parse_term("(b1 : Bool) == (if (v : Bool) { (l1 : Bool) } else { (r1 : Bool) }) → (b3 : Bool) == (if v { (l3 : Bool) } else { (r3 : Bool) }) → (l1 && (b2 : Bool)) == l3 → (r1 && b2) == r3 → (b1 && b2) == b3"),
   )
   let pth7 = @class.taut(
-    @parser.parse_term(
-      "(b2 <=> (if v then l2 else r2))\n     ==> (b3 <=> (if v then l3 else r3))\n         ==> (b1 /\\ l2 <=> l3) ==> (b1 /\\ r2 <=> r3) ==> (b1 /\\ b2 <=> b3)",
-    ),
+    @term_syntax.parse_term("(b2 : Bool) == (if (v : Bool) { (l2 : Bool) } else { (r2 : Bool) }) → (b3 : Bool) == (if v { (l3 : Bool) } else { (r3 : Bool) }) → ((b1 : Bool) && l2) == l3 → (b1 && r2) == r3 → (b1 && b2) == b3"),
   )
   let pth8 = @class.taut(@term_syntax.parse_term("((l1 : Bool) && (r1 : Bool)) == (r1 && l1)"))
   let b1_tm = @term_syntax.parse_term("(b1 : Bool)")
@@ -1613,9 +1603,7 @@ pub fn bdd_of_term(
 fn step_15() -> Unit raise {
   let t148 = @term_syntax.parse_term("(∃ p : Bool, !true) == !true")
   let t149 = @term_syntax.parse_term("(∃ p : Bool, true) == true")
-  let t150 = @parser.parse_term(
-    "(?p. if x then q p else r p) <=> (if x then (?p. q p) else (?p. r p))",
-  )
+  let t150 = @term_syntax.parse_term("(∃ p : _, (if (x : Bool) { (q : (_) -> Bool)(p) } else { (r : (_) -> Bool)(p) })) == (if x { ∃ p : _, q(p) } else { ∃ p : _, r(p) })")
   bdd_exists_c.set(
     match
       @lib.map(
