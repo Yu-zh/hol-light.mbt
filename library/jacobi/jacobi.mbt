@@ -28,9 +28,7 @@ fn step_1() -> Unit raise {
   )
   coprime_iproduct_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (a:A->int) n.\n        (forall i. i IN s ==> coprime(n,a i)) ==> coprime(n,iproduct s a)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ a : (A) -> Int, ∀ n : Int, (∀ i : A, IN(i, s) → coprime((n, a(i)))) → coprime((n, iproduct(s, a)))"),
       t7,
     ),
   )
@@ -79,9 +77,7 @@ fn step_2() -> Unit raise {
   )
   cong_iproduct_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s (a:A->int) (b:A->int) n.\n        FINITE s /\\\n        (forall i. i IN s ==> (a i == b i) (mod n))\n        ==> (iproduct s a == iproduct s b) (mod n)",
-      ),
+      @term_syntax.parse_term("∀ s : (A) -> Bool, ∀ a : (A) -> Int, ∀ b : (A) -> Int, ∀ n : Int, FINITE(s) && (∀ i : A, IN(i, s) → op_eq_eq(a(i), b(i), mod(n))) → op_eq_eq(iproduct(s, a), iproduct(s, b), mod(n))"),
       t15,
     ),
   )
@@ -101,9 +97,7 @@ pub fn cong_iproduct() -> @kernel.Thm {
 fn step_3() -> Unit raise {
   jacobi_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "(jacobi:num#num->int)(a,n) =\n        if n = 0 then if a = 1 then &1 else &0\n        else iproduct {p | prime p /\\ p divides n}\n                      (\\p. (if p divides a then &0\n                            else if ?x. (x EXP 2 == a) (mod p) then &1\n                            else --(&1)) pow index p n)",
-      ),
+      @term_syntax.parse_term("(jacobi : ((Num, Num)) -> Int)(((a : Num), (n : Num))) == (if n == 0 { if a == 1 { int_of_num(1) } else { int_of_num(0) } } else { iproduct({(p : Num) | prime(p) && divides(p, n)}, (p : Num) => pow(if divides(p, a) { int_of_num(0) } else { if (∃ x : Num, op_eq_eq(EXP(x, 2), a, mod(p))) { int_of_num(1) } else { -int_of_num(1) } }, index(p, n))) })"),
     ),
   )
 }
@@ -208,9 +202,7 @@ fn step_5() -> Unit raise {
   )
   jacobi_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n. jacobi(a,n) = -- &1 \\/ jacobi(a,n) = &0 \\/ jacobi(a,n) = &1",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, jacobi((a, n)) == -int_of_num(1) || jacobi((a, n)) == int_of_num(0) || jacobi((a, n)) == int_of_num(1)"),
       t27,
     ),
   )
@@ -353,9 +345,7 @@ fn step_6() -> Unit raise {
   )
   jacobi_prime_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a p. prime p\n         ==> jacobi(a,p) =\n             if p divides a then &0\n             else if ?x. (x EXP 2 == a) (mod p) then &1\n             else --(&1)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ p : Num, prime(p) → jacobi((a, p)) == (if divides(p, a) { int_of_num(0) } else { if (∃ x : Num, op_eq_eq(EXP(x, 2), a, mod(p))) { int_of_num(1) } else { -int_of_num(1) } })"),
       t41,
     ),
   )
@@ -405,9 +395,7 @@ fn step_7() -> Unit raise {
   )
   jacobi_v1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n. jacobi(a,n) =\n         if n = 0 then if a = 1 then &1 else &0\n         else iproduct {p | prime p /\\ p divides n}\n                       (\\p. jacobi(a,p) pow index p n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, jacobi((a, n)) == (if n == 0 { if a == 1 { int_of_num(1) } else { int_of_num(0) } } else { iproduct({(p : Num) | prime(p) && divides(p, n)}, (p : Num) => pow(jacobi((a, p)), index(p, n))) })"),
       t51,
     ),
   )
@@ -640,9 +628,7 @@ fn step_8() -> Unit raise {
   )
   jacobi_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall s a n.\n        FINITE s /\\\n        {p | prime p /\\ p divides n} SUBSET s /\\\n        s SUBSET {p | prime p}\n        ==> jacobi(a,n) = iproduct s (\\p. jacobi(a,p) pow index p n)",
-      ),
+      @term_syntax.parse_term("∀ s : (Num) -> Bool, ∀ a : Num, ∀ n : Num, FINITE(s) && SUBSET({(p : Num) | prime(p) && divides(p, n)}, s) && SUBSET(s, {(p : Num) | prime(p)}) → jacobi((a, n)) == iproduct(s, (p : Num) => pow(jacobi((a, p)), index(p, n)))"),
       t77,
     ),
   )
@@ -930,9 +916,7 @@ fn step_11() -> Unit raise {
   )
   jacobi_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n. jacobi(1,n) = &1) /\\\n   (forall a. jacobi(a,1) = &1)",
-      ),
+      @term_syntax.parse_term("(∀ n : Num, jacobi((1, n)) == int_of_num(1)) && (∀ a : Num, jacobi((a, 1)) == int_of_num(1))"),
       t124,
     ),
   )
@@ -966,9 +950,7 @@ fn step_12() -> Unit raise {
   )
   jacobi_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n. jacobi(0,n) = if n = 1 then &1 else &0) /\\\n   (forall a. jacobi(a,0) = if a = 1 then &1 else &0)",
-      ),
+      @term_syntax.parse_term("(∀ n : Num, jacobi((0, n)) == (if n == 1 { int_of_num(1) } else { int_of_num(0) })) && (∀ a : Num, jacobi((a, 0)) == (if a == 1 { int_of_num(1) } else { int_of_num(0) }))"),
       t127,
     ),
   )
@@ -1410,9 +1392,7 @@ fn step_15() -> Unit raise {
   )
   jacobi_euler_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a p. prime p /\\ ~(p = 2)\n         ==> (jacobi(a,p) == &a pow ((p - 1) DIV 2)) (mod &p)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ p : Num, prime(p) && !(p == 2) → op_eq_eq(jacobi((a, p)), pow(int_of_num(a), DIV(p - 1, 2)), mod(int_of_num(p)))"),
       t174,
     ),
   )
@@ -1488,9 +1468,7 @@ fn step_16() -> Unit raise {
   )
   jacobi_euler_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a p. prime p\n         ==> (jacobi(a,p) == &a pow (if p = 2 then 1 else (p - 1) DIV 2))\n             (mod &p)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ p : Num, prime(p) → op_eq_eq(jacobi((a, p)), pow(int_of_num(a), if p == 2 { 1 } else { DIV(p - 1, 2) }), mod(int_of_num(p)))"),
       t181,
     ),
   )
@@ -1715,9 +1693,7 @@ fn step_18() -> Unit raise {
   )
   let t250 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "(a' * b':int == c') (mod p)\n        ==> (a == a') (mod p) /\\ (b == b') (mod p) /\\ (c == c') (mod p)\n            ==> (c == a * b) (mod p)",
-      ),
+      @term_syntax.parse_term("op_eq_eq((a' : Int) * (b' : Int), (c' : Int), mod((p : Int))) → op_eq_eq((a : Int), a', mod(p)) && op_eq_eq((b : Int), b', mod(p)) && op_eq_eq((c : Int), c', mod(p)) → op_eq_eq(c, a * b, mod(p))"),
     ),
   )
   let t249 = @simp.asm_rewrite_tac(
@@ -1785,9 +1761,7 @@ fn step_18() -> Unit raise {
                 @tactics.then_tac(
                   @tactics.match_mp_tac(
                     @int.int_arith(
-                      @parser.parse_term(
-                        "abs(x:int) <= &1 /\\ abs(y) <= &1 /\\ &3 <= p ==> abs(x - y) < p",
-                      ),
+                      @term_syntax.parse_term("abs((x : Int)) <= int_of_num(1) && abs((y : Int)) <= int_of_num(1) && int_of_num(3) <= (p : Int) → abs(x - y) < p"),
                     ),
                   ),
                   t235,
@@ -2119,9 +2093,7 @@ fn step_21() -> Unit raise {
   )
   jacobi_exp_2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a k. jacobi(a,2 EXP k) = if k = 0 then &1 else &(a MOD 2)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ k : Num, jacobi((a, EXP(2, k))) == (if k == 0 { int_of_num(1) } else { int_of_num(MOD(a, 2)) })"),
       t269,
     ),
   )
@@ -2153,9 +2125,7 @@ fn step_22() -> Unit raise {
   )
   jacobi_exp_2_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a k. jacobi(a,2 EXP k) = if k = 0 \\/ ODD a then &1 else &0",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ k : Num, jacobi((a, EXP(2, k))) == (if k == 0 || ODD(a) { int_of_num(1) } else { int_of_num(0) })"),
       t273,
     ),
   )
@@ -2193,9 +2163,7 @@ fn step_23() -> Unit raise {
   )
   jacobi_nproduct_right_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a (n:A->num) k.\n        FINITE k\n        ==> jacobi(a,nproduct k n) = iproduct k (\\i. jacobi(a,n i))",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : (A) -> Num, ∀ k : (A) -> Bool, FINITE(k) → jacobi((a, nproduct(k, n))) == iproduct(k, (i : A) => jacobi((a, n(i))))"),
       t276,
     ),
   )
@@ -2233,9 +2201,7 @@ fn step_24() -> Unit raise {
   )
   jacobi_nproduct_left_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(a:A->num) n k.\n        FINITE k\n        ==> jacobi(nproduct k a,n) = iproduct k (\\i. jacobi(a i,n))",
-      ),
+      @term_syntax.parse_term("∀ a : (A) -> Num, ∀ n : Num, ∀ k : (A) -> Bool, FINITE(k) → jacobi((nproduct(k, a), n)) == iproduct(k, (i : A) => jacobi((a(i), n)))"),
       t279,
     ),
   )
@@ -2260,9 +2226,7 @@ fn step_25() -> Unit raise {
   )
   let t287 = @tactics.mp_tac(
     @int.number_rule(
-      @parser.parse_term(
-        "p divides n /\\ (a:num == b) (mod n) ==> (a == b) (mod p)",
-      ),
+      @term_syntax.parse_term("divides((p : Num), (n : Num)) && op_eq_eq((a : Num), (b : Num), mod(n)) → op_eq_eq(a, b, mod(p))"),
     ),
   )
   let t286 = @simp.rewrite_tac(
@@ -2312,9 +2276,7 @@ fn step_25() -> Unit raise {
   )
   jacobi_cong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b n. (a == b) (mod n) ==> jacobi(a,n) = jacobi(b,n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ b : Num, ∀ n : Num, op_eq_eq(a, b, mod(n)) → jacobi((a, n)) == jacobi((b, n))"),
       t289,
     ),
   )
@@ -2337,9 +2299,7 @@ fn step_26() -> Unit raise {
   )
   let t291 = @drule.match_mp(
     @int.number_rule(
-      @parser.parse_term(
-        "(n:num) divides m ==> (x == y) (mod m) ==> (x == y) (mod n)",
-      ),
+      @term_syntax.parse_term("divides((n : Num), (m : Num)) → op_eq_eq((x : Num), (y : Num), mod(m)) → op_eq_eq(x, y, mod(n))"),
     ),
   )
   let t293 = @tactics.first_x_assum(fn(
@@ -2375,9 +2335,7 @@ fn step_26() -> Unit raise {
   )
   jacobi_mod_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a m n. n divides m ==> jacobi(a MOD m,n) = jacobi(a,n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ m : Num, ∀ n : Num, divides(n, m) → jacobi((MOD(a, m), n)) == jacobi((a, n))"),
       t295,
     ),
   )
@@ -2452,9 +2410,7 @@ fn step_28() -> Unit raise {
   )
   jacobi_squared_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall a n. jacobi(a EXP 2,n) = if coprime(a,n) then &1 else &0) /\\\n   (forall a n. jacobi(a,n EXP 2) = if coprime(a,n) then &1 else &0)",
-      ),
+      @term_syntax.parse_term("(∀ a : Num, ∀ n : Num, jacobi((EXP(a, 2), n)) == (if coprime((a, n)) { int_of_num(1) } else { int_of_num(0) })) && (∀ a : Num, ∀ n : Num, jacobi((a, EXP(n, 2))) == (if coprime((a, n)) { int_of_num(1) } else { int_of_num(0) }))"),
       t304,
     ),
   )
@@ -2655,9 +2611,7 @@ fn step_29() -> Unit raise {
             @tactics.then_tac(
               @tactics.match_mp_tac(
                 @int.int_arith(
-                  @parser.parse_term(
-                    "abs(x:int) <= &1 /\\ abs(y) <= &1 /\\ &3 <= p ==> abs(x - y) < p",
-                  ),
+                  @term_syntax.parse_term("abs((x : Int)) <= int_of_num(1) && abs((y : Int)) <= int_of_num(1) && int_of_num(3) <= (p : Int) → abs(x - y) < p"),
                 ),
               ),
               t337,
@@ -2946,9 +2900,7 @@ fn step_29() -> Unit raise {
   )
   jacobi_minus1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. ODD n ==> jacobi(n - 1,n) = --(&1) pow ((n - 1) DIV 2)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ODD(n) → jacobi((n - 1, n)) == pow(-int_of_num(1), DIV(n - 1, 2))"),
       t365,
     ),
   )
@@ -2970,9 +2922,7 @@ fn step_30() -> Unit raise {
     @list.List([@int.int_pow_neg(), @int.int_pow_one(), @prime.divides_2()]),
   )
   let t368 = @int.number_rule(
-    @parser.parse_term(
-      "~(t = 0) ==> ((t * n + 1 == 1) (mod (t * t)) <=> t divides n)",
-    ),
+    @term_syntax.parse_term("!((t : Num) == 0) → op_eq_eq(t * (n : Num) + 1, 1, mod(t * t)) == divides(t, n)"),
   )
   let t369 = @simp.simp_tac(
     @list.List([
@@ -3005,9 +2955,7 @@ fn step_30() -> Unit raise {
   )
   jacobi_minus1_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. ODD n\n       ==> jacobi(n - 1,n) =\n           if (n == 1) (mod 4) then &1 else -- &1",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ODD(n) → jacobi((n - 1, n)) == (if op_eq_eq(n, 1, mod(4)) { int_of_num(1) } else { -int_of_num(1) })"),
       t371,
     ),
   )
@@ -3467,9 +3415,7 @@ fn step_31() -> Unit raise {
   )
   let t456 = @drule.match_mp(
     @int.arith_rule(
-      @parser.parse_term(
-        "(if a then x else p - x) = (if b then y else p - y) ==> x < p /\\ y < p\n        ==> x:num = y \\/ x + y = p",
-      ),
+      @term_syntax.parse_term("(if (a : Bool) { (x : Num) } else { (p : Num) - x }) == (if (b : Bool) { (y : Num) } else { p - y }) → x < p && y < p → x == y || x + y == p"),
     ),
   )
   let t458 = @tactics.first_x_assum(fn(
@@ -3716,9 +3662,7 @@ fn step_31() -> Unit raise {
     @list.List([@trivia.o_thm(), @iterate.finite_numseg()]),
   )
   let t432 = @term_syntax.parse_term("op_dot_dot(1, (r : Num))")
-  let t433 = @parser.parse_term(
-    "(\\x. if x <= r then x else p - x) o (\\x. (a * x) MOD p)",
-  )
+  let t433 = @term_syntax.parse_term("o((x : Num) => if x <= (r : Num) { x } else { (p : Num) - x }, (x : Num) => MOD((a : Num) * x, p))")
   let t434 = @tactics.mp_tac(
     @bool.ispecl(
       @list.List([@term_syntax.parse_term("(i : Num) => int_of_num(i)"), t433, t432]),
@@ -3840,9 +3784,7 @@ fn step_31() -> Unit raise {
   )
   let t401 = @tactics.match_mp_tac(
     @int.integer_rule(
-      @parser.parse_term(
-        "forall c:int. x pow 2 = &1 /\\ coprime(p,c) /\\ (a * x * c == c) (mod p)\n            ==> (a == x) (mod p)",
-      ),
+      @term_syntax.parse_term("∀ c : Int, pow((x : Int), 2) == int_of_num(1) && coprime(((p : Int), c)) && op_eq_eq((a : Int) * (x * c), c, mod(p)) → op_eq_eq(a, x, mod(p))"),
     ),
   )
   let t400 = @list.List([
@@ -3928,9 +3870,7 @@ fn step_31() -> Unit raise {
           @tactics.then_tac(
             @tactics.match_mp_tac(
               @int.int_arith(
-                @parser.parse_term(
-                  "abs(x:int) <= &1 /\\ abs(y) <= &1 /\\ &3 <= p ==> abs(x - y) < p",
-                ),
+                @term_syntax.parse_term("abs((x : Int)) <= int_of_num(1) && abs((y : Int)) <= int_of_num(1) && int_of_num(3) <= (p : Int) → abs(x - y) < p"),
               ),
             ),
             t388,
@@ -4179,9 +4119,7 @@ fn step_31() -> Unit raise {
   )
   jacobi_gauss_lemma_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a p. prime p /\\ ~(p = 2)\n         ==> jacobi(a,p) =\n             if coprime(a,p)\n             then --(&1) pow CARD {x | x IN 1 .. (p - 1) DIV 2 /\\\n                                       (p - 1) DIV 2 < (a * x) MOD p}\n             else &0",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ p : Num, prime(p) && !(p == 2) → jacobi((a, p)) == (if coprime((a, p)) { pow(-int_of_num(1), CARD({(x : Num) | IN(x, op_dot_dot(1, DIV(p - 1, 2))) && DIV(p - 1, 2) < MOD(a * x, p)})) } else { int_of_num(0) })"),
       t519,
     ),
   )
@@ -4305,9 +4243,7 @@ fn step_32() -> Unit raise {
   let t542 = @simp.asm_simp_tac(@list.List([lemma0]))
   let t541 = @tactics.match_mp_tac(
     @int.number_rule(
-      @parser.parse_term(
-        "e divides d /\\ d divides a /\\ d divides b\n        ==> d * e divides a * b",
-      ),
+      @term_syntax.parse_term("divides((e : Num), (d : Num)) && divides(d, (a : Num)) && divides(d, (b : Num)) → divides(d * e, a * b)"),
     ),
   )
   let t544 = @tactics.then_tac(
@@ -4315,9 +4251,7 @@ fn step_32() -> Unit raise {
       @tactics.then_tac(
         @tactics.match_mp_tac(
           @int.number_rule(
-            @parser.parse_term(
-              "(d:num) divides a ==> (d divides (a + b) <=> d divides b)",
-            ),
+            @term_syntax.parse_term("divides((d : Num), (a : Num)) → divides(d, a + (b : Num)) == divides(d, b)"),
           ),
         ),
         t541,
@@ -4352,9 +4286,7 @@ fn step_32() -> Unit raise {
     t544,
   ])
   let t536 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "(m * n) EXP 2 - 1 =\n      (m EXP 2 - 1) * (n EXP 2 - 1) + (m EXP 2 - 1) + (n EXP 2 - 1)",
-    ),
+    @term_syntax.parse_term("EXP((m : Num) * (n : Num), 2) - 1 == (EXP(m, 2) - 1) * (EXP(n, 2) - 1) + (EXP(m, 2) - 1 + (EXP(n, 2) - 1))"),
     fn(
       x533 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -4425,9 +4357,7 @@ fn step_32() -> Unit raise {
     t545,
   )
   let lemma1 = @tactics.prove(
-    @parser.parse_term(
-      "forall m n. ODD m /\\ ODD n\n           ==> (EVEN(((m * n) EXP 2 - 1) DIV 8) <=>\n                EVEN((m EXP 2 - 1) DIV 8 + (n EXP 2 - 1) DIV 8))",
-    ),
+    @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ODD(m) && ODD(n) → EVEN(DIV(EXP(m * n, 2) - 1, 8)) == EVEN(DIV(EXP(m, 2) - 1, 8) + DIV(EXP(n, 2) - 1, 8))"),
     t546,
   )
   let t597 = @simp.rewrite_tac(
@@ -4441,9 +4371,7 @@ fn step_32() -> Unit raise {
   let t596 = @simp.rewrite_tac(
     @list.List([
       @int.arith_rule(
-        @parser.parse_term(
-          "((2 * q + 1) EXP 2 + 2 * q + 1) DIV 2 =\n    2 * q EXP 2 + 3 * q + 1",
-        ),
+        @term_syntax.parse_term("DIV(EXP(2 * (q : Num) + 1, 2) + (2 * q + 1), 2) == 2 * EXP(q, 2) + (3 * q + 1)"),
       ),
     ]),
   )
@@ -4481,9 +4409,7 @@ fn step_32() -> Unit raise {
   let t586 = @simp.rewrite_tac(
     @list.List([
       @int.arith_rule(
-        @parser.parse_term(
-          "((2 * n + 1) EXP 2 - 1) DIV 8 = (n EXP 2 + n) DIV 2",
-        ),
+        @term_syntax.parse_term("DIV(EXP(2 * (n : Num) + 1, 2) - 1, 8) == DIV(EXP(n, 2) + n, 2)"),
       ),
     ]),
   )
@@ -4564,9 +4490,7 @@ fn step_32() -> Unit raise {
     @list.List([
       @class.not_imp(),
       @int.arith_rule(
-        @parser.parse_term(
-          "(1 <= x /\\ x <= b) /\\ c < 2 * x <=> c DIV 2 + 1 <= x /\\ x <= b",
-        ),
+        @term_syntax.parse_term("((1 <= (x : Num) && x <= (b : Num)) && (c : Num) < 2 * x) == (DIV(c, 2) + 1 <= x && x <= b)"),
       ),
     ]),
   )
@@ -4828,9 +4752,7 @@ fn step_32() -> Unit raise {
   )
   jacobi_of_2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. jacobi(2,n) = if EVEN n then &0 else --(&1) pow ((n EXP 2 - 1) DIV 8)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, jacobi((2, n)) == (if EVEN(n) { int_of_num(0) } else { pow(-int_of_num(1), DIV(EXP(n, 2) - 1, 8)) })"),
       t598,
     ),
   )
@@ -5028,9 +4950,7 @@ fn step_33() -> Unit raise {
   let t623 = @simp.rewrite_tac(
     @list.List([
       @int.arith_rule(
-        @parser.parse_term(
-          "((2 * p + 1) * ((2 * p + 1) + 1)) DIV 2 =\n                            (p + 1) * (2 * p + 1)",
-        ),
+        @term_syntax.parse_term("DIV((2 * (p : Num) + 1) * (2 * p + 1 + 1), 2) == (p + 1) * (2 * p + 1)"),
       ),
     ]),
   )
@@ -5165,9 +5085,7 @@ fn step_33() -> Unit raise {
   let t608 = @simp.rewrite_tac(
     @list.List([
       @int.arith_rule(
-        @parser.parse_term(
-          "((2 * m + 1) EXP 2 - 1) DIV 8 = (m * (m + 1)) DIV 2",
-        ),
+        @term_syntax.parse_term("DIV(EXP(2 * (m : Num) + 1, 2) - 1, 8) == DIV(m * (m + 1), 2)"),
       ),
     ]),
   )
@@ -5346,9 +5264,7 @@ fn step_33() -> Unit raise {
   )
   jacobi_of_2_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. jacobi(2,n) =\n       if EVEN n then &0\n       else if (n == 1) (mod 8) \\/ (n == 7) (mod 8) then &1 else --(&1)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, jacobi((2, n)) == (if EVEN(n) { int_of_num(0) } else { if op_eq_eq(n, 1, mod(8)) || op_eq_eq(n, 7, mod(8)) { int_of_num(1) } else { -int_of_num(1) } })"),
       t654,
     ),
   )
@@ -5465,9 +5381,7 @@ fn step_34() -> Unit raise {
   let t659 = @simp.asm_simp_tac(@list.List([@prime.divides_mul2(), lemma0]))
   let t658 = @tactics.match_mp_tac(
     @int.number_rule(
-      @parser.parse_term(
-        "d divides a * b /\\ a * b + a + b = c\n      ==> (d divides c <=> d divides (a + b))",
-      ),
+      @term_syntax.parse_term("divides((d : Num), (a : Num) * (b : Num)) && a * b + (a + b) == (c : Num) → divides(d, c) == divides(d, a + b)"),
     ),
   )
   let t657 = @simp.asm_simp_tac(
@@ -5505,9 +5419,7 @@ fn step_34() -> Unit raise {
     @int.arith_tac,
   )
   let lemma1 = @tactics.prove(
-    @parser.parse_term(
-      "forall m n. ODD m /\\ ODD n\n           ==> (EVEN((m * n - 1) DIV 2) <=>\n                EVEN((m - 1) DIV 2 + (n - 1) DIV 2))",
-    ),
+    @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ODD(m) && ODD(n) → EVEN(DIV(m * n - 1, 2)) == EVEN(DIV(m - 1, 2) + DIV(n - 1, 2))"),
     t669,
   )
   let t673 = @simp.simp_tac(
@@ -5529,9 +5441,7 @@ fn step_34() -> Unit raise {
     t673,
   )
   let flemma = @tactics.prove(
-    @parser.parse_term(
-      "forall r s p. FINITE {x,y | x IN 1..r /\\ y IN 1..s /\\ p x y}",
-    ),
+    @term_syntax.parse_term("∀ r : Num, ∀ s : Num, ∀ p : (Num, Num) -> Bool, FINITE({((x : Num), (y : Num)) | IN(x, op_dot_dot(1, r)) && IN(y, op_dot_dot(1, s)) && p(x, y)})"),
     t674,
   )
   let t785 = @drule.match_mp(@arith.division())
@@ -5808,9 +5718,7 @@ fn step_34() -> Unit raise {
   )
   let t757 = @tactics.match_mp_tac(
     @int.arith_rule(
-      @parser.parse_term(
-        "forall p d. 2 * r + 1 = p /\\ p * (d + 1) <= (d * p + m) + r\n                  ==> r < m",
-      ),
+      @term_syntax.parse_term("∀ p : Num, ∀ d : Num, 2 * (r : Num) + 1 == p && p * (d + 1) <= d * p + (m : Num) + r → r < m"),
     ),
   )
   let t764 = @list.List([
@@ -6147,9 +6055,7 @@ fn step_34() -> Unit raise {
   )
   let t728 = @drule.match_mp(
     @int.arith_rule(
-      @parser.parse_term(
-        "(2 * r + 1) * d + r < (2 * s + 1) * r\n                      ==> (2 * r) * d < (2 * r) * s",
-      ),
+      @term_syntax.parse_term("(2 * (r : Num) + 1) * (d : Num) + r < (2 * (s : Num) + 1) * r → 2 * r * d < 2 * r * s"),
     ),
   )
   let t730 = @tactics.disch_then(fn(
@@ -6433,9 +6339,7 @@ fn step_34() -> Unit raise {
     t790,
   ])
   let t698 = @tactics.exists_tac(
-    @parser.parse_term(
-      "CARD {x,y | x IN 1..r /\\ y IN 1..s /\\\n                  y = (q * x) DIV p + 1 /\\ r < (q * x) MOD p}",
-    ),
+    @term_syntax.parse_term("CARD({((x : Num), (y : Num)) | IN(x, op_dot_dot(1, (r : Num))) && IN(y, op_dot_dot(1, (s : Num))) && y == DIV((q : Num) * x, (p : Num)) + 1 && r < MOD(q * x, p)})"),
   )
   let t697 = @tactics.match_mp_tac(@theorems.eq_trans())
   let t696 = @list.List([
@@ -6659,9 +6563,7 @@ fn step_34() -> Unit raise {
     t791,
   )
   let glemma = @tactics.prove(
-    @parser.parse_term(
-      "forall p q r s. prime p /\\ prime q /\\ coprime(p,q) /\\\n               2 * r + 1 = p /\\ 2 * s + 1 = q\n               ==> jacobi(q,p) =\n                   -- &1 pow CARD {x,y | x IN 1..r /\\ y IN 1..s /\\\n                                         q * x < p * y /\\ p * y <= q * x + r}",
-    ),
+    @term_syntax.parse_term("∀ p : Num, ∀ q : Num, ∀ r : Num, ∀ s : Num, prime(p) && prime(q) && coprime((p, q)) && 2 * r + 1 == p && 2 * s + 1 == q → jacobi((q, p)) == pow(-int_of_num(1), CARD({((x : Num), (y : Num)) | IN(x, op_dot_dot(1, r)) && IN(y, op_dot_dot(1, s)) && q * x < p * y && p * y <= q * x + r}))"),
     t792,
   )
   let t808 = @meson.meson_tac(@list.List([]))
@@ -6770,9 +6672,7 @@ fn step_34() -> Unit raise {
     t808,
   )
   let hlemma = @tactics.prove(
-    @parser.parse_term(
-      "forall p q r s. prime p /\\ prime q /\\ coprime(p,q) /\\\n               2 * r + 1 = p /\\ 2 * s + 1 = q\n               ==> jacobi(p,q) =\n                   -- &1 pow CARD {x,y | x IN 1..r /\\ y IN 1..s /\\\n                                         p * y < q * x /\\ q * x <= p * y + s}",
-    ),
+    @term_syntax.parse_term("∀ p : Num, ∀ q : Num, ∀ r : Num, ∀ s : Num, prime(p) && prime(q) && coprime((p, q)) && 2 * r + 1 == p && 2 * s + 1 == q → jacobi((p, q)) == pow(-int_of_num(1), CARD({((x : Num), (y : Num)) | IN(x, op_dot_dot(1, r)) && IN(y, op_dot_dot(1, s)) && p * y < q * x && q * x <= p * y + s}))"),
     t809,
   )
   let t839 = @simp.asm_simp_tac(
@@ -6780,9 +6680,7 @@ fn step_34() -> Unit raise {
       @sets.card_union(),
       @sets.finite_union(),
       @sets.set_rule(
-        @parser.parse_term(
-          "a INTER (b UNION c) = {} <=> a INTER b = {} /\\ a INTER c = {}",
-        ),
+        @term_syntax.parse_term("(INTER((a : (_) -> Bool), UNION((b : (_) -> Bool), (c : (_) -> Bool))) == {}) == (INTER(a, b) == {} && INTER(a, c) == {})"),
       ),
     ]),
   )
@@ -7020,15 +6918,11 @@ fn step_34() -> Unit raise {
     @tactics.all_tac,
   ])
   let t815 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "FINITE(a:num#num->bool) /\\ FINITE(b:num#num->bool) /\\\n      FINITE(c:num#num->bool) /\\ FINITE(d:num#num->bool)",
-    ),
+    @term_syntax.parse_term("FINITE((a : ((Num, Num)) -> Bool)) && FINITE((b : ((Num, Num)) -> Bool)) && FINITE((c : ((Num, Num)) -> Bool)) && FINITE((d : ((Num, Num)) -> Bool))"),
     @tactics.strip_assume_tac,
   )
   let t814 = @tactics.subgoal_then(
-    @parser.parse_term(
-      "CARD(a:num#num->bool) + CARD(b:num#num->bool) +\n                  CARD(c:num#num->bool) + CARD(d:num#num->bool) = r * s",
-    ),
+    @term_syntax.parse_term("CARD((a : ((Num, Num)) -> Bool)) + (CARD((b : ((Num, Num)) -> Bool)) + (CARD((c : ((Num, Num)) -> Bool)) + CARD((d : ((Num, Num)) -> Bool)))) == (r : Num) * (s : Num)"),
     fn(
       x810 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
@@ -7097,9 +6991,7 @@ fn step_34() -> Unit raise {
     t839,
   )
   let rlemma = @tactics.prove(
-    @parser.parse_term(
-      "forall a b c d r s.\n          a UNION b UNION c UNION d = (1..r) CROSS (1..s) /\\\n          PAIRWISE DISJOINT [a;b;c;d] /\\ CARD b = CARD c\n          ==> ((EVEN(CARD a) <=> EVEN(CARD d)) <=> ~(ODD r /\\ ODD s))",
-    ),
+    @term_syntax.parse_term("∀ a : ((Num, Num)) -> Bool, ∀ b : ((Num, Num)) -> Bool, ∀ c : ((Num, Num)) -> Bool, ∀ d : ((Num, Num)) -> Bool, ∀ r : Num, ∀ s : Num, UNION(a, UNION(b, UNION(c, d))) == CROSS(op_dot_dot(1, r), op_dot_dot(1, s)) && PAIRWISE(DISJOINT, [a, b, c, d]) && CARD(b) == CARD(c) → (EVEN(CARD(a)) == EVEN(CARD(d))) == !(ODD(r) && ODD(s))"),
     t840,
   )
   let t985 = @tactics.repeat_tac(
@@ -7185,9 +7077,7 @@ fn step_34() -> Unit raise {
   )
   let t978 = @tactics.match_mp_tac(
     @int.arith_rule(
-      @parser.parse_term(
-        "x:num <= y /\\ v + y + z < x + u ==> (y - x) + z < u - v",
-      ),
+      @term_syntax.parse_term("(x : Num) <= (y : Num) && (v : Num) + (y + (z : Num)) < x + (u : Num) → y - x + z < u - v"),
     ),
   )
   let t977 = @tactics.repeat_tac(@tactics.strip_tac)
@@ -7195,9 +7085,7 @@ fn step_34() -> Unit raise {
   let t975 = @simp.simp_tac(
     @list.List([
       @int.arith_rule(
-        @parser.parse_term(
-          "1 <= x /\\ x <= y ==> 1 <= (y + 1) - x /\\ (y + 1) - x <= y",
-        ),
+        @term_syntax.parse_term("1 <= (x : Num) && x <= (y : Num) → 1 <= y + 1 - x && y + 1 - x <= y"),
       ),
     ]),
   )
@@ -8363,9 +8251,7 @@ fn step_34() -> Unit raise {
   )
   jacobi_reciprocity_alt_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. ODD m /\\ ODD n\n         ==> jacobi(m,n) * jacobi(n,m) =\n             if coprime(m,n) then --(&1) pow ((m - 1) DIV 2 * (n - 1) DIV 2)\n             else &0",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ODD(m) && ODD(n) → jacobi((m, n)) * jacobi((n, m)) == (if coprime((m, n)) { pow(-int_of_num(1), DIV(m - 1, 2) * DIV(n - 1, 2)) } else { int_of_num(0) })"),
       t988,
     ),
   )
@@ -8392,17 +8278,13 @@ fn step_35() -> Unit raise {
   let t993 = @simp.rewrite_tac(@list.List([jacobi_cases()]))
   let t992 = @tactics.match_mp_tac(
     @int.int_ring(
-      @parser.parse_term(
-        "(x:int = -- &1 \\/ x = &0 \\/ x = &1) /\\ ~(x = &0) ==> x pow 2 = &1",
-      ),
+      @term_syntax.parse_term("((x : Int) == -int_of_num(1) || x == int_of_num(0) || x == int_of_num(1)) && !(x == int_of_num(0)) → pow(x, 2) == int_of_num(1)"),
     ),
   )
   let t991 = @simp.asm_simp_tac(@list.List([jacobi_reciprocity_alt()]))
   let t990 = @tactics.match_mp_tac(
     @int.int_ring(
-      @parser.parse_term(
-        "forall x y:int.\n        x pow 2 = &1 /\\ y pow 2 = &1 /\\ x * y = z\n        ==> y = z * x",
-      ),
+      @term_syntax.parse_term("∀ x : Int, ∀ y : Int, pow(x, 2) == int_of_num(1) && pow(y, 2) == int_of_num(1) && x * y == (z : Int) → y == z * x"),
     ),
   )
   let t989 = @list.List([
@@ -8439,9 +8321,7 @@ fn step_35() -> Unit raise {
   )
   jacobi_reciprocity_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall m n. ODD m /\\ ODD n\n         ==> jacobi(n,m) =\n             if coprime(m,n)\n             then --(&1) pow ((m - 1) DIV 2 * (n - 1) DIV 2) * jacobi(m,n)\n             else &0",
-      ),
+      @term_syntax.parse_term("∀ m : Num, ∀ n : Num, ODD(m) && ODD(n) → jacobi((n, m)) == (if coprime((m, n)) { pow(-int_of_num(1), DIV(m - 1, 2) * DIV(n - 1, 2)) * jacobi((m, n)) } else { int_of_num(0) })"),
       t996,
     ),
   )
@@ -8464,9 +8344,7 @@ fn step_36() -> Unit raise {
   let t1010 = @meson.asm_meson_tac(
     @list.List([
       @int.number_rule(
-        @parser.parse_term(
-          "(a == b) (mod m) /\\ n divides m ==> (a == b) (mod n)",
-        ),
+        @term_syntax.parse_term("op_eq_eq((a : Num), (b : Num), mod((m : Num))) && divides((n : Num), m) → op_eq_eq(a, b, mod(n))"),
       ),
     ]),
   )
@@ -8580,9 +8458,7 @@ fn step_36() -> Unit raise {
   )
   jacobi_eq_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a. coprime(a,n) /\\ (?x. (x EXP 2 == a) (mod n))\n         ==> jacobi(a,n) = &1",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, coprime((a, n)) && (∃ x : Num, op_eq_eq(EXP(x, 2), a, mod(n))) → jacobi((a, n)) == int_of_num(1)"),
       t1011,
     ),
   )
@@ -8612,9 +8488,7 @@ fn step_37() -> Unit raise {
   )
   jacobi_ne_minus1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n a. (?x. (x EXP 2 == a) (mod n)) ==> ~(jacobi(a,n) = -- &1)",
-      ),
+      @term_syntax.parse_term("∀ n : Num, ∀ a : Num, (∃ x : Num, op_eq_eq(EXP(x, 2), a, mod(n))) → !(jacobi((a, n)) == -int_of_num(1))"),
       t1015,
     ),
   )
@@ -8636,9 +8510,7 @@ pub fn jacobi_ne_minus1() -> @kernel.Thm {
 fn step_38() -> Unit raise {
   int_jacobi_c.set(
     @pair.new_definition(
-      @parser.parse_term(
-        "int_jacobi(a,n) =\n        if n = &0 then &0\n        else jacobi(num_of_int(a rem n),num_of_int(abs n))",
-      ),
+      @term_syntax.parse_term("(int_jacobi : ((Int, Int)) -> Int)(((a : Int), (n : Int))) == (if n == int_of_num(0) { int_of_num(0) } else { jacobi((num_of_int(rem(a, n)), num_of_int(abs(n)))) })"),
     ),
   )
 }
@@ -8752,9 +8624,7 @@ fn step_41() -> Unit raise {
   )
   int_jacobi_nums_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n. int_jacobi(&a,&n) = if n = 0 /\\ a = 1 then &0 else jacobi(a,n)",
-      ),
+      @term_syntax.parse_term("∀ a : Num, ∀ n : Num, int_jacobi((int_of_num(a), int_of_num(n))) == (if n == 0 && a == 1 { int_of_num(0) } else { jacobi((a, n)) })"),
       t1023,
     ),
   )
@@ -8828,9 +8698,7 @@ fn step_43() -> Unit raise {
   )
   int_jacobi_cases_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n. int_jacobi(a,n) = -- &1 \\/\n         int_jacobi(a,n) = &0 \\/\n         int_jacobi(a,n) = &1",
-      ),
+      @term_syntax.parse_term("∀ a : Int, ∀ n : Int, int_jacobi((a, n)) == -int_of_num(1) || int_jacobi((a, n)) == int_of_num(0) || int_jacobi((a, n)) == int_of_num(1)"),
       t1031,
     ),
   )
@@ -8865,9 +8733,7 @@ fn step_44() -> Unit raise {
   )
   int_jacobi_cong_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b n. (a == b) (mod n) ==> int_jacobi(a,n) = int_jacobi(b,n)",
-      ),
+      @term_syntax.parse_term("∀ a : Int, ∀ b : Int, ∀ n : Int, op_eq_eq(a, b, mod(n)) → int_jacobi((a, n)) == int_jacobi((b, n))"),
       t1035,
     ),
   )
@@ -8892,9 +8758,7 @@ fn step_45() -> Unit raise {
   )
   let t1037 = @drule.match_mp(
     @int.number_rule(
-      @parser.parse_term(
-        "(n:int) divides m ==> (x == y) (mod m) ==> (x == y) (mod n)",
-      ),
+      @term_syntax.parse_term("divides((n : Int), (m : Int)) → op_eq_eq((x : Int), (y : Int), mod(m)) → op_eq_eq(x, y, mod(n))"),
     ),
   )
   let t1039 = @tactics.first_x_assum(fn(
@@ -8930,9 +8794,7 @@ fn step_45() -> Unit raise {
   )
   int_jacobi_rem_gen_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a m n. n divides m ==> int_jacobi(a rem m,n) = int_jacobi(a,n)",
-      ),
+      @term_syntax.parse_term("∀ a : Int, ∀ m : Int, ∀ n : Int, divides(n, m) → int_jacobi((rem(a, m), n)) == int_jacobi((a, n))"),
       t1041,
     ),
   )
@@ -9083,9 +8945,7 @@ fn step_47() -> Unit raise {
   )
   int_jacobi_1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n. int_jacobi(&1,n) = if n = &0 then &0 else &1) /\\\n   (forall a. int_jacobi(a,&1) = &1)",
-      ),
+      @term_syntax.parse_term("(∀ n : Int, int_jacobi((int_of_num(1), n)) == (if n == int_of_num(0) { int_of_num(0) } else { int_of_num(1) })) && (∀ a : Int, int_jacobi((a, int_of_num(1))) == int_of_num(1))"),
       t1057,
     ),
   )
@@ -9134,9 +8994,7 @@ fn step_48() -> Unit raise {
   )
   int_jacobi_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall n. int_jacobi(&0,n) = if abs n = &1 then &1 else &0) /\\\n   (forall a. int_jacobi(a,&0) = &0)",
-      ),
+      @term_syntax.parse_term("(∀ n : Int, int_jacobi((int_of_num(0), n)) == (if abs(n) == int_of_num(1) { int_of_num(1) } else { int_of_num(0) })) && (∀ a : Int, int_jacobi((a, int_of_num(0))) == int_of_num(0))"),
       t1063,
     ),
   )
@@ -9225,9 +9083,7 @@ fn step_49() -> Unit raise {
   )
   int_jacobi_rmul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a m n. int_jacobi(a,m * n) = int_jacobi(a,m) * int_jacobi(a,n)",
-      ),
+      @term_syntax.parse_term("∀ a : Int, ∀ m : Int, ∀ n : Int, int_jacobi((a, m * n)) == int_jacobi((a, m)) * int_jacobi((a, n))"),
       t1076,
     ),
   )
@@ -9294,9 +9150,7 @@ fn step_50() -> Unit raise {
   )
   int_jacobi_lmul_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a b n. int_jacobi(a * b,n) = int_jacobi(a,n) * int_jacobi(b,n)",
-      ),
+      @term_syntax.parse_term("∀ a : Int, ∀ b : Int, ∀ n : Int, int_jacobi((a * b, n)) == int_jacobi((a, n)) * int_jacobi((b, n))"),
       t1084,
     ),
   )
@@ -9328,9 +9182,7 @@ fn step_51() -> Unit raise {
   )
   int_jacobi_rpow_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n k. int_jacobi(a,n pow k) = int_jacobi(a,n) pow k",
-      ),
+      @term_syntax.parse_term("∀ a : Int, ∀ n : Int, ∀ k : Num, int_jacobi((a, pow(n, k))) == pow(int_jacobi((a, n)), k)"),
       t1086,
     ),
   )
@@ -9369,9 +9221,7 @@ fn step_52() -> Unit raise {
   )
   int_jacobi_lpow_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n k. int_jacobi(a pow k,n) =\n           if n = &0 then &0 else int_jacobi(a,n) pow k",
-      ),
+      @term_syntax.parse_term("∀ a : Int, ∀ n : Int, ∀ k : Num, int_jacobi((pow(a, k), n)) == (if n == int_of_num(0) { int_of_num(0) } else { pow(int_jacobi((a, n)), k) })"),
       t1089,
     ),
   )
@@ -9457,9 +9307,7 @@ fn step_54() -> Unit raise {
   )
   int_jacobi_pow_2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a k. int_jacobi(a,&2 pow k) = if k = 0 then &1 else a rem &2",
-      ),
+      @term_syntax.parse_term("∀ a : Int, ∀ k : Num, int_jacobi((a, pow(int_of_num(2), k))) == (if k == 0 { int_of_num(1) } else { rem(a, int_of_num(2)) })"),
       t1098,
     ),
   )
@@ -9646,9 +9494,7 @@ fn step_55() -> Unit raise {
   )
   int_jacobi_eq_0_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall a n. int_jacobi(a,n) = &0 <=> coprime(a,n) ==> n = &0",
-      ),
+      @term_syntax.parse_term("∀ a : Int, ∀ n : Int, (int_jacobi((a, n)) == int_of_num(0)) == (coprime((a, n)) → n == int_of_num(0))"),
       t1122,
     ),
   )
@@ -9731,9 +9577,7 @@ fn step_56() -> Unit raise {
   )
   int_jacobi_minus1_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. ~(&2 divides n)\n       ==> int_jacobi(--(&1),n) =\n           if (abs n == &1) (mod &4) then &1 else -- &1",
-      ),
+      @term_syntax.parse_term("∀ n : Int, !divides(int_of_num(2), n) → int_jacobi((-int_of_num(1), n)) == (if op_eq_eq(abs(n), int_of_num(1), mod(int_of_num(4))) { int_of_num(1) } else { -int_of_num(1) })"),
       t1136,
     ),
   )
@@ -9781,9 +9625,7 @@ fn step_57() -> Unit raise {
   )
   int_jacobi_of_2_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. int_jacobi(&2,n) =\n       if &2 divides n then &0\n       else if (abs n == &1) (mod &8) \\/ (abs n == &7) (mod &8) then &1\n       else --(&1)",
-      ),
+      @term_syntax.parse_term("∀ n : Int, int_jacobi((int_of_num(2), n)) == (if divides(int_of_num(2), n) { int_of_num(0) } else { if op_eq_eq(abs(n), int_of_num(1), mod(int_of_num(8))) || op_eq_eq(abs(n), int_of_num(7), mod(int_of_num(8))) { int_of_num(1) } else { -int_of_num(1) } })"),
       t1144,
     ),
   )
@@ -9823,9 +9665,7 @@ fn step_58() -> Unit raise {
   )
   int_jacobi_lneg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall n. ~(&2 divides n)\n       ==> int_jacobi(--a,n) =\n           if (abs n == &1) (mod &4) then int_jacobi(a,n)\n           else --(int_jacobi(a,n))",
-      ),
+      @term_syntax.parse_term("∀ n : Int, !divides(int_of_num(2), n) → int_jacobi((-(a : Int), n)) == (if op_eq_eq(abs(n), int_of_num(1), mod(int_of_num(4))) { int_jacobi((a, n)) } else { -int_jacobi((a, n)) })"),
       t1148,
     ),
   )
@@ -9849,9 +9689,7 @@ fn step_59() -> Unit raise {
   let t1157 = @simp.rewrite_tac(@list.List([int_jacobi_cases()]))
   let t1156 = @tactics.match_mp_tac(
     @int.int_ring(
-      @parser.parse_term(
-        "(x:int = -- &1 \\/ x = &0 \\/ x = &1) /\\ ~(x = &0) ==> x pow 2 = &1",
-      ),
+      @term_syntax.parse_term("((x : Int) == -int_of_num(1) || x == int_of_num(0) || x == int_of_num(1)) && !(x == int_of_num(0)) → pow(x, 2) == int_of_num(1)"),
     ),
   )
   let t1155 = @tactics.conv_tac(@calc_num.num_reduce_conv)
@@ -9900,9 +9738,7 @@ fn step_59() -> Unit raise {
   )
   int_jacobi_squared_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(forall a n. int_jacobi(a pow 2,n) =\n          if coprime(a,n) /\\ ~(n = &0) then &1 else &0) /\\\n   (forall a n. int_jacobi(a,n pow 2) =\n          if coprime(a,n) /\\ ~(n = &0) then &1 else &0)",
-      ),
+      @term_syntax.parse_term("(∀ a : Int, ∀ n : Int, int_jacobi((pow(a, 2), n)) == (if coprime((a, n)) && !(n == int_of_num(0)) { int_of_num(1) } else { int_of_num(0) })) && (∀ a : Int, ∀ n : Int, int_jacobi((a, pow(n, 2))) == (if coprime((a, n)) && !(n == int_of_num(0)) { int_of_num(1) } else { int_of_num(0) }))"),
       t1159,
     ),
   )
