@@ -400,7 +400,7 @@ def prepare():
         if terms:
             text = rename_ocaml(text, terms, TERM_PATCHES.get(path, ()))
         if names:
-            text = rename_names(text, NAME_PATCHES[path])
+            text = rename_names(text, NAME_PATCHES[path], path)
         copy.write_text(text)
     (ref / '_build/parse_cases_legacy.txt').write_text(
         ''.join(upstream_notation(line) for line in

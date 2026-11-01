@@ -18,7 +18,8 @@ import re
 import subprocess
 import sys
 
-from name_renames import NAME_PATCHES, constant_names, hol_names, old_names, renamed_name, renamed_output
+from name_renames import (ALL_KEYWORD_CONSTANTS, KEYWORD_CONSTANTS, NAME_PATCHES, constant_names, hol_names,
+                          old_names, renamed_name, renamed_output, trace_file)
 from term_renames import decode_escaped
 
 REF = os.path.dirname(os.path.abspath(__file__))
@@ -37,32 +38,44 @@ def run(script, original):
 
 def names(output):
     """The names of constants and type constants in the output (name_renames.
-    constant_names), and every name in its quotation traces."""
-    found, trace = set(), False
+    constant_names), and every name in its quotation traces; and, apart, the
+    names that can be keyword constants: constants' names anywhere, and names
+    in the traces of the files KEYWORD_CONSTANTS lists (elsewhere the same
+    word may be a variable, as core wf.ml's `while`)."""
+    found, keyword, trace, file = set(), set(), False, None
     for line in output.splitlines():
         if re.match(r'.* quotations \(\d+\):$', line):
-            trace = True
+            trace, file = True, trace_file(line)
         elif trace and line.startswith('  '):
-            found |= set(hol_names(decode_escaped(line[2:])))
+            here = set(hol_names(decode_escaped(line[2:])))
+            found |= here
+            if file:
+                keyword |= here & set(KEYWORD_CONSTANTS[file]) | here & set(KEYWORD_CONSTANTS[file].values())
             continue
         else:
             trace = False
-        found |= set(constant_names(line))
-    return found
+        here = set(constant_names(line))
+        found |= here
+        keyword |= here
+    return found, keyword
 
 
 def check(script):
     original, renamed = run(script, True), run(script, False)
     problems = []
-    before, after = names(original), names(renamed)
-    olds = {t for t in before if renamed_name(t)}
-    clash = {renamed_name(t) for t in olds} & before
+    (before, kw_before), (after, kw_after) = names(original), names(renamed)
+    olds = {t for t in before if renamed_name(t)} | {t for t in kw_before if t in ALL_KEYWORD_CONSTANTS}
+    clash = ({renamed_name(t) for t in olds if renamed_name(t)} & before) | \
+        ({ALL_KEYWORD_CONSTANTS[t] for t in olds if t in ALL_KEYWORD_CONSTANTS} & kw_before)
     if clash:
         problems.append(f'new names already in the original output: {sorted(clash)[:5]}')
-    left = old_names(' '.join(after))
+    left = old_names(' '.join(after)) | (kw_after & set(ALL_KEYWORD_CONSTANTS))
     if left:
         problems.append(f'old names left in the renamed output: {sorted(left)[:5]}')
-    expected = renamed_output(original)
+    text = open(os.path.join(REF, script)).read()
+    traces = re.findall(r'(?m)^show_trace "([^"]+)";;$', text)
+    target = next((p for p in KEYWORD_CONSTANTS if traces and p.rsplit('.', 1)[0] == traces[-1]), None)
+    expected = renamed_output(original, target)
     if expected != renamed:
         a, b = expected.splitlines(), renamed.splitlines()
         i = next((i for i, (x, y) in enumerate(zip(a, b)) if x != y), min(len(a), len(b)))
