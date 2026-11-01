@@ -5743,7 +5743,7 @@ Generating HOL version of proof
 Generating HOL version of proof
 0..0..1..3..7..solved at 18
 Library/binomial quotations (120):
-  (forall n. binom(n,0) = 1) /\\\n   (forall k. binom(0,SUC(k)) = 0) /\\\n   (forall n k. binom(SUC(n),SUC(k)) = binom(n,SUC(k)) + binom(n,k))
+  (\226\136\128 n : Num, (binom : ((Num, Num)) -> Num)((n, 0)) == 1) && (\226\136\128 k : Num, binom((0, SUC(k))) == 0) && (\226\136\128 n : Num, \226\136\128 k : Num, binom((SUC(n), SUC(k))) == binom((n, SUC(k))) + binom((n, k)))
   :P
   :P
   :P
@@ -5778,7 +5778,7 @@ Library/binomial quotations (120):
   (d : Num)
   (n : Num) < (k : Num) \226\134\146 n + 1 == k || n + 1 < k
   (n : Num) < (k : Num)
-  forall n k. ((n + 1) - k) * binom(n + 1,k) = (n + 1) * binom(n,k)
+  \226\136\128 n : Num, \226\136\128 k : Num, (n + 1 - k) * binom((n + 1, k)) == (n + 1) * binom((n, k))
   (k : Num)
   (d : Num)
   (k : Num) + 1
@@ -5788,11 +5788,11 @@ Library/binomial quotations (120):
   (d : Num)
   (n : Num) < (k : Num) + 1 \226\134\146 n == k || n < k
   (n : Num) < (k : Num) + 1
-  forall n k. (k + 1) * binom(n,k + 1) = (n - k) * binom(n,k)
-  forall P. (forall n. P n 0) /\\\n         (forall k. P 0 (SUC k)) /\\\n         (forall n k. P n (SUC k) /\\ P n k ==> P (SUC n) (SUC k))\n         ==> forall m n. P m n
+  \226\136\128 n : Num, \226\136\128 k : Num, (k + 1) * binom((n, k + 1)) == (n - k) * binom((n, k))
+  \226\136\128 P : (Num, Num) -> Bool, (\226\136\128 n : Num, P(n, 0)) && (\226\136\128 k : Num, P(0, SUC(k))) && (\226\136\128 n : Num, \226\136\128 k : Num, P(n, SUC(k)) && P(n, k) \226\134\146 P(SUC(n), SUC(k))) \226\134\146 (\226\136\128 m : Num, \226\136\128 n : Num, P(m, n))
   ((p : Bool) && (q : Bool) && (r : Bool)) == !(p && q \226\134\146 !r)
-  {y | y IN t UNION IMAGE f s /\\ P y} =\n      {y | y IN t /\\ P y} UNION IMAGE f {x | x IN s /\\ P(f x)}
-  ~(a IN t)\n     ==> {u | u SUBSET (a:A INSERT t) /\\ u HAS_SIZE (SUC m)} =\n         {u | u SUBSET t /\\ u HAS_SIZE (SUC m)} UNION\n         IMAGE (\\u. a INSERT u) {u | u SUBSET t /\\ u HAS_SIZE m}
+  {(y : _) | IN(y, UNION((t : (_) -> Bool), IMAGE((f : (_) -> _), (s : (_) -> Bool)))) && (P : (_) -> Bool)(y)} == UNION({(y : _) | IN(y, t) && P(y)}, IMAGE(f, {(x : _) | IN(x, s) && P(f(x))}))
+  !IN((a : A), (t : (A) -> Bool)) \226\134\146 {(u : (A) -> Bool) | SUBSET(u, INSERT(a, t)) && HAS_SIZE(u, SUC((m : Num)))} == UNION({(u : (A) -> Bool) | SUBSET(u, t) && HAS_SIZE(u, SUC(m))}, IMAGE((u : (A) -> Bool) => INSERT(a, u), {(u : (A) -> Bool) | SUBSET(u, t) && HAS_SIZE(u, m)}))
   !IN((a : A), (t : (A) -> Bool))
   !IN((a : A), (t : (A) -> Bool))
   (t : (A) -> Bool)
@@ -5800,45 +5800,45 @@ Library/binomial quotations (120):
   (m : Num)
   (n : Num)
   ({} : (A) -> Bool)
-  forall n m s:A->bool.\n        s HAS_SIZE n ==> {t | t SUBSET s /\\ t HAS_SIZE m} HAS_SIZE binom(n,m)
+  \226\136\128 n : Num, \226\136\128 m : Num, \226\136\128 s : (A) -> Bool, HAS_SIZE(s, n) \226\134\146 HAS_SIZE({(t : (A) -> Bool) | SUBSET(t, s) && HAS_SIZE(t, m)}, binom((n, m)))
   (k : Num)
-  forall s k. FINITE s ==> CARD {t | t SUBSET s /\\ t HAS_SIZE k} = binom(CARD s,k)
+  \226\136\128 s : (_) -> Bool, \226\136\128 k : Num, FINITE(s) \226\134\146 CARD({(t : (_) -> Bool) | SUBSET(t, s) && HAS_SIZE(t, k)}) == binom((CARD(s), k))
   (k : Num) <= (n : Num) \226\134\146 SUC(n) - k == SUC(n - k)
   nsum(op_dot_dot((m : Num) + 1, (n : Num) + 1), (i : Num) => (f : (Num) -> Num)(i))
   (a : Num) == (e : Num) && (b : Num) == (c : Num) + (d : Num) \226\134\146 a + b == c + (d + e)
   0 <= (n : Num) + 1
-  forall n x y.\n      (x + y) EXP n = nsum(0..n) (\\k. binom(n,k) * x EXP k * y EXP (n - k))
+  \226\136\128 n : Num, \226\136\128 x : Num, \226\136\128 y : Num, EXP(x + y, n) == nsum(op_dot_dot(0, n), (k : Num) => binom((n, k)) * (EXP(x, k) * EXP(y, n - k)))
   (k : Num) <= (n : Num) \226\134\146 SUC(n) - k == SUC(n - k)
   sum(op_dot_dot((m : Num) + 1, (n : Num) + 1), (i : Num) => (f : (Num) -> Real)(i))
   (a : Real) == (e : Real) && (b : Real) == (c : Real) + (d : Real) \226\134\146 a + b == c + (d + e)
   0 <= (n : Num) + 1
-  forall n x y.\n     (x + y) pow n = sum(0..n) (\\k. &(binom(n,k)) * x pow k * y pow (n - k))
+  \226\136\128 n : Num, \226\136\128 x : Real, \226\136\128 y : Real, pow(x + y, n) == sum(op_dot_dot(0, n), (k : Num) => real_of_num(binom((n, k))) * (pow(x, k) * pow(y, n - k)))
   (k : Num) <= (n : Num)
   (k : Num)
   (n : Num)
-  ~(k = n + 1) ==> n < k /\\ n + 1 < k \\/ k <= n /\\ k <= n + 1
-  forall n k. &(binom(n + 1,k)):real =\n           if k = n + 1 then &1\n           else (&n + &1) / (&n + &1 - &k) * &(binom(n,k))
+  !((k : Num) == (n : Num) + 1) \226\134\146 n < k && n + 1 < k || k <= n && k <= n + 1
+  \226\136\128 n : Num, \226\136\128 k : Num, real_of_num(binom((n + 1, k))) == (if k == n + 1 { real_of_num(1) } else { (real_of_num(n) + real_of_num(1)) / (real_of_num(n) + (real_of_num(1) - real_of_num(k))) * real_of_num(binom((n, k))) })
   (k : Num)
   (n : Num)
   (n : Num) < (k : Num) \226\134\146 n < k + 1
   (n : Num) < (k : Num) || k <= n
-  forall n k. &(binom(n,k+1)):real = (&n - &k) / (&k + &1) * &(binom(n,k))
-  forall n k. &(binom(n,k)):real =\n             if k <= n then &(FACT n) / (&(FACT(n - k)) * &(FACT k))\n             else &0
-  forall p k. &(binom(p + 1,k + 1)):real = (&p + &1) / (&k + &1) * &(binom(p,k))
-  forall p k. (k + 1) * binom(p + 1,k + 1) = (p + 1) * binom(p,k)
-  forall p k. (k = 0 ==> p = 0) ==> k * binom(p,k) = p * binom(p - 1,k - 1)
+  \226\136\128 n : Num, \226\136\128 k : Num, real_of_num(binom((n, k + 1))) == (real_of_num(n) - real_of_num(k)) / (real_of_num(k) + real_of_num(1)) * real_of_num(binom((n, k)))
+  \226\136\128 n : Num, \226\136\128 k : Num, real_of_num(binom((n, k))) == (if k <= n { real_of_num(FACT(n)) / (real_of_num(FACT(n - k)) * real_of_num(FACT(k))) } else { real_of_num(0) })
+  \226\136\128 p : Num, \226\136\128 k : Num, real_of_num(binom((p + 1, k + 1))) == (real_of_num(p) + real_of_num(1)) / (real_of_num(k) + real_of_num(1)) * real_of_num(binom((p, k)))
+  \226\136\128 p : Num, \226\136\128 k : Num, (k + 1) * binom((p + 1, k + 1)) == (p + 1) * binom((p, k))
+  \226\136\128 p : Num, \226\136\128 k : Num, (k == 0 \226\134\146 p == 0) \226\134\146 k * binom((p, k)) == p * binom((p - 1, k - 1))
   0
-  forall n k. binom(n,k) =\n            if k <= n then FACT(n) DIV (FACT(n - k) * FACT(k))\n            else 0
+  \226\136\128 n : Num, \226\136\128 k : Num, binom((n, k)) == (if k <= n { DIV(FACT(n), FACT(n - k) * FACT(k)) } else { 0 })
   (k : Num) == 0
   \226\136\128 n : Num, \226\136\128 k : Num, divides(n, gcd((n, k)) * binom((n, k)))
   coprime(((n : Num), (k : Num))) == (gcd((n, k)) == 1)
   \226\136\128 n : Num, \226\136\128 k : Num, coprime((n, k)) \226\134\146 divides(n, binom((n, k)))
   divides((p : Num), (n : Num))
-  forall n p. prime p /\\ 0 < n /\\ n < p ==> p divides binom(p,n)
+  \226\136\128 n : Num, \226\136\128 p : Num, prime(p) && 0 < n && n < p \226\134\146 divides(p, binom((p, n)))
   (k : Num) <= (n : Num) \226\134\146 n - (n - k) == k
   (n : Num) - (k : Num) <= n
   !((k : Num) <= (n : Num)) \226\134\146 n - k == 0
-  forall n k. binom(n,n-k) = if k <= n then binom(n,k) else 1
+  \226\136\128 n : Num, \226\136\128 k : Num, binom((n, n - k)) == (if k <= n { binom((n, k)) } else { 1 })
   (m : Num) - (k : Num)
   (n : Num) - (k : Num)
   (n : Num) - (m : Num)
@@ -5848,13 +5848,13 @@ Library/binomial quotations (120):
   false \226\134\146 (p : Bool)
   false \226\134\146 (p : Bool)
   (n : Num) < (m : Num)
-  forall m n k. k <= m\n           ==> binom(n,m) * binom(m,k) = binom(n,k) * binom(n - k,m - k)
-  c * d:real = a * b ==> a * z * b * x * y = c * (d * z * x) * y
-  j:num <= k /\\ k <= n ==> (n - j) - (k - j) = n - k
+  \226\136\128 m : Num, \226\136\128 n : Num, \226\136\128 k : Num, k <= m \226\134\146 binom((n, m)) * binom((m, k)) == binom((n, k)) * binom((n - k, m - k))
+  (c : Real) * (d : Real) == (a : Real) * (b : Real) \226\134\146 a * ((z : Real) * (b * ((x : Real) * (y : Real)))) == c * (d * (z * x) * y)
+  (j : Num) <= (k : Num) && k <= (n : Num) \226\134\146 n - j - (k - j) == n - k
   GABS((f : ((Num, Num)) -> (Num, Num)) => \226\136\128 x : Num, \226\136\128 y : Num, GEQ(f((x, y)), (x + y, x)))
   GABS((f : ((Num, Num)) -> (Num, Num)) => \226\136\128 x : Num, \226\136\128 y : Num, GEQ(f((x, y)), (y, x - y)))
-  forall c n x y. sum (0..n)\n               (\\k.  &(binom(n,k)) *\n                     sum(0..k)\n                        (\\l. &(binom(k,l)) * c l * x pow (k - l)) *\n                     y pow (n - k)) =\n           sum (0..n) (\\k. &(binom(n,k)) * c k * (x + y) pow (n - k))
-  binom(n,k) = y\n     ==> k <= n\n         ==> (SUC n) * y = ((n + 1) - k) * x ==> binom(SUC n,k) = x
+  \226\136\128 c : (Num) -> Real, \226\136\128 n : Num, \226\136\128 x : Real, \226\136\128 y : Real, sum(op_dot_dot(0, n), (k : Num) => real_of_num(binom((n, k))) * (sum(op_dot_dot(0, k), (l : Num) => real_of_num(binom((k, l))) * (c(l) * pow(x, k - l))) * pow(y, n - k))) == sum(op_dot_dot(0, n), (k : Num) => real_of_num(binom((n, k))) * (c(k) * pow(x + y, n - k)))
+  binom(((n : Num), (k : Num))) == (y : Num) \226\134\146 k <= n \226\134\146 SUC(n) * y == (n + 1 - k) * (x : Num) \226\134\146 binom((SUC(n), k)) == x
   (n : Num) < (k : Num) \226\134\146 binom((n, k)) == 0
   binom(((n : Num), n)) == 1
   (k : Num) <= (n : Num) \226\134\146 binom((n, k)) == binom((n, n - k))
