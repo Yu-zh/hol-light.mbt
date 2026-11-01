@@ -96,7 +96,7 @@ pub fn while_cases() -> @kernel.Thm {
 ///|
 /// while_RULES, while_INDUCT, while_CASES
 fn step_6() -> Unit raise {
-  let (while_rules, while_induct, while_cases) = @ind_defs.new_inductive_definition(@parser.parse_term("forall q s. If e (c ;; while_ e c) q s ==> while_ e c q s"))
+  let (while_rules, while_induct, while_cases) = @ind_defs.new_inductive_definition(@term_syntax.parse_term("∀ q : (_) -> Bool, ∀ s : _, If((e : (_) -> Bool), op_semi_semi((c : ((_) -> Bool, _) -> Bool), (while_ : ((_) -> Bool, ((_) -> Bool, _) -> Bool, (_) -> Bool, _) -> Bool)(e, c)), q, s) → while_(e, c, q, s)"))
   while_rules_c.set(while_rules)
   while_induct_c.set(while_induct)
   while_cases_c.set(while_cases)
@@ -450,7 +450,7 @@ pub fn correct_while() -> @kernel.Thm {
 ///|
 /// assert_def
 fn step_24() -> Unit raise {
-  assert_def_c.set(@pair.new_definition(@parser.parse_term("assert_ (p:S->bool) (q:S->bool) = q")))
+  assert_def_c.set(@pair.new_definition(@term_syntax.parse_term("(assert_ : ((S) -> Bool, (S) -> Bool, S) -> Bool)((p : (S) -> Bool), (q : (S) -> Bool)) == q")))
 }
 
 ///|

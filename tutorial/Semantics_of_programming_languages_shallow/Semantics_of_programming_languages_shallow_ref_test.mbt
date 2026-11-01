@@ -12794,7 +12794,7 @@ test "Tutorial/Semantics_of_programming_languages_shallow matches Tutorial/Seman
       #|  (op_semi_semi : (((S) -> Bool, S) -> Bool, ((S) -> Bool, S) -> Bool, (S) -> Bool, S) -> Bool)((c1 : ((S) -> Bool, S) -> Bool), (c2 : ((S) -> Bool, S) -> Bool)) == o(c1, c2)
       #|  (If : ((S) -> Bool, ((S) -> Bool, S) -> Bool, (S) -> Bool, S) -> Bool)((e : (S) -> Bool), (c : ((S) -> Bool, S) -> Bool), (q : (S) -> Bool)) == {(s : S) | if e(s) { c(q, s) } else { q(s) }}
       #|  (Ite : ((S) -> Bool, ((S) -> Bool, S) -> Bool, ((S) -> Bool, S) -> Bool, (S) -> Bool, S) -> Bool)((e : (S) -> Bool), (c1 : ((S) -> Bool, S) -> Bool), (c2 : ((S) -> Bool, S) -> Bool), (q : (S) -> Bool)) == {(s : S) | if e(s) { c1(q, s) } else { c2(q, s) }}
-      #|  forall q s. If e (c ;; while_ e c) q s ==> while_ e c q s
+      #|  \226\136\128 q : (_) -> Bool, \226\136\128 s : _, If((e : (_) -> Bool), op_semi_semi((c : ((_) -> Bool, _) -> Bool), (while_ : ((_) -> Bool, ((_) -> Bool, _) -> Bool, (_) -> Bool, _) -> Bool)(e, c)), q, s) \226\134\146 while_(e, c, q, s)
       #|  (While : ((S) -> Bool, ((S) -> Bool, S) -> Bool, (S) -> Bool, S) -> Bool)((e : (S) -> Bool), (c : ((S) -> Bool, S) -> Bool), (q : (S) -> Bool)) == {(s : S) | \226\136\128 w : (S) -> Bool, (\226\136\128 s : S, (if e(s) { c(w, s) } else { q(s) }) \226\134\146 w(s)) \226\134\146 w(s)}
       #|  (monotonic : (((_) -> Bool, _) -> Bool) -> Bool)((c : ((_) -> Bool, _) -> Bool)) == (\226\136\128 q : (_) -> Bool, \226\136\128 q' : (_) -> Bool, SUBSET(q, q') \226\134\146 SUBSET(c(q), c(q')))
       #|  monotonic(Assign((f : (_) -> _)))
@@ -12817,7 +12817,7 @@ test "Tutorial/Semantics_of_programming_languages_shallow matches Tutorial/Seman
       #|  (s : S)
       #|  \226\136\128 s : S, (invariant : (S) -> Bool)(s) \226\134\146 While((e : (S) -> Bool), (c : ((S) -> Bool, S) -> Bool), (q : (S) -> Bool), s)
       #|  \226\136\128 `<<` : (S, S) -> Bool, \226\136\128 p : (S) -> Bool, \226\136\128 c : ((S) -> Bool, S) -> Bool, \226\136\128 q : (S) -> Bool, \226\136\128 e : (S) -> Bool, \226\136\128 invariant : (S) -> Bool, monotonic(c) && WF(`<<`) && SUBSET(p, invariant) && SUBSET(INTER(DIFF(UNIV, e), invariant), q) && (\226\136\128 X : S, correct(INTER(invariant, INTER(e, (s : S) => X == s)), c, INTER(invariant, (s : S) => `<<`(s, X)))) \226\134\146 correct(p, While(e, c), q)
-      #|  assert_ (p:S->bool) (q:S->bool) = q
+      #|  (assert_ : ((S) -> Bool, (S) -> Bool, S) -> Bool)((p : (S) -> Bool), (q : (S) -> Bool)) == q
       #|  (variant : ((S, S) -> Bool, (S) -> Bool, S) -> Bool)((op_lt_lt : (S, S) -> Bool), (q : (S) -> Bool)) == q
       #|  \226\136\128 p : (_) -> Bool, \226\136\128 q : (_) -> Bool, \226\136\128 r : (_) -> Bool, \226\136\128 c1 : ((_) -> Bool, _) -> Bool, \226\136\128 c2 : ((_) -> Bool, _) -> Bool, monotonic(c1) && correct(p, c1, r) && correct(r, c2, q) \226\134\146 correct(p, op_semi_semi(c1, op_semi_semi(assert_(r), c2)), q)
       #|  \226\136\128 `<<` : (S, S) -> Bool, \226\136\128 p : (S) -> Bool, \226\136\128 c : ((S) -> Bool, S) -> Bool, \226\136\128 q : (S) -> Bool, \226\136\128 e : (S) -> Bool, \226\136\128 invariant : (S) -> Bool, monotonic(c) && WF(`<<`) && SUBSET(p, invariant) && SUBSET(INTER(DIFF(UNIV, e), invariant), q) && (\226\136\128 X : S, correct(INTER(invariant, INTER(e, (s : S) => X == s)), c, INTER(invariant, (s : S) => `<<`(s, X)))) \226\134\146 correct(p, While(e, op_semi_semi(assert_(invariant), op_semi_semi(variant(`<<`), c))), q)
