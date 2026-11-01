@@ -712,8 +712,8 @@ ind_types quotations (97):
   _dest_rec((x : Recspace[A]))
   (z : (Num, A) -> Bool) => ZRECSPACE(z) && (P : (Recspace[A]) -> Bool)(_mk_rec(z))
   \226\136\128 P : (Recspace[A]) -> Bool, P(BOTTOM) && (\226\136\128 c : Num, \226\136\128 i : A, \226\136\128 r : (Num) -> Recspace[A], (\226\136\128 n : Num, P(r(n))) \226\134\146 P(CONSTR(c, i, r))) \226\134\146 (\226\136\128 x : Recspace[A], P(x))
-  fn_:(A)recspace->B
-  fn_:(A)recspace->B
+  (fn_ : (Recspace[A]) -> B)
+  (fn_ : (Recspace[A]) -> B)
   (w : Num)
   (w : Num)
   (y : (Num) -> B)

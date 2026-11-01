@@ -3098,9 +3098,9 @@ fn step_29() -> Unit raise {
   let t344 = @tactics.first_assum(@tactics.match_mp_tac)
   let t343 = @tactics.repeat_tac(@tactics.gen_tac)
   let t342 = @simp.asm_rewrite_tac(@list.List([]))
-  let t341 = @tactics.exists_tac(@parser.parse_term("fn_:(A)recspace->B"))
+  let t341 = @tactics.exists_tac(@term_syntax.parse_term("(fn_ : (Recspace[A]) -> B)"))
   let t340 = @tactics.disch_then(
-    @tactics.x_choose_then(@parser.parse_term("fn_:(A)recspace->B"))(fn(
+    @tactics.x_choose_then(@term_syntax.parse_term("(fn_ : (Recspace[A]) -> B)"))(fn(
       x339 : @kernel.Thm,
     ) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> (
       (
