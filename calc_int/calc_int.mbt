@@ -151,9 +151,7 @@ fn step_3() -> Unit raise {
   )
   real_add_ac_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "(m + n = n + m) /\\\n   ((m + n) + p = m + (n + p)) /\\\n   (m + (n + p) = n + (m + p))",
-      ),
+      @term_syntax.parse_term("(m : Real) + (n : Real) == n + m && m + n + (p : Real) == m + (n + p) && m + (n + p) == n + (m + p)"),
       t9,
     ),
   )
@@ -948,9 +946,7 @@ fn step_19() -> Unit raise {
   )
   real_pow_neg_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall x n. (--x) pow n = if EVEN n then x pow n else --(x pow n)",
-      ),
+      @term_syntax.parse_term("∀ x : Real, ∀ n : Num, pow(-x, n) == (if EVEN(n) { pow(x, n) } else { -pow(x, n) })"),
       t92,
     ),
   )
@@ -1079,9 +1075,7 @@ pub fn real_int_eq_conv(x : @kernel.Term) -> @kernel.Thm raise {
 /// REAL_INT_LE_CONV, REAL_INT_LT_CONV, REAL_INT_GE_CONV, REAL_INT_GT_CONV, REAL_INT_EQ_CONV
 fn step_22() -> Unit raise {
   let tth = @class.taut(
-    @parser.parse_term(
-      "(F /\\ F <=> F) /\\ (F /\\ T <=> F) /\\\n          (T /\\ F <=> F) /\\ (T /\\ T <=> T)",
-    ),
+    @term_syntax.parse_term("(false && false) == false && (false && true) == false && (true && false) == false && (true && true) == true"),
   )
   let nth = @class.taut(@term_syntax.parse_term("!true == false && !false == true"))
   let t97 = @simp.gen_rewrite_conv(
@@ -1125,9 +1119,7 @@ fn step_22() -> Unit raise {
     t103,
   )
   let t105 = (
-    @parser.parse_term(
-      "(--(&m) <= &n <=> T) /\\\n     (&m <= &n <=> m <= n) /\\\n     (--(&m) <= --(&n) <=> n <= m) /\\\n     (&m <= --(&n) <=> (m = 0) /\\ (n = 0))",
-    ),
+    @term_syntax.parse_term("(-real_of_num((m : Num)) <= real_of_num((n : Num))) == true && (real_of_num(m) <= real_of_num(n)) == (m <= n) && (-real_of_num(m) <= -real_of_num(n)) == (n <= m) && (real_of_num(m) <= -real_of_num(n)) == (m == 0 && n == 0)"),
     t104,
   )
   let (
@@ -1220,9 +1212,7 @@ fn step_22() -> Unit raise {
         t112,
       )
       let t114 = (
-        @parser.parse_term(
-          "(&m < --(&n) <=> F) /\\\n     (&m < &n <=> m < n) /\\\n     (--(&m) < --(&n) <=> n < m) /\\\n     (--(&m) < &n <=> ~((m = 0) /\\ (n = 0)))",
-        ),
+        @term_syntax.parse_term("(real_of_num((m : Num)) < -real_of_num((n : Num))) == false && (real_of_num(m) < real_of_num(n)) == (m < n) && (-real_of_num(m) < -real_of_num(n)) == (n < m) && (-real_of_num(m) < real_of_num(n)) == !(m == 0 && n == 0)"),
         t113,
       )
       match
@@ -1311,9 +1301,7 @@ fn step_22() -> Unit raise {
             t121,
           )
           let t123 = (
-            @parser.parse_term(
-              "(&m >= --(&n) <=> T) /\\\n     (&m >= &n <=> n <= m) /\\\n     (--(&m) >= --(&n) <=> m <= n) /\\\n     (--(&m) >= &n <=> (m = 0) /\\ (n = 0))",
-            ),
+            @term_syntax.parse_term("(real_of_num((m : Num)) >= -real_of_num((n : Num))) == true && (real_of_num(m) >= real_of_num(n)) == (n <= m) && (-real_of_num(m) >= -real_of_num(n)) == (m <= n) && (-real_of_num(m) >= real_of_num(n)) == (m == 0 && n == 0)"),
             t122,
           )
           match
@@ -1404,9 +1392,7 @@ fn step_22() -> Unit raise {
                 t130,
               )
               let t132 = (
-                @parser.parse_term(
-                  "(--(&m) > &n <=> F) /\\\n     (&m > &n <=> n < m) /\\\n     (--(&m) > --(&n) <=> m < n) /\\\n     (&m > --(&n) <=> ~((m = 0) /\\ (n = 0)))",
-                ),
+                @term_syntax.parse_term("(-real_of_num((m : Num)) > real_of_num((n : Num))) == false && (real_of_num(m) > real_of_num(n)) == (n < m) && (-real_of_num(m) > -real_of_num(n)) == (m < n) && (real_of_num(m) > -real_of_num(n)) == !(m == 0 && n == 0)"),
                 t131,
               )
               match
@@ -1508,9 +1494,7 @@ fn step_22() -> Unit raise {
                     t141,
                   )
                   let t143 = (
-                    @parser.parse_term(
-                      "((&m = &n) <=> (m = n)) /\\\n     ((--(&m) = --(&n)) <=> (m = n)) /\\\n     ((--(&m) = &n) <=> (m = 0) /\\ (n = 0)) /\\\n     ((&m = --(&n)) <=> (m = 0) /\\ (n = 0))",
-                    ),
+                    @term_syntax.parse_term("(real_of_num((m : Num)) == real_of_num((n : Num))) == (m == n) && (-real_of_num(m) == -real_of_num(n)) == (m == n) && (-real_of_num(m) == real_of_num(n)) == (m == 0 && n == 0) && (real_of_num(m) == -real_of_num(n)) == (m == 0 && n == 0)"),
                     t142,
                   )
                   match
@@ -1640,9 +1624,7 @@ pub fn real_int_neg_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_24() -> Unit raise {
   let t149 = @simp.rewrite_tac(@list.List([real_mul_lzero(), real_mul_rzero()]))
   let pth0 = @tactics.prove(
-    @parser.parse_term(
-      "(&0 * &x = &0) /\\\n     (&0 * --(&x) = &0) /\\\n     (&x * &0 = &0) /\\\n     (--(&x) * &0 = &0)",
-    ),
+    @term_syntax.parse_term("real_of_num(0) * real_of_num((x : Num)) == real_of_num(0) && real_of_num(0) * -real_of_num(x) == real_of_num(0) && real_of_num(x) * real_of_num(0) == real_of_num(0) && -real_of_num(x) * real_of_num(0) == real_of_num(0)"),
     t149,
   )
   let t151 = @simp.rewrite_tac(@list.List([@realax.real_of_num_mul()]))
@@ -1653,9 +1635,7 @@ fn step_24() -> Unit raise {
     t151,
   )
   let t153 = (
-    @parser.parse_term(
-      "((&m * &n = &(m * n)) /\\\n      (--(&m) * --(&n) = &(m * n))) /\\\n     ((--(&m) * &n = --(&(m * n))) /\\\n      (&m * --(&n) = --(&(m * n))))",
-    ),
+    @term_syntax.parse_term("(real_of_num((m : Num)) * real_of_num((n : Num)) == real_of_num(m * n) && -real_of_num(m) * -real_of_num(n) == real_of_num(m * n)) && -real_of_num(m) * real_of_num(n) == -real_of_num(m * n) && real_of_num(m) * -real_of_num(n) == -real_of_num(m * n)"),
     t152,
   )
   let (pth1, pth2) = @bool.conj_pair(
@@ -1801,9 +1781,7 @@ fn step_25() -> Unit raise {
     t169,
   )
   let t171 = (
-    @parser.parse_term(
-      "(--(&m) + --(&n) = --(&(m + n))) /\\\n     (--(&m) + &(m + n) = &n) /\\\n     (--(&(m + n)) + &m = --(&n)) /\\\n     (&(m + n) + --(&m) = &n) /\\\n     (&m + --(&(m + n)) = --(&n)) /\\\n     (&m + &n = &(m + n))",
-    ),
+    @term_syntax.parse_term("-real_of_num((m : Num)) + -real_of_num((n : Num)) == -real_of_num(m + n) && -real_of_num(m) + real_of_num(m + n) == real_of_num(n) && -real_of_num(m + n) + real_of_num(m) == -real_of_num(n) && real_of_num(m + n) + -real_of_num(m) == real_of_num(n) && real_of_num(m) + -real_of_num(m + n) == -real_of_num(n) && real_of_num(m) + real_of_num(n) == real_of_num(m + n)"),
     t170,
   )
   real_int_add_conv_c.set(
@@ -2032,9 +2010,7 @@ pub fn real_int_sub_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_27() -> Unit raise {
   let t181 = @simp.rewrite_tac(@list.List([real_of_num_pow(), real_pow_neg()]))
   let t182 = (
-    @parser.parse_term(
-      "(&x pow n = &(x EXP n)) /\\\n     ((--(&x)) pow n = if EVEN n then &(x EXP n) else --(&(x EXP n)))",
-    ),
+    @term_syntax.parse_term("pow(real_of_num((x : Num)), (n : Num)) == real_of_num(EXP(x, n)) && pow(-real_of_num(x), n) == (if EVEN(n) { real_of_num(EXP(x, n)) } else { -real_of_num(EXP(x, n)) })"),
     t181,
   )
   let (pth1, pth2) = @bool.conj_pair(
@@ -2067,9 +2043,7 @@ fn step_27() -> Unit raise {
   )
   let t183 = @simp.rewrite_tac(@list.List([]))
   let tth = @tactics.prove(
-    @parser.parse_term(
-      "((if T then x:real else y) = x) /\\ ((if F then x:real else y) = y)",
-    ),
+    @term_syntax.parse_term("(if true { (x : Real) } else { (y : Real) }) == x && (if false { x } else { y }) == y"),
     t183,
   )
   let neg_tm = @term_syntax.parse_term("op_minus_minus")
