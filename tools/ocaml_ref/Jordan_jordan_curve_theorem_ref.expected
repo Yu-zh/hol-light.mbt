@@ -82963,8 +82963,8 @@ Jordan/jordan_curve_theorem quotations (59532):
   (L : (((Num) -> Real) -> Bool) -> Bool) == jordan_graph_edge(jordan_jordan_curve_k33((A : ((Num) -> Real) -> Bool), (B : ((Num) -> Real) -> Bool), (C : ((Num) -> Real) -> Bool), (D : ((Num) -> Real) -> Bool), (E : ((Num) -> Real) -> Bool), (v1 : (Num) -> Real), (v2 : (Num) -> Real), (w1 : (Num) -> Real), (w2 : (Num) -> Real), (x1 : (Num) -> Real), (x2 : (Num) -> Real)))
   (G : _)
   \226\136\128 Q : ((Num) -> Real) -> Bool, \226\136\128 A : ((Num) -> Real) -> Bool, \226\136\128 B : ((Num) -> Real) -> Bool, \226\136\128 C : ((Num) -> Real) -> Bool, \226\136\128 D : ((Num) -> Real) -> Bool, \226\136\128 E : ((Num) -> Real) -> Bool, \226\136\128 v1 : (Num) -> Real, \226\136\128 v2 : (Num) -> Real, \226\136\128 w1 : (Num) -> Real, \226\136\128 w2 : (Num) -> Real, \226\136\128 x1 : (Num) -> Real, \226\136\128 x2 : (Num) -> Real, \226\136\128 G : Graph_t[(Num) -> Real, ((Num) -> Real) -> Bool], jordan_jordan_curve_k33_data(Q, A, B, C, D, E, v1, v2, w1, w2, x1, x2) && G == jordan_jordan_curve_k33(A, B, C, D, E, v1, v2, w1, w2, x1, x2) \226\134\146 BIJ(jordan_k33f({w1, w2, x2}, {v1, v2, x1}), jordan_graph_edge(G), jordan_cartesian({w1, w2, x2}, {v1, v2, x1})) && (\226\136\128 e : ((Num) -> Real) -> Bool, jordan_graph_edge(G, e) \226\134\146 SING(INTER({w1, w2, x2}, e)) && SING(INTER({v1, v2, x1}, e)))
-  (\\ e. fn_ e) = fn_
-  fn_ = k33f {w1,w2,x2} {v1,v2,x1}
+  ((e : _) => (fn_ : (_) -> _)(e)) == fn_
+  (fn_ : ((_) -> Bool) -> (_, _)) == jordan_k33f({(w1 : _), (w2 : _), (x2 : _)}, {(v1 : _), (v2 : _), (x1 : _)})
   jordan_jordan_curve_k33((A : ((Num) -> Real) -> Bool), (B : ((Num) -> Real) -> Bool), (C : ((Num) -> Real) -> Bool), (D : ((Num) -> Real) -> Bool), (E : ((Num) -> Real) -> Bool), (v1 : (Num) -> Real), (v2 : (Num) -> Real), (w1 : (Num) -> Real), (w2 : (Num) -> Real), (x1 : (Num) -> Real), (x2 : (Num) -> Real))
   (x2 : _)
   (x1 : _)
