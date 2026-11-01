@@ -67,16 +67,16 @@ let fixed_cache : Ref[
     @list.List[(String, @kernel.HolType)],
     @list.List[(String, (String, @kernel.HolType))],
     @list.List[(String, (String, @kernel.HolType))],
-    Array[(String, @kernel.HolType)],
+    Array[String],
     Ref[@list.List[(String, @kernel.HolType)]],
   )?,
 ] = Ref::{ val: None }
 
 ///|
-/// Whether `name` is a constant now, with `ty` an instance of its type.
-fn is_constant_at(name : String, ty : @kernel.HolType) -> Bool {
+/// Whether `name` is a constant now.
+fn is_constant(name : String) -> Bool {
   try {
-    ignore(@basics.type_match(@kernel.get_const_type(name), ty, @list.List([])))
+    ignore(@kernel.get_const_type(name))
     true
   } catch {
     _ => false
@@ -105,7 +105,7 @@ fn fixed_interface() -> @list.List[(String, (String, @kernel.HolType))] {
       if physical_equal(seen_constants.val, constants) {
         return view
       }
-      if !pending.iter().any(e => is_constant_at(e.0, e.1)) {
+      if !pending.iter().any(is_constant) {
         seen_constants.val = constants
         return view
       }
@@ -123,9 +123,9 @@ fn fixed_interface() -> @list.List[(String, (String, @kernel.HolType))] {
     }
     seen[key] = true
     let overloaded = skeletons.iter().any(sk => sk.0 == sym)
-    let defined = is_constant_at(name, ty)
+    let defined = is_constant(name)
     if overloaded && !defined {
-      pending.push((name, ty))
+      pending.push(name)
     }
     if (overloaded && defined) || (fixed_names.contains(sym) && live.iter().any(l => l == e)) {
       entries.push(e)
