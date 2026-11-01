@@ -259,18 +259,18 @@ nums quotations (35):
   mk_num(IND_SUC((i : Ind))) == SUC(mk_num(i))
   (i : Ind) => NUM_REP(i) && (P : (Num) -> Bool)(mk_num(i))
   \226\136\128 P : (Num) -> Bool, P(_0) && (\226\136\128 n : Num, P(n) \226\134\146 P(SUC(n))) \226\134\146 (\226\136\128 n : Num, P(n))
-  fn_:num->A
-  fn_:num->A
+  (fn_ : (Num) -> A)
+  (fn_ : (Num) -> A)
   (y : A)
   (f : (A, Num) -> A)((y : A), (n : Num))
   (y : A)
   existsunique((y : A) => (PRG : (Num, A) -> Bool)((n : Num), y))
   \226\136\128 n : Num, existsunique((y : A) => (PRG : (Num, A) -> Bool)(n, y))
   (PRG : (Num, A) -> Bool)(_0, (e : A)) && (\226\136\128 b : A, \226\136\128 n : Num, PRG(n, b) \226\134\146 PRG(SUC(n), (f : (A, Num) -> A)(b, n)))
-  forall(e:A) f. ?!fn_. (fn_ _0 = e) /\\\n                   (forall n. fn_ (SUC n) = f (fn_ n) n)
+  \226\136\128 e : A, \226\136\128 f : (A, Num) -> A, existsunique((fn_ : (Num) -> A) => fn_(_0) == e && (\226\136\128 n : Num, fn_(SUC(n)) == f(fn_(n), n)))
   _0 == 0
   \226\136\128 m : Num, m == 0 || (\226\136\131 n : Num, m == SUC(n))
-  @fn_. fn_ 0 = 0 /\\ (forall n. fn_ (SUC n) = SUC (SUC(fn_ n)))
+  select((fn_ : (Num) -> Num) => fn_(0) == 0 && (\226\136\128 n : Num, fn_(SUC(n)) == SUC(SUC(fn_(n)))))
   (m : Num) => (n : Num) => SUC(SUC(m))
   0
   SUC(BIT0((n : Num)))
