@@ -67,15 +67,16 @@ let fixed_cache : Ref[
     @list.List[(String, @kernel.HolType)],
     @list.List[(String, (String, @kernel.HolType))],
     @list.List[(String, (String, @kernel.HolType))],
-    Array[String],
+    Array[(String, @kernel.HolType)],
+    Ref[@list.List[(String, @kernel.HolType)]],
   )?,
 ] = Ref::{ val: None }
 
 ///|
-/// Whether `name` is a constant now.
-fn is_constant(name : String) -> Bool {
+/// Whether `name` is a constant now, with `ty` an instance of its type.
+fn is_constant_at(name : String, ty : @kernel.HolType) -> Bool {
   try {
-    ignore(@kernel.get_const_type(name))
+    ignore(@basics.type_match(@kernel.get_const_type(name), ty, @list.List([])))
     true
   } catch {
     _ => false
@@ -88,16 +89,27 @@ fn is_constant(name : String) -> Bool {
 /// given (@preterm.overload_registry) or has now, so that replacing or
 /// reordering entries changes nothing, plus the syntax's own names. An
 /// overload can be declared before its constant is defined; the view leaves
-/// it out until then, and the cache remembers such names.
+/// it out until then, gains it then, and the cache remembers such overloads
+/// and looks at them again only when the constants have changed.
 fn fixed_interface() -> @list.List[(String, (String, @kernel.HolType))] {
   let live = @printer.the_interface.val
   let skeletons = @printer.the_overload_skeletons.val
   let registry = @preterm.overload_registry.val
+  let constants = @kernel.constants()
   match fixed_cache.val {
-    Some((l, sk, reg, view, pending)) if physical_equal(sk, skeletons) &&
+    Some((l, sk, reg, view, pending, seen_constants)) if physical_equal(
+        sk, skeletons,
+      ) &&
       physical_equal(reg, registry) &&
-      (physical_equal(l, live) || physical_equal(view, live)) &&
-      !pending.iter().any(is_constant) => return view
+      (physical_equal(l, live) || physical_equal(view, live)) => {
+      if physical_equal(seen_constants.val, constants) {
+        return view
+      }
+      if !pending.iter().any(e => is_constant_at(e.0, e.1)) {
+        seen_constants.val = constants
+        return view
+      }
+    }
     _ => ()
   }
   let seen : Map[String, Bool] = Map::new()
@@ -111,9 +123,9 @@ fn fixed_interface() -> @list.List[(String, (String, @kernel.HolType))] {
     }
     seen[key] = true
     let overloaded = skeletons.iter().any(sk => sk.0 == sym)
-    let defined = is_constant(name)
+    let defined = is_constant_at(name, ty)
     if overloaded && !defined {
-      pending.push(name)
+      pending.push((name, ty))
     }
     if (overloaded && defined) || (fixed_names.contains(sym) && live.iter().any(l => l == e)) {
       entries.push(e)
@@ -140,7 +152,9 @@ fn fixed_interface() -> @list.List[(String, (String, @kernel.HolType))] {
     }
   })
   let view = @list.List(keyed.map(k => k.1))
-  fixed_cache.val = Some((live, skeletons, registry, view, pending))
+  fixed_cache.val = Some(
+    (live, skeletons, registry, view, pending, Ref::{ val: constants }),
+  )
   view
 }
 
