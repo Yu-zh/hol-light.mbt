@@ -287,7 +287,7 @@ fn step_14() -> Unit raise {
     @tactics.refl_tac,
   )
   one_recursion_c.set(
-    @tactics.prove(@parser.parse_term("forall e:A. ?fn. fn one = e"), t22),
+    @tactics.prove(@parser.parse_term("forall e:A. ?fn_. fn_ one = e"), t22),
   )
 }
 
@@ -326,7 +326,7 @@ fn step_15() -> Unit raise {
     t26,
   )
   one_axiom_v1_c.set(
-    @tactics.prove(@parser.parse_term("forall e:A. ?!fn. fn one = e"), t27),
+    @tactics.prove(@parser.parse_term("forall e:A. ?!fn_. fn_ one = e"), t27),
   )
 }
 

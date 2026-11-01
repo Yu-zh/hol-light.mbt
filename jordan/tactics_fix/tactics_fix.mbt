@@ -76,6 +76,20 @@ pub fn find_hashstring(x8 : String) -> Int64 raise {
 }
 
 ///|
+/// A free variable's upstream name, for `hash_of_term`: Jordan's proofs pick
+/// hypotheses by hash numbers (UNDH 3313), and the variable fn is fn_ in
+/// the port (fn is a MoonBit keyword, issue #140).
+fn upstream_variable(s : String) -> String {
+  if s.has_prefix("fn_") {
+    let primes = s[3:].to_owned()
+    if primes.iter().all(c => c == '\'') {
+      return "fn" + primes
+    }
+  }
+  s
+}
+
+///|
 /// `memhash_of_string`
 pub fn memhash_of_string(x9 : String) -> Int64 raise {
   let s = x9
@@ -196,7 +210,7 @@ fn step_5() -> Unit raise {
     match u {
       @kernel.Term::Var(s, t) => {
         let t23 = hash_of_type(t)
-        @lib.mod63(@lib.add63(@lib.mul63(prime210, memhash_of_string(s)), t23), prime1220)
+        @lib.mod63(@lib.add63(@lib.mul63(prime210, memhash_of_string(upstream_variable(s))), t23), prime1220)
       }
       @kernel.Term::Const(s_1, t_1) => {
         let t24 = hash_of_type(t_1)

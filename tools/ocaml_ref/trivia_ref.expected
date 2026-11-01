@@ -209,8 +209,8 @@ trivia quotations (20):
   \226\136\128 f : (A) -> Unit, \226\136\128 g : (A) -> Unit, f == g
   \226\136\128 P : (Unit) -> Bool, P(one) \226\134\146 (\226\136\128 x : Unit, P(x))
   (x : Unit) => (e : A)
-  forall e:A. ?fn. fn one = e
-  forall e:A. ?!fn. fn one = e
+  forall e:A. ?fn_. fn_ one = e
+  forall e:A. ?!fn_. fn_ one = e
   (\226\136\128 x : Unit, (P : (Unit) -> Bool)(x)) == P(one)
   ((p : Bool) == (q : Bool)) == (!p == !q)
   (\226\136\131 x : Unit, (P : (Unit) -> Bool)(x)) == P(one)
@@ -227,8 +227,8 @@ one_DEF =  |- ((#=:fun(1,fun(1,bool)) #one:1) (#@:fun(fun(1,bool),1) (\x:1. #T:b
 one =  |- (#forall:fun(fun(1,bool),bool) (\v:1. ((#=:fun(1,fun(1,bool)) v:1) #one:1)))
 one_axiom =  |- (#forall:fun(fun(fun('A,1),bool),bool) (\f:fun('A,1). (#forall:fun(fun(fun('A,1),bool),bool) (\g:fun('A,1). ((#=:fun(fun('A,1),fun(fun('A,1),bool)) f:fun('A,1)) g:fun('A,1))))))
 one_INDUCT =  |- (#forall:fun(fun(fun(1,bool),bool),bool) (\P:fun(1,bool). ((#==>:fun(bool,fun(bool,bool)) (P:fun(1,bool) #one:1)) (#forall:fun(fun(1,bool),bool) (\x:1. (P:fun(1,bool) x:1))))))
-one_RECURSION =  |- (#forall:fun(fun('A,bool),bool) (\e:'A. (#?:fun(fun(fun(1,'A),bool),bool) (\fn:fun(1,'A). ((#=:fun('A,fun('A,bool)) (fn:fun(1,'A) #one:1)) e:'A)))))
-one_Axiom =  |- (#forall:fun(fun('A,bool),bool) (\e:'A. (#?!:fun(fun(fun(1,'A),bool),bool) (\fn:fun(1,'A). ((#=:fun('A,fun('A,bool)) (fn:fun(1,'A) #one:1)) e:'A)))))
+one_RECURSION =  |- (#forall:fun(fun('A,bool),bool) (\e:'A. (#?:fun(fun(fun(1,'A),bool),bool) (\fn_:fun(1,'A). ((#=:fun('A,fun('A,bool)) (fn_:fun(1,'A) #one:1)) e:'A)))))
+one_Axiom =  |- (#forall:fun(fun('A,bool),bool) (\e:'A. (#?!:fun(fun(fun(1,'A),bool),bool) (\fn_:fun(1,'A). ((#=:fun('A,fun('A,bool)) (fn_:fun(1,'A) #one:1)) e:'A)))))
 FORALL_ONE_THM =  |- ((#=:fun(bool,fun(bool,bool)) (#forall:fun(fun(1,bool),bool) (\x:1. (P:fun(1,bool) x:1)))) (P:fun(1,bool) #one:1))
 EXISTS_ONE_THM =  |- ((#=:fun(bool,fun(bool,bool)) (#?:fun(fun(1,bool),bool) (\x:1. (P:fun(1,bool) x:1)))) (P:fun(1,bool) #one:1))
 ETA_ONE =  |- (#forall:fun(fun(fun(1,'A),bool),bool) (\f:fun(1,'A). ((#=:fun(fun(1,'A),fun(fun(1,'A),bool)) (\x:1. (f:fun(1,'A) #one:1))) f:fun(1,'A))))
