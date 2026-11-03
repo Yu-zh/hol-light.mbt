@@ -163,10 +163,11 @@ pub fn wz_maxima_string_of_term(x12 : @kernel.Term) -> String raise {
 
 ///|
 /// `wz_maxima_object`
+#derive(Eq, Debug)
 pub(all) enum WzMaximaObject {
   Wzterm(@kernel.Term)
   Wzlist(@list.List[WzMaximaObject])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend WzMaximaObject with Eq::{not_equal, equal}

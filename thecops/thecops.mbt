@@ -2352,6 +2352,7 @@ pub fn[TA, TB] unify_rename(
 
 ///|
 /// `search_opts`
+#derive(Eq, Debug)
 pub(all) struct SearchOpts {
   cut1 : Bool
   cut2 : Bool
@@ -2360,7 +2361,7 @@ pub(all) struct SearchOpts {
   improved_lemmas : Bool
   improved_regularity : Bool
   add_eq_symmetry : Bool
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend SearchOpts with Eq::{not_equal, equal}
@@ -3277,11 +3278,12 @@ pub fn prepare_cop_tac(x402 : @list.List[@kernel.Thm]) -> @tactics.Tactic raise 
 
 ///|
 /// `proof`
+#derive(Eq, Debug)
 pub(all) enum Proof[TA, TB] {
   Lemma
   Reduction
   Extension(TB, @list.List[(TA, Proof[TA, TB])])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Proof with Eq::{not_equal, equal}
@@ -4316,10 +4318,11 @@ pub fn leancop(
 
 ///|
 /// `litmat`
+#derive(Eq, Debug)
 pub(all) enum Litmat[TA] {
   Lit(Lit)
   Mat(Imatrix[TA])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Litmat with Eq::{not_equal, equal}
@@ -5414,12 +5417,13 @@ pub fn print_matrix_i(x : Matrix[Int64]) -> Unit raise {
 
 ///|
 /// `proof`
+#derive(Eq, Debug)
 pub(all) enum Proof1[TA, TB, TC, TD] {
   Lemma
   Reduction
   Decomposition(TB, TC, @list.List[(TA, Proof1[TA, TB, TC, TD])])
   Extension(TB, TD, @list.List[(TA, Proof1[TA, TB, TC, TD])])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Proof1 with Eq::{not_equal, equal}
@@ -5628,10 +5632,11 @@ pub fn[TA, TB, TC, TD, TE] print_proof_def(
 
 ///|
 /// `litmat_ext`
+#derive(Eq, Debug)
 pub(all) enum LitmatExt[TA] {
   Litext((Clause[TA], Clause[TA]), Clause[TA])
   Matext(Int64, (Clause[TA], Clause[TA]), ClauseExt[TA])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend LitmatExt with Eq::{not_equal, equal}

@@ -28,9 +28,10 @@ pub fn same_term(@kernel.Term, @kernel.Term) -> Bool
 pub fn spell_quotation(String, @kernel.Term) -> String raise Unprintable
 
 // Errors
+#derive(@debug.Debug)
 pub(all) suberror Unprintable {
   Unprintable(String)
-} derive(@debug.Debug)
+}
 pub fn Unprintable::to_repr(Self) -> @debug.Repr
 
 // Types and methods

@@ -4,7 +4,7 @@
 
 ///|
 /// `f (f (... (f x)))` with `depth` applications, plus a binder at the top.
-fn deep_term(depth : Int) -> @kernel.Term raise {
+fn deep_term(depth : Int32) -> @kernel.Term raise {
   let a = @kernel.mk_vartype("A")
   let fa = @kernel.mk_type("fun", @list.List([a, a]))
   let f = @kernel.mk_var("f", fa)
@@ -17,7 +17,7 @@ fn deep_term(depth : Int) -> @kernel.Term raise {
 }
 
 ///|
-fn exercise(depth : Int) -> Unit raise {
+fn exercise(depth : Int32) -> Unit raise {
   let t = deep_term(depth)
   let a = @kernel.mk_vartype("A")
   let b = @kernel.mk_vartype("B")

@@ -2,12 +2,13 @@
 
 ///|
 /// `ite`
+#derive(Eq, Debug)
 pub(all) enum Ite {
   False
   True
   Atomic(Int64)
   Ite(Ite, Ite, Ite)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Ite with Eq::{not_equal, equal}

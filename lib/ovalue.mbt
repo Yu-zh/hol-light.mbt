@@ -19,7 +19,7 @@
 ///|
 /// OCaml's polymorphic `compare`.
 pub(open) trait OCompare {
-  fn ocompare(Self, Self) -> Int
+  fn ocompare(Self, Self) -> Int32
 }
 
 ///|
@@ -31,7 +31,7 @@ pub(open) trait OHash {
 
 ///|
 /// OCaml `compare x y`.
-pub fn[T : OCompare] compare(x : T, y : T) -> Int {
+pub fn[T : OCompare] compare(x : T, y : T) -> Int32 {
   x.ocompare(y)
 }
 
@@ -39,8 +39,8 @@ pub fn[T : OCompare] compare(x : T, y : T) -> Int {
 /// State of `caml_hash(10, 100, 0, v)`.
 pub struct OHasher {
   priv queue : Array[&OHash]
-  priv mut h : UInt
-  priv mut num : Int
+  priv mut h : UInt32
+  priv mut num : Int32
 }
 
 ///|
@@ -48,12 +48,12 @@ pub struct OHasher {
 let hash_queue_limit = 100
 
 ///|
-fn rotl32(x : UInt, n : Int) -> UInt {
+fn rotl32(x : UInt32, n : Int32) -> UInt32 {
   (x << n) | (x >> (32 - n))
 }
 
 ///|
-fn OHasher::mix(self : OHasher, d : UInt) -> Unit {
+fn OHasher::mix(self : OHasher, d : UInt32) -> Unit {
   let mut d = d * 0xcc9e2d51U
   d = rotl32(d, 15)
   d = d * 0x1b873593U
@@ -112,7 +112,7 @@ pub fn OHasher::string(self : OHasher, s : String) -> Unit {
 /// Start a block with the given tag and size. The header is mixed in but
 /// does not count as a meaningful value; the fields must then be pushed
 /// with `field`, in order.
-pub fn OHasher::block(self : OHasher, tag : Int, size : Int) -> Unit {
+pub fn OHasher::block(self : OHasher, tag : Int32, size : Int32) -> Unit {
   self.mix(((size << 10) | tag).reinterpret_as_uint())
 }
 
@@ -126,7 +126,7 @@ pub fn[T : OHash] OHasher::field(self : OHasher, x : T) -> Unit {
 
 ///|
 /// OCaml `Hashtbl.hash`: a nonnegative 30-bit integer.
-pub fn[T : OHash] hash(x : T) -> Int {
+pub fn[T : OHash] hash(x : T) -> Int32 {
   let st : OHasher = { queue: [x as &OHash], h: 0U, num: 10, }
   let mut rd = 0
   while rd < st.queue.length() && st.num > 0 {
@@ -148,12 +148,12 @@ pub fn[T : OHash] hash(x : T) -> Int {
 // ---------------------------------------------------------------------------
 
 ///|
-pub impl OCompare for Int with fn ocompare(self, other) {
+pub impl OCompare for Int32 with fn ocompare(self, other) {
   self.compare(other)
 }
 
 ///|
-pub impl OHash for Int with fn ohash_visit(self, h) {
+pub impl OHash for Int32 with fn ohash_visit(self, h) {
   h.int(self.to_int64())
 }
 
@@ -502,7 +502,7 @@ pub impl OHash for Double with fn ohash_visit(self, h) {
 ///|
 /// OCaml's representation of a `num`: `Int of int` (63-bit), `Big_int of
 /// big_int` or `Ratio of ratio` (constructor tags 0, 1, 2).
-fn num_tag(n : @num.Num) -> Int {
+fn num_tag(n : @num.Num) -> Int32 {
   if !@num.is_integer_num(n) {
     2
   } else {
@@ -577,7 +577,7 @@ impl OHash for NatDigits with fn ohash_visit(self, h) {
 
 ///|
 /// `big_int = { sign : int; abs_value : nat }`
-priv struct BigIntRecord((Int, @bigint.BigInt))
+priv struct BigIntRecord((Int32, @bigint.BigInt))
 
 ///|
 impl OHash for BigIntRecord with fn ohash_visit(self, h) {
@@ -595,7 +595,7 @@ fn big_record(n : @num.Num) -> BigIntRecord {
 }
 
 ///|
-fn big_int_sign(n : @bigint.BigInt) -> Int {
+fn big_int_sign(n : @bigint.BigInt) -> Int32 {
   // `compare` gives a number of that sign, not always -1, 0 or 1
   let c = n.compare(@bigint.BigInt::from_int(0))
   if c < 0 {

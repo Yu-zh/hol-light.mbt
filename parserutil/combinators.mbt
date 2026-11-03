@@ -9,7 +9,8 @@ using @list {type List}
 
 ///|
 /// Raised by a parser that does not apply (parser.ml's `Noparse`).
-pub(all) suberror Noparse derive(Debug)
+#derive(Debug)
+pub(all) suberror Noparse
 
 ///|
 pub extend Noparse with @debug.Debug::{to_repr}
@@ -161,7 +162,7 @@ pub fn[I : Eq] a_list(tok : I) -> (List[I]) -> (I, List[I]) raise {
 ///|
 /// At least `n` occurrences of `p`.
 pub fn[X, A] atleast(
-  n : Int,
+  n : Int32,
   p : (X) -> (A, X) raise,
 ) -> (X) -> (List[A], X) raise {
   input => {
@@ -179,7 +180,7 @@ pub fn[X, A] atleast(
 
 ///|
 /// Succeeds only at the end of a linked-list input.
-pub fn[I] finished_list(input : List[I]) -> (Int, List[I]) raise {
+pub fn[I] finished_list(input : List[I]) -> (Int32, List[I]) raise {
   if input.is_empty() {
     (0, input)
   } else {

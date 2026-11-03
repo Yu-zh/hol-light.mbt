@@ -63,10 +63,9 @@ fn bm_reset() -> Unit raise {
   @environment.new_rewrite_rule(
     @tactics.prove(
       tm("∀ a : Num, ∀ b : Num, a + SUC(b) == SUC(a + b)"),
-      @tactics.then_tac(
-        @tactics.repeat_tac(@tactics.gen_tac),
-        g => @main.bmf_tac(@list.List([]), g),
-      ),
+      @tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), g => {
+        @main.bmf_tac(@list.List([]), g)
+      }),
     ),
   )
 }
@@ -90,11 +89,12 @@ test "the Boyer-Moore provers prove the commutativity of multiplication" {
   with_environment(() => {
     bm_reset()
     let goal = tm("(m : Num) * (n : Num) == n * m")
-    for prove in [
-      (t : @kernel.Term) => @main.boyer_moore_final(@list.List([]), t),
-      t => @main.boyer_moore_gen(@list.List([]), t),
-      @main.boyer_moore,
-    ] {
+    for
+      prove in [
+        (t : @kernel.Term) => @main.boyer_moore_final(@list.List([]), t),
+        t => @main.boyer_moore_gen(@list.List([]), t),
+        @main.boyer_moore,
+      ] {
       let th = prove(goal)
       assert_eq(@kernel.hyp(th), @list.List([]))
       assert_eq(@kernel.concl(th), goal)
@@ -112,7 +112,9 @@ test "generalize_heuristic uses generalization lemmas" {
     bm_reset()
     @environment.system_gen_lemmas().val = @list.List([])
     // a generalization lemma has free variables, matched against the term
-    @environment.new_gen_lemma(@int.arith_rule(tm("0 <= (m : Num) * (n : Num)")))
+    @environment.new_gen_lemma(
+      @int.arith_rule(tm("0 <= (m : Num) * (n : Num)")),
+    )
     let clause = tm("(m : Num) * (n : Num) + (p : Num) == p + m * n")
     let (clauses, proof) = @generalize.generalize_heuristic(clause, false)
     assert_eq(clauses.length(), 1)
@@ -121,7 +123,10 @@ test "generalize_heuristic uses generalization lemmas" {
     let (le_0, v) = @kernel.dest_comb(@basics.dest_neg(lemma))
     assert_eq(@kernel.rand(le_0), tm("0"))
     assert_true(@kernel.is_var(v))
-    assert_eq(rest, @basics.subst(@list.List([(v, tm("(m : Num) * (n : Num)"))]), clause))
+    assert_eq(
+      rest,
+      @basics.subst(@list.List([(v, tm("(m : Num) * (n : Num)"))]), clause),
+    )
     let th = proof(@list.List([@int.arith_rule(clause_1)]))
     assert_eq(@kernel.hyp(th), @list.List([]))
     assert_eq(@kernel.concl(th), clause)

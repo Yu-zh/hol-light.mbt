@@ -25,7 +25,7 @@ pub fn big_int_of_num(Num) -> @bigint.BigInt raise
 
 pub fn ceiling_num(Num) -> Num
 
-pub fn compare_num(Num, Num) -> Int
+pub fn compare_num(Num, Num) -> Int32
 
 pub fn denominator(Num) -> Num
 
@@ -51,7 +51,7 @@ pub fn int63_of_num(Num) -> Int64 raise
 
 pub fn int64_of_num(Num) -> Int64 raise
 
-pub fn int_of_num(Num) -> Int raise
+pub fn int_of_num(Num) -> Int32 raise
 
 pub fn integer_num(Num) -> Num
 
@@ -101,7 +101,7 @@ pub fn num_of_big_int(@bigint.BigInt) -> Num
 
 pub fn num_of_decimal(String) -> Num raise
 
-pub fn num_of_int(Int) -> Num
+pub fn num_of_int(Int32) -> Num
 
 pub fn num_of_int64(Int64) -> Num
 
@@ -113,9 +113,9 @@ pub fn numerator(Num) -> Num
 
 pub fn nums_num_of_string(String) -> Num raise
 
-pub fn pow10(Int) -> Num raise
+pub fn pow10(Int32) -> Num raise
 
-pub fn pow2(Int) -> Num raise
+pub fn pow2(Int32) -> Num raise
 
 pub fn power_int_positive_int(Int64, Int64) -> @bigint.BigInt raise
 
@@ -133,7 +133,7 @@ pub fn round_num(Num) -> Num
 
 pub fn sign_big_int(@bigint.BigInt) -> Int64
 
-pub fn sign_num(Num) -> Int
+pub fn sign_num(Num) -> Int32
 
 pub fn sqrt_big_int(@bigint.BigInt) -> @bigint.BigInt raise
 
@@ -141,7 +141,7 @@ pub fn string_of_num(Num) -> String
 
 pub fn string_of_num_hex(Num) -> String raise
 
-pub fn string_of_num_nary(Int, Num) -> String raise
+pub fn string_of_num_nary(Int32, Num) -> String raise
 
 pub fn sub_big_int(@bigint.BigInt, @bigint.BigInt) -> @bigint.BigInt
 
@@ -154,28 +154,31 @@ pub fn succ_num(Num) -> Num
 pub let zero_big_int : @bigint.BigInt
 
 // Errors
-pub(all) suberror DivisionByZero derive(@debug.Debug)
+#derive(@debug.Debug)
+pub(all) suberror DivisionByZero
 pub fn DivisionByZero::output(Self, &Logger) -> Unit
 pub fn DivisionByZero::to_repr(Self) -> @debug.Repr
 pub fn DivisionByZero::to_string(Self) -> String
 pub impl Show for DivisionByZero
 
+#derive(@debug.Debug)
 pub(all) suberror InvalidArgument {
   InvalidArgument(String)
-} derive(@debug.Debug)
+}
 pub fn InvalidArgument::output(Self, &Logger) -> Unit
 pub fn InvalidArgument::to_repr(Self) -> @debug.Repr
 pub fn InvalidArgument::to_string(Self) -> String
 pub impl Show for InvalidArgument
 
 // Types and methods
+#derive(Eq, Hash)
 pub struct Num {
   // private fields
-} derive(Eq, Hash)
+}
 pub fn Num::add(Self, Self) -> Self
-pub fn Num::compare(Self, Self) -> Int
+pub fn Num::compare(Self, Self) -> Int32
 pub fn Num::equal(Self, Self) -> Bool
-pub fn Num::hash(Self) -> Int
+pub fn Num::hash(Self) -> Int32
 pub fn Num::hash_combine(Self, Hasher) -> Unit
 pub fn Num::is_integer(Self) -> Bool
 pub fn Num::mul(Self, Self) -> Self

@@ -33,12 +33,13 @@ pub fn fast_load_flag() -> Ref[Bool] {
 
 ///|
 /// `section_info`
+#derive(Eq, Debug)
 pub(all) struct SectionInfo {
   vars : @list.List[@kernel.Term]
   hyps : @list.List[(String, @kernel.Term)]
   types : @list.List[(String, @kernel.HolType)]
   lemmas : @list.List[(String, @kernel.Thm)]
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend SectionInfo with Eq::{not_equal, equal}

@@ -39,7 +39,7 @@ fn[T] fail_() -> T raise {
 /// rewrites, 2 for conversions, 3 for conditional rewrites, 4 for
 /// congruences.
 pub struct GconvOf[C] {
-  priority : Int
+  priority : Int32
   conv : C
 }
 
@@ -236,7 +236,7 @@ pub fn[C] enter_gconv(
 /// `net_of_cong th net`: add the congruence rule `th`.
 pub fn net_of_cong(th : Thm, sofar : Net[Gconv]) -> Net[Gconv] raise {
   let (conc, n) = @lib.repeat(
-    (p : (Term, Int)) => {
+    (p : (Term, Int32)) => {
       // The tuple is evaluated right to left.
       let m1 = p.1 + 1
       (@basics.dest_imp(p.0).1, m1)
@@ -385,7 +385,7 @@ pub struct Simpset {
 }
 
 ///|
-pub type Strategy = (Simpset, Int, Term) -> Thm raise
+pub type Strategy = (Simpset, Int32, Term) -> Thm raise
 
 ///|
 /// OCaml's constructor `Simpset(net, prover, provers, rewmaker)`.
@@ -474,7 +474,7 @@ pub fn augment_simpset(cth : Thm, ss : Simpset) -> Simpset raise {
 fn imp_rewrites_conv(
   strat : Strategy,
   ss : Simpset,
-  lev : Int,
+  lev : Int32,
   pconvs : List[Gconv],
   tm : Term,
 ) -> Thm raise {
@@ -504,7 +504,7 @@ fn imp_rewrites_conv(
 fn run_sub_conv(
   strat : Strategy,
   ss : Simpset,
-  lev : Int,
+  lev : Int32,
   triv : Bool,
   th : Thm,
 ) -> Thm raise {
@@ -552,7 +552,7 @@ fn run_sub_conv(
 fn gen_sub_conv(
   strat : Strategy,
   ss : Simpset,
-  lev : Int,
+  lev : Int32,
   pconvs : List[Gconv],
   tm : Term,
 ) -> Thm raise {
@@ -607,7 +607,7 @@ fn gen_sub_conv(
 
 ///|
 /// `ONCE_DEPTH_SQCONV`
-pub fn once_depth_sqconv(ss : Simpset, lev : Int, tm : Term) -> Thm raise {
+pub fn once_depth_sqconv(ss : Simpset, lev : Int32, tm : Term) -> Thm raise {
   let pconvs = @nets.lookup(tm, ss.net)
   imp_rewrites_conv(once_depth_sqconv, ss, lev, pconvs, tm) catch {
     Failure(_) => gen_sub_conv(once_depth_sqconv, ss, lev, pconvs, tm)
@@ -617,7 +617,7 @@ pub fn once_depth_sqconv(ss : Simpset, lev : Int, tm : Term) -> Thm raise {
 
 ///|
 /// `DEPTH_SQCONV`
-pub fn depth_sqconv(ss : Simpset, lev : Int, tm : Term) -> Thm raise {
+pub fn depth_sqconv(ss : Simpset, lev : Int32, tm : Term) -> Thm raise {
   let pconvs = @nets.lookup(tm, ss.net)
   try {
     let th1 = gen_sub_conv(depth_sqconv, ss, lev, pconvs, tm)
@@ -638,7 +638,7 @@ pub fn depth_sqconv(ss : Simpset, lev : Int, tm : Term) -> Thm raise {
 
 ///|
 /// `REDEPTH_SQCONV`
-pub fn redepth_sqconv(ss : Simpset, lev : Int, tm : Term) -> Thm raise {
+pub fn redepth_sqconv(ss : Simpset, lev : Int32, tm : Term) -> Thm raise {
   let pconvs = @nets.lookup(tm, ss.net)
   let th = try {
     let th1 = gen_sub_conv(redepth_sqconv, ss, lev, pconvs, tm)
@@ -666,7 +666,7 @@ pub fn redepth_sqconv(ss : Simpset, lev : Int, tm : Term) -> Thm raise {
 
 ///|
 /// `TOP_DEPTH_SQCONV`
-pub fn top_depth_sqconv(ss : Simpset, lev : Int, tm : Term) -> Thm raise {
+pub fn top_depth_sqconv(ss : Simpset, lev : Int32, tm : Term) -> Thm raise {
   let pconvs = @nets.lookup(tm, ss.net)
   let th1 = imp_rewrites_conv(top_depth_sqconv, ss, lev, pconvs, tm) catch {
     Failure(_) => gen_sub_conv(top_depth_sqconv, ss, lev, pconvs, tm)
@@ -683,7 +683,7 @@ pub fn top_depth_sqconv(ss : Simpset, lev : Int, tm : Term) -> Thm raise {
 
 ///|
 /// `TOP_SWEEP_SQCONV`
-pub fn top_sweep_sqconv(ss : Simpset, lev : Int, tm : Term) -> Thm raise {
+pub fn top_sweep_sqconv(ss : Simpset, lev : Int32, tm : Term) -> Thm raise {
   let pconvs = @nets.lookup(tm, ss.net)
   try {
     let th1 = imp_rewrites_conv(top_sweep_sqconv, ss, lev, pconvs, tm)
@@ -989,7 +989,7 @@ pub fn once_asm_rewrite_tac(thl : List[Thm]) -> Tactic raise {
 pub fn gen_simplify_conv(
   strat : Strategy,
   ss : Simpset,
-  lev : Int,
+  lev : Int32,
   thl : List[Thm],
 ) -> Conv raise {
   let ss1 = @lib.itlist(augment_simpset, thl, ss)

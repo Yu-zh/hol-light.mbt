@@ -2,7 +2,7 @@
 // These executable examples use nonnegative Int32 inputs. The theorem below
 // proves their HOL models; the concrete checks are not a compiler-correctness
 // proof connecting arbitrary MoonBit execution to HOL.
-fn fib_int32_recursive(n : Int) -> Int {
+fn fib_int32_recursive(n : Int32) -> Int32 {
   guard n >= 0 else { abort("Fibonacci needs a nonnegative input") }
   if n < 2 {
     n
@@ -12,10 +12,10 @@ fn fib_int32_recursive(n : Int) -> Int {
 }
 
 ///|
-fn fib_int32_iterative(n : Int) -> Int {
+fn fib_int32_iterative(n : Int32) -> Int32 {
   guard n >= 0 else { abort("Fibonacci needs a nonnegative input") }
-  let mut a : Int = 0
-  let mut b : Int = 1
+  let mut a : Int32 = 0
+  let mut b : Int32 = 1
   for _ in 0..<n {
     let next = a + b
     a = b

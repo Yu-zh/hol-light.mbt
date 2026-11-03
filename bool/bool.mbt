@@ -1293,7 +1293,9 @@ fn load_steps() -> Unit raise {
     @equal.sym(rand_beta(@equal.ap_thm(forall_def(), q("P:A->bool")))),
   )
   // ?
-  exists_def_c.set(nbd("(?) = \\P:A->bool. forall q. (forall x. P x ==> q) ==> q"))
+  exists_def_c.set(
+    nbd("(?) = \\P:A->bool. forall q. (forall x. P x ==> q) ==> q"),
+  )
   {
     let p = q("P:A->bool")
     let x = q("x:A")

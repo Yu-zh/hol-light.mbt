@@ -41,7 +41,7 @@ fn[T : Show] si(x : T) -> String {
 }
 
 ///|
-fn showf(f : @lib.Func[String, Int]) -> String {
+fn showf(f : @lib.Func[String, Int32]) -> String {
   let items = @lib.foldl(
     (a : @list.List[String], x, y) => a.prepend(x + "=" + si(y)),
     @list.List([]),
@@ -65,7 +65,7 @@ fn[K : @lib.OCompare + @lib.OHash, V] build(
 test "lib matches lib.ml" {
   let r : Rec = { buf: StringBuilder(), calls: [], }
   let l5 = @list.List([3, 1, 4, 1, 5])
-  let l = (xs : Array[Int]) => @list.List(xs)
+  let l = (xs : Array[Int32]) => @list.List(xs)
   r.tr("map", () => {
     il(
       @lib.map(
@@ -148,7 +148,7 @@ test "lib matches lib.ml" {
       ),
     )
   })
-  let minus = (x : Int, a : Int) => {
+  let minus = (x : Int32, a : Int32) => {
     r.note(si(x))
     x - a
   }
@@ -156,9 +156,9 @@ test "lib matches lib.ml" {
   r.tr("rev_itlist", () => si(@lib.rev_itlist(minus, l5, 0)))
   r.tr("end_itlist", () => si(@lib.end_itlist(minus, l5)))
   r.tr("end_itlist_empty", () => {
-    si(@lib.end_itlist((x : Int, a : Int) => x - a, @list.List([])))
+    si(@lib.end_itlist((x : Int32, a : Int32) => x - a, @list.List([])))
   })
-  let f3 = (x : Int, y : Int, a : Int) => {
+  let f3 = (x : Int32, y : Int32, a : Int32) => {
     r.note(si(x))
     x * y - a
   }
@@ -170,7 +170,7 @@ test "lib matches lib.ml" {
   r.tr("allpairs", () => {
     sl(
       @lib.allpairs(
-        (x : Int, y : Int) => {
+        (x : Int32, y : Int32) => {
           r.note(si(x) + si(y))
           si(x) + si(y)
         },
@@ -182,7 +182,7 @@ test "lib matches lib.ml" {
   r.tr("sort", () => {
     il(
       @lib.sort(
-        (x : Int, y : Int) => {
+        (x : Int32, y : Int32) => {
           r.note(si(x) + "<=" + si(y))
           x <= y
         },
@@ -192,13 +192,16 @@ test "lib matches lib.ml" {
   })
   r.tr("sort_partial", () => {
     il(
-      @lib.sort((x : Int, y : Int) => x % 3 <= y % 3, l([5, 3, 9, 1, 4, 7, 2])),
+      @lib.sort(
+        (x : Int32, y : Int32) => x % 3 <= y % 3,
+        l([5, 3, 9, 1, 4, 7, 2]),
+      ),
     )
   })
   r.tr("mergesort", () => {
     il(
       @lib.mergesort(
-        (x : Int, y : Int) => {
+        (x : Int32, y : Int32) => {
           r.note(si(x) + si(y))
           x <= y
         },
@@ -247,7 +250,7 @@ test "lib matches lib.ml" {
   })
   r.tr("nsplit", () => {
     let (ls, rest) = @lib.nsplit(
-      (x : Int) => (x, x + 1),
+      (x : Int32) => (x, x + 1),
       @list.List(["a", "b"]),
       10,
     )
@@ -426,7 +429,7 @@ test "lib matches lib.ml" {
   })
   r.tr("single", () => showf(@lib.single("k", 9)))
   r.tr("choose_bad", () => {
-    @lib.choose((@lib.undefined() : @lib.Func[String, Int])).0
+    @lib.choose((@lib.undefined() : @lib.Func[String, Int32])).0
   })
   inspect(
     r.buf.to_string(),

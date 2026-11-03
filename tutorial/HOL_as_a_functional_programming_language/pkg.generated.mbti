@@ -61,15 +61,16 @@ pub fn tautology_v1() -> @kernel.Thm
 // Errors
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) enum Ite {
   False
   True
   Atomic(Int64)
   Ite(Ite, Ite, Ite)
-} derive(Eq, @debug.Debug)
+}
 pub fn Ite::equal(Self, Self) -> Bool
 pub fn Ite::not_equal(Self, Self) -> Bool
-pub fn Ite::ocompare(Self, Self) -> Int
+pub fn Ite::ocompare(Self, Self) -> Int32
 pub fn Ite::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Ite::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Ite

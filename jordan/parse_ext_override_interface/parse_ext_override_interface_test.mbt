@@ -51,7 +51,14 @@ test "prioritize_int and prioritize_num put their operations first" {
   defer restore(interface, infixes)
   @parse_ext_override_interface.prioritize_int(())
   assert_eq(@parse_ext_override_interface.get_priority(()), "int")
-  for p in [("+", "int_add"), ("<=", "int_le"), ("--", "int_neg"), ("abs", "int_abs"), ("&", "int_of_num")] {
+  for
+    p in [
+      ("+", "int_add"),
+      ("<=", "int_le"),
+      ("--", "int_neg"),
+      ("abs", "int_abs"),
+      ("&", "int_of_num"),
+    ] {
     assert_eq(interface_entries(p.0)[0], p.1)
   }
   @parse_ext_override_interface.prioritize_num(())

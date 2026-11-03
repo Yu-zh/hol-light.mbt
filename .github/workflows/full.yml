@@ -43,7 +43,7 @@ jobs:
           echo "count=$count" >> "$GITHUB_OUTPUT"
           echo "tiers=${TIERS:-all}" >> "$GITHUB_OUTPUT"
           echo "shards=$(python3 -c "import json,sys; print(json.dumps(list(range(1, int(sys.argv[1]) + 1))))" "$count")" >> "$GITHUB_OUTPUT"
-          # a nightly run only when main changed in the last 25 hours
+          # a scheduled run only when main changed in the last 25 hours
           age=$(( $(date +%s) - $(git log -1 --format=%ct) ))
           if [ "$EVENT" = schedule ] && [ "$age" -gt 90000 ]; then
             echo "run=false" >> "$GITHUB_OUTPUT"
@@ -61,6 +61,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        moonbit: [latest, pre-release]
         shard: ${{ fromJSON(needs.plan.outputs.shards) }}
 
     steps:
@@ -68,11 +69,8 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Install MoonBit
-        env:
-          # as .github/workflows/ci.yml
-          MOONBIT_INSTALL_VERSION: 0.10.14+7d59c7ec9
         run: |
-          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s -- "${{ matrix.moonbit }}"
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
 
       - name: More swap
@@ -100,7 +98,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: shard-${{ matrix.shard }}
+          name: shard-${{ matrix.shard }}-${{ matrix.moonbit }}
           path: |
             tools/test_times.tsv
             _build/test_wasm-gc.log

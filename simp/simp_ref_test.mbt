@@ -464,7 +464,6 @@ test "simp matches simp.ml" {
       #|counter_tyvar = zz_counter:'?5
       #|counter_genvar = _15:bool
       #|
-
     ),
   )
 }

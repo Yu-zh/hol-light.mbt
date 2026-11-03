@@ -22,13 +22,13 @@ pub fn parse_pretype(ArrayView[@lexer.Lexcode]) -> (@preterm.Pretype, ArrayView[
 
 pub fn parse_term(String) -> @kernel.Term raise
 
-pub fn parse_term_at(Int, String) -> @kernel.Term raise
+pub fn parse_term_at(Int32, String) -> @kernel.Term raise
 
 pub fn parse_type(String) -> @kernel.HolType raise
 
 pub fn pfrees(@preterm.Preterm) -> @list.List[@preterm.Preterm] raise
 
-pub fn pgen_count() -> Int
+pub fn pgen_count() -> Int32
 
 pub fn pmk_pattern_binding(((@preterm.Preterm, @list.List[@preterm.Preterm]), @preterm.Preterm), () -> @list.List[@preterm.Preterm] raise) -> @preterm.Preterm raise
 
@@ -36,15 +36,15 @@ pub fn pmk_setabs(@preterm.Preterm, @preterm.Preterm) -> @preterm.Preterm raise
 
 pub fn pmk_setcompr(@preterm.Preterm, @list.List[@preterm.Preterm], @preterm.Preterm) -> @preterm.Preterm
 
-pub let quotation_hook : @ref.Ref[((Int, String, @kernel.Term) -> Unit raise)?]
+pub let quotation_hook : @ref.Ref[((Int32, String, @kernel.Term) -> Unit raise)?]
 
 pub let quotation_trace : @ref.Ref[Array[String]?]
 
 pub fn record_quotation(String) -> Unit
 
-pub fn reread_term(String) -> (@kernel.Term, Int) raise
+pub fn reread_term(String) -> (@kernel.Term, Int32) raise
 
-pub fn skip_pgenvars(Int) -> Unit
+pub fn skip_pgenvars(Int32) -> Unit
 
 pub fn theory_output(String) -> Array[String]
 

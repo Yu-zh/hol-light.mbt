@@ -135,7 +135,7 @@ fn left_reversible_tac(th : Thm) -> Tactic {
 }
 
 ///|
-fn itaut_tac_n(mvs : List[Term], n : Int) -> Tactic {
+fn itaut_tac_n(mvs : List[Term], n : Int32) -> Tactic {
   gl => {
     if n <= 0 {
       raise Failure("ITAUT_TAC: Too deep")
@@ -195,7 +195,7 @@ fn itaut_tac_n(mvs : List[Term], n : Int) -> Tactic {
 }
 
 ///|
-fn itaut_iterdeep_tac(n : Int) -> Tactic {
+fn itaut_iterdeep_tac(n : Int32) -> Tactic {
   gl => {
     @lib.remark("Searching with limit " + n.to_string())
     @tactics.orelse_tac(

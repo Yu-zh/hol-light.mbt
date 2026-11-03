@@ -638,10 +638,11 @@ pub fn comparepriority(x : Word) -> ((Word) -> Int64 raise) raise {
 
 ///|
 /// `tree`
+#derive(Eq, Debug)
 pub(all) enum Tree[TA, TB] {
   Empty
   Tree(Node[TA, TB])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Tree with Eq::{not_equal, equal}
@@ -690,6 +691,7 @@ pub impl[TA : @lib.OHash, TB : @lib.OHash] @lib.OHash for Tree[TA, TB] with fn o
 
 ///|
 /// `node`
+#derive(Eq, Debug)
 pub(all) struct Node[TA, TB] {
   size : Int64
   priority : Priority
@@ -697,7 +699,7 @@ pub(all) struct Node[TA, TB] {
   key : TA
   value : TB
   right : Tree[TA, TB]
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Node with Eq::{not_equal, equal}
@@ -1925,10 +1927,11 @@ pub fn[TA, TB] nodedeletenth(
 
 ///|
 /// `iterator`
+#derive(Eq, Debug)
 pub(all) enum Iterator[TA, TB] {
   Left_to_right_iterator((TA, TB), Tree[TA, TB], @list.List[Node[TA, TB]])
   Right_to_left_iterator((TA, TB), Tree[TA, TB], @list.List[Node[TA, TB]])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Iterator with Eq::{not_equal, equal}
@@ -5723,10 +5726,11 @@ pub(all) suberror Empty {
 
 ///|
 /// `node`
+#derive(Eq, Debug)
 pub(all) enum Node1[TA] {
   Em
   Tr(Int64, TA, Node1[TA], Node1[TA])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Node1 with Eq::{not_equal, equal}
@@ -9061,10 +9065,11 @@ pub type Const = FunctionName
 
 ///|
 /// `term`
+#derive(Eq, Debug)
 pub(all) enum Term {
   Var(Name)
   Fn((Name, @list.List[Term]))
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Term with Eq::{not_equal, equal}
@@ -10668,9 +10673,10 @@ pub fn[TA] find_last_opt_v8(
 
 ///|
 /// `subst`
+#derive(Eq, Debug)
 pub(all) enum Subst {
   Subst(Map4[Term])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Subst with Eq::{not_equal, equal}
@@ -13336,6 +13342,7 @@ pub fn[TA] count_v5(
 
 ///|
 /// `formula`
+#derive(Eq, Debug)
 pub(all) enum Formula {
   True
   False
@@ -13347,7 +13354,7 @@ pub(all) enum Formula {
   Iff(Formula, Formula)
   Forall(Var, Formula)
   Exists(Var, Formula)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Formula with Eq::{not_equal, equal}
@@ -20069,6 +20076,7 @@ pub type Clause = Set6
 
 ///|
 /// `inferenceType`
+#derive(Eq, Debug)
 pub(all) enum InferenceType {
   Axiom
   Assume
@@ -20077,7 +20085,7 @@ pub(all) enum InferenceType {
   Resolve
   Refl
   Equality
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend InferenceType with Eq::{not_equal, equal}
@@ -20126,9 +20134,10 @@ pub impl @lib.OHash for InferenceType with fn ohash_visit(self, h) {
 
 ///|
 /// `thm`
+#derive(Eq, Debug)
 pub(all) enum Thm {
   Thm(Clause, (InferenceType, @list.List[Thm]))
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Thm with Eq::{not_equal, equal}
@@ -20480,6 +20489,7 @@ pub fn equality(
 
 ///|
 /// `inference`
+#derive(Eq, Debug)
 pub(all) enum Inference1 {
   Axiom(Set6)
   Assume(Atom)
@@ -20487,7 +20497,7 @@ pub(all) enum Inference1 {
   Resolve(Atom, Thm, Thm)
   Refl(Term)
   Equality(Literal, Path, Term)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Inference1 with Eq::{not_equal, equal}
@@ -22454,10 +22464,11 @@ pub fn freshvars_v1(x3268 : Thm) -> Thm raise {
 
 ///|
 /// `edge`
+#derive(Eq, Debug)
 pub(all) enum Edge {
   Factor_edge(Atom, Atom)
   Refl_edge(Term, Term)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Edge with Eq::{not_equal, equal}
@@ -22518,11 +22529,12 @@ pub impl @lib.OHash for Edge with fn ohash_visit(self, h) {
 
 ///|
 /// `joinStatus`
+#derive(Eq, Debug)
 pub(all) enum JoinStatus {
   Joined
   Joinable(Subst)
   Apart
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend JoinStatus with Eq::{not_equal, equal}
@@ -22997,9 +23009,10 @@ pub fn minmaxinterval(x3319 : Int64, x3320 : Int64) -> @list.List[Int64] raise {
 
 ///|
 /// `size`
+#derive(Eq, Debug)
 pub(all) struct Size {
   size : Int64
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Size with Eq::{not_equal, equal}
@@ -23452,10 +23465,11 @@ pub fn basicfixed() -> Fixed {
 
 ///|
 /// `fixedMap`
+#derive(Eq, Debug)
 pub(all) struct FixedMap {
   functionmap : Map5[Name]
   relationmap : Map5[Name]
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend FixedMap with Eq::{not_equal, equal}
@@ -25949,9 +25963,10 @@ pub fn listfixed() -> Fixed {
 
 ///|
 /// `valuation`
+#derive(Eq, Debug)
 pub(all) enum Valuation {
   Valuation(Map4[Element])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Valuation with Eq::{not_equal, equal}
@@ -26168,10 +26183,11 @@ pub fn cunknown() -> Int64 {
 
 ///|
 /// `table`
+#derive(Eq, Debug)
 pub(all) enum Table {
   Forgetful_table
   Array_table(FixedArray[Int64])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Table with Eq::{not_equal, equal}
@@ -26956,10 +26972,11 @@ pub fn updaterelation(
 
 ///|
 /// `modelTerm`
+#derive(Eq, Debug)
 pub(all) enum ModelTerm {
   Model_var
   Model_fn(FunctionName, @list.List[ModelTerm], @list.List[Int64])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend ModelTerm with Eq::{not_equal, equal}
@@ -27036,10 +27053,11 @@ pub fn modelterm(
 
 ///|
 /// `perturbation`
+#derive(Eq, Debug)
 pub(all) enum Perturbation {
   Function_perturbation((FunctionName, @list.List[Element]), Element)
   Relation_perturbation((RelationName, @list.List[Element]), Bool)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Perturbation with Eq::{not_equal, equal}
@@ -27392,10 +27410,11 @@ pub fn anonymousvar() -> Term {
 
 ///|
 /// `qterm`
+#derive(Eq, Debug)
 pub(all) enum Qterm {
   Var
   Fn(NameArity, @list.List[Qterm])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Qterm with Eq::{not_equal, equal}
@@ -27691,9 +27710,10 @@ pub fn qtermtoterm(x4038 : Qterm) -> Term raise {
 
 ///|
 /// `parameters`
+#derive(Eq, Debug)
 pub(all) struct Parameters1 {
   fifo : Bool
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Parameters1 with Eq::{not_equal, equal}
@@ -27720,11 +27740,12 @@ pub impl @lib.OHash for Parameters1 with fn ohash_visit(self, h) {
 
 ///|
 /// `net`
+#derive(Eq, Debug)
 pub(all) enum Net[TA] {
   Result(@list.List[TA])
   Single(Qterm, Net[TA])
   Multiple(Net[TA]?, Map5[Net[TA]])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Net with Eq::{not_equal, equal}
@@ -27794,9 +27815,10 @@ pub impl[TA : @lib.OHash] @lib.OHash for Net[TA] with fn ohash_visit(self, h) {
 
 ///|
 /// `termNet`
+#derive(Eq, Debug)
 pub(all) enum TermNet[TA] {
   Net(Parameters1, Int64, (Int64, Net[(Int64, TA)])?)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend TermNet with Eq::{not_equal, equal}
@@ -28966,10 +28988,11 @@ pub type Parameters3 = Parameters2
 
 ///|
 /// `literalNet`
+#derive(Eq, Debug)
 pub(all) struct LiteralNet[TA] {
   positive : AtomNet[TA]
   negative : AtomNet[TA]
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend LiteralNet with Eq::{not_equal, equal}
@@ -29353,12 +29376,13 @@ pub fn idsetintersect(
 
 ///|
 /// `nonunit_t`
+#derive(Eq, Debug)
 pub(all) struct NonunitT[TA] {
   nextid : ClauseId
   clauses : Map2[(@list.List[Literal], Clause, TA)]
   fstlits : LiteralNet[(ClauseId, ClauseLength)]
   sndlits : LiteralNet[(ClauseId, ClauseLength)]
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend NonunitT with Eq::{not_equal, equal}
@@ -29406,11 +29430,12 @@ pub impl[TA : @lib.OHash] @lib.OHash for NonunitT[TA] with fn ohash_visit(
 
 ///|
 /// `subsume`
+#derive(Eq, Debug)
 pub(all) struct Subsume[TA] {
   empty : @list.List[(Clause, Subst, TA)]
   unitn : LiteralNet[(Literal, Clause, TA)]
   nonunit : NonunitT[TA]
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Subsume with Eq::{not_equal, equal}
@@ -30143,9 +30168,10 @@ pub fn default_v1() -> Kbo {
 
 ///|
 /// `weight`
+#derive(Eq, Debug)
 pub(all) enum Weight {
   Weight(Map4[Int64], Int64)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Weight with Eq::{not_equal, equal}
@@ -30555,10 +30581,11 @@ fn precedencecmp_l(
 
 ///|
 /// `orient`
+#derive(Eq, Debug)
 pub(all) enum Orient {
   Left_to_right
   Right_to_left
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Orient with Eq::{not_equal, equal}
@@ -32124,9 +32151,10 @@ pub type UnitThm = (Literal, Thm)
 
 ///|
 /// `units`
+#derive(Eq, Debug)
 pub(all) enum Units {
   Units(LiteralNet[UnitThm])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Units with Eq::{not_equal, equal}
@@ -32399,11 +32427,12 @@ pub fn newid(x : Unit) -> Int64 raise {
 
 ///|
 /// `literalOrder`
+#derive(Eq, Debug)
 pub(all) enum LiteralOrder {
   No_literal_order
   Unsigned_literal_order
   Positive_literal_order
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend LiteralOrder with Eq::{not_equal, equal}
@@ -33051,10 +33080,11 @@ pub fn paramodulate(
 
 ///|
 /// `ax_cj_thm`
+#derive(Eq, Debug)
 pub(all) struct AxCjThm {
   axioms_thm : @list.List[Thm]
   conjecture_thm : @list.List[Thm]
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend AxCjThm with Eq::{not_equal, equal}
@@ -33093,11 +33123,12 @@ pub(all) struct AxCjCl {
 
 ///|
 /// `simplify`
+#derive(Eq, Debug)
 pub(all) struct Simplify {
   subsumes : Bool
   reduce : Bool
   rewrites : Bool
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Simplify with Eq::{not_equal, equal}
@@ -34936,10 +34967,11 @@ pub fn waiting(x4927 : Resolution) -> Waiting raise {
 
 ///|
 /// `decision`
+#derive(Eq, Debug)
 pub(all) enum Decision {
   Contradiction(Thm)
   Satisfiable(@list.List[Thm])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Decision with Eq::{not_equal, equal}

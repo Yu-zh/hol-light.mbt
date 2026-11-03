@@ -6,9 +6,10 @@
 ///|
 /// A term or type that has no spelling in the syntax (a name that is not a
 /// MoonBit identifier, a type variable the elaborator invented, ...).
+#derive(Debug)
 pub(all) suberror Unprintable {
   Unprintable(String)
-} derive(Debug)
+}
 
 ///|
 pub extend Unprintable with Debug::{to_repr}
@@ -43,7 +44,7 @@ const SIMPLE = 8
 
 ///|
 fn is_ident_char(c : Char) -> Bool {
-  c is ('a'..='z' | 'A'..='Z' | '0'..='9' | '_')
+  c is ('a'..<='z' | 'A'..<='Z' | '0'..<='9' | '_')
 }
 
 ///|
@@ -59,14 +60,13 @@ fn is_ident(name : String) -> Bool {
     return false
   }
   let c0 = cs[0]
-  let start_ok = c0 is ('a'..='z' | 'A'..='Z') ||
-    (c0 == '_' && n > 1)
+  let start_ok = c0 is ('a'..<='z' | 'A'..<='Z') || (c0 == '_' && n > 1)
   start_ok && cs[1:n].iter().all(is_ident_char)
 }
 
 ///|
 fn is_type_constant(name : String) -> Bool {
-  (try @kernel.get_type_arity(name) catch { _ => -1L }) >= 0L
+  (@kernel.get_type_arity(name) catch { _ => -1L }) >= 0L
 }
 
 ///|
@@ -98,9 +98,15 @@ fn reads_as_type(s : String) -> String? {
 
 ///|
 fn type_name(name : String) -> String raise Unprintable {
-  let candidates = if name == "1" { ["Unit"] } else { [capitalised(name), name] }
+  let candidates = if name == "1" {
+    ["Unit"]
+  } else {
+    [capitalised(name), name]
+  }
   for s in candidates {
-    if is_ident(s) && s.to_array()[0] is ('A'..='Z') && reads_as_type(s) == Some(name) {
+    if is_ident(s) &&
+      s.to_array()[0] is ('A'..<='Z') &&
+      reads_as_type(s) == Some(name) {
       return s
     }
   }
@@ -120,14 +126,17 @@ fn flatten(ty : @kernel.HolType, op : String) -> Array[@kernel.HolType] {
 }
 
 ///|
-fn print_type_at(ty : @kernel.HolType, simple : Bool) -> String raise Unprintable {
+fn print_type_at(
+  ty : @kernel.HolType,
+  simple : Bool,
+) -> String raise Unprintable {
   match ty {
     // a type variable the elaborator invented is written as a hole, which
     // elaboration fills with a fresh one
     Tyvar(name) if name.has_prefix("?") => "_"
     Tyvar(name) =>
       if name.to_array() is [c, ..] &&
-        c is ('A'..='Z') &&
+        c is ('A'..<='Z') &&
         is_ident(name) &&
         reads_as_type(name) is None {
         name
@@ -146,7 +155,9 @@ fn print_type_at(ty : @kernel.HolType, simple : Bool) -> String raise Unprintabl
       }
     }
     Tyapp("prod", More(_, tail=More(_, tail=Empty))) =>
-      "(" + flatten(ty, "prod").map(a => print_type_at(a, false)).join(", ") + ")"
+      "(" +
+      flatten(ty, "prod").map(a => print_type_at(a, false)).join(", ") +
+      ")"
     Tyapp(name, Empty) => type_name(name)
     Tyapp(name, args) =>
       type_name(name) +
@@ -202,11 +213,11 @@ priv struct Printer {
   // bindings of a set comprehension's implicit binders ({e | p}), each the
   // variable and the depth of its binding in the scope: printed with their
   // type where they first occur
-  untyped : Array[(@kernel.Term, Int)]
+  untyped : Array[(@kernel.Term, Int32)]
 }
 
 ///|
-fn wrap(s : String, level : Int, ctx : Int) -> String {
+fn wrap(s : String, level : Int32, ctx : Int32) -> String {
   if level < ctx {
     "(" + s + ")"
   } else {
@@ -216,7 +227,7 @@ fn wrap(s : String, level : Int, ctx : Int) -> String {
 
 ///|
 // operators of the grammar: HOL name -> (MoonBit operator, level, right-assoc)
-fn binary_op(name : String) -> (String, Int, Bool)? {
+fn binary_op(name : String) -> (String, Int32, Bool)? {
   match name {
     "==>" => Some(("→", IMPL, true))
     "\\/" => Some(("||", OR, true))
@@ -298,10 +309,8 @@ fn Printer::spelling(self : Printer, c : @kernel.Term) -> String {
     let (iname, (cname, gty)) = e
     if cname == name &&
       iname != name &&
-      (binary_op(iname) is Some(_) ||
-      iname is ("~" | "--") ||
-      is_ident(iname)) &&
-      (try @basics.type_match(gty, ty, @list.List([])) is _ catch {
+      (binary_op(iname) is Some(_) || iname is ("~" | "--") || is_ident(iname)) &&
+      (try (@basics.type_match(gty, ty, @list.List([])) is _) catch {
         _ => false
       } noraise {
         _ => true
@@ -313,8 +322,11 @@ fn Printer::spelling(self : Printer, c : @kernel.Term) -> String {
 }
 
 ///|
-fn Printer::constant(self : Printer, c : @kernel.Term) -> String raise Unprintable {
-  guard c is Const(_, ty) else { raise Unprintable("not a constant") }
+fn Printer::constant(
+  self : Printer,
+  c : @kernel.Term,
+) -> String raise Unprintable {
+  guard c is Const(_, _) else { raise Unprintable("not a constant") }
   let spelling = self.spelling(c)
   // a name the interface overloads reads as whichever constant the
   // priority in force picks (+ as real_add after prioritize_real)
@@ -331,19 +343,19 @@ fn Printer::annotated(
   self : Printer,
   s : String,
   c : @kernel.Term,
-  overloaded? : Bool = false,
+  overloaded~ : Bool = false,
 ) -> String raise Unprintable {
   guard c is Const(name, ty) else { raise Unprintable("not a constant") }
   let tvs = @kernel.tyvars(ty)
-  let polymorphic = (try @kernel.get_const_type(name) catch { _ => ty })
+  let polymorphic = (@kernel.get_const_type(name) catch { _ => ty })
     |> @kernel.tyvars
-    |> fn(l) { !l.is_empty() }
+    |> l => { !l.is_empty() }
   if tvs.iter().any(v => !self.fixed.contains(v)) ||
     (self.all_constants && !tvs.is_empty()) {
     "(" + s + " : " + print_type_in_term(ty) + ")"
   } else if self.all_constants && (polymorphic || overloaded) {
     // a concrete instance: annotated where its type can be written
-    "(" + s + " : " + print_type_in_term(ty) + ")" catch {
+    ("(" + s + " : " + print_type_in_term(ty) + ")") catch {
       _ => s
     }
   } else {
@@ -371,7 +383,11 @@ fn Printer::variable(
       match self.untyped.search((v, bound.length() - i)) {
         Some(i) => {
           self.untyped.remove(i) |> ignore
-          return "(" + spell_name(printed) + " : " + print_type_in_term(ty) + ")"
+          return "(" +
+            spell_name(printed) +
+            " : " +
+            print_type_in_term(ty) +
+            ")"
         }
         None => return spell_name(printed)
       }
@@ -418,16 +434,20 @@ fn Printer::bind(
   bound : Bound,
   truth~ : Bool = true,
 ) -> (String, Bound) raise Unprintable {
-  guard v is Var(name, ty) else { raise Unprintable("binder is not a variable") }
+  guard v is Var(name, ty) else {
+    raise Unprintable("binder is not a variable")
+  }
   // the names the other variables free in body are printed under
-  let clash = @kernel.frees(body).iter().any(u => {
-    u != v &&
-    (match bound.iter().find_first(b => b.0 == u) {
-      Some((_, printed)) => printed
-      None => if u is Var(n, _) { n } else { "" }
-    }) ==
-    name
-  })
+  let clash = @kernel.frees(body)
+    .iter()
+    .any(u => {
+      u != v &&
+      (match bound.iter().find_first(b => b.0 == u) {
+        Some((_, printed)) => printed
+        None => if u is Var(n, _) { n } else { "" }
+      }) ==
+      name
+    })
   // a binder named like a constant binds a variable that shadows the
   // constant (term_syntax's binder_alias): T and F always, since the syntax
   // writes truth and falsity as true and false; any other constant that is
@@ -436,14 +456,22 @@ fn Printer::bind(
   // constants, as in HOL, so a pattern variable named so is renamed
   // (`truth=false`), as is a binder named like an interface name
   let truth = truth &&
-    (name == "T" ||
-    name == "F" ||
-    (names_plain_constant(name) && !uses_constant(body, name)))
+    (
+      name == "T" ||
+      name == "F" ||
+      (names_plain_constant(name) && !uses_constant(body, name))
+    )
   // a binder with a symbolic name no identifier spells is written between
   // backticks (bound occurrences too); a free one has its op_ spelling
   let writable = is_ident(name) || is_raw_name(name)
   let plain = writable && (truth || !is_constant_name(name))
-  let mut printed = if plain { name } else if is_ident(name) { name + "'" } else { "v" }
+  let mut printed = if plain {
+    name
+  } else if is_ident(name) {
+    name + "'"
+  } else {
+    "v"
+  }
   if clash || !plain {
     // a symbolic name takes no primes: a fresh identifier instead
     if !is_ident(printed) {
@@ -462,7 +490,7 @@ fn Printer::bind(
 fn Printer::term(
   self : Printer,
   t : @kernel.Term,
-  ctx : Int,
+  ctx : Int32,
   bound : Bound,
 ) -> String raise Unprintable {
   match t {
@@ -485,11 +513,15 @@ fn Printer::term(
 fn Printer::comb(
   self : Printer,
   t : @kernel.Term,
-  ctx : Int,
+  ctx : Int32,
   bound : Bound,
 ) -> String raise Unprintable {
   // only a numeral in canonical form is written in decimal
-  if (try @basics.dest_numeral(t) catch { _ => None } noraise { n => Some(n) })
+  if (try @basics.dest_numeral(t) catch {
+      _ => None
+    } noraise {
+      n => Some(n)
+    })
     is Some(n) &&
     canonical_numeral(t) {
     return @num.string_of_num(n)
@@ -516,7 +548,11 @@ fn Printer::comb(
       let inner = self.bind_pattern(vs, rhs, bound, [pat, rhs])
       let p = self.term(pat, SIMPLE, inner)
       let ty = print_type_in_term(@kernel.type_of(pat))
-      wrap(sym + " " + p + " : " + ty + ", " + self.term(rhs, IMPL, inner), EXPR, ctx)
+      wrap(
+        sym + " " + p + " : " + ty + ", " + self.term(rhs, IMPL, inner),
+        EXPR,
+        ctx,
+      )
     }
     // a lambda over a pattern (\(a,b). e), a match or a function by
     // cases, applied to any further arguments
@@ -524,7 +560,7 @@ fn Printer::comb(
       if used == args.length() {
         s
       } else {
-        let rest = args[used:].to_array().map(a => self.term(a, EXPR, bound))
+        let rest = args[used:].to_owned().map(a => self.term(a, EXPR, bound))
         wrap(s + "(" + rest.join(", ") + ")", SIMPLE, ctx)
       }
     (Const(_, _), [x]) if spelled is ("~" | "--") => {
@@ -563,13 +599,15 @@ fn Printer::comb(
       if args.length() == 1 {
         s
       } else {
-        let rest = args[1:].to_array().map(a => self.term(a, EXPR, bound))
+        let rest = args[1:].to_owned().map(a => self.term(a, EXPR, bound))
         wrap(s + "(" + rest.join(", ") + ")", SIMPLE, ctx)
       }
     }
-    (Const("CONS", _), [_, _]) if (try @basics.dest_list(t) catch { _ => None } noraise {
-          l => Some(l)
-        })
+    (Const("CONS", _), [_, _]) if (try @basics.dest_list(t) catch {
+        _ => None
+      } noraise {
+        l => Some(l)
+      })
       is Some(items) =>
       "[" +
       items.to_array().map(x => self.term(x, EXPR, bound)).join(", ") +
@@ -584,12 +622,19 @@ fn Printer::comb(
       } else {
         (level, level + 1)
       }
-      let s = self.term(a, lctx, bound) + " " + op + " " + self.term(b, rctx, bound)
+      let s = self.term(a, lctx, bound) +
+        " " +
+        op +
+        " " +
+        self.term(b, rctx, bound)
       wrap(s, level, ctx)
     }
     _ => {
       let h = self.term(head, SIMPLE, bound)
-      let s = h + "(" + args.map(a => self.term(a, EXPR, bound)).join(", ") + ")"
+      let s = h +
+        "(" +
+        args.map(a => self.term(a, EXPR, bound)).join(", ") +
+        ")"
       wrap(s, SIMPLE, ctx)
     }
   }
@@ -674,19 +719,12 @@ fn Printer::pattern_form(
   head : @kernel.Term,
   args : Array[@kernel.Term],
   bound : Bound,
-) -> (String, Int)? raise Unprintable {
+) -> (String, Int32)? raise Unprintable {
   match (head, args) {
     (Const("GABS", _), [a, ..]) =>
       match dest_pattern_abs(a) {
         Some((pat, vs, rhs)) =>
-          Some(
-            (
-              "fn { " +
-              self.arm(pat, vs, None, rhs, bound) +
-              " }",
-              1,
-            ),
-          )
+          Some(("fn { " + self.arm(pat, vs, None, rhs, bound) + " }", 1))
         None => None
       }
     (Const("_MATCH", _), [e, cs, ..]) =>
@@ -734,7 +772,7 @@ fn names_variable(t : @kernel.Term, name : String) -> Bool {
 /// name of any variable in `scope`, free or bound (it would be captured,
 /// read as the other variable, or force a binder there to be renamed);
 /// then the backticks stay.
-fn op_spelled(bound : Bound, n : Int, scope : Array[@kernel.Term]) -> Bound {
+fn op_spelled(bound : Bound, n : Int32, scope : Array[@kernel.Term]) -> Bound {
   let bs = bound.to_array()
   let n = if n < bs.length() { n } else { bs.length() }
   for i in 0..<n {
@@ -752,7 +790,7 @@ fn op_spelled(bound : Bound, n : Int, scope : Array[@kernel.Term]) -> Bound {
       }
     }
   }
-  @list.from_array(bs)
+  @list.List(bs)
 }
 
 ///|
@@ -828,7 +866,7 @@ fn canonical_numeral(t : @kernel.Term) -> Bool {
   guard t is Comb(Const("NUMERAL", _), bits) else { return false }
   let mut b = bits
   let mut innermost = ""
-  while b is Comb(Const(("BIT0" | "BIT1") as bit, _), rest) {
+  while b is Comb(Const("BIT0" | "BIT1" as bit, _), rest) {
     innermost = bit
     b = rest
   }
@@ -897,7 +935,7 @@ fn implicit_binders(
     .to_array()
     .filter(v => {
       let n = printed(v)
-      !is_constant_name(n) && !n.to_array().iter().all(c => c is ('0'..='9'))
+      !is_constant_name(n) && !n.to_array().iter().all(c => c is ('0'..<='9'))
     })
   }
   let fvs = vars(e)
@@ -915,7 +953,7 @@ fn implicit_binders(
 /// its binders, whether it has binders to list), as the printer finds it
 /// (with no binder in scope renamed).
 priv struct Notation {
-  number : Int
+  number : Int32
   name : String
   e : @kernel.Term
   p : @kernel.Term
@@ -925,10 +963,10 @@ priv struct Notation {
 
 ///|
 /// n for a GEN%PVAR name `GEN%PVAR%n`.
-fn pvar_number(name : String) -> Int? {
+fn pvar_number(name : String) -> Int32? {
   guard name.strip_prefix("GEN%PVAR%") is Some(digits) &&
     !digits.is_empty() &&
-    digits.iter().all(c => c is ('0'..='9')) else {
+    digits.iter().all(c => c is ('0'..<='9')) else {
     return None
   }
   let mut number = 0
@@ -951,7 +989,7 @@ fn notation(t : @kernel.Term) -> Notation? {
   if scoped.is_empty() && !binds.is_empty() {
     return None
   }
-  Some({ number, name, e, p, implicit: binds == xs, listable: !xs.is_empty() })
+  Some({ number, name, e, p, implicit: binds == xs, listable: !xs.is_empty(), })
 }
 
 ///|
@@ -989,7 +1027,7 @@ fn outermost_notations(t : @kernel.Term) -> Array[Notation] {
 /// (pgen_cost), the last reading of e ending where p's begins, so for k
 /// earlier readings of e from `start`, start + (k + 1) * f(e) is where the
 /// last ends.
-fn listed_comprehensions(t : @kernel.Term, taken : Int) -> Array[String]? {
+fn listed_comprehensions(t : @kernel.Term, taken : Int32) -> Array[String]? {
   let outer = outermost_notations(t)
   if outer.is_empty() {
     return Some([])
@@ -1008,8 +1046,8 @@ fn listed_comprehensions(t : @kernel.Term, taken : Int) -> Array[String]? {
 /// comprehensions as they are, adding to `listed` those to list.
 fn read_names(
   t : @kernel.Term,
-  start : Int,
-  end : Int,
+  start : Int32,
+  end : Int32,
   listed : Array[String],
 ) -> Bool {
   let mut at = start
@@ -1024,7 +1062,11 @@ fn read_names(
 
 ///|
 /// Whether the comprehension `n`, read from `start`, is numbered as it is.
-fn read_comprehension(n : Notation, start : Int, listed : Array[String]) -> Bool {
+fn read_comprehension(
+  n : Notation,
+  start : Int32,
+  listed : Array[String],
+) -> Bool {
   let inner = outermost_notations(n.e)
   if inner.is_empty() {
     // e takes no names: both forms read p from the start
@@ -1137,8 +1179,8 @@ pub fn print_term(t : @kernel.Term) -> String raise Unprintable {
 fn print_term_with(
   t : @kernel.Term,
   sets~ : Bool,
-  listed? : Array[String] = [],
-  exact? : Bool = false,
+  listed~ : Array[String] = [],
+  exact~ : Bool = false,
 ) -> String raise Unprintable {
   let vars = @basics.variables(t).to_array()
   let fixed = vars
@@ -1159,11 +1201,7 @@ fn print_term_with(
         listed,
         exact,
         untyped: [],
-      }.term(
-        t,
-        EXPR,
-        @list.List([]),
-      )
+      }.term(t, EXPR, @list.List([]))
     }) catch {
       Unprintable(_) as e => raise e
       e => raise Unprintable("term: " + e.to_string())
@@ -1202,7 +1240,7 @@ fn print_term_with(
 fn invented_number(name : String) -> Int64 {
   let mut n = 0L
   for c in name[1:] {
-    guard c is ('0'..='9') else { return -1L }
+    guard c is ('0'..<='9') else { return -1L }
     n = n * 10L + (c.to_int() - '0'.to_int()).to_int64()
   }
   n
@@ -1212,7 +1250,7 @@ fn invented_number(name : String) -> Int64 {
 /// `t` with its invented type variables (`?n`) renamed in the order
 /// `type_vars_in_term` lists them (those numbered `from` or more): holes in
 /// the text read back as fresh ones.
-fn canonical_invented(t : @kernel.Term, from? : Int64 = 0L) -> @kernel.Term {
+fn canonical_invented(t : @kernel.Term, from~ : Int64 = 0L) -> @kernel.Term {
   let theta = []
   for ty in @kernel.type_vars_in_term(t) {
     if ty is Tyvar(name) &&
@@ -1240,7 +1278,10 @@ pub fn same_term(a : @kernel.Term, b : @kernel.Term) -> Bool {
 /// that later generated names do not move. Invented type variables may
 /// differ in name. tools/migrate.mbtx migrates only such quotations, so the
 /// theorems of a migrated package print as before.
-pub fn spell_quotation(old : String, t : @kernel.Term) -> String raise Unprintable {
+pub fn spell_quotation(
+  old : String,
+  t : @kernel.Term,
+) -> String raise Unprintable {
   // set notation, else the sets as written (GSPEC(...)), which an old
   // quotation may spell out. A comprehension whose element has one may be
   // written either way, numbering the GEN%PVAR names in it differently:
@@ -1248,7 +1289,7 @@ pub fn spell_quotation(old : String, t : @kernel.Term) -> String raise Unprintab
   // the first form's failure says most (later forms are fallbacks)
   let mut error : Unprintable? = None
   let forms = [(true, [])]
-  let taken = try @parser.reread_term(old).1 catch { _ => -1 }
+  let taken = @parser.reread_term(old).1 catch { _ => -1 }
   if listed_comprehensions(t, taken) is Some(listed) && !listed.is_empty() {
     forms.push((true, listed))
   }
@@ -1258,7 +1299,9 @@ pub fn spell_quotation(old : String, t : @kernel.Term) -> String raise Unprintab
     let (sets, listed) = form
     let s = print_term_with(t, sets~, listed~, exact=true) catch {
       e => {
-        if error is None { error = Some(e) }
+        if error is None {
+          error = Some(e)
+        }
         continue
       }
     }
@@ -1268,7 +1311,9 @@ pub fn spell_quotation(old : String, t : @kernel.Term) -> String raise Unprintab
     tried.push(s)
     check_spelling(old, s) catch {
       e => {
-        if error is None { error = Some(e) }
+        if error is None {
+          error = Some(e)
+        }
         continue
       }
     }
@@ -1323,7 +1368,12 @@ fn difference(a : @kernel.Term, b : @kernel.Term) -> String {
       } else {
         "constant \{n} : \{brief_type(s)} read with type \{brief_type(t)}"
       }
-    (Comb(f, x), Comb(g, y)) => if f != g { difference(f, g) } else { difference(x, y) }
+    (Comb(f, x), Comb(g, y)) =>
+      if f != g {
+        difference(f, g)
+      } else {
+        difference(x, y)
+      }
     (Abs(Var(v, s), x), Abs(Var(w, t), y)) =>
       if v != w {
         "bound variable \{v} read as \{w}"
@@ -1370,7 +1420,7 @@ fn check_spelling_once(old : String, s : String) -> Unit raise Unprintable {
 ///|
 /// `s` read now, without advancing the GEN%PVAR counter, and how many
 /// GEN%PVAR names it took.
-fn reread(s : String) -> (@kernel.Term, Int) raise {
+fn reread(s : String) -> (@kernel.Term, Int32) raise {
   @parser.with_pgen_counter_restored(() => {
     let start = @parser.pgen_count()
     let t = elaborate(s)
@@ -1381,8 +1431,10 @@ fn reread(s : String) -> (@kernel.Term, Int) raise {
 ///|
 fn reads_as(s : String, t : @kernel.Term) -> Bool {
   // under the live interface and the fixed view alike (resolution.mbt)
-  try same_term(with_resolution(false, () => reread(s).0), t) &&
-    same_term(with_resolution(true, () => reread(s).0), t) catch {
+  try
+    same_term(with_resolution(false, () => reread(s).0), t) &&
+    same_term(with_resolution(true, () => reread(s).0), t)
+  catch {
     _ => false
   }
 }

@@ -540,37 +540,46 @@ pub fn warn(Bool, String) -> Unit
 pub fn[A, B] zip(@list.List[A], @list.List[B]) -> @list.List[(A, B)] raise
 
 // Errors
+#derive(@debug.Debug)
 pub(all) suberror AssertFailure {
   AssertFailure(String)
-} derive(@debug.Debug)
+}
 pub fn AssertFailure::to_repr(Self) -> @debug.Repr
 
-pub(all) suberror Break derive(@debug.Debug)
+#derive(@debug.Debug)
+pub(all) suberror Break
 pub fn Break::to_repr(Self) -> @debug.Repr
 
-pub(all) suberror EndOfFile derive(@debug.Debug)
+#derive(@debug.Debug)
+pub(all) suberror EndOfFile
 pub fn EndOfFile::to_repr(Self) -> @debug.Repr
 
-pub(all) suberror LazyUndefined derive(@debug.Debug)
+#derive(@debug.Debug)
+pub(all) suberror LazyUndefined
 pub fn LazyUndefined::to_repr(Self) -> @debug.Repr
 
+#derive(@debug.Debug)
 pub(all) suberror MatchFailure {
   MatchFailure(String)
-} derive(@debug.Debug)
+}
 pub fn MatchFailure::to_repr(Self) -> @debug.Repr
 
-pub(all) suberror NotFound derive(@debug.Debug)
+#derive(@debug.Debug)
+pub(all) suberror NotFound
 pub fn NotFound::to_repr(Self) -> @debug.Repr
 
-pub(all) suberror StreamFailure derive(@debug.Debug)
+#derive(@debug.Debug)
+pub(all) suberror StreamFailure
 pub fn StreamFailure::to_repr(Self) -> @debug.Repr
 
+#derive(@debug.Debug)
 pub(all) suberror SysError {
   SysError(String)
-} derive(@debug.Debug)
+}
 pub fn SysError::to_repr(Self) -> @debug.Repr
 
-pub(all) suberror Unchanged derive(@debug.Debug)
+#derive(@debug.Debug)
+pub(all) suberror Unchanged
 pub fn Unchanged::to_repr(Self) -> @debug.Repr
 
 // Types and methods
@@ -582,11 +591,12 @@ pub fn[T] Cell::is_set(Self[T]) -> Bool
 pub fn[T] Cell::new(String) -> Self[T]
 pub fn[T] Cell::set(Self[T], T) -> Unit
 
+#derive(Eq)
 pub enum Func[K, V] {
   Empty
   Leaf(Int32, @list.List[(K, V)])
   Branch(Int32, Int32, Func[K, V], Func[K, V])
-} derive(Eq)
+}
 pub fn[K : Eq, V : Eq] Func::equal(Self[K, V], Self[K, V]) -> Bool
 pub fn[K : Eq, V : Eq] Func::not_equal(Self[K, V], Self[K, V]) -> Bool
 pub fn[K : OCompare, V : OCompare] Func::ocompare(Self[K, V], Self[K, V]) -> Int32

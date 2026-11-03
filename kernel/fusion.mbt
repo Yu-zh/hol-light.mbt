@@ -196,7 +196,9 @@ pub fn is_vartype(ty : HolType) -> Bool {
 pub fn tyvars(ty : HolType) -> @list.List[HolType] {
   match ty {
     Tyapp(_, args) =>
-      args.rev().fold(init=@list.List([]), (acc, arg) => union(tyvars(arg), acc))
+      args
+      .rev()
+      .fold(init=@list.List([]), (acc, arg) => union(tyvars(arg), acc))
     Tyvar(_) => @list.singleton(ty)
   }
 }
@@ -620,7 +622,7 @@ pub fn dest_eq(tm : Term) -> (Term, Term) raise {
 // ---------------------------------------------------------------------------
 
 ///|
-fn ordav(env : @list.List[(Term, Term)], x1 : Term, x2 : Term) -> Int {
+fn ordav(env : @list.List[(Term, Term)], x1 : Term, x2 : Term) -> Int32 {
   for pair in env {
     let (t1, t2) = pair
     if x1 == t1 {
@@ -633,7 +635,7 @@ fn ordav(env : @list.List[(Term, Term)], x1 : Term, x2 : Term) -> Int {
 }
 
 ///|
-fn orda(env : @list.List[(Term, Term)], tm1 : Term, tm2 : Term) -> Int {
+fn orda(env : @list.List[(Term, Term)], tm1 : Term, tm2 : Term) -> Int32 {
   if physical_equal(tm1, tm2) && env.all(p => p.0 == p.1) {
     return 0
   }
@@ -668,7 +670,7 @@ fn orda(env : @list.List[(Term, Term)], tm1 : Term, tm2 : Term) -> Int {
 
 ///|
 /// Total order on terms that identifies alpha-equivalent terms.
-pub fn alphaorder(tm1 : Term, tm2 : Term) -> Int {
+pub fn alphaorder(tm1 : Term, tm2 : Term) -> Int32 {
   orda(@list.List([]), tm1, tm2)
 }
 

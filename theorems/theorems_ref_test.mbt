@@ -147,7 +147,9 @@ test "theorems matches theorems.ml" {
   st("INTRO_zero", () => (tm("p \\/ q"), @theorems.intro_tac("#0")))
   st("INTRO_garbage", () => (tm("p ==> q"), @theorems.intro_tac("hp }")))
   st("FIX_vars", () => (tm("forall x y z:A. P x y z"), @theorems.fix_tac("x y")))
-  st("FIX_rename", () => (tm("forall x y:A. P x y"), @theorems.fix_tac("[a/y] *")))
+  st("FIX_rename", () => {
+    (tm("forall x y:A. P x y"), @theorems.fix_tac("[a/y] *"))
+  })
   st("FIX_star", () => (tm("forall x y:A. P x y"), @theorems.fix_tac("*")))
   st("FIX_missing", () => (tm("forall x:A. P x"), @theorems.fix_tac("y")))
   st("FIX_bad", () => (tm("forall x:A. P x"), @theorems.fix_tac("x ]")))

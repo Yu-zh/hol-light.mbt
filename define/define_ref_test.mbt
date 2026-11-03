@@ -94,11 +94,15 @@ test "define matches define.ml" {
   // BEGIN EXTRA
   log.attempt("define_fib", () => {
     sthm(
-      @define.define_(tm("fib n = if n < 2 then 1 else fib(n - 1) + fib(n - 2)")),
+      @define.define_(
+        tm("fib n = if n < 2 then 1 else fib(n - 1) + fib(n - 2)"),
+      ),
     )
   })
   log.attempt("define_gcd", () => {
-    sthm(@define.define_(tm("gcdx m n = if n = 0 then m else gcdx n (m MOD n)")))
+    sthm(
+      @define.define_(tm("gcdx m n = if n = 0 then m else gcdx n (m MOD n)")),
+    )
   })
   log.attempt("define_pat", () => {
     sthm(

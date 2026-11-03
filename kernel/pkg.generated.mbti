@@ -9,7 +9,7 @@ import {
 // Values
 pub fn abs_rule(Term, Thm) -> Thm raise
 
-pub fn alphaorder(Term, Term) -> Int
+pub fn alphaorder(Term, Term) -> Int32
 
 pub fn assume_rule(Term) -> Thm raise
 
@@ -21,7 +21,7 @@ pub fn beta(Term) -> Thm raise
 
 pub let bool_ty : HolType
 
-pub fn compare_string(String, String) -> Int
+pub fn compare_string(String, String) -> Int32
 
 pub fn concl(Thm) -> Term
 
@@ -130,13 +130,14 @@ pub fn vsubst(@list.List[(Term, Term)], Term) -> Term raise
 // Errors
 
 // Types and methods
+#derive(Eq, Hash, @debug.Debug)
 pub enum HolType {
   Tyvar(String)
   Tyapp(String, @list.List[HolType])
-} derive(Eq, Hash, @debug.Debug)
-pub fn HolType::compare(Self, Self) -> Int
+}
+pub fn HolType::compare(Self, Self) -> Int32
 pub fn HolType::equal(Self, Self) -> Bool
-pub fn HolType::hash(Self) -> Int
+pub fn HolType::hash(Self) -> Int32
 pub fn HolType::hash_combine(Self, Hasher) -> Unit
 pub fn HolType::not_equal(Self, Self) -> Bool
 pub fn HolType::op_ge(Self, Self) -> Bool
@@ -146,15 +147,16 @@ pub fn HolType::op_lt(Self, Self) -> Bool
 pub fn HolType::to_repr(Self) -> @debug.Repr
 pub impl Compare for HolType
 
+#derive(Eq, Hash, @debug.Debug)
 pub enum Term {
   Var(String, HolType)
   Const(String, HolType)
   Comb(Term, Term)
   Abs(Term, Term)
-} derive(Eq, Hash, @debug.Debug)
-pub fn Term::compare(Self, Self) -> Int
+}
+pub fn Term::compare(Self, Self) -> Int32
 pub fn Term::equal(Self, Self) -> Bool
-pub fn Term::hash(Self) -> Int
+pub fn Term::hash(Self) -> Int32
 pub fn Term::hash_combine(Self, Hasher) -> Unit
 pub fn Term::not_equal(Self, Self) -> Bool
 pub fn Term::op_ge(Self, Self) -> Bool
@@ -164,10 +166,11 @@ pub fn Term::op_lt(Self, Self) -> Bool
 pub fn Term::to_repr(Self) -> @debug.Repr
 pub impl Compare for Term
 
+#derive(Eq, @debug.Debug)
 pub struct Thm {
   // private fields
-} derive(Eq, @debug.Debug)
-pub fn Thm::compare(Self, Self) -> Int
+}
+pub fn Thm::compare(Self, Self) -> Int32
 pub fn Thm::equal(Self, Self) -> Bool
 pub fn Thm::not_equal(Self, Self) -> Bool
 pub fn Thm::op_ge(Self, Self) -> Bool

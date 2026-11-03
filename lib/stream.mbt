@@ -4,7 +4,8 @@
 
 ///|
 /// `Stream.Failure`: nothing left.
-pub(all) suberror StreamFailure derive(Debug)
+#derive(Debug)
+pub(all) suberror StreamFailure
 
 ///|
 pub extend StreamFailure with @debug.Debug::{to_repr}
@@ -13,7 +14,7 @@ pub extend StreamFailure with @debug.Debug::{to_repr}
 /// `'a Stream.t`
 pub struct Stream[A] {
   items : Array[A]
-  mut pos : Int
+  mut pos : Int32
 }
 
 ///|

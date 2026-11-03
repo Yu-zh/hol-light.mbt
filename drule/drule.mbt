@@ -140,7 +140,7 @@ pub fn betas_conv(tm : Term) -> Thm raise {
 // ---------------------------------------------------------------------------
 
 ///|
-fn betas(n : Int, tm : Term) -> Term raise {
+fn betas(n : Int32, tm : Term) -> Term raise {
   let (args, lam) = @lib.funpow(
     n,
     (p : (List[Term], Term)) => {
@@ -232,7 +232,7 @@ pub fn instantiate(i : Instantiation, tm : Term) -> Term raise {
 }
 
 ///|
-fn betas_conv_n(n : Int, tm : Term) -> Thm raise {
+fn betas_conv_n(n : Int32, tm : Term) -> Thm raise {
   if n == 1 {
     @equal.try_conv(@equal.beta_conv)(tm)
   } else {
@@ -1106,7 +1106,7 @@ pub fn match_mp(ith : Thm) -> ((Thm) -> Thm raise) raise {
 // ---------------------------------------------------------------------------
 
 ///|
-fn beta_convs(n : Int) -> Conv {
+fn beta_convs(n : Int32) -> Conv {
   if n == 1 {
     @equal.try_conv(@equal.beta_conv)
   } else {

@@ -26,8 +26,12 @@ test "canon matches canon.ml" {
   cv("NNF_CONV", @canon.nnf_conv, fol)
   cv("NNFC_CONV", @canon.nnfc_conv, "~(p <=> q) \\/ (r <=> ~s)")
   cv("NNF_CONV_eq", @canon.nnf_conv, "~(p <=> q) \\/ (r <=> ~s)")
-  cv("SKOLEM_CONV", @canon.skolem_conv, "forall x:A. ?y:B. P x y /\\ (?z:C. Q x z)")
-  cv("PRENEX_CONV", @canon.prenex_conv, "(forall x:A. P x) /\\ (?y:A. Q y) ==> R")
+  cv(
+    "SKOLEM_CONV", @canon.skolem_conv, "forall x:A. ?y:B. P x y /\\ (?z:C. Q x z)",
+  )
+  cv(
+    "PRENEX_CONV", @canon.prenex_conv, "(forall x:A. P x) /\\ (?y:A. Q y) ==> R",
+  )
   cv("WEAK_DNF_CONV", @canon.weak_dnf_conv, "(a \\/ b) /\\ (c \\/ d)")
   cv("DNF_CONV", @canon.dnf_conv, "(a \\/ b) /\\ (c \\/ a)")
   cv("WEAK_CNF_CONV", @canon.weak_cnf_conv, "(a /\\ b) \\/ (c /\\ d)")

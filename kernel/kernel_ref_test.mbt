@@ -81,7 +81,9 @@ test "kernel matches upstream fusion.ml" {
   }
   log.attempt("mk_comb_bad", () => stm(app(x, y)))
   log.attempt("mk_abs_bad", () => stm(@kernel.mk_abs(g, x)))
-  log.attempt("mk_const_bad", () => stm(@kernel.mk_const("nope", @list.List([]))))
+  log.attempt("mk_const_bad", () => {
+    stm(@kernel.mk_const("nope", @list.List([])))
+  })
   let t1 = app(app(f, x), app(g, y))
   log.attempt("frees", () => {
     slist(
@@ -138,7 +140,7 @@ test "kernel matches upstream fusion.ml" {
     let mk_abs = @kernel.mk_abs
     let ao = @kernel.alphaorder
     slist(
-      fn(i : Int) { i.to_string() },
+      fn(i : Int32) { i.to_string() },
       @list.List([
         ao(mk_abs(x, x), mk_abs(y, y)),
         ao(x, y),
@@ -152,7 +154,7 @@ test "kernel matches upstream fusion.ml" {
   log.attempt("compare", () => {
     let cs = @kernel.compare_string
     slist(
-      fn(i : Int) { i.to_string() },
+      fn(i : Int32) { i.to_string() },
       @list.List([
         cs("b", "aa"),
         cs("", "a"),

@@ -16,7 +16,7 @@
 /// Whether the term syntax reads names through the fixed view. Off while
 /// the quotations already migrated are checked against it (spellings must
 /// read the same both ways); on once they all do.
-pub let fixed_resolution : Ref[Bool] = Ref::{ val: true }
+pub let fixed_resolution : Ref[Bool] = Ref::{ val: true, }
 
 ///|
 /// Run `f` with names read through the fixed view or the live interface.
@@ -35,13 +35,13 @@ let fixed_names : Array[String] = ["existsunique"]
 ///|
 /// The rank of an overload of `sym` at type `ty`: by the type its
 /// skeleton's variable takes.
-fn overload_rank(sym : String, ty : @kernel.HolType) -> (Int, String) {
+fn overload_rank(sym : String, ty : @kernel.HolType) -> (Int32, String) {
   let skeleton = @printer.the_overload_skeletons.val
     .iter()
     .find_first(sk => sk.0 == sym)
   let inst = match skeleton {
     Some((_, gty)) =>
-      try @basics.type_match(gty, ty, @list.List([])) catch {
+      @basics.type_match(gty, ty, @list.List([])) catch {
         _ => @list.List([])
       }
     None => @list.List([])
@@ -70,7 +70,7 @@ let fixed_cache : Ref[
     Array[String],
     Ref[@list.List[(String, @kernel.HolType)]],
   )?,
-] = Ref::{ val: None }
+] = Ref::{ val: None, }
 
 ///|
 /// Whether `name` is a constant now.
@@ -112,12 +112,16 @@ fn fixed_interface() -> @list.List[(String, (String, @kernel.HolType))] {
     }
     _ => ()
   }
-  let seen : Map[String, Bool] = Map::new()
+  let seen : Map[String, Bool] = Map([])
   let entries = []
   let pending = []
   for e in registry.iter().concat(live.iter()) {
     let (sym, (name, ty)) = e
-    let key = sym + "\u{0}" + name + "\u{0}" + (@printer.string_of_type(ty) catch { _ => "" })
+    let key = sym +
+      "\u{0}" +
+      name +
+      "\u{0}" +
+      (@printer.string_of_type(ty) catch { _ => "" })
     if seen.contains(key) {
       continue
     }
@@ -127,7 +131,8 @@ fn fixed_interface() -> @list.List[(String, (String, @kernel.HolType))] {
     if overloaded && !defined {
       pending.push(name)
     }
-    if (overloaded && defined) || (fixed_names.contains(sym) && live.iter().any(l => l == e)) {
+    if (overloaded && defined) ||
+      (fixed_names.contains(sym) && live.iter().any(l => l == e)) {
       entries.push(e)
     }
   }
@@ -153,7 +158,7 @@ fn fixed_interface() -> @list.List[(String, (String, @kernel.HolType))] {
   })
   let view = @list.List(keyed.map(k => k.1))
   fixed_cache.val = Some(
-    (live, skeletons, registry, view, pending, Ref::{ val: constants }),
+    (live, skeletons, registry, view, pending, Ref::{ val: constants, }),
   )
   view
 }

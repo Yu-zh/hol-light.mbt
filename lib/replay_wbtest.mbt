@@ -129,3 +129,15 @@ test "%.0f" {
     content="12 -4 0",
   )
 }
+
+///|
+test "input_line preserves the raw offset after input_byte" {
+  file_of_string("split_surrogate", "😀line\nnext")
+  let ic = open_in("split_surrogate")
+  assert_eq(input_byte(ic), 0xD83DL)
+  let line = input_line(ic)
+  assert_eq(line.length(), 5)
+  assert_eq(line[0], 0xDE00)
+  assert_eq(line[1], 'l')
+  assert_eq(input_line(ic), "next")
+}

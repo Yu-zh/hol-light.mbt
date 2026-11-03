@@ -101,10 +101,11 @@ pub fn signature(x6 : @list.List[@kernel.Term], x7 : @kernel.Term, x8 : (@list.L
 
 ///|
 /// `folterm`
+#derive(Eq, Debug)
 pub(all) enum Folterm {
   Variable(String)
   Function(String, @list.List[Folterm])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Folterm with Eq::{not_equal, equal}
@@ -161,9 +162,10 @@ pub impl @lib.OHash for Folterm with fn ohash_visit(self, h) {
 
 ///|
 /// `literal`
+#derive(Eq, Debug)
 pub(all) enum Literal {
   Literal(Bool, String, @list.List[Folterm])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Literal with Eq::{not_equal, equal}
@@ -338,10 +340,11 @@ pub fn prover9_of_clause(x34 : @list.List[Literal]) -> String raise {
 
 ///|
 /// `sexp`
+#derive(Eq, Debug)
 pub(all) enum Sexp {
   Atom(String)
   List(@list.List[Sexp])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Sexp with Eq::{not_equal, equal}

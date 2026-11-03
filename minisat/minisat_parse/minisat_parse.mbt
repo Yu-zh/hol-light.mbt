@@ -2,10 +2,11 @@
 
 ///|
 /// `rootc`
+#derive(Eq, Debug)
 pub(all) enum Rootc {
   Rthm(@kernel.Thm, @sat_common_tools.T3, @kernel.Term, @kernel.Thm)
   Ll(@kernel.Term, @sat_common_tools.T3)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Rootc with Eq::{not_equal, equal}
@@ -76,12 +77,13 @@ pub impl @lib.OHash for Rootc with fn ohash_visit(self, h) {
 
 ///|
 /// `clause`
+#derive(Eq, Debug)
 pub(all) enum Clause {
   Blank
   Chain(@list.List[(Int64, Int64)], Int64)
   Root(Rootc)
   Learnt(@kernel.Thm, @sat_common_tools.T3)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Clause with Eq::{not_equal, equal}

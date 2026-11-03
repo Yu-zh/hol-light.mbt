@@ -42,6 +42,7 @@ pub fn mk_poly_coeffs(Int64) -> ((@kernel.Term) -> @list.List[PolyCoeff] raise) 
 // Errors
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) struct PolyCoeff {
   c_tm : @kernel.Term
   bounds_tm : @kernel.Term
@@ -49,10 +50,10 @@ pub(all) struct PolyCoeff {
   sign : Int64
   sign_high_th : @kernel.Thm
   sign_low_th : @kernel.Thm
-} derive(Eq, @debug.Debug)
+}
 pub fn PolyCoeff::equal(Self, Self) -> Bool
 pub fn PolyCoeff::not_equal(Self, Self) -> Bool
-pub fn PolyCoeff::ocompare(Self, Self) -> Int
+pub fn PolyCoeff::ocompare(Self, Self) -> Int32
 pub fn PolyCoeff::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn PolyCoeff::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for PolyCoeff

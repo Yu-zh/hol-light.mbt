@@ -28,13 +28,13 @@ pub fn basic_convs() -> @list.List[(String, (@kernel.Term, (@kernel.Term) -> @ke
 
 pub fn basic_net() -> @nets.Net[GconvOf[(@kernel.Term) -> @kernel.Thm raise]]
 
-pub fn basic_prover((Simpset, Int, @kernel.Term) -> @kernel.Thm raise) -> (Simpset, Int, @kernel.Term) -> @kernel.Thm raise
+pub fn basic_prover((Simpset, Int32, @kernel.Term) -> @kernel.Thm raise) -> (Simpset, Int32, @kernel.Term) -> @kernel.Thm raise
 
 pub fn basic_rewrites() -> @list.List[@kernel.Thm]
 
 pub fn basic_ss(@list.List[@kernel.Thm]) -> Simpset raise
 
-pub fn depth_sqconv(Simpset, Int, @kernel.Term) -> @kernel.Thm raise
+pub fn depth_sqconv(Simpset, Int32, @kernel.Term) -> @kernel.Thm raise
 
 pub let empty_ss : Simpset
 
@@ -56,7 +56,7 @@ pub fn gen_rewrite_rule(((@kernel.Term) -> @kernel.Thm raise) -> ((@kernel.Term)
 
 pub fn gen_rewrite_tac(((@kernel.Term) -> @kernel.Thm raise) -> ((@kernel.Term) -> @kernel.Thm raise) raise?, @list.List[@kernel.Thm]) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise
 
-pub fn gen_simplify_conv((Simpset, Int, @kernel.Term) -> @kernel.Thm raise, Simpset, Int, @list.List[@kernel.Thm]) -> ((@kernel.Term) -> @kernel.Thm raise) raise
+pub fn gen_simplify_conv((Simpset, Int32, @kernel.Term) -> @kernel.Thm raise, Simpset, Int32, @list.List[@kernel.Thm]) -> ((@kernel.Term) -> @kernel.Thm raise) raise
 
 pub fn general_rewrite_conv(Bool, ((@kernel.Term) -> @kernel.Thm raise) -> ((@kernel.Term) -> @kernel.Thm raise) raise?, @nets.Net[GconvOf[(@kernel.Term) -> @kernel.Thm raise]], @list.List[@kernel.Thm]) -> ((@kernel.Term) -> @kernel.Thm raise) raise
 
@@ -78,7 +78,7 @@ pub fn once_asm_rewrite_tac(@list.List[@kernel.Thm]) -> (((@list.List[(String, @
 
 pub fn once_asm_simp_tac(@list.List[@kernel.Thm]) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise
 
-pub fn once_depth_sqconv(Simpset, Int, @kernel.Term) -> @kernel.Thm raise
+pub fn once_depth_sqconv(Simpset, Int32, @kernel.Term) -> @kernel.Thm raise
 
 pub fn once_rewrite_conv(@list.List[@kernel.Thm]) -> ((@kernel.Term) -> @kernel.Thm raise) raise
 
@@ -126,7 +126,7 @@ pub fn pure_simp_rule(@list.List[@kernel.Thm]) -> ((@kernel.Thm) -> @kernel.Thm 
 
 pub fn pure_simp_tac(@list.List[@kernel.Thm]) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise
 
-pub fn redepth_sqconv(Simpset, Int, @kernel.Term) -> @kernel.Thm raise
+pub fn redepth_sqconv(Simpset, Int32, @kernel.Term) -> @kernel.Thm raise
 
 pub fn rewr_conv(@kernel.Thm) -> ((@kernel.Term) -> @kernel.Thm raise) raise
 
@@ -152,7 +152,7 @@ pub fn simp_tac(@list.List[@kernel.Thm]) -> (((@list.List[(String, @kernel.Thm)]
 
 pub fn simplify_conv(Simpset, @list.List[@kernel.Thm]) -> ((@kernel.Term) -> @kernel.Thm raise) raise
 
-pub fn simpset(@nets.Net[GconvOf[(@kernel.Term) -> @kernel.Thm raise]], ((Simpset, Int, @kernel.Term) -> @kernel.Thm raise) -> ((Simpset, Int, @kernel.Term) -> @kernel.Thm raise) raise, @list.List[Prover], (@kernel.Thm, @list.List[@kernel.Thm]) -> @list.List[@kernel.Thm] raise) -> Simpset
+pub fn simpset(@nets.Net[GconvOf[(@kernel.Term) -> @kernel.Thm raise]], ((Simpset, Int32, @kernel.Term) -> @kernel.Thm raise) -> ((Simpset, Int32, @kernel.Term) -> @kernel.Thm raise) raise, @list.List[Prover], (@kernel.Thm, @list.List[@kernel.Thm]) -> @list.List[@kernel.Thm] raise) -> Simpset
 
 pub fn ss_of_congs(@list.List[@kernel.Thm], Simpset) -> Simpset raise
 
@@ -160,7 +160,7 @@ pub fn ss_of_conv(@kernel.Term, (@kernel.Term) -> @kernel.Thm raise, Simpset) ->
 
 pub fn ss_of_maker((@kernel.Thm, @list.List[@kernel.Thm]) -> @list.List[@kernel.Thm] raise, Simpset) -> Simpset
 
-pub fn ss_of_prover(((Simpset, Int, @kernel.Term) -> @kernel.Thm raise) -> ((Simpset, Int, @kernel.Term) -> @kernel.Thm raise) raise, Simpset) -> Simpset
+pub fn ss_of_prover(((Simpset, Int32, @kernel.Term) -> @kernel.Thm raise) -> ((Simpset, Int32, @kernel.Term) -> @kernel.Thm raise) raise, Simpset) -> Simpset
 
 pub fn ss_of_provers(@list.List[Prover], Simpset) -> Simpset
 
@@ -168,18 +168,18 @@ pub fn ss_of_thms(@list.List[@kernel.Thm], Simpset) -> Simpset raise
 
 pub fn term_order(@kernel.Term, @kernel.Term) -> Bool
 
-pub fn top_depth_sqconv(Simpset, Int, @kernel.Term) -> @kernel.Thm raise
+pub fn top_depth_sqconv(Simpset, Int32, @kernel.Term) -> @kernel.Thm raise
 
-pub fn top_sweep_sqconv(Simpset, Int, @kernel.Term) -> @kernel.Thm raise
+pub fn top_sweep_sqconv(Simpset, Int32, @kernel.Term) -> @kernel.Thm raise
 
 // Errors
 
 // Types and methods
 pub struct GconvOf[C] {
-  priority : Int
+  priority : Int32
   conv : C
 }
-pub fn[C] GconvOf::net_compare(Self[C], Self[C]) -> Int?
+pub fn[C] GconvOf::net_compare(Self[C], Self[C]) -> Int32?
 pub impl[C] @nets.NetCompare for GconvOf[C]
 
 pub struct Prover {
@@ -189,7 +189,7 @@ pub struct Prover {
 
 pub struct Simpset {
   net : @nets.Net[GconvOf[(@kernel.Term) -> @kernel.Thm raise]]
-  prover : ((Simpset, Int, @kernel.Term) -> @kernel.Thm raise) -> ((Simpset, Int, @kernel.Term) -> @kernel.Thm raise) raise
+  prover : ((Simpset, Int32, @kernel.Term) -> @kernel.Thm raise) -> ((Simpset, Int32, @kernel.Term) -> @kernel.Thm raise) raise
   provers : @list.List[Prover]
   rewmaker : (@kernel.Thm, @list.List[@kernel.Thm]) -> @list.List[@kernel.Thm] raise
 }
@@ -197,6 +197,6 @@ pub struct Simpset {
 // Type aliases
 pub type Gconv = GconvOf[(@kernel.Term) -> @kernel.Thm raise]
 
-pub type Strategy = (Simpset, Int, @kernel.Term) -> @kernel.Thm raise
+pub type Strategy = (Simpset, Int32, @kernel.Term) -> @kernel.Thm raise
 
 // Traits

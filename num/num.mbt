@@ -13,16 +13,18 @@
 
 ///|
 /// An exact rational number.
+#derive(Eq, Hash)
 pub struct Num {
   priv num : @bigint.BigInt
   priv den : @bigint.BigInt
-} derive(Eq, Hash)
+}
 
 ///|
 /// OCaml's `Invalid_argument` exception (not a `Failure`).
+#derive(Debug)
 pub(all) suberror InvalidArgument {
   InvalidArgument(String)
-} derive(Debug)
+}
 
 ///|
 pub impl Show for InvalidArgument with fn output(self, logger) {
@@ -38,7 +40,8 @@ pub extend InvalidArgument with @debug.Debug::{to_repr}
 
 ///|
 /// OCaml's `Division_by_zero` exception (not a `Failure`).
-pub(all) suberror DivisionByZero derive(Debug)
+#derive(Debug)
+pub(all) suberror DivisionByZero
 
 ///|
 pub impl Show for DivisionByZero with fn output(_, logger) {
@@ -115,7 +118,7 @@ fn of_big(n : @bigint.BigInt) -> Num {
 }
 
 ///|
-pub fn num_of_int(n : Int) -> Num {
+pub fn num_of_int(n : Int32) -> Num {
   of_big(@bigint.BigInt::from_int(n))
 }
 
@@ -203,7 +206,7 @@ pub impl Neg for Num with fn neg(a) {
 ///|
 /// -1, 0 or 1, as OCaml's comparisons return. `BigInt::compare` only
 /// promises the sign (it returns 2 for some arguments on wasm-gc).
-fn sign_of_compare(c : Int) -> Int {
+fn sign_of_compare(c : Int32) -> Int32 {
   if c < 0 {
     -1
   } else if c > 0 {
@@ -300,7 +303,7 @@ pub fn abs_num(a : Num) -> Num {
 
 ///|
 /// -1, 0 or 1.
-pub fn sign_num(a : Num) -> Int {
+pub fn sign_num(a : Num) -> Int32 {
   sign_of_compare(a.num.compare(big_zero))
 }
 
@@ -315,7 +318,7 @@ pub fn pred_num(a : Num) -> Num {
 }
 
 ///|
-pub fn compare_num(a : Num, b : Num) -> Int {
+pub fn compare_num(a : Num, b : Num) -> Int32 {
   a.compare(b)
 }
 
@@ -516,7 +519,7 @@ let max_int : @bigint.BigInt = 2147483647N
 
 ///|
 /// Convert to a 32-bit `Int`. Fails on non-integers and out-of-range values.
-pub fn int_of_num(a : Num) -> Int raise {
+pub fn int_of_num(a : Num) -> Int32 raise {
   if !a.is_integer() {
     raise Failure("integer argument required")
   }
@@ -565,7 +568,7 @@ pub fn int64_of_num(a : Num) -> Int64 raise {
 ///|
 /// `x * 2^e`, scaling in steps so intermediate results neither overflow
 /// nor underflow before the final multiplication.
-fn ldexp(x : Double, e : Int) -> Double {
+fn ldexp(x : Double, e : Int32) -> Double {
   let mut x = x
   let mut e = e
   while e > 1000 {
@@ -627,19 +630,19 @@ pub fn string_of_num(a : Num) -> String {
 
 ///|
 /// `2^n`
-pub fn pow2(n : Int) -> Num raise {
+pub fn pow2(n : Int32) -> Num raise {
   power_num(num_2, num_of_int(n))
 }
 
 ///|
 /// `10^n`
-pub fn pow10(n : Int) -> Num raise {
+pub fn pow10(n : Int32) -> Num raise {
   power_num(num_10, num_of_int(n))
 }
 
 ///|
 /// Digits of a nonnegative integer in base `b` (2..16), lowercase.
-pub fn string_of_num_nary(b : Int, n : Num) -> String raise {
+pub fn string_of_num_nary(b : Int32, n : Num) -> String raise {
   let digits = "0123456789abcdef"
   let base = num_of_int(b)
   // lib.ml: d0 = el (int_of_num (n mod base)) digits; recursion on quotient.
@@ -665,11 +668,11 @@ pub fn string_of_num_hex(n : Num) -> String raise {
 }
 
 ///|
-fn digit_value(c : Char) -> Int raise {
+fn digit_value(c : Char) -> Int32 raise {
   match c {
-    '0'..='9' => c.to_int() - '0'.to_int()
-    'a'..='f' => c.to_int() - 'a'.to_int() + 10
-    'A'..='F' => c.to_int() - 'A'.to_int() + 10
+    '0'..<='9' => c.to_int() - '0'.to_int()
+    'a'..<='f' => c.to_int() - 'a'.to_int() + 10
+    'A'..<='F' => c.to_int() - 'A'.to_int() + 10
     // lib.ml looks the digit up with `assoc`, which fails with "find".
     _ => raise Failure("find")
   }
@@ -708,11 +711,7 @@ pub fn nums_num_of_string(s : String) -> Num raise {
   }
 
   match s.find("/") {
-    Some(i) =>
-      div_num(
-        integer(s.view(end_offset=i).to_owned()),
-        integer(s.view(start_offset=i + 1).to_owned()),
-      )
+    Some(i) => div_num(integer(s[:i].to_owned()), integer(s[i + 1:].to_owned()))
     None => integer(s)
   }
 }

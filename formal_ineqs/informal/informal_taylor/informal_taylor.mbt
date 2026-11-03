@@ -2,12 +2,13 @@
 
 ///|
 /// `m_cell_domain`
+#derive(Eq, Debug)
 pub(all) struct MCellDomain {
   lo : @list.List[@informal_float.Ifloat]
   hi : @list.List[@informal_float.Ifloat]
   y : @list.List[@informal_float.Ifloat]
   w : @list.List[@informal_float.Ifloat]
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend MCellDomain with Eq::{not_equal, equal}
@@ -49,13 +50,14 @@ pub impl @lib.OHash for MCellDomain with fn ohash_visit(self, h) {
 
 ///|
 /// `m_taylor_interval`
+#derive(Eq, Debug)
 pub(all) struct MTaylorInterval {
   n : Int64
   domain : MCellDomain
   f : @informal_interval.Interval
   df : @list.List[@informal_interval.Interval]
   ddf : @list.List[@list.List[@informal_interval.Interval]]
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend MTaylorInterval with Eq::{not_equal, equal}

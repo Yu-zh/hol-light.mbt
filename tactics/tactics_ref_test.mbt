@@ -934,7 +934,6 @@ test "tactics matches tactics.ml" {
       #|counter_tyvar = zz_counter:'?1
       #|counter_genvar = _22:bool
       #|
-
     ),
   )
 }

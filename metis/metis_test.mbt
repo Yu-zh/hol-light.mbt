@@ -10,10 +10,21 @@ test "mk_conjp and list_mk_disjp build the connectives" {
   let check = (pt : @preterm.Preterm, s : String) => {
     assert_eq(@metis.typecheck(@list.List([]))(pt), @term_syntax.parse_term(s))
   }
-  check(@metis.mk_conjp(@preterm.preterm_of_term(p), @preterm.preterm_of_term(q)), "(p : Bool) && (q : Bool)")
-  check(@metis.mk_disjp(@preterm.preterm_of_term(p), @preterm.preterm_of_term(q)), "(p : Bool) || (q : Bool)")
+  check(
+    @metis.mk_conjp(@preterm.preterm_of_term(p), @preterm.preterm_of_term(q)),
+    "(p : Bool) && (q : Bool)",
+  )
+  check(
+    @metis.mk_disjp(@preterm.preterm_of_term(p), @preterm.preterm_of_term(q)),
+    "(p : Bool) || (q : Bool)",
+  )
   check(@metis.mk_negp(@preterm.preterm_of_term(p)), "!(p : Bool)")
   check(@metis.list_mk_disjp(@list.List([])), "false")
   // the tail is folded onto the head: [p; q] gives q \/ p, as upstream
-  check(@metis.list_mk_disjp(@list.List([@preterm.preterm_of_term(p), @preterm.preterm_of_term(q)])), "(q : Bool) || (p : Bool)")
+  check(
+    @metis.list_mk_disjp(
+      @list.List([@preterm.preterm_of_term(p), @preterm.preterm_of_term(q)]),
+    ),
+    "(q : Bool) || (p : Bool)",
+  )
 }

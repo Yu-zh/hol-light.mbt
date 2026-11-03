@@ -13,11 +13,12 @@
 /// A finite partial function from `K` to `V`. Read-only outside this
 /// package so that only the operations below build trees. Equality is
 /// structural, as OCaml's `=` on the same trees.
+#derive(Eq)
 pub enum Func[K, V] {
   Empty
-  Leaf(Int, @list.List[(K, V)])
-  Branch(Int, Int, Func[K, V], Func[K, V])
-} derive(Eq)
+  Leaf(Int32, @list.List[(K, V)])
+  Branch(Int32, Int32, Func[K, V], Func[K, V])
+}
 
 ///|
 pub extend Func with Eq::{not_equal, equal}
@@ -249,9 +250,9 @@ pub fn[K : OCompare + OHash, V] undefine(x : K, t : Func[K, V]) -> Func[K, V] {
 
 ///|
 fn[K, V] newbranch(
-  p1 : Int,
+  p1 : Int32,
   t1 : Func[K, V],
-  p2 : Int,
+  p2 : Int32,
   t2 : Func[K, V],
 ) -> Func[K, V] {
   let zp = p1 ^ p2

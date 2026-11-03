@@ -4,6 +4,12 @@
 ///|
 test "is_poly recognizes applications of poly" {
   @poly_ext.load()
-  assert_true(@poly_ext.is_poly(@term_syntax.parse_term("poly((p : List[Real]), (x : Real))")))
-  assert_false(@poly_ext.is_poly(@term_syntax.parse_term("(x : Real) + real_of_num(1)")))
+  assert_true(
+    @poly_ext.is_poly(
+      @term_syntax.parse_term("poly((p : List[Real]), (x : Real))"),
+    ),
+  )
+  assert_false(
+    @poly_ext.is_poly(@term_syntax.parse_term("(x : Real) + real_of_num(1)")),
+  )
 }

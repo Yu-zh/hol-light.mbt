@@ -13,15 +13,21 @@ test "printing" {
     show("forall p q r. p /\\ q \\/ r ==> ~p"),
     content="∀ p : Bool, ∀ q : Bool, ∀ r : Bool, p && q || r → !p",
   )
-  inspect(show("\\x:num y. x * (y + 1)"), content="(x : Num) => (y : Num) => x * (y + 1)")
+  inspect(
+    show("\\x:num y. x * (y + 1)"),
+    content="(x : Num) => (y : Num) => x * (y + 1)",
+  )
   inspect(
     show("forall x:num. (if x = 0 then 1 else x) > 0"),
     content="∀ x : Num, (if x == 0 { 1 } else { x }) > 0",
   )
   inspect(show("SUC n = n + 1"), content="SUC((n : Num)) == n + 1")
-  inspect(show("[1;2], (T, F)"), content=(
-    #|([1, 2], true, false)
-  ))
+  inspect(
+    show("[1;2], (T, F)"),
+    content=(
+      #|([1, 2], true, false)
+    ),
+  )
   inspect(show("forall x':num. x' = x'"), content="∀ x' : Num, x' == x'")
 }
 
@@ -37,12 +43,19 @@ test "symbolic constants and operators as values" {
   let t = @kernel.mk_abs(v, v)
   let s = @term_syntax.print_term(t)
   assert_true(@term_syntax.parse_term(s) == t)
-  inspect(s, content=(
-    #|(SUC : Num) => SUC
-  ))
+  inspect(
+    s,
+    content=(
+      #|(SUC : Num) => SUC
+    ),
+  )
   let q = @term_syntax.parse_term("∀ SUC : Num, SUC == SUC")
   assert_true(
-    q is Comb(Const("forall", _), Abs(Var("SUC", _) as w, Comb(Comb(Const("=", _), Var("SUC", _) as l), r))) &&
+    q
+    is Comb(
+      Const("forall", _),
+      Abs(Var("SUC", _) as w, Comb(Comb(Const("=", _), Var("SUC", _) as l), r))
+    ) &&
     l == w &&
     r == w,
   )
@@ -58,7 +71,10 @@ test "symbolic constants and operators as values" {
 ///|
 test "types" {
   let ty = @term_syntax.print_type
-  inspect(ty(@parser.parse_type("num->bool->bool")), content="(Num, Bool) -> Bool")
+  inspect(
+    ty(@parser.parse_type("num->bool->bool")),
+    content="(Num, Bool) -> Bool",
+  )
   inspect(ty(@parser.parse_type("(A->B)->A#B")), content="((A) -> B) -> (A, B)")
   inspect(ty(@parser.parse_type("(num)list")), content="List[Num]")
 }
@@ -75,14 +91,14 @@ test "spellings that would read back as something else" {
   let num = @kernel.mk_type("num", @list.List([]))
   // a type variable named like a type is not written as that type
   let unit_var = @kernel.mk_vartype("Unit")
-  let r = try @term_syntax.print_type(unit_var) catch {
+  let r = @term_syntax.print_type(unit_var) catch {
     @term_syntax.Unprintable(_) => "unprintable"
   }
   inspect(r, content="unprintable")
   // nor is an invented one, which a hole would not bring back
   let invented = @kernel.mk_vartype("?123")
   let endo = @basics.mk_fun_ty(invented, invented)
-  let r = try @term_syntax.print_type(endo) catch {
+  let r = @term_syntax.print_type(endo) catch {
     @term_syntax.Unprintable(_) => "unprintable"
   }
   inspect(r, content="unprintable")
@@ -126,10 +142,12 @@ test "invented type variables print as holes" {
   let t = @parser.parse_term("{x} INTER s = if x IN s then {x} else {}")
   let s = @term_syntax.print_term(t)
   assert_true(@term_syntax.same_term(@term_syntax.parse_term(s), t))
-  inspect(s, content=(
-    #|INTER({(x : _)}, (s : (_) -> Bool)) == (if IN(x, s) { {x} } else { {} })
-
-  ))
+  inspect(
+    s,
+    content=(
+      #|INTER({(x : _)}, (s : (_) -> Bool)) == (if IN(x, s) { {x} } else { {} })
+    ),
+  )
 }
 
 ///|
@@ -143,7 +161,7 @@ test "comparisons are not chained" {
 ///|
 test "exact printing keeps bound variable names" {
   let exact = fn(q : String) -> String raise {
-    try @term_syntax.spell_quotation(q, @parser.parse_term(q)) catch {
+    @term_syntax.spell_quotation(q, @parser.parse_term(q)) catch {
       @term_syntax.Unprintable(m) => "unprintable: " + m
       e => raise e
     }
@@ -173,55 +191,88 @@ test "exact printing keeps bound variable names" {
 ///|
 test "set notation" {
   let exact = fn(q : String) -> String raise {
-    try @term_syntax.spell_quotation(q, @parser.parse_term(q)) catch {
+    @term_syntax.spell_quotation(q, @parser.parse_term(q)) catch {
       @term_syntax.Unprintable(m) => "unprintable: " + m
       e => raise e
     }
   }
-  inspect(exact("{1, 2}"), content=(
-    #|{1, 2}
-  ))
-  inspect(exact("{}:num->bool"), content=(
-    #|({} : (Num) -> Bool)
-
-  ))
-  inspect(exact("{n | n < 2}"), content=(
-    #|{(n : Num) | n < 2}
-  ))
-  inspect(exact("{x | x IN s /\\ P x}"), content=(
-    #|{(x : _) | IN(x, (s : (_) -> Bool)) && (P : (_) -> Bool)(x)}
-  ))
-  inspect(exact("{f x | x IN s}"), content=(
-    #|{(f : (_) -> _)((x : _)) | IN(x, (s : (_) -> Bool))}
-  ))
-  inspect(exact("{(x, y) | x < y}"), content=(
-    #|{((x : Num), (y : Num)) | x < y}
-  ))
-  inspect(exact("{t | t SUBSET (s:A->bool)}"), content=(
-    #|{(t : (A) -> Bool) | SUBSET(t, (s : (A) -> Bool))}
-  ))
-  inspect(exact("\\a:A. { b:A | forall s. f(s) = a ==> b IN s}"), content=(
-    #|(a : A) => {(b : A) | ∀ s : (A) -> Bool, (f : ((A) -> Bool) -> A)(s) == a → IN(b, s)}
-  ))
-  inspect(exact("{f | x | x < 2}"), content=(
-    #|{(f : _) | x : Num | x < 2}
-  ))
-  inspect(exact("{x + y | x | x < 2}"), content=(
-    #|{(x : Num) + (y : Num) | x < 2}
-  ))
-  inspect(exact("{t | t SUBSET s /\\ t HAS_SIZE m} HAS_SIZE binom(n,m)"), content=(
-    #|HAS_SIZE({(t : (_) -> Bool) | SUBSET(t, (s : (_) -> Bool)) && HAS_SIZE(t, (m : Num))}, (binom : ((_, Num)) -> Num)(((n : _), m)))
-  ))
+  inspect(
+    exact("{1, 2}"),
+    content=(
+      #|{1, 2}
+    ),
+  )
+  inspect(
+    exact("{}:num->bool"),
+    content=(
+      #|({} : (Num) -> Bool)
+    ),
+  )
+  inspect(
+    exact("{n | n < 2}"),
+    content=(
+      #|{(n : Num) | n < 2}
+    ),
+  )
+  inspect(
+    exact("{x | x IN s /\\ P x}"),
+    content=(
+      #|{(x : _) | IN(x, (s : (_) -> Bool)) && (P : (_) -> Bool)(x)}
+    ),
+  )
+  inspect(
+    exact("{f x | x IN s}"),
+    content=(
+      #|{(f : (_) -> _)((x : _)) | IN(x, (s : (_) -> Bool))}
+    ),
+  )
+  inspect(
+    exact("{(x, y) | x < y}"),
+    content=(
+      #|{((x : Num), (y : Num)) | x < y}
+    ),
+  )
+  inspect(
+    exact("{t | t SUBSET (s:A->bool)}"),
+    content=(
+      #|{(t : (A) -> Bool) | SUBSET(t, (s : (A) -> Bool))}
+    ),
+  )
+  inspect(
+    exact("\\a:A. { b:A | forall s. f(s) = a ==> b IN s}"),
+    content=(
+      #|(a : A) => {(b : A) | ∀ s : (A) -> Bool, (f : ((A) -> Bool) -> A)(s) == a → IN(b, s)}
+    ),
+  )
+  inspect(
+    exact("{f | x | x < 2}"),
+    content=(
+      #|{(f : _) | x : Num | x < 2}
+    ),
+  )
+  inspect(
+    exact("{x + y | x | x < 2}"),
+    content=(
+      #|{(x : Num) + (y : Num) | x < 2}
+    ),
+  )
+  inspect(
+    exact("{t | t SUBSET s /\\ t HAS_SIZE m} HAS_SIZE binom(n,m)"),
+    content=(
+      #|HAS_SIZE({(t : (_) -> Bool) | SUBSET(t, (s : (_) -> Bool)) && HAS_SIZE(t, (m : Num))}, (binom : ((_, Num)) -> Num)(((n : _), m)))
+    ),
+  )
 }
 
 ///|
 test "set notation reads as HOL's" {
   // the same term, GEN%PVAR binders included, as the quotation syntax
-  for q in [
-    ("{(n : Num) | n < 2}", "{n:num | n < 2}"),
-    ("{f(x) | x : Num | x < 2}", "{f x | x:num | x < 2}"),
-    ("{1, 2}", "{1, 2}"),
-  ] {
+  for
+    q in [
+      ("{(n : Num) | n < 2}", "{n:num | n < 2}"),
+      ("{f(x) | x : Num | x < 2}", "{f x | x:num | x < 2}"),
+      ("{1, 2}", "{1, 2}"),
+    ] {
     let a = @term_syntax.parse_term(q.0)
     let b = @parser.parse_term(q.1)
     assert_true(@term_syntax.same_term(a, b), msg=q.0)
@@ -231,30 +282,45 @@ test "set notation reads as HOL's" {
 ///|
 test "nested set comprehensions number GEN%PVAR as HOL's parser does" {
   let exact = fn(q : String) -> String raise {
-    try @term_syntax.spell_quotation(q, @parser.parse_term(q)) catch {
+    @term_syntax.spell_quotation(q, @parser.parse_term(q)) catch {
       @term_syntax.Unprintable(m) => "unprintable: " + m
       e => raise e
     }
   }
   // HOL reads the element of {e | p} twice and of {e | vs | p} three
   // times, so the two forms number the comprehensions in e differently
-  inspect(exact("{ {x | x < n} | n < 3}"), content=(
-    #|{{(x : Num) | x < (n : Num)} | n < 3}
-  ))
-  inspect(exact("{ {x | x < n} | n | n < 3}"), content=(
-    #|{{(x : Num) | x < n} | n : Num | n < 3}
-  ))
-  inspect(exact("{ { {x | x < m + n} | m < n} | n < 3}"), content=(
-    #|{{{(x : Num) | x < (m : Num) + (n : Num)} | m < n} | (n : Num) < 3}
-  ))
-  inspect(exact("{ {x | x < n} | n IN {m | m < 3}}"), content=(
-    #|{{(x : Num) | x < (n : Num)} | IN(n, {(m : Num) | m < 3})}
-  ))
+  inspect(
+    exact("{ {x | x < n} | n < 3}"),
+    content=(
+      #|{{(x : Num) | x < (n : Num)} | n < 3}
+    ),
+  )
+  inspect(
+    exact("{ {x | x < n} | n | n < 3}"),
+    content=(
+      #|{{(x : Num) | x < n} | n : Num | n < 3}
+    ),
+  )
+  inspect(
+    exact("{ { {x | x < m + n} | m < n} | n < 3}"),
+    content=(
+      #|{{{(x : Num) | x < (m : Num) + (n : Num)} | m < n} | (n : Num) < 3}
+    ),
+  )
+  inspect(
+    exact("{ {x | x < n} | n IN {m | m < 3}}"),
+    content=(
+      #|{{(x : Num) | x < (n : Num)} | IN(n, {(m : Num) | m < 3})}
+    ),
+  )
   // each comprehension takes its own form: here the outer one lists its
   // binders and the middle one does not
-  inspect(exact("{{{x | x < n + m} | m < 3} | n | n < 3}"), content=(
-    #|{{{(x : Num) | x < n + (m : Num)} | m < 3} | n : Num | n < 3}
-  ))
+  inspect(
+    exact("{{{x | x < n + m} | m < 3} | n | n < 3}"),
+    content=(
+      #|{{{(x : Num) | x < n + (m : Num)} | m < 3} | n : Num | n < 3}
+    ),
+  )
   // a comprehension spelt GSPEC takes no name
   inspect(
     exact("({ {x | x < n} | n | n < 3}, GSPEC (\\g:num. SETSPEC g T (x:num)))"),
@@ -263,7 +329,9 @@ test "nested set comprehensions number GEN%PVAR as HOL's parser does" {
     ),
   )
   inspect(
-    exact("({ {x | x < n} | n | n < 3}, GSPEC (\\g:num. ?x:num. SETSPEC g T x))"),
+    exact(
+      "({ {x | x < n} | n | n < 3}, GSPEC (\\g:num. ?x:num. SETSPEC g T x))",
+    ),
     content=(
       #|({{(x : Num) | x < n} | n : Num | n < 3}, GSPEC((g : Num) => ∃ x : Num, SETSPEC(g, true, x)))
     ),
@@ -282,9 +350,12 @@ test "nested set comprehensions number GEN%PVAR as HOL's parser does" {
   let spelled = exact("[" + nine.join("; ") + "]")
   inspect(spelled.contains("unprintable"), content="false")
   // a set of one comprehension reads it once
-  inspect(exact("{ {x | x < 3} }"), content=(
-    #|{{(x : Num) | x < 3}}
-  ))
+  inspect(
+    exact("{ {x | x < 3} }"),
+    content=(
+      #|{{(x : Num) | x < 3}}
+    ),
+  )
 }
 
 ///|
@@ -314,14 +385,17 @@ test "set notation: binders, counters, degenerate comprehensions" {
 test "set notation: review cases" {
   // binders named T and F keep their names
   let t = @term_syntax.parse_term("{T | T : Bool, F : Bool | T != F}")
-  inspect(@term_syntax.print_term(t), content=(
-    #|{T | T : Bool, F : Bool | !(T == F)}
-  ))
+  inspect(
+    @term_syntax.print_term(t),
+    content=(
+      #|{T | T : Bool, F : Bool | !(T == F)}
+    ),
+  )
   // an inner binding of the same variable does not take the outer
   // binder's type annotation
   let q = "{((\\x:A. x), (x:A)) | T}"
   inspect(
-    try @term_syntax.spell_quotation(q, @parser.parse_term(q)) catch {
+    @term_syntax.spell_quotation(q, @parser.parse_term(q)) catch {
       @term_syntax.Unprintable(m) => "unprintable: " + m
       e => raise e
     },
@@ -334,15 +408,18 @@ test "set notation: review cases" {
 ///|
 test "set notation: spelled-out GSPEC and renamed binders" {
   let spell = fn(q : String) -> String raise {
-    try @term_syntax.spell_quotation(q, @parser.parse_term(q)) catch {
+    @term_syntax.spell_quotation(q, @parser.parse_term(q)) catch {
       @term_syntax.Unprintable(m) => "unprintable: " + m
       e => raise e
     }
   }
   // a quotation that spells GSPEC out keeps its own binder
-  inspect(spell("GSPEC (\\g:num. ?x:num. SETSPEC g T x)"), content=(
-    #|GSPEC((g : Num) => ∃ x : Num, SETSPEC(g, true, x))
-  ))
+  inspect(
+    spell("GSPEC (\\g:num. ?x:num. SETSPEC g T x)"),
+    content=(
+      #|GSPEC((g : Num) => ∃ x : Num, SETSPEC(g, true, x))
+    ),
+  )
   // {T | T} binds nothing, in HOL and in the term syntax alike: a name like
   // T is no variable a comprehension binds implicitly, even under a binder
   inspect(
@@ -359,28 +436,39 @@ test "a symbolic variable, as the left side of a definition" {
   @printer.parse_as_infix("-->", (13L, "right"))
   let t = @parser.parse_term(q)
   let s = @term_syntax.spell_quotation(q, t)
-  inspect(s, content=(
-    #|(op_minus_minus_gt : ((A) -> Bool, (B) -> Bool, (A) -> B) -> Bool)((s : (A) -> Bool), (t : (B) -> Bool)) == {(f : (A) -> B) | ∀ x : A, IN(x, s) → IN(f(x), t)}
-  ))
+  inspect(
+    s,
+    content=(
+      #|(op_minus_minus_gt : ((A) -> Bool, (B) -> Bool, (A) -> B) -> Bool)((s : (A) -> Bool), (t : (B) -> Bool)) == {(f : (A) -> B) | ∀ x : A, IN(x, s) → IN(f(x), t)}
+    ),
+  )
   // it reads back as the variable -->, not as op_minus_minus_gt
   assert_true(
-    @kernel.frees(@term_syntax.parse_term(s)).iter().any(v => v is Var("-->", _)),
+    @kernel.frees(@term_syntax.parse_term(s))
+    .iter()
+    .any(v => v is Var("-->", _)),
   )
 }
 
 ///|
 test "op_ names decode only in their own spelling" {
   // a non-canonical op_ spelling stays an ordinary variable
-  let t = @term_syntax.parse_term("(op_left_dot_product : Bool) == op_left_dot_pro_duct")
+  let t = @term_syntax.parse_term(
+    "(op_left_dot_product : Bool) == op_left_dot_pro_duct",
+  )
   inspect(@kernel.frees(t).length(), content="2")
   // a generated name is never decoded
   let g = @term_syntax.parse_term("(op_GEN_pct_PVAR_pct_0 : Num) == 0")
   assert_true(
-    @kernel.frees(g).iter().all(v => !(v is Var(n, _) && n.has_prefix("GEN%PVAR%"))),
+    @kernel.frees(g)
+    .iter()
+    .all(v => !(v is Var(n, _) && n.has_prefix("GEN%PVAR%"))),
   )
   // a binder spelt op_ is kept as it is
   inspect(
-    @term_syntax.print_term(@term_syntax.parse_term("(op_minus_minus_gt : Bool) => op_minus_minus_gt")),
+    @term_syntax.print_term(
+      @term_syntax.parse_term("(op_minus_minus_gt : Bool) => op_minus_minus_gt"),
+    ),
     content=(
       #|(op_minus_minus_gt : Bool) => op_minus_minus_gt
     ),
@@ -402,10 +490,7 @@ test "names are read the same under any overload priority" {
     assert_eq(@kernel.type_of(@parser.parse_term("x + y")), real)
     // ...the term syntax does not: types decide, else the fixed order
     assert_eq(@kernel.type_of(@term_syntax.parse_term("x + y")), num)
-    assert_eq(
-      @kernel.type_of(@term_syntax.parse_term("(x : Real) + y")),
-      real,
-    )
+    assert_eq(@kernel.type_of(@term_syntax.parse_term("(x : Real) + y")), real)
   })
   @preterm.with_interface_restored(() => {
     @preterm.prioritize_overload(num)
@@ -423,7 +508,10 @@ test "replacing an overload does not change a context-free reading" {
   let before = @kernel.type_of(@term_syntax.parse_term("op_amp(0)"))
   @preterm.with_interface_restored(() => {
     // as Jordan's prioritize_real does: & now means only real_of_num
-    @preterm.override_interface("&", @kernel.mk_const("real_of_num", @list.List([])))
+    @preterm.override_interface(
+      "&",
+      @kernel.mk_const("real_of_num", @list.List([])),
+    )
     assert_eq(@kernel.type_of(@term_syntax.parse_term("op_amp(0)")), before)
   })
 }
@@ -446,7 +534,10 @@ test "binders named T and F bind variables, as in HOL" {
   // own \T. ... T ... would mean the variable, hence the primed name here)
   let t = @term_syntax.parse_term("(T : Num) => T + (if true { 1 } else { 0 })")
   inspect(
-    @term_syntax.same_term(t, @parser.parse_term("\\T'. T' + (if T then 1 else 0)")),
+    @term_syntax.same_term(
+      t,
+      @parser.parse_term("\\T'. T' + (if T then 1 else 0)"),
+    ),
     content="true",
   )
 }
@@ -457,31 +548,60 @@ test "binders named T and F: comprehensions and patterns" {
   let t = @term_syntax.parse_term(
     "(T : Bool) => {(x, y) | x : Num, y : Num | T}",
   )
-  assert_true(@term_syntax.same_term(@term_syntax.parse_term(@term_syntax.print_term(t)), t))
+  assert_true(
+    @term_syntax.same_term(
+      @term_syntax.parse_term(@term_syntax.print_term(t)),
+      t,
+    ),
+  )
   // a comprehension's own binder named T is listed
   for q in ["{T | T : Bool | true}", "{F | F : Bool | F}"] {
     let c = @term_syntax.parse_term(q)
-    assert_true(@term_syntax.same_term(@term_syntax.parse_term(@term_syntax.print_term(c)), c))
+    assert_true(
+      @term_syntax.same_term(
+        @term_syntax.parse_term(@term_syntax.print_term(c)),
+        c,
+      ),
+    )
   }
   // under a pattern variable named T (printed T'), a comprehension's T is
   // listed
   let g = @term_syntax.parse_term(
     "GABS((f : ((Bool, Num)) -> (Bool) -> Bool) => ∀ T : Bool, ∀ x : Num, GEQ(f((T, x)), {T | T : Bool | true}))",
   )
-  assert_true(@term_syntax.same_term(@term_syntax.parse_term(@term_syntax.print_term(g)), g))
+  assert_true(
+    @term_syntax.same_term(
+      @term_syntax.parse_term(@term_syntax.print_term(g)),
+      g,
+    ),
+  )
   // in a lambda's pattern, read with nothing in scope, an outer T does
   // not make a comprehension's T a variable
-  for q in ["(T : Bool) => fn { {T | T : Bool | true} => T }", "(F : Bool) => fn { {F | F : Bool | true} => F }"] {
+  for
+    q in [
+      "(T : Bool) => fn { {T | T : Bool | true} => T }", "(F : Bool) => fn { {F | F : Bool | true} => F }",
+    ] {
     let c = @term_syntax.parse_term(q)
-    assert_true(@term_syntax.same_term(@term_syntax.parse_term(@term_syntax.print_term(c)), c))
+    assert_true(
+      @term_syntax.same_term(
+        @term_syntax.parse_term(@term_syntax.print_term(c)),
+        c,
+      ),
+    )
   }
   // comprehensions inside patterns (Codex)
-  for q in [
-    "(T : Bool) => ∀ ({T | T : Bool | true}, x) : ((Bool) -> Bool, Num), T",
-    "fn { ((T : Bool) => {(x, y) | x : Num, y : Num | T}) => true }",
-  ] {
+  for
+    q in [
+      "(T : Bool) => ∀ ({T | T : Bool | true}, x) : ((Bool) -> Bool, Num), T",
+      "fn { ((T : Bool) => {(x, y) | x : Num, y : Num | T}) => true }",
+    ] {
     let c = @term_syntax.parse_term(q)
-    assert_true(@term_syntax.same_term(@term_syntax.parse_term(@term_syntax.print_term(c)), c))
+    assert_true(
+      @term_syntax.same_term(
+        @term_syntax.parse_term(@term_syntax.print_term(c)),
+        c,
+      ),
+    )
   }
   // a pattern variable named T is renamed: a pattern's T is truth
   let m = @parser.parse_term("match (x:bool) with T' -> T'")
@@ -492,26 +612,41 @@ test "binders named T and F: comprehensions and patterns" {
 ///|
 test "a comprehension applied to an argument is written in set notation" {
   let exact = fn(q : String) -> String raise {
-    try @term_syntax.spell_quotation(q, @parser.parse_term(q)) catch {
+    @term_syntax.spell_quotation(q, @parser.parse_term(q)) catch {
       @term_syntax.Unprintable(m) => "unprintable: " + m
       e => raise e
     }
   }
   // GSPEC (\g. ...) y: spelled out, its binder would be a GEN%PVAR name
-  inspect(exact("{x | x < c} b"), content=(
-    #|{(x : Num) | x < (c : Num)}((b : Num))
-  ))
-  inspect(exact("s SUBSET u <=> {t:num->bool | t SUBSET u} s"), content=(
-    #|SUBSET((s : (Num) -> Bool), (u : (Num) -> Bool)) == {(t : (Num) -> Bool) | SUBSET(t, u)}(s)
-  ))
+  inspect(
+    exact("{x | x < c} b"),
+    content=(
+      #|{(x : Num) | x < (c : Num)}((b : Num))
+    ),
+  )
+  inspect(
+    exact("s SUBSET u <=> {t:num->bool | t SUBSET u} s"),
+    content=(
+      #|SUBSET((s : (Num) -> Bool), (u : (Num) -> Bool)) == {(t : (Num) -> Bool) | SUBSET(t, u)}(s)
+    ),
+  )
   // in the predicate and in the element of another comprehension
-  inspect(exact("{f x | {g y | P y} (x:num)} = {f(g y) | P (y:num)}"), content=(
-    #|{(f : (Num) -> _)((x : Num)) | {(g : (Num) -> Num)((y : Num)) | (P : (Num) -> Bool)(y)}(x)} == {f(g((y : Num))) | P(y)}
-  ))
-  inspect(exact("{ {x | x < n} m | n < 3 /\\ m < n}"), content=(
-    #|{{(x : Num) | x < (n : Num)}((m : Num)) | n < 3 && m < n}
-  ))
-  inspect(exact("{x | x < 2} = {y | y < 2} /\\ {x | x < 3} 1"), content=(
-    #|{(x : Num) | x < 2} == {(y : Num) | y < 2} && {(x : Num) | x < 3}(1)
-  ))
+  inspect(
+    exact("{f x | {g y | P y} (x:num)} = {f(g y) | P (y:num)}"),
+    content=(
+      #|{(f : (Num) -> _)((x : Num)) | {(g : (Num) -> Num)((y : Num)) | (P : (Num) -> Bool)(y)}(x)} == {f(g((y : Num))) | P(y)}
+    ),
+  )
+  inspect(
+    exact("{ {x | x < n} m | n < 3 /\\ m < n}"),
+    content=(
+      #|{{(x : Num) | x < (n : Num)}((m : Num)) | n < 3 && m < n}
+    ),
+  )
+  inspect(
+    exact("{x | x < 2} = {y | y < 2} /\\ {x | x < 3} 1"),
+    content=(
+      #|{(x : Num) | x < 2} == {(y : Num) | y < 2} && {(x : Num) | x < 3}(1)
+    ),
+  )
 }

@@ -22,8 +22,8 @@ priv enum BoxType {
 ///|
 priv enum Token {
   Text(String)
-  Break(String, Int, String, String, Int, String) // fits, breaks
-  Begin(Int, BoxType)
+  Break(String, Int32, String, String, Int32, String) // fits, breaks
+  Begin(Int32, BoxType)
   End
   Newline
   IfNewline
@@ -31,21 +31,21 @@ priv enum Token {
 
 ///|
 priv struct QueueElem {
-  mut size : Int // negative while unknown
+  mut size : Int32 // negative while unknown
   token : Token
-  length : Int
+  length : Int32
 }
 
 ///|
 priv struct ScanElem {
-  left_total : Int
+  left_total : Int32
   queue_elem : QueueElem
 }
 
 ///|
 priv struct FormatElem {
   box_type : BoxType
-  width : Int
+  width : Int32
 }
 
 ///|
@@ -53,21 +53,21 @@ priv struct FormatElem {
 pub struct Formatter {
   priv scan_stack : Array[ScanElem]
   priv format_stack : Array[FormatElem]
-  priv mut margin : Int
-  priv mut min_space_left : Int
-  priv mut max_indent : Int
-  priv mut space_left : Int
-  priv mut current_indent : Int
+  priv mut margin : Int32
+  priv mut min_space_left : Int32
+  priv mut max_indent : Int32
+  priv mut space_left : Int32
+  priv mut current_indent : Int32
   priv mut is_new_line : Bool
-  priv mut left_total : Int
-  priv mut right_total : Int
-  priv mut curr_depth : Int
-  priv mut max_boxes : Int
+  priv mut left_total : Int32
+  priv mut right_total : Int32
+  priv mut curr_depth : Int32
+  priv mut max_boxes : Int32
   priv mut ellipsis : String
   priv out_string : (String) -> Unit
   priv out_flush : () -> Unit
   priv queue : Array[QueueElem]
-  priv mut queue_head : Int
+  priv mut queue_head : Int32
 }
 
 ///|
@@ -79,7 +79,7 @@ let max_int = 2147483647
 ///|
 /// Length of a string in bytes, as OCaml's `String.length` on its UTF-8
 /// encoding.
-fn byte_length(s : String) -> Int {
+fn byte_length(s : String) -> Int32 {
   let mut n = 0
   let len = s.length()
   let mut i = 0
@@ -156,7 +156,7 @@ fn Formatter::output_newline(self : Formatter) -> Unit {
 }
 
 ///|
-fn Formatter::output_spaces(self : Formatter, n : Int) -> Unit {
+fn Formatter::output_spaces(self : Formatter, n : Int32) -> Unit {
   if n > 0 {
     (self.out_string)(" ".repeat(n))
   }
@@ -165,7 +165,7 @@ fn Formatter::output_spaces(self : Formatter, n : Int) -> Unit {
 ///|
 fn Formatter::format_pp_text(
   self : Formatter,
-  size : Int,
+  size : Int32,
   text : String,
 ) -> Unit {
   self.space_left -= size
@@ -184,9 +184,9 @@ fn Formatter::format_string(self : Formatter, s : String) -> Unit {
 fn Formatter::break_new_line(
   self : Formatter,
   before : String,
-  offset : Int,
+  offset : Int32,
   after : String,
-  width : Int,
+  width : Int32,
 ) -> Unit {
   self.format_string(before)
   self.output_newline()
@@ -204,7 +204,7 @@ fn Formatter::break_new_line(
 }
 
 ///|
-fn Formatter::break_line(self : Formatter, width : Int) -> Unit {
+fn Formatter::break_line(self : Formatter, width : Int32) -> Unit {
   self.break_new_line("", 0, "", width)
 }
 
@@ -212,7 +212,7 @@ fn Formatter::break_line(self : Formatter, width : Int) -> Unit {
 fn Formatter::break_same_line(
   self : Formatter,
   before : String,
-  width : Int,
+  width : Int32,
   after : String,
 ) -> Unit {
   self.format_string(before)
@@ -249,7 +249,7 @@ fn Formatter::skip_token(self : Formatter) -> Unit {
 ///|
 fn Formatter::format_pp_token(
   self : Formatter,
-  size : Int,
+  size : Int32,
   token : Token,
 ) -> Unit {
   match token {
@@ -330,7 +330,7 @@ fn Formatter::enqueue_advance(self : Formatter, elem : QueueElem) -> Unit {
 ///|
 fn Formatter::enqueue_string_as(
   self : Formatter,
-  size : Int,
+  size : Int32,
   s : String,
 ) -> Unit {
   self.enqueue_advance({ size, token: Text(s), length: size, })
@@ -382,7 +382,7 @@ fn Formatter::scan_push(self : Formatter, b : Bool, elem : QueueElem) -> Unit {
 ///|
 fn Formatter::open_box_gen(
   self : Formatter,
-  indent : Int,
+  indent : Int32,
   ty : BoxType,
 ) -> Unit {
   self.curr_depth += 1
@@ -437,7 +437,7 @@ fn Formatter::flush_queue(self : Formatter, b : Bool) -> Unit {
 
 ///|
 /// Print a string whose width is taken to be `size`.
-pub fn Formatter::print_as(self : Formatter, size : Int, s : String) -> Unit {
+pub fn Formatter::print_as(self : Formatter, size : Int32, s : String) -> Unit {
   if self.curr_depth < self.max_boxes {
     self.enqueue_string_as(size, s)
   }
@@ -449,7 +449,7 @@ pub fn Formatter::print_string(self : Formatter, s : String) -> Unit {
 }
 
 ///|
-pub fn Formatter::print_int(self : Formatter, i : Int) -> Unit {
+pub fn Formatter::print_int(self : Formatter, i : Int32) -> Unit {
   self.print_string(i.to_string())
 }
 
@@ -459,22 +459,22 @@ pub fn Formatter::open_hbox(self : Formatter) -> Unit {
 }
 
 ///|
-pub fn Formatter::open_vbox(self : Formatter, indent : Int) -> Unit {
+pub fn Formatter::open_vbox(self : Formatter, indent : Int32) -> Unit {
   self.open_box_gen(indent, VBox)
 }
 
 ///|
-pub fn Formatter::open_hvbox(self : Formatter, indent : Int) -> Unit {
+pub fn Formatter::open_hvbox(self : Formatter, indent : Int32) -> Unit {
   self.open_box_gen(indent, HVBox)
 }
 
 ///|
-pub fn Formatter::open_hovbox(self : Formatter, indent : Int) -> Unit {
+pub fn Formatter::open_hovbox(self : Formatter, indent : Int32) -> Unit {
   self.open_box_gen(indent, HOVBox)
 }
 
 ///|
-pub fn Formatter::open_box(self : Formatter, indent : Int) -> Unit {
+pub fn Formatter::open_box(self : Formatter, indent : Int32) -> Unit {
   self.open_box_gen(indent, Box)
 }
 
@@ -511,8 +511,8 @@ pub fn Formatter::print_if_newline(self : Formatter) -> Unit {
 /// newline with `offset` added to the box indentation.
 pub fn Formatter::print_break(
   self : Formatter,
-  width : Int,
-  offset : Int,
+  width : Int32,
+  offset : Int32,
 ) -> Unit {
   if self.curr_depth < self.max_boxes {
     let elem = {
@@ -535,14 +535,14 @@ pub fn Formatter::print_cut(self : Formatter) -> Unit {
 }
 
 ///|
-pub fn Formatter::set_max_boxes(self : Formatter, n : Int) -> Unit {
+pub fn Formatter::set_max_boxes(self : Formatter, n : Int32) -> Unit {
   if n > 1 {
     self.max_boxes = n
   }
 }
 
 ///|
-pub fn Formatter::get_max_boxes(self : Formatter) -> Int {
+pub fn Formatter::get_max_boxes(self : Formatter) -> Int32 {
   self.max_boxes
 }
 
@@ -552,7 +552,7 @@ pub fn Formatter::set_ellipsis_text(self : Formatter, s : String) -> Unit {
 }
 
 ///|
-fn pp_limit(n : Int) -> Int {
+fn pp_limit(n : Int32) -> Int32 {
   if n < pp_infinity {
     n
   } else {
@@ -561,7 +561,7 @@ fn pp_limit(n : Int) -> Int {
 }
 
 ///|
-pub fn Formatter::set_min_space_left(self : Formatter, n : Int) -> Unit {
+pub fn Formatter::set_min_space_left(self : Formatter, n : Int32) -> Unit {
   if n >= 1 {
     let n = pp_limit(n)
     self.min_space_left = n
@@ -571,19 +571,19 @@ pub fn Formatter::set_min_space_left(self : Formatter, n : Int) -> Unit {
 }
 
 ///|
-pub fn Formatter::set_max_indent(self : Formatter, n : Int) -> Unit {
+pub fn Formatter::set_max_indent(self : Formatter, n : Int32) -> Unit {
   if n > 1 {
     self.set_min_space_left(self.margin - n)
   }
 }
 
 ///|
-pub fn Formatter::get_max_indent(self : Formatter) -> Int {
+pub fn Formatter::get_max_indent(self : Formatter) -> Int32 {
   self.max_indent
 }
 
 ///|
-pub fn Formatter::set_margin(self : Formatter, n : Int) -> Unit {
+pub fn Formatter::set_margin(self : Formatter, n : Int32) -> Unit {
   if n >= 1 {
     let n = pp_limit(n)
     self.margin = n
@@ -604,7 +604,7 @@ pub fn Formatter::set_margin(self : Formatter, n : Int) -> Unit {
 }
 
 ///|
-pub fn Formatter::get_margin(self : Formatter) -> Int {
+pub fn Formatter::get_margin(self : Formatter) -> Int32 {
   self.margin
 }
 
@@ -612,7 +612,7 @@ pub fn Formatter::get_margin(self : Formatter) -> Int {
 /// A formatter writing through `out_string` (OCaml's `make_formatter`).
 pub fn Formatter::new(
   out_string : (String) -> Unit,
-  out_flush? : () -> Unit = () => (),
+  out_flush~ : () -> Unit = () => (),
 ) -> Formatter {
   let sys_tok = { size: -1, token: Begin(0, HOVBox), length: 0, }
   let scan_stack = []
@@ -669,13 +669,13 @@ let stdout_backlog : Array[String] = []
 
 ///|
 /// The number of lines held back so far.
-pub fn stdout_backlog_length() -> Int {
+pub fn stdout_backlog_length() -> Int32 {
   stdout_backlog.length()
 }
 
 ///|
 /// The held-back lines from index `start` on.
-pub fn stdout_backlog_since(start : Int) -> Array[String] {
+pub fn stdout_backlog_since(start : Int32) -> Array[String] {
   stdout_backlog[start:].to_owned()
 }
 
@@ -754,6 +754,6 @@ pub let std_formatter : Formatter = Formatter::new(
 ///|
 /// Number of entries held by the token queue (consumed or pending); for
 /// tests.
-pub fn Formatter::queue_length(self : Formatter) -> Int {
+pub fn Formatter::queue_length(self : Formatter) -> Int32 {
   self.queue.length()
 }

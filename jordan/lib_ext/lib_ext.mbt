@@ -114,7 +114,7 @@ let local_defs_c : @lib.Cell[Ref[@list.List[(String, (String, @kernel.Term))]]] 
 /// The port joins package and name with `_`, which the term syntax can
 /// write; tactics_fix's hash_of_term hashes a constant under its upstream
 /// name, since Jordan's proofs pick hypotheses by those hashes (UNDH 3313).
-let upstream_names : Map[String, String] = {}
+let upstream_names : Map[String, String] = Map([])
 
 ///|
 /// The upstream name of the constant `name`: its own unless

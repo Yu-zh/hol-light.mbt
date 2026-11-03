@@ -22,7 +22,7 @@ using @pp {type Formatter}
 // ---------------------------------------------------------------------------
 
 ///|
-fn char_class(s : String) -> Int {
+fn char_class(s : String) -> Int32 {
   if s.length() == 0 {
     // Upstream raises Invalid_argument here; no caller passes "".
     return 0
@@ -311,7 +311,7 @@ fn soc(sep : String, flag : Bool, ss : List[String]) -> String raise {
 }
 
 ///|
-fn sot(pr : Int, ty : HolType) -> String raise {
+fn sot(pr : Int32, ty : HolType) -> String raise {
   match ty {
     Tyvar(s) => return s
     _ => ()
@@ -393,7 +393,7 @@ fn csoc(
 }
 
 ///|
-fn csot(pr : Int, ty : HolType, fmt : Formatter) -> Unit raise {
+fn csot(pr : Int32, ty : HolType, fmt : Formatter) -> Unit raise {
   match ty {
     Tyvar(s) => return print_colored_tyvar(fmt, s)
     _ => ()
@@ -404,7 +404,7 @@ fn csot(pr : Int, ty : HolType, fmt : Formatter) -> Unit raise {
   } noraise {
     n => return color_print_str(fmt, @num.string_of_num(n))
   }
-  let p = (pr : Int, t : HolType) => (f : Formatter) => csot(pr, t, f)
+  let p = (pr : Int32, t : HolType) => (f : Formatter) => csot(pr, t, f)
   match ty {
     Tyapp(con, Empty) => color_print_str(fmt, con)
     Tyapp("fun", More(ty1, tail=More(ty2, tail=Empty))) =>

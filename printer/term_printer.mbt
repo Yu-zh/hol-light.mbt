@@ -104,7 +104,7 @@ fn bool_of_term(t : Term) -> Bool raise {
 }
 
 ///|
-fn code_of_term(t : Term) -> Int raise {
+fn code_of_term(t : Term) -> Int32 raise {
   let (f, tms) = @basics.strip_comb(t)
   if !(f is Const("ASCII", _)) || tms.length() != 8 {
     raise Failure("code_of_term")
@@ -164,7 +164,7 @@ fn has_invented_typevar(ty : HolType) -> Bool {
 ///|
 /// OCaml's `String.escaped` for a string of bytes `0..255` (each given as
 /// a character).
-fn ocaml_escaped(codes : Array[Int]) -> String {
+fn ocaml_escaped(codes : Array[Int32]) -> String {
   let buf = StringBuilder()
   for c in codes {
     match c {
@@ -239,7 +239,7 @@ fn Ctx::try_user_printers(self : Ctx, tm : Term) -> Unit raise {
 }
 
 ///|
-fn Ctx::print_term(self : Ctx, prec : Int, tm : Term) -> Unit raise {
+fn Ctx::print_term(self : Ctx, prec : Int32, tm : Term) -> Unit raise {
   let fmt = self.fmt
   if attempt(() => self.try_user_printers(tm)) {
     return
@@ -399,7 +399,7 @@ fn Ctx::print_set_comprehension(
 fn Ctx::print_let_term(
   self : Ctx,
   s : String,
-  prec : Int,
+  prec : Int32,
   tm : Term,
 ) -> Unit raise {
   if s != "LET" {
@@ -455,7 +455,7 @@ fn Ctx::print_decimal(self : Ctx, s : String, args : List[Term]) -> Unit raise {
 fn Ctx::print_match(
   self : Ctx,
   s : String,
-  prec : Int,
+  prec : Int32,
   args : List[Term],
 ) -> Unit raise {
   if s != "_MATCH" || args.length() != 2 {
@@ -482,7 +482,7 @@ fn Ctx::print_match(
 fn Ctx::print_function(
   self : Ctx,
   s : String,
-  prec : Int,
+  prec : Int32,
   args : List[Term],
 ) -> Unit raise {
   if s != "_FUNCTION" || args.length() != 1 {
@@ -507,7 +507,7 @@ fn Ctx::print_function(
 fn Ctx::print_cond(
   self : Ctx,
   s : String,
-  prec : Int,
+  prec : Int32,
   tm : Term,
   args : List[Term],
 ) -> Unit raise {
@@ -556,7 +556,7 @@ fn Ctx::print_cond(
 fn Ctx::print_prefix_app(
   self : Ctx,
   s : String,
-  prec : Int,
+  prec : Int32,
   args : List[Term],
 ) -> Unit raise {
   if !(is_prefix(s) && args.length() == 1) {
@@ -597,7 +597,7 @@ fn Ctx::print_prefix_app(
 fn Ctx::print_binder_app(
   self : Ctx,
   s : String,
-  prec : Int,
+  prec : Int32,
   tm : Term,
   args : List[Term],
 ) -> Unit raise {
@@ -613,7 +613,7 @@ fn Ctx::print_binder_app(
 fn Ctx::print_infix_app(
   self : Ctx,
   s : String,
-  prec : Int,
+  prec : Int32,
   tm : Term,
   hop : Term,
   args : List[Term],
@@ -704,7 +704,7 @@ fn Ctx::print_atom(self : Ctx, hop : Term, s : String) -> Unit raise {
 }
 
 ///|
-fn Ctx::print_generic_app(self : Ctx, prec : Int, tm : Term) -> Unit raise {
+fn Ctx::print_generic_app(self : Ctx, prec : Int32, tm : Term) -> Unit raise {
   let (l, r) = @kernel.dest_comb(tm)
   let fmt = self.fmt
   fmt.open_hvbox(0)
@@ -731,7 +731,7 @@ fn Ctx::print_term_sequence(
   self : Ctx,
   brk : Bool,
   sep : String,
-  prec : Int,
+  prec : Int32,
   tms : List[Term],
 ) -> Unit raise {
   let mut rest = tms
@@ -749,7 +749,7 @@ fn Ctx::print_term_sequence(
 }
 
 ///|
-fn Ctx::print_binder(self : Ctx, prec : Int, tm : Term) -> Unit raise {
+fn Ctx::print_binder(self : Ctx, prec : Int32, tm : Term) -> Unit raise {
   let absf = @basics.is_gabs(tm)
   let (s, s1) = if absf {
     ("\\", "\\")

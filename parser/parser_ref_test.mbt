@@ -585,7 +585,6 @@ test "parser and printer match upstream on parse_cases.txt" {
       #|T: é ! Unparsed input
       #|T: xé ! Unparsed input
       #|
-
     ),
   )
 }

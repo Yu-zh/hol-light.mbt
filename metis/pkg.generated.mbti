@@ -4283,13 +4283,14 @@ pub(all) struct AxCjCl {
   conjecture_cl : @list.List[Clause1]
 }
 
+#derive(Eq, @debug.Debug)
 pub(all) struct AxCjThm {
   axioms_thm : @list.List[Thm]
   conjecture_thm : @list.List[Thm]
-} derive(Eq, @debug.Debug)
+}
 pub fn AxCjThm::equal(Self, Self) -> Bool
 pub fn AxCjThm::not_equal(Self, Self) -> Bool
-pub fn AxCjThm::ocompare(Self, Self) -> Int
+pub fn AxCjThm::ocompare(Self, Self) -> Int32
 pub fn AxCjThm::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn AxCjThm::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for AxCjThm
@@ -4305,25 +4306,27 @@ pub(all) struct ClauseInfo {
   thm : Thm
 }
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Decision {
   Contradiction(Thm)
   Satisfiable(@list.List[Thm])
-} derive(Eq, @debug.Debug)
+}
 pub fn Decision::equal(Self, Self) -> Bool
 pub fn Decision::not_equal(Self, Self) -> Bool
-pub fn Decision::ocompare(Self, Self) -> Int
+pub fn Decision::ocompare(Self, Self) -> Int32
 pub fn Decision::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Decision::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Decision
 pub impl @lib.OHash for Decision
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Edge {
   Factor_edge((String, @list.List[Term]), (String, @list.List[Term]))
   Refl_edge(Term, Term)
-} derive(Eq, @debug.Debug)
+}
 pub fn Edge::equal(Self, Self) -> Bool
 pub fn Edge::not_equal(Self, Self) -> Bool
-pub fn Edge::ocompare(Self, Self) -> Int
+pub fn Edge::ocompare(Self, Self) -> Int32
 pub fn Edge::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Edge::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Edge
@@ -4334,13 +4337,14 @@ pub(all) struct Fixed {
   relations : @omap.T[(String, Int64), (Size) -> ((@list.List[Int64]) -> Bool? raise) raise]
 }
 
+#derive(Eq, @debug.Debug)
 pub(all) struct FixedMap {
   functionmap : @omap.T[(String, Int64), String]
   relationmap : @omap.T[(String, Int64), String]
-} derive(Eq, @debug.Debug)
+}
 pub fn FixedMap::equal(Self, Self) -> Bool
 pub fn FixedMap::not_equal(Self, Self) -> Bool
-pub fn FixedMap::ocompare(Self, Self) -> Int
+pub fn FixedMap::ocompare(Self, Self) -> Int32
 pub fn FixedMap::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn FixedMap::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for FixedMap
@@ -4349,6 +4353,7 @@ pub impl @lib.OHash for FixedMap
 #alias(Elt5)
 #alias(Key6)
 #alias(T18)
+#derive(Eq, @debug.Debug)
 pub(all) enum Formula {
   True
   False
@@ -4360,10 +4365,10 @@ pub(all) enum Formula {
   Iff(Formula, Formula)
   Forall(String, Formula)
   Exists(String, Formula)
-} derive(Eq, @debug.Debug)
+}
 pub fn Formula::equal(Self, Self) -> Bool
 pub fn Formula::not_equal(Self, Self) -> Bool
-pub fn Formula::ocompare(Self, Self) -> Int
+pub fn Formula::ocompare(Self, Self) -> Int32
 pub fn Formula::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Formula::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Formula
@@ -4373,6 +4378,7 @@ pub(all) enum Heap[TA] {
   Heap((TA) -> ((TA) -> Int64 raise) raise, Int64, Node1[TA])
 }
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Inference1 {
   Axiom(@oset.T[(Bool, (String, @list.List[Term]))])
   Assume((String, @list.List[Term]))
@@ -4380,15 +4386,16 @@ pub(all) enum Inference1 {
   Resolve((String, @list.List[Term]), Thm, Thm)
   Refl(Term)
   Equality((Bool, (String, @list.List[Term])), @list.List[Int64], Term)
-} derive(Eq, @debug.Debug)
+}
 pub fn Inference1::equal(Self, Self) -> Bool
 pub fn Inference1::not_equal(Self, Self) -> Bool
-pub fn Inference1::ocompare(Self, Self) -> Int
+pub fn Inference1::ocompare(Self, Self) -> Int32
 pub fn Inference1::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Inference1::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Inference1
 pub impl @lib.OHash for Inference1
 
+#derive(Eq, @debug.Debug)
 pub(all) enum InferenceType {
   Axiom
   Assume
@@ -4397,35 +4404,37 @@ pub(all) enum InferenceType {
   Resolve
   Refl
   Equality
-} derive(Eq, @debug.Debug)
+}
 pub fn InferenceType::equal(Self, Self) -> Bool
 pub fn InferenceType::not_equal(Self, Self) -> Bool
-pub fn InferenceType::ocompare(Self, Self) -> Int
+pub fn InferenceType::ocompare(Self, Self) -> Int32
 pub fn InferenceType::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn InferenceType::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for InferenceType
 pub impl @lib.OHash for InferenceType
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Iterator[TA, TB] {
   Left_to_right_iterator((TA, TB), Tree[TA, TB], @list.List[Node[TA, TB]])
   Right_to_left_iterator((TA, TB), Tree[TA, TB], @list.List[Node[TA, TB]])
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq, TB : Eq] Iterator::equal(Self[TA, TB], Self[TA, TB]) -> Bool
 pub fn[TA : Eq, TB : Eq] Iterator::not_equal(Self[TA, TB], Self[TA, TB]) -> Bool
-pub fn[TA : @lib.OCompare, TB : @lib.OCompare] Iterator::ocompare(Self[TA, TB], Self[TA, TB]) -> Int
+pub fn[TA : @lib.OCompare, TB : @lib.OCompare] Iterator::ocompare(Self[TA, TB], Self[TA, TB]) -> Int32
 pub fn[TA : @lib.OHash, TB : @lib.OHash] Iterator::ohash_visit(Self[TA, TB], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug, TB : @debug.Debug] Iterator::to_repr(Self[TA, TB]) -> @debug.Repr
 pub impl[TA : @lib.OCompare, TB : @lib.OCompare] @lib.OCompare for Iterator[TA, TB]
 pub impl[TA : @lib.OHash, TB : @lib.OHash] @lib.OHash for Iterator[TA, TB]
 
+#derive(Eq, @debug.Debug)
 pub(all) enum JoinStatus {
   Joined
   Joinable(Subst)
   Apart
-} derive(Eq, @debug.Debug)
+}
 pub fn JoinStatus::equal(Self, Self) -> Bool
 pub fn JoinStatus::not_equal(Self, Self) -> Bool
-pub fn JoinStatus::ocompare(Self, Self) -> Int
+pub fn JoinStatus::ocompare(Self, Self) -> Int32
 pub fn JoinStatus::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn JoinStatus::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for JoinStatus
@@ -4436,26 +4445,28 @@ pub(all) struct Kbo {
   precedence : ((String, Int64)) -> (((String, Int64)) -> Int64 raise) raise
 }
 
+#derive(Eq, @debug.Debug)
 pub(all) struct LiteralNet[TA] {
   positive : TermNet[TA]
   negative : TermNet[TA]
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq] LiteralNet::equal(Self[TA], Self[TA]) -> Bool
 pub fn[TA : Eq] LiteralNet::not_equal(Self[TA], Self[TA]) -> Bool
-pub fn[TA : @lib.OCompare] LiteralNet::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] LiteralNet::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] LiteralNet::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug] LiteralNet::to_repr(Self[TA]) -> @debug.Repr
 pub impl[TA : @lib.OCompare] @lib.OCompare for LiteralNet[TA]
 pub impl[TA : @lib.OHash] @lib.OHash for LiteralNet[TA]
 
+#derive(Eq, @debug.Debug)
 pub(all) enum LiteralOrder {
   No_literal_order
   Unsigned_literal_order
   Positive_literal_order
-} derive(Eq, @debug.Debug)
+}
 pub fn LiteralOrder::equal(Self, Self) -> Bool
 pub fn LiteralOrder::not_equal(Self, Self) -> Bool
-pub fn LiteralOrder::ocompare(Self, Self) -> Int
+pub fn LiteralOrder::ocompare(Self, Self) -> Int32
 pub fn LiteralOrder::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn LiteralOrder::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for LiteralOrder
@@ -4482,13 +4493,14 @@ pub(all) struct ModelParameters {
   weight : Double
 }
 
+#derive(Eq, @debug.Debug)
 pub(all) enum ModelTerm {
   Model_var
   Model_fn(String, @list.List[ModelTerm], @list.List[Int64])
-} derive(Eq, @debug.Debug)
+}
 pub fn ModelTerm::equal(Self, Self) -> Bool
 pub fn ModelTerm::not_equal(Self, Self) -> Bool
-pub fn ModelTerm::ocompare(Self, Self) -> Int
+pub fn ModelTerm::ocompare(Self, Self) -> Int32
 pub fn ModelTerm::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn ModelTerm::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for ModelTerm
@@ -4498,19 +4510,21 @@ pub(all) enum NeqConvs {
   Neq_convs(@omap.T[(Bool, (String, @list.List[Term])), (Term) -> (Term, Thm) raise])
 }
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Net[TA] {
   Result(@list.List[TA])
   Single(Qterm, Net[TA])
   Multiple(Net[TA]?, @omap.T[(String, Int64), Net[TA]])
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq] Net::equal(Self[TA], Self[TA]) -> Bool
 pub fn[TA : Eq] Net::not_equal(Self[TA], Self[TA]) -> Bool
-pub fn[TA : @lib.OCompare] Net::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] Net::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] Net::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug] Net::to_repr(Self[TA]) -> @debug.Repr
 pub impl[TA : @lib.OCompare] @lib.OCompare for Net[TA]
 pub impl[TA : @lib.OHash] @lib.OHash for Net[TA]
 
+#derive(Eq, @debug.Debug)
 pub(all) struct Node[TA, TB] {
   size : Int64
   priority : Int64
@@ -4518,48 +4532,51 @@ pub(all) struct Node[TA, TB] {
   key : TA
   value : TB
   right : Tree[TA, TB]
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq, TB : Eq] Node::equal(Self[TA, TB], Self[TA, TB]) -> Bool
 pub fn[TA : Eq, TB : Eq] Node::not_equal(Self[TA, TB], Self[TA, TB]) -> Bool
-pub fn[TA : @lib.OCompare, TB : @lib.OCompare] Node::ocompare(Self[TA, TB], Self[TA, TB]) -> Int
+pub fn[TA : @lib.OCompare, TB : @lib.OCompare] Node::ocompare(Self[TA, TB], Self[TA, TB]) -> Int32
 pub fn[TA : @lib.OHash, TB : @lib.OHash] Node::ohash_visit(Self[TA, TB], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug, TB : @debug.Debug] Node::to_repr(Self[TA, TB]) -> @debug.Repr
 pub impl[TA : @lib.OCompare, TB : @lib.OCompare] @lib.OCompare for Node[TA, TB]
 pub impl[TA : @lib.OHash, TB : @lib.OHash] @lib.OHash for Node[TA, TB]
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Node1[TA] {
   Em
   Tr(Int64, TA, Node1[TA], Node1[TA])
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq] Node1::equal(Self[TA], Self[TA]) -> Bool
 pub fn[TA : Eq] Node1::not_equal(Self[TA], Self[TA]) -> Bool
-pub fn[TA : @lib.OCompare] Node1::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] Node1::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] Node1::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug] Node1::to_repr(Self[TA]) -> @debug.Repr
 pub impl[TA : @lib.OCompare] @lib.OCompare for Node1[TA]
 pub impl[TA : @lib.OHash] @lib.OHash for Node1[TA]
 
+#derive(Eq, @debug.Debug)
 pub(all) struct NonunitT[TA] {
   nextid : Int64
   clauses : @omap.T[Int64, (@list.List[(Bool, (String, @list.List[Term]))], @oset.T[(Bool, (String, @list.List[Term]))], TA)]
   fstlits : LiteralNet[(Int64, Int64)]
   sndlits : LiteralNet[(Int64, Int64)]
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq] NonunitT::equal(Self[TA], Self[TA]) -> Bool
 pub fn[TA : Eq] NonunitT::not_equal(Self[TA], Self[TA]) -> Bool
-pub fn[TA : @lib.OCompare] NonunitT::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] NonunitT::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] NonunitT::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug] NonunitT::to_repr(Self[TA]) -> @debug.Repr
 pub impl[TA : @lib.OCompare] @lib.OCompare for NonunitT[TA]
 pub impl[TA : @lib.OHash] @lib.OHash for NonunitT[TA]
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Orient {
   Left_to_right
   Right_to_left
-} derive(Eq, @debug.Debug)
+}
 pub fn Orient::equal(Self, Self) -> Bool
 pub fn Orient::not_equal(Self, Self) -> Bool
-pub fn Orient::ocompare(Self, Self) -> Int
+pub fn Orient::ocompare(Self, Self) -> Int32
 pub fn Orient::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Orient::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Orient
@@ -4572,12 +4589,13 @@ pub(all) struct Parameters {
 
 #alias(Parameters2)
 #alias(Parameters3)
+#derive(Eq, @debug.Debug)
 pub(all) struct Parameters1 {
   fifo : Bool
-} derive(Eq, @debug.Debug)
+}
 pub fn Parameters1::equal(Self, Self) -> Bool
 pub fn Parameters1::not_equal(Self, Self) -> Bool
-pub fn Parameters1::ocompare(Self, Self) -> Int
+pub fn Parameters1::ocompare(Self, Self) -> Int32
 pub fn Parameters1::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Parameters1::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Parameters1
@@ -4607,25 +4625,27 @@ pub(all) struct Parameters7 {
   waitingp : Parameters6
 }
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Perturbation {
   Function_perturbation((String, @list.List[Int64]), Int64)
   Relation_perturbation((String, @list.List[Int64]), Bool)
-} derive(Eq, @debug.Debug)
+}
 pub fn Perturbation::equal(Self, Self) -> Bool
 pub fn Perturbation::not_equal(Self, Self) -> Bool
-pub fn Perturbation::ocompare(Self, Self) -> Int
+pub fn Perturbation::ocompare(Self, Self) -> Int32
 pub fn Perturbation::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Perturbation::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Perturbation
 pub impl @lib.OHash for Perturbation
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Qterm {
   Var
   Fn((String, Int64), @list.List[Qterm])
-} derive(Eq, @debug.Debug)
+}
 pub fn Qterm::equal(Self, Self) -> Bool
 pub fn Qterm::not_equal(Self, Self) -> Bool
-pub fn Qterm::ocompare(Self, Self) -> Int
+pub fn Qterm::ocompare(Self, Self) -> Int32
 pub fn Qterm::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Qterm::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Qterm
@@ -4657,25 +4677,27 @@ pub(all) enum Set[TA] {
   Set(Map[TA, Unit])
 }
 
+#derive(Eq, @debug.Debug)
 pub(all) struct Simplify {
   subsumes : Bool
   reduce : Bool
   rewrites : Bool
-} derive(Eq, @debug.Debug)
+}
 pub fn Simplify::equal(Self, Self) -> Bool
 pub fn Simplify::not_equal(Self, Self) -> Bool
-pub fn Simplify::ocompare(Self, Self) -> Int
+pub fn Simplify::ocompare(Self, Self) -> Int32
 pub fn Simplify::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Simplify::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Simplify
 pub impl @lib.OHash for Simplify
 
+#derive(Eq, @debug.Debug)
 pub(all) struct Size {
   size : Int64
-} derive(Eq, @debug.Debug)
+}
 pub fn Size::equal(Self, Self) -> Bool
 pub fn Size::not_equal(Self, Self) -> Bool
-pub fn Size::ocompare(Self, Self) -> Int
+pub fn Size::ocompare(Self, Self) -> Int32
 pub fn Size::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Size::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Size
@@ -4686,37 +4708,40 @@ pub(all) enum State {
   Undecided(Resolution)
 }
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Subst {
   Subst(@omap.T[String, Term])
-} derive(Eq, @debug.Debug)
+}
 pub fn Subst::equal(Self, Self) -> Bool
 pub fn Subst::not_equal(Self, Self) -> Bool
-pub fn Subst::ocompare(Self, Self) -> Int
+pub fn Subst::ocompare(Self, Self) -> Int32
 pub fn Subst::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Subst::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Subst
 pub impl @lib.OHash for Subst
 
+#derive(Eq, @debug.Debug)
 pub(all) struct Subsume[TA] {
   empty : @list.List[(@oset.T[(Bool, (String, @list.List[Term]))], Subst, TA)]
   unitn : LiteralNet[((Bool, (String, @list.List[Term])), @oset.T[(Bool, (String, @list.List[Term]))], TA)]
   nonunit : NonunitT[TA]
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq] Subsume::equal(Self[TA], Self[TA]) -> Bool
 pub fn[TA : Eq] Subsume::not_equal(Self[TA], Self[TA]) -> Bool
-pub fn[TA : @lib.OCompare] Subsume::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] Subsume::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] Subsume::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug] Subsume::to_repr(Self[TA]) -> @debug.Repr
 pub impl[TA : @lib.OCompare] @lib.OCompare for Subsume[TA]
 pub impl[TA : @lib.OHash] @lib.OHash for Subsume[TA]
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Table {
   Forgetful_table
   Array_table(FixedArray[Int64])
-} derive(Eq, @debug.Debug)
+}
 pub fn Table::equal(Self, Self) -> Bool
 pub fn Table::not_equal(Self, Self) -> Bool
-pub fn Table::ocompare(Self, Self) -> Int
+pub fn Table::ocompare(Self, Self) -> Int32
 pub fn Table::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Table::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Table
@@ -4727,7 +4752,7 @@ pub(all) struct Tables {
   rangesize : Int64
   tablemap : @ref.Ref[@omap.T[(String, Int64), Table]]
 }
-pub fn Tables::ocompare(Self, Self) -> Int
+pub fn Tables::ocompare(Self, Self) -> Int32
 pub fn Tables::ohash_visit(Self, @lib.OHasher) -> Unit
 pub impl @lib.OCompare for Tables
 pub impl @lib.OHash for Tables
@@ -4735,70 +4760,76 @@ pub impl @lib.OHash for Tables
 #alias(Elt3)
 #alias(Key4)
 #alias(T12)
+#derive(Eq, @debug.Debug)
 pub(all) enum Term {
   Var(String)
   Fn((String, @list.List[Term]))
-} derive(Eq, @debug.Debug)
+}
 pub fn Term::equal(Self, Self) -> Bool
 pub fn Term::not_equal(Self, Self) -> Bool
-pub fn Term::ocompare(Self, Self) -> Int
+pub fn Term::ocompare(Self, Self) -> Int32
 pub fn Term::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Term::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Term
 pub impl @lib.OHash for Term
 
 #alias(AtomNet)
+#derive(Eq, @debug.Debug)
 pub(all) enum TermNet[TA] {
   Net(Parameters1, Int64, (Int64, Net[(Int64, TA)])?)
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq] TermNet::equal(Self[TA], Self[TA]) -> Bool
 pub fn[TA : Eq] TermNet::not_equal(Self[TA], Self[TA]) -> Bool
-pub fn[TA : @lib.OCompare] TermNet::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] TermNet::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] TermNet::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug] TermNet::to_repr(Self[TA]) -> @debug.Repr
 pub impl[TA : @lib.OCompare] @lib.OCompare for TermNet[TA]
 pub impl[TA : @lib.OHash] @lib.OHash for TermNet[TA]
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Thm {
   Thm(@oset.T[(Bool, (String, @list.List[Term]))], (InferenceType, @list.List[Thm]))
-} derive(Eq, @debug.Debug)
+}
 pub fn Thm::equal(Self, Self) -> Bool
 pub fn Thm::not_equal(Self, Self) -> Bool
-pub fn Thm::ocompare(Self, Self) -> Int
+pub fn Thm::ocompare(Self, Self) -> Int32
 pub fn Thm::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Thm::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Thm
 pub impl @lib.OHash for Thm
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Tree[TA, TB] {
   Empty
   Tree(Node[TA, TB])
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq, TB : Eq] Tree::equal(Self[TA, TB], Self[TA, TB]) -> Bool
 pub fn[TA : Eq, TB : Eq] Tree::not_equal(Self[TA, TB], Self[TA, TB]) -> Bool
-pub fn[TA : @lib.OCompare, TB : @lib.OCompare] Tree::ocompare(Self[TA, TB], Self[TA, TB]) -> Int
+pub fn[TA : @lib.OCompare, TB : @lib.OCompare] Tree::ocompare(Self[TA, TB], Self[TA, TB]) -> Int32
 pub fn[TA : @lib.OHash, TB : @lib.OHash] Tree::ohash_visit(Self[TA, TB], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug, TB : @debug.Debug] Tree::to_repr(Self[TA, TB]) -> @debug.Repr
 pub impl[TA : @lib.OCompare, TB : @lib.OCompare] @lib.OCompare for Tree[TA, TB]
 pub impl[TA : @lib.OHash, TB : @lib.OHash] @lib.OHash for Tree[TA, TB]
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Units {
   Units(LiteralNet[((Bool, (String, @list.List[Term])), Thm)])
-} derive(Eq, @debug.Debug)
+}
 pub fn Units::equal(Self, Self) -> Bool
 pub fn Units::not_equal(Self, Self) -> Bool
-pub fn Units::ocompare(Self, Self) -> Int
+pub fn Units::ocompare(Self, Self) -> Int32
 pub fn Units::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Units::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Units
 pub impl @lib.OHash for Units
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Valuation {
   Valuation(@omap.T[String, Int64])
-} derive(Eq, @debug.Debug)
+}
 pub fn Valuation::equal(Self, Self) -> Bool
 pub fn Valuation::not_equal(Self, Self) -> Bool
-pub fn Valuation::ocompare(Self, Self) -> Int
+pub fn Valuation::ocompare(Self, Self) -> Int32
 pub fn Valuation::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Valuation::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Valuation
@@ -4814,12 +4845,13 @@ pub(all) struct WaitingT {
   models : @list.List[Model]
 }
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Weight {
   Weight(@omap.T[String, Int64], Int64)
-} derive(Eq, @debug.Debug)
+}
 pub fn Weight::equal(Self, Self) -> Bool
 pub fn Weight::not_equal(Self, Self) -> Bool
-pub fn Weight::ocompare(Self, Self) -> Int
+pub fn Weight::ocompare(Self, Self) -> Int32
 pub fn Weight::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Weight::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Weight

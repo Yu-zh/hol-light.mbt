@@ -138,38 +138,41 @@ pub(all) suberror Cut {
 }
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) enum FolForm {
   Atom((Int64, @list.List[FolTerm]))
   Conj(FolForm, FolForm)
   Disj(FolForm, FolForm)
   Forallq(Int64, FolForm)
-} derive(Eq, @debug.Debug)
+}
 pub fn FolForm::equal(Self, Self) -> Bool
 pub fn FolForm::not_equal(Self, Self) -> Bool
-pub fn FolForm::ocompare(Self, Self) -> Int
+pub fn FolForm::ocompare(Self, Self) -> Int32
 pub fn FolForm::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn FolForm::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for FolForm
 pub impl @lib.OHash for FolForm
 
+#derive(Eq, @debug.Debug)
 pub(all) enum FolGoal {
   Subgoal((Int64, @list.List[FolTerm]), @list.List[FolGoal], (Int64, @kernel.Thm), Int64, @list.List[(FolTerm, Int64)])
-} derive(Eq, @debug.Debug)
+}
 pub fn FolGoal::equal(Self, Self) -> Bool
 pub fn FolGoal::not_equal(Self, Self) -> Bool
-pub fn FolGoal::ocompare(Self, Self) -> Int
+pub fn FolGoal::ocompare(Self, Self) -> Int32
 pub fn FolGoal::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn FolGoal::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for FolGoal
 pub impl @lib.OHash for FolGoal
 
+#derive(Eq, @debug.Debug)
 pub(all) enum FolTerm {
   Fvar(Int64)
   Fnapp(Int64, @list.List[FolTerm])
-} derive(Eq, @debug.Debug)
+}
 pub fn FolTerm::equal(Self, Self) -> Bool
 pub fn FolTerm::not_equal(Self, Self) -> Bool
-pub fn FolTerm::ocompare(Self, Self) -> Int
+pub fn FolTerm::ocompare(Self, Self) -> Int32
 pub fn FolTerm::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn FolTerm::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for FolTerm

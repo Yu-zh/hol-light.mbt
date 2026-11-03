@@ -54,7 +54,7 @@ test "printer matches printer.ml" {
   let cart = (x, y) => mk_type("cart", [x, y])
   let lst = x => mk_type("list", [x])
   let char_ty = mk_type("char", [])
-  let finty = (k : Int) => @basics.mk_finty(@num.num_of_int(k))
+  let finty = (k : Int32) => @basics.mk_finty(@num.num_of_int(k))
   let p = (t : @kernel.HolType) => log.out(@printer.string_of_type(t))
   p(fn_(a, fn_(b, a)))
   p(fn_(fn_(a, b), a))
@@ -134,7 +134,7 @@ test "printer matches printer.ml" {
   let bin = (s, l, r) => @kernel.mk_comb(@kernel.mk_comb(c0(s), l), r)
   let ibin = (s, l, r) => @basics.list_mk_icomb(s, @list.List([l, r]))
   let neg = t => @kernel.mk_comb(c0("~"), t)
-  let numeral = (k : Int) => {
+  let numeral = (k : Int32) => {
     let bits = []
     let mut k = k
     while k != 0 {
@@ -164,7 +164,11 @@ test "printer matches printer.ml" {
   t("eq", @basics.mk_eq(bin("+", x, y), numeral(42)))
   t(
     "forall",
-    @basics.mk_binder("forall", x, @basics.mk_binder("forall", y, @basics.mk_eq(x, y))),
+    @basics.mk_binder(
+      "forall",
+      x,
+      @basics.mk_binder("forall", y, @basics.mk_eq(x, y)),
+    ),
   )
   t("exists", @basics.mk_binder("?", pv, bin("\\/", pv, neg(pv))))
   t("lambda", @kernel.mk_abs(x, @kernel.mk_abs(y, bin("+", x, y))))
@@ -196,7 +200,7 @@ test "printer matches printer.ml" {
   let nil = ty => @kernel.inst(@list.List([(ty, a)]), c0("NIL"))
   t("list", cons(x, cons(y, nil(num_ty))))
   let tf = (bit : Bool) => c0(if bit { "T" } else { "F" })
-  let chr = (k : Int) => {
+  let chr = (k : Int32) => {
     @basics.list_mk_comb(
       c0("ASCII"),
       @list.List([ for i in 0..<8 => tf(((k >> (7 - i)) & 1) == 1) ]),
@@ -243,7 +247,7 @@ test "printer matches printer.ml" {
       bin("*", x, y),
     ),
   )
-  let big = (n : Int) => {
+  let big = (n : Int32) => {
     let mut acc = x
     for i in 1..<=n {
       acc = bin(
@@ -413,7 +417,6 @@ test "printer matches printer.ml" {
       #|long_variable_name_1 * y +
       #|x
       #|
-
     ),
   )
 }

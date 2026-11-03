@@ -35,6 +35,7 @@ pub fn transform_result(@list.List[Double], @list.List[Double], ResultTree) -> @
 // Errors
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) struct CertificateStats {
   pass : Int64
   pass_raw : Int64
@@ -42,54 +43,58 @@ pub(all) struct CertificateStats {
   mono : Int64
   glue : Int64
   glue_convex : Int64
-} derive(Eq, @debug.Debug)
+}
 pub fn CertificateStats::equal(Self, Self) -> Bool
 pub fn CertificateStats::not_equal(Self, Self) -> Bool
-pub fn CertificateStats::ocompare(Self, Self) -> Int
+pub fn CertificateStats::ocompare(Self, Self) -> Int32
 pub fn CertificateStats::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn CertificateStats::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for CertificateStats
 pub impl @lib.OHash for CertificateStats
 
+#derive(Eq, @debug.Debug)
 pub(all) struct MonoStatus {
   variable : Int64
   decr_flag : Bool
   df0_flag : Bool
   ti_flag : Bool
-} derive(Eq, @debug.Debug)
+}
 pub fn MonoStatus::equal(Self, Self) -> Bool
 pub fn MonoStatus::not_equal(Self, Self) -> Bool
-pub fn MonoStatus::ocompare(Self, Self) -> Int
+pub fn MonoStatus::ocompare(Self, Self) -> Int32
 pub fn MonoStatus::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn MonoStatus::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for MonoStatus
 pub impl @lib.OHash for MonoStatus
 
+#derive(Eq, @debug.Debug)
 pub(all) enum PResultTree {
   P_result_pass(PStatus, Int64, Bool)
   P_result_mono(PStatus, @list.List[MonoStatus], PResultTree)
   P_result_glue(PStatus, Int64, Bool, PResultTree, PResultTree)
   P_result_ref(Int64)
-} derive(Eq, @debug.Debug)
+}
 pub fn PResultTree::equal(Self, Self) -> Bool
 pub fn PResultTree::not_equal(Self, Self) -> Bool
-pub fn PResultTree::ocompare(Self, Self) -> Int
+pub fn PResultTree::ocompare(Self, Self) -> Int32
 pub fn PResultTree::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn PResultTree::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for PResultTree
 pub impl @lib.OHash for PResultTree
 
+#derive(Eq, @debug.Debug)
 pub(all) struct PStatus {
   pp : Int64
-} derive(Eq, @debug.Debug)
+}
 pub fn PStatus::equal(Self, Self) -> Bool
 pub fn PStatus::not_equal(Self, Self) -> Bool
-pub fn PStatus::ocompare(Self, Self) -> Int
+pub fn PStatus::ocompare(Self, Self) -> Int32
 pub fn PStatus::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn PStatus::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for PStatus
 pub impl @lib.OHash for PStatus
 
+#derive(Eq, @debug.Debug)
 pub(all) enum ResultTree {
   Result_false((@list.List[Double], @list.List[Double]))
   Result_pass((Int64, Bool))
@@ -97,10 +102,10 @@ pub(all) enum ResultTree {
   Result_pass_ref(Int64)
   Result_mono(@list.List[MonoStatus], ResultTree)
   Result_glue((Int64, Bool, ResultTree, ResultTree))
-} derive(Eq, @debug.Debug)
+}
 pub fn ResultTree::equal(Self, Self) -> Bool
 pub fn ResultTree::not_equal(Self, Self) -> Bool
-pub fn ResultTree::ocompare(Self, Self) -> Int
+pub fn ResultTree::ocompare(Self, Self) -> Int32
 pub fn ResultTree::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn ResultTree::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for ResultTree

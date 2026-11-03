@@ -74,7 +74,7 @@ pub fn free_in(@kernel.Term, @kernel.Term) -> Bool
 
 pub fn genvar(@kernel.HolType) -> @kernel.Term
 
-pub fn genvar_counter() -> Int
+pub fn genvar_counter() -> Int32
 
 pub fn is_binary(String, @kernel.Term) -> Bool
 

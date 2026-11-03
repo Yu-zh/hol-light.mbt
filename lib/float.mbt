@@ -14,13 +14,13 @@ pub fn string_of_float(x : Double) -> String {
 }
 
 ///|
-fn pow10(n : Int) -> @bigint.BigInt {
+fn pow10(n : Int32) -> @bigint.BigInt {
   @bigint.BigInt::from_int(10).pow(@bigint.BigInt::from_int(n))
 }
 
 ///|
 /// C's `%.<prec>g` (correctly rounded, ties to even), `prec >= 1`.
-fn format_float_g(x : Double, prec : Int) -> String {
+fn format_float_g(x : Double, prec : Int32) -> String {
   if x.is_nan() {
     return "nan"
   }
@@ -52,7 +52,7 @@ fn format_float_g(x : Double, prec : Int) -> String {
   } else {
     -((-b2 * 30103 + 99999) / 100000)
   }
-  let ge_pow10 = (k : Int) => {
+  let ge_pow10 = (k : Int32) => {
     if k >= 0 {
       num.compare(den * pow10(k)) >= 0
     } else {

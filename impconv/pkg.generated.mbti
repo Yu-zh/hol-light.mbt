@@ -22,38 +22,41 @@ pub fn target_rewrite_tac(@list.List[@kernel.Thm]) -> ((@kernel.Thm) -> (((@list
 // Errors
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) enum FoNetsT[TA] {
   Netnode(@list.List[(FoNetsTermLabel, FoNetsT[TA])], @list.List[TA])
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq] FoNetsT::equal(Self[TA], Self[TA]) -> Bool
 pub fn[TA : Eq] FoNetsT::not_equal(Self[TA], Self[TA]) -> Bool
-pub fn[TA : @lib.OCompare] FoNetsT::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] FoNetsT::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] FoNetsT::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug] FoNetsT::to_repr(Self[TA]) -> @debug.Repr
 pub impl[TA : @lib.OCompare] @lib.OCompare for FoNetsT[TA]
 pub impl[TA : @lib.OHash] @lib.OHash for FoNetsT[TA]
 
+#derive(Eq, @debug.Debug)
 pub(all) enum FoNetsTermLabel {
   Vnet(Int64)
   Lcnet(String, Int64)
   Cnet(String, Int64)
   Lnet(Int64)
-} derive(Eq, @debug.Debug)
+}
 pub fn FoNetsTermLabel::equal(Self, Self) -> Bool
 pub fn FoNetsTermLabel::not_equal(Self, Self) -> Bool
-pub fn FoNetsTermLabel::ocompare(Self, Self) -> Int
+pub fn FoNetsTermLabel::ocompare(Self, Self) -> Int32
 pub fn FoNetsTermLabel::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn FoNetsTermLabel::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for FoNetsTermLabel
 pub impl @lib.OHash for FoNetsTermLabel
 
+#derive(Eq, @debug.Debug)
 pub(all) enum ImpconvAtomic {
   Atomic
   Non_atomic
-} derive(Eq, @debug.Debug)
+}
 pub fn ImpconvAtomic::equal(Self, Self) -> Bool
 pub fn ImpconvAtomic::not_equal(Self, Self) -> Bool
-pub fn ImpconvAtomic::ocompare(Self, Self) -> Int
+pub fn ImpconvAtomic::ocompare(Self, Self) -> Int32
 pub fn ImpconvAtomic::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn ImpconvAtomic::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for ImpconvAtomic
@@ -63,27 +66,29 @@ pub(all) enum ImpconvWithContext[TA] {
   With_context(TA, (@list.List[@kernel.Term]) -> ImpconvWithContext[TA] raise, (@kernel.Term) -> ImpconvWithContext[TA] raise)
 }
 
+#derive(Eq, @debug.Debug)
 pub(all) enum TypeAnnotedTermT {
   Var_(String, @kernel.HolType)
   Const_(String, @kernel.HolType, @kernel.Term)
   Comb_(TypeAnnotedTermT, TypeAnnotedTermT, @kernel.HolType)
   Abs_(TypeAnnotedTermT, TypeAnnotedTermT, @kernel.HolType)
-} derive(Eq, @debug.Debug)
+}
 pub fn TypeAnnotedTermT::equal(Self, Self) -> Bool
 pub fn TypeAnnotedTermT::not_equal(Self, Self) -> Bool
-pub fn TypeAnnotedTermT::ocompare(Self, Self) -> Int
+pub fn TypeAnnotedTermT::ocompare(Self, Self) -> Int32
 pub fn TypeAnnotedTermT::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn TypeAnnotedTermT::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for TypeAnnotedTermT
 pub impl @lib.OHash for TypeAnnotedTermT
 
+#derive(Eq, @debug.Debug)
 pub(all) enum VarianceT {
   Co
   Contra
-} derive(Eq, @debug.Debug)
+}
 pub fn VarianceT::equal(Self, Self) -> Bool
 pub fn VarianceT::not_equal(Self, Self) -> Bool
-pub fn VarianceT::ocompare(Self, Self) -> Int
+pub fn VarianceT::ocompare(Self, Self) -> Int32
 pub fn VarianceT::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn VarianceT::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for VarianceT

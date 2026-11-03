@@ -42,6 +42,7 @@ pub fn unary_interval_operations() -> @lib.OHashtbl[@kernel.Term, (Int64) -> ((@
 // Errors
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) enum IntervalFun {
   Int_ref(Int64)
   Int_var(@kernel.Term)
@@ -51,10 +52,10 @@ pub(all) enum IntervalFun {
   Int_pow(Int64, IntervalFun)
   Int_unary(@kernel.Term, IntervalFun)
   Int_binary(@kernel.Term, IntervalFun, IntervalFun)
-} derive(Eq, @debug.Debug)
+}
 pub fn IntervalFun::equal(Self, Self) -> Bool
 pub fn IntervalFun::not_equal(Self, Self) -> Bool
-pub fn IntervalFun::ocompare(Self, Self) -> Int
+pub fn IntervalFun::ocompare(Self, Self) -> Int32
 pub fn IntervalFun::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn IntervalFun::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for IntervalFun

@@ -54,11 +54,12 @@ pub fn gen_variables(x1 : @list.List[String], x2 : @kernel.Term) -> @kernel.Term
 
 ///|
 /// `arg_type`
+#derive(Eq, Debug)
 pub(all) enum ArgType {
   Arg_theorem(@kernel.Thm)
   Arg_term(@kernel.Term)
   Arg_type(@kernel.HolType)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend ArgType with Eq::{not_equal, equal}

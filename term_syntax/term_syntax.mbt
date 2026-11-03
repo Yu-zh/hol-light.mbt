@@ -63,7 +63,11 @@ fn is_variable_binder(v : @preterm.Preterm) -> Bool {
 /// Whether a variable named `n` would be read as a constant: the name of
 /// one, or an interface name (`exists`, `+`, ...).
 fn names_constant(n : String) -> Bool {
-  (try @kernel.get_const_type(n) catch { _ => None } noraise { _ => Some(()) })
+  (try @kernel.get_const_type(n) catch {
+    _ => None
+  } noraise {
+    _ => Some(())
+  })
   is Some(_) ||
   @printer.the_interface.val.iter().any(e => e.0 == n)
 }
@@ -73,7 +77,11 @@ fn names_constant(n : String) -> Bool {
 /// shadows the constant, as in HOL (an interface name, such as `inv`, may
 /// stand for constants of other names, so a binder named so is renamed).
 fn names_plain_constant(n : String) -> Bool {
-  (try @kernel.get_const_type(n) catch { _ => None } noraise { _ => Some(()) })
+  (try @kernel.get_const_type(n) catch {
+    _ => None
+  } noraise {
+    _ => Some(())
+  })
   is Some(_) &&
   !@printer.the_interface.val.iter().any(e => e.0 == n)
 }
@@ -129,11 +137,12 @@ fn binder_rename(
 /// each takes the names of the comprehensions in it; the last is kept.
 /// The term syntax skips the names of the readings before the last, so
 /// that the two syntaxes number GEN%PVAR alike.
-fn pgen_cost(t : @preterm.Preterm) -> Int {
+fn pgen_cost(t : @preterm.Preterm) -> Int32 {
   match t {
     // a pattern-match arm takes two (pmk_pattern), after its parts
     Combp(Combp(Combp(Varp(m, _), pat), when_), body) if m ==
-      @grammar.clause_mark => 2 + pgen_cost(pat) + pgen_cost(when_) + pgen_cost(body)
+      @grammar.clause_mark =>
+      2 + pgen_cost(pat) + pgen_cost(when_) + pgen_cost(body)
     Combp(Combp(Varp(m, _), e), p) if m == @grammar.set_abs_mark =>
       2 * pgen_cost(e) + pgen_cost(p) + 1
     Combp(Varp(m, _), binders) if m == @grammar.set_compr_mark => {
@@ -266,13 +275,18 @@ fn resolve_names(
       // the clause binds the variables HOL's parser finds in the pattern,
       // whatever names the resolution gave the rest (a binder renamed
       // because it is named like a constant)
-      @parser.pmk_pattern_binding(((p, tests), resolve_names(body, inner)), () => vs)
+      @parser.pmk_pattern_binding(((p, tests), resolve_names(body, inner)), () => {
+        return vs
+      })
     }
     // truth and falsity are the constants themselves, so that a binder
     // named T or F (which HOL allows) cannot capture them
     Varp(n, _) if n == @grammar.generated_mark + "T" ||
       n == @grammar.generated_mark + "F" =>
-      Constp(n[@grammar.generated_mark.length():].to_owned(), @preterm.Ptycon("bool", @list.List([])))
+      Constp(
+        n[@grammar.generated_mark.length():].to_owned(),
+        @preterm.Ptycon("bool", @list.List([])),
+      )
     Varp(n, ty) if n.has_prefix(@grammar.generated_mark) =>
       Varp(n[@grammar.generated_mark.length():].to_owned(), ty)
     Varp(n, ty) =>
@@ -336,10 +350,7 @@ pub fn parse_preterm(s : String) -> @preterm.Preterm raise {
 /// or `p` has none, and a constant's name, such as T, is no variable there
 /// (HOL reads it as the constant's, even under a binder), so the aliased
 /// ones are counted under their own names.
-fn setabs(
-  e : @preterm.Preterm,
-  p : @preterm.Preterm,
-) -> @preterm.Preterm raise {
+fn setabs(e : @preterm.Preterm, p : @preterm.Preterm) -> @preterm.Preterm raise {
   let fvs = @parser.pfrees(unalias_preterm(e))
   let bvs = @parser.pfrees(unalias_preterm(p))
   let evs = if fvs.length() <= 1 || bvs.is_empty() {
@@ -385,7 +396,10 @@ fn unalias_binders(t : @kernel.Term) -> @kernel.Term raise {
     Comb(f, x) => @kernel.mk_comb(unalias_binders(f), unalias_binders(x))
     Abs(Var(n, ty) as v, b) if n.has_prefix(binder_alias) => {
       let real = @kernel.mk_var(n[binder_alias.length():].to_owned(), ty)
-      @kernel.mk_abs(real, unalias_binders(@kernel.vsubst(@list.List([(real, v)]), b)))
+      @kernel.mk_abs(
+        real,
+        unalias_binders(@kernel.vsubst(@list.List([(real, v)]), b)),
+      )
     }
     Abs(v, b) => @kernel.mk_abs(unalias_binders(v), unalias_binders(b))
   }

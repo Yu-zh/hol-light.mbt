@@ -38,8 +38,7 @@ pub fn mk_primed_var(avoid : List[Term], v : Term) -> Term raise {
   let (s, ty) = @kernel.dest_var(v)
   let names = @lib.mapfilter(t => @kernel.dest_var(t).0, avoid)
   let mut s1 = s
-  while @lib.mem(s1, names) ||
-        @lib.can(c => @kernel.get_const_type(c), s1) {
+  while @lib.mem(s1, names) || @lib.can(c => @kernel.get_const_type(c), s1) {
     s1 = s1 + "'"
   }
   @kernel.mk_var(s1, ty)

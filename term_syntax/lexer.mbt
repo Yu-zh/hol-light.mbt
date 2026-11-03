@@ -8,15 +8,15 @@
 /// MoonBit's keywords and reserved words (moonbitlang/lexer), which are not
 /// identifiers.
 let moonbit_keywords : Array[String] = [
-  "as", "extern", "fn", "let", "var", "proof_assert", "proof_let", "const",
-  "match", "using", "mut", "type", "struct", "enum", "extenum", "trait", "derive",
-  "while", "break", "continue", "import", "return", "throw", "raise", "try",
-  "catch", "pub", "priv", "readonly", "test", "loop", "for", "in", "impl", "with",
-  "guard", "async", "is", "suberror", "and", "letrec", "enumview", "extend",
-  "noraise", "defer", "errdefer", "lexmatch", "lexscan", "where", "declare",
-  "nobreak", "nocancel", "package", "module", "move", "ref", "static", "super",
-  "unsafe", "use", "await", "dyn", "abstract", "do", "final", "macro", "override",
-  "typeof", "virtual", "yield", "local", "method", "alias", "assert", "assume",
+  "as", "extern", "fn", "let", "var", "proof_assert", "proof_let", "const", "match",
+  "using", "mut", "type", "struct", "enum", "extenum", "trait", "derive", "while",
+  "break", "continue", "import", "return", "throw", "raise", "try", "catch", "pub",
+  "priv", "readonly", "test", "loop", "for", "in", "impl", "with", "guard", "async",
+  "is", "suberror", "and", "letrec", "enumview", "extend", "noraise", "defer", "errdefer",
+  "lexmatch", "lexscan", "where", "declare", "nobreak", "nocancel", "package", "module",
+  "move", "ref", "static", "super", "unsafe", "use", "await", "dyn", "abstract",
+  "do", "final", "macro", "override", "typeof", "virtual", "yield", "local", "method",
+  "alias", "assert", "assume",
 ]
 
 ///|
@@ -45,10 +45,10 @@ fn keyword(name : String) -> @grammar.Token raise {
 
 ///|
 /// The tokens of `s`, each with its start and end offset, ending with EOF.
-fn tokens(s : String) -> Array[(@grammar.Token, Int, Int)] raise {
-  let toks : Array[(@grammar.Token, Int, Int)] = []
+fn tokens(s : String) -> Array[(@grammar.Token, Int32, Int32)] raise {
+  let toks : Array[(@grammar.Token, Int32, Int32)] = []
   let len = s.length()
-  fn at(rest : StringView) -> Int {
+  fn at(rest : StringView) -> Int32 {
     len - rest.length()
   }
 
@@ -179,7 +179,10 @@ fn tokens(s : String) -> Array[(@grammar.Token, Int, Int)] raise {
         continue rest
       }
       re"^$" => break
-      _ => raise Failure("term syntax: unexpected character at offset \{at(input)}")
+      _ =>
+        raise Failure(
+          "term syntax: unexpected character at offset \{at(input)}",
+        )
     }
   }
   toks.push((EOF, len, len))

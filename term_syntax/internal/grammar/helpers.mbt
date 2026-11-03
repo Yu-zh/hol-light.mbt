@@ -20,7 +20,7 @@ fn pconst(name : String) -> @preterm.Preterm {
 }
 
 ///|
-let semantic_error : Ref[String?] = Ref::{ val: None }
+let semantic_error : Ref[String?] = Ref::{ val: None, }
 
 ///|
 /// Record that the input has no meaning; the parse reports the first one.
@@ -156,16 +156,15 @@ fn named_type(
   args : @list.List[@preterm.Pretype],
 ) -> @preterm.Pretype {
   // HOL's unit type is called 1
-  if name == "Unit" && (try @kernel.get_type_arity("unit") catch { _ => -1L }) < 0L {
+  if name == "Unit" && (@kernel.get_type_arity("unit") catch { _ => -1L }) < 0L {
     return @preterm.Ptycon("1", check_arity("1", args))
   }
   let chars = name.to_array()
-  let lower = chars[0].to_string().to_lower() +
-    String::from_array(chars[1:])
+  let lower = chars[0].to_string().to_lower() + String::from_array(chars[1:])
   // `Num` is num; a type constant whose name is capitalised already is
   // written as it is
-  let lower = if (try @kernel.get_type_arity(lower) catch { _ => -1L }) < 0L &&
-    (try @kernel.get_type_arity(name) catch { _ => -1L }) >= 0L {
+  let lower = if (@kernel.get_type_arity(lower) catch { _ => -1L }) < 0L &&
+    (@kernel.get_type_arity(name) catch { _ => -1L }) >= 0L {
     name
   } else {
     lower
@@ -262,9 +261,7 @@ fn set_compr(
   let inner = apply(apply(@preterm.Varp(set_abs_mark, @preterm.dpty), e), p)
   apply(
     @preterm.Varp(set_compr_mark, @preterm.dpty),
-    vs
-    .rev()
-    .fold(init=inner, (b, v) => @preterm.Absp(typed(pvar(v.0), v.1), b)),
+    vs.rev().fold(init=inner, (b, v) => @preterm.Absp(typed(pvar(v.0), v.1), b)),
   )
 }
 
@@ -290,7 +287,7 @@ fn check_binds(pat : @preterm.Preterm) -> Unit {
     bare = x
   }
   if bare is Varp(n, _) &&
-    (n.has_prefix(generated_mark) || n.iter().all(c => c is ('0'..='9'))) {
+    (n.has_prefix(generated_mark) || n.iter().all(c => c is ('0'..<='9'))) {
     reject("a lambda or quantifier over a constant alone binds no variable")
   }
 }

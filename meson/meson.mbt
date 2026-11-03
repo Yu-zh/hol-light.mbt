@@ -115,10 +115,11 @@ pub(all) suberror Cut {
 
 ///|
 /// `fol_term`
+#derive(Eq, Debug)
 pub(all) enum FolTerm {
   Fvar(Int64)
   Fnapp(Int64, @list.List[FolTerm])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend FolTerm with Eq::{not_equal, equal}
@@ -176,12 +177,13 @@ pub type FolAtom = (Int64, @list.List[FolTerm])
 
 ///|
 /// `fol_form`
+#derive(Eq, Debug)
 pub(all) enum FolForm {
   Atom(FolAtom)
   Conj(FolForm, FolForm)
   Disj(FolForm, FolForm)
   Forallq(Int64, FolForm)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend FolForm with Eq::{not_equal, equal}
@@ -261,6 +263,7 @@ pub impl @lib.OHash for FolForm with fn ohash_visit(self, h) {
 
 ///|
 /// `fol_goal`
+#derive(Eq, Debug)
 pub(all) enum FolGoal {
   Subgoal(
     FolAtom,
@@ -269,7 +272,7 @@ pub(all) enum FolGoal {
     Int64,
     @list.List[(FolTerm, Int64)]
   )
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend FolGoal with Eq::{not_equal, equal}

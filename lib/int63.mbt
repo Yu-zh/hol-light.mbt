@@ -110,7 +110,7 @@ pub fn lnot63(a : Int64) -> Int64 {
 /// An OCaml int as a MoonBit `Int` (an index, a size, a comparison
 /// result), saturating outside the 32-bit range: signs and order are kept,
 /// and an out-of-range index or size still fails in the callee as in OCaml.
-pub fn int63_to_int(a : Int64) -> Int {
+pub fn int63_to_int(a : Int64) -> Int32 {
   if a < -2147483648L {
     -2147483648
   } else if a > 2147483647L {

@@ -2706,10 +2706,11 @@ pub fn bm_skip_clause(
 
 ///|
 /// `discrim_tree`
+#derive(Eq, Debug)
 pub(all) enum DiscrimTree[TA] {
   Leaf_dt(TA)
   Split_dt(Int64, @kernel.Term, DiscrimTree[TA], DiscrimTree[TA])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend DiscrimTree with Eq::{not_equal, equal}

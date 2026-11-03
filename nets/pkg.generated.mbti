@@ -31,9 +31,9 @@ pub fn[A] Net::tips(Self[A]) -> @list.List[A]
 
 // Traits
 pub(open) trait NetCompare {
-  fn net_compare(Self, Self) -> Int?
+  fn net_compare(Self, Self) -> Int32?
 }
-pub impl NetCompare for Int
+pub impl NetCompare for Int32
 pub impl NetCompare for String
 pub impl NetCompare for @kernel.Term
 pub impl NetCompare for @kernel.Thm

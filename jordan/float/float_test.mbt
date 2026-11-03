@@ -10,8 +10,13 @@ fn tm(s : String) -> @kernel.Term raise {
 ///|
 test "int_sub_conv computes a + --b" {
   @float.load()
-  for p in [("int_add(int_of_num(5), int_neg(int_of_num(3)))", "int_of_num(2)"),
-            ("int_add(int_of_num(3), int_neg(int_of_num(5)))", "int_neg(int_of_num(2))")] {
+  for
+    p in [
+      ("int_add(int_of_num(5), int_neg(int_of_num(3)))", "int_of_num(2)"),
+      (
+        "int_add(int_of_num(3), int_neg(int_of_num(5)))", "int_neg(int_of_num(2))",
+      ),
+    ] {
     let t = tm(p.0)
     let th = @float.int_sub_conv(t)
     assert_eq(@kernel.hyp(th), @list.List([]))
@@ -26,14 +31,19 @@ test "the format recognizers accept Jordan's literals" {
   assert_false(@float.is_pos_int_format(tm("int_neg(int_of_num(3))")))
   assert_true(@float.is_neg_int_format(tm("int_neg(int_of_num(3))")))
   assert_false(@float.is_neg_int_format(tm("int_of_num(3)")))
-  assert_true(@float.is_float_format(tm("float(int_of_num(3), int_neg(int_of_num(1)))")))
+  assert_true(
+    @float.is_float_format(tm("float(int_of_num(3), int_neg(int_of_num(1)))")),
+  )
   assert_false(@float.is_float_format(tm("float(int_of_num(3), (n : Int))")))
 }
 
 ///|
 test "interval_of_term bounds negated and ssqrt terms" {
   @float.load()
-  for s in ["real_neg(real_of_num(2))", "ssqrt(real_of_num(2))", "real_neg(ssqrt(real_of_num(2)))"] {
+  for
+    s in [
+      "real_neg(real_of_num(2))", "ssqrt(real_of_num(2))", "real_neg(ssqrt(real_of_num(2)))",
+    ] {
     let t = tm(s)
     let th = @float.interval_of_term(10L, t)
     assert_eq(@kernel.hyp(th), @list.List([]))

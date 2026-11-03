@@ -79,15 +79,16 @@ pub fn start_section_proof(@list.List[String], @kernel.Term) -> @list.List[((@li
 // Errors
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) struct SectionInfo {
   vars : @list.List[@kernel.Term]
   hyps : @list.List[(String, @kernel.Term)]
   types : @list.List[(String, @kernel.HolType)]
   lemmas : @list.List[(String, @kernel.Thm)]
-} derive(Eq, @debug.Debug)
+}
 pub fn SectionInfo::equal(Self, Self) -> Bool
 pub fn SectionInfo::not_equal(Self, Self) -> Bool
-pub fn SectionInfo::ocompare(Self, Self) -> Int
+pub fn SectionInfo::ocompare(Self, Self) -> Int32
 pub fn SectionInfo::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn SectionInfo::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for SectionInfo

@@ -132,13 +132,14 @@ pub fn uniq_num(@list.List[@num.Num]) -> @list.List[@num.Num] raise
 // Errors
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) enum Certificate {
   Prime_2
   Primroot_and_factors(((@num.Num, @list.List[@num.Num]), @num.Num, @list.List[(@num.Num, Certificate)]))
-} derive(Eq, @debug.Debug)
+}
 pub fn Certificate::equal(Self, Self) -> Bool
 pub fn Certificate::not_equal(Self, Self) -> Bool
-pub fn Certificate::ocompare(Self, Self) -> Int
+pub fn Certificate::ocompare(Self, Self) -> Int32
 pub fn Certificate::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Certificate::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Certificate

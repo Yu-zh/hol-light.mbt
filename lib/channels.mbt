@@ -5,7 +5,8 @@
 
 ///|
 /// OCaml's `End_of_file`.
-pub(all) suberror EndOfFile derive(Debug)
+#derive(Debug)
+pub(all) suberror EndOfFile
 
 ///|
 pub extend EndOfFile with @debug.Debug::{to_repr}
@@ -13,7 +14,8 @@ pub extend EndOfFile with @debug.Debug::{to_repr}
 ///|
 /// OCaml's `Sys.Break` (an interrupt from the keyboard): matched by code
 /// that cleans up after one (Minisat/sat_tools.ml), never raised here.
-pub(all) suberror Break derive(Debug)
+#derive(Debug)
+pub(all) suberror Break
 
 ///|
 pub extend Break with @debug.Debug::{to_repr}
@@ -60,7 +62,7 @@ pub fn close_out(oc : OutChannel) -> Unit {
 /// `in_channel`: the file as it was when opened.
 pub struct InChannel {
   text : String
-  mut pos : Int
+  mut pos : Int32
 }
 
 ///|
@@ -86,7 +88,9 @@ pub fn input_line(ic : InChannel) -> String raise {
     i += 1
   }
   ic.pos = if i < n { i + 1 } else { i }
-  ic.text.view(start_offset=start, end_offset=i).to_owned()
+  // input_char advances raw UTF-16 units; keep a split pair unchanged.
+  // The scan above guarantees 0 <= start <= i <= text.length().
+  ic.text.unsafe_view(start~, end=i).to_owned()
 }
 
 ///|
@@ -139,11 +143,11 @@ pub fn string_split_on_char(c : Char, s : String) -> @list.List[String] {
   let mut start = 0
   for i in 0..<s.length() {
     if s[i].to_int() == c.to_int() {
-      parts.push(s.view(start_offset=start, end_offset=i).to_owned())
+      parts.push(s[start:i].to_owned())
       start = i + 1
     }
   }
-  parts.push(s.view(start_offset=start).to_owned())
+  parts.push(s[start:].to_owned())
   @list.List(parts)
 }
 
@@ -191,6 +195,6 @@ pub fn filename_basename(name : String) -> String {
   if n == 0 {
     "."
   } else {
-    name.view(start_offset=i, end_offset=n).to_owned()
+    name[i:n].to_owned()
   }
 }

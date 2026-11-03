@@ -6,16 +6,16 @@
 
 ///|
 priv enum Re {
-  Chr(Int)
+  Chr(Int32)
   // ranges of characters; complemented or not
-  Cls(Array[(Int, Int)], Bool)
+  Cls(Array[(Int32, Int32)], Bool)
   Seq(Array[Re])
   Alt(Re, Re)
   Star(Re)
   Plus(Re)
   Opt(Re)
-  Group(Int, Re)
-  Refgroup(Int)
+  Group(Int32, Re)
+  Refgroup(Int32)
   Bol
   Eol
   Wordboundary
@@ -26,24 +26,24 @@ priv enum Re {
 struct StrRegexp {
   re : Re
   // the groups, with group 0 (the whole match)
-  ngroups : Int
+  ngroups : Int32
 }
 
 ///|
 priv struct ReParser {
   s : Bytes
-  len : Int
-  mut groups : Int
+  len : Int32
+  mut groups : Int32
 }
 
 ///|
-fn ReParser::at(self : ReParser, i : Int) -> Int {
+fn ReParser::at(self : ReParser, i : Int32) -> Int32 {
   self.s[i].to_int()
 }
 
 ///|
 /// Whether `\c` is at `i`.
-fn ReParser::backslash(self : ReParser, i : Int, c : Char) -> Bool {
+fn ReParser::backslash(self : ReParser, i : Int32, c : Char) -> Bool {
   i + 2 <= self.len &&
   self.at(i) == '\\'.to_int() &&
   self.at(i + 1) == c.to_int()
@@ -51,7 +51,7 @@ fn ReParser::backslash(self : ReParser, i : Int, c : Char) -> Bool {
 
 ///|
 /// Alternatives: `r1 \| r2 \| ...`
-fn ReParser::regexp0(self : ReParser, i : Int) -> (Re, Int) raise {
+fn ReParser::regexp0(self : ReParser, i : Int32) -> (Re, Int32) raise {
   let (r, j) = self.regexp1(i)
   let mut r = r
   let mut j = j
@@ -65,7 +65,7 @@ fn ReParser::regexp0(self : ReParser, i : Int) -> (Re, Int) raise {
 
 ///|
 /// A sequence, up to the end, `\|` or `\)`.
-fn ReParser::regexp1(self : ReParser, i : Int) -> (Re, Int) raise {
+fn ReParser::regexp1(self : ReParser, i : Int32) -> (Re, Int32) raise {
   let items : Array[Re] = []
   let mut i = i
   while !(i >= self.len || self.backslash(i, '|') || self.backslash(i, ')')) {
@@ -78,7 +78,7 @@ fn ReParser::regexp1(self : ReParser, i : Int) -> (Re, Int) raise {
 
 ///|
 /// An item and its postfix operators.
-fn ReParser::regexp2(self : ReParser, i : Int) -> (Re, Int) raise {
+fn ReParser::regexp2(self : ReParser, i : Int32) -> (Re, Int32) raise {
   let (r, j) = self.regexp3(i)
   let mut r = r
   let mut j = j
@@ -99,7 +99,7 @@ fn ReParser::regexp2(self : ReParser, i : Int) -> (Re, Int) raise {
 }
 
 ///|
-fn ReParser::regexp3(self : ReParser, i : Int) -> (Re, Int) raise {
+fn ReParser::regexp3(self : ReParser, i : Int32) -> (Re, Int32) raise {
   let c = self.at(i)
   if c == '\\'.to_int() {
     self.regexpbackslash(i + 1)
@@ -118,7 +118,7 @@ fn ReParser::regexp3(self : ReParser, i : Int) -> (Re, Int) raise {
 }
 
 ///|
-fn ReParser::regexpbackslash(self : ReParser, i : Int) -> (Re, Int) raise {
+fn ReParser::regexpbackslash(self : ReParser, i : Int32) -> (Re, Int32) raise {
   if i >= self.len {
     return (Chr('\\'.to_int()), i)
   }
@@ -144,10 +144,10 @@ fn ReParser::regexpbackslash(self : ReParser, i : Int) -> (Re, Int) raise {
 
 ///|
 /// A class, after its `[`: `]` first is a member, `a-z` a range.
-fn ReParser::regexpclass(self : ReParser, i : Int) -> (Re, Int) raise {
+fn ReParser::regexpclass(self : ReParser, i : Int32) -> (Re, Int32) raise {
   let complemented = i < self.len && self.at(i) == '^'.to_int()
   let start = if complemented { i + 1 } else { i }
-  let ranges : Array[(Int, Int)] = []
+  let ranges : Array[(Int32, Int32)] = []
   let mut i = start
   while true {
     if i >= self.len {
@@ -212,18 +212,18 @@ pub fn str_quote(s : String) -> String {
 /// the end of each group (-1 without one).
 priv struct ReMatcher {
   s : Bytes
-  n : Int
-  groups : Array[Int]
+  n : Int32
+  groups : Array[Int32]
 }
 
 ///|
-fn ReMatcher::at(self : ReMatcher, i : Int) -> Int {
+fn ReMatcher::at(self : ReMatcher, i : Int32) -> Int32 {
   self.s[i].to_int()
 }
 
 ///|
 /// The letters of `\b`: ASCII letters, digits, `_`, and Latin-1's letters.
-fn is_word_letter(c : Int) -> Bool {
+fn is_word_letter(c : Int32) -> Bool {
   (c >= 'a'.to_int() && c <= 'z'.to_int()) ||
   (c >= 'A'.to_int() && c <= 'Z'.to_int()) ||
   (c >= '0'.to_int() && c <= '9'.to_int()) ||
@@ -246,7 +246,7 @@ fn re_is_single(re : Re) -> Bool {
 /// A one-character expression, possibly as a group (`\(.\|\n\)`): the
 /// group (or -1) and the expression. Its repetitions are matched by a loop
 /// (the general case recurses once per repetition).
-fn re_simple(re : Re) -> (Int, Re)? {
+fn re_simple(re : Re) -> (Int32, Re)? {
   match re {
     Group(n, r) => if re_is_single(r) { Some((n, r)) } else { None }
     _ => if re_is_single(re) { Some((-1, re)) } else { None }
@@ -254,7 +254,7 @@ fn re_simple(re : Re) -> (Int, Re)? {
 }
 
 ///|
-fn ReMatcher::single(self : ReMatcher, re : Re, pos : Int) -> Bool {
+fn ReMatcher::single(self : ReMatcher, re : Re, pos : Int32) -> Bool {
   if pos >= self.n {
     return false
   }
@@ -283,8 +283,8 @@ fn ReMatcher::single(self : ReMatcher, re : Re, pos : Int) -> Bool {
 fn ReMatcher::run(
   self : ReMatcher,
   re : Re,
-  pos : Int,
-  k : (Int) -> Bool,
+  pos : Int32,
+  k : (Int32) -> Bool,
 ) -> Bool {
   match re {
     Chr(_) | Cls(_, _) => self.single(re, pos) && k(pos + 1)
@@ -355,9 +355,9 @@ fn ReMatcher::run(
 fn ReMatcher::seq(
   self : ReMatcher,
   items : Array[Re],
-  i : Int,
-  pos : Int,
-  k : (Int) -> Bool,
+  i : Int32,
+  pos : Int32,
+  k : (Int32) -> Bool,
 ) -> Bool {
   if i == items.length() {
     k(pos)
@@ -371,11 +371,11 @@ fn ReMatcher::seq(
 /// down to the position `least`. `group` (if not -1) is the last one.
 fn ReMatcher::simple_star(
   self : ReMatcher,
-  group : Int,
+  group : Int32,
   r : Re,
-  least : Int,
-  pos : Int,
-  k : (Int) -> Bool,
+  least : Int32,
+  pos : Int32,
+  k : (Int32) -> Bool,
 ) -> Bool {
   let mut p = pos
   while self.single(r, p) {
@@ -408,8 +408,8 @@ fn ReMatcher::simple_star(
 fn ReMatcher::star(
   self : ReMatcher,
   r : Re,
-  pos : Int,
-  k : (Int) -> Bool,
+  pos : Int32,
+  k : (Int32) -> Bool,
 ) -> Bool {
   self.run(r, pos, p => p != pos && self.star(r, p, k)) || k(pos)
 }
@@ -417,11 +417,11 @@ fn ReMatcher::star(
 ///|
 /// The positions of the groups of the last match (`Str`'s
 /// `last_search_result`): empty after a failed one.
-let last_search_result : Ref[Array[Int]] = Ref::{ val: [], }
+let last_search_result : Ref[Array[Int32]] = Ref::{ val: [], }
 
 ///|
 /// A match of `re` at `pos`: the groups, or nothing.
-fn re_match_at(re : StrRegexp, s : Bytes, pos : Int) -> Array[Int]? {
+fn re_match_at(re : StrRegexp, s : Bytes, pos : Int32) -> Array[Int32]? {
   let m : ReMatcher = {
     s,
     n: s.length(),
@@ -458,7 +458,7 @@ pub fn str_string_match(re : StrRegexp, s : String, pos : Int64) -> Bool raise {
 }
 
 ///|
-fn opt_search_forward(re : StrRegexp, s : Bytes, start : Int) -> Int? {
+fn opt_search_forward(re : StrRegexp, s : Bytes, start : Int32) -> Int32? {
   for pos in start..<=s.length() {
     if re_match_at(re, s, pos) is Some(groups) {
       last_search_result.val = groups
@@ -554,7 +554,7 @@ pub fn str_match_end(_ : Unit) -> Int64 raise {
 ///|
 /// The bytes from `start` to `stop` as a string (they are whole characters
 /// wherever a file cuts its text).
-fn utf8_slice(b : Bytes, start : Int, stop : Int) -> String {
+fn utf8_slice(b : Bytes, start : Int32, stop : Int32) -> String {
   @utf8.decode(b[start:stop]) catch {
     _ => abort("Str: a string cut inside a non-ASCII character")
   }
@@ -562,7 +562,7 @@ fn utf8_slice(b : Bytes, start : Int, stop : Int) -> String {
 
 ///|
 /// `String.sub` on the bytes of a string.
-fn str_sub(s : String, start : Int, len : Int) -> String raise {
+fn str_sub(s : String, start : Int32, len : Int32) -> String raise {
   let b = @utf8.encode(s)
   if start < 0 || len < 0 || start > b.length() - len {
     raise @num.InvalidArgument("String.sub / Bytes.sub")

@@ -121,11 +121,11 @@ test "failed extensions leave the kernel state unchanged" {
 
 ///|
 priv struct Gen {
-  mut seed : UInt
+  mut seed : UInt32
 }
 
 ///|
-fn Gen::next(self : Gen, n : Int) -> Int {
+fn Gen::next(self : Gen, n : Int32) -> Int32 {
   self.seed = self.seed * 1664525U + 1013904223U
   ((self.seed >> 8).reinterpret_as_int() & 0xFFFFFF) % n
 }
@@ -135,7 +135,7 @@ fn Gen::next(self : Gen, n : Int) -> Int {
 fn Gen::term(
   self : Gen,
   target : @kernel.HolType,
-  depth : Int,
+  depth : Int32,
 ) -> @kernel.Term raise {
   let names = ["x", "y", "z", "x'"]
   let bases = [ty("A"), ty("B"), @kernel.bool_ty]
@@ -171,7 +171,7 @@ fn same_set(a : @list.List[@kernel.Term], b : @list.List[@kernel.Term]) -> Bool 
 }
 
 ///|
-fn sign(n : Int) -> Int {
+fn sign(n : Int32) -> Int32 {
   if n < 0 {
     -1
   } else if n > 0 {
@@ -398,9 +398,9 @@ test "hypotheses are exactly the expected alpha-sorted set" {
 /// `\v0. \v1. ... \v(n-1). f v0 z` with binder names `prefix0..`.
 fn binder_chain(
   prefix : String,
-  n : Int,
+  n : Int32,
   z : @kernel.Term,
-  a? : @kernel.HolType = ty("A"),
+  a~ : @kernel.HolType = ty("A"),
 ) -> @kernel.Term raise {
   let f = @kernel.mk_var("f", fn_ty(a, fn_ty(a, a)))
   let vars = [ for i in 0..<n => @kernel.mk_var(prefix + i.to_string(), a) ]

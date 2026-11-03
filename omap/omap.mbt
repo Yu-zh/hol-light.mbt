@@ -2,10 +2,11 @@
 
 ///|
 /// `t`
+#derive(Eq, Debug)
 pub(all) enum T[TA, TB] {
   Empty
   Node(T[TA, TB], TA, TB, T[TA, TB], Int64)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend T with Eq::{not_equal, equal}
@@ -966,10 +967,11 @@ pub fn[TA, TB] partition(
 
 ///|
 /// `enumeration`
+#derive(Eq, Debug)
 pub(all) enum Enumeration[TA, TB] {
   End
   More(TA, TB, T[TA, TB], Enumeration[TA, TB])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Enumeration with Eq::{not_equal, equal}

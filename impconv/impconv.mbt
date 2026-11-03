@@ -6,12 +6,13 @@ pub type TsetT = @list.List[@kernel.Term]
 
 ///|
 /// `t`
+#derive(Eq, Debug)
 pub(all) enum TypeAnnotedTermT {
   Var_(String, @kernel.HolType)
   Const_(String, @kernel.HolType, @kernel.Term)
   Comb_(TypeAnnotedTermT, TypeAnnotedTermT, @kernel.HolType)
   Abs_(TypeAnnotedTermT, TypeAnnotedTermT, @kernel.HolType)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend TypeAnnotedTermT with Eq::{not_equal, equal}
@@ -116,12 +117,13 @@ pub impl @lib.OHash for TypeAnnotedTermT with fn ohash_visit(self, h) {
 
 ///|
 /// `term_label`
+#derive(Eq, Debug)
 pub(all) enum FoNetsTermLabel {
   Vnet(Int64)
   Lcnet(String, Int64)
   Cnet(String, Int64)
   Lnet(Int64)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend FoNetsTermLabel with Eq::{not_equal, equal}
@@ -197,9 +199,10 @@ pub impl @lib.OHash for FoNetsTermLabel with fn ohash_visit(self, h) {
 
 ///|
 /// `t`
+#derive(Eq, Debug)
 pub(all) enum FoNetsT[TA] {
   Netnode(@list.List[(FoNetsTermLabel, FoNetsT[TA])], @list.List[TA])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend FoNetsT with Eq::{not_equal, equal}
@@ -253,10 +256,11 @@ pub impl[TA : @lib.OHash] @lib.OHash for FoNetsT[TA] with fn ohash_visit(
 
 ///|
 /// `t`
+#derive(Eq, Debug)
 pub(all) enum VarianceT {
   Co
   Contra
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend VarianceT with Eq::{not_equal, equal}
@@ -309,10 +313,11 @@ pub(all) enum ImpconvWithContext[TA] {
 
 ///|
 /// `atomic`
+#derive(Eq, Debug)
 pub(all) enum ImpconvAtomic {
   Atomic
   Non_atomic
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend ImpconvAtomic with Eq::{not_equal, equal}

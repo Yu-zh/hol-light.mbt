@@ -2,7 +2,7 @@
 // (tools/ocaml_ref/str_ref.ml, str_ref.expected).
 
 ///|
-fn count_groups(pat : String) -> Int {
+fn count_groups(pat : String) -> Int32 {
   let mut n = 1
   for i in 0..<(pat.length() - 1) {
     if pat[i].to_int() == '\\'.to_int() && pat[i + 1].to_int() == '('.to_int() {
@@ -13,7 +13,7 @@ fn count_groups(pat : String) -> Int {
 }
 
 ///|
-fn groups(n : Int, s : String) -> String {
+fn groups(n : Int32, s : String) -> String {
   let parts : Array[String] = []
   for i in 0..<n {
     let part = try

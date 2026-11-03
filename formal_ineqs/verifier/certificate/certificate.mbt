@@ -2,12 +2,13 @@
 
 ///|
 /// `mono_status`
+#derive(Eq, Debug)
 pub(all) struct MonoStatus {
   variable : Int64
   decr_flag : Bool
   df0_flag : Bool
   ti_flag : Bool
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend MonoStatus with Eq::{not_equal, equal}
@@ -49,6 +50,7 @@ pub impl @lib.OHash for MonoStatus with fn ohash_visit(self, h) {
 
 ///|
 /// `result_tree`
+#derive(Eq, Debug)
 pub(all) enum ResultTree {
   Result_false((@list.List[Double], @list.List[Double]))
   Result_pass((Int64, Bool))
@@ -56,7 +58,7 @@ pub(all) enum ResultTree {
   Result_pass_ref(Int64)
   Result_mono(@list.List[MonoStatus], ResultTree)
   Result_glue((Int64, Bool, ResultTree, ResultTree))
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend ResultTree with Eq::{not_equal, equal}
@@ -149,9 +151,10 @@ pub impl @lib.OHash for ResultTree with fn ohash_visit(self, h) {
 
 ///|
 /// `p_status`
+#derive(Eq, Debug)
 pub(all) struct PStatus {
   pp : Int64
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend PStatus with Eq::{not_equal, equal}
@@ -179,12 +182,13 @@ pub impl @lib.OHash for PStatus with fn ohash_visit(self, h) {
 
 ///|
 /// `p_result_tree`
+#derive(Eq, Debug)
 pub(all) enum PResultTree {
   P_result_pass(PStatus, Int64, Bool)
   P_result_mono(PStatus, @list.List[MonoStatus], PResultTree)
   P_result_glue(PStatus, Int64, Bool, PResultTree, PResultTree)
   P_result_ref(Int64)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend PResultTree with Eq::{not_equal, equal}
@@ -324,6 +328,7 @@ pub fn p_result_size(x3 : PResultTree) -> Int64 raise {
 
 ///|
 /// `certificate_stats`
+#derive(Eq, Debug)
 pub(all) struct CertificateStats {
   pass : Int64
   pass_raw : Int64
@@ -331,7 +336,7 @@ pub(all) struct CertificateStats {
   mono : Int64
   glue : Int64
   glue_convex : Int64
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend CertificateStats with Eq::{not_equal, equal}

@@ -911,6 +911,7 @@ pub fn real_pos_lt() -> @kernel.Thm {
 
 ///|
 /// `positivstellensatz`
+#derive(Eq, Debug)
 pub(all) enum Positivstellensatz {
   Axiom_eq(Int64)
   Axiom_le(Int64)
@@ -922,7 +923,7 @@ pub(all) enum Positivstellensatz {
   Eqmul(@kernel.Term, Positivstellensatz)
   Sum(Positivstellensatz, Positivstellensatz)
   Product(Positivstellensatz, Positivstellensatz)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Positivstellensatz with Eq::{not_equal, equal}

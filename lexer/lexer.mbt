@@ -8,10 +8,11 @@
 // ===========================================================================
 
 ///|
+#derive(Eq, Debug)
 pub(all) enum Lexcode {
   Ident(String)
   Resword(String)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Lexcode with Eq::{equal, not_equal}
@@ -24,9 +25,28 @@ pub extend Lexcode with @debug.Debug::{to_repr}
 /// cannot reserve words. `//` starts a comment running to the end of the line.
 pub fn is_reserved_word(n : String) -> Bool {
   n
-  is ("(" | ")" | "[" | "]" | "{" | "}" | ":" | ";" | "." | "|" | "let" | "in"
-  | "and" | "if" | "then" | "else" | "match" | "with" | "function" | "->"
-  | "when" | "//")
+  is ("("
+  | ")"
+  | "["
+  | "]"
+  | "{"
+  | "}"
+  | ":"
+  | ";"
+  | "."
+  | "|"
+  | "let"
+  | "in"
+  | "and"
+  | "if"
+  | "then"
+  | "else"
+  | "match"
+  | "with"
+  | "function"
+  | "->"
+  | "when"
+  | "//")
 }
 
 ///|
@@ -42,7 +62,7 @@ fn is_class(f : (String) -> Bool, c : Char) -> Bool {
 ///|
 /// The longest run starting at `i` of characters satisfying `f` (at least
 /// one), as an end index; `None` if `chars[i]` does not satisfy `f`.
-fn run_of(chars : Array[Char], i : Int, f : (Char) -> Bool) -> Int? {
+fn run_of(chars : Array[Char], i : Int32, f : (Char) -> Bool) -> Int32? {
   if i >= chars.length() || !f(chars[i]) {
     return None
   }
@@ -54,7 +74,7 @@ fn run_of(chars : Array[Char], i : Int, f : (Char) -> Bool) -> Int? {
 }
 
 ///|
-fn simple_ident(chars : Array[Char], i : Int) -> Int? {
+fn simple_ident(chars : Array[Char], i : Int32) -> Int32? {
   match run_of(chars, i, c => is_class(@printer.isalnum, c)) {
     Some(j) => Some(j)
     None => run_of(chars, i, c => is_class(@printer.issymb, c))
@@ -63,7 +83,7 @@ fn simple_ident(chars : Array[Char], i : Int) -> Int? {
 
 ///|
 /// `undertail`: underscores, possibly followed by a simple identifier.
-fn undertail(chars : Array[Char], i : Int) -> Int? {
+fn undertail(chars : Array[Char], i : Int32) -> Int32? {
   match run_of(chars, i, c => c == '_') {
     None => None
     Some(j) =>
@@ -75,7 +95,7 @@ fn undertail(chars : Array[Char], i : Int) -> Int? {
 }
 
 ///|
-fn ident(chars : Array[Char], i : Int) -> Int? {
+fn ident(chars : Array[Char], i : Int32) -> Int32? {
   let first = match undertail(chars, i) {
     Some(j) => Some(j)
     None => simple_ident(chars, i)
@@ -93,11 +113,11 @@ fn ident(chars : Array[Char], i : Int) -> Int? {
 }
 
 ///|
-fn hex_digit(c : Char) -> Int? {
+fn hex_digit(c : Char) -> Int32? {
   match c {
-    '0'..='9' => Some(c.to_int() - '0'.to_int())
-    'a'..='f' => Some(c.to_int() - 'a'.to_int() + 10)
-    'A'..='F' => Some(c.to_int() - 'A'.to_int() + 10)
+    '0'..<='9' => Some(c.to_int() - '0'.to_int())
+    'a'..<='f' => Some(c.to_int() - 'a'.to_int() + 10)
+    'A'..<='F' => Some(c.to_int() - 'A'.to_int() + 10)
     _ => None
   }
 }
@@ -105,7 +125,7 @@ fn hex_digit(c : Char) -> Int? {
 ///|
 /// OCaml's `int_of_string ("0x" ^ h ^ l)`: the first character must be a
 /// hex digit, the second a hex digit or an underscore.
-fn hex_value(h : Char, l : Char) -> Int raise {
+fn hex_value(h : Char, l : Char) -> Int32 raise {
   match (hex_digit(h), hex_digit(l)) {
     (Some(a), Some(b)) => a * 16 + b
     (Some(a), None) if l == '_' => a
@@ -116,7 +136,7 @@ fn hex_value(h : Char, l : Char) -> Int raise {
 ///|
 /// A string literal starting at the opening quote `chars[i]`: the token
 /// text (with quotes) and the end index, or `None` if unterminated.
-fn string_literal(chars : Array[Char], i : Int) -> (String, Int)? raise {
+fn string_literal(chars : Array[Char], i : Int32) -> (String, Int32)? raise {
   let buf = StringBuilder()
   let n = chars.length()
   let mut j = i + 1
@@ -159,14 +179,14 @@ fn string_literal(chars : Array[Char], i : Int) -> (String, Int)? raise {
 
 ///|
 /// A byte as a character of the lexer's byte string.
-fn byte_char(v : Int) -> String {
+fn byte_char(v : Int32) -> String {
   v.unsafe_to_char().to_string()
 }
 
 ///|
 /// A raw token at `i`: string literal, bracket, separator run or
 /// identifier.
-fn raw_token(chars : Array[Char], i : Int) -> (Lexcode, Int)? raise {
+fn raw_token(chars : Array[Char], i : Int32) -> (Lexcode, Int32)? raise {
   if i >= chars.length() {
     return None
   }
@@ -198,7 +218,7 @@ fn reserve(tok : Lexcode) -> Lexcode {
 }
 
 ///|
-fn skip_spaces(chars : Array[Char], i : Int) -> Int {
+fn skip_spaces(chars : Array[Char], i : Int32) -> Int32 {
   let mut j = i
   while j < chars.length() && is_class(@printer.isspace, chars[j]) {
     j += 1

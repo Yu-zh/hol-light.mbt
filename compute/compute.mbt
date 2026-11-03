@@ -110,12 +110,13 @@ pub fn body_conjuncts(x12 : @kernel.Thm) -> @list.List[@kernel.Thm] raise {
 
 ///|
 /// `stack`
+#derive(Eq, Debug)
 pub(all) enum Stack[TA, TB, TC] {
   Ztop
   Zrator(TA, Stack[TA, TB, TC])
   Zrand(TB, Stack[TA, TB, TC])
   Zabs(TC, Stack[TA, TB, TC])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Stack with Eq::{not_equal, equal}
@@ -499,10 +500,11 @@ pub fn eq_intro(x42 : @kernel.Thm) -> @kernel.Thm raise {
 
 ///|
 /// `pattern`
+#derive(Eq, Debug)
 pub(all) enum Pattern {
   Pvar(Int64)
   Papp(@kernel.Term, @list.List[Pattern])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Pattern with Eq::{not_equal, equal}

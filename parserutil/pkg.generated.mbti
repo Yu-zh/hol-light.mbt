@@ -13,11 +13,11 @@ pub fn[I : Eq] a_list(I) -> (@list.List[I]) -> (I, @list.List[I]) raise
 
 pub fn[X, R] alt((X) -> R raise, (X) -> R raise) -> (X) -> R raise
 
-pub fn[X, A] atleast(Int, (X) -> (A, X) raise) -> (X) -> (@list.List[A], X) raise
+pub fn[X, A] atleast(Int32, (X) -> (A, X) raise) -> (X) -> (@list.List[A], X) raise
 
 pub fn[X, A, S] elistof((X) -> (A, X) raise, (X) -> (S, X) raise, String) -> (X) -> (@list.List[A], X) raise
 
-pub fn[I] finished_list(@list.List[I]) -> (Int, @list.List[I]) raise
+pub fn[I] finished_list(@list.List[I]) -> (Int32, @list.List[I]) raise
 
 pub fn[X, R] fix(String, (X) -> R raise) -> (X) -> R raise
 
@@ -36,7 +36,8 @@ pub fn[X, A, Y, B, Z] seq((X) -> (A, Y) raise, (Y) -> (B, Z) raise) -> (X) -> ((
 pub fn[I] some_list((I) -> Bool raise?) -> (@list.List[I]) -> (I, @list.List[I]) raise
 
 // Errors
-pub(all) suberror Noparse derive(@debug.Debug)
+#derive(@debug.Debug)
+pub(all) suberror Noparse
 pub fn Noparse::to_repr(Self) -> @debug.Repr
 
 // Types and methods

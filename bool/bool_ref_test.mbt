@@ -181,7 +181,9 @@ test "bool matches bool.ml" {
   log.attempt("mk_neg_bad", () => stm(@bool.mk_neg(tm("x:num"))))
   log.attempt("verbose", () => stm(tm("forall x. exists y. x = y /\\ true")))
   log.attempt("print", () => {
-    @printer.string_of_term(tm("forall x. ?y. x = y /\\ (p <=> q) ==> ~r \\/ F"))
+    @printer.string_of_term(
+      tm("forall x. ?y. x = y /\\ (p <=> q) ==> ~r \\/ F"),
+    )
   })
   log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
   log.attempt("counter_pgenvar", () => stm(tm("{x | T}")))
@@ -364,9 +366,6 @@ test "bool matches bool.ml" {
       #|counter_pgenvar = (GSPEC:fun(fun('?4,bool),'?5) (\GEN%PVAR%1:'?4. (#?:fun(fun('?6,bool),bool) (\x:'?6. (((SETSPEC:fun('?4,fun(bool,fun('?6,bool))) GEN%PVAR%1:'?4) #T:bool) x:'?6)))))
       #|counter_genvar = _0:bool
       #|
-
-
-
     ),
   )
 }

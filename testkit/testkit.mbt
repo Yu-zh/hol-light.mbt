@@ -39,15 +39,15 @@ pub fn sthm(th : Thm) -> String {
 pub struct Log {
   priv buf : StringBuilder
   priv mut via_stdout : Bool
-  priv id : Int
+  priv id : Int32
 }
 
 ///|
-let log_ids : Ref[Int] = Ref::{ val: 0, }
+let log_ids : Ref[Int32] = Ref::{ val: 0, }
 
 ///|
 /// The log that currently captures standard output.
-let stdout_owner : Ref[Int] = Ref::{ val: -1, }
+let stdout_owner : Ref[Int32] = Ref::{ val: -1, }
 
 ///|
 pub fn Log::new() -> Log {
@@ -105,8 +105,8 @@ pub fn Log::contents(self : Log) -> String {
 pub fn normalize_counters(s : String) -> String {
   let out = StringBuilder()
   let pvar = "GEN%PVAR%".to_array()
-  let seen : Map[String, Int] = {}
-  let counts : Map[String, Int] = {}
+  let seen : Map[String, Int32] = Map([])
+  let counts : Map[String, Int32] = Map([])
   let mut trace = false
   let lines = s.split("\n").map(l => l.to_owned()).to_array()
   for li, line in lines {
@@ -133,10 +133,10 @@ pub fn normalize_counters(s : String) -> String {
         0
       }
       let j = i + prefix_len
-      if prefix_len > 0 && j < cs.length() && cs[j] is ('0'..='9') {
+      if prefix_len > 0 && j < cs.length() && cs[j] is ('0'..<='9') {
         let prefix = String::from_array(cs[i:j])
         let mut k = j
-        while k < cs.length() && cs[k] is ('0'..='9') {
+        while k < cs.length() && cs[k] is ('0'..<='9') {
           k += 1
         }
         let name = String::from_array(cs[i:k])
@@ -167,7 +167,7 @@ fn is_trace_header(line : String) -> Bool {
   match line.rev_find(" quotations (") {
     Some(k) => {
       let digits = line[k + " quotations (".length():line.length() - 2]
-      digits.length() > 0 && digits.iter().all(c => c is ('0'..='9'))
+      digits.length() > 0 && digits.iter().all(c => c is ('0'..<='9'))
     }
     None => false
   }

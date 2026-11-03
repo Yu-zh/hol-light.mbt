@@ -149,7 +149,9 @@ pub fn prioritize_overload(ty : HolType) -> Unit raise {
 /// raises, so overload priorities set inside `f` do not leak.
 pub fn[T] with_interface_restored(f : () -> T raise) -> T raise {
   let saved = @printer.the_interface.val
-  defer { @printer.the_interface.val = saved }
+  defer {
+    @printer.the_interface.val = saved
+  }
   f()
 }
 
@@ -190,11 +192,12 @@ pub fn type_abbrevs() -> List[(String, HolType)] {
 // ---------------------------------------------------------------------------
 
 ///|
+#derive(Eq, Debug)
 pub(all) enum Pretype {
   Utv(String) // user type variable
   Ptycon(String, List[Pretype]) // type constructor
   Stv(Int64) // system type variable (an OCaml int)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Pretype with Eq::{equal, not_equal}
@@ -215,13 +218,14 @@ pub fn pretype_of_type(ty : HolType) -> Pretype {
 }
 
 ///|
+#derive(Eq, Debug)
 pub(all) enum Preterm {
   Varp(String, Pretype)
   Constp(String, Pretype)
   Combp(Preterm, Preterm)
   Absp(Preterm, Preterm)
   Typing(Preterm, Pretype)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Preterm with Eq::{equal, not_equal}
@@ -726,7 +730,7 @@ pub fn retypecheck(
 // ---------------------------------------------------------------------------
 
 ///|
-fn pretype_tag(t : Pretype) -> Int {
+fn pretype_tag(t : Pretype) -> Int32 {
   match t {
     Utv(_) => 0
     Ptycon(_) => 1
@@ -755,7 +759,7 @@ pub impl @lib.OCompare for Pretype with fn ocompare(self, other) {
 pub extend Pretype with @lib.OCompare::{ocompare}
 
 ///|
-fn preterm_tag(t : Preterm) -> Int {
+fn preterm_tag(t : Preterm) -> Int32 {
   match t {
     Varp(_) => 0
     Constp(_) => 1

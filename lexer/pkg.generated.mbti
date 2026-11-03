@@ -13,10 +13,11 @@ pub fn lex(String) -> Array[Lexcode] raise
 // Errors
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) enum Lexcode {
   Ident(String)
   Resword(String)
-} derive(Eq, @debug.Debug)
+}
 pub fn Lexcode::equal(Self, Self) -> Bool
 pub fn Lexcode::not_equal(Self, Self) -> Bool
 pub fn Lexcode::to_repr(Self) -> @debug.Repr

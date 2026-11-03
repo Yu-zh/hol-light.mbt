@@ -4,14 +4,14 @@
 ///|
 /// `lsl` on OCaml's 63-bit ints (truncated to 32 bits; MoonBit would mask
 /// the shift count instead).
-pub fn lsl(x : Int, n : Int) -> Int {
+pub fn lsl(x : Int32, n : Int32) -> Int32 {
   (x.to_int64() << n).to_int()
 }
 
 ///|
 /// `lsr`: logical shift right of the 63-bit value (`(-1) lsr 32` is
 /// `2147483647`, as in OCaml).
-pub fn lsr(x : Int, n : Int) -> Int {
+pub fn lsr(x : Int32, n : Int32) -> Int32 {
   ((x.to_int64() & 0x7FFFFFFFFFFFFFFFL).reinterpret_as_uint64() >> n)
   .reinterpret_as_int64()
   .to_int()
@@ -19,7 +19,7 @@ pub fn lsr(x : Int, n : Int) -> Int {
 
 ///|
 /// `asr` on OCaml's 63-bit ints.
-pub fn asr(x : Int, n : Int) -> Int {
+pub fn asr(x : Int32, n : Int32) -> Int32 {
   (x.to_int64() >> n).to_int()
 }
 
@@ -85,7 +85,7 @@ pub fn float_pow(x : Double, y : Double) -> Double {
 
 ///|
 /// `String.length`: the number of UTF-8 bytes.
-pub fn string_length(s : String) -> Int {
+pub fn string_length(s : String) -> Int32 {
   @utf8.encode(s).length()
 }
 
@@ -102,7 +102,7 @@ fn ascii_only(s : String, what : String) -> Unit {
 
 ///|
 /// `String.get s i`: the byte at `i`.
-pub fn ocaml_string_get(s : String, i : Int) -> Char raise {
+pub fn ocaml_string_get(s : String, i : Int32) -> Char raise {
   ascii_only(s, "String.get")
   if i < 0 || i >= s.length() {
     raise @num.InvalidArgument("index out of bounds")
@@ -112,7 +112,7 @@ pub fn ocaml_string_get(s : String, i : Int) -> Char raise {
 
 ///|
 /// `String.sub s start len`
-pub fn string_sub(s : String, start : Int, len : Int) -> String raise {
+pub fn string_sub(s : String, start : Int32, len : Int32) -> String raise {
   let mut ascii = true
   for c in s {
     if c.to_int() >= 128 {
@@ -124,7 +124,7 @@ pub fn string_sub(s : String, start : Int, len : Int) -> String raise {
     if start < 0 || len < 0 || start > s.length() - len {
       raise @num.InvalidArgument("String.sub / Bytes.sub")
     }
-    return s.view(start_offset=start, end_offset=start + len).to_owned()
+    return s[start:start + len].to_owned()
   }
   // the bytes of its UTF-8 encoding, which must be whole characters (the
   // proofs of RichterHilbertAxiomGeometry/ are strings with mathematical
@@ -184,7 +184,7 @@ pub fn[A] array_make(n : Int64, x : A) -> FixedArray[A] raise {
 
 ///|
 /// `Array.get a i` (`a.(i)`)
-pub fn[A] array_get(a : FixedArray[A], i : Int) -> A raise {
+pub fn[A] array_get(a : FixedArray[A], i : Int32) -> A raise {
   if i < 0 || i >= a.length() {
     raise @num.InvalidArgument("index out of bounds")
   }
@@ -193,7 +193,7 @@ pub fn[A] array_get(a : FixedArray[A], i : Int) -> A raise {
 
 ///|
 /// `Array.set a i x` (`a.(i) <- x`)
-pub fn[A] array_set(a : FixedArray[A], i : Int, x : A) -> Unit raise {
+pub fn[A] array_set(a : FixedArray[A], i : Int32, x : A) -> Unit raise {
   if i < 0 || i >= a.length() {
     raise @num.InvalidArgument("index out of bounds")
   }
@@ -202,7 +202,7 @@ pub fn[A] array_set(a : FixedArray[A], i : Int, x : A) -> Unit raise {
 
 ///|
 /// `Array.length a`
-pub fn[A] array_length(a : FixedArray[A]) -> Int {
+pub fn[A] array_length(a : FixedArray[A]) -> Int32 {
   a.length()
 }
 
@@ -245,14 +245,14 @@ pub fn[A, B, C] list_fold_left2(
 /// `fold`/`iter` visit buckets in index order. Keys are compared with
 /// OCaml's `compare`.
 pub struct OHashtbl[K, V] {
-  priv mut size : Int
+  priv mut size : Int32
   priv mut data : FixedArray[@list.List[(K, V)]]
-  priv initial_size : Int
+  priv initial_size : Int32
 }
 
 ///|
 /// `Hashtbl.create n`
-pub fn[K, V] hashtbl_create(n : Int) -> OHashtbl[K, V] {
+pub fn[K, V] hashtbl_create(n : Int32) -> OHashtbl[K, V] {
   let mut s = 16
   while s < n && s * 2 <= 0x3FFFFFFF {
     s = s * 2
@@ -261,7 +261,7 @@ pub fn[K, V] hashtbl_create(n : Int) -> OHashtbl[K, V] {
 }
 
 ///|
-fn[K : OHash, V] OHashtbl::index(self : OHashtbl[K, V], k : K) -> Int {
+fn[K : OHash, V] OHashtbl::index(self : OHashtbl[K, V], k : K) -> Int32 {
   hash(k) & (self.data.length() - 1)
 }
 
@@ -304,11 +304,7 @@ pub fn[K, V] hashtbl_reset(t : OHashtbl[K, V]) -> Unit {
 
 ///|
 /// `Hashtbl.add t k v`: shadows the previous binding of `k`.
-pub fn[K : OHash, V] hashtbl_add(
-  t : OHashtbl[K, V],
-  k : K,
-  v : V,
-) -> Unit {
+pub fn[K : OHash, V] hashtbl_add(t : OHashtbl[K, V], k : K, v : V) -> Unit {
   let i = t.index(k)
   t.data[i] = t.data[i].prepend((k, v))
   t.size += 1
@@ -431,7 +427,7 @@ pub fn[K : OCompare + OHash, V] hashtbl_mem(t : OHashtbl[K, V], k : K) -> Bool {
 
 ///|
 /// `Hashtbl.length`
-pub fn[K, V] hashtbl_length(t : OHashtbl[K, V]) -> Int {
+pub fn[K, V] hashtbl_length(t : OHashtbl[K, V]) -> Int32 {
   t.size
 }
 
@@ -498,7 +494,8 @@ priv enum LazyState[T] {
 
 ///|
 /// OCaml's `Lazy.Undefined` (a lazy value forced while being forced).
-pub(all) suberror LazyUndefined derive(Debug)
+#derive(Debug)
+pub(all) suberror LazyUndefined
 
 ///|
 pub extend LazyUndefined with @debug.Debug::{to_repr}
@@ -518,11 +515,7 @@ pub fn[T] lazy_force(l : OLazy[T]) -> T raise {
     Forcing => raise LazyUndefined
     Pending(f) => {
       l.state = Forcing
-      let r : Result[T, Error] = try {
-        Ok(f())
-      } catch {
-        e => Err(e)
-      }
+      let r : Result[T, Error] = Ok(f()) catch { e => Err(e) }
       let v = match r {
         Ok(v) => v
         Err(e) => {
@@ -538,7 +531,7 @@ pub fn[T] lazy_force(l : OLazy[T]) -> T raise {
 
 ///|
 /// `Char.chr`: raises `Invalid_argument` outside 0..255.
-pub fn char_chr(n : Int) -> Char raise {
+pub fn char_chr(n : Int32) -> Char raise {
   if n < 0 || n > 255 {
     raise @num.InvalidArgument("Char.chr")
   }
@@ -614,15 +607,16 @@ pub fn[A, B] array_map(
 
 ///|
 /// OCaml's `Sys_error`.
+#derive(Debug)
 pub(all) suberror SysError {
   SysError(String)
-} derive(Debug)
+}
 
 ///|
 pub extend SysError with @debug.Debug::{to_repr}
 
 ///|
-let temp_file_count : Ref[Int] = Ref::{ val: 0, }
+let temp_file_count : Ref[Int32] = Ref::{ val: 0, }
 
 ///|
 /// `Filename.temp_file prefix suffix`: a fresh name, of an empty file (in
@@ -682,8 +676,8 @@ pub fn[A] array_iter(f : (A) -> Unit raise?, a : FixedArray[A]) -> Unit raise? {
 /// `Array.fill a ofs len x`
 pub fn[A] array_fill(
   a : FixedArray[A],
-  ofs : Int,
-  len : Int,
+  ofs : Int32,
+  len : Int32,
   x : A,
 ) -> Unit raise {
   if ofs < 0 || len < 0 || ofs > a.length() - len {

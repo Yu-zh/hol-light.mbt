@@ -147,7 +147,6 @@ test "itab matches itab.ml" {
       #|counter_tyvar = zz_counter:'?1
       #|counter_genvar = _8:bool
       #|
-
     ),
   )
 }

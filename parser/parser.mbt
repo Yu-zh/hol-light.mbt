@@ -295,7 +295,7 @@ fn pmk_set_enum(ptms : List[Preterm]) -> Preterm {
 }
 
 ///|
-let pgen_counter : Ref[Int] = Ref::{ val: 0, }
+let pgen_counter : Ref[Int32] = Ref::{ val: 0, }
 
 ///|
 fn pgenvar() -> Preterm {
@@ -319,7 +319,7 @@ fn pmk_list(els : List[Preterm]) -> Preterm {
 }
 
 ///|
-fn pmk_char(c : Int) -> Preterm {
+fn pmk_char(c : Int32) -> Preterm {
   let bits = @lib.map(
     (i : Int64) => pv(if (c >> i.to_int()) % 2 == 1 { "T" } else { "F" }),
     @lib.range(0, 7),
@@ -330,7 +330,7 @@ fn pmk_char(c : Int) -> Preterm {
 ///|
 /// The bytes of a string literal token (the lexer works on bytes, one
 /// character per byte).
-fn literal_bytes(s : String) -> Array[Int] {
+fn literal_bytes(s : String) -> Array[Int32] {
   [
     for ch in s => ch.to_int()
   ]
@@ -805,7 +805,7 @@ let theory_traces : Map[String, Array[String]] = Map([])
 /// starts: a file may load another part-way through
 /// (Autoformalization/planar_graph.ml loads Multivariate/cauchy.ml after
 /// 12K lines).
-let loading_theories : Array[(String, Int)] = []
+let loading_theories : Array[(String, Int32)] = []
 
 ///|
 /// Called by a theory's `load` before its steps: the quotations it parses
@@ -860,17 +860,17 @@ pub fn theory_trace(name : String) -> Array[String] {
 /// Called with each quotation `parse_term` reads, the site `parse_term_at`
 /// gave it (-1 for none) and the term it denotes; tools/migrate.mbtx
 /// records the term's new spelling with it.
-pub let quotation_hook : Ref[((Int, String, Term) -> Unit raise)?] = Ref::{
+pub let quotation_hook : Ref[((Int32, String, Term) -> Unit raise)?] = Ref::{
   val: None,
 }
 
 ///|
-let quotation_site : Ref[Int] = Ref::{ val: -1 }
+let quotation_site : Ref[Int32] = Ref::{ val: -1, }
 
 ///|
 /// `parse_term(s)` reporting `site` to `quotation_hook`: tools/migrate.mbtx
 /// numbers a package's quotations with it while it records them.
-pub fn parse_term_at(site : Int, s : String) -> Term raise {
+pub fn parse_term_at(site : Int32, s : String) -> Term raise {
   quotation_site.val = site
   parse_term(s)
 }
@@ -936,9 +936,11 @@ fn elaborate(s : String) -> Term raise {
 /// The term `s` denotes, read as `parse_term` would read it now, with no
 /// trace or hook and without advancing the GEN%PVAR counter, and how many
 /// GEN%PVAR names it took: for comparing another reading of `s` with it.
-pub fn reread_term(s : String) -> (Term, Int) raise {
+pub fn reread_term(s : String) -> (Term, Int32) raise {
   let start = pgen_counter.val
-  defer { pgen_counter.val = start }
+  defer {
+    pgen_counter.val = start
+  }
   let tm = elaborate(s)
   (tm, pgen_counter.val - start)
 }
@@ -949,7 +951,9 @@ pub fn reread_term(s : String) -> (Term, Int) raise {
 /// generated names as they were.
 pub fn[T] with_pgen_counter_restored(f : () -> T raise) -> T raise {
   let start = pgen_counter.val
-  defer { pgen_counter.val = start }
+  defer {
+    pgen_counter.val = start
+  }
   f()
 }
 
@@ -957,12 +961,12 @@ pub fn[T] with_pgen_counter_restored(f : () -> T raise) -> T raise {
 /// Take `n` GEN%PVAR names unused: the names HOL's parser takes reading a
 /// set comprehension's element in the alternatives it tries first (the
 /// term syntax reads it once).
-pub fn skip_pgenvars(n : Int) -> Unit {
+pub fn skip_pgenvars(n : Int32) -> Unit {
   pgen_counter.val = pgen_counter.val + n
 }
 
 ///|
 /// The GEN%PVAR counter.
-pub fn pgen_count() -> Int {
+pub fn pgen_count() -> Int32 {
   pgen_counter.val
 }

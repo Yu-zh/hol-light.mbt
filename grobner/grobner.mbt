@@ -2,11 +2,12 @@
 
 ///|
 /// `history`
+#derive(Eq, Debug)
 pub(all) enum History {
   Start(Int64)
   Mmul((@num.Num, @list.List[Int64]), History)
   Add(History, History)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend History with Eq::{not_equal, equal}

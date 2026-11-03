@@ -2,6 +2,7 @@
 
 ///|
 /// `verification_parameters`
+#derive(Eq, Debug)
 pub(all) struct VerificationParameters {
   allow_derivatives : Bool
   convex_flag : Bool
@@ -12,7 +13,7 @@ pub(all) struct VerificationParameters {
   eps : Double
   eps_width : Double
   test_certificate : Bool
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend VerificationParameters with Eq::{not_equal, equal}
@@ -94,11 +95,12 @@ pub fn default_params() -> VerificationParameters {
 
 ///|
 /// `verification_stats`
+#derive(Eq, Debug)
 pub(all) struct VerificationStats {
   total_time : Double
   formal_verification_time : Double
   certificate : @certificate.CertificateStats
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend VerificationStats with Eq::{not_equal, equal}

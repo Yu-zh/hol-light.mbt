@@ -13,11 +13,19 @@ test "quantifiers, connectives and their precedence" {
   same("∀ p : Bool, ∃ q : Bool, p → q", "forall p:bool. ?q:bool. p ==> q")
   same("∀ x : _, ∀ y : _, x + y == y + x", "forall x y. x + y = y + x")
   same("∀ x : Num, x == x && true", "forall x:num. x = x /\\ T")
-  same("∀ a : Bool, ∀ b : Bool, ∀ c : Bool, a && b || c", "forall a b c. a /\\ b \\/ c")
-  same("∀ p : _, ∀ q : _, ∀ r : _, p → q → r", "forall p q r. p ==> q ==> r")
-  same("∀ a : _, ∀ b : _, ∀ c : _, ∀ d : Num, a + b * c == d", "forall a b c d. a + b * c = d")
+  same(
+    "∀ a : Bool, ∀ b : Bool, ∀ c : Bool, a && b || c", "forall a b c. a /\\ b \\/ c",
+  )
+  same(
+    "∀ p : _, ∀ q : _, ∀ r : _, p → q → r", "forall p q r. p ==> q ==> r",
+  )
+  same(
+    "∀ a : _, ∀ b : _, ∀ c : _, ∀ d : Num, a + b * c == d", "forall a b c d. a + b * c = d",
+  )
   same("∀ p : _, ∀ q : _, !p || q", "forall p q. ~p \\/ q")
-  same("∀ x : Num, ∀ y : _, x != y → y != x", "forall x:num y. ~(x = y) ==> ~(y = x)")
+  same(
+    "∀ x : Num, ∀ y : _, x != y → y != x", "forall x:num y. ~(x = y) ==> ~(y = x)",
+  )
   same("∀ a : Num, ∀ b : _, a - b <= a", "forall a b. a - b <= a")
 }
 
@@ -26,8 +34,12 @@ test "application, lambdas, conditionals, tuples and lists" {
   same("∀ n : _, SUC(n) > n", "forall n. SUC n > n")
   same("(x : Num) => x * 2", "\\x:num. x * 2")
   same("(x : Num, y : Num) => x + y", "\\x:num y:num. x + y")
-  same("∀ f : (Num, Num) -> Num, ∀ x : _, ∀ y : _, x.f(y) == f(x, y)", "forall f:num->num->num x y. f x y = f x y")
-  same("∀ c : Bool, ∀ a : Num, ∀ b : _, (if c { a } else { b }) <= a + b", "forall c a b. (if c then a else b) <= a + b")
+  same(
+    "∀ f : (Num, Num) -> Num, ∀ x : _, ∀ y : _, x.f(y) == f(x, y)", "forall f:num->num->num x y. f x y = f x y",
+  )
+  same(
+    "∀ c : Bool, ∀ a : Num, ∀ b : _, (if c { a } else { b }) <= a + b", "forall c a b. (if c then a else b) <= a + b",
+  )
   same("(1, 2)", "1,2")
   same("(1, true, 3)", "1,T,3")
   same("[1, 2, 3]", "[1;2;3]")
@@ -37,7 +49,9 @@ test "application, lambdas, conditionals, tuples and lists" {
 test "HOL names: primes and capitalised binders" {
   same("∀ x' : Num, x' == x'", "forall x':num. x' = x'")
   // as in MoonBit, a quantifier is not an operand of → without parentheses
-  same("∀ P : (Num) -> Bool, P(0) → (∃ n : _, P(n))", "forall P:num->bool. P 0 ==> ?n. P n")
+  same(
+    "∀ P : (Num) -> Bool, P(0) → (∃ n : _, P(n))", "forall P:num->bool. P 0 ==> ?n. P n",
+  )
 }
 
 ///|
@@ -72,7 +86,7 @@ test "binders cannot capture what the syntax stands for" {
 }
 
 ///|
-fn rejects(s : String, is_type? : Bool = false) -> String raise {
+fn rejects(s : String, is_type~ : Bool = false) -> String raise {
   try {
     if is_type {
       ignore(@term_syntax.parse_type(s))
@@ -88,10 +102,22 @@ fn rejects(s : String, is_type? : Bool = false) -> String raise {
 
 ///|
 test "input without a meaning is an error, not an abort" {
-  inspect(rejects("1 % 2"), content="term syntax: operator % has no HOL meaning")
-  inspect(rejects("Bool[Num]", is_type=true), content="term syntax: type Bool takes 0 arguments")
-  inspect(rejects("_", is_type=true), content="term syntax: _ alone is not a type")
-  inspect(rejects("(let : Bool) => let"), content="term syntax: let is a MoonBit keyword")
+  inspect(
+    rejects("1 % 2"),
+    content="term syntax: operator % has no HOL meaning",
+  )
+  inspect(
+    rejects("Bool[Num]", is_type=true),
+    content="term syntax: type Bool takes 0 arguments",
+  )
+  inspect(
+    rejects("_", is_type=true),
+    content="term syntax: _ alone is not a type",
+  )
+  inspect(
+    rejects("(let : Bool) => let"),
+    content="term syntax: let is a MoonBit keyword",
+  )
 }
 
 ///|
@@ -99,12 +125,16 @@ test "a hole inside a type is a fresh type variable" {
   let t = @term_syntax.parse_term("(xs : List[_]) => xs == xs")
   let elem = @kernel.type_of(@kernel.dest_abs(t).0)
   assert_true(elem is Tyapp("list", More(Tyvar(_), tail=Empty)))
-  assert_true(@kernel.is_vartype(@basics.dest_fun_ty(@term_syntax.parse_type("(_) -> Bool")).0))
+  assert_true(
+    @kernel.is_vartype(
+      @basics.dest_fun_ty(@term_syntax.parse_type("(_) -> Bool")).0,
+    ),
+  )
 }
 
 ///|
 test "names with a semicolon are escaped" {
-  inspect(@grammar.escape(";;"), content="Some(op_semi_semi)")
+  assert_eq(@grammar.escape(";;"), Some("op_semi_semi"))
   inspect(@grammar.unescape("op_semi_semi"), content=";;")
 }
 

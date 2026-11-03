@@ -19,11 +19,11 @@ using @list {type List}
 /// `Invalid_argument` when it reaches a closure. `None` stands for that
 /// exception (upstream treats it as "neither equal nor less").
 pub(open) trait NetCompare {
-  fn net_compare(Self, Self) -> Int?
+  fn net_compare(Self, Self) -> Int32?
 }
 
 ///|
-pub impl NetCompare for Int with fn net_compare(self, other) {
+pub impl NetCompare for Int32 with fn net_compare(self, other) {
   Some(self.compare(other))
 }
 
@@ -57,18 +57,18 @@ pub impl[A : NetCompare, B : NetCompare] NetCompare for (A, B) with fn net_compa
 /// A persistent term net.
 pub struct Net[A] {
   priv vnet : Net[A]?
-  priv cnets : @hashmap.HashMap[(String, Int), Net[A]]
-  priv lcnets : @hashmap.HashMap[(String, Int), Net[A]]
-  priv lnets : @hashmap.HashMap[Int, Net[A]]
+  priv cnets : @hashmap.HashMap[(String, Int32), Net[A]]
+  priv lcnets : @hashmap.HashMap[(String, Int32), Net[A]]
+  priv lnets : @hashmap.HashMap[Int32, Net[A]]
   priv tips : List[A]
 }
 
 ///|
 priv enum Label {
   Vnet
-  Lcnet(String, Int)
-  Cnet(String, Int)
-  Lnet(Int)
+  Lcnet(String, Int32)
+  Cnet(String, Int32)
+  Lnet(Int32)
 }
 
 ///|
@@ -115,7 +115,7 @@ fn label_to_store(lconsts : List[Term], tm : Term) -> (Label, List[Term]) {
 
 ///|
 /// Insert into a sorted tip list; equal elements are not duplicated.
-fn[A] set_insert(cmp : (A, A) -> Int?, x : A, l : List[A]) -> List[A] {
+fn[A] set_insert(cmp : (A, A) -> Int32?, x : A, l : List[A]) -> List[A] {
   let prefix = []
   let mut rest = l
   while rest is More(h, tail=t) {
@@ -139,7 +139,7 @@ fn[A] set_insert(cmp : (A, A) -> Int?, x : A, l : List[A]) -> List[A] {
 
 ///|
 fn[A] net_update(
-  cmp : (A, A) -> Int?,
+  cmp : (A, A) -> Int32?,
   lconsts : List[Term],
   elem : A,
   tms : List[Term],
@@ -198,7 +198,7 @@ pub fn[A : NetCompare] enter(
 ///|
 /// OCaml's `compare` on closures: equal when physically equal, else it
 /// raises (`None`, see `NetCompare`).
-fn[A] closure_compare(a : A, b : A) -> Int? {
+fn[A] closure_compare(a : A, b : A) -> Int32? {
   if physical_equal(a, b) {
     Some(0)
   } else {
@@ -260,7 +260,7 @@ pub fn[A] lookup(tm : Term, net : Net[A]) -> List[A] {
 }
 
 ///|
-fn[A] set_merge(cmp : (A, A) -> Int?, l1 : List[A], l2 : List[A]) -> List[A] {
+fn[A] set_merge(cmp : (A, A) -> Int32?, l1 : List[A], l2 : List[A]) -> List[A] {
   let out = []
   let mut a = l1
   let mut b = l2
@@ -295,7 +295,7 @@ fn[A] set_merge(cmp : (A, A) -> Int?, l1 : List[A], l2 : List[A]) -> List[A] {
 }
 
 ///|
-fn[A] merge_nets_by(cmp : (A, A) -> Int?, n1 : Net[A], n2 : Net[A]) -> Net[A] {
+fn[A] merge_nets_by(cmp : (A, A) -> Int32?, n1 : Net[A], n2 : Net[A]) -> Net[A] {
   let vnet = match (n1.vnet, n2.vnet) {
     (Some(x), Some(y)) => Some(merge_nets_by(cmp, x, y))
     (Some(_), None) => n1.vnet

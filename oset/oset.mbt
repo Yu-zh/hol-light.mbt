@@ -2,10 +2,11 @@
 
 ///|
 /// `t`
+#derive(Eq, Debug)
 pub(all) enum T[TA] {
   Empty
   Node(T[TA], TA, T[TA], Int64)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend T with Eq::{not_equal, equal}
@@ -578,10 +579,11 @@ pub fn[TA, TB] diff(
 
 ///|
 /// `enumeration`
+#derive(Eq, Debug)
 pub(all) enum Enumeration[TA] {
   End
   More(TA, T[TA], Enumeration[TA])
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend Enumeration with Eq::{not_equal, equal}

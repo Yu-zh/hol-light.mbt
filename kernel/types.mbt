@@ -9,29 +9,32 @@
 ///|
 /// HOL types. Read-only outside this package: they can be inspected by
 /// pattern matching but only constructed through `mk_type`/`mk_vartype`.
+#derive(Eq, Hash, Debug)
 pub enum HolType {
   Tyvar(String)
   Tyapp(String, @list.List[HolType])
-} derive(Eq, Hash, Debug)
+}
 
 ///|
 /// HOL terms. Read-only outside this package: they can be inspected by
 /// pattern matching but only constructed through the `mk_*` functions,
 /// which guarantee well-typedness.
+#derive(Eq, Hash, Debug)
 pub enum Term {
   Var(String, HolType)
   Const(String, HolType)
   Comb(Term, Term)
   Abs(Term, Term)
-} derive(Eq, Hash, Debug)
+}
 
 ///|
 /// Theorems (sequents). The fields are private, so a `Thm` can only be
 /// produced by the inference rules of this package.
+#derive(Eq, Debug)
 pub struct Thm {
   priv hyps : @list.List[Term]
   priv concl : Term
-} derive(Eq, Debug)
+}
 
 ///|
 fn[T] failwith(msg : String) -> T raise {
@@ -54,7 +57,7 @@ fn[T] failwith(msg : String) -> T raise {
 /// and almost all of Unicode; it differs only between a code point in
 /// U+E000..U+FFFF and one above U+FFFF at the same position, which HOL's
 /// ASCII identifiers never contain.
-pub fn compare_string(a : String, b : String) -> Int {
+pub fn compare_string(a : String, b : String) -> Int32 {
   a.lexical_compare(b)
 }
 
@@ -62,8 +65,8 @@ pub fn compare_string(a : String, b : String) -> Int {
 fn[A] compare_list(
   a : @list.List[A],
   b : @list.List[A],
-  cmp : (A, A) -> Int,
-) -> Int {
+  cmp : (A, A) -> Int32,
+) -> Int32 {
   let mut a = a
   let mut b = b
   while true {
@@ -106,7 +109,7 @@ pub impl Compare for HolType with fn compare(self, other) {
 }
 
 ///|
-fn term_tag(tm : Term) -> Int {
+fn term_tag(tm : Term) -> Int32 {
   match tm {
     Var(_) => 0
     Const(_) => 1

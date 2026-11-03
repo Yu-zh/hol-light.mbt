@@ -161,6 +161,7 @@ pub fn interval_constants() -> @lib.OHashtbl[@kernel.Term, (Int64) -> @kernel.Th
 
 ///|
 /// `interval_fun`
+#derive(Eq, Debug)
 pub(all) enum IntervalFun {
   Int_ref(Int64)
   Int_var(@kernel.Term)
@@ -170,7 +171,7 @@ pub(all) enum IntervalFun {
   Int_pow(Int64, IntervalFun)
   Int_unary(@kernel.Term, IntervalFun)
   Int_binary(@kernel.Term, IntervalFun, IntervalFun)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend IntervalFun with Eq::{not_equal, equal}

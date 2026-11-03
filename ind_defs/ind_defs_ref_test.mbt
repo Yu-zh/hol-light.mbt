@@ -51,7 +51,9 @@ test "ind_defs matches ind_defs.ml" {
   ndef(
     "EVOD", "EV (a:A) /\\ (forall x. OD x ==> EV ((f:A->A) x)) /\\ (forall x. EV x ==> OD (f x))",
   )
-  ndef("EVB", "EVB T /\\ (forall x. ODB x ==> EVB (~x)) /\\ (forall x. EVB x ==> ODB (~x))")
+  ndef(
+    "EVB", "EVB T /\\ (forall x. ODB x ==> EVB (~x)) /\\ (forall x. EVB x ==> ODB (~x))",
+  )
   log.attempt("strong_ok", () => {
     let t = tm("NB F /\\ (forall x. NB x ==> NB (~x))")
     let (rules, ind, _) = @ind_defs.new_inductive_definition(t)
@@ -62,7 +64,9 @@ test "ind_defs matches ind_defs.ml" {
     "RTC_again", "(forall x:A. RTC R x x) /\\ (forall x y z. R x y /\\ RTC R y z ==> RTC R x z)",
   )
   log.attempt("exist", () => {
-    let t = tm("(forall x:A. TC R x x ==> TC R x x) /\\ (forall x y. R x y ==> TC R x y)")
+    let t = tm(
+      "(forall x:A. TC R x x ==> TC R x x) /\\ (forall x y. R x y ==> TC R x y)",
+    )
     sthm(@ind_defs.prove_inductive_relations_exist(t))
   })
   log.attempt("derive_nonschematic", () => {
@@ -80,7 +84,9 @@ test "ind_defs matches ind_defs.ml" {
     sthm(@ind_defs.prove_monotonicity_hyps(th))
   })
   log.attempt("MONO_TAC", () => {
-    let w = tm("(forall x:A. P x ==> Q x) ==> (forall x. P x /\\ c) ==> (forall x. Q x /\\ c)")
+    let w = tm(
+      "(forall x:A. P x ==> Q x) ==> (forall x. P x /\\ c) ==> (forall x. Q x /\\ c)",
+    )
     let tac = @tactics.then_tac(@tactics.disch_tac, g => @ind_defs.mono_tac(g))
     let (_, gls, _) = tac((@list.List([]), w))
     gls.length().to_string()

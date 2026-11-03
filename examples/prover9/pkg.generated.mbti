@@ -116,36 +116,39 @@ pub fn[TA] translate_term((@lib.Func[@kernel.Term, String], @lib.Func[@kernel.Te
 // Errors
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) enum Folterm {
   Variable(String)
   Function(String, @list.List[Folterm])
-} derive(Eq, @debug.Debug)
+}
 pub fn Folterm::equal(Self, Self) -> Bool
 pub fn Folterm::not_equal(Self, Self) -> Bool
-pub fn Folterm::ocompare(Self, Self) -> Int
+pub fn Folterm::ocompare(Self, Self) -> Int32
 pub fn Folterm::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Folterm::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Folterm
 pub impl @lib.OHash for Folterm
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Literal {
   Literal(Bool, String, @list.List[Folterm])
-} derive(Eq, @debug.Debug)
+}
 pub fn Literal::equal(Self, Self) -> Bool
 pub fn Literal::not_equal(Self, Self) -> Bool
-pub fn Literal::ocompare(Self, Self) -> Int
+pub fn Literal::ocompare(Self, Self) -> Int32
 pub fn Literal::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Literal::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Literal
 pub impl @lib.OHash for Literal
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Sexp {
   Atom(String)
   List(@list.List[Sexp])
-} derive(Eq, @debug.Debug)
+}
 pub fn Sexp::equal(Self, Self) -> Bool
 pub fn Sexp::not_equal(Self, Self) -> Bool
-pub fn Sexp::ocompare(Self, Self) -> Int
+pub fn Sexp::ocompare(Self, Self) -> Int32
 pub fn Sexp::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Sexp::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Sexp

@@ -73,13 +73,14 @@ pub fn wz_maxima_tokens(String) -> @list.List[String] raise
 // Errors
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) enum WzMaximaObject {
   Wzterm(@kernel.Term)
   Wzlist(@list.List[WzMaximaObject])
-} derive(Eq, @debug.Debug)
+}
 pub fn WzMaximaObject::equal(Self, Self) -> Bool
 pub fn WzMaximaObject::not_equal(Self, Self) -> Bool
-pub fn WzMaximaObject::ocompare(Self, Self) -> Int
+pub fn WzMaximaObject::ocompare(Self, Self) -> Int32
 pub fn WzMaximaObject::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn WzMaximaObject::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for WzMaximaObject

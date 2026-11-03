@@ -121,13 +121,14 @@ pub fn[TA] union((TA) -> ((TA) -> Int64 raise) raise, T[TA], T[TA]) -> T[TA] rai
 // Errors
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) enum Enumeration[TA] {
   End
   More(TA, T[TA], Enumeration[TA])
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq] Enumeration::equal(Self[TA], Self[TA]) -> Bool
 pub fn[TA : Eq] Enumeration::not_equal(Self[TA], Self[TA]) -> Bool
-pub fn[TA : @lib.OCompare] Enumeration::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] Enumeration::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] Enumeration::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug] Enumeration::to_repr(Self[TA]) -> @debug.Repr
 pub impl[TA : @lib.OCompare] @lib.OCompare for Enumeration[TA]
@@ -138,13 +139,14 @@ pub(all) enum SplitBis[TA] {
   Split_absent(T[TA], (Unit) -> T[TA] raise)
 }
 
+#derive(Eq, @debug.Debug)
 pub(all) enum T[TA] {
   Empty
   Node(T[TA], TA, T[TA], Int64)
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq] T::equal(Self[TA], Self[TA]) -> Bool
 pub fn[TA : Eq] T::not_equal(Self[TA], Self[TA]) -> Bool
-pub fn[TA : @lib.OCompare] T::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] T::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] T::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug] T::to_repr(Self[TA]) -> @debug.Repr
 pub impl[TA : @lib.OCompare] @lib.OCompare for T[TA]

@@ -1,4 +1,5 @@
 ///|
+#derive(Debug)
 pub(all) enum Token {
   LIDENT(String)
   UIDENT(String)
@@ -36,7 +37,7 @@ pub(all) enum Token {
   THIN_ARROW
   UNDERSCORE
   EOF
-} derive(Debug)
+}
 
 ///|
 #deprecated("Use Debug::to_repr instead")
@@ -223,10 +224,11 @@ pub impl Debug for TokenKind with fn to_repr(self) {
 }
 
 ///|
+#derive(Debug)
 pub suberror ParseError {
   UnexpectedToken(Token, (Int, Int), Array[TokenKind])
   UnexpectedEndOfInput(Int, Array[TokenKind])
-} derive(Debug)
+}
 
 ///|
 #deprecated("Use Debug::to_repr instead")

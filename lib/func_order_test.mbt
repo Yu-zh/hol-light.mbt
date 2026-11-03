@@ -12,7 +12,7 @@ test "structural compare and hash of finite maps, as OCaml's" {
     @lib.update(1L, 2L, @lib.update(3L, 4L, @lib.single(100L, 7L))),
     @lib.update(5L, 0L, @lib.single(3L, 4L)),
   ]
-  fn sgn(c : Int) -> Int {
+  fn sgn(c : Int32) -> Int32 {
     if c < 0 {
       -1
     } else if c > 0 {

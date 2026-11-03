@@ -54,16 +54,17 @@ pub(all) enum Result {
   Cell_pass(Bool, FunctionInfo)
 }
 
+#derive(Eq, @debug.Debug)
 pub(all) struct SearchOptions {
   raw_intervals0 : Bool
   max_width : Double
   max_depth : Int64
   mono_depth : Int64
   pp : Int64
-} derive(Eq, @debug.Debug)
+}
 pub fn SearchOptions::equal(Self, Self) -> Bool
 pub fn SearchOptions::not_equal(Self, Self) -> Bool
-pub fn SearchOptions::ocompare(Self, Self) -> Int
+pub fn SearchOptions::ocompare(Self, Self) -> Int32
 pub fn SearchOptions::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn SearchOptions::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for SearchOptions

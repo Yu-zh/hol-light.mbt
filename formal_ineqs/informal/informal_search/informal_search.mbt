@@ -2,13 +2,14 @@
 
 ///|
 /// `search_options`
+#derive(Eq, Debug)
 pub(all) struct SearchOptions {
   raw_intervals0 : Bool
   max_width : Double
   max_depth : Int64
   mono_depth : Int64
   pp : Int64
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend SearchOptions with Eq::{not_equal, equal}

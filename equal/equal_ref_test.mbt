@@ -238,7 +238,6 @@ test "equal matches equal.ml" {
       #|BINOP2_CONV_order ! right
       #|COMB_CONV_genvar ! _8
       #|
-
     ),
   )
 }

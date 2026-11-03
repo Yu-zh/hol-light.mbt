@@ -18,9 +18,9 @@ pub fn print_string(String) -> Unit
 
 pub let std_formatter : Formatter
 
-pub fn stdout_backlog_length() -> Int
+pub fn stdout_backlog_length() -> Int32
 
-pub fn stdout_backlog_since(Int) -> Array[String]
+pub fn stdout_backlog_since(Int32) -> Array[String]
 
 pub let stdout_sink : @ref.Ref[(String) -> Unit]
 
@@ -32,30 +32,30 @@ pub struct Formatter {
 }
 pub fn Formatter::close_box(Self) -> Unit
 pub fn Formatter::force_newline(Self) -> Unit
-pub fn Formatter::get_margin(Self) -> Int
-pub fn Formatter::get_max_boxes(Self) -> Int
-pub fn Formatter::get_max_indent(Self) -> Int
+pub fn Formatter::get_margin(Self) -> Int32
+pub fn Formatter::get_max_boxes(Self) -> Int32
+pub fn Formatter::get_max_indent(Self) -> Int32
 pub fn Formatter::new((String) -> Unit, out_flush? : () -> Unit) -> Self
-pub fn Formatter::open_box(Self, Int) -> Unit
+pub fn Formatter::open_box(Self, Int32) -> Unit
 pub fn Formatter::open_hbox(Self) -> Unit
-pub fn Formatter::open_hovbox(Self, Int) -> Unit
-pub fn Formatter::open_hvbox(Self, Int) -> Unit
-pub fn Formatter::open_vbox(Self, Int) -> Unit
-pub fn Formatter::print_as(Self, Int, String) -> Unit
-pub fn Formatter::print_break(Self, Int, Int) -> Unit
+pub fn Formatter::open_hovbox(Self, Int32) -> Unit
+pub fn Formatter::open_hvbox(Self, Int32) -> Unit
+pub fn Formatter::open_vbox(Self, Int32) -> Unit
+pub fn Formatter::print_as(Self, Int32, String) -> Unit
+pub fn Formatter::print_break(Self, Int32, Int32) -> Unit
 pub fn Formatter::print_cut(Self) -> Unit
 pub fn Formatter::print_flush(Self) -> Unit
 pub fn Formatter::print_if_newline(Self) -> Unit
-pub fn Formatter::print_int(Self, Int) -> Unit
+pub fn Formatter::print_int(Self, Int32) -> Unit
 pub fn Formatter::print_newline(Self) -> Unit
 pub fn Formatter::print_space(Self) -> Unit
 pub fn Formatter::print_string(Self, String) -> Unit
-pub fn Formatter::queue_length(Self) -> Int
+pub fn Formatter::queue_length(Self) -> Int32
 pub fn Formatter::set_ellipsis_text(Self, String) -> Unit
-pub fn Formatter::set_margin(Self, Int) -> Unit
-pub fn Formatter::set_max_boxes(Self, Int) -> Unit
-pub fn Formatter::set_max_indent(Self, Int) -> Unit
-pub fn Formatter::set_min_space_left(Self, Int) -> Unit
+pub fn Formatter::set_margin(Self, Int32) -> Unit
+pub fn Formatter::set_max_boxes(Self, Int32) -> Unit
+pub fn Formatter::set_max_indent(Self, Int32) -> Unit
+pub fn Formatter::set_min_space_left(Self, Int32) -> Unit
 
 // Type aliases
 

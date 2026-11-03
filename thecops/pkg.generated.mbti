@@ -506,52 +506,56 @@ pub(all) suberror Unify1 {
 }
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) enum Litmat[TA] {
   Lit((Int64, @list.List[@meson.FolTerm]))
   Mat((TA, @list.List[((TA, @list.List[Int64]), @list.List[Litmat[TA]])]))
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq] Litmat::equal(Self[TA], Self[TA]) -> Bool
 pub fn[TA : Eq] Litmat::not_equal(Self[TA], Self[TA]) -> Bool
-pub fn[TA : @lib.OCompare] Litmat::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] Litmat::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] Litmat::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug] Litmat::to_repr(Self[TA]) -> @debug.Repr
 pub impl[TA : @lib.OCompare] @lib.OCompare for Litmat[TA]
 pub impl[TA : @lib.OHash] @lib.OHash for Litmat[TA]
 
+#derive(Eq, @debug.Debug)
 pub(all) enum LitmatExt[TA] {
   Litext((@list.List[Litmat[TA]], @list.List[Litmat[TA]]), @list.List[Litmat[TA]])
   Matext(Int64, (@list.List[Litmat[TA]], @list.List[Litmat[TA]]), ((Int64, @list.List[TA]), (@list.List[((TA, @list.List[Int64]), @list.List[Litmat[TA]])], @list.List[((TA, @list.List[Int64]), @list.List[Litmat[TA]])]), LitmatExt[TA]))
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq] LitmatExt::equal(Self[TA], Self[TA]) -> Bool
 pub fn[TA : Eq] LitmatExt::not_equal(Self[TA], Self[TA]) -> Bool
-pub fn[TA : @lib.OCompare] LitmatExt::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] LitmatExt::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] LitmatExt::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug] LitmatExt::to_repr(Self[TA]) -> @debug.Repr
 pub impl[TA : @lib.OCompare] @lib.OCompare for LitmatExt[TA]
 pub impl[TA : @lib.OHash] @lib.OHash for LitmatExt[TA]
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Proof[TA, TB] {
   Lemma
   Reduction
   Extension(TB, @list.List[(TA, Proof[TA, TB])])
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq, TB : Eq] Proof::equal(Self[TA, TB], Self[TA, TB]) -> Bool
 pub fn[TA : Eq, TB : Eq] Proof::not_equal(Self[TA, TB], Self[TA, TB]) -> Bool
-pub fn[TA : @lib.OCompare, TB : @lib.OCompare] Proof::ocompare(Self[TA, TB], Self[TA, TB]) -> Int
+pub fn[TA : @lib.OCompare, TB : @lib.OCompare] Proof::ocompare(Self[TA, TB], Self[TA, TB]) -> Int32
 pub fn[TA : @lib.OHash, TB : @lib.OHash] Proof::ohash_visit(Self[TA, TB], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug, TB : @debug.Debug] Proof::to_repr(Self[TA, TB]) -> @debug.Repr
 pub impl[TA : @lib.OCompare, TB : @lib.OCompare] @lib.OCompare for Proof[TA, TB]
 pub impl[TA : @lib.OHash, TB : @lib.OHash] @lib.OHash for Proof[TA, TB]
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Proof1[TA, TB, TC, TD] {
   Lemma
   Reduction
   Decomposition(TB, TC, @list.List[(TA, Proof1[TA, TB, TC, TD])])
   Extension(TB, TD, @list.List[(TA, Proof1[TA, TB, TC, TD])])
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq, TB : Eq, TC : Eq, TD : Eq] Proof1::equal(Self[TA, TB, TC, TD], Self[TA, TB, TC, TD]) -> Bool
 pub fn[TA : Eq, TB : Eq, TC : Eq, TD : Eq] Proof1::not_equal(Self[TA, TB, TC, TD], Self[TA, TB, TC, TD]) -> Bool
-pub fn[TA : @lib.OCompare, TB : @lib.OCompare, TC : @lib.OCompare, TD : @lib.OCompare] Proof1::ocompare(Self[TA, TB, TC, TD], Self[TA, TB, TC, TD]) -> Int
+pub fn[TA : @lib.OCompare, TB : @lib.OCompare, TC : @lib.OCompare, TD : @lib.OCompare] Proof1::ocompare(Self[TA, TB, TC, TD], Self[TA, TB, TC, TD]) -> Int32
 pub fn[TA : @lib.OHash, TB : @lib.OHash, TC : @lib.OHash, TD : @lib.OHash] Proof1::ohash_visit(Self[TA, TB, TC, TD], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug, TB : @debug.Debug, TC : @debug.Debug, TD : @debug.Debug] Proof1::to_repr(Self[TA, TB, TC, TD]) -> @debug.Repr
 pub impl[TA : @lib.OCompare, TB : @lib.OCompare, TC : @lib.OCompare, TD : @lib.OCompare] @lib.OCompare for Proof1[TA, TB, TC, TD]
@@ -562,11 +566,12 @@ pub(all) struct ReconData {
   mapping : @list.List[(Int64, Int64)]
   sub : ((FixedArray[@meson.FolTerm?], @ref.Ref[@list.List[Int64]]), @list.List[Int64])
 }
-pub fn ReconData::ocompare(Self, Self) -> Int
+pub fn ReconData::ocompare(Self, Self) -> Int32
 pub fn ReconData::ohash_visit(Self, @lib.OHasher) -> Unit
 pub impl @lib.OCompare for ReconData
 pub impl @lib.OHash for ReconData
 
+#derive(Eq, @debug.Debug)
 pub(all) struct SearchOpts {
   cut1 : Bool
   cut2 : Bool
@@ -575,10 +580,10 @@ pub(all) struct SearchOpts {
   improved_lemmas : Bool
   improved_regularity : Bool
   add_eq_symmetry : Bool
-} derive(Eq, @debug.Debug)
+}
 pub fn SearchOpts::equal(Self, Self) -> Bool
 pub fn SearchOpts::not_equal(Self, Self) -> Bool
-pub fn SearchOpts::ocompare(Self, Self) -> Int
+pub fn SearchOpts::ocompare(Self, Self) -> Int32
 pub fn SearchOpts::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn SearchOpts::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for SearchOpts

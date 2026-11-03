@@ -23,14 +23,15 @@ pub fn ring_and_ideal_conv(((@kernel.Term) -> @num.Num raise, (@num.Num) -> @ker
 // Errors
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) enum History {
   Start(Int64)
   Mmul((@num.Num, @list.List[Int64]), History)
   Add(History, History)
-} derive(Eq, @debug.Debug)
+}
 pub fn History::equal(Self, Self) -> Bool
 pub fn History::not_equal(Self, Self) -> Bool
-pub fn History::ocompare(Self, Self) -> Int
+pub fn History::ocompare(Self, Self) -> Int32
 pub fn History::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn History::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for History

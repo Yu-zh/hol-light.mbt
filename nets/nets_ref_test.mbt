@@ -8,7 +8,7 @@ using @kernel {type Term}
 /// `(int, string, closure)`: OCaml's compare raises on the closure unless
 /// it is physically the same value.
 priv struct Elem {
-  n : Int
+  n : Int32
   s : String
   clo : (String) -> String
 }
@@ -31,7 +31,7 @@ impl @nets.NetCompare for Elem with fn net_compare(self, other) {
 }
 
 ///|
-fn elem(n : Int, s : String) -> Elem {
+fn elem(n : Int32, s : String) -> Elem {
   { n, s, clo: t => t + s, }
 }
 

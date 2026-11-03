@@ -5,7 +5,7 @@
 using @testkit {stm}
 
 ///|
-fn sl(l : @list.List[Int]) -> String {
+fn sl(l : @list.List[Int32]) -> String {
   "[" + l.map(x => x.to_string()).to_array().join("; ") + "]"
 }
 

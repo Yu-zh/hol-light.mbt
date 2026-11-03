@@ -412,7 +412,7 @@ pub fn changed_tac(tac : Tactic) -> Tactic {
 
 ///|
 /// `REPLICATE_TAC n tac`
-pub fn replicate_tac(n : Int, tac : Tactic) -> Tactic {
+pub fn replicate_tac(n : Int32, tac : Tactic) -> Tactic {
   if n <= 0 {
     all_tac
   } else {
@@ -642,7 +642,7 @@ pub fn hyp_tac(
 ) -> ((List[Thm]) -> Tactic raise) raise {
   let ident : (ArrayView[@lexer.Lexcode]) -> (String, ArrayView[@lexer.Lexcode]) raise = inp => {
     match inp {
-      [Ident(s), ..rest] if @printer.isalnum(s) => (s, rest)
+      [Ident(s), .. rest] if @printer.isalnum(s) => (s, rest)
       _ => raise @parserutil.Noparse
     }
   }
@@ -1622,7 +1622,7 @@ pub fn ants_tac(g : Goal) -> Goalstate raise {
 pub let print_goal_hyp_max_boxes : Ref[Int64?] = Ref::{ val: None, }
 
 ///|
-fn string_of_int3(n : Int) -> String {
+fn string_of_int3(n : Int32) -> String {
   if n < 10 {
     "  " + n.to_string()
   } else if n < 100 {
@@ -1687,7 +1687,7 @@ pub fn pp_print_colored_goal(fmt : Formatter, g : Goal) -> Unit raise {
 fn print_goalstate(
   color : Bool,
   fmt : Formatter,
-  k : Int,
+  k : Int32,
   gs : Goalstate,
 ) -> Unit raise {
   let (_, gl, _) = gs

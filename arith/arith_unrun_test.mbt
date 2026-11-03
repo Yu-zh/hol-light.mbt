@@ -3,7 +3,9 @@
 
 ///|
 test "num_cancel_conv cancels a summand common to both sides" {
-  let t = @term_syntax.parse_term("(a : Num) + (b : Num) + (c : Num) == (d : Num) + b")
+  let t = @term_syntax.parse_term(
+    "(a : Num) + (b : Num) + (c : Num) == (d : Num) + b",
+  )
   let th = @arith.num_cancel_conv(t)
   assert_eq(@kernel.hyp(th), @list.List([]))
   let (l, r) = @kernel.dest_eq(@kernel.concl(th))

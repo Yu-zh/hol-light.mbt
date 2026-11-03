@@ -306,7 +306,7 @@ let cases : String =
   #|40;100;t!x.|s0,2|t)|[h2|[h2|s1,1|[H1|teeeeeeee|s2,3|]|[b4|tbb|s0,0|t!x.|s1,0|n|]|[h0|s1,0|]|s1,2|]|t/\|tdddd|]|s1,2|tf|s1,0|t(|s2,3|t!x.|tbb|t/\|t(
 
 ///|
-fn run(margin : Int, max_boxes : Int, doc : String) -> String raise {
+fn run(margin : Int32, max_boxes : Int32, doc : String) -> String raise {
   let buf = StringBuilder()
   let fmt = @pp.formatter_of_buffer(buf)
   fmt.set_max_boxes(max_boxes)

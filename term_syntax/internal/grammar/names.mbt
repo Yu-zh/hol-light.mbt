@@ -75,7 +75,7 @@ fn escape_chars(name : String) -> String? {
   let tokens = []
   let run = StringBuilder()
   for c in name {
-    if c is ('a'..='z' | 'A'..='Z' | '0'..='9') {
+    if c is ('a'..<='z' | 'A'..<='Z' | '0'..<='9') {
       run.write_char(c)
       continue
     }
@@ -113,8 +113,8 @@ pub fn unescape(ident : String) -> String {
     return ident
   }
   let out = StringBuilder()
-  for part in ident.to_string()[3:].to_string().split("_") {
-    let part = part.to_string()
+  for part in ident.to_string()[3:].to_owned().split("_") {
+    let part = part.to_owned()
     if part == "us" {
       out.write_char('_')
     } else {
@@ -133,7 +133,7 @@ pub fn unescape(ident : String) -> String {
   // elaboration generates
   let symbolic = !decoded
     .iter()
-    .all(c => c is ('a'..='z' | 'A'..='Z' | '0'..='9' | '_' | '\''))
+    .all(c => c is ('a'..<='z' | 'A'..<='Z' | '0'..<='9' | '_' | '\''))
   if symbolic &&
     !decoded.has_prefix("GEN%PVAR%") &&
     escape_chars(decoded) == Some(ident) {

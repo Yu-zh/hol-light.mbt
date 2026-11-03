@@ -15,7 +15,7 @@ let virtual_files : Map[String, String] = Map([])
 /// `Sys.command`: the gp factorization above; else what the command did
 /// upstream, if that was recorded (`replay_command`); else "command not
 /// found" (exit status 127, as on a host without the command).
-pub fn sys_command(cmd : String) -> Int {
+pub fn sys_command(cmd : String) -> Int32 {
   match gp_factorint_command(cmd) {
     Some((n, file)) => {
       virtual_files[file] = gp_factorint(n) + "\n"
@@ -66,8 +66,8 @@ fn unname_paths(text : String, paths : Array[String]) -> String {
 /// What a command did when upstream ran it.
 priv struct Replay {
   inputs : Array[String?]
-  status : Int
-  outputs : Array[(Int, String)]
+  status : Int32
+  outputs : Array[(Int32, String)]
 }
 
 ///|
@@ -86,8 +86,8 @@ let command_replays : Map[String, Array[Replay]] = Map([])
 pub fn replay_command(
   shape : String,
   inputs : Array[String?],
-  status : Int,
-  outputs : Array[(Int, String)],
+  status : Int32,
+  outputs : Array[(Int32, String)],
 ) -> Unit {
   let r = Replay::{ inputs, status, outputs, }
   match command_replays.get(shape) {
@@ -142,12 +142,12 @@ pub fn strings_of_file(name : String) -> @list.List[String] raise {
       let mut start = 0
       for i in 0..<s.length() {
         if s[i].to_int() == 10 {
-          lines.push(s.view(start_offset=start, end_offset=i).to_owned())
+          lines.push(s[start:i].to_owned())
           start = i + 1
         }
       }
       if start < s.length() {
-        lines.push(s.view(start_offset=start).to_owned())
+        lines.push(s[start:].to_owned())
       }
       @list.List(lines)
     }
@@ -184,7 +184,7 @@ pub fn string_of_file(name : String) -> String raise {
   match virtual_files.get(name) {
     Some(s) =>
       if s.has_suffix("\n") {
-        s.view(end_offset=s.length() - 1).to_owned()
+        s[:s.length() - 1].to_owned()
       } else {
         s
       }
@@ -197,19 +197,19 @@ pub fn string_of_file(name : String) -> String raise {
 fn gp_factorint_command(cmd : String) -> (@bigint.BigInt, String)? {
   let prefix = "echo 'print(factorint("
   guard cmd.has_prefix(prefix) else { return None }
-  let rest = cmd.view(start_offset=prefix.length()).to_owned()
+  let rest = cmd[prefix.length():].to_owned()
   let digits = StringBuilder()
   let mut i = 0
   while i < rest.length() && rest[i] >= '0' && rest[i] <= '9' {
     digits.write_char(rest[i].unsafe_to_char())
     i += 1
   }
-  guard i > 0 && rest.view(start_offset=i).has_prefix("))") else { return None }
+  guard i > 0 && rest[i:].has_prefix("))") else { return None }
   guard rest.contains("| gp >") else { return None }
   let after = rest.split("| gp >").to_array()
   let file = after[after.length() - 1].to_owned()
   let file = match file.find(" ") {
-    Some(j) => file.view(end_offset=j).to_owned()
+    Some(j) => file[:j].to_owned()
     None => file
   }
   Some((@bigint.BigInt::from_string(digits.to_string()), file))
@@ -254,7 +254,7 @@ fn big_isqrt(n : @bigint.BigInt) -> @bigint.BigInt {
 
 ///|
 /// The Jacobi symbol (a/n) for odd n > 0.
-fn big_jacobi(a : @bigint.BigInt, n : @bigint.BigInt) -> Int {
+fn big_jacobi(a : @bigint.BigInt, n : @bigint.BigInt) -> Int32 {
   let big3 = @bigint.BigInt::from_int(3)
   let big4 = @bigint.BigInt::from_int(4)
   let big5 = @bigint.BigInt::from_int(5)
@@ -399,7 +399,7 @@ fn big_gcd_(a : @bigint.BigInt, b : @bigint.BigInt) -> @bigint.BigInt {
 
 ///|
 /// floor(n^(1/k)) for n >= 0, k >= 1 (Newton's method).
-fn big_iroot(n : @bigint.BigInt, k : Int) -> @bigint.BigInt {
+fn big_iroot(n : @bigint.BigInt, k : Int32) -> @bigint.BigInt {
   if n < big2 || k == 1 {
     return n
   }
@@ -418,7 +418,7 @@ fn big_iroot(n : @bigint.BigInt, k : Int) -> @bigint.BigInt {
 
 ///|
 /// `Some((r, k))` with n = r^k, k >= 2 maximal-first, for n >= 2.
-fn perfect_power(n : @bigint.BigInt) -> (@bigint.BigInt, Int)? {
+fn perfect_power(n : @bigint.BigInt) -> (@bigint.BigInt, Int32)? {
   for k = n.bit_length(); k >= 2; k = k - 1 {
     let r = big_iroot(n, k)
     if r >= big2 && r.pow(@bigint.BigInt::from_int(k)) == n {
@@ -521,7 +521,7 @@ pub fn gp_factorint(n : @bigint.BigInt) -> String {
   let fs = []
   prime_factors(n, fs)
   fs.sort_by((a, b) => a.compare(b))
-  let rows : Array[(@bigint.BigInt, Int)] = []
+  let rows : Array[(@bigint.BigInt, Int32)] = []
   for p in fs {
     if rows.length() > 0 && rows[rows.length() - 1].0 == p {
       rows[rows.length() - 1] = (p, rows[rows.length() - 1].1 + 1)

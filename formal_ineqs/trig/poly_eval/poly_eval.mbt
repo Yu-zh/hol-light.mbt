@@ -100,6 +100,7 @@ pub fn float_interval_const(x9 : Int64, x10 : @kernel.Term) -> @kernel.Thm raise
 
 ///|
 /// `poly_coeff`
+#derive(Eq, Debug)
 pub(all) struct PolyCoeff {
   c_tm : @kernel.Term
   bounds_tm : @kernel.Term
@@ -107,7 +108,7 @@ pub(all) struct PolyCoeff {
   sign : Int64
   sign_high_th : @kernel.Thm
   sign_low_th : @kernel.Thm
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend PolyCoeff with Eq::{not_equal, equal}

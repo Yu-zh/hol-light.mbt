@@ -105,7 +105,7 @@ fn conj_list_tac(tacs : List[Tactic]) -> Tactic raise {
 
 ///|
 /// `NUM_DISJ_TAC n`
-fn num_disj_tac(n : Int) -> Tactic raise {
+fn num_disj_tac(n : Int32) -> Tactic raise {
   if n <= 0 {
     raise Failure("NUM_DISJ_TAC")
   }
@@ -144,7 +144,7 @@ fn name_pull_forall_conv(s : String) -> @equal.Conv {
 fn pa_ident(p : (String) -> Bool) -> P[String] {
   inp => {
     match inp {
-      [Ident(s), ..rest] if p(s) => (s, rest)
+      [Ident(s), .. rest] if p(s) => (s, rest)
       _ => raise @parserutil.Noparse
     }
   }
@@ -261,18 +261,18 @@ fn obtain(inp : ArrayView[Lexcode]) -> (ThmTactic, ArrayView[Lexcode]) raise {
     ),
     p => p.0,
   )
-  @parserutil.map(@parserutil.seq(obtain_prfx, destruct), p => obtainl_then(p.0)(p.1))(
-    inp,
-  )
+  @parserutil.map(@parserutil.seq(obtain_prfx, destruct), p => {
+    obtainl_then(p.0)(p.1)
+  })(inp)
 }
 
 ///|
 fn atom(inp : ArrayView[Lexcode]) -> (ThmTactic, ArrayView[Lexcode]) raise {
   let label : P[ThmTactic] = inp => {
     match inp {
-      [Ident("_"), ..res] => (_ => @tactics.all_tac, res)
-      [Ident("+"), ..res] => (th => @tactics.mp_tac(th), res)
-      [Ident(s), ..res] if @printer.isalnum(s) =>
+      [Ident("_"), .. res] => (_ => @tactics.all_tac, res)
+      [Ident("+"), .. res] => (th => @tactics.mp_tac(th), res)
+      [Ident(s), .. res] if @printer.isalnum(s) =>
         (th => @tactics.label_tac(s, th), res)
       _ => raise @parserutil.Noparse
     }
@@ -292,9 +292,9 @@ fn atom(inp : ArrayView[Lexcode]) -> (ThmTactic, ArrayView[Lexcode]) raise {
 // ---------------------------------------------------------------------------
 
 ///|
-fn number(inp : ArrayView[Lexcode]) -> (Int, ArrayView[Lexcode]) raise {
+fn number(inp : ArrayView[Lexcode]) -> (Int32, ArrayView[Lexcode]) raise {
   match inp {
-    [Ident(s), ..rest] => {
+    [Ident(s), .. rest] => {
       let n = @lib.check(n => 1 <= n, @lib.int_of_string(s)) catch {
         Failure(_) => raise @parserutil.Noparse
         e => raise e
@@ -306,8 +306,13 @@ fn number(inp : ArrayView[Lexcode]) -> (Int, ArrayView[Lexcode]) raise {
 }
 
 ///|
-fn pa_prefix(inp : ArrayView[Lexcode]) -> (List[Tactic], ArrayView[Lexcode]) raise {
-  let pa_fix = @parserutil.map(@parserutil.seq(tok(Ident("forall")), fix_parser), p => p.1)
+fn pa_prefix(
+  inp : ArrayView[Lexcode],
+) -> (List[Tactic], ArrayView[Lexcode]) raise {
+  let pa_fix = @parserutil.map(
+    @parserutil.seq(tok(Ident("forall")), fix_parser),
+    p => p.1,
+  )
   let pa_dest = @parserutil.map(destruct, ttac => @tactics.disch_then(ttac))
   @parserutil.elistof(
     @parserutil.alt(pa_fix, pa_dest),
@@ -319,9 +324,10 @@ fn pa_prefix(inp : ArrayView[Lexcode]) -> (List[Tactic], ArrayView[Lexcode]) rai
 ///|
 fn pa_intro(toks : ArrayView[Lexcode]) -> (Tactic, ArrayView[Lexcode]) raise {
   @parserutil.map(
-    @parserutil.map(@parserutil.seq(pa_prefix, @parserutil.possibly(pa_postfix)), p => {
-      p.0.concat(p.1)
-    }),
+    @parserutil.map(
+      @parserutil.seq(pa_prefix, @parserutil.possibly(pa_postfix)),
+      p => p.0.concat(p.1),
+    ),
     tacs => @tactics.every(tacs),
   )(toks)
 }
@@ -366,15 +372,18 @@ fn pa_disj(toks : ArrayView[Lexcode]) -> (Tactic, ArrayView[Lexcode]) raise {
 fn hyp_parser(rule : (Thm) -> Thm raise) -> P[Tactic] {
   let pa_action : P[(String, ThmTactic) -> Tactic] = inp => {
     match inp {
-      [Resword(":"), ..rest] =>
+      [Resword(":"), .. rest] =>
         ((s, ttac) => @tactics.remove_then(s, ttac), rest)
-      [Resword("->"), ..rest] =>
+      [Resword("->"), .. rest] =>
         ((s, ttac) => @tactics.use_then(s, ttac), rest)
       _ => raise @parserutil.Noparse
     }
   }
   @parserutil.map(
-    @parserutil.seq(pa_label, @parserutil.possibly(@parserutil.seq(pa_action, destruct))),
+    @parserutil.seq(
+      pa_label,
+      @parserutil.possibly(@parserutil.seq(pa_action, destruct)),
+    ),
     p => {
       match p {
         (lbl, More((action, tac), tail=Empty)) =>

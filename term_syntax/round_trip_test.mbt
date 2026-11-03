@@ -4,7 +4,7 @@
 test "core definitions and axioms round-trip" {
   ignore(@define.define_)
   let terms = (@kernel.definitions() + @kernel.axioms()).map(@kernel.concl)
-  let reasons : Map[String, Int] = {}
+  let reasons : Map[String, Int32] = Map([])
   let mut ok = 0
   let bad = []
   for t in terms {
@@ -29,7 +29,10 @@ test "core definitions and axioms round-trip" {
     }
   }
   if !bad.is_empty() {
-    fail("\{bad.length()} terms do not round-trip, e.g.\n" + bad[:(if bad.length() < 5 { bad.length() } else { 5 })].join("\n"))
+    fail(
+      "\{bad.length()} terms do not round-trip, e.g.\n" +
+      bad[:if bad.length() < 5 { bad.length() } else { 5 }].join("\n"),
+    )
   }
   let summary = reasons.to_array().map(p => "\{p.0}: \{p.1}")
   summary.sort()
@@ -39,9 +42,6 @@ test "core definitions and axioms round-trip" {
     content=(
       #|266 terms, 266 round-trip, 0 unprintable
       #|
-
-
-
     ),
   )
 }

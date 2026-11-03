@@ -201,7 +201,7 @@ pub(all) struct ClosRec[TA] {
   env : @list.List[Fterm[TA]]
   term : Dterm[TA]
 }
-pub fn[TA : @lib.OCompare] ClosRec::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] ClosRec::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] ClosRec::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub impl[TA : @lib.OCompare] @lib.OCompare for ClosRec[TA]
 pub impl[TA : @lib.OHash] @lib.OHash for ClosRec[TA]
@@ -216,7 +216,7 @@ pub(all) struct CstRec[TA] {
   rws : TA
   skip : Int64?
 }
-pub fn[TA : @lib.OCompare] CstRec::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] CstRec::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] CstRec::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub impl[TA : @lib.OCompare] @lib.OCompare for CstRec[TA]
 pub impl[TA : @lib.OHash] @lib.OHash for CstRec[TA]
@@ -234,7 +234,7 @@ pub(all) enum Dterm[TA] {
   App(Dterm[TA], @list.List[Dterm[TA]])
   Abs(Dterm[TA])
 }
-pub fn[TA : @lib.OCompare] Dterm::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] Dterm::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] Dterm::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub impl[TA : @lib.OCompare] @lib.OCompare for Dterm[TA]
 pub impl[TA : @lib.OHash] @lib.OHash for Dterm[TA]
@@ -244,18 +244,19 @@ pub(all) enum Fterm[TA] {
   Neutr
   Clos(ClosRec[TA])
 }
-pub fn[TA : @lib.OCompare] Fterm::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] Fterm::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] Fterm::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub impl[TA : @lib.OCompare] @lib.OCompare for Fterm[TA]
 pub impl[TA : @lib.OHash] @lib.OHash for Fterm[TA]
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Pattern {
   Pvar(Int64)
   Papp(@kernel.Term, @list.List[Pattern])
-} derive(Eq, @debug.Debug)
+}
 pub fn Pattern::equal(Self, Self) -> Bool
 pub fn Pattern::not_equal(Self, Self) -> Bool
-pub fn Pattern::ocompare(Self, Self) -> Int
+pub fn Pattern::ocompare(Self, Self) -> Int32
 pub fn Pattern::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Pattern::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Pattern
@@ -278,15 +279,16 @@ pub(all) struct RuleInst[TA] {
   inst : (FixedArray[(@kernel.Term, Fterm[TA])?], @list.List[(@kernel.HolType, @kernel.HolType)])
 }
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Stack[TA, TB, TC] {
   Ztop
   Zrator(TA, Stack[TA, TB, TC])
   Zrand(TB, Stack[TA, TB, TC])
   Zabs(TC, Stack[TA, TB, TC])
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq, TB : Eq, TC : Eq] Stack::equal(Self[TA, TB, TC], Self[TA, TB, TC]) -> Bool
 pub fn[TA : Eq, TB : Eq, TC : Eq] Stack::not_equal(Self[TA, TB, TC], Self[TA, TB, TC]) -> Bool
-pub fn[TA : @lib.OCompare, TB : @lib.OCompare, TC : @lib.OCompare] Stack::ocompare(Self[TA, TB, TC], Self[TA, TB, TC]) -> Int
+pub fn[TA : @lib.OCompare, TB : @lib.OCompare, TC : @lib.OCompare] Stack::ocompare(Self[TA, TB, TC], Self[TA, TB, TC]) -> Int32
 pub fn[TA : @lib.OHash, TB : @lib.OHash, TC : @lib.OHash] Stack::ohash_visit(Self[TA, TB, TC], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug, TB : @debug.Debug, TC : @debug.Debug] Stack::to_repr(Self[TA, TB, TC]) -> @debug.Repr
 pub impl[TA : @lib.OCompare, TB : @lib.OCompare, TC : @lib.OCompare] @lib.OCompare for Stack[TA, TB, TC]

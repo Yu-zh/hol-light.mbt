@@ -83,30 +83,32 @@ pub fn mk_m_center_domain(Int64, @list.List[(Bool, @bigint.BigInt, Int64)], @lis
 // Errors
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) struct MCellDomain {
   lo : @list.List[(Bool, @bigint.BigInt, Int64)]
   hi : @list.List[(Bool, @bigint.BigInt, Int64)]
   y : @list.List[(Bool, @bigint.BigInt, Int64)]
   w : @list.List[(Bool, @bigint.BigInt, Int64)]
-} derive(Eq, @debug.Debug)
+}
 pub fn MCellDomain::equal(Self, Self) -> Bool
 pub fn MCellDomain::not_equal(Self, Self) -> Bool
-pub fn MCellDomain::ocompare(Self, Self) -> Int
+pub fn MCellDomain::ocompare(Self, Self) -> Int32
 pub fn MCellDomain::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn MCellDomain::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for MCellDomain
 pub impl @lib.OHash for MCellDomain
 
+#derive(Eq, @debug.Debug)
 pub(all) struct MTaylorInterval {
   n : Int64
   domain : MCellDomain
   f : ((Bool, @bigint.BigInt, Int64), (Bool, @bigint.BigInt, Int64))
   df : @list.List[((Bool, @bigint.BigInt, Int64), (Bool, @bigint.BigInt, Int64))]
   ddf : @list.List[@list.List[((Bool, @bigint.BigInt, Int64), (Bool, @bigint.BigInt, Int64))]]
-} derive(Eq, @debug.Debug)
+}
 pub fn MTaylorInterval::equal(Self, Self) -> Bool
 pub fn MTaylorInterval::not_equal(Self, Self) -> Bool
-pub fn MTaylorInterval::ocompare(Self, Self) -> Int
+pub fn MTaylorInterval::ocompare(Self, Self) -> Int32
 pub fn MTaylorInterval::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn MTaylorInterval::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for MTaylorInterval

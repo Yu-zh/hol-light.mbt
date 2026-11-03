@@ -71,7 +71,12 @@ test "omap and oset match OCaml 4.14 Map and Set" {
           @omap.singleton(k, v),
         )
       6 => {
-        m = @omap.union(ord, _ => a => b => Some(a + b), m, @omap.singleton(k, v))
+        m = @omap.union(
+          ord,
+          _ => a => b => Some(a + b),
+          m,
+          @omap.singleton(k, v),
+        )
         s = @oset.union(ord, s, @oset.singleton(k))
       }
       7 => {

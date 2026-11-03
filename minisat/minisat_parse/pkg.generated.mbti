@@ -48,34 +48,36 @@ pub fn sat_fileclose(@lib.InChannel) -> Unit raise
 
 pub fn sat_fileopen(String) -> @lib.InChannel raise
 
-pub fn sat_getchar(@lib.InChannel) -> Int raise
+pub fn sat_getchar(@lib.InChannel) -> Int32 raise
 
 pub fn sat_getint(@lib.InChannel) -> Int64 raise
 
 // Errors
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) enum Clause {
   Blank
   Chain(@list.List[(Int64, Int64)], Int64)
   Root(Rootc)
   Learnt(@kernel.Thm, @oset.T[(Bool, Int64)])
-} derive(Eq, @debug.Debug)
+}
 pub fn Clause::equal(Self, Self) -> Bool
 pub fn Clause::not_equal(Self, Self) -> Bool
-pub fn Clause::ocompare(Self, Self) -> Int
+pub fn Clause::ocompare(Self, Self) -> Int32
 pub fn Clause::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Clause::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Clause
 pub impl @lib.OHash for Clause
 
+#derive(Eq, @debug.Debug)
 pub(all) enum Rootc {
   Rthm(@kernel.Thm, @oset.T[(Bool, Int64)], @kernel.Term, @kernel.Thm)
   Ll(@kernel.Term, @oset.T[(Bool, Int64)])
-} derive(Eq, @debug.Debug)
+}
 pub fn Rootc::equal(Self, Self) -> Bool
 pub fn Rootc::not_equal(Self, Self) -> Bool
-pub fn Rootc::ocompare(Self, Self) -> Int
+pub fn Rootc::ocompare(Self, Self) -> Int32
 pub fn Rootc::ohash_visit(Self, @lib.OHasher) -> Unit
 pub fn Rootc::to_repr(Self) -> @debug.Repr
 pub impl @lib.OCompare for Rootc

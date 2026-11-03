@@ -201,7 +201,10 @@ test "basics matches basics.ml" {
   })
   log.attempt("mk_mconst", () => {
     stm(
-      @basics.mk_mconst("forall", fn_(fn_(num_ty, @kernel.bool_ty), @kernel.bool_ty)),
+      @basics.mk_mconst(
+        "forall",
+        fn_(fn_(num_ty, @kernel.bool_ty), @kernel.bool_ty),
+      ),
     )
   })
   log.attempt("mk_mconst_bad", () => {
@@ -270,7 +273,7 @@ test "basics matches basics.ml" {
   log.attempt("is_forall", () => {
     @basics.is_forall(qf).to_string() + @basics.is_exists(qf).to_string()
   })
-  let num_tm = (k : Int) => {
+  let num_tm = (k : Int32) => {
     let bits = []
     let mut k = k
     while k != 0 {

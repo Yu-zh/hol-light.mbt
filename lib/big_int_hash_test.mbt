@@ -4,13 +4,12 @@
 ///|
 test "Hashtbl.hash on big_int" {
   let out = StringBuilder()
-  for s in [
-    "0", "1", "-1", "12345", "4294967296", "-4294967297", "123456789012345678901234567890",
-    "-340282366920938463463374607431768211456",
-  ] {
-    out.write_string(
-      "\{s} \{@lib.hash(@bigint.BigInt::from_string(s))}\n",
-    )
+  for
+    s in [
+      "0", "1", "-1", "12345", "4294967296", "-4294967297", "123456789012345678901234567890",
+      "-340282366920938463463374607431768211456",
+    ] {
+    out.write_string("\{s} \{@lib.hash(@bigint.BigInt::from_string(s))}\n")
   }
   out.write_string(
     "pair \{@lib.hash((true, @bigint.BigInt::from_string("12345"), 7L))}\n",

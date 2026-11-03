@@ -31,7 +31,8 @@ pub fn[T] failure() -> T raise {
 
 ///|
 /// Raised to signal "no change" and avoid consing (lib.ml's `Unchanged`).
-pub(all) suberror Unchanged derive(Debug)
+#derive(Debug)
+pub(all) suberror Unchanged
 
 ///|
 pub extend Unchanged with @debug.Debug::{to_repr}
@@ -158,7 +159,7 @@ pub fn[A] butlast(l : @list.List[A]) -> @list.List[A] raise {
 
 ///|
 /// `el n l`: the `n`th element (from 0).
-pub fn[A] el(n : Int, l : @list.List[A]) -> A raise {
+pub fn[A] el(n : Int32, l : @list.List[A]) -> A raise {
   let mut n = n
   let mut l = l
   while n != 0 {
@@ -202,7 +203,7 @@ pub fn[A, B, C] map2(
 /// `mapi`: `f i x` for each element. OCaml evaluates the recursive call
 /// first, so `f` is applied from the last element to the first.
 pub fn[A, B] mapi(
-  f : (Int, A) -> B raise?,
+  f : (Int32, A) -> B raise?,
   l : @list.List[A],
 ) -> @list.List[B] raise? {
   let arr = l.to_array()
@@ -240,7 +241,7 @@ pub fn[A] check(p : (A) -> Bool raise?, x : A) -> A raise {
 
 ///|
 /// Apply `f` `n` times.
-pub fn[A] funpow(n : Int, f : (A) -> A raise?, x : A) -> A raise? {
+pub fn[A] funpow(n : Int32, f : (A) -> A raise?, x : A) -> A raise? {
   let mut x = x
   for _ in 0..<n {
     x = f(x)
@@ -438,7 +439,7 @@ pub fn[A, B, C] nsplit(
 // ---------------------------------------------------------------------------
 
 ///|
-pub fn[A] replicate(x : A, n : Int) -> @list.List[A] {
+pub fn[A] replicate(x : A, n : Int32) -> @list.List[A] {
   let mut acc = @list.List([])
   for _ in 0..<n {
     acc = acc.prepend(x)
@@ -510,7 +511,7 @@ pub fn[A] exists(p : (A) -> Bool raise?, l : @list.List[A]) -> Bool raise? {
 }
 
 ///|
-pub fn[A] length(l : @list.List[A]) -> Int {
+pub fn[A] length(l : @list.List[A]) -> Int32 {
   l.length()
 }
 
@@ -662,7 +663,7 @@ pub fn[A] remove(
 ///|
 /// `chop_list n l = (first n elements, rest)`.
 pub fn[A] chop_list(
-  n : Int,
+  n : Int32,
   l : @list.List[A],
 ) -> (@list.List[A], @list.List[A]) raise {
   if n < 0 {
@@ -698,7 +699,7 @@ pub fn[A] find_index(
 }
 
 ///|
-pub fn[A : OCompare] index(x : A, l : @list.List[A]) -> Int raise {
+pub fn[A : OCompare] index(x : A, l : @list.List[A]) -> Int32 raise {
   match find_index(y => x.ocompare(y) == 0, l) {
     Some(n) => n.to_int()
     None => failwith("index")
@@ -1243,9 +1244,10 @@ pub fn[A] subtract_eq(
 ///|
 /// OCaml's `Match_failure`, raised by irrefutable patterns that do not
 /// match (not a `Failure`, so `can` does not catch it).
+#derive(Debug)
 pub(all) suberror MatchFailure {
   MatchFailure(String)
-} derive(Debug)
+}
 
 ///|
 pub extend MatchFailure with @debug.Debug::{to_repr}
@@ -1255,7 +1257,7 @@ pub extend MatchFailure with @debug.Debug::{to_repr}
 /// (a sign, then decimal digits or a `0x`/`0o`/`0b`/`0u` prefix, `_` allowed
 /// after the first digit; prefixed numbers are unsigned and wrap), with the
 /// result then required to fit in an `Int`. Fails with `int_of_string`.
-pub fn int_of_string(s : String) -> Int raise {
+pub fn int_of_string(s : String) -> Int32 raise {
   let v = int63_of_string(s)
   if v > 2147483647L || v < -2147483648L {
     raise Failure("int_of_string")
@@ -1364,7 +1366,7 @@ pub fn int63_of_string(s : String) -> Int64 raise {
 
 ///|
 /// OCaml's `abs` on ints (`abs min_int = min_int`).
-pub fn abs_int(n : Int) -> Int {
+pub fn abs_int(n : Int32) -> Int32 {
   if n < 0 {
     -n
   } else {
@@ -1374,7 +1376,7 @@ pub fn abs_int(n : Int) -> Int {
 
 ///|
 /// OCaml's `string_of_int`.
-pub fn string_of_int(n : Int) -> String {
+pub fn string_of_int(n : Int32) -> String {
   n.to_string()
 }
 
@@ -1387,9 +1389,10 @@ pub fn[T] raise_error(e : Error) -> T raise {
 ///|
 /// OCaml's `Assert_failure` (raised by translated `assert`), with the
 /// source position.
+#derive(Debug)
 pub(all) suberror AssertFailure {
   AssertFailure(String)
-} derive(Debug)
+}
 
 ///|
 pub extend AssertFailure with @debug.Debug::{to_repr}
@@ -1400,7 +1403,8 @@ pub extend AssertFailure with @debug.Debug::{to_repr}
 
 ///|
 /// OCaml's `Not_found`.
-pub(all) suberror NotFound derive(Debug)
+#derive(Debug)
+pub(all) suberror NotFound
 
 ///|
 pub extend NotFound with @debug.Debug::{to_repr}
@@ -1475,7 +1479,7 @@ pub fn[A] rev_append(l1 : @list.List[A], l2 : @list.List[A]) -> @list.List[A] {
 /// `List.sort` / `List.stable_sort`: OCaml 4.14's merge sort, so the
 /// comparison is called on the same pairs in the same order.
 pub fn[A] list_sort(
-  cmp : (A, A) -> Int raise?,
+  cmp : (A, A) -> Int32 raise?,
   l : @list.List[A],
 ) -> @list.List[A] raise? {
   let len = l.length()
@@ -1488,7 +1492,7 @@ pub fn[A] list_sort(
 
 ///|
 fn[A] sort_rev_merge(
-  cmp : (A, A) -> Int raise?,
+  cmp : (A, A) -> Int32 raise?,
   l1 : @list.List[A],
   l2 : @list.List[A],
   accu : @list.List[A],
@@ -1515,7 +1519,7 @@ fn[A] sort_rev_merge(
 
 ///|
 fn[A] sort_rev_merge_rev(
-  cmp : (A, A) -> Int raise?,
+  cmp : (A, A) -> Int32 raise?,
   l1 : @list.List[A],
   l2 : @list.List[A],
   accu : @list.List[A],
@@ -1544,8 +1548,8 @@ fn[A] sort_rev_merge_rev(
 /// `sort n l` of OCaml's `stable_sort`: the first `n` elements sorted, and
 /// the rest of the list.
 fn[A] sort_run(
-  cmp : (A, A) -> Int raise?,
-  n : Int,
+  cmp : (A, A) -> Int32 raise?,
+  n : Int32,
   l : @list.List[A],
 ) -> (@list.List[A], @list.List[A]) raise? {
   match (n, l) {
@@ -1588,8 +1592,8 @@ fn[A] sort_run(
 ///|
 /// `rev_sort n l` of OCaml's `stable_sort` (descending).
 fn[A] sort_run_rev(
-  cmp : (A, A) -> Int raise?,
-  n : Int,
+  cmp : (A, A) -> Int32 raise?,
+  n : Int32,
   l : @list.List[A],
 ) -> (@list.List[A], @list.List[A]) raise? {
   match (n, l) {
@@ -1645,7 +1649,7 @@ pub fn[A, B] list_rev_map(
 ///|
 /// `List.nth l n`: fails with `nth` when too short; a negative index is
 /// `Invalid_argument "List.nth"` in OCaml (here a failure with that text).
-pub fn[A] list_nth(l : @list.List[A], n : Int) -> A raise {
+pub fn[A] list_nth(l : @list.List[A], n : Int32) -> A raise {
   if n < 0 {
     raise @num.InvalidArgument("List.nth")
   }
@@ -1691,7 +1695,7 @@ pub fn[A, B] list_iter2(
 ///|
 /// `List.mapi f l`
 pub fn[A, B] list_mapi(
-  f : (Int, A) -> B raise?,
+  f : (Int32, A) -> B raise?,
   l : @list.List[A],
 ) -> @list.List[B] raise? {
   let out = []
@@ -1706,7 +1710,7 @@ pub fn[A, B] list_mapi(
 ///|
 /// `List.iteri f l`
 pub fn[A] list_iteri(
-  f : (Int, A) -> Unit raise?,
+  f : (Int32, A) -> Unit raise?,
   l : @list.List[A],
 ) -> Unit raise? {
   let mut i = 0
@@ -1802,7 +1806,7 @@ pub fn[A, B] list_split(
 
 ///|
 /// `List.init n f` (OCaml applies `f` in index order for short lists).
-pub fn[A] list_init(n : Int, f : (Int) -> A raise?) -> @list.List[A] raise {
+pub fn[A] list_init(n : Int32, f : (Int32) -> A raise?) -> @list.List[A] raise {
   if n < 0 {
     raise @num.InvalidArgument("List.init")
   }

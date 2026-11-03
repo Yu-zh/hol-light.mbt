@@ -6,7 +6,10 @@
 test "real_lmul_tac and real_rmul_tac reduce a = b to a product goal" {
   @real_ext.load()
   let two = @term_syntax.parse_term("real_of_num(2)")
-  let goal = (@list.List([]), @term_syntax.parse_term("(a : Real) == (b : Real)"))
+  let goal = (
+    @list.List([]),
+    @term_syntax.parse_term("(a : Real) == (b : Real)"),
+  )
   for tac in [@real_ext.real_lmul_tac(two), @real_ext.real_rmul_tac(two)] {
     let (_, goals, _) = tac(goal)
     assert_eq(goals.length(), 2)

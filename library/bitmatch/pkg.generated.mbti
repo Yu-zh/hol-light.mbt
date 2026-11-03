@@ -158,13 +158,14 @@ pub fn word1_odd() -> @kernel.Thm
 // Errors
 
 // Types and methods
+#derive(Eq, @debug.Debug)
 pub(all) enum DiscrimTree[TA] {
   Leaf_dt(TA)
   Split_dt(Int64, @kernel.Term, DiscrimTree[TA], DiscrimTree[TA])
-} derive(Eq, @debug.Debug)
+}
 pub fn[TA : Eq] DiscrimTree::equal(Self[TA], Self[TA]) -> Bool
 pub fn[TA : Eq] DiscrimTree::not_equal(Self[TA], Self[TA]) -> Bool
-pub fn[TA : @lib.OCompare] DiscrimTree::ocompare(Self[TA], Self[TA]) -> Int
+pub fn[TA : @lib.OCompare] DiscrimTree::ocompare(Self[TA], Self[TA]) -> Int32
 pub fn[TA : @lib.OHash] DiscrimTree::ohash_visit(Self[TA], @lib.OHasher) -> Unit
 pub fn[TA : @debug.Debug] DiscrimTree::to_repr(Self[TA]) -> @debug.Repr
 pub impl[TA : @lib.OCompare] @lib.OCompare for DiscrimTree[TA]

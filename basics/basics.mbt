@@ -53,7 +53,7 @@ pub fn equals_thm(th : @kernel.Thm, th1 : @kernel.Thm) -> Bool {
 // ---------------------------------------------------------------------------
 
 ///|
-let gcounter : Ref[Int] = Ref::{ val: 0, }
+let gcounter : Ref[Int32] = Ref::{ val: 0, }
 
 ///|
 /// A probably-fresh variable `_n`.
@@ -893,11 +893,15 @@ pub fn atoms(tm : Term) -> List[Term] raise {
     }
   }
 
-  @lib.foldl((a, x, _) => a.prepend(x), @list.List([]), go(@lib.undefined(), tm))
+  @lib.foldl(
+    (a, x, _) => a.prepend(x),
+    @list.List([]),
+    go(@lib.undefined(), tm),
+  )
 }
 
 ///|
 /// The `genvar` counter (for differential tests of load order).
-pub fn genvar_counter() -> Int {
+pub fn genvar_counter() -> Int32 {
   gcounter.val
 }

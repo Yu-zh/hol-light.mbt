@@ -167,9 +167,10 @@ test "drule matches drule.ml" {
     @drule.part_match(@equal.lhs, addth)(tm("(g:A->A->A) u v"))
   })
   th("GEN_PART_MATCH", () => {
-    @drule.gen_part_match(@equal.lhs, hyp_of("forall x. (f:A->A->A) x y = f y x"))(
-      tm("(f:A->A->A) u v"),
-    )
+    @drule.gen_part_match(
+      @equal.lhs,
+      hyp_of("forall x. (f:A->A->A) x y = f y x"),
+    )(tm("(f:A->A->A) u v"))
   })
   th("MATCH_MP", () => {
     @drule.match_mp(hyp_of("forall x:A. (P:A->bool) x ==> Q x"))(
@@ -191,9 +192,9 @@ test "drule matches drule.ml" {
     @drule.match_mp(a1)(a2)
   })
   th("MATCH_MP_partial", () => {
-    @drule.match_mp(hyp_of("forall x y:A. (P:A->bool) x ==> (R:A->A->bool) x y"))(
-      hyp_of("(P:A->bool) c"),
-    )
+    @drule.match_mp(
+      hyp_of("forall x y:A. (P:A->bool) x ==> (R:A->A->bool) x y"),
+    )(hyp_of("(P:A->bool) c"))
   })
   let hr = hyp_of("forall x:A. (P:A->bool) ((f:A->A) x) <=> Q x")
   th("HIGHER_REWRITE_CONV", () => {
@@ -293,7 +294,6 @@ test "drule matches drule.ml" {
       #|term_unify_abs_bad ! body: Not an abstraction
       #|term_type_unify_abs_bad ! body: Not an abstraction
       #|
-
     ),
   )
 }
