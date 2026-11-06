@@ -12,7 +12,21 @@
 pub enum HolType {
   Tyvar(String)
   Tyapp(String, @list.List[HolType])
-} derive(Eq, Hash, Debug)
+} derive(Hash, Debug)
+
+///|
+/// Structural equality, with a fast path for physically equal values (as
+/// OCaml's `compare` has): types and terms share most of their subterms.
+pub impl Eq for HolType with equal(self, other) {
+  if physical_equal(self, other) {
+    return true
+  }
+  match (self, other) {
+    (Tyvar(s), Tyvar(t)) => s == t
+    (Tyapp(s, l), Tyapp(t, m)) => s == t && l == m
+    _ => false
+  }
+}
 
 ///|
 /// HOL terms. Read-only outside this package: they can be inspected by
@@ -23,7 +37,20 @@ pub enum Term {
   Const(String, HolType)
   Comb(Term, Term)
   Abs(Term, Term)
-} derive(Eq, Hash, Debug)
+} derive(Hash, Debug)
+
+///|
+/// Structural equality, with a fast path for physically equal terms.
+pub impl Eq for Term with equal(self, other) {
+  if physical_equal(self, other) {
+    return true
+  }
+  match (self, other) {
+    (Var(x, a), Var(y, b)) | (Const(x, a), Const(y, b)) => x == y && a == b
+    (Comb(f, x), Comb(g, y)) | (Abs(f, x), Abs(g, y)) => f == g && x == y
+    _ => false
+  }
+}
 
 ///|
 /// Theorems (sequents). The fields are private, so a `Thm` can only be
