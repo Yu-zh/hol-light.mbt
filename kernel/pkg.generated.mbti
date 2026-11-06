@@ -130,7 +130,7 @@ pub fn vsubst(@list.List[(Term, Term)], Term) -> Term raise
 // Errors
 
 // Types and methods
-#derive(Eq, Hash, @debug.Debug)
+#derive(Hash, @debug.Debug)
 pub enum HolType {
   Tyvar(String)
   Tyapp(String, @list.List[HolType])
@@ -146,8 +146,9 @@ pub fn HolType::op_le(Self, Self) -> Bool
 pub fn HolType::op_lt(Self, Self) -> Bool
 pub fn HolType::to_repr(Self) -> @debug.Repr
 pub impl Compare for HolType
+pub impl Eq for HolType
 
-#derive(Eq, Hash, @debug.Debug)
+#derive(Hash, @debug.Debug)
 pub enum Term {
   Var(String, HolType)
   Const(String, HolType)
@@ -165,6 +166,7 @@ pub fn Term::op_le(Self, Self) -> Bool
 pub fn Term::op_lt(Self, Self) -> Bool
 pub fn Term::to_repr(Self) -> @debug.Repr
 pub impl Compare for Term
+pub impl Eq for Term
 
 #derive(Eq, @debug.Debug)
 pub struct Thm {
