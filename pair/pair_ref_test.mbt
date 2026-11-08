@@ -68,7 +68,7 @@ test "pair matches pair.ml" {
   log.attempt("CHOICE_UNPAIR_THM", () => sthm(@pair.choice_unpair_thm()))
   log.attempt("CHOICE_PAIRED_THM", () => sthm(@pair.choice_paired_thm()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -77,24 +77,24 @@ test "pair matches pair.ml" {
   })
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   log.attempt("print_gabs", () => {
-    @printer.string_of_term(tm("\\(x:A,y:B). (y,x)"))
+    @printer.string_of_term(tm("fn { ((x : A), (y : B)) => (y, x) }"))
   })
   log.attempt("print_let", () => {
-    @printer.string_of_term(tm("let (x:A,y:B) = p in (y,x)"))
+    @printer.string_of_term(tm("LET(fn { (x, y) => LET_END((y, x)) }, (p : (A, B)))"))
   })
   log.attempt("gen_beta", () => {
-    sthm(@pair.gen_beta_conv(tm("(\\(x:A,y:B). (y,x)) (a,b)")))
+    sthm(@pair.gen_beta_conv(tm("fn { (x, y) => (y, x) }(((a : A), (b : B)))")))
   })
   log.attempt("let_conv", () => {
-    sthm(@pair.let_conv(tm("let (x:A,y:B) = (a,b) in (y,x)")))
+    sthm(@pair.let_conv(tm("LET(fn { (x, y) => LET_END((y, x)) }, ((a : A), (b : B)))")))
   })
   log.attempt("pair_def", () => {
-    sthm(@pair.new_definition(tm("swapit (x:A,y:B) = (y,x)")))
+    sthm(@pair.new_definition(tm("(swapit : ((A, B)) -> (B, A))(((x : A), (y : B))) == (y, x)")))
   })
   log.attempt("pair_tac", () => {
     sthm(
       @tactics.prove(
-        tm("forall p:A#B. FST p,SND p = p"),
+        tm("∀ p : (A, B), (FST(p), SND(p)) == p"),
         @tactics.then_tac(
           @tactics.gen_tac,
           @simp.rewrite_tac(@list.singleton(@pair.pair())),
@@ -102,7 +102,7 @@ test "pair matches pair.ml" {
       ),
     )
   })
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   inspect(
     log.contents(),

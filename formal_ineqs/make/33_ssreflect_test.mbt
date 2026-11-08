@@ -28,7 +28,7 @@ test "Formal_ineqs/lib/ssreflect/ssreflect matches Formal_ineqs/lib/ssreflect/ss
   log.attempt("Ssreflect.num_elim", () => sthm(@ssreflect.num_elim()))
   log.attempt("Ssreflect.option_elim", () => sthm(@ssreflect.option_elim()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

@@ -72,7 +72,7 @@ test "Library/frag matches Library/frag.ml" {
   log.attempt("FRAG_EXTEND_COMPOSE", () => sthm(@frag.frag_extend_compose()))
   log.attempt("FRAG_SPLIT", () => sthm(@frag.frag_split()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -82,7 +82,7 @@ test "Library/frag matches Library/frag.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

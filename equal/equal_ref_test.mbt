@@ -21,14 +21,14 @@ fn Log::attempt(self : Log, name : String, f : () -> String raise) -> Unit {
 test "equal matches equal.ml" {
   let log = { buf: StringBuilder(), }
   @kernel.new_type("num", 0)
-  @kernel.new_constant("+", @parser.parse_type("num->num->num"))
+  @kernel.new_constant("+", @term_syntax.parse_type("(Num, Num) -> Num"))
   @printer.parse_as_infix("+", (16, "right"))
-  @kernel.new_constant("forall", @parser.parse_type("(A->bool)->bool"))
+  @kernel.new_constant("forall", @term_syntax.parse_type("((A) -> Bool) -> Bool"))
   @printer.parse_as_binder("forall")
   @printer.parse_as_binder("\\")
   @printer.parse_as_infix("=", (12, "right"))
-  @kernel.new_constant("c", @parser.parse_type("num"))
-  let tm = @parser.parse_term
+  @kernel.new_constant("c", @term_syntax.parse_type("Num"))
+  let tm = @term_syntax.parse_term
   let th = (name : String, f : () -> @kernel.Thm raise) => {
     log.attempt(name, () => @printer.string_of_thm(f()))
   }
@@ -37,74 +37,74 @@ test "equal matches equal.ml" {
   }
   let hyp_of = (s : String) => @kernel.assume_rule(tm(s))
   let beta = @equal.beta_conv
-  th("BETA_CONV", () => beta(tm("(\\x:num. x + x) c")))
-  th("BETA_CONV_var", () => beta(tm("(\\x:num. x + y) x")))
-  th("BETA_CONV_bad", () => beta(tm("(f:num->num) c")))
-  th("AP_TERM", () => @equal.ap_term(tm("f:num->num"), hyp_of("(x:num) = y")))
+  th("BETA_CONV", () => beta(tm("((x : Num) => x + x)(c)")))
+  th("BETA_CONV_var", () => beta(tm("((x : Num) => x + (y : Num))((x : Num))")))
+  th("BETA_CONV_bad", () => beta(tm("(f : (Num) -> Num)(c)")))
+  th("AP_TERM", () => @equal.ap_term(tm("(f : (Num) -> Num)"), hyp_of("(x : Num) == (y : Num)")))
   th("AP_TERM_bad", () => {
-    @equal.ap_term(tm("f:bool->num"), hyp_of("(x:num) = y"))
+    @equal.ap_term(tm("(f : (Bool) -> Num)"), hyp_of("(x : Num) == (y : Num)"))
   })
-  th("AP_THM", () => @equal.ap_thm(hyp_of("(f:num->num) = g"), tm("c")))
-  th("SYM", () => @equal.sym(hyp_of("(x:num) = y + c")))
+  th("AP_THM", () => @equal.ap_thm(hyp_of("(f : (Num) -> Num) == (g : (Num) -> Num)"), tm("c")))
+  th("SYM", () => @equal.sym(hyp_of("(x : Num) == (y : Num) + c")))
   th("ALPHA", () => {
-    @equal.alpha_rule(tm("\\x:num. x + c"), tm("\\y:num. y + c"))
+    @equal.alpha_rule(tm("(x : Num) => x + c"), tm("(y : Num) => y + c"))
   })
   th("ALPHA_bad", () => {
-    @equal.alpha_rule(tm("\\x:num. x + c"), tm("\\y:num. c + y"))
+    @equal.alpha_rule(tm("(x : Num) => x + c"), tm("(y : Num) => c + y"))
   })
-  th("ALPHA_CONV", () => @equal.alpha_conv(tm("z:num"))(tm("\\x:num. x + c")))
+  th("ALPHA_CONV", () => @equal.alpha_conv(tm("(z : Num)"))(tm("(x : Num) => x + c")))
   th("GEN_ALPHA_CONV", () => {
-    @equal.gen_alpha_conv(tm("z:num"))(tm("forall x:num. x + c = c"))
+    @equal.gen_alpha_conv(tm("(z : Num)"))(tm("∀ x : Num, x + c == c"))
   })
   th("MK_BINOP", () => {
     @equal.mk_binop_rule(
-      tm("(+)"),
-      hyp_of("(a:num) = b"),
-      hyp_of("(c':num) = d"),
+      tm("op_plus"),
+      hyp_of("(a : Num) == (b : Num)"),
+      hyp_of("(c' : Num) == (d : Num)"),
     )
   })
   th("THENC", () => {
-    @equal.thenc(beta, beta)(tm("(\\x:num. (\\y:num. y + x) c) c"))
+    @equal.thenc(beta, beta)(tm("((x : Num) => ((y : Num) => y + x)(c))(c)"))
   })
-  th("ORELSEC", () => @equal.orelsec(@equal.no_conv, beta)(tm("(\\x:num. x) c")))
-  th("REPEATC", () => @equal.repeatc(beta)(tm("(\\x:num. (\\y:num. y) x) c")))
+  th("ORELSEC", () => @equal.orelsec(@equal.no_conv, beta)(tm("((x : Num) => x)(c)")))
+  th("REPEATC", () => @equal.repeatc(beta)(tm("((x : Num) => ((y : Num) => y)(x))(c)")))
   th("CHANGED_CONV", () => @equal.changed_conv(@equal.all_conv)(tm("c")))
   th("TRY_CONV", () => @equal.try_conv(beta)(tm("c")))
   th("FIRST_CONV", () => {
     @equal.first_conv(@list.List([@equal.no_conv, beta, @equal.all_conv]))(
-      tm("(\\x:num. x) c"),
+      tm("((x : Num) => x)(c)"),
     )
   })
   th("EVERY_CONV", () => {
-    @equal.every_conv(@list.List([beta, @equal.all_conv]))(tm("(\\x:num. x) c"))
+    @equal.every_conv(@list.List([beta, @equal.all_conv]))(tm("((x : Num) => x)(c)"))
   })
   th("RATOR_CONV", () => {
-    @equal.rator_conv(@equal.rand_conv(beta))(tm("(\\x:num. x) c + c"))
+    @equal.rator_conv(@equal.rand_conv(beta))(tm("((x : Num) => x)(c) + c"))
   })
-  th("LAND_CONV", () => @equal.land_conv(beta)(tm("(\\x:num. x) c + c")))
+  th("LAND_CONV", () => @equal.land_conv(beta)(tm("((x : Num) => x)(c) + c")))
   th("RAND_CONV_bad", () => @equal.rand_conv(beta)(tm("c")))
   th("COMB_CONV", () => {
-    @equal.comb_conv(@equal.try_conv(beta))(tm("(f:num->num) ((\\x:num. x) c)"))
+    @equal.comb_conv(@equal.try_conv(beta))(tm("(f : (Num) -> Num)(((x : Num) => x)(c))"))
   })
-  th("ABS_CONV", () => @equal.abs_conv(beta)(tm("\\y:num. (\\x:num. x + y) c")))
+  th("ABS_CONV", () => @equal.abs_conv(beta)(tm("(y : Num) => ((x : Num) => x + y)(c)")))
   th("ABS_CONV_hyp", () => {
     @equal.abs_conv(t => @kernel.assume_rule(@basics.mk_eq(t, tm("c"))))(
-      tm("\\x:num. x + c"),
+      tm("(x : Num) => x + c"),
     )
   })
   th("BINDER_CONV", () => {
-    @equal.binder_conv(beta)(tm("forall y:num. (\\x:num. x + y) c = c"))
+    @equal.binder_conv(beta)(tm("∀ y : Num, ((x : Num) => x + y)(c) == c"))
   })
   th("SUB_CONV", () => {
     @equal.sub_conv(@equal.try_conv(beta))(
-      tm("(\\x:num. x) c + (\\x:num. x) c"),
+      tm("((x : Num) => x)(c) + ((x : Num) => x)(c)"),
     )
   })
   th("BINOP_CONV", () => {
-    @equal.binop_conv(beta)(tm("(\\x:num. x) c + (\\x:num. x) c"))
+    @equal.binop_conv(beta)(tm("((x : Num) => x)(c) + ((x : Num) => x)(c)"))
   })
   let nested = tm(
-    "(\\f:num->num. f ((\\x:num. x + x) c)) (\\y:num. (\\z:num. z) y)",
+    "((f : (Num) -> Num) => f(((x : Num) => x + x)(c)))((y : Num) => ((z : Num) => z)(y))",
   )
   th("ONCE_DEPTH_CONV", () => @equal.once_depth_conv(beta)(nested))
   th("DEPTH_CONV", () => @equal.depth_conv(beta)(nested))
@@ -113,63 +113,63 @@ test "equal matches equal.ml" {
   th("TOP_SWEEP_CONV", () => @equal.top_sweep_conv(beta)(nested))
   th("DEPTH_CONV_none", () => @equal.depth_conv(beta)(tm("c + c")))
   th("DEPTH_BINOP_CONV", () => {
-    @equal.depth_binop_conv(tm("(+)"), @equal.try_conv(beta))(
-      tm("(\\x:num. x) c + c + (\\y:num. y + y) c"),
+    @equal.depth_binop_conv(tm("op_plus"), @equal.try_conv(beta))(
+      tm("((x : Num) => x)(c) + (c + ((y : Num) => y + y)(c))"),
     )
   })
-  th("PATH_CONV", () => @equal.path_conv("lr", beta)(tm("(\\x:num. x) c + c")))
+  th("PATH_CONV", () => @equal.path_conv("lr", beta)(tm("((x : Num) => x)(c) + c")))
   th("PAT_CONV", () => {
-    @equal.pat_conv(tm("\\x:num. x + c"), beta)(tm("(\\x:num. x) c + c"))
+    @equal.pat_conv(tm("(x : Num) => x + c"), beta)(tm("((x : Num) => x)(c) + c"))
   })
-  th("SYM_CONV", () => @equal.sym_conv(tm("(x:num) = y")))
+  th("SYM_CONV", () => @equal.sym_conv(tm("(x : Num) == (y : Num)")))
   th("CONV_RULE", () => {
-    @equal.conv_rule(@equal.rand_conv(beta), hyp_of("(a:num) = (\\x:num. x) c"))
+    @equal.conv_rule(@equal.rand_conv(beta), hyp_of("(a : Num) == ((x : Num) => x)(c)"))
   })
   th("SUBS_CONV", () => {
-    @equal.subs_conv(@list.List([hyp_of("(a:num) = b"), hyp_of("(c:num) = d")]))(
-      tm("a + c + (\\a:num. a) b"),
+    @equal.subs_conv(@list.List([hyp_of("(a : Num) == (b : Num)"), hyp_of("c == (d : Num)")]))(
+      tm("(a : Num) + (c + ((a : Num) => a)((b : Num)))"),
     )
   })
   th("SUBS", () => {
-    @equal.subs(@list.List([hyp_of("(a:num) = b")]), hyp_of("a + a = (c:num)"))
+    @equal.subs(@list.List([hyp_of("(a : Num) == (b : Num)")]), hyp_of("(a : Num) + a == c"))
   })
   th("BETA_RULE", () => {
-    @equal.beta_rule(hyp_of("(\\x:num. (\\y:num. y) x) c = c"))
+    @equal.beta_rule(hyp_of("((x : Num) => ((y : Num) => y)(x))(c) == c"))
   })
-  th("GSYM", () => @equal.gsym(hyp_of("forall x:num. x = c")))
+  th("GSYM", () => @equal.gsym(hyp_of("∀ x : Num, x == c")))
   let cc = @equal.cache_conv(beta)
-  th("CACHE_CONV1", () => cc(tm("(\\x:num. x + x) c")))
-  th("CACHE_CONV2", () => cc(tm("(\\y:num. y + y) c")))
-  th("CACHE_CONV3", () => cc(tm("(\\x:num. x + x) c")))
+  th("CACHE_CONV1", () => cc(tm("((x : Num) => x + x)(c)")))
+  th("CACHE_CONV2", () => cc(tm("((y : Num) => y + y)(c)")))
+  th("CACHE_CONV3", () => cc(tm("((x : Num) => x + x)(c)")))
   t("mk_primed_var", () => {
-    @equal.mk_primed_var(@list.List([tm("x:num"), tm("x':num")]), tm("x:bool"))
+    @equal.mk_primed_var(@list.List([tm("(x : Num)"), tm("(x' : Num)")]), tm("(x : Bool)"))
   })
   t("mk_primed_var_const", () => {
-    let _ = @equal.mk_primed_var(@list.List([]), tm("c':bool"))
+    let _ = @equal.mk_primed_var(@list.List([]), tm("(c' : Bool)"))
     @equal.mk_primed_var(@list.List([]), @kernel.mk_var("c", @kernel.bool_ty))
   })
-  t("lhand", () => @equal.lhand(tm("(a:num) + b")))
+  t("lhand", () => @equal.lhand(tm("(a : Num) + (b : Num)")))
   t("genvar_after", () => @basics.genvar(@kernel.bool_ty))
   th("COMB2_CONV_order", () => {
     @equal.comb2_conv(_ => raise Failure("left"), _ => raise Failure("right"))(
-      tm("(f:num->num) c"),
+      tm("(f : (Num) -> Num)(c)"),
     )
   })
   th("BINOP_CONV_order", () => {
     @equal.binop_conv(t => raise Failure(@printer.string_of_term(t)))(
-      tm("a + (b:num)"),
+      tm("(a : Num) + (b : Num)"),
     )
   })
   th("BINOP2_CONV_order", () => {
     @equal.binop2_conv(_ => raise Failure("left"), _ => raise Failure("right"))(
-      tm("a + (b:num)"),
+      tm("(a : Num) + (b : Num)"),
     )
   })
   th("COMB_CONV_genvar", () => {
     @equal.comb_conv(t => {
       let v = @basics.genvar(@kernel.type_of(t))
       raise Failure(@kernel.dest_var(v).0)
-    })(tm("(f:num->num) c"))
+    })(tm("(f : (Num) -> Num)(c)"))
   })
   inspect(
     log.buf.to_string(),

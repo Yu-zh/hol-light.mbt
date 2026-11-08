@@ -79,7 +79,7 @@ test "Tutorial/Defining_new_types matches Tutorial/Defining_new_types.ml" {
   log.attempt("AXIOM_3", () => sthm(@Defining_new_types.axiom_3()))
   log.attempt("AXIOM_4", () => sthm(@Defining_new_types.axiom_4()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -89,7 +89,7 @@ test "Tutorial/Defining_new_types matches Tutorial/Defining_new_types.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

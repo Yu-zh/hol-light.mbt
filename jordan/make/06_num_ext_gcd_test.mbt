@@ -35,7 +35,7 @@ test "Jordan/num_ext_gcd matches Jordan/num_ext_gcd.ml" {
   log.attempt("divide", () => sthm(@num_ext_gcd.divide_v1()))
   log.attempt("gcd", () => sthm(@num_ext_gcd.gcd_v1()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

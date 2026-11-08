@@ -179,7 +179,7 @@ test "GL/k4lr matches GL/k4lr.ml" {
   })
   log.attempt("GL_equiv_K4LR", () => sthm(@k4lr.gl_equiv_k4lr()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

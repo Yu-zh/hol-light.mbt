@@ -35,7 +35,7 @@ test "Rqe/inferpsign_thms matches Rqe/inferpsign_thms.ml" {
   log.attempt("ips_gt_nz_thm", () => sthm(@inferpsign_thms.ips_gt_nz_thm()))
   log.attempt("ips_lt_nz_thm", () => sthm(@inferpsign_thms.ips_lt_nz_thm()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

@@ -27,7 +27,7 @@ test "Rqe/lift_qelim matches Rqe/lift_qelim.ml" {
   log.attempt("OR_ASSOC", () => sthm(@lift_qelim.or_assoc()))
   log.attempt("forall_thm", () => sthm(@lift_qelim.forall_thm()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

@@ -90,7 +90,7 @@ test "Unity/mk_ensures matches Unity/mk_ensures.ml" {
   log.attempt("ENSURES_cor6", () => sthm(@mk_ensures.ensures_cor6()))
   log.attempt("ENSURES_cor7", () => sthm(@mk_ensures.ensures_cor7()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

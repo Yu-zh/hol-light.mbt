@@ -77,7 +77,7 @@ test "Examples/digit_serial_methods matches Examples/digit_serial_methods.ml" {
   log.attempt("TABLE_PART_3", () => sthm(@digit_serial_methods.table_part_3()))
   log.attempt("TABLE_PART_4", () => sthm(@digit_serial_methods.table_part_4()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -87,7 +87,7 @@ test "Examples/digit_serial_methods matches Examples/digit_serial_methods.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

@@ -12,6 +12,7 @@ import {
 }
 
 import {
+  "bobzhang/hol_light/term_syntax",
   "bobzhang/hol_light/testkit",
   "bobzhang/hol_light/parser",
 } for "test"

@@ -17,21 +17,21 @@ test "thecops matches thecops.ml" {
   }
   log.show_theory_trace("thecops")
   log.capture_stdout()
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   let pv = (name : String, s : String, tac : @tactics.Tactic) => {
     log.attempt(name, () => sthm(@tactics.prove(tm(s), tac)))
   }
   let none : @list.List[@kernel.Thm] = @list.List([])
-  let trans = "(forall x y:A. R x y ==> R y x) /\\ (forall x y z. R x y /\\ R y z ==> R x z) /\\ (forall x. ?y. R x y) ==> forall x. R x x"
+  let trans = "(∀ x : A, ∀ y : A, (R : (A, A) -> Bool)(x, y) → R(y, x)) && (∀ x : A, ∀ y : A, ∀ z : A, R(x, y) && R(y, z) → R(x, z)) && (∀ x : A, ∃ y : A, R(x, y)) → (∀ x : A, R(x, x))"
   let sym = @list.singleton(@theorems.conj_sym())
-  pv("lean_refl", "forall x:A. P x ==> P x", @thecops.leancop_tac(none))
-  pv("lean_drinker", "?x:A. P x ==> forall y. P y", @thecops.leancop_tac(none))
+  pv("lean_refl", "∀ x : A, (P : (A) -> Bool)(x) → P(x)", @thecops.leancop_tac(none))
+  pv("lean_drinker", "∃ x : A, (P : (A) -> Bool)(x) → (∀ y : A, P(y))", @thecops.leancop_tac(none))
   pv("lean_trans", trans, @thecops.leancop_tac(none))
-  pv("lean_lemma", "forall p q. p /\\ q ==> q /\\ p", @thecops.leancop_tac(sym))
-  pv("nano_refl", "forall x:A. P x ==> P x", @thecops.nanocop_tac(none))
-  pv("nano_drinker", "?x:A. P x ==> forall y. P y", @thecops.nanocop_tac(none))
+  pv("lean_lemma", "∀ p : Bool, ∀ q : Bool, p && q → q && p", @thecops.leancop_tac(sym))
+  pv("nano_refl", "∀ x : A, (P : (A) -> Bool)(x) → P(x)", @thecops.nanocop_tac(none))
+  pv("nano_drinker", "∃ x : A, (P : (A) -> Bool)(x) → (∀ y : A, P(y))", @thecops.nanocop_tac(none))
   pv("nano_trans", trans, @thecops.nanocop_tac(none))
-  pv("nano_lemma", "forall p q. p /\\ q ==> q /\\ p", @thecops.nanocop_tac(sym))
+  pv("nano_lemma", "∀ p : Bool, ∀ q : Bool, p && q → q && p", @thecops.nanocop_tac(sym))
   inspect(
     log.contents(),
     content=(

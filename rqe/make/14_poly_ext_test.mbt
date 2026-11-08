@@ -35,7 +35,7 @@ test "Rqe/poly_ext matches Rqe/poly_ext.ml" {
   log.attempt("lem2", () => sthm(@poly_ext.lem2()))
   log.attempt("lem3", () => sthm(@poly_ext.lem3()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

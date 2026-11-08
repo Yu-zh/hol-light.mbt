@@ -35,17 +35,17 @@ test "simp matches simp.ml" {
   log.capture_reports()
   log.show_theory_output("simp")
   log.show_theory_trace("simp")
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   let hyp = (s : String) => @kernel.assume_rule(tm(s))
   let cv = (name : String, f : () -> Thm raise) => {
     log.attempt(name, () => sthm(f()))
   }
   log.attempt("term_order", () => {
-    let a = tm("a:bool")
-    let b = tm("b:bool")
-    let t = tm("T")
-    let fab = tm("(f:bool->bool->bool) a b")
-    let fba = tm("(f:bool->bool->bool) b a")
+    let a = tm("(a : Bool)")
+    let b = tm("(b : Bool)")
+    let t = tm("true")
+    let fab = tm("(f : (Bool, Bool) -> Bool)((a : Bool), (b : Bool))")
+    let fba = tm("(f : (Bool, Bool) -> Bool)((b : Bool), (a : Bool))")
     [
       @simp.term_order(a, b),
       @simp.term_order(b, a),
@@ -57,7 +57,7 @@ test "simp matches simp.ml" {
     .map(sb)
     .join(" ")
   })
-  let big = "forall x:A. (P x /\\ (Q x = R x)) /\\ ~(a = b) /\\ ~c /\\ (p ==> (u:A) = v)"
+  let big = "∀ x : A, ((P : (A) -> Bool)(x) && (Q : (A) -> _)(x) == (R : (A) -> _)(x)) && !((a : _) == (b : _)) && !(c : Bool) && ((p : Bool) → (u : A) == (v : A))"
   log.attempt("mk_rewrites_false", () => {
     let th = hyp(big)
     slist(@simp.mk_rewrites(false, th, @list.List([])))
@@ -67,80 +67,80 @@ test "simp matches simp.ml" {
     slist(@simp.mk_rewrites(true, th, @list.List([])))
   })
   log.attempt("mk_rewrites_exists", () => {
-    let th = hyp("forall x y:A. P x y ==> Q x y ==> (f:A->A) x = g x")
+    let th = hyp("∀ x : A, ∀ y : A, (P : (A, A) -> Bool)(x, y) → (Q : (A, A) -> Bool)(x, y) → (f : (A) -> A)(x) == (g : (A) -> A)(x)")
     slist(@simp.mk_rewrites(true, th, @list.List([])))
   })
   cv("REWRITE_CONV", () => {
-    let th = hyp("forall x:A. (f:A->A) x = g x")
-    let t = tm("(h:A->A) (f a) = f (f b)")
+    let th = hyp("∀ x : A, (f : (A) -> A)(x) == (g : (A) -> A)(x)")
+    let t = tm("(h : (A) -> A)((f : (A) -> A)((a : A))) == f(f((b : A)))")
     @simp.rewrite_conv(ths([th]))(t)
   })
   cv("REWRITE_CONV_fail", () => {
-    let th = hyp("forall x:A. (f:A->A) x = g x")
-    let t = tm("(h:A->A) a")
+    let th = hyp("∀ x : A, (f : (A) -> A)(x) == (g : (A) -> A)(x)")
+    let t = tm("(h : (A) -> A)((a : A))")
     @simp.rewrite_conv(ths([th]))(t)
   })
   cv("REWRITE_CONV_loop", () => {
-    let th = hyp("(a:bool) = (a /\\ b)")
-    let t = tm("a \\/ a")
+    let th = hyp("(a : Bool) == (a && (b : Bool))")
+    let t = tm("(a : Bool) || a")
     @simp.rewrite_conv(ths([th]))(t)
   })
   cv("REWRITE_CONV_perm", () => {
-    let th = hyp("forall x y. (f:A->A->A) x y = f y x")
-    let t = tm("(f:A->A->A) b a = f a b")
+    let th = hyp("∀ x : A, ∀ y : A, (f : (A, A) -> A)(x, y) == f(y, x)")
+    let t = tm("(f : (A, A) -> A)((b : A), (a : A)) == f(a, b)")
     @simp.rewrite_conv(ths([th]))(t)
   })
   cv("REWRITE_CONV_eta", () => {
-    let th = hyp("(\\x:A. (f:A->B) x) = f")
-    let t = tm("\\y:A. (g:A->B) y")
+    let th = hyp("((x : A) => (f : (A) -> B)(x)) == f")
+    let t = tm("(y : A) => (g : (A) -> B)(y)")
     @simp.rewrite_conv(ths([th]))(t)
   })
   cv("REWRITE_CONV_lconst", () => {
-    let th = hyp("(x:bool) = T")
-    let t = tm("x /\\ y /\\ (\\x. x) z")
+    let th = hyp("(x : Bool) == true")
+    let t = tm("(x : Bool) && (y : Bool) && ((x : Bool) => x)((z : Bool))")
     @simp.rewrite_conv(ths([th]))(t)
   })
   cv("PURE_REWRITE_CONV", () => {
-    let th = hyp("(a:bool) = b")
-    let t = tm("a /\\ a")
+    let th = hyp("(a : Bool) == (b : Bool)")
+    let t = tm("(a : Bool) && a")
     @simp.pure_rewrite_conv(ths([th]))(t)
   })
   cv("ONCE_REWRITE_CONV", () => {
-    let th = hyp("forall x:A. (f:A->A) x = f (f x)")
-    let t = tm("(f:A->A) a")
+    let th = hyp("∀ x : A, (f : (A) -> A)(x) == f(f(x))")
+    let t = tm("(f : (A) -> A)((a : A))")
     @simp.once_rewrite_conv(ths([th]))(t)
   })
   cv("PURE_ONCE_REWRITE_CONV", () => {
-    let th = hyp("(a:bool) = (a /\\ a)")
-    let t = tm("a \\/ a")
+    let th = hyp("(a : Bool) == (a && a)")
+    let t = tm("(a : Bool) || a")
     @simp.pure_once_rewrite_conv(ths([th]))(t)
   })
   cv("GEN_REWRITE_CONV", () => {
-    let th = hyp("(a:bool) = b")
-    let t = tm("a /\\ a")
+    let th = hyp("(a : Bool) == (b : Bool)")
+    let t = tm("(a : Bool) && a")
     @simp.gen_rewrite_conv(@equal.rand_conv, ths([th]))(t)
   })
   cv("REWRITE_RULE", () => {
-    let th = hyp("(a:bool) = b")
-    let th2 = hyp("a /\\ c")
+    let th = hyp("(a : Bool) == (b : Bool)")
+    let th2 = hyp("(a : Bool) && (c : Bool)")
     @simp.rewrite_rule(ths([th]))(th2)
   })
   cv("ASM_REWRITE_RULE", () => {
-    let _th = hyp("(a:bool) = b")
-    // `DISCH (tm "c:bool") (ASSUME (tm "(a:bool) = b"))`: right to left.
-    let h = hyp("(a:bool) = b")
-    let th2 = @bool.disch(tm("c:bool"), h)
+    let _th = hyp("(a : Bool) == (b : Bool)")
+    // `DISCH (tm "(c : Bool)") (ASSUME (tm "(a : Bool) == (b : Bool)"))`: right to left.
+    let h = hyp("(a : Bool) == (b : Bool)")
+    let th2 = @bool.disch(tm("(c : Bool)"), h)
     @simp.asm_rewrite_rule(@list.List([]), @bool.undisch(th2))
   })
   cv("ONCE_ASM_REWRITE_RULE", () => {
-    let th = hyp("(a:bool) = b")
+    let th = hyp("(a : Bool) == (b : Bool)")
     @simp.once_asm_rewrite_rule(@list.List([]), @bool.conj(th, th))
   })
   let accept : @tactics.Tactic = g => {
     @tactics.first_assum(th => @tactics.accept_tac(th))(g)
   }
   cv("REWRITE_TAC", () => {
-    let w = tm("(a:bool) = b ==> a ==> b")
+    let w = tm("(a : Bool) == (b : Bool) → a → b")
     @tactics.prove(
       w,
       @tactics.disch_then(th => {
@@ -152,7 +152,7 @@ test "simp matches simp.ml" {
     )
   })
   cv("ASM_REWRITE_TAC", () => {
-    let w = tm("(a:bool) = b ==> b ==> a")
+    let w = tm("(a : Bool) == (b : Bool) → b → a")
     @tactics.prove(
       w,
       @tactics.then_tac(
@@ -168,54 +168,54 @@ test "simp matches simp.ml" {
     )
   })
   cv("REWRITES_CONV_fail", () => {
-    let t = tm("a:bool")
+    let t = tm("(a : Bool)")
     @simp.rewrites_conv(@nets.empty_net())(t)
   })
   cv("SIMP_CONV_cond", () => {
-    let th1 = hyp("forall x:A. P x ==> (f:A->A) x = g x")
-    let th2 = hyp("(P:A->bool) a")
-    let t = tm("(h:A->A) ((f:A->A) a) = f b")
+    let th1 = hyp("∀ x : A, (P : (A) -> Bool)(x) → (f : (A) -> A)(x) == (g : (A) -> A)(x)")
+    let th2 = hyp("(P : (A) -> Bool)((a : A))")
+    let t = tm("(h : (A) -> A)((f : (A) -> A)((a : A))) == f((b : A))")
     @simp.simp_conv(ths([th1, th2]))(t)
   })
   cv("SIMP_CONV_ctx_abs", () => {
-    let th = hyp("(x:bool) = T")
-    let t = tm("\\x. x /\\ y")
+    let th = hyp("(x : Bool) == true")
+    let t = tm("(x : Bool) => x && (y : Bool)")
     @simp.simp_conv(ths([th]))(t)
   })
   cv("PURE_SIMP_CONV", () => {
-    let th = hyp("(a:bool) = b")
-    let t = tm("a /\\ c")
+    let th = hyp("(a : Bool) == (b : Bool)")
+    let t = tm("(a : Bool) && (c : Bool)")
     @simp.pure_simp_conv(ths([th]))(t)
   })
   cv("ONCE_SIMP_CONV", () => {
-    let th = hyp("forall x:A. (f:A->A) x = f (f x)")
-    let t = tm("(f:A->A) a")
+    let th = hyp("∀ x : A, (f : (A) -> A)(x) == f(f(x))")
+    let t = tm("(f : (A) -> A)((a : A))")
     @simp.once_simp_conv(ths([th]))(t)
   })
   cv("SIMP_RULE", () => {
-    let th = hyp("(a:bool) = b")
-    let th2 = hyp("a /\\ c")
+    let th = hyp("(a : Bool) == (b : Bool)")
+    let th2 = hyp("(a : Bool) && (c : Bool)")
     @simp.simp_rule(ths([th]))(th2)
   })
   let imp_cong = @itab.itaut(
-    tm("(p <=> p') ==> (p' ==> (q <=> q')) ==> (p ==> q <=> p' ==> q')"),
+    tm("(p : Bool) == (p' : Bool) → (p' → (q : Bool) == (q' : Bool)) → (p → q) == (p' → q')"),
   ) catch {
     e => fail("imp_cong: \{e}")
   }
   cv("net_of_cong_bad", () => {
-    let th = hyp("a:bool")
+    let th = hyp("(a : Bool)")
     let n = @simp.net_of_cong(th, @nets.empty_net())
-    @simp.rewrites_conv(n)(tm("a:bool"))
+    @simp.rewrites_conv(n)(tm("(a : Bool)"))
   })
   cv("SIMP_cong", () => {
     let ss = @simp.ss_of_congs(ths([imp_cong]), @simp.empty_ss)
-    let t = tm("(x:A) = a ==> (f:A->A) x = f a")
+    let t = tm("(x : A) == (a : A) → (f : (A) -> A)(x) == f(a)")
     @simp.simplify_conv(ss, @list.List([]))(t)
   })
   cv("SIMP_cong_deep", () => {
     let ss = @simp.ss_of_congs(ths([imp_cong]), @simp.empty_ss)
-    let th = hyp("forall x:A. P x ==> (f:A->A) x = g x")
-    let t = tm("(P:A->bool) a ==> (f:A->A) a = b")
+    let th = hyp("∀ x : A, (P : (A) -> Bool)(x) → (f : (A) -> A)(x) == (g : (A) -> A)(x)")
+    let t = tm("(P : (A) -> Bool)((a : A)) → (f : (A) -> A)(a) == (b : A)")
     @simp.simplify_conv(ss, ths([th]))(t)
   })
   let pr = @simp.mk_prover(
@@ -239,90 +239,90 @@ test "simp matches simp.ml" {
     e => fail("mk_prover: \{e}")
   }
   cv("prover", () => {
-    let qa = hyp("(Q:A->bool) a")
+    let qa = hyp("(Q : (A) -> Bool)((a : A))")
     let ss = @simp.ss_of_provers(
       ths([]).map(_ => pr).concat(@list.singleton(@simp.augment(pr, ths([qa])))),
       @simp.empty_ss,
     )
-    let th = hyp("forall x:A. Q x ==> (f:A->A) x = g x")
-    let t = tm("(f:A->A) a")
+    let th = hyp("∀ x : A, (Q : (A) -> Bool)(x) → (f : (A) -> A)(x) == (g : (A) -> A)(x)")
+    let t = tm("(f : (A) -> A)((a : A))")
     @simp.simplify_conv(ss, ths([th]))(t)
   })
   cv("prover_none", () => {
-    let th = hyp("forall x:A. Q x ==> (f:A->A) x = g x")
-    let t = tm("(f:A->A) a")
+    let th = hyp("∀ x : A, (Q : (A) -> Bool)(x) → (f : (A) -> A)(x) == (g : (A) -> A)(x)")
+    let t = tm("(f : (A) -> A)((a : A))")
     @simp.simplify_conv(@simp.empty_ss, ths([th]))(t)
   })
   cv("too_deep", () => {
-    let th1 = hyp("forall x:A. Q x ==> (f:A->A) x = g x")
-    let th2 = hyp("forall x:A. R x ==> Q x")
-    let th3 = hyp("(R:A->bool) a")
-    let t = tm("(f:A->A) a")
+    let th1 = hyp("∀ x : A, (Q : (A) -> Bool)(x) → (f : (A) -> A)(x) == (g : (A) -> A)(x)")
+    let th2 = hyp("∀ x : A, (R : (A) -> Bool)(x) → (Q : (A) -> Bool)(x)")
+    let th3 = hyp("(R : (A) -> Bool)((a : A))")
+    let t = tm("(f : (A) -> A)((a : A))")
     @simp.once_simplify_conv(@simp.empty_ss, ths([th1, th2, th3]))(t)
   })
   cv("deep_ok", () => {
-    let th1 = hyp("forall x:A. Q x ==> (f:A->A) x = g x")
-    let th2 = hyp("forall x:A. R x ==> Q x")
-    let th3 = hyp("(R:A->bool) a")
-    let t = tm("(f:A->A) a")
+    let th1 = hyp("∀ x : A, (Q : (A) -> Bool)(x) → (f : (A) -> A)(x) == (g : (A) -> A)(x)")
+    let th2 = hyp("∀ x : A, (R : (A) -> Bool)(x) → (Q : (A) -> Bool)(x)")
+    let th3 = hyp("(R : (A) -> Bool)((a : A))")
+    let t = tm("(f : (A) -> A)((a : A))")
     @simp.simplify_conv(@simp.empty_ss, ths([th1, th2, th3]))(t)
   })
   cv("DEPTH_SQCONV", () => {
-    let th = hyp("forall x:A. (f:A->A) x = g x")
+    let th = hyp("∀ x : A, (f : (A) -> A)(x) == (g : (A) -> A)(x)")
     let ss = @simp.ss_of_thms(ths([th]), @simp.empty_ss)
-    let t = tm("(f:A->A) (f a)")
+    let t = tm("(f : (A) -> A)(f((a : A)))")
     @simp.depth_sqconv(ss, 3, t)
   })
   cv("REDEPTH_SQCONV", () => {
-    let th1 = hyp("forall x:A. (f:A->A) x = g x")
-    let th2 = hyp("forall x:A. (h:A->A) (g x) = f x")
+    let th1 = hyp("∀ x : A, (f : (A) -> A)(x) == (g : (A) -> A)(x)")
+    let th2 = hyp("∀ x : A, (h : (A) -> A)((g : (A) -> A)(x)) == (f : (A) -> A)(x)")
     let ss = @simp.ss_of_thms(ths([th1, th2]), @simp.empty_ss)
-    let t = tm("(h:A->A) (f a)")
+    let t = tm("(h : (A) -> A)((f : (_) -> A)((a : _)))")
     @simp.redepth_sqconv(ss, 3, t)
   })
   cv("TOP_SWEEP_SQCONV", () => {
-    let th = hyp("forall x:A. (f:A->A) x = g (f x)")
+    let th = hyp("∀ x : A, (f : (A) -> A)(x) == (g : (A) -> A)(f(x))")
     let ss = @simp.ss_of_thms(ths([th]), @simp.empty_ss)
-    let t = tm("(f:A->A) a")
+    let t = tm("(f : (A) -> A)((a : A))")
     @simp.top_sweep_sqconv(ss, 3, t)
   })
   cv("ss_of_conv", () => {
     let ss = @simp.ss_of_conv(
-      tm("(\\x:A. (b:B)) y"),
+      tm("((x : A) => (b : B))((y : A))"),
       @equal.beta_conv,
       @simp.empty_ss,
     )
-    let t = tm("(\\x:A. (f:A->B) x) c = (\\y. f y) d")
+    let t = tm("((x : A) => (f : (A) -> B)(x))((c : A)) == ((y : A) => f(y))((d : A))")
     @simp.simplify_conv(ss, @list.List([]))(t)
   })
   log.attempt("basic_rewrites", () => {
-    let th = hyp("forall x:A. (f:A->A) x = g x")
+    let th = hyp("∀ x : A, (f : (A) -> A)(x) == (g : (A) -> A)(x)")
     @simp.set_basic_rewrites(ths([th]))
-    let th2 = hyp("(a:bool) = b")
+    let th2 = hyp("(a : Bool) == (b : Bool)")
     @simp.extend_basic_rewrites(ths([th2]))
     slist(@simp.basic_rewrites())
   })
   cv("REWRITE_CONV_basic", () => {
-    let t = tm("(f:A->A) c = c /\\ a")
+    let t = tm("(f : (A) -> A)((c : A)) == c && (a : Bool)")
     @simp.rewrite_conv(@list.List([]))(t)
   })
   cv("PURE_REWRITE_CONV_basic", () => {
-    let t = tm("(f:A->A) c = c /\\ a")
+    let t = tm("(f : (A) -> A)((c : A)) == c && (a : Bool)")
     @simp.pure_rewrite_conv(@list.List([]))(t)
   })
   log.attempt("basic_convs", () => {
-    let p = tm("(\\x:A. (b:B)) y")
+    let p = tm("((x : A) => (b : B))((y : A))")
     @simp.extend_basic_convs("BETA", (p, @equal.beta_conv))
-    let p2 = tm("(\\x:A. (b:B)) y")
+    let p2 = tm("((x : A) => (b : B))((y : A))")
     @simp.extend_basic_convs("BETA", (p2, @equal.beta_conv))
     @simp.basic_convs().map(c => c.0).to_array().join(" ")
   })
   cv("REWRITE_CONV_conv", () => {
-    let t = tm("(\\x:A. (f:A->A) x) c")
+    let t = tm("((x : A) => (f : (A) -> A)(x))((c : A))")
     @simp.rewrite_conv(@list.List([]))(t)
   })
   cv("SIMP_CONV_basic", () => {
-    let t = tm("(\\x:A. (f:A->A) x) c")
+    let t = tm("((x : A) => (f : (A) -> A)(x))((c : A))")
     @simp.simp_conv(@list.List([]))(t)
   })
   log.attempt("basic_congs", () => {
@@ -331,7 +331,7 @@ test "simp matches simp.ml" {
     @simp.basic_congs().length().to_string()
   })
   cv("SIMP_CONV_congs", () => {
-    let t = tm("(x:A) = c ==> (h:A->A) x = h c")
+    let t = tm("(x : A) == (c : A) → (h : (A) -> A)(x) == h(c)")
     @simp.simp_conv(@list.List([]))(t)
   })
   log.attempt("reset", () => {
@@ -348,9 +348,9 @@ test "simp matches simp.ml" {
     }
   }
   cv("ABBREV_TAC", () => {
-    let w = tm("(a /\\ b) \\/ ~(a /\\ b)")
-    let ab = tm("c = (a /\\ b)")
-    let _c = tm("c:bool")
+    let w = tm("(a : Bool) && (b : Bool) || !(a && b)")
+    let ab = tm("(c : Bool) == ((a : Bool) && (b : Bool))")
+    let _c = tm("(c : Bool)")
     let gs = @simp.abbrev_tac(ab)((@list.List([]), w))
     match gs.1 {
       More((_, gw), tail=Empty) => @drule.mk_thm(@list.List([]), gw)
@@ -358,13 +358,13 @@ test "simp matches simp.ml" {
     }
   })
   cv("ABBREV_TAC_fun", () => {
-    let w = tm("(f:A->A) a = f b")
-    let ab = tm("(g:A->A) x = (f:A->A) x")
+    let w = tm("(f : (A) -> A)((a : A)) == f((b : A))")
+    let ab = tm("(g : (A) -> A)((x : A)) == (f : (A) -> A)(x)")
     subgoal_thm(@simp.abbrev_tac(ab)((@list.List([]), w)))
   })
   cv("ABBREV_TAC_used", () => {
-    let w = tm("(c:bool) /\\ a")
-    let ab = tm("c = (a:bool)")
+    let w = tm("(c : Bool) && (a : Bool)")
+    let ab = tm("(c : Bool) == (a : Bool)")
     let gs = @simp.abbrev_tac(ab)((@list.List([]), w))
     match gs.1 {
       More((_, gw), tail=Empty) => @drule.mk_thm(@list.List([]), gw)
@@ -372,17 +372,17 @@ test "simp matches simp.ml" {
     }
   })
   cv("ABBREV_EXPAND", () => {
-    let w = tm("(a /\\ b) \\/ ~(a /\\ b)")
-    let ab = tm("c = (a /\\ b)")
+    let w = tm("(a : Bool) && (b : Bool) || !(a && b)")
+    let ab = tm("(c : Bool) == ((a : Bool) && (b : Bool))")
     let tac = @tactics.then_tac(@simp.abbrev_tac(ab), @simp.expand_tac("c"))
     subgoal_thm(tac((@list.List([]), w)))
   })
   cv("EXPAND_TAC_none", () => {
-    let w = tm("(a:bool)")
+    let w = tm("(a : Bool)")
     subgoal_thm(@simp.expand_tac("c")((@list.List([]), w)))
   })
   log.attempt("axioms", () => @kernel.axioms().length().to_string())
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   inspect(
     log.contents(),

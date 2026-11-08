@@ -69,7 +69,7 @@ test "ind_types matches ind_types.ml" {
   log.attempt("ISO_FUN", () => sthm(@ind_types.iso_fun()))
   log.attempt("ISO_USAGE", () => sthm(@ind_types.iso_usage()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -93,7 +93,7 @@ test "ind_types matches ind_types.ml" {
     sthm(a) + " ;; " + sthm(b)
   })
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

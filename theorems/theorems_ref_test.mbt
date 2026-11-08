@@ -104,7 +104,7 @@ test "theorems matches theorems.ml" {
   log.attempt("basic_congs", () => {
     @simp.basic_congs().map(sthm).to_array().join(" ;; ")
   })
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   let st = (name : String, f : () -> (@kernel.Term, @tactics.Tactic) raise) => {
     log.attempt(name, () => {
       let (w, tac) = f()
@@ -119,68 +119,68 @@ test "theorems matches theorems.ml" {
   }
   let lab = @tactics.disch_then(th => @tactics.label_tac("h", th))
   log.attempt("AC", () => {
-    let t = tm("p /\\ q /\\ r <=> r /\\ q /\\ p")
+    let t = tm("((p : Bool) && (q : Bool) && (r : Bool)) == (r && q && p)")
     sthm(@theorems.ac(@theorems.conj_aci())(t))
   })
   log.attempt("AC_bad", () => {
-    let t = tm("p /\\ q <=> p \\/ q")
+    let t = tm("((p : Bool) && (q : Bool)) == (p || q)")
     sthm(@theorems.ac(@theorems.conj_aci())(t))
   })
-  st("DESTRUCT_obtain", () => (tm("(?x:A. P x /\\ Q x) ==> R"), dt("@x. hp hq")))
-  st("DESTRUCT_disj", () => (tm("p \\/ (q /\\ r) ==> s"), dt("hp | hq hr")))
-  st("DESTRUCT_paren", () => (tm("(p \\/ q) /\\ r ==> s"), dt("(hp | hq) _")))
-  st("DESTRUCT_plus", () => (tm("p /\\ q ==> s"), dt("+ hq")))
-  st("DESTRUCT_garbage", () => (tm("p ==> s"), dt("hp )")))
-  st("DESTRUCT_bad", () => (tm("p ==> s"), dt("(")))
+  st("DESTRUCT_obtain", () => (tm("(∃ x : A, (P : (A) -> Bool)(x) && (Q : (A) -> Bool)(x)) → (R : Bool)"), dt("@x. hp hq")))
+  st("DESTRUCT_disj", () => (tm("(p : Bool) || (q : Bool) && (r : Bool) → (s : Bool)"), dt("hp | hq hr")))
+  st("DESTRUCT_paren", () => (tm("((p : Bool) || (q : Bool)) && (r : Bool) → (s : Bool)"), dt("(hp | hq) _")))
+  st("DESTRUCT_plus", () => (tm("(p : Bool) && (q : Bool) → (s : Bool)"), dt("+ hq")))
+  st("DESTRUCT_garbage", () => (tm("(p : Bool) → (s : Bool)"), dt("hp )")))
+  st("DESTRUCT_bad", () => (tm("(p : Bool) → (s : Bool)"), dt("(")))
   st("INTRO_fix_dest", () => {
-    let w = tm("forall x:A. P x ==> Q x")
+    let w = tm("∀ x : A, (P : (A) -> Bool)(x) → (Q : (A) -> Bool)(x)")
     (w, @theorems.intro_tac("forall x; hp"))
   })
   st("INTRO_conj", () => {
-    let w = tm("(p ==> q) /\\ (r ==> s)")
+    let w = tm("((p : Bool) → (q : Bool)) && ((r : Bool) → (s : Bool))")
     (w, @theorems.intro_tac("{hp & hr}"))
   })
   st("INTRO_disj", () => {
-    let w = tm("p \\/ (q ==> r) \\/ s")
+    let w = tm("(p : Bool) || ((q : Bool) → (r : Bool)) || (s : Bool)")
     (w, @theorems.intro_tac("#2 hq"))
   })
-  st("INTRO_zero", () => (tm("p \\/ q"), @theorems.intro_tac("#0")))
-  st("INTRO_garbage", () => (tm("p ==> q"), @theorems.intro_tac("hp }")))
-  st("FIX_vars", () => (tm("forall x y z:A. P x y z"), @theorems.fix_tac("x y")))
-  st("FIX_rename", () => (tm("forall x y:A. P x y"), @theorems.fix_tac("[a/y] *")))
-  st("FIX_star", () => (tm("forall x y:A. P x y"), @theorems.fix_tac("*")))
-  st("FIX_missing", () => (tm("forall x:A. P x"), @theorems.fix_tac("y")))
-  st("FIX_bad", () => (tm("forall x:A. P x"), @theorems.fix_tac("x ]")))
+  st("INTRO_zero", () => (tm("(p : Bool) || (q : Bool)"), @theorems.intro_tac("#0")))
+  st("INTRO_garbage", () => (tm("(p : Bool) → (q : Bool)"), @theorems.intro_tac("hp }")))
+  st("FIX_vars", () => (tm("∀ x : _, ∀ y : _, ∀ z : A, (P : (_, _, A) -> Bool)(x, y, z)"), @theorems.fix_tac("x y")))
+  st("FIX_rename", () => (tm("∀ x : _, ∀ y : A, (P : (_, A) -> Bool)(x, y)"), @theorems.fix_tac("[a/y] *")))
+  st("FIX_star", () => (tm("∀ x : _, ∀ y : A, (P : (_, A) -> Bool)(x, y)"), @theorems.fix_tac("*")))
+  st("FIX_missing", () => (tm("∀ x : A, (P : (A) -> Bool)(x)"), @theorems.fix_tac("y")))
+  st("FIX_bad", () => (tm("∀ x : A, (P : (A) -> Bool)(x)"), @theorems.fix_tac("x ]")))
   st("HYP_destruct", () => {
-    let w = tm("a /\\ b ==> c")
+    let w = tm("(a : Bool) && (b : Bool) → (c : Bool)")
     let h = @theorems.hyp_tac("h: ha hb", th => th)
     (w, @tactics.then_tac(lab, h))
   })
   st("HYP_use", () => {
-    let w = tm("a /\\ b ==> c")
+    let w = tm("(a : Bool) && (b : Bool) → (c : Bool)")
     let h = @theorems.hyp_tac("h -> ha hb", th => th)
     (w, @tactics.then_tac(lab, h))
   })
   st("HYP_rule", () => {
-    let w = tm("a /\\ b ==> c")
+    let w = tm("(a : Bool) && (b : Bool) → (c : Bool)")
     let h = @theorems.hyp_tac("h", @bool.conjunct2)
     (w, @tactics.then_tac(lab, h))
   })
   st("HYP_bad", () => {
-    let w = tm("a ==> c")
+    let w = tm("(a : Bool) → (c : Bool)")
     let h = @theorems.hyp_tac("h ;", th => th)
     (w, @tactics.then_tac(lab, h))
   })
   st("CLAIM_TAC", () => {
-    let w = tm("c:bool")
-    let q = tm("p /\\ q")
+    let w = tm("(c : Bool)")
+    let q = tm("(p : Bool) && (q : Bool)")
     (w, @theorems.claim_tac("hp hq", q))
   })
   log.attempt("constants", () => {
     @kernel.constants().map(c => c.0).to_array().join(" ")
   })
   log.attempt("axioms", () => @kernel.axioms().length().to_string())
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   inspect(
     log.contents(),

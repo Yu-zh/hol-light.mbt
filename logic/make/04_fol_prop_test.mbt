@@ -47,7 +47,7 @@ test "Logic/fol_prop matches Logic/fol_prop.ml" {
   log.attempt("FINITE_DISJ_LEMMA", () => sthm(@fol_prop.finite_disj_lemma()))
   log.attempt("COMPACT_DISJ", () => sthm(@fol_prop.compact_disj()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

@@ -28,7 +28,7 @@ test "Jordan/real_ext_geom_series matches Jordan/real_ext_geom_series.ml" {
   })
   log.attempt("GEOMETRIC_SUM", () => sthm(@real_ext_geom_series.geometric_sum()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

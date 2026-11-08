@@ -33,7 +33,7 @@ test "Jordan/num_ext_nabs matches Jordan/num_ext_nabs.ml" {
   log.attempt("NABS_POS", () => sthm(@num_ext_nabs.nabs_pos()))
   log.attempt("NABS_NEG", () => sthm(@num_ext_nabs.nabs_neg()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

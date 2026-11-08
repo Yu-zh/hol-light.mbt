@@ -31,7 +31,7 @@ test "trivia matches trivia.ml" {
   log.attempt("EXISTS_ONE_THM", () => sthm(@trivia.exists_one_thm()))
   log.attempt("ETA_ONE", () => sthm(@trivia.eta_one()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -42,7 +42,7 @@ test "trivia matches trivia.ml" {
   log.attempt("inductive_type_store", () => {
     @class.inductive_type_store().val.map(p => p.0).to_array().join(" ")
   })
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   inspect(
     log.contents(),

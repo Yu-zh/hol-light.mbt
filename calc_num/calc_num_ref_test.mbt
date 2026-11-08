@@ -38,7 +38,7 @@ test "calc_num matches calc_num.ml" {
   log.attempt("ARITH", () => sthm(@calc_num.arith()))
   log.attempt("EXP_2_NE_0", () => sthm(@calc_num.exp_2_ne_0()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -48,26 +48,26 @@ test "calc_num matches calc_num.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   log.attempt("reduce_add", () => {
-    sthm(@calc_num.num_reduce_conv(tm("2 + 3 * 4 EXP 2")))
+    sthm(@calc_num.num_reduce_conv(tm("2 + 3 * EXP(4, 2)")))
   })
   log.attempt("reduce_div", () => {
-    sthm(@calc_num.num_reduce_conv(tm("17 DIV 5")))
+    sthm(@calc_num.num_reduce_conv(tm("DIV(17, 5)")))
   })
   log.attempt("reduce_mod", () => {
-    sthm(@calc_num.num_reduce_conv(tm("100 MOD 7")))
+    sthm(@calc_num.num_reduce_conv(tm("MOD(100, 7)")))
   })
   log.attempt("reduce_big", () => {
-    sthm(@calc_num.num_reduce_conv(tm("2 EXP 100")))
+    sthm(@calc_num.num_reduce_conv(tm("EXP(2, 100)")))
   })
   log.attempt("reduce_sub", () => sthm(@calc_num.num_reduce_conv(tm("10 - 13"))))
   log.attempt("reduce_le", () => {
     sthm(@calc_num.num_reduce_conv(tm("123456789 <= 987654321")))
   })
   log.attempt("reduce_fact", () => {
-    sthm(@calc_num.num_reduce_conv(tm("FACT 10")))
+    sthm(@calc_num.num_reduce_conv(tm("FACT(10)")))
   })
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

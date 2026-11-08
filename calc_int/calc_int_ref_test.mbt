@@ -40,7 +40,7 @@ test "calc_int matches calc_int.ml" {
   log.attempt("REAL_ABS_NUM", () => sthm(@calc_int.real_abs_num()))
   log.attempt("REAL_ABS_NEG", () => sthm(@calc_int.real_abs_neg()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -50,22 +50,22 @@ test "calc_int matches calc_int.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   log.attempt("reduce_add", () => {
-    sthm(@calc_int.real_int_reduce_conv(tm("&2 + &3 * -- &4")))
+    sthm(@calc_int.real_int_reduce_conv(tm("real_of_num(2) + real_of_num(3) * -real_of_num(4)")))
   })
   log.attempt("reduce_pow", () => {
-    sthm(@calc_int.real_int_reduce_conv(tm("(-- &3) pow 5")))
+    sthm(@calc_int.real_int_reduce_conv(tm("pow(-real_of_num(3), 5)")))
   })
   log.attempt("reduce_abs", () => {
-    sthm(@calc_int.real_int_reduce_conv(tm("abs(-- &17) - &20")))
+    sthm(@calc_int.real_int_reduce_conv(tm("abs(-real_of_num(17)) - real_of_num(20)")))
   })
   log.attempt("reduce_cmp", () => {
-    sthm(@calc_int.real_int_reduce_conv(tm("-- &5 < &3")))
+    sthm(@calc_int.real_int_reduce_conv(tm("-real_of_num(5) < real_of_num(3)")))
   })
   log.attempt("reduce_max", () => {
-    sthm(@calc_int.real_int_reduce_conv(tm("max (&2) (-- &7)")))
+    sthm(@calc_int.real_int_reduce_conv(tm("max(real_of_num(2), -real_of_num(7))")))
   })
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

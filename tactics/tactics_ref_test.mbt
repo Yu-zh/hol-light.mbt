@@ -65,7 +65,7 @@ test "tactics matches tactics.ml" {
   let log = @testkit.Log::new()
   log.capture_reports()
   log.show_theory_trace("tactics")
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   let pv = (name : String, f : () -> (Term, Tactic) raise) => {
     log.attempt(name, () => {
       let (w, tac) = f()
@@ -81,33 +81,33 @@ test "tactics matches tactics.ml" {
   let truth = @bool.truth()
   let accept : Tactic = g => first_assum(th => accept_tac(th))(g)
   pv("CONJ_TAC", () => {
-    let w = tm("T /\\ T")
+    let w = tm("true && true")
     (w, then_tac(conj_tac, accept_tac(truth)))
   })
   pv("DISJ1_TAC", () => {
-    let w = tm("T \\/ F")
+    let w = tm("true || false")
     (w, then_tac(@tactics.disj1_tac, accept_tac(truth)))
   })
   pv("DISJ2_TAC", () => {
-    let w = tm("F \\/ T")
+    let w = tm("false || true")
     (w, then_tac(@tactics.disj2_tac, accept_tac(truth)))
   })
   pv("GEN_DISCH", () => {
-    let w = tm("forall p:bool. p ==> p")
+    let w = tm("∀ p : Bool, p → p")
     (w, then_tac(then_tac(gen_tac, disch_tac), accept))
   })
   pv("STRIP_TAC", () => {
-    let w = tm("forall p q. p /\\ q ==> q /\\ p")
+    let w = tm("∀ p : Bool, ∀ q : Bool, p && q → q && p")
     (w, then_tac(then_tac(repeat_tac(@tactics.strip_tac), conj_tac), accept))
   })
   pv("EXISTS_TAC", () => {
-    let w = tm("?x:bool. x")
-    let t = tm("T")
+    let w = tm("∃ x : Bool, x")
+    let t = tm("true")
     (w, then_tac(@tactics.exists_tac(t), accept_tac(truth)))
   })
   pv("X_CHOOSE_TAC", () => {
-    let w = tm("(?x:bool. (P:bool->bool) x) ==> (?y. P y)")
-    let z = tm("z:bool")
+    let w = tm("(∃ x : Bool, (P : (Bool) -> Bool)(x)) → (∃ y : Bool, P(y))")
+    let z = tm("(z : Bool)")
     (
       w,
       then_tac(
@@ -120,12 +120,12 @@ test "tactics matches tactics.ml" {
     )
   })
   pv("STRIP_EXISTS", () => {
-    let w = tm("(?x:A. (P:A->bool) x) ==> ?y. P y")
-    let x = tm("x:A")
+    let w = tm("(∃ x : A, (P : (A) -> Bool)(x)) → (∃ y : A, P(y))")
+    let x = tm("(x : A)")
     (w, then_tac(then_tac(@tactics.strip_tac, @tactics.exists_tac(x)), accept))
   })
   pv("DISJ_CASES_THEN", () => {
-    let w = tm("p \\/ q ==> q \\/ p")
+    let w = tm("(p : Bool) || (q : Bool) → q || p")
     (
       w,
       then_tac(
@@ -138,16 +138,16 @@ test "tactics matches tactics.ml" {
     )
   })
   pv("CONTR_TAC", () => {
-    let w = tm("F ==> p")
+    let w = tm("false → (p : Bool)")
     (w, disch_then(th => @tactics.contr_tac(th)))
   })
   pv("MATCH_ACCEPT_TAC", () => {
-    let w = tm("forall b:bool. b = b")
-    let x = tm("x:A")
+    let w = tm("∀ b : Bool, b == b")
+    let x = tm("(x : A)")
     (w, @tactics.match_accept_tac(@bool.gen(x, @kernel.refl(x))))
   })
   pv("MATCH_MP_TAC", () => {
-    let w = tm("(forall x:A. P x ==> Q x) ==> P c ==> Q c")
+    let w = tm("(∀ x : A, (P : (A) -> Bool)(x) → (Q : (A) -> Bool)(x)) → P((c : A)) → Q(c)")
     (
       w,
       then_tac(
@@ -160,7 +160,7 @@ test "tactics matches tactics.ml" {
     )
   })
   pv("ANTS_TAC", () => {
-    let w = tm("(T ==> q) ==> q")
+    let w = tm("(true → (q : Bool)) → q")
     (
       w,
       thenl(
@@ -170,35 +170,35 @@ test "tactics matches tactics.ml" {
     )
   })
   pv("EQ_TAC", () => {
-    let w = tm("p <=> p")
+    let w = tm("(p : Bool) == p")
     (w, then_tac(then_tac(@tactics.eq_tac, disch_tac), accept))
   })
   pv("MK_COMB_TAC", () => {
-    let w = tm("(f:A->B) x = f x")
+    let w = tm("(f : (A) -> B)((x : A)) == f(x)")
     (w, then_tac(@tactics.mk_comb_tac, @tactics.refl_tac))
   })
   pv("AP_TERM_TAC", () => {
-    let w = tm("~(a /\\ b) <=> ~(a /\\ b)")
+    let w = tm("!((a : Bool) && (b : Bool)) == !(a && b)")
     (w, then_tac(@tactics.ap_term_tac, @tactics.refl_tac))
   })
   pv("AP_THM_TAC", () => {
-    let w = tm("(f:A->B) x = f x")
+    let w = tm("(f : (A) -> B)((x : A)) == f(x)")
     (w, then_tac(@tactics.ap_thm_tac, @tactics.refl_tac))
   })
   pv("BINOP_TAC", () => {
-    let w = tm("(a /\\ b) <=> (a /\\ b)")
+    let w = tm("((a : Bool) && (b : Bool)) == (a && b)")
     (w, then_tac(@tactics.binop_tac, @tactics.refl_tac))
   })
   pv("ABS_TAC", () => {
-    let w = tm("(\\x:A. (f:A->B) x) = (\\y. f y)")
+    let w = tm("((x : A) => (f : (A) -> B)(x)) == ((y : A) => f(y))")
     (w, then_tac(@tactics.abs_tac, @tactics.refl_tac))
   })
   pv("BETA_TAC", () => {
-    let w = tm("(\\x:bool. x) T")
+    let w = tm("((x : Bool) => x)(true)")
     (w, then_tac(@tactics.beta_tac, accept_tac(truth)))
   })
   pv("CONV_TAC_eq", () => {
-    let w = tm("(\\x:bool. x) T = T")
+    let w = tm("((x : Bool) => x)(true) == true")
     (
       w,
       then_tac(
@@ -208,16 +208,16 @@ test "tactics matches tactics.ml" {
     )
   })
   pv("CONV_TAC_T", () => {
-    let w = tm("T")
+    let w = tm("true")
     (w, @tactics.conv_tac(_ => @bool.eqt_intro(truth)))
   })
   pv("CONV_TAC_bad", () => {
-    let w = tm("T")
-    let r = tm("F")
+    let w = tm("true")
+    let r = tm("false")
     (w, @tactics.conv_tac(_ => @kernel.refl(r)))
   })
   pv("SUBST1_TAC", () => {
-    let w = tm("forall a b:bool. (a = b) ==> b ==> a")
+    let w = tm("∀ a : Bool, ∀ b : Bool, a == b → b → a")
     (
       w,
       then_tac(
@@ -233,7 +233,7 @@ test "tactics matches tactics.ml" {
     )
   })
   pv("SUBST_ALL_TAC", () => {
-    let w = tm("(a:bool) = b ==> a ==> b")
+    let w = tm("(a : Bool) == (b : Bool) → a → b")
     (
       w,
       then_tac(
@@ -246,7 +246,7 @@ test "tactics matches tactics.ml" {
     )
   })
   pv("SUBST_VAR_TAC", () => {
-    let w = tm("(x:A) = y ==> (P:A->bool) x ==> P y")
+    let w = tm("(x : A) == (y : A) → (P : (A) -> Bool)(x) → P(y)")
     (
       w,
       then_tac(
@@ -259,8 +259,8 @@ test "tactics matches tactics.ml" {
     )
   })
   pv("UNDISCH_TAC", () => {
-    let w = tm("p ==> p")
-    let p = tm("p:bool")
+    let w = tm("(p : Bool) → p")
+    let p = tm("(p : Bool)")
     (
       w,
       then_tac(
@@ -270,38 +270,38 @@ test "tactics matches tactics.ml" {
     )
   })
   pv("SPEC_TAC", () => {
-    let w = tm("(f:A->A) a = f a")
-    let a = tm("a:A")
-    let z = tm("z:A")
+    let w = tm("(f : (A) -> A)((a : A)) == f(a)")
+    let a = tm("(a : A)")
+    let z = tm("(z : A)")
     (w, then_tac(then_tac(@tactics.spec_tac(a, z), gen_tac), @tactics.refl_tac))
   })
   pv("X_GEN_TAC_type", () => {
-    let w = tm("forall x:bool. x = x")
-    let y = tm("y:A")
+    let w = tm("∀ x : Bool, x == x")
+    let y = tm("(y : A)")
     (w, @tactics.x_gen_tac(y))
   })
   pv("X_GEN_TAC_notvar", () => {
-    let w = tm("forall x:bool. x = x")
-    let t = tm("T")
+    let w = tm("∀ x : Bool, x == x")
+    let t = tm("true")
     (w, @tactics.x_gen_tac(t))
   })
   pv("X_GEN_TAC_invalid", () => {
-    let w = tm("forall x:bool. x = y")
-    let y = tm("y:bool")
+    let w = tm("∀ x : Bool, x == (y : Bool)")
+    let y = tm("(y : Bool)")
     (w, @tactics.x_gen_tac(y))
   })
   pv("X_GEN_TAC_notforall", () => {
-    let w = tm("p:bool")
-    let y = tm("y:bool")
+    let w = tm("(p : Bool)")
+    let y = tm("(y : Bool)")
     (w, @tactics.x_gen_tac(y))
   })
   st("GEN_TAC_primed", () => {
-    let w = tm("forall x:bool. x = x \\/ x'")
+    let w = tm("∀ x : Bool, x == x || (x' : Bool)")
     (w, gen_tac)
   })
   pv("SUBGOAL_THEN", () => {
-    let w = tm("p ==> p /\\ p")
-    let p = tm("p:bool")
+    let w = tm("(p : Bool) → p && p")
+    let p = tm("(p : Bool)")
     (
       w,
       thenl(
@@ -311,21 +311,21 @@ test "tactics matches tactics.ml" {
     )
   })
   st("SUBGOAL_TAC", () => {
-    let w = tm("p:bool")
-    let q = tm("q:bool")
+    let w = tm("(p : Bool)")
+    let q = tm("(q : Bool)")
     (w, @tactics.subgoal_tac("lab", q, @list.List([all_tac, all_tac])))
   })
   st("SUBGOAL_TAC_none", () => {
-    let w = tm("p:bool")
-    let q = tm("q:bool")
+    let w = tm("(p : Bool)")
+    let q = tm("(q : Bool)")
     (w, @tactics.subgoal_tac("lab", q, @list.List([])))
   })
   pv("FREEZE_THEN", () => {
-    let w = tm("p ==> p")
+    let w = tm("(p : Bool) → p")
     (w, disch_then(@tactics.freeze_then(th => accept_tac(th))))
   })
   pv("IMP_RES_THEN", () => {
-    let w = tm("(p ==> q) ==> p ==> q")
+    let w = tm("((p : Bool) → (q : Bool)) → p → q")
     (
       w,
       then_tac(
@@ -335,7 +335,7 @@ test "tactics matches tactics.ml" {
     )
   })
   pv("ANTE_RES_THEN", () => {
-    let w = tm("(p ==> q) ==> p ==> q")
+    let w = tm("((p : Bool) → (q : Bool)) → p → q")
     (
       w,
       then_tac(
@@ -345,7 +345,7 @@ test "tactics matches tactics.ml" {
     )
   })
   st("IMP_RES_THEN_none", () => {
-    let w = tm("p ==> q")
+    let w = tm("(p : Bool) → (q : Bool)")
     (
       w,
       then_tac(
@@ -355,7 +355,7 @@ test "tactics matches tactics.ml" {
     )
   })
   pv("LABEL_USE_THEN", () => {
-    let w = tm("p ==> q ==> p")
+    let w = tm("(p : Bool) → (q : Bool) → p")
     (
       w,
       then_tac(
@@ -368,11 +368,11 @@ test "tactics matches tactics.ml" {
     )
   })
   pv("USE_THEN_missing", () => {
-    let w = tm("p ==> p")
+    let w = tm("(p : Bool) → p")
     (w, then_tac(disch_tac, @tactics.use_then("nope", th => accept_tac(th))))
   })
   st("REMOVE_THEN", () => {
-    let w = tm("p ==> q ==> r")
+    let w = tm("(p : Bool) → (q : Bool) → (r : Bool)")
     (
       w,
       then_tac(
@@ -385,21 +385,21 @@ test "tactics matches tactics.ml" {
     )
   })
   pv("HYP", () => {
-    let w = tm("p ==> p")
+    let w = tm("(p : Bool) → p")
     let h = @tactics.hyp_tac(ths => accept_tac(@lib.hd(ths)), "h1")(
       @list.List([]),
     )
     (w, then_tac(disch_then(th => label_tac("h1", th)), h))
   })
   pv("HYP_bad", () => {
-    let w = tm("p ==> p")
+    let w = tm("(p : Bool) → p")
     let h = @tactics.hyp_tac(ths => accept_tac(@lib.hd(ths)), "h1 +")(
       @list.List([]),
     )
     (w, then_tac(disch_then(th => label_tac("h1", th)), h))
   })
   st("NAME_ASSUMS_TAC", () => {
-    let w = tm("a ==> b ==> c ==> d")
+    let w = tm("(a : Bool) → (b : Bool) → (c : Bool) → (d : Bool)")
     (
       w,
       then_tac(
@@ -412,7 +412,7 @@ test "tactics matches tactics.ml" {
     )
   })
   st("RULE_ASSUM_TAC", () => {
-    let w = tm("(\\x:bool. x) a ==> (\\x:bool. x) b ==> c")
+    let w = tm("((x : Bool) => x)((a : Bool)) → ((x : Bool) => x)((b : Bool)) → (c : Bool)")
     (
       w,
       then_tac(
@@ -422,22 +422,22 @@ test "tactics matches tactics.ml" {
     )
   })
   st("STRIP_ASSUME_TAC", () => {
-    let w = tm("c:bool")
-    let a = tm("(a /\\ b) \\/ (?x:A. (P:A->bool) x)")
+    let w = tm("(c : Bool)")
+    let a = tm("(a : Bool) && (b : Bool) || (∃ x : A, (P : (A) -> Bool)(x))")
     (w, @tactics.strip_assume_tac(@kernel.assume_rule(a)))
   })
   st("STRIP_ASSUME_TAC_dup", () => {
-    let w = tm("a ==> c")
-    let a = tm("a /\\ a")
+    let w = tm("(a : Bool) → (c : Bool)")
+    let a = tm("(a : Bool) && a")
     (w, then_tac(disch_tac, @tactics.strip_assume_tac(@kernel.assume_rule(a))))
   })
   st("STRUCT_CASES_TAC", () => {
-    let w = tm("(P:bool->bool) x")
-    let a = tm("(x:bool) = T \\/ x = F")
+    let w = tm("(P : (Bool) -> Bool)((x : Bool))")
+    let a = tm("(x : Bool) == true || x == false")
     (w, @tactics.struct_cases_tac(@kernel.assume_rule(a)))
   })
   st("CONJUNCTS_THEN2", () => {
-    let w = tm("a /\\ b ==> c")
+    let w = tm("(a : Bool) && (b : Bool) → (c : Bool)")
     (
       w,
       disch_then(
@@ -446,73 +446,73 @@ test "tactics matches tactics.ml" {
     )
   })
   st("CHANGED_TAC_all", () => {
-    let w = tm("p:bool")
+    let w = tm("(p : Bool)")
     (w, @tactics.changed_tac(all_tac))
   })
   st("CHANGED_TAC_gen", () => {
-    let w = tm("forall x:bool. x")
+    let w = tm("∀ x : Bool, x")
     (w, @tactics.changed_tac(gen_tac))
   })
   st("REPLICATE_TAC", () => {
-    let w = tm("forall x y z:bool. x")
+    let w = tm("∀ x : Bool, ∀ y : _, ∀ z : Bool, x")
     (w, @tactics.replicate_tac(2, gen_tac))
   })
   st("FAIL_TAC", () => {
-    let w = tm("p:bool")
+    let w = tm("(p : Bool)")
     (w, @tactics.fail_tac("boom"))
   })
   st("NO_TAC", () => {
-    let w = tm("p:bool")
+    let w = tm("(p : Bool)")
     (w, @tactics.no_tac)
   })
   st("FIRST_empty", () => {
-    let w = tm("p:bool")
+    let w = tm("(p : Bool)")
     (w, @tactics.first(@list.List([])))
   })
   st("EVERY_empty", () => {
-    let w = tm("p:bool")
+    let w = tm("(p : Bool)")
     (w, @tactics.every(@list.List([])))
   })
   st("FIRST", () => {
-    let w = tm("p /\\ q")
+    let w = tm("(p : Bool) && (q : Bool)")
     (w, @tactics.first(@list.List([@tactics.disj1_tac, conj_tac])))
   })
   st("MAP_EVERY", () => {
-    let w = tm("forall x y:bool. x")
-    let a = tm("a:bool")
-    let b = tm("b:bool")
+    let w = tm("∀ x : Bool, ∀ y : Bool, x")
+    let a = tm("(a : Bool)")
+    let b = tm("(b : Bool)")
     (w, @tactics.map_every(@tactics.x_gen_tac, @list.List([a, b])))
   })
   st("MAP_FIRST", () => {
-    let w = tm("p ==> q")
+    let w = tm("(p : Bool) → (q : Bool)")
     (w, @tactics.map_first(t => t, @list.List([conj_tac, disch_tac])))
   })
   st("TRY", () => {
-    let w = tm("p:bool")
+    let w = tm("(p : Bool)")
     (w, @tactics.try_tac(conj_tac))
   })
   st("ORELSE", () => {
-    let w = tm("p /\\ q")
+    let w = tm("(p : Bool) && (q : Bool)")
     (w, orelse_tac(@tactics.disj1_tac, conj_tac))
   })
   st("THEN1", () => {
-    let w = tm("(p /\\ q) /\\ r")
+    let w = tm("((p : Bool) && (q : Bool)) && (r : Bool)")
     (w, then1(conj_tac, conj_tac))
   })
   st("THENL_mismatch", () => {
-    let w = tm("p /\\ q")
+    let w = tm("(p : Bool) && (q : Bool)")
     (w, thenl(conj_tac, @list.List([all_tac])))
   })
   st("THENL_empty", () => {
-    let w = tm("T")
+    let w = tm("true")
     (w, thenl(accept_tac(truth), @list.List([all_tac, all_tac])))
   })
   st("POP_ASSUM_empty", () => {
-    let w = tm("p:bool")
+    let w = tm("(p : Bool)")
     (w, @tactics.pop_assum(th => accept_tac(th)))
   })
   st("POP_ASSUM_LIST", () => {
-    let w = tm("a ==> b ==> c")
+    let w = tm("(a : Bool) → (b : Bool) → (c : Bool)")
     (
       w,
       then_tac(
@@ -524,11 +524,11 @@ test "tactics matches tactics.ml" {
     )
   })
   st("EVERY_ASSUM", () => {
-    let w = tm("a ==> b ==> c")
+    let w = tm("(a : Bool) → (b : Bool) → (c : Bool)")
     (w, then_tac(repeat_tac(disch_tac), @tactics.every_assum(th => mp_tac(th))))
   })
   st("ASSUM_LIST", () => {
-    let w = tm("a ==> b ==> c")
+    let w = tm("(a : Bool) → (b : Bool) → (c : Bool)")
     (
       w,
       then_tac(
@@ -538,15 +538,15 @@ test "tactics matches tactics.ml" {
     )
   })
   st("FIND_ASSUM", () => {
-    let w = tm("a ==> b ==> c")
-    let a = tm("a:bool")
+    let w = tm("(a : Bool) → (b : Bool) → (c : Bool)")
+    let a = tm("(a : Bool)")
     (
       w,
       then_tac(repeat_tac(disch_tac), @tactics.find_assum(th => mp_tac(th), a)),
     )
   })
   st("ASM", () => {
-    let w = tm("a ==> b")
+    let w = tm("(a : Bool) → (b : Bool)")
     (
       w,
       then_tac(
@@ -558,7 +558,7 @@ test "tactics matches tactics.ml" {
     )
   })
   st("ORELSE_TCL", () => {
-    let w = tm("a /\\ b ==> c")
+    let w = tm("(a : Bool) && (b : Bool) → (c : Bool)")
     (
       w,
       disch_then(
@@ -569,11 +569,11 @@ test "tactics matches tactics.ml" {
     )
   })
   st("NO_THEN", () => {
-    let w = tm("a ==> c")
+    let w = tm("(a : Bool) → (c : Bool)")
     (w, disch_then(@tactics.no_then(th => assume_tac(th))))
   })
   st("EVERY_TCL", () => {
-    let w = tm("(a /\\ b) /\\ c ==> d")
+    let w = tm("((a : Bool) && (b : Bool)) && (c : Bool) → (d : Bool)")
     (
       w,
       disch_then(
@@ -584,7 +584,7 @@ test "tactics matches tactics.ml" {
     )
   })
   st("REPEAT_GTCL", () => {
-    let w = tm("(a /\\ b) /\\ c ==> d")
+    let w = tm("((a : Bool) && (b : Bool)) && (c : Bool) → (d : Bool)")
     (
       w,
       disch_then(
@@ -593,11 +593,11 @@ test "tactics matches tactics.ml" {
     )
   })
   st("FIRST_TCL_empty", () => {
-    let w = tm("a ==> c")
+    let w = tm("(a : Bool) → (c : Bool)")
     (w, disch_then(@tactics.first_tcl(@list.List([]))(th => assume_tac(th))))
   })
   st("TRANS_TAC", () => {
-    let tw = tm("forall x y z:A. x = y /\\ y = z ==> x = z")
+    let tw = tm("∀ x : A, ∀ y : A, ∀ z : A, x == y && y == z → x == z")
     let th = @tactics.prove(
       tw,
       then_tac(
@@ -612,56 +612,56 @@ test "tactics matches tactics.ml" {
         @tactics.refl_tac,
       ),
     )
-    let w = tm("(a:bool) = c")
-    let b = tm("b:bool")
+    let w = tm("(a : Bool) == (c : Bool)")
+    let b = tm("(b : Bool)")
     (w, @tactics.trans_tac(th)(b))
   })
   st("X_META_EXISTS_TAC", () => {
-    let w = tm("?x:bool. x /\\ y")
-    let v = tm("v:bool")
+    let w = tm("∃ x : Bool, x && (y : Bool)")
+    let v = tm("(v : Bool)")
     (w, @tactics.x_meta_exists_tac(v))
   })
   st("X_META_EXISTS_TAC_bad", () => {
-    let w = tm("?x:bool. x /\\ y")
-    let v = tm("T")
+    let w = tm("∃ x : Bool, x && (y : Bool)")
+    let v = tm("true")
     (w, @tactics.x_meta_exists_tac(v))
   })
   st("META_EXISTS_TAC", () => {
-    let w = tm("?x:bool. x /\\ x'")
+    let w = tm("∃ x : Bool, x && (x' : Bool)")
     (w, @tactics.meta_exists_tac)
   })
   st("META_SPEC_TAC", () => {
-    let w = tm("q:bool")
-    let t = tm("t:bool")
-    let a = tm("forall x:bool. P x")
+    let w = tm("(q : Bool)")
+    let t = tm("(t : Bool)")
+    let a = tm("∀ x : Bool, (P : (Bool) -> Bool)(x)")
     (w, @tactics.meta_spec_tac(t, @kernel.assume_rule(a)))
   })
   pv("CHEAT_TAC", () => {
-    let w = tm("F")
+    let w = tm("false")
     (w, @tactics.cheat_tac)
   })
   @lib.report_timing.val = false
   pv("RECALL_ACCEPT_TAC", () => {
-    let w = tm("T")
+    let w = tm("true")
     (w, @tactics.recall_accept_tac(t => t, truth))
   })
   @lib.report_timing.val = true
   pv("prove_hyps", () => {
-    let w = tm("p:bool")
-    let p = tm("p:bool")
+    let w = tm("(p : Bool)")
+    let p = tm("(p : Bool)")
     (w, accept_tac(@kernel.assume_rule(p)))
   })
   pv("prove_unsolved", () => {
-    let w = tm("p:bool")
+    let w = tm("(p : Bool)")
     (w, all_tac)
   })
   pv("prove_nonbool", () => {
-    let w = tm("x:A")
+    let w = tm("(x : A)")
     (w, all_tac)
   })
   pv("prove_alpha", () => {
-    let w = tm("forall x:bool. x ==> x")
-    let w2 = tm("forall y:bool. y ==> y")
+    let w = tm("∀ x : Bool, x → x")
+    let w2 = tm("∀ y : Bool, y → y")
     (
       w,
       @tactics.match_accept_tac(
@@ -670,12 +670,12 @@ test "tactics matches tactics.ml" {
     )
   })
   log.attempt("mk_fthm", () => {
-    let a = tm("a:bool")
-    let b = tm("b:bool")
+    let a = tm("(a : Bool)")
+    let b = tm("(b : Bool)")
     sthm(@tactics.mk_fthm(@list.singleton(a), b))
   })
   log.attempt("equals_goal", () => {
-    let a = tm("a:bool")
+    let a = tm("(a : Bool)")
     let g1 : Goal = (@list.singleton(("x", @kernel.assume_rule(a))), a)
     let g2 : Goal = (@list.singleton(("x", @kernel.assume_rule(a))), a)
     let g3 : Goal = (@list.singleton(("y", @kernel.assume_rule(a))), a)
@@ -684,10 +684,10 @@ test "tactics matches tactics.ml" {
     @tactics.equals_goal(g1, g3).to_string()
   })
   log.attempt("compose_insts", () => {
-    let a = tm("a:A")
-    let x = tm("x:A")
-    let b = tm("b:A")
-    let y = tm("y:A")
+    let a = tm("(a : A)")
+    let x = tm("(x : A)")
+    let b = tm("(b : A)")
+    let y = tm("(y : A)")
     let (_, tmin, tyin) = @tactics.compose_insts(
       (@list.List([]), @list.singleton((a, x)), @list.List([])),
       (
@@ -704,8 +704,8 @@ test "tactics matches tactics.ml" {
     "]"
   })
   log.attempt("inst_goal", () => {
-    let a = tm("a:bool")
-    let p = tm("p:bool")
+    let a = tm("(a : Bool)")
+    let p = tm("(p : Bool)")
     sgoal(
       @tactics.inst_goal(
         (@list.List([]), @list.singleton((a, p)), @list.List([])),
@@ -715,11 +715,11 @@ test "tactics matches tactics.ml" {
   })
   // The goalstack.
   log.attempt("g_free", () => {
-    let t = tm("x /\\ y ==> y")
+    let t = tm("(x : Bool) && (y : Bool) → y")
     sgs(@tactics.g(t))
   })
   log.attempt("g", () => {
-    let t = tm("forall p q:bool. p /\\ q ==> q /\\ p")
+    let t = tm("∀ p : Bool, ∀ q : Bool, p && q → q && p")
     sgs(@tactics.g(t))
   })
   log.attempt("e1", () => sgs(@tactics.e(repeat_tac(gen_tac))))
@@ -746,7 +746,7 @@ test "tactics matches tactics.ml" {
   })
   log.attempt("b_too_far", () => sgs(@tactics.b()))
   log.attempt("g2", () => {
-    let t = tm("(a /\\ b) /\\ (c /\\ d)")
+    let t = tm("((a : Bool) && (b : Bool)) && (c : Bool) && (d : Bool)")
     sgs(@tactics.g(t))
   })
   @lib.verbose.val = false
@@ -755,8 +755,8 @@ test "tactics matches tactics.ml" {
   @lib.verbose.val = true
   log.attempt("length", () => @tactics.p().length().to_string())
   log.attempt("set_goal", () => {
-    let a = tm("a:bool")
-    let w = tm("a /\\ (b ==> c)")
+    let a = tm("(a : Bool)")
+    let w = tm("(a : Bool) && ((b : Bool) → (c : Bool))")
     sgs(@tactics.set_goal(@list.singleton(a), w))
   })
   log.attempt("e_lab", () => {
@@ -772,8 +772,8 @@ test "tactics matches tactics.ml" {
   log.attempt("top_realgoal", () => sgoal(@tactics.top_realgoal()))
   @tactics.print_goal_hyp_max_boxes.val = Some(3)
   log.attempt("max_boxes", () => {
-    let a = tm("((a /\\ b) /\\ (c /\\ d)) /\\ ((e /\\ f) /\\ (g /\\ h))")
-    let w = tm("p:bool")
+    let a = tm("(((a : Bool) && (b : Bool)) && (c : Bool) && (d : Bool)) && ((e : Bool) && (f : Bool)) && (g : Bool) && (h : Bool)")
+    let w = tm("(p : Bool)")
     sgoal((@list.singleton(("", @kernel.assume_rule(a))), w))
   })
   @tactics.print_goal_hyp_max_boxes.val = None
@@ -782,7 +782,7 @@ test "tactics matches tactics.ml" {
   @tactics.current_goalstack.val = @list.List([])
   log.attempt("e_nogoal", () => sgs(@tactics.e(all_tac)))
   log.attempt("by_nogoal", () => {
-    let w = tm("T")
+    let w = tm("true")
     let gs = @tactics.mk_goalstate((@list.List([]), w))
     sgls(@tactics.by(all_tac)(@tactics.by(accept_tac(truth))(gs)))
   })
@@ -790,7 +790,7 @@ test "tactics matches tactics.ml" {
   log.attempt("constants", () => {
     @kernel.constants().map(c => c.0).to_array().join(" ")
   })
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   inspect(
     log.contents(),

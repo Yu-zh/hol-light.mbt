@@ -48,7 +48,7 @@ test "Library/word_automata matches Library/word_automata.ml" {
   log.attempt("XSB_CARRYING", () => sthm(@word_automata.xsb_carrying()))
   log.attempt("WORD_MUL_SHLADD", () => sthm(@word_automata.word_mul_shladd()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -58,7 +58,7 @@ test "Library/word_automata matches Library/word_automata.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

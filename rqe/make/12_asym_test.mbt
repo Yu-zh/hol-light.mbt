@@ -169,7 +169,7 @@ test "Rqe/asym matches Rqe/asym.ml" {
   log.attempt("POLY_DIFF_UP_RIGHT3", () => sthm(@asym.poly_diff_up_right3()))
   log.attempt("POLY_DIFF_DOWN_RIGHT3", () => sthm(@asym.poly_diff_down_right3()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

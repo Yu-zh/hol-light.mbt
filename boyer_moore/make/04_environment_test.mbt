@@ -24,7 +24,7 @@ test "Boyer_Moore/environment matches Boyer_Moore/environment.ml" {
   // BEGIN generated theorem list
   log.attempt("CONJ_IMP_IMP_IMP", () => sthm(@environment.conj_imp_imp_imp()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

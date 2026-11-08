@@ -33,7 +33,7 @@ test "Functionspaces/utils matches Functionspaces/utils.ml" {
   log.attempt("EQ_NOT", () => sthm(@utils.eq_not()))
   log.attempt("LET_DEFS", () => sthm(@utils.let_defs()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

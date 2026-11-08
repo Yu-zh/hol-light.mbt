@@ -29,7 +29,7 @@ test "Rqe/pdivides_thms matches Rqe/pdivides_thms.ml" {
   log.attempt("neg_odd_lem", () => sthm(@pdivides_thms.neg_odd_lem()))
   log.attempt("mul_odd_lem", () => sthm(@pdivides_thms.mul_odd_lem()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

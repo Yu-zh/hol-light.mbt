@@ -200,7 +200,7 @@ test "Examples/apery matches Examples/apery.ml" {
   log.attempt("BB_OVER_AA_LT_ZETA3", () => sthm(@apery.bb_over_aa_lt_zeta3()))
   log.attempt("IRRATIONAL_ZETA3", () => sthm(@apery.irrational_zeta3()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -210,7 +210,7 @@ test "Examples/apery matches Examples/apery.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(@parser.parse_term("zz_counter")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

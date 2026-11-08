@@ -42,7 +42,7 @@ test "IEEE/fixed matches IEEE/fixed.ml" {
   log.attempt("roundmode_RECURSION", () => sthm(@fixed.roundmode_recursion()))
   log.attempt("fround", () => sthm(@fixed.fround()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

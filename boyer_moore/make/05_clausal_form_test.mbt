@@ -36,7 +36,7 @@ test "Boyer_Moore/clausal_form matches Boyer_Moore/clausal_form.ml" {
   log.attempt("CONJ_ASSOC_NORM", () => sthm(@clausal_form.conj_assoc_norm()))
   log.attempt("DISJ_ASSOC_NORM", () => sthm(@clausal_form.disj_assoc_norm()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

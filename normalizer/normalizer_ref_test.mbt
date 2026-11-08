@@ -20,7 +20,7 @@ test "normalizer matches normalizer.ml" {
   log.capture_stdout()
   // BEGIN generated theorem list
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -30,22 +30,22 @@ test "normalizer matches normalizer.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   log.attempt("norm_sq", () => {
-    sthm(@normalizer.num_normalize_conv(tm("(x + 1) * (x + 2)")))
+    sthm(@normalizer.num_normalize_conv(tm("((x : Num) + 1) * (x + 2)")))
   })
   log.attempt("norm_cube", () => {
-    sthm(@normalizer.num_normalize_conv(tm("(a + b) EXP 3")))
+    sthm(@normalizer.num_normalize_conv(tm("EXP((a : Num) + (b : Num), 3)")))
   })
   log.attempt("norm_cancel", () => {
-    sthm(@normalizer.num_normalize_conv(tm("x * y + y * x + 0 * z")))
+    sthm(@normalizer.num_normalize_conv(tm("(x : Num) * (y : Num) + (y * x + 0 * (z : Num))")))
   })
   log.attempt("norm_const", () => {
     sthm(@normalizer.num_normalize_conv(tm("2 * 3 + 4")))
   })
   log.attempt("norm_poly", () => {
-    sthm(@normalizer.num_normalize_conv(tm("(x + y) * (x + y) - x * x")))
+    sthm(@normalizer.num_normalize_conv(tm("((x : Num) + (y : Num)) * (x + y) - x * x")))
   })
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

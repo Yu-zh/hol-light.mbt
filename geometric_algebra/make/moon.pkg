@@ -90,3 +90,7 @@ import {
 }
 
 warnings = "-unused_value-unused_trait_bound-unused_package-unused_error_type-unreachable_code-unused_try-fragile_catch_all-text_segment_excceed-unresolved_type_variable-missing_pattern_field-unused_rest_mark"
+
+import {
+  "bobzhang/hol_light/term_syntax",
+} for "test"

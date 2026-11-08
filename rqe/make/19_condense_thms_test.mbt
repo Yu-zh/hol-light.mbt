@@ -31,7 +31,7 @@ test "Rqe/condense_thms matches Rqe/condense_thms.ml" {
   log.attempt("gen_thm_noright", () => sthm(@condense_thms.gen_thm_noright()))
   log.attempt("gen_thm_noboth", () => sthm(@condense_thms.gen_thm_noboth()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

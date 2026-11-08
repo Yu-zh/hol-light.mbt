@@ -55,7 +55,7 @@ test "Complex/grobner_examples matches Complex/grobner_examples.ml" {
   log.attempt("CENTROID", () => sthm(@grobner_examples.centroid()))
   log.attempt("GAUSS", () => sthm(@grobner_examples.gauss()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

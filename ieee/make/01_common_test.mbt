@@ -52,7 +52,7 @@ test "IEEE/common matches IEEE/common.ml" {
   log.attempt("SUP_NUM_BOUNDED", () => sthm(@common.sup_num_bounded()))
   log.attempt("SUP_INT_BOUNDED", () => sthm(@common.sup_int_bounded()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

@@ -32,7 +32,7 @@ test "Complex/quelim matches Complex/quelim.ml" {
   log.attempt("DIVIDES_DEGREE_LEMMA", () => sthm(@quelim.divides_degree_lemma()))
   log.attempt("DIVIDES_DEGREE", () => sthm(@quelim.divides_degree()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

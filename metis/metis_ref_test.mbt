@@ -17,36 +17,36 @@ test "metis matches metis.ml" {
   }
   log.show_theory_trace("metis")
   log.capture_stdout()
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   let pv = (name : String, s : String, tac : @tactics.Tactic) => {
     log.attempt(name, () => sthm(@tactics.prove(tm(s), tac)))
   }
   let none : @list.List[@kernel.Thm] = @list.List([])
-  pv("refl", "forall x:A. P x ==> P x", @metis.metis_tac(none))
-  pv("drinker", "?x:A. P x ==> forall y. P y", @metis.metis_tac(none))
+  pv("refl", "∀ x : A, (P : (A) -> Bool)(x) → P(x)", @metis.metis_tac(none))
+  pv("drinker", "∃ x : A, (P : (A) -> Bool)(x) → (∀ y : A, P(y))", @metis.metis_tac(none))
   pv(
     "trans",
-    "(forall x y:A. R x y ==> R y x) /\\ (forall x y z. R x y /\\ R y z ==> R x z) /\\ (forall x. ?y. R x y) ==> forall x. R x x",
+    "(∀ x : A, ∀ y : A, (R : (A, A) -> Bool)(x, y) → R(y, x)) && (∀ x : A, ∀ y : A, ∀ z : A, R(x, y) && R(y, z) → R(x, z)) && (∀ x : A, ∃ y : A, R(x, y)) → (∀ x : A, R(x, x))",
     @metis.metis_tac(none),
   )
   pv(
     "eq",
-    "(forall x:A. f (f x) = x) /\\ (forall x. g x = f x) ==> forall y. g (g y) = y",
+    "(∀ x : A, (f : (A) -> A)(f(x)) == x) && (∀ x : A, (g : (A) -> A)(x) == f(x)) → (∀ y : A, g(g(y)) == y)",
     @metis.metis_tac(none),
   )
   pv(
     "lemma",
-    "forall p q. p /\\ q ==> q /\\ p",
+    "∀ p : Bool, ∀ q : Bool, p && q → q && p",
     @metis.metis_tac(@list.singleton(@theorems.conj_sym())),
   )
   pv(
     "group",
-    "(forall x:A. m e x = x) /\\ (forall x. m (i x) x = e) /\\ (forall x y z. m (m x y) z = m x (m y z)) ==> forall x. m (i x) (m x e) = e",
+    "(∀ x : A, (m : (A, A) -> A)((e : A), x) == x) && (∀ x : A, m((i : (A) -> A)(x), x) == e) && (∀ x : A, ∀ y : A, ∀ z : A, m(m(x, y), z) == m(x, m(y, z))) → (∀ x : A, m(i(x), m(x, e)) == e)",
     @metis.metis_tac(none),
   )
   pv(
     "asm",
-    "(forall x:A. P x ==> Q x) ==> P a ==> Q a",
+    "(∀ x : A, (P : (A) -> Bool)(x) → (Q : (A) -> Bool)(x)) → P((a : A)) → Q(a)",
     @tactics.then_tac(
       @tactics.repeat_tac(@tactics.strip_tac),
       @metis.asm_metis_tac(none),

@@ -111,7 +111,7 @@ test "100/bertrand matches 100/bertrand.ml" {
   log.attempt("PII_ISQRT_INDUCT", () => sthm(@bertrand.pii_isqrt_induct()))
   log.attempt("PII_UBOUND_5", () => sthm(@bertrand.pii_ubound_5()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -121,7 +121,7 @@ test "100/bertrand matches 100/bertrand.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

@@ -120,7 +120,7 @@ test "Library/isum matches Library/isum.ml" {
   log.attempt("ISUM_CLOSED_NONEMPTY", () => sthm(@isum.isum_closed_nonempty()))
   log.attempt("ISUM_RELATED_NONEMPTY", () => sthm(@isum.isum_related_nonempty()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -130,7 +130,7 @@ test "Library/isum matches Library/isum.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

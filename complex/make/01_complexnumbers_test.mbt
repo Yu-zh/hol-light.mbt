@@ -223,7 +223,7 @@ test "Complex/complexnumbers matches Complex/complexnumbers.ml" {
   log.attempt("COMPLEX_DIV_LMUL", () => sthm(@complexnumbers.complex_div_lmul()))
   log.attempt("COMPLEX_DIV_RMUL", () => sthm(@complexnumbers.complex_div_rmul()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

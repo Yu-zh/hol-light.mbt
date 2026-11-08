@@ -54,7 +54,7 @@ test "Formal_ineqs/arith/float_theory matches Formal_ineqs/arith/float_theory.ml
   log.attempt("Float_theory.FLOAT_0", () => sthm(@float_theory.float_0()))
   log.attempt("Float_theory.FLOAT_ABS", () => sthm(@float_theory.float_abs()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

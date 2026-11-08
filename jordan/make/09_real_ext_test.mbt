@@ -119,7 +119,7 @@ test "Jordan/real_ext matches Jordan/real_ext.ml" {
   log.attempt("REAL_SV_TAN_0", () => sthm(@real_ext.real_sv_tan_0()))
   log.attempt("REAL_SV_TAN_PI", () => sthm(@real_ext.real_sv_tan_pi()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
