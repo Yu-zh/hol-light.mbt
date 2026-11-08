@@ -3,7 +3,7 @@
 ///|
 /// real_of_complex
 fn step_1() -> Unit raise {
-  real_of_complex_c.set(@pair.new_definition(@term_syntax.parse_term("(real_of_complex : (Cart[Real, Tybit0[Unit]]) -> Real)((c : Cart[Real, Tybit0[Unit]])) == select((r : Real) => c == Cx(r))")))
+  real_of_complex_c.set(@pair.new_definition(@term_syntax.parse_term("(real_of_complex : (Cart[Real, 2]) -> Real)((c : Cart[Real, 2])) == select((r : Real) => c == Cx(r))")))
 }
 
 ///|
@@ -19,7 +19,7 @@ pub fn real_of_complex() -> @kernel.Thm {
 /// REAL_OF_COMPLEX
 fn step_2() -> Unit raise {
   let t1 = @meson.meson_tac(@list.List([@complexes.real_v1(), real_of_complex()]))
-  real_of_complex_v1_c.set(@tactics.prove(@term_syntax.parse_term("∀ c : Cart[Real, Tybit0[Unit]], real(c) → Cx(real_of_complex(c)) == c"), t1))
+  real_of_complex_v1_c.set(@tactics.prove(@term_syntax.parse_term("∀ c : Cart[Real, 2], real(c) → Cx(real_of_complex(c)) == c"), t1))
 }
 
 ///|
@@ -35,7 +35,7 @@ pub fn real_of_complex_v1() -> @kernel.Thm {
 /// REAL_OF_COMPLEX_RE
 fn step_3() -> Unit raise {
   let t2 = @meson.meson_tac(@list.List([@complexes.re_cx(), real_of_complex_v1()]))
-  real_of_complex_re_c.set(@tactics.prove(@term_syntax.parse_term("∀ c : Cart[Real, Tybit0[Unit]], real(c) → real_of_complex(c) == Re(c)"), t2))
+  real_of_complex_re_c.set(@tactics.prove(@term_syntax.parse_term("∀ c : Cart[Real, 2], real(c) → real_of_complex(c) == Re(c)"), t2))
 }
 
 ///|
@@ -67,7 +67,7 @@ pub fn real_of_complex_cx() -> @kernel.Thm {
 /// REAL_OF_COMPLEX_NORM
 fn step_5() -> Unit raise {
   let t4 = @impconv.imp_rewrite_tac(@list.List([@complexes.real_norm(), real_of_complex_re()]))
-  real_of_complex_norm_c.set(@tactics.prove(@term_syntax.parse_term("∀ c : Cart[Real, Tybit0[Unit]], real(c) → norm(c) == abs(real_of_complex(c))"), t4))
+  real_of_complex_norm_c.set(@tactics.prove(@term_syntax.parse_term("∀ c : Cart[Real, 2], real(c) → norm(c) == abs(real_of_complex(c))"), t4))
 }
 
 ///|
@@ -83,7 +83,7 @@ pub fn real_of_complex_norm() -> @kernel.Thm {
 /// REAL_OF_COMPLEX_ADD
 fn step_6() -> Unit raise {
   let t5 = @meson.meson_tac(@list.List([@complexes.real_add(), real_of_complex_re(), @complexes.re_add()]))
-  real_of_complex_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, Tybit0[Unit]], ∀ y : Cart[Real, Tybit0[Unit]], real(x) && real(y) → real_of_complex(x + y) == real_of_complex(x) + real_of_complex(y)"), t5))
+  real_of_complex_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, 2], ∀ y : Cart[Real, 2], real(x) && real(y) → real_of_complex(x + y) == real_of_complex(x) + real_of_complex(y)"), t5))
 }
 
 ///|
@@ -99,7 +99,7 @@ pub fn real_of_complex_add() -> @kernel.Thm {
 /// REAL_OF_COMPLEX_SUB
 fn step_7() -> Unit raise {
   let t6 = @meson.meson_tac(@list.List([@complexes.real_sub(), real_of_complex_re(), @complexes.re_sub()]))
-  real_of_complex_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, Tybit0[Unit]], ∀ y : Cart[Real, Tybit0[Unit]], real(x) && real(y) → real_of_complex(x - y) == real_of_complex(x) - real_of_complex(y)"), t6))
+  real_of_complex_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, 2], ∀ y : Cart[Real, 2], real(x) && real(y) → real_of_complex(x - y) == real_of_complex(x) - real_of_complex(y)"), t6))
 }
 
 ///|
@@ -114,8 +114,8 @@ pub fn real_of_complex_sub() -> @kernel.Thm {
 ///|
 /// REAL_OF_COMPLEX_ZERO
 fn step_8() -> Unit raise {
-  let t7 = @meson.meson_tac(@list.List([real_of_complex_re(), @complexes.real(), @complexes.simple_complex_arith(@term_syntax.parse_term("Im((x : Cart[Real, Tybit0[Unit]])) == real_of_num(0) → (Re(x) == real_of_num(0)) == (x == Cx(real_of_num(0)))"))]))
-  real_of_complex_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, Tybit0[Unit]], ∀ y : _, real(x) → (real_of_complex(x) == real_of_num(0)) == (x == Cx(real_of_num(0)))"), t7))
+  let t7 = @meson.meson_tac(@list.List([real_of_complex_re(), @complexes.real(), @complexes.simple_complex_arith(@term_syntax.parse_term("Im((x : Cart[Real, 2])) == real_of_num(0) → (Re(x) == real_of_num(0)) == (x == Cx(real_of_num(0)))"))]))
+  real_of_complex_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, 2], ∀ y : _, real(x) → (real_of_complex(x) == real_of_num(0)) == (x == Cx(real_of_num(0)))"), t7))
 }
 
 ///|
@@ -131,7 +131,7 @@ pub fn real_of_complex_zero() -> @kernel.Thm {
 /// REAL_MUL
 fn step_9() -> Unit raise {
   let t8 = @tactics.then_tac(@simp.rewrite_tac(@list.List([@complexes.real()])), @complexes.simple_complex_arith_tac)
-  real_mul_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, Tybit0[Unit]], ∀ y : Cart[Real, Tybit0[Unit]], real(x) && real(y) → real(x * y)"), t8))
+  real_mul_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, 2], ∀ y : Cart[Real, 2], real(x) && real(y) → real(x * y)"), t8))
 }
 
 ///|
@@ -147,7 +147,7 @@ pub fn real_mul() -> @kernel.Thm {
 /// REAL_OF_COMPLEX_MUL
 fn step_10() -> Unit raise {
   let t9 = @meson.meson_tac(@list.List([real_mul(), real_of_complex_v1(), @complexes.cx_mul(), real_of_complex_cx()]))
-  real_of_complex_mul_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, Tybit0[Unit]], ∀ y : Cart[Real, Tybit0[Unit]], real(x) && real(y) → real_of_complex(x * y) == real_of_complex(x) * real_of_complex(y)"), t9))
+  real_of_complex_mul_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, 2], ∀ y : Cart[Real, 2], real(x) && real(y) → real_of_complex(x * y) == real_of_complex(x) * real_of_complex(y)"), t9))
 }
 
 ///|
@@ -163,7 +163,7 @@ pub fn real_of_complex_mul() -> @kernel.Thm {
 /// NORM2_ADD_REAL
 fn step_11() -> Unit raise {
   let t10 = @simp.simp_tac(@list.List([@complexes.real(), @complexes.complex_norm(), @complexes.re_add(), @complexes.im_add(), @complexes.re_mul_ii(), @complexes.im_mul_ii(), @calc_int.real_neg_0(), @realax.real_add_lid(), @calc_int.real_add_rid(), @real.real_pow_zero(), @int.arith_rule(@term_syntax.parse_term("!(2 == 0)")), @real.real_le_pow_2(), @real.sqrt_pow_2(), @realarith.real_le_add()]))
-  norm2_add_real_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, Tybit0[Unit]], ∀ y : Cart[Real, Tybit0[Unit]], real(x) && real(y) → pow(norm(x + ii * y), 2) == pow(norm(x), 2) + pow(norm(y), 2)"), t10))
+  norm2_add_real_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, 2], ∀ y : Cart[Real, 2], real(x) && real(y) → pow(norm(x + ii * y), 2) == pow(norm(x), 2) + pow(norm(y), 2)"), t10))
 }
 
 ///|
@@ -390,7 +390,7 @@ fn step_23() -> Unit raise {
 ///|
 /// cfun_add
 fn step_24() -> Unit raise {
-  cfun_add_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_add : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) == fun_map2(op_plus)")))
+  cfun_add_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_add : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2]) == fun_map2(op_plus)")))
 }
 
 ///|
@@ -405,7 +405,7 @@ pub fn cfun_add() -> @kernel.Thm {
 ///|
 /// cfun_smul
 fn step_25() -> Unit raise {
-  cfun_smul_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_smul : (Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])((a : Cart[Real, Tybit0[Unit]])) == o(op_star(a))")))
+  cfun_smul_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_smul : (Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2])((a : Cart[Real, 2])) == o(op_star(a))")))
 }
 
 ///|
@@ -420,7 +420,7 @@ pub fn cfun_smul() -> @kernel.Thm {
 ///|
 /// cfun_neg
 fn step_26() -> Unit raise {
-  cfun_neg_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_neg : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) == o(op_minus_minus)")))
+  cfun_neg_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_neg : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]) == o(op_minus_minus)")))
 }
 
 ///|
@@ -435,7 +435,7 @@ pub fn cfun_neg() -> @kernel.Thm {
 ///|
 /// cfun_sub
 fn step_27() -> Unit raise {
-  cfun_sub_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_sub : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) == fun_map2(op_minus)")))
+  cfun_sub_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_sub : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2]) == fun_map2(op_minus)")))
 }
 
 ///|
@@ -450,7 +450,7 @@ pub fn cfun_sub() -> @kernel.Thm {
 ///|
 /// cfun_zero
 fn step_28() -> Unit raise {
-  cfun_zero_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_zero : (A) -> Cart[Real, Tybit0[Unit]]) == K(Cx(real_of_num(0)))")))
+  cfun_zero_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_zero : (A) -> Cart[Real, 2]) == K(Cx(real_of_num(0)))")))
 }
 
 ///|
@@ -465,7 +465,7 @@ pub fn cfun_zero() -> @kernel.Thm {
 ///|
 /// cfun_cnj
 fn step_29() -> Unit raise {
-  cfun_cnj_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_cnj : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) == o(cnj)")))
+  cfun_cnj_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_cnj : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]) == o(cnj)")))
 }
 
 ///|
@@ -508,10 +508,10 @@ fn step_32() -> Unit raise {
 /// `prioritize_cfun`
 pub fn prioritize_cfun(x36 : Unit) -> Unit raise {
   let _ = x36
-  @preterm.overload_interface("+", @term_syntax.parse_term("(cfun_add : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])"))
-  @preterm.overload_interface("%", @term_syntax.parse_term("(cfun_smul : (Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])"))
-  @preterm.overload_interface("--", @term_syntax.parse_term("(cfun_neg : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])"))
-  @preterm.overload_interface("-", @term_syntax.parse_term("(cfun_sub : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])"))
+  @preterm.overload_interface("+", @term_syntax.parse_term("(cfun_add : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2])"))
+  @preterm.overload_interface("%", @term_syntax.parse_term("(cfun_smul : (Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2])"))
+  @preterm.overload_interface("--", @term_syntax.parse_term("(cfun_neg : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2])"))
+  @preterm.overload_interface("-", @term_syntax.parse_term("(cfun_sub : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2])"))
 }
 
 ///|
@@ -524,7 +524,7 @@ fn step_33() -> Unit raise {
 /// CFUN_EQ
 fn step_34() -> Unit raise {
   let t37 = @simp.rewrite_tac(@list.List([@class.fun_eq_thm()]))
-  cfun_eq_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (A) -> Cart[Real, Tybit0[Unit]], ∀ g : (A) -> Cart[Real, Tybit0[Unit]], (f == g) == (∀ x : A, f(x) == g(x))"), t37))
+  cfun_eq_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (A) -> Cart[Real, 2], ∀ g : (A) -> Cart[Real, 2], (f == g) == (∀ x : A, f(x) == g(x))"), t37))
 }
 
 ///|
@@ -582,7 +582,7 @@ pub fn cfun_arith(x43 : @kernel.Term) -> @kernel.Thm raise {
 ///|
 /// CFUN_SUB
 fn step_37() -> Unit raise {
-  cfun_sub_v1_c.set(cfun_arith(@term_syntax.parse_term("∀ f : (_) -> Cart[Real, Tybit0[Unit]], ∀ g : (_) -> Cart[Real, Tybit0[Unit]], f - g == ((x : _) => f(x) - g(x))")))
+  cfun_sub_v1_c.set(cfun_arith(@term_syntax.parse_term("∀ f : (_) -> Cart[Real, 2], ∀ g : (_) -> Cart[Real, 2], f - g == ((x : _) => f(x) - g(x))")))
 }
 
 ///|
@@ -597,7 +597,7 @@ pub fn cfun_sub_v1() -> @kernel.Thm {
 ///|
 /// CFUN_SUB_THM
 fn step_38() -> Unit raise {
-  cfun_sub_thm_c.set(cfun_arith(@term_syntax.parse_term("∀ f : (_) -> Cart[Real, Tybit0[Unit]], ∀ g : (_) -> Cart[Real, Tybit0[Unit]], op_minus(f, g, (x : _)) == f(x) - g(x)")))
+  cfun_sub_thm_c.set(cfun_arith(@term_syntax.parse_term("∀ f : (_) -> Cart[Real, 2], ∀ g : (_) -> Cart[Real, 2], op_minus(f, g, (x : _)) == f(x) - g(x)")))
 }
 
 ///|
@@ -612,7 +612,7 @@ pub fn cfun_sub_thm() -> @kernel.Thm {
 ///|
 /// CFUN_ADD
 fn step_39() -> Unit raise {
-  cfun_add_v1_c.set(cfun_arith(@term_syntax.parse_term("∀ f : (_) -> Cart[Real, Tybit0[Unit]], ∀ g : (_) -> Cart[Real, Tybit0[Unit]], f + g == ((x : _) => f(x) + g(x))")))
+  cfun_add_v1_c.set(cfun_arith(@term_syntax.parse_term("∀ f : (_) -> Cart[Real, 2], ∀ g : (_) -> Cart[Real, 2], f + g == ((x : _) => f(x) + g(x))")))
 }
 
 ///|
@@ -627,7 +627,7 @@ pub fn cfun_add_v1() -> @kernel.Thm {
 ///|
 /// CFUN_ADD_THM
 fn step_40() -> Unit raise {
-  cfun_add_thm_c.set(cfun_arith(@term_syntax.parse_term("∀ f : (_) -> Cart[Real, Tybit0[Unit]], ∀ g : (_) -> Cart[Real, Tybit0[Unit]], op_plus(f, g, (x : _)) == f(x) + g(x)")))
+  cfun_add_thm_c.set(cfun_arith(@term_syntax.parse_term("∀ f : (_) -> Cart[Real, 2], ∀ g : (_) -> Cart[Real, 2], op_plus(f, g, (x : _)) == f(x) + g(x)")))
 }
 
 ///|
@@ -642,7 +642,7 @@ pub fn cfun_add_thm() -> @kernel.Thm {
 ///|
 /// CFUN_SMUL
 fn step_41() -> Unit raise {
-  cfun_smul_v1_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ f : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(a, f) == ((x : _) => a * f(x))")))
+  cfun_smul_v1_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ f : (_) -> Cart[Real, 2], cfun_smul(a, f) == ((x : _) => a * f(x))")))
 }
 
 ///|
@@ -657,7 +657,7 @@ pub fn cfun_smul_v1() -> @kernel.Thm {
 ///|
 /// CFUN_NEG_LAMBDA
 fn step_42() -> Unit raise {
-  cfun_neg_lambda_c.set(cfun_arith(@term_syntax.parse_term("∀ f : (_) -> Cart[Real, Tybit0[Unit]], -f == ((x : _) => -f(x))")))
+  cfun_neg_lambda_c.set(cfun_arith(@term_syntax.parse_term("∀ f : (_) -> Cart[Real, 2], -f == ((x : _) => -f(x))")))
 }
 
 ///|
@@ -672,7 +672,7 @@ pub fn cfun_neg_lambda() -> @kernel.Thm {
 ///|
 /// CFUN_SMUL_LNEG
 fn step_43() -> Unit raise {
-  cfun_smul_lneg_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ f : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(-a, f) == -cfun_smul(a, f)")))
+  cfun_smul_lneg_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ f : (_) -> Cart[Real, 2], cfun_smul(-a, f) == -cfun_smul(a, f)")))
 }
 
 ///|
@@ -687,7 +687,7 @@ pub fn cfun_smul_lneg() -> @kernel.Thm {
 ///|
 /// CFUN_SMUL_RNEG
 fn step_44() -> Unit raise {
-  cfun_smul_rneg_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ f : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(a, -f) == -cfun_smul(a, f)")))
+  cfun_smul_rneg_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ f : (_) -> Cart[Real, 2], cfun_smul(a, -f) == -cfun_smul(a, f)")))
 }
 
 ///|
@@ -702,7 +702,7 @@ pub fn cfun_smul_rneg() -> @kernel.Thm {
 ///|
 /// CFUN_ADD_SYM
 fn step_45() -> Unit raise {
-  cfun_add_sym_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], x + y == y + x")))
+  cfun_add_sym_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], x + y == y + x")))
 }
 
 ///|
@@ -717,7 +717,7 @@ pub fn cfun_add_sym() -> @kernel.Thm {
 ///|
 /// CFUN_ADD_ASSOC
 fn step_46() -> Unit raise {
-  cfun_add_assoc_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], x + y + z == x + (y + z)")))
+  cfun_add_assoc_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], x + y + z == x + (y + z)")))
 }
 
 ///|
@@ -732,7 +732,7 @@ pub fn cfun_add_assoc() -> @kernel.Thm {
 ///|
 /// CFUN_SUB_NEG
 fn step_47() -> Unit raise {
-  cfun_sub_neg_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], x - y == x + -y")))
+  cfun_sub_neg_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], x - y == x + -y")))
 }
 
 ///|
@@ -747,7 +747,7 @@ pub fn cfun_sub_neg() -> @kernel.Thm {
 ///|
 /// CFUN_SMUL_LZERO
 fn step_48() -> Unit raise {
-  cfun_smul_lzero_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(Cx(real_of_num(0)), x) == cfun_zero")))
+  cfun_smul_lzero_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], cfun_smul(Cx(real_of_num(0)), x) == cfun_zero")))
 }
 
 ///|
@@ -762,7 +762,7 @@ pub fn cfun_smul_lzero() -> @kernel.Thm {
 ///|
 /// CFUN_ADD_LID
 fn step_49() -> Unit raise {
-  cfun_add_lid_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], cfun_zero + x == x")))
+  cfun_add_lid_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], cfun_zero + x == x")))
 }
 
 ///|
@@ -777,7 +777,7 @@ pub fn cfun_add_lid() -> @kernel.Thm {
 ///|
 /// CFUN_ADD_RID
 fn step_50() -> Unit raise {
-  cfun_add_rid_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], x + cfun_zero == x")))
+  cfun_add_rid_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], x + cfun_zero == x")))
 }
 
 ///|
@@ -792,7 +792,7 @@ pub fn cfun_add_rid() -> @kernel.Thm {
 ///|
 /// CFUN_SUB_RID
 fn step_51() -> Unit raise {
-  cfun_sub_rid_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], x - cfun_zero == x")))
+  cfun_sub_rid_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], x - cfun_zero == x")))
 }
 
 ///|
@@ -807,7 +807,7 @@ pub fn cfun_sub_rid() -> @kernel.Thm {
 ///|
 /// CFUN_SMUL_RZERO
 fn step_52() -> Unit raise {
-  cfun_smul_rzero_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], (cfun_smul : (Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])(a, (cfun_zero : (_) -> Cart[Real, Tybit0[Unit]])) == (cfun_zero : (_) -> Cart[Real, Tybit0[Unit]])")))
+  cfun_smul_rzero_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], (cfun_smul : (Cart[Real, 2], (_) -> Cart[Real, 2], _) -> Cart[Real, 2])(a, (cfun_zero : (_) -> Cart[Real, 2])) == (cfun_zero : (_) -> Cart[Real, 2])")))
 }
 
 ///|
@@ -822,7 +822,7 @@ pub fn cfun_smul_rzero() -> @kernel.Thm {
 ///|
 /// CFUN_SUB_REFL
 fn step_53() -> Unit raise {
-  cfun_sub_refl_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], x - x == cfun_zero")))
+  cfun_sub_refl_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], x - x == cfun_zero")))
 }
 
 ///|
@@ -852,7 +852,7 @@ pub fn cfun_zero_clauses() -> @kernel.Thm {
 ///|
 /// CFUN_SMUL_SYM
 fn step_55() -> Unit raise {
-  cfun_smul_sym_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(a, cfun_smul(b, x)) == cfun_smul(b, cfun_smul(a, x))")))
+  cfun_smul_sym_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], cfun_smul(a, cfun_smul(b, x)) == cfun_smul(b, cfun_smul(a, x))")))
 }
 
 ///|
@@ -867,7 +867,7 @@ pub fn cfun_smul_sym() -> @kernel.Thm {
 ///|
 /// CFUN_SMUL_DIS
 fn step_56() -> Unit raise {
-  cfun_smul_dis_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(a, x + y) == cfun_smul(a, x) + cfun_smul(a, y)")))
+  cfun_smul_dis_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], cfun_smul(a, x + y) == cfun_smul(a, x) + cfun_smul(a, y)")))
 }
 
 ///|
@@ -882,7 +882,7 @@ pub fn cfun_smul_dis() -> @kernel.Thm {
 ///|
 /// CFUN_SMUL_ASSOC
 fn step_57() -> Unit raise {
-  cfun_smul_assoc_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(a, cfun_smul(b, x)) == cfun_smul(a * b, x)")))
+  cfun_smul_assoc_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], cfun_smul(a, cfun_smul(b, x)) == cfun_smul(a * b, x)")))
 }
 
 ///|
@@ -897,7 +897,7 @@ pub fn cfun_smul_assoc() -> @kernel.Thm {
 ///|
 /// CFUN_ADD_RDISTRIB
 fn step_58() -> Unit raise {
-  cfun_add_rdistrib_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(a + b, x) == cfun_smul(a, x) + cfun_smul(b, x)")))
+  cfun_add_rdistrib_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], cfun_smul(a + b, x) == cfun_smul(a, x) + cfun_smul(b, x)")))
 }
 
 ///|
@@ -912,7 +912,7 @@ pub fn cfun_add_rdistrib() -> @kernel.Thm {
 ///|
 /// CFUN_SUB_RDISTRIB
 fn step_59() -> Unit raise {
-  cfun_sub_rdistrib_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(a - b, x) == cfun_smul(a, x) - cfun_smul(b, x)")))
+  cfun_sub_rdistrib_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], cfun_smul(a - b, x) == cfun_smul(a, x) - cfun_smul(b, x)")))
 }
 
 ///|
@@ -927,7 +927,7 @@ pub fn cfun_sub_rdistrib() -> @kernel.Thm {
 ///|
 /// CFUN_SUB_RADD
 fn step_60() -> Unit raise {
-  cfun_sub_radd_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], x - (y + z) == x - y - z")))
+  cfun_sub_radd_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], x - (y + z) == x - y - z")))
 }
 
 ///|
@@ -942,7 +942,7 @@ pub fn cfun_sub_radd() -> @kernel.Thm {
 ///|
 /// CFUN_ADD_RSUB
 fn step_61() -> Unit raise {
-  cfun_add_rsub_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], x + (y - z) == x + y - z")))
+  cfun_add_rsub_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], x + (y - z) == x + y - z")))
 }
 
 ///|
@@ -957,7 +957,7 @@ pub fn cfun_add_rsub() -> @kernel.Thm {
 ///|
 /// CFUN_SUB_ADD
 fn step_62() -> Unit raise {
-  cfun_sub_add_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], x - y + z == x + z - y")))
+  cfun_sub_add_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], x - y + z == x + z - y")))
 }
 
 ///|
@@ -972,7 +972,7 @@ pub fn cfun_sub_add() -> @kernel.Thm {
 ///|
 /// CFUN_SUB_SUB
 fn step_63() -> Unit raise {
-  cfun_sub_sub_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], x - (y - z) == x - y + z")))
+  cfun_sub_sub_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], x - (y - z) == x - y + z")))
 }
 
 ///|
@@ -987,7 +987,7 @@ pub fn cfun_sub_sub() -> @kernel.Thm {
 ///|
 /// CFUN_EQ_LSUB
 fn step_64() -> Unit raise {
-  cfun_eq_lsub_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], (x - y == z) == (x == z + y)")))
+  cfun_eq_lsub_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], (x - y == z) == (x == z + y)")))
 }
 
 ///|
@@ -1002,7 +1002,7 @@ pub fn cfun_eq_lsub() -> @kernel.Thm {
 ///|
 /// CFUN_EQ_RSUB
 fn step_65() -> Unit raise {
-  cfun_eq_rsub_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], (x == y - z) == (x + z == y)")))
+  cfun_eq_rsub_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], (x == y - z) == (x + z == y)")))
 }
 
 ///|
@@ -1017,7 +1017,7 @@ pub fn cfun_eq_rsub() -> @kernel.Thm {
 ///|
 /// CFUN_ZERO_ADD
 fn step_66() -> Unit raise {
-  cfun_zero_add_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], (y + x == x) == (y == cfun_zero)")))
+  cfun_zero_add_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], (y + x == x) == (y == cfun_zero)")))
 }
 
 ///|
@@ -1032,7 +1032,7 @@ pub fn cfun_zero_add() -> @kernel.Thm {
 ///|
 /// CFUN_SUB_LDISTRIB
 fn step_67() -> Unit raise {
-  cfun_sub_ldistrib_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(a, x - y) == cfun_smul(a, x) - cfun_smul(a, y)")))
+  cfun_sub_ldistrib_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], cfun_smul(a, x - y) == cfun_smul(a, x) - cfun_smul(a, y)")))
 }
 
 ///|
@@ -1047,7 +1047,7 @@ pub fn cfun_sub_ldistrib() -> @kernel.Thm {
 ///|
 /// CFUN_ADD_LDISTRIB
 fn step_68() -> Unit raise {
-  cfun_add_ldistrib_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(a, x + y) == cfun_smul(a, x) + cfun_smul(a, y)")))
+  cfun_add_ldistrib_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], cfun_smul(a, x + y) == cfun_smul(a, x) + cfun_smul(a, y)")))
 }
 
 ///|
@@ -1062,7 +1062,7 @@ pub fn cfun_add_ldistrib() -> @kernel.Thm {
 ///|
 /// CFUN_SMUL_DISTRIB
 fn step_69() -> Unit raise {
-  cfun_smul_distrib_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ f : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(a, cfun_smul(b, f)) == cfun_smul(a * b, f)")))
+  cfun_smul_distrib_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ f : (_) -> Cart[Real, 2], cfun_smul(a, cfun_smul(b, f)) == cfun_smul(a * b, f)")))
 }
 
 ///|
@@ -1077,7 +1077,7 @@ pub fn cfun_smul_distrib() -> @kernel.Thm {
 ///|
 /// CFUN_SMUL_LID
 fn step_70() -> Unit raise {
-  cfun_smul_lid_c.set(cfun_arith(@term_syntax.parse_term("∀ v : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(Cx(real_of_num(1)), v) == v")))
+  cfun_smul_lid_c.set(cfun_arith(@term_syntax.parse_term("∀ v : (_) -> Cart[Real, 2], cfun_smul(Cx(real_of_num(1)), v) == v")))
 }
 
 ///|
@@ -1092,7 +1092,7 @@ pub fn cfun_smul_lid() -> @kernel.Thm {
 ///|
 /// CFUN_SMUL_LID_NEG
 fn step_71() -> Unit raise {
-  cfun_smul_lid_neg_c.set(cfun_arith(@term_syntax.parse_term("∀ v : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(-Cx(real_of_num(1)), v) == -v")))
+  cfun_smul_lid_neg_c.set(cfun_arith(@term_syntax.parse_term("∀ v : (_) -> Cart[Real, 2], cfun_smul(-Cx(real_of_num(1)), v) == -v")))
 }
 
 ///|
@@ -1107,7 +1107,7 @@ pub fn cfun_smul_lid_neg() -> @kernel.Thm {
 ///|
 /// CFUN_EQ_NEG2
 fn step_72() -> Unit raise {
-  cfun_eq_neg2_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], (-x == -y) == (x == y)")))
+  cfun_eq_neg2_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], (-x == -y) == (x == y)")))
 }
 
 ///|
@@ -1122,7 +1122,7 @@ pub fn cfun_eq_neg2() -> @kernel.Thm {
 ///|
 /// CFUN_EQ_ADD_LCANCEL
 fn step_73() -> Unit raise {
-  cfun_eq_add_lcancel_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], (x + y == x + z) == (y == z)")))
+  cfun_eq_add_lcancel_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], (x + y == x + z) == (y == z)")))
 }
 
 ///|
@@ -1137,7 +1137,7 @@ pub fn cfun_eq_add_lcancel() -> @kernel.Thm {
 ///|
 /// CFUN_EQ_ADD_RCANCEL
 fn step_74() -> Unit raise {
-  cfun_eq_add_rcancel_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], (x + z == y + z) == (x == y)")))
+  cfun_eq_add_rcancel_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], (x + z == y + z) == (x == y)")))
 }
 
 ///|
@@ -1152,7 +1152,7 @@ pub fn cfun_eq_add_rcancel() -> @kernel.Thm {
 ///|
 /// CFUN_EQ_SUB_LCANCEL
 fn step_75() -> Unit raise {
-  cfun_eq_sub_lcancel_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], (x - y == x - z) == (y == z)")))
+  cfun_eq_sub_lcancel_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], (x - y == x - z) == (y == z)")))
 }
 
 ///|
@@ -1167,7 +1167,7 @@ pub fn cfun_eq_sub_lcancel() -> @kernel.Thm {
 ///|
 /// CFUN_EQ_SUB_RADD
 fn step_76() -> Unit raise {
-  cfun_eq_sub_radd_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], (x - y == z) == (x == z + y)")))
+  cfun_eq_sub_radd_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], (x - y == z) == (x == z + y)")))
 }
 
 ///|
@@ -1182,7 +1182,7 @@ pub fn cfun_eq_sub_radd() -> @kernel.Thm {
 ///|
 /// CFUN_SUB_ADD2
 fn step_77() -> Unit raise {
-  cfun_sub_add2_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], y + (x - y) == x")))
+  cfun_sub_add2_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], y + (x - y) == x")))
 }
 
 ///|
@@ -1197,7 +1197,7 @@ pub fn cfun_sub_add2() -> @kernel.Thm {
 ///|
 /// CFUN_SUB_0
 fn step_78() -> Unit raise {
-  cfun_sub_0_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], (x - y == cfun_zero) == (x == y)")))
+  cfun_sub_0_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], (x - y == cfun_zero) == (x == y)")))
 }
 
 ///|
@@ -1212,7 +1212,7 @@ pub fn cfun_sub_0() -> @kernel.Thm {
 ///|
 /// CFUN_ENTIRE
 fn step_79() -> Unit raise {
-  cfun_entire_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], (cfun_smul(a, x) == cfun_zero) == (a == Cx(real_of_num(0)) || x == cfun_zero)")))
+  cfun_entire_c.set(cfun_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], (cfun_smul(a, x) == cfun_zero) == (a == Cx(real_of_num(0)) || x == cfun_zero)")))
 }
 
 ///|
@@ -1227,7 +1227,7 @@ pub fn cfun_entire() -> @kernel.Thm {
 ///|
 /// CFUN_EQ_SMUL_LCANCEL
 fn step_80() -> Unit raise {
-  cfun_eq_smul_lcancel_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ a : Cart[Real, Tybit0[Unit]], (cfun_smul(a, x) == cfun_smul(a, y)) == (a == Cx(real_of_num(0)) || x == y)")))
+  cfun_eq_smul_lcancel_c.set(cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ a : Cart[Real, 2], (cfun_smul(a, x) == cfun_smul(a, y)) == (a == Cx(real_of_num(0)) || x == y)")))
 }
 
 ///|
@@ -1252,7 +1252,7 @@ fn step_81() -> Unit raise {
   let t45 = @tactics.match_mp_tac(@meson.meson(@list.List([]), @term_syntax.parse_term("(∀ x : _, (P : (_) -> Bool)(x) == (Q : (_) -> Bool)(x)) → (∀ x : _, P(x)) == (∀ x : _, Q(x))")))
   let t44 = @tactics.repeat_tac(@tactics.strip_tac)
   let t51 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_to_complex()])), t44), t45), @tactics.gen_tac), t49), t50)
-  cfun_eq_smul_lcancel2_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], !(a == Cx(real_of_num(0))) → (cfun_smul(a, x) == y) == (x == cfun_smul(inv(a), y))"), t51))
+  cfun_eq_smul_lcancel2_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], !(a == Cx(real_of_num(0))) → (cfun_smul(a, x) == y) == (x == cfun_smul(inv(a), y))"), t51))
 }
 
 ///|
@@ -1267,7 +1267,7 @@ pub fn cfun_eq_smul_lcancel2() -> @kernel.Thm {
 ///|
 /// is_cfun_subspace
 fn step_82() -> Unit raise {
-  is_cfun_subspace_c.set(@pair.new_definition(@term_syntax.parse_term("(is_cfun_subspace : (((A) -> Cart[Real, Tybit0[Unit]]) -> Bool) -> Bool)((spc : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool)) == (IN(cfun_zero, spc) && (∀ x : (A) -> Cart[Real, Tybit0[Unit]], IN(x, spc) → (∀ a : Cart[Real, Tybit0[Unit]], IN(cfun_smul(a, x), spc)) && (∀ y : (A) -> Cart[Real, Tybit0[Unit]], IN(y, spc) → IN(x + y, spc))))")))
+  is_cfun_subspace_c.set(@pair.new_definition(@term_syntax.parse_term("(is_cfun_subspace : (((A) -> Cart[Real, 2]) -> Bool) -> Bool)((spc : ((A) -> Cart[Real, 2]) -> Bool)) == (IN(cfun_zero, spc) && (∀ x : (A) -> Cart[Real, 2], IN(x, spc) → (∀ a : Cart[Real, 2], IN(cfun_smul(a, x), spc)) && (∀ y : (A) -> Cart[Real, 2], IN(y, spc) → IN(x + y, spc))))")))
 }
 
 ///|
@@ -1283,7 +1283,7 @@ pub fn is_cfun_subspace() -> @kernel.Thm {
 /// CFUN_SUBSPACE_ZERO
 fn step_83() -> Unit raise {
   let t52 = @simp.simp_tac(@list.List([is_cfun_subspace()]))
-  cfun_subspace_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, is_cfun_subspace(s) → IN(cfun_zero, s)"), t52))
+  cfun_subspace_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, is_cfun_subspace(s) → IN(cfun_zero, s)"), t52))
 }
 
 ///|
@@ -1299,7 +1299,7 @@ pub fn cfun_subspace_zero() -> @kernel.Thm {
 /// CFUN_SUBSPACE_SMUL
 fn step_84() -> Unit raise {
   let t53 = @simp.simp_tac(@list.List([is_cfun_subspace()]))
-  cfun_subspace_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ a : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], is_cfun_subspace(s) && IN(x, s) → IN(cfun_smul(a, x), s)"), t53))
+  cfun_subspace_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ a : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], is_cfun_subspace(s) && IN(x, s) → IN(cfun_smul(a, x), s)"), t53))
 }
 
 ///|
@@ -1315,7 +1315,7 @@ pub fn cfun_subspace_smul() -> @kernel.Thm {
 /// CFUN_SUBSPACE_ADD
 fn step_85() -> Unit raise {
   let t54 = @simp.simp_tac(@list.List([is_cfun_subspace()]))
-  cfun_subspace_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], is_cfun_subspace(s) && IN(x, s) && IN(y, s) → IN(x + y, s)"), t54))
+  cfun_subspace_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], is_cfun_subspace(s) && IN(x, s) && IN(y, s) → IN(x + y, s)"), t54))
 }
 
 ///|
@@ -1331,7 +1331,7 @@ pub fn cfun_subspace_add() -> @kernel.Thm {
 /// CFUN_SUBSPACE_NEG
 fn step_86() -> Unit raise {
   let t55 = @simp.simp_tac(@list.List([@equal.gsym(cfun_smul_lid_neg()), cfun_subspace_smul()]))
-  cfun_subspace_neg_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ x : (_) -> Cart[Real, Tybit0[Unit]], is_cfun_subspace(s) && IN(x, s) → IN(-x, s)"), t55))
+  cfun_subspace_neg_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ x : (_) -> Cart[Real, 2], is_cfun_subspace(s) && IN(x, s) → IN(-x, s)"), t55))
 }
 
 ///|
@@ -1347,7 +1347,7 @@ pub fn cfun_subspace_neg() -> @kernel.Thm {
 /// CFUN_SUBSPACE_SUB
 fn step_87() -> Unit raise {
   let t56 = @simp.simp_tac(@list.List([cfun_sub_neg(), cfun_subspace_neg(), cfun_subspace_add()]))
-  cfun_subspace_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], is_cfun_subspace(s) && IN(x, s) && IN(y, s) → IN(x - y, s)"), t56))
+  cfun_subspace_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], is_cfun_subspace(s) && IN(x, s) && IN(y, s) → IN(x - y, s)"), t56))
 }
 
 ///|
@@ -1363,7 +1363,7 @@ pub fn cfun_subspace_sub() -> @kernel.Thm {
 /// CFUN_SUBSPACE_SING_CFUNZERO
 fn step_88() -> Unit raise {
   let t57 = @simp.simp_tac(@list.List([is_cfun_subspace(), @sets.in_sing(), cfun_smul_rzero(), cfun_add_rid()]))
-  cfun_subspace_sing_cfunzero_c.set(@tactics.prove(@term_syntax.parse_term("(is_cfun_subspace : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool) -> Bool)({(cfun_zero : (_) -> Cart[Real, Tybit0[Unit]])})"), t57))
+  cfun_subspace_sing_cfunzero_c.set(@tactics.prove(@term_syntax.parse_term("(is_cfun_subspace : (((_) -> Cart[Real, 2]) -> Bool) -> Bool)({(cfun_zero : (_) -> Cart[Real, 2])})"), t57))
 }
 
 ///|
@@ -1420,7 +1420,7 @@ pub fn sing_eq() -> @kernel.Thm {
 ///|
 /// cfun_of_complex
 fn step_91() -> Unit raise {
-  cfun_of_complex_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_of_complex : (Cart[Real, Tybit0[Unit]], Singleton) -> Cart[Real, Tybit0[Unit]]) == K")))
+  cfun_of_complex_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_of_complex : (Cart[Real, 2], Singleton) -> Cart[Real, 2]) == K")))
 }
 
 ///|
@@ -1436,7 +1436,7 @@ pub fn cfun_of_complex() -> @kernel.Thm {
 /// CFUN_OF_COMPLEX_ADD
 fn step_92() -> Unit raise {
   let t59 = @tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_of_complex()])), cfun_arith_tac)
-  cfun_of_complex_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, Tybit0[Unit]], ∀ y : Cart[Real, Tybit0[Unit]], cfun_of_complex(x + y) == cfun_of_complex(x) + cfun_of_complex(y)"), t59))
+  cfun_of_complex_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, 2], ∀ y : Cart[Real, 2], cfun_of_complex(x + y) == cfun_of_complex(x) + cfun_of_complex(y)"), t59))
 }
 
 ///|
@@ -1452,7 +1452,7 @@ pub fn cfun_of_complex_add() -> @kernel.Thm {
 /// CFUN_OF_COMPLEX_SUB
 fn step_93() -> Unit raise {
   let t60 = @tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_of_complex()])), cfun_arith_tac)
-  cfun_of_complex_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, Tybit0[Unit]], ∀ y : Cart[Real, Tybit0[Unit]], cfun_of_complex(x - y) == cfun_of_complex(x) - cfun_of_complex(y)"), t60))
+  cfun_of_complex_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, 2], ∀ y : Cart[Real, 2], cfun_of_complex(x - y) == cfun_of_complex(x) - cfun_of_complex(y)"), t60))
 }
 
 ///|
@@ -1468,7 +1468,7 @@ pub fn cfun_of_complex_sub() -> @kernel.Thm {
 /// CFUN_OF_COMPLEX_NEG
 fn step_94() -> Unit raise {
   let t61 = @tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_of_complex()])), cfun_arith_tac)
-  cfun_of_complex_neg_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, Tybit0[Unit]], cfun_of_complex(-x) == -cfun_of_complex(x)"), t61))
+  cfun_of_complex_neg_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, 2], cfun_of_complex(-x) == -cfun_of_complex(x)"), t61))
 }
 
 ///|
@@ -1484,7 +1484,7 @@ pub fn cfun_of_complex_neg() -> @kernel.Thm {
 /// CFUN_OF_COMPLEX_SMUL
 fn step_95() -> Unit raise {
   let t62 = @tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_of_complex()])), cfun_arith_tac)
-  cfun_of_complex_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ x : Cart[Real, Tybit0[Unit]], cfun_of_complex(a * x) == cfun_smul(a, cfun_of_complex(x))"), t62))
+  cfun_of_complex_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ x : Cart[Real, 2], cfun_of_complex(a * x) == cfun_smul(a, cfun_of_complex(x))"), t62))
 }
 
 ///|
@@ -1500,7 +1500,7 @@ pub fn cfun_of_complex_smul() -> @kernel.Thm {
 /// CFUN_OF_COMPLEX_CNJ
 fn step_96() -> Unit raise {
   let t63 = @tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_of_complex()])), cfun_arith_tac)
-  cfun_of_complex_cnj_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, Tybit0[Unit]], cfun_of_complex(cnj(x)) == cfun_cnj(cfun_of_complex(x))"), t63))
+  cfun_of_complex_cnj_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, 2], cfun_of_complex(cnj(x)) == cfun_cnj(cfun_of_complex(x))"), t63))
 }
 
 ///|
@@ -1531,7 +1531,7 @@ pub fn cfun_of_complex_zero() -> @kernel.Thm {
 ///|
 /// complex_of_cfun
 fn step_98() -> Unit raise {
-  complex_of_cfun_c.set(@pair.new_definition(@term_syntax.parse_term("(complex_of_cfun : ((Singleton) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((f : (Singleton) -> Cart[Real, Tybit0[Unit]])) == f(SING_ELT)")))
+  complex_of_cfun_c.set(@pair.new_definition(@term_syntax.parse_term("(complex_of_cfun : ((Singleton) -> Cart[Real, 2]) -> Cart[Real, 2])((f : (Singleton) -> Cart[Real, 2])) == f(SING_ELT)")))
 }
 
 ///|
@@ -1547,7 +1547,7 @@ pub fn complex_of_cfun() -> @kernel.Thm {
 /// COMPLEX_OF_CFUN_ADD
 fn step_99() -> Unit raise {
   let t65 = @tactics.then_tac(@simp.rewrite_tac(@list.List([complex_of_cfun()])), cfun_arith_tac)
-  complex_of_cfun_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (Singleton) -> Cart[Real, Tybit0[Unit]], ∀ y : (Singleton) -> Cart[Real, Tybit0[Unit]], complex_of_cfun(x + y) == complex_of_cfun(x) + complex_of_cfun(y)"), t65))
+  complex_of_cfun_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (Singleton) -> Cart[Real, 2], ∀ y : (Singleton) -> Cart[Real, 2], complex_of_cfun(x + y) == complex_of_cfun(x) + complex_of_cfun(y)"), t65))
 }
 
 ///|
@@ -1563,7 +1563,7 @@ pub fn complex_of_cfun_add() -> @kernel.Thm {
 /// COMPLEX_OF_CFUN_SUB
 fn step_100() -> Unit raise {
   let t66 = @tactics.then_tac(@simp.rewrite_tac(@list.List([complex_of_cfun()])), cfun_arith_tac)
-  complex_of_cfun_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (Singleton) -> Cart[Real, Tybit0[Unit]], ∀ y : (Singleton) -> Cart[Real, Tybit0[Unit]], complex_of_cfun(x - y) == complex_of_cfun(x) - complex_of_cfun(y)"), t66))
+  complex_of_cfun_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (Singleton) -> Cart[Real, 2], ∀ y : (Singleton) -> Cart[Real, 2], complex_of_cfun(x - y) == complex_of_cfun(x) - complex_of_cfun(y)"), t66))
 }
 
 ///|
@@ -1579,7 +1579,7 @@ pub fn complex_of_cfun_sub() -> @kernel.Thm {
 /// COMPLEX_OF_CFUN_NEG
 fn step_101() -> Unit raise {
   let t67 = @tactics.then_tac(@simp.rewrite_tac(@list.List([complex_of_cfun()])), cfun_arith_tac)
-  complex_of_cfun_neg_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (Singleton) -> Cart[Real, Tybit0[Unit]], complex_of_cfun(-x) == -complex_of_cfun(x)"), t67))
+  complex_of_cfun_neg_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (Singleton) -> Cart[Real, 2], complex_of_cfun(-x) == -complex_of_cfun(x)"), t67))
 }
 
 ///|
@@ -1595,7 +1595,7 @@ pub fn complex_of_cfun_neg() -> @kernel.Thm {
 /// COMPLEX_OF_CFUN_SMUL
 fn step_102() -> Unit raise {
   let t68 = @tactics.then_tac(@simp.rewrite_tac(@list.List([complex_of_cfun()])), cfun_arith_tac)
-  complex_of_cfun_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ x : (Singleton) -> Cart[Real, Tybit0[Unit]], complex_of_cfun(cfun_smul(a, x)) == a * complex_of_cfun(x)"), t68))
+  complex_of_cfun_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ x : (Singleton) -> Cart[Real, 2], complex_of_cfun(cfun_smul(a, x)) == a * complex_of_cfun(x)"), t68))
 }
 
 ///|
@@ -1656,7 +1656,7 @@ fn step_106() -> Unit raise {
 ///|
 /// are_equv
 fn step_107() -> Unit raise {
-  are_equv_c.set(@pair.new_definition(@term_syntax.parse_term("(equv : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]], ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]) -> Bool)((f : (A) -> Cart[Real, Tybit0[Unit]]), (g : (A) -> Cart[Real, Tybit0[Unit]]), (inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])) == (inprod(f - g, f - g) == Cx(real_of_num(0)))")))
+  are_equv_c.set(@pair.new_definition(@term_syntax.parse_term("(equv : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2], ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2]) -> Bool)((f : (A) -> Cart[Real, 2]), (g : (A) -> Cart[Real, 2]), (inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2])) == (inprod(f - g, f - g) == Cx(real_of_num(0)))")))
 }
 
 ///|
@@ -1677,7 +1677,7 @@ fn step_108() -> Unit raise {
 ///|
 /// is_inner_space
 fn step_109() -> Unit raise {
-  is_inner_space_c.set(@pair.new_definition(@term_syntax.parse_term("(is_inner_space : ((((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])) -> Bool)(((s : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool), (inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]))) == (is_cfun_subspace(s) && (∀ x : (A) -> Cart[Real, Tybit0[Unit]], IN(x, s) → real(inprod(x, x)) && real_of_num(0) <= real_of_complex(inprod(x, x)) && (∀ y : (A) -> Cart[Real, Tybit0[Unit]], IN(y, s) → (inprod(x, x) == Cx(real_of_num(0)) → inprod(y, x) == Cx(real_of_num(0))) && cnj(inprod(y, x)) == inprod(x, y) && (∀ a : Cart[Real, Tybit0[Unit]], inprod(x, cfun_smul(a, y)) == a * inprod(x, y)) && (∀ z : (A) -> Cart[Real, Tybit0[Unit]], IN(z, s) → inprod(x + y, z) == inprod(x, z) + inprod(y, z)))))")))
+  is_inner_space_c.set(@pair.new_definition(@term_syntax.parse_term("(is_inner_space : ((((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2])) -> Bool)(((s : ((A) -> Cart[Real, 2]) -> Bool), (inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2]))) == (is_cfun_subspace(s) && (∀ x : (A) -> Cart[Real, 2], IN(x, s) → real(inprod(x, x)) && real_of_num(0) <= real_of_complex(inprod(x, x)) && (∀ y : (A) -> Cart[Real, 2], IN(y, s) → (inprod(x, x) == Cx(real_of_num(0)) → inprod(y, x) == Cx(real_of_num(0))) && cnj(inprod(y, x)) == inprod(x, y) && (∀ a : Cart[Real, 2], inprod(x, cfun_smul(a, y)) == a * inprod(x, y)) && (∀ z : (A) -> Cart[Real, 2], IN(z, s) → inprod(x + y, z) == inprod(x, z) + inprod(y, z)))))")))
 }
 
 ///|
@@ -1693,7 +1693,7 @@ pub fn is_inner_space() -> @kernel.Thm {
 /// `inner_space_parse`
 pub fn inner_space_parse(x73 : String) -> @kernel.Term raise {
   let s = x73
-  @term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) → " + s)
+  @term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) → " + s)
 }
 
 ///|
@@ -1714,7 +1714,7 @@ pub fn inner_space_g(x76 : String) -> @tactics.Goalstack raise {
 /// `full_inner_space_parse`
 pub fn full_inner_space_parse(x77 : String) -> @kernel.Term raise {
   let s = x77
-  @term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), is_inner_space(is_) → " + s)
+  @term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), is_inner_space(is_) → " + s)
 }
 
 ///|
@@ -1735,7 +1735,7 @@ pub fn full_inner_space_g(x80 : String) -> @tactics.Goalstack raise {
 /// FORALL_INNER_SPACE_THM
 fn step_110() -> Unit raise {
   let t81 = @simp.rewrite_tac(@list.List([@pair.forall_pair_thm()]))
-  forall_inner_space_thm_c.set(@tactics.prove(@term_syntax.parse_term("∀ P : ((((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])) -> Bool, (∀ is_ : (((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), P(is_)) == (∀ s : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], P((s, inprod)))"), t81))
+  forall_inner_space_thm_c.set(@tactics.prove(@term_syntax.parse_term("∀ P : ((((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2])) -> Bool, (∀ is_ : (((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2]), P(is_)) == (∀ s : ((A) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2], P((s, inprod)))"), t81))
 }
 
 ///|
@@ -1780,7 +1780,7 @@ pub fn inner_space_zero() -> @kernel.Thm {
 ///|
 /// INNER_SPACE_SMUL
 fn step_113() -> Unit raise {
-  inner_space_smul_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ a : Cart[Real, Tybit0[Unit]], IN(x, s) → IN(cfun_smul(a, x), s))", @meson.meson_tac(@list.List([inner_space_is_subspace(), cfun_subspace_smul()]))))
+  inner_space_smul_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ a : Cart[Real, 2], IN(x, s) → IN(cfun_smul(a, x), s))", @meson.meson_tac(@list.List([inner_space_is_subspace(), cfun_subspace_smul()]))))
 }
 
 ///|
@@ -1795,7 +1795,7 @@ pub fn inner_space_smul() -> @kernel.Thm {
 ///|
 /// INNER_SPACE_ADD
 fn step_114() -> Unit raise {
-  inner_space_add_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → IN(x + y, s))", @meson.meson_tac(@list.List([inner_space_is_subspace(), cfun_subspace_add()]))))
+  inner_space_add_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → IN(x + y, s))", @meson.meson_tac(@list.List([inner_space_is_subspace(), cfun_subspace_add()]))))
 }
 
 ///|
@@ -1810,7 +1810,7 @@ pub fn inner_space_add() -> @kernel.Thm {
 ///|
 /// INNER_SPACE_NEG
 fn step_115() -> Unit raise {
-  inner_space_neg_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → IN(-x, s))", @meson.meson_tac(@list.List([inner_space_is_subspace(), cfun_subspace_neg()]))))
+  inner_space_neg_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], IN(x, s) → IN(-x, s))", @meson.meson_tac(@list.List([inner_space_is_subspace(), cfun_subspace_neg()]))))
 }
 
 ///|
@@ -1825,7 +1825,7 @@ pub fn inner_space_neg() -> @kernel.Thm {
 ///|
 /// INNER_SPACE_SUB
 fn step_116() -> Unit raise {
-  inner_space_sub_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → IN(x - y, s))", @meson.meson_tac(@list.List([inner_space_is_subspace(), cfun_subspace_sub()]))))
+  inner_space_sub_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → IN(x - y, s))", @meson.meson_tac(@list.List([inner_space_is_subspace(), cfun_subspace_sub()]))))
 }
 
 ///|
@@ -1840,7 +1840,7 @@ pub fn inner_space_sub() -> @kernel.Thm {
 ///|
 /// INPROD_CNJ
 fn step_117() -> Unit raise {
-  inprod_cnj_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → cnj(inprod(y, x)) == inprod(x, y))", @simp.simp_tac(@list.List([is_inner_space()]))))
+  inprod_cnj_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → cnj(inprod(y, x)) == inprod(x, y))", @simp.simp_tac(@list.List([is_inner_space()]))))
 }
 
 ///|
@@ -1855,7 +1855,7 @@ pub fn inprod_cnj() -> @kernel.Thm {
 ///|
 /// INPROD_SELF_REAL
 fn step_118() -> Unit raise {
-  inprod_self_real_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → real(inprod(x, x)))", @simp.simp_tac(@list.List([is_inner_space()]))))
+  inprod_self_real_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], IN(x, s) → real(inprod(x, x)))", @simp.simp_tac(@list.List([is_inner_space()]))))
 }
 
 ///|
@@ -1870,7 +1870,7 @@ pub fn inprod_self_real() -> @kernel.Thm {
 ///|
 /// INPROD_SELF_POS
 fn step_119() -> Unit raise {
-  inprod_self_pos_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → real_of_num(0) <= real_of_complex(inprod(x, x)))", @simp.simp_tac(@list.List([is_inner_space()]))))
+  inprod_self_pos_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], IN(x, s) → real_of_num(0) <= real_of_complex(inprod(x, x)))", @simp.simp_tac(@list.List([is_inner_space()]))))
 }
 
 ///|
@@ -1885,7 +1885,7 @@ pub fn inprod_self_pos() -> @kernel.Thm {
 ///|
 /// INPROD_RSMUL
 fn step_120() -> Unit raise {
-  inprod_rsmul_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ a : Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → inprod(x, cfun_smul(a, y)) == a * inprod(x, y))", @simp.simp_tac(@list.List([is_inner_space()]))))
+  inprod_rsmul_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ a : Cart[Real, 2], IN(x, s) && IN(y, s) → inprod(x, cfun_smul(a, y)) == a * inprod(x, y))", @simp.simp_tac(@list.List([is_inner_space()]))))
 }
 
 ///|
@@ -1900,7 +1900,7 @@ pub fn inprod_rsmul() -> @kernel.Thm {
 ///|
 /// INPROD_ADD_RDIST
 fn step_121() -> Unit raise {
-  inprod_add_rdist_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) && IN(z, s) → inprod(x + y, z) == inprod(x, z) + inprod(y, z))", @simp.simp_tac(@list.List([is_inner_space()]))))
+  inprod_add_rdist_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) && IN(z, s) → inprod(x + y, z) == inprod(x, z) + inprod(y, z))", @simp.simp_tac(@list.List([is_inner_space()]))))
 }
 
 ///|
@@ -1915,7 +1915,7 @@ pub fn inprod_add_rdist() -> @kernel.Thm {
 ///|
 /// INPROD_ZERO_EQ
 fn step_122() -> Unit raise {
-  inprod_zero_eq_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → inprod(x, x) == Cx(real_of_num(0)) → inprod(y, x) == Cx(real_of_num(0)))", @simp.simp_tac(@list.List([is_inner_space()]))))
+  inprod_zero_eq_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → inprod(x, x) == Cx(real_of_num(0)) → inprod(y, x) == Cx(real_of_num(0)))", @simp.simp_tac(@list.List([is_inner_space()]))))
 }
 
 ///|
@@ -1930,7 +1930,7 @@ pub fn inprod_zero_eq() -> @kernel.Thm {
 ///|
 /// INPROD_LZERO_EQ
 fn step_123() -> Unit raise {
-  inprod_lzero_eq_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → inprod(x, x) == Cx(real_of_num(0)) → inprod(x, y) == Cx(real_of_num(0)))", @meson.meson_tac(@list.List([inprod_zero_eq(), inprod_cnj()]))))
+  inprod_lzero_eq_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → inprod(x, x) == Cx(real_of_num(0)) → inprod(x, y) == Cx(real_of_num(0)))", @meson.meson_tac(@list.List([inprod_zero_eq(), inprod_cnj()]))))
 }
 
 ///|
@@ -1945,7 +1945,7 @@ pub fn inprod_lzero_eq() -> @kernel.Thm {
 ///|
 /// INPROD_NORM
 fn step_124() -> Unit raise {
-  inprod_norm_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → real(inprod(x, x)) && real_of_num(0) <= real_of_complex(inprod(x, x)))", @simp.simp_tac(@list.List([is_inner_space()]))))
+  inprod_norm_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], IN(x, s) → real(inprod(x, x)) && real_of_num(0) <= real_of_complex(inprod(x, x)))", @simp.simp_tac(@list.List([is_inner_space()]))))
 }
 
 ///|
@@ -1960,13 +1960,13 @@ pub fn inprod_norm() -> @kernel.Thm {
 ///|
 /// Functionspaces/cfunspace.ml:475
 fn step_125() -> Unit raise {
-  add_real_thm(@meson.meson(@list.List([inprod_self_real()]), @term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) && IN(x, s) → real(inprod(x, x))")))
+  add_real_thm(@meson.meson(@list.List([inprod_self_real()]), @term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], is_inner_space((s, inprod)) && IN(x, s) → real(inprod(x, x))")))
 }
 
 ///|
 /// INPROD_LSMUL
 fn step_126() -> Unit raise {
-  inprod_lsmul_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ a : Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → inprod(cfun_smul(a, x), y) == cnj(a) * inprod(x, y))", @meson.meson_tac(@list.List([is_inner_space(), is_cfun_subspace(), @complexes.cnj_mul()]))))
+  inprod_lsmul_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ a : Cart[Real, 2], IN(x, s) && IN(y, s) → inprod(cfun_smul(a, x), y) == cnj(a) * inprod(x, y))", @meson.meson_tac(@list.List([is_inner_space(), is_cfun_subspace(), @complexes.cnj_mul()]))))
 }
 
 ///|
@@ -1981,7 +1981,7 @@ pub fn inprod_lsmul() -> @kernel.Thm {
 ///|
 /// INPROD_LNEG
 fn step_127() -> Unit raise {
-  inprod_lneg_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → inprod(-x, y) == -inprod(x, y))", @meson.meson_tac(@list.List([@equal.gsym(cfun_smul_lid_neg()), inprod_lsmul(), @complexes.cnj_neg(), @complexes.cnj_cx(), @complexes.complex_neg_minus1()]))))
+  inprod_lneg_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → inprod(-x, y) == -inprod(x, y))", @meson.meson_tac(@list.List([@equal.gsym(cfun_smul_lid_neg()), inprod_lsmul(), @complexes.cnj_neg(), @complexes.cnj_cx(), @complexes.complex_neg_minus1()]))))
 }
 
 ///|
@@ -1996,7 +1996,7 @@ pub fn inprod_lneg() -> @kernel.Thm {
 ///|
 /// INPROD_SUB_RDIST
 fn step_128() -> Unit raise {
-  inprod_sub_rdist_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) && IN(z, s) → inprod(x - y, z) == inprod(x, z) - inprod(y, z))", @impconv.imp_rewrite_tac(@list.List([cfun_sub_neg(), @complexes.complex_sub(), inprod_add_rdist(), inprod_lneg(), cfun_subspace_neg(), inner_space_is_subspace()]))))
+  inprod_sub_rdist_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) && IN(z, s) → inprod(x - y, z) == inprod(x, z) - inprod(y, z))", @impconv.imp_rewrite_tac(@list.List([cfun_sub_neg(), @complexes.complex_sub(), inprod_add_rdist(), inprod_lneg(), cfun_subspace_neg(), inner_space_is_subspace()]))))
 }
 
 ///|
@@ -2011,7 +2011,7 @@ pub fn inprod_sub_rdist() -> @kernel.Thm {
 ///|
 /// INPROD_RNEG
 fn step_129() -> Unit raise {
-  inprod_rneg_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → inprod(x, -y) == -inprod(x, y))", @meson.meson_tac(@list.List([@equal.gsym(cfun_smul_lid_neg()), inprod_rsmul(), @complexes.complex_neg_minus1()]))))
+  inprod_rneg_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → inprod(x, -y) == -inprod(x, y))", @meson.meson_tac(@list.List([@equal.gsym(cfun_smul_lid_neg()), inprod_rsmul(), @complexes.complex_neg_minus1()]))))
 }
 
 ///|
@@ -2026,7 +2026,7 @@ pub fn inprod_rneg() -> @kernel.Thm {
 ///|
 /// INPROD_ADD_LDIST
 fn step_130() -> Unit raise {
-  inprod_add_ldist_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) && IN(z, s) → inprod(z, x + y) == inprod(z, x) + inprod(z, y))", @meson.meson_tac(@list.List([inprod_cnj(), inner_space_is_subspace(), cfun_subspace_add(), inprod_add_rdist(), @complexes.cnj_add()]))))
+  inprod_add_ldist_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) && IN(z, s) → inprod(z, x + y) == inprod(z, x) + inprod(z, y))", @meson.meson_tac(@list.List([inprod_cnj(), inner_space_is_subspace(), cfun_subspace_add(), inprod_add_rdist(), @complexes.cnj_add()]))))
 }
 
 ///|
@@ -2041,7 +2041,7 @@ pub fn inprod_add_ldist() -> @kernel.Thm {
 ///|
 /// INPROD_SUB_LDIST
 fn step_131() -> Unit raise {
-  inprod_sub_ldist_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) && IN(z, s) → inprod(z, x - y) == inprod(z, x) - inprod(z, y))", @impconv.imp_rewrite_tac(@list.List([cfun_sub_neg(), @complexes.complex_sub(), inprod_add_ldist(), inprod_rneg(), cfun_subspace_neg(), inner_space_is_subspace()]))))
+  inprod_sub_ldist_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) && IN(z, s) → inprod(z, x - y) == inprod(z, x) - inprod(z, y))", @impconv.imp_rewrite_tac(@list.List([cfun_sub_neg(), @complexes.complex_sub(), inprod_add_ldist(), inprod_rneg(), cfun_subspace_neg(), inner_space_is_subspace()]))))
 }
 
 ///|
@@ -2056,7 +2056,7 @@ pub fn inprod_sub_ldist() -> @kernel.Thm {
 ///|
 /// INPROD_RZERO
 fn step_132() -> Unit raise {
-  inprod_rzero_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → inprod(x, cfun_zero) == Cx(real_of_num(0)))", @impconv.imp_rewrite_tac(@list.List([@equal.gsym(cfun_smul_lzero()), inprod_rsmul(), @complexes.complex_mul_lzero()]))))
+  inprod_rzero_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], IN(x, s) → inprod(x, cfun_zero) == Cx(real_of_num(0)))", @impconv.imp_rewrite_tac(@list.List([@equal.gsym(cfun_smul_lzero()), inprod_rsmul(), @complexes.complex_mul_lzero()]))))
 }
 
 ///|
@@ -2071,7 +2071,7 @@ pub fn inprod_rzero() -> @kernel.Thm {
 ///|
 /// INPROD_LZERO
 fn step_133() -> Unit raise {
-  inprod_lzero_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → inprod(cfun_zero, x) == Cx(real_of_num(0)))", @impconv.imp_rewrite_tac(@list.List([@equal.gsym(cfun_smul_lzero()), inprod_lsmul(), @complexes.cnj_cx(), @complexes.complex_mul_lzero()]))))
+  inprod_lzero_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], IN(x, s) → inprod(cfun_zero, x) == Cx(real_of_num(0)))", @impconv.imp_rewrite_tac(@list.List([@equal.gsym(cfun_smul_lzero()), inprod_lsmul(), @complexes.cnj_cx(), @complexes.complex_mul_lzero()]))))
 }
 
 ///|
@@ -2101,7 +2101,7 @@ pub fn inprod_zero() -> @kernel.Thm {
 ///|
 /// INPROD_SELF_CNJ
 fn step_135() -> Unit raise {
-  inprod_self_cnj_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → cnj(inprod(x, x)) == inprod(x, x))", @simp.simp_tac(@list.List([@equal.gsym(@complexes.real_cnj()), is_inner_space()]))))
+  inprod_self_cnj_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], IN(x, s) → cnj(inprod(x, x)) == inprod(x, x))", @simp.simp_tac(@list.List([@equal.gsym(@complexes.real_cnj()), is_inner_space()]))))
 }
 
 ///|
@@ -2116,7 +2116,7 @@ pub fn inprod_self_cnj() -> @kernel.Thm {
 ///|
 /// INPROD_ADD_CNJ
 fn step_136() -> Unit raise {
-  inprod_add_cnj_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → inprod(x, y) + inprod(y, x) == Cx(real_of_num(2) * Re(inprod(x, y))))", @impconv.imp_rewrite_tac(@list.List([@equal.gsym(@complexes.complex_add_cnj()), inprod_cnj()]))))
+  inprod_add_cnj_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → inprod(x, y) + inprod(y, x) == Cx(real_of_num(2) * Re(inprod(x, y))))", @impconv.imp_rewrite_tac(@list.List([@equal.gsym(@complexes.complex_add_cnj()), inprod_cnj()]))))
 }
 
 ///|
@@ -2131,7 +2131,7 @@ pub fn inprod_add_cnj() -> @kernel.Thm {
 ///|
 /// INPROD_SELF_NORM
 fn step_137() -> Unit raise {
-  inprod_self_norm_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → norm(inprod(x, x)) == real_of_complex(inprod(x, x)))", @meson.meson_tac(@list.List([is_inner_space(), real_of_complex_v1(), @complexes.complex_norm_cx(), @real.real_abs_refl()]))))
+  inprod_self_norm_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], IN(x, s) → norm(inprod(x, x)) == real_of_complex(inprod(x, x)))", @meson.meson_tac(@list.List([is_inner_space(), real_of_complex_v1(), @complexes.complex_norm_cx(), @real.real_abs_refl()]))))
 }
 
 ///|
@@ -2146,7 +2146,7 @@ pub fn inprod_self_norm() -> @kernel.Thm {
 ///|
 /// INPROD_SELF_RE
 fn step_138() -> Unit raise {
-  inprod_self_re_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → real_of_complex(inprod(x, x)) == Re(inprod(x, x)))", @meson.meson_tac(@list.List([is_inner_space(), real_of_complex_re()]))))
+  inprod_self_re_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], IN(x, s) → real_of_complex(inprod(x, x)) == Re(inprod(x, x)))", @meson.meson_tac(@list.List([is_inner_space(), real_of_complex_re()]))))
 }
 
 ///|
@@ -2161,7 +2161,7 @@ pub fn inprod_self_re() -> @kernel.Thm {
 ///|
 /// INPROD_NEG
 fn step_139() -> Unit raise {
-  inprod_neg_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → inprod(-x, -y) == inprod(x, y))", @impconv.imp_rewrite_tac(@list.List([cfun_subspace_neg(), inner_space_is_subspace(), inprod_rneg(), inprod_lneg(), @complexes.complex_neg_neg()]))))
+  inprod_neg_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → inprod(-x, -y) == inprod(x, y))", @impconv.imp_rewrite_tac(@list.List([cfun_subspace_neg(), inner_space_is_subspace(), inprod_rneg(), inprod_lneg(), @complexes.complex_neg_neg()]))))
 }
 
 ///|
@@ -2177,7 +2177,7 @@ pub fn inprod_neg() -> @kernel.Thm {
 /// EQUV_ZERO
 fn step_140() -> Unit raise {
   let t82 = @simp.rewrite_tac(@list.List([are_equv(), cfun_sub_rid()]))
-  equv_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], (inprod(x, x) == Cx(real_of_num(0))) == equv(x, cfun_zero, inprod)"), t82))
+  equv_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], (inprod(x, x) == Cx(real_of_num(0))) == equv(x, cfun_zero, inprod)"), t82))
 }
 
 ///|
@@ -2192,7 +2192,7 @@ pub fn equv_zero() -> @kernel.Thm {
 ///|
 /// INPROD_NOT_ZERO
 fn step_141() -> Unit raise {
-  inprod_not_zero_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && !equv(x, cfun_zero, inprod) → !(x == cfun_zero))", @meson.meson_tac(@list.List([are_equv(), inprod_zero(), cfun_sub_rid()]))))
+  inprod_not_zero_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], IN(x, s) && !equv(x, cfun_zero, inprod) → !(x == cfun_zero))", @meson.meson_tac(@list.List([are_equv(), inprod_zero(), cfun_sub_rid()]))))
 }
 
 ///|
@@ -2208,7 +2208,7 @@ pub fn inprod_not_zero() -> @kernel.Thm {
 /// EQUV_SUB_ZERO
 fn step_142() -> Unit raise {
   let t83 = @simp.rewrite_tac(@list.List([are_equv(), cfun_sub_rid()]))
-  equv_sub_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], equv(x, (y : (_) -> Cart[Real, Tybit0[Unit]]), inprod) == equv(x - y, cfun_zero, inprod)"), t83))
+  equv_sub_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], equv(x, (y : (_) -> Cart[Real, 2]), inprod) == equv(x - y, cfun_zero, inprod)"), t83))
 }
 
 ///|
@@ -2223,7 +2223,7 @@ pub fn equv_sub_zero() -> @kernel.Thm {
 ///|
 /// INPROD_ZERO_EQUV
 fn step_143() -> Unit raise {
-  inprod_zero_equv_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → equv(x, cfun_zero, inprod) → inprod(y, x) == Cx(real_of_num(0)))", @meson.meson_tac(@list.List([equv_zero(), inprod_zero_eq()]))))
+  inprod_zero_equv_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → equv(x, cfun_zero, inprod) → inprod(y, x) == Cx(real_of_num(0)))", @meson.meson_tac(@list.List([equv_zero(), inprod_zero_eq()]))))
 }
 
 ///|
@@ -2239,9 +2239,9 @@ pub fn inprod_zero_equv() -> @kernel.Thm {
 /// INPROD_EQUV_SYM
 fn step_144() -> Unit raise {
   let t86 = @meson.asm_meson_tac(@list.List([inner_space_sub()]))
-  let t85 = @impconv.target_rewrite_tac(@list.List([cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], x - y == -(y - x)"))]))(inprod_neg())
+  let t85 = @impconv.target_rewrite_tac(@list.List([cfun_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], x - y == -(y - x)"))]))(inprod_neg())
   let t84 = @simp.rewrite_tac(@list.List([are_equv()]))
-  inprod_equv_sym_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → equv(x, y, inprod) == equv(y, x, inprod))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), @tactics.eq_tac), t84), @tactics.disch_tac), t85), t86)))
+  inprod_equv_sym_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → equv(x, y, inprod) == equv(y, x, inprod))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), @tactics.eq_tac), t84), @tactics.disch_tac), t85), t86)))
 }
 
 ///|
@@ -2256,10 +2256,10 @@ pub fn inprod_equv_sym() -> @kernel.Thm {
 ///|
 /// INPROD_EQUV_RREPLACE
 fn step_145() -> Unit raise {
-  let t88 = @meson.meson_tac(@list.List([inner_space_sub(), @q.specl(@list.List(["s", "inprod", "(x : (_) -> Cart[Real, Tybit0[Unit]]) - (y : (_) -> Cart[Real, Tybit0[Unit]])", "z"]), @equal.gsym(inprod_zero_equv())), inprod_sub_ldist()]))
+  let t88 = @meson.meson_tac(@list.List([inner_space_sub(), @q.specl(@list.List(["s", "inprod", "(x : (_) -> Cart[Real, 2]) - (y : (_) -> Cart[Real, 2])", "z"]), @equal.gsym(inprod_zero_equv())), inprod_sub_ldist()]))
   let t87 = @tactics.repeat_tac(@tactics.gen_tac)
   let t89 = @tactics.then_tac(@tactics.then_tac(@simp.once_rewrite_tac(@list.List([@equal.gsym(@complexes.complex_sub_0()), equv_sub_zero()])), t87), t88)
-  inprod_equv_rreplace_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], equv(x, y, inprod) → is_inner_space((s, inprod)) && IN(x, s) && IN(y, s) && IN(z, s) → inprod(z, x) == inprod(z, y)"), t89))
+  inprod_equv_rreplace_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], equv(x, y, inprod) → is_inner_space((s, inprod)) && IN(x, s) && IN(y, s) && IN(z, s) → inprod(z, x) == inprod(z, y)"), t89))
 }
 
 ///|
@@ -2275,7 +2275,7 @@ pub fn inprod_equv_rreplace() -> @kernel.Thm {
 /// INPROD_EQUV_LREPLACE
 fn step_146() -> Unit raise {
   let t90 = @meson.meson_tac(@list.List([@equal.gsym(inprod_cnj()), inprod_equv_rreplace()]))
-  inprod_equv_lreplace_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], equv(x, y, inprod) → is_inner_space((s, inprod)) && IN(x, s) && IN(y, s) && IN(z, s) → inprod(x, z) == inprod(y, z)"), t90))
+  inprod_equv_lreplace_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], equv(x, y, inprod) → is_inner_space((s, inprod)) && IN(x, s) && IN(y, s) && IN(z, s) → inprod(x, z) == inprod(y, z)"), t90))
 }
 
 ///|
@@ -2294,7 +2294,7 @@ fn step_147() -> Unit raise {
   let t92 = @equal.gsym(inprod_sub_rdist())
   let t93 = @impconv.target_rewrite_tac(@list.List([@equal.gsym(@complexes.complex_sub_0())]))(t92)
   let t91 = @list.List([@meson.asm_meson_tac(@list.List([inprod_equv_lreplace()])), @tactics.all_tac])
-  inprod_inj_alt_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → equv(x, y, inprod) == (∀ z : (_) -> Cart[Real, Tybit0[Unit]], IN(z, s) → inprod(x, z) == inprod(y, z)))", @tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), @tactics.eq_tac), t91), t93), t94)))
+  inprod_inj_alt_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → equv(x, y, inprod) == (∀ z : (_) -> Cart[Real, 2], IN(z, s) → inprod(x, z) == inprod(y, z)))", @tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), @tactics.eq_tac), t91), t93), t94)))
 }
 
 ///|
@@ -2330,7 +2330,7 @@ pub fn inprod_equv_tac(x95 : @list.List[@kernel.Thm]) -> @tactics.Tactic raise {
 /// INPROD_EQUV_TRANSTIVE
 fn step_148() -> Unit raise {
   let t101 = inprod_equv_tac(@list.List([are_equv(), inprod_sub_rdist(), inprod_sub_ldist(), inner_space_sub(), @complexes.complex_sub_refl()]))
-  inprod_equv_transtive_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ z : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) && IN(z, s) → equv(x, y, inprod) && equv(y, z, inprod) → equv(x, z, inprod))", @tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t101)))
+  inprod_equv_transtive_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ z : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) && IN(z, s) → equv(x, y, inprod) && equv(y, z, inprod) → equv(x, z, inprod))", @tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t101)))
 }
 
 ///|
@@ -2345,7 +2345,7 @@ pub fn inprod_equv_transtive() -> @kernel.Thm {
 ///|
 /// are_orthogonal
 fn step_149() -> Unit raise {
-  are_orthogonal_c.set(@pair.new_definition(@term_syntax.parse_term("(are_orthogonal1 : ((((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Bool)(((s : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool), (inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])), (u : (A) -> Cart[Real, Tybit0[Unit]]), (v : (A) -> Cart[Real, Tybit0[Unit]])) == (is_inner_space((s, inprod)) && IN(u, s) && IN(v, s) → inprod(u, v) == Cx(real_of_num(0)))")))
+  are_orthogonal_c.set(@pair.new_definition(@term_syntax.parse_term("(are_orthogonal1 : ((((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2]), (A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Bool)(((s : ((A) -> Cart[Real, 2]) -> Bool), (inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2])), (u : (A) -> Cart[Real, 2]), (v : (A) -> Cart[Real, 2])) == (is_inner_space((s, inprod)) && IN(u, s) && IN(v, s) → inprod(u, v) == Cx(real_of_num(0)))")))
 }
 
 ///|
@@ -2360,7 +2360,7 @@ pub fn are_orthogonal() -> @kernel.Thm {
 ///|
 /// ARE_ORTHOGONAL
 fn step_150() -> Unit raise {
-  are_orthogonal_v1_c.set(inner_space_prove("(∀ u : (_) -> Cart[Real, Tybit0[Unit]], ∀ v : (_) -> Cart[Real, Tybit0[Unit]], IN(u, s) && IN(v, s) → are_orthogonal1((s, inprod), u, v) == (inprod(u, v) == Cx(real_of_num(0))))", @meson.meson_tac(@list.List([are_orthogonal()]))))
+  are_orthogonal_v1_c.set(inner_space_prove("(∀ u : (_) -> Cart[Real, 2], ∀ v : (_) -> Cart[Real, 2], IN(u, s) && IN(v, s) → are_orthogonal1((s, inprod), u, v) == (inprod(u, v) == Cx(real_of_num(0))))", @meson.meson_tac(@list.List([are_orthogonal()]))))
 }
 
 ///|
@@ -2378,7 +2378,7 @@ fn step_151() -> Unit raise {
   let t104 = @meson.asm_meson_tac(@list.List([@complexes.cnj_cx(), inprod_cnj()]))
   let t103 = @simp.once_rewrite_tac(@list.List([@equal.gsym(@complexes.cnj_inj())]))
   let t102 = @tactics.repeat_tac(@tactics.orelse_tac(@tactics.strip_tac, @tactics.eq_tac))
-  are_orthogonal_sym_c.set(inner_space_prove("(∀ u : (_) -> Cart[Real, Tybit0[Unit]], ∀ v : (_) -> Cart[Real, Tybit0[Unit]], IN(u, s) && IN(v, s) → are_orthogonal1((s, inprod), u, v) == are_orthogonal1((s, inprod), v, u))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.simp_tac(@list.List([are_orthogonal_v1()])), t102), t103), t104)))
+  are_orthogonal_sym_c.set(inner_space_prove("(∀ u : (_) -> Cart[Real, 2], ∀ v : (_) -> Cart[Real, 2], IN(u, s) && IN(v, s) → are_orthogonal1((s, inprod), u, v) == are_orthogonal1((s, inprod), v, u))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.simp_tac(@list.List([are_orthogonal_v1()])), t102), t103), t104)))
 }
 
 ///|
@@ -2393,7 +2393,7 @@ pub fn are_orthogonal_sym() -> @kernel.Thm {
 ///|
 /// ARE_ORTHOGONAL_LSCALAR
 fn step_152() -> Unit raise {
-  are_orthogonal_lscalar_c.set(inner_space_prove("(∀ u : (_) -> Cart[Real, Tybit0[Unit]], ∀ v : (_) -> Cart[Real, Tybit0[Unit]], IN(u, s) && IN(v, s) && are_orthogonal1((s, inprod), u, v) → (∀ a : Cart[Real, Tybit0[Unit]], are_orthogonal1((s, inprod), cfun_smul(a, u), v)))", @impconv.imp_rewrite_tac(@list.List([are_orthogonal(), inprod_lsmul(), @complexes.complex_mul_rzero()]))))
+  are_orthogonal_lscalar_c.set(inner_space_prove("(∀ u : (_) -> Cart[Real, 2], ∀ v : (_) -> Cart[Real, 2], IN(u, s) && IN(v, s) && are_orthogonal1((s, inprod), u, v) → (∀ a : Cart[Real, 2], are_orthogonal1((s, inprod), cfun_smul(a, u), v)))", @impconv.imp_rewrite_tac(@list.List([are_orthogonal(), inprod_lsmul(), @complexes.complex_mul_rzero()]))))
 }
 
 ///|
@@ -2428,7 +2428,7 @@ fn step_153() -> Unit raise {
     }
   })(@complexes.complex_poly_conv))
   let t105 = @simp.once_rewrite_tac(@list.List([@equal.gsym(@complexes.complex_sub_0())]))
-  orthogonal_sum_norm_c.set(inner_space_prove("(∀ u : (_) -> Cart[Real, Tybit0[Unit]], ∀ v : (_) -> Cart[Real, Tybit0[Unit]], IN(u, s) && IN(v, s) && are_orthogonal1((s, inprod), u, v) → inprod(u + v, u + v) == inprod(u, u) + inprod(v, v))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([are_orthogonal(), inprod_add_ldist(), inprod_add_rdist(), cfun_subspace_add(), inner_space_is_subspace()])), t105), t116), t117)))
+  orthogonal_sum_norm_c.set(inner_space_prove("(∀ u : (_) -> Cart[Real, 2], ∀ v : (_) -> Cart[Real, 2], IN(u, s) && IN(v, s) && are_orthogonal1((s, inprod), u, v) → inprod(u + v, u + v) == inprod(u, u) + inprod(v, v))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([are_orthogonal(), inprod_add_ldist(), inprod_add_rdist(), cfun_subspace_add(), inner_space_is_subspace()])), t105), t116), t117)))
 }
 
 ///|
@@ -2448,7 +2448,7 @@ fn step_154() -> Unit raise {
   let t120 = @q.asm_cases_tac("equv(v, cfun_zero, inprod)")
   let t119 = @tactics.repeat_tac(@tactics.strip_tac)
   let t118 = @impconv.imp_rewrite_tac(@list.List([inprod_sub_ldist(), inprod_rsmul(), cfun_subspace_smul(), inner_space_is_subspace()]))
-  orthogonal_decompos_wrt_cfun_c.set(inner_space_prove("(∀ u : (_) -> Cart[Real, Tybit0[Unit]], ∀ v : (_) -> Cart[Real, Tybit0[Unit]], IN(u, s) && IN(v, s) → LET((proj_v : Cart[Real, Tybit0[Unit]]) => LET_END(LET((orthogonal_component : (_) -> Cart[Real, Tybit0[Unit]]) => LET_END(u == cfun_smul(proj_v, v) + orthogonal_component && are_orthogonal1((s, inprod), v, orthogonal_component)), u - cfun_smul(proj_v, v))), inprod(v, u) / inprod(v, v)))", @tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([@utils.let_defs(), cfun_sub_add2(), are_orthogonal()])), t118), t119), t120), t122), @complexes.simple_complex_arith_tac)))
+  orthogonal_decompos_wrt_cfun_c.set(inner_space_prove("(∀ u : (_) -> Cart[Real, 2], ∀ v : (_) -> Cart[Real, 2], IN(u, s) && IN(v, s) → LET((proj_v : Cart[Real, 2]) => LET_END(LET((orthogonal_component : (_) -> Cart[Real, 2]) => LET_END(u == cfun_smul(proj_v, v) + orthogonal_component && are_orthogonal1((s, inprod), v, orthogonal_component)), u - cfun_smul(proj_v, v))), inprod(v, u) / inprod(v, v)))", @tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([@utils.let_defs(), cfun_sub_add2(), are_orthogonal()])), t118), t119), t120), t122), @complexes.simple_complex_arith_tac)))
 }
 
 ///|
@@ -2464,7 +2464,7 @@ pub fn orthogonal_decompos_wrt_cfun() -> @kernel.Thm {
 /// ORTHOGONAL_DECOMPOS_WRT_CFUN_DECOMPOSITION
 fn step_155() -> Unit raise {
   let t123 = @meson.meson_tac(@list.List([@simp.rewrite_rule(@list.List([@utils.let_defs()]))(orthogonal_decompos_wrt_cfun())]))
-  orthogonal_decompos_wrt_cfun_decomposition_c.set(inner_space_prove("(∀ u : (_) -> Cart[Real, Tybit0[Unit]], ∀ v : (_) -> Cart[Real, Tybit0[Unit]], IN(u, s) && IN(v, s) → LET((proj_v : Cart[Real, Tybit0[Unit]]) => LET_END(LET((orthogonal_component : (_) -> Cart[Real, Tybit0[Unit]]) => LET_END(u == cfun_smul(proj_v, v) + orthogonal_component), u - cfun_smul(proj_v, v))), inprod(v, u) / inprod(v, v)))", @tactics.then_tac(@simp.rewrite_tac(@list.List([@utils.let_defs()])), t123)))
+  orthogonal_decompos_wrt_cfun_decomposition_c.set(inner_space_prove("(∀ u : (_) -> Cart[Real, 2], ∀ v : (_) -> Cart[Real, 2], IN(u, s) && IN(v, s) → LET((proj_v : Cart[Real, 2]) => LET_END(LET((orthogonal_component : (_) -> Cart[Real, 2]) => LET_END(u == cfun_smul(proj_v, v) + orthogonal_component), u - cfun_smul(proj_v, v))), inprod(v, u) / inprod(v, v)))", @tactics.then_tac(@simp.rewrite_tac(@list.List([@utils.let_defs()])), t123)))
 }
 
 ///|
@@ -2480,7 +2480,7 @@ pub fn orthogonal_decompos_wrt_cfun_decomposition() -> @kernel.Thm {
 /// ORTHOGONAL_DECOMPOS_WRT_CFUN_ORTHOGONAL
 fn step_156() -> Unit raise {
   let t124 = @meson.meson_tac(@list.List([@simp.rewrite_rule(@list.List([@utils.let_defs()]))(orthogonal_decompos_wrt_cfun())]))
-  orthogonal_decompos_wrt_cfun_orthogonal_c.set(inner_space_prove("(∀ u : (_) -> Cart[Real, Tybit0[Unit]], ∀ v : (_) -> Cart[Real, Tybit0[Unit]], IN(u, s) && IN(v, s) → are_orthogonal1((s, inprod), v, u - cfun_smul(inprod(v, u) / inprod(v, v), v)))", @tactics.then_tac(@simp.rewrite_tac(@list.List([@utils.let_defs()])), t124)))
+  orthogonal_decompos_wrt_cfun_orthogonal_c.set(inner_space_prove("(∀ u : (_) -> Cart[Real, 2], ∀ v : (_) -> Cart[Real, 2], IN(u, s) && IN(v, s) → are_orthogonal1((s, inprod), v, u - cfun_smul(inprod(v, u) / inprod(v, v), v)))", @tactics.then_tac(@simp.rewrite_tac(@list.List([@utils.let_defs()])), t124)))
 }
 
 ///|
@@ -2509,7 +2509,7 @@ fn step_157() -> Unit raise {
     arg(None)(eta)
   }), @utils.hint_exists_tac), t155), t156), t160])
   let t149 = @simp.once_rewrite_rule(@list.List([@equal.gsym(@complexes.complex_norm_cnj())]))(@complexes.complex_mul_cnj())
-  let t150 = @simp.rewrite_tac(@list.List([@complexes.complex_add_rdistrib(), @complexes.complex_field(@term_syntax.parse_term("(x : Cart[Real, Tybit0[Unit]]) * (y : Cart[Real, Tybit0[Unit]]) * ((z : Cart[Real, Tybit0[Unit]]) * (t : Cart[Real, Tybit0[Unit]]) * (u : Cart[Real, Tybit0[Unit]])) * (v : Cart[Real, Tybit0[Unit]]) == x * z * (u * t * (v * y))")), t149]))
+  let t150 = @simp.rewrite_tac(@list.List([@complexes.complex_add_rdistrib(), @complexes.complex_field(@term_syntax.parse_term("(x : Cart[Real, 2]) * (y : Cart[Real, 2]) * ((z : Cart[Real, 2]) * (t : Cart[Real, 2]) * (u : Cart[Real, 2])) * (v : Cart[Real, 2]) == x * z * (u * t * (v * y))")), t149]))
   let t148 = @impconv.imp_rewrite_tac(@list.List([inprod_self_cnj()]))
   let t147 = @impconv.imp_rewrite_tac(@list.List([real_of_complex_v1(), inprod_self_real()]))
   let t146 = @simp.rewrite_tac(@list.List([@equal.gsym(@complexes.re_mul_cx())]))
@@ -2539,7 +2539,7 @@ fn step_157() -> Unit raise {
   let t127 = @tactics.repeat_tac(@tactics.strip_tac)
   let t125 = @bool.spec_all(@simp.rewrite_rule(@list.List([@utils.let_defs()]))(orthogonal_decompos_wrt_cfun()))
   let t126 = @simp.rewrite_tac(@list.List([@drule.match_mp(@class.taut(@term_syntax.parse_term("((A : Bool) → (B : Bool)) → (A → (C : Bool)) == (A && B → C)")))(t125)]))
-  schwarz_inequality_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → pow(norm(inprod(x, y)), 2) <= real_of_complex(inprod(x, x)) * real_of_complex(inprod(y, y)))", @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([@equal.gsym(inprod_self_norm()), inprod_self_re()])), t126), t127), t142), t143), t144), t145), t146), t147), t148), t150), (x151 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @utils.cases_rewrite_tac(@complexes.complex_mul_rinv(), x151)), t161)))
+  schwarz_inequality_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → pow(norm(inprod(x, y)), 2) <= real_of_complex(inprod(x, x)) * real_of_complex(inprod(y, y)))", @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([@equal.gsym(inprod_self_norm()), inprod_self_re()])), t126), t127), t142), t143), t144), t145), t146), t147), t148), t150), (x151 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @utils.cases_rewrite_tac(@complexes.complex_mul_rinv(), x151)), t161)))
 }
 
 ///|
@@ -2556,7 +2556,7 @@ pub fn schwarz_inequality() -> @kernel.Thm {
 fn step_158() -> Unit raise {
   let t163 = @impconv.imp_rewrite_tac(@list.List([schwarz_inequality(), inprod_self_pos(), @vectors.norm_pos_le(), @realax.real_le_mul(), @real.real_le_pow_2()]))
   let t162 = @equal.gsym(@real.sqrt_mul())
-  schwarz_inequality2_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → norm(inprod(x, y)) <= sqrt(real_of_complex(inprod(x, x))) * sqrt(real_of_complex(inprod(y, y))))", @tactics.then_tac(@impconv.target_rewrite_tac(@list.List([@equal.gsym(@bool.gen_all(@q.spec("norm(z)", @real.pow_2_sqrt()))), t162]))(@real.sqrt_mono_le_eq()), t163)))
+  schwarz_inequality2_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → norm(inprod(x, y)) <= sqrt(real_of_complex(inprod(x, x))) * sqrt(real_of_complex(inprod(y, y))))", @tactics.then_tac(@impconv.target_rewrite_tac(@list.List([@equal.gsym(@bool.gen_all(@q.spec("norm(z)", @real.pow_2_sqrt()))), t162]))(@real.sqrt_mono_le_eq()), t163)))
 }
 
 ///|
@@ -2573,7 +2573,7 @@ pub fn schwarz_inequality2() -> @kernel.Thm {
 fn step_159() -> Unit raise {
   let t173 = @meson.meson_tac(@list.List([inprod_cnj(), @complexes.cx_im_cnj(), @complexes.real_cx()]))
   let t171 = @equal.gsym(@complexes.complex_div())
-  let t172 = @simp.rewrite_tac(@list.List([@complexes.simple_complex_arith(@term_syntax.parse_term("(x : Cart[Real, Tybit0[Unit]]) * ((y : Cart[Real, Tybit0[Unit]]) * inv(ii)) == inv(ii) * (x * y)")), @complexes.complex_inv_ii(), t171]))
+  let t172 = @simp.rewrite_tac(@list.List([@complexes.simple_complex_arith(@term_syntax.parse_term("(x : Cart[Real, 2]) * ((y : Cart[Real, 2]) * inv(ii)) == inv(ii) * (x * y)")), @complexes.complex_inv_ii(), t171]))
   let t170 = @impconv.imp_rewrite_tac(@list.List([inprod_cnj(), real_of_complex_v1()]))
   let t169 = @simp.rewrite_tac(@list.List([@complexes.cx_im_cnj(), @equal.gsym(@complexes.complex_inv_ii()), @complexes.complex_div(), @complexes.complex_inv_mul()]))
   let t168 = @simp.once_rewrite_tac(@list.List([@equal.gsym(@complexes.cx_inj())]))
@@ -2581,7 +2581,7 @@ fn step_159() -> Unit raise {
   let t166 = @simp.rewrite_tac(@list.List([@real.real_le_pow_2()]))
   let t165 = @drule.match_mp(@calc_rat.real_arith(@term_syntax.parse_term("(x : Real) == (y : Real) + (z : Real) → real_of_num(0) <= y && (t : Real) == z → t <= x")))(@complexes.complex_sqnorm())
   let t164 = @bool.spec_all(schwarz_inequality())
-  schwarz_inequality_enhanced_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → pow(real_of_complex((inprod(x, y) - inprod(y, x)) / (Cx(real_of_num(2)) * ii)), 2) <= real_of_complex(inprod(x, x)) * real_of_complex(inprod(y, y)))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([@drule.match_mp(@meson.meson(@list.List([@realax.real_le_trans()]), @term_syntax.parse_term("∀ f : (_, _) -> Real, ∀ g : (_, _) -> Real, ((P : Bool) → f((x : _), (y : _)) <= g(x, y)) → P && (z : Real) <= f(x, y) → z <= g(x, y)")))(t164), t165])), t166), t167), t168), t169), t170), t172), t173)))
+  schwarz_inequality_enhanced_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → pow(real_of_complex((inprod(x, y) - inprod(y, x)) / (Cx(real_of_num(2)) * ii)), 2) <= real_of_complex(inprod(x, x)) * real_of_complex(inprod(y, y)))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([@drule.match_mp(@meson.meson(@list.List([@realax.real_le_trans()]), @term_syntax.parse_term("∀ f : (_, _) -> Real, ∀ g : (_, _) -> Real, ((P : Bool) → f((x : _), (y : _)) <= g(x, y)) → P && (z : Real) <= f(x, y) → z <= g(x, y)")))(t164), t165])), t166), t167), t168), t169), t170), t172), t173)))
 }
 
 ///|
@@ -2614,7 +2614,7 @@ fn step_162() -> Unit raise {
 ///|
 /// cop_add
 fn step_163() -> Unit raise {
-  cop_add_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_add : (((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], (B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) == fun_map2(op_plus)")))
+  cop_add_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_add : (((B) -> Cart[Real, 2], A) -> Cart[Real, 2], ((B) -> Cart[Real, 2], A) -> Cart[Real, 2], (B) -> Cart[Real, 2], A) -> Cart[Real, 2]) == fun_map2(op_plus)")))
 }
 
 ///|
@@ -2629,7 +2629,7 @@ pub fn cop_add() -> @kernel.Thm {
 ///|
 /// cop_sub
 fn step_164() -> Unit raise {
-  cop_sub_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_sub : (((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], (B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) == fun_map2(op_minus)")))
+  cop_sub_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_sub : (((B) -> Cart[Real, 2], A) -> Cart[Real, 2], ((B) -> Cart[Real, 2], A) -> Cart[Real, 2], (B) -> Cart[Real, 2], A) -> Cart[Real, 2]) == fun_map2(op_minus)")))
 }
 
 ///|
@@ -2644,7 +2644,7 @@ pub fn cop_sub() -> @kernel.Thm {
 ///|
 /// cop_neg
 fn step_165() -> Unit raise {
-  cop_neg_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_neg : (((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], (B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) == o(op_minus_minus)")))
+  cop_neg_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_neg : (((B) -> Cart[Real, 2], A) -> Cart[Real, 2], (B) -> Cart[Real, 2], A) -> Cart[Real, 2]) == o(op_minus_minus)")))
 }
 
 ///|
@@ -2659,7 +2659,7 @@ pub fn cop_neg() -> @kernel.Thm {
 ///|
 /// cop_mul
 fn step_166() -> Unit raise {
-  cop_mul_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_mul : (((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ((C) -> Cart[Real, Tybit0[Unit]], B) -> Cart[Real, Tybit0[Unit]], (C) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) == o")))
+  cop_mul_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_mul : (((B) -> Cart[Real, 2], A) -> Cart[Real, 2], ((C) -> Cart[Real, 2], B) -> Cart[Real, 2], (C) -> Cart[Real, 2], A) -> Cart[Real, 2]) == o")))
 }
 
 ///|
@@ -2674,7 +2674,7 @@ pub fn cop_mul() -> @kernel.Thm {
 ///|
 /// cop_smul
 fn step_167() -> Unit raise {
-  cop_smul_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_smul : (Cart[Real, Tybit0[Unit]], ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], (B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) == o(o, cfun_smul)")))
+  cop_smul_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_smul : (Cart[Real, 2], ((B) -> Cart[Real, 2], A) -> Cart[Real, 2], (B) -> Cart[Real, 2], A) -> Cart[Real, 2]) == o(o, cfun_smul)")))
 }
 
 ///|
@@ -2689,7 +2689,7 @@ pub fn cop_smul() -> @kernel.Thm {
 ///|
 /// cop_zero
 fn step_168() -> Unit raise {
-  cop_zero_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_zero : ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) == K(cfun_zero)")))
+  cop_zero_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_zero : ((B) -> Cart[Real, 2], A) -> Cart[Real, 2]) == K(cfun_zero)")))
 }
 
 ///|
@@ -2704,7 +2704,7 @@ pub fn cop_zero() -> @kernel.Thm {
 ///|
 /// cop_pow
 fn step_169() -> Unit raise {
-  cop_pow_c.set(@define.define_(@term_syntax.parse_term("(cop_pow : (((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], Num, (A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])((op : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]), 0) == I && cop_pow(op, SUC((n : Num))) == cop_mul(op, cop_pow(op, n))")))
+  cop_pow_c.set(@define.define_(@term_syntax.parse_term("(cop_pow : (((A) -> Cart[Real, 2], A) -> Cart[Real, 2], Num, (A) -> Cart[Real, 2], A) -> Cart[Real, 2])((op : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]), 0) == I && cop_pow(op, SUC((n : Num))) == cop_mul(op, cop_pow(op, n))")))
 }
 
 ///|
@@ -2719,7 +2719,7 @@ pub fn cop_pow() -> @kernel.Thm {
 ///|
 /// cop_cnj
 fn step_170() -> Unit raise {
-  cop_cnj_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_cnj : (((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], (B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) == o(cfun_cnj)")))
+  cop_cnj_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_cnj : (((B) -> Cart[Real, 2], A) -> Cart[Real, 2], (B) -> Cart[Real, 2], A) -> Cart[Real, 2]) == o(cfun_cnj)")))
 }
 
 ///|
@@ -2750,12 +2750,12 @@ pub fn cop_defs() -> @kernel.Thm {
 /// `prioritize_cop`
 pub fn prioritize_cop(x174 : Unit) -> Unit raise {
   let _ = x174
-  @preterm.overload_interface("+", @term_syntax.parse_term("(cop_add : (((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], (B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])"))
-  @preterm.overload_interface("-", @term_syntax.parse_term("(cop_sub : (((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], (B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])"))
-  @preterm.overload_interface("--", @term_syntax.parse_term("(cop_neg : (((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], (B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])"))
-  @preterm.overload_interface("**", @term_syntax.parse_term("(cop_mul : (((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ((C) -> Cart[Real, Tybit0[Unit]], B) -> Cart[Real, Tybit0[Unit]], (C) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])"))
-  @preterm.overload_interface("pow", @term_syntax.parse_term("(cop_pow : (((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], Num, (A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])"))
-  @preterm.overload_interface("%", @term_syntax.parse_term("(cop_smul : (Cart[Real, Tybit0[Unit]], ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], (B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])"))
+  @preterm.overload_interface("+", @term_syntax.parse_term("(cop_add : (((B) -> Cart[Real, 2], A) -> Cart[Real, 2], ((B) -> Cart[Real, 2], A) -> Cart[Real, 2], (B) -> Cart[Real, 2], A) -> Cart[Real, 2])"))
+  @preterm.overload_interface("-", @term_syntax.parse_term("(cop_sub : (((B) -> Cart[Real, 2], A) -> Cart[Real, 2], ((B) -> Cart[Real, 2], A) -> Cart[Real, 2], (B) -> Cart[Real, 2], A) -> Cart[Real, 2])"))
+  @preterm.overload_interface("--", @term_syntax.parse_term("(cop_neg : (((B) -> Cart[Real, 2], A) -> Cart[Real, 2], (B) -> Cart[Real, 2], A) -> Cart[Real, 2])"))
+  @preterm.overload_interface("**", @term_syntax.parse_term("(cop_mul : (((B) -> Cart[Real, 2], A) -> Cart[Real, 2], ((C) -> Cart[Real, 2], B) -> Cart[Real, 2], (C) -> Cart[Real, 2], A) -> Cart[Real, 2])"))
+  @preterm.overload_interface("pow", @term_syntax.parse_term("(cop_pow : (((A) -> Cart[Real, 2], A) -> Cart[Real, 2], Num, (A) -> Cart[Real, 2], A) -> Cart[Real, 2])"))
+  @preterm.overload_interface("%", @term_syntax.parse_term("(cop_smul : (Cart[Real, 2], ((B) -> Cart[Real, 2], A) -> Cart[Real, 2], (B) -> Cart[Real, 2], A) -> Cart[Real, 2])"))
 }
 
 ///|
@@ -2768,7 +2768,7 @@ fn step_172() -> Unit raise {
 /// COP_EQ
 fn step_173() -> Unit raise {
   let t175 = @simp.rewrite_tac(@list.List([@class.fun_eq_thm()]))
-  cop_eq_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ g : ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], (f == g) == (∀ x : (B) -> Cart[Real, Tybit0[Unit]], f(x) == g(x))"), t175))
+  cop_eq_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : ((B) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ g : ((B) -> Cart[Real, 2], A) -> Cart[Real, 2], (f == g) == (∀ x : (B) -> Cart[Real, 2], f(x) == g(x))"), t175))
 }
 
 ///|
@@ -2798,7 +2798,7 @@ pub fn cop_to_cfun() -> @kernel.Thm {
 ///|
 /// COP_POW_CONV
 fn step_175() -> Unit raise {
-  let t176 = @term_syntax.parse_term("pow((t : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]), SUC(0))")
+  let t176 = @term_syntax.parse_term("pow((t : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]), SUC(0))")
   let th = @simp.rewrite_conv(@list.List([cop_pow(), cop_mul(), @trivia.i_o_id()]))(t176)
   cop_pow_conv_c.set(fn(x177 : @kernel.Term) -> @kernel.Thm raise {
     let t = x177
@@ -2851,7 +2851,7 @@ pub fn cop_arith(x183 : @kernel.Term) -> @kernel.Thm raise {
 ///|
 /// COP_ZERO
 fn step_177() -> Unit raise {
-  cop_zero_v1_c.set(cop_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], (cop_zero : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])(x) == (cfun_zero : (_) -> Cart[Real, Tybit0[Unit]])")))
+  cop_zero_v1_c.set(cop_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], (cop_zero : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])(x) == (cfun_zero : (_) -> Cart[Real, 2])")))
 }
 
 ///|
@@ -2866,7 +2866,7 @@ pub fn cop_zero_v1() -> @kernel.Thm {
 ///|
 /// COP_SMUL
 fn step_178() -> Unit raise {
-  cop_smul_v1_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ op : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(a, op) == ((x : _) => a * op(x))")))
+  cop_smul_v1_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ op : (_) -> Cart[Real, 2], cfun_smul(a, op) == ((x : _) => a * op(x))")))
 }
 
 ///|
@@ -2881,7 +2881,7 @@ pub fn cop_smul_v1() -> @kernel.Thm {
 ///|
 /// COP_SMUL_THM
 fn step_179() -> Unit raise {
-  cop_smul_thm_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], cop_smul(a, op, x) == cfun_smul(a, op(x))")))
+  cop_smul_thm_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], cop_smul(a, op, x) == cfun_smul(a, op(x))")))
 }
 
 ///|
@@ -2896,7 +2896,7 @@ pub fn cop_smul_thm() -> @kernel.Thm {
 ///|
 /// COP_SMUL_ALT
 fn step_180() -> Unit raise {
-  cop_smul_alt_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ op : (_) -> Cart[Real, Tybit0[Unit]], cfun_smul(a, op) == ((x : _) => a * op(x))")))
+  cop_smul_alt_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ op : (_) -> Cart[Real, 2], cfun_smul(a, op) == ((x : _) => a * op(x))")))
 }
 
 ///|
@@ -2911,7 +2911,7 @@ pub fn cop_smul_alt() -> @kernel.Thm {
 ///|
 /// COP_MUL
 fn step_181() -> Unit raise {
-  cop_mul_v1_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_mul(op1, op2) == ((x : (_) -> Cart[Real, Tybit0[Unit]]) => op1(op2(x)))")))
+  cop_mul_v1_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_mul(op1, op2) == ((x : (_) -> Cart[Real, 2]) => op1(op2(x)))")))
 }
 
 ///|
@@ -2926,7 +2926,7 @@ pub fn cop_mul_v1() -> @kernel.Thm {
 ///|
 /// COP_ADD
 fn step_182() -> Unit raise {
-  cop_add_v1_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], op1 + op2 == ((x : (_) -> Cart[Real, Tybit0[Unit]]) => op1(x) + op2(x))")))
+  cop_add_v1_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], op1 + op2 == ((x : (_) -> Cart[Real, 2]) => op1(x) + op2(x))")))
 }
 
 ///|
@@ -2941,7 +2941,7 @@ pub fn cop_add_v1() -> @kernel.Thm {
 ///|
 /// COP_SUB_ABS
 fn step_183() -> Unit raise {
-  cop_sub_abs_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], op1 - op2 == ((x : (_) -> Cart[Real, Tybit0[Unit]]) => op1(x) - op2(x))")))
+  cop_sub_abs_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], op1 - op2 == ((x : (_) -> Cart[Real, 2]) => op1(x) - op2(x))")))
 }
 
 ///|
@@ -2956,7 +2956,7 @@ pub fn cop_sub_abs() -> @kernel.Thm {
 ///|
 /// COP_ADD_THM
 fn step_184() -> Unit raise {
-  cop_add_thm_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], op_plus(op1, op2, x) == op1(x) + op2(x)")))
+  cop_add_thm_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], op_plus(op1, op2, x) == op1(x) + op2(x)")))
 }
 
 ///|
@@ -2971,7 +2971,7 @@ pub fn cop_add_thm() -> @kernel.Thm {
 ///|
 /// COP_SUB_THM
 fn step_185() -> Unit raise {
-  cop_sub_thm_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], op_minus(op1, op2, x) == op1(x) - op2(x)")))
+  cop_sub_thm_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], op_minus(op1, op2, x) == op1(x) - op2(x)")))
 }
 
 ///|
@@ -2986,7 +2986,7 @@ pub fn cop_sub_thm() -> @kernel.Thm {
 ///|
 /// COP_ZERO_THM
 fn step_186() -> Unit raise {
-  cop_zero_thm_c.set(cop_arith(@term_syntax.parse_term("(cop_zero : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])((x : (_) -> Cart[Real, Tybit0[Unit]])) == (cfun_zero : (_) -> Cart[Real, Tybit0[Unit]])")))
+  cop_zero_thm_c.set(cop_arith(@term_syntax.parse_term("(cop_zero : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])((x : (_) -> Cart[Real, 2])) == (cfun_zero : (_) -> Cart[Real, 2])")))
 }
 
 ///|
@@ -3001,7 +3001,7 @@ pub fn cop_zero_thm() -> @kernel.Thm {
 ///|
 /// COP_MUL_LID
 fn step_187() -> Unit raise {
-  cop_mul_lid_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_mul(I, op) == op")))
+  cop_mul_lid_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_mul(I, op) == op")))
 }
 
 ///|
@@ -3016,7 +3016,7 @@ pub fn cop_mul_lid() -> @kernel.Thm {
 ///|
 /// COP_MUL_RID
 fn step_188() -> Unit raise {
-  cop_mul_rid_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_mul(op, I) == op")))
+  cop_mul_rid_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_mul(op, I) == op")))
 }
 
 ///|
@@ -3046,7 +3046,7 @@ pub fn cop_i_id() -> @kernel.Thm {
 ///|
 /// COP_ENTIRE
 fn step_190() -> Unit raise {
-  cop_entire_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], (cop_smul(a, x) == cop_zero) == (a == Cx(real_of_num(0)) || x == cop_zero)")))
+  cop_entire_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], (cop_smul(a, x) == cop_zero) == (a == Cx(real_of_num(0)) || x == cop_zero)")))
 }
 
 ///|
@@ -3063,7 +3063,7 @@ pub fn cop_entire() -> @kernel.Thm {
 fn step_191() -> Unit raise {
   let t185 = @tactics.conv_tac(@complexes.complex_field)
   let t186 = @tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([cop_to_cfun(), cfun_to_complex(), @class.not_forall_thm()])), (x184 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @q.exists_tac("(x : _) => Cx(real_of_num(1))", x184)), t185)
-  cop_zero_neq_id_c.set(@tactics.prove(@term_syntax.parse_term("!((I : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) == (cop_zero : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]))"), t186))
+  cop_zero_neq_id_c.set(@tactics.prove(@term_syntax.parse_term("!((I : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]) == (cop_zero : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]))"), t186))
 }
 
 ///|
@@ -3079,7 +3079,7 @@ pub fn cop_zero_neq_id() -> @kernel.Thm {
 /// COP_SMUL_I_ZERO
 fn step_192() -> Unit raise {
   let t187 = @simp.rewrite_tac(@list.List([cop_entire(), cop_zero_neq_id()]))
-  cop_smul_i_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ((cop_smul : (Cart[Real, Tybit0[Unit]], ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])(a, (I : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])) == (cop_zero : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])) == (a == Cx(real_of_num(0)))"), t187))
+  cop_smul_i_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ((cop_smul : (Cart[Real, 2], ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], (_) -> Cart[Real, 2], _) -> Cart[Real, 2])(a, (I : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])) == (cop_zero : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])) == (a == Cx(real_of_num(0)))"), t187))
 }
 
 ///|
@@ -3104,7 +3104,7 @@ fn step_193() -> Unit raise {
     })(((x191 : @kernel.Thm) => @q.spec("(x : _) => Cx(real_of_num(1))", x191))(x192))
   }), @tactics.all_tac])
   let t195 = @tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([cop_to_cfun(), cfun_to_complex()])), @tactics.gen_tac), @tactics.eq_tac), t193), t194)
-  cop_smul_i_one_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ((cop_smul : (Cart[Real, Tybit0[Unit]], ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])(a, (I : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])) == (I : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])) == (a == Cx(real_of_num(1)))"), t195))
+  cop_smul_i_one_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ((cop_smul : (Cart[Real, 2], ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], (_) -> Cart[Real, 2], _) -> Cart[Real, 2])(a, (I : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])) == (I : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])) == (a == Cx(real_of_num(1)))"), t195))
 }
 
 ///|
@@ -3119,7 +3119,7 @@ pub fn cop_smul_i_one() -> @kernel.Thm {
 ///|
 /// COP_MUL_I_SYM
 fn step_194() -> Unit raise {
-  cop_mul_i_sym_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_mul(op, I) == cop_mul(I, op)")))
+  cop_mul_i_sym_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_mul(op, I) == cop_mul(I, op)")))
 }
 
 ///|
@@ -3134,7 +3134,7 @@ pub fn cop_mul_i_sym() -> @kernel.Thm {
 ///|
 /// COP_ADD_I_SYM
 fn step_195() -> Unit raise {
-  cop_add_i_sym_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], op + I == I + op")))
+  cop_add_i_sym_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], op + I == I + op")))
 }
 
 ///|
@@ -3149,7 +3149,7 @@ pub fn cop_add_i_sym() -> @kernel.Thm {
 ///|
 /// COP_I_SCALAR
 fn step_196() -> Unit raise {
-  cop_i_scalar_c.set(cop_arith(@term_syntax.parse_term("((x : (_) -> Cart[Real, Tybit0[Unit]]) => cfun_smul((a : Cart[Real, Tybit0[Unit]]), x)) == cop_smul(a, I)")))
+  cop_i_scalar_c.set(cop_arith(@term_syntax.parse_term("((x : (_) -> Cart[Real, 2]) => cfun_smul((a : Cart[Real, 2]), x)) == cop_smul(a, I)")))
 }
 
 ///|
@@ -3164,7 +3164,7 @@ pub fn cop_i_scalar() -> @kernel.Thm {
 ///|
 /// COP_MUL_THM
 fn step_197() -> Unit raise {
-  cop_mul_thm_c.set(cop_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_mul(op1, op2, x) == op1(op2(x))")))
+  cop_mul_thm_c.set(cop_arith(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_mul(op1, op2, x) == op1(op2(x))")))
 }
 
 ///|
@@ -3179,7 +3179,7 @@ pub fn cop_mul_thm() -> @kernel.Thm {
 ///|
 /// COP_SMUL_LNEG
 fn step_198() -> Unit raise {
-  cop_smul_lneg_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_smul(-a, op) == -cop_smul(a, op)")))
+  cop_smul_lneg_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_smul(-a, op) == -cop_smul(a, op)")))
 }
 
 ///|
@@ -3194,7 +3194,7 @@ pub fn cop_smul_lneg() -> @kernel.Thm {
 ///|
 /// COP_SMUL_RNEG
 fn step_199() -> Unit raise {
-  cop_smul_rneg_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_smul(a, -op) == -cop_smul(a, op)")))
+  cop_smul_rneg_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_smul(a, -op) == -cop_smul(a, op)")))
 }
 
 ///|
@@ -3209,7 +3209,7 @@ pub fn cop_smul_rneg() -> @kernel.Thm {
 ///|
 /// COP_SUB
 fn step_200() -> Unit raise {
-  cop_sub_v1_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], op1 - op2 == op1 + -op2")))
+  cop_sub_v1_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], op1 - op2 == op1 + -op2")))
 }
 
 ///|
@@ -3224,7 +3224,7 @@ pub fn cop_sub_v1() -> @kernel.Thm {
 ///|
 /// COP_SUB_NEG
 fn step_201() -> Unit raise {
-  cop_sub_neg_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], op1 - op2 == op1 + -op2")))
+  cop_sub_neg_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], op1 - op2 == op1 + -op2")))
 }
 
 ///|
@@ -3239,7 +3239,7 @@ pub fn cop_sub_neg() -> @kernel.Thm {
 ///|
 /// COP_NEG_NEG
 fn step_202() -> Unit raise {
-  cop_neg_neg_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], --op == op")))
+  cop_neg_neg_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], --op == op")))
 }
 
 ///|
@@ -3254,7 +3254,7 @@ pub fn cop_neg_neg() -> @kernel.Thm {
 ///|
 /// COP_NEG_ADD
 fn step_203() -> Unit raise {
-  cop_neg_add_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], -(op1 + op2) == -op1 + -op2")))
+  cop_neg_add_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], -(op1 + op2) == -op1 + -op2")))
 }
 
 ///|
@@ -3269,7 +3269,7 @@ pub fn cop_neg_add() -> @kernel.Thm {
 ///|
 /// COP_NEG_SUB
 fn step_204() -> Unit raise {
-  cop_neg_sub_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], -(op1 - op2) == -op1 + op2")))
+  cop_neg_sub_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], -(op1 - op2) == -op1 + op2")))
 }
 
 ///|
@@ -3299,7 +3299,7 @@ pub fn cop_neg_clauses() -> @kernel.Thm {
 ///|
 /// COP_SMUL_ASSOC
 fn step_206() -> Unit raise {
-  cop_smul_assoc_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_smul(a, cop_smul(b, op)) == cop_smul(a * b, op)")))
+  cop_smul_assoc_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_smul(a, cop_smul(b, op)) == cop_smul(a * b, op)")))
 }
 
 ///|
@@ -3314,7 +3314,7 @@ pub fn cop_smul_assoc() -> @kernel.Thm {
 ///|
 /// COP_SMUL_SYM
 fn step_207() -> Unit raise {
-  cop_smul_sym_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_smul(a, cop_smul(b, op)) == cop_smul(b, cop_smul(a, op))")))
+  cop_smul_sym_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_smul(a, cop_smul(b, op)) == cop_smul(b, cop_smul(a, op))")))
 }
 
 ///|
@@ -3329,7 +3329,7 @@ pub fn cop_smul_sym() -> @kernel.Thm {
 ///|
 /// COP_MUL_LSMUL
 fn step_208() -> Unit raise {
-  cop_mul_lsmul_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_mul(cop_smul((a : Cart[Real, Tybit0[Unit]]), op1), op2) == cop_smul(a, cop_mul(op1, op2))")))
+  cop_mul_lsmul_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_mul(cop_smul((a : Cart[Real, 2]), op1), op2) == cop_smul(a, cop_mul(op1, op2))")))
 }
 
 ///|
@@ -3344,7 +3344,7 @@ pub fn cop_mul_lsmul() -> @kernel.Thm {
 ///|
 /// COP_ADD_LDISTRIB
 fn step_209() -> Unit raise {
-  cop_add_ldistrib_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_smul(a, op1 + op2) == cop_smul(a, op1) + cop_smul(a, op2)")))
+  cop_add_ldistrib_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_smul(a, op1 + op2) == cop_smul(a, op1) + cop_smul(a, op2)")))
 }
 
 ///|
@@ -3359,7 +3359,7 @@ pub fn cop_add_ldistrib() -> @kernel.Thm {
 ///|
 /// COP_ADD_RDISTRIB
 fn step_210() -> Unit raise {
-  cop_add_rdistrib_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_smul(a + b, op) == cop_smul(a, op) + cop_smul(b, op)")))
+  cop_add_rdistrib_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_smul(a + b, op) == cop_smul(a, op) + cop_smul(b, op)")))
 }
 
 ///|
@@ -3374,7 +3374,7 @@ pub fn cop_add_rdistrib() -> @kernel.Thm {
 ///|
 /// COP_SMUL_INV_ID
 fn step_211() -> Unit raise {
-  cop_smul_inv_id_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], !(a == Cx(real_of_num(0))) → cop_smul(a, cop_smul(inv(a), op)) == op")))
+  cop_smul_inv_id_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], !(a == Cx(real_of_num(0))) → cop_smul(a, cop_smul(inv(a), op)) == op")))
 }
 
 ///|
@@ -3389,7 +3389,7 @@ pub fn cop_smul_inv_id() -> @kernel.Thm {
 ///|
 /// COP_SUB_LDISTRIB
 fn step_212() -> Unit raise {
-  cop_sub_ldistrib_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ y : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_smul(a, x - y) == cop_smul(a, x) - cop_smul(a, y)")))
+  cop_sub_ldistrib_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ y : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_smul(a, x - y) == cop_smul(a, x) - cop_smul(a, y)")))
 }
 
 ///|
@@ -3404,7 +3404,7 @@ pub fn cop_sub_ldistrib() -> @kernel.Thm {
 ///|
 /// COP_SUB_RADD
 fn step_213() -> Unit raise {
-  cop_sub_radd_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ y : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ z : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], x - (y + z) == x - y - z")))
+  cop_sub_radd_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ y : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ z : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], x - (y + z) == x - y - z")))
 }
 
 ///|
@@ -3419,7 +3419,7 @@ pub fn cop_sub_radd() -> @kernel.Thm {
 ///|
 /// COP_ADD_RSUB
 fn step_214() -> Unit raise {
-  cop_add_rsub_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ y : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ z : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], x + (y - z) == x + y - z")))
+  cop_add_rsub_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ y : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ z : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], x + (y - z) == x + y - z")))
 }
 
 ///|
@@ -3434,7 +3434,7 @@ pub fn cop_add_rsub() -> @kernel.Thm {
 ///|
 /// COP_SUB_SUB
 fn step_215() -> Unit raise {
-  cop_sub_sub_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ y : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ z : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], x - (y - z) == x - y + z")))
+  cop_sub_sub_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ y : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ z : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], x - (y - z) == x - y + z")))
 }
 
 ///|
@@ -3449,7 +3449,7 @@ pub fn cop_sub_sub() -> @kernel.Thm {
 ///|
 /// COP_ADD_SYM
 fn step_216() -> Unit raise {
-  cop_add_sym_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], op1 + op2 == op2 + op1")))
+  cop_add_sym_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], op1 + op2 == op2 + op1")))
 }
 
 ///|
@@ -3464,7 +3464,7 @@ pub fn cop_add_sym() -> @kernel.Thm {
 ///|
 /// COP_ADD_ASSOC
 fn step_217() -> Unit raise {
-  cop_add_assoc_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ y : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ z : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], x + y + z == x + (y + z)")))
+  cop_add_assoc_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ y : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ z : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], x + y + z == x + (y + z)")))
 }
 
 ///|
@@ -3479,7 +3479,7 @@ pub fn cop_add_assoc() -> @kernel.Thm {
 ///|
 /// COP_ADD_AC
 fn step_218() -> Unit raise {
-  cop_add_ac_c.set(cop_arith(@term_syntax.parse_term("∀ m : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ n : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ p : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], m + n == n + m && m + n + p == m + (n + p) && m + (n + p) == n + (m + p)")))
+  cop_add_ac_c.set(cop_arith(@term_syntax.parse_term("∀ m : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ n : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ p : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], m + n == n + m && m + n + p == m + (n + p) && m + (n + p) == n + (m + p)")))
 }
 
 ///|
@@ -3494,7 +3494,7 @@ pub fn cop_add_ac() -> @kernel.Thm {
 ///|
 /// COP_MUL_ASSOC
 fn step_219() -> Unit raise {
-  cop_mul_assoc_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ y : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ z : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_mul(cop_mul(x, y), z) == cop_mul(x, cop_mul(y, z))")))
+  cop_mul_assoc_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ y : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ z : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_mul(cop_mul(x, y), z) == cop_mul(x, cop_mul(y, z))")))
 }
 
 ///|
@@ -3509,7 +3509,7 @@ pub fn cop_mul_assoc() -> @kernel.Thm {
 ///|
 /// COP_SUB_ADD
 fn step_220() -> Unit raise {
-  cop_sub_add_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ y : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ z : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], x - y + z == x + z - y")))
+  cop_sub_add_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ y : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ z : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], x - y + z == x + z - y")))
 }
 
 ///|
@@ -3524,7 +3524,7 @@ pub fn cop_sub_add() -> @kernel.Thm {
 ///|
 /// COP_NEG_INJ
 fn step_221() -> Unit raise {
-  cop_neg_inj_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ y : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], (-x == -y) == (x == y)")))
+  cop_neg_inj_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ y : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], (-x == -y) == (x == y)")))
 }
 
 ///|
@@ -3539,7 +3539,7 @@ pub fn cop_neg_inj() -> @kernel.Thm {
 ///|
 /// COP_EQ_ADD_LCANCEL
 fn step_222() -> Unit raise {
-  cop_eq_add_lcancel_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ y : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ z : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], (x + y == x + z) == (y == z)")))
+  cop_eq_add_lcancel_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ y : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ z : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], (x + y == x + z) == (y == z)")))
 }
 
 ///|
@@ -3554,7 +3554,7 @@ pub fn cop_eq_add_lcancel() -> @kernel.Thm {
 ///|
 /// COP_EQ_ADD_RCANCEL
 fn step_223() -> Unit raise {
-  cop_eq_add_rcancel_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ y : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ z : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], (x + z == y + z) == (x == y)")))
+  cop_eq_add_rcancel_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ y : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ z : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], (x + z == y + z) == (x == y)")))
 }
 
 ///|
@@ -3569,7 +3569,7 @@ pub fn cop_eq_add_rcancel() -> @kernel.Thm {
 ///|
 /// COP_EQ_SUB_LCANCEL
 fn step_224() -> Unit raise {
-  cop_eq_sub_lcancel_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ y : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ z : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], (x - y == x - z) == (y == z)")))
+  cop_eq_sub_lcancel_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ y : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ z : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], (x - y == x - z) == (y == z)")))
 }
 
 ///|
@@ -3584,7 +3584,7 @@ pub fn cop_eq_sub_lcancel() -> @kernel.Thm {
 ///|
 /// COP_EQ_LSUB
 fn step_225() -> Unit raise {
-  cop_eq_lsub_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ y : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ z : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], (x - y == z) == (x == z + y)")))
+  cop_eq_lsub_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ y : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ z : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], (x - y == z) == (x == z + y)")))
 }
 
 ///|
@@ -3599,7 +3599,7 @@ pub fn cop_eq_lsub() -> @kernel.Thm {
 ///|
 /// COP_EQ_RSUB
 fn step_226() -> Unit raise {
-  cop_eq_rsub_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ y : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ z : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], (x == y - z) == (x + z == y)")))
+  cop_eq_rsub_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ y : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ z : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], (x == y - z) == (x + z == y)")))
 }
 
 ///|
@@ -3614,7 +3614,7 @@ pub fn cop_eq_rsub() -> @kernel.Thm {
 ///|
 /// COP_MUL_LZERO
 fn step_227() -> Unit raise {
-  cop_mul_lzero_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], (cop_mul : (((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])((cop_zero : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]), op) == (cop_zero : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])")))
+  cop_mul_lzero_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], (cop_mul : (((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], (_) -> Cart[Real, 2], _) -> Cart[Real, 2])((cop_zero : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]), op) == (cop_zero : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])")))
 }
 
 ///|
@@ -3629,7 +3629,7 @@ pub fn cop_mul_lzero() -> @kernel.Thm {
 ///|
 /// COP_SUB_REFL
 fn step_228() -> Unit raise {
-  cop_sub_refl_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], op - op == cop_zero")))
+  cop_sub_refl_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], op - op == cop_zero")))
 }
 
 ///|
@@ -3644,7 +3644,7 @@ pub fn cop_sub_refl() -> @kernel.Thm {
 ///|
 /// COP_SMUL_LID_NEG
 fn step_229() -> Unit raise {
-  cop_smul_lid_neg_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_smul(-Cx(real_of_num(1)), x) == -x")))
+  cop_smul_lid_neg_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_smul(-Cx(real_of_num(1)), x) == -x")))
 }
 
 ///|
@@ -3659,7 +3659,7 @@ pub fn cop_smul_lid_neg() -> @kernel.Thm {
 ///|
 /// COP_ADD_RID
 fn step_230() -> Unit raise {
-  cop_add_rid_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], op + cop_zero == op")))
+  cop_add_rid_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], op + cop_zero == op")))
 }
 
 ///|
@@ -3674,7 +3674,7 @@ pub fn cop_add_rid() -> @kernel.Thm {
 ///|
 /// COP_ADD_LID
 fn step_231() -> Unit raise {
-  cop_add_lid_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_zero + op == op")))
+  cop_add_lid_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_zero + op == op")))
 }
 
 ///|
@@ -3689,7 +3689,7 @@ pub fn cop_add_lid() -> @kernel.Thm {
 ///|
 /// COP_SMUL_LID
 fn step_232() -> Unit raise {
-  cop_smul_lid_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_smul(Cx(real_of_num(1)), op) == op")))
+  cop_smul_lid_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_smul(Cx(real_of_num(1)), op) == op")))
 }
 
 ///|
@@ -3704,7 +3704,7 @@ pub fn cop_smul_lid() -> @kernel.Thm {
 ///|
 /// COP_SMUL_RZERO
 fn step_233() -> Unit raise {
-  cop_smul_rzero_c.set(cop_arith(@term_syntax.parse_term("∀ op : _, (cop_smul : (Cart[Real, Tybit0[Unit]], ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])((a : Cart[Real, Tybit0[Unit]]), (cop_zero : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])) == (cop_zero : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])")))
+  cop_smul_rzero_c.set(cop_arith(@term_syntax.parse_term("∀ op : _, (cop_smul : (Cart[Real, 2], ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], (_) -> Cart[Real, 2], _) -> Cart[Real, 2])((a : Cart[Real, 2]), (cop_zero : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])) == (cop_zero : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])")))
 }
 
 ///|
@@ -3719,7 +3719,7 @@ pub fn cop_smul_rzero() -> @kernel.Thm {
 ///|
 /// COP_SUB_LZERO
 fn step_234() -> Unit raise {
-  cop_sub_lzero_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_zero - op == -op")))
+  cop_sub_lzero_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_zero - op == -op")))
 }
 
 ///|
@@ -3734,7 +3734,7 @@ pub fn cop_sub_lzero() -> @kernel.Thm {
 ///|
 /// COP_SUB_RZERO
 fn step_235() -> Unit raise {
-  cop_sub_rzero_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], op - cop_zero == op")))
+  cop_sub_rzero_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], op - cop_zero == op")))
 }
 
 ///|
@@ -3749,7 +3749,7 @@ pub fn cop_sub_rzero() -> @kernel.Thm {
 ///|
 /// COP_SMUL_LZERO
 fn step_236() -> Unit raise {
-  cop_smul_lzero_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_smul(Cx(real_of_num(0)), x) == cop_zero")))
+  cop_smul_lzero_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_smul(Cx(real_of_num(0)), x) == cop_zero")))
 }
 
 ///|
@@ -3779,7 +3779,7 @@ pub fn cop_zero_clauses() -> @kernel.Thm {
 ///|
 /// COP_ADD_MUL_RDISTRIB
 fn step_238() -> Unit raise {
-  cop_add_mul_rdistrib_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_mul(op1 + op2, op3) == cop_mul(op1, op3) + cop_mul(op2, op3)")))
+  cop_add_mul_rdistrib_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op3 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_mul(op1 + op2, op3) == cop_mul(op1, op3) + cop_mul(op2, op3)")))
 }
 
 ///|
@@ -3794,7 +3794,7 @@ pub fn cop_add_mul_rdistrib() -> @kernel.Thm {
 ///|
 /// COP_SUB_MUL_RDISTRIB
 fn step_239() -> Unit raise {
-  cop_sub_mul_rdistrib_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_mul(op1 - op2, op3) == cop_mul(op1, op3) - cop_mul(op2, op3)")))
+  cop_sub_mul_rdistrib_c.set(cop_arith(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op3 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_mul(op1 - op2, op3) == cop_mul(op1, op3) - cop_mul(op2, op3)")))
 }
 
 ///|
@@ -3809,7 +3809,7 @@ pub fn cop_sub_mul_rdistrib() -> @kernel.Thm {
 ///|
 /// COP_EQ_LSUB_LSUB
 fn step_240() -> Unit raise {
-  cop_eq_lsub_lsub_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ y : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ z : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], (x - y == z) == (x - z == y)")))
+  cop_eq_lsub_lsub_c.set(cop_arith(@term_syntax.parse_term("∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ y : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ z : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], (x - y == z) == (x - z == y)")))
 }
 
 ///|
@@ -3824,7 +3824,7 @@ pub fn cop_eq_lsub_lsub() -> @kernel.Thm {
 ///|
 /// COP_EQ_LSMUL
 fn step_241() -> Unit raise {
-  cop_eq_lsmul_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ x : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ y : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], (cop_smul(a, x) == cop_smul(a, y)) == (x == y || a == Cx(real_of_num(0)))")))
+  cop_eq_lsmul_c.set(cop_arith(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ x : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ y : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], (cop_smul(a, x) == cop_smul(a, y)) == (x == y || a == Cx(real_of_num(0)))")))
 }
 
 ///|
@@ -3850,7 +3850,7 @@ fn step_242() -> Unit raise {
   let t197 = @tactics.match_mp_tac(@meson.meson(@list.List([]), @term_syntax.parse_term("(∀ x : _, ∀ y : _, (P : (_, _) -> Bool)(x, y) == (Q : (_, _) -> Bool)(x, y)) → (∀ x : _, ∀ y : _, P(x, y)) == (∀ x : _, ∀ y : _, Q(x, y))")))
   let t196 = @tactics.repeat_tac(@tactics.strip_tac)
   let t204 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([cop_to_cfun(), cfun_to_complex()])), t196), t197), t198), t202), t203)
-  cop_eq_mul_lcancel2_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, Tybit0[Unit]], ∀ y : ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ z : Cart[Real, Tybit0[Unit]], ∀ t : ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], !(x == Cx(real_of_num(0))) → (cop_smul(x, y) == cop_smul(z, t)) == (y == cop_smul(z / x, t))"), t204))
+  cop_eq_mul_lcancel2_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, 2], ∀ y : ((B) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ z : Cart[Real, 2], ∀ t : ((B) -> Cart[Real, 2], A) -> Cart[Real, 2], !(x == Cx(real_of_num(0))) → (cop_smul(x, y) == cop_smul(z, t)) == (y == cop_smul(z / x, t))"), t204))
 }
 
 ///|
@@ -3865,7 +3865,7 @@ pub fn cop_eq_mul_lcancel2() -> @kernel.Thm {
 ///|
 /// COP_POW_2
 fn step_243() -> Unit raise {
-  cop_pow_2_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], pow(op, 2) == cop_mul(op, op)")))
+  cop_pow_2_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], pow(op, 2) == cop_mul(op, op)")))
 }
 
 ///|
@@ -3881,7 +3881,7 @@ pub fn cop_pow_2() -> @kernel.Thm {
 /// COP_POW_I
 fn step_244() -> Unit raise {
   let t205 = @tactics.then_tac(@nums.induct_tac, @simp.asm_simp_tac(@list.List([cop_pow(), cop_mul_lid()])))
-  cop_pow_i_c.set(@tactics.prove(@term_syntax.parse_term("∀ n : Num, (pow : (((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], Num, (_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])((I : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]), n) == (I : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])"), t205))
+  cop_pow_i_c.set(@tactics.prove(@term_syntax.parse_term("∀ n : Num, (pow : (((_) -> Cart[Real, 2], _) -> Cart[Real, 2], Num, (_) -> Cart[Real, 2], _) -> Cart[Real, 2])((I : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]), n) == (I : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])"), t205))
 }
 
 ///|
@@ -3897,7 +3897,7 @@ pub fn cop_pow_i() -> @kernel.Thm {
 /// COP_POW_ZERO
 fn step_245() -> Unit raise {
   let t206 = @tactics.then_tac(@nums.induct_tac, @meson.asm_meson_tac(@list.List([cop_pow(), @arith.add_clauses(), @arith.add1(), cop_mul_lzero(), cop_mul_rid()])))
-  cop_pow_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ n : Num, (pow : (((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], Num, (_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])((cop_zero : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]), n + 1) == (cop_zero : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])"), t206))
+  cop_pow_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ n : Num, (pow : (((_) -> Cart[Real, 2], _) -> Cart[Real, 2], Num, (_) -> Cart[Real, 2], _) -> Cart[Real, 2])((cop_zero : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]), n + 1) == (cop_zero : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])"), t206))
 }
 
 ///|
@@ -3915,7 +3915,7 @@ fn step_246() -> Unit raise {
   let t208 = @simp.asm_rewrite_tac(@list.List([@equal.gsym(cop_pow()), cop_mul_assoc()]))
   let t207 = @simp.asm_rewrite_tac(@list.List([cop_pow(), @equal.gsym(cop_mul_assoc()), cop_mul_lid(), cop_mul_rid()]))
   let t209 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), @tactics.strip_tac), @nums.induct_tac), t207), t208)
-  cop_pow_commute_n_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_mul(op1, op2) == cop_mul(op2, op1) → (∀ n : Num, cop_mul(op1, pow(op2, n)) == cop_mul(pow(op2, n), op1))"), t209))
+  cop_pow_commute_n_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_mul(op1, op2) == cop_mul(op2, op1) → (∀ n : Num, cop_mul(op1, pow(op2, n)) == cop_mul(pow(op2, n), op1))"), t209))
 }
 
 ///|
@@ -3930,7 +3930,7 @@ pub fn cop_pow_commute_n() -> @kernel.Thm {
 ///|
 /// COP_ADD_2
 fn step_247() -> Unit raise {
-  cop_add_2_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_smul(Cx(real_of_num(2)), op) == op + op")))
+  cop_add_2_c.set(cop_arith(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_smul(Cx(real_of_num(2)), op) == op + op")))
 }
 
 ///|
@@ -3945,7 +3945,7 @@ pub fn cop_add_2() -> @kernel.Thm {
 ///|
 /// is_linear_cop
 fn step_248() -> Unit raise {
-  is_linear_cop_c.set(@pair.new_definition(@term_syntax.parse_term("(is_linear_cop : (((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) -> Bool)((op : ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])) == (∀ x : (B) -> Cart[Real, Tybit0[Unit]], ∀ y : (B) -> Cart[Real, Tybit0[Unit]], op(x + y) == op(x) + op(y) && (∀ a : Cart[Real, Tybit0[Unit]], op(cfun_smul(a, x)) == cfun_smul(a, op(x))))")))
+  is_linear_cop_c.set(@pair.new_definition(@term_syntax.parse_term("(is_linear_cop : (((B) -> Cart[Real, 2], A) -> Cart[Real, 2]) -> Bool)((op : ((B) -> Cart[Real, 2], A) -> Cart[Real, 2])) == (∀ x : (B) -> Cart[Real, 2], ∀ y : (B) -> Cart[Real, 2], op(x + y) == op(x) + op(y) && (∀ a : Cart[Real, 2], op(cfun_smul(a, x)) == cfun_smul(a, op(x))))")))
 }
 
 ///|
@@ -3961,7 +3961,7 @@ pub fn is_linear_cop() -> @kernel.Thm {
 /// LINCOP_ADD
 fn step_249() -> Unit raise {
   let t210 = @simp.simp_tac(@list.List([is_linear_cop()]))
-  lincop_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op) → op(x + y) == op(x) + op(y)"), t210))
+  lincop_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) → op(x + y) == op(x) + op(y)"), t210))
 }
 
 ///|
@@ -3977,7 +3977,7 @@ pub fn lincop_add() -> @kernel.Thm {
 /// LINCOP_SMUL
 fn step_250() -> Unit raise {
   let t211 = @simp.simp_tac(@list.List([is_linear_cop()]))
-  lincop_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op) → op(cfun_smul(a, x)) == cfun_smul(a, op(x))"), t211))
+  lincop_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) → op(cfun_smul(a, x)) == cfun_smul(a, op(x))"), t211))
 }
 
 ///|
@@ -3993,7 +3993,7 @@ pub fn lincop_smul() -> @kernel.Thm {
 /// LINCOP_SUB
 fn step_251() -> Unit raise {
   let t212 = @simp.simp_tac(@list.List([is_linear_cop(), cfun_sub_neg(), @equal.gsym(cfun_smul_lid_neg())]))
-  lincop_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op) → op(x - y) == op(x) - op(y)"), t212))
+  lincop_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) → op(x - y) == op(x) - op(y)"), t212))
 }
 
 ///|
@@ -4009,7 +4009,7 @@ pub fn lincop_sub() -> @kernel.Thm {
 /// LINCOP_MUL_RSMUL
 fn step_252() -> Unit raise {
   let t213 = @simp.simp_tac(@list.List([is_linear_cop(), cop_to_cfun()]))
-  lincop_mul_rsmul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op2) → cop_mul(op2, cop_smul(a, op1)) == cop_smul(a, cop_mul(op2, op1))"), t213))
+  lincop_mul_rsmul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op2) → cop_mul(op2, cop_smul(a, op1)) == cop_smul(a, cop_mul(op2, op1))"), t213))
 }
 
 ///|
@@ -4040,7 +4040,7 @@ pub fn lincop_smul_clauses() -> @kernel.Thm {
 /// LINCOP_MUL_RMUL
 fn step_254() -> Unit raise {
   let t214 = @simp.simp_tac(@list.List([is_linear_cop(), cop_to_cfun()]))
-  lincop_mul_rmul_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op2) → cop_mul(op2, cop_smul((a : Cart[Real, Tybit0[Unit]]), op1)) == cop_smul(a, cop_mul(op2, op1))"), t214))
+  lincop_mul_rmul_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op2) → cop_mul(op2, cop_smul((a : Cart[Real, 2]), op1)) == cop_smul(a, cop_mul(op2, op1))"), t214))
 }
 
 ///|
@@ -4056,7 +4056,7 @@ pub fn lincop_mul_rmul() -> @kernel.Thm {
 /// LINCOP_ADD_MUL_LDISTRIB
 fn step_255() -> Unit raise {
   let t215 = @simp.simp_tac(@list.List([is_linear_cop(), cop_to_cfun()]))
-  lincop_add_mul_ldistrib_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op3) → cop_mul(op3, op1 + op2) == cop_mul(op3, op1) + cop_mul(op3, op2)"), t215))
+  lincop_add_mul_ldistrib_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op3 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op3) → cop_mul(op3, op1 + op2) == cop_mul(op3, op1) + cop_mul(op3, op2)"), t215))
 }
 
 ///|
@@ -4072,7 +4072,7 @@ pub fn lincop_add_mul_ldistrib() -> @kernel.Thm {
 /// LINCOP_SUB_MUL_LDISTRIB
 fn step_256() -> Unit raise {
   let t216 = @simp.simp_tac(@list.List([is_linear_cop(), cop_to_cfun(), lincop_sub()]))
-  lincop_sub_mul_ldistrib_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op3) → cop_mul(op3, op1 - op2) == cop_mul(op3, op1) - cop_mul(op3, op2)"), t216))
+  lincop_sub_mul_ldistrib_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op3 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op3) → cop_mul(op3, op1 - op2) == cop_mul(op3, op1) - cop_mul(op3, op2)"), t216))
 }
 
 ///|
@@ -4103,7 +4103,7 @@ pub fn lincop_mul_distrib_clauses() -> @kernel.Thm {
 /// LINCOP_CFUN_ZERO
 fn step_258() -> Unit raise {
   let t217 = @meson.meson_tac(@list.List([is_linear_cop(), cfun_smul_lzero()]))
-  lincop_cfun_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op) → op(cfun_zero) == cfun_zero"), t217))
+  lincop_cfun_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) → op(cfun_zero) == cfun_zero"), t217))
 }
 
 ///|
@@ -4121,7 +4121,7 @@ fn step_259() -> Unit raise {
   let t219 = @simp.asm_rewrite_tac(@list.List([cop_to_cfun(), @complexes.complex_pow()]))
   let t218 = @tactics.repeat_tac(@tactics.orelse_tac(@nums.induct_tac, @tactics.strip_tac))
   let t220 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([is_linear_cop()])), t218), t219), cfun_arith_tac)
-  cop_pow_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op) → (∀ n : Num, ∀ a : Cart[Real, Tybit0[Unit]], pow(cop_smul(a, op), n) == cop_smul(pow(a, n), pow(op, n)))"), t220))
+  cop_pow_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) → (∀ n : Num, ∀ a : Cart[Real, 2], pow(cop_smul(a, op), n) == cop_smul(pow(a, n), pow(op, n)))"), t220))
 }
 
 ///|
@@ -4137,7 +4137,7 @@ pub fn cop_pow_smul() -> @kernel.Thm {
 /// COP_POW_SMUL2
 fn step_260() -> Unit raise {
   let t221 = @meson.meson_tac(@list.List([cop_pow_smul()]))
-  cop_pow_smul2_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ n : Num, ∀ a : Cart[Real, Tybit0[Unit]], is_linear_cop(op) → pow(cop_smul(a, op), n) == cop_smul(pow(a, n), pow(op, n))"), t221))
+  cop_pow_smul2_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ n : Num, ∀ a : Cart[Real, 2], is_linear_cop(op) → pow(cop_smul(a, op), n) == cop_smul(pow(a, n), pow(op, n))"), t221))
 }
 
 ///|
@@ -4154,7 +4154,7 @@ pub fn cop_pow_smul2() -> @kernel.Thm {
 fn step_261() -> Unit raise {
   let t222 = @tactics.repeat_tac(@tactics.strip_tac)
   let t223 = @tactics.then_tac(@tactics.then_tac(@simp.simp_tac(@list.List([is_linear_cop(), cop_to_cfun()])), t222), cop_arith_tac)
-  add_lincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op1) && is_linear_cop(op2) → is_linear_cop(op1 + op2)"), t223))
+  add_lincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op1) && is_linear_cop(op2) → is_linear_cop(op1 + op2)"), t223))
 }
 
 ///|
@@ -4171,7 +4171,7 @@ pub fn add_lincop() -> @kernel.Thm {
 fn step_262() -> Unit raise {
   let t224 = @tactics.repeat_tac(@tactics.strip_tac)
   let t225 = @tactics.then_tac(@tactics.then_tac(@simp.simp_tac(@list.List([is_linear_cop(), cop_to_cfun()])), t224), cop_arith_tac)
-  sub_lincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op1) && is_linear_cop(op2) → is_linear_cop(op1 - op2)"), t225))
+  sub_lincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op1) && is_linear_cop(op2) → is_linear_cop(op1 - op2)"), t225))
 }
 
 ///|
@@ -4188,7 +4188,7 @@ pub fn sub_lincop() -> @kernel.Thm {
 fn step_263() -> Unit raise {
   let t226 = @tactics.repeat_tac(@tactics.strip_tac)
   let t227 = @tactics.then_tac(@tactics.then_tac(@simp.simp_tac(@list.List([is_linear_cop(), cop_to_cfun()])), t226), cop_arith_tac)
-  smul_lincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op) → is_linear_cop(cop_smul(a, op))"), t227))
+  smul_lincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) → is_linear_cop(cop_smul(a, op))"), t227))
 }
 
 ///|
@@ -4205,7 +4205,7 @@ pub fn smul_lincop() -> @kernel.Thm {
 fn step_264() -> Unit raise {
   let t228 = @tactics.repeat_tac(@tactics.strip_tac)
   let t229 = @tactics.then_tac(@tactics.then_tac(@simp.simp_tac(@list.List([is_linear_cop(), cop_to_cfun()])), t228), cop_arith_tac)
-  mul_lincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op1) && is_linear_cop(op2) → is_linear_cop(cop_mul(op1, op2))"), t229))
+  mul_lincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op1) && is_linear_cop(op2) → is_linear_cop(cop_mul(op1, op2))"), t229))
 }
 
 ///|
@@ -4292,7 +4292,7 @@ fn step_268() -> Unit raise {
 /// I_LINCOP
 fn step_269() -> Unit raise {
   let t232 = @simp.rewrite_tac(@list.List([is_linear_cop(), @trivia.i_def()]))
-  i_lincop_c.set(@tactics.prove(@term_syntax.parse_term("(is_linear_cop : (((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) -> Bool)((I : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]))"), t232))
+  i_lincop_c.set(@tactics.prove(@term_syntax.parse_term("(is_linear_cop : (((_) -> Cart[Real, 2], _) -> Cart[Real, 2]) -> Bool)((I : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]))"), t232))
 }
 
 ///|
@@ -4307,8 +4307,8 @@ pub fn i_lincop() -> @kernel.Thm {
 ///|
 /// COP_POW_SCALAR
 fn step_270() -> Unit raise {
-  let t233 = @simp.simp_tac(@list.List([cop_arith(@term_syntax.parse_term("((x : (_) -> Cart[Real, Tybit0[Unit]]) => cfun_smul((a : Cart[Real, Tybit0[Unit]]), x)) == cop_smul(a, I)")), cop_pow_smul(), i_lincop(), cop_pow_i()]))
-  cop_pow_scalar_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ n : Num, pow((x : (_) -> Cart[Real, Tybit0[Unit]]) => cfun_smul(a, x), n) == ((x : (_) -> Cart[Real, Tybit0[Unit]]) => cfun_smul(pow(a, n), x))"), t233))
+  let t233 = @simp.simp_tac(@list.List([cop_arith(@term_syntax.parse_term("((x : (_) -> Cart[Real, 2]) => cfun_smul((a : Cart[Real, 2]), x)) == cop_smul(a, I)")), cop_pow_smul(), i_lincop(), cop_pow_i()]))
+  cop_pow_scalar_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ n : Num, pow((x : (_) -> Cart[Real, 2]) => cfun_smul(a, x), n) == ((x : (_) -> Cart[Real, 2]) => cfun_smul(pow(a, n), x))"), t233))
 }
 
 ///|
@@ -4330,7 +4330,7 @@ fn step_271() -> Unit raise {
 /// ZERO_LINCOP
 fn step_272() -> Unit raise {
   let t234 = @tactics.then_tac(@simp.rewrite_tac(@list.List([is_linear_cop(), cop_zero_thm()])), cop_arith_tac)
-  zero_lincop_c.set(@tactics.prove(@term_syntax.parse_term("(is_linear_cop : (((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) -> Bool)((cop_zero : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]))"), t234))
+  zero_lincop_c.set(@tactics.prove(@term_syntax.parse_term("(is_linear_cop : (((_) -> Cart[Real, 2], _) -> Cart[Real, 2]) -> Bool)((cop_zero : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]))"), t234))
 }
 
 ///|
@@ -4352,7 +4352,7 @@ fn step_273() -> Unit raise {
 /// SCALAR_LINCOP
 fn step_274() -> Unit raise {
   let t235 = @tactics.then_tac(@simp.rewrite_tac(@list.List([is_linear_cop()])), cfun_arith_tac)
-  scalar_lincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], is_linear_cop((x : (_) -> Cart[Real, Tybit0[Unit]]) => cfun_smul(a, x))"), t235))
+  scalar_lincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], is_linear_cop((x : (_) -> Cart[Real, 2]) => cfun_smul(a, x))"), t235))
 }
 
 ///|
@@ -4369,7 +4369,7 @@ pub fn scalar_lincop() -> @kernel.Thm {
 fn step_275() -> Unit raise {
   let t236 = @simp.asm_simp_tac(@list.List([cop_pow(), i_lincop(), mul_lincop()]))
   let t237 = @tactics.then_tac(@tactics.repeat_tac(@tactics.orelse_tac(@nums.induct_tac, @tactics.strip_tac)), t236)
-  pow_lincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op) → (∀ n : Num, is_linear_cop(pow(op, n)))"), t237))
+  pow_lincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) → (∀ n : Num, is_linear_cop(pow(op, n)))"), t237))
 }
 
 ///|
@@ -4413,7 +4413,7 @@ pub fn linearity_tac(x238 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -
 ///|
 /// is_set_linear_cop
 fn step_277() -> Unit raise {
-  is_set_linear_cop_c.set(@pair.new_definition(@term_syntax.parse_term("(is_set_linear_cop : (((B) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) -> Bool)((s : ((B) -> Cart[Real, Tybit0[Unit]]) -> Bool), (op : ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])) == (∀ x : (B) -> Cart[Real, Tybit0[Unit]], ∀ y : (B) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → op(x + y) == op(x) + op(y) && (∀ a : Cart[Real, Tybit0[Unit]], op(cfun_smul(a, x)) == cfun_smul(a, op(x))))")))
+  is_set_linear_cop_c.set(@pair.new_definition(@term_syntax.parse_term("(is_set_linear_cop : (((B) -> Cart[Real, 2]) -> Bool, ((B) -> Cart[Real, 2], A) -> Cart[Real, 2]) -> Bool)((s : ((B) -> Cart[Real, 2]) -> Bool), (op : ((B) -> Cart[Real, 2], A) -> Cart[Real, 2])) == (∀ x : (B) -> Cart[Real, 2], ∀ y : (B) -> Cart[Real, 2], IN(x, s) && IN(y, s) → op(x + y) == op(x) + op(y) && (∀ a : Cart[Real, 2], op(cfun_smul(a, x)) == cfun_smul(a, op(x))))")))
 }
 
 ///|
@@ -4429,7 +4429,7 @@ pub fn is_set_linear_cop() -> @kernel.Thm {
 /// LINCOP_SLINCOP
 fn step_278() -> Unit raise {
   let t248 = @simp.simp_tac(@list.List([is_linear_cop(), is_set_linear_cop()]))
-  lincop_slincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op) → is_set_linear_cop(s, op)"), t248))
+  lincop_slincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) → is_set_linear_cop(s, op)"), t248))
 }
 
 ///|
@@ -4445,7 +4445,7 @@ pub fn lincop_slincop() -> @kernel.Thm {
 /// SLINCOP_SMUL
 fn step_279() -> Unit raise {
   let t249 = @meson.meson_tac(@list.List([is_set_linear_cop()]))
-  slincop_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, IN(x, s) && is_set_linear_cop(s, op) → op(cfun_smul(a, x)) == cfun_smul(a, op(x))"), t249))
+  slincop_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, IN(x, s) && is_set_linear_cop(s, op) → op(cfun_smul(a, x)) == cfun_smul(a, op(x))"), t249))
 }
 
 ///|
@@ -4461,7 +4461,7 @@ pub fn slincop_smul() -> @kernel.Thm {
 /// SLINCOP_ADD
 fn step_280() -> Unit raise {
   let t250 = @simp.simp_tac(@list.List([is_set_linear_cop()]))
-  slincop_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, is_set_linear_cop(s, op) && IN(x, s) && IN(y, s) → op(x + y) == op(x) + op(y)"), t250))
+  slincop_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, is_set_linear_cop(s, op) && IN(x, s) && IN(y, s) → op(x + y) == op(x) + op(y)"), t250))
 }
 
 ///|
@@ -4477,7 +4477,7 @@ pub fn slincop_add() -> @kernel.Thm {
 /// SLINCOP_SUB
 fn step_281() -> Unit raise {
   let t251 = @meson.meson_tac(@list.List([slincop_smul(), cfun_subspace_smul(), slincop_add(), cfun_sub_neg(), @equal.gsym(cfun_smul_lid_neg())]))
-  slincop_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, is_cfun_subspace(s) && is_set_linear_cop(s, op) && IN(x, s) && IN(y, s) → op(x - y) == op(x) - op(y)"), t251))
+  slincop_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, is_cfun_subspace(s) && is_set_linear_cop(s, op) && IN(x, s) && IN(y, s) → op(x - y) == op(x) - op(y)"), t251))
 }
 
 ///|
@@ -4494,7 +4494,7 @@ pub fn slincop_sub() -> @kernel.Thm {
 fn step_282() -> Unit raise {
   let t252 = @meson.meson_tac(@list.List([slincop_smul(), cfun_smul_lzero(), cfun_subspace_zero()]))
   let t253 = @tactics.then_tac(@simp.once_rewrite_tac(@list.List([@equal.gsym(@q.spec("cfun_zero", cfun_smul_lzero()))])), t252)
-  slincop_cfun_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, is_set_linear_cop(s, op) && is_cfun_subspace(s) → op(cfun_zero) == cfun_zero"), t253))
+  slincop_cfun_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, is_set_linear_cop(s, op) && is_cfun_subspace(s) → op(cfun_zero) == cfun_zero"), t253))
 }
 
 ///|
@@ -4521,7 +4521,7 @@ fn step_284() -> Unit raise {
 ///|
 /// cfun_dual
 fn step_285() -> Unit raise {
-  cfun_dual_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_dual : (((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]) -> Bool)((spc : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool)) == {(f : ((A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]) | is_linear_cop(o(cfun_of_complex, f))}")))
+  cfun_dual_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_dual : (((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2]) -> Cart[Real, 2]) -> Bool)((spc : ((A) -> Cart[Real, 2]) -> Bool)) == {(f : ((A) -> Cart[Real, 2]) -> Cart[Real, 2]) | is_linear_cop(o(cfun_of_complex, f))}")))
 }
 
 ///|
@@ -4536,7 +4536,7 @@ pub fn cfun_dual() -> @kernel.Thm {
 ///|
 /// cop_transpose
 fn step_286() -> Unit raise {
-  cop_transpose_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_transpose : (((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ((A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], (B) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((f : ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])) == ((phi : ((A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]) => o(phi, f))")))
+  cop_transpose_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_transpose : (((B) -> Cart[Real, 2], A) -> Cart[Real, 2], ((A) -> Cart[Real, 2]) -> Cart[Real, 2], (B) -> Cart[Real, 2]) -> Cart[Real, 2])((f : ((B) -> Cart[Real, 2], A) -> Cart[Real, 2])) == ((phi : ((A) -> Cart[Real, 2]) -> Cart[Real, 2]) => o(phi, f))")))
 }
 
 ///|
@@ -4551,7 +4551,7 @@ pub fn cop_transpose() -> @kernel.Thm {
 ///|
 /// commutator
 fn step_287() -> Unit raise {
-  commutator_c.set(@pair.new_definition(@term_syntax.parse_term("(commutator : (((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])((op1 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]), (op2 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])) == cop_mul(op1, op2) - cop_mul(op2, op1)")))
+  commutator_c.set(@pair.new_definition(@term_syntax.parse_term("(commutator : (((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2])((op1 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]), (op2 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2])) == cop_mul(op1, op2) - cop_mul(op2, op1)")))
 }
 
 ///|
@@ -4578,14 +4578,14 @@ fn step_289() -> Unit raise {
 ///|
 /// Functionspaces/cfunspace.ml:1195
 fn step_290() -> Unit raise {
-  @preterm.overload_interface("com", @term_syntax.parse_term("(commutator : (((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])"))
+  @preterm.overload_interface("com", @term_syntax.parse_term("(commutator : (((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2])"))
 }
 
 ///|
 /// COMMUTATOR_NEG
 fn step_291() -> Unit raise {
   let t254 = @tactics.then_tac(@simp.rewrite_tac(@list.List([commutator()])), cop_arith_tac)
-  commutator_neg_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], com(op1, op2) == -com(op2, op1)"), t254))
+  commutator_neg_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], com(op1, op2) == -com(op2, op1)"), t254))
 }
 
 ///|
@@ -4601,7 +4601,7 @@ pub fn commutator_neg() -> @kernel.Thm {
 /// COMMUTATOR_COMPOSIT
 fn step_292() -> Unit raise {
   let t255 = @tactics.then_tac(@simp.simp_tac(@list.List([commutator(), lincop_mul_distrib_clauses(), lincop_smul_clauses(), cop_smul_assoc(), cop_sub_radd()])), cop_arith_tac)
-  commutator_composit_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ c : Cart[Real, Tybit0[Unit]], ∀ d : Cart[Real, Tybit0[Unit]], is_linear_cop(op1) && is_linear_cop(op2) → com(cop_smul(a, op1) + cop_smul(b, op2), cop_smul(c, op1) + cop_smul(d, op2)) == cop_smul(a * d, com(op1, op2)) - cop_smul(b * c, com(op1, op2))"), t255))
+  commutator_composit_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ c : Cart[Real, 2], ∀ d : Cart[Real, 2], is_linear_cop(op1) && is_linear_cop(op2) → com(cop_smul(a, op1) + cop_smul(b, op2), cop_smul(c, op1) + cop_smul(d, op2)) == cop_smul(a * d, com(op1, op2)) - cop_smul(b * c, com(op1, op2))"), t255))
 }
 
 ///|
@@ -4634,7 +4634,7 @@ pub fn commutator_smul() -> @kernel.Thm {
 fn step_294() -> Unit raise {
   let t257 = @meson.meson_tac(@list.List([]))
   let t258 = @tactics.then_tac(@simp.rewrite_tac(@list.List([commutator(), cop_eq_lsub(), cop_add_lid()])), t257)
-  commutator_zero_sym_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], (com(op1, op2) == cop_zero) == (com(op2, op1) == cop_zero)"), t258))
+  commutator_zero_sym_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], (com(op1, op2) == cop_zero) == (com(op2, op1) == cop_zero)"), t258))
 }
 
 ///|
@@ -4650,7 +4650,7 @@ pub fn commutator_zero_sym() -> @kernel.Thm {
 /// COMMUTATOR_SCALAR
 fn step_295() -> Unit raise {
   let t259 = @tactics.then_tac(@simp.simp_tac(@list.List([commutator(), cop_sub_abs(), cop_mul_v1(), lincop_smul()])), cop_arith_tac)
-  commutator_scalar_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ a : Cart[Real, Tybit0[Unit]], is_linear_cop(op) → com(op, (x : (_) -> Cart[Real, Tybit0[Unit]]) => cfun_smul(a, x)) == cop_zero"), t259))
+  commutator_scalar_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ a : Cart[Real, 2], is_linear_cop(op) → com(op, (x : (_) -> Cart[Real, 2]) => cfun_smul(a, x)) == cop_zero"), t259))
 }
 
 ///|
@@ -4666,7 +4666,7 @@ pub fn commutator_scalar() -> @kernel.Thm {
 /// COMMUTATOR_SCALAR_OP
 fn step_296() -> Unit raise {
   let t260 = @tactics.then_tac(@simp.simp_tac(@list.List([commutator(), lincop_mul_rsmul()])), cop_arith_tac)
-  commutator_scalar_op_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ a : Cart[Real, Tybit0[Unit]], is_linear_cop(op) → com(op, cop_smul(a, op)) == cop_zero"), t260))
+  commutator_scalar_op_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ a : Cart[Real, 2], is_linear_cop(op) → com(op, cop_smul(a, op)) == cop_zero"), t260))
 }
 
 ///|
@@ -4682,7 +4682,7 @@ pub fn commutator_scalar_op() -> @kernel.Thm {
 /// COMMUTATOR_ZERO
 fn step_297() -> Unit raise {
   let t261 = @tactics.then_tac(@simp.simp_tac(@list.List([cop_zero(), k_def(), @equal.gsym(cfun_smul_lzero()), commutator(), cop_sub_abs(), cop_mul_v1(), lincop_smul()])), cop_arith_tac)
-  commutator_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op) → com(op, cop_zero) == cop_zero"), t261))
+  commutator_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) → com(op, cop_zero) == cop_zero"), t261))
 }
 
 ///|
@@ -4699,7 +4699,7 @@ pub fn commutator_zero() -> @kernel.Thm {
 fn step_298() -> Unit raise {
   let t262 = @tactics.repeat_tac(@tactics.strip_tac)
   let t263 = @tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([commutator()])), t262), linearity_tac)
-  lincop_commutator_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op1) && is_linear_cop(op2) → is_linear_cop(com(op1, op2))"), t263))
+  lincop_commutator_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op1) && is_linear_cop(op2) → is_linear_cop(com(op1, op2))"), t263))
 }
 
 ///|
@@ -4720,7 +4720,7 @@ fn step_299() -> Unit raise {
 ///|
 /// expectation
 fn step_300() -> Unit raise {
-  expectation_c.set(@pair.new_definition(@term_syntax.parse_term("(expectation : (((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]], ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f : (A) -> Cart[Real, Tybit0[Unit]]), (op : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])) == inprod(f, op(f))")))
+  expectation_c.set(@pair.new_definition(@term_syntax.parse_term("(expectation : (((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2], (A) -> Cart[Real, 2], ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]) -> Cart[Real, 2])((inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2]), (f : (A) -> Cart[Real, 2]), (op : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2])) == inprod(f, op(f))")))
 }
 
 ///|
@@ -4735,7 +4735,7 @@ pub fn expectation() -> @kernel.Thm {
 ///|
 /// deviation
 fn step_301() -> Unit raise {
-  deviation_c.set(@pair.new_definition(@term_syntax.parse_term("(deviation : (((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]], ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])((inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f : (A) -> Cart[Real, Tybit0[Unit]]), (op : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])) == op - ((x : (A) -> Cart[Real, Tybit0[Unit]]) => cfun_smul(expectation(inprod, f, op), x))")))
+  deviation_c.set(@pair.new_definition(@term_syntax.parse_term("(deviation : (((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2], (A) -> Cart[Real, 2], ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2])((inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2]), (f : (A) -> Cart[Real, 2]), (op : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2])) == op - ((x : (A) -> Cart[Real, 2]) => cfun_smul(expectation(inprod, f, op), x))")))
 }
 
 ///|
@@ -4751,7 +4751,7 @@ pub fn deviation() -> @kernel.Thm {
 /// DEVIATION_ALT
 fn step_302() -> Unit raise {
   let t264 = @tactics.then_tac(@simp.rewrite_tac(@list.List([deviation()])), cop_arith_tac)
-  deviation_alt_c.set(@tactics.prove(@term_syntax.parse_term("∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ f : (_) -> Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], deviation(inprod, f, op) == op - cop_smul(expectation(inprod, f, op), I)"), t264))
+  deviation_alt_c.set(@tactics.prove(@term_syntax.parse_term("∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ f : (_) -> Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], deviation(inprod, f, op) == op - cop_smul(expectation(inprod, f, op), I)"), t264))
 }
 
 ///|
@@ -4767,7 +4767,7 @@ pub fn deviation_alt() -> @kernel.Thm {
 /// LINCOP_DEVIATION
 fn step_303() -> Unit raise {
   let t265 = @tactics.then_tac(@simp.rewrite_tac(@list.List([deviation(), @equal.gsym(cop_smul_v1())])), linearity_tac)
-  lincop_deviation_c.set(@tactics.prove(@term_syntax.parse_term("∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ state : (_) -> Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op) → is_linear_cop(deviation(inprod, state, op))"), t265))
+  lincop_deviation_c.set(@tactics.prove(@term_syntax.parse_term("∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ state : (_) -> Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) → is_linear_cop(deviation(inprod, state, op))"), t265))
 }
 
 ///|
@@ -4788,7 +4788,7 @@ fn step_304() -> Unit raise {
 ///|
 /// variance
 fn step_305() -> Unit raise {
-  variance_c.set(@pair.new_definition(@term_syntax.parse_term("(variance : (((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]], ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f : (A) -> Cart[Real, Tybit0[Unit]]), (op : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])) == expectation(inprod, f, cop_mul(deviation(inprod, f, op), deviation(inprod, f, op)))")))
+  variance_c.set(@pair.new_definition(@term_syntax.parse_term("(variance : (((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2], (A) -> Cart[Real, 2], ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]) -> Cart[Real, 2])((inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2]), (f : (A) -> Cart[Real, 2]), (op : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2])) == expectation(inprod, f, cop_mul(deviation(inprod, f, op), deviation(inprod, f, op)))")))
 }
 
 ///|
@@ -4803,12 +4803,12 @@ pub fn variance() -> @kernel.Thm {
 ///|
 /// DEVIATION_COMMUTATOR
 fn step_306() -> Unit raise {
-  let t269 = @simp.asm_simp_tac(@list.List([lincop_mul_distrib_clauses(), cop_mul_lsmul(), cop_i_id(), lincop_mul_rmul(), @meson.meson(@list.List([cop_smul_sym()]), @term_syntax.parse_term("(f : (((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) -> _)(cop_smul((a : Cart[Real, Tybit0[Unit]]), cop_smul((b : Cart[Real, Tybit0[Unit]]), (op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]))), cop_smul(b, cop_smul(a, op))) == f(cop_smul(a, cop_smul(b, op)), cop_smul(a, cop_smul(b, op)))"))]))
+  let t269 = @simp.asm_simp_tac(@list.List([lincop_mul_distrib_clauses(), cop_mul_lsmul(), cop_i_id(), lincop_mul_rmul(), @meson.meson(@list.List([cop_smul_sym()]), @term_syntax.parse_term("(f : (((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]) -> _)(cop_smul((a : Cart[Real, 2]), cop_smul((b : Cart[Real, 2]), (op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]))), cop_smul(b, cop_smul(a, op))) == f(cop_smul(a, cop_smul(b, op)), cop_smul(a, cop_smul(b, op)))"))]))
   let t268 = @tactics.try_tac(linearity_tac)
   let t267 = @tactics.repeat_tac(@tactics.strip_tac)
   let t266 = @impconv.imp_rewrite_tac(@list.List([lincop_sub_mul_ldistrib()]))
   let t270 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.simp_tac(@list.List([deviation_alt(), commutator()])), t266), t267), t268), t269), cop_arith_tac)
-  deviation_commutator_c.set(@tactics.prove(@term_syntax.parse_term("∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ state : (_) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op1) && is_linear_cop(op2) → com(deviation(inprod, state, op1), deviation(inprod, state, op2)) == com(op1, op2)"), t270))
+  deviation_commutator_c.set(@tactics.prove(@term_syntax.parse_term("∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ state : (_) -> Cart[Real, 2], is_linear_cop(op1) && is_linear_cop(op2) → com(deviation(inprod, state, op1), deviation(inprod, state, op2)) == com(op1, op2)"), t270))
 }
 
 ///|
@@ -4824,7 +4824,7 @@ pub fn deviation_commutator() -> @kernel.Thm {
 /// EXPEC_ZERO_STATE
 fn step_307() -> Unit raise {
   let t271 = @meson.meson_tac(@list.List([expectation(), inprod_zero(), lincop_cfun_zero()]))
-  expec_zero_state_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op) && is_inner_space((s, inprod)) → expectation(inprod, cfun_zero, op) == Cx(real_of_num(0))"), t271))
+  expec_zero_state_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) && is_inner_space((s, inprod)) → expectation(inprod, cfun_zero, op) == Cx(real_of_num(0))"), t271))
 }
 
 ///|
@@ -4905,7 +4905,7 @@ pub fn is_closed_by_i() -> @kernel.Thm {
 fn step_312() -> Unit raise {
   let t276 = @meson.meson_tac(@list.List([cfun_subspace_add()]))
   let t277 = @tactics.then_tac(@simp.rewrite_tac(@list.List([is_closed_by(), cop_to_cfun()])), t276)
-  is_closed_by_cop_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_cfun_subspace(s) && is_closed_by(s, op1) && is_closed_by(s, op2) → is_closed_by(s, op1 + op2)"), t277))
+  is_closed_by_cop_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_cfun_subspace(s) && is_closed_by(s, op1) && is_closed_by(s, op2) → is_closed_by(s, op1 + op2)"), t277))
 }
 
 ///|
@@ -4922,7 +4922,7 @@ pub fn is_closed_by_cop_add() -> @kernel.Thm {
 fn step_313() -> Unit raise {
   let t278 = @meson.meson_tac(@list.List([cfun_subspace_sub()]))
   let t279 = @tactics.then_tac(@simp.rewrite_tac(@list.List([is_closed_by(), cop_to_cfun()])), t278)
-  is_closed_by_cop_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_cfun_subspace(s) && is_closed_by(s, op1) && is_closed_by(s, op2) → is_closed_by(s, op1 - op2)"), t279))
+  is_closed_by_cop_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_cfun_subspace(s) && is_closed_by(s, op1) && is_closed_by(s, op2) → is_closed_by(s, op1 - op2)"), t279))
 }
 
 ///|
@@ -4939,7 +4939,7 @@ pub fn is_closed_by_cop_sub() -> @kernel.Thm {
 fn step_314() -> Unit raise {
   let t280 = @meson.meson_tac(@list.List([]))
   let t281 = @tactics.then_tac(@simp.rewrite_tac(@list.List([is_closed_by(), cop_to_cfun()])), t280)
-  is_closed_by_cop_mul_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_closed_by(s, op1) && is_closed_by(s, op2) → is_closed_by(s, cop_mul(op1, op2))"), t281))
+  is_closed_by_cop_mul_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_closed_by(s, op1) && is_closed_by(s, op2) → is_closed_by(s, cop_mul(op1, op2))"), t281))
 }
 
 ///|
@@ -4955,7 +4955,7 @@ pub fn is_closed_by_cop_mul() -> @kernel.Thm {
 /// IS_CLOSED_SCALAR
 fn step_315() -> Unit raise {
   let t282 = @simp.simp_tac(@list.List([is_closed_by(), is_cfun_subspace(), cop_to_cfun()]))
-  is_closed_scalar_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ a : Cart[Real, Tybit0[Unit]], is_cfun_subspace(s) → is_closed_by(s, cop_smul(a, I))"), t282))
+  is_closed_scalar_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ a : Cart[Real, 2], is_cfun_subspace(s) → is_closed_by(s, cop_smul(a, I))"), t282))
 }
 
 ///|
@@ -4970,7 +4970,7 @@ pub fn is_closed_scalar() -> @kernel.Thm {
 ///|
 /// IS_CLOSED_INPROD_SCALAR
 fn step_316() -> Unit raise {
-  is_closed_inprod_scalar_c.set(inner_space_prove("(∀ a : Cart[Real, Tybit0[Unit]], is_closed_by(s, cop_smul(a, I)))", @simp.simp_tac(@list.List([is_closed_by(), is_inner_space(), is_closed_scalar()]))))
+  is_closed_inprod_scalar_c.set(inner_space_prove("(∀ a : Cart[Real, 2], is_closed_by(s, cop_smul(a, I)))", @simp.simp_tac(@list.List([is_closed_by(), is_inner_space(), is_closed_scalar()]))))
 }
 
 ///|
@@ -4986,7 +4986,7 @@ pub fn is_closed_inprod_scalar() -> @kernel.Thm {
 /// IS_CLOSED_BY_COP_SMUL
 fn step_317() -> Unit raise {
   let t283 = @impconv.imp_rewrite_tac(@list.List([is_closed_by(), cop_to_cfun(), cfun_subspace_smul()]))
-  is_closed_by_cop_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ a : Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_cfun_subspace(s) && is_closed_by(s, op) → is_closed_by(s, cop_smul(a, op))"), t283))
+  is_closed_by_cop_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ a : Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_cfun_subspace(s) && is_closed_by(s, op) → is_closed_by(s, cop_smul(a, op))"), t283))
 }
 
 ///|
@@ -5002,7 +5002,7 @@ pub fn is_closed_by_cop_smul() -> @kernel.Thm {
 /// IS_CLOSED_BY_COMMUTATOR
 fn step_318() -> Unit raise {
   let t284 = @impconv.imp_rewrite_tac(@list.List([commutator(), is_closed_by_cop_mul(), is_closed_by_cop_sub()]))
-  is_closed_by_commutator_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ a : _, ∀ op : _, is_cfun_subspace(s) && is_closed_by(s, (op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])) && is_closed_by(s, (op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])) → is_closed_by(s, com(op1, op2))"), t284))
+  is_closed_by_commutator_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ a : _, ∀ op : _, is_cfun_subspace(s) && is_closed_by(s, (op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])) && is_closed_by(s, (op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])) → is_closed_by(s, com(op1, op2))"), t284))
 }
 
 ///|
@@ -5017,7 +5017,7 @@ pub fn is_closed_by_commutator() -> @kernel.Thm {
 ///|
 /// is_hermitian
 fn step_319() -> Unit raise {
-  is_hermitian_c.set(@pair.new_definition(@term_syntax.parse_term("(is_hermitian : ((((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) -> Bool)(((s : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool), (inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])), (op1 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]), (op2 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])) == (is_inner_space((s, inprod)) → is_closed_by(s, op1) && is_closed_by(s, op2) && is_linear_cop(op1) && is_linear_cop(op2) && (∀ x : (A) -> Cart[Real, Tybit0[Unit]], ∀ y : (A) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → inprod(x, op1(y)) == inprod(op2(x), y)))")))
+  is_hermitian_c.set(@pair.new_definition(@term_syntax.parse_term("(is_hermitian : ((((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2]), ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]) -> Bool)(((s : ((A) -> Cart[Real, 2]) -> Bool), (inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2])), (op1 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]), (op2 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2])) == (is_inner_space((s, inprod)) → is_closed_by(s, op1) && is_closed_by(s, op2) && is_linear_cop(op1) && is_linear_cop(op2) && (∀ x : (A) -> Cart[Real, 2], ∀ y : (A) -> Cart[Real, 2], IN(x, s) && IN(y, s) → inprod(x, op1(y)) == inprod(op2(x), y)))")))
 }
 
 ///|
@@ -5032,7 +5032,7 @@ pub fn is_hermitian() -> @kernel.Thm {
 ///|
 /// HERM_LINCOP
 fn step_320() -> Unit raise {
-  herm_lincop_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_hermitian(is_, op1, op2) → is_linear_cop(op1) && is_linear_cop(op2))", @simp.simp_tac(@list.List([forall_inner_space_thm(), is_hermitian()]))))
+  herm_lincop_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_hermitian(is_, op1, op2) → is_linear_cop(op1) && is_linear_cop(op2))", @simp.simp_tac(@list.List([forall_inner_space_thm(), is_hermitian()]))))
 }
 
 ///|
@@ -5047,7 +5047,7 @@ pub fn herm_lincop() -> @kernel.Thm {
 ///|
 /// HERM_LINCOP_L
 fn step_321() -> Unit raise {
-  herm_lincop_l_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_hermitian(is_, op1, op2) → is_linear_cop(op1))", @simp.simp_tac(@list.List([forall_inner_space_thm(), is_hermitian()]))))
+  herm_lincop_l_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_hermitian(is_, op1, op2) → is_linear_cop(op1))", @simp.simp_tac(@list.List([forall_inner_space_thm(), is_hermitian()]))))
 }
 
 ///|
@@ -5062,7 +5062,7 @@ pub fn herm_lincop_l() -> @kernel.Thm {
 ///|
 /// HERM_LINCOP_R
 fn step_322() -> Unit raise {
-  herm_lincop_r_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_hermitian(is_, op1, op2) → is_linear_cop(op2))", @simp.simp_tac(@list.List([forall_inner_space_thm(), is_hermitian()]))))
+  herm_lincop_r_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_hermitian(is_, op1, op2) → is_linear_cop(op2))", @simp.simp_tac(@list.List([forall_inner_space_thm(), is_hermitian()]))))
 }
 
 ///|
@@ -5077,7 +5077,7 @@ pub fn herm_lincop_r() -> @kernel.Thm {
 ///|
 /// HERM_IS_CLOSED_BY_L
 fn step_323() -> Unit raise {
-  herm_is_closed_by_l_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_hermitian((s, inprod), op1, op2) → is_closed_by(s, op1))", @simp.simp_tac(@list.List([is_hermitian()]))))
+  herm_is_closed_by_l_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_hermitian((s, inprod), op1, op2) → is_closed_by(s, op1))", @simp.simp_tac(@list.List([is_hermitian()]))))
 }
 
 ///|
@@ -5092,7 +5092,7 @@ pub fn herm_is_closed_by_l() -> @kernel.Thm {
 ///|
 /// HERM_IS_CLOSED_BY_R
 fn step_324() -> Unit raise {
-  herm_is_closed_by_r_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_hermitian((s, inprod), op1, op2) → is_closed_by(s, op2))", @simp.simp_tac(@list.List([is_hermitian()]))))
+  herm_is_closed_by_r_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_hermitian((s, inprod), op1, op2) → is_closed_by(s, op2))", @simp.simp_tac(@list.List([is_hermitian()]))))
 }
 
 ///|
@@ -5107,7 +5107,7 @@ pub fn herm_is_closed_by_r() -> @kernel.Thm {
 ///|
 /// HERM_ITSELF
 fn step_325() -> Unit raise {
-  herm_itself_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], is_hermitian((s, inprod), op1, op2) && IN(x, s) && IN(y, s) → inprod(x, op1(y)) == inprod(op2(x), y))", @simp.simp_tac(@list.List([is_hermitian()]))))
+  herm_itself_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], is_hermitian((s, inprod), op1, op2) && IN(x, s) && IN(y, s) → inprod(x, op1(y)) == inprod(op2(x), y))", @simp.simp_tac(@list.List([is_hermitian()]))))
 }
 
 ///|
@@ -5125,7 +5125,7 @@ fn step_326() -> Unit raise {
   let t287 = @impconv.imp_rewrite_tac(@list.List([cop_to_cfun(), cfun_subspace_add(), inner_space_is_subspace(), inprod_add_ldist(), inprod_add_rdist()]))
   let t286 = @tactics.try_tac(linearity_tac)
   let t285 = @tactics.repeat_tac(@tactics.strip_tac)
-  add_herm_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op4 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_hermitian(is_, op1, op2) && is_hermitian(is_, op3, op4) → is_hermitian(is_, op1 + op3, op2 + op4))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_hermitian(), is_closed_by()])), @utils.simp_horn_tac), t285), t286), t287)))
+  add_herm_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op3 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op4 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_hermitian(is_, op1, op2) && is_hermitian(is_, op3, op4) → is_hermitian(is_, op1 + op3, op2 + op4))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_hermitian(), is_closed_by()])), @utils.simp_horn_tac), t285), t286), t287)))
 }
 
 ///|
@@ -5143,7 +5143,7 @@ fn step_327() -> Unit raise {
   let t290 = @impconv.imp_rewrite_tac(@list.List([cop_to_cfun(), cfun_subspace_sub(), inner_space_is_subspace(), inprod_sub_ldist(), inprod_sub_rdist()]))
   let t289 = @tactics.try_tac(linearity_tac)
   let t288 = @tactics.repeat_tac(@tactics.strip_tac)
-  sub_herm_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op4 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_hermitian(is_, op1, op2) && is_hermitian(is_, op3, op4) → is_hermitian(is_, op1 - op3, op2 - op4))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_hermitian(), is_closed_by()])), @utils.simp_horn_tac), t288), t289), t290)))
+  sub_herm_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op3 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op4 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_hermitian(is_, op1, op2) && is_hermitian(is_, op3, op4) → is_hermitian(is_, op1 - op3, op2 - op4))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_hermitian(), is_closed_by()])), @utils.simp_horn_tac), t288), t289), t290)))
 }
 
 ///|
@@ -5162,7 +5162,7 @@ fn step_328() -> Unit raise {
   let t293 = @simp.rewrite_tac(@list.List([cop_to_cfun(), cop_mul(), @trivia.o_def()]))
   let t292 = @tactics.try_tac(linearity_tac)
   let t291 = @tactics.repeat_tac(@tactics.strip_tac)
-  mul_herm_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op4 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_hermitian(is_, op1, op2) && is_hermitian(is_, op3, op4) → is_hermitian(is_, cop_mul(op1, op3), cop_mul(op4, op2)))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_hermitian(), is_closed_by()])), @utils.simp_horn_tac), t291), t292), t293), t294)))
+  mul_herm_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op3 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op4 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_hermitian(is_, op1, op2) && is_hermitian(is_, op3, op4) → is_hermitian(is_, cop_mul(op1, op3), cop_mul(op4, op2)))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_hermitian(), is_closed_by()])), @utils.simp_horn_tac), t291), t292), t293), t294)))
 }
 
 ///|
@@ -5181,7 +5181,7 @@ fn step_329() -> Unit raise {
   let t297 = @impconv.imp_rewrite_tac(@list.List([cop_to_cfun(), cfun_subspace_smul(), inner_space_is_subspace(), inprod_lsmul(), inprod_rsmul()]))
   let t296 = @tactics.try_tac(linearity_tac)
   let t295 = @tactics.repeat_tac(@tactics.strip_tac)
-  smul_herm_c.set(full_inner_space_prove("(∀ a : Cart[Real, Tybit0[Unit]], ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op4 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_hermitian(is_, op1, op2) && is_hermitian(is_, op3, op4) → is_hermitian(is_, cop_smul(a, op1), cop_smul(cnj(a), op2)))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_hermitian(), is_closed_by()])), @utils.simp_horn_tac), t295), t296), t297), t298)))
+  smul_herm_c.set(full_inner_space_prove("(∀ a : Cart[Real, 2], ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op3 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op4 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_hermitian(is_, op1, op2) && is_hermitian(is_, op3, op4) → is_hermitian(is_, cop_smul(a, op1), cop_smul(cnj(a), op2)))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_hermitian(), is_closed_by()])), @utils.simp_horn_tac), t295), t296), t297), t298)))
 }
 
 ///|
@@ -5196,7 +5196,7 @@ pub fn smul_herm() -> @kernel.Thm {
 ///|
 /// HERMITAIN_INPROD
 fn step_330() -> Unit raise {
-  hermitain_inprod_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_hermitian((s, inprod), op1, op2) && is_closed_by(s, op3) → (∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → inprod(x, cop_mul(op1, op3, y)) == inprod(op2(x), op3(y))))", @meson.meson_tac(@list.List([herm_itself(), cop_mul_v1(), is_closed_by()]))))
+  hermitain_inprod_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op3 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_hermitian((s, inprod), op1, op2) && is_closed_by(s, op3) → (∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → inprod(x, cop_mul(op1, op3, y)) == inprod(op2(x), op3(y))))", @meson.meson_tac(@list.List([herm_itself(), cop_mul_v1(), is_closed_by()]))))
 }
 
 ///|
@@ -5213,7 +5213,7 @@ pub fn hermitain_inprod() -> @kernel.Thm {
 fn step_331() -> Unit raise {
   let t299 = @impconv.imp_rewrite_tac(@list.List([is_closed_by(), zero_lincop(), cop_zero_thm(), cfun_subspace_zero(), inner_space_is_subspace(), inprod_rzero(), inprod_lzero()]))
   let t300 = @tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_hermitian()])), t299)
-  zero_herm_c.set(@tactics.prove(@term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), is_hermitian(is_, cop_zero, cop_zero)"), t300))
+  zero_herm_c.set(@tactics.prove(@term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), is_hermitian(is_, cop_zero, cop_zero)"), t300))
 }
 
 ///|
@@ -5245,7 +5245,7 @@ pub fn arith_herm_clauses() -> @kernel.Thm {
 fn step_333() -> Unit raise {
   let t301 = @meson.meson_tac(@list.List([@complexes.cx_inj(), inprod_cnj()]))
   let t302 = @tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_hermitian(), is_closed_by()])), t301)
-  herm_sym_c.set(@tactics.prove(@term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_hermitian(is_, op1, op2) == is_hermitian(is_, op2, op1)"), t302))
+  herm_sym_c.set(@tactics.prove(@term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_hermitian(is_, op1, op2) == is_hermitian(is_, op2, op1)"), t302))
 }
 
 ///|
@@ -5262,7 +5262,7 @@ pub fn herm_sym() -> @kernel.Thm {
 fn step_334() -> Unit raise {
   let t303 = @meson.asm_meson_tac(@list.List([]))
   let t304 = @tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([is_hermitian(), cop_eq(), is_closed_by(), inprod_inj_alt()])), t303)
-  herm_uniqueness_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) && is_hermitian((s, inprod), op1, op2) && is_hermitian((s, inprod), op1, op3) → (∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → equv(op2(x), op3(x), inprod))"), t304))
+  herm_uniqueness_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op3 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_hermitian((s, inprod), op1, op2) && is_hermitian((s, inprod), op1, op3) → (∀ x : (_) -> Cart[Real, 2], IN(x, s) → equv(op2(x), op3(x), inprod))"), t304))
 }
 
 ///|
@@ -5278,7 +5278,7 @@ pub fn herm_uniqueness() -> @kernel.Thm {
 /// HERM_UNIQUENESS_ALT
 fn step_335() -> Unit raise {
   let t305 = @meson.meson_tac(@list.List([herm_sym(), herm_uniqueness()]))
-  herm_uniqueness_alt_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) && is_hermitian((s, inprod), op2, op1) && is_hermitian((s, inprod), op3, op1) → (∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → equv(op2(x), op3(x), inprod))"), t305))
+  herm_uniqueness_alt_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op3 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_hermitian((s, inprod), op2, op1) && is_hermitian((s, inprod), op3, op1) → (∀ x : (_) -> Cart[Real, 2], IN(x, s) → equv(op2(x), op3(x), inprod))"), t305))
 }
 
 ///|
@@ -5294,7 +5294,7 @@ pub fn herm_uniqueness_alt() -> @kernel.Thm {
 /// HERM_PROP_ADVANCED
 fn step_336() -> Unit raise {
   let t306 = @meson.meson_tac(@list.List([arith_herm_clauses(), @complexes.cnj_cnj(), herm_sym()]))
-  herm_prop_advanced_c.set(inner_space_prove("(∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op4 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op5 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_hermitian((s, inprod), op1, op2) && is_hermitian((s, inprod), op3, op4) && is_hermitian((s, inprod), op5, cop_smul(a, op1) + cop_smul(b, op3)) → (∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → equv(op5(x), op_plus(cop_smul(cnj(a), op2), cop_smul(cnj(b), op4), x), inprod)))", @tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([cop_eq(), @utils.gimp_imp_v1(herm_uniqueness_alt())])), t306)))
+  herm_prop_advanced_c.set(inner_space_prove("(∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op3 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op4 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op5 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_hermitian((s, inprod), op1, op2) && is_hermitian((s, inprod), op3, op4) && is_hermitian((s, inprod), op5, cop_smul(a, op1) + cop_smul(b, op3)) → (∀ x : (_) -> Cart[Real, 2], IN(x, s) → equv(op5(x), op_plus(cop_smul(cnj(a), op2), cop_smul(cnj(b), op4), x), inprod)))", @tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([cop_eq(), @utils.gimp_imp_v1(herm_uniqueness_alt())])), t306)))
 }
 
 ///|
@@ -5309,7 +5309,7 @@ pub fn herm_prop_advanced() -> @kernel.Thm {
 ///|
 /// is_self_adjoint
 fn step_337() -> Unit raise {
-  is_self_adjoint_c.set(@pair.new_definition(@term_syntax.parse_term("(is_self_adjoint1 : ((((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) -> Bool)((is_ : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])), (op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])) == is_hermitian(is_, op, op)")))
+  is_self_adjoint_c.set(@pair.new_definition(@term_syntax.parse_term("(is_self_adjoint1 : ((((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]) -> Bool)((is_ : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2])), (op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])) == is_hermitian(is_, op, op)")))
 }
 
 ///|
@@ -5339,7 +5339,7 @@ pub fn is_self_adjoint_v1() -> @kernel.Thm {
 ///|
 /// SELF_ADJ_IS_LINCOP
 fn step_339() -> Unit raise {
-  self_adj_is_lincop_c.set(full_inner_space_prove("(∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_self_adjoint1(is_, op) → is_linear_cop(op))", @impconv.imp_rewrite_tac(@list.List([is_self_adjoint(), herm_lincop_l()]))))
+  self_adj_is_lincop_c.set(full_inner_space_prove("(∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_self_adjoint1(is_, op) → is_linear_cop(op))", @impconv.imp_rewrite_tac(@list.List([is_self_adjoint(), herm_lincop_l()]))))
 }
 
 ///|
@@ -5354,7 +5354,7 @@ pub fn self_adj_is_lincop() -> @kernel.Thm {
 ///|
 /// SELF_ADJ_IS_CLOSED_BY
 fn step_340() -> Unit raise {
-  self_adj_is_closed_by_c.set(inner_space_prove("(∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_self_adjoint1((s, inprod), op) → is_closed_by(s, op))", @impconv.imp_rewrite_tac(@list.List([is_self_adjoint(), herm_is_closed_by_l()]))))
+  self_adj_is_closed_by_c.set(inner_space_prove("(∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_self_adjoint1((s, inprod), op) → is_closed_by(s, op))", @impconv.imp_rewrite_tac(@list.List([is_self_adjoint(), herm_is_closed_by_l()]))))
 }
 
 ///|
@@ -5370,7 +5370,7 @@ pub fn self_adj_is_closed_by() -> @kernel.Thm {
 /// SELF_ADJ_INPROD
 fn step_341() -> Unit raise {
   let t307 = @meson.meson_tac(@list.List([]))
-  self_adj_inprod_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_self_adjoint1((s, inprod), op1) && is_closed_by(s, op2) → (∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → inprod(x, cop_mul(op1, op2, y)) == inprod(op1(x), op2(y))))", @tactics.then_tac(@simp.rewrite_tac(@list.List([is_self_adjoint_v1(), cop_mul_v1(), is_closed_by()])), t307)))
+  self_adj_inprod_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_self_adjoint1((s, inprod), op1) && is_closed_by(s, op2) → (∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → inprod(x, cop_mul(op1, op2, y)) == inprod(op1(x), op2(y))))", @tactics.then_tac(@simp.rewrite_tac(@list.List([is_self_adjoint_v1(), cop_mul_v1(), is_closed_by()])), t307)))
 }
 
 ///|
@@ -5385,7 +5385,7 @@ pub fn self_adj_inprod() -> @kernel.Thm {
 ///|
 /// ADD_SELF_ADJ
 fn step_342() -> Unit raise {
-  add_self_adj_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_self_adjoint1(is_, op1) && is_self_adjoint1(is_, op2) → is_self_adjoint1(is_, op1 + op2))", @impconv.imp_rewrite_tac(@list.List([is_self_adjoint(), add_herm()]))))
+  add_self_adj_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_self_adjoint1(is_, op1) && is_self_adjoint1(is_, op2) → is_self_adjoint1(is_, op1 + op2))", @impconv.imp_rewrite_tac(@list.List([is_self_adjoint(), add_herm()]))))
 }
 
 ///|
@@ -5400,7 +5400,7 @@ pub fn add_self_adj() -> @kernel.Thm {
 ///|
 /// SUB_SELF_ADJ
 fn step_343() -> Unit raise {
-  sub_self_adj_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_self_adjoint1(is_, op1) && is_self_adjoint1(is_, op2) → is_self_adjoint1(is_, op1 - op2))", @impconv.imp_rewrite_tac(@list.List([is_self_adjoint(), sub_herm()]))))
+  sub_self_adj_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_self_adjoint1(is_, op1) && is_self_adjoint1(is_, op2) → is_self_adjoint1(is_, op1 - op2))", @impconv.imp_rewrite_tac(@list.List([is_self_adjoint(), sub_herm()]))))
 }
 
 ///|
@@ -5415,7 +5415,7 @@ pub fn sub_self_adj() -> @kernel.Thm {
 ///|
 /// SMUL_SELF_ADJ
 fn step_344() -> Unit raise {
-  smul_self_adj_c.set(full_inner_space_prove("(∀ a : Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], real(a) && is_self_adjoint1(is_, op) → is_self_adjoint1(is_, cop_smul(a, op)))", @meson.meson_tac(@list.List([is_self_adjoint(), smul_herm(), @complexes.real_cnj()]))))
+  smul_self_adj_c.set(full_inner_space_prove("(∀ a : Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], real(a) && is_self_adjoint1(is_, op) → is_self_adjoint1(is_, cop_smul(a, op)))", @meson.meson_tac(@list.List([is_self_adjoint(), smul_herm(), @complexes.real_cnj()]))))
 }
 
 ///|
@@ -5430,7 +5430,7 @@ pub fn smul_self_adj() -> @kernel.Thm {
 ///|
 /// MUL_SELF_ADJ
 fn step_345() -> Unit raise {
-  mul_self_adj_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_self_adjoint1(is_, op1) && is_self_adjoint1(is_, op2) && cop_mul(op1, op2) == cop_mul(op2, op1) → is_self_adjoint1(is_, cop_mul(op1, op2)))", @meson.meson_tac(@list.List([is_self_adjoint(), mul_herm()]))))
+  mul_self_adj_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_self_adjoint1(is_, op1) && is_self_adjoint1(is_, op2) && cop_mul(op1, op2) == cop_mul(op2, op1) → is_self_adjoint1(is_, cop_mul(op1, op2)))", @meson.meson_tac(@list.List([is_self_adjoint(), mul_herm()]))))
 }
 
 ///|
@@ -5446,7 +5446,7 @@ pub fn mul_self_adj() -> @kernel.Thm {
 /// I_SELF_ADJ
 fn step_346() -> Unit raise {
   let t308 = @simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_self_adjoint_v1(), i_lincop(), @trivia.i_thm(), is_closed_by_i()]))
-  i_self_adj_c.set(@tactics.prove(@term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), is_self_adjoint1(is_, I)"), t308))
+  i_self_adj_c.set(@tactics.prove(@term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), is_self_adjoint1(is_, I)"), t308))
 }
 
 ///|
@@ -5462,7 +5462,7 @@ pub fn i_self_adj() -> @kernel.Thm {
 /// ZERO_SELF_ADJ
 fn step_347() -> Unit raise {
   let t309 = @simp.rewrite_tac(@list.List([is_self_adjoint(), zero_herm()]))
-  zero_self_adj_c.set(@tactics.prove(@term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), is_self_adjoint1(is_, cop_zero)"), t309))
+  zero_self_adj_c.set(@tactics.prove(@term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), is_self_adjoint1(is_, cop_zero)"), t309))
 }
 
 ///|
@@ -5585,7 +5585,7 @@ fn step_351() -> Unit raise {
   let t330 = @tactics.asm_tac(@impconv.imp_rewrite_tac)(@list.List([is_closed_by_cop_add(), is_closed_by_cop_mul(), cop_mul_v1(), cop_add_v1(), is_closed_by_cop_mul(), inner_space_is_subspace(), inprod_add_ldist(), inprod_add_rdist()]))
   let t329 = @tactics.try_tac(linearity_tac)
   let t328 = @tactics.repeat_tac(@tactics.strip_tac)
-  anti_commutator_self_adj_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_self_adjoint1(is_, op1) && is_self_adjoint1(is_, op2) → is_self_adjoint1(is_, cop_mul(op1, op2) + cop_mul(op2, op1)))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_self_adjoint_v1()])), @utils.simp_horn_tac), t328), t329), t330), t331)))
+  anti_commutator_self_adj_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_self_adjoint1(is_, op1) && is_self_adjoint1(is_, op2) → is_self_adjoint1(is_, cop_mul(op1, op2) + cop_mul(op2, op1)))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_self_adjoint_v1()])), @utils.simp_horn_tac), t328), t329), t330), t331)))
 }
 
 ///|
@@ -5606,7 +5606,7 @@ fn step_352() -> Unit raise {
 ///|
 /// NEG_SELF_ADJ
 fn step_353() -> Unit raise {
-  neg_self_adj_c.set(full_inner_space_prove("(∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op) && is_self_adjoint1(is_, op) → is_self_adjoint1(is_, -op))", @tactics.then_tac(@simp.once_rewrite_tac(@list.List([@equal.gsym(cop_sub_lzero())])), self_adjoint_tac)))
+  neg_self_adj_c.set(full_inner_space_prove("(∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) && is_self_adjoint1(is_, op) → is_self_adjoint1(is_, -op))", @tactics.then_tac(@simp.once_rewrite_tac(@list.List([@equal.gsym(cop_sub_lzero())])), self_adjoint_tac)))
 }
 
 ///|
@@ -5627,7 +5627,7 @@ fn step_354() -> Unit raise {
 ///|
 /// SCALAR_II_HERM
 fn step_355() -> Unit raise {
-  scalar_ii_herm_c.set(inner_space_prove("(∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op) && (∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], inprod(op(x), y) == -inprod(x, op(y))) && is_closed_by(s, op) → is_self_adjoint1((s, inprod), cop_smul(ii, op)))", @tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([is_self_adjoint_v1(), cop_smul_thm(), is_closed_by_cop_smul(), is_closed_by(), inner_space_is_subspace(), inprod_lsmul(), inprod_rsmul(), @complexes.cnj_ii(), @complexes.complex_neg_mul2()])), linearity_tac)))
+  scalar_ii_herm_c.set(inner_space_prove("(∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) && (∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], inprod(op(x), y) == -inprod(x, op(y))) && is_closed_by(s, op) → is_self_adjoint1((s, inprod), cop_smul(ii, op)))", @tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([is_self_adjoint_v1(), cop_smul_thm(), is_closed_by_cop_smul(), is_closed_by(), inner_space_is_subspace(), inprod_lsmul(), inprod_rsmul(), @complexes.cnj_ii(), @complexes.complex_neg_mul2()])), linearity_tac)))
 }
 
 ///|
@@ -5648,7 +5648,7 @@ fn step_356() -> Unit raise {
 ///|
 /// COMMUTATOR_ANTI_HERM
 fn step_357() -> Unit raise {
-  commutator_anti_herm_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_self_adjoint1((s, inprod), op1) && is_self_adjoint1((s, inprod), op2) → (∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → inprod(com(op1, op2, x), y) == -inprod(x, com(op1, op2, y))))", @impconv.imp_rewrite_tac(@list.List([commutator(), is_self_adjoint_v1(), cop_mul_thm(), cop_sub_thm(), is_closed_by(), inprod_sub_ldist(), inprod_sub_rdist(), @complexes.complex_neg_sub()]))))
+  commutator_anti_herm_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_self_adjoint1((s, inprod), op1) && is_self_adjoint1((s, inprod), op2) → (∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → inprod(com(op1, op2, x), y) == -inprod(x, com(op1, op2, y))))", @impconv.imp_rewrite_tac(@list.List([commutator(), is_self_adjoint_v1(), cop_mul_thm(), cop_sub_thm(), is_closed_by(), inprod_sub_ldist(), inprod_sub_rdist(), @complexes.complex_neg_sub()]))))
 }
 
 ///|
@@ -5671,9 +5671,9 @@ fn step_358() -> Unit raise {
 fn step_359() -> Unit raise {
   let t334 = @simp.rewrite_rule(@list.List([is_closed_by()]))(is_closed_by_commutator())
   let t335 = @impconv.imp_rewrite_tac(@list.List([@utils.gimp_imp_v1(commutator_anti_herm()), is_self_adjoint(), is_hermitian(), t334, inner_space_is_subspace(), is_closed_by()]))
-  let t333 = @simp.once_rewrite_tac(@list.List([@complexes.complex_field(@term_syntax.parse_term("((x : Cart[Real, Tybit0[Unit]]) == -(y : Cart[Real, Tybit0[Unit]])) == (y == -x)"))]))
+  let t333 = @simp.once_rewrite_tac(@list.List([@complexes.complex_field(@term_syntax.parse_term("((x : Cart[Real, 2]) == -(y : Cart[Real, 2])) == (y == -x)"))]))
   let t332 = @impconv.imp_rewrite_tac(@list.List([cop_smul_thm(), inprod_rsmul(), inprod_lsmul(), is_closed_by_commutator(), is_closed_by_cop_smul(), @complexes.cnj_ii(), @complexes.ii_nz(), inner_space_is_subspace(), @complexes.complex_mul_lneg(), @equal.gsym(@complexes.complex_mul_rneg()), @complexes.complex_eq_mul_lcancel()]))
-  ii_commutator_herm_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_self_adjoint1(is_, op1) && is_self_adjoint1(is_, op2) → is_self_adjoint1(is_, cop_smul(ii, com(op1, op2))))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_self_adjoint_v1()])), t332), t333), t335), linearity_tac)))
+  ii_commutator_herm_c.set(full_inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_self_adjoint1(is_, op1) && is_self_adjoint1(is_, op2) → is_self_adjoint1(is_, cop_smul(ii, com(op1, op2))))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_self_adjoint_v1()])), t332), t333), t335), linearity_tac)))
 }
 
 ///|
@@ -5694,7 +5694,7 @@ fn step_360() -> Unit raise {
 ///|
 /// EXPEC_HERM_REAL
 fn step_361() -> Unit raise {
-  expec_herm_real_c.set(inner_space_prove("(∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ state : (_) -> Cart[Real, Tybit0[Unit]], is_self_adjoint1((s, inprod), op) && IN(state, s) → real(expectation(inprod, state, op)))", @impconv.imp_rewrite_tac(@list.List([is_self_adjoint_v1(), expectation(), is_closed_by(), @complexes.real_cnj(), inprod_cnj()]))))
+  expec_herm_real_c.set(inner_space_prove("(∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ state : (_) -> Cart[Real, 2], is_self_adjoint1((s, inprod), op) && IN(state, s) → real(expectation(inprod, state, op)))", @impconv.imp_rewrite_tac(@list.List([is_self_adjoint_v1(), expectation(), is_closed_by(), @complexes.real_cnj(), inprod_cnj()]))))
 }
 
 ///|
@@ -5716,7 +5716,7 @@ fn step_362() -> Unit raise {
 /// DEVIATION_HERM
 fn step_363() -> Unit raise {
   let t336 = @meson.asm_meson_tac(@list.List([]))
-  deviation_herm_c.set(inner_space_prove("(∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ state : (_) -> Cart[Real, Tybit0[Unit]], is_self_adjoint1((s, inprod), op) && IN(state, s) → is_self_adjoint1((s, inprod), deviation(inprod, state, op)))", @tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([deviation_alt()])), self_adjoint_tac), t336)))
+  deviation_herm_c.set(inner_space_prove("(∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ state : (_) -> Cart[Real, 2], is_self_adjoint1((s, inprod), op) && IN(state, s) → is_self_adjoint1((s, inprod), deviation(inprod, state, op)))", @tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([deviation_alt()])), self_adjoint_tac), t336)))
 }
 
 ///|
@@ -5738,7 +5738,7 @@ fn step_364() -> Unit raise {
 /// VARIANCE_REAL
 fn step_365() -> Unit raise {
   let arg : (@list.List[((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise]?) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise = real_tac_v2
-  variance_real_c.set(inner_space_prove("(∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ state : (_) -> Cart[Real, Tybit0[Unit]], IN(state, s) && is_self_adjoint1((s, inprod), op) → real(variance(inprod, state, op)))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([variance()])), fn(x337 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise {
+  variance_real_c.set(inner_space_prove("(∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ state : (_) -> Cart[Real, 2], IN(state, s) && is_self_adjoint1((s, inprod), op) → real(variance(inprod, state, op)))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([variance()])), fn(x337 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise {
     let eta = x337
     arg(None)(eta)
   }), @utils.hint_exists_tac), self_adjoint_tac)))
@@ -5762,7 +5762,7 @@ fn step_366() -> Unit raise {
 ///|
 /// is_eigen_pair
 fn step_367() -> Unit raise {
-  is_eigen_pair_c.set(@pair.new_definition(@term_syntax.parse_term("(is_eigen_pair : (((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ((A) -> Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) -> Bool)((op : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]), ((x : (A) -> Cart[Real, Tybit0[Unit]]), (a : Cart[Real, Tybit0[Unit]]))) == (is_linear_cop(op) → op(x) == cfun_smul(a, x) && !(x == cfun_zero))")))
+  is_eigen_pair_c.set(@pair.new_definition(@term_syntax.parse_term("(is_eigen_pair : (((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ((A) -> Cart[Real, 2], Cart[Real, 2])) -> Bool)((op : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]), ((x : (A) -> Cart[Real, 2]), (a : Cart[Real, 2]))) == (is_linear_cop(op) → op(x) == cfun_smul(a, x) && !(x == cfun_zero))")))
 }
 
 ///|
@@ -5778,7 +5778,7 @@ pub fn is_eigen_pair() -> @kernel.Thm {
 /// EIGEN_PAIR_SMUL
 fn step_368() -> Unit raise {
   let t338 = @simp.simp_tac(@list.List([is_eigen_pair(), cfun_entire(), lincop_smul(), cfun_smul_sym()]))
-  eigen_pair_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ v : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], is_eigen_pair(op, (x, v)) → (∀ a : Cart[Real, Tybit0[Unit]], !(a == Cx(real_of_num(0))) → is_eigen_pair(op, (cfun_smul(a, x), v)))"), t338))
+  eigen_pair_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ v : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], is_eigen_pair(op, (x, v)) → (∀ a : Cart[Real, 2], !(a == Cx(real_of_num(0))) → is_eigen_pair(op, (cfun_smul(a, x), v)))"), t338))
 }
 
 ///|
@@ -5794,7 +5794,7 @@ pub fn eigen_pair_smul() -> @kernel.Thm {
 /// EIGEN_PAIR_ADD
 fn step_369() -> Unit raise {
   let t339 = @simp.simp_tac(@list.List([is_eigen_pair(), lincop_add(), cfun_add_ldistrib()]))
-  eigen_pair_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ v : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], is_eigen_pair(op, (x, v)) && is_eigen_pair(op, (y, v)) && !(x + y == cfun_zero) → is_eigen_pair(op, (x + y, v))"), t339))
+  eigen_pair_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ v : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], is_eigen_pair(op, (x, v)) && is_eigen_pair(op, (y, v)) && !(x + y == cfun_zero) → is_eigen_pair(op, (x + y, v))"), t339))
 }
 
 ///|
@@ -5813,7 +5813,7 @@ fn step_370() -> Unit raise {
   let t341 = @simp.asm_simp_tac(@list.List([cfun_add_rid(), cfun_add_lid()]))
   let t340 = @tactics.repeat_tac(@tactics.strip_tac)
   let t343 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.simp_tac(@list.List([is_cfun_subspace(), @sets.in_elim_thm(), @sets.in_union(), @sets.in_sing(), cfun_entire()])), t340), t341), t342)
-  eigen_space_thm_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_linear_cop(op) → (∀ a : Cart[Real, Tybit0[Unit]], is_cfun_subspace(UNION({(x : (_) -> Cart[Real, Tybit0[Unit]]) | is_eigen_pair(op, (x, a))}, {cfun_zero})))"), t343))
+  eigen_space_thm_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) → (∀ a : Cart[Real, 2], is_cfun_subspace(UNION({(x : (_) -> Cart[Real, 2]) | is_eigen_pair(op, (x, a))}, {cfun_zero})))"), t343))
 }
 
 ///|
@@ -5828,7 +5828,7 @@ pub fn eigen_space_thm() -> @kernel.Thm {
 ///|
 /// is_eigen_val
 fn step_371() -> Unit raise {
-  is_eigen_val_c.set(@pair.new_definition(@term_syntax.parse_term("(is_eigen_val : (((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]) -> Bool)((op : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]), (a : Cart[Real, Tybit0[Unit]])) == (∃ x : (A) -> Cart[Real, Tybit0[Unit]], is_eigen_pair(op, (x, a)))")))
+  is_eigen_val_c.set(@pair.new_definition(@term_syntax.parse_term("(is_eigen_val : (((A) -> Cart[Real, 2], A) -> Cart[Real, 2], Cart[Real, 2]) -> Bool)((op : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]), (a : Cart[Real, 2])) == (∃ x : (A) -> Cart[Real, 2], is_eigen_pair(op, (x, a)))")))
 }
 
 ///|
@@ -5843,7 +5843,7 @@ pub fn is_eigen_val() -> @kernel.Thm {
 ///|
 /// is_eigen_fun
 fn step_372() -> Unit raise {
-  is_eigen_fun_c.set(@pair.new_definition(@term_syntax.parse_term("(is_eigen_fun : (((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Bool)((op : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]), (x : (A) -> Cart[Real, Tybit0[Unit]])) == (∃ a : Cart[Real, Tybit0[Unit]], is_eigen_pair(op, (x, a)))")))
+  is_eigen_fun_c.set(@pair.new_definition(@term_syntax.parse_term("(is_eigen_fun : (((A) -> Cart[Real, 2], A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Bool)((op : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]), (x : (A) -> Cart[Real, 2])) == (∃ a : Cart[Real, 2], is_eigen_pair(op, (x, a)))")))
 }
 
 ///|
@@ -5858,7 +5858,7 @@ pub fn is_eigen_fun() -> @kernel.Thm {
 ///|
 /// is_unbounded_linear_cop
 fn step_373() -> Unit raise {
-  is_unbounded_linear_cop_c.set(@pair.new_definition(@term_syntax.parse_term("(is_unbounded_linear_cop : (((B) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) -> Bool)((s : ((B) -> Cart[Real, Tybit0[Unit]]) -> Bool), (op : ((B) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])) == (is_cfun_subspace(s) && (∀ x : (B) -> Cart[Real, Tybit0[Unit]], ∀ y : (B) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → op(x + y) == op(x) + op(y) && (∀ a : Cart[Real, Tybit0[Unit]], op(cfun_smul(a, x)) == cfun_smul(a, op(x)))))")))
+  is_unbounded_linear_cop_c.set(@pair.new_definition(@term_syntax.parse_term("(is_unbounded_linear_cop : (((B) -> Cart[Real, 2]) -> Bool, ((B) -> Cart[Real, 2], A) -> Cart[Real, 2]) -> Bool)((s : ((B) -> Cart[Real, 2]) -> Bool), (op : ((B) -> Cart[Real, 2], A) -> Cart[Real, 2])) == (is_cfun_subspace(s) && (∀ x : (B) -> Cart[Real, 2], ∀ y : (B) -> Cart[Real, 2], IN(x, s) && IN(y, s) → op(x + y) == op(x) + op(y) && (∀ a : Cart[Real, 2], op(cfun_smul(a, x)) == cfun_smul(a, op(x)))))")))
 }
 
 ///|
@@ -5874,7 +5874,7 @@ pub fn is_unbounded_linear_cop() -> @kernel.Thm {
 /// ULINCOP_SUBSPACE
 fn step_374() -> Unit raise {
   let t344 = @meson.meson_tac(@list.List([is_unbounded_linear_cop()]))
-  ulincop_subspace_v1_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, is_unbounded_linear_cop(s, op) → is_cfun_subspace(s)"), t344))
+  ulincop_subspace_v1_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, is_unbounded_linear_cop(s, op) → is_cfun_subspace(s)"), t344))
 }
 
 ///|
@@ -5890,7 +5890,7 @@ pub fn ulincop_subspace_v1() -> @kernel.Thm {
 /// ULINCOP_SMUL
 fn step_375() -> Unit raise {
   let t345 = @meson.meson_tac(@list.List([is_unbounded_linear_cop()]))
-  ulincop_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ a : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], is_unbounded_linear_cop(s, op) && IN(x, s) → op(cfun_smul(a, x)) == cfun_smul(a, op(x))"), t345))
+  ulincop_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ a : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], is_unbounded_linear_cop(s, op) && IN(x, s) → op(cfun_smul(a, x)) == cfun_smul(a, op(x))"), t345))
 }
 
 ///|
@@ -5906,7 +5906,7 @@ pub fn ulincop_smul() -> @kernel.Thm {
 /// ULINCOP_ADD
 fn step_376() -> Unit raise {
   let t346 = @simp.simp_tac(@list.List([is_unbounded_linear_cop()]))
-  ulincop_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], is_unbounded_linear_cop(s, op) && IN(x, s) && IN(y, s) → op(x + y) == op(x) + op(y)"), t346))
+  ulincop_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], is_unbounded_linear_cop(s, op) && IN(x, s) && IN(y, s) → op(x + y) == op(x) + op(y)"), t346))
 }
 
 ///|
@@ -5922,7 +5922,7 @@ pub fn ulincop_add() -> @kernel.Thm {
 /// ULINCOP_SUBSPACE
 fn step_377() -> Unit raise {
   let t347 = @simp.simp_tac(@list.List([is_unbounded_linear_cop()]))
-  ulincop_subspace_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, is_unbounded_linear_cop(s, op) → is_cfun_subspace(s)"), t347))
+  ulincop_subspace_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, is_unbounded_linear_cop(s, op) → is_cfun_subspace(s)"), t347))
 }
 
 ///|
@@ -5939,7 +5939,7 @@ pub fn ulincop_subspace() -> @kernel.Thm {
 fn step_378() -> Unit raise {
   let t348 = @meson.asm_meson_tac(@list.List([ulincop_smul()]))
   let t349 = @tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([cfun_subspace_smul(), ulincop_subspace(), ulincop_add(), cfun_sub_neg(), @equal.gsym(cfun_smul_lid_neg())])), t348)
-  ulincop_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, is_unbounded_linear_cop(s, op) && IN(x, s) && IN(y, s) → op(x - y) == op(x) - op(y)"), t349))
+  ulincop_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, is_unbounded_linear_cop(s, op) && IN(x, s) && IN(y, s) → op(x - y) == op(x) - op(y)"), t349))
 }
 
 ///|
@@ -5956,7 +5956,7 @@ pub fn ulincop_sub() -> @kernel.Thm {
 fn step_379() -> Unit raise {
   let t350 = @meson.meson_tac(@list.List([ulincop_smul(), cfun_smul_lzero(), cfun_subspace_zero(), ulincop_subspace()]))
   let t351 = @tactics.then_tac(@simp.once_rewrite_tac(@list.List([@equal.gsym(@q.spec("cfun_zero", cfun_smul_lzero()))])), t350)
-  ulincop_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, is_unbounded_linear_cop(s, op) → op(cfun_zero) == cfun_zero"), t351))
+  ulincop_zero_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, is_unbounded_linear_cop(s, op) → op(cfun_zero) == cfun_zero"), t351))
 }
 
 ///|
@@ -5972,7 +5972,7 @@ pub fn ulincop_zero() -> @kernel.Thm {
 /// SUBSPACE_INTER
 fn step_380() -> Unit raise {
   let t352 = @simp.simp_tac(@list.List([is_cfun_subspace(), @sets.inter(), @sets.in_elim_thm()]))
-  subspace_inter_c.set(@tactics.prove(@term_syntax.parse_term("∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, is_cfun_subspace(s1) && is_cfun_subspace(s2) → is_cfun_subspace(INTER(s1, s2))"), t352))
+  subspace_inter_c.set(@tactics.prove(@term_syntax.parse_term("∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, is_cfun_subspace(s1) && is_cfun_subspace(s2) → is_cfun_subspace(INTER(s1, s2))"), t352))
 }
 
 ///|
@@ -5987,7 +5987,7 @@ pub fn subspace_inter() -> @kernel.Thm {
 ///|
 /// CFUN_ADD_AC
 fn step_381() -> Unit raise {
-  cfun_add_ac_c.set(cfun_arith(@term_syntax.parse_term("∀ m : (A) -> Cart[Real, Tybit0[Unit]], ∀ n : (A) -> Cart[Real, Tybit0[Unit]], ∀ p : (A) -> Cart[Real, Tybit0[Unit]], m + n == n + m && m + n + p == m + (n + p) && m + (n + p) == n + (m + p)")))
+  cfun_add_ac_c.set(cfun_arith(@term_syntax.parse_term("∀ m : (A) -> Cart[Real, 2], ∀ n : (A) -> Cart[Real, 2], ∀ p : (A) -> Cart[Real, 2], m + n == n + m && m + n + p == m + (n + p) && m + (n + p) == n + (m + p)")))
 }
 
 ///|
@@ -6004,7 +6004,7 @@ pub fn cfun_add_ac() -> @kernel.Thm {
 fn step_382() -> Unit raise {
   let t353 = @meson.meson_tac(@list.List([cfun_add_ldistrib()]))
   let t354 = @tactics.then_tac(@simp.simp_tac(@list.List([is_unbounded_linear_cop(), subspace_inter(), @sets.in_inter(), cfun_add_ac(), cop_add_thm()])), t353)
-  add_ulincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_unbounded_linear_cop(s1, op1) && is_unbounded_linear_cop(s2, op2) → is_unbounded_linear_cop(INTER(s1, s2), op1 + op2)"), t354))
+  add_ulincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_unbounded_linear_cop(s1, op1) && is_unbounded_linear_cop(s2, op2) → is_unbounded_linear_cop(INTER(s1, s2), op1 + op2)"), t354))
 }
 
 ///|
@@ -6021,7 +6021,7 @@ pub fn add_ulincop() -> @kernel.Thm {
 fn step_383() -> Unit raise {
   let t355 = @meson.meson_tac(@list.List([@complexes.complex_mul_sym(), cfun_smul_distrib()]))
   let t356 = @tactics.then_tac(@simp.simp_tac(@list.List([is_unbounded_linear_cop(), cop_to_cfun(), cop_add_thm(), cfun_add_ldistrib()])), t355)
-  smul_ulincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ a : Cart[Real, Tybit0[Unit]], is_unbounded_linear_cop(s, op) → is_unbounded_linear_cop(s, cop_smul(a, op))"), t356))
+  smul_ulincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ a : Cart[Real, 2], is_unbounded_linear_cop(s, op) → is_unbounded_linear_cop(s, cop_smul(a, op))"), t356))
 }
 
 ///|
@@ -6040,7 +6040,7 @@ fn step_384() -> Unit raise {
   let t359 = @equal.gsym(cop_smul_lid_neg())
   let t357 = @utils.spec_v(("a", "Cx((x : Real))"), smul_ulincop())
   let t360 = @impconv.imp_rewrite_tac(@list.List([add_ulincop(), @simp.rewrite_rule(@list.List([@complexes.cnj_cx()]))(t357), cop_sub_v1(), t359, t358]))
-  sub_ulincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_unbounded_linear_cop(s1, op1) && is_unbounded_linear_cop(s2, op2) → is_unbounded_linear_cop(INTER(s1, s2), op1 - op2)"), t360))
+  sub_ulincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_unbounded_linear_cop(s1, op1) && is_unbounded_linear_cop(s2, op2) → is_unbounded_linear_cop(INTER(s1, s2), op1 - op2)"), t360))
 }
 
 ///|
@@ -6056,7 +6056,7 @@ pub fn sub_ulincop() -> @kernel.Thm {
 /// I_ULINCOP
 fn step_385() -> Unit raise {
   let t361 = @simp.rewrite_tac(@list.List([is_unbounded_linear_cop(), @trivia.i_thm()]))
-  i_ulincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, is_cfun_subspace(s1) → is_unbounded_linear_cop(s1, I)"), t361))
+  i_ulincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, is_cfun_subspace(s1) → is_unbounded_linear_cop(s1, I)"), t361))
 }
 
 ///|
@@ -6074,7 +6074,7 @@ fn step_386() -> Unit raise {
   let t363 = @impconv.imp_rewrite_tac(@list.List([ulincop_smul(), ulincop_subspace(), cfun_subspace_smul(), cfun_subspace_add(), ulincop_add(), cfun_subspace_zero(), ulincop_zero()]))
   let t362 = @simp.rewrite_tac(@list.List([is_cfun_subspace(), @sets.in_elim_thm()]))
   let t364 = @tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t362), t363)
-  mul_lemma_c.set(@tactics.prove(@term_syntax.parse_term("∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_cfun_subspace(s1) && is_unbounded_linear_cop(s2, op2) → is_cfun_subspace({(x : (_) -> Cart[Real, Tybit0[Unit]]) | IN(x, s2) && IN(op2(x), s1)})"), t364))
+  mul_lemma_c.set(@tactics.prove(@term_syntax.parse_term("∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_cfun_subspace(s1) && is_unbounded_linear_cop(s2, op2) → is_cfun_subspace({(x : (_) -> Cart[Real, 2]) | IN(x, s2) && IN(op2(x), s1)})"), t364))
 }
 
 ///|
@@ -6106,7 +6106,7 @@ fn step_387() -> Unit raise {
   let t366 = @impconv.imp_rewrite_tac(@list.List([mul_lemma(), ulincop_subspace()]))
   let t365 = @simp.rewrite_tac(@list.List([is_unbounded_linear_cop()]))
   let t377 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), @tactics.strip_tac), t365), t366), t370), t374), t375), t376)
-  mul_ulincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], is_unbounded_linear_cop(s1, op1) && is_unbounded_linear_cop(s2, op2) → is_unbounded_linear_cop({(x : (_) -> Cart[Real, Tybit0[Unit]]) | IN(x, s2) && IN(op2(x), s1)}, cop_mul(op1, op2))"), t377))
+  mul_ulincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_unbounded_linear_cop(s1, op1) && is_unbounded_linear_cop(s2, op2) → is_unbounded_linear_cop({(x : (_) -> Cart[Real, 2]) | IN(x, s2) && IN(op2(x), s1)}, cop_mul(op1, op2))"), t377))
 }
 
 ///|
@@ -6201,7 +6201,7 @@ pub fn ulinearity_tac(x380 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) 
 /// COMMUTAOR_ULINCOP
 fn step_391() -> Unit raise {
   let t390 = @tactics.then_tac(@simp.rewrite_tac(@list.List([commutator()])), ulinearity_tac)
-  commutaor_ulincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, is_unbounded_linear_cop(s1, op1) && is_unbounded_linear_cop(s2, op2) → is_unbounded_linear_cop(INTER({(x : (_) -> Cart[Real, Tybit0[Unit]]) | IN(x, s2) && IN(op2(x), s1)}, {(x : (_) -> Cart[Real, Tybit0[Unit]]) | IN(x, s1) && IN(op1(x), s2)}), com(op1, op2))"), t390))
+  commutaor_ulincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, is_unbounded_linear_cop(s1, op1) && is_unbounded_linear_cop(s2, op2) → is_unbounded_linear_cop(INTER({(x : (_) -> Cart[Real, 2]) | IN(x, s2) && IN(op2(x), s1)}, {(x : (_) -> Cart[Real, 2]) | IN(x, s1) && IN(op1(x), s2)}), com(op1, op2))"), t390))
 }
 
 ///|
@@ -6216,7 +6216,7 @@ pub fn commutaor_ulincop() -> @kernel.Thm {
 ///|
 /// is_hermitian_unbounded
 fn step_392() -> Unit raise {
-  is_hermitian_unbounded_c.set(@pair.new_definition(@term_syntax.parse_term("(is_hermitian_unbounded : ((((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]) -> Bool)(((s : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool), (inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])), (s1 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool), (s2 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool), (op1 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]), (op2 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]])) == (is_inner_space((s, inprod)) → SUBSET(s1, s) && SUBSET(s2, s) && is_unbounded_linear_cop(s1, op1) && is_unbounded_linear_cop(s2, op2) && (∀ x : (A) -> Cart[Real, Tybit0[Unit]], IN(x, s1) → IN(op1(x), s)) && (∀ x : (A) -> Cart[Real, Tybit0[Unit]], IN(x, s2) → IN(op2(x), s)) && (∀ x : (A) -> Cart[Real, Tybit0[Unit]], ∀ y : (A) -> Cart[Real, Tybit0[Unit]], IN(x, s2) && IN(y, s1) → inprod(x, op1(y)) == inprod(op2(x), y)))")))
+  is_hermitian_unbounded_c.set(@pair.new_definition(@term_syntax.parse_term("(is_hermitian_unbounded : ((((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2]), ((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]) -> Bool)(((s : ((A) -> Cart[Real, 2]) -> Bool), (inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2])), (s1 : ((A) -> Cart[Real, 2]) -> Bool), (s2 : ((A) -> Cart[Real, 2]) -> Bool), (op1 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]), (op2 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2])) == (is_inner_space((s, inprod)) → SUBSET(s1, s) && SUBSET(s2, s) && is_unbounded_linear_cop(s1, op1) && is_unbounded_linear_cop(s2, op2) && (∀ x : (A) -> Cart[Real, 2], IN(x, s1) → IN(op1(x), s)) && (∀ x : (A) -> Cart[Real, 2], IN(x, s2) → IN(op2(x), s)) && (∀ x : (A) -> Cart[Real, 2], ∀ y : (A) -> Cart[Real, 2], IN(x, s2) && IN(y, s1) → inprod(x, op1(y)) == inprod(op2(x), y)))")))
 }
 
 ///|
@@ -6243,7 +6243,7 @@ fn step_393() -> Unit raise {
   let t401 = @list.List([@tactics.assum_list(@sets.set_tac), t400, t399, t398, t397, t396, t395])
   let t391 = @tactics.repeat_tac(@tactics.strip_tac)
   let t402 = @tactics.thenl(@tactics.then_tac(@simp.rewrite_tac(@list.List([is_hermitian_unbounded(), @sets.in_inter()])), t391), t401)
-  add_herm_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ op4 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s3 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s4 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_hermitian_unbounded((s, inprod), s1, s2, op1, op2) && is_hermitian_unbounded((s, inprod), s3, s4, op3, op4) → is_hermitian_unbounded((s, inprod), INTER(s1, s3), INTER(s2, s4), op1 + op3, op2 + op4)"), t402))
+  add_herm_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ op2 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ op3 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ op4 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ s1 : ((A) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((A) -> Cart[Real, 2]) -> Bool, ∀ s3 : ((A) -> Cart[Real, 2]) -> Bool, ∀ s4 : ((A) -> Cart[Real, 2]) -> Bool, ∀ s : ((A) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2], is_hermitian_unbounded((s, inprod), s1, s2, op1, op2) && is_hermitian_unbounded((s, inprod), s3, s4, op3, op4) → is_hermitian_unbounded((s, inprod), INTER(s1, s3), INTER(s2, s4), op1 + op3, op2 + op4)"), t402))
 }
 
 ///|
@@ -6262,7 +6262,7 @@ fn step_394() -> Unit raise {
   let t404 = @impconv.imp_rewrite_tac(@list.List([inprod_lsmul(), inprod_rsmul(), @complexes.cnj_cnj(), inner_space_smul(), @sets.subset(), cop_to_cfun()]))
   let t403 = @tactics.repeat_tac(@tactics.strip_tac)
   let t406 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.simp_tac(@list.List([is_hermitian_unbounded(), smul_ulincop()])), t403), t404), t405)
-  smul_herm_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ op1 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ op3 : _, ∀ op4 : _, ∀ s1 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s3 : _, ∀ s4 : _, ∀ s : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_hermitian_unbounded((s, inprod), s1, s2, op1, op2) → is_hermitian_unbounded((s, inprod), s1, s2, cop_smul(a, op1), cop_smul(cnj(a), op2))"), t406))
+  smul_herm_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ op1 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ op2 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ op3 : _, ∀ op4 : _, ∀ s1 : ((A) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((A) -> Cart[Real, 2]) -> Bool, ∀ s3 : _, ∀ s4 : _, ∀ s : ((A) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2], is_hermitian_unbounded((s, inprod), s1, s2, op1, op2) → is_hermitian_unbounded((s, inprod), s1, s2, cop_smul(a, op1), cop_smul(cnj(a), op2))"), t406))
 }
 
 ///|
@@ -6281,7 +6281,7 @@ fn step_395() -> Unit raise {
   let t409 = @equal.gsym(cop_smul_lid_neg())
   let t407 = @utils.spec_v(("a", "Cx((x : Real))"), smul_herm_unbounded())
   let t410 = @impconv.imp_rewrite_tac(@list.List([add_herm_unbounded(), @simp.rewrite_rule(@list.List([@complexes.cnj_cx()]))(t407), cop_sub_v1(), t409, t408]))
-  sub_herm_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ op4 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s3 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s4 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_hermitian_unbounded((s, inprod), s1, s2, op1, op2) && is_hermitian_unbounded((s, inprod), s3, s4, op3, op4) → is_hermitian_unbounded((s, inprod), INTER(s1, s3), INTER(s2, s4), op1 - op3, op2 - op4)"), t410))
+  sub_herm_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ op2 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ op3 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ op4 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ s1 : ((A) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((A) -> Cart[Real, 2]) -> Bool, ∀ s3 : ((A) -> Cart[Real, 2]) -> Bool, ∀ s4 : ((A) -> Cart[Real, 2]) -> Bool, ∀ s : ((A) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2], is_hermitian_unbounded((s, inprod), s1, s2, op1, op2) && is_hermitian_unbounded((s, inprod), s3, s4, op3, op4) → is_hermitian_unbounded((s, inprod), INTER(s1, s3), INTER(s2, s4), op1 - op3, op2 - op4)"), t410))
 }
 
 ///|
@@ -6298,7 +6298,7 @@ pub fn sub_herm_unbounded() -> @kernel.Thm {
 fn step_396() -> Unit raise {
   let t411 = @simp.simp_tac(@list.List([@sets.in_elim_thm(), cop_mul_v1(), @sets.subset()]))
   let t412 = @tactics.then_tac(@simp.simp_tac(@list.List([is_hermitian_unbounded(), mul_ulincop()])), t411)
-  mul_herm_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ op4 : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s3 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s4 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_hermitian_unbounded((s, inprod), s1, s2, op1, op2) && is_hermitian_unbounded((s, inprod), s3, s4, op3, op4) → is_hermitian_unbounded((s, inprod), {(x : (A) -> Cart[Real, Tybit0[Unit]]) | IN(x, s3) && IN(op3(x), s1)}, {(x : (A) -> Cart[Real, Tybit0[Unit]]) | IN(x, s2) && IN(op2(x), s4)}, cop_mul(op1, op3), cop_mul(op4, op2))"), t412))
+  mul_herm_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ op2 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ op3 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ op4 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ s1 : ((A) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((A) -> Cart[Real, 2]) -> Bool, ∀ s3 : ((A) -> Cart[Real, 2]) -> Bool, ∀ s4 : ((A) -> Cart[Real, 2]) -> Bool, ∀ s : ((A) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2], is_hermitian_unbounded((s, inprod), s1, s2, op1, op2) && is_hermitian_unbounded((s, inprod), s3, s4, op3, op4) → is_hermitian_unbounded((s, inprod), {(x : (A) -> Cart[Real, 2]) | IN(x, s3) && IN(op3(x), s1)}, {(x : (A) -> Cart[Real, 2]) | IN(x, s2) && IN(op2(x), s4)}, cop_mul(op1, op3), cop_mul(op4, op2))"), t412))
 }
 
 ///|
@@ -6313,7 +6313,7 @@ pub fn mul_herm_unbounded() -> @kernel.Thm {
 ///|
 /// HERM_ITSELF_UNBOUNDED
 fn step_397() -> Unit raise {
-  herm_itself_unbounded_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], is_hermitian_unbounded((s, inprod), s1, s2, op1, op2) && IN(x, s2) && IN(y, s1) → inprod(x, op1(y)) == inprod(op2(x), y))", @simp.simp_tac(@list.List([is_hermitian_unbounded()]))))
+  herm_itself_unbounded_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, ∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], is_hermitian_unbounded((s, inprod), s1, s2, op1, op2) && IN(x, s2) && IN(y, s1) → inprod(x, op1(y)) == inprod(op2(x), y))", @simp.simp_tac(@list.List([is_hermitian_unbounded()]))))
 }
 
 ///|
@@ -6328,7 +6328,7 @@ pub fn herm_itself_unbounded() -> @kernel.Thm {
 ///|
 /// HERMITAIN_INPROD_UNBOUNDED
 fn step_398() -> Unit raise {
-  hermitain_inprod_unbounded_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op3 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, is_hermitian_unbounded((s, inprod), s1, s2, op1, op2) → (∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s2) && IN(op3(y), s1) → inprod(x, cop_mul(op1, op3, y)) == inprod(op2(x), op3(y))))", @meson.meson_tac(@list.List([herm_itself_unbounded(), cop_mul_v1()]))))
+  hermitain_inprod_unbounded_c.set(inner_space_prove("(∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op3 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, is_hermitian_unbounded((s, inprod), s1, s2, op1, op2) → (∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s2) && IN(op3(y), s1) → inprod(x, cop_mul(op1, op3, y)) == inprod(op2(x), op3(y))))", @meson.meson_tac(@list.List([herm_itself_unbounded(), cop_mul_v1()]))))
 }
 
 ///|
@@ -6345,7 +6345,7 @@ pub fn hermitain_inprod_unbounded() -> @kernel.Thm {
 fn step_399() -> Unit raise {
   let t413 = @meson.meson_tac(@list.List([@sets.subset(), inprod_cnj()]))
   let t414 = @tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm(), is_hermitian_unbounded()])), t413)
-  herm_sym_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, is_hermitian_unbounded(is_, s1, s2, op1, op2) == is_hermitian_unbounded(is_, s2, s1, op2, op1)"), t414))
+  herm_sym_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ is_ : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, is_hermitian_unbounded(is_, s1, s2, op1, op2) == is_hermitian_unbounded(is_, s2, s1, op2, op1)"), t414))
 }
 
 ///|
@@ -6360,7 +6360,7 @@ pub fn herm_sym_unbounded() -> @kernel.Thm {
 ///|
 /// is_symmetric
 fn step_400() -> Unit raise {
-  is_symmetric_c.set(@pair.new_definition(@term_syntax.parse_term("(is_symmetric : ((((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) -> Bool)((is_ : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])), (s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool), (op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])) == is_hermitian_unbounded(is_, s, s, op, op)")))
+  is_symmetric_c.set(@pair.new_definition(@term_syntax.parse_term("(is_symmetric : ((((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), ((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]) -> Bool)((is_ : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2])), (s : ((_) -> Cart[Real, 2]) -> Bool), (op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])) == is_hermitian_unbounded(is_, s, s, op, op)")))
 }
 
 ///|
@@ -6391,7 +6391,7 @@ pub fn is_symmetric_v1() -> @kernel.Thm {
 /// SYMMETRIC_IS_LINCOP
 fn step_402() -> Unit raise {
   let t415 = @meson.meson_tac(@list.List([is_symmetric(), is_hermitian_unbounded()]))
-  symmetric_is_lincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) → is_unbounded_linear_cop(s1, op)"), t415))
+  symmetric_is_lincop_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) → is_unbounded_linear_cop(s1, op)"), t415))
 }
 
 ///|
@@ -6407,7 +6407,7 @@ pub fn symmetric_is_lincop() -> @kernel.Thm {
 /// SYMMETRIC_SUBSET
 fn step_403() -> Unit raise {
   let t416 = @meson.meson_tac(@list.List([is_symmetric(), is_hermitian_unbounded()]))
-  symmetric_subset_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) → SUBSET(s1, s)"), t416))
+  symmetric_subset_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) → SUBSET(s1, s)"), t416))
 }
 
 ///|
@@ -6423,7 +6423,7 @@ pub fn symmetric_subset() -> @kernel.Thm {
 /// SYMMETRIC_CLOSURE
 fn step_404() -> Unit raise {
   let t417 = @meson.meson_tac(@list.List([is_symmetric(), is_hermitian_unbounded()]))
-  symmetric_closure_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) → (∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s1) → IN(op(x), s))"), t417))
+  symmetric_closure_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) → (∀ x : (_) -> Cart[Real, 2], IN(x, s1) → IN(op(x), s))"), t417))
 }
 
 ///|
@@ -6439,7 +6439,7 @@ pub fn symmetric_closure() -> @kernel.Thm {
 /// SYMMETRIC_ITSELF
 fn step_405() -> Unit raise {
   let t418 = @meson.meson_tac(@list.List([is_symmetric(), is_hermitian_unbounded()]))
-  symmetric_itself_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) → (∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s1) && IN(y, s1) → inprod(x, op(y)) == inprod(op(x), y))"), t418))
+  symmetric_itself_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) → (∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s1) && IN(y, s1) → inprod(x, op(y)) == inprod(op(x), y))"), t418))
 }
 
 ///|
@@ -6455,7 +6455,7 @@ pub fn symmetric_itself() -> @kernel.Thm {
 /// IS_SYMMETRIC_INPROD
 fn step_406() -> Unit raise {
   let t419 = @meson.meson_tac(@list.List([is_symmetric(), hermitain_inprod_unbounded()]))
-  is_symmetric_inprod_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op1) → (∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s1) && IN(op2(y), s1) → inprod(x, cop_mul(op1, op2, y)) == inprod(op1(x), op2(y)))"), t419))
+  is_symmetric_inprod_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op1) → (∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s1) && IN(op2(y), s1) → inprod(x, cop_mul(op1, op2, y)) == inprod(op1(x), op2(y)))"), t419))
 }
 
 ///|
@@ -6471,7 +6471,7 @@ pub fn is_symmetric_inprod() -> @kernel.Thm {
 /// ADD_SYMMETRIC
 fn step_407() -> Unit raise {
   let t420 = @meson.meson_tac(@list.List([is_symmetric(), add_herm_unbounded()]))
-  add_symmetric_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_symmetric((s, inprod), s1, op1) && is_symmetric((s, inprod), s2, op2) → is_symmetric((s, inprod), INTER(s1, s2), op1 + op2)"), t420))
+  add_symmetric_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_symmetric((s, inprod), s1, op1) && is_symmetric((s, inprod), s2, op2) → is_symmetric((s, inprod), INTER(s1, s2), op1 + op2)"), t420))
 }
 
 ///|
@@ -6487,7 +6487,7 @@ pub fn add_symmetric() -> @kernel.Thm {
 /// SUB_SYMMETRIC
 fn step_408() -> Unit raise {
   let t421 = @meson.meson_tac(@list.List([is_symmetric(), sub_herm_unbounded()]))
-  sub_symmetric_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_symmetric((s, inprod), s1, op1) && is_symmetric((s, inprod), s2, op2) → is_symmetric((s, inprod), INTER(s1, s2), op1 - op2)"), t421))
+  sub_symmetric_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_symmetric((s, inprod), s1, op1) && is_symmetric((s, inprod), s2, op2) → is_symmetric((s, inprod), INTER(s1, s2), op1 - op2)"), t421))
 }
 
 ///|
@@ -6503,7 +6503,7 @@ pub fn sub_symmetric() -> @kernel.Thm {
 /// SMUL_SYMMETRIC
 fn step_409() -> Unit raise {
   let t422 = @meson.meson_tac(@list.List([is_symmetric(), smul_herm_unbounded(), @complexes.real_cnj()]))
-  smul_symmetric_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ ops : _, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], real(a) && is_symmetric((s, inprod), (s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool), (op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])) → is_symmetric((s, inprod), s1, cop_smul(a, op))"), t422))
+  smul_symmetric_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ ops : _, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], real(a) && is_symmetric((s, inprod), (s1 : ((_) -> Cart[Real, 2]) -> Bool), (op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])) → is_symmetric((s, inprod), s1, cop_smul(a, op))"), t422))
 }
 
 ///|
@@ -6519,7 +6519,7 @@ pub fn smul_symmetric() -> @kernel.Thm {
 /// POW2_SYM_UNBOUNDED
 fn step_410() -> Unit raise {
   let t423 = @simp.simp_tac(@list.List([is_symmetric(), mul_herm_unbounded()]))
-  pow2_sym_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_symmetric((s, inprod), s1, op) → is_symmetric((s, inprod), {(x : (A) -> Cart[Real, Tybit0[Unit]]) | IN(x, s1) && IN(op(x), s1)}, cop_mul(op, op))"), t423))
+  pow2_sym_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ∀ s1 : ((A) -> Cart[Real, 2]) -> Bool, ∀ s : ((A) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2], is_symmetric((s, inprod), s1, op) → is_symmetric((s, inprod), {(x : (A) -> Cart[Real, 2]) | IN(x, s1) && IN(op(x), s1)}, cop_mul(op, op))"), t423))
 }
 
 ///|
@@ -6535,7 +6535,7 @@ pub fn pow2_sym_unbounded() -> @kernel.Thm {
 /// I_SYMMETRIC
 fn step_411() -> Unit raise {
   let t424 = @simp.simp_tac(@list.List([is_symmetric_v1(), i_ulincop(), is_unbounded_linear_cop(), @trivia.i_thm(), @sets.subset()]))
-  i_symmetric_c.set(@tactics.prove(@term_syntax.parse_term("∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], SUBSET(s1, s) && is_cfun_subspace(s1) → is_symmetric((s, inprod), s1, I)"), t424))
+  i_symmetric_c.set(@tactics.prove(@term_syntax.parse_term("∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], SUBSET(s1, s) && is_cfun_subspace(s1) → is_symmetric((s, inprod), s1, I)"), t424))
 }
 
 ///|
@@ -6663,7 +6663,7 @@ fn step_415() -> Unit raise {
   let t450 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.rule_assum_tac(@simp.rewrite_rule(@list.List([@sets.inter(), @sets.in_elim_thm()]))), t444), t445), t446), t449, ulinearity_tac, t448])
   let t443 = @tactics.repeat_tac(@tactics.strip_tac)
   let t451 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([is_symmetric_v1()])), @utils.simp_horn_tac), t443), t450)
-  anti_commutator_symmetric_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_symmetric((s, inprod), s1, op1) && is_symmetric((s, inprod), s2, op2) → is_symmetric((s, inprod), INTER({(x : (_) -> Cart[Real, Tybit0[Unit]]) | IN(x, s2) && IN(op2(x), s1)}, {(x : (_) -> Cart[Real, Tybit0[Unit]]) | IN(x, s1) && IN(op1(x), s2)}), cop_mul(op1, op2) + cop_mul(op2, op1))"), t451))
+  anti_commutator_symmetric_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_symmetric((s, inprod), s1, op1) && is_symmetric((s, inprod), s2, op2) → is_symmetric((s, inprod), INTER({(x : (_) -> Cart[Real, 2]) | IN(x, s2) && IN(op2(x), s1)}, {(x : (_) -> Cart[Real, 2]) | IN(x, s1) && IN(op1(x), s2)}), cop_mul(op1, op2) + cop_mul(op2, op1))"), t451))
 }
 
 ///|
@@ -6685,8 +6685,8 @@ fn step_416() -> Unit raise {
 /// NEG_SYMMETRIC
 fn step_417() -> Unit raise {
   let t452 = @simp.rewrite_tac(@list.List([@complexes.real_cx(), @equal.gsym(@complexes.cx_neg())]))
-  let t453 = @tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([cop_arith(@term_syntax.parse_term("-(op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) == cop_smul(-Cx(real_of_num(1)), op)"))])), symmetric_tac), t452)
-  neg_symmetric_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_symmetric((s, inprod), s1, op) → is_symmetric((s, inprod), s1, -op)"), t453))
+  let t453 = @tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([cop_arith(@term_syntax.parse_term("-(op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]) == cop_smul(-Cx(real_of_num(1)), op)"))])), symmetric_tac), t452)
+  neg_symmetric_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_symmetric((s, inprod), s1, op) → is_symmetric((s, inprod), s1, -op)"), t453))
 }
 
 ///|
@@ -6710,7 +6710,7 @@ fn step_419() -> Unit raise {
   let t455 = @tactics.assum_list(@sets.set_tac)
   let t454 = @impconv.imp_rewrite_tac(@list.List([is_symmetric_v1(), cop_smul_thm(), inprod_lsmul(), inprod_rsmul(), @complexes.cnj_ii(), @complexes.complex_neg_mul2(), @sets.subset(), inner_space_smul(), smul_ulincop()]))
   let t456 = @tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t454), t455)
-  scalar_ii_herm_unbound_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_unbounded_linear_cop(s1, op) && SUBSET(s1, s) && (∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s1) → IN(op(x), s)) && (∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s1) && IN(y, s1) → inprod(op(x), y) == -inprod(x, op(y))) → is_symmetric((s, inprod), s1, cop_smul(ii, op))"), t456))
+  scalar_ii_herm_unbound_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_unbounded_linear_cop(s1, op) && SUBSET(s1, s) && (∀ x : (_) -> Cart[Real, 2], IN(x, s1) → IN(op(x), s)) && (∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s1) && IN(y, s1) → inprod(op(x), y) == -inprod(x, op(y))) → is_symmetric((s, inprod), s1, cop_smul(ii, op))"), t456))
 }
 
 ///|
@@ -6733,7 +6733,7 @@ fn step_420() -> Unit raise {
 fn step_421() -> Unit raise {
   let t457 = @sets.set_tac(@list.List([]))
   let t458 = @tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([commutator(), is_symmetric_v1(), cop_mul_thm(), cop_sub_thm(), inprod_sub_ldist(), inprod_sub_rdist(), @complexes.complex_neg_sub(), inprod_sub_ldist(), inprod_sub_rdist(), @complexes.complex_neg_sub()])), t457)
-  commutator_anti_unbounded_herm_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op1) && is_symmetric((s, inprod), s2, op2) → (∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s2) && IN(op2(x), s1) && IN(x, s1) && IN(op1(x), s2) && IN(y, s2) && IN(op2(y), s1) && IN(y, s1) && IN(op1(y), s2) → inprod(com(op1, op2, x), y) == -inprod(x, com(op1, op2, y)))"), t458))
+  commutator_anti_unbounded_herm_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op1) && is_symmetric((s, inprod), s2, op2) → (∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s2) && IN(op2(x), s1) && IN(x, s1) && IN(op1(x), s2) && IN(y, s2) && IN(op2(y), s1) && IN(y, s1) && IN(op1(y), s2) → inprod(com(op1, op2, x), y) == -inprod(x, com(op1, op2, y)))"), t458))
 }
 
 ///|
@@ -6755,7 +6755,7 @@ fn step_422() -> Unit raise {
 /// II_COMMUTATOR_UNBOUNDED_HERM
 fn step_423() -> Unit raise {
   let t464 = @meson.asm_meson_tac(@list.List([symmetric_subset(), @sets.subset()]))
-  let t463 = @impconv.imp_rewrite_tac(@list.List([symmetric_itself(), @complexes.complex_field(@term_syntax.parse_term("-((a : Cart[Real, Tybit0[Unit]]) - (b : Cart[Real, Tybit0[Unit]])) == b - a")), symmetric_subset(), symmetric_closure()]))
+  let t463 = @impconv.imp_rewrite_tac(@list.List([symmetric_itself(), @complexes.complex_field(@term_syntax.parse_term("-((a : Cart[Real, 2]) - (b : Cart[Real, 2])) == b - a")), symmetric_subset(), symmetric_closure()]))
   let t462 = @impconv.imp_rewrite_tac(@list.List([inprod_sub_rdist(), inprod_sub_ldist()]))
   let t465 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([commutator(), @sets.inter(), @sets.in_elim_thm(), cop_sub_thm(), cop_mul_v1()])), t462), t463), t464)
   let t461 = @meson.asm_meson_tac(@list.List([symmetric_closure(), symmetric_subset(), @sets.subset(), inner_space_sub()]))
@@ -6764,7 +6764,7 @@ fn step_423() -> Unit raise {
   let t467 = @tactics.then_tac(@simp.rewrite_tac(@list.List([@sets.subset(), @sets.inter(), @sets.in_elim_thm()])), t460)
   let t459 = @meson.asm_meson_tac(@list.List([symmetric_is_lincop()]))
   let t468 = @tactics.thenl(symmetric_tac, @list.List([@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([commutator()])), ulinearity_tac), t459), t467, t466, t465]))
-  ii_commutator_unbounded_herm_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op1) && is_symmetric((s, inprod), s2, op2) → is_symmetric((s, inprod), INTER({(x : (_) -> Cart[Real, Tybit0[Unit]]) | IN(x, s2) && IN(op2(x), s1)}, {(x : (_) -> Cart[Real, Tybit0[Unit]]) | IN(x, s1) && IN(op1(x), s2)}), cop_smul(ii, com(op1, op2)))"), t468))
+  ii_commutator_unbounded_herm_c.set(@tactics.prove(@term_syntax.parse_term("∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op1) && is_symmetric((s, inprod), s2, op2) → is_symmetric((s, inprod), INTER({(x : (_) -> Cart[Real, 2]) | IN(x, s2) && IN(op2(x), s1)}, {(x : (_) -> Cart[Real, 2]) | IN(x, s1) && IN(op1(x), s2)}), cop_smul(ii, com(op1, op2)))"), t468))
 }
 
 ///|
@@ -6787,7 +6787,7 @@ fn step_424() -> Unit raise {
 fn step_425() -> Unit raise {
   let t469 = @simp.simp_tac(@list.List([@sets.subset()]))
   let t470 = @tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([is_symmetric_v1(), expectation(), @complexes.real_cnj(), inprod_cnj()])), t469)
-  expec_unbounded_herm_real_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) → (∀ state : (_) -> Cart[Real, Tybit0[Unit]], IN(state, s1) → real(expectation(inprod, state, op)))"), t470))
+  expec_unbounded_herm_real_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) → (∀ state : (_) -> Cart[Real, 2], IN(state, s1) → real(expectation(inprod, state, op)))"), t470))
 }
 
 ///|
@@ -6810,7 +6810,7 @@ fn step_426() -> Unit raise {
 fn step_427() -> Unit raise {
   let t471 = @meson.asm_meson_tac(@list.List([symmetric_subset(), @sets.subset(), symmetric_is_lincop(), ulincop_subspace()]))
   let t472 = @tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([deviation_alt()])), symmetric_tac), t471)
-  deviation_unbounded_herm_alt_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ state : (_) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) && IN(state, s1) → is_symmetric((s, inprod), INTER(s1, s1), deviation(inprod, state, op))"), t472))
+  deviation_unbounded_herm_alt_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ state : (_) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) && IN(state, s1) → is_symmetric((s, inprod), INTER(s1, s1), deviation(inprod, state, op))"), t472))
 }
 
 ///|
@@ -6852,7 +6852,7 @@ fn step_430() -> Unit raise {
     let eta = x473
     arg(None)(eta)
   }), (x474 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @q.exists_tac("{x | IN(x, s1) && IN(deviation(inprod, state, op, x), s1)}", x474)), (x475 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @q.exists_tac("s", x475)), t476), symmetric_tac)
-  variance_unbounded_real_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) → (∀ state : (_) -> Cart[Real, Tybit0[Unit]], IN(state, s1) && IN(deviation(inprod, state, op, state), s1) → real(variance(inprod, state, op)))"), t477))
+  variance_unbounded_real_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) → (∀ state : (_) -> Cart[Real, 2], IN(state, s1) && IN(deviation(inprod, state, op, state), s1) → real(variance(inprod, state, op)))"), t477))
 }
 
 ///|
@@ -6873,7 +6873,7 @@ fn step_431() -> Unit raise {
 ///|
 /// is_eigen_pair_unbounded
 fn step_432() -> Unit raise {
-  is_eigen_pair_unbounded_c.set(@pair.new_definition(@term_syntax.parse_term("(is_eigen_pair_unbounded : (((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]], ((A) -> Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) -> Bool)((s : ((A) -> Cart[Real, Tybit0[Unit]]) -> Bool), (op : ((A) -> Cart[Real, Tybit0[Unit]], A) -> Cart[Real, Tybit0[Unit]]), ((x : (A) -> Cart[Real, Tybit0[Unit]]), (a : Cart[Real, Tybit0[Unit]]))) == (is_unbounded_linear_cop(s, op) → IN(x, s) && op(x) == cfun_smul(a, x) && !(x == cfun_zero))")))
+  is_eigen_pair_unbounded_c.set(@pair.new_definition(@term_syntax.parse_term("(is_eigen_pair_unbounded : (((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ((A) -> Cart[Real, 2], Cart[Real, 2])) -> Bool)((s : ((A) -> Cart[Real, 2]) -> Bool), (op : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]), ((x : (A) -> Cart[Real, 2]), (a : Cart[Real, 2]))) == (is_unbounded_linear_cop(s, op) → IN(x, s) && op(x) == cfun_smul(a, x) && !(x == cfun_zero))")))
 }
 
 ///|
@@ -6890,7 +6890,7 @@ pub fn is_eigen_pair_unbounded() -> @kernel.Thm {
 fn step_433() -> Unit raise {
   let t478 = @meson.meson_tac(@list.List([ulincop_smul(), ulincop_subspace(), cfun_smul_sym(), cfun_subspace_smul()]))
   let t479 = @tactics.then_tac(@simp.simp_tac(@list.List([is_eigen_pair_unbounded(), cfun_entire()])), t478)
-  eigen_pair_smul_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ v : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], is_eigen_pair_unbounded(s, op, (x, v)) → (∀ a : Cart[Real, Tybit0[Unit]], !(a == Cx(real_of_num(0))) → is_eigen_pair_unbounded(s, op, (cfun_smul(a, x), v)))"), t479))
+  eigen_pair_smul_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ v : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], is_eigen_pair_unbounded(s, op, (x, v)) → (∀ a : Cart[Real, 2], !(a == Cx(real_of_num(0))) → is_eigen_pair_unbounded(s, op, (cfun_smul(a, x), v)))"), t479))
 }
 
 ///|
@@ -6907,7 +6907,7 @@ pub fn eigen_pair_smul_unbounded() -> @kernel.Thm {
 fn step_434() -> Unit raise {
   let t480 = @meson.meson_tac(@list.List([ulincop_add(), cfun_add_ldistrib(), ulincop_subspace(), cfun_subspace_add()]))
   let t481 = @tactics.then_tac(@simp.simp_tac(@list.List([is_eigen_pair_unbounded()])), t480)
-  eigen_pair_add_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ v : Cart[Real, Tybit0[Unit]], ∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], is_eigen_pair_unbounded(s, op, (x, v)) && is_eigen_pair_unbounded(s, op, (y, v)) && !(x + y == cfun_zero) → is_eigen_pair_unbounded(s, op, (x + y, v))"), t481))
+  eigen_pair_add_unbounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ v : Cart[Real, 2], ∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], is_eigen_pair_unbounded(s, op, (x, v)) && is_eigen_pair_unbounded(s, op, (y, v)) && !(x + y == cfun_zero) → is_eigen_pair_unbounded(s, op, (x + y, v))"), t481))
 }
 
 ///|
@@ -6922,7 +6922,7 @@ pub fn eigen_pair_add_unbounded() -> @kernel.Thm {
 ///|
 /// cfun_norm
 fn step_435() -> Unit raise {
-  cfun_norm_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_norm : (((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Real)((inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (x : (A) -> Cart[Real, Tybit0[Unit]])) == sqrt(real_of_complex(inprod(x, x)))")))
+  cfun_norm_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_norm : (((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Real)((inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2]), (x : (A) -> Cart[Real, 2])) == sqrt(real_of_complex(inprod(x, x)))")))
 }
 
 ///|
@@ -6938,7 +6938,7 @@ pub fn cfun_norm() -> @kernel.Thm {
 /// INPROD_SUB_SELF
 fn step_436() -> Unit raise {
   let t482 = @impconv.imp_rewrite_tac(@list.List([real_of_complex_add(), real_of_complex_cx(), real_of_complex_sub(), inprod_self_real(), @complexes.real_cx(), @complexes.real_sub()]))
-  inprod_sub_self_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → real_of_complex(inprod(x - y, x - y)) == real_of_complex(inprod(x, x)) + (real_of_complex(inprod(y, y)) - real_of_num(2) * Re(inprod(y, x))))", @tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([inner_space_sub(), inprod_sub_ldist(), inprod_sub_rdist(), @complexes.complex_field(@term_syntax.parse_term("(x : Cart[Real, Tybit0[Unit]]) - (y : Cart[Real, Tybit0[Unit]]) - ((z : Cart[Real, Tybit0[Unit]]) - (h : Cart[Real, Tybit0[Unit]])) == x + (h - (z + y))")), inprod_add_cnj()])), t482)))
+  inprod_sub_self_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → real_of_complex(inprod(x - y, x - y)) == real_of_complex(inprod(x, x)) + (real_of_complex(inprod(y, y)) - real_of_num(2) * Re(inprod(y, x))))", @tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([inner_space_sub(), inprod_sub_ldist(), inprod_sub_rdist(), @complexes.complex_field(@term_syntax.parse_term("(x : Cart[Real, 2]) - (y : Cart[Real, 2]) - ((z : Cart[Real, 2]) - (h : Cart[Real, 2])) == x + (h - (z + y))")), inprod_add_cnj()])), t482)))
 }
 
 ///|
@@ -6954,7 +6954,7 @@ pub fn inprod_sub_self() -> @kernel.Thm {
 /// INPROD_ADD_SELF
 fn step_437() -> Unit raise {
   let t483 = @impconv.imp_rewrite_tac(@list.List([real_of_complex_add(), real_of_complex_cx(), inprod_self_real(), @complexes.real_cx(), @complexes.real_add()]))
-  inprod_add_self_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → real_of_complex(inprod(x + y, x + y)) == real_of_complex(inprod(x, x)) + (real_of_complex(inprod(y, y)) + real_of_num(2) * Re(inprod(x, y))))", @tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([inner_space_add(), inprod_add_ldist(), inprod_add_rdist(), @complexes.complex_field(@term_syntax.parse_term("(x : Cart[Real, Tybit0[Unit]]) + (y : Cart[Real, Tybit0[Unit]]) + ((z : Cart[Real, Tybit0[Unit]]) + (h : Cart[Real, Tybit0[Unit]])) == x + (h + (y + z))")), inprod_add_cnj()])), t483)))
+  inprod_add_self_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → real_of_complex(inprod(x + y, x + y)) == real_of_complex(inprod(x, x)) + (real_of_complex(inprod(y, y)) + real_of_num(2) * Re(inprod(x, y))))", @tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([inner_space_add(), inprod_add_ldist(), inprod_add_rdist(), @complexes.complex_field(@term_syntax.parse_term("(x : Cart[Real, 2]) + (y : Cart[Real, 2]) + ((z : Cart[Real, 2]) + (h : Cart[Real, 2])) == x + (h + (y + z))")), inprod_add_cnj()])), t483)))
 }
 
 ///|
@@ -6970,12 +6970,12 @@ pub fn inprod_add_self() -> @kernel.Thm {
 /// INPROD_TRIANGLE_INEQ
 fn step_438() -> Unit raise {
   let t488 = @calc_int.real_int_lt_conv(@term_syntax.parse_term("real_of_num(0) < real_of_num(2)"))
-  let t489 = @meson.meson_tac(@list.List([@bool.gen_all(@q.spec("Re((z : Cart[Real, Tybit0[Unit]]))", @real.real_abs_le())), @complexes.complex_norm_ge_re_im(), t488, schwarz_inequality2(), @realax.real_le_trans()]))
+  let t489 = @meson.meson_tac(@list.List([@bool.gen_all(@q.spec("Re((z : Cart[Real, 2]))", @real.real_abs_le())), @complexes.complex_norm_ge_re_im(), t488, schwarz_inequality2(), @realax.real_le_trans()]))
   let t487 = @impconv.imp_rewrite_tac(@list.List([inprod_add_self(), @realax.real_add_assoc(), @realax.real_le_ladd_imp(), @real.real_le_lmul_eq()]))
   let t486 = @impconv.imp_rewrite_tac(@list.List([@real.sqrt_pow_2(), inprod_self_pos()]))
   let t484 = @calc_rat.real_arith(@term_syntax.parse_term("(x : Real) * x + (x * (y : Real) + (x * y + y * y)) == pow(x, 2) + (pow(y, 2) + real_of_num(2) * (x * y))"))
   let t485 = @simp.simp_tac(@list.List([@realax.real_add_ldistrib(), @real.real_add_rdistrib(), @realax.real_mul_sym(), @equal.gsym(@realax.real_add_assoc()), t484]))
-  inprod_triangle_ineq_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → real_of_complex(inprod(x + y, x + y)) <= pow(sqrt(real_of_complex(inprod(x, x))) + sqrt(real_of_complex(inprod(y, y))), 2))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([@realarith.real_pow_2()])), t485), t486), t487), t489)))
+  inprod_triangle_ineq_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → real_of_complex(inprod(x + y, x + y)) <= pow(sqrt(real_of_complex(inprod(x, x))) + sqrt(real_of_complex(inprod(y, y))), 2))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([@realarith.real_pow_2()])), t485), t486), t487), t489)))
 }
 
 ///|
@@ -6991,7 +6991,7 @@ pub fn inprod_triangle_ineq() -> @kernel.Thm {
 /// INPROD_TRIANGLE_INEQ2
 fn step_439() -> Unit raise {
   let real_manop = @bool.gen_all(@q.specl(@list.List(["sqrt((x : Real))", "sqrt((y : Real)) + sqrt((z : Real))"]), @bool.gen_all(@calc_rat.real_arith(@term_syntax.parse_term("real_of_num(0) <= (x : Real) && real_of_num(0) <= (y : Real) → (x <= y) == (abs(x) <= abs(y))")))))
-  inprod_triangle_ineq2_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → sqrt(real_of_complex(inprod(x + y, x + y))) <= sqrt(real_of_complex(inprod(x, x))) + sqrt(real_of_complex(inprod(y, y))))", @impconv.imp_rewrite_tac(@list.List([real_manop, @real.real_le_square_abs(), @real.sqrt_pow_2(), inprod_triangle_ineq(), inprod_self_pos(), @real.sqrt_pos_le(), inner_space_add(), @realarith.real_le_add()]))))
+  inprod_triangle_ineq2_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → sqrt(real_of_complex(inprod(x + y, x + y))) <= sqrt(real_of_complex(inprod(x, x))) + sqrt(real_of_complex(inprod(y, y))))", @impconv.imp_rewrite_tac(@list.List([real_manop, @real.real_le_square_abs(), @real.sqrt_pow_2(), inprod_triangle_ineq(), inprod_self_pos(), @real.sqrt_pos_le(), inner_space_add(), @realarith.real_le_add()]))))
 }
 
 ///|
@@ -7009,8 +7009,8 @@ fn step_440() -> Unit raise {
   let t493 = @simp.rewrite_tac(@list.List([@calc_rat.real_arith(@term_syntax.parse_term("(x : Real) + ((y : Real) - (z : Real)) == y + (x - z)"))]))
   let t492 = @simp.once_simp_tac(@list.List([@complexes.complex_add_sym()]))
   let t491 = @impconv.imp_rewrite_tac(@list.List([@equal.gsym(inprod_add_cnj())]))
-  let t490 = @simp.once_rewrite_tac(@list.List([@equal.gsym(@q.spec("real_of_num(2) * Re((r : Cart[Real, Tybit0[Unit]]))", @complexes.re_cx()))]))
-  cfun_norm_sub_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → cfun_norm(inprod, x - y) == cfun_norm(inprod, y - x))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([cfun_norm(), inprod_sub_self()])), t490), t491), t492), t493)))
+  let t490 = @simp.once_rewrite_tac(@list.List([@equal.gsym(@q.spec("real_of_num(2) * Re((r : Cart[Real, 2]))", @complexes.re_cx()))]))
+  cfun_norm_sub_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → cfun_norm(inprod, x - y) == cfun_norm(inprod, y - x))", @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([cfun_norm(), inprod_sub_self()])), t490), t491), t492), t493)))
 }
 
 ///|
@@ -7025,10 +7025,10 @@ pub fn cfun_norm_sub() -> @kernel.Thm {
 ///|
 /// CFUN_NORM_SUB_INEQ
 fn step_441() -> Unit raise {
-  let t494 = @term_syntax.parse_term("cfun_norm((inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (x : (_) -> Cart[Real, Tybit0[Unit]])) - cfun_norm(inprod, (y : (_) -> Cart[Real, Tybit0[Unit]])) == cfun_norm(inprod, x - y + y) - cfun_norm(inprod, y)")
-  let arrange = @meson.meson(@list.List([cfun_arith(@term_syntax.parse_term("(x : (A) -> Cart[Real, Tybit0[Unit]]) == x - (y : (A) -> Cart[Real, Tybit0[Unit]]) + y"))]), t494)
+  let t494 = @term_syntax.parse_term("cfun_norm((inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), (x : (_) -> Cart[Real, 2])) - cfun_norm(inprod, (y : (_) -> Cart[Real, 2])) == cfun_norm(inprod, x - y + y) - cfun_norm(inprod, y)")
+  let arrange = @meson.meson(@list.List([cfun_arith(@term_syntax.parse_term("(x : (A) -> Cart[Real, 2]) == x - (y : (A) -> Cart[Real, 2]) + y"))]), t494)
   let t495 = @impconv.imp_rewrite_tac(@list.List([inprod_triangle_ineq2(), @real.real_le_sub_radd(), cfun_norm(), inner_space_sub()]))
-  cfun_norm_sub_ineq_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → cfun_norm(inprod, x) - cfun_norm(inprod, y) <= cfun_norm(inprod, x - y))", @tactics.then_tac(@simp.once_rewrite_tac(@list.List([arrange])), t495)))
+  cfun_norm_sub_ineq_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → cfun_norm(inprod, x) - cfun_norm(inprod, y) <= cfun_norm(inprod, x - y))", @tactics.then_tac(@simp.once_rewrite_tac(@list.List([arrange])), t495)))
 }
 
 ///|
@@ -7043,7 +7043,7 @@ pub fn cfun_norm_sub_ineq() -> @kernel.Thm {
 ///|
 /// cfun_dist
 fn step_442() -> Unit raise {
-  cfun_dist_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_dist : (((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Real)((inprod : ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (x : (A) -> Cart[Real, Tybit0[Unit]]), (y : (A) -> Cart[Real, Tybit0[Unit]])) == sqrt(real_of_complex(inprod(x - y, x - y)))")))
+  cfun_dist_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_dist : (((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2], (A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Real)((inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2]), (x : (A) -> Cart[Real, 2]), (y : (A) -> Cart[Real, 2])) == sqrt(real_of_complex(inprod(x - y, x - y)))")))
 }
 
 ///|
@@ -7058,7 +7058,7 @@ pub fn cfun_dist() -> @kernel.Thm {
 ///|
 /// CFUN_DIST_TRIANGLE_ADD
 fn step_443() -> Unit raise {
-  cfun_dist_triangle_add_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], ∀ x' : (_) -> Cart[Real, Tybit0[Unit]], ∀ y' : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) && IN(x', s) && IN(y', s) → cfun_dist(inprod, x + y, x' + y') <= cfun_dist(inprod, x, x') + cfun_dist(inprod, y, y'))", @impconv.imp_rewrite_tac(@list.List([cfun_dist(), cfun_arith(@term_syntax.parse_term("(x : (A) -> Cart[Real, Tybit0[Unit]]) + (y : (A) -> Cart[Real, Tybit0[Unit]]) - ((x' : (A) -> Cart[Real, Tybit0[Unit]]) + (y' : (A) -> Cart[Real, Tybit0[Unit]])) == x - x' + (y - y')")), inprod_triangle_ineq2(), inner_space_sub(), inprod_self_pos(), @real.sqrt_pos_le(), @real.sqrt_mono_le(), @real.real_abs_refl(), @real.sqrt_pow_2(), @real.pow_2_sqrt()]))))
+  cfun_dist_triangle_add_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], ∀ x' : (_) -> Cart[Real, 2], ∀ y' : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) && IN(x', s) && IN(y', s) → cfun_dist(inprod, x + y, x' + y') <= cfun_dist(inprod, x, x') + cfun_dist(inprod, y, y'))", @impconv.imp_rewrite_tac(@list.List([cfun_dist(), cfun_arith(@term_syntax.parse_term("(x : (A) -> Cart[Real, 2]) + (y : (A) -> Cart[Real, 2]) - ((x' : (A) -> Cart[Real, 2]) + (y' : (A) -> Cart[Real, 2])) == x - x' + (y - y')")), inprod_triangle_ineq2(), inner_space_sub(), inprod_self_pos(), @real.sqrt_pos_le(), @real.sqrt_mono_le(), @real.real_abs_refl(), @real.sqrt_pow_2(), @real.pow_2_sqrt()]))))
 }
 
 ///|
@@ -7074,7 +7074,7 @@ pub fn cfun_dist_triangle_add() -> @kernel.Thm {
 /// CFUN_DIST_REFL
 fn step_444() -> Unit raise {
   let t496 = @meson.meson_tac(@list.List([inprod_zero(), @real.sqrt_0(), real_of_complex_cx()]))
-  cfun_dist_refl_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], cfun_dist(inprod, x, x) == real_of_num(0))", @tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_dist(), cfun_sub_refl()])), t496)))
+  cfun_dist_refl_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], cfun_dist(inprod, x, x) == real_of_num(0))", @tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_dist(), cfun_sub_refl()])), t496)))
 }
 
 ///|
@@ -7104,7 +7104,7 @@ pub fn cfun_norm_0() -> @kernel.Thm {
 ///|
 /// CFUN_NORM_EQ_0
 fn step_446() -> Unit raise {
-  cfun_norm_eq_0_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → (cfun_norm(inprod, x) == real_of_num(0)) == equv(x, cfun_zero, inprod))", @meson.meson_tac(@list.List([cfun_norm(), @real.sqrt_eq_0(), real_of_complex_zero(), inprod_norm(), @equal.gsym(equv_zero())]))))
+  cfun_norm_eq_0_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], IN(x, s) → (cfun_norm(inprod, x) == real_of_num(0)) == equv(x, cfun_zero, inprod))", @meson.meson_tac(@list.List([cfun_norm(), @real.sqrt_eq_0(), real_of_complex_zero(), inprod_norm(), @equal.gsym(equv_zero())]))))
 }
 
 ///|
@@ -7119,7 +7119,7 @@ pub fn cfun_norm_eq_0() -> @kernel.Thm {
 ///|
 /// CFUN_NORM_POS_LE
 fn step_447() -> Unit raise {
-  cfun_norm_pos_le_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → real_of_num(0) <= cfun_norm(inprod, x))", @meson.meson_tac(@list.List([cfun_norm(), @real.sqrt_pos_le(), inprod_self_pos()]))))
+  cfun_norm_pos_le_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], IN(x, s) → real_of_num(0) <= cfun_norm(inprod, x))", @meson.meson_tac(@list.List([cfun_norm(), @real.sqrt_pos_le(), inprod_self_pos()]))))
 }
 
 ///|
@@ -7134,7 +7134,7 @@ pub fn cfun_norm_pos_le() -> @kernel.Thm {
 ///|
 /// CFUN_NORM_POW2
 fn step_448() -> Unit raise {
-  cfun_norm_pow2_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → pow(cfun_norm(inprod, x), 2) == real_of_complex(inprod(x, x)))", @meson.meson_tac(@list.List([cfun_norm(), @real.sqrt_pow_2(), inprod_self_pos()]))))
+  cfun_norm_pow2_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], IN(x, s) → pow(cfun_norm(inprod, x), 2) == real_of_complex(inprod(x, x)))", @meson.meson_tac(@list.List([cfun_norm(), @real.sqrt_pow_2(), inprod_self_pos()]))))
 }
 
 ///|
@@ -7149,7 +7149,7 @@ pub fn cfun_norm_pow2() -> @kernel.Thm {
 ///|
 /// CFUN_NORM_INPROD_0
 fn step_449() -> Unit raise {
-  cfun_norm_inprod_0_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → (cfun_norm(inprod, x) == real_of_num(0)) == (real_of_complex(inprod(x, x)) == real_of_num(0)))", @meson.meson_tac(@list.List([cfun_norm(), inprod_self_pos(), @real.sqrt_eq_0()]))))
+  cfun_norm_inprod_0_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], IN(x, s) → (cfun_norm(inprod, x) == real_of_num(0)) == (real_of_complex(inprod(x, x)) == real_of_num(0)))", @meson.meson_tac(@list.List([cfun_norm(), inprod_self_pos(), @real.sqrt_eq_0()]))))
 }
 
 ///|
@@ -7165,7 +7165,7 @@ pub fn cfun_norm_inprod_0() -> @kernel.Thm {
 /// CFUN_NORM_NZ
 fn step_450() -> Unit raise {
   let t497 = @meson.meson_tac(@list.List([@calc_rat.real_arith(@term_syntax.parse_term("(y : Real) <= (x : Real) → !(x == y) == (y < x)")), cfun_norm_pos_le()]))
-  cfun_norm_nz_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → !equv(x, cfun_zero, inprod) == (real_of_num(0) < cfun_norm(inprod, x)))", @tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([@equal.gsym(cfun_norm_eq_0())])), t497)))
+  cfun_norm_nz_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], IN(x, s) → !equv(x, cfun_zero, inprod) == (real_of_num(0) < cfun_norm(inprod, x)))", @tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([@equal.gsym(cfun_norm_eq_0())])), t497)))
 }
 
 ///|
@@ -7183,7 +7183,7 @@ fn step_451() -> Unit raise {
   let t500 = @impconv.imp_rewrite_tac(@list.List([@complexes.real_cx(), inprod_self_real(), real_of_complex_mul(), real_of_complex_cx(), @real.sqrt_mul(), inprod_self_pos(), @real.real_le_pow_2(), @real.pow_2_sqrt(), @vectors.norm_pos_le()]))
   let t498 = @equal.gsym(@realarith.real_pow_2())
   let t499 = @simp.rewrite_tac(@list.List([@complexes.complex_mul_assoc(), @complexes.complex_mul_cnj(), @complexes.complex_pow_2(), @equal.gsym(@complexes.cx_mul()), t498]))
-  cfun_norm_smul_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ a : Cart[Real, Tybit0[Unit]], IN(x, s) → cfun_norm(inprod, cfun_smul(a, x)) == norm(a) * cfun_norm(inprod, x))", @tactics.then_tac(@tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([cfun_norm(), inprod_rsmul(), inprod_lsmul(), inner_space_smul()])), t499), t500)))
+  cfun_norm_smul_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ a : Cart[Real, 2], IN(x, s) → cfun_norm(inprod, cfun_smul(a, x)) == norm(a) * cfun_norm(inprod, x))", @tactics.then_tac(@tactics.then_tac(@impconv.imp_rewrite_tac(@list.List([cfun_norm(), inprod_rsmul(), inprod_lsmul(), inner_space_smul()])), t499), t500)))
 }
 
 ///|
@@ -7200,7 +7200,7 @@ pub fn cfun_norm_smul() -> @kernel.Thm {
 fn step_452() -> Unit raise {
   let t502 = @meson.meson_tac(@list.List([cfun_norm_nz(), equv_sub_zero(), inner_space_sub()]))
   let t501 = @simp.rewrite_tac(@list.List([cfun_dist(), @equal.gsym(cfun_norm())]))
-  cfun_dist_nz_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) → !equv(x, y, inprod) == (real_of_num(0) < cfun_dist(inprod, x, y)))", @tactics.then_tac(@tactics.then_tac(@simp.once_rewrite_tac(@list.List([@equal.gsym(cfun_sub_0())])), t501), t502)))
+  cfun_dist_nz_c.set(inner_space_prove("(∀ x : (_) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) → !equv(x, y, inprod) == (real_of_num(0) < cfun_dist(inprod, x, y)))", @tactics.then_tac(@tactics.then_tac(@simp.once_rewrite_tac(@list.List([@equal.gsym(cfun_sub_0())])), t501), t502)))
 }
 
 ///|
@@ -7215,7 +7215,7 @@ pub fn cfun_dist_nz() -> @kernel.Thm {
 ///|
 /// cfun_sum
 fn step_453() -> Unit raise {
-  cfun_sum_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_sum : ((_) -> Bool, (_, _) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) == iterate(op_plus)")))
+  cfun_sum_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_sum : ((_) -> Bool, (_, _) -> Cart[Real, 2], _) -> Cart[Real, 2]) == iterate(op_plus)")))
 }
 
 ///|
@@ -7233,7 +7233,7 @@ fn step_454() -> Unit raise {
   let t504 = @meson.meson_tac(@list.List([cfun_add_lid(), cfun_add_rid()]))
   let t503 = @tactics.match_mp_tac(@class.select_unique())
   let t505 = @tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([@iterate.neutral()])), t503), t504)
-  neutral_cfun_add_c.set(@tactics.prove(@term_syntax.parse_term("(neutral : (((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])((op_plus : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])) == (cfun_zero : (_) -> Cart[Real, Tybit0[Unit]])"), t505))
+  neutral_cfun_add_c.set(@tactics.prove(@term_syntax.parse_term("(neutral : (((_) -> Cart[Real, 2], (_) -> Cart[Real, 2], _) -> Cart[Real, 2], _) -> Cart[Real, 2])((op_plus : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2], _) -> Cart[Real, 2])) == (cfun_zero : (_) -> Cart[Real, 2])"), t505))
 }
 
 ///|
@@ -7249,7 +7249,7 @@ pub fn neutral_cfun_add() -> @kernel.Thm {
 /// MONOIDAL_CFUN_ADD
 fn step_455() -> Unit raise {
   let t506 = @tactics.then_tac(@simp.rewrite_tac(@list.List([@iterate.monoidal(), neutral_cfun_add()])), cfun_arith_tac)
-  monoidal_cfun_add_c.set(@tactics.prove(@term_syntax.parse_term("(monoidal : (((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) -> Bool)((op_plus : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]))"), t506))
+  monoidal_cfun_add_c.set(@tactics.prove(@term_syntax.parse_term("(monoidal : (((_) -> Cart[Real, 2], (_) -> Cart[Real, 2], _) -> Cart[Real, 2]) -> Bool)((op_plus : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2], _) -> Cart[Real, 2]))"), t506))
 }
 
 ///|
@@ -7267,7 +7267,7 @@ fn step_456() -> Unit raise {
   let t508 = @meson.meson_tac(@list.List([@iterate.iterate_clauses(), monoidal_cfun_add()]))
   let t507 = @simp.once_rewrite_tac(@list.List([@theorems.swap_forall_thm()]))
   let t509 = @tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_sum(), @equal.gsym(neutral_cfun_add())])), t507), t508)
-  cfun_sum_clauses_c.set(@tactics.prove(@term_syntax.parse_term("(∀ f : (_, _) -> Cart[Real, Tybit0[Unit]], cfun_sum({}, f) == cfun_zero) && (∀ x : _, ∀ f : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ s : (_) -> Bool, FINITE(s) → cfun_sum(INSERT(x, s), f) == (if IN(x, s) { cfun_sum(s, f) } else { f(x) + cfun_sum(s, f) }))"), t509))
+  cfun_sum_clauses_c.set(@tactics.prove(@term_syntax.parse_term("(∀ f : (_, _) -> Cart[Real, 2], cfun_sum({}, f) == cfun_zero) && (∀ x : _, ∀ f : (_, _) -> Cart[Real, 2], ∀ s : (_) -> Bool, FINITE(s) → cfun_sum(INSERT(x, s), f) == (if IN(x, s) { cfun_sum(s, f) } else { f(x) + cfun_sum(s, f) }))"), t509))
 }
 
 ///|
@@ -7300,7 +7300,7 @@ pub fn cfun_sum_clauses_numseg() -> @kernel.Thm {
 /// CFUN_SUM_CLAUSES_LEFT
 fn step_458() -> Unit raise {
   let t512 = @tactics.then_tac(@simp.simp_tac(@list.List([@equal.gsym(@iterate.numseg_lrec()), cfun_sum_clauses(), @iterate.finite_numseg(), @iterate.in_numseg()])), @int.arith_tac)
-  cfun_sum_clauses_left_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ m : Num, ∀ n : Num, m <= n → cfun_sum(op_dot_dot(m, n), f) == f(m) + cfun_sum(op_dot_dot(m + 1, n), f)"), t512))
+  cfun_sum_clauses_left_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ m : Num, ∀ n : Num, m <= n → cfun_sum(op_dot_dot(m, n), f) == f(m) + cfun_sum(op_dot_dot(m + 1, n), f)"), t512))
 }
 
 ///|
@@ -7318,7 +7318,7 @@ fn step_459() -> Unit raise {
   let t514 = @simp.rewrite_tac(@list.List([monoidal_cfun_add()]))
   let t513 = @tactics.match_mp_tac(@iterate.iterate_image())
   let t515 = @tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_sum(), @equal.gsym(neutral_cfun_add())])), t513), t514)
-  cfun_sum_image_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_) -> _, ∀ g : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ s : (_) -> Bool, (∀ x : _, ∀ y : _, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) → cfun_sum(IMAGE(f, s), g) == cfun_sum(s, o(g, f))"), t515))
+  cfun_sum_image_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_) -> _, ∀ g : (_, _) -> Cart[Real, 2], ∀ s : (_) -> Bool, (∀ x : _, ∀ y : _, IN(x, s) && IN(y, s) && f(x) == f(y) → x == y) → cfun_sum(IMAGE(f, s), g) == cfun_sum(s, o(g, f))"), t515))
 }
 
 ///|
@@ -7350,7 +7350,7 @@ pub fn numseg_empty_imp() -> @kernel.Thm {
 /// CFUN_SUM_TRIV_NUMSEG
 fn step_461() -> Unit raise {
   let t517 = @simp.simp_tac(@list.List([numseg_empty_imp(), cfun_sum_clauses()]))
-  cfun_sum_triv_numseg_c.set(@tactics.prove(@term_syntax.parse_term("∀ m : Num, ∀ n : Num, ∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], n < m → cfun_sum(op_dot_dot(m, n), f) == cfun_zero"), t517))
+  cfun_sum_triv_numseg_c.set(@tactics.prove(@term_syntax.parse_term("∀ m : Num, ∀ n : Num, ∀ f : (Num, _) -> Cart[Real, 2], n < m → cfun_sum(op_dot_dot(m, n), f) == cfun_zero"), t517))
 }
 
 ///|
@@ -7367,7 +7367,7 @@ pub fn cfun_sum_triv_numseg() -> @kernel.Thm {
 fn step_462() -> Unit raise {
   let t518 = @simp.rewrite_tac(@list.List([@trivia.o_def()]))
   let t519 = @tactics.then_tac(@simp.simp_tac(@list.List([@iterate.numseg_offset_image(), cfun_sum_image(), @arith.eq_add_rcancel(), @iterate.finite_numseg()])), t518)
-  cfun_sum_offset_c.set(@tactics.prove(@term_syntax.parse_term("∀ p : Num, ∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ m : Num, ∀ n : Num, cfun_sum(op_dot_dot(m + p, n + p), f) == cfun_sum(op_dot_dot(m, n), (i : Num) => f(i + p))"), t519))
+  cfun_sum_offset_c.set(@tactics.prove(@term_syntax.parse_term("∀ p : Num, ∀ f : (Num, _) -> Cart[Real, 2], ∀ m : Num, ∀ n : Num, cfun_sum(op_dot_dot(m + p, n + p), f) == cfun_sum(op_dot_dot(m, n), (i : Num) => f(i + p))"), t519))
 }
 
 ///|
@@ -7383,7 +7383,7 @@ pub fn cfun_sum_offset() -> @kernel.Thm {
 /// CFUN_SUM_OFFSET_0
 fn step_463() -> Unit raise {
   let t520 = @simp.simp_tac(@list.List([@equal.gsym(cfun_sum_offset()), @arith.add_clauses(), @arith.sub_add()]))
-  cfun_sum_offset_0_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ m : Num, ∀ n : Num, m <= n → cfun_sum(op_dot_dot(m, n), f) == cfun_sum(op_dot_dot(0, n - m), (i : Num) => f(i + m))"), t520))
+  cfun_sum_offset_0_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ m : Num, ∀ n : Num, m <= n → cfun_sum(op_dot_dot(m, n), f) == cfun_sum(op_dot_dot(0, n - m), (i : Num) => f(i + m))"), t520))
 }
 
 ///|
@@ -7401,7 +7401,7 @@ fn step_464() -> Unit raise {
   let t522 = @tactics.repeat_tac(@tactics.strip_tac)
   let t521 = @simp.simp_tac(@list.List([cfun_sum_clauses(), @sets.card_clauses(), @equal.gsym(@real.real_of_num_suc())]))
   let t523 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.gen_tac, @tactics.match_mp_tac(@sets.finite_induct_strong())), t521), t522), cfun_arith_tac)
-  cfun_sum_const_c.set(@tactics.prove(@term_syntax.parse_term("∀ c : (_) -> Cart[Real, Tybit0[Unit]], ∀ s : (_) -> Bool, FINITE(s) → cfun_sum(s, (n : _) => c) == cfun_smul(Cx(real_of_num(CARD(s))), c)"), t523))
+  cfun_sum_const_c.set(@tactics.prove(@term_syntax.parse_term("∀ c : (_) -> Cart[Real, 2], ∀ s : (_) -> Bool, FINITE(s) → cfun_sum(s, (n : _) => c) == cfun_smul(Cx(real_of_num(CARD(s))), c)"), t523))
 }
 
 ///|
@@ -7418,7 +7418,7 @@ pub fn cfun_sum_const() -> @kernel.Thm {
 fn step_465() -> Unit raise {
   let t524 = @simp.simp_tac(@list.List([@iterate.iterate_eq_neutral(), monoidal_cfun_add()]))
   let t525 = @tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_sum(), @equal.gsym(neutral_cfun_add())])), t524)
-  cfun_sum_eq_0_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (A, _) -> Cart[Real, Tybit0[Unit]], ∀ s : (A) -> Bool, (∀ x : A, IN(x, s) → f(x) == cfun_zero) → cfun_sum(s, f) == cfun_zero"), t525))
+  cfun_sum_eq_0_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (A, _) -> Cart[Real, 2], ∀ s : (A) -> Bool, (∀ x : A, IN(x, s) → f(x) == cfun_zero) → cfun_sum(s, f) == cfun_zero"), t525))
 }
 
 ///|
@@ -7434,7 +7434,7 @@ pub fn cfun_sum_eq_0() -> @kernel.Thm {
 /// CFUN_SUM_0
 fn step_466() -> Unit raise {
   let t526 = @simp.simp_tac(@list.List([cfun_sum_eq_0()]))
-  cfun_sum_0_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : (A) -> Bool, (cfun_sum : ((A) -> Bool, (A, _) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])(s, (n : A) => (cfun_zero : (_) -> Cart[Real, Tybit0[Unit]])) == (cfun_zero : (_) -> Cart[Real, Tybit0[Unit]])"), t526))
+  cfun_sum_0_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : (A) -> Bool, (cfun_sum : ((A) -> Bool, (A, _) -> Cart[Real, 2], _) -> Cart[Real, 2])(s, (n : A) => (cfun_zero : (_) -> Cart[Real, 2])) == (cfun_zero : (_) -> Cart[Real, 2])"), t526))
 }
 
 ///|
@@ -7452,7 +7452,7 @@ fn step_467() -> Unit raise {
   let t528 = @simp.rewrite_tac(@list.List([monoidal_cfun_add()]))
   let t527 = @tactics.match_mp_tac(@iterate.iterate_eq())
   let t529 = @tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_sum()])), t527), t528)
-  cfun_sum_eq_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ g : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ s : (_) -> Bool, (∀ x : _, IN(x, s) → f(x) == g(x)) → cfun_sum(s, f) == cfun_sum(s, g)"), t529))
+  cfun_sum_eq_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_, _) -> Cart[Real, 2], ∀ g : (_, _) -> Cart[Real, 2], ∀ s : (_) -> Bool, (∀ x : _, IN(x, s) → f(x) == g(x)) → cfun_sum(s, f) == cfun_sum(s, g)"), t529))
 }
 
 ///|
@@ -7468,7 +7468,7 @@ pub fn cfun_sum_eq() -> @kernel.Thm {
 /// CFUN_SUM_SING
 fn step_468() -> Unit raise {
   let t530 = @simp.simp_tac(@list.List([cfun_sum_clauses(), @sets.finite_rules(), @sets.not_in_empty(), cfun_add_rid()]))
-  cfun_sum_sing_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ x : _, cfun_sum({x}, f) == f(x)"), t530))
+  cfun_sum_sing_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_, _) -> Cart[Real, 2], ∀ x : _, cfun_sum({x}, f) == f(x)"), t530))
 }
 
 ///|
@@ -7484,7 +7484,7 @@ pub fn cfun_sum_sing() -> @kernel.Thm {
 /// CFUN_SUM_SING_NUMSEG
 fn step_469() -> Unit raise {
   let t531 = @simp.simp_tac(@list.List([cfun_sum_sing(), @iterate.numseg_sing()]))
-  cfun_sum_sing_numseg_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ n : Num, cfun_sum(op_dot_dot(n, n), f) == f(n)"), t531))
+  cfun_sum_sing_numseg_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ n : Num, cfun_sum(op_dot_dot(n, n), f) == f(n)"), t531))
 }
 
 ///|
@@ -7500,7 +7500,7 @@ pub fn cfun_sum_sing_numseg() -> @kernel.Thm {
 /// CFUN_SUM_EQ_NUMSEG
 fn step_470() -> Unit raise {
   let t532 = @meson.meson_tac(@list.List([cfun_sum_eq(), @iterate.finite_numseg(), @iterate.in_numseg()]))
-  cfun_sum_eq_numseg_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ g : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ m : Num, ∀ n : Num, (∀ i : Num, m <= i && i <= n → f(i) == g(i)) → cfun_sum(op_dot_dot(m, n), f) == cfun_sum(op_dot_dot(m, n), g)"), t532))
+  cfun_sum_eq_numseg_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ g : (Num, _) -> Cart[Real, 2], ∀ m : Num, ∀ n : Num, (∀ i : Num, m <= i && i <= n → f(i) == g(i)) → cfun_sum(op_dot_dot(m, n), f) == cfun_sum(op_dot_dot(m, n), g)"), t532))
 }
 
 ///|
@@ -7520,7 +7520,7 @@ fn step_471() -> Unit raise {
   let t534 = @tactics.match_mp_tac(@sets.finite_induct_strong())
   let t533 = @simp.simp_tac(@list.List([@theorems.imp_conj(), @theorems.right_forall_imp_thm()]))
   let t537 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), @tactics.disch_tac), t533), t534), t535), t536)
-  cfun_sum_in_spc_c.set(@tactics.prove(@term_syntax.parse_term("∀ g : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ spc : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, is_cfun_subspace(spc) && (∀ n : _, IN(g(n), spc)) → (∀ s : (_) -> Bool, FINITE(s) → IN(cfun_sum(s, g), spc))"), t537))
+  cfun_sum_in_spc_c.set(@tactics.prove(@term_syntax.parse_term("∀ g : (_, _) -> Cart[Real, 2], ∀ spc : ((_) -> Cart[Real, 2]) -> Bool, is_cfun_subspace(spc) && (∀ n : _, IN(g(n), spc)) → (∀ s : (_) -> Bool, FINITE(s) → IN(cfun_sum(s, g), spc))"), t537))
 }
 
 ///|
@@ -7543,7 +7543,7 @@ fn step_472() -> Unit raise {
   let t539 = @tactics.match_mp_tac(@sets.finite_induct_strong())
   let t538 = @simp.simp_tac(@list.List([@theorems.imp_conj(), @theorems.right_forall_imp_thm()]))
   let t546 = @tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), @tactics.disch_tac), t538), t539), t540), t541), t543), (x544 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @q.exists_tac("spc", x544)), t545)
-  slinear_cfun_sum_c.set(@tactics.prove(@term_syntax.parse_term("∀ spc : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ f : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ g : (_, _) -> Cart[Real, Tybit0[Unit]], is_cfun_subspace(spc) && (∀ n : _, IN(g(n), spc)) && is_set_linear_cop(spc, f) → (∀ s : (_) -> Bool, FINITE(s) → f(cfun_sum(s, g)) == cfun_sum(s, o(f, g)))"), t546))
+  slinear_cfun_sum_c.set(@tactics.prove(@term_syntax.parse_term("∀ spc : ((_) -> Cart[Real, 2]) -> Bool, ∀ f : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ g : (_, _) -> Cart[Real, 2], is_cfun_subspace(spc) && (∀ n : _, IN(g(n), spc)) && is_set_linear_cop(spc, f) → (∀ s : (_) -> Bool, FINITE(s) → f(cfun_sum(s, g)) == cfun_sum(s, o(f, g)))"), t546))
 }
 
 ///|
@@ -7559,7 +7559,7 @@ pub fn slinear_cfun_sum() -> @kernel.Thm {
 /// SLINEAR_CFUN_SUM_IMP
 fn step_473() -> Unit raise {
   let t547 = @meson.meson_tac(@list.List([slinear_cfun_sum()]))
-  slinear_cfun_sum_imp_c.set(@tactics.prove(@term_syntax.parse_term("∀ spc : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ f : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ g : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ s : (_) -> Bool, is_cfun_subspace(spc) && (∀ n : _, IN(g(n), spc)) && is_set_linear_cop(spc, f) && FINITE(s) → f(cfun_sum(s, g)) == cfun_sum(s, o(f, g))"), t547))
+  slinear_cfun_sum_imp_c.set(@tactics.prove(@term_syntax.parse_term("∀ spc : ((_) -> Cart[Real, 2]) -> Bool, ∀ f : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ g : (_, _) -> Cart[Real, 2], ∀ s : (_) -> Bool, is_cfun_subspace(spc) && (∀ n : _, IN(g(n), spc)) && is_set_linear_cop(spc, f) && FINITE(s) → f(cfun_sum(s, g)) == cfun_sum(s, o(f, g))"), t547))
 }
 
 ///|
@@ -7583,7 +7583,7 @@ fn step_474() -> Unit raise {
   let t549 = @tactics.match_mp_tac(@sets.finite_induct_strong())
   let t548 = @simp.simp_tac(@list.List([@theorems.imp_conj(), @theorems.right_forall_imp_thm()]))
   let t555 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.gen_tac, @tactics.gen_tac), t548), @tactics.disch_tac), t549), t550), t554)
-  linear_cfun_sum_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ g : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ s : (_) -> Bool, is_linear_cop(f) && FINITE(s) → f(cfun_sum(s, g)) == cfun_sum(s, o(f, g))"), t555))
+  linear_cfun_sum_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ g : (_, _) -> Cart[Real, 2], ∀ s : (_) -> Bool, is_linear_cop(f) && FINITE(s) → f(cfun_sum(s, g)) == cfun_sum(s, o(f, g))"), t555))
 }
 
 ///|
@@ -7599,7 +7599,7 @@ pub fn linear_cfun_sum() -> @kernel.Thm {
 /// CFUN_SUM_ADD
 fn step_475() -> Unit raise {
   let t556 = @simp.simp_tac(@list.List([cfun_sum(), @iterate.iterate_op(), monoidal_cfun_add()]))
-  cfun_sum_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ g : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ s : (_) -> Bool, FINITE(s) → cfun_sum(s, (x : _) => f(x) + g(x)) == cfun_sum(s, f) + cfun_sum(s, g)"), t556))
+  cfun_sum_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_, _) -> Cart[Real, 2], ∀ g : (_, _) -> Cart[Real, 2], ∀ s : (_) -> Bool, FINITE(s) → cfun_sum(s, (x : _) => f(x) + g(x)) == cfun_sum(s, f) + cfun_sum(s, g)"), t556))
 }
 
 ///|
@@ -7616,8 +7616,8 @@ pub fn cfun_sum_add() -> @kernel.Thm {
 fn step_476() -> Unit raise {
   let t557 = @equal.gsym(linear_cfun_sum())
   let t558 = @simp.simp_tac(@list.List([@simp.rewrite_rule(@list.List([@trivia.o_def()]))(t557), scalar_lincop()]))
-  let t559 = @tactics.then_tac(@simp.once_rewrite_tac(@list.List([@meson.meson(@list.List([]), @term_syntax.parse_term("cfun_smul((a : Cart[Real, Tybit0[Unit]]), (y : (A) -> Cart[Real, Tybit0[Unit]])) == ((x : (A) -> Cart[Real, Tybit0[Unit]]) => cfun_smul(a, x))(y)"))])), t558)
-  cfun_sum_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ a : Cart[Real, Tybit0[Unit]], ∀ s : (_) -> Bool, FINITE(s) → cfun_sum(s, (x : _) => cfun_smul(a, f(x))) == cfun_smul(a, cfun_sum(s, f))"), t559))
+  let t559 = @tactics.then_tac(@simp.once_rewrite_tac(@list.List([@meson.meson(@list.List([]), @term_syntax.parse_term("cfun_smul((a : Cart[Real, 2]), (y : (A) -> Cart[Real, 2])) == ((x : (A) -> Cart[Real, 2]) => cfun_smul(a, x))(y)"))])), t558)
+  cfun_sum_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_, _) -> Cart[Real, 2], ∀ a : Cart[Real, 2], ∀ s : (_) -> Bool, FINITE(s) → cfun_sum(s, (x : _) => cfun_smul(a, f(x))) == cfun_smul(a, cfun_sum(s, f))"), t559))
 }
 
 ///|
@@ -7635,7 +7635,7 @@ fn step_477() -> Unit raise {
   let t561 = @simp.simp_tac(@list.List([cfun_sum_smul(), cfun_sum_add()]))
   let t560 = @simp.once_rewrite_tac(@list.List([@equal.gsym(cfun_smul_lid_neg())]))
   let t562 = @tactics.then_tac(@tactics.then_tac(@simp.once_rewrite_tac(@list.List([cfun_sub_neg()])), t560), t561)
-  cfun_sum_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ g : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ s : (_) -> Bool, FINITE(s) → cfun_sum(s, (x : _) => f(x) - g(x)) == cfun_sum(s, f) - cfun_sum(s, g)"), t562))
+  cfun_sum_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_, _) -> Cart[Real, 2], ∀ g : (_, _) -> Cart[Real, 2], ∀ s : (_) -> Bool, FINITE(s) → cfun_sum(s, (x : _) => f(x) - g(x)) == cfun_sum(s, f) - cfun_sum(s, g)"), t562))
 }
 
 ///|
@@ -7651,7 +7651,7 @@ pub fn cfun_sum_sub() -> @kernel.Thm {
 /// CUN_SUM_ADD_NUMSEG
 fn step_478() -> Unit raise {
   let t563 = @simp.simp_tac(@list.List([cfun_sum_add(), @iterate.finite_numseg()]))
-  cun_sum_add_numseg_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ g : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ m : Num, ∀ n : Num, cfun_sum(op_dot_dot(m, n), (i : Num) => f(i) + g(i)) == cfun_sum(op_dot_dot(m, n), f) + cfun_sum(op_dot_dot(m, n), g)"), t563))
+  cun_sum_add_numseg_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ g : (Num, _) -> Cart[Real, 2], ∀ m : Num, ∀ n : Num, cfun_sum(op_dot_dot(m, n), (i : Num) => f(i) + g(i)) == cfun_sum(op_dot_dot(m, n), f) + cfun_sum(op_dot_dot(m, n), g)"), t563))
 }
 
 ///|
@@ -7666,7 +7666,7 @@ pub fn cun_sum_add_numseg() -> @kernel.Thm {
 ///|
 /// cfun_lim
 fn step_479() -> Unit raise {
-  cfun_lim_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_lim1 : ((((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (_, _) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]], Net[_]) -> Bool)(((s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool), (inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])), (f : (_, _) -> Cart[Real, Tybit0[Unit]]), (l : (_) -> Cart[Real, Tybit0[Unit]]), (net : Net[_])) == (is_inner_space((s, inprod)) && IN(l, s) && (∀ x : _, IN(f(x), s)) && (∀ e : Real, real_of_num(0) < e → eventually((x : _) => cfun_dist(inprod, f(x), l) < e, net)))")))
+  cfun_lim_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_lim1 : ((((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), (_, _) -> Cart[Real, 2], (_) -> Cart[Real, 2], Net[_]) -> Bool)(((s : ((_) -> Cart[Real, 2]) -> Bool), (inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2])), (f : (_, _) -> Cart[Real, 2]), (l : (_) -> Cart[Real, 2]), (net : Net[_])) == (is_inner_space((s, inprod)) && IN(l, s) && (∀ x : _, IN(f(x), s)) && (∀ e : Real, real_of_num(0) < e → eventually((x : _) => cfun_dist(inprod, f(x), l) < e, net)))")))
 }
 
 ///|
@@ -7682,7 +7682,7 @@ pub fn cfun_lim() -> @kernel.Thm {
 /// CFUN_LIM_INNER_SPACE
 fn step_480() -> Unit raise {
   let t564 = @simp.simp_tac(@list.List([forall_inner_space_thm(), cfun_lim()]))
-  cfun_lim_inner_space_c.set(@tactics.prove(@term_syntax.parse_term("∀ innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ∀ f : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ net : Net[_], cfun_lim1(innerspc, f, l, net) → is_inner_space(innerspc)"), t564))
+  cfun_lim_inner_space_c.set(@tactics.prove(@term_syntax.parse_term("∀ innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), ∀ f : (_, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ net : Net[_], cfun_lim1(innerspc, f, l, net) → is_inner_space(innerspc)"), t564))
 }
 
 ///|
@@ -7697,7 +7697,7 @@ pub fn cfun_lim_inner_space() -> @kernel.Thm {
 ///|
 /// is_bounded
 fn step_481() -> Unit raise {
-  is_bounded_c.set(@pair.new_definition(@term_syntax.parse_term("(is_bounded1 : ((((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) -> Bool)(((s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool), (inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])), (h : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])) == (is_inner_space((s, inprod)) → (∃ B : Real, real_of_num(0) < B && (∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(h(x), s) → sqrt(real_of_complex(inprod(h(x), h(x)))) <= B * sqrt(real_of_complex(inprod(x, x))))))")))
+  is_bounded_c.set(@pair.new_definition(@term_syntax.parse_term("(is_bounded1 : ((((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]) -> Bool)(((s : ((_) -> Cart[Real, 2]) -> Bool), (inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2])), (h : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])) == (is_inner_space((s, inprod)) → (∃ B : Real, real_of_num(0) < B && (∀ x : (_) -> Cart[Real, 2], IN(x, s) && IN(h(x), s) → sqrt(real_of_complex(inprod(h(x), h(x)))) <= B * sqrt(real_of_complex(inprod(x, x))))))")))
 }
 
 ///|
@@ -7712,7 +7712,7 @@ pub fn is_bounded() -> @kernel.Thm {
 ///|
 /// is_bounded_linear
 fn step_482() -> Unit raise {
-  is_bounded_linear_c.set(@pair.new_definition(@term_syntax.parse_term("(is_bounded_linear1 : ((((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) -> Bool)(((s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool), (inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])), (h : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])) == (is_inner_space((s, inprod)) → is_linear_cop(h) && is_closed_by(s, h) && (∃ B : Real, real_of_num(0) < B && (∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) → sqrt(real_of_complex(inprod(h(x), h(x)))) <= B * sqrt(real_of_complex(inprod(x, x))))))")))
+  is_bounded_linear_c.set(@pair.new_definition(@term_syntax.parse_term("(is_bounded_linear1 : ((((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]) -> Bool)(((s : ((_) -> Cart[Real, 2]) -> Bool), (inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2])), (h : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2])) == (is_inner_space((s, inprod)) → is_linear_cop(h) && is_closed_by(s, h) && (∃ B : Real, real_of_num(0) < B && (∀ x : (_) -> Cart[Real, 2], IN(x, s) → sqrt(real_of_complex(inprod(h(x), h(x)))) <= B * sqrt(real_of_complex(inprod(x, x))))))")))
 }
 
 ///|
@@ -7733,7 +7733,7 @@ fn step_483() -> Unit raise {
   let t566 = @q.asm_cases_tac("a == Cx(real_of_num(0))")
   let t565 = @tactics.repeat_tac(@tactics.strip_tac)
   let t572 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@simp.simp_tac(@list.List([forall_inner_space_thm(), is_bounded()])), t565), t566), t571)
-  scalar_bounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ is_ : (((A) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((A) -> Cart[Real, Tybit0[Unit]], (A) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), is_bounded1(is_, (x : (A) -> Cart[Real, Tybit0[Unit]]) => cfun_smul(a, x))"), t572))
+  scalar_bounded_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ is_ : (((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2]), is_bounded1(is_, (x : (A) -> Cart[Real, 2]) => cfun_smul(a, x))"), t572))
 }
 
 ///|
@@ -7781,7 +7781,7 @@ fn step_484() -> Unit raise {
   let t574 = @simp.simp_tac(@list.List([cfun_lim()]))
   let t573 = @tactics.repeat_tac(@tactics.gen_tac)
   let t600 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm()])), t573), t574), @tactics.strip_tac), t575), @tactics.disch_tac), t582), t583), t584), @tactics.strip_tac), t590), t591), t592), t593), (x594 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @q.x_gen_tac("x", x594)), t595), t596), t597), t598), t599)
-  cfun_lim_ulinear_c.set(@tactics.prove(@term_syntax.parse_term("∀ net : Net[A], ∀ h : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ f : (A, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], cfun_lim1((s, inprod), f, l, net) && is_unbounded_linear_cop(s1, h) && (∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s1) → IN(x, s) && IN(h(x), s)) && (∀ x : A, IN(f(x), s1)) && IN(l, s1) && is_bounded1((s, inprod), h) → cfun_lim1((s, inprod), (x : A) => h(f(x)), h(l), net)"), t600))
+  cfun_lim_ulinear_c.set(@tactics.prove(@term_syntax.parse_term("∀ net : Net[A], ∀ h : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ f : (A, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], cfun_lim1((s, inprod), f, l, net) && is_unbounded_linear_cop(s1, h) && (∀ x : (_) -> Cart[Real, 2], IN(x, s1) → IN(x, s) && IN(h(x), s)) && (∀ x : A, IN(f(x), s1)) && IN(l, s1) && is_bounded1((s, inprod), h) → cfun_lim1((s, inprod), (x : A) => h(f(x)), h(l), net)"), t600))
 }
 
 ///|
@@ -7796,7 +7796,7 @@ pub fn cfun_lim_ulinear() -> @kernel.Thm {
 ///|
 /// cfun_sums
 fn step_485() -> Unit raise {
-  cfun_sums_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_sums : ((((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (Num, _) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]], (Num) -> Bool) -> Bool)((innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])), (f : (Num, _) -> Cart[Real, Tybit0[Unit]]), (l : (_) -> Cart[Real, Tybit0[Unit]]), (s : (Num) -> Bool)) == cfun_lim1(innerspc, (n : Num) => cfun_sum(INTER(s, op_dot_dot(0, n)), f), l, sequentially)")))
+  cfun_sums_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_sums : ((((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), (Num, _) -> Cart[Real, 2], (_) -> Cart[Real, 2], (Num) -> Bool) -> Bool)((innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2])), (f : (Num, _) -> Cart[Real, 2]), (l : (_) -> Cart[Real, 2]), (s : (Num) -> Bool)) == cfun_lim1(innerspc, (n : Num) => cfun_sum(INTER(s, op_dot_dot(0, n)), f), l, sequentially)")))
 }
 
 ///|
@@ -7811,7 +7811,7 @@ pub fn cfun_sums() -> @kernel.Thm {
 ///|
 /// cfun_infsum
 fn step_486() -> Unit raise {
-  cfun_infsum_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_infsum : ((((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (Num) -> Bool, (Num, _) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]])((innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])), (s : (Num) -> Bool), (f : (Num, _) -> Cart[Real, Tybit0[Unit]])) == select((l : (_) -> Cart[Real, Tybit0[Unit]]) => cfun_sums(innerspc, f, l, s))")))
+  cfun_infsum_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_infsum : ((((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), (Num) -> Bool, (Num, _) -> Cart[Real, 2], _) -> Cart[Real, 2])((innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2])), (s : (Num) -> Bool), (f : (Num, _) -> Cart[Real, 2])) == select((l : (_) -> Cart[Real, 2]) => cfun_sums(innerspc, f, l, s))")))
 }
 
 ///|
@@ -7826,7 +7826,7 @@ pub fn cfun_infsum() -> @kernel.Thm {
 ///|
 /// cfun_summable
 fn step_487() -> Unit raise {
-  cfun_summable_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_summable : ((((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (Num) -> Bool, (Num, _) -> Cart[Real, Tybit0[Unit]]) -> Bool)((innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])), (s : (Num) -> Bool), (f : (Num, _) -> Cart[Real, Tybit0[Unit]])) == (∃ l : (_) -> Cart[Real, Tybit0[Unit]], cfun_sums(innerspc, f, l, s))")))
+  cfun_summable_c.set(@pair.new_definition(@term_syntax.parse_term("(cfun_summable : ((((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), (Num) -> Bool, (Num, _) -> Cart[Real, 2]) -> Bool)((innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2])), (s : (Num) -> Bool), (f : (Num, _) -> Cart[Real, 2])) == (∃ l : (_) -> Cart[Real, 2], cfun_sums(innerspc, f, l, s))")))
 }
 
 ///|
@@ -7842,7 +7842,7 @@ pub fn cfun_summable() -> @kernel.Thm {
 /// CFUN_SUMS_INNER_SPACE
 fn step_488() -> Unit raise {
   let t601 = @simp.simp_tac(@list.List([forall_inner_space_thm(), cfun_sums(), cfun_lim()]))
-  cfun_sums_inner_space_c.set(@tactics.prove(@term_syntax.parse_term("∀ innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ s : (Num) -> Bool, cfun_sums(innerspc, f, l, s) → is_inner_space(innerspc)"), t601))
+  cfun_sums_inner_space_c.set(@tactics.prove(@term_syntax.parse_term("∀ innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), ∀ f : (Num, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ s : (Num) -> Bool, cfun_sums(innerspc, f, l, s) → is_inner_space(innerspc)"), t601))
 }
 
 ///|
@@ -7859,7 +7859,7 @@ pub fn cfun_sums_inner_space() -> @kernel.Thm {
 fn step_489() -> Unit raise {
   let t602 = @meson.meson_tac(@list.List([]))
   let t603 = @tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_summable()])), t602)
-  cfun_sums_summable_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ s : (Num) -> Bool, ∀ innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), cfun_sums(innerspc, f, l, s) → cfun_summable(innerspc, s, f)"), t603))
+  cfun_sums_summable_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ s : (Num) -> Bool, ∀ innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), cfun_sums(innerspc, f, l, s) → cfun_summable(innerspc, s, f)"), t603))
 }
 
 ///|
@@ -7876,7 +7876,7 @@ pub fn cfun_sums_summable() -> @kernel.Thm {
 fn step_490() -> Unit raise {
   let t604 = @meson.meson_tac(@list.List([]))
   let t605 = @tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_infsum(), cfun_summable()])), t604)
-  cfun_sums_infsum_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ s : (Num) -> Bool, ∀ innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), cfun_sums(innerspc, f, cfun_infsum(innerspc, s, f), s) == cfun_summable(innerspc, s, f)"), t605))
+  cfun_sums_infsum_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ s : (Num) -> Bool, ∀ innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), cfun_sums(innerspc, f, cfun_infsum(innerspc, s, f), s) == cfun_summable(innerspc, s, f)"), t605))
 }
 
 ///|
@@ -7894,7 +7894,7 @@ fn step_491() -> Unit raise {
   let t607 = @simp.asm_simp_tac(@list.List([]))
   let t606 = @tactics.match_mp_tac(cfun_sum_eq())
   let t608 = @tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t606), t607)
-  cfun_sum_restrict_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ s : (_) -> Bool, FINITE(s) → cfun_sum(s, (x : _) => if IN(x, s) { f(x) } else { cfun_zero }) == cfun_sum(s, f)"), t608))
+  cfun_sum_restrict_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_, _) -> Cart[Real, 2], ∀ s : (_) -> Bool, FINITE(s) → cfun_sum(s, (x : _) => if IN(x, s) { f(x) } else { cfun_zero }) == cfun_sum(s, f)"), t608))
 }
 
 ///|
@@ -7910,7 +7910,7 @@ pub fn cfun_sum_restrict() -> @kernel.Thm {
 /// CFUN_SUM_SUPERSET
 fn step_492() -> Unit raise {
   let t609 = @simp.simp_tac(@list.List([cfun_sum(), @equal.gsym(neutral_cfun_add()), @iterate.iterate_superset(), monoidal_cfun_add()]))
-  cfun_sum_superset_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ u : (_) -> Bool, ∀ v : (_) -> Bool, SUBSET(u, v) && (∀ x : _, IN(x, v) && !IN(x, u) → f(x) == cfun_zero) → cfun_sum(v, f) == cfun_sum(u, f)"), t609))
+  cfun_sum_superset_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (_, _) -> Cart[Real, 2], ∀ u : (_) -> Bool, ∀ v : (_) -> Bool, SUBSET(u, v) && (∀ x : _, IN(x, v) && !IN(x, u) → f(x) == cfun_zero) → cfun_sum(v, f) == cfun_sum(u, f)"), t609))
 }
 
 ///|
@@ -7927,7 +7927,7 @@ pub fn cfun_sum_superset() -> @kernel.Thm {
 fn step_493() -> Unit raise {
   let t610 = @meson.meson_tac(@list.List([]))
   let t611 = @tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_lim(), @metric.eventually_sequentially()])), t610)
-  cfun_lim_sequentially_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], cfun_lim1((s, inprod), f, l, sequentially) == (is_inner_space((s, inprod)) && IN(l, s) && (∀ x : Num, IN(f(x), s)) && (∀ e : Real, real_of_num(0) < e → (∃ N : Num, ∀ n : Num, N <= n → cfun_dist(inprod, f(n), l) < e)))"), t611))
+  cfun_lim_sequentially_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], cfun_lim1((s, inprod), f, l, sequentially) == (is_inner_space((s, inprod)) && IN(l, s) && (∀ x : Num, IN(f(x), s)) && (∀ e : Real, real_of_num(0) < e → (∃ N : Num, ∀ n : Num, N <= n → cfun_dist(inprod, f(n), l) < e)))"), t611))
 }
 
 ///|
@@ -7942,7 +7942,7 @@ pub fn cfun_lim_sequentially() -> @kernel.Thm {
 ///|
 /// CFUN_LIM_NEG
 fn step_494() -> Unit raise {
-  let t632 = @impconv.imp_rewrite_tac(@list.List([cfun_arith(@term_syntax.parse_term("-(x : (A) -> Cart[Real, Tybit0[Unit]]) - -(y : (A) -> Cart[Real, Tybit0[Unit]]) == -(x - y)")), inprod_neg(), cfun_subspace_sub(), cfun_subspace_neg(), inner_space_is_subspace()]))
+  let t632 = @impconv.imp_rewrite_tac(@list.List([cfun_arith(@term_syntax.parse_term("-(x : (A) -> Cart[Real, 2]) - -(y : (A) -> Cart[Real, 2]) == -(x - y)")), inprod_neg(), cfun_subspace_sub(), cfun_subspace_neg(), inner_space_is_subspace()]))
   let t631 = @simp.rewrite_tac(@list.List([]))
   let t630 = @tactics.repeat_tac(@tactics.pop_assum(fn(x627 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s628 = @tactics.mp_tac(x627)
@@ -7966,11 +7966,11 @@ fn step_494() -> Unit raise {
       s619(x620)
     }
   })))
-  let t614 = @impconv.imp_rewrite_tac(@list.List([cfun_arith(@term_syntax.parse_term("-(x : (A) -> Cart[Real, Tybit0[Unit]]) - -(y : (A) -> Cart[Real, Tybit0[Unit]]) == -(x - y)")), inprod_neg(), cfun_subspace_sub(), cfun_subspace_neg(), inner_space_is_subspace()]))
+  let t614 = @impconv.imp_rewrite_tac(@list.List([cfun_arith(@term_syntax.parse_term("-(x : (A) -> Cart[Real, 2]) - -(y : (A) -> Cart[Real, 2]) == -(x - y)")), inprod_neg(), cfun_subspace_sub(), cfun_subspace_neg(), inner_space_is_subspace()]))
   let t613 = @simp.rewrite_tac(@list.List([cfun_lim(), cfun_dist()]))
   let t612 = @tactics.repeat_tac(@tactics.gen_tac)
   let t633 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm()])), t612), t613), t614), t621), t622), t623), t624), t625), t626), t630), t631), t632)
-  cfun_lim_neg_c.set(@tactics.prove(@term_syntax.parse_term("∀ net : Net[_], ∀ f : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), cfun_lim1(innerspc, f, l, net) → cfun_lim1(innerspc, (x : _) => -f(x), -l, net)"), t633))
+  cfun_lim_neg_c.set(@tactics.prove(@term_syntax.parse_term("∀ net : Net[_], ∀ f : (_, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), cfun_lim1(innerspc, f, l, net) → cfun_lim1(innerspc, (x : _) => -f(x), -l, net)"), t633))
 }
 
 ///|
@@ -8004,7 +8004,7 @@ fn step_495() -> Unit raise {
   let t635 = @simp.rewrite_tac(@list.List([cfun_lim(), @theorems.conj_aci()]))
   let t634 = @tactics.repeat_tac(@tactics.gen_tac)
   let t650 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm()])), t634), t635), t636), @tactics.strip_tac), t637), @tactics.disch_tac), t644), t645), t646), @tactics.gen_tac), t647), t648), t649)
-  cfun_lim_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ net : Net[_], ∀ f : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ g : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ m : (_) -> Cart[Real, Tybit0[Unit]], ∀ innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), cfun_lim1(innerspc, f, l, net) && cfun_lim1(innerspc, g, m, net) → cfun_lim1(innerspc, (x : _) => f(x) + g(x), l + m, net)"), t650))
+  cfun_lim_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ net : Net[_], ∀ f : (_, _) -> Cart[Real, 2], ∀ g : (_, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ m : (_) -> Cart[Real, 2], ∀ innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), cfun_lim1(innerspc, f, l, net) && cfun_lim1(innerspc, g, m, net) → cfun_lim1(innerspc, (x : _) => f(x) + g(x), l + m, net)"), t650))
 }
 
 ///|
@@ -8021,7 +8021,7 @@ pub fn cfun_lim_add() -> @kernel.Thm {
 fn step_496() -> Unit raise {
   let t651 = @simp.asm_simp_tac(@list.List([cfun_lim_add(), cfun_lim_neg()]))
   let t652 = @tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_sub_neg()])), t651)
-  cfun_lim_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ net : Net[_], ∀ f : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ g : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ m : (_) -> Cart[Real, Tybit0[Unit]], ∀ innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), cfun_lim1(innerspc, f, l, net) && cfun_lim1(innerspc, g, m, net) → cfun_lim1(innerspc, (x : _) => f(x) - g(x), l - m, net)"), t652))
+  cfun_lim_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ net : Net[_], ∀ f : (_, _) -> Cart[Real, 2], ∀ g : (_, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ m : (_) -> Cart[Real, 2], ∀ innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), cfun_lim1(innerspc, f, l, net) && cfun_lim1(innerspc, g, m, net) → cfun_lim1(innerspc, (x : _) => f(x) - g(x), l - m, net)"), t652))
 }
 
 ///|
@@ -8037,7 +8037,7 @@ pub fn cfun_lim_sub() -> @kernel.Thm {
 /// CFUN_LIM_CONST
 fn step_497() -> Unit raise {
   let t653 = @impconv.imp_rewrite_tac(@list.List([cfun_lim(), cfun_dist_refl(), @metric.eventually_true()]))
-  cfun_lim_const_c.set(@tactics.prove(@term_syntax.parse_term("∀ net : Net[_], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ y : (_) -> Cart[Real, Tybit0[Unit]], IN(y, s) && is_inner_space((s, inprod)) → cfun_lim1((s, inprod), (x : _) => y, y, net)"), t653))
+  cfun_lim_const_c.set(@tactics.prove(@term_syntax.parse_term("∀ net : Net[_], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ y : (_) -> Cart[Real, 2], IN(y, s) && is_inner_space((s, inprod)) → cfun_lim1((s, inprod), (x : _) => y, y, net)"), t653))
 }
 
 ///|
@@ -8058,7 +8058,7 @@ fn step_498() -> Unit raise {
   let t655 = @tactics.match_mp_tac(cfun_lim_ulinear())
   let t654 = @tactics.repeat_tac(@tactics.strip_tac)
   let t660 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm()])), t654), t655), (x656 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @q.exists_tac("s", x656)), t657), t658), t659)
-  cfun_lim_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ net : Net[_], ∀ f : (_, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), cfun_lim1(innerspc, f, l, net) → cfun_lim1(innerspc, (x : _) => cfun_smul(a, f(x)), cfun_smul(a, l), net)"), t660))
+  cfun_lim_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ net : Net[_], ∀ f : (_, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), cfun_lim1(innerspc, f, l, net) → cfun_lim1(innerspc, (x : _) => cfun_smul(a, f(x)), cfun_smul(a, l), net)"), t660))
 }
 
 ///|
@@ -8073,7 +8073,7 @@ pub fn cfun_lim_smul() -> @kernel.Thm {
 ///|
 /// CFUN_LIM_NORM_UBOUND
 fn step_499() -> Unit raise {
-  let t661 = @term_syntax.parse_term("is_inner_space(((s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool), (inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]))) && IN((l : (_) -> Cart[Real, Tybit0[Unit]]), s) && IN((f : (_) -> Cart[Real, Tybit0[Unit]]), s) → cfun_norm(inprod, l) <= cfun_norm(inprod, f - l) + (b : Real) || !(cfun_norm(inprod, f) <= b)")
+  let t661 = @term_syntax.parse_term("is_inner_space(((s : ((_) -> Cart[Real, 2]) -> Bool), (inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]))) && IN((l : (_) -> Cart[Real, 2]), s) && IN((f : (_) -> Cart[Real, 2]), s) → cfun_norm(inprod, l) <= cfun_norm(inprod, f - l) + (b : Real) || !(cfun_norm(inprod, f) <= b)")
   let step = @meson.meson(@list.List([cfun_norm_sub_ineq(), cfun_norm_sub(), @calc_rat.real_arith(@term_syntax.parse_term("(z : Real) <= (b : Real) && (x : Real) - z <= (y : Real) → x <= y + b"))]), t661)
   let t696 = @simp.asm_rewrite_tac(@list.List([]))
   let t695 = @tactics.match_mp_tac(step)
@@ -8125,7 +8125,7 @@ fn step_499() -> Unit raise {
     }
   }))
   let t697 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t668), t670), t671), @tactics.disch_tac), t672), t676), t680), t682), t688), t689), t693), t694), t695), t696)
-  cfun_lim_norm_ubound_c.set(@tactics.prove(@term_syntax.parse_term("∀ net : Net[A], ∀ f : (A, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ b : Real, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], !trivial_limit(net) && cfun_lim1((s, inprod), f, l, net) && eventually((x : A) => cfun_norm(inprod, f(x)) <= b, net) → cfun_norm(inprod, l) <= b"), t697))
+  cfun_lim_norm_ubound_c.set(@tactics.prove(@term_syntax.parse_term("∀ net : Net[A], ∀ f : (A, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ b : Real, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], !trivial_limit(net) && cfun_lim1((s, inprod), f, l, net) && eventually((x : A) => cfun_norm(inprod, f(x)) <= b, net) → cfun_norm(inprod, l) <= b"), t697))
 }
 
 ///|
@@ -8167,7 +8167,7 @@ fn step_500() -> Unit raise {
     fn(x716 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise {
       @q.exists_tac(x715, x716)
     }
-  }, @list.List(["net", "(x : A) => (cfun_zero : (_) -> Cart[Real, Tybit0[Unit]])", "s"]))
+  }, @list.List(["net", "(x : A) => (cfun_zero : (_) -> Cart[Real, 2])", "s"]))
   let t714 = @tactics.match_mp_tac(cfun_lim_norm_ubound())
   let t737 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.gen_tac, @tactics.disch_tac), t714), t717), t718), t719), t720), t736])
   let t713 = @q.subgoal_then("∀ e : Real, real_of_num(0) < e → cfun_norm(inprod, l - l') <= e", fn(x710 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
@@ -8194,7 +8194,7 @@ fn step_500() -> Unit raise {
     }
   }))
   let t738 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t704), t709), t713), t737)
-  cfun_lim_unique_c.set(@tactics.prove(@term_syntax.parse_term("∀ net : Net[A], ∀ f : (A, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ l' : (_) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], !trivial_limit(net) && cfun_lim1((s, inprod), f, l, net) && cfun_lim1((s, inprod), f, l', net) → equv(l, l', inprod)"), t738))
+  cfun_lim_unique_c.set(@tactics.prove(@term_syntax.parse_term("∀ net : Net[A], ∀ f : (A, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ l' : (_) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], !trivial_limit(net) && cfun_lim1((s, inprod), f, l, net) && cfun_lim1((s, inprod), f, l', net) → equv(l, l', inprod)"), t738))
 }
 
 ///|
@@ -8210,7 +8210,7 @@ pub fn cfun_lim_unique() -> @kernel.Thm {
 /// CFUN_SERIES_ADD
 fn step_501() -> Unit raise {
   let t739 = @simp.simp_tac(@list.List([cfun_sums(), @misc.finite_inter_numseg(), cfun_sum_add(), cfun_lim_add()]))
-  cfun_series_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ g : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ l' : (_) -> Cart[Real, Tybit0[Unit]], ∀ s : (Num) -> Bool, ∀ innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), cfun_sums(innerspc, f, l, s) && cfun_sums(innerspc, g, l', s) → cfun_sums(innerspc, (n : Num) => f(n) + g(n), l + l', s)"), t739))
+  cfun_series_add_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ g : (Num, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ l' : (_) -> Cart[Real, 2], ∀ s : (Num) -> Bool, ∀ innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), cfun_sums(innerspc, f, l, s) && cfun_sums(innerspc, g, l', s) → cfun_sums(innerspc, (n : Num) => f(n) + g(n), l + l', s)"), t739))
 }
 
 ///|
@@ -8226,7 +8226,7 @@ pub fn cfun_series_add() -> @kernel.Thm {
 /// CFUN_SERIES_SUB
 fn step_502() -> Unit raise {
   let t740 = @simp.simp_tac(@list.List([cfun_sums(), @misc.finite_inter_numseg(), cfun_sum_sub(), cfun_lim_sub()]))
-  cfun_series_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ g : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ l' : (_) -> Cart[Real, Tybit0[Unit]], ∀ s : (Num) -> Bool, ∀ innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), cfun_sums(innerspc, f, l, s) && cfun_sums(innerspc, g, l', s) → cfun_sums(innerspc, (n : Num) => f(n) - g(n), l - l', s)"), t740))
+  cfun_series_sub_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ g : (Num, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ l' : (_) -> Cart[Real, 2], ∀ s : (Num) -> Bool, ∀ innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), cfun_sums(innerspc, f, l, s) && cfun_sums(innerspc, g, l', s) → cfun_sums(innerspc, (n : Num) => f(n) - g(n), l - l', s)"), t740))
 }
 
 ///|
@@ -8242,7 +8242,7 @@ pub fn cfun_series_sub() -> @kernel.Thm {
 /// CFUN_SERIES_SMUL
 fn step_503() -> Unit raise {
   let t741 = @simp.simp_tac(@list.List([cfun_sums(), @misc.finite_inter_numseg(), cfun_sum_smul(), cfun_lim_smul()]))
-  cfun_series_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ s : (Num) -> Bool, ∀ innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), cfun_sums(innerspc, f, l, s) → cfun_sums(innerspc, (n : Num) => cfun_smul(a, f(n)), cfun_smul(a, l), s)"), t741))
+  cfun_series_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ f : (Num, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ s : (Num) -> Bool, ∀ innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), cfun_sums(innerspc, f, l, s) → cfun_sums(innerspc, (n : Num) => cfun_smul(a, f(n)), cfun_smul(a, l), s)"), t741))
 }
 
 ///|
@@ -8259,7 +8259,7 @@ pub fn cfun_series_smul() -> @kernel.Thm {
 fn step_504() -> Unit raise {
   let t742 = @meson.meson_tac(@list.List([@metric.trivial_limit_sequentially(), cfun_lim_unique()]))
   let t743 = @tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_sums()])), t742)
-  cfun_series_unique_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ l' : (_) -> Cart[Real, Tybit0[Unit]], ∀ s : (Num) -> Bool, ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], cfun_sums((s1, inprod), f, l, s) && cfun_sums((s1, inprod), f, l', s) → equv(l, l', inprod)"), t743))
+  cfun_series_unique_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ l' : (_) -> Cart[Real, 2], ∀ s : (Num) -> Bool, ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], cfun_sums((s1, inprod), f, l, s) && cfun_sums((s1, inprod), f, l', s) → equv(l, l', inprod)"), t743))
 }
 
 ///|
@@ -8275,7 +8275,7 @@ pub fn cfun_series_unique() -> @kernel.Thm {
 /// CFUN_INFSUM_UNIQUE
 fn step_505() -> Unit raise {
   let t744 = @meson.meson_tac(@list.List([cfun_series_unique(), cfun_sums_infsum(), cfun_summable()]))
-  cfun_infsum_unique_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ s : (Num) -> Bool, ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], cfun_sums((s1, inprod), f, l, s) → equv(cfun_infsum((s1, inprod), s, f), l, inprod)"), t744))
+  cfun_infsum_unique_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ s : (Num) -> Bool, ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], cfun_sums((s1, inprod), f, l, s) → equv(cfun_infsum((s1, inprod), s, f), l, inprod)"), t744))
 }
 
 ///|
@@ -8292,7 +8292,7 @@ pub fn cfun_infsum_unique() -> @kernel.Thm {
 fn step_506() -> Unit raise {
   let t745 = @meson.meson_tac(@list.List([cfun_lim_unique()]))
   let t746 = @tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_summable(), cfun_lim(), cfun_infsum(), cfun_sums()])), t745)
-  infsum_in_spc_c.set(@tactics.prove(@term_syntax.parse_term("∀ spc : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ l : _, ∀ s : (Num) -> Bool, cfun_summable((spc, inprod), s, f) → IN(cfun_infsum((spc, inprod), s, f), spc)"), t746))
+  infsum_in_spc_c.set(@tactics.prove(@term_syntax.parse_term("∀ spc : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ f : (Num, _) -> Cart[Real, 2], ∀ l : _, ∀ s : (Num) -> Bool, cfun_summable((spc, inprod), s, f) → IN(cfun_infsum((spc, inprod), s, f), spc)"), t746))
 }
 
 ///|
@@ -8308,7 +8308,7 @@ pub fn infsum_in_spc() -> @kernel.Thm {
 /// CFUN_SERIES_0
 fn step_507() -> Unit raise {
   let t747 = @impconv.imp_rewrite_tac(@list.List([cfun_sums(), cfun_sum_0(), cfun_lim_const(), inner_space_zero()]))
-  cfun_series_0_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : (Num) -> Bool, ∀ spc : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_inner_space((spc, inprod)) → cfun_sums((spc, inprod), (n : Num) => cfun_zero, cfun_zero, s)"), t747))
+  cfun_series_0_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : (Num) -> Bool, ∀ spc : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((spc, inprod)) → cfun_sums((spc, inprod), (n : Num) => cfun_zero, cfun_zero, s)"), t747))
 }
 
 ///|
@@ -8342,7 +8342,7 @@ fn step_508() -> Unit raise {
     @tactics.then_tac(@tactics.mp_tac(thm), t750)
   })
   let t764 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t751), t752), t753), t754), t755), @tactics.disch_tac), t756), @tactics.disch_tac), t757), t758), @tactics.disch_tac), t761), t762), t763)
-  cfun_series_finite_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ s : (Num) -> Bool, ∀ spc : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], (∀ x : Num, IN(f(x), spc)) && is_inner_space((spc, inprod)) && FINITE(s) → cfun_sums((spc, inprod), f, cfun_sum(s, f), s)"), t764))
+  cfun_series_finite_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ s : (Num) -> Bool, ∀ spc : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], (∀ x : Num, IN(f(x), spc)) && is_inner_space((spc, inprod)) && FINITE(s) → cfun_sums((spc, inprod), f, cfun_sum(s, f), s)"), t764))
 }
 
 ///|
@@ -8370,7 +8370,7 @@ fn step_509() -> Unit raise {
   })
   let t765 = @tactics.repeat_tac(@tactics.strip_tac)
   let t776 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([cfun_sums()])), t765), t769), t775)
-  cfun_series_slinear_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ h : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ s : (Num) -> Bool, ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], cfun_sums((s2, inprod), f, l, s) && is_unbounded_linear_cop(s1, h) && is_bounded1((s2, inprod), h) && (∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s1) → IN(x, s2) && IN(h(x), s2)) && (∀ n : Num, IN(f(n), s1)) && IN(l, s1) → cfun_sums((s2, inprod), (n : Num) => h(f(n)), h(l), s)"), t776))
+  cfun_series_slinear_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ h : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ s : (Num) -> Bool, ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], cfun_sums((s2, inprod), f, l, s) && is_unbounded_linear_cop(s1, h) && is_bounded1((s2, inprod), h) && (∀ x : (_) -> Cart[Real, 2], IN(x, s1) → IN(x, s2) && IN(h(x), s2)) && (∀ n : Num, IN(f(n), s1)) && IN(l, s1) → cfun_sums((s2, inprod), (n : Num) => h(f(n)), h(l), s)"), t776))
 }
 
 ///|
@@ -8388,7 +8388,7 @@ fn step_510() -> Unit raise {
   let t778 = @simp.asm_simp_tac(@list.List([cfun_series_0()]))
   let t777 = @tactics.match_mp_tac(cfun_infsum_unique())
   let t779 = @tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t777), t778)
-  cfun_infsum_0_c.set(@tactics.prove(@term_syntax.parse_term("∀ spc : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ s : (Num) -> Bool, is_inner_space((spc, inprod)) → equv(cfun_infsum((spc, inprod), s, (i : Num) => cfun_zero), cfun_zero, inprod)"), t779))
+  cfun_infsum_0_c.set(@tactics.prove(@term_syntax.parse_term("∀ spc : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ s : (Num) -> Bool, is_inner_space((spc, inprod)) → equv(cfun_infsum((spc, inprod), s, (i : Num) => cfun_zero), cfun_zero, inprod)"), t779))
 }
 
 ///|
@@ -8407,7 +8407,7 @@ fn step_511() -> Unit raise {
   let t781 = @tactics.match_mp_tac(cfun_series_slinear())
   let t780 = @tactics.match_mp_tac(cfun_infsum_unique())
   let t784 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t780), t781), (x782 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @q.exists_tac("s1", x782)), t783)
-  cfun_infsum_slinear_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ h : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ l : _, ∀ s : (Num) -> Bool, ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ s2 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], cfun_summable((s2, inprod), s, f) && is_unbounded_linear_cop(s1, h) && is_bounded1((s2, inprod), h) && (∀ x : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s1) → IN(x, s2) && IN(h(x), s2)) && (∀ n : Num, IN(f(n), s1)) && IN(cfun_infsum((s2, inprod), s, f), s1) → equv(cfun_infsum((s2, inprod), s, (n : Num) => h(f(n))), h(cfun_infsum((s2, inprod), s, f)), inprod)"), t784))
+  cfun_infsum_slinear_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ h : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ l : _, ∀ s : (Num) -> Bool, ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ s2 : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], cfun_summable((s2, inprod), s, f) && is_unbounded_linear_cop(s1, h) && is_bounded1((s2, inprod), h) && (∀ x : (_) -> Cart[Real, 2], IN(x, s1) → IN(x, s2) && IN(h(x), s2)) && (∀ n : Num, IN(f(n), s1)) && IN(cfun_infsum((s2, inprod), s, f), s1) → equv(cfun_infsum((s2, inprod), s, (n : Num) => h(f(n))), h(cfun_infsum((s2, inprod), s, f)), inprod)"), t784))
 }
 
 ///|
@@ -8426,7 +8426,7 @@ fn step_512() -> Unit raise {
   let t786 = @tactics.match_mp_tac(cfun_series_smul())
   let t785 = @tactics.match_mp_tac(cfun_infsum_unique())
   let t788 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t785), t786), t787)
-  cfun_infsum_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ s : (Num) -> Bool, ∀ s1 : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], cfun_summable((s1, inprod), s, f) → equv(cfun_infsum((s1, inprod), s, (n : Num) => cfun_smul(a, f(n))), cfun_smul(a, cfun_infsum((s1, inprod), s, f)), inprod)"), t788))
+  cfun_infsum_smul_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ f : (Num, _) -> Cart[Real, 2], ∀ s : (Num) -> Bool, ∀ s1 : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], cfun_summable((s1, inprod), s, f) → equv(cfun_infsum((s1, inprod), s, (n : Num) => cfun_smul(a, f(n))), cfun_smul(a, cfun_infsum((s1, inprod), s, f)), inprod)"), t788))
 }
 
 ///|
@@ -8445,12 +8445,12 @@ fn step_513() -> Unit raise {
   let t795 = @tactics.then_tac(@tactics.match_mp_tac(cfun_sum_eq()), t794)
   let t793 = @sets.set_tac(@list.List([]))
   let t796 = @list.List([@tactics.then_tac(@tactics.match_mp_tac(cfun_sum_superset()), t793), t795])
-  let t792 = @tactics.match_mp_tac(@meson.meson(@list.List([]), @term_syntax.parse_term("cfun_sum((s : (_) -> Bool), (f : (_, _) -> Cart[Real, Tybit0[Unit]])) == cfun_sum((t : (_) -> Bool), f) && cfun_sum(t, f) == cfun_sum(t, (g : (_, _) -> Cart[Real, Tybit0[Unit]])) → cfun_sum(s, f) == cfun_sum(t, g)")))
+  let t792 = @tactics.match_mp_tac(@meson.meson(@list.List([]), @term_syntax.parse_term("cfun_sum((s : (_) -> Bool), (f : (_, _) -> Cart[Real, 2])) == cfun_sum((t : (_) -> Bool), f) && cfun_sum(t, f) == cfun_sum(t, (g : (_, _) -> Cart[Real, 2])) → cfun_sum(s, f) == cfun_sum(t, g)")))
   let t791 = @simp.rewrite_tac(@list.List([@sets.inter_univ()]))
   let t790 = @simp.once_rewrite_tac(@list.List([@class.fun_eq_thm()]))
   let t789 = @simp.rewrite_tac(@list.List([cfun_sums()]))
   let t797 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t789), @tactics.ap_thm_tac), @tactics.ap_thm_tac), @tactics.ap_term_tac), t790), t791), @tactics.gen_tac), t792), @tactics.conj_tac), t796)
-  cfun_series_restrict_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ k : (Num) -> Bool, ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), cfun_sums(innerspc, (n : Num) => if IN(n, k) { f(n) } else { cfun_zero }, l, UNIV) == cfun_sums(innerspc, f, l, k)"), t797))
+  cfun_series_restrict_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ k : (Num) -> Bool, ∀ l : (_) -> Cart[Real, 2], ∀ innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), cfun_sums(innerspc, (n : Num) => if IN(n, k) { f(n) } else { cfun_zero }, l, UNIV) == cfun_sums(innerspc, f, l, k)"), t797))
 }
 
 ///|
@@ -8528,7 +8528,7 @@ fn step_514() -> Unit raise {
     })(t801(x802))
   })
   let t843 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t803), t804), t809), t813), t817), t818), t819), t825), t826), @tactics.ap_thm_tac), @tactics.ap_thm_tac), @tactics.ap_term_tac), t827), t828), t829), t839), t841), t842)
-  cfun_sums_finite_diff_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ s : (Num) -> Bool, ∀ t : (Num) -> Bool, ∀ spc : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inpord : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], SUBSET(t, s) && FINITE(t) && (∀ x : Num, IN(f(x), spc)) && cfun_sums((spc, inpord), f, l, s) → cfun_sums((spc, inpord), f, l - cfun_sum(t, f), DIFF(s, t))"), t843))
+  cfun_sums_finite_diff_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ s : (Num) -> Bool, ∀ t : (Num) -> Bool, ∀ spc : ((_) -> Cart[Real, 2]) -> Bool, ∀ inpord : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], SUBSET(t, s) && FINITE(t) && (∀ x : Num, IN(f(x), spc)) && cfun_sums((spc, inpord), f, l, s) → cfun_sums((spc, inpord), f, l - cfun_sum(t, f), DIFF(s, t))"), t843))
 }
 
 ///|
@@ -8554,7 +8554,7 @@ fn step_515() -> Unit raise {
     }
   })
   let t852 = @tactics.thenl(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t847), t851)
-  cfun_sums_offset_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ m : Num, ∀ n : Num, ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], cfun_sums((s, inprod), f, l, from(m)) && (∀ x : Num, IN(f(x), s)) && m < n → cfun_sums((s, inprod), f, l - cfun_sum(op_dot_dot(m, n - 1), f), from(n))"), t852))
+  cfun_sums_offset_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ l : (_) -> Cart[Real, 2], ∀ m : Num, ∀ n : Num, ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], cfun_sums((s, inprod), f, l, from(m)) && (∀ x : Num, IN(f(x), s)) && m < n → cfun_sums((s, inprod), f, l - cfun_sum(op_dot_dot(m, n - 1), f), from(n))"), t852))
 }
 
 ///|
@@ -8570,7 +8570,7 @@ pub fn cfun_sums_offset() -> @kernel.Thm {
 /// CFUN_SUMMABLE_OFFSET
 fn step_516() -> Unit raise {
   let t853 = @meson.meson_tac(@list.List([cfun_summable(), cfun_sums_offset()]))
-  cfun_summable_offset_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ n : Num, cfun_summable((s, inprod), from((m : Num)), f) && (∀ x : Num, IN(f(x), s)) && m < n → cfun_summable((s, inprod), from(n), f)"), t853))
+  cfun_summable_offset_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ n : Num, cfun_summable((s, inprod), from((m : Num)), f) && (∀ x : Num, IN(f(x), s)) && m < n → cfun_summable((s, inprod), from(n), f)"), t853))
 }
 
 ///|
@@ -8597,7 +8597,7 @@ fn step_517() -> Unit raise {
   })
   let t854 = @simp.rewrite_tac(@list.List([@equal.gsym(cfun_sums_infsum())]))
   let t862 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t854), t860), t861)
-  cfun_infsum_offset_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ n : Num, ∀ m : Num, cfun_summable((s, inprod), from(m), f) && (∀ x : Num, IN(f(x), s)) && m < n → equv(cfun_infsum((s, inprod), from(n), f), cfun_infsum((s, inprod), from(m), f) - cfun_sum(op_dot_dot(m, n - 1), f), inprod)"), t862))
+  cfun_infsum_offset_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ n : Num, ∀ m : Num, cfun_summable((s, inprod), from(m), f) && (∀ x : Num, IN(f(x), s)) && m < n → equv(cfun_infsum((s, inprod), from(n), f), cfun_infsum((s, inprod), from(m), f) - cfun_sum(op_dot_dot(m, n - 1), f), inprod)"), t862))
 }
 
 ///|
@@ -8634,7 +8634,7 @@ fn step_518() -> Unit raise {
   let t864 = @simp.rewrite_tac(@list.List([cfun_sums(), @misc.from_inter_numseg()]))
   let t863 = @tactics.repeat_tac(@tactics.gen_tac)
   let t881 = @tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([forall_inner_space_thm()])), t863), t864), t865), t866), t867), @tactics.eq_tac), t868), t869), t878), t880)
-  cfun_sums_reindex_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ∀ n : Num, ∀ l : (_) -> Cart[Real, Tybit0[Unit]], ∀ k : Num, cfun_sums(innerspc, (x : Num) => f(x + k), l, from(n)) == cfun_sums(innerspc, f, l, from(n + k))"), t881))
+  cfun_sums_reindex_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), ∀ n : Num, ∀ l : (_) -> Cart[Real, 2], ∀ k : Num, cfun_sums(innerspc, (x : Num) => f(x + k), l, from(n)) == cfun_sums(innerspc, f, l, from(n + k))"), t881))
 }
 
 ///|
@@ -8650,7 +8650,7 @@ pub fn cfun_sums_reindex() -> @kernel.Thm {
 /// CFUN_SUMMABLE_REINDEX
 fn step_519() -> Unit raise {
   let t882 = @meson.meson_tac(@list.List([cfun_summable(), cfun_sums_reindex()]))
-  cfun_summable_reindex_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ innerspc : (((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), ∀ n : Num, ∀ k : Num, cfun_summable(innerspc, from(n), (x : Num) => f(x + k)) == cfun_summable(innerspc, from(n + k), f)"), t882))
+  cfun_summable_reindex_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ innerspc : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), ∀ n : Num, ∀ k : Num, cfun_summable(innerspc, from(n), (x : Num) => f(x + k)) == cfun_summable(innerspc, from(n + k), f)"), t882))
 }
 
 ///|
@@ -8668,7 +8668,7 @@ fn step_520() -> Unit raise {
   let t884 = @simp.asm_simp_tac(@list.List([@equal.gsym(cfun_sums_reindex()), cfun_sums_infsum()]))
   let t883 = @tactics.match_mp_tac(cfun_infsum_unique())
   let t885 = @tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t883), t884)
-  cfun_infsum_reindex_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, Tybit0[Unit]], ∀ s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, ∀ inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], ∀ n : Num, ∀ k : Num, cfun_summable((s, inprod), from(n), (x : Num) => f(x + k)) → equv(cfun_infsum((s, inprod), from(n + k), f), cfun_infsum((s, inprod), from(n), (x : Num) => f(x + k)), inprod)"), t885))
+  cfun_infsum_reindex_c.set(@tactics.prove(@term_syntax.parse_term("∀ f : (Num, _) -> Cart[Real, 2], ∀ s : ((_) -> Cart[Real, 2]) -> Bool, ∀ inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], ∀ n : Num, ∀ k : Num, cfun_summable((s, inprod), from(n), (x : Num) => f(x + k)) → equv(cfun_infsum((s, inprod), from(n + k), f), cfun_infsum((s, inprod), from(n), (x : Num) => f(x + k)), inprod)"), t885))
 }
 
 ///|
@@ -8683,7 +8683,7 @@ pub fn cfun_infsum_reindex() -> @kernel.Thm {
 ///|
 /// cop_sum
 fn step_521() -> Unit raise {
-  cop_sum_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_sum : ((_) -> Bool, (_, _, _) -> Cart[Real, Tybit0[Unit]], _, _) -> Cart[Real, Tybit0[Unit]])((s : (_) -> Bool), (f : (_, _, _) -> Cart[Real, Tybit0[Unit]])) == ((x : _) => cfun_sum(s, (n : _) => f(n, x)))")))
+  cop_sum_c.set(@pair.new_definition(@term_syntax.parse_term("(cop_sum : ((_) -> Bool, (_, _, _) -> Cart[Real, 2], _, _) -> Cart[Real, 2])((s : (_) -> Bool), (f : (_, _, _) -> Cart[Real, 2])) == ((x : _) => cfun_sum(s, (n : _) => f(n, x)))")))
 }
 
 ///|
@@ -8707,7 +8707,7 @@ fn step_522() -> Unit raise {
   let t905 = @simp.asm_simp_tac(@list.List([@equal.gsym(cop_add_v1()), cop_mul_rid(), cop_eq_add_lcancel(), lincop_mul_rmul(), @calc_num.arith(), @class.eta_ax(), t904]))
   let t903 = @simp.simp_tac(@list.List([cfun_sum_clauses_left(), @arith.le_0(), @binomial.binom_lt(), @arith.lt(), cop_smul_lid(), @arith.sub_0(), cop_pow(), @binomial.binom(), cop_smul_lzero(), cop_zero_v1(), cfun_add_rid(), cop_mul_lid()]))
   let t902 = @simp.rewrite_tac(@list.List([cfun_sum_clauses_numseg(), @equal.gsym(@arith.add1()), @arith.le_suc(), @arith.le_0()]))
-  let t900 = @term_syntax.parse_term("cfun_sum(op_dot_dot((m : Num) + 1, (n : Num) + 1), (i : Num) => (f : (Num, _) -> Cart[Real, Tybit0[Unit]])(i))")
+  let t900 = @term_syntax.parse_term("cfun_sum(op_dot_dot((m : Num) + 1, (n : Num) + 1), (i : Num) => (f : (Num, _) -> Cart[Real, 2])(i))")
   let t901 = @simp.simp_tac(@list.List([@arith.add1(), @equal.sym(@simp.rewrite_conv(@list.List([cfun_sum_offset()]))(t900))]))
   let t897 = @equal.gsym(cop_mul_assoc())
   let t898 = @simp.simp_tac(@list.List([@equal.gsym(cop_pow()), t897]))
@@ -8715,7 +8715,7 @@ fn step_522() -> Unit raise {
   let t894 = @equal.gsym(@trivia.i_def())
   let t895 = @equal.gsym(cop_mul_thm())
   let t896 = @simp.rewrite_tac(@list.List([@equal.gsym(cop_mul_v1()), t895, t894, cop_mul_rid()]))
-  let t893 = @tactics.match_mp_tac(@meson.meson(@list.List([cop_add_ac()]), @term_syntax.parse_term("(a : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) == (e : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) && (b : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) == (c : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) + (d : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]]) → a + b == c + (d + e)")))
+  let t893 = @tactics.match_mp_tac(@meson.meson(@list.List([cop_add_ac()]), @term_syntax.parse_term("(a : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]) == (e : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]) && (b : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]) == (c : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]) + (d : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]) → a + b == c + (d + e)")))
   let t891 = @equal.gsym(cop_add_v1())
   let t892 = @simp.rewrite_tac(@list.List([@equal.gsym(@realax.real_of_num_add()), @complexes.cx_add(), cop_add_rdistrib(), cun_sum_add_numseg(), @arith.sub_0(), t891, cop_add_thm()]))
   let t890 = @simp.asm_simp_tac(@list.List([linear_cfun_sum(), add_lincop(), cop_mul_v1(), @iterate.finite_numseg(), @trivia.o_def(), cop_add_mul_rdistrib()]))
@@ -8724,7 +8724,7 @@ fn step_522() -> Unit raise {
   let t887 = @simp.rewrite_tac(@list.List([cfun_sum_sing_numseg(), @binomial.binom(), @arith.sub_refl(), cop_pow(), cop_mul_lid(), @trivia.i_thm(), @equal.gsym(@trivia.i_def()), cop_smul_lid()]))
   let t886 = @simp.asm_rewrite_tac(@list.List([cop_pow(), cop_sum()]))
   let t911 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@nums.induct_tac, @tactics.repeat_tac(@tactics.strip_tac)), t886), t887), t888), t889), t890), t892), t893), @tactics.conj_tac), t896), t899), t901), t902), t903), t905), @tactics.abs_tac), t906), t907), t908), t909), t910)
-  cop_binomial_theorem_c.set(@tactics.prove(@term_syntax.parse_term("∀ n : Num, ∀ op1 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], ∀ op2 : ((_) -> Cart[Real, Tybit0[Unit]], _) -> Cart[Real, Tybit0[Unit]], cop_mul(op1, op2) == cop_mul(op2, op1) && is_linear_cop(op1) && is_linear_cop(op2) → pow(op1 + op2, n) == cop_sum(op_dot_dot(0, n), (k : Num) => cop_smul(Cx(real_of_num(binom((n, k)))), cop_mul(pow(op1, k), pow(op2, n - k))))"), t911))
+  cop_binomial_theorem_c.set(@tactics.prove(@term_syntax.parse_term("∀ n : Num, ∀ op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], ∀ op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], cop_mul(op1, op2) == cop_mul(op2, op1) && is_linear_cop(op1) && is_linear_cop(op2) → pow(op1 + op2, n) == cop_sum(op_dot_dot(0, n), (k : Num) => cop_smul(Cx(real_of_num(binom((n, k)))), cop_mul(pow(op1, k), pow(op2, n - k))))"), t911))
 }
 
 ///|

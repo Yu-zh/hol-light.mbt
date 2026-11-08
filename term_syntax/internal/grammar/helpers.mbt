@@ -185,6 +185,27 @@ fn named_type(
 }
 
 ///|
+/// A numeral `n` as a type: HOL's finite type of n elements, 1 for 1 and
+/// tybit0/tybit1 of n / 2 for an even/odd n above it, as in `Cart[Real, 3]`.
+fn finite_type(n : String) -> @preterm.Pretype {
+  fn go(n : BigInt) -> @preterm.Pretype {
+    if n == 1 {
+      @preterm.Ptycon("1", @list.List([]))
+    } else {
+      let c = if n % 2 == 0 { "tybit0" } else { "tybit1" }
+      @preterm.Ptycon(c, @list.singleton(go(n / 2)))
+    }
+  }
+
+  let n = BigInt::from_string(n)
+  if n < 1 {
+    reject("no type has \{n} elements")
+    return @preterm.Ptycon("1", @list.List([]))
+  }
+  go(n)
+}
+
+///|
 fn check_arity(
   name : String,
   args : @list.List[@preterm.Pretype],

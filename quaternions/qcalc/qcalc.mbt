@@ -160,10 +160,10 @@ pub fn rat_quat_inv_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_8() -> Unit raise {
   let n = @term_syntax.parse_term("(n : Num)")
   let z = @term_syntax.parse_term("_0")
-  let x = @term_syntax.parse_term("(x : Cart[Real, Tybit0[Tybit0[Unit]]])")
-  let y = @term_syntax.parse_term("(y : Cart[Real, Tybit0[Tybit0[Unit]]])")
-  let z_1 = @term_syntax.parse_term("(z : Cart[Real, Tybit0[Tybit0[Unit]]])")
-  let t = @term_syntax.parse_term("(t : Cart[Real, Tybit0[Tybit0[Unit]]])")
+  let x = @term_syntax.parse_term("(x : Cart[Real, 4])")
+  let y = @term_syntax.parse_term("(y : Cart[Real, 4])")
+  let z_1 = @term_syntax.parse_term("(z : Cart[Real, 4])")
+  let t = @term_syntax.parse_term("(t : Cart[Real, 4])")
   let bit0 = @term_syntax.parse_term("BIT0")
   let mul = @term_syntax.parse_term("quat_mul")
   let t29 = @simp.rewrite_tac(@list.List([@arith.bit0(), @arith.bit1(), @quaternion.quat_pow(), @quaternion.quat_pow_add()]))
@@ -177,7 +177,7 @@ fn step_8() -> Unit raise {
   }))
   let t23 = @equal.gsym(@quaternion.hx_def())
   let t30 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([@nums.numeral(), @calc_num.denumeral(@quaternion.quat_pow()), t23])), @tactics.conj_tac), t28), t29)
-  let th_pow = @tactics.prove(@term_syntax.parse_term("quat_pow((x : Cart[Real, Tybit0[Tybit0[Unit]]]), NUMERAL((n : Num))) == quat_pow(x, n) && quat_pow(x, _0) == quat((real_of_num(1), real_of_num(0), real_of_num(0), real_of_num(0))) && (quat_pow(x, n) == (y : Cart[Real, Tybit0[Tybit0[Unit]]]) → quat_mul(y, y) == (z : Cart[Real, Tybit0[Tybit0[Unit]]]) → quat_pow(x, BIT0(n)) == z) && (quat_pow(x, n) == y → quat_mul(y, y) == z → quat_mul(x, z) == (t : Cart[Real, Tybit0[Tybit0[Unit]]]) → quat_pow(x, BIT1(n)) == t)"), t30)
+  let th_pow = @tactics.prove(@term_syntax.parse_term("quat_pow((x : Cart[Real, 4]), NUMERAL((n : Num))) == quat_pow(x, n) && quat_pow(x, _0) == quat((real_of_num(1), real_of_num(0), real_of_num(0), real_of_num(0))) && (quat_pow(x, n) == (y : Cart[Real, 4]) → quat_mul(y, y) == (z : Cart[Real, 4]) → quat_pow(x, BIT0(n)) == z) && (quat_pow(x, n) == y → quat_mul(y, y) == z → quat_mul(x, z) == (t : Cart[Real, 4]) → quat_pow(x, BIT1(n)) == t)"), t30)
   rat_quat_pow_conv_c.set(match @bool.conjuncts_rule(th_pow) {
     More(pth0, tail=More(pth1, tail=More(pth2, tail=More(pth3, tail=Empty)))) => {
       let pow = @term_syntax.parse_term("quat_pow")

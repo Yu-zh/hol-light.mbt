@@ -52321,7 +52321,7 @@ fn step_927() -> Unit raise {
     t5173,
   )
   let pth_bitval = @tactics.prove(
-    @term_syntax.parse_term("∀ b : Bool, int_of_num(bitval(b)) == (ival : (Word[Tybit0[Unit]]) -> Int)((word : (Num) -> Word[Tybit0[Unit]])(bitval(b)))"),
+    @term_syntax.parse_term("∀ b : Bool, int_of_num(bitval(b)) == (ival : (Word[2]) -> Int)((word : (Num) -> Word[2])(bitval(b)))"),
     t5174,
   )
   let t5177 = @simp.asm_simp_tac(

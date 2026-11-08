@@ -49743,63 +49743,63 @@ Multivariate/wlog quotations (81):
   \226\136\131 u : Cart[Real, N], IN(u, IMAGE((f : (Cart[Real, M]) -> Cart[Real, N]), UNIV)) && (\226\136\131 v : Cart[Real, N], IN(v, IMAGE(f, UNIV)) && (\226\136\131 w : Cart[Real, N], IN(w, IMAGE(f, UNIV)) && !collinear({u, v, w}) && IMAGE(f, (p : (Cart[Real, M]) -> Bool)) == hull(affine, {u, v, w})))
   \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 p : (Cart[Real, M]) -> Bool, linear(f) && (\226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], f(x) == f(y) \226\134\146 x == y) \226\134\146 plane(IMAGE(f, p)) == plane(p)
   \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 p : (Cart[Real, M]) -> Bool, linear(f) && plane(p) && (\226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], f(x) == f(y) \226\134\146 x == y) \226\134\146 plane(IMAGE(f, p))
-  span({(z : Cart[Real, Tybit1[Unit]]) | op_dollar(z, 3) == real_of_num(0)}) == {(z : Cart[Real, Tybit1[Unit]]) | op_dollar(z, 3) == real_of_num(0)}
-  ((b : Cart[Real, Tybit1[Unit]]) - (a : Cart[Real, Tybit1[Unit]]) == (c : Cart[Real, Tybit1[Unit]]) - a) == (b == c)
+  span({(z : Cart[Real, 3]) | op_dollar(z, 3) == real_of_num(0)}) == {(z : Cart[Real, 3]) | op_dollar(z, 3) == real_of_num(0)}
+  ((b : Cart[Real, 3]) - (a : Cart[Real, 3]) == (c : Cart[Real, 3]) - a) == (b == c)
   !((a : _) == (b : _)) \226\134\146 DELETE({a, b}, a) == {b}
   !((a : _) == (b : _)) \226\134\146 DELETE({a, b}, b) == {a}
   {(a : _), (b : _), (c : _)} == {b, a, c}
-  ((b : Cart[Real, Tybit1[Unit]]) - (a : Cart[Real, Tybit1[Unit]]) == (c : Cart[Real, Tybit1[Unit]]) - a) == (b == c)
-  {(b : Cart[Real, Tybit1[Unit]]) - (a : Cart[Real, Tybit1[Unit]]), (c : Cart[Real, Tybit1[Unit]]) - a}
-  dim({(b : Cart[Real, Tybit1[Unit]]) - (a : Cart[Real, Tybit1[Unit]]), (c : Cart[Real, Tybit1[Unit]]) - a})
-  (vector : (List[Real]) -> Cart[Real, Tybit1[Unit]])([real_of_num(0), real_of_num(0), real_of_num(1)])
+  ((b : Cart[Real, 3]) - (a : Cart[Real, 3]) == (c : Cart[Real, 3]) - a) == (b == c)
+  {(b : Cart[Real, 3]) - (a : Cart[Real, 3]), (c : Cart[Real, 3]) - a}
+  dim({(b : Cart[Real, 3]) - (a : Cart[Real, 3]), (c : Cart[Real, 3]) - a})
+  (vector : (List[Real]) -> Cart[Real, 3])([real_of_num(0), real_of_num(0), real_of_num(1)])
   !((x : Num) <= 2) == (3 <= x)
   !(r : Bool) && (!(p : Bool) \226\134\146 (q : Bool)) \226\134\146 (q \226\134\146 r) \226\134\146 p
-  (UNIV : (Cart[Real, Tybit1[Unit]]) -> Bool)
-  {(z : Cart[Real, Tybit1[Unit]]) | op_dollar(z, 3) == real_of_num(0)}
+  (UNIV : (Cart[Real, 3]) -> Bool)
+  {(z : Cart[Real, 3]) | op_dollar(z, 3) == real_of_num(0)}
   2
-  (f : (Cart[Real, Tybit1[Unit]]) -> Cart[Real, Tybit1[Unit]])
-  CARD({(b : Cart[Real, Tybit1[Unit]]) - (a : Cart[Real, Tybit1[Unit]]), (c : Cart[Real, Tybit1[Unit]]) - a})
-  span({(b : Cart[Real, Tybit1[Unit]]) - (a : Cart[Real, Tybit1[Unit]]), (c : Cart[Real, Tybit1[Unit]]) - a})
+  (f : (Cart[Real, 3]) -> Cart[Real, 3])
+  CARD({(b : Cart[Real, 3]) - (a : Cart[Real, 3]), (c : Cart[Real, 3]) - a})
+  span({(b : Cart[Real, 3]) - (a : Cart[Real, 3]), (c : Cart[Real, 3]) - a})
   {(x : Cart[Real, B]) - (a : Cart[Real, B]) | x == (b : Cart[Real, B]) || x == (c : Cart[Real, B])} == {b - a, c - a}
-  -(a : Cart[Real, Tybit1[Unit]]) + (a + (x : Cart[Real, Tybit1[Unit]])) == x
-  IMAGE((x : Cart[Real, Tybit1[Unit]]) => -(a : Cart[Real, Tybit1[Unit]]) + x, {a + (x : Cart[Real, Tybit1[Unit]]) | IN(x, (s : (Cart[Real, Tybit1[Unit]]) -> Bool))}) == IMAGE((x : Cart[Real, Tybit1[Unit]]) => -a + (a + x), s)
-  -(a : Cart[Real, Tybit1[Unit]])
-  (b : Cart[Real, Tybit1[Unit]]) == (c : Cart[Real, Tybit1[Unit]])
-  (a : Cart[Real, Tybit1[Unit]]) == (c : Cart[Real, Tybit1[Unit]])
-  (a : Cart[Real, Tybit1[Unit]]) == (b : Cart[Real, Tybit1[Unit]])
-  (c : Cart[Real, Tybit1[Unit]])
-  (b : Cart[Real, Tybit1[Unit]])
-  (a : Cart[Real, Tybit1[Unit]])
-  \226\136\128 s : (Cart[Real, Tybit1[Unit]]) -> Bool, plane(s) \226\134\146 (\226\136\131 a : Cart[Real, Tybit1[Unit]], \226\136\131 f : (Cart[Real, Tybit1[Unit]]) -> Cart[Real, Tybit1[Unit]], orthogonal_transformation(f) && det(matrix(f)) == real_of_num(1) && IMAGE(f, IMAGE((x : Cart[Real, Tybit1[Unit]]) => a + x, s)) == {(z : Cart[Real, Tybit1[Unit]]) | op_dollar(z, 3) == real_of_num(0)})
-  det(matrix((f : (Cart[Real, Tybit1[Unit]]) -> Cart[Real, Tybit1[Unit]])))
+  -(a : Cart[Real, 3]) + (a + (x : Cart[Real, 3])) == x
+  IMAGE((x : Cart[Real, 3]) => -(a : Cart[Real, 3]) + x, {a + (x : Cart[Real, 3]) | IN(x, (s : (Cart[Real, 3]) -> Bool))}) == IMAGE((x : Cart[Real, 3]) => -a + (a + x), s)
+  -(a : Cart[Real, 3])
+  (b : Cart[Real, 3]) == (c : Cart[Real, 3])
+  (a : Cart[Real, 3]) == (c : Cart[Real, 3])
+  (a : Cart[Real, 3]) == (b : Cart[Real, 3])
+  (c : Cart[Real, 3])
+  (b : Cart[Real, 3])
+  (a : Cart[Real, 3])
+  \226\136\128 s : (Cart[Real, 3]) -> Bool, plane(s) \226\134\146 (\226\136\131 a : Cart[Real, 3], \226\136\131 f : (Cart[Real, 3]) -> Cart[Real, 3], orthogonal_transformation(f) && det(matrix(f)) == real_of_num(1) && IMAGE(f, IMAGE((x : Cart[Real, 3]) => a + x, s)) == {(z : Cart[Real, 3]) | op_dollar(z, 3) == real_of_num(0)})
+  det(matrix((f : (Cart[Real, 3]) -> Cart[Real, 3])))
   \226\136\128 f : Real, f * (g : Real) == real_of_num(1) && f == real_of_num(1) \226\134\146 g == real_of_num(1)
-  -(a : Cart[Real, Tybit1[Unit]]) + (a + (x : Cart[Real, Tybit1[Unit]])) == x
-  (g : (Cart[Real, Tybit1[Unit]]) -> Cart[Real, Tybit1[Unit]])
-  -(a : Cart[Real, Tybit1[Unit]])
-  (g : (Cart[Real, Tybit1[Unit]]) -> Cart[Real, Tybit1[Unit]])
-  (f : (Cart[Real, Tybit1[Unit]]) -> Cart[Real, Tybit1[Unit]])
-  (a : Cart[Real, Tybit1[Unit]])
-  \226\136\128 p : (Cart[Real, Tybit1[Unit]]) -> Bool, plane(p) \226\134\146 (\226\136\131 a : Cart[Real, Tybit1[Unit]], \226\136\131 f : (Cart[Real, Tybit1[Unit]]) -> Cart[Real, Tybit1[Unit]], orthogonal_transformation(f) && det(matrix(f)) == real_of_num(1) && IMAGE((x : Cart[Real, Tybit1[Unit]]) => a + x, IMAGE(f, {(z : Cart[Real, Tybit1[Unit]]) | op_dollar(z, 3) == real_of_num(0)})) == p)
+  -(a : Cart[Real, 3]) + (a + (x : Cart[Real, 3])) == x
+  (g : (Cart[Real, 3]) -> Cart[Real, 3])
+  -(a : Cart[Real, 3])
+  (g : (Cart[Real, 3]) -> Cart[Real, 3])
+  (f : (Cart[Real, 3]) -> Cart[Real, 3])
+  (a : Cart[Real, 3])
+  \226\136\128 p : (Cart[Real, 3]) -> Bool, plane(p) \226\134\146 (\226\136\131 a : Cart[Real, 3], \226\136\131 f : (Cart[Real, 3]) -> Cart[Real, 3], orthogonal_transformation(f) && det(matrix(f)) == real_of_num(1) && IMAGE((x : Cart[Real, 3]) => a + x, IMAGE(f, {(z : Cart[Real, 3]) | op_dollar(z, 3) == real_of_num(0)})) == p)
   ((p : Bool) \226\134\146 (x : Bool) == (x' : Bool)) && (!p \226\134\146 x == true) \226\134\146 x' \226\134\146 x
   (a : Cart[Real, N]) + ((x : Cart[Real, N]) - a) == x
   o((x : Cart[Real, N]) => (a : Cart[Real, N]) + x, (f : (Cart[Real, N]) -> Cart[Real, N]))
   \226\136\128 a : Cart[Real, N], \226\136\128 f : (Cart[Real, N]) -> Cart[Real, N], orthogonal_transformation(f) \226\134\146 ((\226\136\128 P : (Cart[Real, N]) -> Bool, (\226\136\128 x : Cart[Real, N], P(x)) == (\226\136\128 x : Cart[Real, N], P(a + f(x)))) && (\226\136\128 P : (Cart[Real, N]) -> Bool, (\226\136\131 x : Cart[Real, N], P(x)) == (\226\136\131 x : Cart[Real, N], P(a + f(x)))) && (\226\136\128 Q : ((Cart[Real, N]) -> Bool) -> Bool, (\226\136\128 s : (Cart[Real, N]) -> Bool, Q(s)) == (\226\136\128 s : (Cart[Real, N]) -> Bool, Q(IMAGE((x : Cart[Real, N]) => a + x, IMAGE(f, s))))) && (\226\136\128 Q : ((Cart[Real, N]) -> Bool) -> Bool, (\226\136\131 s : (Cart[Real, N]) -> Bool, Q(s)) == (\226\136\131 s : (Cart[Real, N]) -> Bool, Q(IMAGE((x : Cart[Real, N]) => a + x, IMAGE(f, s)))))) && (\226\136\128 P : (Cart[Real, N]) -> Bool, {(x : Cart[Real, N]) | P(x)} == IMAGE((x : Cart[Real, N]) => a + x, IMAGE(f, {(x : Cart[Real, N]) | P(a + f(x))})))
-  \226\136\128 a : Cart[Real, Tybit1[Unit]], \226\136\128 f : (_) -> Cart[Real, Tybit1[Unit]], {} == IMAGE((x : Cart[Real, Tybit1[Unit]]) => a + x, IMAGE(f, {}))
-  \226\136\128 f : (Cart[Real, Tybit1[Unit]]) -> Cart[Real, Tybit1[Unit]], (orthogonal_transformation : ((Cart[Real, Tybit1[Unit]]) -> Cart[Real, Tybit1[Unit]]) -> Bool)(f) && (det : (Cart[Cart[Real, Tybit1[Unit]], Tybit1[Unit]]) -> Real)((matrix : ((Cart[Real, Tybit1[Unit]]) -> Cart[Real, Tybit1[Unit]]) -> Cart[Cart[Real, Tybit1[Unit]], Tybit1[Unit]])(f)) == real_of_num(1) \226\134\146 (linear : ((Cart[Real, Tybit1[Unit]]) -> Cart[Real, Tybit1[Unit]]) -> Bool)(f) && (\226\136\128 x : Cart[Real, Tybit1[Unit]], \226\136\128 y : Cart[Real, Tybit1[Unit]], f(x) == f(y) \226\134\146 x == y) && (\226\136\128 y : Cart[Real, Tybit1[Unit]], \226\136\131 x : Cart[Real, Tybit1[Unit]], f(x) == y) && (\226\136\128 x : Cart[Real, Tybit1[Unit]], (norm : (Cart[Real, Tybit1[Unit]]) -> Real)(f(x)) == (norm : (Cart[Real, Tybit1[Unit]]) -> Real)(x)) && (2 <= (dimindex : ((Tybit1[Unit]) -> Bool) -> Num)((UNIV : (Tybit1[Unit]) -> Bool)) \226\134\146 (det : (Cart[Cart[Real, Tybit1[Unit]], Tybit1[Unit]]) -> Real)((matrix : ((Cart[Real, Tybit1[Unit]]) -> Cart[Real, Tybit1[Unit]]) -> Cart[Cart[Real, Tybit1[Unit]], Tybit1[Unit]])(f)) == real_of_num(1))
+  \226\136\128 a : Cart[Real, 3], \226\136\128 f : (_) -> Cart[Real, 3], {} == IMAGE((x : Cart[Real, 3]) => a + x, IMAGE(f, {}))
+  \226\136\128 f : (Cart[Real, 3]) -> Cart[Real, 3], (orthogonal_transformation : ((Cart[Real, 3]) -> Cart[Real, 3]) -> Bool)(f) && (det : (Cart[Cart[Real, 3], 3]) -> Real)((matrix : ((Cart[Real, 3]) -> Cart[Real, 3]) -> Cart[Cart[Real, 3], 3])(f)) == real_of_num(1) \226\134\146 (linear : ((Cart[Real, 3]) -> Cart[Real, 3]) -> Bool)(f) && (\226\136\128 x : Cart[Real, 3], \226\136\128 y : Cart[Real, 3], f(x) == f(y) \226\134\146 x == y) && (\226\136\128 y : Cart[Real, 3], \226\136\131 x : Cart[Real, 3], f(x) == y) && (\226\136\128 x : Cart[Real, 3], (norm : (Cart[Real, 3]) -> Real)(f(x)) == (norm : (Cart[Real, 3]) -> Real)(x)) && (2 <= (dimindex : ((3) -> Bool) -> Num)((UNIV : (3) -> Bool)) \226\134\146 (det : (Cart[Cart[Real, 3], 3]) -> Real)((matrix : ((Cart[Real, 3]) -> Cart[Real, 3]) -> Cart[Cart[Real, 3], 3])(f)) == real_of_num(1))
   (\226\136\128 a : _, \226\136\128 f : _, (q : (_, _) -> Bool)(a, f) \226\134\146 (p : Bool) == (p' : (_, _) -> Bool)(a, f)) \226\134\146 (\226\136\131 a : _, \226\136\131 f : _, q(a, f)) \226\134\146 p == (\226\136\128 a : _, \226\136\128 f : _, q(a, f) \226\134\146 p'(a, f))
-  (pad2d3d : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit1[Unit]])((x : Cart[Real, Tybit0[Unit]])) == lambda((i : Num) => if i < 3 { op_dollar(x, i) } else { real_of_num(0) })
+  (pad2d3d : (Cart[Real, 2]) -> Cart[Real, 3])((x : Cart[Real, 2])) == lambda((i : Num) => if i < 3 { op_dollar(x, i) } else { real_of_num(0) })
   ((i : Num) <= 3) == (i <= 2 || i == 3)
   ((i : Num) < 3) == (i <= 2)
-  (lambda : ((Num) -> Real) -> Cart[Real, Tybit0[Unit]])((i : Num) => (op_dollar : (Cart[Real, Tybit1[Unit]], Num) -> Real)((y : Cart[Real, Tybit1[Unit]]), i))
-  \226\136\128 P : (Cart[Real, Tybit1[Unit]]) -> Bool, (\226\136\128 y : Cart[Real, Tybit1[Unit]], op_dollar(y, 3) == real_of_num(0) \226\134\146 P(y)) == (\226\136\128 x : Cart[Real, Tybit0[Unit]], P(pad2d3d(x)))
+  (lambda : ((Num) -> Real) -> Cart[Real, 2])((i : Num) => (op_dollar : (Cart[Real, 3], Num) -> Real)((y : Cart[Real, 3]), i))
+  \226\136\128 P : (Cart[Real, 3]) -> Bool, (\226\136\128 y : Cart[Real, 3], op_dollar(y, 3) == real_of_num(0) \226\134\146 P(y)) == (\226\136\128 x : Cart[Real, 2], P(pad2d3d(x)))
   (\226\136\131 y : _, (P : (_) -> Bool)(y)) == !(\226\136\128 x : _, !P(x))
-  (\226\136\128 P : (Cart[Real, Tybit1[Unit]]) -> Bool, (\226\136\128 y : Cart[Real, Tybit1[Unit]], op_dollar(y, 3) == real_of_num(0) \226\134\146 P(y)) == (\226\136\128 x : Cart[Real, Tybit0[Unit]], P(pad2d3d(x)))) && (\226\136\128 P : (Cart[Real, Tybit1[Unit]]) -> Bool, (\226\136\131 y : Cart[Real, Tybit1[Unit]], op_dollar(y, 3) == real_of_num(0) && P(y)) == (\226\136\131 x : Cart[Real, Tybit0[Unit]], P(pad2d3d(x))))
+  (\226\136\128 P : (Cart[Real, 3]) -> Bool, (\226\136\128 y : Cart[Real, 3], op_dollar(y, 3) == real_of_num(0) \226\134\146 P(y)) == (\226\136\128 x : Cart[Real, 2], P(pad2d3d(x)))) && (\226\136\128 P : (Cart[Real, 3]) -> Bool, (\226\136\131 y : Cart[Real, 3], op_dollar(y, 3) == real_of_num(0) && P(y)) == (\226\136\131 x : Cart[Real, 2], P(pad2d3d(x))))
   (i : Num) < 3 \226\134\146 i <= 2
   linear(pad2d3d)
   (i : Num) <= 2 \226\134\146 i <= 3
   ((i : Num) < 3) == (i <= 2)
-  \226\136\128 x : Cart[Real, Tybit0[Unit]], \226\136\128 y : Cart[Real, Tybit0[Unit]], pad2d3d(x) == pad2d3d(y) \226\134\146 x == y
-  \226\136\128 x : Cart[Real, Tybit0[Unit]], norm(pad2d3d(x)) == norm(x)
+  \226\136\128 x : Cart[Real, 2], \226\136\128 y : Cart[Real, 2], pad2d3d(x) == pad2d3d(y) \226\134\146 x == y
+  \226\136\128 x : Cart[Real, 2], norm(pad2d3d(x)) == norm(x)
   :real^2
   pad2d3d
   {} == IMAGE(pad2d3d, {}) && vec(0) == pad2d3d(vec(0))
@@ -49815,7 +49815,7 @@ Multivariate/wlog quotations (81):
   1 < 2 && 1 < 3
   ((k : Num) <= 2) == (k == 2 || !(1 < k))
   ((k : Num) <= 3) == (k == 3 || k <= 2)
-  (\226\136\128 k : Num, 1 < k && k <= (dimindex : ((Tybit0[Unit]) -> Bool) -> Num)((UNIV : (Tybit0[Unit]) -> Bool)) \226\134\146 (op_dollar : (Cart[Real, _], Num) -> Real)((b : Cart[Real, _]), k) == real_of_num(0)) == ((op_dollar : (Cart[Real, _], Num) -> Real)(b, 2) == real_of_num(0)) && (\226\136\128 k : Num, 1 < k && k <= (dimindex : ((Tybit1[Unit]) -> Bool) -> Num)((UNIV : (Tybit1[Unit]) -> Bool)) \226\134\146 (op_dollar : (Cart[Real, _], Num) -> Real)(b, k) == real_of_num(0)) == ((op_dollar : (Cart[Real, _], Num) -> Real)(b, 2) == real_of_num(0) && (op_dollar : (Cart[Real, _], Num) -> Real)(b, 3) == real_of_num(0))
+  (\226\136\128 k : Num, 1 < k && k <= (dimindex : ((2) -> Bool) -> Num)((UNIV : (2) -> Bool)) \226\134\146 (op_dollar : (Cart[Real, _], Num) -> Real)((b : Cart[Real, _]), k) == real_of_num(0)) == ((op_dollar : (Cart[Real, _], Num) -> Real)(b, 2) == real_of_num(0)) && (\226\136\128 k : Num, 1 < k && k <= (dimindex : ((3) -> Bool) -> Num)((UNIV : (3) -> Bool)) \226\134\146 (op_dollar : (Cart[Real, _], Num) -> Real)(b, k) == real_of_num(0)) == ((op_dollar : (Cart[Real, _], Num) -> Real)(b, 2) == real_of_num(0) && (op_dollar : (Cart[Real, _], Num) -> Real)(b, 3) == real_of_num(0))
 plane =  |- (#forall:fun(fun(fun(cart(real,'?1),bool),bool),bool) (\x:fun(cart(real,'?1),bool). ((#=:fun(bool,fun(bool,bool)) (#plane:fun(fun(cart(real,'?1),bool),bool) x:fun(cart(real,'?1),bool))) (#?:fun(fun(cart(real,'?1),bool),bool) (\u:cart(real,'?1). (#?:fun(fun(cart(real,'?1),bool),bool) (\v:cart(real,'?1). (#?:fun(fun(cart(real,'?1),bool),bool) (\w:cart(real,'?1). ((#/\:fun(bool,fun(bool,bool)) (#~:fun(bool,bool) (#collinear:fun(fun(cart(real,'?1),bool),bool) ((#INSERT:fun(cart(real,'?1),fun(fun(cart(real,'?1),bool),fun(cart(real,'?1),bool))) u:cart(real,'?1)) ((#INSERT:fun(cart(real,'?1),fun(fun(cart(real,'?1),bool),fun(cart(real,'?1),bool))) v:cart(real,'?1)) ((#INSERT:fun(cart(real,'?1),fun(fun(cart(real,'?1),bool),fun(cart(real,'?1),bool))) w:cart(real,'?1)) #EMPTY:fun(cart(real,'?1),bool))))))) ((#=:fun(fun(cart(real,'?1),bool),fun(fun(cart(real,'?1),bool),bool)) x:fun(cart(real,'?1),bool)) ((#hull:fun(fun(fun(cart(real,'?1),bool),bool),fun(fun(cart(real,'?1),bool),fun(cart(real,'?1),bool))) #affine:fun(fun(cart(real,'?1),bool),bool)) ((#INSERT:fun(cart(real,'?1),fun(fun(cart(real,'?1),bool),fun(cart(real,'?1),bool))) u:cart(real,'?1)) ((#INSERT:fun(cart(real,'?1),fun(fun(cart(real,'?1),bool),fun(cart(real,'?1),bool))) v:cart(real,'?1)) ((#INSERT:fun(cart(real,'?1),fun(fun(cart(real,'?1),bool),fun(cart(real,'?1),bool))) w:cart(real,'?1)) #EMPTY:fun(cart(real,'?1),bool))))))))))))))))
 PLANE_TRANSLATION_EQ =  |- (#forall:fun(fun(cart(real,'N),bool),bool) (\a:cart(real,'N). (#forall:fun(fun(fun(cart(real,'N),bool),bool),bool) (\s:fun(cart(real,'N),bool). ((#=:fun(bool,fun(bool,bool)) (#plane:fun(fun(cart(real,'N),bool),bool) ((#IMAGE:fun(fun(cart(real,'N),cart(real,'N)),fun(fun(cart(real,'N),bool),fun(cart(real,'N),bool))) (\x:cart(real,'N). ((#vector_add:fun(cart(real,'N),fun(cart(real,'N),cart(real,'N))) a:cart(real,'N)) x:cart(real,'N)))) s:fun(cart(real,'N),bool)))) (#plane:fun(fun(cart(real,'N),bool),bool) s:fun(cart(real,'N),bool)))))))
 PLANE_TRANSLATION =  |- (#forall:fun(fun(cart(real,'N),bool),bool) (\a:cart(real,'N). (#forall:fun(fun(fun(cart(real,'N),bool),bool),bool) (\s:fun(cart(real,'N),bool). ((#==>:fun(bool,fun(bool,bool)) (#plane:fun(fun(cart(real,'N),bool),bool) s:fun(cart(real,'N),bool))) (#plane:fun(fun(cart(real,'N),bool),bool) ((#IMAGE:fun(fun(cart(real,'N),cart(real,'N)),fun(fun(cart(real,'N),bool),fun(cart(real,'N),bool))) (\x:cart(real,'N). ((#vector_add:fun(cart(real,'N),fun(cart(real,'N),cart(real,'N))) a:cart(real,'N)) x:cart(real,'N)))) s:fun(cart(real,'N),bool))))))))

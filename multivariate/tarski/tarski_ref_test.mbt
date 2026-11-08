@@ -49796,7 +49796,7 @@ test "Multivariate/tarski matches Multivariate/tarski.ml" {
       #|0..0..4..20..solved at 24
       #|0..0..3..19..67..174..solved at 180
       #|Multivariate/tarski quotations (128):
-      #|  \226\136\128 a : Cart[Real, Tybit0[Unit]], \226\136\128 b : Cart[Real, Tybit0[Unit]], distance((a, b)) == distance((b, a))
+      #|  \226\136\128 a : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], distance((a, b)) == distance((b, a))
       #|  :real
       #|  :real
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], \226\136\128 p : Cart[Real, _], \226\136\128 q : Cart[Real, _], \226\136\128 r : Cart[Real, _], \226\136\128 s : Cart[Real, _], distance((a, b)) == distance((p, q)) && distance((a, b)) == distance((r, s)) \226\134\146 distance((p, q)) == distance((r, s))
@@ -49805,10 +49805,10 @@ test "Multivariate/tarski matches Multivariate/tarski.ml" {
       #|  :real
       #|  (a : Real) == real_of_num(1) + (b : Real) \226\134\146 a * (q : Real) == q + b * q
       #|  (q : Cart[Real, _]) - -op_pct((a : Real), q) == op_pct(real_of_num(1) + a, q)
-      #|  -op_pct(distance(((b : Cart[Real, Tybit0[Unit]]), (c : Cart[Real, Tybit0[Unit]]))) / norm((q : Cart[Real, Tybit0[Unit]])), q)
-      #|  (q : Cart[Real, Tybit0[Unit]]) == vec(0)
-      #|  (a : Cart[Real, Tybit0[Unit]])
-      #|  \226\136\128 a : Cart[Real, Tybit0[Unit]], \226\136\128 q : Cart[Real, Tybit0[Unit]], \226\136\128 b : Cart[Real, Tybit0[Unit]], \226\136\128 c : Cart[Real, Tybit0[Unit]], \226\136\131 x : Cart[Real, Tybit0[Unit]], between(a, (q, x)) && distance((a, x)) == distance((b, c))
+      #|  -op_pct(distance(((b : Cart[Real, 2]), (c : Cart[Real, 2]))) / norm((q : Cart[Real, 2])), q)
+      #|  (q : Cart[Real, 2]) == vec(0)
+      #|  (a : Cart[Real, 2])
+      #|  \226\136\128 a : Cart[Real, 2], \226\136\128 q : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], \226\136\128 c : Cart[Real, 2], \226\136\131 x : Cart[Real, 2], between(a, (q, x)) && distance((a, x)) == distance((b, c))
       #|  distance(((b : Cart[Real, N]), b + (x : Cart[Real, N]))) == norm(x)
       #|  :real
       #|  :real
@@ -49821,34 +49821,34 @@ test "Multivariate/tarski matches Multivariate/tarski.ml" {
       #|  distance(((a : Cart[Real, N]) + (x : Cart[Real, N]), a + (y : Cart[Real, N]))) == distance((x, y))
       #|  :real
       #|  :real
-      #|  (k : Cart[Real, Tybit0[Unit]]) + (f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((b : Cart[Real, Tybit0[Unit]]))
-      #|  (k : Cart[Real, Tybit0[Unit]]) + (f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((a : Cart[Real, Tybit0[Unit]]))
-      #|  (x' : Cart[Real, Tybit0[Unit]]) == (k : Cart[Real, Tybit0[Unit]]) + (f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((x : Cart[Real, Tybit0[Unit]]))
-      #|  (f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-      #|  (k : Cart[Real, Tybit0[Unit]])
-      #|  (c' : Cart[Real, Tybit0[Unit]])
-      #|  (b' : Cart[Real, Tybit0[Unit]])
-      #|  (a' : Cart[Real, Tybit0[Unit]])
-      #|  (c : Cart[Real, Tybit0[Unit]])
-      #|  (b : Cart[Real, Tybit0[Unit]])
-      #|  (a : Cart[Real, Tybit0[Unit]])
-      #|  \226\136\128 a : Cart[Real, Tybit0[Unit]], \226\136\128 b : Cart[Real, Tybit0[Unit]], \226\136\128 c : Cart[Real, Tybit0[Unit]], \226\136\128 x : Cart[Real, Tybit0[Unit]], \226\136\128 a' : Cart[Real, Tybit0[Unit]], \226\136\128 b' : Cart[Real, Tybit0[Unit]], \226\136\128 c' : Cart[Real, Tybit0[Unit]], \226\136\128 x' : Cart[Real, Tybit0[Unit]], !(a == b) && distance((a, b)) == distance((a', b')) && distance((a, c)) == distance((a', c')) && distance((b, c)) == distance((b', c')) && between(b, (a, x)) && between(b', (a', x')) && distance((b, x)) == distance((b', x')) \226\134\146 distance((c, x)) == distance((c', x'))
+      #|  (k : Cart[Real, 2]) + (f : (Cart[Real, 2]) -> Cart[Real, 2])((b : Cart[Real, 2]))
+      #|  (k : Cart[Real, 2]) + (f : (Cart[Real, 2]) -> Cart[Real, 2])((a : Cart[Real, 2]))
+      #|  (x' : Cart[Real, 2]) == (k : Cart[Real, 2]) + (f : (Cart[Real, 2]) -> Cart[Real, 2])((x : Cart[Real, 2]))
+      #|  (f : (Cart[Real, 2]) -> Cart[Real, 2])
+      #|  (k : Cart[Real, 2])
+      #|  (c' : Cart[Real, 2])
+      #|  (b' : Cart[Real, 2])
+      #|  (a' : Cart[Real, 2])
+      #|  (c : Cart[Real, 2])
+      #|  (b : Cart[Real, 2])
+      #|  (a : Cart[Real, 2])
+      #|  \226\136\128 a : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], \226\136\128 c : Cart[Real, 2], \226\136\128 x : Cart[Real, 2], \226\136\128 a' : Cart[Real, 2], \226\136\128 b' : Cart[Real, 2], \226\136\128 c' : Cart[Real, 2], \226\136\128 x' : Cart[Real, 2], !(a == b) && distance((a, b)) == distance((a', b')) && distance((a, c)) == distance((a', c')) && distance((b, c)) == distance((b', c')) && between(b, (a, x)) && between(b', (a', x')) && distance((b, x)) == distance((b', x')) \226\134\146 distance((c, x)) == distance((c', x'))
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], between(b, (a, a)) \226\134\146 a == b
       #|  real_of_num(0) <= (real_of_num(1) - (d : Real)) * (real_of_num(1) + (e : Real)) && real_of_num(0) <= d * e
       #|  (real_of_num(1) - (d : Real) + ((e : Real) - d * e)) / (real_of_num(1) - d + e)
       #|  real_of_num(0) < real_of_num(1) - (d : Real) + (e : Real)
       #|  (e : Real) / (real_of_num(1) - (d : Real) + e)
-      #|  (op_pct : (Real, Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((real_of_num(1) - (d : Real) + ((e : Real) - d * e)) / (real_of_num(1) - d + e), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(1))
+      #|  (op_pct : (Real, Cart[Real, 2]) -> Cart[Real, 2])((real_of_num(1) - (d : Real) + ((e : Real) - d * e)) / (real_of_num(1) - d + e), (basis : (Num) -> Cart[Real, 2])(1))
       #|  (d : Real) == real_of_num(1) && (e : Real) == real_of_num(0)
       #|  real_of_num(0) < real_of_num(1) - (d : Real) + (e : Real)
       #|  (e : Real)
       #|  (d : Real)
-      #|  (q : Cart[Real, Tybit0[Unit]])
-      #|  (q : Cart[Real, Tybit0[Unit]])
-      #|  (a : Cart[Real, Tybit0[Unit]])
-      #|  (p : Cart[Real, Tybit0[Unit]]) == (a : Cart[Real, Tybit0[Unit]]) && (b : Cart[Real, Tybit0[Unit]]) == (q : Cart[Real, Tybit0[Unit]])
-      #|  (q : Cart[Real, Tybit0[Unit]]) == (c : Cart[Real, Tybit0[Unit]])
-      #|  \226\136\128 a : Cart[Real, Tybit0[Unit]], \226\136\128 b : Cart[Real, Tybit0[Unit]], \226\136\128 c : Cart[Real, Tybit0[Unit]], \226\136\128 p : Cart[Real, Tybit0[Unit]], \226\136\128 q : Cart[Real, Tybit0[Unit]], between(p, (a, c)) && between(q, (b, c)) \226\134\146 (\226\136\131 x : Cart[Real, Tybit0[Unit]], between(x, (p, b)) && between(x, (q, a)))
+      #|  (q : Cart[Real, 2])
+      #|  (q : Cart[Real, 2])
+      #|  (a : Cart[Real, 2])
+      #|  (p : Cart[Real, 2]) == (a : Cart[Real, 2]) && (b : Cart[Real, 2]) == (q : Cart[Real, 2])
+      #|  (q : Cart[Real, 2]) == (c : Cart[Real, 2])
+      #|  \226\136\128 a : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], \226\136\128 c : Cart[Real, 2], \226\136\128 p : Cart[Real, 2], \226\136\128 q : Cart[Real, 2], between(p, (a, c)) && between(q, (b, c)) \226\134\146 (\226\136\131 x : Cart[Real, 2], between(x, (p, b)) && between(x, (q, a)))
       #|  :real
       #|  :real
       #|  :real
@@ -49871,16 +49871,16 @@ test "Multivariate/tarski matches Multivariate/tarski.ml" {
       #|  :real
       #|  :real
       #|  :real
-      #|  (basis : (Num) -> Cart[Real, Tybit0[Unit]])(2)
-      #|  (basis : (Num) -> Cart[Real, Tybit0[Unit]])(1)
-      #|  (vec : (Num) -> Cart[Real, Tybit0[Unit]])(0)
-      #|  \226\136\131 a : Cart[Real, Tybit0[Unit]], \226\136\131 b : Cart[Real, Tybit0[Unit]], \226\136\131 c : Cart[Real, Tybit0[Unit]], !between(b, (a, c)) && !between(c, (b, a)) && !between(a, (c, b))
+      #|  (basis : (Num) -> Cart[Real, 2])(2)
+      #|  (basis : (Num) -> Cart[Real, 2])(1)
+      #|  (vec : (Num) -> Cart[Real, 2])(0)
+      #|  \226\136\131 a : Cart[Real, 2], \226\136\131 b : Cart[Real, 2], \226\136\131 c : Cart[Real, 2], !between(b, (a, c)) && !between(c, (b, a)) && !between(a, (c, b))
       #|  !((x : Real) == real_of_num(0)) == !(pow(x, 2) == real_of_num(0))
       #|  !((p : Cart[Real, _]) == (q : Cart[Real, _])) == !(norm(p - q) == real_of_num(0))
       #|  :real
       #|  :real
       #|  :real
-      #|  \226\136\128 p : Cart[Real, Tybit0[Unit]], \226\136\128 q : Cart[Real, Tybit0[Unit]], \226\136\128 a : Cart[Real, Tybit0[Unit]], \226\136\128 b : Cart[Real, Tybit0[Unit]], \226\136\128 c : Cart[Real, Tybit0[Unit]], !(p == q) && distance((a, p)) == distance((a, q)) && distance((b, p)) == distance((b, q)) && distance((c, p)) == distance((c, q)) \226\134\146 between(b, (a, c)) || between(c, (b, a)) || between(a, (c, b))
+      #|  \226\136\128 p : Cart[Real, 2], \226\136\128 q : Cart[Real, 2], \226\136\128 a : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], \226\136\128 c : Cart[Real, 2], !(p == q) && distance((a, p)) == distance((a, q)) && distance((b, p)) == distance((b, q)) && distance((c, p)) == distance((c, q)) \226\134\146 between(b, (a, c)) || between(c, (b, a)) || between(a, (c, b))
       #|  (b : Cart[Real, N]) - op_pct(real_of_num(1) + (u : Real), b) == -op_pct(u, b)
       #|  op_pct(real_of_num(1) + (u : Real), (c : Cart[Real, N]))
       #|  op_pct(real_of_num(1) + (u : Real), (b : Cart[Real, N]))
@@ -49904,26 +49904,26 @@ test "Multivariate/tarski matches Multivariate/tarski.ml" {
       #|  inv((u : Real)) * (d : Real)
       #|  (u : Real) == real_of_num(0)
       #|  (u : Real)
-      #|  (y : Cart[Real, Tybit0[Unit]])
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  (y : Cart[Real, Tybit0[Unit]])
-      #|  !((z : Cart[Real, Tybit0[Unit]]) == vec(0))
+      #|  (y : Cart[Real, 2])
+      #|  (z : Cart[Real, 2])
+      #|  (y : Cart[Real, 2])
+      #|  !((z : Cart[Real, 2]) == vec(0))
       #|  (d : Real)
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  (op_pct : (Real, Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((c : Real), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(1))
-      #|  (x : Cart[Real, Tybit0[Unit]])
-      #|  (x : Cart[Real, Tybit0[Unit]])
+      #|  (z : Cart[Real, 2])
+      #|  (op_pct : (Real, Cart[Real, 2]) -> Cart[Real, 2])((c : Real), (basis : (Num) -> Cart[Real, 2])(1))
+      #|  (x : Cart[Real, 2])
+      #|  (x : Cart[Real, 2])
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
-      #|  SUBSET((X : (Cart[Real, Tybit0[Unit]]) -> Bool), IMAGE((c : Real) => op_pct(c, basis(1)), {(c : Real) | real_of_num(0) <= c})) && SUBSET((Y : (Cart[Real, Tybit0[Unit]]) -> Bool), IMAGE((c : Real) => op_pct(c, basis(1)), {(c : Real) | real_of_num(0) <= c}))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  SUBSET((X : (Cart[Real, 2]) -> Bool), IMAGE((c : Real) => op_pct(c, basis(1)), {(c : Real) | real_of_num(0) <= c})) && SUBSET((Y : (Cart[Real, 2]) -> Bool), IMAGE((c : Real) => op_pct(c, basis(1)), {(c : Real) | real_of_num(0) <= c}))
+      #|  (z : Cart[Real, 2])
       #|  (c : Real)
-      #|  (c : Cart[Real, Tybit0[Unit]])
-      #|  \226\136\131 c : Cart[Real, Tybit0[Unit]], IN(c, (Y : (Cart[Real, Tybit0[Unit]]) -> Bool))
-      #|  (Y : (Cart[Real, Tybit0[Unit]]) -> Bool) == {}
-      #|  \226\136\128 x : Cart[Real, Tybit0[Unit]], IN(x, (X : (Cart[Real, Tybit0[Unit]]) -> Bool)) \226\134\146 x == vec(0)
-      #|  (a : Cart[Real, Tybit0[Unit]])
-      #|  \226\136\128 X : (Cart[Real, Tybit0[Unit]]) -> Bool, \226\136\128 Y : (Cart[Real, Tybit0[Unit]]) -> Bool, (\226\136\131 a : Cart[Real, Tybit0[Unit]], \226\136\128 x : Cart[Real, Tybit0[Unit]], \226\136\128 y : Cart[Real, Tybit0[Unit]], IN(x, X) && IN(y, Y) \226\134\146 between(x, (a, y))) \226\134\146 (\226\136\131 b : Cart[Real, Tybit0[Unit]], \226\136\128 x : Cart[Real, Tybit0[Unit]], \226\136\128 y : Cart[Real, Tybit0[Unit]], IN(x, X) && IN(y, Y) \226\134\146 between(b, (x, y)))
-      #|  (op_pct : (Real, Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(sup((s : (Real) -> Bool)), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(1))
+      #|  (c : Cart[Real, 2])
+      #|  \226\136\131 c : Cart[Real, 2], IN(c, (Y : (Cart[Real, 2]) -> Bool))
+      #|  (Y : (Cart[Real, 2]) -> Bool) == {}
+      #|  \226\136\128 x : Cart[Real, 2], IN(x, (X : (Cart[Real, 2]) -> Bool)) \226\134\146 x == vec(0)
+      #|  (a : Cart[Real, 2])
+      #|  \226\136\128 X : (Cart[Real, 2]) -> Bool, \226\136\128 Y : (Cart[Real, 2]) -> Bool, (\226\136\131 a : Cart[Real, 2], \226\136\128 x : Cart[Real, 2], \226\136\128 y : Cart[Real, 2], IN(x, X) && IN(y, Y) \226\134\146 between(x, (a, y))) \226\134\146 (\226\136\131 b : Cart[Real, 2], \226\136\128 x : Cart[Real, 2], \226\136\128 y : Cart[Real, 2], IN(x, X) && IN(y, Y) \226\134\146 between(b, (x, y)))
+      #|  (op_pct : (Real, Cart[Real, 2]) -> Cart[Real, 2])(sup((s : (Real) -> Bool)), (basis : (Num) -> Cart[Real, 2])(1))
       #|TARSKI_AXIOM_1_EUCLIDEAN =  |- (#forall:fun(fun(cart(real,tybit0(1)),bool),bool) (\a:cart(real,tybit0(1)). (#forall:fun(fun(cart(real,tybit0(1)),bool),bool) (\b:cart(real,tybit0(1)). ((#=:fun(real,fun(real,bool)) (#distance:fun(prod(cart(real,tybit0(1)),cart(real,tybit0(1))),real) ((#,:fun(cart(real,tybit0(1)),fun(cart(real,tybit0(1)),prod(cart(real,tybit0(1)),cart(real,tybit0(1))))) a:cart(real,tybit0(1))) b:cart(real,tybit0(1))))) (#distance:fun(prod(cart(real,tybit0(1)),cart(real,tybit0(1))),real) ((#,:fun(cart(real,tybit0(1)),fun(cart(real,tybit0(1)),prod(cart(real,tybit0(1)),cart(real,tybit0(1))))) b:cart(real,tybit0(1))) a:cart(real,tybit0(1)))))))))
       #|TARSKI_AXIOM_2_EUCLIDEAN =  |- (#forall:fun(fun(cart(real,'?1),bool),bool) (\a:cart(real,'?1). (#forall:fun(fun(cart(real,'?1),bool),bool) (\b:cart(real,'?1). (#forall:fun(fun(cart(real,'?2),bool),bool) (\p:cart(real,'?2). (#forall:fun(fun(cart(real,'?2),bool),bool) (\q:cart(real,'?2). (#forall:fun(fun(cart(real,'?3),bool),bool) (\r:cart(real,'?3). (#forall:fun(fun(cart(real,'?3),bool),bool) (\s:cart(real,'?3). ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) ((#=:fun(real,fun(real,bool)) (#distance:fun(prod(cart(real,'?1),cart(real,'?1)),real) ((#,:fun(cart(real,'?1),fun(cart(real,'?1),prod(cart(real,'?1),cart(real,'?1)))) a:cart(real,'?1)) b:cart(real,'?1)))) (#distance:fun(prod(cart(real,'?2),cart(real,'?2)),real) ((#,:fun(cart(real,'?2),fun(cart(real,'?2),prod(cart(real,'?2),cart(real,'?2)))) p:cart(real,'?2)) q:cart(real,'?2))))) ((#=:fun(real,fun(real,bool)) (#distance:fun(prod(cart(real,'?1),cart(real,'?1)),real) ((#,:fun(cart(real,'?1),fun(cart(real,'?1),prod(cart(real,'?1),cart(real,'?1)))) a:cart(real,'?1)) b:cart(real,'?1)))) (#distance:fun(prod(cart(real,'?3),cart(real,'?3)),real) ((#,:fun(cart(real,'?3),fun(cart(real,'?3),prod(cart(real,'?3),cart(real,'?3)))) r:cart(real,'?3)) s:cart(real,'?3)))))) ((#=:fun(real,fun(real,bool)) (#distance:fun(prod(cart(real,'?2),cart(real,'?2)),real) ((#,:fun(cart(real,'?2),fun(cart(real,'?2),prod(cart(real,'?2),cart(real,'?2)))) p:cart(real,'?2)) q:cart(real,'?2)))) (#distance:fun(prod(cart(real,'?3),cart(real,'?3)),real) ((#,:fun(cart(real,'?3),fun(cart(real,'?3),prod(cart(real,'?3),cart(real,'?3)))) r:cart(real,'?3)) s:cart(real,'?3)))))))))))))))))
       #|TARSKI_AXIOM_3_EUCLIDEAN =  |- (#forall:fun(fun(cart(real,'?4),bool),bool) (\a:cart(real,'?4). (#forall:fun(fun(cart(real,'?4),bool),bool) (\b:cart(real,'?4). (#forall:fun(fun(cart(real,'?5),bool),bool) (\c:cart(real,'?5). ((#==>:fun(bool,fun(bool,bool)) ((#=:fun(real,fun(real,bool)) (#distance:fun(prod(cart(real,'?4),cart(real,'?4)),real) ((#,:fun(cart(real,'?4),fun(cart(real,'?4),prod(cart(real,'?4),cart(real,'?4)))) a:cart(real,'?4)) b:cart(real,'?4)))) (#distance:fun(prod(cart(real,'?5),cart(real,'?5)),real) ((#,:fun(cart(real,'?5),fun(cart(real,'?5),prod(cart(real,'?5),cart(real,'?5)))) c:cart(real,'?5)) c:cart(real,'?5))))) ((#=:fun(cart(real,'?4),fun(cart(real,'?4),bool)) a:cart(real,'?4)) b:cart(real,'?4)))))))))

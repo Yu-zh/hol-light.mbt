@@ -136,7 +136,7 @@ pub fn hol_of_value(x : (Int64, Int64)) -> @kernel.Term raise {
 ///|
 /// hol_of_point
 fn step_6() -> Unit raise {
-  let ptm = @term_syntax.parse_term("(vector : (List[Real]) -> Cart[Real, Tybit1[Unit]])")
+  let ptm = @term_syntax.parse_term("(vector : (List[Real]) -> Cart[Real, 3])")
   hol_of_point_c.set(fn(x23 : ((Int64, Int64), (Int64, Int64), (Int64, Int64))) -> @kernel.Term raise {
     let (x, y, z) = x23
     @kernel.mk_comb(ptm, @lists.mk_flist(@lib.map(hol_of_value, @list.List([x, y, z]))))
@@ -171,8 +171,8 @@ pub fn sqrt_2_pow() -> @kernel.Thm {
 ///|
 /// PROVE_NONTRIVIAL
 fn step_8() -> Unit raise {
-  let ptm = @term_syntax.parse_term("!((x : Cart[Real, Tybit1[Unit]]) == vec(0))")
-  let xtm = @term_syntax.parse_term("(x : Cart[Real, Tybit1[Unit]])")
+  let ptm = @term_syntax.parse_term("!((x : Cart[Real, 3]) == vec(0))")
+  let xtm = @term_syntax.parse_term("(x : Cart[Real, 3])")
   prove_nontrivial_c.set(fn(x25 : ((Int64, Int64), (Int64, Int64), (Int64, Int64))) -> @kernel.Thm raise {
     let x = x25
     let t30 = @tactics.conv_tac(@calc_rat.real_ring)
@@ -199,7 +199,7 @@ pub fn prove_nontrivial(x : ((Int64, Int64), (Int64, Int64), (Int64, Int64))) ->
 ///|
 /// PROVE_ORTHOGONAL
 fn step_9() -> Unit raise {
-  let ptm = @term_syntax.parse_term("(orthogonal : (Cart[Real, Tybit1[Unit]], Cart[Real, Tybit1[Unit]]) -> Bool)")
+  let ptm = @term_syntax.parse_term("(orthogonal : (Cart[Real, 3], Cart[Real, 3]) -> Bool)")
   prove_orthogonal_c.set(fn(x32 : (((Int64, Int64), (Int64, Int64), (Int64, Int64)), ((Int64, Int64), (Int64, Int64), (Int64, Int64)))) -> @kernel.Thm raise {
     let (x, y) = x32
     let t35 = @tactics.conv_tac(@calc_rat.real_ring)
@@ -222,7 +222,7 @@ pub fn prove_orthogonal(x : (((Int64, Int64), (Int64, Int64), (Int64, Int64)), (
 ///|
 /// ppoint
 fn step_10() -> Unit raise {
-  let p = @term_syntax.parse_term("(P : (Cart[Real, Tybit1[Unit]]) -> Bool)")
+  let p = @term_syntax.parse_term("(P : (Cart[Real, 3]) -> Bool)")
   ppoint_c.set(fn(x37 : ((Int64, Int64), (Int64, Int64), (Int64, Int64))) -> @kernel.Term raise {
     let v = x37
     @kernel.mk_comb(p, hol_of_point(v))
@@ -336,7 +336,7 @@ fn step_11() -> Unit raise {
     })(prove_nontrivial(x66))
   }, points())
   let t74 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t67), t72), t73)
-  kochen_specker_lemma_c.set(@tactics.prove(@term_syntax.parse_term("∀ P : (Cart[Real, Tybit1[Unit]]) -> Bool, (∀ x : Cart[Real, Tybit1[Unit]], ∀ y : Cart[Real, Tybit1[Unit]], !(x == vec(0)) && !(y == vec(0)) && orthogonal(x, y) && !P(x) → P(y)) && (∀ x : Cart[Real, Tybit1[Unit]], ∀ y : Cart[Real, Tybit1[Unit]], ∀ z : Cart[Real, Tybit1[Unit]], !(x == vec(0)) && !(y == vec(0)) && !(z == vec(0)) && orthogonal(x, y) && orthogonal(x, z) && orthogonal(y, z) && P(x) && P(y) → !P(z)) → false"), t74))
+  kochen_specker_lemma_c.set(@tactics.prove(@term_syntax.parse_term("∀ P : (Cart[Real, 3]) -> Bool, (∀ x : Cart[Real, 3], ∀ y : Cart[Real, 3], !(x == vec(0)) && !(y == vec(0)) && orthogonal(x, y) && !P(x) → P(y)) && (∀ x : Cart[Real, 3], ∀ y : Cart[Real, 3], ∀ z : Cart[Real, 3], !(x == vec(0)) && !(y == vec(0)) && !(z == vec(0)) && orthogonal(x, y) && orthogonal(x, z) && orthogonal(y, z) && P(x) && P(y) → !P(z)) → false"), t74))
 }
 
 ///|
@@ -352,7 +352,7 @@ pub fn kochen_specker_lemma() -> @kernel.Thm {
 /// NONTRIVIAL_CROSS
 fn step_12() -> Unit raise {
   let t75 = @tactics.then_tac(@simp.rewrite_tac(@list.List([@equal.gsym(@vectors.dot_eq_0())])), @Vectors.vec3_tac)
-  nontrivial_cross_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, Tybit1[Unit]], ∀ y : Cart[Real, Tybit1[Unit]], orthogonal(x, y) && !(x == vec(0)) && !(y == vec(0)) → !(cross(x, y) == vec(0))"), t75))
+  nontrivial_cross_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, 3], ∀ y : Cart[Real, 3], orthogonal(x, y) && !(x == vec(0)) && !(y == vec(0)) → !(cross(x, y) == vec(0))"), t75))
 }
 
 ///|
@@ -380,9 +380,9 @@ fn step_13() -> Unit raise {
     }
   })
   let t77 = @simp.asm_rewrite_tac(@list.List([]))
-  let t76 = @tactics.mp_tac(@bool.spec(@term_syntax.parse_term("(x : Cart[Real, Tybit1[Unit]]) => (spin : (Cart[Real, Tybit1[Unit]]) -> Num)(x) == 1"), kochen_specker_lemma()))
+  let t76 = @tactics.mp_tac(@bool.spec(@term_syntax.parse_term("(x : Cart[Real, 3]) => (spin : (Cart[Real, 3]) -> Num)(x) == 1"), kochen_specker_lemma()))
   let t87 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t76), t77), @tactics.conj_tac), t81), t82), t85), t86)
-  kochen_specker_paradox_c.set(@tactics.prove(@term_syntax.parse_term("!(∃ spin : (Cart[Real, Tybit1[Unit]]) -> Num, ∀ x : Cart[Real, Tybit1[Unit]], ∀ y : Cart[Real, Tybit1[Unit]], ∀ z : Cart[Real, Tybit1[Unit]], !(x == vec(0)) && !(y == vec(0)) && !(z == vec(0)) && orthogonal(x, y) && orthogonal(x, z) && orthogonal(y, z) → spin(x) == 0 && spin(y) == 1 && spin(z) == 1 || spin(x) == 1 && spin(y) == 0 && spin(z) == 1 || spin(x) == 1 && spin(y) == 1 && spin(z) == 0)"), t87))
+  kochen_specker_paradox_c.set(@tactics.prove(@term_syntax.parse_term("!(∃ spin : (Cart[Real, 3]) -> Num, ∀ x : Cart[Real, 3], ∀ y : Cart[Real, 3], ∀ z : Cart[Real, 3], !(x == vec(0)) && !(y == vec(0)) && !(z == vec(0)) && orthogonal(x, y) && orthogonal(x, z) && orthogonal(y, z) → spin(x) == 0 && spin(y) == 1 && spin(z) == 1 || spin(x) == 1 && spin(y) == 0 && spin(z) == 1 || spin(x) == 1 && spin(y) == 1 && spin(z) == 0)"), t87))
 }
 
 ///|

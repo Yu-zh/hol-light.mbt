@@ -418,7 +418,7 @@ pub fn measure_interval_1_alt() -> @kernel.Thm {
 fn step_26() -> Unit raise {
   let t57 = @simp.rewrite_tac(@list.List([@cart.dimindex_2(), @vectors.forall_2(), @determinants.product_2()]))
   let t58 = @tactics.then_tac(@simp.rewrite_tac(@list.List([measure_interval(), @integration.content_closed_interval_cases()])), t57)
-  measure_interval_2_c.set(@tactics.prove(@term_syntax.parse_term("(∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], measure(interval([(a, b)])) == (if op_dollar(a, 1) <= op_dollar(b, 1) && op_dollar(a, 2) <= op_dollar(b, 2) { (op_dollar(b, 1) - op_dollar(a, 1)) * (op_dollar(b, 2) - op_dollar(a, 2)) } else { real_of_num(0) })) && (∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], measure(interval((a, b))) == (if op_dollar(a, 1) <= op_dollar(b, 1) && op_dollar(a, 2) <= op_dollar(b, 2) { (op_dollar(b, 1) - op_dollar(a, 1)) * (op_dollar(b, 2) - op_dollar(a, 2)) } else { real_of_num(0) }))"), t58))
+  measure_interval_2_c.set(@tactics.prove(@term_syntax.parse_term("(∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], measure(interval([(a, b)])) == (if op_dollar(a, 1) <= op_dollar(b, 1) && op_dollar(a, 2) <= op_dollar(b, 2) { (op_dollar(b, 1) - op_dollar(a, 1)) * (op_dollar(b, 2) - op_dollar(a, 2)) } else { real_of_num(0) })) && (∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], measure(interval((a, b))) == (if op_dollar(a, 1) <= op_dollar(b, 1) && op_dollar(a, 2) <= op_dollar(b, 2) { (op_dollar(b, 1) - op_dollar(a, 1)) * (op_dollar(b, 2) - op_dollar(a, 2)) } else { real_of_num(0) }))"), t58))
 }
 
 ///|
@@ -435,11 +435,11 @@ pub fn measure_interval_2() -> @kernel.Thm {
 fn step_27() -> Unit raise {
   let t63 = @simp.asm_rewrite_tac(@list.List([@realarith.real_lt_le()]))
   let t62 = @simp.asm_rewrite_tac(@list.List([@realarith.real_lt_refl(), @calc_int.real_mul_lzero(), @calc_int.real_mul_rzero(), @real.real_sub_refl(), @realax.real_le_refl(), @calc_int.real_abs_num(), @class.cond_id()]))
-  let t60 = @term_syntax.parse_term("op_dollar((a : Cart[Real, Tybit0[Unit]]), 2) == op_dollar((b : Cart[Real, Tybit0[Unit]]), 2)")
-  let t61 = @tactics.map_every(@class.asm_cases_tac, @list.List([@term_syntax.parse_term("op_dollar((a : Cart[Real, Tybit0[Unit]]), 1) == op_dollar((b : Cart[Real, Tybit0[Unit]]), 1)"), t60]))
+  let t60 = @term_syntax.parse_term("op_dollar((a : Cart[Real, 2]), 2) == op_dollar((b : Cart[Real, 2]), 2)")
+  let t61 = @tactics.map_every(@class.asm_cases_tac, @list.List([@term_syntax.parse_term("op_dollar((a : Cart[Real, 2]), 1) == op_dollar((b : Cart[Real, 2]), 1)"), t60]))
   let t59 = @tactics.repeat_tac(@tactics.gen_tac)
   let t64 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([measure_interval_2()])), t59), t61), t62), t63)
-  measure_interval_2_alt_c.set(@tactics.prove(@term_syntax.parse_term("(∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], measure(interval([(a, b)])) == (if op_dollar(a, 1) < op_dollar(b, 1) && op_dollar(a, 2) < op_dollar(b, 2) { (op_dollar(b, 1) - op_dollar(a, 1)) * (op_dollar(b, 2) - op_dollar(a, 2)) } else { real_of_num(0) })) && (∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], measure(interval((a, b))) == (if op_dollar(a, 1) < op_dollar(b, 1) && op_dollar(a, 2) < op_dollar(b, 2) { (op_dollar(b, 1) - op_dollar(a, 1)) * (op_dollar(b, 2) - op_dollar(a, 2)) } else { real_of_num(0) }))"), t64))
+  measure_interval_2_alt_c.set(@tactics.prove(@term_syntax.parse_term("(∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], measure(interval([(a, b)])) == (if op_dollar(a, 1) < op_dollar(b, 1) && op_dollar(a, 2) < op_dollar(b, 2) { (op_dollar(b, 1) - op_dollar(a, 1)) * (op_dollar(b, 2) - op_dollar(a, 2)) } else { real_of_num(0) })) && (∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], measure(interval((a, b))) == (if op_dollar(a, 1) < op_dollar(b, 1) && op_dollar(a, 2) < op_dollar(b, 2) { (op_dollar(b, 1) - op_dollar(a, 1)) * (op_dollar(b, 2) - op_dollar(a, 2)) } else { real_of_num(0) }))"), t64))
 }
 
 ///|
@@ -456,7 +456,7 @@ pub fn measure_interval_2_alt() -> @kernel.Thm {
 fn step_28() -> Unit raise {
   let t65 = @simp.rewrite_tac(@list.List([@cart.dimindex_3(), @vectors.forall_3(), @determinants.product_3()]))
   let t66 = @tactics.then_tac(@simp.rewrite_tac(@list.List([measure_interval(), @integration.content_closed_interval_cases()])), t65)
-  measure_interval_3_c.set(@tactics.prove(@term_syntax.parse_term("(∀ a : Cart[Real, Tybit1[Unit]], ∀ b : Cart[Real, Tybit1[Unit]], measure(interval([(a, b)])) == (if op_dollar(a, 1) <= op_dollar(b, 1) && op_dollar(a, 2) <= op_dollar(b, 2) && op_dollar(a, 3) <= op_dollar(b, 3) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * (op_dollar(b, 3) - op_dollar(a, 3))) } else { real_of_num(0) })) && (∀ a : Cart[Real, Tybit1[Unit]], ∀ b : Cart[Real, Tybit1[Unit]], measure(interval((a, b))) == (if op_dollar(a, 1) <= op_dollar(b, 1) && op_dollar(a, 2) <= op_dollar(b, 2) && op_dollar(a, 3) <= op_dollar(b, 3) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * (op_dollar(b, 3) - op_dollar(a, 3))) } else { real_of_num(0) }))"), t66))
+  measure_interval_3_c.set(@tactics.prove(@term_syntax.parse_term("(∀ a : Cart[Real, 3], ∀ b : Cart[Real, 3], measure(interval([(a, b)])) == (if op_dollar(a, 1) <= op_dollar(b, 1) && op_dollar(a, 2) <= op_dollar(b, 2) && op_dollar(a, 3) <= op_dollar(b, 3) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * (op_dollar(b, 3) - op_dollar(a, 3))) } else { real_of_num(0) })) && (∀ a : Cart[Real, 3], ∀ b : Cart[Real, 3], measure(interval((a, b))) == (if op_dollar(a, 1) <= op_dollar(b, 1) && op_dollar(a, 2) <= op_dollar(b, 2) && op_dollar(a, 3) <= op_dollar(b, 3) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * (op_dollar(b, 3) - op_dollar(a, 3))) } else { real_of_num(0) }))"), t66))
 }
 
 ///|
@@ -473,12 +473,12 @@ pub fn measure_interval_3() -> @kernel.Thm {
 fn step_29() -> Unit raise {
   let t72 = @simp.asm_rewrite_tac(@list.List([@realarith.real_lt_le()]))
   let t71 = @simp.asm_rewrite_tac(@list.List([@realarith.real_lt_refl(), @calc_int.real_mul_lzero(), @calc_int.real_mul_rzero(), @real.real_sub_refl(), @realax.real_le_refl(), @calc_int.real_abs_num(), @class.cond_id()]))
-  let t68 = @term_syntax.parse_term("op_dollar((a : Cart[Real, Tybit1[Unit]]), 3) == op_dollar((b : Cart[Real, Tybit1[Unit]]), 3)")
-  let t69 = @term_syntax.parse_term("op_dollar((a : Cart[Real, Tybit1[Unit]]), 2) == op_dollar((b : Cart[Real, Tybit1[Unit]]), 2)")
-  let t70 = @tactics.map_every(@class.asm_cases_tac, @list.List([@term_syntax.parse_term("op_dollar((a : Cart[Real, Tybit1[Unit]]), 1) == op_dollar((b : Cart[Real, Tybit1[Unit]]), 1)"), t69, t68]))
+  let t68 = @term_syntax.parse_term("op_dollar((a : Cart[Real, 3]), 3) == op_dollar((b : Cart[Real, 3]), 3)")
+  let t69 = @term_syntax.parse_term("op_dollar((a : Cart[Real, 3]), 2) == op_dollar((b : Cart[Real, 3]), 2)")
+  let t70 = @tactics.map_every(@class.asm_cases_tac, @list.List([@term_syntax.parse_term("op_dollar((a : Cart[Real, 3]), 1) == op_dollar((b : Cart[Real, 3]), 1)"), t69, t68]))
   let t67 = @tactics.repeat_tac(@tactics.gen_tac)
   let t73 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([measure_interval_3()])), t67), t70), t71), t72)
-  measure_interval_3_alt_c.set(@tactics.prove(@term_syntax.parse_term("(∀ a : Cart[Real, Tybit1[Unit]], ∀ b : Cart[Real, Tybit1[Unit]], measure(interval([(a, b)])) == (if op_dollar(a, 1) < op_dollar(b, 1) && op_dollar(a, 2) < op_dollar(b, 2) && op_dollar(a, 3) < op_dollar(b, 3) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * (op_dollar(b, 3) - op_dollar(a, 3))) } else { real_of_num(0) })) && (∀ a : Cart[Real, Tybit1[Unit]], ∀ b : Cart[Real, Tybit1[Unit]], measure(interval((a, b))) == (if op_dollar(a, 1) < op_dollar(b, 1) && op_dollar(a, 2) < op_dollar(b, 2) && op_dollar(a, 3) < op_dollar(b, 3) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * (op_dollar(b, 3) - op_dollar(a, 3))) } else { real_of_num(0) }))"), t73))
+  measure_interval_3_alt_c.set(@tactics.prove(@term_syntax.parse_term("(∀ a : Cart[Real, 3], ∀ b : Cart[Real, 3], measure(interval([(a, b)])) == (if op_dollar(a, 1) < op_dollar(b, 1) && op_dollar(a, 2) < op_dollar(b, 2) && op_dollar(a, 3) < op_dollar(b, 3) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * (op_dollar(b, 3) - op_dollar(a, 3))) } else { real_of_num(0) })) && (∀ a : Cart[Real, 3], ∀ b : Cart[Real, 3], measure(interval((a, b))) == (if op_dollar(a, 1) < op_dollar(b, 1) && op_dollar(a, 2) < op_dollar(b, 2) && op_dollar(a, 3) < op_dollar(b, 3) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * (op_dollar(b, 3) - op_dollar(a, 3))) } else { real_of_num(0) }))"), t73))
 }
 
 ///|
@@ -495,7 +495,7 @@ pub fn measure_interval_3_alt() -> @kernel.Thm {
 fn step_30() -> Unit raise {
   let t74 = @simp.rewrite_tac(@list.List([@cart.dimindex_4(), @vectors.forall_4(), @determinants.product_4()]))
   let t75 = @tactics.then_tac(@simp.rewrite_tac(@list.List([measure_interval(), @integration.content_closed_interval_cases()])), t74)
-  measure_interval_4_c.set(@tactics.prove(@term_syntax.parse_term("(∀ a : Cart[Real, Tybit0[Tybit0[Unit]]], ∀ b : Cart[Real, Tybit0[Tybit0[Unit]]], measure(interval([(a, b)])) == (if op_dollar(a, 1) <= op_dollar(b, 1) && op_dollar(a, 2) <= op_dollar(b, 2) && op_dollar(a, 3) <= op_dollar(b, 3) && op_dollar(a, 4) <= op_dollar(b, 4) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(b, 3) - op_dollar(a, 3)) * (op_dollar(b, 4) - op_dollar(a, 4)))) } else { real_of_num(0) })) && (∀ a : Cart[Real, Tybit0[Tybit0[Unit]]], ∀ b : Cart[Real, Tybit0[Tybit0[Unit]]], measure(interval((a, b))) == (if op_dollar(a, 1) <= op_dollar(b, 1) && op_dollar(a, 2) <= op_dollar(b, 2) && op_dollar(a, 3) <= op_dollar(b, 3) && op_dollar(a, 4) <= op_dollar(b, 4) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(b, 3) - op_dollar(a, 3)) * (op_dollar(b, 4) - op_dollar(a, 4)))) } else { real_of_num(0) }))"), t75))
+  measure_interval_4_c.set(@tactics.prove(@term_syntax.parse_term("(∀ a : Cart[Real, 4], ∀ b : Cart[Real, 4], measure(interval([(a, b)])) == (if op_dollar(a, 1) <= op_dollar(b, 1) && op_dollar(a, 2) <= op_dollar(b, 2) && op_dollar(a, 3) <= op_dollar(b, 3) && op_dollar(a, 4) <= op_dollar(b, 4) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(b, 3) - op_dollar(a, 3)) * (op_dollar(b, 4) - op_dollar(a, 4)))) } else { real_of_num(0) })) && (∀ a : Cart[Real, 4], ∀ b : Cart[Real, 4], measure(interval((a, b))) == (if op_dollar(a, 1) <= op_dollar(b, 1) && op_dollar(a, 2) <= op_dollar(b, 2) && op_dollar(a, 3) <= op_dollar(b, 3) && op_dollar(a, 4) <= op_dollar(b, 4) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(b, 3) - op_dollar(a, 3)) * (op_dollar(b, 4) - op_dollar(a, 4)))) } else { real_of_num(0) }))"), t75))
 }
 
 ///|
@@ -512,13 +512,13 @@ pub fn measure_interval_4() -> @kernel.Thm {
 fn step_31() -> Unit raise {
   let t82 = @simp.asm_rewrite_tac(@list.List([@realarith.real_lt_le()]))
   let t81 = @simp.asm_rewrite_tac(@list.List([@realarith.real_lt_refl(), @calc_int.real_mul_lzero(), @calc_int.real_mul_rzero(), @real.real_sub_refl(), @realax.real_le_refl(), @calc_int.real_abs_num(), @class.cond_id()]))
-  let t77 = @term_syntax.parse_term("op_dollar((a : Cart[Real, Tybit0[Tybit0[Unit]]]), 4) == op_dollar((b : Cart[Real, Tybit0[Tybit0[Unit]]]), 4)")
-  let t78 = @term_syntax.parse_term("op_dollar((a : Cart[Real, Tybit0[Tybit0[Unit]]]), 3) == op_dollar((b : Cart[Real, Tybit0[Tybit0[Unit]]]), 3)")
-  let t79 = @term_syntax.parse_term("op_dollar((a : Cart[Real, Tybit0[Tybit0[Unit]]]), 2) == op_dollar((b : Cart[Real, Tybit0[Tybit0[Unit]]]), 2)")
-  let t80 = @tactics.map_every(@class.asm_cases_tac, @list.List([@term_syntax.parse_term("op_dollar((a : Cart[Real, Tybit0[Tybit0[Unit]]]), 1) == op_dollar((b : Cart[Real, Tybit0[Tybit0[Unit]]]), 1)"), t79, t78, t77]))
+  let t77 = @term_syntax.parse_term("op_dollar((a : Cart[Real, 4]), 4) == op_dollar((b : Cart[Real, 4]), 4)")
+  let t78 = @term_syntax.parse_term("op_dollar((a : Cart[Real, 4]), 3) == op_dollar((b : Cart[Real, 4]), 3)")
+  let t79 = @term_syntax.parse_term("op_dollar((a : Cart[Real, 4]), 2) == op_dollar((b : Cart[Real, 4]), 2)")
+  let t80 = @tactics.map_every(@class.asm_cases_tac, @list.List([@term_syntax.parse_term("op_dollar((a : Cart[Real, 4]), 1) == op_dollar((b : Cart[Real, 4]), 1)"), t79, t78, t77]))
   let t76 = @tactics.repeat_tac(@tactics.gen_tac)
   let t83 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([measure_interval_4()])), t76), t80), t81), t82)
-  measure_interval_4_alt_c.set(@tactics.prove(@term_syntax.parse_term("(∀ a : Cart[Real, Tybit0[Tybit0[Unit]]], ∀ b : Cart[Real, Tybit0[Tybit0[Unit]]], measure(interval([(a, b)])) == (if op_dollar(a, 1) < op_dollar(b, 1) && op_dollar(a, 2) < op_dollar(b, 2) && op_dollar(a, 3) < op_dollar(b, 3) && op_dollar(a, 4) < op_dollar(b, 4) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(b, 3) - op_dollar(a, 3)) * (op_dollar(b, 4) - op_dollar(a, 4)))) } else { real_of_num(0) })) && (∀ a : Cart[Real, Tybit0[Tybit0[Unit]]], ∀ b : Cart[Real, Tybit0[Tybit0[Unit]]], measure(interval((a, b))) == (if op_dollar(a, 1) < op_dollar(b, 1) && op_dollar(a, 2) < op_dollar(b, 2) && op_dollar(a, 3) < op_dollar(b, 3) && op_dollar(a, 4) < op_dollar(b, 4) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(b, 3) - op_dollar(a, 3)) * (op_dollar(b, 4) - op_dollar(a, 4)))) } else { real_of_num(0) }))"), t83))
+  measure_interval_4_alt_c.set(@tactics.prove(@term_syntax.parse_term("(∀ a : Cart[Real, 4], ∀ b : Cart[Real, 4], measure(interval([(a, b)])) == (if op_dollar(a, 1) < op_dollar(b, 1) && op_dollar(a, 2) < op_dollar(b, 2) && op_dollar(a, 3) < op_dollar(b, 3) && op_dollar(a, 4) < op_dollar(b, 4) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(b, 3) - op_dollar(a, 3)) * (op_dollar(b, 4) - op_dollar(a, 4)))) } else { real_of_num(0) })) && (∀ a : Cart[Real, 4], ∀ b : Cart[Real, 4], measure(interval((a, b))) == (if op_dollar(a, 1) < op_dollar(b, 1) && op_dollar(a, 2) < op_dollar(b, 2) && op_dollar(a, 3) < op_dollar(b, 3) && op_dollar(a, 4) < op_dollar(b, 4) { (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(b, 3) - op_dollar(a, 3)) * (op_dollar(b, 4) - op_dollar(a, 4)))) } else { real_of_num(0) }))"), t83))
 }
 
 ///|
@@ -5910,7 +5910,7 @@ fn step_182() -> Unit raise {
   let t2711 = @simp.simp_tac(@list.List([@sets.finite_insert(), @sets.card_clauses(), @sets.finite_empty(), @cart.dimindex_2()]))
   let t2710 = @tactics.match_mp_tac(negligible_affine_hull())
   let t2712 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t2710), t2711), @int.arith_tac)
-  negligible_affine_hull_2_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], negligible(hull(affine, {a, b}))"), t2712))
+  negligible_affine_hull_2_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], negligible(hull(affine, {a, b}))"), t2712))
 }
 
 ///|
@@ -5928,7 +5928,7 @@ fn step_183() -> Unit raise {
   let t2714 = @simp.simp_tac(@list.List([@sets.finite_insert(), @sets.card_clauses(), @sets.finite_empty(), @cart.dimindex_3()]))
   let t2713 = @tactics.match_mp_tac(negligible_affine_hull())
   let t2715 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t2713), t2714), @int.arith_tac)
-  negligible_affine_hull_3_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit1[Unit]], ∀ b : Cart[Real, Tybit1[Unit]], ∀ c : Cart[Real, Tybit1[Unit]], negligible(hull(affine, {a, b, c}))"), t2715))
+  negligible_affine_hull_3_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 3], ∀ b : Cart[Real, 3], ∀ c : Cart[Real, 3], negligible(hull(affine, {a, b, c}))"), t2715))
 }
 
 ///|
@@ -5991,7 +5991,7 @@ fn step_186() -> Unit raise {
   let t2729 = @simp.simp_tac(@list.List([@sets.finite_insert(), @sets.card_clauses(), @sets.finite_empty(), @cart.dimindex_2()]))
   let t2728 = @tactics.match_mp_tac(negligible_convex_hull())
   let t2730 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t2728), t2729), @int.arith_tac)
-  negligible_convex_hull_2_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], negligible(hull(convex, {a, b}))"), t2730))
+  negligible_convex_hull_2_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], negligible(hull(convex, {a, b}))"), t2730))
 }
 
 ///|
@@ -6009,7 +6009,7 @@ fn step_187() -> Unit raise {
   let t2732 = @simp.simp_tac(@list.List([@sets.finite_insert(), @sets.card_clauses(), @sets.finite_empty(), @cart.dimindex_3()]))
   let t2731 = @tactics.match_mp_tac(negligible_convex_hull())
   let t2733 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t2731), t2732), @int.arith_tac)
-  negligible_convex_hull_3_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit1[Unit]], ∀ b : Cart[Real, Tybit1[Unit]], ∀ c : Cart[Real, Tybit1[Unit]], negligible(hull(convex, {a, b, c}))"), t2733))
+  negligible_convex_hull_3_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 3], ∀ b : Cart[Real, 3], ∀ c : Cart[Real, 3], negligible(hull(convex, {a, b, c}))"), t2733))
 }
 
 ///|
@@ -11362,10 +11362,10 @@ fn step_257() -> Unit raise {
   let t6285 = @simp.simp_tac(@list.List([@determinants.det_2(), @vectors.vector_2()]))
   let t6284 = @tactics.conv_tac(@calc_num.num_reduce_conv)
   let t6283 = @simp.rewrite_tac(@list.List([@lists.length(), @cart.dimindex_2(), @calc_num.arith(), @sets.set_of_list(), @lists.map()]))
-  let t6281 = @term_syntax.parse_term("[(b : Cart[Real, Tybit0[Unit]]), (c : Cart[Real, Tybit0[Unit]])]")
-  let t6282 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("(a : Cart[Real, Tybit0[Unit]])"), t6281]), has_measure_simplex()))
+  let t6281 = @term_syntax.parse_term("[(b : Cart[Real, 2]), (c : Cart[Real, 2])]")
+  let t6282 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("(a : Cart[Real, 2])"), t6281]), has_measure_simplex()))
   let t6287 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t6282), t6283), t6284), t6285), t6286)
-  has_measure_triangle_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ c : Cart[Real, Tybit0[Unit]], has_measure(hull(convex, {a, b, c}), abs((op_dollar(b, 1) - op_dollar(a, 1)) * (op_dollar(c, 2) - op_dollar(a, 2)) - (op_dollar(b, 2) - op_dollar(a, 2)) * (op_dollar(c, 1) - op_dollar(a, 1))) / real_of_num(2))"), t6287))
+  has_measure_triangle_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ c : Cart[Real, 2], has_measure(hull(convex, {a, b, c}), abs((op_dollar(b, 1) - op_dollar(a, 1)) * (op_dollar(c, 2) - op_dollar(a, 2)) - (op_dollar(b, 2) - op_dollar(a, 2)) * (op_dollar(c, 1) - op_dollar(a, 1))) / real_of_num(2))"), t6287))
 }
 
 ///|
@@ -11402,7 +11402,7 @@ pub fn measurable_triangle() -> @kernel.Thm {
 /// MEASURE_TRIANGLE
 fn step_259() -> Unit raise {
   let t6294 = @simp.rewrite_tac(@list.List([@simp.rewrite_rule(@list.List([has_measure_measurable_measure()]))(has_measure_triangle())]))
-  measure_triangle_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ c : Cart[Real, Tybit0[Unit]], measure(hull(convex, {a, b, c})) == abs((op_dollar(b, 1) - op_dollar(a, 1)) * (op_dollar(c, 2) - op_dollar(a, 2)) - (op_dollar(b, 2) - op_dollar(a, 2)) * (op_dollar(c, 1) - op_dollar(a, 1))) / real_of_num(2)"), t6294))
+  measure_triangle_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ c : Cart[Real, 2], measure(hull(convex, {a, b, c})) == abs((op_dollar(b, 1) - op_dollar(a, 1)) * (op_dollar(c, 2) - op_dollar(a, 2)) - (op_dollar(b, 2) - op_dollar(a, 2)) * (op_dollar(c, 1) - op_dollar(a, 1))) / real_of_num(2)"), t6294))
 }
 
 ///|
@@ -11421,10 +11421,10 @@ fn step_260() -> Unit raise {
   let t6299 = @simp.simp_tac(@list.List([@determinants.det_3(), @vectors.vector_3()]))
   let t6298 = @tactics.conv_tac(@calc_num.num_reduce_conv)
   let t6297 = @simp.rewrite_tac(@list.List([@lists.length(), @cart.dimindex_3(), @calc_num.arith(), @sets.set_of_list(), @lists.map()]))
-  let t6295 = @term_syntax.parse_term("[(b : Cart[Real, Tybit1[Unit]]), (c : Cart[Real, Tybit1[Unit]]), (d : Cart[Real, Tybit1[Unit]])]")
-  let t6296 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("(a : Cart[Real, Tybit1[Unit]])"), t6295]), has_measure_simplex()))
+  let t6295 = @term_syntax.parse_term("[(b : Cart[Real, 3]), (c : Cart[Real, 3]), (d : Cart[Real, 3])]")
+  let t6296 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("(a : Cart[Real, 3])"), t6295]), has_measure_simplex()))
   let t6301 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t6296), t6297), t6298), t6299), t6300)
-  has_measure_tetrahedron_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit1[Unit]], ∀ b : Cart[Real, Tybit1[Unit]], ∀ c : Cart[Real, Tybit1[Unit]], ∀ d : Cart[Real, Tybit1[Unit]], has_measure(hull(convex, {a, b, c, d}), abs((op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(c, 2) - op_dollar(a, 2)) * (op_dollar(d, 3) - op_dollar(a, 3))) + ((op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(c, 3) - op_dollar(a, 3)) * (op_dollar(d, 1) - op_dollar(a, 1))) + ((op_dollar(b, 3) - op_dollar(a, 3)) * ((op_dollar(c, 1) - op_dollar(a, 1)) * (op_dollar(d, 2) - op_dollar(a, 2))) - (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(c, 3) - op_dollar(a, 3)) * (op_dollar(d, 2) - op_dollar(a, 2))) - (op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(c, 1) - op_dollar(a, 1)) * (op_dollar(d, 3) - op_dollar(a, 3))) - (op_dollar(b, 3) - op_dollar(a, 3)) * ((op_dollar(c, 2) - op_dollar(a, 2)) * (op_dollar(d, 1) - op_dollar(a, 1)))))) / real_of_num(6))"), t6301))
+  has_measure_tetrahedron_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 3], ∀ b : Cart[Real, 3], ∀ c : Cart[Real, 3], ∀ d : Cart[Real, 3], has_measure(hull(convex, {a, b, c, d}), abs((op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(c, 2) - op_dollar(a, 2)) * (op_dollar(d, 3) - op_dollar(a, 3))) + ((op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(c, 3) - op_dollar(a, 3)) * (op_dollar(d, 1) - op_dollar(a, 1))) + ((op_dollar(b, 3) - op_dollar(a, 3)) * ((op_dollar(c, 1) - op_dollar(a, 1)) * (op_dollar(d, 2) - op_dollar(a, 2))) - (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(c, 3) - op_dollar(a, 3)) * (op_dollar(d, 2) - op_dollar(a, 2))) - (op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(c, 1) - op_dollar(a, 1)) * (op_dollar(d, 3) - op_dollar(a, 3))) - (op_dollar(b, 3) - op_dollar(a, 3)) * ((op_dollar(c, 2) - op_dollar(a, 2)) * (op_dollar(d, 1) - op_dollar(a, 1)))))) / real_of_num(6))"), t6301))
 }
 
 ///|
@@ -11461,7 +11461,7 @@ pub fn measurable_tetrahedron() -> @kernel.Thm {
 /// MEASURE_TETRAHEDRON
 fn step_262() -> Unit raise {
   let t6308 = @simp.rewrite_tac(@list.List([@simp.rewrite_rule(@list.List([has_measure_measurable_measure()]))(has_measure_tetrahedron())]))
-  measure_tetrahedron_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit1[Unit]], ∀ b : Cart[Real, Tybit1[Unit]], ∀ c : Cart[Real, Tybit1[Unit]], ∀ d : Cart[Real, Tybit1[Unit]], measure(hull(convex, {a, b, c, d})) == abs((op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(c, 2) - op_dollar(a, 2)) * (op_dollar(d, 3) - op_dollar(a, 3))) + ((op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(c, 3) - op_dollar(a, 3)) * (op_dollar(d, 1) - op_dollar(a, 1))) + ((op_dollar(b, 3) - op_dollar(a, 3)) * ((op_dollar(c, 1) - op_dollar(a, 1)) * (op_dollar(d, 2) - op_dollar(a, 2))) - (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(c, 3) - op_dollar(a, 3)) * (op_dollar(d, 2) - op_dollar(a, 2))) - (op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(c, 1) - op_dollar(a, 1)) * (op_dollar(d, 3) - op_dollar(a, 3))) - (op_dollar(b, 3) - op_dollar(a, 3)) * ((op_dollar(c, 2) - op_dollar(a, 2)) * (op_dollar(d, 1) - op_dollar(a, 1)))))) / real_of_num(6)"), t6308))
+  measure_tetrahedron_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 3], ∀ b : Cart[Real, 3], ∀ c : Cart[Real, 3], ∀ d : Cart[Real, 3], measure(hull(convex, {a, b, c, d})) == abs((op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(c, 2) - op_dollar(a, 2)) * (op_dollar(d, 3) - op_dollar(a, 3))) + ((op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(c, 3) - op_dollar(a, 3)) * (op_dollar(d, 1) - op_dollar(a, 1))) + ((op_dollar(b, 3) - op_dollar(a, 3)) * ((op_dollar(c, 1) - op_dollar(a, 1)) * (op_dollar(d, 2) - op_dollar(a, 2))) - (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(c, 3) - op_dollar(a, 3)) * (op_dollar(d, 2) - op_dollar(a, 2))) - (op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(c, 1) - op_dollar(a, 1)) * (op_dollar(d, 3) - op_dollar(a, 3))) - (op_dollar(b, 3) - op_dollar(a, 3)) * ((op_dollar(c, 2) - op_dollar(a, 2)) * (op_dollar(d, 1) - op_dollar(a, 1)))))) / real_of_num(6)"), t6308))
 }
 
 ///|

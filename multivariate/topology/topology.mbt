@@ -49467,7 +49467,7 @@ fn step_1830() -> Unit raise {
   let t18993 = @tactics.match_mp_tac(@realarith.real_le_add())
   let t18992 = @simp.rewrite_tac(@list.List([@calc_rat.real_arith(@term_syntax.parse_term("(c : Real) * ((x : Real) * ((a : Real) * x + (b : Real) * (y : Real)) + y * (b * x + c * y)) == pow(b * x + c * y, 2) + (a * c - pow(b, 2)) * pow(x, 2)"))]))
   let t18991 = @simp.asm_rewrite_tac(@list.List([@calc_int.real_mul_rzero(), @realarith.real_lt_le()]))
-  let t18990 = @tactics.exists_tac(@term_syntax.parse_term("op_dollar(op_dollar((A : Cart[Cart[Real, Tybit0[Unit]], Tybit0[Unit]]), 2), 2)"))
+  let t18990 = @tactics.exists_tac(@term_syntax.parse_term("op_dollar(op_dollar((A : Cart[Cart[Real, 2], 2]), 2), 2)"))
   let t18989 = @tactics.match_mp_tac(@real.real_le_lcancel_imp())
   let t18988 = @tactics.repeat_tac(@tactics.gen_tac)
   let t18986 = @simp.asm_simp_tac(@list.List([@realax.real_le_mul(), @realarith.real_le_square()]))
@@ -49483,10 +49483,10 @@ fn step_1830() -> Unit raise {
       }
     })(t18981(x18982))
   }), t18983), @tactics.disch_tac), t18984), @tactics.gen_tac), t18985), t18986), @tactics.disch_tac])
-  let t18977 = @class.asm_cases_tac(@term_syntax.parse_term("op_dollar(op_dollar((A : Cart[Cart[Real, Tybit0[Unit]], Tybit0[Unit]]), 2), 2) == real_of_num(0)"))
+  let t18977 = @class.asm_cases_tac(@term_syntax.parse_term("op_dollar(op_dollar((A : Cart[Cart[Real, 2], 2]), 2), 2) == real_of_num(0)"))
   let t18975 = @simp.rewrite_tac(@list.List([@realarith.real_sub_le()]))
   let t18976 = @list.List([@meson.asm_meson_tac(@list.List([@vectors.transp_component()])), t18975])
-  let t18974 = @tactics.subgoal_then(@term_syntax.parse_term("op_dollar(op_dollar((A : Cart[Cart[Real, Tybit0[Unit]], Tybit0[Unit]]), 2), 1) == op_dollar(op_dollar(A, 1), 2)"), fn(x18971 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
+  let t18974 = @tactics.subgoal_then(@term_syntax.parse_term("op_dollar(op_dollar((A : Cart[Cart[Real, 2], 2]), 2), 1) == op_dollar(op_dollar(A, 1), 2)"), fn(x18971 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s18972 = @tactics.subst1_tac(x18971)
     fn(x18973 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise {
       s18972(x18973)
@@ -49512,7 +49512,7 @@ fn step_1830() -> Unit raise {
   let t18957 = @meson.meson_tac(@list.List([det_positive_semidefinite(), @determinants.positive_semidefinite()]))
   let t18959 = @list.List([@tactics.then_tac(@simp.simp_tac(@list.List([@determinants.diagonal_positive_semidefinite(), @cart.dimindex_2(), @calc_num.arith()])), t18957), t18958])
   let t18997 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.gen_tac, @tactics.eq_tac), t18959), t18960), t18961), t18970), t18974), t18976), t18977), t18987), t18988), t18989), t18990), t18991), t18992), t18993), t18994), t18995), t18996), @calc_rat.asm_real_arith_tac)
-  positive_semidefinite_2_det_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Cart[Real, Tybit0[Unit]], Tybit0[Unit]], positive_semidefinite(A) == (symmetric_matrix(A) && real_of_num(0) <= op_dollar(op_dollar(A, 1), 1) && real_of_num(0) <= op_dollar(op_dollar(A, 2), 2) && real_of_num(0) <= det(A))"), t18997))
+  positive_semidefinite_2_det_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Cart[Real, 2], 2], positive_semidefinite(A) == (symmetric_matrix(A) && real_of_num(0) <= op_dollar(op_dollar(A, 1), 1) && real_of_num(0) <= op_dollar(op_dollar(A, 2), 2) && real_of_num(0) <= det(A))"), t18997))
 }
 
 ///|
@@ -49528,12 +49528,12 @@ pub fn positive_semidefinite_2_det() -> @kernel.Thm {
 /// POSITIVE_SEMIDEFINITE_2
 fn step_1831() -> Unit raise {
   let t19002 = @simp.asm_rewrite_tac(@list.List([]))
-  let t19001 = @class.asm_cases_tac(@term_syntax.parse_term("op_dollar(op_dollar((A : Cart[Cart[Real, Tybit0[Unit]], Tybit0[Unit]]), 2), 1) == op_dollar(op_dollar(A, 1), 2)"))
+  let t19001 = @class.asm_cases_tac(@term_syntax.parse_term("op_dollar(op_dollar((A : Cart[Cart[Real, 2], 2]), 2), 1) == op_dollar(op_dollar(A, 1), 2)"))
   let t19000 = @simp.simp_tac(@list.List([@cart.cart_eq(), @vectors.forall_2(), @vectors.transp_component(), @cart.dimindex_2()]))
   let t18999 = @simp.rewrite_tac(@list.List([@vectors.symmetric_matrix()]))
   let t18998 = @simp.rewrite_tac(@list.List([positive_semidefinite_2_det(), @determinants.det_2()]))
   let t19003 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t18998), t18999), t19000), t19001), t19002), @calc_rat.real_arith_tac)
-  positive_semidefinite_2_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Cart[Real, Tybit0[Unit]], Tybit0[Unit]], positive_semidefinite(A) == (op_dollar(op_dollar(A, 2), 1) == op_dollar(op_dollar(A, 1), 2) && real_of_num(0) <= op_dollar(op_dollar(A, 1), 1) && real_of_num(0) <= op_dollar(op_dollar(A, 2), 2) && pow(op_dollar(op_dollar(A, 1), 2), 2) <= op_dollar(op_dollar(A, 1), 1) * op_dollar(op_dollar(A, 2), 2))"), t19003))
+  positive_semidefinite_2_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Cart[Real, 2], 2], positive_semidefinite(A) == (op_dollar(op_dollar(A, 2), 1) == op_dollar(op_dollar(A, 1), 2) && real_of_num(0) <= op_dollar(op_dollar(A, 1), 1) && real_of_num(0) <= op_dollar(op_dollar(A, 2), 2) && pow(op_dollar(op_dollar(A, 1), 2), 2) <= op_dollar(op_dollar(A, 1), 1) * op_dollar(op_dollar(A, 2), 2))"), t19003))
 }
 
 ///|
@@ -49554,7 +49554,7 @@ fn step_1832() -> Unit raise {
   let t19004 = @meson.meson_tac(@list.List([det_positive_definite(), @determinants.positive_definite()]))
   let t19006 = @list.List([@tactics.then_tac(@simp.simp_tac(@list.List([@determinants.diagonal_positive_definite(), @cart.dimindex_2(), @calc_num.arith()])), t19004), t19005])
   let t19009 = @tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.gen_tac, @tactics.eq_tac), t19006), t19007), t19008)
-  positive_definite_2_det_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Cart[Real, Tybit0[Unit]], Tybit0[Unit]], positive_definite(A) == (symmetric_matrix(A) && real_of_num(0) < op_dollar(op_dollar(A, 1), 1) && real_of_num(0) < op_dollar(op_dollar(A, 2), 2) && real_of_num(0) < det(A))"), t19009))
+  positive_definite_2_det_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Cart[Real, 2], 2], positive_definite(A) == (symmetric_matrix(A) && real_of_num(0) < op_dollar(op_dollar(A, 1), 1) && real_of_num(0) < op_dollar(op_dollar(A, 2), 2) && real_of_num(0) < det(A))"), t19009))
 }
 
 ///|
@@ -49570,12 +49570,12 @@ pub fn positive_definite_2_det() -> @kernel.Thm {
 /// POSITIVE_DEFINITE_2
 fn step_1833() -> Unit raise {
   let t19014 = @simp.asm_rewrite_tac(@list.List([]))
-  let t19013 = @class.asm_cases_tac(@term_syntax.parse_term("op_dollar(op_dollar((A : Cart[Cart[Real, Tybit0[Unit]], Tybit0[Unit]]), 2), 1) == op_dollar(op_dollar(A, 1), 2)"))
+  let t19013 = @class.asm_cases_tac(@term_syntax.parse_term("op_dollar(op_dollar((A : Cart[Cart[Real, 2], 2]), 2), 1) == op_dollar(op_dollar(A, 1), 2)"))
   let t19012 = @simp.simp_tac(@list.List([@cart.cart_eq(), @vectors.forall_2(), @vectors.transp_component(), @cart.dimindex_2()]))
   let t19011 = @simp.rewrite_tac(@list.List([@vectors.symmetric_matrix()]))
   let t19010 = @simp.rewrite_tac(@list.List([positive_definite_2_det(), @determinants.det_2()]))
   let t19015 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t19010), t19011), t19012), t19013), t19014), @calc_rat.real_arith_tac)
-  positive_definite_2_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Cart[Real, Tybit0[Unit]], Tybit0[Unit]], positive_definite(A) == (op_dollar(op_dollar(A, 2), 1) == op_dollar(op_dollar(A, 1), 2) && real_of_num(0) < op_dollar(op_dollar(A, 1), 1) && real_of_num(0) < op_dollar(op_dollar(A, 2), 2) && pow(op_dollar(op_dollar(A, 1), 2), 2) < op_dollar(op_dollar(A, 1), 1) * op_dollar(op_dollar(A, 2), 2))"), t19015))
+  positive_definite_2_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Cart[Real, 2], 2], positive_definite(A) == (op_dollar(op_dollar(A, 2), 1) == op_dollar(op_dollar(A, 1), 2) && real_of_num(0) < op_dollar(op_dollar(A, 1), 1) && real_of_num(0) < op_dollar(op_dollar(A, 2), 2) && pow(op_dollar(op_dollar(A, 1), 2), 2) < op_dollar(op_dollar(A, 1), 1) * op_dollar(op_dollar(A, 2), 2))"), t19015))
 }
 
 ///|

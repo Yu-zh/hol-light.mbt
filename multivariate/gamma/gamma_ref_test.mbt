@@ -88447,99 +88447,99 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  (m : Num) => (n : Num) => sum(op_dot_dot(1, m - 1), (k : Num) => inv(real_of_num(k))) - log(real_of_num(m)) + ((inv(real_of_num(m)) + inv(real_of_num(n))) / real_of_num(2) + (real_of_num(1) / real_of_num(12) * (inv(pow(real_of_num(m), 2)) - inv(pow(real_of_num(n), 2))) + -real_of_num(1) / real_of_num(120) * (inv(pow(real_of_num(m), 4)) - inv(pow(real_of_num(n), 4)))))
       #|  (\226\136\131 a : (Num) -> _, \226\136\131 b : (Num) -> _, \226\136\131 c : (Num) -> _, \226\136\131 m : Num, (P : (_, _, _) -> Bool)(a(m), b(m), c(m))) \226\134\146 (\226\136\131 a : _, \226\136\131 b : _, \226\136\131 c : _, P(a, b, c))
       #|  abs(euler_mascheroni - real_of_num(2479122403) / real_of_num(4294967296)) <= inv(pow(real_of_num(2), 32))
-      #|  (lgamma : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((z : Cart[Real, Tybit0[Unit]])) == lim(sequentially, (n : Num) => z * clog(Cx(real_of_num(n))) - clog(z) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + z) / Cx(real_of_num(m)))))
+      #|  (lgamma : (Cart[Real, 2]) -> Cart[Real, 2])((z : Cart[Real, 2])) == lim(sequentially, (n : Num) => z * clog(Cx(real_of_num(n))) - clog(z) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + z) / Cx(real_of_num(m)))))
       #|  real_of_num(0) < (x : Real) \226\134\146 real_of_num(0) < real_of_num((m : Num)) + x
-      #|  (w : Cart[Real, Tybit0[Unit]])
+      #|  (w : Cart[Real, 2])
       #|  (m : Num)
-      #|  SUBSET((t : (Cart[Real, Tybit0[Unit]]) -> Bool), (s : (Cart[Real, Tybit0[Unit]]) -> Bool)) && holomorphic_on((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), s) \226\134\146 continuous_on(f, s) && holomorphic_on(f, t)
+      #|  SUBSET((t : (Cart[Real, 2]) -> Bool), (s : (Cart[Real, 2]) -> Bool)) && holomorphic_on((f : (Cart[Real, 2]) -> Cart[Real, 2]), s) \226\134\146 continuous_on(f, s) && holomorphic_on(f, t)
       #|  (n : Num)
       #|  1
-      #|  (n : Num) => (z : Cart[Real, Tybit0[Unit]]) => z * clog(Cx(real_of_num(n))) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + z) / Cx(real_of_num(m))))
+      #|  (n : Num) => (z : Cart[Real, 2]) => z * clog(Cx(real_of_num(n))) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + z) / Cx(real_of_num(m))))
       #|  sequentially
-      #|  continuous_on((ll : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((z : Cart[Real, Tybit0[Unit]])), cball((z, min((r : Real), (dd : (Cart[Real, Tybit0[Unit]]) -> Real)(z))))) && holomorphic_on(ll(z), ball((z, min(r, dd(z)))))
+      #|  continuous_on((ll : (Cart[Real, 2], Cart[Real, 2]) -> Cart[Real, 2])((z : Cart[Real, 2])), cball((z, min((r : Real), (dd : (Cart[Real, 2]) -> Real)(z))))) && holomorphic_on(ll(z), ball((z, min(r, dd(z)))))
       #|  (r : Real)
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  {(z : Cart[Real, Tybit0[Unit]]) | Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)} == DIFF(UNIV, INTER({(z : Cart[Real, Tybit0[Unit]]) | Im(z) == real_of_num(0)}, {(z : Cart[Real, Tybit0[Unit]]) | Re(z) <= real_of_num(0)}))
-      #|  open({(z : Cart[Real, Tybit0[Unit]]) | Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)})
+      #|  (z : Cart[Real, 2])
+      #|  {(z : Cart[Real, 2]) | Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)} == DIFF(UNIV, INTER({(z : Cart[Real, 2]) | Im(z) == real_of_num(0)}, {(z : Cart[Real, 2]) | Re(z) <= real_of_num(0)}))
+      #|  open({(z : Cart[Real, 2]) | Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)})
       #|  (r : Real)
-      #|  (w : Cart[Real, Tybit0[Unit]])
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  (w : Cart[Real, 2])
+      #|  (z : Cart[Real, 2])
       #|  (r : Real)
-      #|  (n : Num) => (w : Cart[Real, Tybit0[Unit]]) * clog(Cx(real_of_num(n))) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + w) / Cx(real_of_num(m))))
+      #|  (n : Num) => (w : Cart[Real, 2]) * clog(Cx(real_of_num(n))) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + w) / Cx(real_of_num(m))))
       #|  sequentially
-      #|  (w : Cart[Real, Tybit0[Unit]])
-      #|  min((e : Real), (dd : (Cart[Real, Tybit0[Unit]]) -> Real)((z : Cart[Real, Tybit0[Unit]])))
-      #|  (ll : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((z : Cart[Real, Tybit0[Unit]]))
-      #|  (w : Cart[Real, Tybit0[Unit]]) - (z : Cart[Real, Tybit0[Unit]]) - (v : Cart[Real, Tybit0[Unit]]) == w - v - z
-      #|  (n : Num) => (w : Cart[Real, Tybit0[Unit]]) * clog(Cx(real_of_num(n))) - clog(w) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + w) / Cx(real_of_num(m))))
+      #|  (w : Cart[Real, 2])
+      #|  min((e : Real), (dd : (Cart[Real, 2]) -> Real)((z : Cart[Real, 2])))
+      #|  (ll : (Cart[Real, 2], Cart[Real, 2]) -> Cart[Real, 2])((z : Cart[Real, 2]))
+      #|  (w : Cart[Real, 2]) - (z : Cart[Real, 2]) - (v : Cart[Real, 2]) == w - v - z
+      #|  (n : Num) => (w : Cart[Real, 2]) * clog(Cx(real_of_num(n))) - clog(w) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + w) / Cx(real_of_num(m))))
       #|  sequentially
-      #|  (w : Cart[Real, Tybit0[Unit]])
+      #|  (w : Cart[Real, 2])
       #|  (e : Real)
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  (z : Cart[Real, Tybit0[Unit]]) => (ll : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z, z) - clog(z)
-      #|  ((z : Cart[Real, Tybit0[Unit]]) + (x : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) == (z == -x)
-      #|  \226\136\128 n : Num, !((z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(n)) == Cx(real_of_num(0)))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  (w : Cart[Real, Tybit0[Unit]]) - (z : Cart[Real, Tybit0[Unit]]) - (v : Cart[Real, Tybit0[Unit]]) == w - v - z
-      #|  (ll : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((z : Cart[Real, Tybit0[Unit]]), z) - clog(z)
+      #|  (z : Cart[Real, 2])
+      #|  (z : Cart[Real, 2]) => (ll : (Cart[Real, 2], Cart[Real, 2]) -> Cart[Real, 2])(z, z) - clog(z)
+      #|  ((z : Cart[Real, 2]) + (x : Cart[Real, 2]) == Cx(real_of_num(0))) == (z == -x)
+      #|  \226\136\128 n : Num, !((z : Cart[Real, 2]) + Cx(real_of_num(n)) == Cx(real_of_num(0)))
+      #|  (z : Cart[Real, 2])
+      #|  (w : Cart[Real, 2]) - (z : Cart[Real, 2]) - (v : Cart[Real, 2]) == w - v - z
+      #|  (ll : (Cart[Real, 2], Cart[Real, 2]) -> Cart[Real, 2])((z : Cart[Real, 2]), z) - clog(z)
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 op_minus_minus_gt((n : Num) => z * clog(Cx(real_of_num(n))) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + z) / Cx(real_of_num(m)))), (ll : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z, z), sequentially)
-      #|  (ll : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-      #|  (dd : (Cart[Real, Tybit0[Unit]]) -> Real)
+      #|  (z : Cart[Real, 2])
+      #|  (z : Cart[Real, 2])
+      #|  \226\136\128 z : Cart[Real, 2], (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 op_minus_minus_gt((n : Num) => z * clog(Cx(real_of_num(n))) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + z) / Cx(real_of_num(m)))), (ll : (Cart[Real, 2], Cart[Real, 2]) -> Cart[Real, 2])(z, z), sequentially)
+      #|  (ll : (Cart[Real, 2], Cart[Real, 2]) -> Cart[Real, 2])
+      #|  (dd : (Cart[Real, 2]) -> Real)
       #|  inv((x : Real)) == real_of_num(1) / x
       #|  (real_of_num(1) / real_of_num(2) <= real_of_num(1) - (x : Real)) == (x <= real_of_num(1) / real_of_num(2))
       #|  inv((x : Real)) == real_of_num(1) / x
       #|  real_of_num(2) + real_of_num(2) * (x : Real) == real_of_num(1) * real_of_num(2) + x * real_of_num(2)
       #|  inv((x : Real)) == real_of_num(1) / x
-      #|  norm((z : Cart[Real, Tybit0[Unit]])) <= norm((y : Cart[Real, Tybit0[Unit]])) + (d : Real)
+      #|  norm((z : Cart[Real, 2])) <= norm((y : Cart[Real, 2])) + (d : Real)
       #|  ((n : Real) * (inv((k : Real)) / (d : Real)) + pow(n, 2) / k / (e : Real) <= real_of_num(2) * ((x : Real) + pow(x, 2)) / k) == (n * (real_of_num(1) / d + n / e) / k <= x * (real_of_num(2) + real_of_num(2) * x) / k)
-      #|  (x' : Cart[Real, Tybit0[Unit]]) == -(y' : Cart[Real, Tybit0[Unit]]) && (d : Real) + (e : Real) <= (f : Real) \226\134\146 norm((x : Cart[Real, Tybit0[Unit]]) - x') <= d \226\134\146 norm((y : Cart[Real, Tybit0[Unit]]) - y') <= e \226\134\146 norm(x + y) <= f
+      #|  (x' : Cart[Real, 2]) == -(y' : Cart[Real, 2]) && (d : Real) + (e : Real) <= (f : Real) \226\134\146 norm((x : Cart[Real, 2]) - x') <= d \226\134\146 norm((y : Cart[Real, 2]) - y') <= e \226\134\146 norm(x + y) <= f
       #|  :real
       #|  :real
       #|  :real
-      #|  !((k : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) \226\134\146 (k + (z : Cart[Real, Tybit0[Unit]])) / k == Cx(real_of_num(1)) + z / k
-      #|  norm((z : Cart[Real, Tybit0[Unit]])) < real_of_num((k : Num))
-      #|  norm((z : Cart[Real, Tybit0[Unit]]))
+      #|  !((k : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 (k + (z : Cart[Real, 2])) / k == Cx(real_of_num(1)) + z / k
+      #|  norm((z : Cart[Real, 2])) < real_of_num((k : Num))
+      #|  norm((z : Cart[Real, 2]))
       #|  -inv(Cx(real_of_num((k : Num))))
       #|  1
-      #|  (z : Cart[Real, Tybit0[Unit]]) / Cx(real_of_num((k : Num)))
+      #|  (z : Cart[Real, 2]) / Cx(real_of_num((k : Num)))
       #|  1
       #|  2 <= (k : Num)
       #|  real_of_num(2) <= (x : Real) \226\134\146 real_of_num(0) < x && real_of_num(1) < x && real_of_num(0) < x - real_of_num(1)
       #|  clog(Cx(real_of_num((k : Num)) - real_of_num(1))) - clog(Cx(real_of_num(k))) == clog(Cx(real_of_num(1)) - inv(Cx(real_of_num(k))))
       #|  1 <= (k : Num) && 1 < k && 2 <= k
       #|  (x : Real) + real_of_num(1) - real_of_num(1) == x
-      #|  (z : Cart[Real, Tybit0[Unit]]) * ((a : Cart[Real, Tybit0[Unit]]) - (b : Cart[Real, Tybit0[Unit]])) - (c : Cart[Real, Tybit0[Unit]]) == -(z * (b - a) + c)
+      #|  (z : Cart[Real, 2]) * ((a : Cart[Real, 2]) - (b : Cart[Real, 2])) - (c : Cart[Real, 2]) == -(z * (b - a) + c)
       #|  (k : Num)
-      #|  (x : Cart[Real, Tybit0[Unit]]) + (a : Cart[Real, Tybit0[Unit]]) - (x + (y : Cart[Real, Tybit0[Unit]]) + a) == -y
+      #|  (x : Cart[Real, 2]) + (a : Cart[Real, 2]) - (x + (y : Cart[Real, 2]) + a) == -y
       #|  1 <= (m : Num) + 1 && m <= (n : Num)
       #|  (x : Real) + real_of_num(1) - real_of_num(1) == x
-      #|  \226\136\128 n : Num, 1 <= n \226\134\146 (z : Cart[Real, Tybit0[Unit]]) * clog(Cx(real_of_num(n))) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + z) / Cx(real_of_num(m)))) == vsum(op_dot_dot(1, n), (m : Num) => z * (clog(Cx(real_of_num(m + 1) - real_of_num(1))) - clog(Cx(real_of_num(m) - real_of_num(1)))) - clog((Cx(real_of_num(m)) + z) / Cx(real_of_num(m)))) + z * clog(Cx(real_of_num(0)))
+      #|  \226\136\128 n : Num, 1 <= n \226\134\146 (z : Cart[Real, 2]) * clog(Cx(real_of_num(n))) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + z) / Cx(real_of_num(m)))) == vsum(op_dot_dot(1, n), (m : Num) => z * (clog(Cx(real_of_num(m + 1) - real_of_num(1))) - clog(Cx(real_of_num(m) - real_of_num(1)))) - clog((Cx(real_of_num(m)) + z) / Cx(real_of_num(m)))) + z * clog(Cx(real_of_num(0)))
       #|  MAX(1, (m : Num) + 1) == m + 1
       #|  (n : Num)
       #|  (m : Num) + 1
       #|  (MAX((a : Num), (b : Num)) <= (c : Num)) == (a <= c && b <= c)
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  (z : Cart[Real, 2])
       #|  (n : Num)
       #|  (m : Num)
       #|  MAX(MAX(1, 2), MAX((M : Num), (N : Num)))
       #|  (N : Num)
-      #|  real_of_num(2) * (norm((y : Cart[Real, Tybit0[Unit]])) + (d : Real)) + real_of_num(1)
+      #|  real_of_num(2) * (norm((y : Cart[Real, 2])) + (d : Real)) + real_of_num(1)
       #|  (M : Num)
       #|  (e : Real)
-      #|  summable(from(1), (m : Num) => Cx(real_of_num(2) * (norm((y : Cart[Real, Tybit0[Unit]])) + (d : Real) + pow(norm(y) + d, 2))) / pow(Cx(real_of_num(m)), 2))
+      #|  summable(from(1), (m : Num) => Cx(real_of_num(2) * (norm((y : Cart[Real, 2])) + (d : Real) + pow(norm(y) + d, 2))) / pow(Cx(real_of_num(m)), 2))
       #|  (e : Real)
       #|  (d : Real)
-      #|  (y : Cart[Real, Tybit0[Unit]])
-      #|  \226\136\128 y : Cart[Real, Tybit0[Unit]], (\226\136\128 n : Num, !(y + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 (\226\136\131 d : Real, \226\136\131 l : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], real_of_num(0) < d && (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 (\226\136\131 N : Num, \226\136\128 n : Num, \226\136\128 z : Cart[Real, Tybit0[Unit]], N <= n && IN(z, cball((y, d))) \226\134\146 distance((z * clog(Cx(real_of_num(n))) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + z) / Cx(real_of_num(m)))), l(z))) < e)))
-      #|  -(x : Cart[Real, Tybit0[Unit]]) - -(y : Cart[Real, Tybit0[Unit]]) == y - x
-      #|  ((x : Cart[Real, Tybit0[Unit]]) + (y : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) == (x == -y)
+      #|  (y : Cart[Real, 2])
+      #|  \226\136\128 y : Cart[Real, 2], (\226\136\128 n : Num, !(y + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 (\226\136\131 d : Real, \226\136\131 l : (Cart[Real, 2]) -> Cart[Real, 2], real_of_num(0) < d && (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 (\226\136\131 N : Num, \226\136\128 n : Num, \226\136\128 z : Cart[Real, 2], N <= n && IN(z, cball((y, d))) \226\134\146 distance((z * clog(Cx(real_of_num(n))) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + z) / Cx(real_of_num(m)))), l(z))) < e)))
+      #|  -(x : Cart[Real, 2]) - -(y : Cart[Real, 2]) == y - x
+      #|  ((x : Cart[Real, 2]) + (y : Cart[Real, 2]) == Cx(real_of_num(0))) == (x == -y)
       #|  real_of_num(1)
       #|  {(z : _) | \226\136\128 n : _, (P : (_, _) -> Bool)(n, z)} == DIFF(UNIV, {(z : _) | \226\136\131 n : _, !P(n, z)})
-      #|  open({(z : Cart[Real, Tybit0[Unit]]) | \226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))})
-      #|  (\226\136\128 z : Cart[Real, Tybit0[Unit]], (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 op_minus_minus_gt((n : Num) => z * clog(Cx(real_of_num(n))) - clog(z) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + z) / Cx(real_of_num(m)))), lgamma(z), sequentially)) && (\226\136\128 z : Cart[Real, Tybit0[Unit]], (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 complex_differentiable(lgamma, at(z)))
+      #|  open({(z : Cart[Real, 2]) | \226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))})
+      #|  (\226\136\128 z : Cart[Real, 2], (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 op_minus_minus_gt((n : Num) => z * clog(Cx(real_of_num(n))) - clog(z) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + z) / Cx(real_of_num(m)))), lgamma(z), sequentially)) && (\226\136\128 z : Cart[Real, 2], (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 complex_differentiable(lgamma, at(z)))
       #|  :real
       #|  :real
       #|  :real
@@ -88558,44 +88558,44 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  :real
       #|  :real
       #|  :real
-      #|  (a : Cart[Real, Tybit0[Unit]]) == (d : Cart[Real, Tybit0[Unit]]) - (c : Cart[Real, Tybit0[Unit]]) \226\134\146 (x : Cart[Real, Tybit0[Unit]]) - (y : Cart[Real, Tybit0[Unit]]) - a == x + c - (y + d)
+      #|  (a : Cart[Real, 2]) == (d : Cart[Real, 2]) - (c : Cart[Real, 2]) \226\134\146 (x : Cart[Real, 2]) - (y : Cart[Real, 2]) - a == x + c - (y + d)
       #|  (n : Num)
       #|  1
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 op_minus_minus_gt((n : Num) => z * clog(Cx(real_of_num(n))) + clog(Cx(real_of_num(FACT(n)))) - vsum(op_dot_dot(0, n), (m : Num) => clog(Cx(real_of_num(m)) + z)), lgamma(z), sequentially)
+      #|  \226\136\128 z : Cart[Real, 2], (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 op_minus_minus_gt((n : Num) => z * clog(Cx(real_of_num(n))) + clog(Cx(real_of_num(FACT(n)))) - vsum(op_dot_dot(0, n), (m : Num) => clog(Cx(real_of_num(m)) + z)), lgamma(z), sequentially)
       #|  (n : Num) => n + 1
-      #|  (f : (Num) -> Cart[Real, Tybit0[Unit]])
+      #|  (f : (Num) -> Cart[Real, 2])
       #|  sequentially
-      #|  (z : Cart[Real, Tybit0[Unit]]) => clog(Cx(real_of_num(1)) + z)
+      #|  (z : Cart[Real, 2]) => clog(Cx(real_of_num(1)) + z)
       #|  Cx(real_of_num(0)) == clog(Cx(real_of_num(1)) + Cx(real_of_num(0)))
-      #|  !((y : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) \226\134\146 (y + (z : Cart[Real, Tybit0[Unit]])) / y == Cx(real_of_num(1)) + z / y
-      #|  Cx(real_of_num((n : Num))) + (z : Cart[Real, Tybit0[Unit]]) == z + Cx(real_of_num(n))
+      #|  !((y : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 (y + (z : Cart[Real, 2])) / y == Cx(real_of_num(1)) + z / y
+      #|  Cx(real_of_num((n : Num))) + (z : Cart[Real, 2]) == z + Cx(real_of_num(n))
       #|  1 <= SUC((n : Num))
       #|  (n : Num)
       #|  1
-      #|  (n : Num) => -clog((Cx(real_of_num(n + 1)) + (z : Cart[Real, Tybit0[Unit]])) / Cx(real_of_num(n + 1)))
+      #|  (n : Num) => -clog((Cx(real_of_num(n + 1)) + (z : Cart[Real, 2])) / Cx(real_of_num(n + 1)))
       #|  (r : Num) => r + 1
       #|  1 + (m : Num) == m + 1
       #|  real_of_num(0) < real_of_num(1) + real_of_num((m : Num))
-      #|  !((m : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) \226\134\146 Cx(real_of_num(1)) + (z : Cart[Real, Tybit0[Unit]]) / m == (z + m) / m
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 op_minus_minus_gt((n : Num) => vsum(op_dot_dot(1, n), (m : Num) => z * clog(Cx(real_of_num(1)) + Cx(real_of_num(1)) / Cx(real_of_num(m))) - clog(Cx(real_of_num(1)) + z / Cx(real_of_num(m)))) - clog(z), lgamma(z), sequentially)
-      #|  (cgamma : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((z : Cart[Real, Tybit0[Unit]])) == lim(sequentially, (n : Num) => cpow(Cx(real_of_num(n)), z) * Cx(real_of_num(FACT(n))) / cproduct(op_dot_dot(0, n), (m : Num) => z + Cx(real_of_num(m))))
+      #|  !((m : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 Cx(real_of_num(1)) + (z : Cart[Real, 2]) / m == (z + m) / m
+      #|  \226\136\128 z : Cart[Real, 2], (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 op_minus_minus_gt((n : Num) => vsum(op_dot_dot(1, n), (m : Num) => z * clog(Cx(real_of_num(1)) + Cx(real_of_num(1)) / Cx(real_of_num(m))) - clog(Cx(real_of_num(1)) + z / Cx(real_of_num(m)))) - clog(z), lgamma(z), sequentially)
+      #|  (cgamma : (Cart[Real, 2]) -> Cart[Real, 2])((z : Cart[Real, 2])) == lim(sequentially, (n : Num) => cpow(Cx(real_of_num(n)), z) * Cx(real_of_num(FACT(n))) / cproduct(op_dot_dot(0, n), (m : Num) => z + Cx(real_of_num(m))))
       #|  sequentially
       #|  (q : Bool) && (q \226\134\146 (p : Bool)) \226\134\146 p && q
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
       #|  cexp
       #|  (m : Num)
-      #|  (a : Cart[Real, Tybit0[Unit]]) * ((b : Cart[Real, Tybit0[Unit]]) * (c : Cart[Real, Tybit0[Unit]])) == b * (a * c)
+      #|  (a : Cart[Real, 2]) * ((b : Cart[Real, 2]) * (c : Cart[Real, 2])) == b * (a * c)
       #|  (n : Num)
       #|  1
-      #|  (n : Num) => cexp((y : Cart[Real, Tybit0[Unit]]) * clog(Cx(real_of_num(n))) - clog(y) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + y) / Cx(real_of_num(m)))))
-      #|  op_minus_minus_gt((n : Num) => cpow(Cx(real_of_num(n)), (y : Cart[Real, Tybit0[Unit]])) * Cx(real_of_num(FACT(n))) / cproduct(op_dot_dot(0, n), (m : Num) => y + Cx(real_of_num(m))), cexp(lgamma(y)), sequentially)
+      #|  (n : Num) => cexp((y : Cart[Real, 2]) * clog(Cx(real_of_num(n))) - clog(y) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + y) / Cx(real_of_num(m)))))
+      #|  op_minus_minus_gt((n : Num) => cpow(Cx(real_of_num(n)), (y : Cart[Real, 2])) * Cx(real_of_num(FACT(n))) / cproduct(op_dot_dot(0, n), (m : Num) => y + Cx(real_of_num(m))), cexp(lgamma(y)), sequentially)
       #|  (n : Num)
       #|  (N : Num)
       #|  !trivial_limit((net : Net[_])) && op_minus_minus_gt((f : (_) -> Cart[Real, _]), (a : Cart[Real, _]), net) \226\134\146 op_minus_minus_gt(f, select((a : Cart[Real, _]) => op_minus_minus_gt(f, a, net)), net) && select((a : Cart[Real, _]) => op_minus_minus_gt(f, a, net)) == a
       #|  (N : Num)
-      #|  \226\136\131 n : Num, (y : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(n)) == Cx(real_of_num(0))
-      #|  (y : Cart[Real, Tybit0[Unit]])
-      #|  (\226\136\128 z : Cart[Real, Tybit0[Unit]], op_minus_minus_gt((n : Num) => cpow(Cx(real_of_num(n)), z) * Cx(real_of_num(FACT(n))) / cproduct(op_dot_dot(0, n), (m : Num) => z + Cx(real_of_num(m))), cgamma(z), sequentially)) && (\226\136\128 z : Cart[Real, Tybit0[Unit]], (cgamma(z) == Cx(real_of_num(0))) == (\226\136\131 n : Num, z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) && (\226\136\128 z : Cart[Real, Tybit0[Unit]], cgamma(z) == (if (\226\136\131 n : Num, z + Cx(real_of_num(n)) == Cx(real_of_num(0))) { Cx(real_of_num(0)) } else { cexp(lgamma(z)) }))
+      #|  \226\136\131 n : Num, (y : Cart[Real, 2]) + Cx(real_of_num(n)) == Cx(real_of_num(0))
+      #|  (y : Cart[Real, 2])
+      #|  (\226\136\128 z : Cart[Real, 2], op_minus_minus_gt((n : Num) => cpow(Cx(real_of_num(n)), z) * Cx(real_of_num(FACT(n))) / cproduct(op_dot_dot(0, n), (m : Num) => z + Cx(real_of_num(m))), cgamma(z), sequentially)) && (\226\136\128 z : Cart[Real, 2], (cgamma(z) == Cx(real_of_num(0))) == (\226\136\131 n : Num, z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) && (\226\136\128 z : Cart[Real, 2], cgamma(z) == (if (\226\136\131 n : Num, z + Cx(real_of_num(n)) == Cx(real_of_num(0))) { Cx(real_of_num(0)) } else { cexp(lgamma(z)) }))
       #|  (real_of_num(1) / real_of_num(2) <= real_of_num(1) - (x : Real)) == (x <= inv(real_of_num(2)))
       #|  Cx(inv(real_of_num((n : Num))))
       #|  0
@@ -88604,334 +88604,334 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  (n : Num) => Cx(real_of_num(2)) * inv(Cx(real_of_num(n)))
       #|  cexp
       #|  0 < (n : Num) + 1
-      #|  !((n : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) \226\134\146 Cx(real_of_num(1)) + inv(n) == (n + Cx(real_of_num(1))) / n
+      #|  !((n : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 Cx(real_of_num(1)) + inv(n) == (n + Cx(real_of_num(1))) / n
       #|  1
-      #|  (n : Num) => cexp(((z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(1))) * clog(Cx(real_of_num(1)) + inv(Cx(real_of_num(n)))))
+      #|  (n : Num) => cexp(((z : Cart[Real, 2]) + Cx(real_of_num(1))) * clog(Cx(real_of_num(1)) + inv(Cx(real_of_num(n)))))
       #|  (n : Num)
-      #|  (a : Cart[Real, Tybit0[Unit]]) * ((b : Cart[Real, Tybit0[Unit]]) * ((c : Cart[Real, Tybit0[Unit]]) * ((d : Cart[Real, Tybit0[Unit]]) * ((e : Cart[Real, Tybit0[Unit]]) * ((f : Cart[Real, Tybit0[Unit]]) * ((g : Cart[Real, Tybit0[Unit]]) * (h : Cart[Real, Tybit0[Unit]]))))))) == a * d * (c * g * (h * e * (b * f)))
+      #|  (a : Cart[Real, 2]) * ((b : Cart[Real, 2]) * ((c : Cart[Real, 2]) * ((d : Cart[Real, 2]) * ((e : Cart[Real, 2]) * ((f : Cart[Real, 2]) * ((g : Cart[Real, 2]) * (h : Cart[Real, 2]))))))) == a * d * (c * g * (h * e * (b * f)))
       #|  1
       #|  (m : Num)
-      #|  (f : (Num) -> Cart[Real, Tybit0[Unit]])
+      #|  (f : (Num) -> Cart[Real, 2])
       #|  1 + (n : Num) == n + 1
       #|  1
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  (n : Num) => (z : Cart[Real, Tybit0[Unit]]) * (cpow(Cx(real_of_num(n + 1)), z) * Cx(real_of_num(FACT(n + 1))) / cproduct(op_dot_dot(0, n + 1), (m : Num) => z + Cx(real_of_num(m)))) / (cpow(Cx(real_of_num(n)), z + Cx(real_of_num(1))) * Cx(real_of_num(FACT(n))) / cproduct(op_dot_dot(0, n), (m : Num) => z + Cx(real_of_num(1)) + Cx(real_of_num(m))))
+      #|  (z : Cart[Real, 2])
+      #|  (n : Num) => (z : Cart[Real, 2]) * (cpow(Cx(real_of_num(n + 1)), z) * Cx(real_of_num(FACT(n + 1))) / cproduct(op_dot_dot(0, n + 1), (m : Num) => z + Cx(real_of_num(m)))) / (cpow(Cx(real_of_num(n)), z + Cx(real_of_num(1))) * Cx(real_of_num(FACT(n))) / cproduct(op_dot_dot(0, n), (m : Num) => z + Cx(real_of_num(1)) + Cx(real_of_num(m))))
       #|  sequentially
-      #|  (a : Cart[Real, Tybit0[Unit]]) * (b : Cart[Real, Tybit0[Unit]]) / (c : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(1)) && !(a == Cx(real_of_num(0))) && !(c == Cx(real_of_num(0))) \226\134\146 b == c / a
-      #|  !((z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)))
-      #|  \226\136\128 n : Num, !((z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(1)) + Cx(real_of_num(n)) == Cx(real_of_num(0)))
-      #|  (z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))
-      #|  \226\136\131 n : Num, (z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(n)) == Cx(real_of_num(0))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], cgamma(z) == cgamma(z + Cx(real_of_num(1))) / z
+      #|  (a : Cart[Real, 2]) * (b : Cart[Real, 2]) / (c : Cart[Real, 2]) == Cx(real_of_num(1)) && !(a == Cx(real_of_num(0))) && !(c == Cx(real_of_num(0))) \226\134\146 b == c / a
+      #|  !((z : Cart[Real, 2]) == Cx(real_of_num(0)))
+      #|  \226\136\128 n : Num, !((z : Cart[Real, 2]) + Cx(real_of_num(1)) + Cx(real_of_num(n)) == Cx(real_of_num(0)))
+      #|  (z : Cart[Real, 2]) == Cx(real_of_num(0))
+      #|  \226\136\131 n : Num, (z : Cart[Real, 2]) + Cx(real_of_num(n)) == Cx(real_of_num(0))
+      #|  \226\136\128 z : Cart[Real, 2], cgamma(z) == cgamma(z + Cx(real_of_num(1))) / z
       #|  1
-      #|  (l : Cart[Real, Tybit0[Unit]])
-      #|  (f : (Num) -> Cart[Real, Tybit0[Unit]])
+      #|  (l : Cart[Real, 2])
+      #|  (f : (Num) -> Cart[Real, 2])
       #|  Cx(real_of_num(1)) == Cx(real_of_num(1)) - Cx(real_of_num(0))
       #|  real_of_num((n : Num)) / (real_of_num(n) + real_of_num(1)) == real_of_num(1) - inv(real_of_num(n) + real_of_num(1))
       #|  1 <= SUC((n : Num))
       #|  (m : Num)
       #|  (n : Num) + 1
-      #|  (a : Cart[Real, Tybit0[Unit]]) * (b : Cart[Real, Tybit0[Unit]]) == (c : Cart[Real, Tybit0[Unit]]) && !(b == Cx(real_of_num(0))) \226\134\146 a == inv(b) * c
+      #|  (a : Cart[Real, 2]) * (b : Cart[Real, 2]) == (c : Cart[Real, 2]) && !(b == Cx(real_of_num(0))) \226\134\146 a == inv(b) * c
       #|  (n : Num)
       #|  1
       #|  (n : Num) => Cx(real_of_num(n) / (real_of_num(n) + real_of_num(1)))
       #|  1
       #|  (m : Num)
-      #|  (f : (Num) -> Cart[Real, Tybit0[Unit]])
+      #|  (f : (Num) -> Cart[Real, 2])
       #|  1 + (n : Num) == n + 1
       #|  sequentially
       #|  Cx(real_of_num(1))
       #|  cgamma(Cx(real_of_num(1))) == Cx(real_of_num(1))
-      #|  (a : Cart[Real, Tybit0[Unit]]) == (b : Cart[Real, Tybit0[Unit]]) / (c : Cart[Real, Tybit0[Unit]]) && !(c == Cx(real_of_num(0))) \226\134\146 b == c * a
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], cgamma(z + Cx(real_of_num(1))) == (if z == Cx(real_of_num(0)) { Cx(real_of_num(1)) } else { z * cgamma(z) })
+      #|  (a : Cart[Real, 2]) == (b : Cart[Real, 2]) / (c : Cart[Real, 2]) && !(c == Cx(real_of_num(0))) \226\134\146 b == c * a
+      #|  \226\136\128 z : Cart[Real, 2], cgamma(z + Cx(real_of_num(1))) == (if z == Cx(real_of_num(0)) { Cx(real_of_num(1)) } else { z * cgamma(z) })
       #|  \226\136\128 n : Num, cgamma(Cx(real_of_num(n + 1))) == Cx(real_of_num(FACT(n)))
       #|  \226\136\128 n : Num, cgamma(-Cx(real_of_num(n))) == Cx(real_of_num(0))
       #|  real_of_num(1)
-      #|  (z : Cart[Real, Tybit0[Unit]]) => cgamma(z + Cx(real_of_num(1))) / z
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) && complex_differentiable(cgamma, at(z + Cx(real_of_num(1)))) \226\134\146 complex_differentiable(cgamma, at(z))
+      #|  (z : Cart[Real, 2]) => cgamma(z + Cx(real_of_num(1))) / z
+      #|  \226\136\128 z : Cart[Real, 2], (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) && complex_differentiable(cgamma, at(z + Cx(real_of_num(1)))) \226\134\146 complex_differentiable(cgamma, at(z))
       #|  (n : Num) + 1 <= (N : Num) + (m : Num)
       #|  (N : Num) + (m : Num) - ((n : Num) + 1)
       #|  (m : Num)
-      #|  (z : Cart[Real, Tybit0[Unit]]) + ((N : Cart[Real, Tybit0[Unit]]) - ((n : Cart[Real, Tybit0[Unit]]) + (w : Cart[Real, Tybit0[Unit]]))) + w == z + (N - n)
-      #|  (w : Cart[Real, Tybit0[Unit]]) - (N : Cart[Real, Tybit0[Unit]]) + ((n : Cart[Real, Tybit0[Unit]]) + N) == w + n
+      #|  (z : Cart[Real, 2]) + ((N : Cart[Real, 2]) - ((n : Cart[Real, 2]) + (w : Cart[Real, 2]))) + w == z + (N - n)
+      #|  (w : Cart[Real, 2]) - (N : Cart[Real, 2]) + ((n : Cart[Real, 2]) + N) == w + n
       #|  (n : Num) + (N : Num)
       #|  (n : Num)
-      #|  (w : Cart[Real, Tybit0[Unit]]) - (n : Cart[Real, Tybit0[Unit]]) - (z : Cart[Real, Tybit0[Unit]]) == w - (z + n)
-      #|  (w : Cart[Real, Tybit0[Unit]]) - Cx(real_of_num((N : Num)))
-      #|  (w : Cart[Real, Tybit0[Unit]])
+      #|  (w : Cart[Real, 2]) - (n : Cart[Real, 2]) - (z : Cart[Real, 2]) == w - (z + n)
+      #|  (w : Cart[Real, 2]) - Cx(real_of_num((N : Num)))
+      #|  (w : Cart[Real, 2])
       #|  (e : Real)
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  -(x : Cart[Real, Tybit0[Unit]]) - -(y : Cart[Real, Tybit0[Unit]]) == y - x
-      #|  ((x : Cart[Real, Tybit0[Unit]]) + (y : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) == (x == -y)
+      #|  (z : Cart[Real, 2])
+      #|  -(x : Cart[Real, 2]) - -(y : Cart[Real, 2]) == y - x
+      #|  ((x : Cart[Real, 2]) + (y : Cart[Real, 2]) == Cx(real_of_num(0))) == (x == -y)
       #|  real_of_num(1)
       #|  {(z : _) | \226\136\128 n : _, (P : (_, _) -> Bool)(n, z)} == DIFF(UNIV, {(z : _) | \226\136\131 n : _, !P(n, z)})
-      #|  open({(z : Cart[Real, Tybit0[Unit]]) | \226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))})
-      #|  (z : Cart[Real, Tybit0[Unit]]) => cexp(lgamma(z))
-      #|  \226\136\128 n : Num, n <= (N : Num) \226\134\146 complex_differentiable(cgamma, at((z : Cart[Real, Tybit0[Unit]]) + (Cx(real_of_num(N)) - Cx(real_of_num(n)))))
+      #|  open({(z : Cart[Real, 2]) | \226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))})
+      #|  (z : Cart[Real, 2]) => cexp(lgamma(z))
+      #|  \226\136\128 n : Num, n <= (N : Num) \226\134\146 complex_differentiable(cgamma, at((z : Cart[Real, 2]) + (Cx(real_of_num(N)) - Cx(real_of_num(n)))))
       #|  (N : Num)
-      #|  abs(Re((z : Cart[Real, Tybit0[Unit]]))) + real_of_num(1)
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 complex_differentiable(cgamma, at(z))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], \226\136\128 s : (Cart[Real, Tybit0[Unit]]) -> Bool, (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 complex_differentiable(cgamma, within(at(z), s))
-      #|  \226\136\128 s : (Cart[Real, Tybit0[Unit]]) -> Bool, SUBSET(s, {(z : Cart[Real, Tybit0[Unit]]) | \226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))}) \226\134\146 holomorphic_on(cgamma, s)
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 continuous(cgamma, at(z))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], \226\136\128 s : (Cart[Real, Tybit0[Unit]]) -> Bool, (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 continuous(cgamma, within(at(z), s))
-      #|  \226\136\128 s : (Cart[Real, Tybit0[Unit]]) -> Bool, SUBSET(s, {(z : Cart[Real, Tybit0[Unit]]) | \226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))}) \226\134\146 continuous_on(cgamma, s)
+      #|  abs(Re((z : Cart[Real, 2]))) + real_of_num(1)
+      #|  \226\136\128 z : Cart[Real, 2], (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 complex_differentiable(cgamma, at(z))
+      #|  \226\136\128 z : Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 complex_differentiable(cgamma, within(at(z), s))
+      #|  \226\136\128 s : (Cart[Real, 2]) -> Bool, SUBSET(s, {(z : Cart[Real, 2]) | \226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))}) \226\134\146 holomorphic_on(cgamma, s)
+      #|  \226\136\128 z : Cart[Real, 2], (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 continuous(cgamma, at(z))
+      #|  \226\136\128 z : Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 continuous(cgamma, within(at(z), s))
+      #|  \226\136\128 s : (Cart[Real, 2]) -> Bool, SUBSET(s, {(z : Cart[Real, 2]) | \226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))}) \226\134\146 continuous_on(cgamma, s)
       #|  real_of_num(1)
-      #|  (z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(1)) + (w : Cart[Real, Tybit0[Unit]]) == z + (w + Cx(real_of_num(1)))
-      #|  (z : Cart[Real, Tybit0[Unit]]) => z + Cx(real_of_num(1))
+      #|  (z : Cart[Real, 2]) + Cx(real_of_num(1)) + (w : Cart[Real, 2]) == z + (w + Cx(real_of_num(1)))
+      #|  (z : Cart[Real, 2]) => z + Cx(real_of_num(1))
       #|  at(-Cx(real_of_num(SUC((n : Num)))))
-      #|  -Cx(real_of_num(1)) * (p : Cart[Real, Tybit0[Unit]]) * ((is_ : Cart[Real, Tybit0[Unit]]) * (i : Cart[Real, Tybit0[Unit]])) == p * i * -is_
-      #|  continuous((z : Cart[Real, Tybit0[Unit]]) => cgamma(z + Cx(real_of_num(1))), at(Cx(real_of_num(0))))
+      #|  -Cx(real_of_num(1)) * (p : Cart[Real, 2]) * ((is_ : Cart[Real, 2]) * (i : Cart[Real, 2])) == p * i * -is_
+      #|  continuous((z : Cart[Real, 2]) => cgamma(z + Cx(real_of_num(1))), at(Cx(real_of_num(0))))
       #|  Cx(real_of_num(1))
-      #|  (z : Cart[Real, Tybit0[Unit]]) => cgamma(z + Cx(real_of_num(1)))
-      #|  \226\136\128 n : Num, op_minus_minus_gt((z : Cart[Real, Tybit0[Unit]]) => (z + Cx(real_of_num(n))) * cgamma(z), pow(-Cx(real_of_num(1)), n) / Cx(real_of_num(FACT(n))), at(-Cx(real_of_num(n))))
+      #|  (z : Cart[Real, 2]) => cgamma(z + Cx(real_of_num(1)))
+      #|  \226\136\128 n : Num, op_minus_minus_gt((z : Cart[Real, 2]) => (z + Cx(real_of_num(n))) * cgamma(z), pow(-Cx(real_of_num(1)), n) / Cx(real_of_num(FACT(n))), at(-Cx(real_of_num(n))))
       #|  (n : Num)
       #|  1
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  (z : Cart[Real, 2])
       #|  ((a : Bool) && (b : Bool) && (c : Bool) \226\134\146 (d : Bool)) == (a && b \226\134\146 c \226\134\146 d)
-      #|  cnj((z : Cart[Real, Tybit0[Unit]]))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], cnj(cgamma(z)) == cgamma(cnj(z))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], real(z) \226\134\146 real(cgamma(z))
+      #|  cnj((z : Cart[Real, 2]))
+      #|  \226\136\128 z : Cart[Real, 2], cnj(cgamma(z)) == cgamma(cnj(z))
+      #|  \226\136\128 z : Cart[Real, 2], real(z) \226\134\146 real(cgamma(z))
       #|  (n : Num)
       #|  1
       #|  ((p : Bool) && (q : Bool) && (r : Bool) \226\134\146 (s : Bool)) == (p && r \226\134\146 q \226\134\146 s)
       #|  Cx((x : Real))
       #|  (x : Real)
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], real(z) && real_of_num(0) <= Re(z) \226\134\146 real_of_num(0) <= Re(cgamma(z))
+      #|  \226\136\128 z : Cart[Real, 2], real(z) && real_of_num(0) <= Re(z) \226\134\146 real_of_num(0) <= Re(cgamma(z))
       #|  (n : Num)
       #|  (n : Num)
       #|  real_of_num(2) * (real_of_num(1) / real_of_num(2) + (n : Real)) == real_of_num(2) * n + real_of_num(1)
-      #|  ((z : Cart[Real, Tybit0[Unit]]) + (n : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) == (Cx(real_of_num(2)) * z + Cx(real_of_num(2)) * n == Cx(real_of_num(0)))
-      #|  (z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)) && ((w : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)) || (y : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) \226\134\146 w * y == (p : Cart[Real, Tybit0[Unit]]) * ((q : Cart[Real, Tybit0[Unit]]) * z)
-      #|  !((p : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) && !((z2 : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) \226\134\146 (a : Cart[Real, Tybit0[Unit]]) == (z : Cart[Real, Tybit0[Unit]]) * (z' : Cart[Real, Tybit0[Unit]]) / (p * z2) \226\134\146 z * z' == p * (a * z2)
-      #|  \226\136\128 n : Num, !(Cx(real_of_num(2)) * (z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(n)) == Cx(real_of_num(0)))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  (x : Cart[Real, Tybit0[Unit]]) * ((a : Cart[Real, Tybit0[Unit]]) * ((b : Cart[Real, Tybit0[Unit]]) * ((c : Cart[Real, Tybit0[Unit]]) * ((d : Cart[Real, Tybit0[Unit]]) * ((e : Cart[Real, Tybit0[Unit]]) * (f : Cart[Real, Tybit0[Unit]])))))) == c * e * (a * (b * (d * (f * x))))
-      #|  ((z : Cart[Real, Tybit0[Unit]]) + (m : Cart[Real, Tybit0[Unit]])) * (z + Cx(real_of_num(1) / real_of_num(2)) + m) == inv(Cx(real_of_num(4))) * ((Cx(real_of_num(2)) * z + Cx(real_of_num(2)) * m) * (Cx(real_of_num(2)) * z + (Cx(real_of_num(2)) * m + Cx(real_of_num(1)))))
-      #|  (x : Cart[Real, Tybit0[Unit]]) * ((y : Cart[Real, Tybit0[Unit]]) * ((a : Cart[Real, Tybit0[Unit]]) * ((b : Cart[Real, Tybit0[Unit]]) * ((c : Cart[Real, Tybit0[Unit]]) * ((d : Cart[Real, Tybit0[Unit]]) * ((e : Cart[Real, Tybit0[Unit]]) * ((f : Cart[Real, Tybit0[Unit]]) * ((g : Cart[Real, Tybit0[Unit]]) * ((h : Cart[Real, Tybit0[Unit]]) * ((i : Cart[Real, Tybit0[Unit]]) * ((j : Cart[Real, Tybit0[Unit]]) * ((k : Cart[Real, Tybit0[Unit]]) * ((l : Cart[Real, Tybit0[Unit]]) * (m : Cart[Real, Tybit0[Unit]])))))))))))))) == x * y * (e * h * (a * d * k * (b * f * l * (i * j * (m * (c * g))))))
+      #|  ((z : Cart[Real, 2]) + (n : Cart[Real, 2]) == Cx(real_of_num(0))) == (Cx(real_of_num(2)) * z + Cx(real_of_num(2)) * n == Cx(real_of_num(0)))
+      #|  (z : Cart[Real, 2]) == Cx(real_of_num(0)) && ((w : Cart[Real, 2]) == Cx(real_of_num(0)) || (y : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 w * y == (p : Cart[Real, 2]) * ((q : Cart[Real, 2]) * z)
+      #|  !((p : Cart[Real, 2]) == Cx(real_of_num(0))) && !((z2 : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 (a : Cart[Real, 2]) == (z : Cart[Real, 2]) * (z' : Cart[Real, 2]) / (p * z2) \226\134\146 z * z' == p * (a * z2)
+      #|  \226\136\128 n : Num, !(Cx(real_of_num(2)) * (z : Cart[Real, 2]) + Cx(real_of_num(n)) == Cx(real_of_num(0)))
+      #|  (z : Cart[Real, 2])
+      #|  (x : Cart[Real, 2]) * ((a : Cart[Real, 2]) * ((b : Cart[Real, 2]) * ((c : Cart[Real, 2]) * ((d : Cart[Real, 2]) * ((e : Cart[Real, 2]) * (f : Cart[Real, 2])))))) == c * e * (a * (b * (d * (f * x))))
+      #|  ((z : Cart[Real, 2]) + (m : Cart[Real, 2])) * (z + Cx(real_of_num(1) / real_of_num(2)) + m) == inv(Cx(real_of_num(4))) * ((Cx(real_of_num(2)) * z + Cx(real_of_num(2)) * m) * (Cx(real_of_num(2)) * z + (Cx(real_of_num(2)) * m + Cx(real_of_num(1)))))
+      #|  (x : Cart[Real, 2]) * ((y : Cart[Real, 2]) * ((a : Cart[Real, 2]) * ((b : Cart[Real, 2]) * ((c : Cart[Real, 2]) * ((d : Cart[Real, 2]) * ((e : Cart[Real, 2]) * ((f : Cart[Real, 2]) * ((g : Cart[Real, 2]) * ((h : Cart[Real, 2]) * ((i : Cart[Real, 2]) * ((j : Cart[Real, 2]) * ((k : Cart[Real, 2]) * ((l : Cart[Real, 2]) * (m : Cart[Real, 2])))))))))))))) == x * y * (e * h * (a * d * k * (b * f * l * (i * j * (m * (c * g))))))
       #|  (n : Num)
       #|  1
       #|  (n : Num) => 2 * n + 1
-      #|  (a : Cart[Real, Tybit0[Unit]]) + (b : Cart[Real, Tybit0[Unit]]) - b == a
+      #|  (a : Cart[Real, 2]) + (b : Cart[Real, 2]) - b == a
       #|  !(2 * (n : Num) + 1 == 0)
-      #|  op_minus_minus_gt((n : Num) => (Cx(real_of_num(2)) * (z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(2 * n + 1))) / Cx(real_of_num(2 * n + 1)), Cx(real_of_num(1)), sequentially)
-      #|  (z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(1) / real_of_num(2))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  cpow(Cx(real_of_num(2)), Cx(real_of_num(1)) - Cx(real_of_num(2)) * (z : Cart[Real, Tybit0[Unit]]))
+      #|  op_minus_minus_gt((n : Num) => (Cx(real_of_num(2)) * (z : Cart[Real, 2]) + Cx(real_of_num(2 * n + 1))) / Cx(real_of_num(2 * n + 1)), Cx(real_of_num(1)), sequentially)
+      #|  (z : Cart[Real, 2]) + Cx(real_of_num(1) / real_of_num(2))
+      #|  (z : Cart[Real, 2])
+      #|  cpow(Cx(real_of_num(2)), Cx(real_of_num(1)) - Cx(real_of_num(2)) * (z : Cart[Real, 2]))
       #|  (n : Num) => 2 * n
-      #|  Cx(real_of_num(2)) * (z : Cart[Real, Tybit0[Unit]])
+      #|  Cx(real_of_num(2)) * (z : Cart[Real, 2])
       #|  (n : Num) => cpow(Cx(real_of_num(n)), Cx(real_of_num(1) / real_of_num(2))) * inv(Cx(real_of_num(2))) * (pow(Cx(real_of_num(FACT(n))), 2) * inv(Cx(real_of_num(FACT(2 * n)))) * (pow(Cx(real_of_num(4)), n + 1) * inv(Cx(real_of_num(2 * n + 1)))))
-      #|  \226\136\131 f : (Num) -> Cart[Real, Tybit0[Unit]], \226\136\128 z : Cart[Real, Tybit0[Unit]], (\226\136\128 n : Num, !(Cx(real_of_num(2)) * z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 op_minus_minus_gt(f, cgamma(z) * cgamma(z + Cx(real_of_num(1) / real_of_num(2))) / (cpow(Cx(real_of_num(2)), Cx(real_of_num(1)) - Cx(real_of_num(2)) * z) * cgamma(Cx(real_of_num(2)) * z)), sequentially)
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], cgamma(z) * cgamma(z + Cx(real_of_num(1)) / Cx(real_of_num(2))) == cpow(Cx(real_of_num(2)), Cx(real_of_num(1)) - Cx(real_of_num(2)) * z) * (cgamma(Cx(real_of_num(1)) / Cx(real_of_num(2))) * cgamma(Cx(real_of_num(2)) * z))
+      #|  \226\136\131 f : (Num) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], (\226\136\128 n : Num, !(Cx(real_of_num(2)) * z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 op_minus_minus_gt(f, cgamma(z) * cgamma(z + Cx(real_of_num(1) / real_of_num(2))) / (cpow(Cx(real_of_num(2)), Cx(real_of_num(1)) - Cx(real_of_num(2)) * z) * cgamma(Cx(real_of_num(2)) * z)), sequentially)
+      #|  \226\136\128 z : Cart[Real, 2], cgamma(z) * cgamma(z + Cx(real_of_num(1)) / Cx(real_of_num(2))) == cpow(Cx(real_of_num(2)), Cx(real_of_num(1)) - Cx(real_of_num(2)) * z) * (cgamma(Cx(real_of_num(1)) / Cx(real_of_num(2))) * cgamma(Cx(real_of_num(2)) * z))
       #|  Cx(real_of_num(1) / real_of_num(2))
       #|  Cx(real_of_num(1) / real_of_num(2))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  \226\136\128 w : Cart[Real, Tybit0[Unit]], \226\136\128 z : Cart[Real, Tybit0[Unit]], (\226\136\131 n : Real, integer(n) && w == Cx(n)) && (\226\136\131 n : Real, integer(n) && z == Cx(n)) && distance((w, z)) < real_of_num(1) \226\134\146 w == z
-      #|  real((y : Cart[Real, Tybit0[Unit]])) && !real((x : Cart[Real, Tybit0[Unit]])) \226\134\146 !(x == y)
+      #|  (z : Cart[Real, 2])
+      #|  \226\136\128 w : Cart[Real, 2], \226\136\128 z : Cart[Real, 2], (\226\136\131 n : Real, integer(n) && w == Cx(n)) && (\226\136\131 n : Real, integer(n) && z == Cx(n)) && distance((w, z)) < real_of_num(1) \226\134\146 w == z
+      #|  real((y : Cart[Real, 2])) && !real((x : Cart[Real, 2])) \226\134\146 !(x == y)
       #|  real_abs
       #|  (m : Real)
       #|  !((n : Real) == real_of_num(0)) \226\134\146 (inv(real_of_num(4) * n) == (m : Real)) == (real_of_num(4) * (m * n) == real_of_num(1))
       #|  !(p : Bool) \226\134\146 p \226\134\146 (q : Bool)
       #|  !((n : Real) == real_of_num(0)) \226\134\146 real_of_num(2) * (n * pi) * inv(real_of_num(4) * n) == pi / real_of_num(2)
-      #|  (a : Cart[Real, Tybit0[Unit]])
-      #|  (g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(Cx(real_of_num(0))) == Cx(pi)
-      #|  (g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((z : Cart[Real, Tybit0[Unit]])) == g(Cx(real_of_num(0)))
+      #|  (a : Cart[Real, 2])
+      #|  (g : (Cart[Real, 2]) -> Cart[Real, 2])(Cx(real_of_num(0))) == Cx(pi)
+      #|  (g : (Cart[Real, 2]) -> Cart[Real, 2])((z : Cart[Real, 2])) == g(Cx(real_of_num(0)))
       #|  (-(p : Real) + (n : Real) == real_of_num(0)) == (p == n)
       #|  abs((x : Real)) == (n : Real) \226\134\146 x == n || x == -n
       #|  (p : Num)
       #|  (m : Real)
-      #|  ((c : Cart[Real, Tybit0[Unit]]) - (z : Cart[Real, Tybit0[Unit]]) + (n : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) == (z == n + c)
-      #|  (z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)) && ((w : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)) || (y : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) \226\134\146 w * y == (p : Cart[Real, Tybit0[Unit]]) * z
-      #|  \226\136\131 n : Real, integer(n) && (z : Cart[Real, Tybit0[Unit]]) == Cx(n)
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  (a : Cart[Real, Tybit0[Unit]])
+      #|  ((c : Cart[Real, 2]) - (z : Cart[Real, 2]) + (n : Cart[Real, 2]) == Cx(real_of_num(0))) == (z == n + c)
+      #|  (z : Cart[Real, 2]) == Cx(real_of_num(0)) && ((w : Cart[Real, 2]) == Cx(real_of_num(0)) || (y : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 w * y == (p : Cart[Real, 2]) * z
+      #|  \226\136\131 n : Real, integer(n) && (z : Cart[Real, 2]) == Cx(n)
+      #|  (z : Cart[Real, 2])
+      #|  (a : Cart[Real, 2])
       #|  (n : Real) == real_of_num(0)
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], cexp((h : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z)) == (g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z)
+      #|  \226\136\128 z : Cart[Real, 2], cexp((h : (Cart[Real, 2]) -> Cart[Real, 2])(z)) == (g : (Cart[Real, 2]) -> Cart[Real, 2])(z)
       #|  (n : Real)
-      #|  ((a : Cart[Real, Tybit0[Unit]]) * (b : Cart[Real, Tybit0[Unit]]) == b) == (a == Cx(real_of_num(1)) || b == Cx(real_of_num(0)))
-      #|  \226\136\128 x : Cart[Real, Tybit0[Unit]], (h : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(x) == (a : Cart[Real, Tybit0[Unit]]) * x + (b : Cart[Real, Tybit0[Unit]])
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], cexp((h : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z)) == (g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z)
+      #|  ((a : Cart[Real, 2]) * (b : Cart[Real, 2]) == b) == (a == Cx(real_of_num(1)) || b == Cx(real_of_num(0)))
+      #|  \226\136\128 x : Cart[Real, 2], (h : (Cart[Real, 2]) -> Cart[Real, 2])(x) == (a : Cart[Real, 2]) * x + (b : Cart[Real, 2])
+      #|  \226\136\128 z : Cart[Real, 2], cexp((h : (Cart[Real, 2]) -> Cart[Real, 2])(z)) == (g : (Cart[Real, 2]) -> Cart[Real, 2])(z)
       #|  Cx(real_of_num(0))
       #|  real_of_num(1)
-      #|  (b : Cart[Real, Tybit0[Unit]])
-      #|  ((a : Cart[Real, Tybit0[Unit]]) - (b : Cart[Real, Tybit0[Unit]]) == (c : Cart[Real, Tybit0[Unit]])) == (a == b + c)
-      #|  (UNIV : (Cart[Real, Tybit0[Unit]]) -> Bool)
-      #|  (z : Cart[Real, Tybit0[Unit]]) => (h : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z) - (a : Cart[Real, Tybit0[Unit]]) * z
-      #|  (a : Cart[Real, Tybit0[Unit]])
-      #|  (UNIV : (Cart[Real, Tybit0[Unit]]) -> Bool)
-      #|  (h' : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
+      #|  (b : Cart[Real, 2])
+      #|  ((a : Cart[Real, 2]) - (b : Cart[Real, 2]) == (c : Cart[Real, 2])) == (a == b + c)
+      #|  (UNIV : (Cart[Real, 2]) -> Bool)
+      #|  (z : Cart[Real, 2]) => (h : (Cart[Real, 2]) -> Cart[Real, 2])(z) - (a : Cart[Real, 2]) * z
+      #|  (a : Cart[Real, 2])
+      #|  (UNIV : (Cart[Real, 2]) -> Bool)
+      #|  (h' : (Cart[Real, 2]) -> Cart[Real, 2])
       #|  real_of_num(1)
-      #|  norm((w : Cart[Real, Tybit0[Unit]])) <= real_of_num(1)
-      #|  norm((a : Cart[Real, Tybit0[Unit]])) <= (e : Real) && norm((b : Cart[Real, Tybit0[Unit]])) <= e \226\134\146 norm(a + b) / real_of_num(4) <= e / real_of_num(2)
+      #|  norm((w : Cart[Real, 2])) <= real_of_num(1)
+      #|  norm((a : Cart[Real, 2])) <= (e : Real) && norm((b : Cart[Real, 2])) <= e \226\134\146 norm(a + b) / real_of_num(4) <= e / real_of_num(2)
       #|  :real
       #|  :real
-      #|  (h'' : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((w : Cart[Real, Tybit0[Unit]]))
-      #|  \226\136\128 w : Cart[Real, Tybit0[Unit]], norm(w) <= norm(w) / real_of_num(2) && norm((z : Cart[Real, _])) <= norm(w) \226\134\146 z == vec(0)
+      #|  (h'' : (Cart[Real, 2]) -> Cart[Real, 2])((w : Cart[Real, 2]))
+      #|  \226\136\128 w : Cart[Real, 2], norm(w) <= norm(w) / real_of_num(2) && norm((z : Cart[Real, _])) <= norm(w) \226\134\146 z == vec(0)
       #|  :real
       #|  :real
-      #|  (w : Cart[Real, Tybit0[Unit]])
+      #|  (w : Cart[Real, 2])
       #|  cball((Cx(real_of_num(0)), real_of_num(1)))
-      #|  (z : Cart[Real, Tybit0[Unit]]) => norm((h'' : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z))
+      #|  (z : Cart[Real, 2]) => norm((h'' : (Cart[Real, 2]) -> Cart[Real, 2])(z))
       #|  Cx(real_of_num(0))
       #|  cball((Cx(real_of_num(0)), real_of_num(1)))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], IN(z, UNIV) \226\134\146 (h'' : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z) == Cx(real_of_num(0))
-      #|  (UNIV : (Cart[Real, Tybit0[Unit]]) -> Bool)
-      #|  (h'' : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-      #|  (h' : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  (z : Cart[Real, Tybit0[Unit]]) => ((h' : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z / Cx(real_of_num(2))) + h'((z + Cx(real_of_num(1))) / Cx(real_of_num(2)))) / Cx(real_of_num(2))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], ((h'' : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z / Cx(real_of_num(2))) + h''((z + Cx(real_of_num(1))) / Cx(real_of_num(2)))) / Cx(real_of_num(4)) == h''(z)
-      #|  (h'' : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-      #|  (UNIV : (Cart[Real, Tybit0[Unit]]) -> Bool)
-      #|  (h' : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-      #|  (UNIV : (Cart[Real, Tybit0[Unit]]) -> Bool)
-      #|  (h' : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-      #|  (h : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  (z : Cart[Real, Tybit0[Unit]]) => (g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z / Cx(real_of_num(2))) * g((z + Cx(real_of_num(1))) / Cx(real_of_num(2)))
-      #|  (g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])((z : Cart[Real, Tybit0[Unit]]) / Cx(real_of_num(2))) * g((z + Cx(real_of_num(1))) / Cx(real_of_num(2)))
-      #|  \226\136\128 a : Cart[Real, Tybit0[Unit]], !(a == Cx(real_of_num(0))) && a * (x : Cart[Real, Tybit0[Unit]]) == a * (y : Cart[Real, Tybit0[Unit]]) \226\134\146 x == y
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], ((h' : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z / Cx(real_of_num(2))) + h'((z + Cx(real_of_num(1))) / Cx(real_of_num(2)))) / Cx(real_of_num(2)) == h'(z)
-      #|  (h' : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-      #|  (UNIV : (Cart[Real, Tybit0[Unit]]) -> Bool)
-      #|  (h : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-      #|  ((z : Cart[Real, Tybit0[Unit]]) + (a : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) == (z == -a)
-      #|  ((a : Cart[Real, Tybit0[Unit]]) - (z : Cart[Real, Tybit0[Unit]]) + (b : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) == (z == a + b)
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  \226\136\131 h : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], holomorphic_on(h, UNIV) && (\226\136\128 z : Cart[Real, Tybit0[Unit]], IN(z, UNIV) \226\134\146 (g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z) == cexp(h(z)))
+      #|  \226\136\128 z : Cart[Real, 2], IN(z, UNIV) \226\134\146 (h'' : (Cart[Real, 2]) -> Cart[Real, 2])(z) == Cx(real_of_num(0))
+      #|  (UNIV : (Cart[Real, 2]) -> Bool)
+      #|  (h'' : (Cart[Real, 2]) -> Cart[Real, 2])
+      #|  (h' : (Cart[Real, 2]) -> Cart[Real, 2])
+      #|  (z : Cart[Real, 2])
+      #|  (z : Cart[Real, 2]) => ((h' : (Cart[Real, 2]) -> Cart[Real, 2])(z / Cx(real_of_num(2))) + h'((z + Cx(real_of_num(1))) / Cx(real_of_num(2)))) / Cx(real_of_num(2))
+      #|  (z : Cart[Real, 2])
+      #|  \226\136\128 z : Cart[Real, 2], ((h'' : (Cart[Real, 2]) -> Cart[Real, 2])(z / Cx(real_of_num(2))) + h''((z + Cx(real_of_num(1))) / Cx(real_of_num(2)))) / Cx(real_of_num(4)) == h''(z)
+      #|  (h'' : (Cart[Real, 2]) -> Cart[Real, 2])
+      #|  (UNIV : (Cart[Real, 2]) -> Bool)
+      #|  (h' : (Cart[Real, 2]) -> Cart[Real, 2])
+      #|  (UNIV : (Cart[Real, 2]) -> Bool)
+      #|  (h' : (Cart[Real, 2]) -> Cart[Real, 2])
+      #|  (h : (Cart[Real, 2]) -> Cart[Real, 2])
+      #|  (z : Cart[Real, 2])
+      #|  (z : Cart[Real, 2]) => (g : (Cart[Real, 2]) -> Cart[Real, 2])(z / Cx(real_of_num(2))) * g((z + Cx(real_of_num(1))) / Cx(real_of_num(2)))
+      #|  (g : (Cart[Real, 2]) -> Cart[Real, 2])((z : Cart[Real, 2]) / Cx(real_of_num(2))) * g((z + Cx(real_of_num(1))) / Cx(real_of_num(2)))
+      #|  \226\136\128 a : Cart[Real, 2], !(a == Cx(real_of_num(0))) && a * (x : Cart[Real, 2]) == a * (y : Cart[Real, 2]) \226\134\146 x == y
+      #|  (z : Cart[Real, 2])
+      #|  \226\136\128 z : Cart[Real, 2], ((h' : (Cart[Real, 2]) -> Cart[Real, 2])(z / Cx(real_of_num(2))) + h'((z + Cx(real_of_num(1))) / Cx(real_of_num(2)))) / Cx(real_of_num(2)) == h'(z)
+      #|  (h' : (Cart[Real, 2]) -> Cart[Real, 2])
+      #|  (UNIV : (Cart[Real, 2]) -> Bool)
+      #|  (h : (Cart[Real, 2]) -> Cart[Real, 2])
+      #|  ((z : Cart[Real, 2]) + (a : Cart[Real, 2]) == Cx(real_of_num(0))) == (z == -a)
+      #|  ((a : Cart[Real, 2]) - (z : Cart[Real, 2]) + (b : Cart[Real, 2]) == Cx(real_of_num(0))) == (z == a + b)
+      #|  (z : Cart[Real, 2])
+      #|  \226\136\131 h : (Cart[Real, 2]) -> Cart[Real, 2], holomorphic_on(h, UNIV) && (\226\136\128 z : Cart[Real, 2], IN(z, UNIV) \226\134\146 (g : (Cart[Real, 2]) -> Cart[Real, 2])(z) == cexp(h(z)))
       #|  real_of_num(1) / real_of_num(2) * (x : Real) == x / real_of_num(2)
       #|  complex_mul
       #|  op_eq_eq_gt
-      #|  -(z : Cart[Real, Tybit0[Unit]])
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  -(z : Cart[Real, 2])
+      #|  (z : Cart[Real, 2])
       #|  Cx(real_of_num(2))
-      #|  Cx(real_of_num(1) / real_of_num(2)) * ((z : Cart[Real, Tybit0[Unit]]) * Cx(pi))
-      #|  ((z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(1))) / Cx(real_of_num(2)) == z / Cx(real_of_num(2)) + Cx(real_of_num(1)) / Cx(real_of_num(2)) && Cx(real_of_num(1)) - z / Cx(real_of_num(2)) == (Cx(real_of_num(1)) - z) / Cx(real_of_num(2)) + Cx(real_of_num(1)) / Cx(real_of_num(2))
-      #|  Cx(real_of_num(1)) - ((z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(1))) / Cx(real_of_num(2)) == (Cx(real_of_num(1)) - z) / Cx(real_of_num(2))
-      #|  (a : Cart[Real, Tybit0[Unit]]) * ((b : Cart[Real, Tybit0[Unit]]) * (c : Cart[Real, Tybit0[Unit]])) * ((d : Cart[Real, Tybit0[Unit]]) * ((e : Cart[Real, Tybit0[Unit]]) * (f : Cart[Real, Tybit0[Unit]]))) == a * d * (e * b * (c * f))
-      #|  ((z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(1)) == (w : Cart[Real, Tybit0[Unit]])) == (z == w - Cx(real_of_num(1)))
-      #|  ((z : Cart[Real, Tybit0[Unit]]) / Cx(real_of_num(2)) == (w : Cart[Real, Tybit0[Unit]])) == (z == Cx(real_of_num(2)) * w)
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Cx(real_of_num(1) / real_of_num(2)) * ((z : Cart[Real, 2]) * Cx(pi))
+      #|  ((z : Cart[Real, 2]) + Cx(real_of_num(1))) / Cx(real_of_num(2)) == z / Cx(real_of_num(2)) + Cx(real_of_num(1)) / Cx(real_of_num(2)) && Cx(real_of_num(1)) - z / Cx(real_of_num(2)) == (Cx(real_of_num(1)) - z) / Cx(real_of_num(2)) + Cx(real_of_num(1)) / Cx(real_of_num(2))
+      #|  Cx(real_of_num(1)) - ((z : Cart[Real, 2]) + Cx(real_of_num(1))) / Cx(real_of_num(2)) == (Cx(real_of_num(1)) - z) / Cx(real_of_num(2))
+      #|  (a : Cart[Real, 2]) * ((b : Cart[Real, 2]) * (c : Cart[Real, 2])) * ((d : Cart[Real, 2]) * ((e : Cart[Real, 2]) * (f : Cart[Real, 2]))) == a * d * (e * b * (c * f))
+      #|  ((z : Cart[Real, 2]) + Cx(real_of_num(1)) == (w : Cart[Real, 2])) == (z == w - Cx(real_of_num(1)))
+      #|  ((z : Cart[Real, 2]) / Cx(real_of_num(2)) == (w : Cart[Real, 2])) == (z == Cx(real_of_num(2)) * w)
+      #|  (z : Cart[Real, 2])
       #|  real_of_num(1)
       #|  (s : (_) -> Bool) == {} \226\134\146 DIFF((t : (_) -> Bool), s) == t
-      #|  closure({(z : Cart[Real, Tybit0[Unit]]) | \226\136\128 n : Real, !(integer(n) && z == Cx(n))})
+      #|  closure({(z : Cart[Real, 2]) | \226\136\128 n : Real, !(integer(n) && z == Cx(n))})
       #|  \226\136\128 s : (_) -> Bool, s == UNIV && (\226\136\128 x : _, IN(x, s) \226\134\146 (P : (_) -> Bool)(x)) \226\134\146 (\226\136\128 x : _, P(x))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], (g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z / Cx(real_of_num(2))) * g((z + Cx(real_of_num(1))) / Cx(real_of_num(2))) == pow(cgamma(Cx(real_of_num(1) / real_of_num(2))), 2) * g(z)
-      #|  (z : Cart[Real, Tybit0[Unit]]) - (w : Cart[Real, Tybit0[Unit]]) + w == z
+      #|  \226\136\128 z : Cart[Real, 2], (g : (Cart[Real, 2]) -> Cart[Real, 2])(z / Cx(real_of_num(2))) * g((z + Cx(real_of_num(1))) / Cx(real_of_num(2))) == pow(cgamma(Cx(real_of_num(1) / real_of_num(2))), 2) * g(z)
+      #|  (z : Cart[Real, 2]) - (w : Cart[Real, 2]) + w == z
       #|  real_of_num(1)
-      #|  o((g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (z : Cart[Real, Tybit0[Unit]]) => z - Cx((n : Real)))
+      #|  o((g : (Cart[Real, 2]) -> Cart[Real, 2]), (z : Cart[Real, 2]) => z - Cx((n : Real)))
       #|  (n : Real)
-      #|  \226\136\131 n : Real, integer(n) && (z : Cart[Real, Tybit0[Unit]]) == Cx(n)
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  holomorphic_on((g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), UNIV)
+      #|  \226\136\131 n : Real, integer(n) && (z : Cart[Real, 2]) == Cx(n)
+      #|  (z : Cart[Real, 2])
+      #|  holomorphic_on((g : (Cart[Real, 2]) -> Cart[Real, 2]), UNIV)
       #|  Cx(real_of_num(0))
-      #|  ((z : Cart[Real, Tybit0[Unit]]) => csin(Cx(pi) * z) / (Cx(pi) * z)) == o((z : Cart[Real, Tybit0[Unit]]) => csin(z) / z, (w : Cart[Real, Tybit0[Unit]]) => Cx(pi) * w)
-      #|  continuous(o(cgamma, (z : Cart[Real, Tybit0[Unit]]) => Cx(real_of_num(1)) - z), at(Cx(real_of_num(0))))
+      #|  ((z : Cart[Real, 2]) => csin(Cx(pi) * z) / (Cx(pi) * z)) == o((z : Cart[Real, 2]) => csin(z) / z, (w : Cart[Real, 2]) => Cx(pi) * w)
+      #|  continuous(o(cgamma, (z : Cart[Real, 2]) => Cx(real_of_num(1)) - z), at(Cx(real_of_num(0))))
       #|  0
-      #|  (p : Cart[Real, Tybit0[Unit]]) == p * (Cx(real_of_num(1)) * (Cx(real_of_num(1)) * Cx(real_of_num(1))))
-      #|  !((w : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)))
+      #|  (p : Cart[Real, 2]) == p * (Cx(real_of_num(1)) * (Cx(real_of_num(1)) * Cx(real_of_num(1))))
+      #|  !((w : Cart[Real, 2]) == Cx(real_of_num(0)))
       #|  (p : Bool) \226\134\146 !p \226\134\146 (q : Bool)
-      #|  !((w : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)))
-      #|  (w : Cart[Real, Tybit0[Unit]])
+      #|  !((w : Cart[Real, 2]) == Cx(real_of_num(0)))
+      #|  (w : Cart[Real, 2])
       #|  ball((Cx(real_of_num(0)), real_of_num(1)))
-      #|  (z : Cart[Real, Tybit0[Unit]]) => Cx(pi) * (z * cgamma(z) * (cgamma(Cx(real_of_num(1)) - z) * (csin(Cx(pi) * z) / (Cx(pi) * z))))
+      #|  (z : Cart[Real, 2]) => Cx(pi) * (z * cgamma(z) * (cgamma(Cx(real_of_num(1)) - z) * (csin(Cx(pi) * z) / (Cx(pi) * z))))
       #|  \226\136\131 n : Real, integer(n) && Cx(real_of_num(0)) == Cx(n)
-      #|  !((z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)))
-      #|  (z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  !((z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  !((z : Cart[Real, 2]) == Cx(real_of_num(0)))
+      #|  (z : Cart[Real, 2]) == Cx(real_of_num(0))
+      #|  (z : Cart[Real, 2])
+      #|  !((z : Cart[Real, 2]) == Cx(real_of_num(0)))
+      #|  (z : Cart[Real, 2])
       #|  {Cx(real_of_num(0))}
       #|  ball((Cx(real_of_num(0)), real_of_num(1)))
-      #|  complex_differentiable((g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), at(Cx(real_of_num(0))))
-      #|  (Cx(real_of_num(1)) - (z : Cart[Real, Tybit0[Unit]]) == (a : Cart[Real, Tybit0[Unit]]) - (b : Cart[Real, Tybit0[Unit]])) == (z == b - a + Cx(real_of_num(1)))
-      #|  ((z : Cart[Real, Tybit0[Unit]]) + (a : Cart[Real, Tybit0[Unit]]) == (b : Cart[Real, Tybit0[Unit]])) == (z == b - a)
+      #|  complex_differentiable((g : (Cart[Real, 2]) -> Cart[Real, 2]), at(Cx(real_of_num(0))))
+      #|  (Cx(real_of_num(1)) - (z : Cart[Real, 2]) == (a : Cart[Real, 2]) - (b : Cart[Real, 2])) == (z == b - a + Cx(real_of_num(1)))
+      #|  ((z : Cart[Real, 2]) + (a : Cart[Real, 2]) == (b : Cart[Real, 2])) == (z == b - a)
       #|  (e : Real)
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  (z : Cart[Real, 2])
       #|  real_of_num(1)
-      #|  closed({(z : Cart[Real, Tybit0[Unit]]) | \226\136\131 n : Real, integer(n) && z == Cx(n)})
-      #|  (z : Cart[Real, Tybit0[Unit]]) => cgamma(z) * (cgamma(Cx(real_of_num(1)) - z) * csin(Cx(pi) * z))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], !(\226\136\131 n : Real, integer(n) && z == Cx(n)) \226\134\146 complex_differentiable((g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), at(z))
-      #|  (z : Cart[Real, Tybit0[Unit]]) - (w : Cart[Real, Tybit0[Unit]]) + w == z
+      #|  closed({(z : Cart[Real, 2]) | \226\136\131 n : Real, integer(n) && z == Cx(n)})
+      #|  (z : Cart[Real, 2]) => cgamma(z) * (cgamma(Cx(real_of_num(1)) - z) * csin(Cx(pi) * z))
+      #|  \226\136\128 z : Cart[Real, 2], !(\226\136\131 n : Real, integer(n) && z == Cx(n)) \226\134\146 complex_differentiable((g : (Cart[Real, 2]) -> Cart[Real, 2]), at(z))
+      #|  (z : Cart[Real, 2]) - (w : Cart[Real, 2]) + w == z
       #|  abs((x : Real)) == (a : Real) \226\134\146 x == a || x == -a
-      #|  \226\136\128 n : Num, \226\136\128 z : Cart[Real, Tybit0[Unit]], (g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z + Cx(real_of_num(n))) == g(z)
-      #|  \226\136\128 n : Real, \226\136\128 z : Cart[Real, Tybit0[Unit]], integer(n) \226\134\146 (g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z + Cx(n)) == g(z)
-      #|  -(z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(1)) == Cx(real_of_num(1)) - z
-      #|  (a : Cart[Real, Tybit0[Unit]]) - ((z : Cart[Real, Tybit0[Unit]]) + a) == -z
+      #|  \226\136\128 n : Num, \226\136\128 z : Cart[Real, 2], (g : (Cart[Real, 2]) -> Cart[Real, 2])(z + Cx(real_of_num(n))) == g(z)
+      #|  \226\136\128 n : Real, \226\136\128 z : Cart[Real, 2], integer(n) \226\134\146 (g : (Cart[Real, 2]) -> Cart[Real, 2])(z + Cx(n)) == g(z)
+      #|  -(z : Cart[Real, 2]) + Cx(real_of_num(1)) == Cx(real_of_num(1)) - z
+      #|  (a : Cart[Real, 2]) - ((z : Cart[Real, 2]) + a) == -z
       #|  (n : Real) + real_of_num(1) - real_of_num(1) == n
-      #|  ((z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(1)) == (w : Cart[Real, Tybit0[Unit]])) == (z == w - Cx(real_of_num(1)))
+      #|  ((z : Cart[Real, 2]) + Cx(real_of_num(1)) == (w : Cart[Real, 2])) == (z == w - Cx(real_of_num(1)))
       #|  (p : Bool) == (p' : Bool) && (a : _) == (a' : _) && (b : _) == (b' : _) \226\134\146 (if p { a } else { b }) == (if p' { a' } else { b' })
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], (g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])(z + Cx(real_of_num(1))) == g(z)
-      #|  (g : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]) == ((z : Cart[Real, Tybit0[Unit]]) => if (\226\136\131 n : Real, integer(n) && z == Cx(n)) { Cx(pi) } else { cgamma(z) * (cgamma(Cx(real_of_num(1)) - z) * csin(Cx(pi) * z)) })
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], cgamma(z) * cgamma(Cx(real_of_num(1)) - z) == Cx(pi) / csin(Cx(pi) * z)
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]])) \226\134\146 f' == (g' : Cart[Real, Tybit0[Unit]]) \226\134\146 has_complex_derivative(f, g', net)
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]]))
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]])) \226\134\146 f' == (g' : Cart[Real, Tybit0[Unit]]) \226\134\146 has_complex_derivative(f, g', net)
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]]))
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]])) \226\134\146 f' == (g' : Cart[Real, Tybit0[Unit]]) \226\134\146 has_complex_derivative(f, g', net)
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]]))
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]])) \226\134\146 f' == (g' : Cart[Real, Tybit0[Unit]]) \226\134\146 has_complex_derivative(f, g', net)
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]]))
+      #|  \226\136\128 z : Cart[Real, 2], (g : (Cart[Real, 2]) -> Cart[Real, 2])(z + Cx(real_of_num(1))) == g(z)
+      #|  (g : (Cart[Real, 2]) -> Cart[Real, 2]) == ((z : Cart[Real, 2]) => if (\226\136\131 n : Real, integer(n) && z == Cx(n)) { Cx(pi) } else { cgamma(z) * (cgamma(Cx(real_of_num(1)) - z) * csin(Cx(pi) * z)) })
+      #|  \226\136\128 z : Cart[Real, 2], cgamma(z) * cgamma(Cx(real_of_num(1)) - z) == Cx(pi) / csin(Cx(pi) * z)
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]])) \226\134\146 f' == (g' : Cart[Real, 2]) \226\134\146 has_complex_derivative(f, g', net)
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]])) \226\134\146 f' == (g' : Cart[Real, 2]) \226\134\146 has_complex_derivative(f, g', net)
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]])) \226\134\146 f' == (g' : Cart[Real, 2]) \226\134\146 has_complex_derivative(f, g', net)
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]])) \226\134\146 f' == (g' : Cart[Real, 2]) \226\134\146 has_complex_derivative(f, g', net)
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
       #|  :real
       #|  :real
       #|  :real
       #|  :real
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]])) \226\134\146 f' == (g' : Cart[Real, Tybit0[Unit]]) \226\134\146 has_complex_derivative(f, g', net)
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]]))
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]])) \226\134\146 f' == (g' : Cart[Real, 2]) \226\134\146 has_complex_derivative(f, g', net)
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
       #|  Cx(real_of_num(0))
       #|  Cx(inv(real_of_num(4) * (n : Real)))
       #|  !(real_of_num(0) <= -(x : Real)) == (real_of_num(0) < x)
       #|  !(p : Bool) \226\134\146 p \226\134\146 (q : Bool)
       #|  Cx(real_of_num(1) / real_of_num(2))
-      #|  ((a : Cart[Real, Tybit0[Unit]]) * a == pow((b : Cart[Real, Tybit0[Unit]]), 2)) == (a == b || a == -b)
+      #|  ((a : Cart[Real, 2]) * a == pow((b : Cart[Real, 2]), 2)) == (a == b || a == -b)
       #|  Cx(pi) == pow(Cx(sqrt(pi)), 2)
       #|  (x : Real) * (real_of_num(1) / real_of_num(2)) == x / real_of_num(2)
       #|  Cx(real_of_num(1)) - Cx(real_of_num(1)) / Cx(real_of_num(2)) == Cx(real_of_num(1)) / Cx(real_of_num(2))
       #|  Cx(real_of_num(1)) / Cx(real_of_num(2))
       #|  cgamma(Cx(real_of_num(1)) / Cx(real_of_num(2))) == Cx(sqrt(pi))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], cgamma(z) * cgamma(z + Cx(real_of_num(1)) / Cx(real_of_num(2))) == cpow(Cx(real_of_num(2)), Cx(real_of_num(1)) - Cx(real_of_num(2)) * z) * (Cx(sqrt(pi)) * cgamma(Cx(real_of_num(2)) * z))
-      #|  !((p : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) \226\134\146 p * (Cx(real_of_num(1)) + (z : Cart[Real, Tybit0[Unit]]) * inv(p)) == z + p
-      #|  (d : Cart[Real, Tybit0[Unit]]) * (e : Cart[Real, Tybit0[Unit]]) == (c : Cart[Real, Tybit0[Unit]]) \226\134\146 (a : Cart[Real, Tybit0[Unit]]) * (b : Cart[Real, Tybit0[Unit]]) * c == d * a * (b * e)
+      #|  \226\136\128 z : Cart[Real, 2], cgamma(z) * cgamma(z + Cx(real_of_num(1)) / Cx(real_of_num(2))) == cpow(Cx(real_of_num(2)), Cx(real_of_num(1)) - Cx(real_of_num(2)) * z) * (Cx(sqrt(pi)) * cgamma(Cx(real_of_num(2)) * z))
+      #|  !((p : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 p * (Cx(real_of_num(1)) + (z : Cart[Real, 2]) * inv(p)) == z + p
+      #|  (d : Cart[Real, 2]) * (e : Cart[Real, 2]) == (c : Cart[Real, 2]) \226\134\146 (a : Cart[Real, 2]) * (b : Cart[Real, 2]) * c == d * a * (b * e)
       #|  1 <= SUC((n : Num))
       #|  (p : Num)
       #|  (n : Num)
-      #|  !((z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) && z * (x : Cart[Real, Tybit0[Unit]]) == (y : Cart[Real, Tybit0[Unit]]) \226\134\146 inv(z) * y == x
-      #|  (a : Cart[Real, Tybit0[Unit]]) * ((b : Cart[Real, Tybit0[Unit]]) * (c : Cart[Real, Tybit0[Unit]])) == b * (a * c)
+      #|  !((z : Cart[Real, 2]) == Cx(real_of_num(0))) && z * (x : Cart[Real, 2]) == (y : Cart[Real, 2]) \226\134\146 inv(z) * y == x
+      #|  (a : Cart[Real, 2]) * ((b : Cart[Real, 2]) * (c : Cart[Real, 2])) == b * (a * c)
       #|  (n : Num)
       #|  1
-      #|  (n : Num) => cpow(Cx(real_of_num(n)), (z : Cart[Real, Tybit0[Unit]])) * Cx(real_of_num(FACT(n))) / cproduct(op_dot_dot(0, n), (m : Num) => z + Cx(real_of_num(m)))
-      #|  -(w : Cart[Real, Tybit0[Unit]]) * (z : Cart[Real, Tybit0[Unit]]) + (z * (x : Cart[Real, Tybit0[Unit]]) + -(y : Cart[Real, Tybit0[Unit]]) * z) == z * (x - y - w)
+      #|  (n : Num) => cpow(Cx(real_of_num(n)), (z : Cart[Real, 2])) * Cx(real_of_num(FACT(n))) / cproduct(op_dot_dot(0, n), (m : Num) => z + Cx(real_of_num(m)))
+      #|  -(w : Cart[Real, 2]) * (z : Cart[Real, 2]) + (z * (x : Cart[Real, 2]) + -(y : Cart[Real, 2]) * z) == z * (x - y - w)
       #|  cexp
-      #|  (c : Cart[Real, Tybit0[Unit]]) * (c' : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(1)) \226\134\146 (a : Cart[Real, Tybit0[Unit]]) * ((b : Cart[Real, Tybit0[Unit]]) * c) * (c' * (d : Cart[Real, Tybit0[Unit]]) * (e : Cart[Real, Tybit0[Unit]])) == a * d * (b * e)
+      #|  (c : Cart[Real, 2]) * (c' : Cart[Real, 2]) == Cx(real_of_num(1)) \226\134\146 (a : Cart[Real, 2]) * ((b : Cart[Real, 2]) * c) * (c' * (d : Cart[Real, 2]) * (e : Cart[Real, 2])) == a * d * (b * e)
       #|  1
-      #|  (n : Num) => cexp(-Cx(euler_mascheroni) * (z : Cart[Real, Tybit0[Unit]])) * (cproduct(op_dot_dot(1, n), (k : Num) => cexp(z * inv(Cx(real_of_num(k))))) * cexp(-Cx(log(real_of_num(n))) * z)) * (cpow(Cx(real_of_num(n)), z) / z * cproduct(op_dot_dot(1, n), (k : Num) => inv(Cx(real_of_num(1)) + z * inv(Cx(real_of_num(k))))))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], op_minus_minus_gt((n : Num) => cexp(-Cx(euler_mascheroni) * z) / z * cproduct(op_dot_dot(1, n), (k : Num) => cexp(z / Cx(real_of_num(k))) / (Cx(real_of_num(1)) + z / Cx(real_of_num(k)))), cgamma(z), sequentially)
+      #|  (n : Num) => cexp(-Cx(euler_mascheroni) * (z : Cart[Real, 2])) * (cproduct(op_dot_dot(1, n), (k : Num) => cexp(z * inv(Cx(real_of_num(k))))) * cexp(-Cx(log(real_of_num(n))) * z)) * (cpow(Cx(real_of_num(n)), z) / z * cproduct(op_dot_dot(1, n), (k : Num) => inv(Cx(real_of_num(1)) + z * inv(Cx(real_of_num(k))))))
+      #|  \226\136\128 z : Cart[Real, 2], op_minus_minus_gt((n : Num) => cexp(-Cx(euler_mascheroni) * z) / z * cproduct(op_dot_dot(1, n), (k : Num) => cexp(z / Cx(real_of_num(k))) / (Cx(real_of_num(1)) + z / Cx(real_of_num(k)))), cgamma(z), sequentially)
       #|  inv(pow(-Cx(real_of_num(1)), (n : Num)) / Cx(real_of_num(FACT(n))))
-      #|  (x : Cart[Real, Tybit0[Unit]]) - -(z : Cart[Real, Tybit0[Unit]]) == x + z
+      #|  (x : Cart[Real, 2]) - -(z : Cart[Real, 2]) == x + z
       #|  (n : Num)
-      #|  ((z : Cart[Real, Tybit0[Unit]]) + (w : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) == (z == -w)
-      #|  \226\136\128 n : Num, !((z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(n)) == Cx(real_of_num(0)))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], complex_differentiable(o(inv, cgamma), at(z))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], \226\136\128 s : (Cart[Real, Tybit0[Unit]]) -> Bool, complex_differentiable(o(inv, cgamma), within(at(z), s))
-      #|  \226\136\128 s : (Cart[Real, Tybit0[Unit]]) -> Bool, holomorphic_on(o(inv, cgamma), s)
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], continuous(o(inv, cgamma), at(z))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], \226\136\128 s : (Cart[Real, Tybit0[Unit]]) -> Bool, continuous(o(inv, cgamma), within(at(z), s))
-      #|  \226\136\128 s : (Cart[Real, Tybit0[Unit]]) -> Bool, continuous_on(o(inv, cgamma), s)
-      #|  cgamma((z : Cart[Real, Tybit0[Unit]])) == Cx(real_of_num(0))
-      #|  \226\136\128 n : Num, !((z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(n)) == Cx(real_of_num(0)))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], op_minus_minus_gt((n : Num) => cproduct(op_dot_dot(0, n), (m : Num) => z + Cx(real_of_num(m))) / (cpow(Cx(real_of_num(n)), z) * Cx(real_of_num(FACT(n)))), inv(cgamma(z)), sequentially)
-      #|  inv((z : Cart[Real, Tybit0[Unit]])) * ((a : Cart[Real, Tybit0[Unit]]) * (b : Cart[Real, Tybit0[Unit]])) == a / z * b
-      #|  (x : Cart[Real, Tybit0[Unit]]) + (n : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)) && !(n == Cx(real_of_num(0))) \226\134\146 Cx(real_of_num(1)) + x / n == Cx(real_of_num(0))
+      #|  ((z : Cart[Real, 2]) + (w : Cart[Real, 2]) == Cx(real_of_num(0))) == (z == -w)
+      #|  \226\136\128 n : Num, !((z : Cart[Real, 2]) + Cx(real_of_num(n)) == Cx(real_of_num(0)))
+      #|  \226\136\128 z : Cart[Real, 2], complex_differentiable(o(inv, cgamma), at(z))
+      #|  \226\136\128 z : Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, complex_differentiable(o(inv, cgamma), within(at(z), s))
+      #|  \226\136\128 s : (Cart[Real, 2]) -> Bool, holomorphic_on(o(inv, cgamma), s)
+      #|  \226\136\128 z : Cart[Real, 2], continuous(o(inv, cgamma), at(z))
+      #|  \226\136\128 z : Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, continuous(o(inv, cgamma), within(at(z), s))
+      #|  \226\136\128 s : (Cart[Real, 2]) -> Bool, continuous_on(o(inv, cgamma), s)
+      #|  cgamma((z : Cart[Real, 2])) == Cx(real_of_num(0))
+      #|  \226\136\128 n : Num, !((z : Cart[Real, 2]) + Cx(real_of_num(n)) == Cx(real_of_num(0)))
+      #|  \226\136\128 z : Cart[Real, 2], op_minus_minus_gt((n : Num) => cproduct(op_dot_dot(0, n), (m : Num) => z + Cx(real_of_num(m))) / (cpow(Cx(real_of_num(n)), z) * Cx(real_of_num(FACT(n)))), inv(cgamma(z)), sequentially)
+      #|  inv((z : Cart[Real, 2])) * ((a : Cart[Real, 2]) * (b : Cart[Real, 2])) == a / z * b
+      #|  (x : Cart[Real, 2]) + (n : Cart[Real, 2]) == Cx(real_of_num(0)) && !(n == Cx(real_of_num(0))) \226\134\146 Cx(real_of_num(1)) + x / n == Cx(real_of_num(0))
       #|  (N : Num)
       #|  (N : Num) == 0
-      #|  cgamma((z : Cart[Real, Tybit0[Unit]])) == Cx(real_of_num(0))
+      #|  cgamma((z : Cart[Real, 2])) == Cx(real_of_num(0))
       #|  (n : Num)
       #|  (N : Num)
       #|  (N : Num)
-      #|  \226\136\131 n : Num, (z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(n)) == Cx(real_of_num(0))
-      #|  \226\136\128 n : _, op_minus_minus_gt((n : Num) => (z : Cart[Real, Tybit0[Unit]]) * (cexp(Cx(euler_mascheroni) * z) * cproduct(op_dot_dot(1, n), (k : Num) => (Cx(real_of_num(1)) + z / Cx(real_of_num(k))) / cexp(z / Cx(real_of_num(k))))), inv(cgamma(z)), sequentially)
+      #|  \226\136\131 n : Num, (z : Cart[Real, 2]) + Cx(real_of_num(n)) == Cx(real_of_num(0))
+      #|  \226\136\128 n : _, op_minus_minus_gt((n : Num) => (z : Cart[Real, 2]) * (cexp(Cx(euler_mascheroni) * z) * cproduct(op_dot_dot(1, n), (k : Num) => (Cx(real_of_num(1)) + z / Cx(real_of_num(k))) / cexp(z / Cx(real_of_num(k))))), inv(cgamma(z)), sequentially)
       #|  (gamma : (Real) -> Real)((x : Real)) == Re(cgamma(Cx(x)))
       #|  \226\136\128 x : Real, Cx(gamma(x)) == cgamma(Cx(x))
       #|  1
@@ -88959,8 +88959,8 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  \226\136\128 n : Num, gamma(real_of_num(n + 1)) == real_of_num(FACT(n))
       #|  \226\136\128 n : Num, gamma(-real_of_num(n)) == real_of_num(0)
       #|  -Cx(real_of_num((n : Num)))
-      #|  (UNIV : (Cart[Real, Tybit0[Unit]]) -> Bool)
-      #|  ((z : Cart[Real, Tybit0[Unit]]) => (Cx(Re(z)) + Cx(real_of_num((n : Num)))) * cgamma(Cx(Re(z)))) == o((z : Cart[Real, Tybit0[Unit]]) => (z + Cx(real_of_num(n))) * cgamma(z), o(Cx, Re))
+      #|  (UNIV : (Cart[Real, 2]) -> Bool)
+      #|  ((z : Cart[Real, 2]) => (Cx(Re(z)) + Cx(real_of_num((n : Num)))) * cgamma(Cx(Re(z)))) == o((z : Cart[Real, 2]) => (z + Cx(real_of_num(n))) * cgamma(z), o(Cx, Re))
       #|  \226\136\128 n : Num, op_minus_minus_minus_gt((x : Real) => (x + real_of_num(n)) * gamma(x), pow(-real_of_num(1), n) / real_of_num(FACT(n)), atreal(-real_of_num(n)))
       #|  \226\136\128 x : Real, real_of_num(0) <= x \226\134\146 real_of_num(0) <= gamma(x)
       #|  (real_of_num(0) < (x : Real)) == (real_of_num(0) <= x && !(x == real_of_num(0)))
@@ -89056,57 +89056,57 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  \226\136\128 f : (Real) -> Real, f(real_of_num(1)) == real_of_num(1) && (\226\136\128 x : Real, real_of_num(0) < x \226\134\146 f(x + real_of_num(1)) == x * f(x)) && (\226\136\128 x : Real, real_of_num(0) < x \226\134\146 real_of_num(0) < f(x)) && real_log_convex_on(f, {(x : Real) | real_of_num(0) < x}) \226\134\146 (\226\136\128 x : Real, real_of_num(0) < x \226\134\146 f(x) == gamma(x))
       #|  2 <= (n : Num) \226\134\146 0 < n && 0 < n - 1
       #|  2 <= (n : Num) \226\134\146 0 < n
-      #|  ((a : Cart[Real, Unit]) => cpow(Cx(drop(a)), (z : Cart[Real, Tybit0[Unit]]))) == o((w : Cart[Real, Tybit0[Unit]]) => cpow(w, z), o(Cx, drop))
+      #|  ((a : Cart[Real, Unit]) => cpow(Cx(drop(a)), (z : Cart[Real, 2]))) == o((w : Cart[Real, 2]) => cpow(w, z), o(Cx, drop))
       #|  norm((u : Cart[Real, Unit])) == drop(u)
       #|  (x : Real) / (y : Real) == inv(y) * x
       #|  (e : Real) == exp(log(e))
       #|  (u : Cart[Real, Unit])
-      #|  rpow((e : Real), inv(Re((z : Cart[Real, Tybit0[Unit]]))))
+      #|  rpow((e : Real), inv(Re((z : Cart[Real, 2]))))
       #|  (e : Real)
       #|  real_of_num(0) < drop((u : Cart[Real, Unit]))
       #|  (u : Cart[Real, Unit])
       #|  real_of_num(1)
-      #|  (t : Cart[Real, Unit]) => Cx(exp(Re((z : Cart[Real, Tybit0[Unit]])) * log(drop(t))))
+      #|  (t : Cart[Real, Unit]) => Cx(exp(Re((z : Cart[Real, 2])) * log(drop(t))))
       #|  (t : Cart[Real, Unit]) == vec(0)
       #|  (t : Cart[Real, Unit])
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], \226\136\128 a : Cart[Real, Unit], \226\136\128 b : Cart[Real, Unit], real_of_num(0) < Re(z) && real_of_num(0) <= drop(a) \226\134\146 continuous_on((t : Cart[Real, Unit]) => cpow(Cx(drop(t)), z), interval([(a, b)]))
+      #|  \226\136\128 z : Cart[Real, 2], \226\136\128 a : Cart[Real, Unit], \226\136\128 b : Cart[Real, Unit], real_of_num(0) < Re(z) && real_of_num(0) <= drop(a) \226\134\146 continuous_on((t : Cart[Real, Unit]) => cpow(Cx(drop(t)), z), interval([(a, b)]))
       #|  (n : Num) + 1 == 1 + n
       #|  1
       #|  (m : Num)
-      #|  (f : (Num) -> Cart[Real, Tybit0[Unit]])
+      #|  (f : (Num) -> Cart[Real, 2])
       #|  0 <= SUC((n : Num))
-      #|  !((n : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) && !((z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) \226\134\146 n / z * (z * (p : Cart[Real, Tybit0[Unit]]) * (Cx(real_of_num(1)) / n * (q : Cart[Real, Tybit0[Unit]]))) == p * q
+      #|  !((n : Cart[Real, 2]) == Cx(real_of_num(0))) && !((z : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 n / z * (z * (p : Cart[Real, 2]) * (Cx(real_of_num(1)) / n * (q : Cart[Real, 2]))) == p * q
       #|  !(real_of_num((n : Num)) + real_of_num(1) == real_of_num(0))
-      #|  Cx(real_of_num((n : Num)) + real_of_num(1)) / (z : Cart[Real, Tybit0[Unit]])
+      #|  Cx(real_of_num((n : Num)) + real_of_num(1)) / (z : Cart[Real, 2])
       #|  !((n : Num) + 1 == 0)
-      #|  -Cx(real_of_num(0)) - (y : Cart[Real, Tybit0[Unit]]) == -y
-      #|  Cx(real_of_num(FACT((n : Num)))) / cproduct(op_dot_dot(0, n), (m : Num) => (z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(1)) + Cx(real_of_num(m)))
+      #|  -Cx(real_of_num(0)) - (y : Cart[Real, 2]) == -y
+      #|  Cx(real_of_num(FACT((n : Num)))) / cproduct(op_dot_dot(0, n), (m : Num) => (z : Cart[Real, 2]) + Cx(real_of_num(1)) + Cx(real_of_num(m)))
       #|  {(vec : (Num) -> Cart[Real, Unit])(0)}
       #|  (vec : (Num) -> Cart[Real, Unit])(1)
       #|  (vec : (Num) -> Cart[Real, Unit])(0)
       #|  (t : Cart[Real, Unit]) => -pow(Cx(real_of_num(1) - drop(t)), (n : Num))
-      #|  (t : Cart[Real, Unit]) => (z : Cart[Real, Tybit0[Unit]]) * cpow(Cx(drop(t)), z - Cx(real_of_num(1)))
+      #|  (t : Cart[Real, Unit]) => (z : Cart[Real, 2]) * cpow(Cx(drop(t)), z - Cx(real_of_num(1)))
       #|  (t : Cart[Real, Unit]) => Cx(real_of_num(1)) / Cx(real_of_num((n : Num)) + real_of_num(1)) * pow(Cx(real_of_num(1) - drop(t)), n + 1)
-      #|  (t : Cart[Real, Unit]) => cpow(Cx(drop(t)), (z : Cart[Real, Tybit0[Unit]]))
+      #|  (t : Cart[Real, Unit]) => cpow(Cx(drop(t)), (z : Cart[Real, 2]))
       #|  complex_mul
-      #|  (z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(1)) - Cx(real_of_num(1)) == z
-      #|  (z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(1))
-      #|  !((z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)))
+      #|  (z : Cart[Real, 2]) + Cx(real_of_num(1)) - Cx(real_of_num(1)) == z
+      #|  (z : Cart[Real, 2]) + Cx(real_of_num(1))
+      #|  !((z : Cart[Real, 2]) == Cx(real_of_num(0)))
       #|  (vec : (Num) -> Cart[Real, Unit])(1)
       #|  (vec : (Num) -> Cart[Real, Unit])(0)
-      #|  (t : Cart[Real, Unit]) => cpow(Cx(drop(t)), (z : Cart[Real, Tybit0[Unit]]) - Cx(real_of_num(1)))
-      #|  (t : Cart[Real, Unit]) => cpow(Cx(drop(t)), (z : Cart[Real, Tybit0[Unit]])) / z
-      #|  (z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  \226\136\128 n : Num, \226\136\128 z : Cart[Real, Tybit0[Unit]], real_of_num(0) < Re(z) \226\134\146 has_integral((t : Cart[Real, Unit]) => cpow(Cx(drop(t)), z - Cx(real_of_num(1))) * pow(Cx(real_of_num(1) - drop(t)), n), Cx(real_of_num(FACT(n))) / cproduct(op_dot_dot(0, n), (m : Num) => z + Cx(real_of_num(m))), interval([(vec(0), vec(1))]))
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]]))
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]]))
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]]))
+      #|  (t : Cart[Real, Unit]) => cpow(Cx(drop(t)), (z : Cart[Real, 2]) - Cx(real_of_num(1)))
+      #|  (t : Cart[Real, Unit]) => cpow(Cx(drop(t)), (z : Cart[Real, 2])) / z
+      #|  (z : Cart[Real, 2]) == Cx(real_of_num(0))
+      #|  (z : Cart[Real, 2])
+      #|  \226\136\128 n : Num, \226\136\128 z : Cart[Real, 2], real_of_num(0) < Re(z) \226\134\146 has_integral((t : Cart[Real, Unit]) => cpow(Cx(drop(t)), z - Cx(real_of_num(1))) * pow(Cx(real_of_num(1) - drop(t)), n), Cx(real_of_num(FACT(n))) / cproduct(op_dot_dot(0, n), (m : Num) => z + Cx(real_of_num(m))), interval([(vec(0), vec(1))]))
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
       #|  inv((x : Real)) * (y : Real) == y / x
       #|  (t : Real)
-      #|  (z : Cart[Real, Tybit0[Unit]]) - Cx(real_of_num(1)) + Cx(real_of_num(1)) == z
+      #|  (z : Cart[Real, 2]) - Cx(real_of_num(1)) + Cx(real_of_num(1)) == z
       #|  {(x : _) | IN(x, (s : (_) -> Bool))} == s
-      #|  cpow(Cx(real_of_num((n : Num))), (z : Cart[Real, Tybit0[Unit]]) - Cx(real_of_num(1)))
+      #|  cpow(Cx(real_of_num((n : Num))), (z : Cart[Real, 2]) - Cx(real_of_num(1)))
       #|  (vec : (Num) -> Cart[Real, Unit])(0)
       #|  inv(real_of_num((n : Num)))
       #|  (n : Num)
@@ -89114,14 +89114,14 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  {(vec : (Num) -> Cart[Real, Unit])(0)}
       #|  (t : Cart[Real, Unit]) => Cx(real_of_num(0))
       #|  (n : Num) == 0
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], \226\136\128 n : Num, real_of_num(0) < Re(z) \226\134\146 has_integral((t : Cart[Real, Unit]) => if drop(t) <= real_of_num(n) { cpow(Cx(drop(t)), z - Cx(real_of_num(1))) * pow(Cx(real_of_num(1) - drop(t) / real_of_num(n)), n) } else { Cx(real_of_num(0)) }, cpow(Cx(real_of_num(n)), z) * Cx(real_of_num(FACT(n))) / cproduct(op_dot_dot(0, n), (m : Num) => z + Cx(real_of_num(m))), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], lift(Re(z)) == o(lift, Re, z)
-      #|  integrable_on((f : (Cart[Real, N]) -> Cart[Real, Tybit0[Unit]]), (s : (Cart[Real, N]) -> Bool)) \226\134\146 integrable_on((x : Cart[Real, N]) => lift(Re(f(x))), s) && integral(s, (x : Cart[Real, N]) => lift(Re(f(x)))) == lift(Re(integral(s, f)))
-      #|  Cx(Re((z : Cart[Real, Tybit0[Unit]])))
+      #|  \226\136\128 z : Cart[Real, 2], \226\136\128 n : Num, real_of_num(0) < Re(z) \226\134\146 has_integral((t : Cart[Real, Unit]) => if drop(t) <= real_of_num(n) { cpow(Cx(drop(t)), z - Cx(real_of_num(1))) * pow(Cx(real_of_num(1) - drop(t) / real_of_num(n)), n) } else { Cx(real_of_num(0)) }, cpow(Cx(real_of_num(n)), z) * Cx(real_of_num(FACT(n))) / cproduct(op_dot_dot(0, n), (m : Num) => z + Cx(real_of_num(m))), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
+      #|  \226\136\128 z : Cart[Real, 2], lift(Re(z)) == o(lift, Re, z)
+      #|  integrable_on((f : (Cart[Real, N]) -> Cart[Real, 2]), (s : (Cart[Real, N]) -> Bool)) \226\134\146 integrable_on((x : Cart[Real, N]) => lift(Re(f(x))), s) && integral(s, (x : Cart[Real, N]) => lift(Re(f(x)))) == lift(Re(integral(s, f)))
+      #|  Cx(Re((z : Cart[Real, 2])))
       #|  real_of_num(1) - (t : Real) * inv((x : Real)) == real_of_num(1) + -t / x
       #|  (t : Real) == real_of_num(0)
       #|  (t : Real) + real_of_num(1)
-      #|  (k : Num) => lift(Re(cpow(Cx((t : Real)), Cx(Re((z : Cart[Real, Tybit0[Unit]]))) - Cx(real_of_num(1))) * pow(Cx(real_of_num(1) - t / real_of_num(k)), k)))
+      #|  (k : Num) => lift(Re(cpow(Cx((t : Real)), Cx(Re((z : Cart[Real, 2]))) - Cx(real_of_num(1))) * pow(Cx(real_of_num(1) - t / real_of_num(k)), k)))
       #|  (t : Real)
       #|  real_of_num(0) < real_of_num((n : Num)) + real_of_num(1)
       #|  (x : Real) <= (n : Real) \226\134\146 x <= n + real_of_num(1)
@@ -89130,11 +89130,11 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  (t : Real)
       #|  (n : Num)
       #|  {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}
-      #|  (t : Cart[Real, Unit]) => lift(Re(cpow(Cx(drop(t)), Cx(Re((z : Cart[Real, Tybit0[Unit]]))) - Cx(real_of_num(1))) / cexp(Cx(drop(t)))))
-      #|  (n : Num) => (t : Cart[Real, Unit]) => lift(Re(if drop(t) <= real_of_num(n) { cpow(Cx(drop(t)), Cx(Re((z : Cart[Real, Tybit0[Unit]]))) - Cx(real_of_num(1))) * pow(Cx(real_of_num(1) - drop(t) / real_of_num(n)), n) } else { Cx(real_of_num(0)) }))
-      #|  (a : Cart[Real, Tybit0[Unit]]) - (x : Cart[Real, Tybit0[Unit]]) / (y : Cart[Real, Tybit0[Unit]]) == a + -x / y
+      #|  (t : Cart[Real, Unit]) => lift(Re(cpow(Cx(drop(t)), Cx(Re((z : Cart[Real, 2]))) - Cx(real_of_num(1))) / cexp(Cx(drop(t)))))
+      #|  (n : Num) => (t : Cart[Real, Unit]) => lift(Re(if drop(t) <= real_of_num(n) { cpow(Cx(drop(t)), Cx(Re((z : Cart[Real, 2]))) - Cx(real_of_num(1))) * pow(Cx(real_of_num(1) - drop(t) / real_of_num(n)), n) } else { Cx(real_of_num(0)) }))
+      #|  (a : Cart[Real, 2]) - (x : Cart[Real, 2]) / (y : Cart[Real, 2]) == a + -x / y
       #|  (t : Real) + real_of_num(1)
-      #|  (k : Num) => cpow(Cx((t : Real)), (z : Cart[Real, Tybit0[Unit]]) - Cx(real_of_num(1))) * pow(Cx(real_of_num(1) - t / real_of_num(k)), k)
+      #|  (k : Num) => cpow(Cx((t : Real)), (z : Cart[Real, 2]) - Cx(real_of_num(1))) * pow(Cx(real_of_num(1) - t / real_of_num(k)), k)
       #|  (t : Real)
       #|  real_of_num(1) - (t : Real) / (n : Real) == real_of_num(1) + -t / n
       #|  pow(exp(-(t : Real) / real_of_num((n : Num))), n)
@@ -89143,12 +89143,12 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  (t : Real)
       #|  (n : Num)
       #|  {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}
-      #|  (t : Cart[Real, Unit]) => lift(Re(cpow(Cx(drop(t)), Cx(Re((z : Cart[Real, Tybit0[Unit]]))) - Cx(real_of_num(1))) / cexp(Cx(drop(t)))))
-      #|  (t : Cart[Real, Unit]) => cpow(Cx(drop(t)), (z : Cart[Real, Tybit0[Unit]]) - Cx(real_of_num(1))) / cexp(Cx(drop(t)))
-      #|  (n : Num) => (t : Cart[Real, Unit]) => if drop(t) <= real_of_num(n) { cpow(Cx(drop(t)), (z : Cart[Real, Tybit0[Unit]]) - Cx(real_of_num(1))) * pow(Cx(real_of_num(1) - drop(t) / real_of_num(n)), n) } else { Cx(real_of_num(0)) }
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], real_of_num(0) < Re(z) \226\134\146 has_integral((t : Cart[Real, Unit]) => cpow(Cx(drop(t)), z - Cx(real_of_num(1))) / cexp(Cx(drop(t))), cgamma(z), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], real_of_num(0) < Re(z) \226\134\146 integral({(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}, (t : Cart[Real, Unit]) => cpow(Cx(drop(t)), z - Cx(real_of_num(1))) / cexp(Cx(drop(t)))) == cgamma(z)
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], real_of_num(0) < Re(z) \226\134\146 integrable_on((t : Cart[Real, Unit]) => cpow(Cx(drop(t)), z - Cx(real_of_num(1))) / cexp(Cx(drop(t))), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
+      #|  (t : Cart[Real, Unit]) => lift(Re(cpow(Cx(drop(t)), Cx(Re((z : Cart[Real, 2]))) - Cx(real_of_num(1))) / cexp(Cx(drop(t)))))
+      #|  (t : Cart[Real, Unit]) => cpow(Cx(drop(t)), (z : Cart[Real, 2]) - Cx(real_of_num(1))) / cexp(Cx(drop(t)))
+      #|  (n : Num) => (t : Cart[Real, Unit]) => if drop(t) <= real_of_num(n) { cpow(Cx(drop(t)), (z : Cart[Real, 2]) - Cx(real_of_num(1))) * pow(Cx(real_of_num(1) - drop(t) / real_of_num(n)), n) } else { Cx(real_of_num(0)) }
+      #|  \226\136\128 z : Cart[Real, 2], real_of_num(0) < Re(z) \226\134\146 has_integral((t : Cart[Real, Unit]) => cpow(Cx(drop(t)), z - Cx(real_of_num(1))) / cexp(Cx(drop(t))), cgamma(z), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
+      #|  \226\136\128 z : Cart[Real, 2], real_of_num(0) < Re(z) \226\134\146 integral({(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}, (t : Cart[Real, Unit]) => cpow(Cx(drop(t)), z - Cx(real_of_num(1))) / cexp(Cx(drop(t)))) == cgamma(z)
+      #|  \226\136\128 z : Cart[Real, 2], real_of_num(0) < Re(z) \226\134\146 integrable_on((t : Cart[Real, Unit]) => cpow(Cx(drop(t)), z - Cx(real_of_num(1))) / cexp(Cx(drop(t))), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
       #|  {(vec : (Num) -> Cart[Real, Unit])(0)}
       #|  IMAGE(lift, {(t : Real) | real_of_num(0) <= t}) == {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}
       #|  o(lift, Re)
@@ -89207,12 +89207,12 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  \226\136\128 x : Real, real_of_num(0) < x \226\134\146 real_integrable_on((t : Real) => rpow(-log(t), x - real_of_num(1)), real_interval([(real_of_num(0), real_of_num(1))]))
       #|  real_of_num(0) < (x : Real) && x < real_of_num(1)
       #|  (x : Real)
-      #|  ((t : Cart[Real, Unit]) => cpow(-clog(Cx(drop(t))), (z : Cart[Real, Tybit0[Unit]]) - Cx(real_of_num(1)))) == o(o((w : Cart[Real, Tybit0[Unit]]) => cpow(w, z - Cx(real_of_num(1))), o(op_minus_minus, clog)), (x : Cart[Real, Unit]) => Cx(drop(x)))
+      #|  ((t : Cart[Real, Unit]) => cpow(-clog(Cx(drop(t))), (z : Cart[Real, 2]) - Cx(real_of_num(1)))) == o(o((w : Cart[Real, 2]) => cpow(w, z - Cx(real_of_num(1))), o(op_minus_minus, clog)), (x : Cart[Real, Unit]) => Cx(drop(x)))
       #|  {(vec : (Num) -> Cart[Real, Unit])(0), (vec : (Num) -> Cart[Real, Unit])(1)}
       #|  {(vec : (Num) -> Cart[Real, Unit])(0), (vec : (Num) -> Cart[Real, Unit])(1)}
-      #|  (t : Cart[Real, Unit]) => lift(rpow(-log(drop(t)), Re((z : Cart[Real, Tybit0[Unit]])) - real_of_num(1)))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], real_of_num(0) < Re(z) \226\134\146 integrable_on((t : Cart[Real, Unit]) => cpow(-clog(Cx(drop(t))), z - Cx(real_of_num(1))), interval([(vec(0), vec(1))]))
-      #|  (i : Cart[Real, Tybit0[Unit]]) == (j : Cart[Real, Tybit0[Unit]]) \226\134\146 norm(i - (g : Cart[Real, Tybit0[Unit]])) < (e : Real) \226\134\146 distance((j, g)) < e
+      #|  (t : Cart[Real, Unit]) => lift(rpow(-log(drop(t)), Re((z : Cart[Real, 2])) - real_of_num(1)))
+      #|  \226\136\128 z : Cart[Real, 2], real_of_num(0) < Re(z) \226\134\146 integrable_on((t : Cart[Real, Unit]) => cpow(-clog(Cx(drop(t))), z - Cx(real_of_num(1))), interval([(vec(0), vec(1))]))
+      #|  (i : Cart[Real, 2]) == (j : Cart[Real, 2]) \226\134\146 norm(i - (g : Cart[Real, 2])) < (e : Real) \226\134\146 distance((j, g)) < e
       #|  :real
       #|  :real
       #|  lift(-log((x : Real)))
@@ -89223,7 +89223,7 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  (B : Real)
       #|  (e : Real)
       #|  (e : Real)
-      #|  ((t : Cart[Real, Unit]) => cpow(-clog(Cx(-drop(t))), (z : Cart[Real, Tybit0[Unit]]) - Cx(real_of_num(1)))) == o((w : Cart[Real, Tybit0[Unit]]) => cpow(-clog(w), z - Cx(real_of_num(1))), (t : Cart[Real, Unit]) => Cx(drop(-t)))
+      #|  ((t : Cart[Real, Unit]) => cpow(-clog(Cx(-drop(t))), (z : Cart[Real, 2]) - Cx(real_of_num(1)))) == o((w : Cart[Real, 2]) => cpow(-clog(w), z - Cx(real_of_num(1))), (t : Cart[Real, Unit]) => Cx(drop(-t)))
       #|  (y : Real)
       #|  (-(x : Real) <= real_of_num(0)) == (real_of_num(0) <= x)
       #|  (y : Real)
@@ -89234,16 +89234,16 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  (vec : (Num) -> Cart[Real, Unit])(0)
       #|  (t : Cart[Real, Unit]) => lift(exp(-drop(t)))
       #|  (t : Cart[Real, Unit]) => -lift(exp(-drop(t)))
-      #|  (t : Cart[Real, Unit]) => cpow(-clog(Cx(drop(-t))), (z : Cart[Real, Tybit0[Unit]]) - Cx(real_of_num(1)))
+      #|  (t : Cart[Real, Unit]) => cpow(-clog(Cx(drop(-t))), (z : Cart[Real, 2]) - Cx(real_of_num(1)))
       #|  real_of_num(0) < (x : Real)
       #|  (x : Real)
       #|  real_of_num(1)
-      #|  (x : Cart[Real, Unit]) => integral(interval([(vec(0), lift(-log(drop(x))))]), (t : Cart[Real, Unit]) => cpow(Cx(drop(t)), (z : Cart[Real, Tybit0[Unit]]) - Cx(real_of_num(1))) / cexp(Cx(drop(t))))
+      #|  (x : Cart[Real, Unit]) => integral(interval([(vec(0), lift(-log(drop(x))))]), (t : Cart[Real, Unit]) => cpow(Cx(drop(t)), (z : Cart[Real, 2]) - Cx(real_of_num(1))) / cexp(Cx(drop(t))))
       #|  SUBSET({(a : Cart[Real, _]), (b : Cart[Real, _])}, interval([(a, b)])) && !(a == b) \226\134\146 !(\226\136\131 x : Cart[Real, _], interval([(a, b)]) == {x})
       #|  ((a : Bool) && (b : Bool) && (c : Bool) \226\134\146 (d : Bool)) == (b \226\134\146 a && c \226\134\146 d)
       #|  (vec : (Num) -> Cart[Real, Unit])(0)
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], real_of_num(0) < Re(z) \226\134\146 has_integral((t : Cart[Real, Unit]) => cpow(-clog(Cx(drop(t))), z - Cx(real_of_num(1))), cgamma(z), interval([(vec(0), vec(1))]))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], real_of_num(0) < Re(z) \226\134\146 integral(interval([(vec(0), vec(1))]), (t : Cart[Real, Unit]) => cpow(-clog(Cx(drop(t))), z - Cx(real_of_num(1)))) == cgamma(z)
+      #|  \226\136\128 z : Cart[Real, 2], real_of_num(0) < Re(z) \226\134\146 has_integral((t : Cart[Real, Unit]) => cpow(-clog(Cx(drop(t))), z - Cx(real_of_num(1))), cgamma(z), interval([(vec(0), vec(1))]))
+      #|  \226\136\128 z : Cart[Real, 2], real_of_num(0) < Re(z) \226\134\146 integral(interval([(vec(0), vec(1))]), (t : Cart[Real, Unit]) => cpow(-clog(Cx(drop(t))), z - Cx(real_of_num(1)))) == cgamma(z)
       #|  real_of_num(0) < -log((y : Real))
       #|  real_of_num(0) < (y : Real)
       #|  (y : Real)
@@ -89259,51 +89259,51 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  !((k : Num) == 0) && !(k == 1) \226\134\146 (k - 1) * 2 - (k - 1 - 1) == k
       #|  false \226\134\146 (p : Bool)
       #|  (k : Num) == 1
-      #|  !((z : Cart[Real, Tybit0[Unit]]) + Cx((x : Real)) == Cx(real_of_num(0)))
+      #|  !((z : Cart[Real, 2]) + Cx((x : Real)) == Cx(real_of_num(0)))
       #|  (k : Num) == 0
       #|  ((k : Num) + 1 == 1) == (k == 0)
-      #|  !((z : Cart[Real, Tybit0[Unit]]) + Cx((x : Real)) == Cx(real_of_num(0)))
+      #|  !((z : Cart[Real, 2]) + Cx((x : Real)) == Cx(real_of_num(0)))
       #|  (x : Real)
       #|  (k : Num)
       #|  (p : Num)
       #|  (n : Num)
       #|  0
-      #|  (n : Num) => (w : Cart[Real, Tybit0[Unit]]) => if n == 0 { ((z : Cart[Real, Tybit0[Unit]]) + w) * clog(z + w) - (z + w) } else { if n == 1 { clog(z + w) } else { Cx(pow(-real_of_num(1), n) * real_of_num(FACT(n - 2))) / pow(z + w, n - 1) } }
-      #|  Cx(real_of_num((n : Num))) + (z : Cart[Real, Tybit0[Unit]]) == z + Cx(real_of_num(n))
-      #|  \226\136\128 p : Num, \226\136\128 n : Num, \226\136\128 z : Cart[Real, Tybit0[Unit]], (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 integrable_on((x : Cart[Real, Unit]) => Cx(bernoulli(2 * p + 1, frac(drop(x)))) * (Cx(real_of_num(FACT(2 * p))) / pow(z + Cx(drop(x)), 2 * p + 1)), interval([(lift(real_of_num(0)), lift(real_of_num(n)))])) && vsum(op_dot_dot(0, n), (m : Num) => clog(Cx(real_of_num(m)) + z)) == (z + (Cx(real_of_num(n)) + Cx(real_of_num(1)) / Cx(real_of_num(2)))) * clog(z + Cx(real_of_num(n))) - (z - Cx(real_of_num(1)) / Cx(real_of_num(2))) * clog(z) - Cx(real_of_num(n)) + (vsum(op_dot_dot(1, p), (k : Num) => Cx(bernoulli(2 * k, real_of_num(0)) / real_of_num(FACT(2 * k))) * (Cx(real_of_num(FACT(2 * k - 2))) / pow(z + Cx(real_of_num(n)), 2 * k - 1) - Cx(real_of_num(FACT(2 * k - 2))) / pow(z, 2 * k - 1))) + integral(interval([(lift(real_of_num(0)), lift(real_of_num(n)))]), (x : Cart[Real, Unit]) => Cx(bernoulli(2 * p + 1, frac(drop(x)))) * (Cx(real_of_num(FACT(2 * p))) / pow(z + Cx(drop(x)), 2 * p + 1))) / Cx(real_of_num(FACT(2 * p + 1))))
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]]))
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]]))
-      #|  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]]))
-      #|  max(real_of_num(0), abs(Im((z : Cart[Real, Tybit0[Unit]]))) - Re(z))
-      #|  (b : Real) => lift(inv((real_of_num(1) - real_of_num((n : Num))) * pow(Re((z : Cart[Real, Tybit0[Unit]])) + b, n - 1)) - inv((real_of_num(1) - real_of_num(n)) * pow(Re(z) + max(real_of_num(0), abs(Im(z)) - Re(z)), n - 1)))
-      #|  real_of_num(0) <= drop((b : Cart[Real, Unit])) && abs(Im((z : Cart[Real, Tybit0[Unit]]))) - Re(z) <= drop(b)
+      #|  (n : Num) => (w : Cart[Real, 2]) => if n == 0 { ((z : Cart[Real, 2]) + w) * clog(z + w) - (z + w) } else { if n == 1 { clog(z + w) } else { Cx(pow(-real_of_num(1), n) * real_of_num(FACT(n - 2))) / pow(z + w, n - 1) } }
+      #|  Cx(real_of_num((n : Num))) + (z : Cart[Real, 2]) == z + Cx(real_of_num(n))
+      #|  \226\136\128 p : Num, \226\136\128 n : Num, \226\136\128 z : Cart[Real, 2], (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 integrable_on((x : Cart[Real, Unit]) => Cx(bernoulli(2 * p + 1, frac(drop(x)))) * (Cx(real_of_num(FACT(2 * p))) / pow(z + Cx(drop(x)), 2 * p + 1)), interval([(lift(real_of_num(0)), lift(real_of_num(n)))])) && vsum(op_dot_dot(0, n), (m : Num) => clog(Cx(real_of_num(m)) + z)) == (z + (Cx(real_of_num(n)) + Cx(real_of_num(1)) / Cx(real_of_num(2)))) * clog(z + Cx(real_of_num(n))) - (z - Cx(real_of_num(1)) / Cx(real_of_num(2))) * clog(z) - Cx(real_of_num(n)) + (vsum(op_dot_dot(1, p), (k : Num) => Cx(bernoulli(2 * k, real_of_num(0)) / real_of_num(FACT(2 * k))) * (Cx(real_of_num(FACT(2 * k - 2))) / pow(z + Cx(real_of_num(n)), 2 * k - 1) - Cx(real_of_num(FACT(2 * k - 2))) / pow(z, 2 * k - 1))) + integral(interval([(lift(real_of_num(0)), lift(real_of_num(n)))]), (x : Cart[Real, Unit]) => Cx(bernoulli(2 * p + 1, frac(drop(x)))) * (Cx(real_of_num(FACT(2 * p))) / pow(z + Cx(drop(x)), 2 * p + 1))) / Cx(real_of_num(FACT(2 * p + 1))))
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
+      #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
+      #|  max(real_of_num(0), abs(Im((z : Cart[Real, 2]))) - Re(z))
+      #|  (b : Real) => lift(inv((real_of_num(1) - real_of_num((n : Num))) * pow(Re((z : Cart[Real, 2])) + b, n - 1)) - inv((real_of_num(1) - real_of_num(n)) * pow(Re(z) + max(real_of_num(0), abs(Im(z)) - Re(z)), n - 1)))
+      #|  real_of_num(0) <= drop((b : Cart[Real, Unit])) && abs(Im((z : Cart[Real, 2]))) - Re(z) <= drop(b)
       #|  (b : Cart[Real, Unit])
-      #|  lift(inv((real_of_num((n : Num)) - real_of_num(1)) * pow(Re((z : Cart[Real, Tybit0[Unit]])) + max(real_of_num(0), abs(Im(z)) - Re(z)), n - 1)))
+      #|  lift(inv((real_of_num((n : Num)) - real_of_num(1)) * pow(Re((z : Cart[Real, 2])) + max(real_of_num(0), abs(Im(z)) - Re(z)), n - 1)))
       #|  real_of_num(2) <= (x : Real) \226\134\146 inv(real_of_num(1) - x) * ((x - real_of_num(1)) * ((y : Real) * (-(real_of_num(0) + real_of_num(1)) * (p : Real)))) == y * p
       #|  2 <= (n : Num) \226\134\146 1 <= n
       #|  (b : Cart[Real, Unit])
-      #|  lift(max(real_of_num(0), abs(Im((z : Cart[Real, Tybit0[Unit]]))) - Re(z)))
-      #|  (x : Cart[Real, Unit]) => lift(pow(inv(Re((z : Cart[Real, Tybit0[Unit]])) + drop(x)), (n : Num)))
-      #|  (x : Cart[Real, Unit]) => lift(inv((real_of_num(1) - real_of_num((n : Num))) * pow(Re((z : Cart[Real, Tybit0[Unit]])) + drop(x), n - 1)))
-      #|  \226\136\128 b : Cart[Real, Unit], real_of_num(0) <= drop(b) && abs(Im((z : Cart[Real, Tybit0[Unit]]))) - Re(z) <= drop(b) \226\134\146 has_integral((x : Cart[Real, Unit]) => lift(pow(inv(Re(z) + drop(x)), (n : Num))), lift(inv((real_of_num(1) - real_of_num(n)) * pow(Re(z) + drop(b), n - 1)) - inv((real_of_num(1) - real_of_num(n)) * pow(Re(z) + max(real_of_num(0), abs(Im(z)) - Re(z)), n - 1))), interval([(lift(max(real_of_num(0), abs(Im(z)) - Re(z))), b)]))
-      #|  \226\136\128 a : Cart[Real, Unit], INTER({(t : Cart[Real, Unit]) | abs(Im((z : Cart[Real, Tybit0[Unit]]))) - Re(z) <= drop(t)}, interval([(vec(0), a)])) == interval([(lift(max(real_of_num(0), abs(Im(z)) - Re(z))), a)])
-      #|  {lift(abs(Im((z : Cart[Real, Tybit0[Unit]]))) - Re(z))}
-      #|  INTER({(t : Cart[Real, Unit]) | abs(Im((z : Cart[Real, Tybit0[Unit]]))) - Re(z) <= drop(t)}, {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
-      #|  {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t) && Re((z : Cart[Real, Tybit0[Unit]])) + drop(t) <= abs(Im(z))} == interval([(vec(0), lift(abs(Im(z)) - Re(z)))])
+      #|  lift(max(real_of_num(0), abs(Im((z : Cart[Real, 2]))) - Re(z)))
+      #|  (x : Cart[Real, Unit]) => lift(pow(inv(Re((z : Cart[Real, 2])) + drop(x)), (n : Num)))
+      #|  (x : Cart[Real, Unit]) => lift(inv((real_of_num(1) - real_of_num((n : Num))) * pow(Re((z : Cart[Real, 2])) + drop(x), n - 1)))
+      #|  \226\136\128 b : Cart[Real, Unit], real_of_num(0) <= drop(b) && abs(Im((z : Cart[Real, 2]))) - Re(z) <= drop(b) \226\134\146 has_integral((x : Cart[Real, Unit]) => lift(pow(inv(Re(z) + drop(x)), (n : Num))), lift(inv((real_of_num(1) - real_of_num(n)) * pow(Re(z) + drop(b), n - 1)) - inv((real_of_num(1) - real_of_num(n)) * pow(Re(z) + max(real_of_num(0), abs(Im(z)) - Re(z)), n - 1))), interval([(lift(max(real_of_num(0), abs(Im(z)) - Re(z))), b)]))
+      #|  \226\136\128 a : Cart[Real, Unit], INTER({(t : Cart[Real, Unit]) | abs(Im((z : Cart[Real, 2]))) - Re(z) <= drop(t)}, interval([(vec(0), a)])) == interval([(lift(max(real_of_num(0), abs(Im(z)) - Re(z))), a)])
+      #|  {lift(abs(Im((z : Cart[Real, 2]))) - Re(z))}
+      #|  INTER({(t : Cart[Real, Unit]) | abs(Im((z : Cart[Real, 2]))) - Re(z) <= drop(t)}, {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
+      #|  {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t) && Re((z : Cart[Real, 2])) + drop(t) <= abs(Im(z))} == interval([(vec(0), lift(abs(Im(z)) - Re(z)))])
       #|  max((m : Real), (n : Real)) == (if n <= m { m } else { n })
-      #|  (z : Cart[Real, Tybit0[Unit]]) + Cx((x : Real))
+      #|  (z : Cart[Real, 2]) + Cx((x : Real))
       #|  (x : Real)
-      #|  (t : Cart[Real, Unit]) => lift(pow(inv(max(abs(Im((z : Cart[Real, Tybit0[Unit]]))), Re(z) + drop(t))), (n : Num)))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], \226\136\128 n : Num, 2 <= n && (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 absolutely_integrable_on((t : Cart[Real, Unit]) => pow(inv(z + Cx(drop(t))), n), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], \226\136\128 n : Num, 2 <= n && (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 integrable_on((t : Cart[Real, Unit]) => Cx(bernoulli(n, frac(drop(t)))) / pow(z + Cx(drop(t)), n), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
-      #|  !((a : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) && !((b : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) \226\134\146 a * inv(b * a) == inv(b)
-      #|  (x : Cart[Real, Tybit0[Unit]]) * (y : Cart[Real, Tybit0[Unit]]) == (z : Cart[Real, Tybit0[Unit]]) \226\134\146 x * (i : Cart[Real, Tybit0[Unit]]) * y == i * z
+      #|  (t : Cart[Real, Unit]) => lift(pow(inv(max(abs(Im((z : Cart[Real, 2]))), Re(z) + drop(t))), (n : Num)))
+      #|  \226\136\128 z : Cart[Real, 2], \226\136\128 n : Num, 2 <= n && (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 absolutely_integrable_on((t : Cart[Real, Unit]) => pow(inv(z + Cx(drop(t))), n), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
+      #|  \226\136\128 z : Cart[Real, 2], \226\136\128 n : Num, 2 <= n && (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 integrable_on((t : Cart[Real, Unit]) => Cx(bernoulli(n, frac(drop(t)))) / pow(z + Cx(drop(t)), n), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
+      #|  !((a : Cart[Real, 2]) == Cx(real_of_num(0))) && !((b : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 a * inv(b * a) == inv(b)
+      #|  (x : Cart[Real, 2]) * (y : Cart[Real, 2]) == (z : Cart[Real, 2]) \226\134\146 x * (i : Cart[Real, 2]) * y == i * z
       #|  (n : Num)
       #|  inv(Cx(real_of_num(FACT(2 * (p : Num) + 1))))
       #|  Cx(real_of_num(FACT(2 * (p : Num))))
       #|  2 * (p : Num) + 1
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  -(z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)) - z
+      #|  (z : Cart[Real, 2])
+      #|  -(z : Cart[Real, 2]) == Cx(real_of_num(0)) - z
       #|  2 + (k : Num) == SUC(SUC(k))
       #|  2 + (k : Num) - 2 == k && 2 + k - 1 == k + 1
       #|  (k : Num)
@@ -89311,17 +89311,17 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  1 <= (k : Num)
       #|  1 <= (k : Num) \226\134\146 1 <= 2 * k
       #|  real_of_num(4) * pow((x : Real), 2) - real_of_num(2) * x == real_of_num(2) * x * (real_of_num(2) * x - real_of_num(1))
-      #|  !((y : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) && !((z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) && (x : Cart[Real, Tybit0[Unit]]) * z == y \226\134\146 x / y == inv(z)
+      #|  !((y : Cart[Real, 2]) == Cx(real_of_num(0))) && !((z : Cart[Real, 2]) == Cx(real_of_num(0))) && (x : Cart[Real, 2]) * z == y \226\134\146 x / y == inv(z)
       #|  Cx(real_of_num(FACT(2 * (k : Num) - 2))) / Cx(real_of_num(FACT(2 * k))) == inv(Cx(real_of_num(4) * pow(real_of_num(k), 2) - real_of_num(2) * real_of_num(k)))
-      #|  inv((x : Cart[Real, Tybit0[Unit]])) * ((y : Cart[Real, Tybit0[Unit]]) * (w : Cart[Real, Tybit0[Unit]]) - y * (z : Cart[Real, Tybit0[Unit]])) == y / x * (w - z)
+      #|  inv((x : Cart[Real, 2])) * ((y : Cart[Real, 2]) * (w : Cart[Real, 2]) - y * (z : Cart[Real, 2])) == y / x * (w - z)
       #|  (k : Num)
-      #|  (a : Cart[Real, Tybit0[Unit]]) - (b : Cart[Real, Tybit0[Unit]]) == -b + a
+      #|  (a : Cart[Real, 2]) - (b : Cart[Real, 2]) == -b + a
       #|  ((a : Cart[Real, N]) + (vec(0) + (x : Cart[Real, N])) == a + (y : Cart[Real, N])) == (x == y)
-      #|  (a : Cart[Real, Tybit0[Unit]]) * (Cx(real_of_num(1)) / (b : Cart[Real, Tybit0[Unit]])) == a / b
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  (a : Cart[Real, 2]) * (Cx(real_of_num(1)) / (b : Cart[Real, 2])) == a / b
+      #|  (z : Cart[Real, 2])
       #|  (n : Num)
       #|  (p : Num)
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  (z : Cart[Real, 2])
       #|  (n : Num)
       #|  0
       #|  (n : Num)
@@ -89329,28 +89329,28 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  bernoulli(1, (x : Real))
       #|  (x : Real)
       #|  real_of_num(1) / real_of_num(2)
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], \226\136\128 p : Num, (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) && 1 <= p \226\134\146 has_integral((t : Cart[Real, Unit]) => Cx(bernoulli(1, frac(drop(t)))) / (z + Cx(drop(t))), integral({(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}, (t : Cart[Real, Unit]) => Cx(bernoulli(2 * p + 1, frac(drop(t)))) / pow(z + Cx(drop(t)), 2 * p + 1)) / Cx(real_of_num(2 * p + 1)) - vsum(op_dot_dot(1, p), (k : Num) => Cx(bernoulli(2 * k, real_of_num(0)) / (real_of_num(4) * pow(real_of_num(k), 2) - real_of_num(2) * real_of_num(k))) / pow(z, 2 * k - 1)), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
+      #|  \226\136\128 z : Cart[Real, 2], \226\136\128 p : Num, (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) && 1 <= p \226\134\146 has_integral((t : Cart[Real, Unit]) => Cx(bernoulli(1, frac(drop(t)))) / (z + Cx(drop(t))), integral({(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}, (t : Cart[Real, Unit]) => Cx(bernoulli(2 * p + 1, frac(drop(t)))) / pow(z + Cx(drop(t)), 2 * p + 1)) / Cx(real_of_num(2 * p + 1)) - vsum(op_dot_dot(1, p), (k : Num) => Cx(bernoulli(2 * k, real_of_num(0)) / (real_of_num(4) * pow(real_of_num(k), 2) - real_of_num(2) * real_of_num(k))) / pow(z, 2 * k - 1)), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
       #|  1 <= (n : Num) \226\134\146 n == 1 || 2 <= n
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], \226\136\128 n : Num, 1 <= n && (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 integrable_on((t : Cart[Real, Unit]) => Cx(bernoulli(n, frac(drop(t)))) / pow(z + Cx(drop(t)), n), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
-      #|  (z : Cart[Real, Tybit0[Unit]]) + (x : Cart[Real, Tybit0[Unit]]) == pow(z + x, 1)
+      #|  \226\136\128 z : Cart[Real, 2], \226\136\128 n : Num, 1 <= n && (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 integrable_on((t : Cart[Real, Unit]) => Cx(bernoulli(n, frac(drop(t)))) / pow(z + Cx(drop(t)), n), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})
+      #|  (z : Cart[Real, 2]) + (x : Cart[Real, 2]) == pow(z + x, 1)
       #|  (p : Bool) == ((q : Bool) && (r : Bool)) \226\134\146 p \226\134\146 r
-      #|  ((a : Cart[Real, Tybit0[Unit]]) + (h : Cart[Real, Tybit0[Unit]])) * (x : Cart[Real, Tybit0[Unit]]) - (y : Cart[Real, Tybit0[Unit]]) == h * x + (a * x - y)
-      #|  (n : Num) => (z : Cart[Real, Tybit0[Unit]]) * (clog(Cx(real_of_num(n))) - clog(z + Cx(real_of_num(n)))) + ((Cx(real_of_num(n)) + Cx(real_of_num(1)) / Cx(real_of_num(2))) * (clog(Cx(real_of_num(1)) + Cx(real_of_num(n))) - clog(z + Cx(real_of_num(n)))) - (Cx(real_of_num(1)) - z))
-      #|  (a : Cart[Real, Tybit0[Unit]]) + ((b : Cart[Real, Tybit0[Unit]]) - (c : Cart[Real, Tybit0[Unit]]) - (n : Cart[Real, Tybit0[Unit]]) + (x : Cart[Real, Tybit0[Unit]]) - ((d : Cart[Real, Tybit0[Unit]]) - (e : Cart[Real, Tybit0[Unit]]) - n + (y : Cart[Real, Tybit0[Unit]]))) == a + (b - c - (d - e)) + (x - y)
+      #|  ((a : Cart[Real, 2]) + (h : Cart[Real, 2])) * (x : Cart[Real, 2]) - (y : Cart[Real, 2]) == h * x + (a * x - y)
+      #|  (n : Num) => (z : Cart[Real, 2]) * (clog(Cx(real_of_num(n))) - clog(z + Cx(real_of_num(n)))) + ((Cx(real_of_num(n)) + Cx(real_of_num(1)) / Cx(real_of_num(2))) * (clog(Cx(real_of_num(1)) + Cx(real_of_num(n))) - clog(z + Cx(real_of_num(n)))) - (Cx(real_of_num(1)) - z))
+      #|  (a : Cart[Real, 2]) + ((b : Cart[Real, 2]) - (c : Cart[Real, 2]) - (n : Cart[Real, 2]) + (x : Cart[Real, 2]) - ((d : Cart[Real, 2]) - (e : Cart[Real, 2]) - n + (y : Cart[Real, 2]))) == a + (b - c - (d - e)) + (x - y)
       #|  (n : Num)
       #|  0
-      #|  (a : Cart[Real, Tybit0[Unit]]) + ((b : Cart[Real, Tybit0[Unit]]) - (c : Cart[Real, Tybit0[Unit]])) - (d : Cart[Real, Tybit0[Unit]]) == a - c + (b - d)
-      #|  (a : Cart[Real, Tybit0[Unit]]) + (b : Cart[Real, Tybit0[Unit]]) - b == a
+      #|  (a : Cart[Real, 2]) + ((b : Cart[Real, 2]) - (c : Cart[Real, 2])) - (d : Cart[Real, 2]) == a - c + (b - d)
+      #|  (a : Cart[Real, 2]) + (b : Cart[Real, 2]) - b == a
       #|  1 <= SUC((n : Num))
       #|  1
       #|  clog(Cx(real_of_num(FACT((n : Num))))) == vsum(op_dot_dot(0, n), (m : Num) => clog(Cx(real_of_num(m)) + Cx(real_of_num(1)))) - clog(Cx(real_of_num(n) + real_of_num(1)))
       #|  (n : Num)
       #|  1
-      #|  (n : Num) => (z : Cart[Real, Tybit0[Unit]]) * clog(Cx(real_of_num(n))) - clog(Cx(real_of_num(n) + real_of_num(1))) + ((Cx(real_of_num(1)) + (Cx(real_of_num(n)) + Cx(real_of_num(1)) / Cx(real_of_num(2)))) * clog(Cx(real_of_num(1)) + Cx(real_of_num(n))) - (Cx(real_of_num(1)) - Cx(real_of_num(1)) / Cx(real_of_num(2))) * clog(Cx(real_of_num(1))) - Cx(real_of_num(n)) + integral(interval([(lift(real_of_num(0)), lift(real_of_num(n)))]), (x : Cart[Real, Unit]) => Cx(bernoulli(1, frac(drop(x)))) * (Cx(real_of_num(1)) / pow(Cx(real_of_num(1)) + Cx(drop(x)), 1))) / Cx(real_of_num(1)) - ((z + (Cx(real_of_num(n)) + Cx(real_of_num(1)) / Cx(real_of_num(2)))) * clog(z + Cx(real_of_num(n))) - (z - Cx(real_of_num(1)) / Cx(real_of_num(2))) * clog(z) - Cx(real_of_num(n)) + integral(interval([(lift(real_of_num(0)), lift(real_of_num(n)))]), (x : Cart[Real, Unit]) => Cx(bernoulli(1, frac(drop(x)))) * (Cx(real_of_num(1)) / pow(z + Cx(drop(x)), 1))) / Cx(real_of_num(1))))
+      #|  (n : Num) => (z : Cart[Real, 2]) * clog(Cx(real_of_num(n))) - clog(Cx(real_of_num(n) + real_of_num(1))) + ((Cx(real_of_num(1)) + (Cx(real_of_num(n)) + Cx(real_of_num(1)) / Cx(real_of_num(2)))) * clog(Cx(real_of_num(1)) + Cx(real_of_num(n))) - (Cx(real_of_num(1)) - Cx(real_of_num(1)) / Cx(real_of_num(2))) * clog(Cx(real_of_num(1))) - Cx(real_of_num(n)) + integral(interval([(lift(real_of_num(0)), lift(real_of_num(n)))]), (x : Cart[Real, Unit]) => Cx(bernoulli(1, frac(drop(x)))) * (Cx(real_of_num(1)) / pow(Cx(real_of_num(1)) + Cx(drop(x)), 1))) / Cx(real_of_num(1)) - ((z + (Cx(real_of_num(n)) + Cx(real_of_num(1)) / Cx(real_of_num(2)))) * clog(z + Cx(real_of_num(n))) - (z - Cx(real_of_num(1)) / Cx(real_of_num(2))) * clog(z) - Cx(real_of_num(n)) + integral(interval([(lift(real_of_num(0)), lift(real_of_num(n)))]), (x : Cart[Real, Unit]) => Cx(bernoulli(1, frac(drop(x)))) * (Cx(real_of_num(1)) / pow(z + Cx(drop(x)), 1))) / Cx(real_of_num(1))))
       #|  sequentially
-      #|  !((z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)))
-      #|  \226\136\128 n : Num, !((z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(n)) == Cx(real_of_num(0)))
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 lgamma(z) == (z - Cx(real_of_num(1)) / Cx(real_of_num(2))) * clog(z) - z + Cx(real_of_num(1)) + (integral({(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}, (t : Cart[Real, Unit]) => Cx(bernoulli(1, frac(drop(t)))) / (Cx(real_of_num(1)) + Cx(drop(t)))) - integral({(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}, (t : Cart[Real, Unit]) => Cx(bernoulli(1, frac(drop(t)))) / (z + Cx(drop(t)))))
+      #|  !((z : Cart[Real, 2]) == Cx(real_of_num(0)))
+      #|  \226\136\128 n : Num, !((z : Cart[Real, 2]) + Cx(real_of_num(n)) == Cx(real_of_num(0)))
+      #|  \226\136\128 z : Cart[Real, 2], (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 lgamma(z) == (z - Cx(real_of_num(1)) / Cx(real_of_num(2))) * clog(z) - z + Cx(real_of_num(1)) + (integral({(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}, (t : Cart[Real, Unit]) => Cx(bernoulli(1, frac(drop(t)))) / (Cx(real_of_num(1)) + Cx(drop(t)))) - integral({(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}, (t : Cart[Real, Unit]) => Cx(bernoulli(1, frac(drop(t)))) / (z + Cx(drop(t)))))
       #|  pow(real_of_num(1), 2) <= pow((y : Real), 2) && real_of_num(0) <= pow((x : Real) - real_of_num(1), 2) \226\134\146 pow(real_of_num(1) + x, 2) / real_of_num(2) <= pow(x, 2) + pow(y, 2)
       #|  (real_of_num(0) <= (x : Real) / real_of_num(2)) == (real_of_num(0) <= x)
       #|  inv(real_of_num(2)) * ((y : Real) * (x : Real)) == y * (x / real_of_num(2))
@@ -89360,7 +89360,7 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  3
       #|  real_of_num(1) / real_of_num(2) / (y : Real) * (x : Real) == real_of_num(1) / real_of_num(4) * (real_of_num(2) / y * x)
       #|  (x : Real)
-      #|  abs(Re((z : Cart[Real, Tybit0[Unit]]))) <= norm(z) && (x : Real) <= Re(z) \226\134\146 x <= norm(z)
+      #|  abs(Re((z : Cart[Real, 2]))) <= norm(z) && (x : Real) <= Re(z) \226\134\146 x <= norm(z)
       #|  (y : Real)
       #|  real_of_num(1)
       #|  (y : Real) => Cx(real_of_num(1) / real_of_num(2) / y) * integral({(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}, (t : Cart[Real, Unit]) => pow(inv(Cx(real_of_num(1)) + Cx(drop(t))), 2))
@@ -89390,12 +89390,12 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  (x : Real) < real_of_num(1) && real_of_num(1) < (y : Real) \226\134\146 real_of_num(0) < y - x
       #|  real_of_num(0) < exp(pi * (y : Real)) - inv(exp(pi * y))
       #|  sqrt
-      #|  !((y : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) \226\134\146 (ii * (y * (z : Cart[Real, Tybit0[Unit]])) == -((p : Cart[Real, Tybit0[Unit]]) * ((i : Cart[Real, Tybit0[Unit]]) * (Cx(real_of_num(2)) * ii)))) == (z == -(Cx(real_of_num(2)) * p) * (inv(y) * i))
-      #|  ii * ((x : Cart[Real, Tybit0[Unit]]) * (ii * (y : Cart[Real, Tybit0[Unit]]))) == -(x * y)
-      #|  -ii * ((x : Cart[Real, Tybit0[Unit]]) * (ii * (y : Cart[Real, Tybit0[Unit]]))) == x * y
-      #|  (w : Cart[Real, Tybit0[Unit]]) * ((z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(1))) == w * z + w
+      #|  !((y : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 (ii * (y * (z : Cart[Real, 2])) == -((p : Cart[Real, 2]) * ((i : Cart[Real, 2]) * (Cx(real_of_num(2)) * ii)))) == (z == -(Cx(real_of_num(2)) * p) * (inv(y) * i))
+      #|  ii * ((x : Cart[Real, 2]) * (ii * (y : Cart[Real, 2]))) == -(x * y)
+      #|  -ii * ((x : Cart[Real, 2]) * (ii * (y : Cart[Real, 2]))) == x * y
+      #|  (w : Cart[Real, 2]) * ((z : Cart[Real, 2]) + Cx(real_of_num(1))) == w * z + w
       #|  cgamma(ii * Cx((y : Real)))
-      #|  Cx(real_of_num(1)) - ((z : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(1))) == -z
+      #|  Cx(real_of_num(1)) - ((z : Cart[Real, 2]) + Cx(real_of_num(1))) == -z
       #|  ii * Cx((y : Real)) + Cx(real_of_num(1))
       #|  real_of_num(0) < (y : Real)
       #|  (y : Real)
@@ -89408,21 +89408,21 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  real_of_num(1)
       #|  (y : Real) => Cx(log(norm(cgamma(ii * Cx(y))))) - (Cx(-(pi * y + log(y)) / real_of_num(2)) + Cx(real_of_num(1)))
       #|  (y : Real) => integral({(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}, (t : Cart[Real, Unit]) => Cx(bernoulli(1, frac(drop(t)))) / (ii * Cx(y) + Cx(drop(t))))
-      #|  (s : Cart[Real, Tybit0[Unit]]) + ((i : Cart[Real, Tybit0[Unit]]) - (j : Cart[Real, Tybit0[Unit]])) - s + j == i
+      #|  (s : Cart[Real, 2]) + ((i : Cart[Real, 2]) - (j : Cart[Real, 2])) - s + j == i
       #|  ii * Cx((y : Real))
       #|  (y : Real)
       #|  real_of_num(1)
       #|  (y : Real) => Cx(Re(lgamma(ii * Cx(y)) - ((ii * Cx(y) - Cx(real_of_num(1)) / Cx(real_of_num(2))) * clog(ii * Cx(y)) - ii * Cx(y) + Cx(real_of_num(1))) + integral({(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}, (t : Cart[Real, Unit]) => Cx(bernoulli(1, frac(drop(t)))) / (ii * Cx(y) + Cx(drop(t))))))
       #|  (y : Real) => Cx(Re(integral({(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}, (t : Cart[Real, Unit]) => Cx(bernoulli(1, frac(drop(t)))) / (Cx(real_of_num(1)) + Cx(drop(t))))))
       #|  at_posinfinity
-      #|  (z : Cart[Real, Tybit0[Unit]]) + (x : Cart[Real, Tybit0[Unit]]) == pow(z + x, 1)
-      #|  real((z : Cart[Real, Tybit0[Unit]])) && Re(z) == (y : Real) \226\134\146 z == Cx(y)
+      #|  (z : Cart[Real, 2]) + (x : Cart[Real, 2]) == pow(z + x, 1)
+      #|  real((z : Cart[Real, 2])) && Re(z) == (y : Real) \226\134\146 z == Cx(y)
       #|  integral({(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}, (t : Cart[Real, Unit]) => Cx(bernoulli(1, frac(drop(t)))) / (Cx(real_of_num(1)) + Cx(drop(t)))) == Cx(log(real_of_num(2) * pi) / real_of_num(2) - real_of_num(1))
       #|  (p : Num)
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  (z : Cart[Real, 2])
       #|  (p : Num) == 0
-      #|  (x : Cart[Real, Tybit0[Unit]]) + Cx(real_of_num(1)) + ((a : Cart[Real, Tybit0[Unit]]) - Cx(real_of_num(1)) - (b : Cart[Real, Tybit0[Unit]])) == x + a - b
-      #|  (\226\136\128 z : Cart[Real, Tybit0[Unit]], \226\136\128 n : Num, 1 <= n && (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 integrable_on((t : Cart[Real, Unit]) => Cx(bernoulli(n, frac(drop(t)))) / pow(z + Cx(drop(t)), n), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})) && (\226\136\128 z : Cart[Real, Tybit0[Unit]], \226\136\128 p : Num, (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 lgamma(z) == (z - Cx(real_of_num(1)) / Cx(real_of_num(2))) * clog(z) - z + Cx(log(real_of_num(2) * pi) / real_of_num(2)) + (vsum(op_dot_dot(1, p), (k : Num) => Cx(bernoulli(2 * k, real_of_num(0)) / (real_of_num(4) * pow(real_of_num(k), 2) - real_of_num(2) * real_of_num(k))) / pow(z, 2 * k - 1)) - integral({(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}, (t : Cart[Real, Unit]) => Cx(bernoulli(2 * p + 1, frac(drop(t)))) / pow(z + Cx(drop(t)), 2 * p + 1)) / Cx(real_of_num(2 * p + 1))))
+      #|  (x : Cart[Real, 2]) + Cx(real_of_num(1)) + ((a : Cart[Real, 2]) - Cx(real_of_num(1)) - (b : Cart[Real, 2])) == x + a - b
+      #|  (\226\136\128 z : Cart[Real, 2], \226\136\128 n : Num, 1 <= n && (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 integrable_on((t : Cart[Real, Unit]) => Cx(bernoulli(n, frac(drop(t)))) / pow(z + Cx(drop(t)), n), {(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)})) && (\226\136\128 z : Cart[Real, 2], \226\136\128 p : Num, (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 lgamma(z) == (z - Cx(real_of_num(1)) / Cx(real_of_num(2))) * clog(z) - z + Cx(log(real_of_num(2) * pi) / real_of_num(2)) + (vsum(op_dot_dot(1, p), (k : Num) => Cx(bernoulli(2 * k, real_of_num(0)) / (real_of_num(4) * pow(real_of_num(k), 2) - real_of_num(2) * real_of_num(k))) / pow(z, 2 * k - 1)) - integral({(t : Cart[Real, Unit]) | real_of_num(0) <= drop(t)}, (t : Cart[Real, Unit]) => Cx(bernoulli(2 * p + 1, frac(drop(t)))) / pow(z + Cx(drop(t)), 2 * p + 1)) / Cx(real_of_num(2 * p + 1))))
       #|  1
       #|  1 <= 2 * (p : Num) + 1
       #|  2 * (p : Num) + 1
@@ -89436,31 +89436,31 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  \226\136\128 x : Real, \226\136\128 p : Num, real_of_num(0) < x \226\134\146 log(gamma(x)) == (x - real_of_num(1) / real_of_num(2)) * log(x) - x + log(real_of_num(2) * pi) / real_of_num(2) + (sum(op_dot_dot(1, p), (k : Num) => bernoulli(2 * k, real_of_num(0)) / (real_of_num(4) * pow(real_of_num(k), 2) - real_of_num(2) * real_of_num(k)) / pow(x, 2 * k - 1)) - real_integral({(t : Real) | real_of_num(0) <= t}, (t : Real) => bernoulli(2 * p + 1, frac(t)) / pow(x + t, 2 * p + 1)) / real_of_num(2 * p + 1))
       #|  !(Cx(real_of_num((k : Num))) == Cx(real_of_num(0)))
       #|  (k : Num)
-      #|  (n : Cart[Real, Tybit0[Unit]]) + (Cx(real_of_num(1)) - (z : Cart[Real, Tybit0[Unit]])) == n + Cx(real_of_num(1)) - z
-      #|  (norm : (Cart[Real, Tybit0[Unit]]) -> Real)
-      #|  !(Cx(real_of_num((n : Num))) + Cx(real_of_num(1)) - (z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)))
-      #|  (a : Cart[Real, Tybit0[Unit]]) * ((b : Cart[Real, Tybit0[Unit]]) * ((c : Cart[Real, Tybit0[Unit]]) * ((d : Cart[Real, Tybit0[Unit]]) * ((e : Cart[Real, Tybit0[Unit]]) * ((f : Cart[Real, Tybit0[Unit]]) * ((g : Cart[Real, Tybit0[Unit]]) * ((h : Cart[Real, Tybit0[Unit]]) * ((i : Cart[Real, Tybit0[Unit]]) * ((j : Cart[Real, Tybit0[Unit]]) * (k : Cart[Real, Tybit0[Unit]])))))))))) == a * i * (j * e * (h * b * (c * (d * g * (f * k)))))
+      #|  (n : Cart[Real, 2]) + (Cx(real_of_num(1)) - (z : Cart[Real, 2])) == n + Cx(real_of_num(1)) - z
+      #|  (norm : (Cart[Real, 2]) -> Real)
+      #|  !(Cx(real_of_num((n : Num))) + Cx(real_of_num(1)) - (z : Cart[Real, 2]) == Cx(real_of_num(0)))
+      #|  (a : Cart[Real, 2]) * ((b : Cart[Real, 2]) * ((c : Cart[Real, 2]) * ((d : Cart[Real, 2]) * ((e : Cart[Real, 2]) * ((f : Cart[Real, 2]) * ((g : Cart[Real, 2]) * ((h : Cart[Real, 2]) * ((i : Cart[Real, 2]) * ((j : Cart[Real, 2]) * (k : Cart[Real, 2])))))))))) == a * i * (j * e * (h * b * (c * (d * g * (f * k)))))
       #|  (MAX((a : Num), (b : Num)) <= (c : Num)) == (a <= c && b <= c)
       #|  (n : Num)
       #|  MAX(1, (N : Num))
       #|  (N : Num)
-      #|  norm((z : Cart[Real, Tybit0[Unit]]))
+      #|  norm((z : Cart[Real, 2]))
       #|  1
-      #|  op_minus_minus_gt((n : Num) => Cx(real_of_num(n)) / (Cx(real_of_num(n)) + (Cx(real_of_num(1)) - (z : Cart[Real, Tybit0[Unit]]))), Cx(real_of_num(1)), sequentially)
+      #|  op_minus_minus_gt((n : Num) => Cx(real_of_num(n)) / (Cx(real_of_num(n)) + (Cx(real_of_num(1)) - (z : Cart[Real, 2]))), Cx(real_of_num(1)), sequentially)
       #|  0 < (n : Num) + 1 && 1 <= n + 1
       #|  1
       #|  (m : Num)
-      #|  (f : (Num) -> Cart[Real, Tybit0[Unit]])
-      #|  Cx(real_of_num(1)) - (z : Cart[Real, Tybit0[Unit]]) + (m : Cart[Real, Tybit0[Unit]]) == m + Cx(real_of_num(1)) - z
-      #|  Cx(real_of_num(1)) - (z : Cart[Real, Tybit0[Unit]])
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  (w : Cart[Real, Tybit0[Unit]])
-      #|  csin(Cx(pi) * (w : Cart[Real, Tybit0[Unit]])) == Cx(pi) * (csin(Cx(pi) * w) / Cx(pi))
-      #|  Cx(pi) * (w : Cart[Real, Tybit0[Unit]]) == (z : Cart[Real, Tybit0[Unit]])
-      #|  (w : Cart[Real, Tybit0[Unit]]) == (z : Cart[Real, Tybit0[Unit]]) / Cx(pi)
-      #|  \226\136\128 z : Cart[Real, Tybit0[Unit]], op_minus_minus_gt((n : Num) => z * cproduct(op_dot_dot(1, n), (m : Num) => Cx(real_of_num(1)) - pow(z / Cx(pi * real_of_num(m)), 2)), csin(z), sequentially)
+      #|  (f : (Num) -> Cart[Real, 2])
+      #|  Cx(real_of_num(1)) - (z : Cart[Real, 2]) + (m : Cart[Real, 2]) == m + Cx(real_of_num(1)) - z
+      #|  Cx(real_of_num(1)) - (z : Cart[Real, 2])
+      #|  (z : Cart[Real, 2])
+      #|  (z : Cart[Real, 2])
+      #|  (z : Cart[Real, 2])
+      #|  (w : Cart[Real, 2])
+      #|  csin(Cx(pi) * (w : Cart[Real, 2])) == Cx(pi) * (csin(Cx(pi) * w) / Cx(pi))
+      #|  Cx(pi) * (w : Cart[Real, 2]) == (z : Cart[Real, 2])
+      #|  (w : Cart[Real, 2]) == (z : Cart[Real, 2]) / Cx(pi)
+      #|  \226\136\128 z : Cart[Real, 2], op_minus_minus_gt((n : Num) => z * cproduct(op_dot_dot(1, n), (m : Num) => Cx(real_of_num(1)) - pow(z / Cx(pi * real_of_num(m)), 2)), csin(z), sequentially)
       #|  Cx((x : Real))
       #|  \226\136\128 x : Real, op_minus_minus_minus_gt((n : Num) => x * product(op_dot_dot(1, n), (m : Num) => real_of_num(1) - pow(x / (pi * real_of_num(m)), 2)), sin(x), sequentially)
       #|  (n : Num)

@@ -28,7 +28,7 @@ pub fn between_thm() -> @kernel.Thm {
 ///|
 /// length
 fn step_3() -> Unit raise {
-  length_c.set(@pair.new_definition(@term_syntax.parse_term("(length : ((Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) -> Real)(((A : Cart[Real, Tybit0[Unit]]), (B : Cart[Real, Tybit0[Unit]]))) == norm(B - A)")))
+  length_c.set(@pair.new_definition(@term_syntax.parse_term("(length : ((Cart[Real, 2], Cart[Real, 2])) -> Real)(((A : Cart[Real, 2]), (B : Cart[Real, 2]))) == norm(B - A)")))
 }
 
 ///|
@@ -132,7 +132,7 @@ fn step_6() -> Unit raise {
   }))
   let t18 = @simp.rewrite_tac(@list.List([length(), norm_cross(), between_thm()]))
   let t49 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t18), t22), t26), t30), t37), t42), t43), t44), t46), t47), t48)
-  segment_chords_c.set(@tactics.prove(@term_syntax.parse_term("∀ centre : Cart[Real, Tybit0[Unit]], ∀ radius : Real, ∀ q : Cart[Real, Tybit0[Unit]], ∀ r : Cart[Real, Tybit0[Unit]], ∀ s : Cart[Real, Tybit0[Unit]], ∀ t : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], between(b, (q, r)) && between(b, (s, t)) && length((q, centre)) == radius && length((r, centre)) == radius && length((s, centre)) == radius && length((t, centre)) == radius → length((q, b)) * length((b, r)) == length((s, b)) * length((b, t))"), t49))
+  segment_chords_c.set(@tactics.prove(@term_syntax.parse_term("∀ centre : Cart[Real, 2], ∀ radius : Real, ∀ q : Cart[Real, 2], ∀ r : Cart[Real, 2], ∀ s : Cart[Real, 2], ∀ t : Cart[Real, 2], ∀ b : Cart[Real, 2], between(b, (q, r)) && between(b, (s, t)) && length((q, centre)) == radius && length((r, centre)) == radius && length((s, centre)) == radius && length((t, centre)) == radius → length((q, b)) * length((b, r)) == length((s, b)) * length((b, t))"), t49))
 }
 
 ///|

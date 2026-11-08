@@ -47,6 +47,9 @@ test "types" {
   assert_eq(ty("(Num, Bool)"), @parser.parse_type("num#bool"))
   assert_eq(ty("List[A]"), @parser.parse_type("(A)list"))
   assert_eq(ty("((A) -> B, A) -> B"), @parser.parse_type("(A->B)->A->B"))
+  assert_eq(ty("List[6]"), @parser.parse_type("(6)list"))
+  assert_eq(ty("1"), @parser.parse_type("1"))
+  assert_true((try Some(ty("0")) catch { _ => None }) is None)
 }
 
 ///|

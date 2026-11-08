@@ -30,18 +30,18 @@ test "Int32 Fibonacci equivalence includes wrapping overflow" {
   // Natural-number input; 32-bit results. word_add wraps modulo 2^32.
   let recursive = @define.define_(
     @term_syntax.parse_term(
-      "(fib32_rec : (Num) -> Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]])(0) == word(0) && fib32_rec(SUC(0)) == word(1) && (∀ n : Num, fib32_rec(SUC(SUC(n))) == word_add(fib32_rec(n), fib32_rec(SUC(n))))",
+      "(fib32_rec : (Num) -> Word[32])(0) == word(0) && fib32_rec(SUC(0)) == word(1) && (∀ n : Num, fib32_rec(SUC(SUC(n))) == word_add(fib32_rec(n), fib32_rec(SUC(n))))",
     ),
   )
   // n loop iterations, with state (a, b) and simultaneous update (b, a + b).
   let loop_def = @recursion.new_recursive_definition(@nums.num_recursion())(
     @term_syntax.parse_term(
-      "(∀ a : Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]], ∀ b : Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]], (fib32_loop : (Num, Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]], Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]]) -> Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]])(0, a, b) == a) && (∀ n : Num, ∀ a : Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]], ∀ b : Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]], fib32_loop(SUC(n), a, b) == fib32_loop(n, b, word_add(a, b)))",
+      "(∀ a : Word[32], ∀ b : Word[32], (fib32_loop : (Num, Word[32], Word[32]) -> Word[32])(0, a, b) == a) && (∀ n : Num, ∀ a : Word[32], ∀ b : Word[32], fib32_loop(SUC(n), a, b) == fib32_loop(n, b, word_add(a, b)))",
     ),
   )
   let iterative = @drule.new_definition(
     @term_syntax.parse_term(
-      "(fib32_iter : (Num) -> Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]])((n : Num)) == fib32_loop(n, word(0), word(1))",
+      "(fib32_iter : (Num) -> Word[32])((n : Num)) == fib32_loop(n, word(0), word(1))",
     ),
   )
   // Generalize the starting index: n more steps from (fib(k), fib(k+1)).

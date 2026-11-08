@@ -3,7 +3,7 @@
 ///|
 /// circle_group
 fn step_1() -> Unit raise {
-  circle_group_c.set(@pair.new_definition(@term_syntax.parse_term("(circle_group : Group[Cart[Real, Tybit0[Unit]]]) == group(({(z : Cart[Real, Tybit0[Unit]]) | norm(z) == real_of_num(1)}, Cx(real_of_num(1)), inv, op_star))")))
+  circle_group_c.set(@pair.new_definition(@term_syntax.parse_term("(circle_group : Group[Cart[Real, 2]]) == group(({(z : Cart[Real, 2]) | norm(z) == real_of_num(1)}, Cx(real_of_num(1)), inv, op_star))")))
 }
 
 ///|
@@ -29,15 +29,15 @@ fn step_2() -> Unit raise {
     @tactics.all_tac
   })
   let t8 = @simp.asm_rewrite_tac(@list.List([@complexes.complex_norm_0(), @realax.real_of_num_eq(), @calc_num.arith_eq()]))
-  let t7 = @class.asm_cases_tac(@term_syntax.parse_term("(z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))"))
-  let t6 = @tactics.x_gen_tac(@term_syntax.parse_term("(z : Cart[Real, Tybit0[Unit]])"))
+  let t7 = @class.asm_cases_tac(@term_syntax.parse_term("(z : Cart[Real, 2]) == Cx(real_of_num(0))"))
+  let t6 = @tactics.x_gen_tac(@term_syntax.parse_term("(z : Cart[Real, 2])"))
   let t5 = @simp.rewrite_tac(@list.List([@complexes.complex_mul_assoc()]))
   let t4 = @tactics.conv_tac(@calc_rat.real_rat_reduce_conv)
   let t3 = @simp.simp_tac(@list.List([@complexes.complex_norm_inv(), @complexes.complex_norm_mul(), @complexes.complex_norm_cx()]))
   let t2 = @simp.rewrite_tac(@list.List([@sets.in_elim_thm(), @complexes.complex_mul_lid(), @complexes.complex_mul_rid()]))
   let t1 = @simp.rewrite_tac(@list.List([circle_group(), @equal.gsym(@bool.conjunct2(@grouptheory.group_tybij()))]))
   let t16 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([@grouptheory.group_carrier(), @grouptheory.group_id(), @grouptheory.group_inv(), @grouptheory.group_mul(), @equal.gsym(@pair.pair_eq())])), t1), t2), t3), t4), t5), t6), t7), t8), t10), t14), t15)
-  circle_group_v1_c.set(@tactics.prove(@term_syntax.parse_term("group_carrier(circle_group) == {(z : Cart[Real, Tybit0[Unit]]) | norm(z) == real_of_num(1)} && group_id(circle_group) == Cx(real_of_num(1)) && group_inv(circle_group) == inv && group_mul(circle_group) == op_star"), t16))
+  circle_group_v1_c.set(@tactics.prove(@term_syntax.parse_term("group_carrier(circle_group) == {(z : Cart[Real, 2]) | norm(z) == real_of_num(1)} && group_id(circle_group) == Cx(real_of_num(1)) && group_inv(circle_group) == inv && group_mul(circle_group) == op_star"), t16))
 }
 
 ///|
@@ -70,7 +70,7 @@ pub fn abelian_circle_group() -> @kernel.Thm {
 fn step_4() -> Unit raise {
   let t18 = @simp.asm_rewrite_tac(@list.List([@grouptheory.group_pow(), circle_group_v1(), @complexes.complex_pow()]))
   let t19 = @tactics.then_tac(@tactics.then_tac(@tactics.gen_tac, @nums.induct_tac), t18)
-  group_pow_circle_group_c.set(@tactics.prove(@term_syntax.parse_term("∀ z : Cart[Real, Tybit0[Unit]], ∀ n : Num, group_pow(circle_group, z, n) == pow(z, n)"), t19))
+  group_pow_circle_group_c.set(@tactics.prove(@term_syntax.parse_term("∀ z : Cart[Real, 2], ∀ n : Num, group_pow(circle_group, z, n) == pow(z, n)"), t19))
 }
 
 ///|
@@ -87,31 +87,31 @@ pub fn group_pow_circle_group() -> @kernel.Thm {
 fn step_5() -> Unit raise {
   let t42 = @meson.asm_meson_tac(@list.List([@sets.card_eq_0(), @sets.not_in_empty(), @int.divides_le_imp()]))
   let t41 = @simp.asm_simp_tac(@list.List([@grouptheory.carrier_subgroup_generated_subgroup()]))
-  let t39 = @term_syntax.parse_term("(z : Cart[Real, Tybit0[Unit]])")
-  let t40 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("subgroup_generated(circle_group, (s : (Cart[Real, Tybit0[Unit]]) -> Bool))"), t39]), @grouptheory.group_element_order_divides_group_order()))
+  let t39 = @term_syntax.parse_term("(z : Cart[Real, 2])")
+  let t40 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("subgroup_generated(circle_group, (s : (Cart[Real, 2]) -> Bool))"), t39]), @grouptheory.group_element_order_divides_group_order()))
   let t38 = @simp.asm_rewrite_tac(@list.List([]))
   let t37 = @term_syntax.parse_term("(n : Num)")
   let t43 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.trans_tac(@arith.le_trans())(t37), t38), t40), t41), t42)
   let t36 = @simp.asm_simp_tac(@list.List([@grouptheory.carrier_subgroup_generated_subgroup(), circle_group_v1(), @bool.conjunct2(@grouptheory.subgroup_generated_v1()), @grouptheory.group_pow_subgroup_generated(), group_pow_circle_group()]))
   let t33 = @term_syntax.parse_term("(n : Num)")
-  let t34 = @term_syntax.parse_term("(w : Cart[Real, Tybit0[Unit]])")
-  let t35 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("subgroup_generated(circle_group, (s : (Cart[Real, Tybit0[Unit]]) -> Bool))"), t34, t33]), @grouptheory.group_pow_eq_id()))
-  let t32 = @tactics.x_gen_tac(@term_syntax.parse_term("(w : Cart[Real, Tybit0[Unit]])"))
+  let t34 = @term_syntax.parse_term("(w : Cart[Real, 2])")
+  let t35 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("subgroup_generated(circle_group, (s : (Cart[Real, 2]) -> Bool))"), t34, t33]), @grouptheory.group_pow_eq_id()))
+  let t32 = @tactics.x_gen_tac(@term_syntax.parse_term("(w : Cart[Real, 2])"))
   let t44 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([@sets.subset(), @sets.in_elim_thm()])), t32), @tactics.disch_tac), t35), t36), t43])
   let t31 = @simp.asm_simp_tac(@list.List([@arith.le_1()]))
   let t30 = @tactics.mp_tac(@bool.spec(@term_syntax.parse_term("(n : Num)"), @transcendentals.finite_card_complex_roots_unity()))
   let t29 = @tactics.match_mp_tac(@sets.card_subset_le())
   let t28 = @simp.asm_simp_tac(@list.List([@arith.le_1()]))
   let t27 = @simp.asm_simp_tac(@list.List([@grouptheory.carrier_subgroup_generated_subgroup()]))
-  let t25 = @term_syntax.parse_term("(z : Cart[Real, Tybit0[Unit]])")
-  let t26 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("subgroup_generated(circle_group, (s : (Cart[Real, Tybit0[Unit]]) -> Bool))"), t25]), @grouptheory.finite_group_element_order_nonzero()))
+  let t25 = @term_syntax.parse_term("(z : Cart[Real, 2])")
+  let t26 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("subgroup_generated(circle_group, (s : (Cart[Real, 2]) -> Bool))"), t25]), @grouptheory.finite_group_element_order_nonzero()))
   let t24 = @tactics.exists_tac(@term_syntax.parse_term("(n : Num)"))
-  let t23 = @simp.abbrev_tac(@term_syntax.parse_term("(n : Num) == group_element_order(subgroup_generated(circle_group, (s : (Cart[Real, Tybit0[Unit]]) -> Bool)), (z : Cart[Real, Tybit0[Unit]]))"))
-  let t22 = @tactics.disch_then(@tactics.x_choose_then(@term_syntax.parse_term("(z : Cart[Real, Tybit0[Unit]])"))(@tactics.strip_assume_tac))
+  let t23 = @simp.abbrev_tac(@term_syntax.parse_term("(n : Num) == group_element_order(subgroup_generated(circle_group, (s : (Cart[Real, 2]) -> Bool)), (z : Cart[Real, 2]))"))
+  let t22 = @tactics.disch_then(@tactics.x_choose_then(@term_syntax.parse_term("(z : Cart[Real, 2])"))(@tactics.strip_assume_tac))
   let t21 = @simp.asm_simp_tac(@list.List([@grouptheory.cyclic_group_element_order(), @grouptheory.carrier_subgroup_generated_subgroup(), @grouptheory.abelian_subgroup_generated(), abelian_circle_group()]))
-  let t20 = @tactics.mp_tac(@bool.ispec(@term_syntax.parse_term("subgroup_generated(circle_group, (s : (Cart[Real, Tybit0[Unit]]) -> Bool))"), @grouptheory.abelian_group_order_divides_maximal()))
+  let t20 = @tactics.mp_tac(@bool.ispec(@term_syntax.parse_term("subgroup_generated(circle_group, (s : (Cart[Real, 2]) -> Bool))"), @grouptheory.abelian_group_order_divides_maximal()))
   let t45 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t20), t21), t22), t23), t24), t26), t27), @tactics.disch_tac), t28), t29), t30), t31), @tactics.strip_tac), @tactics.conj_tac), t44)
-  finite_subgroup_of_circle_group_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : (Cart[Real, Tybit0[Unit]]) -> Bool, FINITE(s) && subgroup_of(s, circle_group) → (∃ n : Num, 1 <= n && s == {(z : Cart[Real, Tybit0[Unit]]) | pow(z, n) == Cx(real_of_num(1))})"), t45))
+  finite_subgroup_of_circle_group_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : (Cart[Real, 2]) -> Bool, FINITE(s) && subgroup_of(s, circle_group) → (∃ n : Num, 1 <= n && s == {(z : Cart[Real, 2]) | pow(z, n) == Cx(real_of_num(1))})"), t45))
 }
 
 ///|
@@ -129,21 +129,21 @@ fn step_6() -> Unit raise {
   let t59 = @tactics.asm_tac(@sets.set_tac)(@list.List([]))
   let t58 = @tactics.match_mp_tac(@simp.rewrite_rule(@list.List([@sets.subset(), @theorems.right_imp_forall_thm()]))(@misc.hull_mono()))
   let t57 = @simp.asm_rewrite_tac(@list.List([@complexes.bilinear_complex_mul()]))
-  let t53 = @term_syntax.parse_term("(z : Cart[Real, Tybit0[Unit]])")
-  let t54 = @term_syntax.parse_term("(w : Cart[Real, Tybit0[Unit]])")
-  let t55 = @term_syntax.parse_term("(s : (Cart[Real, Tybit0[Unit]]) -> Bool)")
-  let t56 = @term_syntax.parse_term("(s : (Cart[Real, Tybit0[Unit]]) -> Bool)")
+  let t53 = @term_syntax.parse_term("(z : Cart[Real, 2])")
+  let t54 = @term_syntax.parse_term("(w : Cart[Real, 2])")
+  let t55 = @term_syntax.parse_term("(s : (Cart[Real, 2]) -> Bool)")
+  let t56 = @term_syntax.parse_term("(s : (Cart[Real, 2]) -> Bool)")
   let t60 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("complex_mul"), t56, t55, t54, t53]), @convex.bilinear_in_convex_hull())), t57), t58), t59)
   let t52 = @meson.asm_meson_tac(@list.List([@realarith.real_lt_refl()]))
   let t51 = @simp.asm_simp_tac(@list.List([@complexes.complex_norm_mul(), @realax.real_mul_lid()]))
   let t50 = @tactics.match_mp_tac(@class.taut(@term_syntax.parse_term("!(q : Bool) → (!(p : Bool) → q) → p")))
   let t49 = @simp.asm_simp_tac(@list.List([@misc.hull_inc(), @complexes.complex_sub_rzero()]))
-  let t47 = @term_syntax.parse_term("(w : Cart[Real, Tybit0[Unit]]) * (z : Cart[Real, Tybit0[Unit]])")
-  let t48 = @term_syntax.parse_term("(s : (Cart[Real, Tybit0[Unit]]) -> Bool)")
+  let t47 = @term_syntax.parse_term("(w : Cart[Real, 2]) * (z : Cart[Real, 2])")
+  let t48 = @term_syntax.parse_term("(s : (Cart[Real, 2]) -> Bool)")
   let t61 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("Cx(real_of_num(0))"), t48, t47]), @convex.simplex_furthest_lt_exists())), t49), t50), t51), t52), t60])
   let t46 = @tactics.repeat_tac(@tactics.strip_tac)
   let t62 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), @tactics.eq_tac), t46), t61)
-  dario_lemma1_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : (Cart[Real, Tybit0[Unit]]) -> Bool, (∀ z : Cart[Real, Tybit0[Unit]], IN(z, s) → norm(z) == real_of_num(1)) → (∀ w : Cart[Real, Tybit0[Unit]], ∀ z : Cart[Real, Tybit0[Unit]], IN(w, hull(convex, s)) && IN(z, hull(convex, s)) → IN(w * z, hull(convex, s))) == (∀ w : Cart[Real, Tybit0[Unit]], ∀ z : Cart[Real, Tybit0[Unit]], IN(w, s) && IN(z, s) → IN(w * z, s))"), t62))
+  dario_lemma1_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : (Cart[Real, 2]) -> Bool, (∀ z : Cart[Real, 2], IN(z, s) → norm(z) == real_of_num(1)) → (∀ w : Cart[Real, 2], ∀ z : Cart[Real, 2], IN(w, hull(convex, s)) && IN(z, hull(convex, s)) → IN(w * z, hull(convex, s))) == (∀ w : Cart[Real, 2], ∀ z : Cart[Real, 2], IN(w, s) && IN(z, s) → IN(w * z, s))"), t62))
 }
 
 ///|
@@ -167,10 +167,10 @@ fn step_7() -> Unit raise {
     }
   })
   let t65 = @simp.asm_rewrite_tac(@list.List([]))
-  let t63 = @term_syntax.parse_term("(s : (Cart[Real, Tybit0[Unit]]) -> Bool)")
+  let t63 = @term_syntax.parse_term("(s : (Cart[Real, 2]) -> Bool)")
   let t64 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("circle_group"), t63]), @grouptheory.finite_subgroup_of_setwise()))
   let t72 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t64), t65), t69), t70), t71)
-  dario_lemma2_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : (Cart[Real, Tybit0[Unit]]) -> Bool, FINITE(s) && !(s == {}) && (∀ z : Cart[Real, Tybit0[Unit]], IN(z, s) → norm(z) == real_of_num(1)) → (∀ w : Cart[Real, Tybit0[Unit]], ∀ z : Cart[Real, Tybit0[Unit]], IN(w, s) && IN(z, s) → IN(w * z, s)) == subgroup_of(s, circle_group)"), t72))
+  dario_lemma2_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : (Cart[Real, 2]) -> Bool, FINITE(s) && !(s == {}) && (∀ z : Cart[Real, 2], IN(z, s) → norm(z) == real_of_num(1)) → (∀ w : Cart[Real, 2], ∀ z : Cart[Real, 2], IN(w, s) && IN(z, s) → IN(w * z, s)) == subgroup_of(s, circle_group)"), t72))
 }
 
 ///|
@@ -189,7 +189,7 @@ fn step_8() -> Unit raise {
   let t75 = @list.List([@simp.asm_simp_tac(@list.List([dario_lemma2(), finite_subgroup_of_circle_group()])), t74])
   let t73 = @simp.asm_simp_tac(@list.List([dario_lemma1()]))
   let t76 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t73), @tactics.eq_tac), t75)
-  dario_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : (Cart[Real, Tybit0[Unit]]) -> Bool, FINITE(s) && !(s == {}) && (∀ z : Cart[Real, Tybit0[Unit]], IN(z, s) → norm(z) == real_of_num(1)) → (∀ w : Cart[Real, Tybit0[Unit]], ∀ z : Cart[Real, Tybit0[Unit]], IN(w, hull(convex, s)) && IN(z, hull(convex, s)) → IN(w * z, hull(convex, s))) == (∃ n : Num, 1 <= n && s == {(z : Cart[Real, Tybit0[Unit]]) | pow(z, n) == Cx(real_of_num(1))})"), t76))
+  dario_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : (Cart[Real, 2]) -> Bool, FINITE(s) && !(s == {}) && (∀ z : Cart[Real, 2], IN(z, s) → norm(z) == real_of_num(1)) → (∀ w : Cart[Real, 2], ∀ z : Cart[Real, 2], IN(w, hull(convex, s)) && IN(z, hull(convex, s)) → IN(w * z, hull(convex, s))) == (∃ n : Num, 1 <= n && s == {(z : Cart[Real, 2]) | pow(z, n) == Cx(real_of_num(1))})"), t76))
 }
 
 ///|

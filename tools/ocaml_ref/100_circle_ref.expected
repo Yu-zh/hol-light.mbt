@@ -79041,21 +79041,21 @@ Generating HOL version of proof
   :2
   :M
   :1
-  (measure : ((Cart[Real, Tybit0[Unit]]) -> Bool) -> Real)((cball : ((Cart[Real, Tybit0[Unit]], Real), Cart[Real, Tybit0[Unit]]) -> Bool)(((vec : (Num) -> Cart[Real, Tybit0[Unit]])(0), real_of_num(1)))) == pi
-  op_pct(inv((r : Real)), (w : Cart[Real, Tybit0[Unit]]) - (z : Cart[Real, Tybit0[Unit]]))
-  (w : Cart[Real, Tybit0[Unit]])
+  (measure : ((Cart[Real, 2]) -> Bool) -> Real)((cball : ((Cart[Real, 2], Real), Cart[Real, 2]) -> Bool)(((vec : (Num) -> Cart[Real, 2])(0), real_of_num(1)))) == pi
+  op_pct(inv((r : Real)), (w : Cart[Real, 2]) - (z : Cart[Real, 2]))
+  (w : Cart[Real, 2])
   (abs((r : Real)) * (x : Real) <= r) == (abs(r) * x <= r * real_of_num(1))
-  distance(((z : Cart[Real, Tybit0[Unit]]), (a : Cart[Real, Tybit0[Unit]]) + z)) == norm(a)
+  distance(((z : Cart[Real, 2]), (a : Cart[Real, 2]) + z)) == norm(a)
   :real
   :real
   pi
-  (z : Cart[Real, Tybit0[Unit]])
+  (z : Cart[Real, 2])
   (r : Real)
-  (cball : ((Cart[Real, Tybit0[Unit]], Real), Cart[Real, Tybit0[Unit]]) -> Bool)(((vec : (Num) -> Cart[Real, Tybit0[Unit]])(0), real_of_num(1)))
+  (cball : ((Cart[Real, 2], Real), Cart[Real, 2]) -> Bool)(((vec : (Num) -> Cart[Real, 2])(0), real_of_num(1)))
   real_of_num(0) < (r : Real)
   (r : Real) == real_of_num(0)
-  \226\136\128 z : Cart[Real, Tybit0[Unit]], \226\136\128 r : Real, real_of_num(0) <= r \226\134\146 measure(cball((z, r))) == pi * pow(r, 2)
-  \226\136\128 z : Cart[Real, Tybit0[Unit]], \226\136\128 r : Real, real_of_num(0) <= r \226\134\146 measure(ball((z, r))) == pi * pow(r, 2)
+  \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, real_of_num(0) <= r \226\134\146 measure(cball((z, r))) == pi * pow(r, 2)
+  \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, real_of_num(0) <= r \226\134\146 measure(ball((z, r))) == pi * pow(r, 2)
   (r : Real)
   -(r : Real)
   (t : Real) => pi * (pow((r : Real), 2) - pow(t, 2))
@@ -79069,9 +79069,9 @@ Generating HOL version of proof
   :3
   :M
   :2
-  (z : Cart[Real, Tybit1[Unit]])
-  \226\136\128 z : Cart[Real, Tybit1[Unit]], \226\136\128 r : Real, real_of_num(0) <= r \226\134\146 measure(cball((z, r))) == real_of_num(4) / real_of_num(3) * (pi * pow(r, 3))
-  \226\136\128 z : Cart[Real, Tybit1[Unit]], \226\136\128 r : Real, real_of_num(0) <= r \226\134\146 measure(ball((z, r))) == real_of_num(4) / real_of_num(3) * (pi * pow(r, 3))
+  (z : Cart[Real, 3])
+  \226\136\128 z : Cart[Real, 3], \226\136\128 r : Real, real_of_num(0) <= r \226\134\146 measure(cball((z, r))) == real_of_num(4) / real_of_num(3) * (pi * pow(r, 3))
+  \226\136\128 z : Cart[Real, 3], \226\136\128 r : Real, real_of_num(0) <= r \226\134\146 measure(ball((z, r))) == real_of_num(4) / real_of_num(3) * (pi * pow(r, 3))
 AREA_UNIT_CBALL =  |- ((#=:fun(real,fun(real,bool)) (#measure:fun(fun(cart(real,tybit0(1)),bool),real) (#cball:fun(prod(cart(real,tybit0(1)),real),fun(cart(real,tybit0(1)),bool)) ((#,:fun(cart(real,tybit0(1)),fun(real,prod(cart(real,tybit0(1)),real))) (#vec:fun(num,cart(real,tybit0(1))) (#NUMERAL:fun(num,num) #_0:num))) (#real_of_num:fun(num,real) (#NUMERAL:fun(num,num) (#BIT1:fun(num,num) #_0:num))))))) #pi:real)
 AREA_CBALL =  |- (#forall:fun(fun(cart(real,tybit0(1)),bool),bool) (\z:cart(real,tybit0(1)). (#forall:fun(fun(real,bool),bool) (\r:real. ((#==>:fun(bool,fun(bool,bool)) ((#real_le:fun(real,fun(real,bool)) (#real_of_num:fun(num,real) (#NUMERAL:fun(num,num) #_0:num))) r:real)) ((#=:fun(real,fun(real,bool)) (#measure:fun(fun(cart(real,tybit0(1)),bool),real) (#cball:fun(prod(cart(real,tybit0(1)),real),fun(cart(real,tybit0(1)),bool)) ((#,:fun(cart(real,tybit0(1)),fun(real,prod(cart(real,tybit0(1)),real))) z:cart(real,tybit0(1))) r:real)))) ((#real_mul:fun(real,fun(real,real)) #pi:real) ((#real_pow:fun(real,fun(num,real)) r:real) (#NUMERAL:fun(num,num) (#BIT0:fun(num,num) (#BIT1:fun(num,num) #_0:num)))))))))))
 AREA_BALL =  |- (#forall:fun(fun(cart(real,tybit0(1)),bool),bool) (\z:cart(real,tybit0(1)). (#forall:fun(fun(real,bool),bool) (\r:real. ((#==>:fun(bool,fun(bool,bool)) ((#real_le:fun(real,fun(real,bool)) (#real_of_num:fun(num,real) (#NUMERAL:fun(num,num) #_0:num))) r:real)) ((#=:fun(real,fun(real,bool)) (#measure:fun(fun(cart(real,tybit0(1)),bool),real) (#ball:fun(prod(cart(real,tybit0(1)),real),fun(cart(real,tybit0(1)),bool)) ((#,:fun(cart(real,tybit0(1)),fun(real,prod(cart(real,tybit0(1)),real))) z:cart(real,tybit0(1))) r:real)))) ((#real_mul:fun(real,fun(real,real)) #pi:real) ((#real_pow:fun(real,fun(num,real)) r:real) (#NUMERAL:fun(num,num) (#BIT0:fun(num,num) (#BIT1:fun(num,num) #_0:num)))))))))))
