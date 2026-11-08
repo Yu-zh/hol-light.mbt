@@ -2509,7 +2509,7 @@ fn step_157() -> Unit raise {
     arg(None)(eta)
   }), @utils.hint_exists_tac), t155), t156), t160])
   let t149 = @simp.once_rewrite_rule(@list.List([@equal.gsym(@complexes.complex_norm_cnj())]))(@complexes.complex_mul_cnj())
-  let t150 = @simp.rewrite_tac(@list.List([@complexes.complex_add_rdistrib(), @utils.complex_field("((x*y)*(z*t)*u)*v = (x*z)*(u*t)*(v*y)"), t149]))
+  let t150 = @simp.rewrite_tac(@list.List([@complexes.complex_add_rdistrib(), @complexes.complex_field(@term_syntax.parse_term("(x : Cart[Real, Tybit0[Unit]]) * (y : Cart[Real, Tybit0[Unit]]) * ((z : Cart[Real, Tybit0[Unit]]) * (t : Cart[Real, Tybit0[Unit]]) * (u : Cart[Real, Tybit0[Unit]])) * (v : Cart[Real, Tybit0[Unit]]) == x * z * (u * t * (v * y))")), t149]))
   let t148 = @impconv.imp_rewrite_tac(@list.List([inprod_self_cnj()]))
   let t147 = @impconv.imp_rewrite_tac(@list.List([real_of_complex_v1(), inprod_self_real()]))
   let t146 = @simp.rewrite_tac(@list.List([@equal.gsym(@complexes.re_mul_cx())]))

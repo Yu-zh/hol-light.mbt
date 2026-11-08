@@ -767,21 +767,6 @@ pub fn x_gen_tac(
   @tactics.x_gen_tac(force_type(None)(s)(t101))(g)
 }
 
-///|
-/// `call_with_interface`
-pub fn[TA, TB] call_with_interface(
-  x102 : (Unit) -> TB raise,
-  x103 : (@kernel.Term) -> TA raise,
-  x104 : String,
-) -> TA raise {
-  let p = x102
-  let f = x103
-  let s = x104
-  @preterm.with_interface_restored(() => {
-    ignore(p(()))
-    f(@parser.parse_term(s))
-  })
-}
 
 ///|
 let real_arith_c : @lib.Cell[(String) -> @kernel.Thm raise] = @lib.Cell::new(
@@ -826,7 +811,7 @@ fn step_7() -> Unit raise {
       ) -> ((String) -> @kernel.Thm raise) raise {
         fn(x108 : String) -> @kernel.Thm raise {
           ((x105 : (@kernel.Term) -> @kernel.Thm raise, x106 : String) => {
-            call_with_interface(@realax.prioritize_real, x105, x106)
+            x105(@term_syntax.parse_term(x106))
           })(x107, x108)
         }
       },
@@ -876,7 +861,7 @@ fn step_8() -> Unit raise {
       ) -> ((String) -> @kernel.Thm raise) raise {
         fn(x112 : String) -> @kernel.Thm raise {
           ((x109 : (@kernel.Term) -> @kernel.Thm raise, x110 : String) => {
-            call_with_interface(@realax.prioritize_num, x109, x110)
+            x109(@term_syntax.parse_term(x110))
           })(x111, x112)
         }
       },
@@ -895,7 +880,7 @@ fn step_8() -> Unit raise {
 /// INT_ARITH
 fn step_9() -> Unit raise {
   int_arith_c.set((x113 : String) => {
-    call_with_interface(@int.prioritize_int, @int.int_arith, x113)
+    @int.int_arith(@term_syntax.parse_term(x113))
   })
 }
 

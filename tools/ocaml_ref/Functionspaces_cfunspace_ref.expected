@@ -80196,7 +80196,7 @@ Warning: inventing type variables
 Warning: inventing type variables
 0..0..1..2..solved at 8
 Warning: inventing type variables
-Functionspaces/cfunspace quotations (570):
+Functionspaces/cfunspace quotations (563):
   (real_of_complex : (Cart[Real, Tybit0[Unit]]) -> Real)((c : Cart[Real, Tybit0[Unit]])) == select((r : Real) => c == Cx(r))
   \226\136\128 c : Cart[Real, Tybit0[Unit]], real(c) \226\134\146 Cx(real_of_complex(c)) == c
   \226\136\128 c : Cart[Real, Tybit0[Unit]], real(c) \226\134\146 real_of_complex(c) == Re(c)
@@ -80349,14 +80349,7 @@ Functionspaces/cfunspace quotations (570):
   \226\136\128 s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) \226\134\146 (\226\136\128 u : (_) -> Cart[Real, Tybit0[Unit]], \226\136\128 v : (_) -> Cart[Real, Tybit0[Unit]], IN(u, s) && IN(v, s) \226\134\146 LET((proj_v : Cart[Real, Tybit0[Unit]]) => LET_END(LET((orthogonal_component : (_) -> Cart[Real, Tybit0[Unit]]) => LET_END(u == cfun_smul(proj_v, v) + orthogonal_component && are_orthogonal1((s, inprod), v, orthogonal_component)), u - cfun_smul(proj_v, v))), inprod(v, u) / inprod(v, v)))
   \226\136\128 s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) \226\134\146 (\226\136\128 u : (_) -> Cart[Real, Tybit0[Unit]], \226\136\128 v : (_) -> Cart[Real, Tybit0[Unit]], IN(u, s) && IN(v, s) \226\134\146 LET((proj_v : Cart[Real, Tybit0[Unit]]) => LET_END(LET((orthogonal_component : (_) -> Cart[Real, Tybit0[Unit]]) => LET_END(u == cfun_smul(proj_v, v) + orthogonal_component), u - cfun_smul(proj_v, v))), inprod(v, u) / inprod(v, v)))
   \226\136\128 s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) \226\134\146 (\226\136\128 u : (_) -> Cart[Real, Tybit0[Unit]], \226\136\128 v : (_) -> Cart[Real, Tybit0[Unit]], IN(u, s) && IN(v, s) \226\134\146 are_orthogonal1((s, inprod), v, u - cfun_smul(inprod(v, u) / inprod(v, v), v)))
-  (op_minus_minus : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-  (op_plus : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-  (op_minus : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-  (complex_mul : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-  (complex_div : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-  (complex_pow : (Cart[Real, Tybit0[Unit]], Num) -> Cart[Real, Tybit0[Unit]])
-  (complex_inv : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]])
-  ((x*y)*(z*t)*u)*v = (x*z)*(u*t)*(v*y)
+  (x : Cart[Real, Tybit0[Unit]]) * (y : Cart[Real, Tybit0[Unit]]) * ((z : Cart[Real, Tybit0[Unit]]) * (t : Cart[Real, Tybit0[Unit]]) * (u : Cart[Real, Tybit0[Unit]])) * (v : Cart[Real, Tybit0[Unit]]) == x * z * (u * t * (v * y))
   ((A : Bool) \226\134\146 (B : Bool)) \226\134\146 (A \226\134\146 (C : Bool)) == (A && B \226\134\146 C)
   \226\136\128 s : ((_) -> Cart[Real, Tybit0[Unit]]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, Tybit0[Unit]], (_) -> Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]], is_inner_space((s, inprod)) \226\134\146 (\226\136\128 x : (_) -> Cart[Real, Tybit0[Unit]], \226\136\128 y : (_) -> Cart[Real, Tybit0[Unit]], IN(x, s) && IN(y, s) \226\134\146 pow(norm(inprod(x, y)), 2) <= real_of_complex(inprod(x, x)) * real_of_complex(inprod(y, y)))
   real

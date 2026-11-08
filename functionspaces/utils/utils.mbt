@@ -48,7 +48,7 @@ pub fn let_defs() -> @kernel.Thm {
 ///|
 /// COMPLEX_FIELD
 fn step_4() -> Unit raise {
-  complex_field_c.set((x1 : String) => @q.call_with_interface(@complexes.prioritize_complex, @complexes.complex_field, x1))
+  complex_field_c.set((x1 : String) => @complexes.complex_field(@term_syntax.parse_term(x1)))
 }
 
 ///|
@@ -63,7 +63,7 @@ pub fn complex_field(x : String) -> @kernel.Thm raise {
 ///|
 /// SIMPLE_COMPLEX_ARITH
 fn step_5() -> Unit raise {
-  simple_complex_arith_c.set((x2 : String) => @q.call_with_interface(@complexes.prioritize_complex, @complexes.simple_complex_arith, x2))
+  simple_complex_arith_c.set((x2 : String) => @complexes.simple_complex_arith(@term_syntax.parse_term(x2)))
 }
 
 ///|

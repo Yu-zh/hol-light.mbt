@@ -18,7 +18,6 @@ pub fn bool_cases_tac(String) -> (((@list.List[(String, @kernel.Thm)], @kernel.T
 
 pub fn[TA, TB] bool_context_tac((@kernel.Term) -> (((@list.List[(TB, @kernel.Thm)], @kernel.Term)) -> TA raise) raise, String) -> (((@list.List[(TB, @kernel.Thm)], @kernel.Term)) -> TA raise) raise
 
-pub fn[TA, TB] call_with_interface((Unit) -> TB raise, (@kernel.Term) -> TA raise, String) -> TA raise
 
 pub fn[TA, TB] context_common((@list.List[(String, @preterm.Pretype)]) -> ((TB) -> TA raise) raise, @list.List[@kernel.Term], @kernel.Term, TB) -> TA raise
 
