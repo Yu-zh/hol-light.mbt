@@ -146,3 +146,15 @@ test "a context variable named like a constant means the variable" {
   )
   inspect(t == @kernel.mk_var("select", @kernel.bool_ty), content="true")
 }
+
+///|
+test "type abbreviations" {
+  @preterm.new_type_abbrev("zz_pair", @parser.parse_type("A#num"))
+  defer @preterm.remove_type_abbrev("zz_pair")
+  let ty = @term_syntax.parse_type
+  assert_eq(ty("(Zz_pair) -> Bool"), @parser.parse_type("A#num->bool"))
+  assert_true((try Some(ty("Zz_pair[Num]")) catch { _ => None }) is None)
+  // a type variable named like the abbreviation would read as it
+  let v = @kernel.mk_vartype("Zz_pair")
+  assert_true((try Some(@term_syntax.print_type(v)) catch { _ => None }) is None)
+}
