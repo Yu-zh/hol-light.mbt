@@ -76,7 +76,7 @@ fn step_1() -> Unit raise {
   let t1 = @parser.parse_type("M")
   let t4 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("1"), t1), t3]), @realanalysis.fubini_simple_compact()))
   let t62 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t4), t5), t6), t7), t8), t9), t12), t13), t14), t15), t16), @tactics.conj_tac), t33), t37), t38), t39), t40), t41), t42), @tactics.conj_tac), t61)
-  area_unit_cball_c.set(@tactics.prove(@term_syntax.parse_term("(measure : ((Cart[Real, Tybit0[Unit]]) -> Bool) -> Real)((cball : ((Cart[Real, Tybit0[Unit]], Real), Cart[Real, Tybit0[Unit]]) -> Bool)(((vec : (Num) -> Cart[Real, Tybit0[Unit]])(0), real_of_num(1)))) == pi"), t62))
+  area_unit_cball_c.set(@tactics.prove(@term_syntax.parse_term("(measure : ((Cart[Real, 2]) -> Bool) -> Real)((cball : ((Cart[Real, 2], Real), Cart[Real, 2]) -> Bool)(((vec : (Num) -> Cart[Real, 2])(0), real_of_num(1)))) == pi"), t62))
 }
 
 ///|
@@ -98,11 +98,11 @@ fn step_2() -> Unit raise {
   let t106 = @simp.asm_rewrite_tac(@list.List([@realax.real_abs()]))
   let t105 = @simp.rewrite_tac(@list.List([@vectors.norm_mul(), @real.real_abs_inv()]))
   let t104 = @simp.asm_simp_tac(@list.List([@vectors.vector_mul_assoc(), @real.real_mul_rinv()]))
-  let t103 = @tactics.exists_tac(@term_syntax.parse_term("op_pct(inv((r : Real)), (w : Cart[Real, Tybit0[Unit]]) - (z : Cart[Real, Tybit0[Unit]]))"))
-  let t102 = @tactics.x_gen_tac(@term_syntax.parse_term("(w : Cart[Real, Tybit0[Unit]])"))
+  let t103 = @tactics.exists_tac(@term_syntax.parse_term("op_pct(inv((r : Real)), (w : Cart[Real, 2]) - (z : Cart[Real, 2]))"))
+  let t102 = @tactics.x_gen_tac(@term_syntax.parse_term("(w : Cart[Real, 2])"))
   let t101 = @simp.asm_simp_tac(@list.List([@realax.real_abs(), @real.real_le_lmul(), @vectors.dist()]))
   let t100 = @simp.once_rewrite_tac(@list.List([@calc_rat.real_arith(@term_syntax.parse_term("(abs((r : Real)) * (x : Real) <= r) == (abs(r) * x <= r * real_of_num(1))"))]))
-  let t99 = @simp.rewrite_tac(@list.List([@vectors.norm_arith(@term_syntax.parse_term("distance(((z : Cart[Real, Tybit0[Unit]]), (a : Cart[Real, Tybit0[Unit]]) + z)) == norm(a)")), @vectors.norm_mul()]))
+  let t99 = @simp.rewrite_tac(@list.List([@vectors.norm_arith(@term_syntax.parse_term("distance(((z : Cart[Real, 2]), (a : Cart[Real, 2]) + z)) == norm(a)")), @vectors.norm_mul()]))
   let t98 = @simp.rewrite_tac(@list.List([@topology.in_cball()]))
   let t97 = @simp.rewrite_tac(@list.List([@topology.in_cball_0(), @sets.in_image()]))
   let t96 = @simp.rewrite_tac(@list.List([@sets.subset(), @sets.forall_in_image()]))
@@ -139,9 +139,9 @@ fn step_2() -> Unit raise {
   let t76 = @simp.asm_rewrite_tac(@list.List([@realax.real_abs(), @cart.dimindex_2()]))
   let t75 = @simp.rewrite_tac(@list.List([@measure.has_measure_measurable_measure(), @measure.measurable_cball(), area_unit_cball()]))
   let t71 = @term_syntax.parse_term("pi")
-  let t72 = @term_syntax.parse_term("(z : Cart[Real, Tybit0[Unit]])")
+  let t72 = @term_syntax.parse_term("(z : Cart[Real, 2])")
   let t73 = @term_syntax.parse_term("(r : Real)")
-  let t74 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("(cball : ((Cart[Real, Tybit0[Unit]], Real), Cart[Real, Tybit0[Unit]]) -> Bool)(((vec : (Num) -> Cart[Real, Tybit0[Unit]])(0), real_of_num(1)))"), t73, t72, t71]), @measure.has_measure_affinity()))
+  let t74 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("(cball : ((Cart[Real, 2], Real), Cart[Real, 2]) -> Bool)(((vec : (Num) -> Cart[Real, 2])(0), real_of_num(1)))"), t73, t72, t71]), @measure.has_measure_affinity()))
   let t70 = @tactics.subgoal_then(@term_syntax.parse_term("real_of_num(0) < (r : Real)"), fn(x67 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s68 = @tactics.assume_tac(x67)
     fn(x69 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise {
@@ -153,7 +153,7 @@ fn step_2() -> Unit raise {
   let t66 = @list.List([@tactics.then_tac(@tactics.then_tac(@simp.asm_simp_tac(@list.List([@topology.cball_sing(), @realarith.real_pow_2(), @calc_int.real_mul_rzero()])), t64), t65), @tactics.all_tac])
   let t63 = @class.asm_cases_tac(@term_syntax.parse_term("(r : Real) == real_of_num(0)"))
   let t111 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t63), t66), t70), @list.List([@calc_rat.asm_real_arith_tac, @tactics.all_tac])), t74), t75), t76), t81), t89), t94), @tactics.ap_term_tac), t95), t96), t97), t98), t99), t100), t101), t102), @tactics.disch_tac), t103), t104), @tactics.conj_tac), @list.List([@vectors.norm_arith_tac, @tactics.all_tac])), t105), t106), t107), t108), t109), t110)
-  area_cball_c.set(@tactics.prove(@term_syntax.parse_term("∀ z : Cart[Real, Tybit0[Unit]], ∀ r : Real, real_of_num(0) <= r → measure(cball((z, r))) == pi * pow(r, 2)"), t111))
+  area_cball_c.set(@tactics.prove(@term_syntax.parse_term("∀ z : Cart[Real, 2], ∀ r : Real, real_of_num(0) <= r → measure(cball((z, r))) == pi * pow(r, 2)"), t111))
 }
 
 ///|
@@ -173,7 +173,7 @@ fn step_3() -> Unit raise {
   let t113 = @tactics.repeat_tac(@tactics.strip_tac)
   let t112 = @equal.gsym(area_cball())
   let t116 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.simp_tac(@list.List([@equal.gsym(@topology.interior_cball()), t112])), t113), t114), t115)
-  area_ball_c.set(@tactics.prove(@term_syntax.parse_term("∀ z : Cart[Real, Tybit0[Unit]], ∀ r : Real, real_of_num(0) <= r → measure(ball((z, r))) == pi * pow(r, 2)"), t116))
+  area_ball_c.set(@tactics.prove(@term_syntax.parse_term("∀ z : Cart[Real, 2], ∀ r : Real, real_of_num(0) <= r → measure(ball((z, r))) == pi * pow(r, 2)"), t116))
 }
 
 ///|
@@ -221,8 +221,8 @@ fn step_4() -> Unit raise {
   let t118 = @parser.parse_type("M")
   let t121 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("2"), t118), t120]), @realanalysis.fubini_simple_compact()))
   let t117 = @tactics.repeat_tac(@tactics.strip_tac)
-  let t149 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@determinants.geom_origin_tac(@term_syntax.parse_term("(z : Cart[Real, Tybit1[Unit]])")), t117), t121), t122), t123), t124), t125), t126), t129), t130), t131), t132), t133), @tactics.conj_tac), t137), t141), t142), @tactics.ants_tac), t148)
-  volume_cball_c.set(@tactics.prove(@term_syntax.parse_term("∀ z : Cart[Real, Tybit1[Unit]], ∀ r : Real, real_of_num(0) <= r → measure(cball((z, r))) == real_of_num(4) / real_of_num(3) * (pi * pow(r, 3))"), t149))
+  let t149 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@determinants.geom_origin_tac(@term_syntax.parse_term("(z : Cart[Real, 3])")), t117), t121), t122), t123), t124), t125), t126), t129), t130), t131), t132), t133), @tactics.conj_tac), t137), t141), t142), @tactics.ants_tac), t148)
+  volume_cball_c.set(@tactics.prove(@term_syntax.parse_term("∀ z : Cart[Real, 3], ∀ r : Real, real_of_num(0) <= r → measure(cball((z, r))) == real_of_num(4) / real_of_num(3) * (pi * pow(r, 3))"), t149))
 }
 
 ///|
@@ -242,7 +242,7 @@ fn step_5() -> Unit raise {
   let t151 = @tactics.repeat_tac(@tactics.strip_tac)
   let t150 = @equal.gsym(volume_cball())
   let t154 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.simp_tac(@list.List([@equal.gsym(@topology.interior_cball()), t150])), t151), t152), t153)
-  volume_ball_c.set(@tactics.prove(@term_syntax.parse_term("∀ z : Cart[Real, Tybit1[Unit]], ∀ r : Real, real_of_num(0) <= r → measure(ball((z, r))) == real_of_num(4) / real_of_num(3) * (pi * pow(r, 3))"), t154))
+  volume_ball_c.set(@tactics.prove(@term_syntax.parse_term("∀ z : Cart[Real, 3], ∀ r : Real, real_of_num(0) <= r → measure(ball((z, r))) == real_of_num(4) / real_of_num(3) * (pi * pow(r, 3))"), t154))
 }
 
 ///|

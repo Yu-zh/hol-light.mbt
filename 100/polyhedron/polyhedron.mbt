@@ -4931,12 +4931,12 @@ fn step_59() -> Unit raise {
   let t3212 = @simp.rewrite_tac(@list.List([@calc_rat.real_arith(@term_syntax.parse_term("((x : Real) + -(y : Real) + (z : Real) + -real_of_num(1) == real_of_num(1)) == (x + z == y + real_of_num(2))"))]))
   let t3219 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([@equal.gsym(@real.real_of_num_suc()), @realax.real_add_lid()])), t3212), t3213), t3217), t3218)
   let t3211 = @simp.asm_simp_tac(@list.List([@polytope.polytope_imp_convex(), @int.int_lt_refl()]))
-  let t3209 = @term_syntax.parse_term("(p : (Cart[Real, Tybit1[Unit]]) -> Bool)")
-  let t3210 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("(f : (Cart[Real, Tybit1[Unit]]) -> Bool)"), t3209]), @polytope.face_of_aff_dim_lt()))
-  let t3208 = @tactics.x_gen_tac(@term_syntax.parse_term("(f : (Cart[Real, Tybit1[Unit]]) -> Bool)"))
+  let t3209 = @term_syntax.parse_term("(p : (Cart[Real, 3]) -> Bool)")
+  let t3210 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("(f : (Cart[Real, 3]) -> Bool)"), t3209]), @polytope.face_of_aff_dim_lt()))
+  let t3208 = @tactics.x_gen_tac(@term_syntax.parse_term("(f : (Cart[Real, 3]) -> Bool)"))
   let t3207 = @simp.asm_simp_tac(@list.List([@polytope.face_of_refl(), @polytope.polytope_imp_convex()]))
   let t3220 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(@sets.set_rule(@term_syntax.parse_term("(P : (_) -> Bool)((a : _)) && (∀ x : _, P(x) → x == a) → {(x : _) | P(x)} == {a}"))), t3207), t3208), @tactics.strip_tac), t3210), t3211), t3219])
-  let t3206 = @tactics.subgoal_then(@term_syntax.parse_term("{(f : (Cart[Real, Tybit1[Unit]]) -> Bool) | face_of(f, (p : (Cart[Real, Tybit1[Unit]]) -> Bool)) && aff_dim(f) == int_of_num(3)} == {p}"), fn(x3204 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
+  let t3206 = @tactics.subgoal_then(@term_syntax.parse_term("{(f : (Cart[Real, 3]) -> Bool) | face_of(f, (p : (Cart[Real, 3]) -> Bool)) && aff_dim(f) == int_of_num(3)} == {p}"), fn(x3204 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let th = x3204
     @simp.simp_tac(@list.List([th, @sets.not_in_empty(), @sets.finite_empty(), @sets.card_clauses()]))
   })
@@ -4946,9 +4946,9 @@ fn step_59() -> Unit raise {
   let t3199 = @term_syntax.parse_term("3")
   let t3200 = @simp.rewrite_tac(@list.List([@equal.top_depth_conv(@calc_num.num_conv)(t3199), @iterate.sum_clauses_numseg()]))
   let t3198 = @simp.asm_rewrite_tac(@list.List([@cart.dimindex_3()]))
-  let t3197 = @tactics.mp_tac(@bool.ispec(@term_syntax.parse_term("(p : (Cart[Real, Tybit1[Unit]]) -> Bool)"), euler_poincare_full()))
+  let t3197 = @tactics.mp_tac(@bool.ispec(@term_syntax.parse_term("(p : (Cart[Real, 3]) -> Bool)"), euler_poincare_full()))
   let t3221 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t3197), t3198), t3200), t3201), t3202), t3203), t3206), t3220)
-  euler_relation_c.set(@tactics.prove(@term_syntax.parse_term("∀ p : (Cart[Real, Tybit1[Unit]]) -> Bool, polytope(p) && aff_dim(p) == int_of_num(3) → CARD({(v : (Cart[Real, Tybit1[Unit]]) -> Bool) | face_of(v, p) && aff_dim(v) == int_of_num(0)}) + CARD({(f : (Cart[Real, Tybit1[Unit]]) -> Bool) | face_of(f, p) && aff_dim(f) == int_of_num(2)}) - CARD({(e : (Cart[Real, Tybit1[Unit]]) -> Bool) | face_of(e, p) && aff_dim(e) == int_of_num(1)}) == 2"), t3221))
+  euler_relation_c.set(@tactics.prove(@term_syntax.parse_term("∀ p : (Cart[Real, 3]) -> Bool, polytope(p) && aff_dim(p) == int_of_num(3) → CARD({(v : (Cart[Real, 3]) -> Bool) | face_of(v, p) && aff_dim(v) == int_of_num(0)}) + CARD({(f : (Cart[Real, 3]) -> Bool) | face_of(f, p) && aff_dim(f) == int_of_num(2)}) - CARD({(e : (Cart[Real, 3]) -> Bool) | face_of(e, p) && aff_dim(e) == int_of_num(1)}) == 2"), t3221))
 }
 
 ///|

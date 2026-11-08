@@ -21,7 +21,7 @@ pub fn forall_2() -> @kernel.Thm {
 fn step_2() -> Unit raise {
   let t2 = @simp.rewrite_tac(@list.List([@calc_num.num_conv(@term_syntax.parse_term("1")), @lists.hd(), @lists.tl(), @lists.el()]))
   let t3 = @tactics.then_tac(@simp.simp_tac(@list.List([@cart.vector(), @cart.lambda_beta(), @cart.dimindex_2(), @calc_num.arith(), @lists.length(), @lists.el()])), t2)
-  vector_2_c.set(@tactics.prove(@term_syntax.parse_term("(op_dollar : (Cart[A, Tybit0[Unit]], Num) -> A)((vector : (List[A]) -> Cart[A, Tybit0[Unit]])([(x : A), (y : A)]), 1) == x && (op_dollar : (Cart[A, Tybit0[Unit]], Num) -> A)((vector : (List[A]) -> Cart[A, Tybit0[Unit]])([x, y]), 2) == y"), t3))
+  vector_2_c.set(@tactics.prove(@term_syntax.parse_term("(op_dollar : (Cart[A, 2], Num) -> A)((vector : (List[A]) -> Cart[A, 2])([(x : A), (y : A)]), 1) == x && (op_dollar : (Cart[A, 2], Num) -> A)((vector : (List[A]) -> Cart[A, 2])([x, y]), 2) == y"), t3))
 }
 
 ///|
@@ -55,7 +55,7 @@ pub fn isum_2() -> @kernel.Thm {
 ///|
 /// imat_I
 fn step_4() -> Unit raise {
-  imat_i_c.set(@define.define_(@term_syntax.parse_term("(imat_I : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]]) == lambda((i : Num) => lambda((j : Num) => if i == j { int_of_num(1) } else { int_of_num(0) }))")))
+  imat_i_c.set(@define.define_(@term_syntax.parse_term("(imat_I : Cart[Cart[Int, 2], 2]) == lambda((i : Num) => lambda((j : Num) => if i == j { int_of_num(1) } else { int_of_num(0) }))")))
 }
 
 ///|
@@ -70,7 +70,7 @@ pub fn imat_i() -> @kernel.Thm {
 ///|
 /// imat_mul
 fn step_5() -> Unit raise {
-  imat_mul_c.set(@define.define_(@term_syntax.parse_term("(imat_mul : (Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]]) -> Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]])((m : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]]), (n : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]])) == lambda((i : Num) => lambda((j : Num) => isum(op_dot_dot(1, 2), (k : Num) => op_dollar(op_dollar(m, i), k) * op_dollar(op_dollar(n, k), j))))")))
+  imat_mul_c.set(@define.define_(@term_syntax.parse_term("(imat_mul : (Cart[Cart[Int, 2], 2], Cart[Cart[Int, 2], 2]) -> Cart[Cart[Int, 2], 2])((m : Cart[Cart[Int, 2], 2]), (n : Cart[Cart[Int, 2], 2])) == lambda((i : Num) => lambda((j : Num) => isum(op_dot_dot(1, 2), (k : Num) => op_dollar(op_dollar(m, i), k) * op_dollar(op_dollar(n, k), j))))")))
 }
 
 ///|
@@ -85,7 +85,7 @@ pub fn imat_mul() -> @kernel.Thm {
 ///|
 /// imat_vmul
 fn step_6() -> Unit raise {
-  imat_vmul_c.set(@define.define_(@term_syntax.parse_term("(imat_vmul : (Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], Cart[Int, Tybit0[Unit]]) -> Cart[Int, Tybit0[Unit]])((m : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]]), (v : Cart[Int, Tybit0[Unit]])) == lambda((i : Num) => isum(op_dot_dot(1, 2), (j : Num) => op_dollar(op_dollar(m, i), j) * op_dollar(v, j)))")))
+  imat_vmul_c.set(@define.define_(@term_syntax.parse_term("(imat_vmul : (Cart[Cart[Int, 2], 2], Cart[Int, 2]) -> Cart[Int, 2])((m : Cart[Cart[Int, 2], 2]), (v : Cart[Int, 2])) == lambda((i : Num) => isum(op_dot_dot(1, 2), (j : Num) => op_dollar(op_dollar(m, i), j) * op_dollar(v, j)))")))
 }
 
 ///|
@@ -119,7 +119,7 @@ pub fn imat_i_v1() -> @kernel.Thm {
 fn step_8() -> Unit raise {
   let t10 = @simp.simp_tac(@list.List([@cart.cart_eq(), @cart.lambda_beta(), @cart.dimindex_2(), @calc_num.arith(), forall_2(), isum_2()]))
   let t11 = @tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([@class.fun_eq_thm(), @trivia.o_thm(), imat_vmul(), imat_mul()])), t10), @int.int_arith_tac)
-  imat_mul_v1_c.set(@tactics.prove(@term_syntax.parse_term("∀ m1 : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], ∀ m2 : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], imat_vmul(imat_mul(m1, m2)) == o(imat_vmul(m1), imat_vmul(m2))"), t11))
+  imat_mul_v1_c.set(@tactics.prove(@term_syntax.parse_term("∀ m1 : Cart[Cart[Int, 2], 2], ∀ m2 : Cart[Cart[Int, 2], 2], imat_vmul(imat_mul(m1, m2)) == o(imat_vmul(m1), imat_vmul(m2))"), t11))
 }
 
 ///|
@@ -135,7 +135,7 @@ pub fn imat_mul_v1() -> @kernel.Thm {
 /// IMAT_MUL_LID
 fn step_9() -> Unit raise {
   let t12 = @tactics.then_tac(@simp.simp_tac(@list.List([@cart.cart_eq(), @cart.dimindex_2(), forall_2(), imat_i(), @cart.lambda_beta(), imat_mul(), @calc_num.arith(), isum_2()])), @int.int_arith_tac)
-  imat_mul_lid_c.set(@tactics.prove(@term_syntax.parse_term("∀ m : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], imat_mul(imat_I, m) == m"), t12))
+  imat_mul_lid_c.set(@tactics.prove(@term_syntax.parse_term("∀ m : Cart[Cart[Int, 2], 2], imat_mul(imat_I, m) == m"), t12))
 }
 
 ///|
@@ -151,7 +151,7 @@ pub fn imat_mul_lid() -> @kernel.Thm {
 /// IMAT_MUL_ASSOC
 fn step_10() -> Unit raise {
   let t13 = @tactics.then_tac(@simp.simp_tac(@list.List([@cart.cart_eq(), @cart.dimindex_2(), forall_2(), imat_i(), @cart.lambda_beta(), imat_mul(), @calc_num.arith(), isum_2()])), @int.int_arith_tac)
-  imat_mul_assoc_c.set(@tactics.prove(@term_syntax.parse_term("∀ m1 : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], ∀ m2 : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], ∀ m3 : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], imat_mul(m1, imat_mul(m2, m3)) == imat_mul(imat_mul(m1, m2), m3)"), t13))
+  imat_mul_assoc_c.set(@tactics.prove(@term_syntax.parse_term("∀ m1 : Cart[Cart[Int, 2], 2], ∀ m2 : Cart[Cart[Int, 2], 2], ∀ m3 : Cart[Cart[Int, 2], 2], imat_mul(m1, imat_mul(m2, m3)) == imat_mul(imat_mul(m1, m2), m3)"), t13))
 }
 
 ///|
@@ -683,7 +683,7 @@ pub fn iter_divstep_integer() -> @kernel.Thm {
 ///|
 /// divstep_mat
 fn step_30() -> Unit raise {
-  divstep_mat_c.set(@define.define_(@term_syntax.parse_term("(divstep_mat : (Num, (Int, Int, Int)) -> Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]])(0, (t : (Int, Int, Int))) == imat_I && divstep_mat(SUC((n : Num)), t) == imat_mul(if divstep_d(n, t) >= int_of_num(0) && rem(divstep_g(n, t), int_of_num(2)) == int_of_num(1) { vector([vector([int_of_num(0), int_of_num(2)]), vector([-int_of_num(1), int_of_num(1)])]) } else { vector([vector([int_of_num(2), int_of_num(0)]), vector([rem(divstep_g(n, t), int_of_num(2)), int_of_num(1)])]) }, divstep_mat(n, t))")))
+  divstep_mat_c.set(@define.define_(@term_syntax.parse_term("(divstep_mat : (Num, (Int, Int, Int)) -> Cart[Cart[Int, 2], 2])(0, (t : (Int, Int, Int))) == imat_I && divstep_mat(SUC((n : Num)), t) == imat_mul(if divstep_d(n, t) >= int_of_num(0) && rem(divstep_g(n, t), int_of_num(2)) == int_of_num(1) { vector([vector([int_of_num(0), int_of_num(2)]), vector([-int_of_num(1), int_of_num(1)])]) } else { vector([vector([int_of_num(2), int_of_num(0)]), vector([rem(divstep_g(n, t), int_of_num(2)), int_of_num(1)])]) }, divstep_mat(n, t))")))
 }
 
 ///|

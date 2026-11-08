@@ -57640,24 +57640,24 @@ Multivariate/paths quotations (8298):
   (g : (Cart[Real, Unit]) -> Cart[Real, M])
   \226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, M], \226\136\128 h : (Cart[Real, Unit]) -> Cart[Real, N], simple_path(g) && pathfinish(g) == pathstart(g) && simple_path(h) && pathfinish(h) == pathstart(h) \226\134\146 homeomorphic(path_image(g), path_image(h))
   (g : (Cart[Real, Unit]) -> Cart[Real, N])
-  o((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, N]), (p : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]]))
-  (f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, N])
-  (g : (Cart[Real, N]) -> Cart[Real, Tybit0[Unit]])
-  homeomorphic((s : (Cart[Real, N]) -> Bool), path_image((p : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]])))
-  cball(((a : Cart[Real, Tybit0[Unit]]), (r : Real)))
-  (hull : (((Cart[Real, Tybit0[Unit]]) -> Bool) -> Bool, (Cart[Real, Tybit0[Unit]]) -> Bool, Cart[Real, Tybit0[Unit]]) -> Bool)((convex : ((Cart[Real, Tybit0[Unit]]) -> Bool) -> Bool), {(vec : (Num) -> Cart[Real, Tybit0[Unit]])(0), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(1), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(2)})
+  o((f : (Cart[Real, 2]) -> Cart[Real, N]), (p : (Cart[Real, Unit]) -> Cart[Real, 2]))
+  (f : (Cart[Real, 2]) -> Cart[Real, N])
+  (g : (Cart[Real, N]) -> Cart[Real, 2])
+  homeomorphic((s : (Cart[Real, N]) -> Bool), path_image((p : (Cart[Real, Unit]) -> Cart[Real, 2])))
+  cball(((a : Cart[Real, 2]), (r : Real)))
+  (hull : (((Cart[Real, 2]) -> Bool) -> Bool, (Cart[Real, 2]) -> Bool, Cart[Real, 2]) -> Bool)((convex : ((Cart[Real, 2]) -> Bool) -> Bool), {(vec : (Num) -> Cart[Real, 2])(0), (basis : (Num) -> Cart[Real, 2])(1), (basis : (Num) -> Cart[Real, 2])(2)})
   {(f : (_) -> _)((x : _)) | IN(x, {(a : _), (b : _), (c : _)})} == {f(a), f(b), f(c)}
   (s : (Cart[Real, _]) -> Bool) == (t : (Cart[Real, _]) -> Bool) \226\134\146 homeomorphic(s, t)
-  (relative_frontier : ((Cart[Real, Tybit0[Unit]]) -> Bool, Cart[Real, Tybit0[Unit]]) -> Bool)((hull : (((Cart[Real, Tybit0[Unit]]) -> Bool) -> Bool, (Cart[Real, Tybit0[Unit]]) -> Bool, Cart[Real, Tybit0[Unit]]) -> Bool)((convex : ((Cart[Real, Tybit0[Unit]]) -> Bool) -> Bool), {(vec : (Num) -> Cart[Real, Tybit0[Unit]])(0), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(1), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(2)}))
-  !(affine_dependent : ((Cart[Real, Tybit0[Unit]]) -> Bool) -> Bool)({(vec : (Num) -> Cart[Real, Tybit0[Unit]])(0), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(1), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(2)})
-  !((basis : (Num) -> Cart[Real, Tybit0[Unit]])(2) == (basis : (Num) -> Cart[Real, Tybit0[Unit]])(1)) && !((basis : (Num) -> Cart[Real, Tybit0[Unit]])(1) == (vec : (Num) -> Cart[Real, Tybit0[Unit]])(0)) && !((basis : (Num) -> Cart[Real, Tybit0[Unit]])(2) == (vec : (Num) -> Cart[Real, Tybit0[Unit]])(0))
-  (op_plus_plus : ((Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]])((linepath : ((Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]])(((vec : (Num) -> Cart[Real, Tybit0[Unit]])(0), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(1))), (op_plus_plus : ((Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]])((linepath : ((Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]])(((basis : (Num) -> Cart[Real, Tybit0[Unit]])(1), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(2))), (linepath : ((Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]])(((basis : (Num) -> Cart[Real, Tybit0[Unit]])(2), (vec : (Num) -> Cart[Real, Tybit0[Unit]])(0)))))
-  \226\136\131 p : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], simple_path(p) && pathfinish(p) == pathstart(p) && homeomorphic(path_image(p), sphere(((a : Cart[Real, Tybit0[Unit]]), (r : Real))))
-  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, Tybit0[Unit]], \226\136\128 r : Real, real_of_num(0) < r \226\134\146 homeomorphic(s, sphere((a, r))) == (\226\136\131 g : (Cart[Real, Unit]) -> Cart[Real, N], simple_path(g) && pathfinish(g) == pathstart(g) && path_image(g) == s)
-  (x : Cart[Real, Tybit0[Unit]]) => op_dollar(x, 2)
-  (x : Cart[Real, Tybit0[Unit]]) => op_dollar(x, 2)
-  (x : Cart[Real, Tybit0[Unit]]) => op_dollar(x, 1)
-  \226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, N], \226\136\128 a : Cart[Real, Tybit0[Unit]], \226\136\128 r : Real, simple_path(g) && pathfinish(g) == pathstart(g) && real_of_num(0) < r \226\134\146 homeomorphic(path_image(g), sphere((a, r)))
+  (relative_frontier : ((Cart[Real, 2]) -> Bool, Cart[Real, 2]) -> Bool)((hull : (((Cart[Real, 2]) -> Bool) -> Bool, (Cart[Real, 2]) -> Bool, Cart[Real, 2]) -> Bool)((convex : ((Cart[Real, 2]) -> Bool) -> Bool), {(vec : (Num) -> Cart[Real, 2])(0), (basis : (Num) -> Cart[Real, 2])(1), (basis : (Num) -> Cart[Real, 2])(2)}))
+  !(affine_dependent : ((Cart[Real, 2]) -> Bool) -> Bool)({(vec : (Num) -> Cart[Real, 2])(0), (basis : (Num) -> Cart[Real, 2])(1), (basis : (Num) -> Cart[Real, 2])(2)})
+  !((basis : (Num) -> Cart[Real, 2])(2) == (basis : (Num) -> Cart[Real, 2])(1)) && !((basis : (Num) -> Cart[Real, 2])(1) == (vec : (Num) -> Cart[Real, 2])(0)) && !((basis : (Num) -> Cart[Real, 2])(2) == (vec : (Num) -> Cart[Real, 2])(0))
+  (op_plus_plus : ((Cart[Real, Unit]) -> Cart[Real, 2], (Cart[Real, Unit]) -> Cart[Real, 2], Cart[Real, Unit]) -> Cart[Real, 2])((linepath : ((Cart[Real, 2], Cart[Real, 2]), Cart[Real, Unit]) -> Cart[Real, 2])(((vec : (Num) -> Cart[Real, 2])(0), (basis : (Num) -> Cart[Real, 2])(1))), (op_plus_plus : ((Cart[Real, Unit]) -> Cart[Real, 2], (Cart[Real, Unit]) -> Cart[Real, 2], Cart[Real, Unit]) -> Cart[Real, 2])((linepath : ((Cart[Real, 2], Cart[Real, 2]), Cart[Real, Unit]) -> Cart[Real, 2])(((basis : (Num) -> Cart[Real, 2])(1), (basis : (Num) -> Cart[Real, 2])(2))), (linepath : ((Cart[Real, 2], Cart[Real, 2]), Cart[Real, Unit]) -> Cart[Real, 2])(((basis : (Num) -> Cart[Real, 2])(2), (vec : (Num) -> Cart[Real, 2])(0)))))
+  \226\136\131 p : (Cart[Real, Unit]) -> Cart[Real, 2], simple_path(p) && pathfinish(p) == pathstart(p) && homeomorphic(path_image(p), sphere(((a : Cart[Real, 2]), (r : Real))))
+  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, 2], \226\136\128 r : Real, real_of_num(0) < r \226\134\146 homeomorphic(s, sphere((a, r))) == (\226\136\131 g : (Cart[Real, Unit]) -> Cart[Real, N], simple_path(g) && pathfinish(g) == pathstart(g) && path_image(g) == s)
+  (x : Cart[Real, 2]) => op_dollar(x, 2)
+  (x : Cart[Real, 2]) => op_dollar(x, 2)
+  (x : Cart[Real, 2]) => op_dollar(x, 1)
+  \226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, N], \226\136\128 a : Cart[Real, 2], \226\136\128 r : Real, simple_path(g) && pathfinish(g) == pathstart(g) && real_of_num(0) < r \226\134\146 homeomorphic(path_image(g), sphere((a, r)))
   (path_component : ((Cart[Real, _]) -> Bool, Cart[Real, _], Cart[Real, _]) -> Bool)((s : (Cart[Real, _]) -> Bool), (x : Cart[Real, _]), (y : Cart[Real, _])) == (\226\136\131 g : (Cart[Real, Unit]) -> Cart[Real, _], path(g) && SUBSET(path_image(g), s) && pathstart(g) == x && pathfinish(g) == y)
   (path_components : ((Cart[Real, _]) -> Bool, (Cart[Real, _]) -> Bool) -> Bool)((s : (Cart[Real, _]) -> Bool)) == {path_component(s, x) | x : Cart[Real, _] | IN(x, s)}
   o((g : (Cart[Real, Unit]) -> Cart[Real, N]), lift)
@@ -60843,17 +60843,17 @@ Multivariate/paths quotations (8298):
   real_of_num(0) < (r : Real) \226\134\146 r == abs(r)
   !((p : Bool) && (q : Bool)) \226\134\146 p \226\134\146 !q
   !(r : Bool) \226\134\146 (((p : Bool) \226\134\146 (q : Bool)) \226\134\146 r) \226\134\146 p && !q
-  INTER(sphere(((a : Cart[Real, Tybit0[Unit]]), (r : Real))), sphere(((b : Cart[Real, Tybit0[Unit]]), (s : Real))))
+  INTER(sphere(((a : Cart[Real, 2]), (r : Real))), sphere(((b : Cart[Real, 2]), (s : Real))))
   3
   ((n : Num) <= 2) == !(3 <= n)
-  (a : Cart[Real, Tybit0[Unit]]) == (b : Cart[Real, Tybit0[Unit]]) && (r : Real) == (s : Real)
-  {(b : Cart[Real, Tybit0[Unit]])}
+  (a : Cart[Real, 2]) == (b : Cart[Real, 2]) && (r : Real) == (s : Real)
+  {(b : Cart[Real, 2])}
   \226\136\128 t : (_) -> Bool, SUBSET((s : (_) -> Bool), t) && FINITE(t) && CARD(t) <= (n : Num) \226\134\146 FINITE(s) && CARD(s) <= n
   real_of_num(0) < (s : Real)
-  {(a : Cart[Real, Tybit0[Unit]])}
+  {(a : Cart[Real, 2])}
   \226\136\128 t : (_) -> Bool, SUBSET((s : (_) -> Bool), t) && FINITE(t) && CARD(t) <= (n : Num) \226\134\146 FINITE(s) && CARD(s) <= n
   real_of_num(0) < (r : Real)
-  (\226\136\128 a : Cart[Real, Tybit0[Unit]], \226\136\128 b : Cart[Real, Tybit0[Unit]], \226\136\128 r : Real, \226\136\128 s : Real, FINITE(INTER(sphere((a, r)), sphere((b, s)))) == !(a == b && r == s && real_of_num(0) < r && real_of_num(0) < s)) && (\226\136\128 a : Cart[Real, Tybit0[Unit]], \226\136\128 b : Cart[Real, Tybit0[Unit]], \226\136\128 r : Real, \226\136\128 s : Real, !(a == b && r == s && real_of_num(0) < r && real_of_num(0) < s) \226\134\146 CARD(INTER(sphere((a, r)), sphere((b, s)))) <= 2)
+  (\226\136\128 a : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], \226\136\128 r : Real, \226\136\128 s : Real, FINITE(INTER(sphere((a, r)), sphere((b, s)))) == !(a == b && r == s && real_of_num(0) < r && real_of_num(0) < s)) && (\226\136\128 a : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], \226\136\128 r : Real, \226\136\128 s : Real, !(a == b && r == s && real_of_num(0) < r && real_of_num(0) < s) \226\134\146 CARD(INTER(sphere((a, r)), sphere((b, s)))) <= 2)
   :real
   :real
   :real
@@ -63195,7 +63195,7 @@ Multivariate/paths quotations (8298):
   SUBSET((s : (_) -> Bool), (t : (_) -> Bool)) \226\134\146 DIFF(t, DIFF(t, s)) == s
   \226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, simple_path(g) && pathfinish(g) == pathstart(g) && SUBSET(s, path_image(g)) \226\134\146 !connected(s) \226\134\146 !connected(DIFF(path_image(g), s))
   \226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, simple_path(g) && pathfinish(g) == pathstart(g) && SUBSET(s, path_image(g)) \226\134\146 connected(DIFF(path_image(g), s)) == connected(s)
-  (cball : ((Cart[Real, Tybit0[Unit]], Real), Cart[Real, Tybit0[Unit]]) -> Bool)(((vec : (Num) -> Cart[Real, Tybit0[Unit]])(0), (r : Real)))
+  (cball : ((Cart[Real, 2], Real), Cart[Real, 2]) -> Bool)(((vec : (Num) -> Cart[Real, 2])(0), (r : Real)))
   cball(((a : Cart[Real, N]), (r : Real)))
   real_of_num(0) < (r : Real)
   SUBSET((s : (_) -> Bool), {(a : _)}) == (s == {} || s == {a})
@@ -65272,12 +65272,12 @@ Multivariate/paths quotations (8298):
   1 <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))
   compact((s : (Cart[Real, N]) -> Bool))
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], \226\136\128 r : Real, real_of_num(0) < r && homeomorphic(s, sphere((a, r))) \226\134\146 !connected(DIFF(UNIV, s))
-  \226\136\128 c : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], simple_path(c) && pathfinish(c) == pathstart(c) \226\134\146 (\226\136\131 ins : (Cart[Real, Tybit0[Unit]]) -> Bool, \226\136\131 out : (Cart[Real, Tybit0[Unit]]) -> Bool, !(ins == {}) && open(ins) && connected(ins) && !(out == {}) && open(out) && connected(out) && bounded(ins) && !bounded(out) && INTER(ins, out) == {} && UNION(ins, out) == DIFF(UNIV, path_image(c)) && frontier(ins) == path_image(c) && frontier(out) == path_image(c))
-  \226\136\128 c : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], simple_path(c) && pathfinish(c) == pathstart(c) \226\134\146 !connected(DIFF(UNIV, path_image(c)))
-  \226\136\128 c : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], simple_path(c) && pathfinish(c) == pathstart(c) \226\134\146 !(inside(path_image(c)) == {}) && open(inside(path_image(c))) && connected(inside(path_image(c))) && !(outside(path_image(c)) == {}) && open(outside(path_image(c))) && connected(outside(path_image(c))) && bounded(inside(path_image(c))) && !bounded(outside(path_image(c))) && INTER(inside(path_image(c)), outside(path_image(c))) == {} && UNION(inside(path_image(c)), outside(path_image(c))) == DIFF(UNIV, path_image(c)) && frontier(inside(path_image(c))) == path_image(c) && frontier(outside(path_image(c))) == path_image(c)
-  path_image((g : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]]))
-  (g : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]])
-  \226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], simple_path(g) && pathfinish(g) == pathstart(g) \226\134\146 components(DIFF(UNIV, path_image(g))) == {inside(path_image(g)), outside(path_image(g))}
+  \226\136\128 c : (Cart[Real, Unit]) -> Cart[Real, 2], simple_path(c) && pathfinish(c) == pathstart(c) \226\134\146 (\226\136\131 ins : (Cart[Real, 2]) -> Bool, \226\136\131 out : (Cart[Real, 2]) -> Bool, !(ins == {}) && open(ins) && connected(ins) && !(out == {}) && open(out) && connected(out) && bounded(ins) && !bounded(out) && INTER(ins, out) == {} && UNION(ins, out) == DIFF(UNIV, path_image(c)) && frontier(ins) == path_image(c) && frontier(out) == path_image(c))
+  \226\136\128 c : (Cart[Real, Unit]) -> Cart[Real, 2], simple_path(c) && pathfinish(c) == pathstart(c) \226\134\146 !connected(DIFF(UNIV, path_image(c)))
+  \226\136\128 c : (Cart[Real, Unit]) -> Cart[Real, 2], simple_path(c) && pathfinish(c) == pathstart(c) \226\134\146 !(inside(path_image(c)) == {}) && open(inside(path_image(c))) && connected(inside(path_image(c))) && !(outside(path_image(c)) == {}) && open(outside(path_image(c))) && connected(outside(path_image(c))) && bounded(inside(path_image(c))) && !bounded(outside(path_image(c))) && INTER(inside(path_image(c)), outside(path_image(c))) == {} && UNION(inside(path_image(c)), outside(path_image(c))) == DIFF(UNIV, path_image(c)) && frontier(inside(path_image(c))) == path_image(c) && frontier(outside(path_image(c))) == path_image(c)
+  path_image((g : (Cart[Real, Unit]) -> Cart[Real, 2]))
+  (g : (Cart[Real, Unit]) -> Cart[Real, 2])
+  \226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, 2], simple_path(g) && pathfinish(g) == pathstart(g) \226\134\146 components(DIFF(UNIV, path_image(g))) == {inside(path_image(g)), outside(path_image(g))}
   homeomorphic((s : (Cart[Real, _]) -> Bool), (t : (Cart[Real, _]) -> Bool)) \226\134\146 (s == {}) == (t == {})
   (t : (Cart[Real, N]) -> Bool)
   (s : (Cart[Real, N]) -> Bool)

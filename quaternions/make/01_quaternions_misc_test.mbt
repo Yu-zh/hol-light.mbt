@@ -73776,9 +73776,9 @@ test "Quaternions/misc matches Quaternions/misc.ml" {
       #|0..0..1..2..6..11..solved at 17
       #|Quaternions/misc quotations (14):
       #|  \226\136\128 u : Cart[Real, Unit], \226\136\128 v : Cart[Real, Unit], (u == v) == (op_dollar(u, 1) == op_dollar(v, 1))
-      #|  \226\136\128 u : Cart[Real, Tybit0[Unit]], \226\136\128 v : Cart[Real, Tybit0[Unit]], (u == v) == (op_dollar(u, 1) == op_dollar(v, 1) && op_dollar(u, 2) == op_dollar(v, 2))
-      #|  \226\136\128 u : Cart[Real, Tybit1[Unit]], \226\136\128 v : Cart[Real, Tybit1[Unit]], (u == v) == (op_dollar(u, 1) == op_dollar(v, 1) && op_dollar(u, 2) == op_dollar(v, 2) && op_dollar(u, 3) == op_dollar(v, 3))
-      #|  \226\136\128 u : Cart[Real, Tybit0[Tybit0[Unit]]], \226\136\128 v : Cart[Real, Tybit0[Tybit0[Unit]]], (u == v) == (op_dollar(u, 1) == op_dollar(v, 1) && op_dollar(u, 2) == op_dollar(v, 2) && op_dollar(u, 3) == op_dollar(v, 3) && op_dollar(u, 4) == op_dollar(v, 4))
+      #|  \226\136\128 u : Cart[Real, 2], \226\136\128 v : Cart[Real, 2], (u == v) == (op_dollar(u, 1) == op_dollar(v, 1) && op_dollar(u, 2) == op_dollar(v, 2))
+      #|  \226\136\128 u : Cart[Real, 3], \226\136\128 v : Cart[Real, 3], (u == v) == (op_dollar(u, 1) == op_dollar(v, 1) && op_dollar(u, 2) == op_dollar(v, 2) && op_dollar(u, 3) == op_dollar(v, 3))
+      #|  \226\136\128 u : Cart[Real, 4], \226\136\128 v : Cart[Real, 4], (u == v) == (op_dollar(u, 1) == op_dollar(v, 1) && op_dollar(u, 2) == op_dollar(v, 2) && op_dollar(u, 3) == op_dollar(v, 3) && op_dollar(u, 4) == op_dollar(v, 4))
       #|  (j : Num)
       #|  (sum : ((Num) -> Bool, (Num) -> Real) -> Real)({(i : Num)}, (j : Num) => (op_dollar : (Cart[Real, N], Num) -> Real)((basis : (Num) -> Cart[Real, N])(i), j) * (op_dollar : (Cart[Real, N], Num) -> Real)((x : Cart[Real, N]), j))
       #|  \226\136\128 i : Num, \226\136\128 x : Cart[Real, N], 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (dot : (Cart[Real, N], Cart[Real, N]) -> Real)((basis : (Num) -> Cart[Real, N])(i), x) == (op_dollar : (Cart[Real, N], Num) -> Real)(x, i)

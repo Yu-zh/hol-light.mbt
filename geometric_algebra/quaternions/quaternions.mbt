@@ -4,7 +4,7 @@
 /// DIMINDEX_GA010
 fn step_1() -> Unit raise {
   let t1 = @tactics.then_tac(@simp.rewrite_tac(@list.List([@cart.dimindex_2(), @geometricalgebra.dimindex_geomalg(), @geometricalgebra.pdimindex_0(), @geometricalgebra.pdimindex_1()])), @int.arith_tac)
-  dimindex_ga010_c.set(@tactics.prove(@term_syntax.parse_term("(dimindex : ((Geomalg[Zero, One, Zero]) -> Bool) -> Num)((UNIV : (Geomalg[Zero, One, Zero]) -> Bool)) == (dimindex : ((Tybit0[Unit]) -> Bool) -> Num)((UNIV : (Tybit0[Unit]) -> Bool))"), t1))
+  dimindex_ga010_c.set(@tactics.prove(@term_syntax.parse_term("(dimindex : ((Geomalg[Zero, One, Zero]) -> Bool) -> Num)((UNIV : (Geomalg[Zero, One, Zero]) -> Bool)) == (dimindex : ((2) -> Bool) -> Num)((UNIV : (2) -> Bool))"), t1))
 }
 
 ///|
@@ -94,7 +94,7 @@ fn step_4() -> Unit raise {
 /// DIMINDEX_GA020
 fn step_5() -> Unit raise {
   let t33 = @tactics.then_tac(@simp.rewrite_tac(@list.List([@cart.dimindex_4(), @geometricalgebra.dimindex_geomalg(), @geometricalgebra.pdimindex_0(), @geometricalgebra.pdimindex_2()])), @int.arith_tac)
-  dimindex_ga020_c.set(@tactics.prove(@term_syntax.parse_term("(dimindex : ((Geomalg[Zero, Two, Zero]) -> Bool) -> Num)((UNIV : (Geomalg[Zero, Two, Zero]) -> Bool)) == (dimindex : ((Tybit0[Tybit0[Unit]]) -> Bool) -> Num)((UNIV : (Tybit0[Tybit0[Unit]]) -> Bool))"), t33))
+  dimindex_ga020_c.set(@tactics.prove(@term_syntax.parse_term("(dimindex : ((Geomalg[Zero, Two, Zero]) -> Bool) -> Num)((UNIV : (Geomalg[Zero, Two, Zero]) -> Bool)) == (dimindex : ((4) -> Bool) -> Num)((UNIV : (4) -> Bool))"), t33))
 }
 
 ///|
@@ -265,7 +265,7 @@ fn step_16() -> Unit raise {
 ///|
 /// geomalg_300_quat
 fn step_17() -> Unit raise {
-  geomalg_300_quat_c.set(@pair.new_definition(@term_syntax.parse_term("(geomalg_300_quat : (Cart[Real, Tybit0[Tybit0[Unit]]]) -> Cart[Real, Geomalg[Three, Zero, Zero]])((q : Cart[Real, Tybit0[Tybit0[Unit]]])) == op_pct(Re(q), mbasis({})) + (op_pct(Im1(q), mbasis({2, 3})) + (op_pct(Im2(q), mbasis({1, 2})) + op_pct(Im3(q), -mbasis({1, 3}))))")))
+  geomalg_300_quat_c.set(@pair.new_definition(@term_syntax.parse_term("(geomalg_300_quat : (Cart[Real, 4]) -> Cart[Real, Geomalg[Three, Zero, Zero]])((q : Cart[Real, 4])) == op_pct(Re(q), mbasis({})) + (op_pct(Im1(q), mbasis({2, 3})) + (op_pct(Im2(q), mbasis({1, 2})) + op_pct(Im3(q), -mbasis({1, 3}))))")))
 }
 
 ///|
@@ -298,7 +298,7 @@ fn step_18() -> Unit raise {
   let t95 = @tactics.repeat_tac(@tactics.strip_tac)
   let t94 = @simp.simp_tac(@list.List([@geometricalgebra.geomalg_beta(), @geometricalgebra.geomalg_eq()]))
   let t111 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.gen_tac, @simp.rewrite_tac(@list.List([@geometricalgebra.conjugation(), geomalg_300_quat(), @quaternion.quat_cnj(), @quaternion.quat_components()]))), t94), t95), t96), t97), t98), @tactics.binop_tac), t101), @tactics.binop_tac), t104), @tactics.binop_tac), t107), @class.cond_cases_tac), t108), t109), t110), @calc_rat.real_arith_tac), @calc_rat.real_arith_tac)
-  cnj_quat_c.set(@tactics.prove(@term_syntax.parse_term("∀ q : Cart[Real, Tybit0[Tybit0[Unit]]], conjugation(geomalg_300_quat(q)) == geomalg_300_quat(cnj(q))"), t111))
+  cnj_quat_c.set(@tactics.prove(@term_syntax.parse_term("∀ q : Cart[Real, 4], conjugation(geomalg_300_quat(q)) == geomalg_300_quat(cnj(q))"), t111))
 }
 
 ///|

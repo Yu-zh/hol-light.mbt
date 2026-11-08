@@ -217,6 +217,7 @@ simple_type -> @preterm.Pretype
   : "(" type_ "," non_empty_list_commas(type_) ")" { tuple_type($4.prepend($2)) }
   | "(" type_ ")" { $2 }
   | UIDENT optional_type_arguments { named_type($1, $2) }
+  | INT { finite_type($1) }
   | "_" { @preterm.dpty }
   ;
 

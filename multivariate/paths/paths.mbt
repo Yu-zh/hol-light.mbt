@@ -5517,15 +5517,15 @@ fn step_195() -> Unit raise {
   let t2407 = @tactics.match_mp_tac(simple_path_continuous_image())
   let t2406 = @simp.asm_rewrite_tac(@list.List([path_image_compose()]))
   let t2405 = @simp.rewrite_tac(@list.List([pathfinish_compose(), pathstart_compose()]))
-  let t2404 = @tactics.exists_tac(@term_syntax.parse_term("o((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, N]), (p : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]]))"))
-  let t2402 = @term_syntax.parse_term("(f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, N])")
-  let t2403 = @tactics.map_every(@tactics.x_gen_tac, @list.List([@term_syntax.parse_term("(g : (Cart[Real, N]) -> Cart[Real, Tybit0[Unit]])"), t2402]))
+  let t2404 = @tactics.exists_tac(@term_syntax.parse_term("o((f : (Cart[Real, 2]) -> Cart[Real, N]), (p : (Cart[Real, Unit]) -> Cart[Real, 2]))"))
+  let t2402 = @term_syntax.parse_term("(f : (Cart[Real, 2]) -> Cart[Real, N])")
+  let t2403 = @tactics.map_every(@tactics.x_gen_tac, @list.List([@term_syntax.parse_term("(g : (Cart[Real, N]) -> Cart[Real, 2])"), t2402]))
   let t2415 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([@topology.homeomorphic(), @topology.homeomorphism(), @theorems.left_imp_exists_thm()])), t2403), @tactics.strip_tac), t2404), t2405), t2406), t2407), t2408), t2409), t2414])
   let t2400 = @simp.asm_rewrite_tac(@list.List([]))
   let t2399 = @simp.once_rewrite_tac(@list.List([@topology.homeomorphic_sym()]))
   let t2398 = @simp.asm_rewrite_tac(@list.List([]))
   let t2401 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.eq_tac, @tactics.match_mp_tac(@simp.rewrite_rule(@list.List([@theorems.imp_conj_alt()]))(@topology.homeomorphic_trans()))), t2398), t2399), t2400), @tactics.all_tac])
-  let t2397 = @term_syntax.parse_term("homeomorphic((s : (Cart[Real, N]) -> Bool), path_image((p : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]])))")
+  let t2397 = @term_syntax.parse_term("homeomorphic((s : (Cart[Real, N]) -> Bool), path_image((p : (Cart[Real, Unit]) -> Cart[Real, 2])))")
   let t2416 = @tactics.thenl(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.trans_tac(@theorems.eq_trans())(t2397), @tactics.conj_tac), t2401), @tactics.eq_tac), t2415)
   let t2392 = @tactics.conv_tac(@int.int_reduce_conv)
   let t2391 = @simp.asm_rewrite_tac(@list.List([@sets.in_insert(), @sets.not_in_empty(), @calc_num.arith()]))
@@ -5537,14 +5537,14 @@ fn step_195() -> Unit raise {
   let t2385 = @simp.rewrite_tac(@list.List([@convex.aff_dim_convex_hull(), @topology.bounded_insert(), @topology.bounded_empty()]))
   let t2384 = @simp.asm_rewrite_tac(@list.List([@convex.convex_convex_hull(), @convex.bounded_convex_hull_eq()]))
   let t2383 = @simp.asm_rewrite_tac(@list.List([@convex.convex_cball(), @topology.bounded_cball(), @convex.convex_convex_hull()]))
-  let t2382 = @term_syntax.parse_term("cball(((a : Cart[Real, Tybit0[Unit]]), (r : Real)))")
-  let t2393 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("(hull : (((Cart[Real, Tybit0[Unit]]) -> Bool) -> Bool, (Cart[Real, Tybit0[Unit]]) -> Bool, Cart[Real, Tybit0[Unit]]) -> Bool)((convex : ((Cart[Real, Tybit0[Unit]]) -> Bool) -> Bool), {(vec : (Num) -> Cart[Real, Tybit0[Unit]])(0), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(1), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(2)})"), t2382]), @convex.homeomorphic_relative_frontiers_convex_bounded_sets())), t2383), t2384), t2385), t2386), t2387), t2388), t2389), t2390), t2391), t2392)
+  let t2382 = @term_syntax.parse_term("cball(((a : Cart[Real, 2]), (r : Real)))")
+  let t2393 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("(hull : (((Cart[Real, 2]) -> Bool) -> Bool, (Cart[Real, 2]) -> Bool, Cart[Real, 2]) -> Bool)((convex : ((Cart[Real, 2]) -> Bool) -> Bool), {(vec : (Num) -> Cart[Real, 2])(0), (basis : (Num) -> Cart[Real, 2])(1), (basis : (Num) -> Cart[Real, 2])(2)})"), t2382]), @convex.homeomorphic_relative_frontiers_convex_bounded_sets())), t2383), t2384), t2385), t2386), t2387), t2388), t2389), t2390), t2391), t2392)
   let t2381 = @sets.set_tac(@list.List([]))
   let t2380 = @simp.asm_rewrite_tac(@list.List([@sets.delete_insert(), @equal.gsym(@convex.segment_convex_hull()), @sets.empty_delete(), @topology.segment_sym()]))
   let t2379 = @simp.rewrite_tac(@list.List([@sets.set_rule(@term_syntax.parse_term("{(f : (_) -> _)((x : _)) | IN(x, {(a : _), (b : _), (c : _)})} == {f(a), f(b), f(c)}"))]))
   let t2378 = @simp.asm_simp_tac(@list.List([@convex.relative_frontier_of_convex_hull()]))
   let t2394 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(@meson.meson(@list.List([@topology.homeomorphic_refl()]), @term_syntax.parse_term("(s : (Cart[Real, _]) -> Bool) == (t : (Cart[Real, _]) -> Bool) → homeomorphic(s, t)"))), t2378), t2379), t2380), t2381), t2393])
-  let t2377 = @term_syntax.parse_term("(relative_frontier : ((Cart[Real, Tybit0[Unit]]) -> Bool, Cart[Real, Tybit0[Unit]]) -> Bool)((hull : (((Cart[Real, Tybit0[Unit]]) -> Bool) -> Bool, (Cart[Real, Tybit0[Unit]]) -> Bool, Cart[Real, Tybit0[Unit]]) -> Bool)((convex : ((Cart[Real, Tybit0[Unit]]) -> Bool) -> Bool), {(vec : (Num) -> Cart[Real, Tybit0[Unit]])(0), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(1), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(2)}))")
+  let t2377 = @term_syntax.parse_term("(relative_frontier : ((Cart[Real, 2]) -> Bool, Cart[Real, 2]) -> Bool)((hull : (((Cart[Real, 2]) -> Bool) -> Bool, (Cart[Real, 2]) -> Bool, Cart[Real, 2]) -> Bool)((convex : ((Cart[Real, 2]) -> Bool) -> Bool), {(vec : (Num) -> Cart[Real, 2])(0), (basis : (Num) -> Cart[Real, 2])(1), (basis : (Num) -> Cart[Real, 2])(2)}))")
   let t2395 = @tactics.thenl(@tactics.then_tac(@tactics.trans_tac(@topology.homeomorphic_trans())(t2377), @tactics.conj_tac), t2394)
   let t2376 = @meson.asm_meson_tac(@list.List([@sets.insert_ac()]))
   let t2375 = @simp.asm_rewrite_tac(@list.List([@convex.collinear_3_eq_affine_dependent()]))
@@ -5588,23 +5588,23 @@ fn step_195() -> Unit raise {
   let t2350 = @simp.rewrite_tac(@list.List([@vectors.vector_add_component(), @vectors.vector_mul_component()]))
   let t2349 = @tactics.first_x_assum(fn(x2346 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let th = x2346
-    let t2348 = @tactics.mp_tac(@equal.ap_term(@term_syntax.parse_term("(x : Cart[Real, Tybit0[Unit]]) => op_dollar(x, 2)"), th))
-    @tactics.then_tac(@tactics.mp_tac(@equal.ap_term(@term_syntax.parse_term("(x : Cart[Real, Tybit0[Unit]]) => op_dollar(x, 1)"), th)), t2348)
+    let t2348 = @tactics.mp_tac(@equal.ap_term(@term_syntax.parse_term("(x : Cart[Real, 2]) => op_dollar(x, 2)"), th))
+    @tactics.then_tac(@tactics.mp_tac(@equal.ap_term(@term_syntax.parse_term("(x : Cart[Real, 2]) => op_dollar(x, 1)"), th)), t2348)
   })
   let t2345 = @simp.asm_rewrite_tac(@list.List([@vectors.independent(), @vectors.dependent_2()]))
   let t2352 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(@convex.independent_imp_affine_dependent_0()), t2345), @tactics.strip_tac), t2349), t2350), t2351), @calc_rat.asm_real_arith_tac), @tactics.all_tac])
-  let t2344 = @tactics.subgoal_then(@term_syntax.parse_term("!(affine_dependent : ((Cart[Real, Tybit0[Unit]]) -> Bool) -> Bool)({(vec : (Num) -> Cart[Real, Tybit0[Unit]])(0), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(1), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(2)})"), fn(x2341 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
+  let t2344 = @tactics.subgoal_then(@term_syntax.parse_term("!(affine_dependent : ((Cart[Real, 2]) -> Bool) -> Bool)({(vec : (Num) -> Cart[Real, 2])(0), (basis : (Num) -> Cart[Real, 2])(1), (basis : (Num) -> Cart[Real, 2])(2)})"), fn(x2341 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s2342 = @tactics.assume_tac(x2341)
     fn(x2343 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise {
       s2342(x2343)
     }
   })
   let t2340 = @list.List([@simp.simp_tac(@list.List([@vectors.basis_inj_eq(), @vectors.basis_nonzero(), @cart.dimindex_2(), @calc_num.arith()])), @tactics.all_tac])
-  let t2339 = @tactics.subgoal_then(@term_syntax.parse_term("!((basis : (Num) -> Cart[Real, Tybit0[Unit]])(2) == (basis : (Num) -> Cart[Real, Tybit0[Unit]])(1)) && !((basis : (Num) -> Cart[Real, Tybit0[Unit]])(1) == (vec : (Num) -> Cart[Real, Tybit0[Unit]])(0)) && !((basis : (Num) -> Cart[Real, Tybit0[Unit]])(2) == (vec : (Num) -> Cart[Real, Tybit0[Unit]])(0))"), @tactics.strip_assume_tac)
-  let t2417 = @list.List([@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.exists_tac(@term_syntax.parse_term("(op_plus_plus : ((Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]])((linepath : ((Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]])(((vec : (Num) -> Cart[Real, Tybit0[Unit]])(0), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(1))), (op_plus_plus : ((Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]])((linepath : ((Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]])(((basis : (Num) -> Cart[Real, Tybit0[Unit]])(1), (basis : (Num) -> Cart[Real, Tybit0[Unit]])(2))), (linepath : ((Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]])(((basis : (Num) -> Cart[Real, Tybit0[Unit]])(2), (vec : (Num) -> Cart[Real, Tybit0[Unit]])(0)))))")), t2339), t2340), t2344), t2352), t2353), t2354), t2355), @tactics.conj_tac), t2396), t2416])
-  let t2338 = @tactics.subgoal_then(@term_syntax.parse_term("∃ p : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], simple_path(p) && pathfinish(p) == pathstart(p) && homeomorphic(path_image(p), sphere(((a : Cart[Real, Tybit0[Unit]]), (r : Real))))"), @tactics.strip_assume_tac)
+  let t2339 = @tactics.subgoal_then(@term_syntax.parse_term("!((basis : (Num) -> Cart[Real, 2])(2) == (basis : (Num) -> Cart[Real, 2])(1)) && !((basis : (Num) -> Cart[Real, 2])(1) == (vec : (Num) -> Cart[Real, 2])(0)) && !((basis : (Num) -> Cart[Real, 2])(2) == (vec : (Num) -> Cart[Real, 2])(0))"), @tactics.strip_assume_tac)
+  let t2417 = @list.List([@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.exists_tac(@term_syntax.parse_term("(op_plus_plus : ((Cart[Real, Unit]) -> Cart[Real, 2], (Cart[Real, Unit]) -> Cart[Real, 2], Cart[Real, Unit]) -> Cart[Real, 2])((linepath : ((Cart[Real, 2], Cart[Real, 2]), Cart[Real, Unit]) -> Cart[Real, 2])(((vec : (Num) -> Cart[Real, 2])(0), (basis : (Num) -> Cart[Real, 2])(1))), (op_plus_plus : ((Cart[Real, Unit]) -> Cart[Real, 2], (Cart[Real, Unit]) -> Cart[Real, 2], Cart[Real, Unit]) -> Cart[Real, 2])((linepath : ((Cart[Real, 2], Cart[Real, 2]), Cart[Real, Unit]) -> Cart[Real, 2])(((basis : (Num) -> Cart[Real, 2])(1), (basis : (Num) -> Cart[Real, 2])(2))), (linepath : ((Cart[Real, 2], Cart[Real, 2]), Cart[Real, Unit]) -> Cart[Real, 2])(((basis : (Num) -> Cart[Real, 2])(2), (vec : (Num) -> Cart[Real, 2])(0)))))")), t2339), t2340), t2344), t2352), t2353), t2354), t2355), @tactics.conj_tac), t2396), t2416])
+  let t2338 = @tactics.subgoal_then(@term_syntax.parse_term("∃ p : (Cart[Real, Unit]) -> Cart[Real, 2], simple_path(p) && pathfinish(p) == pathstart(p) && homeomorphic(path_image(p), sphere(((a : Cart[Real, 2]), (r : Real))))"), @tactics.strip_assume_tac)
   let t2418 = @tactics.thenl(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t2338), t2417)
-  homeomorphic_simple_path_image_circle_eq_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : (Cart[Real, N]) -> Bool, ∀ a : Cart[Real, Tybit0[Unit]], ∀ r : Real, real_of_num(0) < r → homeomorphic(s, sphere((a, r))) == (∃ g : (Cart[Real, Unit]) -> Cart[Real, N], simple_path(g) && pathfinish(g) == pathstart(g) && path_image(g) == s)"), t2418))
+  homeomorphic_simple_path_image_circle_eq_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : (Cart[Real, N]) -> Bool, ∀ a : Cart[Real, 2], ∀ r : Real, real_of_num(0) < r → homeomorphic(s, sphere((a, r))) == (∃ g : (Cart[Real, Unit]) -> Cart[Real, N], simple_path(g) && pathfinish(g) == pathstart(g) && path_image(g) == s)"), t2418))
 }
 
 ///|
@@ -5620,7 +5620,7 @@ pub fn homeomorphic_simple_path_image_circle_eq() -> @kernel.Thm {
 /// HOMEOMORPHIC_SIMPLE_PATH_IMAGE_CIRCLE
 fn step_196() -> Unit raise {
   let t2419 = @meson.meson_tac(@list.List([homeomorphic_simple_path_image_circle_eq()]))
-  homeomorphic_simple_path_image_circle_c.set(@tactics.prove(@term_syntax.parse_term("∀ g : (Cart[Real, Unit]) -> Cart[Real, N], ∀ a : Cart[Real, Tybit0[Unit]], ∀ r : Real, simple_path(g) && pathfinish(g) == pathstart(g) && real_of_num(0) < r → homeomorphic(path_image(g), sphere((a, r)))"), t2419))
+  homeomorphic_simple_path_image_circle_c.set(@tactics.prove(@term_syntax.parse_term("∀ g : (Cart[Real, Unit]) -> Cart[Real, N], ∀ a : Cart[Real, 2], ∀ r : Real, simple_path(g) && pathfinish(g) == pathstart(g) && real_of_num(0) < r → homeomorphic(path_image(g), sphere((a, r)))"), t2419))
 }
 
 ///|
@@ -27039,12 +27039,12 @@ fn step_592() -> Unit raise {
   })))
   let t15139 = @tactics.conv_tac(@equal.once_depth_conv(@sets.has_size_conv))
   let t15138 = @tactics.match_mp_tac(@class.taut(@term_syntax.parse_term("!(r : Bool) → (((p : Bool) → (q : Bool)) → r) → p && !q")))
-  let t15136 = @term_syntax.parse_term("INTER(sphere(((a : Cart[Real, Tybit0[Unit]]), (r : Real))), sphere(((b : Cart[Real, Tybit0[Unit]]), (s : Real))))")
+  let t15136 = @term_syntax.parse_term("INTER(sphere(((a : Cart[Real, 2]), (r : Real))), sphere(((b : Cart[Real, 2]), (s : Real))))")
   let t15137 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("3"), t15136]), @sets.choose_subset_strong()))
   let t15135 = @simp.rewrite_tac(@list.List([@int.arith_rule(@term_syntax.parse_term("((n : Num) <= 2) == !(3 <= n)"))]))
   let t15134 = @simp.asm_rewrite_tac(@list.List([@cart.dimindex_2(), @calc_num.arith_eq(), @real.real_not_le()]))
   let t15133 = @simp.asm_rewrite_tac(@list.List([@sets.inter_idempot(), finite_sphere()]))
-  let t15132 = @class.asm_cases_tac(@term_syntax.parse_term("(a : Cart[Real, Tybit0[Unit]]) == (b : Cart[Real, Tybit0[Unit]]) && (r : Real) == (s : Real)"))
+  let t15132 = @class.asm_cases_tac(@term_syntax.parse_term("(a : Cart[Real, 2]) == (b : Cart[Real, 2]) && (r : Real) == (s : Real)"))
   let t15130 = @tactics.conv_tac(@vectors.norm_arith)
   let t15129 = @tactics.pop_assum(fn(x15126 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s15127 = @tactics.mp_tac(x15126)
@@ -27054,7 +27054,7 @@ fn step_592() -> Unit raise {
   })
   let t15125 = @simp.rewrite_tac(@list.List([@topology.in_sphere()]))
   let t15124 = @simp.rewrite_tac(@list.List([@sets.finite_sing(), @sets.card_sing(), @sets.subset(), @sets.in_sing(), @sets.in_inter(), @calc_num.arith()]))
-  let t15123 = @tactics.exists_tac(@term_syntax.parse_term("{(b : Cart[Real, Tybit0[Unit]])}"))
+  let t15123 = @tactics.exists_tac(@term_syntax.parse_term("{(b : Cart[Real, 2])}"))
   let t15131 = @list.List([@tactics.all_tac, @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(@meson.meson(@list.List([@sets.finite_subset(), @sets.card_subset(), @arith.le_trans()]), @term_syntax.parse_term("∀ t : (_) -> Bool, SUBSET((s : (_) -> Bool), t) && FINITE(t) && CARD(t) <= (n : Num) → FINITE(s) && CARD(s) <= n"))), t15123), t15124), t15125), t15129), t15130)])
   let t15122 = @simp.asm_rewrite_tac(@list.List([]))
   let t15121 = @class.asm_cases_tac(@term_syntax.parse_term("real_of_num(0) < (s : Real)"))
@@ -27067,13 +27067,13 @@ fn step_592() -> Unit raise {
   })
   let t15114 = @simp.rewrite_tac(@list.List([@topology.in_sphere()]))
   let t15113 = @simp.rewrite_tac(@list.List([@sets.finite_sing(), @sets.card_sing(), @sets.subset(), @sets.in_sing(), @sets.in_inter(), @calc_num.arith()]))
-  let t15112 = @tactics.exists_tac(@term_syntax.parse_term("{(a : Cart[Real, Tybit0[Unit]])}"))
+  let t15112 = @tactics.exists_tac(@term_syntax.parse_term("{(a : Cart[Real, 2])}"))
   let t15120 = @list.List([@tactics.all_tac, @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(@meson.meson(@list.List([@sets.finite_subset(), @sets.card_subset(), @arith.le_trans()]), @term_syntax.parse_term("∀ t : (_) -> Bool, SUBSET((s : (_) -> Bool), t) && FINITE(t) && CARD(t) <= (n : Num) → FINITE(s) && CARD(s) <= n"))), t15112), t15113), t15114), t15118), t15119)])
   let t15111 = @simp.asm_rewrite_tac(@list.List([]))
   let t15110 = @class.asm_cases_tac(@term_syntax.parse_term("real_of_num(0) < (r : Real)"))
   let t15109 = @tactics.repeat_tac(@tactics.gen_tac)
   let t15172 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([@theorems.and_forall_thm()])), t15109), t15110), t15111), t15120), t15121), t15122), t15131), t15132), t15133), t15134), t15135), t15137), t15138), t15139), t15143), t15144), t15145), t15149), t15155), t15161), t15162), t15166), t15167), t15168), t15169), t15170), t15171)
-  let t15173 = (@term_syntax.parse_term("(∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ r : Real, ∀ s : Real, FINITE(INTER(sphere((a, r)), sphere((b, s)))) == !(a == b && r == s && real_of_num(0) < r && real_of_num(0) < s)) && (∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ r : Real, ∀ s : Real, !(a == b && r == s && real_of_num(0) < r && real_of_num(0) < s) → CARD(INTER(sphere((a, r)), sphere((b, s)))) <= 2)"), t15172)
+  let t15173 = (@term_syntax.parse_term("(∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ r : Real, ∀ s : Real, FINITE(INTER(sphere((a, r)), sphere((b, s)))) == !(a == b && r == s && real_of_num(0) < r && real_of_num(0) < s)) && (∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ r : Real, ∀ s : Real, !(a == b && r == s && real_of_num(0) < r && real_of_num(0) < s) → CARD(INTER(sphere((a, r)), sphere((b, s)))) <= 2)"), t15172)
   let (finite_circle_intersection, card_circle_intersection_le) = @bool.conj_pair((fn(x15108 : (@kernel.Term, ((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise)) -> @kernel.Thm raise {
     @tactics.prove(x15108.0, x15108.1)
   })(t15173))
@@ -43361,7 +43361,7 @@ fn step_916() -> Unit raise {
   let t24709 = @simp.asm_rewrite_tac(@list.List([@cart.dimindex_2()]))
   let t24708 = @simp.asm_simp_tac(@list.List([@convex.relative_frontier_cball(), @real.real_lt_imp_nz(), @convex.aff_dim_cball()]))
   let t24707 = @simp.rewrite_tac(@list.List([@convex.convex_cball(), @topology.bounded_cball()]))
-  let t24705 = @term_syntax.parse_term("(cball : ((Cart[Real, Tybit0[Unit]], Real), Cart[Real, Tybit0[Unit]]) -> Bool)(((vec : (Num) -> Cart[Real, Tybit0[Unit]])(0), (r : Real)))")
+  let t24705 = @term_syntax.parse_term("(cball : ((Cart[Real, 2], Real), Cart[Real, 2]) -> Bool)(((vec : (Num) -> Cart[Real, 2])(0), (r : Real)))")
   let t24706 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("cball(((a : Cart[Real, N]), (r : Real)))"), t24705]), @convex.homeomorphic_relative_frontiers_convex_bounded_sets()))
   let t24703 = @tactics.thenl(@tactics.subgoal_then(@term_syntax.parse_term("real_of_num(0) < (r : Real)"), fn(x24700 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s24701 = @tactics.assume_tac(x24700)
@@ -57214,7 +57214,7 @@ fn step_1089() -> Unit raise {
   let t33794 = @simp.rewrite_tac(@list.List([@cart.dimindex_2(), @arith.le_refl()]))
   let t33793 = @tactics.match_mp_tac(jordan_curve_theorem_gen())
   let t33796 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t33793), t33794), t33795)
-  jordan_curve_theorem_c.set(@tactics.prove(@term_syntax.parse_term("∀ c : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], simple_path(c) && pathfinish(c) == pathstart(c) → (∃ ins : (Cart[Real, Tybit0[Unit]]) -> Bool, ∃ out : (Cart[Real, Tybit0[Unit]]) -> Bool, !(ins == {}) && open(ins) && connected(ins) && !(out == {}) && open(out) && connected(out) && bounded(ins) && !bounded(out) && INTER(ins, out) == {} && UNION(ins, out) == DIFF(UNIV, path_image(c)) && frontier(ins) == path_image(c) && frontier(out) == path_image(c))"), t33796))
+  jordan_curve_theorem_c.set(@tactics.prove(@term_syntax.parse_term("∀ c : (Cart[Real, Unit]) -> Cart[Real, 2], simple_path(c) && pathfinish(c) == pathstart(c) → (∃ ins : (Cart[Real, 2]) -> Bool, ∃ out : (Cart[Real, 2]) -> Bool, !(ins == {}) && open(ins) && connected(ins) && !(out == {}) && open(out) && connected(out) && bounded(ins) && !bounded(out) && INTER(ins, out) == {} && UNION(ins, out) == DIFF(UNIV, path_image(c)) && frontier(ins) == path_image(c) && frontier(out) == path_image(c))"), t33796))
 }
 
 ///|
@@ -57243,7 +57243,7 @@ fn step_1090() -> Unit raise {
   })
   let t33797 = @simp.rewrite_tac(@list.List([@topology.connected()]))
   let t33807 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.gen_tac, @tactics.disch_tac), t33797), t33803), t33804), @tactics.strip_tac), t33805), t33806)
-  jordan_disconnected_c.set(@tactics.prove(@term_syntax.parse_term("∀ c : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], simple_path(c) && pathfinish(c) == pathstart(c) → !connected(DIFF(UNIV, path_image(c)))"), t33807))
+  jordan_disconnected_c.set(@tactics.prove(@term_syntax.parse_term("∀ c : (Cart[Real, Unit]) -> Cart[Real, 2], simple_path(c) && pathfinish(c) == pathstart(c) → !connected(DIFF(UNIV, path_image(c)))"), t33807))
 }
 
 ///|
@@ -57262,7 +57262,7 @@ fn step_1091() -> Unit raise {
   let t33809 = @simp.rewrite_tac(@list.List([@cart.dimindex_2(), @arith.le_refl()]))
   let t33808 = @tactics.match_mp_tac(jordan_inside_outside_gen())
   let t33811 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.gen_tac, @tactics.strip_tac), t33808), t33809), t33810)
-  jordan_inside_outside_c.set(@tactics.prove(@term_syntax.parse_term("∀ c : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], simple_path(c) && pathfinish(c) == pathstart(c) → !(inside(path_image(c)) == {}) && open(inside(path_image(c))) && connected(inside(path_image(c))) && !(outside(path_image(c)) == {}) && open(outside(path_image(c))) && connected(outside(path_image(c))) && bounded(inside(path_image(c))) && !bounded(outside(path_image(c))) && INTER(inside(path_image(c)), outside(path_image(c))) == {} && UNION(inside(path_image(c)), outside(path_image(c))) == DIFF(UNIV, path_image(c)) && frontier(inside(path_image(c))) == path_image(c) && frontier(outside(path_image(c))) == path_image(c)"), t33811))
+  jordan_inside_outside_c.set(@tactics.prove(@term_syntax.parse_term("∀ c : (Cart[Real, Unit]) -> Cart[Real, 2], simple_path(c) && pathfinish(c) == pathstart(c) → !(inside(path_image(c)) == {}) && open(inside(path_image(c))) && connected(inside(path_image(c))) && !(outside(path_image(c)) == {}) && open(outside(path_image(c))) && connected(outside(path_image(c))) && bounded(inside(path_image(c))) && !bounded(outside(path_image(c))) && INTER(inside(path_image(c)), outside(path_image(c))) == {} && UNION(inside(path_image(c)), outside(path_image(c))) == DIFF(UNIV, path_image(c)) && frontier(inside(path_image(c))) == path_image(c) && frontier(outside(path_image(c))) == path_image(c)"), t33811))
 }
 
 ///|
@@ -57280,13 +57280,13 @@ fn step_1092() -> Unit raise {
   let t33819 = @tactics.asm_tac(@sets.set_tac)(@list.List([]))
   let t33818 = @simp.asm_rewrite_tac(@list.List([]))
   let t33817 = @tactics.replicate_tac(2, @tactics.strip_tac)
-  let t33816 = @tactics.mp_tac(@bool.ispec(@term_syntax.parse_term("path_image((g : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]]))"), inside_inter_outside()))
+  let t33816 = @tactics.mp_tac(@bool.ispec(@term_syntax.parse_term("path_image((g : (Cart[Real, Unit]) -> Cart[Real, 2]))"), inside_inter_outside()))
   let t33815 = @simp.asm_rewrite_tac(@list.List([]))
-  let t33814 = @tactics.mp_tac(@bool.ispec(@term_syntax.parse_term("(g : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]])"), jordan_inside_outside()))
+  let t33814 = @tactics.mp_tac(@bool.ispec(@term_syntax.parse_term("(g : (Cart[Real, Unit]) -> Cart[Real, 2])"), jordan_inside_outside()))
   let t33813 = @simp.rewrite_tac(@list.List([@sets.unions_2(), @sets.pairwise_insert(), @sets.not_in_empty(), @sets.forall_in_insert(), @theorems.imp_conj(), @sets.pairwise_empty()]))
   let t33812 = @tactics.match_mp_tac(components_open_unique())
   let t33820 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t33812), t33813), t33814), t33815), t33816), t33817), t33818), t33819)
-  jordan_components_c.set(@tactics.prove(@term_syntax.parse_term("∀ g : (Cart[Real, Unit]) -> Cart[Real, Tybit0[Unit]], simple_path(g) && pathfinish(g) == pathstart(g) → components(DIFF(UNIV, path_image(g))) == {inside(path_image(g)), outside(path_image(g))}"), t33820))
+  jordan_components_c.set(@tactics.prove(@term_syntax.parse_term("∀ g : (Cart[Real, Unit]) -> Cart[Real, 2], simple_path(g) && pathfinish(g) == pathstart(g) → components(DIFF(UNIV, path_image(g))) == {inside(path_image(g)), outside(path_image(g))}"), t33820))
 }
 
 ///|

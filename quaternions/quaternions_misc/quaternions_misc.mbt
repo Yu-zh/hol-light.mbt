@@ -88,7 +88,7 @@ pub fn vector_eq_1() -> @kernel.Thm {
 /// VECTOR_EQ_2
 fn step_4() -> Unit raise {
   let t25 = @simp.rewrite_tac(@list.List([@cart.cart_eq(), @cart.dimindex_2(), @vectors.forall_2()]))
-  vector_eq_2_c.set(@tactics.prove(@term_syntax.parse_term("∀ u : Cart[Real, Tybit0[Unit]], ∀ v : Cart[Real, Tybit0[Unit]], (u == v) == (op_dollar(u, 1) == op_dollar(v, 1) && op_dollar(u, 2) == op_dollar(v, 2))"), t25))
+  vector_eq_2_c.set(@tactics.prove(@term_syntax.parse_term("∀ u : Cart[Real, 2], ∀ v : Cart[Real, 2], (u == v) == (op_dollar(u, 1) == op_dollar(v, 1) && op_dollar(u, 2) == op_dollar(v, 2))"), t25))
 }
 
 ///|
@@ -104,7 +104,7 @@ pub fn vector_eq_2() -> @kernel.Thm {
 /// VECTOR_EQ_3
 fn step_5() -> Unit raise {
   let t26 = @simp.rewrite_tac(@list.List([@cart.cart_eq(), @cart.dimindex_3(), @vectors.forall_3()]))
-  vector_eq_3_c.set(@tactics.prove(@term_syntax.parse_term("∀ u : Cart[Real, Tybit1[Unit]], ∀ v : Cart[Real, Tybit1[Unit]], (u == v) == (op_dollar(u, 1) == op_dollar(v, 1) && op_dollar(u, 2) == op_dollar(v, 2) && op_dollar(u, 3) == op_dollar(v, 3))"), t26))
+  vector_eq_3_c.set(@tactics.prove(@term_syntax.parse_term("∀ u : Cart[Real, 3], ∀ v : Cart[Real, 3], (u == v) == (op_dollar(u, 1) == op_dollar(v, 1) && op_dollar(u, 2) == op_dollar(v, 2) && op_dollar(u, 3) == op_dollar(v, 3))"), t26))
 }
 
 ///|
@@ -120,7 +120,7 @@ pub fn vector_eq_3() -> @kernel.Thm {
 /// VECTOR_EQ_4
 fn step_6() -> Unit raise {
   let t27 = @simp.rewrite_tac(@list.List([@cart.cart_eq(), @cart.dimindex_4(), @vectors.forall_4()]))
-  vector_eq_4_c.set(@tactics.prove(@term_syntax.parse_term("∀ u : Cart[Real, Tybit0[Tybit0[Unit]]], ∀ v : Cart[Real, Tybit0[Tybit0[Unit]]], (u == v) == (op_dollar(u, 1) == op_dollar(v, 1) && op_dollar(u, 2) == op_dollar(v, 2) && op_dollar(u, 3) == op_dollar(v, 3) && op_dollar(u, 4) == op_dollar(v, 4))"), t27))
+  vector_eq_4_c.set(@tactics.prove(@term_syntax.parse_term("∀ u : Cart[Real, 4], ∀ v : Cart[Real, 4], (u == v) == (op_dollar(u, 1) == op_dollar(v, 1) && op_dollar(u, 2) == op_dollar(v, 2) && op_dollar(u, 3) == op_dollar(v, 3) && op_dollar(u, 4) == op_dollar(v, 4))"), t27))
 }
 
 ///|

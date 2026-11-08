@@ -79674,31 +79674,31 @@ Examples/mangoldt quotations (209):
   real_of_num(0) < (a : Real) && real_of_num(0) < (b : Real)
   (b : Real)
   (a : Real)
-  !((x : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)))
-  (x : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))
-  real_of_num(1) <= Re((x : Cart[Real, Tybit0[Unit]]))
+  !((x : Cart[Real, 2]) == Cx(real_of_num(0)))
+  (x : Cart[Real, 2]) == Cx(real_of_num(0))
+  real_of_num(1) <= Re((x : Cart[Real, 2]))
   (n : Num)
   2
-  (z : Cart[Real, Tybit0[Unit]]) => z * clog(z) - z
-  (z : Cart[Real, Tybit0[Unit]]) => clog(z)
+  (z : Cart[Real, 2]) => z * clog(z) - z
+  (z : Cart[Real, 2]) => clog(z)
   !((n : Num) == 0) \226\134\146 n == 1 || 2 <= n
   (1 <= (n : Num)) == !(n == 0)
   real_of_num(0) < (a : Real) && real_of_num(0) < (b : Real)
   (b : Real)
   (a : Real)
-  !((x : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0)))
-  (x : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))
-  real_of_num(1) <= Re((x : Cart[Real, Tybit0[Unit]]))
+  !((x : Cart[Real, 2]) == Cx(real_of_num(0)))
+  (x : Cart[Real, 2]) == Cx(real_of_num(0))
+  real_of_num(1) <= Re((x : Cart[Real, 2]))
   (n : Num)
   1
-  (z : Cart[Real, Tybit0[Unit]]) => z * clog(z) - z
-  (z : Cart[Real, Tybit0[Unit]]) => clog(z)
+  (z : Cart[Real, 2]) => z * clog(z) - z
+  (z : Cart[Real, 2]) => clog(z)
   (abs((x : Real) - (y : Real)) <= (e : Real)) == (x <= y + e && y - e <= x)
   1
   (n : Num) == 1
   \226\136\128 n : Num, !(n == 0) \226\134\146 abs(log(real_of_num(FACT(n))) - (real_of_num(n) * log(real_of_num(n)) - real_of_num(n) + real_of_num(1))) <= real_of_num(2) * log(real_of_num(n))
-  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]]))
-  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]]))
+  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
+  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
   (mangoldt : (Num) -> Real)((n : Num)) == (if (\226\136\131 p : Num, \226\136\131 k : Num, 1 <= k && prime(p) && n == EXP(p, k)) { log(real_of_num(select((p : Num) => prime(p) && divides(p, n)))) } else { real_of_num(0) })
   !(1 <= 0)
   mangoldt(1) == real_of_num(0)
@@ -79782,28 +79782,28 @@ Examples/mangoldt quotations (209):
   pow((x : Real), 3) == x * pow(x, 2)
   real_of_num(0) < (u : Real) && real_of_num(1) < u && real_of_num(2) <= u
   (x : Real) <= (y : Real) \226\134\146 (x <= (u : Real) && u <= y || y <= u && u <= x) == (x <= u && u <= y)
-  (u : Real) == Re((w : Cart[Real, Tybit0[Unit]]))
-  real((w : Cart[Real, Tybit0[Unit]]))
+  (u : Real) == Re((w : Cart[Real, 2]))
+  real((w : Cart[Real, 2]))
   ((a : Real) * ((y : Real) - (x : Real)) <= real_of_num(0)) == (real_of_num(0) <= -a * (y - x))
-  (w : Cart[Real, Tybit0[Unit]])
+  (w : Cart[Real, 2])
   ((x : Real) <= (y : Real)) == (x - y <= real_of_num(0))
-  !((z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) && !(z == Cx(real_of_num(1)))
+  !((z : Cart[Real, 2]) == Cx(real_of_num(0))) && !(z == Cx(real_of_num(1)))
   ((a : Real) <= (x : Real) && x <= (b : Real) || b <= x && x <= a) == (a <= x && x <= b || b < a && b <= x && x <= a)
-  (z : Cart[Real, Tybit0[Unit]])
+  (z : Cart[Real, 2])
   Cx((y : Real))
   Cx((x : Real))
-  (z : Cart[Real, Tybit0[Unit]]) => inv(z * pow(z - Cx(real_of_num(1)), 2)) - Cx(real_of_num(2)) * (clog(z) / pow(z - Cx(real_of_num(1)), 3))
-  (z : Cart[Real, Tybit0[Unit]]) => clog(z) / pow(z - Cx(real_of_num(1)), 2)
+  (z : Cart[Real, 2]) => inv(z * pow(z - Cx(real_of_num(1)), 2)) - Cx(real_of_num(2)) * (clog(z) / pow(z - Cx(real_of_num(1)), 3))
+  (z : Cart[Real, 2]) => clog(z) / pow(z - Cx(real_of_num(1)), 2)
   (y : Real)
   (x : Real)
-  real_of_num(2) <= Re((z : Cart[Real, Tybit0[Unit]]))
-  !((z : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))) && !(z == Cx(real_of_num(1)))
+  real_of_num(2) <= Re((z : Cart[Real, 2]))
+  !((z : Cart[Real, 2]) == Cx(real_of_num(0))) && !(z == Cx(real_of_num(1)))
   real_of_num(2) <= (x : Real) \226\134\146 real_of_num(1) < x && real_of_num(0) < x
-  (z : Cart[Real, Tybit0[Unit]])
+  (z : Cart[Real, 2])
   (n : Num)
   3
-  (z : Cart[Real, Tybit0[Unit]]) => clog(z - Cx(real_of_num(1))) - clog(z) - clog(z) / (z - Cx(real_of_num(1)))
-  (z : Cart[Real, Tybit0[Unit]]) => clog(z) / pow(z - Cx(real_of_num(1)), 2)
+  (z : Cart[Real, 2]) => clog(z - Cx(real_of_num(1))) - clog(z) - clog(z) / (z - Cx(real_of_num(1)))
+  (z : Cart[Real, 2]) => clog(z) / pow(z - Cx(real_of_num(1)), 2)
   (n : Num) < 3
   (x : Real) <= real_of_num(1) && (y : Real) <= (e : Real) - real_of_num(1) \226\134\146 x + y <= e
   (n : Num) < 2
@@ -79845,8 +79845,8 @@ Examples/mangoldt quotations (209):
   abs(sum(op_dot_dot(1, (n : Num)), (d : Num) => mangoldt(d) / real_of_num(d)) - sum({(p : Num) | prime(p) && IN(p, op_dot_dot(1, n))}, (p : Num) => log(real_of_num(p)) / real_of_num(p)))
   (n : Num) == 0
   \226\136\128 n : Num, \226\136\128 s : (Num) -> Bool, SUBSET(s, op_dot_dot(1, n)) \226\134\146 abs(sum(s, (d : Num) => mangoldt(d) / real_of_num(d)) - sum({(p : Num) | prime(p) && IN(p, s)}, (p : Num) => log(real_of_num(p)) / real_of_num(p))) <= real_of_num(3)
-  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]]))
-  has_complex_derivative((f : (Cart[Real, Tybit0[Unit]]) -> Cart[Real, Tybit0[Unit]]), (f' : Cart[Real, Tybit0[Unit]]), (net : Net[Cart[Real, Tybit0[Unit]]]))
+  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
+  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
   (n : Num)
   2 <= (p : Num) \226\134\146 1 <= p
   {(p : Num) | prime(p) && p <= (n : Num)} == {(p : Num) | prime(p) && IN(p, op_dot_dot(1, n))}

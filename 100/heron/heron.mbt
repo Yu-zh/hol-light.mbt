@@ -72,7 +72,7 @@ fn step_3() -> Unit raise {
   let t19 = @simp.rewrite_tac(@list.List([@measure.measure_triangle()]))
   let t18 = @simp.rewrite_tac(@list.List([@pair.let_def(), @pair.let_end_def()]))
   let t29 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t18), t19), t20), t21), t22), t23), t24), t25), t26), sqrt_elim_tac), t27), t28)
-  heron_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Real, Tybit0[Unit]], ∀ B : Cart[Real, Tybit0[Unit]], ∀ C : Cart[Real, Tybit0[Unit]], LET((a : Real) => (b : Real) => (c : Real) => LET_END(LET((s : Real) => LET_END(measure(hull(convex, {A, B, C})) == sqrt(s * ((s - a) * ((s - b) * (s - c))))), (a + (b + c)) / real_of_num(2))), distance((C, B)), distance((A, C)), distance((B, A)))"), t29))
+  heron_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ C : Cart[Real, 2], LET((a : Real) => (b : Real) => (c : Real) => LET_END(LET((s : Real) => LET_END(measure(hull(convex, {A, B, C})) == sqrt(s * ((s - a) * ((s - b) * (s - c))))), (a + (b + c)) / real_of_num(2))), distance((C, B)), distance((A, C)), distance((B, A)))"), t29))
 }
 
 ///|

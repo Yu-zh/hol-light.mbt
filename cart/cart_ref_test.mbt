@@ -5564,9 +5564,9 @@ test "cart matches cart.ml" {
       #|  (n : Num)
       #|  (HAS_SIZE : ((A) -> Bool, Num) -> Bool)((UNIV : (A) -> Bool), (n : Num)) == ((FINITE : ((A) -> Bool) -> Bool)((UNIV : (A) -> Bool)) && (dimindex : ((A) -> Bool) -> Num)((UNIV : (A) -> Bool)) == n)
       #|  (HAS_SIZE : ((A) -> Bool, Num) -> Bool)((UNIV : (A) -> Bool))
-      #|  (dimindex : ((Tybit0[Unit]) -> Bool) -> Num)((UNIV : (Tybit0[Unit]) -> Bool)) == 2
-      #|  (dimindex : ((Tybit1[Unit]) -> Bool) -> Num)((UNIV : (Tybit1[Unit]) -> Bool)) == 3
-      #|  (dimindex : ((Tybit0[Tybit0[Unit]]) -> Bool) -> Num)((UNIV : (Tybit0[Tybit0[Unit]]) -> Bool)) == 4
+      #|  (dimindex : ((2) -> Bool) -> Num)((UNIV : (2) -> Bool)) == 2
+      #|  (dimindex : ((3) -> Bool) -> Num)((UNIV : (3) -> Bool)) == 3
+      #|  (dimindex : ((4) -> Bool) -> Num)((UNIV : (4) -> Bool)) == 4
       #|  :2
       #|  :3
       #|  :4
