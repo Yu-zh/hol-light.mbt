@@ -23,10 +23,6 @@ using @nets {type Net}
 ///|
 using @tactics {type Tactic}
 
-///|
-fn q(s : String) -> Term raise {
-  @parser.parse_term(s)
-}
 
 ///|
 fn[T] fail_() -> T raise {
@@ -1185,10 +1181,10 @@ fn init {
 
 ///|
 fn load_steps() -> Unit raise {
-  term_order_top.set(q("T"))
+  term_order_top.set(@term_syntax.parse_term("true"))
   // `let IMP_CONJ_CONV = ... and IMP_EXISTS_RULE = ...`: left to right.
-  let t1 = q("p ==> q ==> r <=> p /\\ q ==> r")
+  let t1 = @term_syntax.parse_term("((p : Bool) → (q : Bool) → (r : Bool)) == (p && q → r)")
   imp_conj_conv_c.set(rewr_conv(@itab.itaut(t1)))
-  let t2 = q("(forall x. P x ==> Q) <=> (?x. P x) ==> Q")
+  let t2 = @term_syntax.parse_term("(∀ x : _, (P : (_) -> Bool)(x) → (Q : Bool)) == ((∃ x : _, P(x)) → Q)")
   imp_exists_cnv_c.set(rewr_conv(@itab.itaut(t2)))
 }

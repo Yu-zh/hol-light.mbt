@@ -1,4 +1,5 @@
 import {
+  "bobzhang/hol_light/term_syntax",
   "bobzhang/hol_light/kernel",
   "bobzhang/hol_light/lib",
   "bobzhang/hol_light/basics",

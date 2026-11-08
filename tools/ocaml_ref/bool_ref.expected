@@ -1,98 +1,98 @@
 bool quotations (94):
-  (=):bool->bool->bool
-  (<=>)
-  T = ((\\p:bool. p) = (\\p:bool. p))
-  \\p:bool. p
-  t:bool
-  (/\\) = \\p q. (\\f:bool->bool->bool. f p q) = (\\f. f T T)
-  f:bool->bool->bool
-  p:bool
-  q:bool
-  \\(p:bool) (q:bool). q
-  P:bool
-  Q:bool
-  \\(p:bool) (q:bool). p
-  P:bool
-  Q:bool
-  \\(p:bool) (q:bool). q
-  (==>) = \\p q. p /\\ q <=> p
-  p:bool
-  q:bool
-  p:bool
-  q:bool
-  p:bool
-  q:bool
-  (==>)
-  p <=> q
-  p ==> q
-  q ==> r
-  (forall) = \\P:A->bool. P = \\x. T
-  P:A->bool
-  x:A
-  (forall)(P:A->bool)
-  P:A->bool
-  x:A
-  P:A->bool
-  (?) = \\P:A->bool. forall q. (forall x. P x ==> q) ==> q
-  P:A->bool
-  x:A
-  forall x:A. P x ==> Q
-  x:A
-  (P:A->bool) x
-  forall x:A. P x ==> Q
-  Q:bool
-  P:A->bool
-  Q:bool
-  Q:bool
-  (?) (P:A->bool)
-  (\\/) = \\p q. forall r. (p ==> r) ==> (q ==> r) ==> r
-  P:bool
-  Q:bool
-  P:bool
-  Q:bool
-  P:bool
-  P ==> t
-  Q ==> t
-  P ==> t
-  t:bool
-  P:bool
-  Q:bool
-  P:bool
-  Q:bool
-  Q:bool
-  Q ==> t
-  Q ==> t
-  P ==> t
-  t:bool
-  P:bool
-  Q:bool
-  R:bool
-  P:bool
-  Q:bool
-  P \\/ Q
-  R:bool
-  F = forall p:bool. p
-  (~) = \\p. p ==> F
-  (~)
-  P:bool
-  P:bool
-  P:bool
-  ~ P
-  F
-  F
-  P:bool
-  P:bool
-  P = F
-  F
-  P:bool
-  F
-  F
-  (?!) = \\P:A->bool. ((?) P) /\\ (forall x y. P x /\\ P y ==> x = y)
-  P:A->bool
-  T
-  F
-  (?):(A->bool)->bool
-  (?!):(A->bool)->bool
+  (op_eq : (Bool, Bool) -> Bool)
+  (op_eq : (Bool, Bool) -> Bool)
+  (T : Bool) == (((p : Bool) => p) == ((p : Bool) => p))
+  (p : Bool) => p
+  (t : Bool)
+  (op_slash_bslash : (Bool, Bool) -> Bool) == ((p : Bool) => (q : Bool) => ((f : (Bool, Bool) -> Bool) => f(p, q)) == ((f : (Bool, Bool) -> Bool) => f(true, true)))
+  (f : (Bool, Bool) -> Bool)
+  (p : Bool)
+  (q : Bool)
+  (p : Bool) => (q : Bool) => q
+  (P : Bool)
+  (Q : Bool)
+  (p : Bool) => (q : Bool) => p
+  (P : Bool)
+  (Q : Bool)
+  (p : Bool) => (q : Bool) => q
+  (op_eq_eq_gt : (Bool, Bool) -> Bool) == ((p : Bool) => (q : Bool) => (p && q) == p)
+  (p : Bool)
+  (q : Bool)
+  (p : Bool)
+  (q : Bool)
+  (p : Bool)
+  (q : Bool)
+  op_eq_eq_gt
+  (p : Bool) == (q : Bool)
+  (p : Bool) \226\134\146 (q : Bool)
+  (q : Bool) \226\134\146 (r : Bool)
+  (forall : ((A) -> Bool) -> Bool) == ((P : (A) -> Bool) => P == ((x : A) => true))
+  (P : (A) -> Bool)
+  (x : A)
+  forall((P : (A) -> Bool))
+  (P : (A) -> Bool)
+  (x : A)
+  (P : (A) -> Bool)
+  (op_q : ((A) -> Bool) -> Bool) == ((P : (A) -> Bool) => \226\136\128 q : Bool, (\226\136\128 x : A, P(x) \226\134\146 q) \226\134\146 q)
+  (P : (A) -> Bool)
+  (x : A)
+  \226\136\128 x : A, (P : (A) -> Bool)(x) \226\134\146 (Q : Bool)
+  (x : A)
+  (P : (A) -> Bool)((x : A))
+  \226\136\128 x : A, (P : (A) -> Bool)(x) \226\134\146 (Q : Bool)
+  (Q : Bool)
+  (P : (A) -> Bool)
+  (Q : Bool)
+  (Q : Bool)
+  op_q((P : (A) -> Bool))
+  (op_bslash_slash : (Bool, Bool) -> Bool) == ((p : Bool) => (q : Bool) => \226\136\128 r : Bool, (p \226\134\146 r) \226\134\146 (q \226\134\146 r) \226\134\146 r)
+  (P : Bool)
+  (Q : Bool)
+  (P : Bool)
+  (Q : Bool)
+  (P : Bool)
+  (P : Bool) \226\134\146 (t : Bool)
+  (Q : Bool) \226\134\146 (t : Bool)
+  (P : Bool) \226\134\146 (t : Bool)
+  (t : Bool)
+  (P : Bool)
+  (Q : Bool)
+  (P : Bool)
+  (Q : Bool)
+  (Q : Bool)
+  (Q : Bool) \226\134\146 (t : Bool)
+  (Q : Bool) \226\134\146 (t : Bool)
+  (P : Bool) \226\134\146 (t : Bool)
+  (t : Bool)
+  (P : Bool)
+  (Q : Bool)
+  (R : Bool)
+  (P : Bool)
+  (Q : Bool)
+  (P : Bool) || (Q : Bool)
+  (R : Bool)
+  (F : Bool) == (\226\136\128 p : Bool, p)
+  (op_tilde : (Bool) -> Bool) == ((p : Bool) => p \226\134\146 false)
+  op_tilde
+  (P : Bool)
+  (P : Bool)
+  (P : Bool)
+  !(P : Bool)
+  false
+  false
+  (P : Bool)
+  (P : Bool)
+  (P : Bool) == false
+  false
+  (P : Bool)
+  false
+  false
+  (op_q_bang : ((A) -> Bool) -> Bool) == ((P : (A) -> Bool) => op_q(P) && (\226\136\128 x : A, \226\136\128 y : A, P(x) && P(y) \226\134\146 x == y))
+  (P : (A) -> Bool)
+  true
+  false
+  (op_q : ((A) -> Bool) -> Bool)
+  (op_q_bang : ((A) -> Bool) -> Bool)
 constants = ?! ~ F \/ ? forall ==> /\ T =
 types = bool fun
 definitions =  |- ((#=:fun(fun(fun('A,bool),bool),fun(fun(fun('A,bool),bool),bool)) #?!:fun(fun('A,bool),bool)) (\P:fun('A,bool). ((#/\:fun(bool,fun(bool,bool)) (#?:fun(fun('A,bool),bool) P:fun('A,bool))) (#forall:fun(fun('A,bool),bool) (\x:'A. (#forall:fun(fun('A,bool),bool) (\y:'A. ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) (P:fun('A,bool) x:'A)) (P:fun('A,bool) y:'A))) ((#=:fun('A,fun('A,bool)) x:'A) y:'A))))))))) ;;  |- ((#=:fun(fun(bool,bool),fun(fun(bool,bool),bool)) #~:fun(bool,bool)) (\p:bool. ((#==>:fun(bool,fun(bool,bool)) p:bool) #F:bool))) ;;  |- ((#=:fun(bool,fun(bool,bool)) #F:bool) (#forall:fun(fun(bool,bool),bool) (\p:bool. p:bool))) ;;  |- ((#=:fun(fun(bool,fun(bool,bool)),fun(fun(bool,fun(bool,bool)),bool)) #\/:fun(bool,fun(bool,bool))) (\p:bool. (\q:bool. (#forall:fun(fun(bool,bool),bool) (\r:bool. ((#==>:fun(bool,fun(bool,bool)) ((#==>:fun(bool,fun(bool,bool)) p:bool) r:bool)) ((#==>:fun(bool,fun(bool,bool)) ((#==>:fun(bool,fun(bool,bool)) q:bool) r:bool)) r:bool))))))) ;;  |- ((#=:fun(fun(fun('A,bool),bool),fun(fun(fun('A,bool),bool),bool)) #?:fun(fun('A,bool),bool)) (\P:fun('A,bool). (#forall:fun(fun(bool,bool),bool) (\q:bool. ((#==>:fun(bool,fun(bool,bool)) (#forall:fun(fun('A,bool),bool) (\x:'A. ((#==>:fun(bool,fun(bool,bool)) (P:fun('A,bool) x:'A)) q:bool)))) q:bool))))) ;;  |- ((#=:fun(fun(fun('A,bool),bool),fun(fun(fun('A,bool),bool),bool)) #forall:fun(fun('A,bool),bool)) (\P:fun('A,bool). ((#=:fun(fun('A,bool),fun(fun('A,bool),bool)) P:fun('A,bool)) (\x:'A. #T:bool)))) ;;  |- ((#=:fun(fun(bool,fun(bool,bool)),fun(fun(bool,fun(bool,bool)),bool)) #==>:fun(bool,fun(bool,bool))) (\p:bool. (\q:bool. ((#=:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) p:bool) q:bool)) p:bool)))) ;;  |- ((#=:fun(fun(bool,fun(bool,bool)),fun(fun(bool,fun(bool,bool)),bool)) #/\:fun(bool,fun(bool,bool))) (\p:bool. (\q:bool. ((#=:fun(fun(fun(bool,fun(bool,bool)),bool),fun(fun(fun(bool,fun(bool,bool)),bool),bool)) (\f:fun(bool,fun(bool,bool)). ((f:fun(bool,fun(bool,bool)) p:bool) q:bool))) (\f:fun(bool,fun(bool,bool)). ((f:fun(bool,fun(bool,bool)) #T:bool) #T:bool)))))) ;;  |- ((#=:fun(bool,fun(bool,bool)) #T:bool) ((#=:fun(fun(bool,bool),fun(fun(bool,bool),bool)) (\p:bool. p:bool)) (\p:bool. p:bool)))

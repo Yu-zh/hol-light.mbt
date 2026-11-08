@@ -25,10 +25,6 @@ using @drule {type Instantiation}
 ///|
 using @pp {type Formatter}
 
-///|
-fn q(s : String) -> Term raise {
-  @parser.parse_term(s)
-}
 
 ///|
 fn[T] fail_() -> T raise {
@@ -2034,15 +2030,15 @@ fn init {
 
 ///|
 fn load_steps() -> Unit raise {
-  falsity_c.set(@drule.new_definition(q("_FALSITY_ = F")))
+  falsity_c.set(@drule.new_definition(@term_syntax.parse_term("(_FALSITY_ : Bool) == false")))
   // `let pth = ... and qth = ASSUME `_FALSITY_``: left to right.
   mk_fthm_pth.set(@bool.undisch(@bool.eq_imp_rule(falsity()).0))
-  mk_fthm_qth.set(@kernel.assume_rule(q("_FALSITY_")))
-  valid_false_tm.set(q("_FALSITY_"))
-  conv_tac_t.set(q("T"))
-  disch_tac_f.set(q("F"))
-  let tm1 = q("p /\\ (q ==> r)")
-  let tm2 = q("p ==> q")
+  mk_fthm_qth.set(@kernel.assume_rule(@term_syntax.parse_term("_FALSITY_")))
+  valid_false_tm.set(@term_syntax.parse_term("_FALSITY_"))
+  conv_tac_t.set(@term_syntax.parse_term("true"))
+  disch_tac_f.set(@term_syntax.parse_term("false"))
+  let tm1 = @term_syntax.parse_term("(p : Bool) && ((q : Bool) → (r : Bool))")
+  let tm2 = @term_syntax.parse_term("(p : Bool) → (q : Bool)")
   let (th1, th2) = @bool.conj_pair(@kernel.assume_rule(tm1))
   let th = @lib.itlist(
     @bool.disch,

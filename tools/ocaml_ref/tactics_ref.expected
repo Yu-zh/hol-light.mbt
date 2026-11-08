@@ -1,11 +1,11 @@
 tactics quotations (7):
-  _FALSITY_ = F
+  (_FALSITY_ : Bool) == false
   _FALSITY_
   _FALSITY_
-  T
-  F
-  p /\\ (q ==> r)
-  p ==> q
+  true
+  false
+  (p : Bool) && ((q : Bool) \226\134\146 (r : Bool))
+  (p : Bool) \226\134\146 (q : Bool)
 CONJ_TAC =  |- ((#/\:fun(bool,fun(bool,bool)) #T:bool) #T:bool)
 DISJ1_TAC =  |- ((#\/:fun(bool,fun(bool,bool)) #T:bool) #F:bool)
 DISJ2_TAC =  |- ((#\/:fun(bool,fun(bool,bool)) #F:bool) #T:bool)

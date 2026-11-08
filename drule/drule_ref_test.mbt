@@ -234,8 +234,8 @@ test "drule matches drule.ml" {
     log.contents(),
     content=(
       #|drule quotations (2):
-      #|  (/\\)
-      #|  (\\/)
+      #|  op_slash_bslash
+      #|  op_bslash_slash
       #|MK_CONJ = ((#=:fun(bool,fun(bool,bool)) a:bool) b:bool), ((#=:fun(bool,fun(bool,bool)) c:bool) d:bool) |- ((#=:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) a:bool) c:bool)) ((#/\:fun(bool,fun(bool,bool)) b:bool) d:bool))
       #|MK_DISJ = ((#=:fun(bool,fun(bool,bool)) a:bool) b:bool), ((#=:fun(bool,fun(bool,bool)) c:bool) d:bool) |- ((#=:fun(bool,fun(bool,bool)) ((#\/:fun(bool,fun(bool,bool)) a:bool) c:bool)) ((#\/:fun(bool,fun(bool,bool)) b:bool) d:bool))
       #|MK_FORALL =  |- ((#=:fun(bool,fun(bool,bool)) (#forall:fun(fun('A,bool),bool) (\x:'A. (P:fun('A,bool) x:'A)))) (#forall:fun(fun('A,bool),bool) (\x:'A. (P:fun('A,bool) x:'A))))
