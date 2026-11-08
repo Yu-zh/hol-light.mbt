@@ -1044,8 +1044,8 @@ fn step_5() -> Unit raise {
           let i = x270
           let b = x271
           let var_ = @kernel.mk_var(("Q" + Int64::to_string(i)), @misc_vars.real_ty())
-          let t273 = @basics.mk_binop(@misc_vars.lt_op_real(), var_, @parser.parse_term("&0"))
-          let t272 = @parser.parse_term("&0")
+          let t273 = @basics.mk_binop(@misc_vars.lt_op_real(), var_, @term_syntax.parse_term("real_of_num(0)"))
+          let t272 = @term_syntax.parse_term("real_of_num(0)")
           (@basics.mk_binop(if b {
             @misc_vars.le_op_real()
           } else {
@@ -1058,7 +1058,7 @@ fn step_5() -> Unit raise {
         let qs_lt = @lib.end_itlist((x278 : @kernel.Term, x279 : @kernel.Term) => @lib.curry(fn(x277 : (@kernel.Term, @kernel.Term)) -> @kernel.Term raise {
           @bool.mk_disj(x277.0, x277.1)
         }, x278, x279), q_lt_tms)
-        let p_tm = @parser.parse_term("P:bool")
+        let p_tm = @term_syntax.parse_term("(P : Bool)")
         let t280 = @bool.mk_imp(qs_lt, p_tm)
         let q_th = @meson.meson(@list.List([@realarith.real_lt_imp_le()]), @bool.mk_imp(@basics.mk_eq(p_tm, qs_le), t280))
         @drule.match_mp(q_th)(th2)
