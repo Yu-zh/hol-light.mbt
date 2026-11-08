@@ -576,7 +576,7 @@ fn step_3() -> Unit raise {
               @kernel.trans(tandl(csth)(c), cth)
             } else {
               try {
-                @kernel.mk_comb_rule(@equal.ap_term(@parser.parse_term("(/\\)"), cth), csth)
+                @kernel.mk_comb_rule(@equal.ap_term(@term_syntax.parse_term("op_slash_bslash"), cth), csth)
               } catch {
                 Failure(_) => conv(tm_4)
                 e => raise e
