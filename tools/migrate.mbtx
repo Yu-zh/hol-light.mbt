@@ -424,12 +424,15 @@ async fn run_wasm(
   exe : String,
   ranges : Array[(String, Int)],
 ) -> (Int, String, Array[Json]) {
-  let args = {
-    "package": ("bobzhang/hol_light/" + tpkg).to_json(),
-    "file_and_index": ranges
-      .map(r => [r.0.to_json(), [{ "start": 0, "end": r.1 }.to_json()].to_json()].to_json())
-      .to_json(),
-  }.to_json()
+  let args = @json.to_json({
+    "package": @json.to_json("bobzhang/hol_light/" + tpkg),
+    "file_and_index": @json.to_json(
+      ranges.map(r => @json.to_json([
+        @json.to_json(r.0),
+        @json.to_json([@json.to_json({ "start": 0, "end": r.1 })]),
+      ])),
+    ),
+  })
   let (code, out) = sh("moonrun", [
     "--stack-size", "60000", "--test-args", args.stringify(), dir + "/" + exe, "--",
   ])
@@ -511,8 +514,8 @@ async fn record(
   let tpkg_file = tpkg + "/moon.pkg"
   let tpkg_src = if tpkg == pkg { pkg_src } else { read(tpkg_file) }
   let test_file = tpkg + "/" + gen_test
-  let t = theory.to_json().stringify()
-  let u = unprintable.to_json().stringify()
+  let t = @json.to_json(theory).stringify()
+  let u = @json.to_json(unprintable).stringify()
   // with spellings given (written by hand), each is checked where its site
   // runs instead of one printed
   let given_src = "Map::from_array([" +
@@ -612,9 +615,9 @@ async fn record(
       $|test "migrate quotations" {
       $|\{load_call}  @parser.quotation_hook.val = None
       $|  for r in @\{hook_pkg}.records {
-      $|    println("@@Q " + [r.0.to_json(), r.1.to_json(), r.2.to_json()].to_json().stringify())
+      $|    println("@@Q " + @json.to_json([@json.to_json(r.0), @json.to_json(r.1), @json.to_json(r.2)]).stringify())
       $|  }
-      $|  println("@@T " + @parser.theory_trace(\{t}).to_json().stringify())
+      $|  println("@@T " + @json.to_json(@parser.theory_trace(\{t})).stringify())
       $|}
       $|
     ),
@@ -967,8 +970,8 @@ fn declares_load(src : String) -> Bool {
 
 ///|
 /// `pkg_src` (a moon.pkg) with `hook` in its own import block, wherever
-/// that is (a new one if it has none), and with the parser and `hook` in
-/// its test imports.
+/// that is (a new one if it has none), and with the parser, `hook` and
+/// core's json (which the generated test prints with) in its test imports.
 fn with_hook_imports(pkg_src : String, hook : String) -> String {
   let lines = pkg_src.split("\n").map(l => l.to_owned()).to_array()
   let entry = "  \"" + hook + "\","
@@ -998,6 +1001,7 @@ fn with_hook_imports(pkg_src : String, hook : String) -> String {
     }
     if k == test_block {
       out.push("  \"bobzhang/hol_light/parser\",")
+      out.push("  \"moonbitlang/core/json\",")
       out.push(entry)
     }
   }
@@ -1006,7 +1010,10 @@ fn with_hook_imports(pkg_src : String, hook : String) -> String {
     text = "import {\n" + entry + "\n}\n\n" + text
   }
   if test_block < 0 {
-    text = text + "\nimport {\n  \"bobzhang/hol_light/parser\",\n" + entry + "\n} for \"test\"\n"
+    text = text +
+      "\nimport {\n  \"bobzhang/hol_light/parser\",\n  \"moonbitlang/core/json\",\n" +
+      entry +
+      "\n} for \"test\"\n"
   }
   text
 }
