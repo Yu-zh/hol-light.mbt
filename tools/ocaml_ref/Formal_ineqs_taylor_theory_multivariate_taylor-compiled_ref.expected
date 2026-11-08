@@ -924,7 +924,7 @@ Formal_ineqs/taylor/theory/multivariate_taylor-compiled quotations (789):
   m_bounded_on_int((f : (Cart[Real, _]) -> Real), (domain : (Cart[Real, _], Cart[Real, _])), (bounds : (Real, Real))) \226\134\146 iabs(bounds) < real_of_num(1) \226\134\146 diff2_domain(domain, o(acs, f))
   m_bounded_on_int((f : (Cart[Real, _]) -> Real), (domain : (Cart[Real, _], Cart[Real, _])), (bounds : (Real, Real))) \226\134\146 iabs(bounds) < real_of_num(1) \226\134\146 diff2_domain(domain, o(asn, f))
   m_bounded_on_int((f : (Cart[Real, _]) -> Real), (domain : (Cart[Real, _], Cart[Real, _])), (bounds : (Real, Real))) \226\134\146 interval_gt(-real_of_num(1), bounds) \226\134\146 diff2_domain(domain, o(matan, f))
-  T
+  true
   diff2_domain((domain : (Cart[Real, _], Cart[Real, _])), (g : (Cart[Real, _]) -> Real))
   diff2_domain((domain : (Cart[Real, _], Cart[Real, _])), (x : Cart[Real, _]) => (f : (Cart[Real, _]) -> Real)(x) + (g : (Cart[Real, _]) -> Real)(x))
   diff2_domain((domain : (Cart[Real, _], Cart[Real, _])), (x : Cart[Real, _]) => (f : (Cart[Real, _]) -> Real)(x) - (g : (Cart[Real, _]) -> Real)(x))
@@ -1065,7 +1065,7 @@ Formal_ineqs/taylor/theory/multivariate_taylor-compiled quotations (789):
   m_bounded_on_int((f : (Cart[Real, _]) -> Real), (domain : (Cart[Real, _], Cart[Real, _])), (bounds : (Real, Real))) \226\134\146 iabs(bounds) < real_of_num(1) \226\134\146 diff2c_domain(domain, o(acs, f))
   m_bounded_on_int((f : (Cart[Real, _]) -> Real), (domain : (Cart[Real, _], Cart[Real, _])), (bounds : (Real, Real))) \226\134\146 iabs(bounds) < real_of_num(1) \226\134\146 diff2c_domain(domain, o(asn, f))
   m_bounded_on_int((f : (Cart[Real, _]) -> Real), (domain : (Cart[Real, _], Cart[Real, _])), (bounds : (Real, Real))) \226\134\146 interval_gt(-real_of_num(1), bounds) \226\134\146 diff2c_domain(domain, o(matan, f))
-  T
+  true
   diff2c_domain((domain : (Cart[Real, _], Cart[Real, _])), (g : (Cart[Real, _]) -> Real))
   diff2c_domain((domain : (Cart[Real, _], Cart[Real, _])), (x : Cart[Real, _]) => (f : (Cart[Real, _]) -> Real)(x) + (g : (Cart[Real, _]) -> Real)(x))
   diff2c_domain((domain : (Cart[Real, _], Cart[Real, _])), (x : Cart[Real, _]) => (f : (Cart[Real, _]) -> Real)(x) - (g : (Cart[Real, _]) -> Real)(x))
