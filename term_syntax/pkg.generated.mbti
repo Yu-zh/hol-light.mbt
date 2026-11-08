@@ -5,6 +5,7 @@ import {
   "bobzhang/hol_light/kernel",
   "bobzhang/hol_light/preterm",
   "moonbitlang/core/debug",
+  "moonbitlang/core/list",
   "moonbitlang/core/ref",
 }
 
@@ -16,6 +17,8 @@ pub let fixed_resolution : @ref.Ref[Bool]
 pub fn parse_preterm(String) -> @preterm.Preterm raise
 
 pub fn parse_term(String) -> @kernel.Term raise
+
+pub fn parse_term_in_context(@list.List[(String, @preterm.Pretype)], String, ty? : @preterm.Pretype) -> @kernel.Term raise
 
 pub fn parse_type(String) -> @kernel.HolType raise
 
