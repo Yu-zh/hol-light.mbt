@@ -3,17 +3,7 @@
 ///|
 /// parse_preterm
 fn step_1() -> Unit raise {
-  parse_preterm_c.set(fn(x5 : String) -> @preterm.Preterm raise {
-    (fn(x3 : String) -> @preterm.Preterm raise {
-      (fn(x2 : ArrayView[@lexer.Lexcode]) -> @preterm.Preterm raise {
-        (fn(
-          x1 : (@preterm.Preterm, ArrayView[@lexer.Lexcode]),
-        ) -> @preterm.Preterm raise {
-          x1.0
-        })(@parser.parse_preterm(x2))
-      })(@lexer.lex(x3))
-    })(x5)
-  })
+  parse_preterm_c.set(@term_syntax.parse_preterm)
 }
 
 ///|
@@ -108,13 +98,7 @@ pub fn[TA, TB] parses_in_context(
         ttac(
           @lib.map(
             fn(x27 : String) -> @kernel.Term raise {
-              (fn(x26 : @preterm.Preterm) -> @kernel.Term raise {
-                @preterm.term_of_preterm(
-                  ((x25 : @preterm.Preterm) => @preterm.retypecheck(env, x25))(
-                    x26,
-                  ),
-                )
-              })(parse_preterm(x27))
+              @term_syntax.parse_term_in_context(env, x27)
             },
             ss,
           ),
@@ -186,12 +170,7 @@ pub fn force_type(
     fn(x41 : @kernel.HolType) -> @kernel.Term raise {
       let ty = x41
       let pty = @preterm.pretype_of_type(ty)
-      @preterm.term_of_preterm(
-        @preterm.retypecheck(
-          env,
-          @preterm.Preterm::Typing(parse_preterm(s), pty),
-        ),
-      )
+      @term_syntax.parse_term_in_context(env, s, ty=pty)
     }
   }
 }
@@ -743,7 +722,7 @@ pub fn gen(x90 : String, x91 : @kernel.Thm) -> @kernel.Thm raise {
       },
       @kernel.frees(@kernel.concl(th)),
     ) catch {
-      _ => @parser.parse_term(s)
+      _ => @term_syntax.parse_term(s)
     },
     th,
   )

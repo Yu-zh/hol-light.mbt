@@ -285,13 +285,23 @@ fn check_semantics() -> Unit raise {
 ///|
 /// The preterm of `s`, before elaboration.
 pub fn parse_preterm(s : String) -> @preterm.Preterm raise {
+  parse_preterm_under(s, @list.List([]))
+}
+
+///|
+/// The preterm of `s` with the names in `bound` resolved as binders around
+/// it would resolve them.
+fn parse_preterm_under(
+  s : String,
+  bound : @list.List[(String, String)],
+) -> @preterm.Preterm raise {
   let toks = tokens(s)
   ignore(@grammar.take_error())
   let ptm = @grammar.term(toks) catch {
     e => raise Failure("term syntax: " + describe(e))
   }
   check_semantics()
-  resolve_names(ptm, @list.List([]))
+  resolve_names(ptm, bound)
 }
 
 ///|
@@ -394,4 +404,32 @@ pub fn parse_type(s : String) -> @kernel.HolType raise {
     raise Failure("term syntax: _ alone is not a type")
   }
   @preterm.type_of_pretype(pty)
+}
+
+///|
+/// The term `s` denotes where the variables `env` names have the types it
+/// gives them, and of type `ty` when given: Library/q.ml reads its
+/// quotations so, in a goal's context. The context's variables are named
+/// as binders around `s` would be, so one named like a constant (`select`)
+/// means the variable. Not recorded as a quotation.
+pub fn parse_term_in_context(
+  env : @list.List[(String, @preterm.Pretype)],
+  s : String,
+  ty? : @preterm.Pretype,
+) -> @kernel.Term raise {
+  let bound = env.map(p => (p.0, binder_rename(p.0)))
+  let env = env.map(p => (binder_rename(p.0), p.1))
+  fn go() -> @kernel.Term raise {
+    let ptm = parse_preterm_under(s, bound)
+    let ptm = match ty {
+      Some(ty) => @preterm.Preterm::Typing(ptm, ty)
+      None => ptm
+    }
+    unalias_binders(@preterm.term_of_preterm(@preterm.retypecheck(env, ptm)))
+  }
+  if fixed_resolution.val {
+    with_fixed_interface(go)
+  } else {
+    go()
+  }
 }

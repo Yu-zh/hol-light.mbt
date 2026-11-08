@@ -121,3 +121,28 @@ test "an overload declared before its constant reads as the constant once define
   let t = @term_syntax.parse_term("zz_ovl((0 : Num))")
   assert_true(@kernel.is_const(@kernel.rator(t)))
 }
+
+///|
+test "parse_term_in_context types free variables from the context" {
+  let bool_pty = @preterm.pretype_of_type(@kernel.bool_ty)
+  let x = @term_syntax.parse_term_in_context(@list.List([("x", bool_pty)]), "x")
+  inspect(@kernel.type_of(x) == @kernel.bool_ty, content="true")
+  let y = @term_syntax.parse_term_in_context(@list.List([]), "y", ty=bool_pty)
+  inspect(@kernel.type_of(y) == @kernel.bool_ty, content="true")
+  let e = @term_syntax.parse_term_in_context(
+    @list.List([("x", bool_pty)]),
+    "x && z",
+  )
+  inspect(@term_syntax.print_term(e), content="(x : Bool) && (z : Bool)")
+}
+
+///|
+test "a context variable named like a constant means the variable" {
+  let bool_pty = @preterm.pretype_of_type(@kernel.bool_ty)
+  let t = @term_syntax.parse_term_in_context(
+    @list.List([("select", bool_pty)]),
+    "select",
+    ty=bool_pty,
+  )
+  inspect(t == @kernel.mk_var("select", @kernel.bool_ty), content="true")
+}
