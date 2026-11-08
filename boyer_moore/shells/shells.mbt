@@ -224,9 +224,9 @@ fn step_3() -> Unit raise {
   let distinct = @list.List([@lists.not_cons_nil()])
   let one_one = @list.List([@lists.cons_11()])
   let t44 = @struct_equal.one_step_recty_eq_conv(induct, distinct, one_one)
-  let t43 = @parser.parse_type("('a)list")
-  let t45 = @list.List([("NIL", @list.List([]), @list.List([])), ("CONS", @list.List([@parser.parse_type("'a"), t43]), @list.List([("HD", @lists.hd()), ("TL", @lists.tl())]))])
-  list_shell_c.set(Shell::Shell("list", ShellInfo::{ arg_types: @list.List([@parser.parse_type("'a")]), constructors: t45, induct: induct, cases: cases, distinct: distinct, one_one: one_one, struct_conv: t44 }))
+  let t43 = @term_syntax.parse_type("List[`'a`]")
+  let t45 = @list.List([("NIL", @list.List([]), @list.List([])), ("CONS", @list.List([@term_syntax.parse_type("`'a`"), t43]), @list.List([("HD", @lists.hd()), ("TL", @lists.tl())]))])
+  list_shell_c.set(Shell::Shell("list", ShellInfo::{ arg_types: @list.List([@term_syntax.parse_type("`'a`")]), constructors: t45, induct: induct, cases: cases, distinct: distinct, one_one: one_one, struct_conv: t44 }))
 }
 
 ///|

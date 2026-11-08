@@ -217,6 +217,10 @@ test "verbatim type names" {
   assert_eq(ty("`Zz_v`[Bool]"), upper)
   inspect(@term_syntax.print_type(upper), content="`Zz_v`[Bool]")
   assert_true((try Some(ty("`Zz_v`")) catch { _ => None }) is None)
+  // a primed type variable, as HOL writes its type variables
+  let a = @kernel.mk_vartype("'a")
+  assert_eq(ty("`'a`"), a)
+  assert_eq(ty("List[`'a`]"), @kernel.mk_type("list", @list.List([a])))
   // and an enum defining one, whose constructors refer to it so; a
   // constructor named like a keyword is written so too
   let zz_w = @kernel.mk_vartype("Zz_w")
