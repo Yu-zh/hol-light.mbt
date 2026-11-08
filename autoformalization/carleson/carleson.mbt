@@ -1177,7 +1177,7 @@ pub fn cfourier_decay_arith() -> @kernel.Thm {
 fn step_29() -> Unit raise {
   let t658 = @tactics.first_x_assum(fn(x656 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let th = x656
-    @simp.rewrite_tac(@list.List([@bool.spec(@parser.parse_term("k:num"), th)]))
+    @simp.rewrite_tac(@list.List([@bool.spec(@term_syntax.parse_term("(k : Num)"), th)]))
   })
   let t655 = @simp.asm_rewrite_tac(@list.List([]))
   let t652 = @term_syntax.parse_term("(idx : (Num) -> Int)((k : Num))")
