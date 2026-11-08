@@ -1632,8 +1632,8 @@ fn step_29() -> Unit raise {
   )
   superadmissible_match_unguarded_pattern_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(<<) p s e:P->D pat:Q->D arg.\n      (forall f a t u. p f a /\\ pat t = e a /\\ pat u = e a ==> arg a t = arg a u) /\\\n      (forall f a t. p f a /\\ pat t = e a ==> forall y. y << arg a t ==> y << s a)\n      ==> superadmissible(<<) p s\n           (\\f:A->B x. _MATCH (e x)\n                    (\\u v. ?t. _UNGUARDED_PATTERN (GEQ (pat t) u)\n                                                  (GEQ (f(arg x t)) v)))",
+      @term_syntax.parse_term(
+        "∀ `<<` : (A, A) -> Bool, ∀ p : ((A) -> B, P) -> Bool, ∀ s : (P) -> A, ∀ e : (P) -> D, ∀ pat : (Q) -> D, ∀ arg : (P, Q) -> A, (∀ f : (A) -> B, ∀ a : P, ∀ t : Q, ∀ u : Q, p(f, a) && pat(t) == e(a) && pat(u) == e(a) → arg(a, t) == arg(a, u)) && (∀ f : (A) -> B, ∀ a : P, ∀ t : Q, p(f, a) && pat(t) == e(a) → (∀ y : A, `<<`(y, arg(a, t)) → `<<`(y, s(a)))) → superadmissible(`<<`, p, s, (f : (A) -> B) => (x : P) => _MATCH(e(x), (u : D) => (v : B) => ∃ t : Q, _UNGUARDED_PATTERN(GEQ(pat(t), u), GEQ(f(arg(x, t)), v))))",
       ),
       t163,
     ),
@@ -1783,8 +1783,8 @@ fn step_30() -> Unit raise {
   )
   superadmissible_match_guarded_pattern_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "forall(<<) p s e:P->D pat:Q->D q arg.\n      (forall f a t u. p f a /\\ pat t = e a /\\ q a t /\\ pat u = e a /\\ q a u\n                 ==> arg a t = arg a u) /\\\n      (forall f a t. p f a /\\ q a t /\\ pat t = e a ==> forall y. y << arg a t ==> y << s a)\n      ==> superadmissible(<<) p s\n           (\\f:A->B x. _MATCH (e x)\n                    (\\u v. ?t. _GUARDED_PATTERN (GEQ (pat t) u)\n                                                (q x t)\n                                                (GEQ (f(arg x t)) v)))",
+      @term_syntax.parse_term(
+        "∀ `<<` : (A, A) -> Bool, ∀ p : ((A) -> B, P) -> Bool, ∀ s : (P) -> A, ∀ e : (P) -> D, ∀ pat : (Q) -> D, ∀ q : (P, Q) -> Bool, ∀ arg : (P, Q) -> A, (∀ f : (A) -> B, ∀ a : P, ∀ t : Q, ∀ u : Q, p(f, a) && pat(t) == e(a) && q(a, t) && pat(u) == e(a) && q(a, u) → arg(a, t) == arg(a, u)) && (∀ f : (A) -> B, ∀ a : P, ∀ t : Q, p(f, a) && q(a, t) && pat(t) == e(a) → (∀ y : A, `<<`(y, arg(a, t)) → `<<`(y, s(a)))) → superadmissible(`<<`, p, s, (f : (A) -> B) => (x : P) => _MATCH(e(x), (u : D) => (v : B) => ∃ t : Q, _GUARDED_PATTERN(GEQ(pat(t), u), q(x, t), GEQ(f(arg(x, t)), v))))",
       ),
       t180,
     ),
