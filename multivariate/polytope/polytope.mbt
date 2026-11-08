@@ -14715,14 +14715,14 @@ fn step_311() -> Unit raise {
   let t8441 = @tactics.conv_tac(@calc_num.num_reduce_conv)
   let t8440 = @simp.asm_rewrite_tac(@list.List([@sets.in_insert(), @sets.not_in_empty(), @cart.dimindex_2()]))
   let t8448 = @list.List([@tactics.then_tac(@tactics.then_tac(@simp.simp_tac(@list.List([@sets.has_size(), @sets.card_clauses(), @sets.finite_insert(), @sets.finite_empty()])), t8440), t8441), t8447])
-  let t8439 = @tactics.subgoal_then(@term_syntax.parse_term("(HAS_SIZE : ((Cart[Real, Tybit0[Unit]]) -> Bool, Num) -> Bool)({(a : Cart[Real, Tybit0[Unit]]), (b : Cart[Real, Tybit0[Unit]]), (c : Cart[Real, Tybit0[Unit]])}, (dimindex : ((Tybit0[Unit]) -> Bool) -> Num)((UNIV : (Tybit0[Unit]) -> Bool)) + 1)"), fn(x8436 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
+  let t8439 = @tactics.subgoal_then(@term_syntax.parse_term("(HAS_SIZE : ((Cart[Real, 2]) -> Bool, Num) -> Bool)({(a : Cart[Real, 2]), (b : Cart[Real, 2]), (c : Cart[Real, 2])}, (dimindex : ((2) -> Bool) -> Num)((UNIV : (2) -> Bool)) + 1)"), fn(x8436 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s8437 = @tactics.assume_tac(x8436)
     fn(x8438 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise {
       s8437(x8438)
     }
   })
-  let t8433 = @term_syntax.parse_term("(c : Cart[Real, Tybit0[Unit]]) == (b : Cart[Real, Tybit0[Unit]])")
-  let t8434 = @term_syntax.parse_term("(c : Cart[Real, Tybit0[Unit]]) == (a : Cart[Real, Tybit0[Unit]])")
+  let t8433 = @term_syntax.parse_term("(c : Cart[Real, 2]) == (b : Cart[Real, 2])")
+  let t8434 = @term_syntax.parse_term("(c : Cart[Real, 2]) == (a : Cart[Real, 2])")
   let t8435 = @tactics.map_every(fn(x8425 : @kernel.Term) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let t = x8425
     let t8431 = @simp.rewrite_tac(@list.List([@topology.ends_in_segment()]))
@@ -14732,11 +14732,11 @@ fn step_311() -> Unit raise {
     let t8427 = @simp.simp_tac(@list.List([@equal.gsym(@convex.segment_convex_hull()), @topology.frontier(), @convex.closure_segment(), @convex.interior_segment(), @cart.dimindex_2(), @arith.le_refl(), @sets.diff_empty()]))
     let t8432 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.asm_rewrite_tac(@list.List([@sets.insert_ac(), @sets.union_aci()])), t8427), t8428), t8430), t8431), @tactics.all_tac])
     @tactics.thenl(@class.asm_cases_tac(t), t8432)
-  }, @list.List([@term_syntax.parse_term("(b : Cart[Real, Tybit0[Unit]]) == (a : Cart[Real, Tybit0[Unit]])"), t8434, t8433]))
+  }, @list.List([@term_syntax.parse_term("(b : Cart[Real, 2]) == (a : Cart[Real, 2])"), t8434, t8433]))
   let t8424 = @simp.once_rewrite_tac(@list.List([@sets.set_rule(@term_syntax.parse_term("UNION((s : (_) -> Bool), UNION((t : (_) -> Bool), (u : (_) -> Bool))) == UNION(t, UNION(u, s))"))]))
   let t8423 = @simp.rewrite_tac(@list.List([@convex.segment_convex_hull()]))
   let t8449 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t8423), t8424), t8435), t8439), t8448)
-  frontier_of_triangle_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ c : Cart[Real, Tybit0[Unit]], frontier(hull(convex, {a, b, c})) == UNION(segment([(a, b)]), UNION(segment([(b, c)]), segment([(c, a)])))"), t8449))
+  frontier_of_triangle_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ c : Cart[Real, 2], frontier(hull(convex, {a, b, c})) == UNION(segment([(a, b)]), UNION(segment([(b, c)]), segment([(c, a)])))"), t8449))
 }
 
 ///|
@@ -14758,7 +14758,7 @@ fn step_312() -> Unit raise {
   let t8451 = @tactics.match_mp_tac(@paths.inside_frontier_eq_interior())
   let t8450 = @simp.rewrite_tac(@list.List([@equal.gsym(frontier_of_triangle())]))
   let t8456 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t8450), t8451), t8452), t8453), t8454), t8455)
-  inside_of_triangle_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ c : Cart[Real, Tybit0[Unit]], inside(UNION(segment([(a, b)]), UNION(segment([(b, c)]), segment([(c, a)])))) == interior(hull(convex, {a, b, c}))"), t8456))
+  inside_of_triangle_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ c : Cart[Real, 2], inside(UNION(segment([(a, b)]), UNION(segment([(b, c)]), segment([(c, a)])))) == interior(hull(convex, {a, b, c}))"), t8456))
 }
 
 ///|
@@ -14779,7 +14779,7 @@ fn step_313() -> Unit raise {
   let t8458 = @tactics.match_mp_tac(@sets.set_rule(@term_syntax.parse_term("SUBSET((i : (_) -> Bool), (s : (_) -> Bool)) && (c : (_) -> Bool) == s → i == DIFF(s, DIFF(c, i))")))
   let t8457 = @simp.rewrite_tac(@list.List([@equal.gsym(frontier_of_triangle()), @topology.frontier()]))
   let t8462 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t8457), t8458), t8459), t8460), t8461)
-  interior_of_triangle_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ c : Cart[Real, Tybit0[Unit]], interior(hull(convex, {a, b, c})) == DIFF(hull(convex, {a, b, c}), UNION(segment([(a, b)]), UNION(segment([(b, c)]), segment([(c, a)]))))"), t8462))
+  interior_of_triangle_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ c : Cart[Real, 2], interior(hull(convex, {a, b, c})) == DIFF(hull(convex, {a, b, c}), UNION(segment([(a, b)]), UNION(segment([(b, c)]), segment([(c, a)]))))"), t8462))
 }
 
 ///|

@@ -114482,12 +114482,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -114727,12 +114727,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -115171,12 +115171,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :real
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -115512,12 +115512,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -115853,12 +115853,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -116455,12 +116455,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -116698,12 +116698,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -117571,12 +117571,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -119225,12 +119225,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -119972,12 +119972,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -120386,12 +120386,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -120810,12 +120810,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :real
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -121431,12 +121431,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -122157,12 +122157,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -122576,12 +122576,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -123101,12 +123101,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -124326,12 +124326,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -125762,12 +125762,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -126535,12 +126535,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -126882,12 +126882,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -127259,12 +127259,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -127510,12 +127510,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -127894,12 +127894,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -128762,12 +128762,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -129487,12 +129487,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -130383,12 +130383,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -132220,12 +132220,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -133288,12 +133288,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -133724,12 +133724,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -135306,12 +135306,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -135711,12 +135711,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -136369,12 +136369,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :real
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -136786,12 +136786,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :real
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -137281,12 +137281,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -138698,12 +138698,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -139078,12 +139078,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -140428,12 +140428,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -141399,12 +141399,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -142061,12 +142061,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -142853,12 +142853,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -145759,12 +145759,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :real
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
@@ -146270,12 +146270,12 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  :num
       #|  :real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
-      #|  Im((z : Cart[Real, Tybit0[Unit]]))
-      #|  Re((z : Cart[Real, Tybit0[Unit]]))
-      #|  (z : Cart[Real, Tybit0[Unit]])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
+      #|  Im((z : Cart[Real, 2]))
+      #|  Re((z : Cart[Real, 2]))
+      #|  (z : Cart[Real, 2])
       #|  :real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)

@@ -3,7 +3,7 @@
 ///|
 /// direction_tybij
 fn step_1() -> Unit raise {
-  direction_tybij_c.set(@class.new_type_definition("direction", ("mk_dir", "dest_dir"), @meson.meson(@list.List([@Vectors.lemma_0()]), @term_syntax.parse_term("∃ x : Cart[Real, Tybit1[Unit]], !(x == vec(0))"))))
+  direction_tybij_c.set(@class.new_type_definition("direction", ("mk_dir", "dest_dir"), @meson.meson(@list.List([@Vectors.lemma_0()]), @term_syntax.parse_term("∃ x : Cart[Real, 3], !(x == vec(0))"))))
 }
 
 ///|
@@ -61,7 +61,7 @@ pub fn pardir() -> @kernel.Thm {
 /// DIRECTION_CLAUSES
 fn step_6() -> Unit raise {
   let t1 = @meson.meson_tac(@list.List([direction_tybij()]))
-  direction_clauses_c.set(@tactics.prove(@term_syntax.parse_term("(∀ x : Direction, (P : (Cart[Real, Tybit1[Unit]]) -> Bool)(dest_dir(x))) == (∀ x : Cart[Real, Tybit1[Unit]], !(x == vec(0)) → P(x)) && (∃ x : Direction, P(dest_dir(x))) == (∃ x : Cart[Real, Tybit1[Unit]], !(x == vec(0)) && P(x))"), t1))
+  direction_clauses_c.set(@tactics.prove(@term_syntax.parse_term("(∀ x : Direction, (P : (Cart[Real, 3]) -> Bool)(dest_dir(x))) == (∀ x : Cart[Real, 3], !(x == vec(0)) → P(x)) && (∃ x : Direction, P(dest_dir(x))) == (∃ x : Cart[Real, 3], !(x == vec(0)) && P(x))"), t1))
 }
 
 ///|
@@ -130,8 +130,8 @@ fn step_8() -> Unit raise {
     })(((x12 : @list.List[@kernel.Thm]) => @lib.end_itlist(@bool.conj, x12))(x13))
   })
   let t8 = @tactics.match_mp_tac(@theorems.mono_exists())
-  let t6 = @term_syntax.parse_term("(p' : Cart[Real, Tybit1[Unit]])")
-  let t7 = @tactics.mp_tac(@bool.specl(@list.List([@term_syntax.parse_term("(p : Cart[Real, Tybit1[Unit]])"), t6]), @Vectors.normal_exists()))
+  let t6 = @term_syntax.parse_term("(p' : Cart[Real, 3])")
+  let t7 = @tactics.mp_tac(@bool.specl(@list.List([@term_syntax.parse_term("(p : Cart[Real, 3])"), t6]), @Vectors.normal_exists()))
   let t5 = @tactics.repeat_tac(@tactics.strip_tac)
   let t15 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([perpdir(), pardir(), direction_clauses()])), t5), t7), t8), t14), @Vectors.vec3_tac)
   direction_axiom_1_c.set(@tactics.prove(@term_syntax.parse_term("∀ p : Direction, ∀ p' : Direction, !op_bar_bar(p, p') → (∃ l : Direction, op_us_bar_us(p, l) && op_us_bar_us(p', l) && (∀ l' : Direction, op_us_bar_us(p, l') && op_us_bar_us(p', l') → op_bar_bar(l', l)))"), t15))
@@ -166,13 +166,13 @@ pub fn direction_axiom_2() -> @kernel.Thm {
 ///|
 /// DIRECTION_AXIOM_3
 fn step_10() -> Unit raise {
-  let t21 = @term_syntax.parse_term("(basis : (Num) -> Cart[Real, Tybit1[Unit]])(3)")
-  let t22 = @term_syntax.parse_term("(basis : (Num) -> Cart[Real, Tybit1[Unit]])(2)")
+  let t21 = @term_syntax.parse_term("(basis : (Num) -> Cart[Real, 3])(3)")
+  let t22 = @term_syntax.parse_term("(basis : (Num) -> Cart[Real, 3])(2)")
   let t23 = @tactics.map_every(fn(x18 : @kernel.Term) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let t = x18
     let t20 = @simp.rewrite_tac(@list.List([@Vectors.lemma_0()]))
     @tactics.then_tac(@rqe_tactics_ext.exists_tac(t), t20)
-  }, @list.List([@term_syntax.parse_term("(basis : (Num) -> Cart[Real, Tybit1[Unit]])(1)"), t22, t21]))
+  }, @list.List([@term_syntax.parse_term("(basis : (Num) -> Cart[Real, 3])(1)"), t22, t21]))
   let t24 = @tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([perpdir(), pardir(), direction_clauses()])), t23), @Vectors.vec3_tac)
   direction_axiom_3_c.set(@tactics.prove(@term_syntax.parse_term("∃ p : Direction, ∃ p' : Direction, ∃ p'' : Direction, !op_bar_bar(p, p') && !op_bar_bar(p', p'') && !op_bar_bar(p, p'') && !(∃ l : Direction, op_us_bar_us(p, l) && op_us_bar_us(p', l) && op_us_bar_us(p'', l))"), t24))
 }
@@ -189,7 +189,7 @@ pub fn direction_axiom_3() -> @kernel.Thm {
 ///|
 /// CROSS_0
 fn step_11() -> Unit raise {
-  cross_0_c.set(@Vectors.vec3_rule(@term_syntax.parse_term("cross((x : Cart[Real, Tybit1[Unit]]), vec(0)) == vec(0) && cross(vec(0), x) == vec(0)")))
+  cross_0_c.set(@Vectors.vec3_rule(@term_syntax.parse_term("cross((x : Cart[Real, 3]), vec(0)) == vec(0) && cross(vec(0), x) == vec(0)")))
 }
 
 ///|
@@ -211,7 +211,7 @@ fn step_12() -> Unit raise {
       s31(x32)
     }
   }), @Vectors.vec3_tac), t33])
-  let t29 = @tactics.subgoal_then(@term_syntax.parse_term("orthogonal(cross((l : Cart[Real, Tybit1[Unit]]), basis(1)), l) && orthogonal(cross(l, basis(2)), l) && !(cross(cross(l, basis(1)), cross(l, basis(2))) == vec(0)) || orthogonal(cross(l, basis(1)), l) && orthogonal(cross(l, basis(3)), l) && !(cross(cross(l, basis(1)), cross(l, basis(3))) == vec(0)) || orthogonal(cross(l, basis(2)), l) && orthogonal(cross(l, basis(3)), l) && !(cross(cross(l, basis(2)), cross(l, basis(3))) == vec(0))"), fn(x26 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
+  let t29 = @tactics.subgoal_then(@term_syntax.parse_term("orthogonal(cross((l : Cart[Real, 3]), basis(1)), l) && orthogonal(cross(l, basis(2)), l) && !(cross(cross(l, basis(1)), cross(l, basis(2))) == vec(0)) || orthogonal(cross(l, basis(1)), l) && orthogonal(cross(l, basis(3)), l) && !(cross(cross(l, basis(1)), cross(l, basis(3))) == vec(0)) || orthogonal(cross(l, basis(2)), l) && orthogonal(cross(l, basis(3)), l) && !(cross(cross(l, basis(2)), cross(l, basis(3))) == vec(0))"), fn(x26 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s27 = @tactics.mp_tac(x26)
     fn(x28 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise {
       s27(x28)
@@ -242,7 +242,7 @@ fn step_13() -> Unit raise {
       }
     })(((x41 : @list.List[@kernel.Thm]) => @lib.end_itlist(@bool.conj, x41))(x42))
   })
-  let t37 = @rqe_tactics_ext.exists_tac(@term_syntax.parse_term("(a : Cart[Real, Tybit1[Unit]]) + (b : Cart[Real, Tybit1[Unit]])"))
+  let t37 = @rqe_tactics_ext.exists_tac(@term_syntax.parse_term("(a : Cart[Real, 3]) + (b : Cart[Real, 3])"))
   let t36 = @tactics.repeat_tac(@tactics.strip_tac)
   let t44 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([direction_clauses(), pardir(), perpdir()])), t36), t37), t43), @Vectors.vec3_tac)
   orthogonal_combine_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Direction, ∀ a : Direction, ∀ b : Direction, op_us_bar_us(a, x) && op_us_bar_us(b, x) && !op_bar_bar(a, b) → (∃ c : Direction, op_us_bar_us(c, x) && !op_bar_bar(a, c) && !op_bar_bar(b, c))"), t44))

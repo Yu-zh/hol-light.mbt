@@ -9510,7 +9510,7 @@ test "Library/words matches Library/words.ml" {
       #|  :P
       #|  :int
       #|  (true && true) == true
-      #|  \226\136\128 b : Bool, int_of_num(bitval(b)) == (ival : (Word[Tybit0[Unit]]) -> Int)((word : (Num) -> Word[Tybit0[Unit]])(bitval(b)))
+      #|  \226\136\128 b : Bool, int_of_num(bitval(b)) == (ival : (Word[2]) -> Int)((word : (Num) -> Word[2])(bitval(b)))
       #|  (n : Num) < (p : Num) \226\134\146 n <= p - 1
       #|  (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) < (dimindex : ((P) -> Bool) -> Num)((UNIV : (P) -> Bool)) \226\134\146 (\226\136\128 x : Word[N], int_of_num((val : (Word[N]) -> Num)(x)) == (ival : (Word[P]) -> Int)((word_zx : (Word[N]) -> Word[P])(x)))
       #|  !((dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) == 0) && !((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) == 0)

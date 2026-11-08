@@ -38799,9 +38799,9 @@ test "Multivariate/vectors matches Multivariate/vectors.ml" {
       #|  (vec : (Num) -> Cart[Real, N])((n : Num)) == lambda((i : Num) => real_of_num(n))
       #|  (dot : (Cart[Real, N], Cart[Real, N]) -> Real)((x : Cart[Real, N]), (y : Cart[Real, N])) == (sum : ((Num) -> Bool, (Num) -> Real) -> Real)(op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))), (i : Num) => (op_dollar : (Cart[Real, N], Num) -> Real)(x, i) * (op_dollar : (Cart[Real, N], Num) -> Real)(y, i))
       #|  dot((x : Cart[Real, Unit]), (y : Cart[Real, Unit])) == op_dollar(x, 1) * op_dollar(y, 1)
-      #|  dot((x : Cart[Real, Tybit0[Unit]]), (y : Cart[Real, Tybit0[Unit]])) == op_dollar(x, 1) * op_dollar(y, 1) + op_dollar(x, 2) * op_dollar(y, 2)
-      #|  dot((x : Cart[Real, Tybit1[Unit]]), (y : Cart[Real, Tybit1[Unit]])) == op_dollar(x, 1) * op_dollar(y, 1) + (op_dollar(x, 2) * op_dollar(y, 2) + op_dollar(x, 3) * op_dollar(y, 3))
-      #|  dot((x : Cart[Real, Tybit0[Tybit0[Unit]]]), (y : Cart[Real, Tybit0[Tybit0[Unit]]])) == op_dollar(x, 1) * op_dollar(y, 1) + (op_dollar(x, 2) * op_dollar(y, 2) + (op_dollar(x, 3) * op_dollar(y, 3) + op_dollar(x, 4) * op_dollar(y, 4)))
+      #|  dot((x : Cart[Real, 2]), (y : Cart[Real, 2])) == op_dollar(x, 1) * op_dollar(y, 1) + op_dollar(x, 2) * op_dollar(y, 2)
+      #|  dot((x : Cart[Real, 3]), (y : Cart[Real, 3])) == op_dollar(x, 1) * op_dollar(y, 1) + (op_dollar(x, 2) * op_dollar(y, 2) + op_dollar(x, 3) * op_dollar(y, 3))
+      #|  dot((x : Cart[Real, 4]), (y : Cart[Real, 4])) == op_dollar(x, 1) * op_dollar(y, 1) + (op_dollar(x, 2) * op_dollar(y, 2) + (op_dollar(x, 3) * op_dollar(y, 3) + op_dollar(x, 4) * op_dollar(y, 4)))
       #|  ((a : Bool) \226\134\146 (b : Bool) \226\134\146 (c : Bool)) \226\134\146 (a \226\134\146 b) \226\134\146 a \226\134\146 c
       #|  (((a : Bool) \226\134\146 (b : Bool)) || (a \226\134\146 (c : Bool))) == (a \226\134\146 b || c)
       #|  (((a : Bool) \226\134\146 (b : Bool)) && (a \226\134\146 (c : Bool))) == (a \226\134\146 b && c)
@@ -39277,40 +39277,40 @@ test "Multivariate/vectors matches Multivariate/vectors.ml" {
       #|  \226\136\128 k : (A) -> Bool, \226\136\128 u : (A) -> Cart[Real, N], FINITE(k) && pairwise((i : A) => (j : A) => orthogonal(u(i), u(j)), k) \226\134\146 pow(norm(vsum(k, u)), 2) == sum(k, (i : A) => pow(norm(u(i)), 2))
       #|  (op_dollar : (Cart[A, Unit], Num) -> A)((vector : (List[A]) -> Cart[A, Unit])([(x : A)]), 1) == x
       #|  1
-      #|  (op_dollar : (Cart[A, Tybit0[Unit]], Num) -> A)((vector : (List[A]) -> Cart[A, Tybit0[Unit]])([(x : A), (y : A)]), 1) == x && (op_dollar : (Cart[A, Tybit0[Unit]], Num) -> A)((vector : (List[A]) -> Cart[A, Tybit0[Unit]])([x, y]), 2) == y
+      #|  (op_dollar : (Cart[A, 2], Num) -> A)((vector : (List[A]) -> Cart[A, 2])([(x : A), (y : A)]), 1) == x && (op_dollar : (Cart[A, 2], Num) -> A)((vector : (List[A]) -> Cart[A, 2])([x, y]), 2) == y
       #|  1
       #|  2
-      #|  (op_dollar : (Cart[A, Tybit1[Unit]], Num) -> A)((vector : (List[A]) -> Cart[A, Tybit1[Unit]])([(x : A), (y : A), (z : A)]), 1) == x && (op_dollar : (Cart[A, Tybit1[Unit]], Num) -> A)((vector : (List[A]) -> Cart[A, Tybit1[Unit]])([x, y, z]), 2) == y && (op_dollar : (Cart[A, Tybit1[Unit]], Num) -> A)((vector : (List[A]) -> Cart[A, Tybit1[Unit]])([x, y, z]), 3) == z
+      #|  (op_dollar : (Cart[A, 3], Num) -> A)((vector : (List[A]) -> Cart[A, 3])([(x : A), (y : A), (z : A)]), 1) == x && (op_dollar : (Cart[A, 3], Num) -> A)((vector : (List[A]) -> Cart[A, 3])([x, y, z]), 2) == y && (op_dollar : (Cart[A, 3], Num) -> A)((vector : (List[A]) -> Cart[A, 3])([x, y, z]), 3) == z
       #|  1
       #|  2
       #|  3
-      #|  (op_dollar : (Cart[A, Tybit0[Tybit0[Unit]]], Num) -> A)((vector : (List[A]) -> Cart[A, Tybit0[Tybit0[Unit]]])([(w : A), (x : A), (y : A), (z : A)]), 1) == w && (op_dollar : (Cart[A, Tybit0[Tybit0[Unit]]], Num) -> A)((vector : (List[A]) -> Cart[A, Tybit0[Tybit0[Unit]]])([w, x, y, z]), 2) == x && (op_dollar : (Cart[A, Tybit0[Tybit0[Unit]]], Num) -> A)((vector : (List[A]) -> Cart[A, Tybit0[Tybit0[Unit]]])([w, x, y, z]), 3) == y && (op_dollar : (Cart[A, Tybit0[Tybit0[Unit]]], Num) -> A)((vector : (List[A]) -> Cart[A, Tybit0[Tybit0[Unit]]])([w, x, y, z]), 4) == z
+      #|  (op_dollar : (Cart[A, 4], Num) -> A)((vector : (List[A]) -> Cart[A, 4])([(w : A), (x : A), (y : A), (z : A)]), 1) == w && (op_dollar : (Cart[A, 4], Num) -> A)((vector : (List[A]) -> Cart[A, 4])([w, x, y, z]), 2) == x && (op_dollar : (Cart[A, 4], Num) -> A)((vector : (List[A]) -> Cart[A, 4])([w, x, y, z]), 3) == y && (op_dollar : (Cart[A, 4], Num) -> A)((vector : (List[A]) -> Cart[A, 4])([w, x, y, z]), 4) == z
       #|  op_dollar((v : Cart[A, Unit]), 1)
       #|  (\226\136\128 v : Cart[A, Unit], (P : (Cart[A, Unit]) -> Bool)(v)) == (\226\136\128 x : A, P(vector([x])))
-      #|  op_dollar((v : Cart[A, Tybit0[Unit]]), 2)
-      #|  op_dollar((v : Cart[A, Tybit0[Unit]]), 1)
-      #|  (\226\136\128 v : Cart[A, Tybit0[Unit]], (P : (Cart[A, Tybit0[Unit]]) -> Bool)(v)) == (\226\136\128 x : A, \226\136\128 y : A, P(vector([x, y])))
-      #|  op_dollar((v : Cart[A, Tybit1[Unit]]), 3)
-      #|  op_dollar((v : Cart[A, Tybit1[Unit]]), 2)
-      #|  op_dollar((v : Cart[A, Tybit1[Unit]]), 1)
-      #|  (\226\136\128 v : Cart[A, Tybit1[Unit]], (P : (Cart[A, Tybit1[Unit]]) -> Bool)(v)) == (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, P(vector([x, y, z])))
-      #|  op_dollar((v : Cart[A, Tybit0[Tybit0[Unit]]]), 4)
-      #|  op_dollar((v : Cart[A, Tybit0[Tybit0[Unit]]]), 3)
-      #|  op_dollar((v : Cart[A, Tybit0[Tybit0[Unit]]]), 2)
-      #|  op_dollar((v : Cart[A, Tybit0[Tybit0[Unit]]]), 1)
-      #|  (\226\136\128 v : Cart[A, Tybit0[Tybit0[Unit]]], (P : (Cart[A, Tybit0[Tybit0[Unit]]]) -> Bool)(v)) == (\226\136\128 w : A, \226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, P(vector([w, x, y, z])))
+      #|  op_dollar((v : Cart[A, 2]), 2)
+      #|  op_dollar((v : Cart[A, 2]), 1)
+      #|  (\226\136\128 v : Cart[A, 2], (P : (Cart[A, 2]) -> Bool)(v)) == (\226\136\128 x : A, \226\136\128 y : A, P(vector([x, y])))
+      #|  op_dollar((v : Cart[A, 3]), 3)
+      #|  op_dollar((v : Cart[A, 3]), 2)
+      #|  op_dollar((v : Cart[A, 3]), 1)
+      #|  (\226\136\128 v : Cart[A, 3], (P : (Cart[A, 3]) -> Bool)(v)) == (\226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, P(vector([x, y, z])))
+      #|  op_dollar((v : Cart[A, 4]), 4)
+      #|  op_dollar((v : Cart[A, 4]), 3)
+      #|  op_dollar((v : Cart[A, 4]), 2)
+      #|  op_dollar((v : Cart[A, 4]), 1)
+      #|  (\226\136\128 v : Cart[A, 4], (P : (Cart[A, 4]) -> Bool)(v)) == (\226\136\128 w : A, \226\136\128 x : A, \226\136\128 y : A, \226\136\128 z : A, P(vector([w, x, y, z])))
       #|  (\226\136\131 x : _, (P : (_) -> Bool)(x)) == !(\226\136\128 x : _, !P(x))
       #|  (\226\136\131 v : Cart[A, Unit], (P : (Cart[A, Unit]) -> Bool)(v)) == (\226\136\131 x : A, P(vector([x])))
       #|  (\226\136\131 x : _, (P : (_) -> Bool)(x)) == !(\226\136\128 x : _, !P(x))
-      #|  (\226\136\131 v : Cart[A, Tybit0[Unit]], (P : (Cart[A, Tybit0[Unit]]) -> Bool)(v)) == (\226\136\131 x : A, \226\136\131 y : A, P(vector([x, y])))
+      #|  (\226\136\131 v : Cart[A, 2], (P : (Cart[A, 2]) -> Bool)(v)) == (\226\136\131 x : A, \226\136\131 y : A, P(vector([x, y])))
       #|  (\226\136\131 x : _, (P : (_) -> Bool)(x)) == !(\226\136\128 x : _, !P(x))
-      #|  (\226\136\131 v : Cart[A, Tybit1[Unit]], (P : (Cart[A, Tybit1[Unit]]) -> Bool)(v)) == (\226\136\131 x : A, \226\136\131 y : A, \226\136\131 z : A, P(vector([x, y, z])))
+      #|  (\226\136\131 v : Cart[A, 3], (P : (Cart[A, 3]) -> Bool)(v)) == (\226\136\131 x : A, \226\136\131 y : A, \226\136\131 z : A, P(vector([x, y, z])))
       #|  (\226\136\131 x : _, (P : (_) -> Bool)(x)) == !(\226\136\128 x : _, !P(x))
-      #|  (\226\136\131 v : Cart[A, Tybit0[Tybit0[Unit]]], (P : (Cart[A, Tybit0[Tybit0[Unit]]]) -> Bool)(v)) == (\226\136\131 w : A, \226\136\131 x : A, \226\136\131 y : A, \226\136\131 z : A, P(vector([w, x, y, z])))
+      #|  (\226\136\131 v : Cart[A, 4], (P : (Cart[A, 4]) -> Bool)(v)) == (\226\136\131 w : A, \226\136\131 x : A, \226\136\131 y : A, \226\136\131 z : A, P(vector([w, x, y, z])))
       #|  \226\136\128 x : Cart[Real, Unit], x == vector([op_dollar(x, 1)])
-      #|  \226\136\128 x : Cart[Real, Tybit0[Unit]], x == vector([op_dollar(x, 1), op_dollar(x, 2)])
-      #|  \226\136\128 x : Cart[Real, Tybit1[Unit]], x == vector([op_dollar(x, 1), op_dollar(x, 2), op_dollar(x, 3)])
-      #|  \226\136\128 x : Cart[Real, Tybit0[Tybit0[Unit]]], x == vector([op_dollar(x, 1), op_dollar(x, 2), op_dollar(x, 3), op_dollar(x, 4)])
+      #|  \226\136\128 x : Cart[Real, 2], x == vector([op_dollar(x, 1), op_dollar(x, 2)])
+      #|  \226\136\128 x : Cart[Real, 3], x == vector([op_dollar(x, 1), op_dollar(x, 2), op_dollar(x, 3)])
+      #|  \226\136\128 x : Cart[Real, 4], x == vector([op_dollar(x, 1), op_dollar(x, 2), op_dollar(x, 3), op_dollar(x, 4)])
       #|  (linear : ((Cart[Real, M]) -> Cart[Real, N]) -> Bool)((f : (Cart[Real, M]) -> Cart[Real, N])) == ((\226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], f(x + y) == f(x) + f(y)) && (\226\136\128 c : Real, \226\136\128 x : Cart[Real, M], f(op_pct(c, x)) == op_pct(c, f(x))))
       #|  \226\136\128 f : (Cart[Real, _]) -> Cart[Real, _], \226\136\128 c : Real, linear(f) \226\134\146 linear((x : Cart[Real, _]) => op_pct(c, f(x)))
       #|  \226\136\128 f : (Cart[Real, _]) -> Cart[Real, _], linear(f) \226\134\146 linear((x : Cart[Real, _]) => -f(x))
@@ -41364,8 +41364,8 @@ test "Multivariate/vectors matches Multivariate/vectors.ml" {
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 c : Cart[Real, N], \226\136\128 d : Cart[Real, N], !(a == b) \226\134\146 collinear({a, b, c, d}) == (collinear({a, b, c}) && collinear({a, b, d}))
       #|  {(b : Cart[Real, N]), (c : Cart[Real, N]), (a : Cart[Real, N]), (d : Cart[Real, N])}
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 c : Cart[Real, N], \226\136\128 d : Cart[Real, N], collinear({a, b, c}) && collinear({b, c, d}) && !(b == c) \226\134\146 collinear({a, b, d})
-      #|  \226\136\128 x : Cart[Real, Tybit0[Unit]], \226\136\128 y : Cart[Real, Tybit0[Unit]], \226\136\128 z : Cart[Real, Tybit0[Unit]], !(x == vec(0)) && orthogonal(x, y) && orthogonal(x, z) \226\134\146 collinear({vec(0), y, z})
-      #|  \226\136\128 x : Cart[Real, Tybit0[Unit]], \226\136\128 y : Cart[Real, Tybit0[Unit]], \226\136\128 z : Cart[Real, Tybit0[Unit]], collinear({x, y, z}) == ((op_dollar(z, 1) - op_dollar(x, 1)) * (op_dollar(y, 2) - op_dollar(x, 2)) == (op_dollar(y, 1) - op_dollar(x, 1)) * (op_dollar(z, 2) - op_dollar(x, 2)))
+      #|  \226\136\128 x : Cart[Real, 2], \226\136\128 y : Cart[Real, 2], \226\136\128 z : Cart[Real, 2], !(x == vec(0)) && orthogonal(x, y) && orthogonal(x, z) \226\134\146 collinear({vec(0), y, z})
+      #|  \226\136\128 x : Cart[Real, 2], \226\136\128 y : Cart[Real, 2], \226\136\128 z : Cart[Real, 2], collinear({x, y, z}) == ((op_dollar(z, 1) - op_dollar(x, 1)) * (op_dollar(y, 2) - op_dollar(x, 2)) == (op_dollar(y, 1) - op_dollar(x, 1)) * (op_dollar(z, 2) - op_dollar(x, 2)))
       #|  (b : Cart[Real, N]) == (a : Cart[Real, N])
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 c : Cart[Real, N], collinear({a, b, c}) == (op_pct(dot(b - a, b - a), c - a) == op_pct(dot(c - a, b - a), b - a))
       #|  {(a : _), (b : _), a} == {a, b}

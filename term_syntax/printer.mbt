@@ -123,6 +123,18 @@ fn flatten(ty : @kernel.HolType, op : String) -> Array[@kernel.HolType] {
 }
 
 ///|
+/// The size of a finite type built from 1 by tybit0 and tybit1, which the
+/// syntax writes as a numeral (`Cart[Real, 3]`).
+fn finite_size(ty : @kernel.HolType) -> BigInt? {
+  match ty {
+    Tyapp("1", Empty) => Some(1)
+    Tyapp("tybit0", More(t, tail=Empty)) => finite_size(t).map(n => 2 * n)
+    Tyapp("tybit1", More(t, tail=Empty)) => finite_size(t).map(n => 2 * n + 1)
+    _ => None
+  }
+}
+
+///|
 fn print_type_at(ty : @kernel.HolType, simple : Bool) -> String raise Unprintable {
   match ty {
     // a type variable the elaborator invented is written as a hole, which
@@ -148,6 +160,8 @@ fn print_type_at(ty : @kernel.HolType, simple : Bool) -> String raise Unprintabl
         s
       }
     }
+    Tyapp("tybit0" | "tybit1", More(_, tail=Empty)) if finite_size(ty)
+      is Some(n) => n.to_string()
     Tyapp("prod", More(_, tail=More(_, tail=Empty))) =>
       "(" + flatten(ty, "prod").map(a => print_type_at(a, false)).join(", ") + ")"
     Tyapp(name, Empty) => type_name(name)

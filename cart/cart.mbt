@@ -2709,7 +2709,7 @@ pub fn dimindex_tac(x : @tactics.Goal) -> @tactics.Goalstate raise {
 fn step_70() -> Unit raise {
   let t208 = @tactics.then_tac(dimindex_tac, @tactics.refl_tac)
   dimindex_2_c.set(
-    @tactics.prove(@term_syntax.parse_term("(dimindex : ((Tybit0[Unit]) -> Bool) -> Num)((UNIV : (Tybit0[Unit]) -> Bool)) == 2"), t208),
+    @tactics.prove(@term_syntax.parse_term("(dimindex : ((2) -> Bool) -> Num)((UNIV : (2) -> Bool)) == 2"), t208),
   )
 }
 
@@ -2727,7 +2727,7 @@ pub fn dimindex_2() -> @kernel.Thm {
 fn step_71() -> Unit raise {
   let t209 = @tactics.then_tac(dimindex_tac, @tactics.refl_tac)
   dimindex_3_c.set(
-    @tactics.prove(@term_syntax.parse_term("(dimindex : ((Tybit1[Unit]) -> Bool) -> Num)((UNIV : (Tybit1[Unit]) -> Bool)) == 3"), t209),
+    @tactics.prove(@term_syntax.parse_term("(dimindex : ((3) -> Bool) -> Num)((UNIV : (3) -> Bool)) == 3"), t209),
   )
 }
 
@@ -2745,7 +2745,7 @@ pub fn dimindex_3() -> @kernel.Thm {
 fn step_72() -> Unit raise {
   let t210 = @tactics.then_tac(dimindex_tac, @tactics.refl_tac)
   dimindex_4_c.set(
-    @tactics.prove(@term_syntax.parse_term("(dimindex : ((Tybit0[Tybit0[Unit]]) -> Bool) -> Num)((UNIV : (Tybit0[Tybit0[Unit]]) -> Bool)) == 4"), t210),
+    @tactics.prove(@term_syntax.parse_term("(dimindex : ((4) -> Bool) -> Num)((UNIV : (4) -> Bool)) == 4"), t210),
   )
 }
 

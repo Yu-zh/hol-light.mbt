@@ -1275,7 +1275,7 @@ pub fn cubic_root_integer() -> @kernel.Thm {
 ///|
 /// length
 fn step_34() -> Unit raise {
-  length_c.set(@pair.new_definition(@term_syntax.parse_term("(length : ((Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) -> Real)(((a : Cart[Real, Tybit0[Unit]]), (b : Cart[Real, Tybit0[Unit]]))) == norm(b - a)")))
+  length_c.set(@pair.new_definition(@term_syntax.parse_term("(length : ((Cart[Real, 2], Cart[Real, 2])) -> Real)(((a : Cart[Real, 2]), (b : Cart[Real, 2]))) == norm(b - a)")))
 }
 
 ///|
@@ -1290,7 +1290,7 @@ pub fn length() -> @kernel.Thm {
 ///|
 /// parallel
 fn step_35() -> Unit raise {
-  parallel_c.set(@pair.new_definition(@term_syntax.parse_term("(parallel : ((Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) -> Bool)(((a : Cart[Real, Tybit0[Unit]]), (b : Cart[Real, Tybit0[Unit]])), ((c : Cart[Real, Tybit0[Unit]]), (d : Cart[Real, Tybit0[Unit]]))) == ((op_dollar(a, 1) - op_dollar(b, 1)) * (op_dollar(c, 2) - op_dollar(d, 2)) == (op_dollar(a, 2) - op_dollar(b, 2)) * (op_dollar(c, 1) - op_dollar(d, 1)))")))
+  parallel_c.set(@pair.new_definition(@term_syntax.parse_term("(parallel : ((Cart[Real, 2], Cart[Real, 2]), (Cart[Real, 2], Cart[Real, 2])) -> Bool)(((a : Cart[Real, 2]), (b : Cart[Real, 2])), ((c : Cart[Real, 2]), (d : Cart[Real, 2]))) == ((op_dollar(a, 1) - op_dollar(b, 1)) * (op_dollar(c, 2) - op_dollar(d, 2)) == (op_dollar(a, 2) - op_dollar(b, 2)) * (op_dollar(c, 1) - op_dollar(d, 1)))")))
 }
 
 ///|
@@ -1305,7 +1305,7 @@ pub fn parallel() -> @kernel.Thm {
 ///|
 /// collinear3
 fn step_36() -> Unit raise {
-  collinear3_c.set(@pair.new_definition(@term_syntax.parse_term("(collinear3 : (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]) -> Bool)((a : Cart[Real, Tybit0[Unit]]), (b : Cart[Real, Tybit0[Unit]]), (c : Cart[Real, Tybit0[Unit]])) == parallel((a, b), (a, c))")))
+  collinear3_c.set(@pair.new_definition(@term_syntax.parse_term("(collinear3 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]) -> Bool)((a : Cart[Real, 2]), (b : Cart[Real, 2]), (c : Cart[Real, 2])) == parallel((a, b), (a, c))")))
 }
 
 ///|
@@ -1320,7 +1320,7 @@ pub fn collinear3() -> @kernel.Thm {
 ///|
 /// is_intersection
 fn step_37() -> Unit raise {
-  is_intersection_c.set(@pair.new_definition(@term_syntax.parse_term("(is_intersection : (Cart[Real, Tybit0[Unit]], (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]]), (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) -> Bool)((p : Cart[Real, Tybit0[Unit]]), ((a : Cart[Real, Tybit0[Unit]]), (b : Cart[Real, Tybit0[Unit]])), ((c : Cart[Real, Tybit0[Unit]]), (d : Cart[Real, Tybit0[Unit]]))) == (collinear3(a, p, b) && collinear3(c, p, d))")))
+  is_intersection_c.set(@pair.new_definition(@term_syntax.parse_term("(is_intersection : (Cart[Real, 2], (Cart[Real, 2], Cart[Real, 2]), (Cart[Real, 2], Cart[Real, 2])) -> Bool)((p : Cart[Real, 2]), ((a : Cart[Real, 2]), (b : Cart[Real, 2])), ((c : Cart[Real, 2]), (d : Cart[Real, 2]))) == (collinear3(a, p, b) && collinear3(c, p, d))")))
 }
 
 ///|
@@ -1335,7 +1335,7 @@ pub fn is_intersection() -> @kernel.Thm {
 ///|
 /// on_circle
 fn step_38() -> Unit raise {
-  on_circle_c.set(@pair.new_definition(@term_syntax.parse_term("(on_circle : (Cart[Real, Tybit0[Unit]], (Cart[Real, Tybit0[Unit]], Cart[Real, Tybit0[Unit]])) -> Bool)((x : Cart[Real, Tybit0[Unit]]), ((centre : Cart[Real, Tybit0[Unit]]), (pt : Cart[Real, Tybit0[Unit]]))) == (length((centre, x)) == length((centre, pt)))")))
+  on_circle_c.set(@pair.new_definition(@term_syntax.parse_term("(on_circle : (Cart[Real, 2], (Cart[Real, 2], Cart[Real, 2])) -> Bool)((x : Cart[Real, 2]), ((centre : Cart[Real, 2]), (pt : Cart[Real, 2]))) == (length((centre, x)) == length((centre, pt)))")))
 }
 
 ///|
@@ -1579,7 +1579,7 @@ pub fn constructible_cases() -> @kernel.Thm {
 ///|
 /// constructible_RULES, constructible_INDUCT, constructible_CASES
 fn step_45() -> Unit raise {
-  let (constructible_rules, constructible_induct, constructible_cases) = @ind_defs.new_inductive_definition(@term_syntax.parse_term("(∀ x : Cart[Real, Tybit0[Unit]], rational(op_dollar(x, 1)) && rational(op_dollar(x, 2)) → (constructible : (Cart[Real, Tybit0[Unit]]) -> Bool)(x)) && (∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ c : Cart[Real, Tybit0[Unit]], ∀ d : Cart[Real, Tybit0[Unit]], ∀ x : Cart[Real, Tybit0[Unit]], constructible(a) && constructible(b) && constructible(c) && constructible(d) && !parallel((a, b), (c, d)) && is_intersection(x, (a, b), (c, d)) → constructible(x)) && (∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ c : Cart[Real, Tybit0[Unit]], ∀ d : Cart[Real, Tybit0[Unit]], ∀ e : Cart[Real, Tybit0[Unit]], ∀ x : Cart[Real, Tybit0[Unit]], constructible(a) && constructible(b) && constructible(c) && constructible(d) && constructible(e) && !(a == b) && collinear3(a, x, b) && length((c, x)) == length((d, e)) → constructible(x)) && (∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ c : Cart[Real, Tybit0[Unit]], ∀ d : Cart[Real, Tybit0[Unit]], ∀ e : Cart[Real, Tybit0[Unit]], ∀ f : Cart[Real, Tybit0[Unit]], ∀ x : Cart[Real, Tybit0[Unit]], constructible(a) && constructible(b) && constructible(c) && constructible(d) && constructible(e) && constructible(f) && !(a == d && length((b, c)) == length((e, f))) && length((a, x)) == length((b, c)) && length((d, x)) == length((e, f)) → constructible(x))"))
+  let (constructible_rules, constructible_induct, constructible_cases) = @ind_defs.new_inductive_definition(@term_syntax.parse_term("(∀ x : Cart[Real, 2], rational(op_dollar(x, 1)) && rational(op_dollar(x, 2)) → (constructible : (Cart[Real, 2]) -> Bool)(x)) && (∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ c : Cart[Real, 2], ∀ d : Cart[Real, 2], ∀ x : Cart[Real, 2], constructible(a) && constructible(b) && constructible(c) && constructible(d) && !parallel((a, b), (c, d)) && is_intersection(x, (a, b), (c, d)) → constructible(x)) && (∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ c : Cart[Real, 2], ∀ d : Cart[Real, 2], ∀ e : Cart[Real, 2], ∀ x : Cart[Real, 2], constructible(a) && constructible(b) && constructible(c) && constructible(d) && constructible(e) && !(a == b) && collinear3(a, x, b) && length((c, x)) == length((d, e)) → constructible(x)) && (∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ c : Cart[Real, 2], ∀ d : Cart[Real, 2], ∀ e : Cart[Real, 2], ∀ f : Cart[Real, 2], ∀ x : Cart[Real, 2], constructible(a) && constructible(b) && constructible(c) && constructible(d) && constructible(e) && constructible(f) && !(a == d && length((b, c)) == length((e, f))) && length((a, x)) == length((b, c)) && length((d, x)) == length((e, f)) → constructible(x))"))
   constructible_rules_c.set(constructible_rules)
   constructible_induct_c.set(constructible_induct)
   constructible_cases_c.set(constructible_cases)
@@ -1596,21 +1596,21 @@ fn step_46() -> Unit raise {
     }
   }))
   let t726 = @tactics.replicate_tac(6, @tactics.thenl(@tactics.conj_tac, @list.List([@tactics.then_tac(radical_tac, @simp.asm_rewrite_tac(@list.List([]))), @tactics.all_tac])))
-  let t720 = @term_syntax.parse_term("op_dollar((c : Cart[Real, Tybit0[Unit]]), 2) * (op_dollar(c, 1) - op_dollar((d : Cart[Real, Tybit0[Unit]]), 1)) - op_dollar(c, 1) * (op_dollar(c, 2) - op_dollar(d, 2))")
-  let t721 = @term_syntax.parse_term("op_dollar((c : Cart[Real, Tybit0[Unit]]), 1) - op_dollar((d : Cart[Real, Tybit0[Unit]]), 1)")
-  let t722 = @term_syntax.parse_term("op_dollar((d : Cart[Real, Tybit0[Unit]]), 2) - op_dollar((c : Cart[Real, Tybit0[Unit]]), 2)")
-  let t723 = @term_syntax.parse_term("op_dollar((a : Cart[Real, Tybit0[Unit]]), 2) * (op_dollar(a, 1) - op_dollar((b : Cart[Real, Tybit0[Unit]]), 1)) - op_dollar(a, 1) * (op_dollar(a, 2) - op_dollar(b, 2))")
-  let t724 = @term_syntax.parse_term("op_dollar((a : Cart[Real, Tybit0[Unit]]), 1) - op_dollar((b : Cart[Real, Tybit0[Unit]]), 1)")
+  let t720 = @term_syntax.parse_term("op_dollar((c : Cart[Real, 2]), 2) * (op_dollar(c, 1) - op_dollar((d : Cart[Real, 2]), 1)) - op_dollar(c, 1) * (op_dollar(c, 2) - op_dollar(d, 2))")
+  let t721 = @term_syntax.parse_term("op_dollar((c : Cart[Real, 2]), 1) - op_dollar((d : Cart[Real, 2]), 1)")
+  let t722 = @term_syntax.parse_term("op_dollar((d : Cart[Real, 2]), 2) - op_dollar((c : Cart[Real, 2]), 2)")
+  let t723 = @term_syntax.parse_term("op_dollar((a : Cart[Real, 2]), 2) * (op_dollar(a, 1) - op_dollar((b : Cart[Real, 2]), 1)) - op_dollar(a, 1) * (op_dollar(a, 2) - op_dollar(b, 2))")
+  let t724 = @term_syntax.parse_term("op_dollar((a : Cart[Real, 2]), 1) - op_dollar((b : Cart[Real, 2]), 1)")
   let t725 = @tactics.map_every(fn(x717 : @kernel.Term) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s718 = @tactics.exists_tac(x717)
     fn(x719 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise {
       s718(x719)
     }
-  }, @list.List([@term_syntax.parse_term("op_dollar((b : Cart[Real, Tybit0[Unit]]), 2) - op_dollar((a : Cart[Real, Tybit0[Unit]]), 2)"), t724, t723, t722, t721, t720]))
+  }, @list.List([@term_syntax.parse_term("op_dollar((b : Cart[Real, 2]), 2) - op_dollar((a : Cart[Real, 2]), 2)"), t724, t723, t722, t721, t720]))
   let t716 = @tactics.match_mp_tac(radical_simultaneous_linear_equation())
   let t715 = @simp.rewrite_tac(@list.List([parallel(), collinear3(), is_intersection()]))
   let t732 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t715), @tactics.strip_tac), t716), t725), t726), t730), t731)
-  radical_line_line_intersection_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ c : Cart[Real, Tybit0[Unit]], ∀ d : Cart[Real, Tybit0[Unit]], ∀ x : Cart[Real, Tybit0[Unit]], radical(op_dollar(a, 1)) && radical(op_dollar(a, 2)) && radical(op_dollar(b, 1)) && radical(op_dollar(b, 2)) && radical(op_dollar(c, 1)) && radical(op_dollar(c, 2)) && radical(op_dollar(d, 1)) && radical(op_dollar(d, 2)) && !parallel((a, b), (c, d)) && is_intersection(x, (a, b), (c, d)) → radical(op_dollar(x, 1)) && radical(op_dollar(x, 2))"), t732))
+  radical_line_line_intersection_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ c : Cart[Real, 2], ∀ d : Cart[Real, 2], ∀ x : Cart[Real, 2], radical(op_dollar(a, 1)) && radical(op_dollar(a, 2)) && radical(op_dollar(b, 1)) && radical(op_dollar(b, 2)) && radical(op_dollar(c, 1)) && radical(op_dollar(c, 2)) && radical(op_dollar(d, 1)) && radical(op_dollar(d, 2)) && !parallel((a, b), (c, d)) && is_intersection(x, (a, b), (c, d)) → radical(op_dollar(x, 1)) && radical(op_dollar(x, 2))"), t732))
 }
 
 ///|
@@ -1633,22 +1633,22 @@ fn step_47() -> Unit raise {
     }
   }))
   let t745 = @tactics.replicate_tac(6, @tactics.thenl(@tactics.conj_tac, @list.List([@tactics.then_tac(radical_tac, @simp.asm_rewrite_tac(@list.List([]))), @tactics.all_tac])))
-  let t739 = @term_syntax.parse_term("op_dollar((a : Cart[Real, Tybit0[Unit]]), 2) * (op_dollar(a, 1) - op_dollar((b : Cart[Real, Tybit0[Unit]]), 1)) - op_dollar(a, 1) * (op_dollar(a, 2) - op_dollar(b, 2))")
-  let t740 = @term_syntax.parse_term("op_dollar((a : Cart[Real, Tybit0[Unit]]), 1) - op_dollar((b : Cart[Real, Tybit0[Unit]]), 1)")
-  let t741 = @term_syntax.parse_term("op_dollar((b : Cart[Real, Tybit0[Unit]]), 2) - op_dollar((a : Cart[Real, Tybit0[Unit]]), 2)")
-  let t742 = @term_syntax.parse_term("pow(op_dollar((e : Cart[Real, Tybit0[Unit]]), 1) - op_dollar((d : Cart[Real, Tybit0[Unit]]), 1), 2) + pow(op_dollar(e, 2) - op_dollar(d, 2), 2)")
-  let t743 = @term_syntax.parse_term("op_dollar((c : Cart[Real, Tybit0[Unit]]), 2)")
+  let t739 = @term_syntax.parse_term("op_dollar((a : Cart[Real, 2]), 2) * (op_dollar(a, 1) - op_dollar((b : Cart[Real, 2]), 1)) - op_dollar(a, 1) * (op_dollar(a, 2) - op_dollar(b, 2))")
+  let t740 = @term_syntax.parse_term("op_dollar((a : Cart[Real, 2]), 1) - op_dollar((b : Cart[Real, 2]), 1)")
+  let t741 = @term_syntax.parse_term("op_dollar((b : Cart[Real, 2]), 2) - op_dollar((a : Cart[Real, 2]), 2)")
+  let t742 = @term_syntax.parse_term("pow(op_dollar((e : Cart[Real, 2]), 1) - op_dollar((d : Cart[Real, 2]), 1), 2) + pow(op_dollar(e, 2) - op_dollar(d, 2), 2)")
+  let t743 = @term_syntax.parse_term("op_dollar((c : Cart[Real, 2]), 2)")
   let t744 = @tactics.map_every(fn(x736 : @kernel.Term) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s737 = @tactics.exists_tac(x736)
     fn(x738 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise {
       s737(x738)
     }
-  }, @list.List([@term_syntax.parse_term("op_dollar((c : Cart[Real, Tybit0[Unit]]), 1)"), t743, t742, t741, t740, t739]))
+  }, @list.List([@term_syntax.parse_term("op_dollar((c : Cart[Real, 2]), 1)"), t743, t742, t741, t740, t739]))
   let t735 = @tactics.match_mp_tac(radical_simultaneous_linear_quadratic())
   let t734 = @simp.simp_tac(@list.List([@cart.cart_eq(), @vectors.forall_2(), @vectors.dot(), @vectors.sum_2(), @cart.dimindex_2(), @vectors.vector_sub_component(), @equal.gsym(@realarith.real_pow_2())]))
   let t733 = @simp.rewrite_tac(@list.List([length(), @vectors.norm_eq(), collinear3(), parallel()]))
   let t751 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t733), t734), @tactics.strip_tac), t735), t744), t745), t749), t750)
-  radical_line_circle_intersection_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ c : Cart[Real, Tybit0[Unit]], ∀ d : Cart[Real, Tybit0[Unit]], ∀ e : Cart[Real, Tybit0[Unit]], ∀ x : Cart[Real, Tybit0[Unit]], radical(op_dollar(a, 1)) && radical(op_dollar(a, 2)) && radical(op_dollar(b, 1)) && radical(op_dollar(b, 2)) && radical(op_dollar(c, 1)) && radical(op_dollar(c, 2)) && radical(op_dollar(d, 1)) && radical(op_dollar(d, 2)) && radical(op_dollar(e, 1)) && radical(op_dollar(e, 2)) && !(a == b) && collinear3(a, x, b) && length((c, x)) == length((d, e)) → radical(op_dollar(x, 1)) && radical(op_dollar(x, 2))"), t751))
+  radical_line_circle_intersection_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ c : Cart[Real, 2], ∀ d : Cart[Real, 2], ∀ e : Cart[Real, 2], ∀ x : Cart[Real, 2], radical(op_dollar(a, 1)) && radical(op_dollar(a, 2)) && radical(op_dollar(b, 1)) && radical(op_dollar(b, 2)) && radical(op_dollar(c, 1)) && radical(op_dollar(c, 2)) && radical(op_dollar(d, 1)) && radical(op_dollar(d, 2)) && radical(op_dollar(e, 1)) && radical(op_dollar(e, 2)) && !(a == b) && collinear3(a, x, b) && length((c, x)) == length((d, e)) → radical(op_dollar(x, 1)) && radical(op_dollar(x, 2))"), t751))
 }
 
 ///|
@@ -1671,22 +1671,22 @@ fn step_48() -> Unit raise {
     }
   }))
   let t764 = @tactics.replicate_tac(6, @tactics.thenl(@tactics.conj_tac, @list.List([@tactics.then_tac(radical_tac, @simp.asm_rewrite_tac(@list.List([]))), @tactics.all_tac])))
-  let t758 = @term_syntax.parse_term("pow(op_dollar((f : Cart[Real, Tybit0[Unit]]), 1) - op_dollar((e : Cart[Real, Tybit0[Unit]]), 1), 2) + pow(op_dollar(f, 2) - op_dollar(e, 2), 2)")
-  let t759 = @term_syntax.parse_term("op_dollar((d : Cart[Real, Tybit0[Unit]]), 2)")
-  let t760 = @term_syntax.parse_term("op_dollar((d : Cart[Real, Tybit0[Unit]]), 1)")
-  let t761 = @term_syntax.parse_term("pow(op_dollar((c : Cart[Real, Tybit0[Unit]]), 1) - op_dollar((b : Cart[Real, Tybit0[Unit]]), 1), 2) + pow(op_dollar(c, 2) - op_dollar(b, 2), 2)")
-  let t762 = @term_syntax.parse_term("op_dollar((a : Cart[Real, Tybit0[Unit]]), 2)")
+  let t758 = @term_syntax.parse_term("pow(op_dollar((f : Cart[Real, 2]), 1) - op_dollar((e : Cart[Real, 2]), 1), 2) + pow(op_dollar(f, 2) - op_dollar(e, 2), 2)")
+  let t759 = @term_syntax.parse_term("op_dollar((d : Cart[Real, 2]), 2)")
+  let t760 = @term_syntax.parse_term("op_dollar((d : Cart[Real, 2]), 1)")
+  let t761 = @term_syntax.parse_term("pow(op_dollar((c : Cart[Real, 2]), 1) - op_dollar((b : Cart[Real, 2]), 1), 2) + pow(op_dollar(c, 2) - op_dollar(b, 2), 2)")
+  let t762 = @term_syntax.parse_term("op_dollar((a : Cart[Real, 2]), 2)")
   let t763 = @tactics.map_every(fn(x755 : @kernel.Term) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s756 = @tactics.exists_tac(x755)
     fn(x757 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise {
       s756(x757)
     }
-  }, @list.List([@term_syntax.parse_term("op_dollar((a : Cart[Real, Tybit0[Unit]]), 1)"), t762, t761, t760, t759, t758]))
+  }, @list.List([@term_syntax.parse_term("op_dollar((a : Cart[Real, 2]), 1)"), t762, t761, t760, t759, t758]))
   let t754 = @tactics.match_mp_tac(radical_simultaneous_quadratic_quadratic())
   let t753 = @simp.simp_tac(@list.List([@cart.cart_eq(), @vectors.forall_2(), @vectors.dot(), @vectors.sum_2(), @cart.dimindex_2(), @vectors.vector_sub_component(), @equal.gsym(@realarith.real_pow_2())]))
   let t752 = @simp.rewrite_tac(@list.List([length(), @vectors.norm_eq(), collinear3(), parallel()]))
   let t770 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t752), t753), @tactics.strip_tac), t754), t763), t764), t768), t769)
-  radical_circle_circle_intersection_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, Tybit0[Unit]], ∀ b : Cart[Real, Tybit0[Unit]], ∀ c : Cart[Real, Tybit0[Unit]], ∀ d : Cart[Real, Tybit0[Unit]], ∀ e : Cart[Real, Tybit0[Unit]], ∀ f : Cart[Real, Tybit0[Unit]], ∀ x : Cart[Real, Tybit0[Unit]], radical(op_dollar(a, 1)) && radical(op_dollar(a, 2)) && radical(op_dollar(b, 1)) && radical(op_dollar(b, 2)) && radical(op_dollar(c, 1)) && radical(op_dollar(c, 2)) && radical(op_dollar(d, 1)) && radical(op_dollar(d, 2)) && radical(op_dollar(e, 1)) && radical(op_dollar(e, 2)) && radical(op_dollar(f, 1)) && radical(op_dollar(f, 2)) && length((a, x)) == length((b, c)) && length((d, x)) == length((e, f)) && !(a == d && length((b, c)) == length((e, f))) → radical(op_dollar(x, 1)) && radical(op_dollar(x, 2))"), t770))
+  radical_circle_circle_intersection_c.set(@tactics.prove(@term_syntax.parse_term("∀ a : Cart[Real, 2], ∀ b : Cart[Real, 2], ∀ c : Cart[Real, 2], ∀ d : Cart[Real, 2], ∀ e : Cart[Real, 2], ∀ f : Cart[Real, 2], ∀ x : Cart[Real, 2], radical(op_dollar(a, 1)) && radical(op_dollar(a, 2)) && radical(op_dollar(b, 1)) && radical(op_dollar(b, 2)) && radical(op_dollar(c, 1)) && radical(op_dollar(c, 2)) && radical(op_dollar(d, 1)) && radical(op_dollar(d, 2)) && radical(op_dollar(e, 1)) && radical(op_dollar(e, 2)) && radical(op_dollar(f, 1)) && radical(op_dollar(f, 2)) && length((a, x)) == length((b, c)) && length((d, x)) == length((e, f)) && !(a == d && length((b, c)) == length((e, f))) → radical(op_dollar(x, 1)) && radical(op_dollar(x, 2))"), t770))
 }
 
 ///|
@@ -1711,7 +1711,7 @@ fn step_49() -> Unit raise {
   let t772 = @tactics.repeat_tac(@tactics.gen_tac)
   let t771 = @tactics.repeat_tac(@tactics.conj_tac)
   let t780 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(constructible_induct()), t771), t772), @tactics.strip_tac), t779)
-  constructible_radical_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, Tybit0[Unit]], constructible(x) → radical(op_dollar(x, 1)) && radical(op_dollar(x, 2))"), t780))
+  constructible_radical_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : Cart[Real, 2], constructible(x) → radical(op_dollar(x, 1)) && radical(op_dollar(x, 2))"), t780))
 }
 
 ///|

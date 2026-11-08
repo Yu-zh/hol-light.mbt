@@ -61,6 +61,9 @@ test "types" {
   inspect(ty(@parser.parse_type("num->bool->bool")), content="(Num, Bool) -> Bool")
   inspect(ty(@parser.parse_type("(A->B)->A#B")), content="((A) -> B) -> (A, B)")
   inspect(ty(@parser.parse_type("(num)list")), content="List[Num]")
+  inspect(ty(@parser.parse_type("6")), content="6")
+  inspect(ty(@parser.parse_type("1")), content="Unit")
+  inspect(ty(@parser.parse_type("(A)tybit1")), content="Tybit1[A]")
 }
 
 ///|

@@ -10101,16 +10101,16 @@ test "Divstep/idivstep matches Divstep/idivstep.ml" {
       #|  (1 <= (i : Num) && i <= 2) == (i == 1 || i == 2)
       #|  \226\136\128 P : (Num) -> Bool, (\226\136\128 i : Num, 1 <= i && i <= 2 \226\134\146 P(i)) == (P(1) && P(2))
       #|  1
-      #|  (op_dollar : (Cart[A, Tybit0[Unit]], Num) -> A)((vector : (List[A]) -> Cart[A, Tybit0[Unit]])([(x : A), (y : A)]), 1) == x && (op_dollar : (Cart[A, Tybit0[Unit]], Num) -> A)((vector : (List[A]) -> Cart[A, Tybit0[Unit]])([x, y]), 2) == y
+      #|  (op_dollar : (Cart[A, 2], Num) -> A)((vector : (List[A]) -> Cart[A, 2])([(x : A), (y : A)]), 1) == x && (op_dollar : (Cart[A, 2], Num) -> A)((vector : (List[A]) -> Cart[A, 2])([x, y]), 2) == y
       #|  2
       #|  \226\136\128 t : (Num) -> Int, isum(op_dot_dot(1, 2), t) == t(1) + t(2)
-      #|  (imat_I : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]]) == lambda((i : Num) => lambda((j : Num) => if i == j { int_of_num(1) } else { int_of_num(0) }))
-      #|  (imat_mul : (Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]]) -> Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]])((m : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]]), (n : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]])) == lambda((i : Num) => lambda((j : Num) => isum(op_dot_dot(1, 2), (k : Num) => op_dollar(op_dollar(m, i), k) * op_dollar(op_dollar(n, k), j))))
-      #|  (imat_vmul : (Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], Cart[Int, Tybit0[Unit]]) -> Cart[Int, Tybit0[Unit]])((m : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]]), (v : Cart[Int, Tybit0[Unit]])) == lambda((i : Num) => isum(op_dot_dot(1, 2), (j : Num) => op_dollar(op_dollar(m, i), j) * op_dollar(v, j)))
+      #|  (imat_I : Cart[Cart[Int, 2], 2]) == lambda((i : Num) => lambda((j : Num) => if i == j { int_of_num(1) } else { int_of_num(0) }))
+      #|  (imat_mul : (Cart[Cart[Int, 2], 2], Cart[Cart[Int, 2], 2]) -> Cart[Cart[Int, 2], 2])((m : Cart[Cart[Int, 2], 2]), (n : Cart[Cart[Int, 2], 2])) == lambda((i : Num) => lambda((j : Num) => isum(op_dot_dot(1, 2), (k : Num) => op_dollar(op_dollar(m, i), k) * op_dollar(op_dollar(n, k), j))))
+      #|  (imat_vmul : (Cart[Cart[Int, 2], 2], Cart[Int, 2]) -> Cart[Int, 2])((m : Cart[Cart[Int, 2], 2]), (v : Cart[Int, 2])) == lambda((i : Num) => isum(op_dot_dot(1, 2), (j : Num) => op_dollar(op_dollar(m, i), j) * op_dollar(v, j)))
       #|  imat_vmul(imat_I) == I
-      #|  \226\136\128 m1 : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], \226\136\128 m2 : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], imat_vmul(imat_mul(m1, m2)) == o(imat_vmul(m1), imat_vmul(m2))
-      #|  \226\136\128 m : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], imat_mul(imat_I, m) == m
-      #|  \226\136\128 m1 : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], \226\136\128 m2 : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], \226\136\128 m3 : Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]], imat_mul(m1, imat_mul(m2, m3)) == imat_mul(imat_mul(m1, m2), m3)
+      #|  \226\136\128 m1 : Cart[Cart[Int, 2], 2], \226\136\128 m2 : Cart[Cart[Int, 2], 2], imat_vmul(imat_mul(m1, m2)) == o(imat_vmul(m1), imat_vmul(m2))
+      #|  \226\136\128 m : Cart[Cart[Int, 2], 2], imat_mul(imat_I, m) == m
+      #|  \226\136\128 m1 : Cart[Cart[Int, 2], 2], \226\136\128 m2 : Cart[Cart[Int, 2], 2], \226\136\128 m3 : Cart[Cart[Int, 2], 2], imat_mul(m1, imat_mul(m2, m3)) == imat_mul(imat_mul(m1, m2), m3)
       #|  (idivstep : ((Int, Int, Int)) -> (Int, Int, Int))(((d : Int), (f : Int), (g : Int))) == (if d >= int_of_num(0) && rem(g, int_of_num(2)) == int_of_num(1) { (int_of_num(2) - d, g, div(g - f, int_of_num(2))) } else { (int_of_num(2) + d, f, div(g + rem(g, int_of_num(2)) * f, int_of_num(2))) })
       #|  \226\136\128 d : Int, \226\136\128 f : Int, \226\136\128 g : Int, \226\136\128 d' : Int, \226\136\128 f' : Int, \226\136\128 g' : Int, rem(d, int_of_num(2)) == int_of_num(1) && idivstep((d, f, g)) == (d', f', g') \226\134\146 rem(d', int_of_num(2)) == int_of_num(1)
       #|  \226\136\128 d : Int, \226\136\128 f : Int, \226\136\128 g : Int, \226\136\128 d' : Int, \226\136\128 f' : Int, \226\136\128 g' : Int, g == int_of_num(0) && idivstep((d, f, g)) == (d', f', g') \226\134\146 g' == int_of_num(0)
@@ -10162,7 +10162,7 @@ test "Divstep/idivstep matches Divstep/idivstep.ml" {
       #|  real_of_num(1) - (x : Real) / real_of_num(2) == (real_of_num(2) - x) / real_of_num(2)
       #|  ((x : Real) / real_of_num(2) > real_of_num(0)) == (x > real_of_num(0))
       #|  \226\136\128 f : Int, \226\136\128 g : Int, \226\136\128 n : Num, ITER(n, divstep, (real_of_num(1) / real_of_num(2), f, g)) == (real_of_int(divstep_d(n, (int_of_num(1), f, g))) / real_of_num(2), divstep_f(n, (int_of_num(1), f, g)), divstep_g(n, (int_of_num(1), f, g)))
-      #|  (divstep_mat : (Num, (Int, Int, Int)) -> Cart[Cart[Int, Tybit0[Unit]], Tybit0[Unit]])(0, (t : (Int, Int, Int))) == imat_I && divstep_mat(SUC((n : Num)), t) == imat_mul(if divstep_d(n, t) >= int_of_num(0) && rem(divstep_g(n, t), int_of_num(2)) == int_of_num(1) { vector([vector([int_of_num(0), int_of_num(2)]), vector([-int_of_num(1), int_of_num(1)])]) } else { vector([vector([int_of_num(2), int_of_num(0)]), vector([rem(divstep_g(n, t), int_of_num(2)), int_of_num(1)])]) }, divstep_mat(n, t))
+      #|  (divstep_mat : (Num, (Int, Int, Int)) -> Cart[Cart[Int, 2], 2])(0, (t : (Int, Int, Int))) == imat_I && divstep_mat(SUC((n : Num)), t) == imat_mul(if divstep_d(n, t) >= int_of_num(0) && rem(divstep_g(n, t), int_of_num(2)) == int_of_num(1) { vector([vector([int_of_num(0), int_of_num(2)]), vector([-int_of_num(1), int_of_num(1)])]) } else { vector([vector([int_of_num(2), int_of_num(0)]), vector([rem(divstep_g(n, t), int_of_num(2)), int_of_num(1)])]) }, divstep_mat(n, t))
       #|  :P
       #|  :P
       #|  (n : Num) => n + 1

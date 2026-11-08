@@ -79783,26 +79783,26 @@ Warning: inventing type variables
   (m : Num)
   orthonormal_system(real_interval([(-pi, pi)]), trigonometric_set)
   \226\136\128 i : Num, square_integrable_on(trigonometric_set(i), real_interval([(-pi, pi)]))
-  norm((z : Cart[Real, Tybit0[Unit]])) == real_of_num(1)
+  norm((z : Cart[Real, 2])) == real_of_num(1)
   (x : Real) + pi + pi == x + real_of_num(2) * pi
-  (w : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))
-  (w : Cart[Real, Tybit0[Unit]])
+  (w : Cart[Real, 2]) == Cx(real_of_num(0))
+  (w : Cart[Real, 2])
   real_of_num(1)
   o(Cx, o((f : (Real) -> Real), o((x : Real) => x + pi, o(Im, o(clog, op_minus_minus)))))
-  real_of_num(0) <= Re((z : Cart[Real, Tybit0[Unit]])) || Re(z) < real_of_num(0)
-  \226\136\128 f : (Real) -> Real, real_continuous_on(f, UNIV) && (\226\136\128 x : Real, f(x + real_of_num(2) * pi) == f(x)) \226\134\146 (\226\136\128 z : Cart[Real, Tybit0[Unit]], norm(z) == real_of_num(1) \226\134\146 real_continuous(o(f, o(Im, clog)), within(at(z), {(w : Cart[Real, Tybit0[Unit]]) | norm(w) == real_of_num(1)})))
-  (w : Cart[Real, Tybit0[Unit]]) == Cx(real_of_num(0))
-  (w : Cart[Real, Tybit0[Unit]])
+  real_of_num(0) <= Re((z : Cart[Real, 2])) || Re(z) < real_of_num(0)
+  \226\136\128 f : (Real) -> Real, real_continuous_on(f, UNIV) && (\226\136\128 x : Real, f(x + real_of_num(2) * pi) == f(x)) \226\134\146 (\226\136\128 z : Cart[Real, 2], norm(z) == real_of_num(1) \226\134\146 real_continuous(o(f, o(Im, clog)), within(at(z), {(w : Cart[Real, 2]) | norm(w) == real_of_num(1)})))
+  (w : Cart[Real, 2]) == Cx(real_of_num(0))
+  (w : Cart[Real, 2])
   real_of_num(1)
   ((a : Bool) && (b : Bool) && (c : Bool) && (d : Bool) \226\134\146 (e : Bool)) == (a && b && c \226\134\146 d \226\134\146 e)
-  (z : Cart[Real, Tybit0[Unit]])
+  (z : Cart[Real, 2])
   (g : (Real) -> Real)
   (g : (Real) -> Real)
   pi - -pi == real_of_num(2) * pi
   pi
   -pi
   (f : (Real) -> Real)
-  \226\136\128 f : (Real) -> Real, real_continuous_on(f, real_interval([(-pi, pi)])) && f(-pi) == f(pi) \226\134\146 (\226\136\128 z : Cart[Real, Tybit0[Unit]], norm(z) == real_of_num(1) \226\134\146 real_continuous(o(f, o(Im, clog)), within(at(z), {(w : Cart[Real, Tybit0[Unit]]) | norm(w) == real_of_num(1)})))
+  \226\136\128 f : (Real) -> Real, real_continuous_on(f, real_interval([(-pi, pi)])) && f(-pi) == f(pi) \226\134\146 (\226\136\128 z : Cart[Real, 2], norm(z) == real_of_num(1) \226\134\146 real_continuous(o(f, o(Im, clog)), within(at(z), {(w : Cart[Real, 2]) | norm(w) == real_of_num(1)})))
   (r : Real) == -pi
   (r : Real) == -pi
   (x : Real) == (x' : Real) \226\134\146 abs(x - (y : Real)) < (e : Real) \226\134\146 abs(x' - y) < e
@@ -79812,8 +79812,8 @@ Warning: inventing type variables
   (a : (Num) -> Real)
   (n : Num)
   cos((x : Real)) == cos(real_of_num(1) * x) && sin(x) == sin(real_of_num(1) * x)
-  (g : (Cart[Real, Tybit0[Unit]]) -> Real)
-  \226\136\128 f : (Cart[Real, Tybit0[Unit]]) -> Real, (poly2 : ((Cart[Real, Tybit0[Unit]]) -> Real) -> Bool)(f) \226\134\146 (trigpoly : ((Real) -> Real) -> Bool)((x : Real) => f(cexp(ii * Cx(x))))
+  (g : (Cart[Real, 2]) -> Real)
+  \226\136\128 f : (Cart[Real, 2]) -> Real, (poly2 : ((Cart[Real, 2]) -> Real) -> Bool)(f) \226\134\146 (trigpoly : ((Real) -> Real) -> Bool)((x : Real) => f(cexp(ii * Cx(x))))
   ((ai : Real) * (si : Real) + (bi : Real) * (ci : Real)) * ((aj : Real) * (sj : Real) + (bj : Real) * (cj : Real)) == ai * aj * (si * sj) + bi * bj * (ci * cj) + (ai * bj * (si * cj) + aj * bi * (ci * sj))
   (j : Num)
   (i : Num)
@@ -79857,18 +79857,18 @@ Warning: inventing type variables
   (c : Real)
   \226\136\128 c : Real, (trigpoly : ((Real) -> Real) -> Bool)((x : Real) => c)
   (trigpoly : ((Real) -> Real) -> Bool) == ((f : (Real) -> Real) => \226\136\131 n : Num, \226\136\131 a : (Num) -> Real, \226\136\131 b : (Num) -> Real, f == ((x : Real) => sum(op_dot_dot(0, n), (k : Num) => a(k) * sin(real_of_num(k) * x) + b(k) * cos(real_of_num(k) * x))))
-  (g : (Cart[Real, Tybit0[Unit]]) -> Real)
+  (g : (Cart[Real, 2]) -> Real)
   (e : Real)
   o((f : (Real) -> Real), o(Im, clog))
   Im
   Re
-  (z : Cart[Real, Tybit0[Unit]])
-  (w : Cart[Real, Tybit0[Unit]])
+  (z : Cart[Real, 2])
+  (w : Cart[Real, 2])
   (\226\136\128 x : _, \226\136\128 f : _, (P : (_) -> Bool)(f) \226\134\146 (R : (_, _) -> Bool)(f, x)) \226\134\146 (\226\136\128 f : _, P(f) \226\134\146 (\226\136\128 x : _, (Q : (_) -> Bool)(x) \226\134\146 R(f, x)))
   {(x : _) | (p : (_) -> Bool)(x)} == {(x : _) | IN(x, UNIV) && p(x)}
-  {(z : Cart[Real, Tybit0[Unit]]) | norm(z) == real_of_num(1)}
-  (poly2 : ((Cart[Real, Tybit0[Unit]]) -> Real) -> Bool)
-  (\226\136\128 c : Real, (poly2 : ((Cart[Real, Tybit0[Unit]]) -> Real) -> Bool)((x : Cart[Real, Tybit0[Unit]]) => c)) && (\226\136\128 p : (Cart[Real, Tybit0[Unit]]) -> Real, \226\136\128 q : (Cart[Real, Tybit0[Unit]]) -> Real, poly2(p) && poly2(q) \226\134\146 poly2((x : Cart[Real, Tybit0[Unit]]) => p(x) + q(x))) && (\226\136\128 p : (Cart[Real, Tybit0[Unit]]) -> Real, \226\136\128 q : (Cart[Real, Tybit0[Unit]]) -> Real, poly2(p) && poly2(q) \226\134\146 poly2((x : Cart[Real, Tybit0[Unit]]) => p(x) * q(x))) && poly2(Re) && poly2(Im)
+  {(z : Cart[Real, 2]) | norm(z) == real_of_num(1)}
+  (poly2 : ((Cart[Real, 2]) -> Real) -> Bool)
+  (\226\136\128 c : Real, (poly2 : ((Cart[Real, 2]) -> Real) -> Bool)((x : Cart[Real, 2]) => c)) && (\226\136\128 p : (Cart[Real, 2]) -> Real, \226\136\128 q : (Cart[Real, 2]) -> Real, poly2(p) && poly2(q) \226\134\146 poly2((x : Cart[Real, 2]) => p(x) + q(x))) && (\226\136\128 p : (Cart[Real, 2]) -> Real, \226\136\128 q : (Cart[Real, 2]) -> Real, poly2(p) && poly2(q) \226\134\146 poly2((x : Cart[Real, 2]) => p(x) * q(x))) && poly2(Re) && poly2(Im)
   \226\136\128 f : (Real) -> Real, \226\136\128 e : Real, real_continuous_on(f, real_interval([(-pi, pi)])) && f(-pi) == f(pi) && real_of_num(0) < e \226\134\146 (\226\136\131 n : Num, \226\136\131 a : (Num) -> Real, \226\136\131 b : (Num) -> Real, \226\136\128 x : Real, IN(x, real_interval([(-pi, pi)])) \226\134\146 abs(f(x) - sum(op_dot_dot(0, n), (k : Num) => a(k) * sin(real_of_num(k) * x) + b(k) * cos(real_of_num(k) * x))) < e)
   {(a : Real)}
   real_interval([((a : Real), (b : Real))])
