@@ -71515,7 +71515,7 @@ pub fn rooted_edge_list_new_edge() -> @kernel.Thm {
 fn step_787() -> Unit raise {
   let t48479 = @tactics.use_then("induction", fn(x48476 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let induction_th = x48476
-    let t48478 = @kernel.assume_rule(@parser.parse_term("rooted_edge_list (E:(A->bool)->bool) u t"))
+    let t48478 = @kernel.assume_rule(@term_syntax.parse_term("rooted_edge_list((E : ((A) -> Bool) -> Bool), (u : A), (t : List[(A, A)]))"))
     @tactics.mp_tac(@drule.match_mp(induction_th)(t48478))
   })
   let t48475 = @simp.asm_simp_tac(@list.List([@sets.card_clauses(), finite_rooted_edge_set()]))
@@ -86739,7 +86739,7 @@ fn step_987() -> Unit raise {
   })
   let t58712 = @tactics.use_then("d_not_x", fn(x58709 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let th_5 = x58709
-    let t58711 = @kernel.assume_rule(@parser.parse_term("(d:A#A) = x"))
+    let t58711 = @kernel.assume_rule(@term_syntax.parse_term("(d : (A, A)) == (x : (A, A))"))
     @tactics.contr_tac(@bool.mp(@bool.not_elim(th_5), t58711))
   })
   let t58708 = @tactics.disch_then(fn(x58705 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
@@ -86869,7 +86869,7 @@ fn step_987() -> Unit raise {
   let t58667 = @tactics.thenl(@class.asm_cases_tac(@term_syntax.parse_term("(f1 : ((A, A)) -> (A, A))((d : (A, A))) == (x : (A, A))")), t58666)
   let t58606 = @tactics.use_then("d_not_x", fn(x58603 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let th_1 = x58603
-    let t58605 = @kernel.assume_rule(@parser.parse_term("(d:A#A) = x"))
+    let t58605 = @kernel.assume_rule(@term_syntax.parse_term("(d : (A, A)) == (x : (A, A))"))
     @tactics.contr_tac(@bool.mp(@bool.not_elim(th_1), t58605))
   })
   let t58602 = @tactics.disch_then(fn(x58599 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
