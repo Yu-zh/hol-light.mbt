@@ -159,6 +159,14 @@ fn named_type(
   if name == "Unit" && (try @kernel.get_type_arity("unit") catch { _ => -1L }) < 0L {
     return @preterm.Ptycon("1", check_arity("1", args))
   }
+  // a type abbreviation reads as the type it abbreviates, before any type
+  // constant, as in HOL's parser
+  if type_abbreviation(name) is Some(ty) {
+    if !args.is_empty() {
+      reject("type " + name + " takes no arguments")
+    }
+    return @preterm.pretype_of_type(ty)
+  }
   let chars = name.to_array()
   let lower = chars[0].to_string().to_lower() +
     String::from_array(chars[1:])
@@ -181,6 +189,19 @@ fn named_type(
   } else {
     reject("unknown type " + name)
     @preterm.Utv(name)
+  }
+}
+
+///|
+/// The type `name` abbreviates (new_type_abbrev), written capitalised as a
+/// type: `Complex` for complex.
+pub fn type_abbreviation(name : String) -> @kernel.HolType? {
+  let chars = name.to_array()
+  let lower = chars[0].to_string().to_lower() + String::from_array(chars[1:])
+  let abbrevs = @preterm.type_abbrevs()
+  match abbrevs.lookup(lower) {
+    Some(ty) => Some(ty)
+    None => abbrevs.lookup(name)
   }
 }
 

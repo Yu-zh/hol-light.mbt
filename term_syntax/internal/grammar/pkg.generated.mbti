@@ -2,6 +2,7 @@
 package "bobzhang/hol_light/term_syntax/internal/grammar"
 
 import {
+  "bobzhang/hol_light/kernel",
   "bobzhang/hol_light/preterm",
   "moonbitlang/core/debug",
 }
@@ -24,6 +25,8 @@ pub let set_compr_mark : String
 pub fn take_error() -> String?
 
 pub fn term(Array[(Token, Int, Int)], initial_pos? : Int) -> @preterm.Preterm raise ParseError
+
+pub fn type_abbreviation(String) -> @kernel.HolType?
 
 pub fn unescape(String) -> String
 

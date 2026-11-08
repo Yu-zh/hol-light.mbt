@@ -87,6 +87,9 @@ fn lowered(name : String) -> String {
 fn reads_as_type(s : String) -> String? {
   if s == "Unit" && !is_type_constant("unit") {
     Some("1")
+  } else if @grammar.type_abbreviation(s) is Some(_) {
+    // an abbreviation, which names neither a constant nor a variable
+    Some("")
   } else if is_type_constant(lowered(s)) {
     Some(lowered(s))
   } else if is_type_constant(s) {
