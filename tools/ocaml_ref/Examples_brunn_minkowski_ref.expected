@@ -80000,8 +80000,8 @@ Examples/brunn_minkowski quotations (466):
   (n : Num)
   inv(real_of_num((n : Num)) + real_of_num(1)) <= inv(real_of_num(n))
   distance(((y : Cart[Real, N]) + (e : Cart[Real, N]), y)) == norm(e)
-  :real
-  :real
+  :Real
+  :Real
   (y : Cart[Real, N])
   (e : Cart[Real, N])
   (y : Cart[Real, N])
@@ -80039,8 +80039,8 @@ Examples/brunn_minkowski quotations (466):
   (y : Cart[Real, N])
   (x : Cart[Real, N])
   norm((d : Cart[Real, N])) < (e : Real) && norm((k : Cart[Real, N])) < e \226\134\146 norm(d + k) < real_of_num(2) * e
-  :real
-  :real
+  :Real
+  :Real
   (d : Cart[Real, N]) + (k : Cart[Real, N])
   (x : Cart[Real, N]) + (y : Cart[Real, N])
   (k : Cart[Real, N])

@@ -201,8 +201,8 @@ fn step_5() -> Unit raise {
   let imat = @term_syntax.parse_term("interpmat")
   let pos = @term_syntax.parse_term("Pos")
   let neg = @term_syntax.parse_term("Neg")
-  let sl_ty = @parser.parse_type("sign list")
-  let real_ty = @parser.parse_type("real")
+  let sl_ty = @term_syntax.parse_type("List[Sign]")
+  let real_ty = @term_syntax.parse_type("Real")
   add_infinities_v1_c.set(fn(x17 : @list.List[@kernel.Term]) -> ((@kernel.Thm) -> ((@kernel.Thm) -> ((@kernel.Thm) -> (@kernel.Thm, (@kernel.Term, @kernel.Thm), (@kernel.Term, @kernel.Thm)) raise) raise) raise) raise {
     let vars = x17
     fn(x18 : @kernel.Thm) -> ((@kernel.Thm) -> ((@kernel.Thm) -> (@kernel.Thm, (@kernel.Term, @kernel.Thm), (@kernel.Term, @kernel.Thm)) raise) raise) raise {

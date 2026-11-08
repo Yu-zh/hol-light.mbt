@@ -983,10 +983,10 @@ fn step_29() -> Unit raise {
       s502(x503)
     }
   })
-  let t496 = @parser.parse_type("N")
-  let t497 = (@parser.parse_type("2"), t496)
-  let t495 = @parser.parse_type("M")
-  let t498 = @drule.match_mp(@kernel.inst_type(@list.List([(@parser.parse_type("1"), t495), t497]), @measure.fubini_tonelli_negligible()))
+  let t496 = @term_syntax.parse_type("N")
+  let t497 = (@term_syntax.parse_type("2"), t496)
+  let t495 = @term_syntax.parse_type("M")
+  let t498 = @drule.match_mp(@kernel.inst_type(@list.List([(@term_syntax.parse_type("1"), t495), t497]), @measure.fubini_tonelli_negligible()))
   let t500 = @tactics.first_x_assum(fn(x499 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     (fn(x492 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
       let s493 = @tactics.mp_tac(x492)
@@ -1012,8 +1012,8 @@ fn step_29() -> Unit raise {
     }
   })
   let t476 = @simp.asm_rewrite_tac(@list.List([]))
-  let t475 = @parser.parse_type("N")
-  let t477 = @tactics.then_tac(@tactics.match_mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("2"), t475)]), @measure.measurable_on_compose_fstcart())), t476)
+  let t475 = @term_syntax.parse_type("N")
+  let t477 = @tactics.then_tac(@tactics.match_mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("2"), t475)]), @measure.measurable_on_compose_fstcart())), t476)
   let t474 = @simp.rewrite_tac(@list.List([@vectors.linear_sndcart()]))
   let t473 = @tactics.match_mp_tac(@topology.linear_continuous_on())
   let t478 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(@measure.continuous_imp_measurable_on()), t473), t474), t477])
@@ -1043,8 +1043,8 @@ fn step_30() -> Unit raise {
   let t568 = @simp.rewrite_tac(@list.List([@sets.in_univ()]))
   let t567 = @tactics.x_gen_tac(@term_syntax.parse_term("(p : Cart[Real, Finite_sum[Unit, 2]])"))
   let t566 = @tactics.match_mp_tac(@simp.rewrite_rule(@list.List([@theorems.imp_conj()]))(@measure.measurable_on_eq()))
-  let t562 = @parser.parse_type("N")
-  let t563 = @drule.match_mp(@kernel.inst_type(@list.List([(@parser.parse_type("2"), t562)]), @measure.measurable_on_compose_fstcart()))
+  let t562 = @term_syntax.parse_type("N")
+  let t563 = @drule.match_mp(@kernel.inst_type(@list.List([(@term_syntax.parse_type("2"), t562)]), @measure.measurable_on_compose_fstcart()))
   let t565 = @tactics.disch_then(fn(x564 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     (fn(x559 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
       let s560 = @tactics.mp_tac(x559)
@@ -1077,8 +1077,8 @@ fn step_30() -> Unit raise {
   }), t548)
   let t538 = @simp.asm_rewrite_tac(@list.List([]))
   let t537 = @tactics.match_mp_tac(@measure.continuous_imp_measurable_on())
-  let t536 = @parser.parse_type("N")
-  let t539 = @tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("2"), t536)]), @measure.measurable_on_compose_fstcart())), t537), t538)
+  let t536 = @term_syntax.parse_type("N")
+  let t539 = @tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("2"), t536)]), @measure.measurable_on_compose_fstcart())), t537), t538)
   let t535 = @simp.rewrite_tac(@list.List([@vectors.linear_sndcart()]))
   let t534 = @tactics.match_mp_tac(@topology.linear_continuous_on())
   let t540 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(@measure.continuous_imp_measurable_on()), t534), t535), t539])
@@ -1087,8 +1087,8 @@ fn step_30() -> Unit raise {
   let t571 = @tactics.thenl(@tactics.then_tac(@tactics.match_mp_tac(@realanalysis.measurable_on_complex_mul()), @tactics.conj_tac), t570)
   let t533 = @simp.asm_rewrite_tac(@list.List([]))
   let t532 = @tactics.match_mp_tac(@measure.continuous_imp_measurable_on())
-  let t531 = @parser.parse_type("M")
-  let t572 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("1"), t531)]), @measure.measurable_on_compose_sndcart())), t532), t533), t571])
+  let t531 = @term_syntax.parse_type("M")
+  let t572 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("1"), t531)]), @measure.measurable_on_compose_sndcart())), t532), t533), t571])
   let t530 = @tactics.match_mp_tac(@realanalysis.measurable_on_complex_mul())
   let t527 = @simp.rewrite_tac(@list.List([@complexes.complex_vec_0(), @complexes.complex_mul_rzero()]))
   let t526 = @simp.rewrite_tac(@list.List([@complexes.complex_div(), @complexes.complex_mul_assoc()]))

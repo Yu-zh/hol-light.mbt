@@ -131,7 +131,7 @@ pub fn mk_pow(x : @kernel.Term) -> ((@kernel.Term) -> @kernel.Term raise) raise 
 ///|
 /// mk_realvar
 fn step_7() -> Unit raise {
-  let real_ty = @parser.parse_type("real")
+  let real_ty = @term_syntax.parse_type("Real")
   mk_realvar_c.set(fn(x19 : String) -> @kernel.Term raise {
     let x = x19
     @kernel.mk_var(x, real_ty)

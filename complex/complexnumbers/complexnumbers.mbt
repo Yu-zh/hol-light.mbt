@@ -91,7 +91,7 @@ pub fn prioritize_complex(x9 : Unit) -> Unit raise {
 ///|
 /// Complex/complexnumbers.ml:48
 fn step_7() -> Unit raise {
-  @preterm.make_overloadable("norm", @parser.parse_type("A->real"))
+  @preterm.make_overloadable("norm", @term_syntax.parse_type("(A) -> Real"))
 }
 
 ///|

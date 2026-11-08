@@ -75150,8 +75150,8 @@ test "Multivariate/canal matches Multivariate/canal.ml" {
       #|  \226\136\128 z : Cart[Real, 2], trivial_limit(within(at(z), real)) == !real(z)
       #|  \226\136\128 net : Net[A], \226\136\128 P : (B) -> Bool, \226\136\128 f : (B, A) -> Cart[Real, 2], \226\136\128 g : (B, A) -> Cart[Real, 2], \226\136\128 l : (B) -> Cart[Real, 2], \226\136\128 m : (B) -> Cart[Real, 2], \226\136\128 b1 : Real, \226\136\128 b2 : Real, eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(l(n)) <= b1, net) && eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(m(n)) <= b2, net) && (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(f(n, x) - l(n)) < e, net)) && (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(g(n, x) - m(n)) < e, net)) \226\134\146 (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(f(n, x) * g(n, x) - l(n) * m(n)) < e, net))
       #|  (b : Real) <= norm((l : Cart[Real, 2])) && norm((f : Cart[Real, 2]) - l) < b / real_of_num(2) \226\134\146 b / real_of_num(2) <= norm(f)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (b : Real) / real_of_num(2)
       #|  pow((b : Real), 2) / real_of_num(2) == b / real_of_num(2) * b
       #|  !((x : Cart[Real, 2]) == Cx(real_of_num(0))) && !((y : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 inv(x) - inv(y) == (y - x) / (x * y)
@@ -75296,10 +75296,10 @@ test "Multivariate/canal matches Multivariate/canal.ml" {
       #|  \226\136\128 f : (Cart[Real, N]) -> Cart[Real, 2], \226\136\128 c : Cart[Real, 2], \226\136\128 s : (Cart[Real, N]) -> Bool, uniformly_continuous_on(f, s) \226\134\146 uniformly_continuous_on((x : Cart[Real, N]) => f(x) * c, s)
       #|  continuous((f : (_) -> Cart[Real, _]), (net : Net[_])) == continuous((x : _) => f(x), net)
       #|  norm((a : Cart[Real, N]) - (b : Cart[Real, N])) < (d : Real) \226\134\146 abs(norm(a) - norm(b)) < d
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 z : Cart[Real, N], continuous((z : Cart[Real, N]) => Cx(norm(z)), at(z))
       #|  \226\136\128 z : Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, continuous((z : Cart[Real, N]) => Cx(norm(z)), within(at(z), s))
       #|  \226\136\128 s : (Cart[Real, _]) -> Bool, continuous_on((z : Cart[Real, _]) => Cx(norm(z)), s)
@@ -75680,8 +75680,8 @@ test "Multivariate/canal matches Multivariate/canal.ml" {
       #|  norm((z : Cart[Real, 2]))
       #|  (e : Real)
       #|  distance(((x : Cart[Real, _]), vec(0))) == norm(x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (n : Num)
       #|  (m : Num) => (pow((z : Cart[Real, 2]), (n : Num)) - pow(z, SUC(m))) / (Cx(real_of_num(1)) - z)
       #|  (z : Cart[Real, 2]) == Cx(real_of_num(1))
@@ -75708,9 +75708,9 @@ test "Multivariate/canal matches Multivariate/canal.ml" {
       #|  (k : Num)
       #|  sum(op_dot_dot((m : Num), (n : Num)), (k : Num) => norm((g : (Num) -> Cart[Real, 2])(k + 1) - g(k)) * (B : Real))
       #|  norm((c : Cart[Real, 2])) <= (e : Real) - norm((a : Cart[Real, 2])) - norm((b : Cart[Real, 2])) \226\134\146 norm(a - b - c) <= e
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (p : Num) <= (k : Num)
       #|  (k : Num)
       #|  norm(vsum(op_dot_dot((m : Num), (n : Num)), (k : Num) => (vsum(op_dot_dot((p : Num), k), (f : (Num) -> Cart[Real, 2])) - vsum(op_dot_dot(p, k - 1), f)) * (g : (Num) -> Cart[Real, 2])(k)))
@@ -75858,30 +75858,30 @@ test "Multivariate/canal matches Multivariate/canal.ml" {
       #|  (x : Real) < (e : Real) / real_of_num(2) && x < e / real_of_num(2) / (M : Real) \226\134\146 x < e / real_of_num(2)
       #|  real_of_num(0) <= (y : Real) && (x : Real) < real_of_num(1) \226\134\146 x - y < real_of_num(1)
       #|  (norm((x : Cart[Real, 2]) - (y : Cart[Real, 2])) <= real_of_num(0)) == (x == y)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  norm(Cx(real_of_num(1)) - (z : Cart[Real, 2])) <= (M : Real) * (real_of_num(1) - norm(z))
       #|  ((M : Real) * (z1 : Real) * ((e : Real) / real_of_num(2) / M * (s : Real)) < e / real_of_num(2)) == (e * (M / M * (s * z1)) < e * real_of_num(1))
       #|  (x : Real) < (e : Real) / real_of_num(2) && x < e / real_of_num(2) / (M : Real) \226\134\146 x <= e / real_of_num(2) / M
       #|  (p : Num)
       #|  (M : Real) * (real_of_num(1) - norm((z : Cart[Real, 2]))) * sum(op_dot_dot((m : Num) + 1, (n : Num) - 1), (i : Num) => (e : Real) / real_of_num(2) / M * pow(norm(z), i))
       #|  norm((a : Cart[Real, 2])) < (e : Real) / real_of_num(2) && norm((b : Cart[Real, 2])) < e / real_of_num(2) \226\134\146 norm(a + b) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (m : Num) + 1 < (n : Num)
       #|  (n : Num)
       #|  (m : Num)
       #|  norm((a : Cart[Real, 2]) - (b : Cart[Real, 2])) <= (M : Real) \226\134\146 real_of_num(0) <= -M \226\134\146 b == a
-      #|  :real
+      #|  :Real
       #|  !((z : Cart[Real, 2]) == Cx(real_of_num(1)))
       #|  norm((z : Cart[Real, 2])) < real_of_num(1)
       #|  (z : Cart[Real, 2])
       #|  (N : Num)
       #|  (a : Cart[Real, 2]) + (c : Cart[Real, 2]) == (b : Cart[Real, 2]) \226\134\146 distance((a, b)) == norm(c)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 f : (Num) -> Cart[Real, 2], \226\136\128 m : Num, \226\136\128 n : Num, m <= n \226\134\146 distance((vsum(op_dot_dot(0, m), f), vsum(op_dot_dot(0, n), f))) == norm(vsum(op_dot_dot(m + 1, n), f))
       #|  min((e : Real) / real_of_num(2), e / real_of_num(2) / (M : Real))
       #|  (\226\136\128 m : _, \226\136\128 n : _, \226\136\128 z : _, (P : (_) -> Bool)(m) && P(n) && (Q : (_) -> Bool)(z) \226\134\146 (R : (_, _, _) -> Bool)(m, n, z)) == (\226\136\128 z : _, Q(z) \226\134\146 (\226\136\128 m : _, \226\136\128 n : _, P(m) && P(n) \226\134\146 R(m, n, z)))
@@ -75907,12 +75907,12 @@ test "Multivariate/canal matches Multivariate/canal.ml" {
       #|  (m : Num)
       #|  1
       #|  (x : Cart[Real, 2]) == (y : Cart[Real, 2]) && real_of_num(0) < (e : Real) \226\134\146 norm(y - x) < e
-      #|  :real
+      #|  :Real
       #|  (n : Num)
       #|  1
       #|  (real_of_num(0) <= -norm((z : Cart[Real, _]))) == (z == vec(0))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_of_num(0) < (M : Real) \226\134\146 real_of_num(0) < real_of_num(1) + M
       #|  ((n : Real) <= (M : Real) * -n) == (real_of_num(0) <= -n * (real_of_num(1) + M))
       #|  (w : Cart[Real, 2]) == Cx(real_of_num(0))
@@ -75937,8 +75937,8 @@ test "Multivariate/canal matches Multivariate/canal.ml" {
       #|  distance(((z : Cart[Real, 2]), (w : Cart[Real, 2]))) < (r : Real)
       #|  (z : Cart[Real, 2]) + (r : Cart[Real, 2]) - z == r
       #|  distance(((z : Cart[Real, 2]), z + (r : Cart[Real, 2]))) == norm(r)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (z : Cart[Real, 2]) + Cx(((r : Real) + (R : Real)) / real_of_num(2))
       #|  Cx(((r : Real) + (R : Real)) / real_of_num(2))
       #|  (k : (Num) -> Bool)
@@ -75954,14 +75954,14 @@ test "Multivariate/canal matches Multivariate/canal.ml" {
       #|  (R : Real) == ((r : Real) + distance(((z : Cart[Real, 2]), (w : Cart[Real, 2])))) / real_of_num(2)
       #|  (w : Cart[Real, 2])
       #|  \226\136\128 a : (Num) -> Cart[Real, 2], \226\136\128 k : (Num) -> Bool, \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, (\226\136\128 w : Cart[Real, 2], IN(w, ball((z, r))) \226\134\146 sums((n : Num) => a(n) * pow(w - z, n), f(w), k)) \226\134\146 continuous_on(f, ball((z, r)))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  {(i : Num) | IN((m : Num) + i, (k : (Num) -> Bool))}
       #|  (i : Num) => (c : (Num) -> Cart[Real, 2])((m : Num) + i) * pow((z : Cart[Real, 2]) - z, i)
       #|  (g : (Cart[Real, 2]) -> Cart[Real, 2])((z : Cart[Real, 2])) == (c : (Num) -> Cart[Real, 2])((m : Num))

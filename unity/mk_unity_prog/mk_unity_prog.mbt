@@ -3,7 +3,7 @@
 ///|
 /// NUM
 fn step_1() -> Unit raise {
-  num_c.set(@parser.parse_type("num"))
+  num_c.set(@term_syntax.parse_type("Num"))
 }
 
 ///|
@@ -18,7 +18,7 @@ pub fn num() -> @kernel.HolType {
 ///|
 /// BOOL
 fn step_2() -> Unit raise {
-  bool_c.set(@parser.parse_type("bool"))
+  bool_c.set(@term_syntax.parse_type("Bool"))
 }
 
 ///|
@@ -229,31 +229,31 @@ pub fn v() -> @kernel.Term {
 ///|
 /// Unity/mk_unity_prog.ml:255
 fn step_12() -> Unit raise {
-  @preterm.new_type_abbrev("stype", @parser.parse_type("Loc->Val"))
+  @preterm.new_type_abbrev("stype", @term_syntax.parse_type("(Loc) -> Val"))
 }
 
 ///|
 /// Unity/mk_unity_prog.ml:257
 fn step_13() -> Unit raise {
-  @preterm.new_type_abbrev("vtype", @parser.parse_type("(stype->T)#((stype->T)->stype->stype->stype)"))
+  @preterm.new_type_abbrev("vtype", @term_syntax.parse_type("((Stype) -> T, ((Stype) -> T, Stype, Stype) -> Stype)"))
 }
 
 ///|
 /// Unity/mk_unity_prog.ml:259
 fn step_14() -> Unit raise {
-  @preterm.new_type_abbrev("vindex_type", @parser.parse_type("(stype->I->T)#((stype->I->T)->stype->stype->stype)"))
+  @preterm.new_type_abbrev("vindex_type", @term_syntax.parse_type("((Stype, I) -> T, ((Stype, I) -> T, Stype, Stype) -> Stype)"))
 }
 
 ///|
 /// Unity/mk_unity_prog.ml:261
 fn step_15() -> Unit raise {
-  @preterm.new_type_abbrev("vpair_type", @parser.parse_type("(stype->A#B)#((stype->A#B)->stype->stype->stype)"))
+  @preterm.new_type_abbrev("vpair_type", @term_syntax.parse_type("((Stype) -> (A, B), ((Stype) -> (A, B), Stype, Stype) -> Stype)"))
 }
 
 ///|
 /// Unity/mk_unity_prog.ml:263
 fn step_16() -> Unit raise {
-  @preterm.new_type_abbrev("seq_type", @parser.parse_type("Loc->(num->Val)->(Val->num)->num->(stype->stype)list#num"))
+  @preterm.new_type_abbrev("seq_type", @term_syntax.parse_type("(Loc, (Num) -> Val, (Val) -> Num, Num) -> (List[(Stype) -> Stype], Num)"))
 }
 
 ///|

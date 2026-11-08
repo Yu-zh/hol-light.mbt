@@ -2424,7 +2424,7 @@ fn step_31() -> Unit raise {
     },
     @list.List([decimal()]),
   )
-  let real_ty = @parser.parse_type("real")
+  let real_ty = @term_syntax.parse_type("Real")
   let t260 = @term_syntax.parse_term("pow")
   let t261 = @term_syntax.parse_term("op_slash")
   let t262 = @term_syntax.parse_term("real_mul")

@@ -87960,8 +87960,8 @@ test "100/independence matches 100/independence.ml" {
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 x : Cart[Real, N], norm(a) < real_of_num(1) && norm(b) < real_of_num(1) && norm(x) < real_of_num(1) \226\134\146 between(x, (a, b)) == (collinear({a, x, b}) && ddist((x, a)) <= ddist((a, b)) && ddist((x, b)) <= ddist((a, b)))
       #|  (x : Real) < real_of_num(1) * real_of_num(1) \226\134\146 !(real_of_num(1) - x == real_of_num(0))
       #|  distance(((y : Cart[Real, _]), (x : Cart[Real, _]))) < real_of_num(1) - norm(x) \226\134\146 norm(y) < real_of_num(1)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, N])
       #|  real_of_num(1) - norm((x : Cart[Real, N]))
       #|  (x : Cart[Real, N]) => lift(pow(real_of_num(1) - dot((a : Cart[Real, N]), x), 2) / ((real_of_num(1) - pow(norm(a), 2)) * (real_of_num(1) - pow(norm(x), 2))) - real_of_num(1))
@@ -88113,18 +88113,18 @@ test "100/independence matches 100/independence.ml" {
       #|  (-(x : Cart[Real, N]) == x) == (x == vec(0))
       #|  real_of_num(0) < (x : Real) && real_of_num(0) < (y : Real) \226\134\146 ((a : Real) * (inv(x) * inv(y)) - real_of_num(1) == (b : Real) * (inv(x) * inv(y)) - real_of_num(1)) == (a == b)
       #|  (norm((a : Cart[Real, N])) == norm((b : Cart[Real, _]))) == (distance((a, vec(0))) == distance((vec(0), b)))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  between((f : (Cart[Real, 2]) -> Cart[Real, 2])((x : Cart[Real, 2])), (f((p : Cart[Real, 2])), f((q : Cart[Real, 2])))) && ddist((f(x), f(p))) == ddist((f(x), f(q)))
       #|  (f : (Cart[Real, 2]) -> Cart[Real, 2])((q : Cart[Real, 2])) == -f((p : Cart[Real, 2]))
       #|  ddist(((f : (Cart[Real, 2]) -> Cart[Real, 2])((a : Cart[Real, 2])), f((p : Cart[Real, 2])))) == ddist((f(a), f((q : Cart[Real, 2])))) && ddist((f((b : Cart[Real, 2])), f(p))) == ddist((f(b), f(q))) && ddist((f((c : Cart[Real, 2])), f(p))) == ddist((f(c), f(q))) && !(f(q) == f(p))

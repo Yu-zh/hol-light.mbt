@@ -81802,8 +81802,8 @@ test "100/dirichlet matches 100/dirichlet.ml" {
       #|  (c : Cart[Real, 2]) * (x : Cart[Real, 2]) - (c - Cx(real_of_num(1))) * x == x
       #|  vsum(op_dot_dot(1, (x : Num)), (n : Num) => (chi_0((d : Num), n) - Cx(real_of_num(1))) * Cx(mangoldt(n) / real_of_num(n)))
       #|  \226\136\128 s' : Cart[Real, 2], norm(s') <= (p : Real) && norm((s : Cart[Real, 2]) - s' - (l : Cart[Real, 2])) <= real_of_num(21) \226\134\146 norm(s - l) <= abs(p) + real_of_num(21)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Real) <= (a : Real) + (b : Real) \226\134\146 x <= a + (abs((y : Real)) + b)
       #|  (x : Num) == 0
       #|  (x : Num)
@@ -81917,8 +81917,8 @@ test "100/dirichlet matches 100/dirichlet.ml" {
       #|  sum(IMAGE((k : Num) => EXP((p : Num), k), op_dot_dot(0, (N : Num))), (x : Num) => Re(vsum({(d : Num) | divides(d, x)}, (d : Num) => (c : (Num) -> Cart[Real, 2])(d))) * pow((t : Real), x))
       #|  (a : Real) <= Re((z : Cart[Real, 2])) && abs(Re(z)) <= norm(z) \226\134\146 a <= norm(z)
       #|  (B : Real) + real_of_num(1) <= norm((x : Cart[Real, _])) \226\134\146 norm((y : Cart[Real, _])) <= B \226\134\146 !(distance((x, y)) < real_of_num(1))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  norm((f : (Cart[Real, 2]) -> Cart[Real, 2])(Cx((t : Real)))) <= (B : Real)
       #|  (n : Num)
       #|  EXP((p : Num), (N : Num)) + ((M : Num) + 1)
@@ -81938,14 +81938,14 @@ test "100/dirichlet matches 100/dirichlet.ml" {
       #|  (real_of_num(0) <= (x : Real) && abs(x) < real_of_num(1)) == (real_of_num(0) <= x && x < real_of_num(1))
       #|  !bounded({(f : (Cart[Real, 2]) -> Cart[Real, 2])((t : Cart[Real, 2])) | real(t) && real_of_num(0) <= Re(t) && norm(t) < real_of_num(1)})
       #|  norm((w : Cart[Real, 2])) == real_of_num(1) && norm((z : Cart[Real, _])) < real_of_num(1) && norm((zn : Cart[Real, 2])) <= norm(z) \226\134\146 abs(real_of_num(1) - norm(z)) <= norm(w - zn)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (real_of_num(0) < abs((x : Real) - (a : Real))) == !(a == x)
       #|  (m : Num) < (r : Num) \226\134\146 1 <= r - m
       #|  (n : Num)
@@ -81971,8 +81971,8 @@ test "100/dirichlet matches 100/dirichlet.ml" {
       #|  (f : (Cart[Real, 2]) -> Cart[Real, 2])
       #|  pow(norm((z : Cart[Real, 2])), (N : Num))
       #|  norm((z : Cart[Real, 2])) <= norm((w : Cart[Real, 2])) - (h : Real) \226\134\146 h <= norm(w - z)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_of_num(2) == inv(real_of_num(1) / real_of_num(2))
       #|  (n : Num)
       #|  (N : Num)

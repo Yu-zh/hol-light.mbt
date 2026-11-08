@@ -6698,7 +6698,7 @@ Rqe/defs quotations (28):
   (x : Real) => x == (h1 : Real)
   (x : Real) => (h1 : Real) < x && x < (h2 : Real)
   partition_line
-  :real->bool
+  :(Real) -> Bool
   (interpmat : (List[Real], List[(Real) -> Real], List[List[Sign]]) -> Bool)((ptl : List[Real]), (polyl : List[(Real) -> Real]), (signll : List[List[Sign]])) == (real_ordered_list(ptl) && ALL2(interpsigns(polyl), partition_line(ptl), signll))
   interpmat
 sign_INDUCT =  |- (#forall:fun(fun(fun(sign,bool),bool),bool) (\P:fun(sign,bool). ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) (P:fun(sign,bool) #Zero:sign)) ((#/\:fun(bool,fun(bool,bool)) (P:fun(sign,bool) #Pos:sign)) ((#/\:fun(bool,fun(bool,bool)) (P:fun(sign,bool) #Neg:sign)) ((#/\:fun(bool,fun(bool,bool)) (P:fun(sign,bool) #Nonzero:sign)) (P:fun(sign,bool) #Unknown:sign)))))) (#forall:fun(fun(sign,bool),bool) (\x:sign. (P:fun(sign,bool) x:sign))))))

@@ -177,12 +177,12 @@ fn step_3() -> Unit raise {
   let neg = @term_syntax.parse_term("Neg")
   let num_mul = @term_syntax.parse_term("(op_star : (Num, Num) -> Num)")
   let num_add = @term_syntax.parse_term("(op_plus : (Num, Num) -> Num)")
-  let real_ty = @parser.parse_type("real")
+  let real_ty = @term_syntax.parse_type("Real")
   let one = @term_syntax.parse_term("1")
   let two = @term_syntax.parse_term("2")
   let f = @term_syntax.parse_term("false")
   let imat = @term_syntax.parse_term("interpmat")
-  let sl_ty = @parser.parse_type("sign list")
+  let sl_ty = @term_syntax.parse_type("List[Sign]")
   fn inferisign_rec(x7 : @list.List[@kernel.Term], x8 : @kernel.Thm, x9 : @kernel.Thm, x10 : @list.List[(@kernel.Term, @kernel.Thm)]) -> ((@kernel.Thm, @list.List[(@kernel.Term, @kernel.Thm)])) raise {
     let vars = x7
     let diff_thm = x8

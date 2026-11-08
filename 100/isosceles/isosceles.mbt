@@ -4,8 +4,8 @@
 /// ISOSCELES_TRIANGLE_THEOREM
 fn step_1() -> Unit raise {
   let t2 = @meson.meson_tac(@list.List([@vectors.dist_sym(), @geom.angle_sym()]))
-  let t1 = @parser.parse_type("M")
-  let t3 = @tactics.then_tac(@tactics.mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("N"), t1)]), @geom.congruent_triangles_sss())), t2)
+  let t1 = @term_syntax.parse_type("M")
+  let t3 = @tactics.then_tac(@tactics.mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("N"), t1)]), @geom.congruent_triangles_sss())), t2)
   isosceles_triangle_theorem_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Real, N], ∀ B : Cart[Real, N], ∀ C : Cart[Real, N], distance((A, C)) == distance((B, C)) → angle((C, A, B)) == angle((A, B, C))"), t3))
 }
 
@@ -22,8 +22,8 @@ pub fn isosceles_triangle_theorem() -> @kernel.Thm {
 /// ISOSCELES_TRIANGLE_CONVERSE
 fn step_2() -> Unit raise {
   let t5 = @meson.meson_tac(@list.List([@vectors.dist_sym(), @geom.angle_sym()]))
-  let t4 = @parser.parse_type("M")
-  let t6 = @tactics.then_tac(@tactics.mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("N"), t4)]), @geom.congruent_triangles_asa_full())), t5)
+  let t4 = @term_syntax.parse_type("M")
+  let t6 = @tactics.then_tac(@tactics.mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("N"), t4)]), @geom.congruent_triangles_asa_full())), t5)
   isosceles_triangle_converse_c.set(@tactics.prove(@term_syntax.parse_term("∀ A : Cart[Real, N], ∀ B : Cart[Real, N], ∀ C : Cart[Real, N], angle((C, A, B)) == angle((A, B, C)) && !collinear({A, B, C}) → distance((A, C)) == distance((B, C))"), t6))
 }
 

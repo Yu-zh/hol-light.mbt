@@ -876,7 +876,7 @@ pub fn grobvars(x : @kernel.Term) -> @list.List[@kernel.Term] raise {
 fn step_8() -> Unit raise {
   let zero_tm = @term_syntax.parse_term("Cx(real_of_num(0))")
   let sub_tm = @term_syntax.parse_term("complex_sub")
-  let complex_ty = @parser.parse_type("complex")
+  let complex_ty = @term_syntax.parse_type("Complex")
   let grobify_equation : (@list.List[@kernel.Term]) -> ((@kernel.Term) -> @list.List[(@num.Num, @list.List[Int64])] raise) raise = fn(x178 : @list.List[@kernel.Term]) -> ((@kernel.Term) -> @list.List[(@num.Num, @list.List[Int64])] raise) raise {
     let vars = x178
     fn(x179 : @kernel.Term) -> @list.List[(@num.Num, @list.List[Int64])] raise {
@@ -1024,7 +1024,7 @@ pub fn[TA] resolve_proof(x200 : @list.List[TA], x201 : History) -> @list.List[(I
 ///|
 /// holify_polynomial
 fn step_9() -> Unit raise {
-  let complex_ty = @parser.parse_type("complex")
+  let complex_ty = @term_syntax.parse_type("Complex")
   let pow_tm = @term_syntax.parse_term("complex_pow")
   let t209 = @term_syntax.parse_term("complex_mul")
   let mk_mul : (@kernel.Term) -> ((@kernel.Term) -> @kernel.Term raise) raise = fn(x212 : @kernel.Term) -> ((@kernel.Term) -> @kernel.Term raise) raise {

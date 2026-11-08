@@ -3,7 +3,7 @@
 ///|
 /// real_ty
 fn step_1() -> Unit raise {
-  real_ty_c.set(@parser.parse_type("real"))
+  real_ty_c.set(@term_syntax.parse_type("Real"))
 }
 
 ///|

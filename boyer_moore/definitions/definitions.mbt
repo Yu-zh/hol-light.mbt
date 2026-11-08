@@ -80,7 +80,7 @@ pub fn is_explicit_value(x15 : @kernel.Term) -> Bool raise {
     let constructors = x16
     let tm_1 = x17
     (@support.is_t(tm_1) || (@support.is_f(tm_1) || (if (if @kernel.is_const(tm_1) {
-      let t18 = @parser.parse_type("num")
+      let t18 = @term_syntax.parse_type("Num")
       (@kernel.type_of(tm_1) == t18)
     } else {
       false

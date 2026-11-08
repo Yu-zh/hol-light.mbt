@@ -1416,7 +1416,7 @@ fn step_38() -> Unit raise {
   let t160 = @term_syntax.parse_term("(m : Num)")
   let t161 = @term_syntax.parse_term("(n : Num)")
   let (n, n_1, m, i, p, b) = (
-    @parser.parse_type("N"),
+    @term_syntax.parse_type("N"),
     t161,
     t160,
     t159,
@@ -2268,7 +2268,7 @@ fn step_39() -> Unit raise {
   let t246 = @term_syntax.parse_term("(p : Bitpat)")
   let t247 = @term_syntax.parse_term("(e : Word[N])")
   let t248 = @term_syntax.parse_term("(i : Num)")
-  let (n, i, e, p) = (@parser.parse_type("N"), t248, t247, t246)
+  let (n, i, e, p) = (@term_syntax.parse_type("N"), t248, t247, t246)
   pat_to_bit_c.set(fn(
     x249 : Bool,
   ) -> ((@kernel.Term) -> ((@kernel.Term) -> @kernel.Thm raise) raise) raise {
@@ -2533,8 +2533,8 @@ fn step_40() -> Unit raise {
   let t275 = @term_syntax.parse_term("(rs : (Num, B) -> Bool)")
   let t276 = @term_syntax.parse_term("(r : (Num, B) -> Bool)")
   let t277 = @term_syntax.parse_term("(e : Word[N])")
-  let t278 = @parser.parse_type("B")
-  let (n, b, e, r, rs) = (@parser.parse_type("N"), t278, t277, t276, t275)
+  let t278 = @term_syntax.parse_type("B")
+  let (n, b, e, r, rs) = (@term_syntax.parse_type("N"), t278, t277, t276, t275)
   let t280 = @tactics.then_tac(
     @tactics.disch_tac,
     @simp.asm_rewrite_tac(@list.List([])),
@@ -2568,7 +2568,7 @@ fn step_40() -> Unit raise {
       @tactics.prove(x279.0, x279.1)
     })(t281),
   )
-  let a = @parser.parse_type("A")
+  let a = @term_syntax.parse_type("A")
   let p = @term_syntax.parse_term("(P : (A) -> Bool)")
   let strip_ex : (@kernel.Term) -> ((@kernel.Thm) -> @kernel.Thm raise) raise = fn(
     x282 : @kernel.Term,
@@ -2796,7 +2796,7 @@ pub fn[TA, TB] map_dt(
 ///|
 /// bm_build_tree'
 fn step_41() -> Unit raise {
-  let n = @parser.parse_type("N")
+  let n = @term_syntax.parse_type("N")
   let bit_tm : (@kernel.Term) -> ((@kernel.Term) -> @kernel.Term raise) raise = fn(
     x298 : @kernel.Term,
   ) -> ((@kernel.Term) -> @kernel.Term raise) raise {
@@ -2851,8 +2851,8 @@ fn step_41() -> Unit raise {
   let seqp_rand : (@kernel.Term) -> ((@kernel.Thm) -> @kernel.Thm raise) raise = match
     @kernel.frees(@kernel.concl(th)) {
     More(rs1, tail=More(e_1, tail=More(r, tail=More(rs2, tail=Empty)))) => {
-      let t303 = @parser.parse_type("B")
-      let (n_1, b) = (@parser.parse_type("N"), t303)
+      let t303 = @term_syntax.parse_type("B")
+      let (n_1, b) = (@term_syntax.parse_type("N"), t303)
       fn(x304 : @kernel.Term) -> ((@kernel.Thm) -> @kernel.Thm raise) raise {
         let r_p = x304
         fn(x305 : @kernel.Thm) -> @kernel.Thm raise {
@@ -3495,9 +3495,9 @@ fn step_50() -> Unit raise {
   let t363 = @term_syntax.parse_term("(f : (Num) -> A)")
   let t364 = @term_syntax.parse_term("(a : Word[N])")
   let t365 = @term_syntax.parse_term("(p : Bitpat)")
-  let t366 = @parser.parse_type("A")
+  let t366 = @term_syntax.parse_type("A")
   let (n, a, p, a_1, f, x, b) = (
-    @parser.parse_type("N"),
+    @term_syntax.parse_type("N"),
     t366,
     t365,
     t364,
@@ -3874,7 +3874,7 @@ fn step_51() -> Unit raise {
   let t403 = @term_syntax.parse_term("(B : Bool)")
   let t404 = @term_syntax.parse_term("(A : Bool)")
   let (nty, ea, eb, ep, ef, ex) = (
-    @parser.parse_type("N"),
+    @term_syntax.parse_type("N"),
     t404,
     t403,
     t402,
@@ -4053,7 +4053,7 @@ pub fn bm_add_pos(
     ) => {
       let n = dest_word_ty(@kernel.type_of(e))
       let val_e = @kernel.mk_comb(
-        @kernel.mk_const("val", @list.List([(n, @parser.parse_type("N"))])),
+        @kernel.mk_const("val", @list.List([(n, @term_syntax.parse_type("N"))])),
         e,
       )
       fn build_cases(
@@ -4285,7 +4285,7 @@ fn step_52() -> Unit raise {
   )
   let t453 = @term_syntax.parse_term("false")
   let t454 = @term_syntax.parse_term("true")
-  let (en_1, t, f) = (@parser.parse_type("N"), t454, t453)
+  let (en_1, t, f) = (@term_syntax.parse_type("N"), t454, t453)
   let dn = @term_syntax.parse_term("(dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))")
   let dim : (@kernel.HolType) -> @kernel.Thm raise = fn(
     x455 : @kernel.HolType,
@@ -4363,7 +4363,7 @@ fn step_52() -> Unit raise {
   )
   let t491 = @list.List([(@term_syntax.parse_term("0"), ea)])
   let t492 = @bool.pinst(
-    @list.List([(@parser.parse_type("1"), en_1)]),
+    @list.List([(@term_syntax.parse_type("1"), en_1)]),
     t491,
     pth,
   )
@@ -4477,7 +4477,7 @@ fn step_52() -> Unit raise {
   )
   let t479 = @list.List([(@term_syntax.parse_term("1"), ea)])
   let t480 = @bool.pinst(
-    @list.List([(@parser.parse_type("1"), en_1)]),
+    @list.List([(@term_syntax.parse_type("1"), en_1)]),
     t479,
     pth,
   )
@@ -5263,7 +5263,7 @@ pub fn bitmatch_simp_conv(x552 : @list.List[@kernel.Thm]) -> @equal.Conv raise {
           cs
         )
       ) as tm_2 => {
-        let t556 = @parser.parse_type("N")
+        let t556 = @term_syntax.parse_type("N")
         let t557 = @kernel.mk_comb(
           @kernel.mk_const(
             "val",
@@ -5447,7 +5447,7 @@ fn step_53() -> Unit raise {
   let t573 = @term_syntax.parse_term("(e : Word[N])")
   let t574 = @term_syntax.parse_term("(e : Num)")
   let (en, ee, ee_p, en_1, em, ek) = (
-    @parser.parse_type("N"),
+    @term_syntax.parse_type("N"),
     t574,
     t573,
     t572,
@@ -6118,7 +6118,7 @@ pub fn only_bitmatch_cases_then(
                     (@kernel.mk_comb(f_1, @kernel.mk_abs(z, tm)), t636)
                   }
                   tm_1 => {
-                    let t637 = @parser.parse_type("N")
+                    let t637 = @term_syntax.parse_type("N")
                     let t638 = @kernel.mk_comb(
                       @kernel.mk_const(
                         "val",
@@ -6459,7 +6459,7 @@ pub fn bm_seq_numeral(
       let sz = @num.int63_of_num(@basics.dest_finty(n))
       let word = @kernel.mk_const(
         "word",
-        @list.List([(n, @parser.parse_type("N"))]),
+        @list.List([(n, @term_syntax.parse_type("N"))]),
       )
       fn mk_fun(
         x666 : @kernel.Term,

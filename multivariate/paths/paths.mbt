@@ -43964,7 +43964,7 @@ fn step_919() -> Unit raise {
   let t24879 = @tactics.match_mp_tac(@meson.meson(@list.List([]), @term_syntax.parse_term("(∀ s : (_) -> Bool, ∀ t : (_) -> Bool, ∀ u : _, ∀ v : _, IN((x : _), s) → (P : (_, (_) -> Bool, (_) -> Bool, _, _) -> Bool)(x, s, t, u, v)) && (∀ x : _, ∀ s : (_) -> Bool, ∀ t : (_) -> Bool, ∀ u : _, ∀ v : _, P(x, s, t, u, v) → P(x, t, s, v, u)) → (∀ s : (_) -> Bool, ∀ t : (_) -> Bool, ∀ u : _, ∀ v : _, IN(x, s) || IN(x, t) → P(x, s, t, u, v))")))
   let t24878 = @tactics.map_every(fn(x24876 : String) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s = x24876
-    let x = @kernel.mk_var(s, @parser.parse_type("real^N->bool"))
+    let x = @kernel.mk_var(s, @term_syntax.parse_type("(Cart[Real, N]) -> Bool"))
     @tactics.spec_tac(x, x)
   }, @list.List(["v", "u", "t", "s"]))
   let t24875 = @simp.once_rewrite_tac(@list.List([@class.taut(@term_syntax.parse_term("((p : Bool) → (q : Bool) → (r : Bool)) == (q → p → r)"))]))

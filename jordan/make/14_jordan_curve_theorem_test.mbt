@@ -33137,7 +33137,7 @@ test "Jordan/jordan_curve_theorem matches Jordan/jordan_curve_theorem.ml" {
       #|  (S : _) == (G : _)
       #|  (S : (((Num) -> Real) -> Bool) -> Bool) == {(e : ((Num) -> Real) -> Bool) | (G : (((Num) -> Real) -> Bool) -> Bool)(e) && (\226\136\131 p : (Int, Int), SUBSET(e, jordan_squc(p)) && SUBSET(jordan_squ(p), euclid_component(jordan_ctop(G), (x : (Num) -> Real))))}
       #|  \226\136\128 G : (((Num) -> Real) -> Bool) -> Bool, \226\136\128 x : (Num) -> Real, \226\136\128 e : ((Num) -> Real) -> Bool, jordan_segment(G) && !(euclid_component(jordan_ctop(G), x) == {}) && G(e) \226\134\146 (\226\136\131 p : (Int, Int), SUBSET(e, jordan_squc(p)) && SUBSET(jordan_squ(p), euclid_component(jordan_ctop(G), x)))
-      #|  :(A->bool)#(B->bool)#(B->(A->bool))
+      #|  :((A) -> Bool, (B) -> Bool, (B, A) -> Bool)
       #|  :A
       #|  (graph_vertex : (Graph_t[A, B], A) -> Bool)((G : Graph_t[A, B])) == FST(dest_graph_t(G))
       #|  (graph_edge : (Graph_t[A, B], B) -> Bool)((G : Graph_t[A, B])) == part1(dest_graph_t(G))
@@ -59072,7 +59072,7 @@ test "Jordan/jordan_curve_theorem matches Jordan/jordan_curve_theorem.ml" {
       #|  HAS_SIZE(jordan_graph_inc((G : Graph_t[_, _]), (e : _)), 2)
       #|  \226\136\128 G : Graph_t[A, B], \226\136\128 e : B, jordan_graph(G) && jordan_graph_edge(G, e) \226\134\146 (\226\136\131 v : A, \226\136\131 v' : A, jordan_graph_inc(G, e, v) && jordan_graph_inc(G, e, v') && !(v == v'))
       #|  inf((X : (Real) -> Bool)) == select((s : Real) => (\226\136\128 x : Real, X(x) \226\134\146 s <= x) && (\226\136\128 y : Real, (\226\136\128 x : Real, X(x) \226\134\146 y <= x) \226\134\146 y <= s))
-      #|  :(real->bool)->real
+      #|  :((Real) -> Bool) -> Real
       #|  \226\136\128 a : Real, \226\136\128 b : Real, euclid_closed_(euclid_top_of_metric((UNIV, euclid_d_real)), {(x : Real) | a <= x && x <= b})
       #|  DIFF(UNIV, {(x : Real) | x <= (a : Real)}) == {(x : Real) | a < x}
       #|  \226\136\128 a : Real, euclid_closed_(euclid_top_of_metric((UNIV, euclid_d_real)), {(x : Real) | x <= a})

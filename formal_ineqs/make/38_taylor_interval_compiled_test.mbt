@@ -1006,8 +1006,8 @@ test "Formal_ineqs/taylor/theory/taylor_interval-compiled matches Formal_ineqs/t
       #|  real_of_num(0) < (x : Real) \226\134\146 real_differentiable(abs, atreal(x))
       #|  -real_of_num(1)
       #|  (x : Real) < real_of_num(0) \226\134\146 real_differentiable(abs, atreal(x))
-      #|  :real->real
-      #|  :real
+      #|  :(Real) -> Real
+      #|  :Real
       #|  real_differentiable((f : (Real) -> Real), atreal((x : Real)))
       #|  real_of_num(0) < (f : (Real) -> Real)((x : Real)) \226\134\146 real_differentiable((x : Real) => abs(f(x)), atreal(x)) && derivative((x : Real) => abs(f(x)), x) == derivative(f, x)
       #|  real_abs
@@ -1037,10 +1037,10 @@ test "Formal_ineqs/taylor/theory/taylor_interval-compiled matches Formal_ineqs/t
       #|  asn
       #|  -real_of_num(1) < (f : (Real) -> Real)((x : Real)) \226\134\146 real_differentiable((x : Real) => matan(f(x)), atreal(x)) && derivative((x : Real) => matan(f(x)), x) == dmatan(f(x)) * derivative(f, x)
       #|  matan
-      #|  :real -> real
-      #|  :real -> real
-      #|  :real
-      #|  :real
+      #|  :(Real) -> Real
+      #|  :(Real) -> Real
+      #|  :Real
+      #|  :Real
       #|  real_differentiable((f : (Real) -> Real), atreal((x : Real)))
       #|  derivative((x : Real) => (c : Real) * (f : (Real) -> Real)(x), (x : Real)) == c * derivative(f, x)
       #|  derivative((x : Real) => -(f : (Real) -> Real)(x), (x : Real)) == -derivative(f, x)
@@ -1065,10 +1065,10 @@ test "Formal_ineqs/taylor/theory/taylor_interval-compiled matches Formal_ineqs/t
       #|  true
       #|  true
       #|  real_differentiable((g : (Real) -> Real), atreal((x : Real))) && real_open((s : (Real) -> Bool)) && IN(x, s) && (\226\136\128 y : Real, IN(y, s) \226\134\146 (f : (Real) -> Real)(y) == g(y)) \226\134\146 real_differentiable(f, atreal(x))
-      #|  :real->real
-      #|  :real->real
-      #|  :real#real
-      #|  :num
+      #|  :(Real) -> Real
+      #|  :(Real) -> Real
+      #|  :(Real, Real)
+      #|  :Num
       #|  nth_diff_strong_int((n : Num), (int : (Real, Real)), (f : (Real) -> Real))
       #|  INTER((s : (_) -> Bool), (t : (_) -> Bool))
       #|  (y : Real) => (c : Real) * nth_derivative((i : Num), (f : (Real) -> Real), y)
@@ -1157,15 +1157,15 @@ test "Formal_ineqs/taylor/theory/taylor_interval-compiled matches Formal_ineqs/t
       #|  (p : (_, _)) == (FST(p), SND(p))
       #|  interval_arith((a : Real), ((lo : Real), (hi : Real))) \226\134\146 iabs((lo, hi)) == max(abs(lo), abs(hi))
       #|  interval_arith((a : Real), ((lo : Real), (hi : Real))) \226\134\146 real_of_num(0) <= iabs((lo, hi))
-      #|  :real -> real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real#real
-      #|  :real#real
-      #|  :real#real
-      #|  :real
+      #|  :(Real) -> Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :(Real, Real)
+      #|  :(Real, Real)
+      #|  :(Real, Real)
+      #|  :Real
       #|  (dd_bound : Real) == iabs((ddf_bounds : (Real, Real)))
       #|  taylor_interval((f : (Real) -> Real), (x : Real), (y : Real), (z : Real), (w : Real), (f_bounds : (Real, Real)), (df_bounds : (Real, Real)), (ddf_bounds : (Real, Real)))
       #|  (f' : (_) -> _)((t : _))
@@ -1288,22 +1288,22 @@ test "Formal_ineqs/taylor/theory/taylor_interval-compiled matches Formal_ineqs/t
       #|  FST((df_bounds : (Real, Real))) <= derivative((f : (Real) -> Real), (y : Real)) && derivative(f, y) <= SND(df_bounds)
       #|  \226\136\128 t : Real, (x : Real) <= t && t <= (z : Real) \226\134\146 derivative((f : (Real) -> Real), t) <= SND((df_bounds : (_, Real))) + (w : Real) * (dd_bound : Real)
       #|  \226\136\128 t : Real, (x : Real) <= t && t <= (z : Real) \226\134\146 FST((df_bounds : (Real, _))) - (w : Real) * (dd_bound : Real) <= derivative((f : (Real) -> Real), t)
-      #|  :real->real
-      #|  :real#real
-      #|  :real#real
-      #|  :real
+      #|  :(Real) -> Real
+      #|  :(Real, Real)
+      #|  :(Real, Real)
+      #|  :Real
       #|  lin_approx((f : (Real) -> Real), (x : Real), (f_bounds : (Real, Real)), (df_bounds : (Real, Real))) == (real_differentiable(f, atreal(x)) && interval_arith(f(x), f_bounds) && interval_arith(derivative(f, x), df_bounds))
       #|  lin_approx((f : (Real) -> Real), (x : Real), (f_bounds : (Real, Real)), (df_bounds : (Real, Real)))
       #|  interval_arith((f : (_) -> Real)((x : _)), (f_bounds : (Real, Real)))
       #|  interval_arith(derivative((f : (Real) -> Real), (x : Real)), (df_bounds : (Real, Real)))
       #|  real_differentiable((f : (Real) -> Real), atreal((x : Real)))
-      #|  :real->real
-      #|  :real->real
-      #|  :real
-      #|  :real#real
-      #|  :real#real
-      #|  :real#real
-      #|  :real#real
+      #|  :(Real) -> Real
+      #|  :(Real) -> Real
+      #|  :Real
+      #|  :(Real, Real)
+      #|  :(Real, Real)
+      #|  :(Real, Real)
+      #|  :(Real, Real)
       #|  interval_arith((x : Real), (int : (Real, Real))) \226\134\146 interval_not_zero(int) \226\134\146 !(x == real_of_num(0))
       #|  interval_arith((x : Real), (int : (Real, Real))) \226\134\146 interval_pos(int) \226\134\146 real_of_num(0) < x
       #|  interval_arith((x : Real), (int : (Real, Real))) \226\134\146 interval_neg(int) \226\134\146 x < real_of_num(0)
@@ -1333,18 +1333,18 @@ test "Formal_ineqs/taylor/theory/taylor_interval-compiled matches Formal_ineqs/t
       #|  real_differentiable((x : Real) => (f : (Real) -> Real)(x) - (g : (Real) -> Real)(x), atreal((x : Real)))
       #|  real_differentiable((x : Real) => (f : (Real) -> Real)(x) * (g : (Real) -> Real)(x), atreal((x : Real)))
       #|  interval_not_zero((g_bounds : (Real, Real))) \226\134\146 real_differentiable((x : Real) => (f : (Real) -> Real)(x) / (g : (Real) -> Real)(x), atreal((x : Real)))
-      #|  :real->real
-      #|  :real->real
-      #|  :real#real
-      #|  :real#real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real#real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :(Real) -> Real
+      #|  :(Real) -> Real
+      #|  :(Real, Real)
+      #|  :(Real, Real)
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :(Real, Real)
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  lin_approx((f1 : (Real) -> Real), (x : Real), (f1_bounds : (Real, Real)), ((df1_lo : Real), (df1_hi : Real)))
       #|  (c : Real) * (df1_hi : Real)
       #|  (c : Real) * (df1_lo : Real)
@@ -1353,11 +1353,11 @@ test "Formal_ineqs/taylor/theory/taylor_interval-compiled matches Formal_ineqs/t
       #|  lin_approx((f2 : (Real) -> Real), (x : Real), (f2_bounds : (Real, Real)), ((df2_lo : Real), (df2_hi : Real)))
       #|  (f1' : Real) + (f2' : Real)
       #|  interval_arith((f1 : (Real) -> Real)((x : Real)) + (f2 : (Real) -> Real)(x), (f_bounds : (Real, Real))) && (df_lo : Real) <= (df1_lo : Real) + (df2_lo : Real) && (df1_hi : Real) + (df2_hi : Real) <= (df_hi : Real) \226\134\146 lin_approx((x : Real) => f1(x) + f2(x), x, f_bounds, (df_lo, df_hi))
-      #|  :real->real
-      #|  :real->real
-      #|  :real#real
-      #|  :real#real
-      #|  :real#real
+      #|  :(Real) -> Real
+      #|  :(Real) -> Real
+      #|  :(Real, Real)
+      #|  :(Real, Real)
+      #|  :(Real, Real)
       #|  derivative((f : (Real) -> Real), (y : Real))
       #|  ((i : Num) < 2) == (i == 0 || i == 1)
       #|  nth_diff_strong(2, (f : (Real) -> Real), (x : Real)) == (\226\136\131 s : (Real) -> Bool, real_open(s) && IN(x, s) && (\226\136\128 y : Real, IN(y, s) \226\134\146 has_real_derivative(f, derivative(f, y), atreal(y)) && has_real_derivative(derivative(f), nth_derivative(2, f, y), atreal(y))))
@@ -1523,8 +1523,8 @@ test "Formal_ineqs/taylor/theory/taylor_interval-compiled matches Formal_ineqs/t
       #|  real_interval(((x : Real) - (d : Real), x + d))
       #|  (f : (Real) -> Real)((x : Real)) < (a : Real) \226\134\146 real_continuous(f, atreal(x)) \226\134\146 (\226\136\131 s : (Real) -> Bool, real_open(s) && IN(x, s) && (\226\136\128 y : Real, IN(y, s) \226\134\146 f(y) < a))
       #|  (a : Real) - (f : (_) -> Real)((x : _))
-      #|  :real->real
-      #|  :real
+      #|  :(Real) -> Real
+      #|  :Real
       #|  nth_diff_strong(2, (f : (Real) -> Real), (x : Real))
       #|  real_of_num(0) < (f : (Real) -> Real)((x : Real)) \226\134\146 nth_derivative(2, (x : Real) => abs(f(x)), x) == nth_derivative(2, f, x)
       #|  (f : (Real) -> Real)((x : Real)) < real_of_num(0) \226\134\146 nth_derivative(2, (x : Real) => abs(f(x)), x) == -nth_derivative(2, f, x)
@@ -1710,18 +1710,18 @@ test "Formal_ineqs/taylor/theory/taylor_interval-compiled matches Formal_ineqs/t
       #|  ((i : Num) < 2) == (i == 0 || i == 1)
       #|  (UNIV : (Real) -> Bool)
       #|  cell_domain((x : Real), (y : Real), (z : Real), (w : Real)) \226\134\146 taylor_interval((x : Real) => (c : Real), x, y, z, w, (c, c), (real_of_num(0), real_of_num(0)), (real_of_num(0), real_of_num(0)))
-      #|  :real->real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real#real
-      #|  :real#real
-      #|  :real#real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :(Real) -> Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :(Real, Real)
+      #|  :(Real, Real)
+      #|  :(Real, Real)
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  taylor_interval((f : (Real) -> Real), (x : Real), (y : Real), (z : Real), (w : Real), ((f_lo : Real), (f_hi : Real)), (df_bounds : (Real, Real)), (dd_bounds : (Real, Real))) \226\134\146 iabs(df_bounds) == (df : Real) \226\134\146 iabs(dd_bounds) == (dd : Real) \226\134\146 w * (df + w * (dd * inv(real_of_num(2)))) <= (t : Real) \226\134\146 f_hi + t <= (hi : Real) \226\134\146 (lo : Real) <= f_lo - t \226\134\146 bounded_on_int(f, (x, z), (lo, hi))
       #|  taylor_interval((f : (Real) -> Real), (x : Real), (y : Real), (z : Real), (w : Real), (f_bounds : (Real, Real)), ((df_lo : Real), (df_hi : Real)), (dd_bounds : (Real, Real))) \226\134\146 iabs(dd_bounds) == (dd : Real) \226\134\146 df_hi + w * dd <= (hi : Real) \226\134\146 (lo : Real) <= df_lo - w * dd \226\134\146 bounded_on_int(derivative(f), (x, z), (lo, hi))
       #|  bounded_on_int((g : (Real) -> Real), (int : (Real, Real)), (g_bounds : (Real, Real))) \226\134\146 bounded_on_int((f : (Real) -> Real), g_bounds, (f_bounds : (Real, Real))) \226\134\146 bounded_on_int((x : Real) => f(g(x)), int, f_bounds)

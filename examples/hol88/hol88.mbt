@@ -1140,7 +1140,7 @@ fn step_46() -> Unit raise {
   let t98 = contrapos(@bool.disch_all(@equal.sym(@kernel.assume_rule(@term_syntax.parse_term("(a : A) == (b : A)")))))
   let t97 = @term_syntax.parse_term("(b : A)")
   let pth = @bool.genl(@list.List([@term_syntax.parse_term("(a : A)"), t97]), t98)
-  let aty = @parser.parse_type("A")
+  let aty = @term_syntax.parse_type("A")
   not_eq_sym_c.set(fn(x99 : @kernel.Thm) -> @kernel.Thm raise {
     let th = x99
     try {
@@ -1684,7 +1684,7 @@ pub fn ante_conj_conv(x184 : @kernel.Term) -> @kernel.Thm raise {
 ///|
 /// bool_EQ_CONV
 fn step_52() -> Unit raise {
-  let boolty = @parser.parse_type("bool")
+  let boolty = @term_syntax.parse_type("Bool")
   let check : (@kernel.Term) -> @kernel.Term raise = (x194 : @kernel.Term) => @lib.check(fn(x193 : @kernel.Term) -> Bool raise {
     let tm = x193
     (@kernel.type_of(tm) == boolty)
@@ -1738,8 +1738,8 @@ pub fn bool_eq_conv(x : @kernel.Term) -> @kernel.Thm raise {
 fn step_53() -> Unit raise {
   let t = @term_syntax.parse_term("true")
   let f = @term_syntax.parse_term("false")
-  let vt = @basics.genvar(@parser.parse_type("A"))
-  let vf = @basics.genvar(@parser.parse_type("A"))
+  let vt = @basics.genvar(@term_syntax.parse_type("A"))
+  let vf = @basics.genvar(@term_syntax.parse_type("A"))
   let gen : (@kernel.Thm) -> @kernel.Thm raise = (x202 : @kernel.Thm) => @bool.genl(@list.List([vt, vf]), x202)
   let t203 = @bool.conj_pair(@bool.specl(@list.List([vt, vf]), @class.cond_clauses()))
   let t204 = gen(t203.1)
@@ -1754,18 +1754,18 @@ fn step_53() -> Unit raise {
     }
     let ty = @kernel.type_of(u)
     if (p == t) {
-      @bool.spec(v, @bool.spec(u, @kernel.inst_type(@list.List([(ty, @parser.parse_type("A"))]), ct)))
+      @bool.spec(v, @bool.spec(u, @kernel.inst_type(@list.List([(ty, @term_syntax.parse_type("A"))]), ct)))
     } else {
       if (p == f) {
-        @bool.spec(v, @bool.spec(u, @kernel.inst_type(@list.List([(ty, @parser.parse_type("A"))]), cf)))
+        @bool.spec(v, @bool.spec(u, @kernel.inst_type(@list.List([(ty, @term_syntax.parse_type("A"))]), cf)))
       } else {
         if (u == v) {
-          @bool.spec(u, @bool.spec(p, @kernel.inst_type(@list.List([(ty, @parser.parse_type("A"))]), @class.cond_id())))
+          @bool.spec(u, @bool.spec(p, @kernel.inst_type(@list.List([(ty, @term_syntax.parse_type("A"))]), @class.cond_id())))
         } else {
           if @basics.aconv(u, v) {
             let t206 = @equal.alpha_rule(v, u)
             let cnd = @equal.ap_term(@kernel.rator(tm), t206)
-            let thm = @bool.spec(u, @bool.spec(p, @kernel.inst_type(@list.List([(ty, @parser.parse_type("A"))]), @class.cond_id())))
+            let thm = @bool.spec(u, @bool.spec(p, @kernel.inst_type(@list.List([(ty, @term_syntax.parse_type("A"))]), @class.cond_id())))
             @kernel.trans(cnd, thm)
           } else {
             raise Failure("COND_CONV: can't simplify conditional")
@@ -2282,7 +2282,7 @@ fn step_59() -> Unit raise {
         }
       } else {
         if (if @basics.is_eq(w) {
-          let t379 = @parser.parse_type("bool")
+          let t379 = @term_syntax.parse_type("Bool")
           (@kernel.type_of(@kernel.rand(w)) == t379)
         } else {
           false
@@ -2786,7 +2786,7 @@ fn step_61() -> Unit raise {
       (is_good_cond(tm_1) && @basics.free_in(tm_1, w))
     }, w)
     let (p, (t, u)) = @class.dest_cond(cond)
-    let t516 = @parser.parse_type("A")
+    let t516 = @term_syntax.parse_type("A")
     let inst = @kernel.inst_type(@list.List([(@kernel.type_of(t), t516)]), @class.cond_clauses())
     let (ct, cf) = @bool.conj_pair(@bool.spec(u, @bool.spec(t, inst)))
     let t525 = @bool.spec(p, @class.excluded_middle())

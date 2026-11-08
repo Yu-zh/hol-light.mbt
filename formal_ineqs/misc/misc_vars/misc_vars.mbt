@@ -1865,7 +1865,7 @@ pub fn pow_op_real() -> @kernel.Term {
 ///|
 /// real_ty
 fn step_118() -> Unit raise {
-  real_ty_c.set(@parser.parse_type("real"))
+  real_ty_c.set(@term_syntax.parse_type("Real"))
 }
 
 ///|
@@ -1880,7 +1880,7 @@ pub fn real_ty() -> @kernel.HolType {
 ///|
 /// real_list_ty
 fn step_119() -> Unit raise {
-  real_list_ty_c.set(@parser.parse_type("(real)list"))
+  real_list_ty_c.set(@term_syntax.parse_type("List[Real]"))
 }
 
 ///|
@@ -1895,7 +1895,7 @@ pub fn real_list_ty() -> @kernel.HolType {
 ///|
 /// real_pair_ty
 fn step_120() -> Unit raise {
-  real_pair_ty_c.set(@parser.parse_type("real#real"))
+  real_pair_ty_c.set(@term_syntax.parse_type("(Real, Real)"))
 }
 
 ///|
@@ -1910,7 +1910,7 @@ pub fn real_pair_ty() -> @kernel.HolType {
 ///|
 /// real_pair_list_ty
 fn step_121() -> Unit raise {
-  real_pair_list_ty_c.set(@parser.parse_type("(real#real)list"))
+  real_pair_list_ty_c.set(@term_syntax.parse_type("List[(Real, Real)]"))
 }
 
 ///|
@@ -1925,7 +1925,7 @@ pub fn real_pair_list_ty() -> @kernel.HolType {
 ///|
 /// num_type
 fn step_122() -> Unit raise {
-  num_type_c.set(@parser.parse_type("num"))
+  num_type_c.set(@term_syntax.parse_type("Num"))
 }
 
 ///|
@@ -1940,7 +1940,7 @@ pub fn num_type() -> @kernel.HolType {
 ///|
 /// nty
 fn step_123() -> Unit raise {
-  nty_c.set(@parser.parse_type("N"))
+  nty_c.set(@term_syntax.parse_type("N"))
 }
 
 ///|

@@ -372,19 +372,19 @@ pub fn fun_map_thms() -> @kernel.Thm {
 ///|
 /// Functionspaces/cfunspace.ml:121
 fn step_21() -> Unit raise {
-  @preterm.new_type_abbrev("cfun", @parser.parse_type("A->complex"))
+  @preterm.new_type_abbrev("cfun", @term_syntax.parse_type("(A) -> Complex"))
 }
 
 ///|
 /// Functionspaces/cfunspace.ml:122
 fn step_22() -> Unit raise {
-  @preterm.new_type_abbrev("cfunB", @parser.parse_type("B->complex"))
+  @preterm.new_type_abbrev("cfunB", @term_syntax.parse_type("(B) -> Complex"))
 }
 
 ///|
 /// Functionspaces/cfunspace.ml:123
 fn step_23() -> Unit raise {
-  @preterm.new_type_abbrev("cfunC", @parser.parse_type("C->complex"))
+  @preterm.new_type_abbrev("cfunC", @term_syntax.parse_type("(C) -> Complex"))
 }
 
 ///|
@@ -495,7 +495,7 @@ pub fn cfun_defs() -> @kernel.Thm {
 ///|
 /// Functionspaces/cfunspace.ml:145
 fn step_31() -> Unit raise {
-  @preterm.make_overloadable("%", @parser.parse_type("A->B->B"))
+  @preterm.make_overloadable("%", @term_syntax.parse_type("(A, B) -> B"))
 }
 
 ///|
@@ -1644,7 +1644,7 @@ pub fn cfun_of_complex_of_cfun() -> @kernel.Thm {
 ///|
 /// Functionspaces/cfunspace.ml:379
 fn step_105() -> Unit raise {
-  @preterm.new_type_abbrev("inprod", @parser.parse_type("cfun->cfun->complex"))
+  @preterm.new_type_abbrev("inprod", @term_syntax.parse_type("(Cfun, Cfun) -> Complex"))
 }
 
 ///|
@@ -1671,7 +1671,7 @@ pub fn are_equv() -> @kernel.Thm {
 ///|
 /// Functionspaces/cfunspace.ml:386
 fn step_108() -> Unit raise {
-  @preterm.new_type_abbrev("inner_space", @parser.parse_type("(cfun->bool)#inprod"))
+  @preterm.new_type_abbrev("inner_space", @term_syntax.parse_type("((Cfun) -> Bool, Inprod)"))
 }
 
 ///|
@@ -2596,19 +2596,19 @@ pub fn schwarz_inequality_enhanced() -> @kernel.Thm {
 ///|
 /// Functionspaces/cfunspace.ml:748
 fn step_160() -> Unit raise {
-  @preterm.new_type_abbrev("cop", @parser.parse_type("cfunB->cfun"))
+  @preterm.new_type_abbrev("cop", @term_syntax.parse_type("(CfunB) -> Cfun"))
 }
 
 ///|
 /// Functionspaces/cfunspace.ml:749
 fn step_161() -> Unit raise {
-  @preterm.new_type_abbrev("copB", @parser.parse_type("cfunC->cfunB"))
+  @preterm.new_type_abbrev("copB", @term_syntax.parse_type("(CfunC) -> CfunB"))
 }
 
 ///|
 /// Functionspaces/cfunspace.ml:750
 fn step_162() -> Unit raise {
-  @preterm.new_type_abbrev("cops", @parser.parse_type("cfun->cfun"))
+  @preterm.new_type_abbrev("cops", @term_syntax.parse_type("(Cfun) -> Cfun"))
 }
 
 ///|
@@ -4509,13 +4509,13 @@ pub fn slincop_cfun_zero() -> @kernel.Thm {
 ///|
 /// Functionspaces/cfunspace.ml:1165
 fn step_283() -> Unit raise {
-  @preterm.new_type_abbrev("cfun_dual", @parser.parse_type("cfun->complex"))
+  @preterm.new_type_abbrev("cfun_dual", @term_syntax.parse_type("(Cfun) -> Complex"))
 }
 
 ///|
 /// Functionspaces/cfunspace.ml:1166
 fn step_284() -> Unit raise {
-  @preterm.new_type_abbrev("cfun_dualB", @parser.parse_type("cfunB->complex"))
+  @preterm.new_type_abbrev("cfun_dualB", @term_syntax.parse_type("(CfunB) -> Complex"))
 }
 
 ///|
@@ -4566,7 +4566,7 @@ pub fn commutator() -> @kernel.Thm {
 ///|
 /// Functionspaces/cfunspace.ml:1193
 fn step_288() -> Unit raise {
-  @preterm.make_overloadable("com", @parser.parse_type("A->A->A"))
+  @preterm.make_overloadable("com", @term_syntax.parse_type("(A, A) -> A"))
 }
 
 ///|
@@ -5549,7 +5549,7 @@ pub fn self_adjoint_tac(x312 : (@list.List[(String, @kernel.Thm)], @kernel.Term)
     let head = @basics.strip_comb(c).0
     if (if (@printer.name_of(head) == "is_self_adjoint1") {
       let t323 = @kernel.type_of(head)
-      let t324 = @parser.parse_type("inner_space->cop->bool")
+      let t324 = @term_syntax.parse_type("(Inner_space, Cop) -> Bool")
       @lib.can((x325 : @list.List[(@kernel.HolType, @kernel.HolType)]) => @basics.type_match(t324, t323, x325), @list.List([]))
     } else {
       false
@@ -6628,7 +6628,7 @@ pub fn symmetric_tac(x427 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -
     let head = @basics.strip_comb(c).0
     if (if (@printer.name_of(head) == "is_symmetric") {
       let t438 = @kernel.type_of(head)
-      let t439 = @parser.parse_type("inner_space->(cfun->boo)->cop->bool")
+      let t439 = @term_syntax.parse_type("(Inner_space, (Cfun) -> Boo, Cop) -> Bool")
       @lib.can((x440 : @list.List[(@kernel.HolType, @kernel.HolType)]) => @basics.type_match(t439, t438, x440), @list.List([]))
     } else {
       false

@@ -223,8 +223,8 @@ pub fn int_isum() -> @kernel.Thm {
 /// INT_OF_REAL_THM
 fn step_3() -> Unit raise {
   let dest = @term_syntax.parse_term("real_of_int")
-  let real_ty = @parser.parse_type("real")
-  let int_ty = @parser.parse_type("int")
+  let real_ty = @term_syntax.parse_type("Real")
+  let int_ty = @term_syntax.parse_type("Int")
   let t22 = @tactics.then_tac(
     @class.cond_cases_tac,
     @simp.rewrite_tac(@list.List([])),

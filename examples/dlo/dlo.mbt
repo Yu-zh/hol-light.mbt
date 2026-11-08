@@ -632,7 +632,7 @@ pub fn proforma_both() -> @kernel.Thm {
 ///|
 /// mk_rlist
 fn step_28() -> Unit raise {
-  let ty = @parser.parse_type("real")
+  let ty = @term_syntax.parse_type("Real")
   mk_rlist_c.set(fn(x77 : @list.List[@kernel.Term]) -> @kernel.Term raise {
     let x = x77
     @lists.mk_list(x, ty)

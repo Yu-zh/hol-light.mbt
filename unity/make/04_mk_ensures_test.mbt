@@ -5871,9 +5871,9 @@ test "Unity/mk_ensures matches Unity/mk_ensures.ml" {
       #|  \226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 st : (A) -> A, \226\136\128 Pr : List[(A) -> A], (\226\136\128 s : A, p(s) && !q(s) \226\134\146 q(st(s))) \226\134\146 EXIST_TRANSITION(p, q, CONS(st, Pr))
       #|  \226\136\128 st : A, \226\136\128 l : List[A], APPEND([st], l) == CONS(st, l)
       #|  \226\136\128 st : A, \226\136\128 l1 : List[A], \226\136\128 l2 : List[A], APPEND(APPEND(l1, [st]), l2) == APPEND(l1, CONS(st, l2))
-      #|  :bool
-      #|  :bool
-      #|  :bool
+      #|  :Bool
+      #|  :Bool
+      #|  :Bool
       #|  \226\136\128 st : A, \226\136\128 l1 : List[A], \226\136\128 l2 : List[A], APPEND(CONS(st, l1), l2) == CONS(st, APPEND(l1, l2))
       #|  \226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 st : (A) -> A, \226\136\128 Pr1 : List[(A) -> A], \226\136\128 Pr2 : List[(A) -> A], (\226\136\128 s : A, p(s) && !q(s) \226\134\146 q(st(s))) \226\134\146 EXIST_TRANSITION(p, q, APPEND(Pr1, CONS(st, Pr2)))
       #|  \226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 FPr : List[(A) -> A], \226\136\128 GPr : List[(A) -> A], EXIST_TRANSITION(p, q, FPr) \226\134\146 EXIST_TRANSITION(p, q, APPEND(FPr, GPr))
@@ -5895,11 +5895,11 @@ test "Unity/mk_ensures matches Unity/mk_ensures.ml" {
       #|  EXIST_TRANSITION((p : (A) -> Bool), (q : (A) -> Bool), APPEND([(st : (A) -> A)], (t : List[(A) -> A]))) == EXIST_TRANSITION(p, q, APPEND(t, [st]))
       #|  EXIST_TRANSITION((p : (A) -> Bool), (q : (A) -> Bool), APPEND([(st : (A) -> A)], (t : List[(A) -> A]))) == EXIST_TRANSITION(p, q, APPEND(t, [st]))
       #|  \226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 st : (A) -> A, \226\136\128 Pr : List[(A) -> A], EXIST_TRANSITION(p, q, APPEND([st], Pr)) == EXIST_TRANSITION(p, q, APPEND(Pr, [st]))
-      #|  :bool
-      #|  :bool
-      #|  :bool
-      #|  :bool
-      #|  :bool
+      #|  :Bool
+      #|  :Bool
+      #|  :Bool
+      #|  :Bool
+      #|  :Bool
       #|  (t : List[(A) -> A])
       #|  (GPr : List[(A) -> A])
       #|  (h : (A) -> A)

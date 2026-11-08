@@ -392,8 +392,9 @@ fn elaborate(s : String) -> @kernel.Term raise {
 }
 
 ///|
-/// The HOL type `s` denotes.
+/// The HOL type `s` denotes, recorded as a type quotation (`:s`).
 pub fn parse_type(s : String) -> @kernel.HolType raise {
+  @parser.record_quotation(":" + s)
   let toks = tokens(s)
   ignore(@grammar.take_error())
   let pty = @grammar.pretype(toks) catch {

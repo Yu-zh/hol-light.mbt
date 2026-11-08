@@ -2339,7 +2339,7 @@ fn step_1() -> Unit raise {
   ] raise = (x353 : ImpconvWithContext[ImpconvImpConv]) => {
     quant_ctximpconv(mkimp_exists, @basics.dest_exists, x353)
   }
-  let iff_ty = @parser.parse_type("bool->bool->bool")
+  let iff_ty = @term_syntax.parse_type("(Bool, Bool) -> Bool")
   fn sub_ctximpconv(
     x354 : ImpconvWithContext[ImpconvImpConv],
   ) -> ImpconvWithContext[ImpconvImpConv] raise {
@@ -4466,7 +4466,7 @@ fn step_1() -> Unit raise {
   ] raise = (x730 : ImpconvWithContext[ImpconvImpMconv]) => {
     quant_ctximpmconv(mkimp_exists, @basics.dest_exists, x730)
   }
-  let iff_ty_1 = @parser.parse_type("bool->bool->bool")
+  let iff_ty_1 = @term_syntax.parse_type("(Bool, Bool) -> Bool")
   fn sub_ctximpmconv(
     x731 : ImpconvWithContext[ImpconvImpMconv],
   ) -> ImpconvWithContext[ImpconvImpMconv] raise {

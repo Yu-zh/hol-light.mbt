@@ -63035,12 +63035,12 @@ Warning: inventing type variables
   (d : Cart[Real, N]) - (c : Cart[Real, N])
   (b : Cart[Real, N]) - (a : Cart[Real, N])
   \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 c : Cart[Real, N], \226\136\128 d : Cart[Real, N], distance((a, b)) == distance((c, d)) \226\134\146 congruent(segment([(a, b)]), segment([(c, d)]))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   (op_minus : (Cart[Real, 3], Cart[Real, 3]) -> Cart[Real, 3])
   (dot : (Cart[Real, 3], Cart[Real, 3]) -> Real)
   real_le

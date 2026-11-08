@@ -38794,7 +38794,7 @@ test "Multivariate/vectors matches Multivariate/vectors.ml" {
       #|  (vector_add : (Cart[Real, N], Cart[Real, N]) -> Cart[Real, N])
       #|  (vector_sub : (Cart[Real, N], Cart[Real, N]) -> Cart[Real, N])
       #|  (vector_neg : (Cart[Real, N]) -> Cart[Real, N])
-      #|  :real^N
+      #|  :Cart[Real, N]
       #|  (op_pct : (Real, Cart[Real, N]) -> Cart[Real, N])((c : Real), (x : Cart[Real, N])) == lambda((i : Num) => c * op_dollar(x, i))
       #|  (vec : (Num) -> Cart[Real, N])((n : Num)) == lambda((i : Num) => real_of_num(n))
       #|  (dot : (Cart[Real, N], Cart[Real, N]) -> Real)((x : Cart[Real, N]), (y : Cart[Real, N])) == (sum : ((Num) -> Bool, (Num) -> Real) -> Real)(op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))), (i : Num) => (op_dollar : (Cart[Real, N], Num) -> Real)(x, i) * (op_dollar : (Cart[Real, N], Num) -> Real)(y, i))
@@ -38886,7 +38886,7 @@ test "Multivariate/vectors matches Multivariate/vectors.ml" {
       #|  \226\136\128 x : Cart[Real, Unit], x == lambda((i : Num) => op_dollar(x, 1))
       #|  op_dollar((x : Cart[Real, Unit]), 1)
       #|  (\226\136\128 x : Cart[Real, Unit], (P : (Cart[Real, Unit]) -> Bool)(x)) == (\226\136\128 x : Real, P(lambda((i : Num) => x)))
-      #|  :A->real
+      #|  :(A) -> Real
       #|  (vector_norm : (Cart[Real, N]) -> Real)
       #|  (vector_norm : (Cart[Real, _]) -> Real)((x : Cart[Real, _])) == sqrt(dot(x, x))
       #|  (distance : ((Cart[Real, N], Cart[Real, N])) -> Real)
@@ -39034,57 +39034,57 @@ test "Multivariate/vectors matches Multivariate/vectors.ml" {
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], dot(x, y) == (pow(norm(x), 2) + pow(norm(y), 2) - pow(norm(x - y), 2)) / real_of_num(2)
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], (x == y) == (dot(x, x) == dot(x, y) && dot(y, y) == dot(x, x))
       #|  \226\136\128 x : Cart[Real, _], distance((x, x)) == real_of_num(0)
-      #|  :real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], distance((x, y)) == distance((y, x))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], real_of_num(0) <= distance((x, y))
-      #|  :real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], abs(distance((x, y))) == distance((x, y))
-      #|  :real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], \226\136\128 z : Cart[Real, N], distance((x, z)) <= distance((x, y)) + distance((y, z))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], \226\136\128 z : Cart[Real, _], distance((y, z)) <= distance((x, y)) + distance((x, z))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], (distance((x, y)) == real_of_num(0)) == (x == y)
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], !(x == y) \226\134\146 real_of_num(0) < distance((x, y))
-      #|  :real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], !(x == y) == (real_of_num(0) < distance((x, y)))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], \226\136\128 z : Cart[Real, _], \226\136\128 e : Real, distance((x, z)) + distance((y, z)) <= e \226\134\146 distance((x, y)) <= e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], \226\136\128 z : Cart[Real, _], \226\136\128 e : Real, distance((x, z)) + distance((y, z)) < e \226\134\146 distance((x, y)) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 x1 : Cart[Real, _], \226\136\128 x2 : Cart[Real, _], \226\136\128 y : Cart[Real, _], distance((x1, y)) < (e : Real) / real_of_num(2) && distance((x2, y)) < e / real_of_num(2) \226\134\146 distance((x1, x2)) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 x1 : Cart[Real, _], \226\136\128 x2 : Cart[Real, _], \226\136\128 y : Cart[Real, _], distance((y, x1)) < (e : Real) / real_of_num(2) && distance((y, x2)) < e / real_of_num(2) \226\134\146 distance((x1, x2)) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 x' : Cart[Real, _], \226\136\128 y : Cart[Real, _], \226\136\128 y' : Cart[Real, _], distance((x + y, x' + y')) <= distance((x, x')) + distance((y, y'))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], \226\136\128 c : Real, distance((op_pct(c, x), op_pct(c, y))) == abs(c) * distance((x, y))
       #|  \226\136\128 x : Cart[Real, N], \226\136\128 x' : Cart[Real, N], \226\136\128 y : Cart[Real, N], \226\136\128 y' : Cart[Real, N], distance((x, x')) < (e : Real) / real_of_num(2) && distance((y, y')) < e / real_of_num(2) \226\134\146 distance((x + y, x' + y')) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], (distance((x, y)) <= real_of_num(0)) == (x == y)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 w : Cart[Real, _], \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], \226\136\128 z : Cart[Real, _], (distance((w, x)) == distance((y, z))) == (pow(distance((w, x)), 2) == pow(distance((y, z)), 2))
       #|  \226\136\128 x : Cart[Real, _], distance((x, vec(0))) == norm(x) && distance((vec(0), x)) == norm(x)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Real, \226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], norm(x) == norm(y) \226\134\146 distance((op_pct(a, x), y)) == distance((x, op_pct(a, y)))
       #|  pow((b : Real), 2) - pow((a : Real), 2) == (a + b) * (b - a)
       #|  (a : Real) * (b : Real) - pow(a, 2) == a * (b - a)
@@ -39129,8 +39129,8 @@ test "Multivariate/vectors matches Multivariate/vectors.ml" {
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 P : (A) -> Bool, \226\136\128 f : (A) -> Cart[Real, N], \226\136\128 g : (A) -> Cart[Real, N], FINITE(s) \226\134\146 vsum(s, (x : A) => if P(x) { f(x) } else { g(x) }) == vsum({(x : A) | IN(x, s) && P(x)}, f) + vsum({(x : A) | IN(x, s) && !P(x)}, g)
       #|  \226\136\128 f : (_) -> Cart[Real, _], \226\136\128 x : _, vsum({x}, f) == f(x)
       #|  \226\136\128 f : (_) -> Cart[Real, _], \226\136\128 s : (_) -> Bool, FINITE(s) \226\134\146 norm(vsum(s, f)) <= sum(s, (x : _) => norm(f(x)))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  sum((s : (A) -> Bool), (x : A) => norm((f : (A) -> Cart[Real, N])(x)))
       #|  \226\136\128 s : (A) -> Bool, \226\136\128 f : (A) -> Cart[Real, N], \226\136\128 g : (A) -> Real, FINITE(s) && (\226\136\128 x : A, IN(x, s) \226\134\146 norm(f(x)) <= g(x)) \226\134\146 norm(vsum(s, f)) <= sum(s, g)
       #|  \226\136\128 s : (_) -> Bool, \226\136\128 f : (_) -> Cart[Real, _], \226\136\128 b : Real, FINITE(s) && sum(s, (a : _) => norm(f(a))) <= b \226\134\146 norm(vsum(s, f)) <= b
@@ -39437,7 +39437,7 @@ test "Multivariate/vectors matches Multivariate/vectors.ml" {
       #|  (matrix_neg : (Cart[Cart[Real, N], M]) -> Cart[Cart[Real, N], M])
       #|  (matrix_add : (Cart[Cart[Real, N], M], Cart[Cart[Real, N], M]) -> Cart[Cart[Real, N], M])
       #|  (matrix_sub : (Cart[Cart[Real, N], M], Cart[Cart[Real, N], M]) -> Cart[Cart[Real, N], M])
-      #|  :A->B->C
+      #|  :(A, B) -> C
       #|  (vector_matrix_mul : (Cart[Real, M], Cart[Cart[Real, N], M]) -> Cart[Real, N])
       #|  (matrix_mul : (Cart[Cart[Real, N], M], Cart[Cart[Real, P], N]) -> Cart[Cart[Real, P], M])
       #|  (matrix_vector_mul : (Cart[Cart[Real, N], M], Cart[Real, N]) -> Cart[Real, M])
@@ -40905,7 +40905,7 @@ test "Multivariate/vectors matches Multivariate/vectors.ml" {
       #|  HAS_SIZE((c : (Cart[Real, N]) -> Bool), 1)
       #|  FINITE(UNION((b : (Cart[Real, N]) -> Bool), (c : (Cart[Real, N]) -> Bool)))
       #|  !((norm : (Cart[Real, N]) -> Real)((vec : (Num) -> Cart[Real, N])(0)) == real_of_num(1))
-      #|  :real
+      #|  :Real
       #|  !IN(vec(0), UNION((b : (Cart[Real, N]) -> Bool), (c : (Cart[Real, N]) -> Bool)))
       #|  dim((t : (Cart[Real, N]) -> Bool)) + 1 == dim((s : (Cart[Real, N]) -> Bool))
       #|  span((s : (Cart[Real, N]) -> Bool))
@@ -41269,20 +41269,20 @@ test "Multivariate/vectors matches Multivariate/vectors.ml" {
       #|  pow(norm((x : Cart[Real, N]) + (y : Cart[Real, N])), 2) == pow(norm(x) + norm(y), 2)
       #|  \226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], (norm(x + y) == norm(x) + norm(y)) == (op_pct(norm(x), y) == op_pct(norm(y), x))
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], \226\136\128 z : Cart[Real, _], (distance((x, z)) == distance((x, y)) + distance((y, z))) == (op_pct(norm(x - y), y - z) == op_pct(norm(y - z), x - y))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, N]) => op_pct(inv((a : Real)), x)
       #|  (y : Cart[Real, N]) == vec(0)
       #|  \226\136\128 a : Real, \226\136\128 b : Real, \226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], op_pct(a, x) == op_pct(b, y) && real_of_num(0) < a && real_of_num(0) < b \226\134\146 op_pct(norm(y), x) == op_pct(norm(x), y)
@@ -41375,83 +41375,83 @@ test "Multivariate/vectors matches Multivariate/vectors.ml" {
       #|  \226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], (orthogonal(x, y) && collinear({vec(0), x, y})) == (x == vec(0) || y == vec(0))
       #|  (between : (Cart[Real, _], (Cart[Real, _], Cart[Real, _])) -> Bool)((x : Cart[Real, _]), ((a : Cart[Real, _]), (b : Cart[Real, _]))) == (distance((a, b)) == distance((a, x)) + distance((x, b)))
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], between(a, (a, b)) && between(b, (a, b)) && between(a, (a, a))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 x : Cart[Real, _], between(x, (a, a)) == (x == a)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], \226\136\128 x : Cart[Real, _], between(x, (a, b)) == between(x, (b, a))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], \226\136\128 c : Cart[Real, _], between(a, (b, c)) && between(b, (a, c)) \226\134\146 a == b
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], \226\136\128 c : Cart[Real, _], \226\136\128 d : Cart[Real, _], between(a, (b, c)) && between(d, (a, c)) \226\134\146 between(d, (b, c))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], \226\136\128 c : Cart[Real, _], \226\136\128 d : Cart[Real, _], between(a, (b, c)) && between(d, (a, b)) \226\134\146 between(a, (c, d))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], between(a + x, (a + y, a + (z : Cart[Real, _]))) == between(x, (y, z))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 x : Cart[Real, N], between(x, (a, b)) == (op_pct(norm(x - a), b - x) == op_pct(norm(b - x), x - a))
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 x : Cart[Real, N], between(x, (a, b)) == (dot(x - a, b - x) == norm(x - a) * norm(b - x))
       #|  (op_pct : (Real, Cart[Real, N]) -> Cart[Real, N])(inv((norm : (Cart[Real, N]) -> Real)((b : Cart[Real, N]) - (a : Cart[Real, N]))))
@@ -41482,61 +41482,61 @@ test "Multivariate/vectors matches Multivariate/vectors.ml" {
       #|  collinear({(a : Cart[Real, N]), (x : Cart[Real, N]), (b : Cart[Real, N]), (c : Cart[Real, N])})
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 c : Cart[Real, N], \226\136\128 x : Cart[Real, N], between(x, (a, b)) && between(x, (a, c)) && !(x == a) \226\134\146 between(b, (a, c)) || between(c, (a, b))
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], \226\136\128 x : Cart[Real, _], collinear({x, a, b}) && distance((x, a)) <= distance((a, b)) && distance((x, b)) <= distance((a, b)) \226\134\146 between(x, (a, b))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 x : Cart[Real, N], between(x, (a, b)) == (collinear({a, x, b}) && distance((x, a)) <= distance((a, b)) && distance((x, b)) <= distance((a, b)))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  INSERT(vec(0), INSERT(vec(1), (s : (Cart[Real, Unit]) -> Bool)))
       #|  \226\136\128 s : (Cart[Real, Unit]) -> Bool, collinear(s)
       #|  (midpoint : ((Cart[Real, _], Cart[Real, _])) -> Cart[Real, _])(((a : Cart[Real, _]), (b : Cart[Real, _]))) == op_pct(inv(real_of_num(2)), a + b)
       #|  \226\136\128 x : Cart[Real, _], midpoint((x, x)) == x
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], midpoint((a, b)) == midpoint((b, a))
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], distance((a, midpoint((a, b)))) == distance((a, b)) / real_of_num(2) && distance((b, midpoint((a, b)))) == distance((a, b)) / real_of_num(2) && distance((midpoint((a, b)), a)) == distance((a, b)) / real_of_num(2) && distance((midpoint((a, b)), b)) == distance((a, b)) / real_of_num(2)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], (midpoint((a, b)) == a) == (a == b) && (midpoint((a, b)) == b) == (a == b) && (a == midpoint((a, b))) == (a == b) && (b == midpoint((a, b))) == (a == b)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], between(midpoint((a, b)), (a, b)) && between(midpoint((a, b)), (b, a))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 f : (Cart[Real, _]) -> Cart[Real, _], \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], linear(f) \226\134\146 midpoint((f(a), f(b))) == f(midpoint((a, b)))
       #|  real_of_num(1) / real_of_num(2)
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], collinear({a, midpoint((a, b)), b})
@@ -41640,31 +41640,31 @@ test "Multivariate/vectors matches Multivariate/vectors.ml" {
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], linear(f) && (\226\136\128 x : Cart[Real, M], norm(f(x)) == norm(x)) \226\134\146 distance((f(x), f(y))) == distance((x, y))
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 x : Cart[Real, M], (\226\136\128 x : Cart[Real, M], norm(f(x)) == norm(x)) \226\134\146 norm(f(x)) == norm(x)
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], \226\136\128 z : Cart[Real, _], between(a + x, (a + y, a + z)) == between(x, (y, z))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], midpoint((a + x, a + y)) == a + midpoint((x, y))
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], a + x - (a + y) == x - y
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], op_pct(inv(real_of_num(2)), a + x + (a + y)) == a + op_pct(inv(real_of_num(2)), x + y)
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], op_pct(real_of_num(1) / real_of_num(2), a + x + (a + y)) == a + op_pct(real_of_num(1) / real_of_num(2), x + y)
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], distance((a + x, a + y)) == distance((x, y))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], (a + x == a + y) == (x == y)
       #|  ((a : Cart[Real, N]) + (b : Cart[Real, N]) + (c : Cart[Real, N]) == a + (x : Cart[Real, N])) == (x == b + c)
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 b : Cart[Real, N], \226\136\128 c : Cart[Real, N], IN(a + b + c, IMAGE((x : Cart[Real, N]) => a + x, s)) == IN(b + c, s)

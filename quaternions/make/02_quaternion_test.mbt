@@ -74866,15 +74866,15 @@ test "Quaternions/quaternion matches Quaternions/quaternion.ml" {
       #|1 basis elements and 0 critical pairs
       #|Generating HOL version of proof
       #|Quaternions/quaternion quotations (279):
-      #|  :real^4
-      #|  :real^N->real
-      #|  :real^N
-      #|  :real^N->real^N
-      #|  :real^N->bool
-      #|  :complex->real
-      #|  :complex
-      #|  :complex->complex
-      #|  :complex->bool
+      #|  :Cart[Real, 4]
+      #|  :(Cart[Real, N]) -> Real
+      #|  :Cart[Real, N]
+      #|  :(Cart[Real, N]) -> Cart[Real, N]
+      #|  :(Cart[Real, N]) -> Bool
+      #|  :(Complex) -> Real
+      #|  :Complex
+      #|  :(Complex) -> Complex
+      #|  :(Complex) -> Bool
       #|  (op_minus_minus : (Cart[Real, 4]) -> Cart[Real, 4])
       #|  (op_plus : (Cart[Real, 4], Cart[Real, 4]) -> Cart[Real, 4])
       #|  (op_minus : (Cart[Real, 4], Cart[Real, 4]) -> Cart[Real, 4])

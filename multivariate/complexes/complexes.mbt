@@ -3,7 +3,7 @@
 ///|
 /// Multivariate/complexes.ml:10
 fn step_1() -> Unit raise {
-  @preterm.new_type_abbrev("complex", @parser.parse_type("real^2"))
+  @preterm.new_type_abbrev("complex", @term_syntax.parse_type("Cart[Real, 2]"))
 }
 
 ///|
@@ -5796,8 +5796,8 @@ pub fn complex_polyfun_extremal() -> @kernel.Thm {
 /// COMPLEX_POLYFUN_ROOTBOUND
 fn step_305() -> Unit raise {
   let t993 = @meson.asm_meson_tac(@list.List([@vectors.norm_pos_le(), @realax.real_le_total(), @realax.real_le_trans()]))
-  let t990 = @parser.parse_type("N")
-  let t991 = @kernel.inst_type(@list.List([(@parser.parse_type("2"), t990)]), @vectors.vector_choose_size())
+  let t990 = @term_syntax.parse_type("N")
+  let t991 = @kernel.inst_type(@list.List([(@term_syntax.parse_type("2"), t990)]), @vectors.vector_choose_size())
   let t992 = @tactics.mp_tac(@bool.spec(@term_syntax.parse_term("(b : Real)"), t991))
   let t989 = @tactics.x_gen_tac(@term_syntax.parse_term("(b : Real)"))
   let t988 = @simp.rewrite_tac(@list.List([@class.not_exists_thm(), @class.not_forall_thm()]))

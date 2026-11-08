@@ -5574,7 +5574,7 @@ test "Boyer_Moore/terms_and_clauses matches Boyer_Moore/terms_and_clauses.ml" {
       #|Searching with limit 2
       #|Searching with limit 3
       #|Boyer_Moore/terms_and_clauses quotations (23):
-      #|  :bool
+      #|  :Bool
       #|  (b : Bool)
       #|  (b : Bool)
       #|  true

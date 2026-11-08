@@ -498,8 +498,8 @@ fn step_20() -> Unit raise {
   let t239 = @tactics_ext2.cho(0L)
   let t240 = @tactics_ext2.use_(1L, @simp.rewrite_rule(@list.List([@sets.countable(), @sets.ge_c_v1(), @sets.in_univ()])))
   let t241 = @tactics_ext2.use_(0L, @simp.rewrite_rule(@list.List([@sets.countable(), @sets.ge_c_v1(), @sets.in_univ()])))
-  let t198 = @parser.parse_type("A")
-  let t242 = @list.List([@tactics_ext.disch_all_tac, @tactics_ext2.imatch_mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("num#num"), t198)]), @misc_defs_and_lemmas.countable_image())), t241, t240, t239, t238, (x203 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @tactics_ext2.type_then(t202, fn(x199 : @kernel.Term) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
+  let t198 = @term_syntax.parse_type("A")
+  let t242 = @list.List([@tactics_ext.disch_all_tac, @tactics_ext2.imatch_mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("(Num, Num)"), t198)]), @misc_defs_and_lemmas.countable_image())), t241, t240, t239, t238, (x203 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @tactics_ext2.type_then(t202, fn(x199 : @kernel.Term) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s200 = @tactics.exists_tac(x199)
     fn(x201 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise {
       s200(x201)
@@ -1304,10 +1304,10 @@ pub fn euclid_add_assoc() -> @kernel.Thm {
 ///|
 /// euclid_lzero
 fn step_54() -> Unit raise {
-  let t521 = @parser.parse_type("B")
-  let t522 = (@parser.parse_type("real"), t521)
-  let t520 = @parser.parse_type("A")
-  let t523 = @tactics.accept_tac(@kernel.inst_type(@list.List([(@parser.parse_type("num"), t520), t522]), @class.eta_ax()))
+  let t521 = @term_syntax.parse_type("B")
+  let t522 = (@term_syntax.parse_type("Real"), t521)
+  let t520 = @term_syntax.parse_type("A")
+  let t523 = @tactics.accept_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("Num"), t520), t522]), @class.eta_ax()))
   let t524 = @list.List([@simp.rewrite_tac(@list.List([@misc_defs_and_lemmas.euclid_plus(), @misc_defs_and_lemmas.euclid0(), @calc_rat.real_arith(@term_syntax.parse_term("real_of_num(0) + (a : Real) == a"))])), t523])
   euclid_lzero_c.set(@tactics_refine.prove_by_refinement(@term_syntax.parse_term("∀ f : (Num) -> Real, euclid_euclid0 + f == f"), t524))
 }
@@ -1324,10 +1324,10 @@ pub fn euclid_lzero() -> @kernel.Thm {
 ///|
 /// euclid_rzero
 fn step_55() -> Unit raise {
-  let t526 = @parser.parse_type("B")
-  let t527 = (@parser.parse_type("real"), t526)
-  let t525 = @parser.parse_type("A")
-  let t528 = @tactics.accept_tac(@kernel.inst_type(@list.List([(@parser.parse_type("num"), t525), t527]), @class.eta_ax()))
+  let t526 = @term_syntax.parse_type("B")
+  let t527 = (@term_syntax.parse_type("Real"), t526)
+  let t525 = @term_syntax.parse_type("A")
+  let t528 = @tactics.accept_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("Num"), t525), t527]), @class.eta_ax()))
   let t529 = @list.List([@simp.rewrite_tac(@list.List([@misc_defs_and_lemmas.euclid_plus(), @misc_defs_and_lemmas.euclid0(), @calc_rat.real_arith(@term_syntax.parse_term("(a : Real) + real_of_num(0) == a"))])), t528])
   euclid_rzero_c.set(@tactics_refine.prove_by_refinement(@term_syntax.parse_term("∀ f : (Num) -> Real, f + euclid_euclid0 == f"), t529))
 }
@@ -7931,8 +7931,8 @@ fn step_224() -> Unit raise {
   let t4917 = @simp.asm_rewrite_tac(@list.List([@misc_defs_and_lemmas.num_countable()]))
   let t4918 = @tactics_ext2.imatch_mp_tac(countable_prod())
   let t4682 = @term_syntax.parse_term("{((z : _), (n : Num)) | (Z : (_) -> Bool)(z) && UNIV(n)}")
-  let t4678 = @parser.parse_type("A")
-  let t4919 = @tactics_ext2.imatch_mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("A#num"), t4678)]), @misc_defs_and_lemmas.countable_image()))
+  let t4678 = @term_syntax.parse_type("A")
+  let t4919 = @tactics_ext2.imatch_mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("(A, Num)"), t4678)]), @misc_defs_and_lemmas.countable_image()))
   let t4676 = @term_syntax.parse_term("COUNTABLE((S : (_) -> Bool))")
   let t4674 = @term_syntax.parse_term("(S : ((_, Num)) -> Bool) == {((z : _), (n : Num)) | ∃ A : (_) -> Bool, (Z : (_) -> Bool)(z) && SUBSET(euclid_open_ball(((X : (_) -> Bool), (d : (_, _) -> Real)), z, twopow(-int_of_num(n))), A) && (U : ((_) -> Bool) -> Bool)(A)}")
   let t4920 = @tactics_ext2.cho(4L)

@@ -7857,7 +7857,7 @@ test "100/realsuncountable matches 100/realsuncountable.ml" {
       #|  repeating
       #|  canonical
       #|  :A
-      #|  :num
+      #|  :Num
       #|  !countable(canonical)
       #|  \226\136\128 m : Num, \226\136\128 n : Num, real_of_num(0) <= sum((m, n), (i : Num) => if (s : (Num) -> Bool)(i) { inv(pow(real_of_num(2), i)) } else { real_of_num(0) })
       #|  (x : Real) <= (a : Real) \226\134\146 a + (y : Real) <= (b : Real) \226\134\146 x + y <= b

@@ -53,7 +53,7 @@ pub fn gen_taylor_arith_thm(x13 : @kernel.Thm, x14 : (@kernel.Thm) -> @kernel.Th
   })((fn(x23 : @kernel.Thm) -> @kernel.Thm raise {
     ((x22 : @kernel.Thm) => @kernel.inst_type(t21, x22))(x23)
   })(arith_th))
-  let pty = @parser.parse_type("real#real")
+  let pty = @term_syntax.parse_type("(Real, Real)")
   let dfs = mk_vars(n, "df", pty)
   let ddfs_p = @lib.map(fn(x24 : Int64) -> @list.List[@kernel.Term] raise {
     let i = x24

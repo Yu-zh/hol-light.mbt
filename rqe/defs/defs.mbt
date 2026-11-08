@@ -342,7 +342,7 @@ pub fn part_line_tm() -> @kernel.Term {
 ///|
 /// real_bool_ty
 fn step_14() -> Unit raise {
-  real_bool_ty_c.set(@parser.parse_type("real->bool"))
+  real_bool_ty_c.set(@term_syntax.parse_type("(Real) -> Bool"))
 }
 
 ///|

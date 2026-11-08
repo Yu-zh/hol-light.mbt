@@ -74988,11 +74988,11 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  inv((m : Real)) == (if real_of_num(0) <= inv(m) { abs(inv(m)) } else { -abs(inv(m)) })
       #|  (m : Real) * (u : Real) + -(m * (c : Real)) == (u - c) * m
       #|  norm((x : Cart[Real, N])) < (a : Real) \226\134\146 norm(x + (y : Cart[Real, N])) < a + norm(y)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  distance((vec(0), (x : Cart[Real, N]))) == norm(x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  op_pct((m : Real), (x : Cart[Real, N])) + (c : Cart[Real, N])
       #|  (x : Cart[Real, N])
       #|  (a : Bool) && (a \226\134\146 (b : Bool) \226\134\146 (c : Bool)) \226\134\146 (a \226\134\146 b) \226\134\146 c
@@ -75025,8 +75025,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (norm : (Cart[Real, N]) -> Real)((op_pct : (Real, Cart[Real, N]) -> Cart[Real, N])(sup((IMAGE : ((Num) -> Real, (Num) -> Bool, Real) -> Bool)((k : Num) => abs((m : (Num) -> Real)(k)), op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))))), (x : Cart[Real, N])))
       #|  (x : Cart[Real, N])
       #|  distance((vec(0), (x : Cart[Real, N]))) == norm(x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  SUBSET((b : (_) -> Bool), (s : (_) -> Bool)) \226\134\146 SUBSET((b' : (_) -> Bool), IMAGE((f : (_) -> _), b)) \226\134\146 SUBSET(b', IMAGE(f, s))
       #|  SUBSET((s : (_) -> Bool), (t : (_) -> Bool)) \226\134\146 !(s == {}) \226\134\146 !(t == {})
       #|  !(interval([((u : Cart[Real, N]), (v : Cart[Real, N]))]) == {})
@@ -76284,8 +76284,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 c : Cart[Real, N], \226\136\128 d : Cart[Real, N], measurable(hull(convex, {a, b, c, d}))
       #|  \226\136\128 a : Cart[Real, 3], \226\136\128 b : Cart[Real, 3], \226\136\128 c : Cart[Real, 3], \226\136\128 d : Cart[Real, 3], measure(hull(convex, {a, b, c, d})) == abs((op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(c, 2) - op_dollar(a, 2)) * (op_dollar(d, 3) - op_dollar(a, 3))) + ((op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(c, 3) - op_dollar(a, 3)) * (op_dollar(d, 1) - op_dollar(a, 1))) + ((op_dollar(b, 3) - op_dollar(a, 3)) * ((op_dollar(c, 1) - op_dollar(a, 1)) * (op_dollar(d, 2) - op_dollar(a, 2))) - (op_dollar(b, 1) - op_dollar(a, 1)) * ((op_dollar(c, 3) - op_dollar(a, 3)) * (op_dollar(d, 2) - op_dollar(a, 2))) - (op_dollar(b, 2) - op_dollar(a, 2)) * ((op_dollar(c, 1) - op_dollar(a, 1)) * (op_dollar(d, 3) - op_dollar(a, 3))) - (op_dollar(b, 3) - op_dollar(a, 3)) * ((op_dollar(c, 2) - op_dollar(a, 2)) * (op_dollar(d, 1) - op_dollar(a, 1)))))) / real_of_num(6)
       #|  !(norm((y : Cart[Real, N])) < (e : Real)) == (e <= distance(((x : Cart[Real, N]), x + y)))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, N])
       #|  (x : Cart[Real, N])
       #|  setdist((frontier((s : (Cart[Real, N]) -> Bool)), DIFF(UNIV, (u : (Cart[Real, N]) -> Bool))))
@@ -76346,8 +76346,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 s' : (Cart[Real, N]) -> Bool, \226\136\128 r : Real, \226\136\128 e : Real, \226\136\128 a : Cart[Real, N], (bounded : ((Cart[Real, N]) -> Bool) -> Bool)(s) && (convex : ((Cart[Real, N]) -> Bool) -> Bool)(s) && (SUBSET : ((Cart[Real, N]) -> Bool, (Cart[Real, N]) -> Bool) -> Bool)((ball : ((Cart[Real, N], Real), Cart[Real, N]) -> Bool)((a, r)), s) && real_of_num(0) < r && (bounded : ((Cart[Real, N]) -> Bool) -> Bool)(s') && (measurable : ((Cart[Real, N]) -> Bool) -> Bool)(s') && (hausdist : (((Cart[Real, N]) -> Bool, (Cart[Real, N]) -> Bool)) -> Real)((s, s')) <= e * r && real_of_num(0) < e \226\134\146 (measure : ((Cart[Real, N]) -> Bool) -> Real)(s') <= (measure : ((Cart[Real, N]) -> Bool) -> Real)(s) * pow(real_of_num(1) + e, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))
       #|  ((v : Cart[Real, N]) == (x : Cart[Real, N]) - (y : Cart[Real, N])) == (x == v + y)
       #|  ((d : Real) <= distance(((x : Cart[Real, N]), (v : Cart[Real, N]) + x))) == !(norm(v) < d)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (v : Cart[Real, N]) + (x : Cart[Real, N])
       #|  (x : Cart[Real, N])
       #|  (x : Cart[Real, N])
@@ -76725,16 +76725,16 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (f : (Cart[Real, Unit]) -> Cart[Real, N])
       #|  content(interval([((x : Cart[Real, M]) - op_pct((h : Real), vec(1)), x + op_pct(h, vec(1)))])) == real_of_num(0)
       #|  distance(((r : Cart[Real, N]), (x : Cart[Real, N]))) < (e : Real) / real_of_num(3) \226\134\146 abs(norm((y : Cart[Real, N]) - r) - norm(y - x)) <= e / real_of_num(3)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, M])
       #|  abs(inv(content(interval([((x : Cart[Real, M]) - op_pct((h : Real), vec(1)), x + op_pct(h, vec(1)))])))) * drop(integral(interval([(x - op_pct(h, vec(1)), x + op_pct(h, vec(1)))]), (x : Cart[Real, M]) => lift((e : Real) / real_of_num(3))))
       #|  norm((y1 : Cart[Real, N])) < (e : Real) / real_of_num(3) && norm((i1 : Cart[Real, N]) - (i2 : Cart[Real, N])) <= e / real_of_num(3) \226\134\146 norm(i1 - y1) < e / real_of_num(3) \226\134\146 norm(i2) < e
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (h : Real)
       #|  (h : Real)
       #|  (d : Real)
@@ -76776,7 +76776,7 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (x : Cart[Real, M]) => if IN(x, (k : (Cart[Real, M]) -> Bool)) { lift(norm((f : (Cart[Real, M]) -> Cart[Real, N])(x))) } else { (g : (Cart[Real, M]) -> Cart[Real, Unit])(x) }
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 g : (Cart[Real, M]) -> Cart[Real, Unit], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 k : (Cart[Real, M]) -> Bool, measurable_on(f, s) && integrable_on(g, s) && negligible(k) && (\226\136\128 x : Cart[Real, M], IN(x, DIFF(s, k)) \226\134\146 norm(f(x)) <= drop(g(x))) \226\134\146 integrable_on(f, s)
       #|  norm((x : Cart[Real, _])) <= (a : Real) \226\134\146 real_of_num(0) <= a
-      #|  :real
+      #|  :Real
       #|  (g : (Cart[Real, M]) -> Cart[Real, Unit])
       #|  (f : (Cart[Real, M]) -> Cart[Real, N])
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 g : (Cart[Real, M]) -> Cart[Real, Unit], \226\136\128 s : (Cart[Real, M]) -> Bool, measurable_on(f, s) && integrable_on(g, s) && (\226\136\128 x : Cart[Real, M], IN(x, s) \226\134\146 norm(f(x)) <= drop(g(x))) \226\134\146 absolutely_integrable_on(f, s)
@@ -76889,10 +76889,10 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (e : Real)
       #|  (x : Cart[Real, N]) => lift(norm(x))
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, measurable_on(f, s) \226\134\146 measurable_on((x : Cart[Real, M]) => lift(norm(f(x))), s)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 f : (Cart[Real, N]) -> Real, \226\136\128 s : (Cart[Real, N]) -> Bool, measurable_on((x : Cart[Real, N]) => lift(f(x)), s) \226\134\146 measurable_on((x : Cart[Real, N]) => lift(abs(f(x))), s)
       #|  IN((x : Cart[Real, M]), (s : (Cart[Real, M]) -> Bool))
       #|  (x : Cart[Real, M])
@@ -77150,11 +77150,11 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (i : (Num, Cart[Real, M]) -> Bool) == ((n : Num) => interval([(lambda((i : Num) => op_dollar((a : Cart[Real, M]), i) + inv(real_of_num(n) + real_of_num(1))), lambda((i : Num) => op_dollar((b : Cart[Real, M]), i) - inv(real_of_num(n) + real_of_num(1))))]))
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 a : Cart[Real, M], \226\136\128 b : Cart[Real, M], (\226\136\128 c : Cart[Real, M], \226\136\128 d : Cart[Real, M], SUBSET(interval([(c, d)]), interval((a, b))) \226\134\146 absolutely_integrable_on(f, interval([(c, d)]))) && bounded({integral(interval([((c : Cart[Real, M]), (d : Cart[Real, M]))]), (x : Cart[Real, M]) => lift(norm(f(x)))) | SUBSET(interval([(c, d)]), interval((a, b)))}) \226\134\146 absolutely_integrable_on(f, interval([(a, b)]))
       #|  norm((x : Cart[Real, N])) <= (c : Real) && norm((y : Cart[Real, N])) <= (b : Real) \226\134\146 norm(x - y) <= c + b
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  norm((x : Cart[Real, N])) <= (c : Real) && norm((y : Cart[Real, N])) <= (b : Real) \226\134\146 norm(x - y) <= b + c
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (B : Real) + (C : Real)
       #|  (C : Real)
       #|  (B : Real)
@@ -77207,8 +77207,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (r : (Cart[Real, M]) -> Real)((z : ((Cart[Real, M]) -> Bool) -> Cart[Real, M])((d : (Cart[Real, M]) -> Bool)))
       #|  (z : ((Cart[Real, M]) -> Bool) -> Cart[Real, M])((d : (Cart[Real, M]) -> Bool))
       #|  \226\136\128 z : Cart[Real, M], \226\136\128 r : Real, norm(z - (u : Cart[Real, M])) < r && norm(z - (v : Cart[Real, M])) < r && r <= real_of_num(1) / real_of_num(2) \226\134\146 norm(v - u) <= real_of_num(1)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  abs((x : Real)) <= (a : Real) \226\134\146 x <= a
       #|  pow((op_dollar : (Cart[Real, M], Num) -> Real)((v : ((Cart[Real, M]) -> Bool) -> Cart[Real, M])((d : (Cart[Real, M]) -> Bool)), 1) - (op_dollar : (Cart[Real, M], Num) -> Real)((u : ((Cart[Real, M]) -> Bool) -> Cart[Real, M])(d), 1), (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)))
       #|  \226\136\128 i : Num, 1 <= i && i <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) \226\134\146 (op_dollar : (Cart[Real, M], Num) -> Real)((u : ((Cart[Real, M]) -> Bool) -> Cart[Real, M])((d : (Cart[Real, M]) -> Bool)), i) <= (op_dollar : (Cart[Real, M], Num) -> Real)((v : ((Cart[Real, M]) -> Bool) -> Cart[Real, M])(d), i)
@@ -77301,8 +77301,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  \226\136\128 f : (Cart[Real, N]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 B : Real, negligible(s) && (\226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], norm(f(x) - f(y)) <= B * norm(x - y)) \226\134\146 negligible(IMAGE(f, s))
       #|  (f' : (Cart[Real, M]) -> Cart[Real, N])((y : Cart[Real, M]) - (x : Cart[Real, M]))
       #|  \226\136\128 d : Cart[Real, N], norm((y : Cart[Real, N]) - (x : Cart[Real, N]) - d) <= (z : Real) && norm(d) <= (b : Real) \226\134\146 norm(y - x) <= b + z
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (B : Real) + real_of_num(1)
       #|  ball(((x : Cart[Real, M]), (d : Real)))
       #|  (B : Real)
@@ -77360,8 +77360,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (y : Cart[Real, M]) - (x : Cart[Real, M])
       #|  (f' : (Cart[Real, M], Cart[Real, M]) -> Cart[Real, N])((x : Cart[Real, M]))
       #|  norm((z : Cart[Real, N])) <= (B : Real) && (d : Real) <= B \226\134\146 norm((y : Cart[Real, N]) - (x : Cart[Real, N]) - z) <= d \226\134\146 norm(y - x) <= real_of_num(2) * B
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, M])
       #|  (x : Cart[Real, M])
       #|  (y : Cart[Real, M])
@@ -77410,8 +77410,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  ((p : Bool) \226\134\146 (q : Bool) && (r : Bool)) == ((p \226\134\146 q) && (p \226\134\146 r))
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 f' : (Cart[Real, M], Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 B : Real, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && real_of_num(0) < B && (bounded : ((Cart[Real, M]) -> Bool) -> Bool)(s) && (\226\136\128 x : Cart[Real, M], (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(x, s) \226\134\146 (has_derivative : ((Cart[Real, M]) -> Cart[Real, N], (Cart[Real, M]) -> Cart[Real, N], Net[Cart[Real, M]]) -> Bool)(f, f'(x), (within : (Net[Cart[Real, M]], (Cart[Real, M]) -> Bool) -> Net[Cart[Real, M]])((at : (Cart[Real, M]) -> Net[Cart[Real, M]])(x), s)) && (rank : (Cart[Cart[Real, M], N]) -> Num)((matrix : ((Cart[Real, M]) -> Cart[Real, N]) -> Cart[Cart[Real, M], N])(f'(x))) < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (onorm : ((Cart[Real, M]) -> Cart[Real, N]) -> Real)(f'(x)) <= B) \226\134\146 (negligible : ((Cart[Real, N]) -> Bool) -> Bool)((IMAGE : ((Cart[Real, M]) -> Cart[Real, N], (Cart[Real, M]) -> Bool, Cart[Real, N]) -> Bool)(f, s))
       #|  (y : Cart[Real, M]) - (x : Cart[Real, M])
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, M])
       #|  (x : Real) <= (n : Real) \226\134\146 x <= n + real_of_num(1)
       #|  (x : Cart[Real, M])
@@ -77578,8 +77578,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (x : Real) < (e : Real) \226\134\146 e <= (d : Real) \226\134\146 x <= d
       #|  abs((x : Real)) <= (e : Real) \226\134\146 -e <= x && x - real_of_num(1) < e
       #|  (x : Cart[Real, Unit]) == (y : Cart[Real, Unit]) \226\134\146 distance((y, (z : Cart[Real, Unit]))) < (e : Real) \226\134\146 distance((x, z)) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (e : Real) * pow(real_of_num(2), (N2 : Num))
       #|  (x : Real) <= (y : Real) && y < x + real_of_num(1) && real_of_num(1) <= (z : Real) \226\134\146 abs(x - y) < z
       #|  abs(pow(real_of_num(2), (n : Num)))
@@ -77720,8 +77720,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (x : Real) < (e : Real) \226\134\146 e <= (d : Real) \226\134\146 x <= d
       #|  abs((x : Real)) <= (e : Real) \226\134\146 -e <= x && x - real_of_num(1) < e
       #|  (x : Cart[Real, Unit]) == (y : Cart[Real, Unit]) \226\134\146 distance((y, (z : Cart[Real, Unit]))) < (e : Real) \226\134\146 distance((x, z)) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (e : Real) * pow(real_of_num(2), (N2 : Num))
       #|  (x : Real) <= (y : Real) && y < x + real_of_num(1) && real_of_num(1) <= (z : Real) \226\134\146 abs(x - y) < z
       #|  abs(pow(real_of_num(2), (n : Num)))
@@ -78566,9 +78566,9 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (s : (Cart[Real, N]) -> Bool)
       #|  CARD((k : (A) -> Bool))
       #|  \226\136\128 k : (A) -> Bool, \226\136\128 a : (A) -> Cart[Real, N], \226\136\128 r : (A) -> Real, \226\136\128 s : (Cart[Real, N]) -> Bool, FINITE(k) && SUBSET(s, UNIONS(IMAGE((i : A) => ball((a(i), r(i))), k))) \226\134\146 (\226\136\131 c : (A) -> Bool, SUBSET(c, k) && pairwise((i : A) => (j : A) => DISJOINT(ball((a(i), r(i))), ball((a(j), r(j)))), c) && SUBSET(s, UNIONS(IMAGE((i : A) => ball((a(i), real_of_num(3) * r(i))), c))))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  INSERT((n : A), (c : (A) -> Bool))
       #|  (c : (A) -> Bool)
       #|  (m : A)
@@ -78587,9 +78587,9 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (s : (Cart[Real, N]) -> Bool)
       #|  CARD((k : (A) -> Bool))
       #|  \226\136\128 k : (A) -> Bool, \226\136\128 a : (A) -> Cart[Real, N], \226\136\128 r : (A) -> Real, \226\136\128 s : (Cart[Real, N]) -> Bool, FINITE(k) && SUBSET(s, UNIONS(IMAGE((i : A) => cball((a(i), r(i))), k))) \226\134\146 (\226\136\131 c : (A) -> Bool, SUBSET(c, k) && pairwise((i : A) => (j : A) => DISJOINT(cball((a(i), r(i))), cball((a(j), r(j)))), c) && SUBSET(s, UNIONS(IMAGE((i : A) => cball((a(i), real_of_num(3) * r(i))), c))))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  real_of_num(0) < (B : Real)
       #|  real_of_num(0) < (r : (A) -> Real)((i : A)) && r(i) <= (B : Real)
       #|  (r : (A) -> Real)((i : A)) / (B : Real)
@@ -78617,9 +78617,9 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  real_of_num(0) < (j : Real) && (a : Real) <= j \226\134\146 a < real_of_num(2) * j
       #|  (B : Real) / pow(real_of_num(2), (n : Num))
       #|  (r : Real) < real_of_num(2) * (s : Real) \226\134\146 (\226\136\131 x : Cart[Real, N], distance(((i : Cart[Real, N]), x)) <= r && distance(((j : Cart[Real, N]), x)) <= s) \226\134\146 (\226\136\128 z : Cart[Real, N], distance((i, z)) <= r \226\134\146 distance((j, z)) < real_of_num(5) * s)
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (j : A)
       #|  (\226\136\128 j : _, (P : (_) -> Bool)(j) \226\134\146 (Q : (_) -> Bool)(j) \226\134\146 (R : (_) -> Bool)(j)) && (\226\136\131 j : _, P(j) && Q(j)) \226\134\146 (\226\136\131 j : _, P(j) && Q(j) && R(j))
       #|  (B : Real) / pow(real_of_num(2), (n : Num)) < (r : (A) -> Real)((i : A))
@@ -78698,10 +78698,10 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (k' : (A) -> Bool) == {(i : A) | IN(i, (k : (A) -> Bool)) && (r : (A) -> Real)(i) <= real_of_num(1)}
       #|  \226\136\128 k : (A) -> Bool, \226\136\128 a : (A) -> Cart[Real, N], \226\136\128 r : (A) -> Real, \226\136\128 s : (Cart[Real, N]) -> Bool, (\226\136\128 i : A, IN(i, k) \226\134\146 real_of_num(0) < r(i) && r(i) <= real_of_num(1)) && (\226\136\128 x : Cart[Real, N], \226\136\128 d : Real, IN(x, s) && real_of_num(0) < d \226\134\146 (\226\136\131 i : A, IN(i, k) && IN(x, cball((a(i), r(i)))) && r(i) < d)) \226\134\146 (\226\136\131 c : (A) -> Bool, COUNTABLE(c) && SUBSET(c, k) && pairwise((i : A) => (j : A) => DISJOINT(cball((a(i), r(i))), cball((a(j), r(j)))), c) && negligible(DIFF(s, UNIONS({cball((a((i : A)), r(i))) | IN(i, c)}))))
       #|  \226\136\128 k : (A) -> Bool, \226\136\128 a : (A) -> Cart[Real, N], \226\136\128 r : (A) -> Real, \226\136\128 s : (Cart[Real, N]) -> Bool, (\226\136\128 i : A, IN(i, k) \226\134\146 real_of_num(0) < r(i)) && (\226\136\128 x : Cart[Real, N], \226\136\128 d : Real, IN(x, s) && real_of_num(0) < d \226\134\146 (\226\136\131 i : A, IN(i, k) && IN(x, cball((a(i), r(i)))) && r(i) < d)) \226\134\146 (\226\136\131 c : (A) -> Bool, COUNTABLE(c) && SUBSET(c, k) && pairwise((i : A) => (j : A) => DISJOINT(cball((a(i), r(i))), cball((a(j), r(j)))), c) && negligible(DIFF(s, UNIONS({cball((a((i : A)), r(i))) | IN(i, c)}))))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  UNION(DIFF((s : (Cart[Real, N]) -> Bool), UNIONS({cball(((a : (A) -> Cart[Real, N])((i : A)), (r : (A) -> Real)(i))) | IN(i, (c : (A) -> Bool))})), UNIONS({sphere((a((i : A)), r(i))) | IN(i, c)}))
       #|  SUBSET((s : (_) -> Bool), (s' : (_) -> Bool)) && SUBSET((t : (_) -> Bool), (t' : (_) -> Bool)) && DISJOINT(s', t') \226\134\146 DISJOINT(s, t)
       #|  (c : (A) -> Bool)
@@ -78807,8 +78807,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (d : Real) <= (e : Real) / real_of_num(2) && (x : Real) <= e / real_of_num(2) \226\134\146 x <= e - d
       #|  onorm((x : Cart[Real, M]) => matrix_vector_mul((A : (Num) -> Cart[Cart[Real, M], N])((n : Num) + (m : Num)) - (B : Cart[Cart[Real, M], N]), x)) * norm((y : Cart[Real, M]) - (x : Cart[Real, M]))
       #|  norm((d' : Cart[Real, N]) - (d : Cart[Real, N])) <= (e' : Real) - (e : Real) \226\134\146 norm((y : Cart[Real, N]) - (x : Cart[Real, N]) - d') <= e \226\134\146 norm(y - x - d) <= e'
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, M])
       #|  (n : Num) + (m : Num)
       #|  (y : Cart[Real, M])
@@ -78830,8 +78830,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  real_of_num(0) < (x : Real) \226\134\146 real_of_num(0) < abs(x)
       #|  ((a : Real) * (x : Real) <= (n : Real) * a + (m : Real) * a) == (a * x <= a * (n + m))
       #|  norm((y : Cart[Real, N]) - (x : Cart[Real, N]) - (d : Cart[Real, N])) <= (a : Real) && norm(y - x - (e : Cart[Real, N])) <= (b : Real) \226\134\146 norm(d - e) <= a + b
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_of_num(0) < (d : Real) \226\134\146 abs(d / real_of_num(2)) < d
       #|  ((q : Bool) && (p : Bool)) && ((r : Bool) && (s : Bool) \226\134\146 (t : Bool)) \226\134\146 (p \226\134\146 r) \226\134\146 (q \226\134\146 s) \226\134\146 t
       #|  (y : Cart[Real, M]) == (x : Cart[Real, M]) + op_pct(min((d : (Num) -> Real)((m : Num)), d((n : Num))) / real_of_num(2), basis((j : Num)))
@@ -78849,8 +78849,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (e : Real) * (x : Real) / real_of_num(2) == e / real_of_num(2) * x
       #|  onorm((x : Cart[Real, M]) => matrix_vector_mul(matrix((f' : (Cart[Real, M]) -> Cart[Real, N])) - (B : Cart[Cart[Real, M], N]), x)) * norm((y : Cart[Real, M]) - (x : Cart[Real, M]))
       #|  norm((d' : Cart[Real, N]) - (d : Cart[Real, N])) <= (e : Real) / real_of_num(2) \226\134\146 norm((y : Cart[Real, N]) - (x : Cart[Real, N]) - d') <= e / real_of_num(2) \226\134\146 norm(y - x - d) <= e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Real) / real_of_num(2) * (y : Real) == x * y / real_of_num(2)
       #|  (y : Cart[Real, M])
       #|  (y : Cart[Real, M])
@@ -78916,8 +78916,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (a : Real) <= inv((c : Real)) && (b : Real) <= inv(c) \226\134\146 a + b <= real_of_num(2) / c
       #|  ((a : Real) - (b : Real) <= real_of_num(0)) == (a <= b)
       #|  norm((y : Cart[Real, N]) - (x : Cart[Real, N]) - (a : Cart[Real, N])) <= (d : Real) && norm(y - x - (b : Cart[Real, N])) <= (e : Real) \226\134\146 norm(b - a) <= d + e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (p : Num)
       #|  min((d : (Num) -> Real)((m : Num)), d((n : Num)))
       #|  real_of_num(0)
@@ -78966,8 +78966,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (d : Real) <= (e : Real) / real_of_num(2) && (x : Real) <= e / real_of_num(2) \226\134\146 x <= e - d
       #|  onorm((x : Cart[Real, M]) => matrix_vector_mul((A : (Num) -> Cart[Cart[Real, M], N])((n : Num) + (m : Num)) - (B : Cart[Cart[Real, M], N]), x)) * norm((y : Cart[Real, M]) - (x : Cart[Real, M]))
       #|  norm((d' : Cart[Real, N]) - (d : Cart[Real, N])) <= (e' : Real) - (e : Real) \226\134\146 norm((y : Cart[Real, N]) - (x : Cart[Real, N]) - d') <= e \226\134\146 norm(y - x - d) <= e'
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, M])
       #|  (n : Num) + (m : Num)
       #|  (y : Cart[Real, M])
@@ -78991,8 +78991,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (e : Real) * (x : Real) / real_of_num(2) == e / real_of_num(2) * x
       #|  onorm((x : Cart[Real, M]) => matrix_vector_mul(matrix((f' : (Cart[Real, M]) -> Cart[Real, N])) - (B : Cart[Cart[Real, M], N]), x)) * norm((y : Cart[Real, M]) - (x : Cart[Real, M]))
       #|  norm((d' : Cart[Real, N]) - (d : Cart[Real, N])) <= (e : Real) / real_of_num(2) \226\134\146 norm((y : Cart[Real, N]) - (x : Cart[Real, N]) - d') <= e / real_of_num(2) \226\134\146 norm(y - x - d) <= e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Real) / real_of_num(2) * (y : Real) == x * y / real_of_num(2)
       #|  (y : Cart[Real, M])
       #|  (y : Cart[Real, M])
@@ -79157,8 +79157,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (e : Real) / real_of_num(2) * norm((y : Cart[Real, M]) - (x : Cart[Real, M]))
       #|  onorm((x : Cart[Real, M]) => matrix_vector_mul((A : (Num) -> Cart[Cart[Real, M], N])((p : Num) + (q : Num)) - (B : Cart[Cart[Real, M], N]), x)) * norm((y : Cart[Real, M]) - (x : Cart[Real, M]))
       #|  norm((b : Cart[Real, N]) - (c : Cart[Real, N])) < (e : Real) - (d : Real) \226\134\146 norm((y : Cart[Real, N]) - (x : Cart[Real, N]) - b) <= d \226\134\146 norm(y - x - c) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, M])
       #|  (p : Num) + (q : Num)
       #|  (y : Cart[Real, M])
@@ -79181,8 +79181,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (a : Real) <= inv((c : Real)) && (b : Real) <= inv(c) \226\134\146 a + b <= real_of_num(2) / c
       #|  ((a : Real) - (b : Real) <= real_of_num(0)) == (a <= b)
       #|  norm((y : Cart[Real, N]) - (x : Cart[Real, N]) - (a : Cart[Real, N])) <= (d : Real) && norm(y - x - (b : Cart[Real, N])) <= (e : Real) \226\134\146 norm(b - a) <= d + e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (p : Num)
       #|  min((d : (Num) -> Real)((i : Num)), d((j : Num)))
       #|  real_of_num(0)
@@ -79243,11 +79243,11 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (x : Real) * (y : Real) / real_of_num(6) == x / real_of_num(6) * y
       #|  matrix_vector_mul(matrix((f' : (Cart[Real, M], Cart[Real, M]) -> Cart[Real, N])((x : Cart[Real, M]))) - lambda((i : Num) => lambda((j : Num) => if i == (m : Num) && j == (n : Num) { (e : Real) / real_of_num(4) } else { real_of_num(0) })) - (B : Cart[Cart[Real, M], N]), (y : Cart[Real, M]) - x)
       #|  \226\136\128 y : Cart[Real, N], norm(y) <= (e : Real) / real_of_num(6) && norm((x : Cart[Real, N]) - y) <= e / real_of_num(4) \226\134\146 norm(x) <= e / real_of_num(2)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  norm((d' : Cart[Real, N]) - (d : Cart[Real, N])) <= (e : Real) / real_of_num(2) \226\134\146 norm((y : Cart[Real, N]) - ((x : Cart[Real, N]) + d')) < e / real_of_num(2) \226\134\146 norm(y - x - d) <= e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Real) / real_of_num(2) * (y : Real) == x * y / real_of_num(2)
       #|  (y : Cart[Real, M])
       #|  (y : Cart[Real, M]) == (x : Cart[Real, M])
@@ -79859,8 +79859,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (x : Cart[Real, M])
       #|  IMAGE((f : (Cart[Real, M]) -> Cart[Real, N]), INTER((s : (Cart[Real, M]) -> Bool), UNIONS(IMAGE((x : Cart[Real, M]) => ball((x, (r : (Cart[Real, M]) -> Real)(x))), (c : (Cart[Real, M]) -> Bool)))))
       #|  (norm((x : Cart[Real, M]) - (y : Cart[Real, M])) <= real_of_num(0)) == (x == y)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, M])
       #|  IN((x : Cart[Real, M]), (s : (Cart[Real, M]) -> Bool))
       #|  (x : Cart[Real, M])
@@ -79876,7 +79876,7 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))
       #|  negligible(IMAGE((f : (Cart[Real, M]) -> Cart[Real, N]), (s : (Cart[Real, M]) -> Bool)))
       #|  real_of_num(0) < -(x : Real) \226\134\146 !(norm((a : Cart[Real, M])) <= x)
-      #|  :real
+      #|  :Real
       #|  (y : Cart[Real, M])
       #|  (y : Cart[Real, M])
       #|  (x : Cart[Real, M])
@@ -79891,7 +79891,7 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  \226\136\128 x : Cart[Real, M], \226\136\131 e : Real, IN(x, (s : (Cart[Real, M]) -> Bool)) \226\134\146 real_of_num(0) < e && (\226\136\128 y : Cart[Real, M], IN(y, INTER(s, ball((x, e)))) \226\134\146 norm((f : (Cart[Real, M]) -> Cart[Real, N])(y) - f(x)) <= (B : Real) * norm(y - x))
       #|  (((p : Bool) \226\134\146 (q : Bool)) && (p \226\134\146 (r : Bool))) == (p \226\134\146 q && r)
       #|  (\226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 B : Real, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (measurable : ((Cart[Real, M]) -> Bool) -> Bool)(s) && (\226\136\128 x : Cart[Real, M], (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(x, s) \226\134\146 (\226\136\131 t : (Cart[Real, M]) -> Bool, (open : ((Cart[Real, M]) -> Bool) -> Bool)(t) && (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(x, t) && (\226\136\128 y : Cart[Real, M], (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(y, (INTER : ((Cart[Real, M]) -> Bool, (Cart[Real, M]) -> Bool, Cart[Real, M]) -> Bool)(s, t)) \226\134\146 (norm : (Cart[Real, N]) -> Real)(f(y) - f(x)) <= B * (norm : (Cart[Real, M]) -> Real)(y - x)))) \226\134\146 (measurable : ((Cart[Real, N]) -> Bool) -> Bool)((IMAGE : ((Cart[Real, M]) -> Cart[Real, N], (Cart[Real, M]) -> Bool, Cart[Real, N]) -> Bool)(f, s))) && (\226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 B : Real, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (measurable : ((Cart[Real, M]) -> Bool) -> Bool)(s) && (\226\136\128 x : Cart[Real, M], (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(x, s) \226\134\146 (\226\136\131 t : (Cart[Real, M]) -> Bool, (open : ((Cart[Real, M]) -> Bool) -> Bool)(t) && (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(x, t) && (\226\136\128 y : Cart[Real, M], (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(y, (INTER : ((Cart[Real, M]) -> Bool, (Cart[Real, M]) -> Bool, Cart[Real, M]) -> Bool)(s, t)) \226\134\146 (norm : (Cart[Real, N]) -> Real)(f(y) - f(x)) <= B * (norm : (Cart[Real, M]) -> Real)(y - x)))) \226\134\146 (measure : ((Cart[Real, N]) -> Bool) -> Real)((IMAGE : ((Cart[Real, M]) -> Cart[Real, N], (Cart[Real, M]) -> Bool, Cart[Real, N]) -> Bool)(f, s)) <= pow(B, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) * (measure : ((Cart[Real, M]) -> Bool) -> Real)(s))
-      #|  :real
+      #|  :Real
       #|  (B : Real)
       #|  (UNIV : (Cart[Real, M]) -> Bool)
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 B : Real, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (lebesgue_measurable : ((Cart[Real, M]) -> Bool) -> Bool)(s) && (\226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(x, s) && (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(y, s) \226\134\146 (norm : (Cart[Real, N]) -> Real)(f(x) - f(y)) <= B * (norm : (Cart[Real, M]) -> Real)(x - y)) \226\134\146 (lebesgue_measurable : ((Cart[Real, N]) -> Bool) -> Bool)((IMAGE : ((Cart[Real, M]) -> Cart[Real, N], (Cart[Real, M]) -> Bool, Cart[Real, N]) -> Bool)(f, s))
@@ -79932,11 +79932,11 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (((p : Bool) && (q : Bool)) && (r : Bool)) == (r && p && q)
       #|  {(a : Cart[Real, N]) + (b : Cart[Real, N]) | IN(a, IMAGE((f' : (Cart[Real, N], Cart[Real, N]) -> Cart[Real, N])((x : Cart[Real, N])), ball((vec(0), real_of_num(1))))) && IN(b, ball((vec(0), (k : Real))))}
       #|  (a : Real) <= (b : Real) \226\134\146 distance(((y : Cart[Real, N]), (x : Cart[Real, N]) + (f : Cart[Real, N]))) < a \226\134\146 distance((-x + y, f)) < b
-      #|  :real
+      #|  :Real
       #|  (y : Cart[Real, N])
       #|  (norm((y : Cart[Real, N]) - (x : Cart[Real, N])) < real_of_num(1) * (r : Real)) == (distance((x, y)) < r)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_of_num(0) < (x : Real) \226\134\146 real_of_num(0) < abs(x)
       #|  op_pct(inv((r : Real)), (y : Cart[Real, N]) - (x : Cart[Real, N]))
       #|  op_pct((r : Real), -(x : Cart[Real, N]) + x) == vec(0)
@@ -80043,8 +80043,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (\226\136\128 f : (Cart[Real, N]) -> Cart[Real, N], \226\136\128 f' : (Cart[Real, N], Cart[Real, N]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, lebesgue_measurable(s) && (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 has_derivative(f, f'(x), within(at(x), s))) && integrable_on((x : Cart[Real, N]) => lift(abs(det(matrix(f'(x))))), s) \226\134\146 measurable(IMAGE(f, s))) && (\226\136\128 f : (Cart[Real, N]) -> Cart[Real, N], \226\136\128 f' : (Cart[Real, N], Cart[Real, N]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 b : Real, lebesgue_measurable(s) && (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 has_derivative(f, f'(x), within(at(x), s))) && integrable_on((x : Cart[Real, N]) => lift(abs(det(matrix(f'(x))))), s) && drop(integral(s, (x : Cart[Real, N]) => lift(abs(det(matrix(f'(x))))))) <= b \226\134\146 measure(IMAGE(f, s)) <= b)
       #|  IMAGE((f : (_) -> _), {(g : (_) -> _)((x : _)) | IN(x, (s : (_) -> Bool))}) == {f(g((x : _))) | IN(x, s)}
       #|  (b : Real) <= norm((y : Cart[Real, N])) && (d : Real) <= (c : Real) \226\134\146 norm((f : Cart[Real, N]) - (f' : Cart[Real, N]) - y) <= b - c \226\134\146 d <= norm(f - f')
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  inv(real_of_num(MAX((m : Num), (n : Num))) + real_of_num(1))
       #|  inv(real_of_num((m : Num)) + real_of_num(1))
       #|  (y : Cart[Real, M])
@@ -80071,8 +80071,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (x : Cart[Real, M])
       #|  \226\136\131 g : (Cart[Real, N]) -> Cart[Real, M], \226\136\128 x : Cart[Real, M], IN(x, (v : (Cart[Real, M]) -> Bool)) \226\134\146 g((f : (Cart[Real, M]) -> Cart[Real, N])(x)) == x
       #|  distance(((a : Cart[Real, N]), (x : Cart[Real, N]))) < (e : Real) / real_of_num(2) && distance((a, (y : Cart[Real, N]))) < e / real_of_num(2) \226\134\146 norm(x - y) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], IN(x, (v : (Cart[Real, M]) -> Bool)) && IN(y, v) \226\134\146 norm(x - y) <= (real_of_num((n : Num)) + real_of_num(1)) * norm((f : (Cart[Real, M]) -> Cart[Real, N])(x) - f(y))
       #|  real_of_num(0) < real_of_num((n : Num)) + real_of_num(1)
       #|  (v : (Cart[Real, M]) -> Bool)
@@ -80082,7 +80082,7 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  UNIONS({{(x : Cart[Real, M]) | IN(x, (u : (Num, Cart[Real, M]) -> Bool)((n : Num))) && IN((f : (Cart[Real, M]) -> Cart[Real, N])(x), (t : (Cart[Real, N]) -> Bool))} | IN(n, UNIV)})
       #|  (u : (Num, Cart[Real, M]) -> Bool) == ((n : Num) => {(x : Cart[Real, M]) | IN(x, (s : (Cart[Real, M]) -> Bool)) && (\226\136\128 y : Cart[Real, M], IN(y, s) && norm(y - x) < inv(real_of_num(n) + real_of_num(1)) \226\134\146 norm(y - x) <= (real_of_num(n) + real_of_num(1)) * norm((f : (Cart[Real, M]) -> Cart[Real, N])(y) - f(x)))})
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 f' : (Cart[Real, M], Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (\226\136\128 x : Cart[Real, M], (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(x, s) \226\134\146 (has_derivative : ((Cart[Real, M]) -> Cart[Real, N], (Cart[Real, M]) -> Cart[Real, N], Net[Cart[Real, M]]) -> Bool)(f, f'(x), (within : (Net[Cart[Real, M]], (Cart[Real, M]) -> Bool) -> Net[Cart[Real, M]])((at : (Cart[Real, M]) -> Net[Cart[Real, M]])(x), s)) && (rank : (Cart[Cart[Real, M], N]) -> Num)((matrix : ((Cart[Real, M]) -> Cart[Real, N]) -> Cart[Cart[Real, M], N])(f'(x))) == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) && (negligible : ((Cart[Real, N]) -> Bool) -> Bool)(t) \226\134\146 (negligible : ((Cart[Real, M]) -> Bool) -> Bool)({(x : Cart[Real, M]) | (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(x, s) && (IN : (Cart[Real, N], (Cart[Real, N]) -> Bool) -> Bool)(f(x), t)})
-      #|  :real
+      #|  :Real
       #|  \226\136\128 a : Real, {(x : _) | IN(x, (s : (_) -> Bool)) && (f : (_) -> Real)(x) <= a} == UNIONS({{(x : _) | IN(x, s) && f(x) == b} | b : Real | IN(b, IMAGE(f, s)) && b <= a})
       #|  (k : Num) => integral(IMAGE((g : (Cart[Real, N]) -> Cart[Real, N]), (s : (Cart[Real, N]) -> Bool)), (h : (Num, Cart[Real, N]) -> Cart[Real, Unit])(k))
       #|  sequentially
@@ -80457,21 +80457,21 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (x : Real) < (e : Real) \226\134\146 x == (y : Real) \226\134\146 y < e
       #|  (a : Real) < (e : Real) / real_of_num(2) && (b : Real) < e / real_of_num(2) \226\134\146 a + b < e
       #|  norm((f : Cart[Real, N]) - (g : Cart[Real, N])) <= norm(f - (h : Cart[Real, N])) + norm(g - h)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  norm((x : Cart[Real, Unit])) == drop(x) && norm((a : Cart[Real, N])) <= drop(x) \226\134\146 norm(a) <= norm(x)
       #|  norm((x : Cart[Real, N])) <= norm((y : Cart[Real, N]) + (z : Cart[Real, N])) \226\134\146 norm(x) <= norm(y) + norm(z)
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  norm(integral((s : (Cart[Real, M]) -> Bool), (x : Cart[Real, M]) => lift(norm((f : (Cart[Real, M]) -> Cart[Real, N])(x) - (h : (Cart[Real, M]) -> Cart[Real, N])(x))))) + norm(integral(s, (x : Cart[Real, M]) => lift(norm((g : (Num, Cart[Real, M]) -> Cart[Real, N])((n : Num), x) - h(x)))))
       #|  (g : (Num, Cart[Real, M]) -> Cart[Real, N])((n : Num))
       #|  (n : Num)
       #|  (n : Num)
       #|  (e : Real) / real_of_num(2)
       #|  norm((g : Cart[Real, N])) <= (b : Real) && norm((h : Cart[Real, N])) <= (a : Real) \226\134\146 norm(g - h) <= a + b
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (k : (Cart[Real, M]) -> Bool)
       #|  (s : (Cart[Real, M]) -> Bool)
       #|  DIFF((s : (Cart[Real, M]) -> Bool), (k : (Cart[Real, M]) -> Bool))
@@ -80485,8 +80485,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (x : Cart[Real, M])
       #|  (k : Num)
       #|  norm((c : Cart[Real, N]) - (a : Cart[Real, N])) <= norm((b : Cart[Real, N]) - a) \226\134\146 distance((b, a)) < (ee : Real) \226\134\146 distance((c, a)) < ee
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (n : Num)
       #|  (N : Num)
       #|  (ee : Real)
@@ -80513,7 +80513,7 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (e : Real) / real_of_num(2)
       #|  abs((x : Real)) <= (n : Real) \226\134\146 x == max(-n, min(n, x))
       #|  real_of_num(0) < (d : Real) && (x : Cart[Real, N]) == (y : Cart[Real, N]) \226\134\146 norm(x - y) < d
-      #|  :real
+      #|  :Real
       #|  (n : Num)
       #|  (N : Num)
       #|  norm((f : (Cart[Real, M]) -> Cart[Real, N])((x : Cart[Real, M])))
@@ -80541,13 +80541,13 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (x : Real) < (e : Real) / real_of_num(3) \226\134\146 (z : Real) == x && (y : Real) <= e / real_of_num(3) \226\134\146 z + y < real_of_num(2) / real_of_num(3) * e
       #|  drop(integral(DIFF((s : (Cart[Real, M]) -> Bool), interval([((a : Cart[Real, M]), (b : Cart[Real, M]))])), (x : Cart[Real, M]) => lift(norm((f : (Cart[Real, M]) -> Cart[Real, N])(x))) + lift(norm((h : (Cart[Real, M]) -> Cart[Real, N])(x)))))
       #|  norm(integral((s : (Cart[Real, _]) -> Bool), (f : (Cart[Real, _]) -> Cart[Real, _]))) < (e : Real) / real_of_num(3) \226\134\146 integral(s, f) == integral(s, (g : (Cart[Real, _]) -> Cart[Real, _])) && (y : Real) < real_of_num(2) / real_of_num(3) * e \226\134\146 norm(integral(s, g)) + y < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  INTER(INTER((s : (_) -> Bool), (t : (_) -> Bool)), DIFF(s, t)) == {} && UNION(INTER(s, t), DIFF(s, t)) == s
       #|  (a : Cart[Real, N]) + (b : Cart[Real, N]) == (c : Cart[Real, N]) \226\134\146 norm(c) <= norm(a) + norm(b)
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  norm(integral(INTER((s : (Cart[Real, M]) -> Bool), interval([((a : Cart[Real, M]), (b : Cart[Real, M]))])), (x : Cart[Real, M]) => lift(norm((f : (Cart[Real, M]) -> Cart[Real, N])(x) - (h : (Cart[Real, M]) -> Cart[Real, N])(x))))) + norm(integral(DIFF(s, interval([(a, b)])), (x : Cart[Real, M]) => lift(norm(f(x) - h(x)))))
       #|  DIFF((s : (_) -> Bool), (t : (_) -> Bool)) == INTER(s, DIFF(UNIV, t))
       #|  (\226\136\128 u : Cart[Real, M], \226\136\128 v : Cart[Real, M], absolutely_integrable_on((h : (Cart[Real, M]) -> Cart[Real, N]), INTER((s : (Cart[Real, M]) -> Bool), interval([(u, v)])))) && (\226\136\128 u : Cart[Real, M], \226\136\128 v : Cart[Real, M], absolutely_integrable_on(h, DIFF(s, interval([(u, v)]))))
@@ -80578,35 +80578,35 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  DIFF((s : (_) -> Bool), (t : (_) -> Bool)) == INTER(s, DIFF(UNIV, t))
       #|  (\226\136\128 u : Cart[Real, M], \226\136\128 v : Cart[Real, M], absolutely_integrable_on((f : (Cart[Real, M]) -> Cart[Real, N]), INTER((s : (Cart[Real, M]) -> Bool), interval([(u, v)])))) && (\226\136\128 u : Cart[Real, M], \226\136\128 v : Cart[Real, M], absolutely_integrable_on(f, DIFF(s, interval([(u, v)]))))
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 e : Real, lebesgue_measurable(s) && absolutely_integrable_on(f, s) && real_of_num(0) < e \226\134\146 (\226\136\131 g : (Cart[Real, M]) -> Cart[Real, N], absolutely_integrable_on(g, s) && continuous_on(g, UNIV) && bounded(IMAGE(g, UNIV)) && norm(integral(s, (x : Cart[Real, M]) => lift(norm(f(x) - g(x))))) < e)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], lift(norm(f((x : Cart[Real, M])))) - (if (p : (Cart[Real, M]) -> Bool)(x) { lift(norm(f(x))) } else { vec(0) }) == lift(norm(f(x) - (if p(x) { f(x) } else { vec(0) })))
       #|  (UNIV : (Cart[Real, M]) -> Bool)
       #|  (x : Cart[Real, M])
       #|  (x : Real) <= (a : Real) \226\134\146 x <= abs(a)
       #|  norm((z : Cart[Real, M])) <= norm((x : Cart[Real, M]) + (y : Cart[Real, M])) \226\134\146 norm(x) < (e : Real) / real_of_num(3) && norm(y) < e / real_of_num(3) \226\134\146 norm(z) < real_of_num(2) * (e / real_of_num(3))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, M]) => lift(norm((f : (Cart[Real, M]) -> Cart[Real, N])(x)))
       #|  (a : Cart[Real, M])
       #|  norm((a : Cart[Real, M])) < real_of_num(1)
       #|  (ball : ((Cart[Real, M], Real), Cart[Real, M]) -> Bool)(((vec : (Num) -> Cart[Real, M])(0), (B : Real) + real_of_num(1)))
       #|  SUBSET(ball((vec(0), (B : Real))), interval([((a : Cart[Real, M]) + -(c : Cart[Real, M]), a + c)])) && SUBSET(ball((vec(0), B)), interval([(-c, c)]))
       #|  norm((y : Cart[Real, M]) - (x : Cart[Real, M])) < real_of_num(2) * ((e : Real) / real_of_num(3)) \226\134\146 norm(x) <= e / real_of_num(3) \226\134\146 norm(y) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  ((e : Real) / real_of_num(3) / (x : Real) * (y : Real) <= e / real_of_num(3)) == (e * y / x <= e)
       #|  (i : Num)
       #|  (a : Cart[Real, M])
       #|  (i : Num)
       #|  (i : Num)
       #|  distance(((a : Cart[Real, M]) + (x : Cart[Real, M]), x)) == norm(a)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, M])
       #|  (UNIV : (Cart[Real, M]) -> Bool)
       #|  (e : Real) / real_of_num(3) / content(interval([(-((c : Cart[Real, M]) + vec(1)), c + vec(1))])) * content(interval([(-c, c)]))
@@ -80636,10 +80636,10 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  -(a : Cart[Real, M])
       #|  (x : Real) <= (y : Real) \226\134\146 x <= abs(y)
       #|  norm((w : Cart[Real, N])) <= norm((x : Cart[Real, N]) + ((y : Cart[Real, N]) + (z : Cart[Real, N]))) \226\134\146 norm(x) < (e : Real) / real_of_num(3) \226\134\146 norm(y) < e / real_of_num(3) \226\134\146 norm(z) < e / real_of_num(3) \226\134\146 norm(w) < e
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (a : Cart[Real, M])
       #|  norm(integral(UNIV, (x : Cart[Real, M]) => lift(norm((f : (Cart[Real, M]) -> Cart[Real, N])(x) - (g : (Cart[Real, M]) -> Cart[Real, N])(x))))) < (e : Real) / real_of_num(3)
       #|  (a : Cart[Real, M])
@@ -80655,22 +80655,22 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (f : (Cart[Real, M]) -> Cart[Real, N])
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], absolutely_integrable_on(f, UNIV) && continuous_on(f, UNIV) \226\134\146 op_minus_minus_gt((a : Cart[Real, M]) => integral(UNIV, (x : Cart[Real, M]) => lift(norm(f(a + x) - f(x)))), vec(0), at(vec(0)))
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], absolutely_integrable_on(f, UNIV) \226\134\146 op_minus_minus_gt((a : Cart[Real, M]) => integral(UNIV, (x : Cart[Real, M]) => lift(norm(f(a + x) - f(x)))), vec(0), at(vec(0)))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  IN((x : Cart[Real, M]), (t : (Cart[Real, M]) -> Bool))
       #|  (x : Cart[Real, M])
       #|  (s : (Cart[Real, M]) -> Bool)
@@ -80804,8 +80804,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  0 < (n : Num) + 2
       #|  SUC(SUC((n : Num))) == n + 2
       #|  distance(((u : Cart[Real, N]), u + (v : Cart[Real, N]))) == norm(v)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (m : Num) * (n : Num)
       #|  (v : Cart[Real, N])
       #|  (u : Cart[Real, N])
@@ -80824,8 +80824,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (k : Num)
       #|  distance(((a : Cart[Real, N]), (b : Cart[Real, N]))) + real_of_num(1) <= real_of_num((n : Num))
       #|  distance(((c : Cart[Real, N]), c + (x : Cart[Real, N]))) == norm(x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (d : Cart[Real, N])
       #|  (c : Cart[Real, N])
       #|  (n : Num)
@@ -80833,7 +80833,7 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (a : Cart[Real, N])
       #|  (f : (Cart[Real, N]) -> Cart[Real, Unit])
       #|  !(distance(((p : Cart[Real, N]), (q : Cart[Real, N]))) + real_of_num(1) <= real_of_num(0))
-      #|  :real
+      #|  :Real
       #|  (n : Num) == 0
       #|  (n : Num)
       #|  distance(((a : Cart[Real, N]), (b : Cart[Real, N]))) + real_of_num(1)
@@ -80845,7 +80845,7 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (p : (Num) -> (Cart[Real, N], Cart[Real, N]))
       #|  \226\136\131 p : (Num) -> (Cart[Real, N], Cart[Real, N]), ((\226\136\128 n : Num, \226\136\131 m : Num, !(m == 0) && FST(p(n)) + op_pct(inv(real_of_num(m)), (b : Cart[Real, N]) - (a : Cart[Real, N])) == SND(p(n))) && (\226\136\128 n : Num, distance((FST(p(n)), SND(p(n)))) < inv(real_of_num(n) + real_of_num(1))) && (\226\136\128 n : Num, SUBSET(interval([(FST(p(n)), SND(p(n)))]), interval([(a, b)]))) && (\226\136\128 n : Num, op_pct(measure(interval([(a, b)])), integral(interval([(FST(p(n)), SND(p(n)))]), (f : (Cart[Real, N]) -> Cart[Real, Unit]))) == op_pct(measure(interval([(FST(p(n)), SND(p(n)))])), integral(interval([(a, b)]), f)))) && (\226\136\128 n : Num, SUBSET(interval([(FST(p(SUC(n))), SND(p(SUC(n))))]), interval([(FST(p(n)), SND(p(n)))])))
       #|  \226\136\128 f : (Cart[Real, N]) -> Cart[Real, Unit], \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], !(interval([(a, b)]) == {}) && absolutely_integrable_on(f, interval([(a, b)])) \226\134\146 (\226\136\131 c : (Num) -> Cart[Real, N], \226\136\131 d : (Num) -> Cart[Real, N], (\226\136\128 n : Num, \226\136\131 m : Num, !(m == 0) && c(n) + op_pct(inv(real_of_num(m)), b - a) == d(n)) && (\226\136\128 n : Num, !(interval([(c(n), d(n))]) == {})) && op_minus_minus_gt((n : Num) => d(n) - c(n), vec(0), sequentially) && (\226\136\128 n : Num, SUBSET(interval([(c(n), d(n))]), interval([(a, b)]))) && (\226\136\128 n : Num, SUBSET(interval([(c(SUC(n)), d(SUC(n)))]), interval([(c(n), d(n))]))) && (\226\136\128 n : Num, op_pct(measure(interval([(a, b)])), integral(interval([(c(n), d(n))]), f)) == op_pct(measure(interval([(c(n), d(n))])), integral(interval([(a, b)]), f))))
-      #|  :real
+      #|  :Real
       #|  (m : Num)
       #|  (d : (Num) -> Cart[Real, N])((n : Num))
       #|  (c : (Num) -> Cart[Real, N])((n : Num))
@@ -80854,8 +80854,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (n : Num)
       #|  (n : Num)
       #|  distance(((x : Cart[Real, N]) - (y : Cart[Real, N]), vec(0))) == distance((x, y))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (e : Real)
       #|  (e : Real)
       #|  (x : Cart[Real, N])
@@ -80986,8 +80986,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  abs((t : (Num) -> Real)((n : Num)))
       #|  IN((x : _), (s : (_) -> Bool)) \226\134\146 SUBSET(s, (t : (_) -> Bool)) \226\134\146 IN(x, t)
       #|  norm((x : Cart[Real, N])) <= (m : Real) && norm((z : Cart[Real, N]) - (y : Cart[Real, N])) <= m \226\134\146 norm(x + y - z) <= real_of_num(2) * m
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  norm((y : Cart[Real, N]) - (a : Cart[Real, N])) <= real_of_num(2) * ((M : Real) * (t : (Num) -> Real)((n : Num)))
       #|  IN((x : _), (s : (_) -> Bool)) \226\134\146 SUBSET(s, (t : (_) -> Bool)) \226\134\146 IN(x, t)
       #|  (v : Cart[Real, N])
@@ -81018,8 +81018,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  op_pct(inv((t : (Num) -> Real)((n : Num))), (f : (Cart[Real, N]) -> Cart[Real, N])((y : Cart[Real, N])) - (b : (Num) -> Cart[Real, N])(n))
       #|  ((x : Cart[Real, N]) => op_pct((t : (Num) -> Real)((n : Num)) * (real_of_num(1) + (e : Real)), x)) == o((x : Cart[Real, N]) => op_pct(t(n), x), (x : Cart[Real, N]) => op_pct(real_of_num(1) + e, x))
       #|  norm((x : Cart[Real, N])) <= (m : Real) && norm((z : Cart[Real, N]) - (y : Cart[Real, N])) <= m \226\134\146 norm(x + y - z) <= real_of_num(2) * m
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  norm((y : Cart[Real, N]) - (a : Cart[Real, N])) <= real_of_num(2) * ((M : Real) * (t : (Num) -> Real)((n : Num)))
       #|  \226\136\131 v : Cart[Real, N], IN(v, (A : (Cart[Real, N]) -> Bool)) && op_pct((t : (Num) -> Real)((n : Num)), v) + (z : (Num) -> Cart[Real, N])(n) == (y : Cart[Real, N])
       #|  (y : Cart[Real, N])
@@ -81062,8 +81062,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (n : Num)
       #|  \226\136\128 p : Num, norm((a : Cart[Real, N]) - (z : (Num) -> Cart[Real, N])(p)) <= (M : Real) * (t : (Num) -> Real)(p)
       #|  norm((u : Cart[Real, N])) == distance((vec(0), u))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 u : Cart[Real, N], IN(u, (A : (Cart[Real, N]) -> Bool)) \226\134\146 norm(u) <= (M : Real)
       #|  (interior : ((Cart[Real, N]) -> Bool, Cart[Real, N]) -> Bool)
       #|  (real_of_num(0) < (M : Real)) == (real_of_num(0) <= M && !(M == real_of_num(0)))
@@ -81169,8 +81169,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  frechet_derivative((f : (Cart[Real, N]) -> Cart[Real, N]), at((a : Cart[Real, N]))) == (f' : (Cart[Real, N], Cart[Real, N]) -> Cart[Real, N])(a)
       #|  (f' : (Cart[Real, N], Cart[Real, N]) -> Cart[Real, N])
       #|  \226\136\128 f : (Cart[Real, N]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 c : (Num, Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], open(s) && differentiable_on(f, s) && (\226\136\128 v : (Cart[Real, N]) -> Bool, SUBSET(v, s) && open(v) \226\134\146 open(IMAGE(f, v))) && IN(a, s) && !(det(jacobian(f, at(a))) == real_of_num(0)) && op_minus_minus_gt((n : Num) => lift(diameter(c(n))), vec(0), sequentially) && (\226\136\128 n : Num, IN(a, closure(c(n)))) && (\226\136\131 A : (Cart[Real, N]) -> Bool, convex(A) && bounded(A) && !(interior(A) == {}) && (\226\136\128 n : Num, \226\136\131 t : Real, \226\136\131 z : Cart[Real, N], real_of_num(0) < t && IMAGE((x : Cart[Real, N]) => op_pct(t, x) + z, A) == c(n))) \226\134\146 eventually((n : Num) => measurable(IMAGE(f, c(n))), sequentially) && op_minus_minus_gt((n : Num) => lift(measure(IMAGE(f, c(n))) / measure(c(n))), lift(abs(det(jacobian(f, at(a))))), sequentially)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (s : (Cart[Real, N]) -> Bool)
       #|  matrix((f' : (Cart[Real, N], Cart[Real, N]) -> Cart[Real, N])((a : Cart[Real, N]))) == jacobian((f : (Cart[Real, N]) -> Cart[Real, N]), at(a))
       #|  \226\136\128 f : (Cart[Real, N]) -> Cart[Real, N], \226\136\128 f' : (Cart[Real, N], Cart[Real, N]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 c : (Num, Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], open(s) && IN(a, s) && (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 has_derivative(f, f'(x), at(x)) && !(det(matrix(f'(x))) == real_of_num(0))) && op_minus_minus_gt((n : Num) => lift(diameter(c(n))), vec(0), sequentially) && (\226\136\128 n : Num, IN(a, closure(c(n)))) && (\226\136\131 A : (Cart[Real, N]) -> Bool, convex(A) && bounded(A) && !(interior(A) == {}) && (\226\136\128 n : Num, \226\136\131 t : Real, \226\136\131 z : Cart[Real, N], real_of_num(0) < t && IMAGE((x : Cart[Real, N]) => op_pct(t, x) + z, A) == c(n))) \226\134\146 eventually((n : Num) => measurable(IMAGE(f, c(n))), sequentially) && op_minus_minus_gt((n : Num) => lift(measure(IMAGE(f, c(n))) / measure(c(n))), lift(abs(det(matrix(f'(a))))), sequentially)
@@ -81370,8 +81370,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  cball(((b : Cart[Real, N]), (d : Real)))
       #|  real_of_num(0) < (d : Real) && (n : Real) == d \226\134\146 (p : Real) / d * n == p
       #|  distance(((a : Cart[Real, N]), a + (x : Cart[Real, N]))) == norm(x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  distance(((a' : Cart[Real, N]), (b' : Cart[Real, N]))) == (p : Real)
       #|  (b' : Cart[Real, N])
       #|  (a' : Cart[Real, N])
@@ -81509,15 +81509,15 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  {(f : (_) -> _)((x : _)) | IN(x, {})} == {}
       #|  (s : (Cart[Real, N]) -> Bool) == {}
       #|  \226\136\128 f : (Cart[Real, N]) -> Cart[Real, N], \226\136\128 f' : (Cart[Real, N], Cart[Real, N]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, open(s) && connected(s) && (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 has_derivative(f, f'(x), at(x)) && !(det(matrix(f'(x))) == real_of_num(0))) \226\134\146 connected({pastecart((x : Cart[Real, N]), lift(det(matrix(f'(x))))) | IN(x, s)})
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  interval([((a : Cart[Real, Unit]), (b : Cart[Real, Unit]))])
       #|  (a : Real) <= (x : Real) \226\134\146 a <= abs(x)
       #|  (n : Num)
@@ -81532,8 +81532,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (g : (Cart[Real, Unit]) -> Cart[Real, N])((x : Cart[Real, Unit])) == integral(interval([((a : Cart[Real, Unit]), x)]), (g' : (Cart[Real, Unit]) -> Cart[Real, N]))
       #|  (g : (Cart[Real, Unit]) -> Cart[Real, N])((x : Cart[Real, Unit]))
       #|  \226\136\128 g' : Cart[Real, N], norm(g') <= (B : Real) && norm((g : Cart[Real, N]) - g') <= (i : Real) \226\134\146 norm(g) <= B + i
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  abs((x : Real)) <= (a : Real) \226\134\146 x <= a
       #|  interval([((a : Cart[Real, Unit]), (b : Cart[Real, Unit]))])
       #|  drop(integral(interval([((a : Cart[Real, Unit]), (b : Cart[Real, Unit]))]), (x : Cart[Real, Unit]) => lift(norm((f' : (Cart[Real, Unit]) -> Cart[Real, M])(x)))))
@@ -81541,8 +81541,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (f : (Cart[Real, Unit]) -> Cart[Real, M])((x : Cart[Real, Unit])) == integral(interval([((a : Cart[Real, Unit]), x)]), (f' : (Cart[Real, Unit]) -> Cart[Real, M]))
       #|  (f : (Cart[Real, Unit]) -> Cart[Real, M])((x : Cart[Real, Unit]))
       #|  \226\136\128 f' : Cart[Real, N], norm(f') <= (B : Real) && norm((f : Cart[Real, N]) - f') <= (i : Real) \226\134\146 norm(f) <= B + i
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  ((a : Real) * (x : Real) <= (y : Real) * a) == (x * a <= y * a)
       #|  norm((bop : (Cart[Real, M], Cart[Real, N]) -> Cart[Real, P])((a : Cart[Real, M]), (b : Cart[Real, N]))) <= (M : Real) * (norm(a) * norm(b)) && M * (norm(a) * norm(b)) <= (c : Real) \226\134\146 norm(bop(a, b)) <= c
       #|  (x : Cart[Real, Unit])
@@ -81553,8 +81553,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  drop(integral(interval([((a : Cart[Real, Unit]), (b : Cart[Real, Unit]))]), (x : Cart[Real, Unit]) => lift((M : Real) * (inv(real_of_num((n : Num)) + real_of_num(1)) * norm((g' : (Cart[Real, Unit]) -> Cart[Real, N])(x))))))
       #|  drop(integral(interval([((a : Cart[Real, Unit]), (b : Cart[Real, Unit]))]), (x : Cart[Real, Unit]) => lift((M : Real) * (((B : Real) + inv(real_of_num((n : Num)) + real_of_num(1))) * norm((gg' : (Num, Cart[Real, Unit]) -> Cart[Real, N])(n, x) - (g' : (Cart[Real, Unit]) -> Cart[Real, N])(x))))))
       #|  norm((x : Cart[Real, N])) <= (a : Real) && norm((y : Cart[Real, N])) <= (b : Real) \226\134\146 norm(x + y) <= a + b
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_of_num(2) * ((M : Real) * ((B : Real) * (e : Real))) + M * pow(e, 2) == M * ((B + e) * e) + M * (B * e)
       #|  (bop : (_, _) -> Cart[Real, N])((a : _), (b : _)) - bop((c : _), (d : _)) == bop(a, b) - bop(c, b) + (bop(c, b) - bop(c, d))
       #|  (bop : (_, _) -> Cart[Real, N])((a : _), (b : _)) - bop((c : _), (d : _)) == bop(a, b) - bop(a, d) + (bop(a, d) - bop(c, d))
@@ -81681,8 +81681,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (s : (Cart[Real, M]) -> Bool)
       #|  !IN((x : _), (s : (_) -> Bool)) == IN(x, DIFF(UNIV, s))
       #|  (distance(((a : Cart[Real, M]), (b : Cart[Real, M]))) >= (e : Real)) == !(distance((vec(0), a - b)) < e)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (s : (Cart[Real, M]) -> Bool)
       #|  \226\136\128 m : Num, \226\136\128 n : Num, measurable((e : (Num, Num, Cart[Real, M]) -> Bool)(n, m))
       #|  (e : (Num, Num, Cart[Real, M]) -> Bool) == ((n : Num) => (m : Num) => UNIONS({{(x : Cart[Real, M]) | IN(x, (s : (Cart[Real, M]) -> Bool)) && distance(((f : (Num, Cart[Real, M]) -> Cart[Real, N])((k : Num), x), (g : (Cart[Real, M]) -> Cart[Real, N])(x))) >= inv(real_of_num(m) + real_of_num(1))} | n <= k}))
@@ -81693,7 +81693,7 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (k : Real) <= (y : Real) - (x : Real) \226\134\146 real_of_num(0) < k \226\134\146 (\226\136\131 q : Real, rational(q) && k / real_of_num(3) < q - x && k / real_of_num(3) < y - q)
       #|  (x : Real) == (y : Real) \226\134\146 x * (c : Real) == c * y
       #|  (x : Real) <= norm((u : Cart[Real, N]) - (v : Cart[Real, N])) \226\134\146 (a : Real) <= x \226\134\146 a <= norm(v - u)
-      #|  :real
+      #|  :Real
       #|  drop((u : (Cart[Real, Unit]) -> Cart[Real, Unit])((x : Cart[Real, Unit]))) <= drop((v : (Cart[Real, Unit]) -> Cart[Real, Unit])(x))
       #|  (x : Cart[Real, Unit])
       #|  (x : Cart[Real, Unit])
@@ -81728,40 +81728,40 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (u : (Cart[Real, Unit]) -> Cart[Real, Unit])
       #|  (x : Cart[Real, N]) - (x + (l : Cart[Real, N])) == -l
       #|  norm((x : Cart[Real, N]) - (u : Cart[Real, N])) <= norm((y : Cart[Real, N]) - x) \226\134\146 norm(u - y) <= real_of_num(2) * norm(y - x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  ((a : Real) <= real_of_num(3) * (M : Real) * (y : Real) - M * y) == (a <= M * (real_of_num(2) * y))
       #|  (M : Real) * norm((y : Cart[Real, Unit]) - (x : Cart[Real, Unit]))
       #|  (a : Real) < norm((y : Cart[Real, N]) - (x : Cart[Real, N])) \226\134\146 (\226\136\128 b : Real, distance(((u : Cart[Real, N]), x)) < b && (c : Real) <= a - b \226\134\146 c <= norm(y - u))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (u : Cart[Real, Unit])
       #|  (y : Cart[Real, Unit])
       #|  distance(((x : Cart[Real, Unit]) + (a : Cart[Real, Unit]), x)) == norm(a)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  distance(((x : Cart[Real, Unit]), x + (a : Cart[Real, Unit]))) == norm(a)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (u : Cart[Real, Unit])
       #|  (u : Cart[Real, Unit]) == (x : Cart[Real, Unit]) + lift(min(norm((y : Cart[Real, Unit]) - x), min((d : Real), (d' : Real))) / real_of_num(2))
       #|  (x : Cart[Real, N]) - (x - (l : Cart[Real, N])) == l
       #|  norm((x : Cart[Real, N]) - (u : Cart[Real, N])) <= norm((y : Cart[Real, N]) - x) \226\134\146 norm(y - u) <= real_of_num(2) * norm(y - x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  ((a : Real) <= real_of_num(3) * (M : Real) * (y : Real) - M * y) == (a <= M * (real_of_num(2) * y))
       #|  (M : Real) * norm((y : Cart[Real, Unit]) - (x : Cart[Real, Unit]))
       #|  (a : Real) < norm((y : Cart[Real, N]) - (x : Cart[Real, N])) \226\134\146 (\226\136\128 b : Real, distance(((u : Cart[Real, N]), x)) < b && (c : Real) <= a - b \226\134\146 c <= norm(u - y))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, Unit])
       #|  (u : Cart[Real, Unit])
       #|  distance(((x : Cart[Real, Unit]) - (a : Cart[Real, Unit]), x)) == norm(a)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  distance(((x : Cart[Real, Unit]), x - (a : Cart[Real, Unit]))) == norm(a)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (u : Cart[Real, Unit])
       #|  (u : Cart[Real, Unit]) == (x : Cart[Real, Unit]) - lift(min(norm((y : Cart[Real, Unit]) - x), min((d : Real), (d' : Real))) / real_of_num(2))
       #|  (d' : Real)
@@ -81912,14 +81912,14 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  \226\136\128 f : (Cart[Real, Unit]) -> Cart[Real, Unit], \226\136\128 a : Cart[Real, Unit], \226\136\128 b : Cart[Real, Unit], \226\136\128 k : Real, has_bounded_variation_on(f, interval([(a, b)])) && drop(a) < drop(b) && real_of_num(0) < k \226\134\146 negligible({(x : Cart[Real, Unit]) | IN(x, interval([(a, b)])) && (\226\136\128 s : (Cart[Real, Unit]) -> Bool, open(s) && IN(x, s) \226\134\146 (\226\136\131 u : Cart[Real, Unit], \226\136\131 v : Cart[Real, Unit], IN(u, interval([(a, b)])) && IN(u, s) && IN(v, interval([(a, b)])) && IN(v, s) && IN(x, interval((u, v))) && k <= (drop(f(v)) - drop(f(u))) / (drop(v) - drop(u))) && (\226\136\131 u : Cart[Real, Unit], \226\136\131 v : Cart[Real, Unit], IN(u, interval([(a, b)])) && IN(u, s) && IN(v, interval([(a, b)])) && IN(v, s) && IN(x, interval((u, v))) && (drop(f(v)) - drop(f(u))) / (drop(v) - drop(u)) <= -k))})
       #|  real_of_num(0) < (x : Real) && real_of_num(0) < (y : Real) \226\134\146 abs(min(x, y) / real_of_num(2)) < x
       #|  distance(((x : Cart[Real, N]) - (y : Cart[Real, N]), x)) == norm(y)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (y : Real) <= -(k : Real) \226\134\146 abs((y' : Real) - y) < k / real_of_num(2) \226\134\146 y' <= -(k / real_of_num(2))
       #|  ((x : Real) - (a : Real) < x) == (real_of_num(0) < a)
       #|  real_of_num(0) < (x : Real) && real_of_num(0) < (y : Real) \226\134\146 abs(min(x, y) / real_of_num(2)) < y
       #|  distance(((x : Cart[Real, N]), x - (r : Cart[Real, N]))) == norm(r)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  ((p : Bool) && (q : Bool) && (r : Bool) && (s : Bool)) == (r && (p && q) && s)
       #|  (x : Cart[Real, Unit]) - lift(min((d : Real), inv(real_of_num((n : Num)) + real_of_num(1))) / real_of_num(2))
       #|  (d : Real)
@@ -81928,14 +81928,14 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (u : Cart[Real, Unit])
       #|  real_of_num(0) < (x : Real) && real_of_num(0) < (y : Real) \226\134\146 abs(min(x, y) / real_of_num(2)) < x
       #|  distance(((x : Cart[Real, N]) + (y : Cart[Real, N]), x)) == norm(y)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (y : Real) <= -(k : Real) \226\134\146 abs((y' : Real) - y) < k / real_of_num(2) \226\134\146 y' <= -(-k / -real_of_num(2))
       #|  (x : Real) / (y : Real) == -x * -inv(y)
       #|  real_of_num(0) < (x : Real) && real_of_num(0) < (y : Real) \226\134\146 abs(min(x, y) / real_of_num(2)) < y
       #|  distance(((x : Cart[Real, N]), x + (r : Cart[Real, N]))) == norm(r)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, Unit]) + lift(min((d : Real), inv(real_of_num((n : Num)) + real_of_num(1))) / real_of_num(2))
       #|  (d : Real)
       #|  (k : Real) / real_of_num(2)
@@ -81945,14 +81945,14 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  drop((u : Cart[Real, Unit]))
       #|  real_of_num(0) < (x : Real) && real_of_num(0) < (y : Real) \226\134\146 abs(min(x, y) / real_of_num(2)) < x
       #|  distance(((x : Cart[Real, N]) - (y : Cart[Real, N]), x)) == norm(y)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (k : Real) <= (y : Real) \226\134\146 abs((y' : Real) - y) < k / real_of_num(2) \226\134\146 k / real_of_num(2) <= y'
       #|  ((x : Real) - (a : Real) < x) == (real_of_num(0) < a)
       #|  real_of_num(0) < (x : Real) && real_of_num(0) < (y : Real) \226\134\146 abs(min(x, y) / real_of_num(2)) < y
       #|  distance(((x : Cart[Real, N]), x - (r : Cart[Real, N]))) == norm(r)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  ((p : Bool) && (q : Bool) && (r : Bool) && (s : Bool)) == (r && (p && q) && s)
       #|  (x : Cart[Real, Unit]) - lift(min((d : Real), inv(real_of_num((n : Num)) + real_of_num(1))) / real_of_num(2))
       #|  (d : Real)
@@ -81961,14 +81961,14 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (v : Cart[Real, Unit])
       #|  real_of_num(0) < (x : Real) && real_of_num(0) < (y : Real) \226\134\146 abs(min(x, y) / real_of_num(2)) < x
       #|  distance(((x : Cart[Real, N]) + (y : Cart[Real, N]), x)) == norm(y)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (k : Real) <= (y : Real) \226\134\146 abs((y' : Real) - y) < k / real_of_num(2) \226\134\146 -k / -real_of_num(2) <= y'
       #|  (x : Real) / (y : Real) == -x * -inv(y)
       #|  real_of_num(0) < (x : Real) && real_of_num(0) < (y : Real) \226\134\146 abs(min(x, y) / real_of_num(2)) < y
       #|  distance(((x : Cart[Real, N]), x + (r : Cart[Real, N]))) == norm(r)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, Unit]) + lift(min((d : Real), inv(real_of_num((n : Num)) + real_of_num(1))) / real_of_num(2))
       #|  (d : Real)
       #|  (k : Real) / real_of_num(2)
@@ -82084,8 +82084,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (m : Num)
       #|  (x : Cart[Real, Unit])
       #|  distance((-(x : Cart[Real, N]), -(y : Cart[Real, N]))) == distance((x, y))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (k : Real)
       #|  (b : Cart[Real, Unit])
       #|  (a : Cart[Real, Unit])
@@ -82163,8 +82163,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (UNIV : (Cart[Real, M]) -> Bool)
       #|  (x : Cart[Real, M]) => if IN(x, (s : (Cart[Real, M]) -> Bool)) { (f : (Cart[Real, M]) -> Cart[Real, N])(x) } else { vec(0) }
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 e : Real, absolutely_integrable_on(f, s) && real_of_num(0) < e \226\134\146 (\226\136\131 d : Real, real_of_num(0) < d && (\226\136\128 t : (Cart[Real, M]) -> Bool, SUBSET(t, s) && measurable(t) && measure(t) < d \226\134\146 norm(integral(t, f)) < e))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (f : (Cart[Real, M]) -> Cart[Real, N])
       #|  (t : (Cart[Real, M]) -> Bool)
       #|  (d : ((Cart[Real, M]) -> Bool) -> Bool)
@@ -82173,14 +82173,14 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (e : Real)
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, absolutely_integrable_on(f, s) && lebesgue_measurable(s) \226\134\146 absolutely_setcontinuous_on((k : (Cart[Real, M]) -> Bool) => integral(k, f), s)
       #|  (y : Cart[Real, N]) + (z : Cart[Real, N]) == (x : Cart[Real, N]) \226\134\146 norm(x - y) <= norm(z)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (d : Cart[Real, Unit])
       #|  (c : Cart[Real, Unit])
       #|  \226\136\128 f : (Cart[Real, Unit]) -> Cart[Real, N], \226\136\128 a : Cart[Real, Unit], \226\136\128 b : Cart[Real, Unit], absolutely_integrable_on(f, interval([(a, b)])) \226\134\146 absolutely_continuous_on((x : Cart[Real, Unit]) => integral(interval([(a, x)]), f), interval([(a, b)]))
       #|  (z : Cart[Real, N]) + (x : Cart[Real, N]) == (y : Cart[Real, N]) \226\134\146 norm(x - y) <= norm(z)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (d : Cart[Real, Unit])
       #|  (c : Cart[Real, Unit])
       #|  \226\136\128 f : (Cart[Real, Unit]) -> Cart[Real, N], \226\136\128 a : Cart[Real, Unit], \226\136\128 b : Cart[Real, Unit], absolutely_integrable_on(f, interval([(a, b)])) \226\134\146 absolutely_continuous_on((x : Cart[Real, Unit]) => integral(interval([(x, b)]), f), interval([(a, b)]))
@@ -82627,8 +82627,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (b : Cart[Real, Unit])
       #|  (a : Cart[Real, Unit])
       #|  (a : Cart[Real, N]) + (c : Cart[Real, N]) == (b : Cart[Real, N]) \226\134\146 norm(c) <= norm(a - b)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  norm(integral(interval([((s : Cart[Real, Unit]), (t : Cart[Real, Unit]))]), (x : Cart[Real, Unit]) => lift(norm((f' : (Cart[Real, Unit]) -> Cart[Real, Unit])(x)))))
       #|  (t : Cart[Real, Unit])
       #|  (s : Cart[Real, Unit])
@@ -82762,8 +82762,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  :N
       #|  :1
       #|  norm(vec(0) - (x : Cart[Real, N])) == norm(x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (f : (Cart[Real, Unit]) -> Cart[Real, Unit])((x : Cart[Real, Unit])) == vec(0)
       #|  (r : Real)
       #|  (x : Cart[Real, Unit])
@@ -82814,11 +82814,11 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (u : Cart[Real, Unit])
       #|  real_of_num(0) < (x : Real) \226\134\146 abs(x) <= x
       #|  distance(((x : Cart[Real, N]), x - (r : Cart[Real, N]))) == norm(r)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  distance(((x : Cart[Real, N]), x + (r : Cart[Real, N]))) == norm(r)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  IMAGE((f : (_) -> _), (s : (_) -> Bool)) == (t : (_) -> Bool) \226\134\146 (\226\136\128 y : _, IN(y, t) \226\134\146 (\226\136\131 x : _, IN(x, s) && f(x) == y))
       #|  (r : Real)
       #|  (x : Cart[Real, Unit])
@@ -82873,8 +82873,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 (P : (Real) -> Bool)(e)) == (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 P(real_of_num(4) * e))
       #|  (real_of_num(0) < (e : Real)) == (real_of_num(0) < real_of_num(4) * e) && real_of_num(4) * (e / real_of_num(4)) == e
       #|  distance(((x : Cart[Real, N]), (x' : Cart[Real, N]))) == norm(x' - x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (k : Cart[Real, Unit])
       #|  (r : Real)
       #|  (x : Cart[Real, Unit])
@@ -83563,13 +83563,13 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  \226\136\128 n : Num, absolutely_integrable_on((g : (Num, Cart[Real, Finite_sum[M, N]]) -> Cart[Real, Unit])(n), UNIV)
       #|  (g : (Num, Cart[Real, Finite_sum[M, N]]) -> Cart[Real, Unit]) == ((n : Num) => (x : Cart[Real, Finite_sum[M, N]]) => if IN(x, interval([(-vec(n), vec(n))])) { lift(min(norm((f : (Cart[Real, Finite_sum[M, N]]) -> Cart[Real, P])(x)), real_of_num(n))) } else { vec(0) })
       #|  \226\136\128 f : (Cart[Real, Finite_sum[M, N]]) -> Cart[Real, P], measurable_on(f, UNIV) \226\134\146 absolutely_integrable_on(f, UNIV) == (negligible({(x : Cart[Real, M]) | !absolutely_integrable_on((y : Cart[Real, N]) => f(pastecart(x, y)), UNIV)}) && integrable_on((x : Cart[Real, M]) => integral(UNIV, (y : Cart[Real, N]) => lift(norm(f(pastecart(x, y))))), UNIV))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (n : Num)
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  o((f : (Cart[Real, Finite_sum[M, N]]) -> Cart[Real, P]), (z : Cart[Real, Finite_sum[N, M]]) => pastecart(sndcart(z), fstcart(z)))
       #|  \226\136\128 f : (Cart[Real, Finite_sum[M, N]]) -> Cart[Real, P], measurable_on(f, UNIV) \226\134\146 absolutely_integrable_on(f, UNIV) == (negligible({(y : Cart[Real, N]) | !absolutely_integrable_on((x : Cart[Real, M]) => f(pastecart(x, y)), UNIV)}) && integrable_on((y : Cart[Real, N]) => integral(UNIV, (x : Cart[Real, M]) => lift(norm(f(pastecart(x, y))))), UNIV))
       #|  (x : Cart[Real, P]) => (bop : (Cart[Real, P], Cart[Real, Q]) -> Cart[Real, R])(x, (y : Cart[Real, Q]))
@@ -83621,7 +83621,7 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (\226\136\128 x : _, (f : (_) -> _)(f(x)) == x) \226\134\146 (\226\136\128 y : _, (P : (_) -> Bool)(y) \226\134\146 (\226\136\131 x : _, f(x) == y))
       #|  (a : Real)
       #|  :N
-      #|  :(N,1)finite_sum
+      #|  :Finite_sum[N, 1]
       #|  (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) + 1
       #|  (k : Num)
       #|  \226\136\128 k : Num, \226\136\128 s : (Cart[Real, Finite_sum[N, Unit]]) -> Bool, (lebesgue_measurable : ((Cart[Real, Finite_sum[N, Unit]]) -> Bool) -> Bool)(s) && 1 <= k && k <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (negligible : ((Cart[Real, Finite_sum[N, Unit]]) -> Bool) -> Bool)(s) == (negligible : ((Cart[Real, Unit]) -> Bool) -> Bool)({lift((a : Real)) | !(negligible : ((Cart[Real, Finite_sum[N, Unit]]) -> Bool) -> Bool)({(x : Cart[Real, Finite_sum[N, Unit]]) | (IN : (Cart[Real, Finite_sum[N, Unit]], (Cart[Real, Finite_sum[N, Unit]]) -> Bool) -> Bool)((lambda : ((Num) -> Real) -> Cart[Real, Finite_sum[N, Unit]])((i : Num) => if i == k { a } else { (op_dollar : (Cart[Real, Finite_sum[N, Unit]], Num) -> Real)(x, i) }), s)})})
@@ -83654,7 +83654,7 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (x : Cart[Real, Finite_sum[N, Unit]])
       #|  (\226\136\128 x : _, (f : (_) -> _)(f(x)) == x) \226\134\146 (\226\136\128 y : _, (P : (_) -> Bool)(y) \226\134\146 (\226\136\131 x : _, f(x) == y))
       #|  :N
-      #|  :(N,1)finite_sum
+      #|  :Finite_sum[N, 1]
       #|  (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) + 1
       #|  (k : Num)
       #|  \226\136\128 k : Num, \226\136\128 s : (Cart[Real, Finite_sum[N, Unit]]) -> Bool, (lebesgue_measurable : ((Cart[Real, Finite_sum[N, Unit]]) -> Bool) -> Bool)(s) && 1 <= k && k <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (negligible : ((Cart[Real, Finite_sum[N, Unit]]) -> Bool) -> Bool)(s) == (negligible : ((Cart[Real, Finite_sum[N, Unit]]) -> Bool) -> Bool)({(x : Cart[Real, Finite_sum[N, Unit]]) | !(negligible : ((Cart[Real, Unit]) -> Bool) -> Bool)({lift((a : Real)) | (IN : (Cart[Real, Finite_sum[N, Unit]], (Cart[Real, Finite_sum[N, Unit]]) -> Bool) -> Bool)((lambda : ((Num) -> Real) -> Cart[Real, Finite_sum[N, Unit]])((i : Num) => if i == k { a } else { (op_dollar : (Cart[Real, Finite_sum[N, Unit]], Num) -> Real)(x, i) }), s)})})
@@ -83786,8 +83786,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (if (p : Bool) { false } else { true }) == !p
       #|  (z : Cart[Real, N])
       #|  distance(((a : Cart[Real, N]), (b : Cart[Real, N]))) < norm(b) \226\134\146 !(a == vec(0))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, N])
       #|  (y : Cart[Real, N])
       #|  (d : Real)
@@ -83842,8 +83842,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (n : Num)
       #|  !(INTER((r : (_) -> Bool), (s : (_) -> Bool)) == {}) \226\134\146 (\226\136\131 x : _, IN(x, s) && IN(x, r))
       #|  distance(((y : Cart[Real, N]), y + (x : Cart[Real, N]))) == norm(x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  lift(inv(real_of_num(1) + (e : Real) / norm((y : Cart[Real, N]))))
       #|  (e : Real)
       #|  (y : Cart[Real, N])
@@ -83877,22 +83877,22 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (n : Real) * (e : Real) <= (x : Real) \226\134\146 real_of_num(2) * x <= (y : Real) \226\134\146 real_of_num(2) * n * e <= y
       #|  (real_of_num(2) * (x : Real) < (r : Real)) == (x < r / real_of_num(2))
       #|  distance(((a : Cart[Real, N]), op_pct(real_of_num(2), (x : Cart[Real, N])) - a)) == real_of_num(2) * distance((a, x))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  op_pct(real_of_num(2), (x : Cart[Real, N])) - (a : Cart[Real, N])
       #|  (x : Cart[Real, N])
       #|  (n : Num)
       #|  (real_of_num(1) * (e : Real) <= (x : Real) - (a : Real)) == (a + e <= x)
       #|  \226\136\128 n : Num, \226\136\128 d : Real, real_of_num(0) < d \226\134\146 (\226\136\131 x : Cart[Real, N], IN(x, (s : (Cart[Real, N]) -> Bool)) && distance(((a : Cart[Real, N]), x)) < d && distance((a, x)) < (r : Real) && pow(real_of_num(2), n) * (e : Real) <= (f : (Cart[Real, N]) -> Real)(x) - f(a))
       #|  distance(((a : Cart[Real, N]), op_pct(real_of_num(2), a) - (x : Cart[Real, N]))) == distance((x, a))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  op_pct(inv(real_of_num(2)), (x : Cart[Real, N]) + (op_pct(real_of_num(2), (a : Cart[Real, N])) - x)) == a
       #|  op_pct(real_of_num(2), (a : Cart[Real, N])) - (x : Cart[Real, N])
       #|  (x : Cart[Real, N])
       #|  distance(((a : Cart[Real, N]), op_pct(real_of_num(2), a) - (x : Cart[Real, N]))) == distance((x, a))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  op_pct(real_of_num(2), (a : Cart[Real, N])) - (x : Cart[Real, N])
       #|  (e : Real) <= abs((x : Real) - (a : Real)) \226\134\146 a + e <= x || x + e <= a
       #|  (x : Cart[Real, N])
@@ -83927,7 +83927,7 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  \226\136\128 f : (Cart[Real, N]) -> Real, \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, \226\136\128 B : Real, convex(s) && open(s) && (\226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], IN(x, s) && IN(y, s) \226\134\146 f(midpoint((x, y))) <= (f(x) + f(y)) / real_of_num(2)) && SUBSET(t, s) && lebesgue_measurable(t) && !negligible(t) && (\226\136\128 x : Cart[Real, N], IN(x, t) \226\134\146 f(x) <= B) \226\134\146 continuous_on(o(lift, f), s)
       #|  min((d : Real) / real_of_num(2), (r : Real) / real_of_num(2))
       #|  (d : Real)
-      #|  :real
+      #|  :Real
       #|  \226\136\128 f : (Cart[Real, N]) -> Real, \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, \226\136\128 B : Real, convex(s) && open(s) && SUBSET(t, s) && lebesgue_measurable(t) && !negligible(t) && (\226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], IN(x, s) && IN(y, s) \226\134\146 f(midpoint((x, y))) <= (f(x) + f(y)) / real_of_num(2)) && (\226\136\128 x : Cart[Real, N], IN(x, t) \226\134\146 f(x) <= B) \226\134\146 convex_on(f, s)
       #|  (s : (Cart[Real, N]) -> Bool)
       #|  ((q : Bool) \226\134\146 (r : Bool)) && (p : Bool) \226\134\146 p == q \226\134\146 r
@@ -84106,10 +84106,10 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (f' : (Cart[Real, M], Cart[Real, M]) -> Cart[Real, Unit])((x : Cart[Real, M]), (v : Cart[Real, M]))
       #|  (f' : (Cart[Real, M], Cart[Real, M]) -> Cart[Real, Unit])((x : Cart[Real, M]), (u : Cart[Real, M]))
       #|  \226\136\128 u : Cart[Real, M], \226\136\128 v : Cart[Real, M], \226\136\128 uv : Cart[Real, M], norm((uv' : Cart[Real, M]) - uv) < norm(uv - (u + v)) / real_of_num(3) && norm((u' : Cart[Real, M]) - u) < norm(uv - (u + v)) / real_of_num(3) && norm((v' : Cart[Real, M]) - v) < norm(uv - (u + v)) / real_of_num(3) \226\134\146 !(uv' == u' + v')
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  !((f' : (Cart[Real, M], Cart[Real, M]) -> Cart[Real, Unit])((x : Cart[Real, M]), (u' : Cart[Real, M]) + (v' : Cart[Real, M])) == f'(x, u') + f'(x, v'))
       #|  (v' : Cart[Real, M])
       #|  (u' : Cart[Real, M])
@@ -84173,9 +84173,9 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (x : Cart[Real, N]) + op_pct((s : Real), (u : Cart[Real, N])) - (x + op_pct(s, (v : Cart[Real, N]))) == op_pct(s, u - v)
       #|  op_pct((c : Real), (y : Cart[Real, M]) - (x : Cart[Real, M])) - op_pct(c, (z : Cart[Real, M]) - x) == op_pct(c, y - z)
       #|  norm((a : Cart[Real, M]) - (a' : Cart[Real, M])) <= (e : Real) / real_of_num(4) && norm((b : Cart[Real, M]) - (b' : Cart[Real, M])) <= e / real_of_num(4) \226\134\146 distance((a, b)) < e / real_of_num(2) \226\134\146 distance((a', b')) < e
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (t : Cart[Real, Unit])
       #|  (s : Cart[Real, Unit])
       #|  (d : Real)
@@ -84215,8 +84215,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (u : Cart[Real, M])
       #|  min((dv : Real), (duv : Real) / real_of_num(2))
       #|  (v : Cart[Real, M])
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_of_num(1)
       #|  (g : (Cart[Real, M]) -> Cart[Real, N])
       #|  (x : Cart[Real, M])
@@ -84340,8 +84340,8 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  (abs((B : (Cart[Real, M]) -> Real)((x : Cart[Real, M]))) + real_of_num(1)) * norm((y : Cart[Real, M]) - x)
       #|  (B : (Cart[Real, M]) -> Real)((x : Cart[Real, M])) * norm((y : Cart[Real, M]) - x)
       #|  \226\136\128 a : Real, norm((x : Cart[Real, M]) - (y : Cart[Real, M])) <= a && a <= (b : Real) \226\134\146 norm(x) <= norm(y) + b
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_of_num(0) < abs((B : Real)) + real_of_num(1)
       #|  (y : Cart[Real, M]) == (x : Cart[Real, M])
       #|  (y : Cart[Real, M])
@@ -84372,22 +84372,22 @@ test "Multivariate/measure matches Multivariate/measure.ml" {
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, Unit], \226\136\128 s : (Cart[Real, M]) -> Bool, lebesgue_measurable(s) \226\134\146 negligible({(x : Cart[Real, M]) | IN(x, s) && (\226\136\131 B : Real, eventually((y : Cart[Real, M]) => norm(f(x) - f(y)) / norm(x - y) <= B, within(at(x), s))) && !differentiable(f, within(at(x), s))})
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, lebesgue_measurable(s) \226\134\146 negligible({(x : Cart[Real, M]) | IN(x, s) && (\226\136\131 B : Real, eventually((y : Cart[Real, M]) => norm(f(x) - f(y)) / norm(x - y) <= B, within(at(x), s))) && !differentiable(f, within(at(x), s))})
       #|  {(x : _) | (P : (_) -> Bool)(x) && (Q : (_) -> Bool)(x)} == (t : (_) -> Bool) \226\134\146 {(x : _) | P(x) && Q(x) && (R : (_) -> Bool)(x)} == {(x : _) | IN(x, t) && R(x)}
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  IN((x : Cart[Real, M]), (s : (Cart[Real, M]) -> Bool))
       #|  (x : Cart[Real, M])
       #|  (f : (Cart[Real, M]) -> Cart[Real, N])

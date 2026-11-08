@@ -1273,7 +1273,7 @@ fn step_15() -> Unit raise {
     @term_syntax.parse_term("∀ step : (S, S) -> Bool, ∀ init : (S) -> Bool, ∀ final_ : (S) -> Bool, ∀ b : (Num) -> S, ∀ n : Num, (∀ s : S, ∀ s' : S, init(s) && RTC(step, s, s') → final_(s')) → init(b(0)) → (∀ i : Num, i + 1 < n → step(b(i), b(i + 1))) → (∀ i : Num, i < n → final_(b(i)))"),
     t135,
   )
-  let n_ty = @parser.parse_type("N")
+  let n_ty = @term_syntax.parse_type("N")
   let plus = @term_syntax.parse_term("op_plus")
   let one_tm = @term_syntax.parse_term("1")
   let has_word_ty : (@kernel.Term) -> Bool raise = fn(
@@ -2284,7 +2284,7 @@ fn step_26() -> Unit raise {
       _ => false
     }
   }
-  let n_ty = @parser.parse_type("N")
+  let n_ty = @term_syntax.parse_type("N")
   characterize_int_min_tac_c.set(fn(
     x237 : (@list.List[(String, @kernel.Thm)], @kernel.Term),
   ) -> (
@@ -2605,7 +2605,7 @@ pub fn pure_word_auto_rule(x278 : @kernel.Term) -> @kernel.Thm raise {
 ///|
 /// WORD_AUTO_TAC
 fn step_28() -> Unit raise {
-  let nty = @parser.parse_type("4")
+  let nty = @term_syntax.parse_type("4")
   word_auto_tac_c.set(fn(
     x279 : (@list.List[(String, @kernel.Thm)], @kernel.Term),
   ) -> (

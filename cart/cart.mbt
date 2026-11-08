@@ -2761,7 +2761,7 @@ pub fn dimindex_4() -> @kernel.Thm {
 ///|
 /// HAS_SIZE_2
 fn step_73() -> Unit raise {
-  has_size_2_c.set(has_size_dimindex_rule(@parser.parse_type("2")))
+  has_size_2_c.set(has_size_dimindex_rule(@term_syntax.parse_type("2")))
 }
 
 ///|
@@ -2776,7 +2776,7 @@ pub fn has_size_2() -> @kernel.Thm {
 ///|
 /// HAS_SIZE_3
 fn step_74() -> Unit raise {
-  has_size_3_c.set(has_size_dimindex_rule(@parser.parse_type("3")))
+  has_size_3_c.set(has_size_dimindex_rule(@term_syntax.parse_type("3")))
 }
 
 ///|
@@ -2791,7 +2791,7 @@ pub fn has_size_3() -> @kernel.Thm {
 ///|
 /// HAS_SIZE_4
 fn step_75() -> Unit raise {
-  has_size_4_c.set(has_size_dimindex_rule(@parser.parse_type("4")))
+  has_size_4_c.set(has_size_dimindex_rule(@term_syntax.parse_type("4")))
 }
 
 ///|

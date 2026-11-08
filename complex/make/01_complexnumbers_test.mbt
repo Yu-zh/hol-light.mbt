@@ -6486,7 +6486,7 @@ test "Complex/complexnumbers matches Complex/complexnumbers.ml" {
       #|  (complex_mul : (Complex, Complex) -> Complex)
       #|  (complex_sub : (Complex, Complex) -> Complex)
       #|  (complex_add : (Complex, Complex) -> Complex)
-      #|  :A->real
+      #|  :(A) -> Real
       #|  (complex_norm : (Complex) -> Real)
       #|  (complex_norm : (Complex) -> Real)((z : Complex)) == sqrt(pow(Re(z), 2) + pow(Im(z), 2))
       #|  (ii : Complex) == complex((real_of_num(0), real_of_num(1)))

@@ -23,7 +23,7 @@ pub fn subst_conv(x1 : @list.List[(@kernel.Thm, @kernel.Term)], x2 : @kernel.Ter
 ///|
 /// bool_EQ_CONV
 fn step_1() -> Unit raise {
-  let boolty = @parser.parse_type("bool")
+  let boolty = @term_syntax.parse_type("Bool")
   let check : (@kernel.Term) -> @kernel.Term raise = (x10 : @kernel.Term) => @lib.check(fn(x9 : @kernel.Term) -> Bool raise {
     let tm = x9
     (@kernel.type_of(tm) == boolty)

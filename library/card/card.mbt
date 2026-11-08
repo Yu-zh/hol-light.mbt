@@ -4412,9 +4412,9 @@ fn step_77() -> Unit raise {
   let t467 = @tactics.match_mp_tac(
     @simp.rewrite_rule(@list.List([@theorems.imp_conj()]))(@wf.wf_subset()),
   )
-  let t463 = @parser.parse_type("A")
+  let t463 = @term_syntax.parse_type("A")
   let t464 = @kernel.inst_type(
-    @list.List([(@parser.parse_type("B"), t463)]),
+    @list.List([(@term_syntax.parse_type("B"), t463)]),
     @wo.wf_inseg_woset(),
   )
   let t465 = @drule.match_mp(@wf.wf_measure_gen())(t464)
@@ -23242,9 +23242,9 @@ fn step_254() -> Unit raise {
     @list.List([@term_syntax.parse_term("(t' : (D) -> Bool)"), t2610]),
     card_exp_zero(),
   )
-  let t2609 = @parser.parse_type("A")
+  let t2609 = @term_syntax.parse_type("A")
   let t2612 = @tactics.mp_tac(
-    @kernel.inst_type(@list.List([(@parser.parse_type("B"), t2609)]), t2611),
+    @kernel.inst_type(@list.List([(@term_syntax.parse_type("B"), t2609)]), t2611),
   )
   let t2608 = @tactics.match_mp_tac(
     @simp.rewrite_rule(@list.List([@theorems.imp_conj()]))(card_eq_trans()),

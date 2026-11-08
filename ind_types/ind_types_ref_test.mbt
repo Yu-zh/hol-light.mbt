@@ -833,13 +833,13 @@ test "ind_types matches ind_types.ml" {
       #|  select((x : Bool) => true)
       #|  (s : (Num) -> Z)
       #|  :Z
-      #|  :num
+      #|  :Num
       #|  (OUTL : (Sum[A, B]) -> A)(INL((x : A))) == x
       #|  (OUTR : (Sum[A, B]) -> B)(INR((y : B))) == y
       #|  \226\136\128 P : (Option[A]) -> Bool, (\226\136\128 x : Option[A], P(x)) == (P(NONE) && (\226\136\128 a : A, P(SOME(a))))
       #|  (\226\136\131 x : _, (P : (_) -> Bool)(x)) == !(\226\136\128 x : _, !P(x))
       #|  \226\136\128 P : (Option[A]) -> Bool, (\226\136\131 x : Option[A], P(x)) == (P(NONE) || (\226\136\131 a : A, P(SOME(a))))
-      #|  :num
+      #|  :Num
       #|  ((a : Bool) \226\134\146 false) == !a
       #|  (true == false) == false
       #|  \226\136\128 a : A, !(SOME(a) == NONE)

@@ -88724,7 +88724,7 @@ test "WZ/wz matches WZ/wz.ml" {
       #|  rbinom((real_of_num((p : Num)), real_of_num((q : Num))))
       #|  real_of_num(binom(((p : Num), (q : Num))))
       #|  real_of_num
-      #|  :real
+      #|  :Real
       #|  (op_plus : (Num, Num) -> Num)
       #|  (\226\136\128 k : Num, !IN(k, (s : (Num) -> Bool)) \226\134\146 (f : (Num) -> Real)(k) == real_of_num(0)) && sum(s, (k : Num) => f(k)) == sum(UNIV, (k : Num) => f(k)) && FINITE({(k : Num) | !(f(k) == real_of_num(0))}) \226\134\146 (\226\136\128 c : Real, (\226\136\128 k : Num, !IN(k, s) \226\134\146 c * f(k) == real_of_num(0)) && c * sum(s, (k : Num) => f(k)) == sum(UNIV, (k : Num) => c * f(k)) && FINITE({(k : Num) | !(c * f(k) == real_of_num(0))}))
       #|  ((\226\136\128 k : Num, !IN(k, (s : (Num) -> Bool)) \226\134\146 (f' : (Num) -> Real)(k) == real_of_num(0)) && (f : Real) == sum(UNIV, (k : Num) => f'(k)) && FINITE({(k : Num) | !(f'(k) == real_of_num(0))})) && (\226\136\128 k : Num, !IN(k, (t : (Num) -> Bool)) \226\134\146 (g' : (Num) -> Real)(k) == real_of_num(0)) && (g : Real) == sum(UNIV, (k : Num) => g'(k)) && FINITE({(k : Num) | !(g'(k) == real_of_num(0))}) \226\134\146 (\226\136\128 k : Num, !IN(k, UNION(s, t)) \226\134\146 f'(k) + g'(k) == real_of_num(0)) && f + g == sum(UNIV, (k : Num) => f'(k) + g'(k)) && FINITE({(k : Num) | !(f'(k) + g'(k) == real_of_num(0))})

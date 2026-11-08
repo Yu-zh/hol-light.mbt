@@ -466,7 +466,7 @@ fn step_16() -> Unit raise {
   let d_tm = @term_syntax.parse_term("(d : List[Real])")
   let elv_tm = @term_syntax.parse_term("(EL : (Num, List[Cart[Real, N]]) -> Cart[Real, N])")
   let eld_tm = @term_syntax.parse_term("(EL : (Num, List[Real]) -> Real)")
-  let rn_ty = @parser.parse_type("real^N")
+  let rn_ty = @term_syntax.parse_type("Cart[Real, N]")
   let rewr_rule : (@kernel.Thm) -> @kernel.Thm raise = @simp.rewrite_rule(@list.List([@lists.map(), @lists.el(), @lists.hd(), @lists.tl(), @lists.length(), forall_length_clauses(), @lists.itlist2(), @vectors.vector_add_rid(), @vectors.vector_add_lid(), @vectors.dot_lzero()]))
   let sewr_rule : (@kernel.Thm) -> @kernel.Thm raise = @simp.pure_once_rewrite_rule(@list.List([@vectors.dot_sym()]))
   solovay_rule_c.set(fn(x183 : Int64) -> @kernel.Thm raise {

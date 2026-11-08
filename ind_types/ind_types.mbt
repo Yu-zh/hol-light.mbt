@@ -5274,8 +5274,8 @@ fn step_33() -> Unit raise {
     }
   }
   let s = @term_syntax.parse_term("(s : (Num) -> Z)")
-  let zty = @parser.parse_type("Z")
-  let numty = @parser.parse_type("num")
+  let zty = @term_syntax.parse_type("Z")
+  let numty = @term_syntax.parse_type("Num")
   fn extract_arg(
     x649 : @kernel.Term,
     x650 : @kernel.Term,
@@ -6906,7 +6906,7 @@ pub fn prove_constructors_injective(x : @kernel.Thm) -> @kernel.Thm raise {
 ///|
 /// prove_constructors_distinct
 fn step_44() -> Unit raise {
-  let num_ty = @parser.parse_type("num")
+  let num_ty = @term_syntax.parse_type("Num")
   let t831 = @simp.rewr_conv(@class.taut(@term_syntax.parse_term("((a : Bool) → false) == !a")))
   let negate : (@kernel.Thm) -> @kernel.Thm raise = fn(
     x833 : @kernel.Thm,

@@ -255,7 +255,7 @@ pub fn fun_eq_thm() -> @kernel.Thm {
 ///|
 /// class.ml:45
 fn step_5() -> Unit raise {
-  @kernel.new_constant("@", @parser.parse_type("(A->bool)->A"))
+  @kernel.new_constant("@", @term_syntax.parse_type("((A) -> Bool) -> A"))
 }
 
 ///|

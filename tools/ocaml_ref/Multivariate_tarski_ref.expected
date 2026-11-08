@@ -49719,12 +49719,12 @@ Warning: inventing type variables
 0..0..3..19..67..174..solved at 180
 Multivariate/tarski quotations (128):
   \226\136\128 a : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], distance((a, b)) == distance((b, a))
-  :real
-  :real
+  :Real
+  :Real
   \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], \226\136\128 p : Cart[Real, _], \226\136\128 q : Cart[Real, _], \226\136\128 r : Cart[Real, _], \226\136\128 s : Cart[Real, _], distance((a, b)) == distance((p, q)) && distance((a, b)) == distance((r, s)) \226\134\146 distance((p, q)) == distance((r, s))
   \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], \226\136\128 c : Cart[Real, _], distance((a, b)) == distance((c, c)) \226\134\146 a == b
-  :real
-  :real
+  :Real
+  :Real
   (a : Real) == real_of_num(1) + (b : Real) \226\134\146 a * (q : Real) == q + b * q
   (q : Cart[Real, _]) - -op_pct((a : Real), q) == op_pct(real_of_num(1) + a, q)
   -op_pct(distance(((b : Cart[Real, 2]), (c : Cart[Real, 2]))) / norm((q : Cart[Real, 2])), q)
@@ -49732,17 +49732,17 @@ Multivariate/tarski quotations (128):
   (a : Cart[Real, 2])
   \226\136\128 a : Cart[Real, 2], \226\136\128 q : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], \226\136\128 c : Cart[Real, 2], \226\136\131 x : Cart[Real, 2], between(a, (q, x)) && distance((a, x)) == distance((b, c))
   distance(((b : Cart[Real, N]), b + (x : Cart[Real, N]))) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   distance(((b : Cart[Real, N]), (x : Cart[Real, N]))) == distance((b, (y : Cart[Real, N])))
   \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], !(b == a) && between(b, (a, x)) && between(b, (a, y)) && distance((b, x)) == distance((b, y)) \226\134\146 x == y
   distance(((a : Cart[Real, N]) + (x : Cart[Real, N]), a + (y : Cart[Real, N]))) == distance((x, y))
-  :real
-  :real
+  :Real
+  :Real
   ((a : Cart[Real, N]) + (x : Cart[Real, N]) == a + (y : Cart[Real, N])) == (x == y)
   distance(((a : Cart[Real, N]) + (x : Cart[Real, N]), a + (y : Cart[Real, N]))) == distance((x, y))
-  :real
-  :real
+  :Real
+  :Real
   (k : Cart[Real, 2]) + (f : (Cart[Real, 2]) -> Cart[Real, 2])((b : Cart[Real, 2]))
   (k : Cart[Real, 2]) + (f : (Cart[Real, 2]) -> Cart[Real, 2])((a : Cart[Real, 2]))
   (x' : Cart[Real, 2]) == (k : Cart[Real, 2]) + (f : (Cart[Real, 2]) -> Cart[Real, 2])((x : Cart[Real, 2]))
@@ -49771,37 +49771,37 @@ Multivariate/tarski quotations (128):
   (p : Cart[Real, 2]) == (a : Cart[Real, 2]) && (b : Cart[Real, 2]) == (q : Cart[Real, 2])
   (q : Cart[Real, 2]) == (c : Cart[Real, 2])
   \226\136\128 a : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], \226\136\128 c : Cart[Real, 2], \226\136\128 p : Cart[Real, 2], \226\136\128 q : Cart[Real, 2], between(p, (a, c)) && between(q, (b, c)) \226\134\146 (\226\136\131 x : Cart[Real, 2], between(x, (p, b)) && between(x, (q, a)))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   (basis : (Num) -> Cart[Real, 2])(2)
   (basis : (Num) -> Cart[Real, 2])(1)
   (vec : (Num) -> Cart[Real, 2])(0)
   \226\136\131 a : Cart[Real, 2], \226\136\131 b : Cart[Real, 2], \226\136\131 c : Cart[Real, 2], !between(b, (a, c)) && !between(c, (b, a)) && !between(a, (c, b))
   !((x : Real) == real_of_num(0)) == !(pow(x, 2) == real_of_num(0))
   !((p : Cart[Real, _]) == (q : Cart[Real, _])) == !(norm(p - q) == real_of_num(0))
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   \226\136\128 p : Cart[Real, 2], \226\136\128 q : Cart[Real, 2], \226\136\128 a : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], \226\136\128 c : Cart[Real, 2], !(p == q) && distance((a, p)) == distance((a, q)) && distance((b, p)) == distance((b, q)) && distance((c, p)) == distance((c, q)) \226\134\146 between(b, (a, c)) || between(c, (b, a)) || between(a, (c, b))
   (b : Cart[Real, N]) - op_pct(real_of_num(1) + (u : Real), b) == -op_pct(u, b)
   op_pct(real_of_num(1) + (u : Real), (c : Cart[Real, N]))
@@ -49819,8 +49819,8 @@ Multivariate/tarski quotations (128):
   (x : Real)
   real_of_num(0) <= (x : Real) && real_of_num(0) <= (y : Real) \226\134\146 (abs(y) == abs(x) + abs(x - y)) == (x <= y)
   norm(vec(0) - (x : Cart[Real, _])) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   (t : (Real) -> Bool)
   (s : (Real) -> Bool)
   inv((u : Real)) * (d : Real)

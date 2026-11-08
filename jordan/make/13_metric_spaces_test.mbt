@@ -8262,7 +8262,7 @@ test "Jordan/metric_spaces matches Jordan/metric_spaces.ml" {
       #|  fn { (u, v) => ((f : (_) -> _)(u), (f' : (_) -> _)(v)) }
       #|  {((m : Num), (n : Num)) | true}
       #|  :A
-      #|  :num#num
+      #|  :(Num, Num)
       #|  \226\136\128 A : (A) -> Bool, \226\136\128 B : (B) -> Bool, COUNTABLE(A) && COUNTABLE(B) \226\134\146 COUNTABLE({((a : A), (b : B)) | A(a) && B(b)})
       #|  \226\136\128 A : (A) -> Bool, IMAGE(I, A) == A
       #|  \226\136\128 X : (A) -> Bool, (X == {}) == !(\226\136\131 u : A, X(u))
@@ -8349,15 +8349,15 @@ test "Jordan/metric_spaces matches Jordan/metric_spaces.ml" {
       #|  (a : Real) + (b : Real) + (c : Real) == a + (b + c)
       #|  \226\136\128 f : (Num) -> Real, \226\136\128 g : (Num) -> Real, \226\136\128 h : (Num) -> Real, f + g + h == f + (g + h)
       #|  :B
-      #|  :real
+      #|  :Real
       #|  :A
-      #|  :num
+      #|  :Num
       #|  real_of_num(0) + (a : Real) == a
       #|  \226\136\128 f : (Num) -> Real, euclid_euclid0 + f == f
       #|  :B
-      #|  :real
+      #|  :Real
       #|  :A
-      #|  :num
+      #|  :Num
       #|  (a : Real) + real_of_num(0) == a
       #|  \226\136\128 f : (Num) -> Real, f + euclid_euclid0 == f
       #|  (a : Real) * ((b : Real) + (c : Real)) == a * b + a * c
@@ -9573,7 +9573,7 @@ test "Jordan/metric_spaces matches Jordan/metric_spaces.ml" {
       #|  (I : ((A, Num)) -> (A, Num))
       #|  {((z : _), (n : Num)) | (Z : (_) -> Bool)(z) && UNIV(n)}
       #|  :A
-      #|  :A#num
+      #|  :(A, Num)
       #|  COUNTABLE((S : (_) -> Bool))
       #|  (S : ((_, Num)) -> Bool) == {((z : _), (n : Num)) | \226\136\131 A : (_) -> Bool, (Z : (_) -> Bool)(z) && SUBSET(euclid_open_ball(((X : (_) -> Bool), (d : (_, _) -> Real)), z, twopow(-int_of_num(n))), A) && (U : ((_) -> Bool) -> Bool)(A)}
       #|  \226\136\131 Z : (_) -> Bool, COUNTABLE(Z) && euclid_dense(euclid_top_of_metric(((X : (_) -> Bool), (d : (_, _) -> Real))), Z)

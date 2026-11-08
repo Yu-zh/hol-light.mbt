@@ -33,7 +33,7 @@ test "Formal_ineqs/arith/arith_num matches Formal_ineqs/arith/arith_num.ml" {
     @testkit.normalize_times(log.contents()),
     content=(
       #|Formal_ineqs/arith/arith_num quotations (82):
-      #|  :num->num
+      #|  :(Num) -> Num
       #|  NUMERAL
       #|  BIT0
       #|  BIT1

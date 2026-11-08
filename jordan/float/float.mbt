@@ -1292,7 +1292,7 @@ pub fn real_add_le_subst_lhs() -> @kernel.Thm {
 pub fn iwrite_real_le_rhs(x276 : @kernel.Thm, x277 : @kernel.Thm) -> @kernel.Thm raise {
   let rel = x276
   let thm = x277
-  let bvar = @basics.genvar(@parser.parse_type("real"))
+  let bvar = @basics.genvar(@term_syntax.parse_type("Real"))
   let t278 = @kernel.concl(rel)
   let (bt, _) = @basics.dest_binop(@term_syntax.parse_term("real_le"), t278)
   let sub : (@kernel.Term) -> @kernel.Thm raise = @equal.subs_conv(@list.List([@kernel.assume_rule(@basics.mk_eq(bt, bvar))]))
@@ -1328,7 +1328,7 @@ pub fn iwrite_real_le_rhs(x276 : @kernel.Thm, x277 : @kernel.Thm) -> @kernel.Thm
 pub fn iwrite_real_le_lhs(x286 : @kernel.Thm, x287 : @kernel.Thm) -> @kernel.Thm raise {
   let rel = x286
   let thm = x287
-  let avar = @basics.genvar(@parser.parse_type("real"))
+  let avar = @basics.genvar(@term_syntax.parse_type("Real"))
   let t288 = @kernel.concl(rel)
   let (_, at) = @basics.dest_binop(@term_syntax.parse_term("real_le"), t288)
   let sub : (@kernel.Term) -> @kernel.Thm raise = @equal.subs_conv(@list.List([@kernel.assume_rule(@basics.mk_eq(at, avar))]))

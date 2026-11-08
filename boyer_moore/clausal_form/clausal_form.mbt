@@ -663,11 +663,11 @@ pub fn has_boolean_args_and_result(x75 : @kernel.Term) -> Bool raise {
       @kernel.type_of(x76)
     }, args)
     let types = t77.prepend(@kernel.type_of(tm))
-    let t78 = @list.List([@parser.parse_type("bool")])
+    let t78 = @list.List([@term_syntax.parse_type("Bool")])
     @list.List::is_empty(@lib.subtract(@lib.setify(types), t78))
   } catch {
     Failure(_) => {
-      let t79 = @parser.parse_type("bool")
+      let t79 = @term_syntax.parse_type("Bool")
       (@kernel.type_of(tm) == t79)
     }
     e => raise e

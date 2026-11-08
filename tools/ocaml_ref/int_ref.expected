@@ -2610,8 +2610,8 @@ int quotations (625):
   int_of_num
   int_neg
   real_of_int
-  :real
-  :int
+  :Real
+  :Int
   real_of_int(if (b : Bool) { (x : Int) } else { (y : Int) }) == (if b { real_of_int(x) } else { real_of_int(y) })
   (\226\136\128 x : Int, \226\136\128 y : Int, (P : (Int, Int) -> Bool)(x, y) == P(y, x)) && (\226\136\128 x : Int, \226\136\128 y : Int, x <= y \226\134\146 P(x, y)) \226\134\146 (\226\136\128 x : Int, \226\136\128 y : Int, P(x, y))
   (\226\136\128 x : Int, (P : (Int, Int) -> Bool)(x, x)) && (\226\136\128 x : Int, \226\136\128 y : Int, P(x, y) == P(y, x)) && (\226\136\128 x : Int, \226\136\128 y : Int, x < y \226\134\146 P(x, y)) \226\134\146 (\226\136\128 x : Int, \226\136\128 y : Int, P(x, y))
@@ -2719,17 +2719,17 @@ int quotations (625):
   0
   1
   (\226\136\128 x : Int, int_of_num(0) * x == int_of_num(0)) && (\226\136\128 x : Int, \226\136\128 y : Int, \226\136\128 z : Int, (x + y == x + z) == (y == z)) && (\226\136\128 w : Int, \226\136\128 x : Int, \226\136\128 y : Int, \226\136\128 z : Int, (w * y + x * z == w * z + x * y) == (w == x || y == z))
-  :int
+  :Int
   int_pow
   int_mul
   int_sub
   int_add
   int_neg
-  :A->A->bool
-  :A->A->A->bool
-  :A#A->bool
-  :A#A->A
-  :A#A->A
+  :(A, A) -> Bool
+  :(A, A, A) -> Bool
+  :((A, A)) -> Bool
+  :((A, A)) -> A
+  :((A, A)) -> A
   (op_eq_eq : (A, A, (A, A) -> Bool) -> Bool)((x : A), (y : A), (rel : (A, A) -> Bool)) == rel(x, y)
   (real_mod : (Real, Real, Real) -> Bool)((n : Real), (x : Real), (y : Real)) == (\226\136\131 q : Real, integer(q) && x - y == q * n)
   real_mod
@@ -2744,7 +2744,7 @@ int quotations (625):
   \226\136\128 x : Int, \226\136\128 y : Int, \226\136\128 n : Int, abs(x - y) < n && op_eq_eq(x, y, mod(n)) \226\134\146 x == y
   (int_coprime : ((Int, Int)) -> Bool)
   \226\136\128 a : Int, \226\136\128 b : Int, (int_coprime : ((Int, Int)) -> Bool)((a, b)) == (\226\136\131 x : Int, \226\136\131 y : Int, a * x + b * y == int_of_num(1))
-  :int
+  :Int
   \226\136\128 a : Int, \226\136\128 x : Int, (a == int_of_num(0)) == (x == x + a)
   int_of_num(0)
   int_of_num(1)
@@ -3127,7 +3127,7 @@ int quotations (625):
   (a : Num)
   ((p : Bool) || (q : Bool)) == (!p \226\134\146 q)
   \226\136\128 p : Num, (p == 0 || p == 1 || prime(p)) == (\226\136\128 a : Num, \226\136\128 b : Num, divides(p, a * b) \226\134\146 divides(p, a) || divides(p, b))
-  :A->int->A
+  :(A, Int) -> A
   (real_zpow : (Real, Int) -> Real)
   (real_zpow : (Real, Int) -> Real)((z : Real), (i : Int)) == (if int_of_num(0) <= i { pow(z, num_of_int(i)) } else { inv(pow(z, num_of_int(-i))) })
   \226\136\128 x : Real, \226\136\128 n : Num, pow(x, n) == zpow(x, int_of_num(n))

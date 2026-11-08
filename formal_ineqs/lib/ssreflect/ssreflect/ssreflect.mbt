@@ -1690,8 +1690,8 @@ pub fn spec0(x374 : @list.List[String], x375 : @list.List[(String, @kernel.Term)
     if flag {
       (ty, @kernel.type_of(t))
     } else {
-      let t379 = @parser.parse_type("bool")
-      (@parser.parse_type("bool"), t379)
+      let t379 = @term_syntax.parse_type("Bool")
+      (@term_syntax.parse_type("Bool"), t379)
     }
   }
   let inst_term : (@kernel.Term) -> @kernel.Term raise = fn(x380 : @kernel.Term) -> @kernel.Term raise {

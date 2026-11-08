@@ -570,7 +570,7 @@ pub fn norm_pad2d3d() -> @kernel.Thm {
 ///|
 /// PAD2D3D_QUANTIFY_CONV
 fn step_17() -> Unit raise {
-  let gv = @basics.genvar(@parser.parse_type("real^2"))
+  let gv = @basics.genvar(@term_syntax.parse_type("Cart[Real, 2]"))
   let pth = @equal.conv_rule(@equal.binop_conv(@equal.binder_conv(@equal.rand_conv(@equal.gen_alpha_conv(gv)))), quantify_pad2d3d_thm())
   let conv1 : (@kernel.Term) -> @kernel.Thm raise = @simp.gen_rewrite_conv(fn(x240 : (@kernel.Term) -> @kernel.Thm raise) -> ((@kernel.Term) -> @kernel.Thm raise) raise {
     x240

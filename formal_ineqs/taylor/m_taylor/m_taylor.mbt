@@ -760,7 +760,7 @@ fn step_30() -> Unit raise {
     })((fn(x164 : @kernel.Thm) -> @kernel.Term raise {
       @kernel.concl(x164)
     })(dimindex_th))
-    let nty = @parser.parse_type("N")
+    let nty = @term_syntax.parse_type("N")
     let t169 = @simp.rewrite_rule(@list.List([dimindex_th]))
     let t165 = @simp.rewrite_rule(@list.List([@more_float.float0_eq()]))
     (fn(x170 : @kernel.Thm) -> @kernel.Thm raise {

@@ -57249,17 +57249,17 @@ Multivariate/paths quotations (8298):
   (vec : (Num) -> Cart[Real, Unit])(0)
   (e : Real) == distance(((g1 : (Cart[Real, Unit]) -> Cart[Real, N])(vec(1)), (g2 : (Cart[Real, Unit]) -> Cart[Real, N])(vec(0))))
   pathfinish((g1 : (Cart[Real, Unit]) -> Cart[Real, N])) == pathstart((g2 : (Cart[Real, Unit]) -> Cart[Real, N])) || real_of_num(0) < distance((pathfinish(g1), pathstart(g2)))
-  :real
+  :Real
   \226\136\128 g1 : (Cart[Real, Unit]) -> Cart[Real, N], \226\136\128 g2 : (Cart[Real, Unit]) -> Cart[Real, N], path(g2) && path(op_plus_plus(g1, g2)) \226\134\146 pathfinish(g1) == pathstart(g2)
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   \226\136\128 g1 : (Cart[Real, Unit]) -> Cart[Real, N], \226\136\128 g2 : (Cart[Real, Unit]) -> Cart[Real, N], path(g1) && path(g2) \226\134\146 path(op_plus_plus(g1, g2)) == (pathfinish(g1) == pathstart(g2))
   (a : Cart[Real, N]) + (b : Cart[Real, N]) - b == a
   op_pct(real_of_num(2), op_pct(real_of_num(1) / real_of_num(2), (x : Cart[Real, N]))) == x
@@ -58007,7 +58007,7 @@ Multivariate/paths quotations (8298):
   (a : Cart[Real, M])
   \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, (\226\136\128 c : (Cart[Real, M]) -> Bool, SUBSET(c, s) && convex(c) \226\134\146 convex(IMAGE(f, c))) == (\226\136\128 a : Cart[Real, M], \226\136\128 b : Cart[Real, M], SUBSET(segment([(a, b)]), s) \226\134\146 SUBSET(segment([(f(a), f(b))]), IMAGE(f, segment([(a, b)]))))
   real_of_num(0) < norm((y : Cart[Real, N]) - (x : Cart[Real, N])) \226\134\146 !(distance((x, y)) <= norm(y - x) / real_of_num(2))
-  :real
+  :Real
   (x : Cart[Real, Unit])
   IN((a : _), (s : (_) -> Bool)) \226\134\146 (\226\136\128 t : (_) -> Bool, SUBSET(s, t) \226\134\146 IN(a, t))
   closure(ball(((m : Cart[Real, Unit]), norm((f : (Cart[Real, Unit]) -> Cart[Real, Unit])((a : Cart[Real, Unit])) - m) / real_of_num(2))))
@@ -58019,7 +58019,7 @@ Multivariate/paths quotations (8298):
   (d : Real)
   norm((f : (Cart[Real, Unit]) -> Cart[Real, Unit])((a : Cart[Real, Unit])) - (m : Cart[Real, Unit])) / real_of_num(2)
   !(real_of_num(0) < norm((x : Cart[Real, N]) - (y : Cart[Real, N]))) \226\134\146 x == y
-  :real
+  :Real
   (!trivial_limit((net : Net[_])) && op_minus_minus_gt((f : (_) -> Cart[Real, _]), (l : Cart[Real, _]), net) \226\134\146 (m : Cart[Real, _]) == l) \226\134\146 op_minus_minus_gt(f, l, net) \226\134\146 op_minus_minus_gt(f, m, net)
   (m : Cart[Real, Unit])
   (a : Cart[Real, Unit])
@@ -58043,8 +58043,8 @@ Multivariate/paths quotations (8298):
   (x : Cart[Real, Unit]) => IN(x, (s : (Cart[Real, Unit]) -> Bool))
   \226\136\128 Q : (_) -> Bool, (\226\136\128 x : _, \226\136\128 y : _, (P : (_, _) -> Bool)(x, y) == P(y, x)) && (\226\136\128 x : _, \226\136\128 y : _, !Q(x) && !Q(y) \226\134\146 P(x, y)) && (\226\136\128 x : _, \226\136\128 y : _, Q(x) && Q(y) \226\134\146 P(x, y)) && (\226\136\128 x : _, \226\136\128 y : _, !Q(x) && Q(y) \226\134\146 P(x, y)) \226\134\146 (\226\136\128 x : _, \226\136\128 y : _, P(x, y))
   \226\136\128 f : (Cart[Real, Unit]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, Unit]) -> Bool, \226\136\128 t : (Cart[Real, Unit]) -> Bool, \226\136\128 l : Real, is_interval(s) && is_interval(t) && !(INTER(s, t) == {}) && (\226\136\128 x : Cart[Real, Unit], \226\136\128 y : Cart[Real, Unit], IN(x, s) && IN(y, s) \226\134\146 norm(f(x) - f(y)) <= l * norm(x - y)) && (\226\136\128 x : Cart[Real, Unit], \226\136\128 y : Cart[Real, Unit], IN(x, t) && IN(y, t) \226\134\146 norm(f(x) - f(y)) <= l * norm(x - y)) \226\134\146 (\226\136\128 x : Cart[Real, Unit], \226\136\128 y : Cart[Real, Unit], IN(x, UNION(s, t)) && IN(y, UNION(s, t)) \226\134\146 norm(f(x) - f(y)) <= l * norm(x - y))
-  :real
-  :real
+  :Real
+  :Real
   IN((b : Cart[Real, Unit]), interval([((a : Cart[Real, Unit]), (c : Cart[Real, Unit]))]))
   SUBSET(interval([((a : Cart[Real, Unit]), (c : Cart[Real, Unit]))]), interval([(a, (b : Cart[Real, Unit]))])) || SUBSET(interval([(a, c)]), interval([(b, c)]))
   interval([((a : Cart[Real, Unit]), (c : Cart[Real, Unit]))]) == {}
@@ -58102,8 +58102,8 @@ Multivariate/paths quotations (8298):
   IN((u : Cart[Real, M]), segment([((z : Cart[Real, M]), (y : Cart[Real, M]))])) && IN((v : Cart[Real, M]), segment([(z, y)]))
   IN((v : Cart[Real, M]), segment([((x : Cart[Real, M]), (y : Cart[Real, M]))])) && !IN((u : Cart[Real, M]), segment([(x, (z : Cart[Real, M]))]))
   norm((v : Cart[Real, N]) - (z : Cart[Real, N])) <= (d : Real) - (c : Real) \226\134\146 norm(z - (x : Cart[Real, N])) <= c \226\134\146 norm(v - x) <= d
-  :real
-  :real
+  :Real
+  :Real
   IN((z : Cart[Real, M]), segment([((x : Cart[Real, M]), z)]))
   IN((v : Cart[Real, M]), segment([((x : Cart[Real, M]), (z : Cart[Real, M]))]))
   (v : Cart[Real, M])
@@ -58442,8 +58442,8 @@ Multivariate/paths quotations (8298):
   (h : (Cart[Real, Unit]) -> Cart[Real, N])
   (f : (Cart[Real, Unit]) -> Cart[Real, N])((c : (Real) -> Cart[Real, Unit])(real_of_num((j : Num)) / pow(real_of_num(2), (n : Num))))
   \226\136\128 u : Cart[Real, N], distance(((w : Cart[Real, N]), u)) < (e : Real) / real_of_num(2) && distance(((z : Cart[Real, N]), u)) < e / real_of_num(2) \226\134\146 distance((w, z)) < e
-  :real
-  :real
+  :Real
+  :Real
   ((n : Real) * (x : Real) < n) == (n * x < n * real_of_num(1))
   (j : Num)
   real_of_num(0) < (x : Real) && x < inv((n : Real)) && real_of_num(0) < (y : Real) && y < inv(n) \226\134\146 abs(x - real_of_num(1) / n) < inv(n) && abs(y - real_of_num(1) / n) < inv(n)
@@ -58719,8 +58719,8 @@ Multivariate/paths quotations (8298):
   IN((x : _), (s : (_) -> Bool)) \226\134\146 SUBSET(s, (t : (_) -> Bool)) \226\134\146 IN(x, t)
   (f : (Cart[Real, Unit]) -> Cart[Real, N])((u : Cart[Real, Unit]))
   \226\136\128 u : Cart[Real, N], distance(((w : Cart[Real, N]), u)) < (e : Real) / real_of_num(2) && distance(((z : Cart[Real, N]), u)) < e / real_of_num(2) \226\134\146 distance((w, z)) < e
-  :real
-  :real
+  :Real
+  :Real
   (h : (Cart[Real, Unit]) -> Cart[Real, N])((u : Cart[Real, Unit])) == (f : (Cart[Real, Unit]) -> Cart[Real, N])((w : Cart[Real, Unit])) && h((v : Cart[Real, Unit])) == f((z : Cart[Real, Unit]))
   SUBSET((s : (_) -> Bool), (t : (_) -> Bool)) \226\134\146 SUBSET(DIFF(s, (u : (_) -> Bool)), t)
   (IN((w : _), (uv : (_) -> Bool)) \226\134\146 SUBSET((uw : (_) -> Bool), uv)) \226\134\146 (IN(w, uv) && IN(w, (t : (_) -> Bool))) && INTER(uw, INTER(uv, t)) == {} \226\134\146 INTER(uw, t) == {}
@@ -58836,8 +58836,8 @@ Multivariate/paths quotations (8298):
   (y : Cart[Real, Unit])
   (u : Cart[Real, Unit])
   (x : Cart[Real, Unit])
-  :real
-  :real
+  :Real
+  :Real
   linepath(((y : Cart[Real, N]), y))
   (y : Cart[Real, N]) == (x : Cart[Real, N])
   (y : Cart[Real, N])
@@ -59495,8 +59495,8 @@ Multivariate/paths quotations (8298):
   (r : Real) * (k : Real) == r * (real_of_num(2) * (k' : Real)) && (d : Real) < r * k' \226\134\146 (real_of_num(2) - k) * r + d <= (real_of_num(2) - k') * r
   diameter((f : (Num, Cart[Real, N]) -> Bool)(SUC((k : Num))))
   \226\136\128 u : Real, distance(((b : Cart[Real, N]), (c : Cart[Real, N]))) <= u && (x : Real) + u <= (y : Real) \226\134\146 distance(((a : Cart[Real, N]), b)) < x \226\134\146 distance((a, c)) < y
-  :real
-  :real
+  :Real
+  :Real
   (f : (Num, Cart[Real, N]) -> Bool)
   (b : Cart[Real, N])
   (b : Cart[Real, N])
@@ -59675,8 +59675,8 @@ Multivariate/paths quotations (8298):
   (r : Real) * (k : Real) == r * (real_of_num(2) * (k' : Real)) && (d : Real) < r * k' \226\134\146 (real_of_num(2) - k) * r + d <= (real_of_num(2) - k') * r
   diameter((f : (Num, Cart[Real, N]) -> Bool)(SUC((k : Num))))
   \226\136\128 u : Real, distance(((b : Cart[Real, N]), (c : Cart[Real, N]))) <= u && (x : Real) + u <= (y : Real) \226\134\146 distance(((a : Cart[Real, N]), b)) < x \226\134\146 distance((a, c)) < y
-  :real
-  :real
+  :Real
+  :Real
   (f : (Num, Cart[Real, N]) -> Bool)
   (b : Cart[Real, N])
   (b : Cart[Real, N])
@@ -60234,9 +60234,9 @@ Multivariate/paths quotations (8298):
   SUBSET((s : (_) -> Bool), (t : (_) -> Bool)) && !PSUBSET(s, t) \226\134\146 s == t
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], closed(s) && !IN(a, s) && !connected_component(DIFF(UNIV, s), a, b) && (\226\136\128 t : (Cart[Real, N]) -> Bool, closed(t) && PSUBSET(t, s) \226\134\146 connected_component(DIFF(UNIV, t), a, b)) \226\134\146 frontier(connected_component(DIFF(UNIV, s), a)) == s
   (k : Real) <= distance(((x : Cart[Real, N]), (x' : Cart[Real, N]))) \226\134\146 norm((d : Cart[Real, N])) < k / real_of_num(2) \226\134\146 norm((d' : Cart[Real, N])) < k / real_of_num(2) \226\134\146 !(x + d == x' + d')
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   IN((x' : Cart[Real, N]), (t : (Cart[Real, N]) -> Bool))
   IN((x : Cart[Real, N]), (c : (Cart[Real, N]) -> Bool))
   (d' : Cart[Real, N])
@@ -60246,10 +60246,10 @@ Multivariate/paths quotations (8298):
   (\226\136\128 x : _, IN(x, (u : (_) -> Bool)) \226\134\146 (\226\136\128 y : _, IN(y, (t : (_) -> Bool)) \226\134\146 !(x == y))) \226\134\146 SUBSET(INTER((s : (_) -> Bool), u), DIFF(s, t))
   INTER((s : (Cart[Real, N]) -> Bool), {(x : Cart[Real, N]) + (d : Cart[Real, N]) | IN(x, (c : (Cart[Real, N]) -> Bool)) && IN(d, ball((vec(0), setdist((c, (t : (Cart[Real, N]) -> Bool))) / real_of_num(2))))})
   (a : Real) <= distance(((p : Cart[Real, N]), (q : Cart[Real, N]))) \226\134\146 a / real_of_num(2) <= distance((p, q))
-  :real
+  :Real
   norm((d : Cart[Real, N])) == distance(((x : Cart[Real, N]), x + d))
-  :real
-  :real
+  :Real
+  :Real
   (d : Cart[Real, N])
   (x : Cart[Real, N])
   SUBSET((k : (_) -> Bool), (k' : (_) -> Bool)) \226\134\146 (\226\136\128 x : _, IN(x, k') \226\134\146 !IN(x, (t : (_) -> Bool))) \226\134\146 DISJOINT(t, k)
@@ -60262,10 +60262,10 @@ Multivariate/paths quotations (8298):
   (x : Cart[Real, N])
   SUBSET((t : (_) -> Bool), (t' : (_) -> Bool)) \226\134\146 SUBSET(DIFF((s : (_) -> Bool), t'), DIFF(s, t))
   (a : Real) <= distance(((p : Cart[Real, N]), (q : Cart[Real, N]))) \226\134\146 a / real_of_num(2) <= distance((p, q))
-  :real
+  :Real
   norm((d : Cart[Real, N])) == distance(((x : Cart[Real, N]) + d, x))
-  :real
-  :real
+  :Real
+  :Real
   (d : Cart[Real, N])
   (x : Cart[Real, N])
   SUBSET((c : (_) -> Bool), DIFF((s : (_) -> Bool), (t : (_) -> Bool))) \226\134\146 (\226\136\128 x : _, IN(x, (t' : (_) -> Bool)) \226\134\146 !IN(x, c)) \226\134\146 SUBSET(c, DIFF(s, t'))
@@ -60783,7 +60783,7 @@ Multivariate/paths quotations (8298):
   real_of_num(0) < (r : Real) \226\134\146 abs(r) == r
   {(x : Cart[Real, N]) | norm(x) == (r : Real)} == IMAGE((x : Cart[Real, N]) => op_pct(r / norm(x), x), DIFF(UNIV, {vec(0)}))
   (r : Real) < real_of_num(0) \226\134\146 !(norm((x : Cart[Real, N])) == r)
-  :real
+  :Real
   (r : Real) < real_of_num(0) || r == real_of_num(0) || real_of_num(0) < r
   (a : Cart[Real, N])
   \226\136\128 a : Cart[Real, N], \226\136\128 r : Real, 2 <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (path_connected : ((Cart[Real, N]) -> Bool) -> Bool)((sphere : ((Cart[Real, N], Real), Cart[Real, N]) -> Bool)((a, r)))
@@ -60810,15 +60810,15 @@ Multivariate/paths quotations (8298):
   (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) == (dimindex : ((Unit) -> Bool) -> Num)((UNIV : (Unit) -> Bool))
   (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) == 1
   \226\136\128 a : Cart[Real, N], \226\136\128 r : Real, (FINITE : ((Cart[Real, N]) -> Bool) -> Bool)((sphere : ((Cart[Real, N], Real), Cart[Real, N]) -> Bool)((a, r))) == (r <= real_of_num(0) || (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) == 1)
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   1 <= (n : Num) \226\134\146 (2 <= n) == !(n == 1)
   1 <= (n : Num) \226\134\146 (2 <= n) == !(n == 1)
   FINITE(sphere(((a : Cart[Real, N]), (r : Real))))
@@ -60854,10 +60854,10 @@ Multivariate/paths quotations (8298):
   \226\136\128 t : (_) -> Bool, SUBSET((s : (_) -> Bool), t) && FINITE(t) && CARD(t) <= (n : Num) \226\134\146 FINITE(s) && CARD(s) <= n
   real_of_num(0) < (r : Real)
   (\226\136\128 a : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], \226\136\128 r : Real, \226\136\128 s : Real, FINITE(INTER(sphere((a, r)), sphere((b, s)))) == !(a == b && r == s && real_of_num(0) < r && real_of_num(0) < s)) && (\226\136\128 a : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], \226\136\128 r : Real, \226\136\128 s : Real, !(a == b && r == s && real_of_num(0) < r && real_of_num(0) < s) \226\134\146 CARD(INTER(sphere((a, r)), sphere((b, s)))) <= 2)
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   INTER((a : (_) -> Bool), (b : (_) -> Bool)) == {} \226\134\146 SUBSET(b, UNION(a, (c : (_) -> Bool))) == SUBSET(b, c)
   (DIFF((s : (_) -> Bool), (t : (_) -> Bool)) == {}) == SUBSET(s, t)
   cball(((a : Cart[Real, N]), (r : Real)))
@@ -60873,18 +60873,18 @@ Multivariate/paths quotations (8298):
   \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 r : Real, \226\136\128 s : Real, ((INTER : ((Cart[Real, N]) -> Bool, (Cart[Real, N]) -> Bool, Cart[Real, N]) -> Bool)((sphere : ((Cart[Real, N], Real), Cart[Real, N]) -> Bool)((a, r)), (sphere : ((Cart[Real, N], Real), Cart[Real, N]) -> Bool)((b, s))) == ({} : (Cart[Real, N]) -> Bool)) == (if (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) == 1 { r < real_of_num(0) || s < real_of_num(0) || !((distance : ((Cart[Real, N], Cart[Real, N])) -> Real)((a, b)) == abs(r - s)) && !((distance : ((Cart[Real, N], Cart[Real, N])) -> Real)((a, b)) == r + s) } else { r < real_of_num(0) || s < real_of_num(0) || (distance : ((Cart[Real, N], Cart[Real, N])) -> Real)((a, b)) < abs(r - s) || r + s < (distance : ((Cart[Real, N], Cart[Real, N])) -> Real)((a, b)) })
   (lambda : ((Num) -> Real) -> Cart[Real, N])((i : Num) => (op_dollar : (Cart[Real, N], Num) -> Real)((a : Cart[Real, N]), 1) - (r : Real))
   (lambda : ((Num) -> Real) -> Cart[Real, N])((i : Num) => (op_dollar : (Cart[Real, N], Num) -> Real)((a : Cart[Real, N]), 1) + (r : Real))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   (p : Bool) && ((q : Bool) \226\134\146 (r : Bool)) \226\134\146 p == q \226\134\146 r
   (y : Cart[Real, N])
   (x : Cart[Real, N])
@@ -60912,8 +60912,8 @@ Multivariate/paths quotations (8298):
   (a : Cart[Real, N])
   \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 r : Real, \226\136\128 s : Real, HAS_SIZE(INTER(sphere((a, r)), sphere((b, s))), 1) == (real_of_num(0) <= r && real_of_num(0) <= s && (a == b \226\134\146 r == real_of_num(0) && s == real_of_num(0)) && (distance((a, b)) == r + s || distance((a, b)) == abs(r - s)))
   norm((y : Cart[Real, N])) == norm(y - vec(0))
-  :real
-  :real
+  :Real
+  :Real
   op_pct(inv(norm((z : Cart[Real, N]))), z)
   norm((z : Cart[Real, N]))
   (basis : (Num) -> Cart[Real, N])(1)
@@ -60933,8 +60933,8 @@ Multivariate/paths quotations (8298):
   !IN((y : Cart[Real, N]), (s : (Cart[Real, N]) -> Bool))
   real_of_num(1) <= (a : Real) \226\134\146 real_of_num(0) < a
   real_of_num(1) * norm((y : Cart[Real, _]) - (a : Cart[Real, _])) == norm(a - y)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(1) <= real_of_num(1) + ((D : Real) - real_of_num(1)) * (u : Real)
   real_of_num(1) / (real_of_num(1) + ((D : Real) - real_of_num(1)) * (u : Real))
   (a : Cart[Real, N]) + op_pct(real_of_num(1) + ((D : Real) - real_of_num(1)) * (u : Real), (y : Cart[Real, N]) - a)
@@ -60946,8 +60946,8 @@ Multivariate/paths quotations (8298):
   !IN((x : Cart[Real, N]), (s : (Cart[Real, N]) -> Bool))
   real_of_num(1) <= (a : Real) \226\134\146 real_of_num(0) < a
   real_of_num(1) * norm((x : Cart[Real, _]) - (a : Cart[Real, _])) == norm(a - x)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(1) <= real_of_num(1) + ((C : Real) - real_of_num(1)) * (u : Real)
   real_of_num(1) / (real_of_num(1) + ((C : Real) - real_of_num(1)) * (u : Real))
   (a : Cart[Real, N]) + op_pct(real_of_num(1) + ((C : Real) - real_of_num(1)) * (u : Real), (x : Cart[Real, N]) - a)
@@ -61015,8 +61015,8 @@ Multivariate/paths quotations (8298):
   (r : Real)
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], 2 <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (path_connected : ((Cart[Real, N]) -> Bool) -> Bool)(s) && (IN : (Cart[Real, N], (Cart[Real, N]) -> Bool) -> Bool)(a, (interior : ((Cart[Real, N]) -> Bool, Cart[Real, N]) -> Bool)(s)) \226\134\146 (path_connected : ((Cart[Real, N]) -> Bool) -> Bool)((DELETE : ((Cart[Real, N]) -> Bool, Cart[Real, N], Cart[Real, N]) -> Bool)(s, a))
   distance(((a : Cart[Real, N]), a + (x : Cart[Real, N]))) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   (a : Cart[Real, N]) + op_pct((r' : Real), basis(1))
   SUBSET((c' : (_) -> Bool), (s : (_) -> Bool)) && (\226\136\131 x : _, IN(x, c') && !IN(x, (b' : (_) -> Bool)) && !IN(x, (c : (_) -> Bool))) \226\134\146 !(INTER(DIFF(s, b'), {(x : _) | !IN(x, c) && IN(x, c')}) == {})
   SUBSET((b' : (_) -> Bool), (c' : (_) -> Bool)) && SUBSET(c', (s : (_) -> Bool)) && SUBSET((c : (_) -> Bool), b') \226\134\146 DIFF(s, c) == UNION(DIFF(s, b'), {(x : _) | !IN(x, c) && IN(x, c')})
@@ -61025,8 +61025,8 @@ Multivariate/paths quotations (8298):
   (x : Cart[Real, N]) - ((a : Cart[Real, N]) + op_pct((d : Real), x - a)) == op_pct(real_of_num(1) - d, x - a)
   (abs((r : Real)) <= r) == (real_of_num(0) <= r)
   distance(((a : Cart[Real, N]), a + (x : Cart[Real, N]))) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   (x : Cart[Real, N])
   (a : Cart[Real, N]) + op_pct((r : Real) / distance((a, (x : Cart[Real, N]))), x - a)
   DIFF(UNIV, (s : (Cart[Real, N]) -> Bool))
@@ -61177,7 +61177,7 @@ Multivariate/paths quotations (8298):
   real_of_num(0) < (r : Real) \226\134\146 ((real_of_num(1) - (x : Real)) * r - (n : Real) == real_of_num(0)) == (real_of_num(1) - n / r == x)
   (real_of_num(1) - (x : Real)) * (r : Real) - (b : Real) == r - r * x - b
   real_of_num(0) * (r : Real) - norm((x : Cart[Real, N])) <= real_of_num(0)
-  :real
+  :Real
   1
   real_of_num(0)
   (vec : (Num) -> Cart[Real, Unit])(1)
@@ -61186,15 +61186,15 @@ Multivariate/paths quotations (8298):
   (x : Real) <= real_of_num(1) && (a : Real) <= abs(real_of_num(1) - x) * real_of_num(1) \226\134\146 a + x <= real_of_num(1)
   ((a : Real) * (u : Real) + (x : Real)) / (r : Real) == a * (u / r) + x / r
   norm((x : Cart[Real, N])) + norm((y : Cart[Real, N])) <= real_of_num(1) * (r : Real) \226\134\146 norm(x + y) <= r
-  :real
-  :real
+  :Real
+  :Real
   subspace((t : (Cart[Real, N]) -> Bool))
   real_of_num(0) < (r : Real) \226\134\146 real_of_num(0) < abs(r)
   (r : Real) == norm((x : Cart[Real, N]) - (y : Cart[Real, N])) \226\134\146 r < abs(norm(x) - norm(y)) * real_of_num(1) \226\134\146 false
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   (norm : (Cart[Real, N]) -> Real)
   (vec(0) == (x : Cart[Real, N]) - (y : Cart[Real, N])) == (x == y)
   norm((x : Cart[Real, N])) == norm((y : Cart[Real, N]))
@@ -62436,11 +62436,11 @@ Multivariate/paths quotations (8298):
   path_image((g : (Cart[Real, Unit]) -> Cart[Real, N]))
   (\226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, path(g) && open(s) && SUBSET(path_image(g), s) \226\134\146 (\226\136\131 e : Real, real_of_num(0) < e && (\226\136\128 h : (Cart[Real, Unit]) -> Cart[Real, N], path(h) && pathstart(h) == pathstart(g) && pathfinish(h) == pathfinish(g) && (\226\136\128 t : Cart[Real, Unit], IN(t, interval([(vec(0), vec(1))])) \226\134\146 norm(h(t) - g(t)) < e) \226\134\146 homotopic_paths(s, g, h)))) && (\226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, path(g) && pathfinish(g) == pathstart(g) && open(s) && SUBSET(path_image(g), s) \226\134\146 (\226\136\131 e : Real, real_of_num(0) < e && (\226\136\128 h : (Cart[Real, Unit]) -> Cart[Real, N], path(h) && pathfinish(h) == pathstart(h) && (\226\136\128 t : Cart[Real, Unit], IN(t, interval([(vec(0), vec(1))])) \226\134\146 norm(h(t) - g(t)) < e) \226\134\146 homotopic_loops(s, g, h))))
   norm((a : Cart[Real, N]) - (b : Cart[Real, N])) == distance((b, a))
-  :real
-  :real
+  :Real
+  :Real
   distance(((a : Cart[Real, N]), a + (b : Cart[Real, N]))) == norm(b)
-  :real
-  :real
+  :Real
+  :Real
   sphere(((a : Cart[Real, N]), (r : Real)))
   (y : Cart[Real, N]) => (a : Cart[Real, N]) + op_pct((r : Real) / norm(y - a), y - a)
   (x : Cart[Real, M])
@@ -62663,8 +62663,8 @@ Multivariate/paths quotations (8298):
   \226\136\128 s : (Cart[Real, N]) -> Bool, simply_connected(s) == (path_connected(s) && (\226\136\128 a : Cart[Real, N], IN(a, s) \226\134\146 fundamental_group((s, a)) == {homotopic_paths(s, linepath((a, a)))}))
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], simply_connected(s) && IN(a, s) \226\134\146 fundamental_group((s, a)) == {homotopic_paths(s, linepath((a, a)))}
   norm((y : Cart[Real, N]) - (x : Cart[Real, N])) < norm(x - (a : Cart[Real, N])) \226\134\146 !(y == a)
-  :real
-  :real
+  :Real
+  :Real
   min((d : Real), norm((x : Cart[Real, M]) - (a : Cart[Real, M])))
   (d : Real)
   real_of_num(0) < (e : Real)
@@ -62682,8 +62682,8 @@ Multivariate/paths quotations (8298):
   \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 g : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 a : Cart[Real, M], \226\136\128 r : Real, (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 (\226\136\131 d : Real, real_of_num(0) < d && (\226\136\128 x : Cart[Real, M], !(x == a) && norm(x - a) < d \226\134\146 norm(g(x) - f(a)) < e))) && continuous_on(g, DELETE(cball((a, r)), a)) && (\226\136\128 x : Cart[Real, M], IN(x, cball((a, r))) && !(x == a) \226\134\146 f(x) == g(x)) \226\134\146 continuous_on(f, cball((a, r)))
   ((x : Real) * (r : Real) <= r) == (x * r <= real_of_num(1) * r)
   distance(((a : Cart[Real, M]), a + (x : Cart[Real, M]))) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   SUBSET(IMAGE((g : (_) -> _), (s : (_) -> Bool)), (u : (_) -> Bool)) \226\134\146 SUBSET((t : (_) -> Bool), s) \226\134\146 SUBSET(IMAGE(g, t), u)
   (y : Cart[Real, Finite_sum[Unit, M]]) => (g : (Cart[Real, M]) -> Cart[Real, N])((a : Cart[Real, M]) + op_pct(drop(fstcart(y)), sndcart(y) - a))
   (g : (Cart[Real, M]) -> Cart[Real, N])((a : Cart[Real, M]))
@@ -62693,8 +62693,8 @@ Multivariate/paths quotations (8298):
   (x : Cart[Real, M])
   SUBSET(IMAGE((g : (_) -> _), (s : (_) -> Bool)), (u : (_) -> Bool)) \226\134\146 SUBSET((t : (_) -> Bool), s) \226\134\146 SUBSET(IMAGE(g, t), u)
   distance(((a : Cart[Real, M]), a + (x : Cart[Real, M]))) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < (r : Real) \226\134\146 abs(r) == r
   real_of_num(0) < (r : Real) \226\134\146 abs(r) == r
   (\226\136\128 x : _, \226\136\128 t : _, \226\136\128 y : _, (P : (_, _, _) -> Bool)(x, t, y)) \226\134\146 (\226\136\128 t : _, \226\136\128 x : _, P(x, t, x))
@@ -62726,7 +62726,7 @@ Multivariate/paths quotations (8298):
   IN((f : (Cart[Real, M]) -> Cart[Real, N])((a : Cart[Real, M])), (s : (Cart[Real, N]) -> Bool))
   {(f : (_, _) -> _)(t, x) | x : _, t : _ | false} == {}
   (r : Real) < real_of_num(0) \226\134\146 !(norm((x : Cart[Real, _])) == r)
-  :real
+  :Real
   (r : Real) < real_of_num(0) || r == real_of_num(0) || real_of_num(0) < r
   \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, M], \226\136\128 r : Real, (\226\136\131 c : Cart[Real, N], homotopic_with((x : (Cart[Real, M]) -> Cart[Real, N]) => true, (subtopology(euclidean, sphere((a, r))), subtopology(euclidean, s)), f, (x : Cart[Real, M]) => c)) == (\226\136\131 g : (Cart[Real, M]) -> Cart[Real, N], continuous_on(g, cball((a, r))) && SUBSET(IMAGE(g, cball((a, r))), s) && (\226\136\128 x : Cart[Real, M], IN(x, sphere((a, r))) \226\134\146 g(x) == f(x)))
   (homotopy_equivalent : ((Cart[Real, M]) -> Bool, (Cart[Real, N]) -> Bool) -> Bool)((s : (Cart[Real, M]) -> Bool), (t : (Cart[Real, N]) -> Bool)) == (\226\136\131 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\131 g : (Cart[Real, N]) -> Cart[Real, M], continuous_on(f, s) && SUBSET(IMAGE(f, s), t) && continuous_on(g, t) && SUBSET(IMAGE(g, t), s) && homotopic_with((x : (Cart[Real, M]) -> Cart[Real, M]) => true, (subtopology(euclidean, s), subtopology(euclidean, s)), o(g, f), I) && homotopic_with((x : (Cart[Real, N]) -> Cart[Real, N]) => true, (subtopology(euclidean, t), subtopology(euclidean, t)), o(f, g), I))
@@ -63003,13 +63003,13 @@ Multivariate/paths quotations (8298):
   (b : Cart[Real, N])
   (b : Cart[Real, N])
   (real_of_num(0) < (r : Real) && norm((b : Cart[Real, N])) == r) == (norm(b) == r && !(b == vec(0)))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   (a : Cart[Real, N])
   \226\136\128 a : Cart[Real, N], \226\136\128 r : Real, \226\136\128 b : Cart[Real, N], \226\136\128 t : (Cart[Real, N]) -> Bool, \226\136\128 p : (Cart[Real, M]) -> Bool, real_of_num(0) < r && IN(b, sphere((a, r))) && affine(t) && IN(a, t) && IN(b, t) && affine(p) && aff_dim(t) == aff_dim(p) + int_of_num(1) \226\134\146 homeomorphic(DELETE(INTER(sphere((a, r)), t), b), p)
   (k : (Cart[Real, N]) -> Cart[Real, N])
@@ -63302,10 +63302,10 @@ Multivariate/paths quotations (8298):
   path_image((p : (Cart[Real, Unit]) -> Cart[Real, N]))
   \226\136\131 e : Real, real_of_num(0) < e && (\226\136\128 x : Cart[Real, Unit], \226\136\128 y : Cart[Real, Unit], IN(x, interval([(vec(0), vec(1))])) && IN(y, interval([(vec(0), vec(1))])) && norm(x - y) < e \226\134\146 SUBSET(path_image(subpath(x, y, (p : (Cart[Real, Unit]) -> Cart[Real, N]))), (s : (Cart[Real, N]) -> Bool)) || SUBSET(path_image(subpath(x, y, p)), (t : (Cart[Real, N]) -> Bool)))
   (\226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, \226\136\128 u : _, \226\136\128 v : _, IN((x : _), s) \226\134\146 (P : (_, (_) -> Bool, (_) -> Bool, _, _) -> Bool)(x, s, t, u, v)) && (\226\136\128 x : _, \226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, \226\136\128 u : _, \226\136\128 v : _, P(x, s, t, u, v) \226\134\146 P(x, t, s, v, u)) \226\134\146 (\226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, \226\136\128 u : _, \226\136\128 v : _, IN(x, s) || IN(x, t) \226\134\146 P(x, s, t, u, v))
-  :real^N->bool
-  :real^N->bool
-  :real^N->bool
-  :real^N->bool
+  :(Cart[Real, N]) -> Bool
+  :(Cart[Real, N]) -> Bool
+  :(Cart[Real, N]) -> Bool
+  :(Cart[Real, N]) -> Bool
   ((p : Bool) \226\134\146 (q : Bool) \226\134\146 (r : Bool)) == (q \226\134\146 p \226\134\146 r)
   IN(pathstart((p : (Cart[Real, Unit]) -> Cart[Real, N])), UNION((s : (Cart[Real, N]) -> Bool), (t : (Cart[Real, N]) -> Bool)))
   (v : (Cart[Real, N]) -> Bool)
@@ -63370,8 +63370,8 @@ Multivariate/paths quotations (8298):
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 n : Int, dimension_le(subtopology(euclidean, s), n) == (-int_of_num(1) <= n && locally((u : (Cart[Real, N]) -> Bool) => dimension_le(subtopology(euclidean, u), n), s))
   op_pct(real_of_num(2), (a : Cart[Real, N])) - (b : Cart[Real, N]) == a - op_pct(real_of_num(1), b - a)
   distance(((a : Cart[Real, N]), op_pct(real_of_num(2), a) - (b : Cart[Real, N]))) == distance((a, b))
-  :real
-  :real
+  :Real
+  :Real
   (t : (Cart[Real, N]) -> Bool)
   (s : (Cart[Real, N]) -> Bool)
   \226\136\131 s : (Cart[Real, N]) -> Bool, affine(s) && aff_dim(s) == int_of_num((n : Num)) - int_of_num(1)
@@ -63379,10 +63379,10 @@ Multivariate/paths quotations (8298):
   -int_of_num(1) <= int_of_num((n : Num)) - int_of_num(1)
   \226\136\128 p : Bool, p && (q : Bool) \226\134\146 q
   ((b : Cart[Real, N]) == op_pct(real_of_num(2), (a : Cart[Real, N])) - b) == (distance((a, b)) == real_of_num(0))
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   DELETE(INTER(hull(affine, (s : (Cart[Real, N]) -> Bool)), sphere(((a : Cart[Real, N]), (r : Real)))), op_pct(real_of_num(2), a) - (b : Cart[Real, N]))
   (b : Cart[Real, N])
   ball(((a : Cart[Real, N]), (r : Real)))
@@ -64708,8 +64708,8 @@ Multivariate/paths quotations (8298):
   (x : Cart[Real, M])
   continuous_on((p : (Cart[Real, M]) -> Cart[Real, N]), (c : (Cart[Real, M]) -> Bool))
   \226\136\128 p : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 c : (Cart[Real, M]) -> Bool, \226\136\128 s : (Cart[Real, N]) -> Bool, IMAGE(p, c) == s && (\226\136\128 k : (Cart[Real, N]) -> Bool, SUBSET(k, s) && compact(k) \226\134\146 compact({(x : Cart[Real, M]) | IN(x, c) && IN(p(x), k)})) && (\226\136\128 x : Cart[Real, M], IN(x, c) \226\134\146 (\226\136\131 t : (Cart[Real, M]) -> Bool, \226\136\131 u : (Cart[Real, N]) -> Bool, \226\136\131 q : (Cart[Real, N]) -> Cart[Real, M], IN(x, t) && open_in(subtopology(euclidean, c), t) && open_in(subtopology(euclidean, s), u) && homeomorphism((t, u), (p, q)))) \226\134\146 covering_space((c, p), s)
-  :real
-  :real
+  :Real
+  :Real
   (x : Cart[Real, M])
   \226\136\128 p : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 c : (Cart[Real, M]) -> Bool, \226\136\128 s : (Cart[Real, N]) -> Bool, (\226\136\128 x : Cart[Real, M], connected_component(c, x) == {x} \226\134\146 c == {x}) && IMAGE(p, c) == s && (\226\136\128 k : (Cart[Real, M]) -> Bool, closed_in(subtopology(euclidean, c), k) \226\134\146 closed_in(subtopology(euclidean, s), IMAGE(p, k))) && (\226\136\128 x : Cart[Real, M], IN(x, c) \226\134\146 (\226\136\131 t : (Cart[Real, M]) -> Bool, \226\136\131 u : (Cart[Real, N]) -> Bool, \226\136\131 q : (Cart[Real, N]) -> Cart[Real, M], IN(x, t) && open_in(subtopology(euclidean, c), t) && open_in(subtopology(euclidean, s), u) && homeomorphism((t, u), (p, q)))) \226\134\146 covering_space((c, p), s)
   (s : (Cart[Real, M]) -> Bool)

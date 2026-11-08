@@ -20079,7 +20079,7 @@ fn step_250() -> Unit raise {
 ///|
 /// Library/analysis.ml:1812
 fn step_251() -> Unit raise {
-  @preterm.make_overloadable("sum", @parser.parse_type("A->(B->real)->real"))
+  @preterm.make_overloadable("sum", @term_syntax.parse_type("(A, (B) -> Real) -> Real"))
 }
 
 ///|

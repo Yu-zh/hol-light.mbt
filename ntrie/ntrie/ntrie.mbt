@@ -524,7 +524,7 @@ pub fn mk_ntrie(x : @list.List[@num.Num]) -> @kernel.Term raise {
 /// `mk_numset`
 pub fn mk_numset(x65 : @list.List[@kernel.Term]) -> @kernel.Term raise {
   let tm = x65
-  @sets.mk_setenum((tm, @parser.parse_type("num")))
+  @sets.mk_setenum((tm, @term_syntax.parse_type("Num")))
 }
 
 ///|

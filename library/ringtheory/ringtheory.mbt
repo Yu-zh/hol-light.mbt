@@ -123525,10 +123525,10 @@ fn step_1256() -> Unit raise {
     @simp.rewrite_rule(@list.List([@theorems.imp_conj()]))(@wf.wf_subset()),
   )
   let t12249 = @simp.rewrite_tac(@list.List([]))
-  let t12245 = @parser.parse_type("A")
+  let t12245 = @term_syntax.parse_type("A")
   let t12246 = @drule.match_mp(
     @kernel.inst_type(
-      @list.List([(@parser.parse_type("B->bool"), t12245)]),
+      @list.List([(@term_syntax.parse_type("(B) -> Bool"), t12245)]),
       @wf.wf_measure_gen(),
     ),
   )
@@ -270976,7 +270976,7 @@ fn step_2154() -> Unit raise {
         ),
       )
       let t27079 = @lib.union(@kernel.frees(w), t27078)
-      let t27071 = @parser.parse_type("A")
+      let t27071 = @term_syntax.parse_type("A")
       let vs = @lib.filter(
         fn(x27074 : @kernel.Term) -> Bool raise {
           (fn(x27072 : @kernel.HolType) -> Bool raise { t27071 == x27072 })(

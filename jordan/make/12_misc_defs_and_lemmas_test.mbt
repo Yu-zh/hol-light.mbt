@@ -6943,9 +6943,9 @@ test "Jordan/misc_defs_and_lemmas matches Jordan/misc_defs_and_lemmas.ml" {
       #|  (F' : ((A) -> B) -> ((A) -> B, B))
       #|  {((u : (A) -> B), (v : B)) | IN(u, FUN(DELETE((a : (A) -> Bool), CHOICE(a)), (b : (B) -> Bool))) && IN(v, b)}
       #|  :B
-      #|  :(A->B)#B
+      #|  :((A) -> B, B)
       #|  :A
-      #|  :A->B
+      #|  :(A) -> B
       #|  FUN((a : (A) -> Bool), (b : (B) -> Bool))
       #|  FINITE(FUN((a : (A) -> Bool), (b : (B) -> Bool)))
       #|  \226\136\128 x : Num, x == SUC((n : Num)) \226\134\146 !(x == 0)
@@ -6960,7 +6960,7 @@ test "Jordan/misc_defs_and_lemmas matches Jordan/misc_defs_and_lemmas.ml" {
       #|  CARD(DELETE((a : (A) -> Bool), CHOICE(a))) == (n : Num)
       #|  (a : (A) -> Bool) == {}
       #|  :A
-      #|  :A->bool
+      #|  :(A) -> Bool
       #|  (CARD : ((A) -> Bool) -> Num)
       #|  \226\136\128 b : (B) -> Bool, \226\136\128 a : (A) -> Bool, FINITE(a) && FINITE(b) \226\134\146 HAS_SIZE(FUN(a, b), EXP(CARD(b), CARD(a)))
       #|  DELETE((a : (A) -> Bool), CHOICE(a))
@@ -6977,7 +6977,7 @@ test "Jordan/misc_defs_and_lemmas matches Jordan/misc_defs_and_lemmas.ml" {
       #|  (part6 : ((A, B, C, D, E, F, G, H)) -> G)((u : (A, B, C, D, E, F, G, H))) == FST(SND(SND(SND(SND(SND(SND(u)))))))
       #|  (part7 : ((A, B, C, D, E, F, G, H, I)) -> H)((u : (A, B, C, D, E, F, G, H, I))) == FST(SND(SND(SND(SND(SND(SND(SND(u))))))))
       #|  (euclid_euclid_plus : ((Num) -> Real, (Num) -> Real, Num) -> Real)
-      #|  :A -> B -> B
+      #|  :(A, B) -> B
       #|  (euclid_scale : (Real, (Num) -> Real, Num) -> Real)((t : Real), (f : (Num) -> Real)) == ((i : Num) => t * f(i))
       #|  euclid_euclid_scale
       #|  (euclid_neg : ((Num) -> Real, Num) -> Real)((f : (Num) -> Real)) == ((i : Num) => -f(i))

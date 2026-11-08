@@ -79994,36 +79994,36 @@ Multivariate/geom quotations (415):
   -(y : Cart[Real, N])
   (x : Cart[Real, N])
   \226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], (vector_angle(x, y) == pi) == (!(x == vec(0)) && !(y == vec(0)) && norm(x - y) == norm(x) + norm(y))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   \226\136\128 v : Cart[Real, _], \226\136\128 w : Cart[Real, _], real_of_num(0) <= sin(vector_angle(v, w))
   \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], (sin(vector_angle(x, y)) == real_of_num(0)) == (vector_angle(x, y) == real_of_num(0) || vector_angle(x, y) == pi)
   (y : Cart[Real, N])
@@ -80041,13 +80041,13 @@ Multivariate/geom quotations (415):
   continuous(o(cacs, (x : Cart[Real, M]) => Cx(dot((f : (Cart[Real, M]) -> Cart[Real, N])(x), (g : (Cart[Real, M]) -> Cart[Real, N])(x)) / (norm(f(x)) * norm(g(x))))), within(at((x : Cart[Real, M])), (s : (Cart[Real, M]) -> Bool)))
   trivial_limit(within(at((x : Cart[Real, M])), (s : (Cart[Real, M]) -> Bool)))
   \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 g : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 x : Cart[Real, M], \226\136\128 s : (Cart[Real, M]) -> Bool, !(f(x) == vec(0)) && !(g(x) == vec(0)) && continuous(f, within(at(x), s)) && continuous(g, within(at(x), s)) \226\134\146 continuous((x : Cart[Real, M]) => Cx(vector_angle(f(x), g(x))), within(at(x), s))
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   {(z : Cart[Real, 2]) | real(z) && abs(Re(z)) <= real_of_num(1)}
   !(distance((vec(0), (x : Cart[Real, _]))) < norm(x))
-  :real
+  :Real
   (z : Cart[Real, N])
   norm((x : Cart[Real, N]))
   (x : Cart[Real, N]) => cacs(Cx(dot((c : Cart[Real, N]), x) / (norm(c) * norm(x))))
@@ -80111,36 +80111,36 @@ Multivariate/geom quotations (415):
   \226\136\128 a : Cart[Real, _], \226\136\128 b : Cart[Real, _], \226\136\128 c : Cart[Real, _], \226\136\128 d : Cart[Real, _], angle((vector_add(a, b), vector_add(a, c), vector_add(a, d))) == angle((b, c, d))
   vector_angle((x : Cart[Real, _]), (y : Cart[Real, _])) == angle((x, vec(0), y))
   \226\136\128 A : Cart[Real, N], \226\136\128 B : Cart[Real, N], \226\136\128 C : Cart[Real, N], (angle((A, B, C)) == pi) == (!(A == B) && !(C == B) && distance((A, C)) == distance((A, B)) + distance((B, C)))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   \226\136\128 A : Cart[Real, _], \226\136\128 B : Cart[Real, _], \226\136\128 C : Cart[Real, _], real_of_num(0) <= sin(angle((A, B, C)))
   \226\136\128 A : Cart[Real, _], \226\136\128 B : Cart[Real, _], \226\136\128 C : Cart[Real, _], dot(vector_sub(A, C), vector_sub(B, C)) == real_mul(distance((A, C)), real_mul(distance((B, C)), cos(angle((A, C, B)))))
   \226\136\128 A : Cart[Real, _], \226\136\128 B : Cart[Real, _], angle((A, A, B)) == pi / real_of_num(2) && angle((B, A, A)) == pi / real_of_num(2)

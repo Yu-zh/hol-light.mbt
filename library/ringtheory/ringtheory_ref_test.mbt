@@ -32034,7 +32034,7 @@ test "Library/ringtheory matches Library/ringtheory.ml" {
       #|  (j : (((A, A)) -> Bool) -> Bool)
       #|  \226\136\128 r : Ring[A], \226\136\128 s : (A) -> Bool, ring_multsys(r, s) && noetherian_ring(r) \226\134\146 noetherian_ring(ring_localization(r, s))
       #|  :A
-      #|  :B->bool
+      #|  :(B) -> Bool
       #|  (g : ((A) -> Bool) -> A)
       #|  \226\136\131 g : ((A) -> Bool) -> A, \226\136\128 j : (A) -> Bool, principal_ideal((r : Ring[A]), j) \226\134\146 IN(g(j), ring_carrier(r)) && ideal_generated(r, {g(j)}) == j
       #|  (y : A)

@@ -180,7 +180,7 @@ test "Formal_ineqs/lib/ssrfun matches Formal_ineqs/lib/ssrfun.ml" {
       #|  (x : _) == (y : _) \226\134\146 (f : (_) -> _)(x) == f(y)
       #|  (x1 : _) == (y1 : _) \226\134\146 (x2 : _) == (y2 : _) \226\134\146 (f : (_, _) -> _)(x1, x2) == f(y1, y2)
       #|  (\226\136\128 x : _, (f : (_) -> _)(x) == (g : (_) -> _)(x)) == (f == g)
-      #|  :A -> R
+      #|  :(A) -> R
       #|  (injective : ((_) -> _) -> Bool)((f : (_) -> _)) == (\226\136\128 x1 : _, \226\136\128 x2 : _, f(x1) == f(x2) \226\134\146 x1 == x2)
       #|  (cancel : ((_) -> _, (_) -> _) -> Bool)((f : (_) -> _), (g : (_) -> _)) == (\226\136\128 x : _, g(f(x)) == x)
       #|  (pcancel : ((_) -> _, (_) -> Option[_]) -> Bool)((f : (_) -> _), (g : (_) -> Option[_])) == (\226\136\128 x : _, g(f(x)) == SOME(x))
@@ -191,9 +191,9 @@ test "Formal_ineqs/lib/ssrfun matches Formal_ineqs/lib/ssrfun.ml" {
       #|  cancel((f : (_) -> _), (g : (_) -> _)) \226\134\146 (x : _) == f((y : _)) \226\134\146 g(x) == y
       #|  cancel((f : (_) -> _), (g : (_) -> _)) \226\134\146 f((x : _)) == (y : _) \226\134\146 x == g(y)
       #|  (injective : ((_) -> Option[_]) -> Bool)((SOME : (_) -> Option[_]))
-      #|  :B -> A
-      #|  :B -> A
-      #|  :C -> B
+      #|  :(B) -> A
+      #|  :(B) -> A
+      #|  :(C) -> B
       #|  (injective : ((_) -> _) -> Bool)((I : (_) -> _))
       #|  cancel((f : (_) -> _), (f' : (_) -> _)) \226\134\146 injective(f') \226\134\146 cancel(f', f)
       #|  injective((f : (_) -> _)) \226\134\146 injective((h : (_) -> _)) \226\134\146 injective(o(f, h))
@@ -202,19 +202,19 @@ test "Formal_ineqs/lib/ssrfun matches Formal_ineqs/lib/ssrfun.ml" {
       #|  injective((f : (_) -> _)) \226\134\146 (\226\136\128 x : _, f(x) == (g : (_) -> _)(x)) \226\134\146 injective(g)
       #|  cancel((f : (_) -> _), (f' : (_) -> _)) \226\134\146 (\226\136\128 x : _, f(x) == (g : (_) -> _)(x)) \226\134\146 (\226\136\128 x : _, f'(x) == (g' : (_) -> _)(x)) \226\134\146 cancel(g, g')
       #|  cancel((f : (_) -> _), (f' : (_) -> _)) \226\134\146 injective(f') \226\134\146 cancel((g : (_) -> _), f') \226\134\146 f == g
-      #|  :B -> A
+      #|  :(B) -> A
       #|  (bijective : ((_) -> _) -> Bool)((f : (_) -> _)) == (\226\136\131 g : (_) -> _, cancel(f, g) && cancel(g, f))
       #|  bijective((f : (_) -> _))
       #|  injective((f : (_) -> _))
       #|  cancel((f' : (_) -> _), (f : (_) -> _)) == cancel(f, f')
       #|  cancel((f : (_) -> _), (f' : (_) -> _)) \226\134\146 cancel(f, (f'' : (_) -> _)) \226\134\146 f' == f''
-      #|  :BB -> AA
-      #|  :CC -> BB
+      #|  :(BB) -> AA
+      #|  :(CC) -> BB
       #|  bijective((f : (_) -> _)) \226\134\146 (\226\136\128 g : (_) -> _, (\226\136\128 x : _, f(x) == g(x)) \226\134\146 bijective(g))
       #|  o((r : (_) -> _), (g : (_) -> _))
       #|  bijective((f : (_) -> _)) \226\134\146 bijective((h : (_) -> _)) \226\134\146 bijective(o(f, h))
       #|  bijective((f : (_) -> _)) \226\134\146 (\226\136\128 f' : (_) -> _, cancel(f, f') \226\134\146 bijective(f'))
-      #|  :A -> A
+      #|  :(A) -> A
       #|  (involutive : ((_) -> _) -> Bool)((f : (_) -> _)) == cancel(f, f)
       #|  involutive((f : (_) -> _))
       #|  injective((f : (_) -> _))

@@ -49865,7 +49865,7 @@ test "Multivariate/wlog matches Multivariate/wlog.ml" {
       #|  ((i : Num) < 3) == (i <= 2)
       #|  \226\136\128 x : Cart[Real, 2], \226\136\128 y : Cart[Real, 2], pad2d3d(x) == pad2d3d(y) \226\134\146 x == y
       #|  \226\136\128 x : Cart[Real, 2], norm(pad2d3d(x)) == norm(x)
-      #|  :real^2
+      #|  :Cart[Real, 2]
       #|  pad2d3d
       #|  {} == IMAGE(pad2d3d, {}) && vec(0) == pad2d3d(vec(0))
       #|  !((n : Num) == 1) && 1 <= n \226\134\146 2 <= n

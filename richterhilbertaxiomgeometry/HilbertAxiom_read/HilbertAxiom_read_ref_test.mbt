@@ -8603,10 +8603,10 @@ test "RichterHilbertAxiomGeometry/HilbertAxiom_read matches RichterHilbertAxiomG
       #|0..0..9..19..41..89..201..402..778..solved at 889
       #|0..0..3..6..13..24..44..solved at 54
       #|RichterHilbertAxiomGeometry/HilbertAxiom_read quotations (4):
-      #|  :point->point->point->bool
-      #|  :(point->bool)->bool
-      #|  :(point->bool)->(point->bool)->bool
-      #|  :(point->bool)->real
+      #|  :(Point, Point, Point) -> Bool
+      #|  :((Point) -> Bool) -> Bool
+      #|  :((Point) -> Bool, (Point) -> Bool) -> Bool
+      #|  :((Point) -> Bool) -> Real
       #|NOTIN =  |- (#forall:fun(fun('?1,bool),bool) (\a:'?1. (#forall:fun(fun(fun('?1,bool),bool),bool) (\l:fun('?1,bool). ((#=:fun(bool,fun(bool,bool)) ((#NOTIN:fun('?1,fun(fun('?1,bool),bool)) a:'?1) l:fun('?1,bool))) (#~:fun(bool,bool) ((#IN:fun('?1,fun(fun('?1,bool),bool)) a:'?1) l:fun('?1,bool))))))))
       #|INTER_TENSOR =  |- (#forall:fun(fun(fun('?2,bool),bool),bool) (\s:fun('?2,bool). (#forall:fun(fun(fun('?2,bool),bool),bool) (\s':fun('?2,bool). (#forall:fun(fun(fun('?2,bool),bool),bool) (\t:fun('?2,bool). (#forall:fun(fun(fun('?2,bool),bool),bool) (\t':fun('?2,bool). ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) ((#SUBSET:fun(fun('?2,bool),fun(fun('?2,bool),bool)) s:fun('?2,bool)) s':fun('?2,bool))) ((#SUBSET:fun(fun('?2,bool),fun(fun('?2,bool),bool)) t:fun('?2,bool)) t':fun('?2,bool)))) ((#SUBSET:fun(fun('?2,bool),fun(fun('?2,bool),bool)) ((#INTER:fun(fun('?2,bool),fun(fun('?2,bool),fun('?2,bool))) s:fun('?2,bool)) t:fun('?2,bool))) ((#INTER:fun(fun('?2,bool),fun(fun('?2,bool),fun('?2,bool))) s':fun('?2,bool)) t':fun('?2,bool))))))))))))
       #|Interval_DEF =  |- (#forall:fun(fun(point,bool),bool) (\A:point. (#forall:fun(fun(point,bool),bool) (\B:point. ((#=:fun(fun(point,bool),fun(fun(point,bool),bool)) (#Open:fun(prod(point,point),fun(point,bool)) ((#,:fun(point,fun(point,prod(point,point))) A:point) B:point))) (#GSPEC:fun(fun(point,bool),fun(point,bool)) (\GEN%PVAR%1:point. (#?:fun(fun(point,bool),bool) (\X:point. (((#SETSPEC:fun(point,fun(bool,fun(point,bool))) GEN%PVAR%1:point) (((#Between:fun(point,fun(point,fun(point,bool))) A:point) X:point) B:point)) X:point))))))))))

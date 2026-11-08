@@ -4197,15 +4197,15 @@ fn step_148() -> Unit raise {
 ///|
 /// Formal_ineqs/lib/ssrnat.hl:1058
 fn step_149() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("m", @parser.parse_type("num")))
-  @sections.add_section_var(@kernel.mk_var("n", @parser.parse_type("num")))
+  @sections.add_section_var(@kernel.mk_var("m", @term_syntax.parse_type("Num")))
+  @sections.add_section_var(@kernel.mk_var("n", @term_syntax.parse_type("Num")))
 }
 
 ///|
 /// Formal_ineqs/lib/ssrnat.hl:1059
 fn step_150() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("x", @parser.parse_type("A")))
-  @sections.add_section_var(@kernel.mk_var("y", @parser.parse_type("A")))
+  @sections.add_section_var(@kernel.mk_var("x", @term_syntax.parse_type("A")))
+  @sections.add_section_var(@kernel.mk_var("y", @term_syntax.parse_type("A")))
 }
 
 ///|

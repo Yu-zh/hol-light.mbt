@@ -1748,8 +1748,8 @@ pub fn mk_intconst(x : @num.Num) -> @kernel.Term raise {
 /// INT_OF_REAL_THM
 fn step_40() -> Unit raise {
   let dest = @term_syntax.parse_term("real_of_int")
-  let real_ty = @parser.parse_type("real")
-  let int_ty = @parser.parse_type("int")
+  let real_ty = @term_syntax.parse_type("Real")
+  let int_ty = @term_syntax.parse_type("Int")
   let t144 = @tactics.then_tac(
     @class.cond_cases_tac,
     @simp.rewrite_tac(@list.List([])),
@@ -9422,7 +9422,7 @@ fn step_367() -> Unit raise {
     @term_syntax.parse_term("(∀ x : Int, int_of_num(0) * x == int_of_num(0)) && (∀ x : Int, ∀ y : Int, ∀ z : Int, (x + y == x + z) == (y == z)) && (∀ w : Int, ∀ x : Int, ∀ y : Int, ∀ z : Int, (w * y + x * z == w * z + x * y) == (w == x || y == z))"),
     t465,
   )
-  let int_ty = @parser.parse_type("int")
+  let int_ty = @term_syntax.parse_type("Int")
   let t466 = @term_syntax.parse_term("int_pow")
   let t467 = @basics.genvar(@kernel.bool_ty)
   let t468 = @term_syntax.parse_term("int_mul")
@@ -9475,31 +9475,31 @@ fn step_367() -> Unit raise {
 ///|
 /// int.ml:1151
 fn step_368() -> Unit raise {
-  @preterm.make_overloadable("divides", @parser.parse_type("A->A->bool"))
+  @preterm.make_overloadable("divides", @term_syntax.parse_type("(A, A) -> Bool"))
 }
 
 ///|
 /// int.ml:1152
 fn step_369() -> Unit raise {
-  @preterm.make_overloadable("mod", @parser.parse_type("A->A->A->bool"))
+  @preterm.make_overloadable("mod", @term_syntax.parse_type("(A, A, A) -> Bool"))
 }
 
 ///|
 /// int.ml:1153
 fn step_370() -> Unit raise {
-  @preterm.make_overloadable("coprime", @parser.parse_type("A#A->bool"))
+  @preterm.make_overloadable("coprime", @term_syntax.parse_type("((A, A)) -> Bool"))
 }
 
 ///|
 /// int.ml:1154
 fn step_371() -> Unit raise {
-  @preterm.make_overloadable("gcd", @parser.parse_type("A#A->A"))
+  @preterm.make_overloadable("gcd", @term_syntax.parse_type("((A, A)) -> A"))
 }
 
 ///|
 /// int.ml:1155
 fn step_372() -> Unit raise {
-  @preterm.make_overloadable("lcm", @parser.parse_type("A#A->A"))
+  @preterm.make_overloadable("lcm", @term_syntax.parse_type("((A, A)) -> A"))
 }
 
 ///|
@@ -9829,7 +9829,7 @@ pub fn int_coprime() -> @kernel.Thm {
 ///|
 /// INTEGER_TAC
 fn step_388() -> Unit raise {
-  let int_ty = @parser.parse_type("int")
+  let int_ty = @term_syntax.parse_type("Int")
   let t490 = @equal.land_conv(int_poly_conv)
   let int_polyeq_conv : (@kernel.Term) -> @kernel.Thm raise = @equal.thenc(
     @simp.gen_rewrite_conv(
@@ -20225,7 +20225,7 @@ pub fn zero_one_or_prime() -> @kernel.Thm {
 ///|
 /// int.ml:2634
 fn step_539() -> Unit raise {
-  @preterm.make_overloadable("zpow", @parser.parse_type("A->int->A"))
+  @preterm.make_overloadable("zpow", @term_syntax.parse_type("(A, Int) -> A"))
 }
 
 ///|

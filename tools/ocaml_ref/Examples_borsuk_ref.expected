@@ -81773,8 +81773,8 @@ Examples/borsuk quotations (50):
   real_of_num(1)
   (z : Cart[Real, 2])
   norm((z : Cart[Real, _])) == distance((vec(0), z))
-  :real
-  :real
+  :Real
+  :Real
   \226\136\131 n : Cart[Real, 2], \226\136\128 z : Cart[Real, 2], IN(z, {(z : Cart[Real, 2]) | norm(z) == real_of_num(1)}) \226\134\146 (m : (Cart[Real, 2]) -> Cart[Real, 2])(z) == n
   !((p : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 (p * (ii * (m : Cart[Real, 2])) == p * ii + (t : Cart[Real, 2]) * ((n : Cart[Real, 2]) * p) * ii) == (m == t * n + Cx(real_of_num(1)))
   !((y : Cart[Real, 2]) == Cx(real_of_num(0))) && (x : Cart[Real, 2]) == -y \226\134\146 x / y == Cx(-real_of_num(1))

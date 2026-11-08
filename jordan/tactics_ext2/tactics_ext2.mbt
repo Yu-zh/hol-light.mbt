@@ -20,7 +20,7 @@ pub fn pthm() -> @kernel.Thm {
 pub fn abbrev_type(x1 : @kernel.HolType, x2 : String) -> ((@kernel.Thm, @kernel.Thm)) raise {
   let ty = x1
   let s = x2
-  let t3 = @kernel.inst_type(@list.List([(ty, @parser.parse_type("A"))]), pthm())
+  let t3 = @kernel.inst_type(@list.List([(ty, @term_syntax.parse_type("A"))]), pthm())
   let t4 = ("dest_" + s)
   let (a, b) = @kernel.new_basic_type_definition(s, ("mk_" + s), t4, t3)
   let abst : (@kernel.Term) -> @kernel.Term raise = fn(x5 : @kernel.Term) -> @kernel.Term raise {

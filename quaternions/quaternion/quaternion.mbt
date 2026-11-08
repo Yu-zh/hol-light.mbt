@@ -3,55 +3,55 @@
 ///|
 /// Quaternions/quaternion.hl:7
 fn step_1() -> Unit raise {
-  @preterm.new_type_abbrev("quat", @parser.parse_type("real^4"))
+  @preterm.new_type_abbrev("quat", @term_syntax.parse_type("Cart[Real, 4]"))
 }
 
 ///|
 /// Quaternions/quaternion.hl:9
 fn step_2() -> Unit raise {
-  @preterm.make_overloadable("Re", @parser.parse_type("real^N->real"))
+  @preterm.make_overloadable("Re", @term_syntax.parse_type("(Cart[Real, N]) -> Real"))
 }
 
 ///|
 /// Quaternions/quaternion.hl:10
 fn step_3() -> Unit raise {
-  @preterm.make_overloadable("ii", @parser.parse_type("real^N"))
+  @preterm.make_overloadable("ii", @term_syntax.parse_type("Cart[Real, N]"))
 }
 
 ///|
 /// Quaternions/quaternion.hl:11
 fn step_4() -> Unit raise {
-  @preterm.make_overloadable("cnj", @parser.parse_type("real^N->real^N"))
+  @preterm.make_overloadable("cnj", @term_syntax.parse_type("(Cart[Real, N]) -> Cart[Real, N]"))
 }
 
 ///|
 /// Quaternions/quaternion.hl:12
 fn step_5() -> Unit raise {
-  @preterm.make_overloadable("real", @parser.parse_type("real^N->bool"))
+  @preterm.make_overloadable("real", @term_syntax.parse_type("(Cart[Real, N]) -> Bool"))
 }
 
 ///|
 /// Quaternions/quaternion.hl:13
 fn step_6() -> Unit raise {
-  @preterm.overload_interface("Re", @basics.mk_mconst("Re", @parser.parse_type("complex->real")))
+  @preterm.overload_interface("Re", @basics.mk_mconst("Re", @term_syntax.parse_type("(Complex) -> Real")))
 }
 
 ///|
 /// Quaternions/quaternion.hl:14
 fn step_7() -> Unit raise {
-  @preterm.overload_interface("ii", @basics.mk_mconst("ii", @parser.parse_type("complex")))
+  @preterm.overload_interface("ii", @basics.mk_mconst("ii", @term_syntax.parse_type("Complex")))
 }
 
 ///|
 /// Quaternions/quaternion.hl:15
 fn step_8() -> Unit raise {
-  @preterm.overload_interface("cnj", @basics.mk_mconst("cnj", @parser.parse_type("complex->complex")))
+  @preterm.overload_interface("cnj", @basics.mk_mconst("cnj", @term_syntax.parse_type("(Complex) -> Complex")))
 }
 
 ///|
 /// Quaternions/quaternion.hl:16
 fn step_9() -> Unit raise {
-  @preterm.overload_interface("real", @basics.mk_mconst("real", @parser.parse_type("complex->bool")))
+  @preterm.overload_interface("real", @basics.mk_mconst("real", @term_syntax.parse_type("(Complex) -> Bool")))
 }
 
 ///|

@@ -5561,7 +5561,7 @@ test "Boyer_Moore/shells matches Boyer_Moore/shells.ml" {
       #|Searching with limit 2
       #|Searching with limit 3
       #|Boyer_Moore/shells quotations (4):
-      #|  :num
+      #|  :Num
       #|  :('a)list
       #|  :'a
       #|  :'a

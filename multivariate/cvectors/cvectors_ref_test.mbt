@@ -75173,12 +75173,12 @@ test "Multivariate/cvectors matches Multivariate/cvectors.ml" {
       #|  \226\136\128 f : (A, B) -> C, \226\136\128 x1 : Cart[A, N], \226\136\128 x2 : Cart[B, N], \226\136\128 y1 : Cart[A, M], \226\136\128 y2 : Cart[B, M], pastecart(vector_map2(f, x1, x2), vector_map2(f, y1, y2)) == vector_map2(f, pastecart(x1, y1), pastecart(x2, y2))
       #|  (vector_zip : (Cart[A, N], Cart[B, N]) -> Cart[(A, B), N])((v1 : Cart[A, N]), (v2 : Cart[B, N])) == lambda((i : Num) => (op_dollar(v1, i), op_dollar(v2, i)))
       #|  :C
-      #|  :A#B
+      #|  :(A, B)
       #|  \226\136\128 i : Num, \226\136\128 v1 : Cart[A, N], \226\136\128 v2 : Cart[B, N], op_dollar(vector_zip(v1, v2), i) == (op_dollar(v1, i), op_dollar(v2, i))
       #|  (vector_unzip : (Cart[(A, B), N]) -> (Cart[A, N], Cart[B, N]))((v : Cart[(A, B), N])) == (vector_map(FST, v), vector_map(SND, v))
       #|  \226\136\128 i : Num, \226\136\128 v : Cart[(A, B), N], op_dollar(FST(vector_unzip(v)), i) == FST(op_dollar(v, i)) && op_dollar(SND(vector_unzip(v)), i) == SND(op_dollar(v, i))
       #|  \226\136\128 f : (A, B) -> C, \226\136\128 v1 : Cart[A, N], \226\136\128 v2 : Cart[B, N], vector_map2(f, v1, v2) == vector_map(UNCURRY(f), vector_zip(v1, v2))
-      #|  :A-> B-> B
+      #|  :(A, B) -> B
       #|  (cvector_zero : Cart[Cart[Real, 2], N]) == vector_const(Cx(real_of_num(0)))
       #|  (cvector_neg : (Cart[Cart[Real, 2], N]) -> Cart[Cart[Real, 2], N]) == vector_map(op_minus_minus)
       #|  (cvector_add : (Cart[Cart[Real, 2], N], Cart[Cart[Real, 2], N]) -> Cart[Cart[Real, 2], N]) == vector_map2(op_plus)

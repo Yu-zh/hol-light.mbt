@@ -83376,14 +83376,14 @@ test "100/pick matches 100/pick.ml" {
       #|  {(x : _) | IN(x, DIFF((s : (_) -> Bool), (t : (_) -> Bool))) && (P : (_) -> Bool)(x)} == DIFF({(x : _) | IN(x, s) && P(x)}, {(x : _) | IN(x, t) && P(x)})
       #|  \226\136\128 a : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], \226\136\128 c : Cart[Real, 2], integral_vector(a) && integral_vector(b) && integral_vector(c) \226\134\146 measure(hull(convex, {a, b, c})) == (if collinear({a, b, c}) { real_of_num(0) } else { real_of_num(CARD({(x : Cart[Real, 2]) | IN(x, interior(hull(convex, {a, b, c}))) && integral_vector(x)})) + (real_of_num(CARD({(x : Cart[Real, 2]) | IN(x, frontier(hull(convex, {a, b, c}))) && integral_vector(x)})) / real_of_num(2) - real_of_num(1)) })
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], collinear({y, a, b}) && between(x, (a, b)) && distance((y, x)) < distance((x, b)) && distance((y, x)) < distance((x, a)) \226\134\146 IN(y, segment((a, b)))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  !((x : Real) == real_of_num(0)) == (real_of_num(0) < x || real_of_num(0) < -x)
       #|  (\226\136\128 n : Cart[Real, N], (P : (Cart[Real, N]) -> Bool)(-n) == P(n)) && (\226\136\128 n : Cart[Real, N], real_of_num(0) < dot(n, (x : Cart[Real, N])) \226\134\146 P(n)) \226\134\146 (\226\136\128 n : Cart[Real, N], !(dot(n, x) == real_of_num(0)) \226\134\146 P(n))
       #|  (real_of_num(0) < -(x : Real)) == (x < real_of_num(0))
@@ -83391,8 +83391,8 @@ test "100/pick matches 100/pick.ml" {
       #|  real_of_num(0) < (x : Real) && x < (e : Real) \226\134\146 abs(min(real_of_num(1) / real_of_num(2), x)) < e
       #|  (x : Cart[Real, N]) + (a : Cart[Real, N]) - x == a
       #|  norm((x : Cart[Real, N]) - (x + (a : Cart[Real, N]))) == norm(a)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  {(x : _), (b : _), (a : _)} == {a, x, b}
       #|  op_pct(real_of_num(1) - (v : Real), (x : Cart[Real, N])) + op_pct(v, (b : Cart[Real, N])) - x == op_pct(v, b - x)
       #|  ((u : Real) + (v : Real) == real_of_num(1)) == (u == real_of_num(1) - v)
@@ -83413,8 +83413,8 @@ test "100/pick matches 100/pick.ml" {
       #|  real_of_num(0) < (x : Real) && x < (e : Real) \226\134\146 abs(min(real_of_num(1) / real_of_num(2), x)) < e
       #|  (x : Cart[Real, N]) + (a : Cart[Real, N]) - x == a
       #|  norm((x : Cart[Real, N]) - (x + (a : Cart[Real, N]))) == norm(a)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  {(x : _), (b : _), (a : _)} == {a, x, b}
       #|  op_pct(real_of_num(1) - (v : Real), (x : Cart[Real, N])) + op_pct(v, (b : Cart[Real, N])) - x == op_pct(v, b - x)
       #|  ((u : Real) + (v : Real) == real_of_num(1)) == (u == real_of_num(1) - v)
@@ -83525,7 +83525,7 @@ test "100/pick matches 100/pick.ml" {
       #|  (a : (_) -> Bool) == {(x : _)} \226\134\146 IN(x, a)
       #|  !(a : Bool) \226\134\146 a && (b : Bool) \226\134\146 (c : Bool)
       #|  (cp : Cart[Real, 2]) == (x : Cart[Real, 2]) || real_of_num(0) < distance((x, cp))
-      #|  :real
+      #|  :Real
       #|  (cp : Cart[Real, 2])
       #|  INSERT((a : _), INSERT((b : _), INSERT((c : _), INSERT((d : _), (s : (_) -> Bool))))) == UNION({a, b, c, d}, s)
       #|  (x : Cart[Real, 2])
@@ -84101,16 +84101,16 @@ test "100/pick matches 100/pick.ml" {
       #|  real_of_num(0) < (k : Real)
       #|  (op_pct : (Real, Cart[Real, 2]) -> Cart[Real, 2])((k : Real) / real_of_num(2), (basis : (Num) -> Cart[Real, 2])(1))
       #|  \226\136\128 a : Cart[Real, 2], distance(((x : Cart[Real, 2]) + a, (y : Cart[Real, 2]))) < (k : Real) / real_of_num(2) && norm(a) == k / real_of_num(2) \226\134\146 distance((x, y)) < k
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, 2])
       #|  (k : Real) / real_of_num(2)
       #|  real_of_num(0) < (k : Real) \226\134\146 !((b : Real) + k / real_of_num(2) == b)
       #|  (x : Cart[Real, 2]) + op_pct((k : Real) / real_of_num(2), basis(1))
       #|  real_of_num(0) < (k : Real)
       #|  distance(((x : Cart[Real, 2]), x + (e : Cart[Real, 2]))) == norm(e)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, 2]) + op_pct((k : Real) / real_of_num(2), basis(1))
       #|  (k : Real)
       #|  (x : Cart[Real, 2])

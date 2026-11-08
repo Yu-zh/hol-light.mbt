@@ -5567,7 +5567,7 @@ test "Examples/sos matches Examples/sos.ml" {
       #|  op_slash
       #|  real_pow
       #|  real_of_num(0)
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_of_num(1)
       #|  real_mul

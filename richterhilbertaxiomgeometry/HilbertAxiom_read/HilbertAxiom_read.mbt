@@ -9,19 +9,19 @@ fn step_1() -> Unit raise {
 ///|
 /// RichterHilbertAxiomGeometry/HilbertAxiom_read.ml:28
 fn step_2() -> Unit raise {
-  @readable.newconstant("Between", @parser.parse_type("point->point->point->bool"))
+  @readable.newconstant("Between", @term_syntax.parse_type("(Point, Point, Point) -> Bool"))
 }
 
 ///|
 /// RichterHilbertAxiomGeometry/HilbertAxiom_read.ml:29
 fn step_3() -> Unit raise {
-  @readable.newconstant("Line", @parser.parse_type("(point->bool)->bool"))
+  @readable.newconstant("Line", @term_syntax.parse_type("((Point) -> Bool) -> Bool"))
 }
 
 ///|
 /// RichterHilbertAxiomGeometry/HilbertAxiom_read.ml:30
 fn step_4() -> Unit raise {
-  @readable.newconstant("≡", @parser.parse_type("(point->bool)->(point->bool)->bool"))
+  @readable.newconstant("≡", @term_syntax.parse_type("((Point) -> Bool, (Point) -> Bool) -> Bool"))
 }
 
 ///|
@@ -20644,7 +20644,7 @@ pub fn p() -> @kernel.Thm {
 ///|
 /// RichterHilbertAxiomGeometry/HilbertAxiom_read.ml:3206
 fn step_408() -> Unit raise {
-  @readable.newconstant("μ", @parser.parse_type("(point->bool)->real"))
+  @readable.newconstant("μ", @term_syntax.parse_type("((Point) -> Bool) -> Real"))
 }
 
 ///|

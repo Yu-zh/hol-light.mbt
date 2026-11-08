@@ -51,91 +51,91 @@ fn step_8() -> Unit raise {
 ///|
 /// realax.ml:26
 fn step_9() -> Unit raise {
-  @preterm.make_overloadable("+", @parser.parse_type("A->A->A"))
+  @preterm.make_overloadable("+", @term_syntax.parse_type("(A, A) -> A"))
 }
 
 ///|
 /// realax.ml:27
 fn step_10() -> Unit raise {
-  @preterm.make_overloadable("-", @parser.parse_type("A->A->A"))
+  @preterm.make_overloadable("-", @term_syntax.parse_type("(A, A) -> A"))
 }
 
 ///|
 /// realax.ml:28
 fn step_11() -> Unit raise {
-  @preterm.make_overloadable("*", @parser.parse_type("A->A->A"))
+  @preterm.make_overloadable("*", @term_syntax.parse_type("(A, A) -> A"))
 }
 
 ///|
 /// realax.ml:29
 fn step_12() -> Unit raise {
-  @preterm.make_overloadable("/", @parser.parse_type("A->A->A"))
+  @preterm.make_overloadable("/", @term_syntax.parse_type("(A, A) -> A"))
 }
 
 ///|
 /// realax.ml:30
 fn step_13() -> Unit raise {
-  @preterm.make_overloadable("<", @parser.parse_type("A->A->bool"))
+  @preterm.make_overloadable("<", @term_syntax.parse_type("(A, A) -> Bool"))
 }
 
 ///|
 /// realax.ml:31
 fn step_14() -> Unit raise {
-  @preterm.make_overloadable("<=", @parser.parse_type("A->A->bool"))
+  @preterm.make_overloadable("<=", @term_syntax.parse_type("(A, A) -> Bool"))
 }
 
 ///|
 /// realax.ml:32
 fn step_15() -> Unit raise {
-  @preterm.make_overloadable(">", @parser.parse_type("A->A->bool"))
+  @preterm.make_overloadable(">", @term_syntax.parse_type("(A, A) -> Bool"))
 }
 
 ///|
 /// realax.ml:33
 fn step_16() -> Unit raise {
-  @preterm.make_overloadable(">=", @parser.parse_type("A->A->bool"))
+  @preterm.make_overloadable(">=", @term_syntax.parse_type("(A, A) -> Bool"))
 }
 
 ///|
 /// realax.ml:34
 fn step_17() -> Unit raise {
-  @preterm.make_overloadable("--", @parser.parse_type("A->A"))
+  @preterm.make_overloadable("--", @term_syntax.parse_type("(A) -> A"))
 }
 
 ///|
 /// realax.ml:35
 fn step_18() -> Unit raise {
-  @preterm.make_overloadable("pow", @parser.parse_type("A->num->A"))
+  @preterm.make_overloadable("pow", @term_syntax.parse_type("(A, Num) -> A"))
 }
 
 ///|
 /// realax.ml:36
 fn step_19() -> Unit raise {
-  @preterm.make_overloadable("inv", @parser.parse_type("A->A"))
+  @preterm.make_overloadable("inv", @term_syntax.parse_type("(A) -> A"))
 }
 
 ///|
 /// realax.ml:37
 fn step_20() -> Unit raise {
-  @preterm.make_overloadable("abs", @parser.parse_type("A->A"))
+  @preterm.make_overloadable("abs", @term_syntax.parse_type("(A) -> A"))
 }
 
 ///|
 /// realax.ml:38
 fn step_21() -> Unit raise {
-  @preterm.make_overloadable("max", @parser.parse_type("A->A->A"))
+  @preterm.make_overloadable("max", @term_syntax.parse_type("(A, A) -> A"))
 }
 
 ///|
 /// realax.ml:39
 fn step_22() -> Unit raise {
-  @preterm.make_overloadable("min", @parser.parse_type("A->A->A"))
+  @preterm.make_overloadable("min", @term_syntax.parse_type("(A, A) -> A"))
 }
 
 ///|
 /// realax.ml:40
 fn step_23() -> Unit raise {
-  @preterm.make_overloadable("&", @parser.parse_type("num->A"))
+  @preterm.make_overloadable("&", @term_syntax.parse_type("(Num) -> A"))
 }
 
 ///|

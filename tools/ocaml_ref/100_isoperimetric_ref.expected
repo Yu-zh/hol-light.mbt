@@ -88612,8 +88612,8 @@ Warning: inventing type variables
   IN((a : Cart[Real, 2]), path_image((g0 : (Cart[Real, Unit]) -> Cart[Real, 2])))
   (INFINITE : ((Cart[Real, 2]) -> Bool) -> Bool)
   norm((a : Cart[Real, 2]) - a) == (d : Real) \226\134\146 d == real_of_num(0)
-  :real
-  :real
+  :Real
+  :Real
   (b : Cart[Real, 2]) - (a : Cart[Real, 2]) == op_pct(real_of_num(0), (c : Cart[Real, 2])) \226\134\146 b == a
   (real_of_num(0) <= (b : Real)) == (b == real_of_num(0) || real_of_num(0) < b)
   (baseline : Real)
@@ -88635,15 +88635,15 @@ Warning: inventing type variables
   SUBSET((s : (_) -> Bool), (t : (_) -> Bool)) \226\134\146 !IN((x : _), t) \226\134\146 !IN(x, s)
   (g : (Cart[Real, Unit]) -> Cart[Real, 2])((c : Cart[Real, Unit]))
   \226\136\128 c : Cart[Real, N], (norm(c - (a : Cart[Real, N])) <= (v : Real) && norm((b : Cart[Real, N]) - c) <= (w : Real)) && !(distance((a, b)) == distance((a, c)) + distance((c, b))) \226\134\146 !(norm(b - a) == v + w)
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   drop((a : Cart[Real, Unit])) < drop((c : Cart[Real, Unit])) && drop(c) < drop((b : Cart[Real, Unit]))
   (c : Cart[Real, Unit])
   (b : Cart[Real, Unit])
@@ -89018,8 +89018,8 @@ Warning: inventing type variables
   (h : (Cart[Real, Unit]) -> Cart[Real, 2])
   (g : (Cart[Real, Unit]) -> Cart[Real, 2])
   \226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, 2], rectifiable_path(g) && simple_path(g) && pathfinish(g) == pathstart(g) && !convex(inside(path_image(g))) \226\134\146 (\226\136\131 h : (Cart[Real, Unit]) -> Cart[Real, 2], rectifiable_path(h) && simple_path(h) && pathfinish(h) == pathstart(h) && path_length(h) <= path_length(g) && hull(convex, path_image(h)) == hull(convex, path_image(g)) && path_image(h) == frontier(hull(convex, path_image(g))) && measure(inside(path_image(g))) < measure(inside(path_image(h))))
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) <= (x : Real) && x <= (y : Real) \226\134\146 abs(x) <= abs(y)
   (real_of_num(0) < real_of_num(4) * (x : Real)) == (real_of_num(0) < x)
   (g : Real) < (h : Real) && (m : Real) <= (l : Real) \226\134\146 h <= m \226\134\146 g < l

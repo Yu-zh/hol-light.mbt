@@ -66083,10 +66083,10 @@ pub fn topspace_alexandroff_compactification() -> @kernel.Thm {
 /// CLOSED_IN_ALEXANDROFF_COMPACTIFICATION
 fn step_2060() -> Unit raise {
   let t28957 = @tactics.asm_tac(@sets.set_tac)(@list.List([]))
-  let t28955 = @parser.parse_type("B")
-  let t28956 = @tactics.mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("1"), t28955)]), @card.sum_injective()))
-  let t28953 = @parser.parse_type("B")
-  let t28954 = @tactics.mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("1"), t28953)]), @card.sum_distinct()))
+  let t28955 = @term_syntax.parse_type("B")
+  let t28956 = @tactics.mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("1"), t28955)]), @card.sum_injective()))
+  let t28953 = @term_syntax.parse_type("B")
+  let t28954 = @tactics.mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("1"), t28953)]), @card.sum_distinct()))
   let t28952 = @simp.rewrite_tac(@list.List([@card.sum_distinct(), @card.sum_injective(), @theorems.unwind_thm1()]))
   let t28951 = @simp.rewrite_tac(@list.List([@sets.in_insert(), @sets.in_diff(), @sets.in_image()]))
   let t28950 = @simp.rewrite_tac(@list.List([@sets.extension(), @card.forall_sum_thm(), @trivia.forall_one_thm()]))
@@ -66144,8 +66144,8 @@ pub fn closed_in_alexandroff_compactification() -> @kernel.Thm {
 /// CLOSED_IN_ALEXANDROFF_COMPACTIFICATION_IMAGE_INL
 fn step_2061() -> Unit raise {
   let t28967 = @sets.set_tac(@list.List([]))
-  let t28965 = @parser.parse_type("B")
-  let t28966 = @tactics.mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("1"), t28965)]), @card.sum_distinct()))
+  let t28965 = @term_syntax.parse_type("B")
+  let t28966 = @tactics.mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("1"), t28965)]), @card.sum_distinct()))
   let t28964 = @list.List([@meson.meson_tac(@list.List([])), @tactics.all_tac])
   let t28962 = @bool.conjunct1(@card.sum_injective())
   let t28963 = @simp.simp_tac(@list.List([@drule.match_mp(@sets.set_rule(@term_syntax.parse_term("(∀ x : _, ∀ y : _, ((f : (_) -> _)(x) == f(y)) == (x == y)) → (IMAGE(f, (s : (_) -> Bool)) == IMAGE(f, (t : (_) -> Bool))) == (s == t)")))(t28962)]))
@@ -85504,8 +85504,8 @@ fn step_2382() -> Unit raise {
       s41067(x41068)
     }
   }, @list.List([@term_syntax.parse_term("product_topology(UNIV, (n : Num) => euclideanreal)"), t41069]))
-  let t41064 = @parser.parse_type("B")
-  let t41065 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("num->real"), t41064)]), embedding_into_metrizable_imp_metrizable()))
+  let t41064 = @term_syntax.parse_type("B")
+  let t41065 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("(Num) -> Real"), t41064)]), embedding_into_metrizable_imp_metrizable()))
   let t41063 = @tactics.disch_then(@tactics.x_choose_then(@term_syntax.parse_term("(emb : (A, Num) -> Real)"))(fn(x41060 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s41061 = @tactics.assume_tac(x41060)
     fn(x41062 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise {

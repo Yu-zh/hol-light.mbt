@@ -78,7 +78,7 @@ pub fn shell_type_match(x5 : @kernel.HolType) -> @list.List[(@kernel.HolType, @k
     }, @lib.map(shell_type_match, tyargs), @list.List([]))
   } else {
     try {
-      @basics.type_match(ty, @parser.parse_type("num"), @list.List([]))
+      @basics.type_match(ty, @term_syntax.parse_type("Num"), @list.List([]))
     } catch {
       Failure(_) => raise Failure(("Unknown type '" + (@printer.string_of_type(ty) + "' that doesn't match 'num'!")))
       e => raise e

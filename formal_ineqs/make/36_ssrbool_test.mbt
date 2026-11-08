@@ -166,8 +166,8 @@ test "Formal_ineqs/lib/ssrbool matches Formal_ineqs/lib/ssrbool.ml" {
       #|Warning: inventing type variables
       #|Warning: inventing type variables
       #|Formal_ineqs/lib/ssrbool quotations (122):
-      #|  :bool
-      #|  :bool
+      #|  :Bool
+      #|  :Bool
       #|  (P : Bool) == (Q : Bool)
       #|  (P : Bool) \226\134\146 (Q : Bool)
       #|  (Q : Bool) \226\134\146 (P : Bool)
@@ -198,8 +198,8 @@ test "Formal_ineqs/lib/ssrbool matches Formal_ineqs/lib/ssrbool.ml" {
       #|  (isSome : (Option[_]) -> Bool)(NONE) == false && (\226\136\128 x : _, isSome(SOME(x)) == true)
       #|  :A
       #|  :A
-      #|  :A -> B
-      #|  :bool
+      #|  :(A) -> B
+      #|  :Bool
       #|  (if (b : Bool) { (vT : _) } else { vT }) == vT
       #|  (if !(b : Bool) { (vT : _) } else { (vF : _) }) == (if b { vF } else { vT })
       #|  (f : (_) -> _)(if (b : Bool) { (vT : _) } else { (vF : _) }) == (if b { f(vT) } else { f(vF) })

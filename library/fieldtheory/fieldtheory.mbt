@@ -33562,14 +33562,14 @@ fn step_226() -> Unit raise {
     },
     @list.List([@term_syntax.parse_term("(f' : (B) -> A)"), t3198]),
   )
-  let t3191 = @parser.parse_type("C")
-  let t3192 = (@parser.parse_type("Z"), t3191)
-  let t3190 = @parser.parse_type("B")
-  let t3193 = (@parser.parse_type("Y"), t3190)
-  let t3189 = @parser.parse_type("A")
+  let t3191 = @term_syntax.parse_type("C")
+  let t3192 = (@term_syntax.parse_type("Z"), t3191)
+  let t3190 = @term_syntax.parse_type("B")
+  let t3193 = (@term_syntax.parse_type("Y"), t3190)
+  let t3189 = @term_syntax.parse_type("A")
   let t3194 = @tactics.match_mp_tac(
     @kernel.inst_type(
-      @list.List([(@parser.parse_type("B"), t3189), t3193, t3192]),
+      @list.List([(@term_syntax.parse_type("B"), t3189), t3193, t3192]),
       algebraic_over_from_monomorphic_image(),
     ),
   )

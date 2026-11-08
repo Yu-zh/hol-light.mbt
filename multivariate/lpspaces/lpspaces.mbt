@@ -456,8 +456,8 @@ fn step_16() -> Unit raise {
   })
   let t184 = @simp.asm_simp_tac(@list.List([lspace_const(), @vectors.norm_lift()]))
   let t183 = @tactics.match_mp_tac(@meson.meson(@list.List([]), @term_syntax.parse_term("(∃ x : Real, (P : ((_) -> Cart[Real, Unit]) -> Bool)((a : _) => lift(x))) → (∃ x : (_) -> Cart[Real, Unit], P(x))")))
-  let t181 = @parser.parse_type("P")
-  let t182 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("1"), t181)]), lspace_bounded_measurable()))
+  let t181 = @term_syntax.parse_type("P")
+  let t182 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("1"), t181)]), lspace_bounded_measurable()))
   let t195 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t182), t183), t184), t191), t192), t193), t194)
   lspace_bounded_measurable_simple_c.set(@tactics.prove(@term_syntax.parse_term("∀ s : (Cart[Real, M]) -> Bool, ∀ p : Real, ∀ f : (Cart[Real, M]) -> Cart[Real, N], real_of_num(0) < p && measurable_on(f, s) && measurable(s) && bounded(IMAGE(f, s)) → IN(f, lspace(s, p))"), t195))
 }
@@ -2918,8 +2918,8 @@ fn step_61() -> Unit raise {
   let t1764 = @simp.once_rewrite_tac(@list.List([@equal.gsym(@measure.measurable_on_univ())]))
   let t1763 = @simp.asm_simp_tac(@list.List([lspace_const()]))
   let t1762 = @tactics.exists_tac(@term_syntax.parse_term("(x : Cart[Real, M]) => (op_pct : (Real, Cart[Real, N]) -> Cart[Real, N])((B : Real), (vec : (Num) -> Cart[Real, N])(1))"))
-  let t1760 = @parser.parse_type("P")
-  let t1761 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("N"), t1760)]), lspace_bounded_measurable()))
+  let t1760 = @term_syntax.parse_type("P")
+  let t1761 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("N"), t1760)]), lspace_bounded_measurable()))
   let t1769 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.x_gen_tac(@term_syntax.parse_term("(n : Num)")), t1761), t1762), t1763), t1764), t1765), t1766), t1767), t1768), @tactics.all_tac])
   let t1759 = @tactics.subgoal_then(@term_syntax.parse_term("∀ n : Num, IN((g : (Num, Cart[Real, M]) -> Cart[Real, N])(n), lspace((s : (Cart[Real, M]) -> Bool), (p : Real)))"), fn(x1756 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s1757 = @tactics.assume_tac(x1756)

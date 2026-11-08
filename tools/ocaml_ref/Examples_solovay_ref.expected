@@ -15899,7 +15899,7 @@ Examples/solovay quotations (10566):
   (d : List[Real])
   (EL : (Num, List[Cart[Real, N]]) -> Cart[Real, N])
   (EL : (Num, List[Real]) -> Real)
-  :real^N
+  :Cart[Real, N]
   \226\136\128 A : Cart[Real, N], \226\136\128 B : Cart[Real, N], \226\136\128 C : Cart[Real, N], orthogonal(A - B, C - B) \226\134\146 pow(norm(C - A), 2) == pow(norm(B - A), 2) + pow(norm(C - B), 2)
   \226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], dot(x, y) <= norm(x) * norm(y)
   \226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], op_pct((a : Real), x + y) == op_pct(a, x) + op_pct(a, y)

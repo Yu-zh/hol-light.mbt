@@ -499,8 +499,8 @@ fn step_25() -> Unit raise {
     }
   }, @list.List([@term_syntax.parse_term("{0}"), t89]))
   let t85 = @simp.rewrite_tac(@list.List([@modal.valid(), @modal.holds(), @modal.holds_in(), @pair.forall_pair_thm(), itf(), @class.not_forall_thm()]))
-  let t82 = @parser.parse_type("W")
-  let t83 = @drule.match_mp(@kernel.inst_type(@list.List([(@parser.parse_type("num"), t82)]), gl_itf_valid()))
+  let t82 = @term_syntax.parse_type("W")
+  let t83 = @drule.match_mp(@kernel.inst_type(@list.List([(@term_syntax.parse_type("Num"), t82)]), gl_itf_valid()))
   let t93 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@class.refute_then(fn(x84 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     (fn(x79 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
       let s80 = @tactics.mp_tac(x79)

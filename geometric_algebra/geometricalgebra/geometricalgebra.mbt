@@ -842,7 +842,7 @@ pub fn forall_geomalg() -> @kernel.Thm {
 ///|
 /// Geometric_Algebra/geometricalgebra.ml:266
 fn step_37() -> Unit raise {
-  @preterm.make_overloadable("$$", @parser.parse_type("real^N->(num->bool)->real"))
+  @preterm.make_overloadable("$$", @term_syntax.parse_type("(Cart[Real, N], (Num) -> Bool) -> Real"))
 }
 
 ///|
@@ -869,7 +869,7 @@ pub fn setindex() -> @kernel.Thm {
 ///|
 /// Geometric_Algebra/geometricalgebra.ml:272
 fn step_40() -> Unit raise {
-  @preterm.make_overloadable("lambdas", @parser.parse_type("((num->bool)->real)->real^N"))
+  @preterm.make_overloadable("lambdas", @term_syntax.parse_type("(((Num) -> Bool) -> Real) -> Cart[Real, N]"))
 }
 
 ///|
@@ -1042,7 +1042,7 @@ pub fn geomalg_vsum() -> @kernel.Thm {
 ///|
 /// Geometric_Algebra/geometricalgebra.ml:342
 fn step_52() -> Unit raise {
-  @preterm.make_overloadable("mbasis", @parser.parse_type("(num->bool)->real^N"))
+  @preterm.make_overloadable("mbasis", @term_syntax.parse_type("((Num) -> Bool) -> Cart[Real, N]"))
 }
 
 ///|
@@ -1531,7 +1531,7 @@ pub fn mvbasis_extension() -> @kernel.Thm {
 ///|
 /// Geometric_Algebra/geometricalgebra.ml:552
 fn step_73() -> Unit raise {
-  @preterm.make_overloadable("multivec", @parser.parse_type("real^M->real^N"))
+  @preterm.make_overloadable("multivec", @term_syntax.parse_type("(Cart[Real, M]) -> Cart[Real, N]"))
 }
 
 ///|
@@ -1759,7 +1759,7 @@ pub fn multivect_eq() -> @kernel.Thm {
 ///|
 /// Geometric_Algebra/geometricalgebra.ml:615
 fn step_83() -> Unit raise {
-  @preterm.make_overloadable("multivector", @parser.parse_type("num->real^N->bool"))
+  @preterm.make_overloadable("multivector", @term_syntax.parse_type("(Num, Cart[Real, N]) -> Bool"))
 }
 
 ///|
@@ -1802,7 +1802,7 @@ pub fn forall_multivectorga_vec0() -> @kernel.Thm {
 ///|
 /// Geometric_Algebra/geometricalgebra.ml:631
 fn step_87() -> Unit raise {
-  @preterm.make_overloadable("grade", @parser.parse_type("num->real^N->real^N"))
+  @preterm.make_overloadable("grade", @term_syntax.parse_type("(Num, Cart[Real, N]) -> Cart[Real, N]"))
 }
 
 ///|
@@ -2441,7 +2441,7 @@ pub fn geomga_assoc() -> @kernel.Thm {
 ///|
 /// Geometric_Algebra/geometricalgebra.ml:808
 fn step_122() -> Unit raise {
-  @preterm.make_overloadable("outer", @parser.parse_type("real^N->real^N->real^N"))
+  @preterm.make_overloadable("outer", @term_syntax.parse_type("(Cart[Real, N], Cart[Real, N]) -> Cart[Real, N]"))
 }
 
 ///|
@@ -2645,7 +2645,7 @@ pub fn outerga_assoc() -> @kernel.Thm {
 ///|
 /// Geometric_Algebra/geometricalgebra.ml:857
 fn step_135() -> Unit raise {
-  @preterm.make_overloadable("inner", @parser.parse_type("real^N->real^N->real^N"))
+  @preterm.make_overloadable("inner", @term_syntax.parse_type("(Cart[Real, N], Cart[Real, N]) -> Cart[Real, N]"))
 }
 
 ///|
@@ -5429,7 +5429,7 @@ pub fn mvinverse_geom() -> @kernel.Thm {
 ///|
 /// Geometric_Algebra/geometricalgebra.ml:1829
 fn step_241() -> Unit raise {
-  @preterm.make_overloadable("outermorphism", @parser.parse_type("(real^M->real^N)->real^A->real^B"))
+  @preterm.make_overloadable("outermorphism", @term_syntax.parse_type("((Cart[Real, M]) -> Cart[Real, N], Cart[Real, A]) -> Cart[Real, B]"))
 }
 
 ///|
@@ -6755,7 +6755,7 @@ pub fn seqiterate_outerga_eq_0() -> @kernel.Thm {
 ///|
 /// Geometric_Algebra/geometricalgebra.ml:2313
 fn step_268() -> Unit raise {
-  @preterm.make_overloadable("reversion", @parser.parse_type("real^N->real^N"))
+  @preterm.make_overloadable("reversion", @term_syntax.parse_type("(Cart[Real, N]) -> Cart[Real, N]"))
 }
 
 ///|

@@ -3,7 +3,7 @@
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:14
 fn step_1() -> Unit raise {
-  @preterm.prioritize_overload(@parser.parse_type("real^N"))
+  @preterm.prioritize_overload(@term_syntax.parse_type("Cart[Real, N]"))
 }
 
 ///|
@@ -270,15 +270,15 @@ fn step_14() -> Unit raise {
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:74
 fn step_15() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("real^N -> real^M")))
-  @sections.add_section_var(@kernel.mk_var("g", @parser.parse_type("real^N -> real^M")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(Cart[Real, N]) -> Cart[Real, M]")))
+  @sections.add_section_var(@kernel.mk_var("g", @term_syntax.parse_type("(Cart[Real, N]) -> Cart[Real, M]")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:75
 fn step_16() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("x", @parser.parse_type("real^N")))
-  @sections.add_section_var(@kernel.mk_var("y", @parser.parse_type("real^N")))
+  @sections.add_section_var(@kernel.mk_var("x", @term_syntax.parse_type("Cart[Real, N]")))
+  @sections.add_section_var(@kernel.mk_var("y", @term_syntax.parse_type("Cart[Real, N]")))
 }
 
 ///|
@@ -3650,13 +3650,13 @@ pub fn partial_eq_jacobian_entry() -> @kernel.Thm {
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:501
 fn step_101() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("y", @parser.parse_type("real^N")))
+  @sections.add_section_var(@kernel.mk_var("y", @term_syntax.parse_type("Cart[Real, N]")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:502
 fn step_102() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("i", @parser.parse_type("num")))
+  @sections.add_section_var(@kernel.mk_var("i", @term_syntax.parse_type("Num")))
 }
 
 ///|
@@ -4624,8 +4624,8 @@ pub fn real_dir_derivative_partial() -> @kernel.Thm {
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:632
 fn step_113() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("real^N -> real")))
-  @sections.add_section_var(@kernel.mk_var("g", @parser.parse_type("real^N -> real")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(Cart[Real, N]) -> Real")))
+  @sections.add_section_var(@kernel.mk_var("g", @term_syntax.parse_type("(Cart[Real, N]) -> Real")))
 }
 
 ///|
@@ -5604,7 +5604,7 @@ pub fn derivative_translation() -> @kernel.Thm {
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:736
 fn step_152() -> Unit raise {
-  @sections.add_section_type(@kernel.mk_var("f", @parser.parse_type("real^N->real")))
+  @sections.add_section_type(@kernel.mk_var("f", @term_syntax.parse_type("(Cart[Real, N]) -> Real")))
 }
 
 ///|
@@ -16078,20 +16078,20 @@ fn step_244() -> Unit raise {
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:1675
 fn step_245() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("real^N -> real")))
-  @sections.add_section_var(@kernel.mk_var("g", @parser.parse_type("real^N -> real")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(Cart[Real, N]) -> Real")))
+  @sections.add_section_var(@kernel.mk_var("g", @term_syntax.parse_type("(Cart[Real, N]) -> Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:1676
 fn step_246() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("x", @parser.parse_type("real^N")))
+  @sections.add_section_var(@kernel.mk_var("x", @term_syntax.parse_type("Cart[Real, N]")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:1677
 fn step_247() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("domain", @parser.parse_type("real^N#real^N")))
+  @sections.add_section_var(@kernel.mk_var("domain", @term_syntax.parse_type("(Cart[Real, N], Cart[Real, N])")))
 }
 
 ///|
@@ -18423,7 +18423,7 @@ pub fn diff2_domain_neg() -> @kernel.Thm {
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:1944
 fn step_315() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("bounds", @parser.parse_type("real#real")))
+  @sections.add_section_var(@kernel.mk_var("bounds", @term_syntax.parse_type("(Real, Real)")))
 }
 
 ///|
@@ -19914,8 +19914,8 @@ pub fn partial_local() -> @kernel.Thm {
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:2130
 fn step_356() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("i", @parser.parse_type("num")))
-  @sections.add_section_var(@kernel.mk_var("j", @parser.parse_type("num")))
+  @sections.add_section_var(@kernel.mk_var("i", @term_syntax.parse_type("Num")))
+  @sections.add_section_var(@kernel.mk_var("j", @term_syntax.parse_type("Num")))
 }
 
 ///|
@@ -22021,20 +22021,20 @@ pub fn real_cont_atreal_local() -> @kernel.Thm {
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:2307
 fn step_426() -> Unit raise {
-  @sections.add_section_type(@kernel.mk_var("f", @parser.parse_type("real^N -> real")))
-  @sections.add_section_type(@kernel.mk_var("g", @parser.parse_type("real^N -> real")))
+  @sections.add_section_type(@kernel.mk_var("f", @term_syntax.parse_type("(Cart[Real, N]) -> Real")))
+  @sections.add_section_type(@kernel.mk_var("g", @term_syntax.parse_type("(Cart[Real, N]) -> Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:2308
 fn step_427() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("x", @parser.parse_type("real^N")))
+  @sections.add_section_var(@kernel.mk_var("x", @term_syntax.parse_type("Cart[Real, N]")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:2309
 fn step_428() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("domain", @parser.parse_type("real^N#real^N")))
+  @sections.add_section_var(@kernel.mk_var("domain", @term_syntax.parse_type("(Cart[Real, N], Cart[Real, N])")))
 }
 
 ///|
@@ -26098,8 +26098,8 @@ fn step_497() -> Unit raise {
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:2713
 fn step_498() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("real^N -> real")))
-  @sections.add_section_var(@kernel.mk_var("g", @parser.parse_type("real^N -> real")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(Cart[Real, N]) -> Real")))
+  @sections.add_section_var(@kernel.mk_var("g", @term_syntax.parse_type("(Cart[Real, N]) -> Real")))
 }
 
 ///|
@@ -26183,7 +26183,7 @@ pub fn diff2c_domain_neg() -> @kernel.Thm {
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:2729
 fn step_502() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("bounds", @parser.parse_type("real#real")))
+  @sections.add_section_var(@kernel.mk_var("bounds", @term_syntax.parse_type("(Real, Real)")))
 }
 
 ///|
@@ -28024,26 +28024,26 @@ fn step_583() -> Unit raise {
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:2929
 fn step_584() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("real^N -> real")))
-  @sections.add_section_var(@kernel.mk_var("g", @parser.parse_type("real^N -> real")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(Cart[Real, N]) -> Real")))
+  @sections.add_section_var(@kernel.mk_var("g", @term_syntax.parse_type("(Cart[Real, N]) -> Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:2930
 fn step_585() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("bounds", @parser.parse_type("real#real")))
+  @sections.add_section_var(@kernel.mk_var("bounds", @term_syntax.parse_type("(Real, Real)")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:2931
 fn step_586() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("d_bounds_list", @parser.parse_type("(real#real)list")))
+  @sections.add_section_var(@kernel.mk_var("d_bounds_list", @term_syntax.parse_type("List[(Real, Real)]")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:2932
 fn step_587() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("x", @parser.parse_type("real^N")))
+  @sections.add_section_var(@kernel.mk_var("x", @term_syntax.parse_type("Cart[Real, N]")))
 }
 
 ///|
@@ -28411,47 +28411,47 @@ fn step_601() -> Unit raise {
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:3016
 fn step_602() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("real^N -> real")))
-  @sections.add_section_var(@kernel.mk_var("g", @parser.parse_type("real^N -> real")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(Cart[Real, N]) -> Real")))
+  @sections.add_section_var(@kernel.mk_var("g", @term_syntax.parse_type("(Cart[Real, N]) -> Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:3017
 fn step_603() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("x", @parser.parse_type("real^N")))
-  @sections.add_section_var(@kernel.mk_var("z", @parser.parse_type("real^N")))
-  @sections.add_section_var(@kernel.mk_var("y", @parser.parse_type("real^N")))
-  @sections.add_section_var(@kernel.mk_var("w", @parser.parse_type("real^N")))
+  @sections.add_section_var(@kernel.mk_var("x", @term_syntax.parse_type("Cart[Real, N]")))
+  @sections.add_section_var(@kernel.mk_var("z", @term_syntax.parse_type("Cart[Real, N]")))
+  @sections.add_section_var(@kernel.mk_var("y", @term_syntax.parse_type("Cart[Real, N]")))
+  @sections.add_section_var(@kernel.mk_var("w", @term_syntax.parse_type("Cart[Real, N]")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:3018
 fn step_604() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("domain", @parser.parse_type("real^N#real^N")))
+  @sections.add_section_var(@kernel.mk_var("domain", @term_syntax.parse_type("(Cart[Real, N], Cart[Real, N])")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:3019
 fn step_605() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f_bounds", @parser.parse_type("real#real")))
-  @sections.add_section_var(@kernel.mk_var("g_bounds", @parser.parse_type("real#real")))
-  @sections.add_section_var(@kernel.mk_var("bounds", @parser.parse_type("real#real")))
+  @sections.add_section_var(@kernel.mk_var("f_bounds", @term_syntax.parse_type("(Real, Real)")))
+  @sections.add_section_var(@kernel.mk_var("g_bounds", @term_syntax.parse_type("(Real, Real)")))
+  @sections.add_section_var(@kernel.mk_var("bounds", @term_syntax.parse_type("(Real, Real)")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:3020
 fn step_606() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("df_bounds_list", @parser.parse_type("(real#real)list")))
-  @sections.add_section_var(@kernel.mk_var("dg_bounds_list", @parser.parse_type("(real#real)list")))
-  @sections.add_section_var(@kernel.mk_var("d_bounds_list", @parser.parse_type("(real#real)list")))
+  @sections.add_section_var(@kernel.mk_var("df_bounds_list", @term_syntax.parse_type("List[(Real, Real)]")))
+  @sections.add_section_var(@kernel.mk_var("dg_bounds_list", @term_syntax.parse_type("List[(Real, Real)]")))
+  @sections.add_section_var(@kernel.mk_var("d_bounds_list", @term_syntax.parse_type("List[(Real, Real)]")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:3021
 fn step_607() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("ddf_bounds_list", @parser.parse_type("((real#real)list)list")))
-  @sections.add_section_var(@kernel.mk_var("ddg_bounds_list", @parser.parse_type("((real#real)list)list")))
-  @sections.add_section_var(@kernel.mk_var("dd_bounds_list", @parser.parse_type("((real#real)list)list")))
+  @sections.add_section_var(@kernel.mk_var("ddf_bounds_list", @term_syntax.parse_type("List[List[(Real, Real)]]")))
+  @sections.add_section_var(@kernel.mk_var("ddg_bounds_list", @term_syntax.parse_type("List[List[(Real, Real)]]")))
+  @sections.add_section_var(@kernel.mk_var("dd_bounds_list", @term_syntax.parse_type("List[List[(Real, Real)]]")))
 }
 
 ///|
@@ -29413,7 +29413,7 @@ fn step_648() -> Unit raise {
 ///|
 /// Formal_ineqs/taylor/theory/multivariate_taylor-compiled.hl:3227
 fn step_649() -> Unit raise {
-  @sections.add_section_type(@kernel.mk_var("f", @parser.parse_type("real^N->real")))
+  @sections.add_section_type(@kernel.mk_var("f", @term_syntax.parse_type("(Cart[Real, N]) -> Real")))
 }
 
 ///|

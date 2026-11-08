@@ -51377,10 +51377,10 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 e : Real, IN(x, cball((vec(0), e))) == (norm(x) <= e)
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 e : Real, IN(x, sphere((vec(0), e))) == (norm(x) == e)
       #|  \226\136\128 x : Cart[Real, _], ball((x, real_of_num(0))) == {}
-      #|  :real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, _], cball((x, real_of_num(0))) == {x}
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 e : Real, IN(x, cball((x, e))) == (real_of_num(0) <= e)
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 e : Real, SUBSET(ball((x, e)), cball((x, e)))
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 e : Real, SUBSET(sphere((x, e)), cball((x, e)))
@@ -51419,7 +51419,7 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 s : (Cart[Real, _]) -> Bool, open(s) == (\226\136\128 x : Cart[Real, _], IN(x, s) \226\134\146 (\226\136\131 e : Real, real_of_num(0) < e && SUBSET(cball((x, e)), s)))
       #|  \226\136\128 s : (Cart[Real, _]) -> Bool, open(s) \226\134\146 (\226\136\128 x : Cart[Real, _], IN(x, s) == (\226\136\131 e : Real, real_of_num(0) < e && SUBSET(cball((x, e)), s)))
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 r : Real, (sphere((a, r)) == {}) == (r < real_of_num(0))
-      #|  :real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 r : Real, r < real_of_num(0) \226\134\146 sphere((a, r)) == {}
       #|  \226\136\128 r : Real, (IMAGE : ((Cart[Real, N]) -> Cart[Real, N], (Cart[Real, N]) -> Bool, Cart[Real, N]) -> Bool)((op_minus_minus : (Cart[Real, N]) -> Cart[Real, N]), (ball : ((Cart[Real, N], Real), Cart[Real, N]) -> Bool)(((vec : (Num) -> Cart[Real, N])(0), r))) == (ball : ((Cart[Real, N], Real), Cart[Real, N]) -> Bool)(((vec : (Num) -> Cart[Real, N])(0), r))
       #|  \226\136\128 r : Real, (IMAGE : ((Cart[Real, N]) -> Cart[Real, N], (Cart[Real, N]) -> Bool, Cart[Real, N]) -> Bool)((op_minus_minus : (Cart[Real, N]) -> Cart[Real, N]), (cball : ((Cart[Real, N], Real), Cart[Real, N]) -> Bool)(((vec : (Num) -> Cart[Real, N])(0), r))) == (cball : ((Cart[Real, N], Real), Cart[Real, N]) -> Bool)(((vec : (Num) -> Cart[Real, N])(0), r))
@@ -51520,15 +51520,15 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  distance(((a : Cart[Real, N]), (x : Cart[Real, N]))) / distance((a, (b : Cart[Real, N])))
       #|  (a : Cart[Real, N]) == (b : Cart[Real, N])
       #|  \226\136\128 x : Cart[Real, N], \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], between(x, (a, b)) == IN(x, segment([(a, b)]))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  ((c : Real) <= (u : Real) * (a : Real) + (t : Real) * (b : Real)) == (u * -a + t * -b <= -c)
       #|  (t : Real)
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 x : Cart[Real, N], \226\136\128 i : Num, (IN : (Cart[Real, N], (Cart[Real, N]) -> Bool) -> Bool)(x, (segment : (List[(Cart[Real, N], Cart[Real, N])], Cart[Real, N]) -> Bool)([(a, b)])) && 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 min((op_dollar : (Cart[Real, N], Num) -> Real)(a, i), (op_dollar : (Cart[Real, N], Num) -> Real)(b, i)) <= (op_dollar : (Cart[Real, N], Num) -> Real)(x, i) && (op_dollar : (Cart[Real, N], Num) -> Real)(x, i) <= max((op_dollar : (Cart[Real, N], Num) -> Real)(a, i), (op_dollar : (Cart[Real, N], Num) -> Real)(b, i))
@@ -51726,11 +51726,11 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (e : Real) / real_of_num(2)
       #|  (e : Real)
       #|  \226\136\128 x : Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, limit_point_of(x, {(y : Cart[Real, N]) | limit_point_of(y, s)}) \226\134\146 limit_point_of(x, s)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, closed({(x : Cart[Real, N]) | limit_point_of(x, s)})
       #|  (z : Cart[Real, N])
       #|  (y : Cart[Real, N])
@@ -51741,18 +51741,18 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (e : Real) / real_of_num(2)
       #|  \226\136\128 x : Cart[Real, N], !limit_point_of(x, (s : (Cart[Real, N]) -> Bool))
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 e : Real, real_of_num(0) < e && (\226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], IN(x, s) && IN(y, s) && norm(y - x) < e \226\134\146 y == x) \226\134\146 closed(s)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (e : Real) / real_of_num(2)
       #|  (x : Cart[Real, N])
       #|  (e : Real)
       #|  \226\136\128 x : Cart[Real, N], limit_point_of(x, UNIV)
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  min((d : Real), (e : Real)) / real_of_num(2)
       #|  (d : Real)
       #|  (x : Cart[Real, N])
@@ -51907,8 +51907,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (x : Cart[Real, N])
       #|  (\226\136\128 s : _, \226\136\128 t : _, \226\136\128 u : _, (R : (_, _, _) -> Bool)(s, t, u) \226\134\146 R(t, s, u)) && (\226\136\128 s : _, \226\136\128 t : _, \226\136\128 u : _, (P : (_, _, _) -> Bool)(s, t, u) \226\134\146 R(s, t, u)) \226\134\146 (\226\136\128 s : _, \226\136\128 t : _, \226\136\128 u : _, P(s, t, u) || P(t, s, u) \226\134\146 R(s, t, u))
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, \226\136\128 u : (Cart[Real, N]) -> Bool, open_in(subtopology(euclidean, u), s) && SUBSET(t, u) || open_in(subtopology(euclidean, u), t) && SUBSET(s, u) \226\134\146 SUBSET(u, closure(INTER(s, t))) == (SUBSET(u, closure(s)) && SUBSET(u, closure(t)))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (u : (Cart[Real, N]) -> Bool)
       #|  (u : (Cart[Real, N]) -> Bool)
       #|  (f : ((Cart[Real, N]) -> Bool) -> Bool) == {}
@@ -52043,7 +52043,7 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  eventually((b : Cart[Real, N]) => !(b == (a : Cart[Real, N])) && (P : (Cart[Real, N]) -> Bool)(b), at(a))
       #|  \226\136\128 P : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], eventually(P, at(a)) \226\134\146 (\226\136\131 b : Cart[Real, N], !(b == a) && P(b))
       #|  real_of_num(0) < norm((x : Cart[Real, N])) + real_of_num(1) && !(norm(x) + real_of_num(1) <= norm(x))
-      #|  :real
+      #|  :Real
       #|  !({(f : (_) -> _)((x : _)) | IN(x, UNIV)} == {})
       #|  \226\136\128 p : (Cart[Real, _]) -> Bool, eventually(p, at_infinity) == (\226\136\131 b : Real, \226\136\128 x : Cart[Real, _], norm(x) >= b \226\134\146 p(x))
       #|  \226\136\128 p : (Cart[Real, N]) -> Bool, \226\136\128 s : (Cart[Real, N]) -> Bool, eventually(p, within(at_infinity, s)) == (\226\136\131 b : Real, \226\136\128 x : Cart[Real, N], IN(x, s) && norm(x) >= b \226\134\146 p(x))
@@ -52095,8 +52095,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 P : (Cart[Real, N]) -> Bool, (\226\136\128 c : Real, \226\136\128 x : Cart[Real, N], real_of_num(0) <= c && P(x) \226\134\146 P(op_pct(c, x))) \226\134\146 eventually(P, at(vec(0))) == (\226\136\128 x : Cart[Real, N], P(x))
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 b : Real, linear(f) \226\134\146 (onorm(f) <= b) == eventually((y : Cart[Real, M]) => norm(f(y)) <= b * norm(y), at(vec(0)))
       #|  distance((-(a : Cart[Real, N]), -(b : Cart[Real, N]))) == distance((a, b))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 P : (Cart[Real, N]) -> Bool, \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], eventually((x : Cart[Real, N]) => P(-x), within(at(-a), IMAGE(op_minus_minus, s))) == eventually(P, within(at(a), s))
       #|  \226\136\128 P : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], eventually((x : Cart[Real, N]) => P(-x), at(-a)) == eventually(P, at(a))
       #|  \226\136\128 P : (Cart[Real, N]) -> Bool, \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], eventually(P, within(at(a), DELETE(s, a))) == eventually(P, within(at(a), s))
@@ -52227,10 +52227,10 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 net : Net[A], \226\136\128 f : (A) -> Cart[Real, N], \226\136\128 g : (A) -> Cart[Real, N], \226\136\128 l : Cart[Real, N], \226\136\128 m : Cart[Real, N], (op_minus_minus_gt : ((A) -> Cart[Real, N], Cart[Real, N], Net[A]) -> Bool)(f, l, net) && (op_minus_minus_gt : ((A) -> Cart[Real, N], Cart[Real, N], Net[A]) -> Bool)(g, m, net) \226\134\146 (op_minus_minus_gt : ((A) -> Cart[Real, N], Cart[Real, N], Net[A]) -> Bool)((x : A) => (lambda : ((Num) -> Real) -> Cart[Real, N])((i : Num) => max((op_dollar : (Cart[Real, N], Num) -> Real)(f(x), i), (op_dollar : (Cart[Real, N], Num) -> Real)(g(x), i))), (lambda : ((Num) -> Real) -> Cart[Real, N])((i : Num) => max((op_dollar : (Cart[Real, N], Num) -> Real)(l, i), (op_dollar : (Cart[Real, N], Num) -> Real)(m, i))), net)
       #|  \226\136\128 net : Net[A], \226\136\128 f : (A) -> Cart[Real, N], \226\136\128 g : (A) -> Cart[Real, N], \226\136\128 l : Cart[Real, N], \226\136\128 m : Cart[Real, N], (op_minus_minus_gt : ((A) -> Cart[Real, N], Cart[Real, N], Net[A]) -> Bool)(f, l, net) && (op_minus_minus_gt : ((A) -> Cart[Real, N], Cart[Real, N], Net[A]) -> Bool)(g, m, net) \226\134\146 (op_minus_minus_gt : ((A) -> Cart[Real, N], Cart[Real, N], Net[A]) -> Bool)((x : A) => (lambda : ((Num) -> Real) -> Cart[Real, N])((i : Num) => min((op_dollar : (Cart[Real, N], Num) -> Real)(f(x), i), (op_dollar : (Cart[Real, N], Num) -> Real)(g(x), i))), (lambda : ((Num) -> Real) -> Cart[Real, N])((i : Num) => min((op_dollar : (Cart[Real, N], Num) -> Real)(l, i), (op_dollar : (Cart[Real, N], Num) -> Real)(m, i))), net)
       #|  \226\136\128 net : Net[A], \226\136\128 f : (A) -> Cart[Real, N], \226\136\128 l : Cart[Real, N], op_minus_minus_gt(f, l, net) \226\134\146 op_minus_minus_gt((x : A) => lift(norm(f(x))), lift(norm(l)), net)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 net : Net[_], \226\136\128 f : (_) -> Cart[Real, _], \226\136\128 l : Cart[Real, _], op_minus_minus_gt(f, l, net) == op_minus_minus_gt((x : _) => f(x) - l, vec(0), net)
       #|  \226\136\128 net : Net[_], \226\136\128 f : (_) -> Cart[Real, _], op_minus_minus_gt(f, vec(0), net) == op_minus_minus_gt((x : _) => lift(norm(f(x))), vec(0), net)
       #|  (c : Real) == real_of_num(0)
@@ -52285,14 +52285,14 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  norm((l : Cart[Real, N])) - (b : Real)
       #|  norm((l : Cart[Real, N])) <= (b : Real) || b < norm(l)
       #|  \226\136\128 net : Net[A], \226\136\128 f : (A) -> Cart[Real, N], \226\136\128 l : Cart[Real, N], \226\136\128 b : Real, !trivial_limit(net) && op_minus_minus_gt(f, l, net) && eventually((x : A) => norm(f(x)) <= b, net) \226\134\146 norm(l) <= b
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  norm((l : Cart[Real, N])) < (b : Real)
       #|  (b : Real) - norm((l : Cart[Real, N]))
       #|  norm((l : Cart[Real, N])) < (b : Real) || b <= norm(l)
       #|  \226\136\128 net : Net[A], \226\136\128 f : (A) -> Cart[Real, N], \226\136\128 l : Cart[Real, N], \226\136\128 b : Real, !trivial_limit(net) && op_minus_minus_gt(f, l, net) && eventually((x : A) => b <= norm(f(x)), net) \226\134\146 b <= norm(l)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 net : Net[A], \226\136\128 f : (A) -> Cart[Real, N], \226\136\128 l : Cart[Real, N], \226\136\128 l' : Cart[Real, N], !trivial_limit(net) && op_minus_minus_gt(f, l, net) && op_minus_minus_gt(f, l', net) \226\134\146 l == l'
       #|  \226\136\128 net : Net[_], \226\136\128 f : (_) -> Cart[Real, _], \226\136\128 l : Cart[Real, _], !trivial_limit(net) && op_minus_minus_gt(f, l, net) \226\134\146 lim(net, f) == l
       #|  (x : A) => (c : Cart[Real, N])
@@ -52307,22 +52307,22 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (e : Real) / real_of_num(2)
       #|  (e : Real)
       #|  \226\136\128 net : Net[A], \226\136\128 P : (B) -> Bool, \226\136\128 f : (B, A) -> Cart[Real, _], \226\136\128 g : (B, A) -> Cart[Real, _], \226\136\128 l : (B) -> Cart[Real, _], \226\136\128 m : (B) -> Cart[Real, _], (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(f(n, x) - l(n)) < e, net)) && (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(g(n, x) - m(n)) < e, net)) \226\134\146 (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(f(n, x) + g(n, x) - (l(n) + m(n))) < e, net))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (P : (B) -> Bool)((n : B))
       #|  (n : B)
       #|  (e : Real) / real_of_num(2)
       #|  (e : Real)
       #|  \226\136\128 net : Net[A], \226\136\128 P : (B) -> Bool, \226\136\128 f : (B, A) -> Cart[Real, _], \226\136\128 g : (B, A) -> Cart[Real, _], \226\136\128 l : (B) -> Cart[Real, _], \226\136\128 m : (B) -> Cart[Real, _], (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(f(n, x) - l(n)) < e, net)) && (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(g(n, x) - m(n)) < e, net)) \226\134\146 (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(f(n, x) - g(n, x) - (l(n) - m(n))) < e, net))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_of_num(0) < abs((x : Real)) + (abs((y : Real)) + real_of_num(2))
       #|  ((B : Real) * (inv((x : Real)) * (y : Real)) < B) == (B * (y / x) < B * real_of_num(1))
       #|  norm((f : Cart[Real, P]) - (l : Cart[Real, P])) < abs((b2 : Real)) + real_of_num(1) && norm(l) <= (b1 : Real) \226\134\146 norm(f) <= abs(b1) + (abs(b2) + real_of_num(1))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (a : Real) <= (b2 : Real) \226\134\146 a <= abs((b1 : Real)) + (abs(b2) + real_of_num(1))
       #|  (e : Real) / real_of_num(2) / ((B : Real) * (abs((b1 : Real)) + (abs((b2 : Real)) + real_of_num(2)))) * (abs(b1) + (abs(b2) + real_of_num(1)))
       #|  (x : Real) * (B : Real) < (e : Real) / real_of_num(2) && (y : Real) * B < e / real_of_num(2) \226\134\146 B * x + B * y < e
@@ -52501,38 +52501,38 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (r : Real) == real_of_num(0)
       #|  (r : Real) < real_of_num(0)
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 r : Real, \226\136\128 x : Cart[Real, N], (sphere((a, r)) == {x}) == (x == a && r == real_of_num(0))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 r : Real, HAS_SIZE(sphere((a, r)), 1) == (r == real_of_num(0))
       #|  op_pct(inv((m : Real)), (x : Cart[Real, N]) - (c : Cart[Real, N]))
       #|  (x : Cart[Real, N])
       #|  distance(((x : Cart[Real, N]) + (a : Cart[Real, N]), (y : Cart[Real, N]) + a)) == distance((x, y))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  !((s : (_) -> Bool) == {}) && (t : (_) -> Bool) == {(a : _)} \226\134\146 IMAGE((x : _) => a, s) == t
       #|  (m : Real) == real_of_num(0)
       #|  \226\136\128 m : Real, \226\136\128 c : Cart[Real, N], \226\136\128 a : Cart[Real, N], \226\136\128 r : Real, IMAGE((x : Cart[Real, N]) => op_pct(m, x) + c, cball((a, r))) == (if real_of_num(0) <= r || !(m == real_of_num(0)) { cball((op_pct(m, a) + c, abs(m) * r)) } else { {} })
       #|  op_pct(inv((m : Real)), (x : Cart[Real, N]) - (c : Cart[Real, N]))
       #|  (x : Cart[Real, N])
       #|  distance(((x : Cart[Real, N]) + (a : Cart[Real, N]), (y : Cart[Real, N]) + a)) == distance((x, y))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  !((s : (_) -> Bool) == {}) \226\134\146 IMAGE((x : _) => (a : _), s) == {a}
       #|  (m : Real) == real_of_num(0)
       #|  \226\136\128 m : Real, \226\136\128 c : Cart[Real, N], \226\136\128 a : Cart[Real, N], \226\136\128 r : Real, IMAGE((x : Cart[Real, N]) => op_pct(m, x) + c, ball((a, r))) == (if !(m == real_of_num(0)) { ball((op_pct(m, a) + c, abs(m) * r)) } else { if r <= real_of_num(0) { {} } else { {c} } })
       #|  op_pct(inv((m : Real)), (x : Cart[Real, N]) - (c : Cart[Real, N]))
       #|  (x : Cart[Real, N])
       #|  distance(((x : Cart[Real, N]) + (a : Cart[Real, N]), (y : Cart[Real, N]) + a)) == distance((x, y))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  !((s : (_) -> Bool) == {}) && (t : (_) -> Bool) == {(a : _)} \226\134\146 IMAGE((x : _) => a, s) == t
       #|  (m : Real) == real_of_num(0)
       #|  \226\136\128 m : Real, \226\136\128 c : Cart[Real, N], \226\136\128 a : Cart[Real, N], \226\136\128 r : Real, IMAGE((x : Cart[Real, N]) => op_pct(m, x) + c, sphere((a, r))) == (if real_of_num(0) <= r || !(m == real_of_num(0)) { sphere((op_pct(m, a) + c, abs(m) * r)) } else { {} })
@@ -52558,9 +52558,9 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (b : Real)
       #|  (c : Cart[Real, N])
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, mbounded(euclidean_metric, s) == bounded(s)
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (bounded : ((Cart[Real, _]) -> Bool) -> Bool)(({} : (Cart[Real, _]) -> Bool))
       #|  \226\136\128 s : (Cart[Real, _]) -> Bool, \226\136\128 t : (Cart[Real, _]) -> Bool, bounded(t) && SUBSET(s, t) \226\134\146 bounded(s)
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, bounded(s) \226\134\146 bounded(interior(s))
@@ -52572,8 +52572,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, bounded(closure(s)) == bounded(s)
       #|  norm((x : Cart[Real, N])) + (e : Real)
       #|  \226\136\128 x : Cart[Real, N], \226\136\128 e : Real, bounded(cball((x, e)))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 e : Real, bounded(ball((x, e)))
       #|  ((y : Real) <= (b : Real) && real_of_num(0) <= (x : Real) \226\134\146 y <= x + abs(b)) && x <= x + abs(b)
       #|  norm((x : Cart[Real, N])) + abs((B : Real))
@@ -52602,10 +52602,10 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (x : Cart[Real, N])
       #|  (x : Cart[Real, N])
       #|  (y : Cart[Real, N])
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  real_of_num(0) < real_of_num(1) + abs((y : Real)) && ((x : Real) <= y \226\134\146 x <= real_of_num(1) + abs(y))
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, bounded(s) == (\226\136\131 B : Real, real_of_num(0) < B && (\226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], IN(x, s) && IN(y, s) \226\134\146 distance((x, y)) <= B))
       #|  \226\136\128 s : (Cart[Real, _]) -> Bool, \226\136\128 t : (Cart[Real, _]) -> Bool, bounded(s) || bounded(t) \226\134\146 bounded(INTER(s, t))
@@ -52642,9 +52642,9 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (B : Real) + norm((a : Cart[Real, N]))
       #|  (B : Real)
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, bounded(s) \226\134\146 bounded(IMAGE((x : Cart[Real, N]) => a + x, s))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  -(a : Cart[Real, N]) + (a + (x : Cart[Real, N])) == x
       #|  -(a : Cart[Real, N])
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, bounded(IMAGE((x : Cart[Real, N]) => a + x, s)) == bounded(s)
@@ -52654,15 +52654,15 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 m : Real, \226\136\128 c : Cart[Real, N], bounded(IMAGE((x : Cart[Real, N]) => op_pct(m, x) + c, s)) == (m == real_of_num(0) || bounded(s))
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 m : Real, \226\136\128 c : Cart[Real, N], bounded(s) \226\134\146 bounded(IMAGE((x : Cart[Real, N]) => op_pct(m, x) + c, s))
       #|  norm((x : Cart[Real, _])) <= (a : Real) && norm((y : Cart[Real, _])) <= (b : Real) \226\134\146 norm(x - y) <= a + b
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (B : Real) + (C : Real)
       #|  (C : Real)
       #|  (B : Real)
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, bounded(s) && bounded(t) \226\134\146 bounded({(x : Cart[Real, N]) - (y : Cart[Real, N]) | IN(x, s) && IN(y, t)})
       #|  norm((x : Cart[Real, _])) <= (a : Real) && norm((y : Cart[Real, _])) <= (b : Real) \226\134\146 norm(x + y) <= a + b
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (B : Real) + (C : Real)
       #|  (C : Real)
       #|  (B : Real)
@@ -52677,8 +52677,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  real_of_num(2) * (B : Real) + norm((x : Cart[Real, N]))
       #|  (B : Real)
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 x : Cart[Real, N], bounded(s) \226\134\146 (\226\136\131 r : Real, real_of_num(0) < r && SUBSET(s, ball((x, r))))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 x : Cart[Real, N], bounded(s) \226\134\146 (\226\136\131 r : Real, real_of_num(0) < r && SUBSET(s, cball((x, r))))
       #|  (INTER((s : (Cart[Real, N]) -> Bool), (t : (Cart[Real, N]) -> Bool)) == {}) == SUBSET(s, DIFF(UNIV, t))
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, !bounded(s) && bounded(DIFF(UNIV, t)) \226\134\146 !(INTER(s, t) == {})
@@ -52720,33 +52720,33 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (r : Real) < real_of_num(0) || real_of_num(0) <= r
       #|  (a' : Cart[Real, N])
       #|  (\226\136\128 a' : Cart[Real, N], \226\136\128 r : Real, \226\136\128 r' : Real, SUBSET(cball(((a : Cart[Real, N]), r)), cball((a', r'))) == (distance((a, a')) + r <= r' || r < real_of_num(0))) && (\226\136\128 a' : Cart[Real, N], \226\136\128 r : Real, \226\136\128 r' : Real, SUBSET(cball((a, r)), ball((a', r'))) == (distance((a, a')) + r < r' || r < real_of_num(0)))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  ((s : (_) -> Bool) == {}) == (q : Bool) && (SUBSET(s, (t : (_) -> Bool)) && !(s == {}) && !(t == {}) \226\134\146 (p : Bool)) \226\134\146 SUBSET(s, t) \226\134\146 p || q
       #|  (a' : Cart[Real, N])
       #|  (\226\136\128 a : Cart[Real, N], \226\136\128 a' : Cart[Real, N], \226\136\128 r : Real, \226\136\128 r' : Real, SUBSET(ball((a, r)), ball((a', r'))) == (distance((a, a')) + r <= r' || r <= real_of_num(0))) && (\226\136\128 a : Cart[Real, N], \226\136\128 a' : Cart[Real, N], \226\136\128 r : Real, \226\136\128 r' : Real, SUBSET(ball((a, r)), cball((a', r'))) == (distance((a, a')) + r <= r' || r <= real_of_num(0))) && (\226\136\128 a : Cart[Real, N], \226\136\128 a' : Cart[Real, N], \226\136\128 r : Real, \226\136\128 r' : Real, SUBSET(cball((a, r)), ball((a', r'))) == (distance((a, a')) + r < r' || r < real_of_num(0))) && (\226\136\128 a : Cart[Real, N], \226\136\128 a' : Cart[Real, N], \226\136\128 r : Real, \226\136\128 r' : Real, SUBSET(cball((a, r)), cball((a', r'))) == (distance((a, a')) + r <= r' || r < real_of_num(0)))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (op_pct : (Real, Cart[Real, N]) -> Cart[Real, N])((c : Real), (basis : (Num) -> Cart[Real, N])(1))
       #|  (c : Real)
       #|  (v : Cart[Real, N])
@@ -52754,30 +52754,30 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (b : Cart[Real, N])
       #|  (a : Cart[Real, N])
       #|  (\226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 r : Real, \226\136\128 s : Real, (INTER(ball((a, r)), ball((b, s))) == {}) == (r <= real_of_num(0) || s <= real_of_num(0) || r + s <= distance((a, b)))) && (\226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 r : Real, \226\136\128 s : Real, (INTER(ball((a, r)), cball((b, s))) == {}) == (r <= real_of_num(0) || s < real_of_num(0) || r + s <= distance((a, b)))) && (\226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 r : Real, \226\136\128 s : Real, (INTER(cball((a, r)), ball((b, s))) == {}) == (r < real_of_num(0) || s <= real_of_num(0) || r + s <= distance((a, b)))) && (\226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 r : Real, \226\136\128 s : Real, (INTER(cball((a, r)), cball((b, s))) == {}) == (r < real_of_num(0) || s < real_of_num(0) || r + s < distance((a, b))))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  ((r : Real) + ((b : Real) - (s : Real))) / real_of_num(2)
       #|  max(real_of_num(0), (b : Real) - (s : Real))
       #|  min((b : Real), (r : Real))
@@ -52974,9 +52974,9 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  norm((x : Cart[Real, N])) + real_of_num(1)
       #|  (x : Cart[Real, N])
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, closed(s) == (\226\136\128 e : Real, compact(INTER(cball((vec(0), e)), s)))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 s : ((Cart[Real, _]) -> Bool) -> Bool, FINITE(s) && (\226\136\128 t : (Cart[Real, _]) -> Bool, IN(t, s) \226\134\146 compact(t)) \226\134\146 compact(UNIONS(s))
       #|  DIFF((s : (_) -> Bool), (t : (_) -> Bool)) == INTER(s, DIFF(UNIV, t))
       #|  \226\136\128 s : (Cart[Real, _]) -> Bool, \226\136\128 t : (Cart[Real, _]) -> Bool, compact(s) && open(t) \226\134\146 compact(DIFF(s, t))
@@ -53082,12 +53082,12 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  continuous((f : (Cart[Real, _]) -> Cart[Real, _]), at((x : Cart[Real, _]))) == (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 (\226\136\131 d : Real, real_of_num(0) < d && (\226\136\128 x' : Cart[Real, _], distance((x', x)) < d \226\134\146 distance((f(x'), f(x))) < e)))
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 g : (Cart[Real, M]) -> Cart[Real, P], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 a : Cart[Real, M], continuous(g, within(at(a), s)) && (\226\136\128 x : Cart[Real, M], IN(x, s) \226\134\146 distance((f(a), f(x))) <= distance((g(a), g(x)))) \226\134\146 continuous(f, within(at(a), s))
       #|  distance(((x : Cart[Real, N]), (a : Cart[Real, N]))) < (e : Real) / real_of_num(2) && distance(((y : Cart[Real, N]), a)) < e / real_of_num(2) \226\134\146 distance((x, y)) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  distance(((x : Cart[Real, N]), (a : Cart[Real, N]))) < (e : Real) / real_of_num(2) \226\134\146 distance((x, a)) < e
-      #|  :real
+      #|  :Real
       #|  distance(((x : Cart[Real, N]), (a : Cart[Real, N]))) < (e : Real) / real_of_num(2) \226\134\146 distance((a, x)) < e
-      #|  :real
+      #|  :Real
       #|  (y : Cart[Real, M])
       #|  (x : Cart[Real, M])
       #|  (d : Real)
@@ -53147,8 +53147,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 f : (Cart[Real, N]) -> Cart[Real, _], \226\136\128 s : (Cart[Real, N]) -> Bool, continuous_on(f, s) == (\226\136\128 x : (Num) -> Cart[Real, N], \226\136\128 a : Cart[Real, N], IN(a, s) && (\226\136\128 n : Num, IN(x(n), s)) && op_minus_minus_gt(x, a, sequentially) \226\134\146 op_minus_minus_gt(o(f, x), f(a), sequentially))
       #|  inv(real_of_num((m : Num)) + real_of_num(1))
       #|  distance(((x : Cart[Real, N]) - (y : Cart[Real, N]), vec(0))) == distance((y, x))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (m : Num)
       #|  (n : Num)
       #|  (n : Num)
@@ -53160,8 +53160,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  ((p : Bool) \226\134\146 (q : Bool) \226\134\146 (r : Bool)) == (q \226\134\146 !r \226\134\146 !p)
       #|  (e : Real)
       #|  distance(((x : Cart[Real, N]) - (y : Cart[Real, N]), vec(0))) == distance((x, y))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (e : Real)
       #|  (y : (Num) -> Cart[Real, M])
       #|  (x : (Num) -> Cart[Real, M])
@@ -53260,8 +53260,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 t : (Cart[Real, _]) -> Bool, \226\136\128 f : (_, Cart[Real, _]) -> Cart[Real, _], \226\136\128 s : (_) -> Bool, FINITE(s) && (\226\136\128 a : _, IN(a, s) \226\134\146 continuous_on(f(a), t)) \226\134\146 continuous_on((x : Cart[Real, _]) => vsum(s, (a : _) => f(a, x)), t)
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, (continuous_on : ((Cart[Real, M]) -> Cart[Real, N], (Cart[Real, M]) -> Bool) -> Bool)(f, s) == (\226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (continuous_on : ((Cart[Real, M]) -> Cart[Real, Unit], (Cart[Real, M]) -> Bool) -> Bool)((x : Cart[Real, M]) => lift((op_dollar : (Cart[Real, N], Num) -> Real)(f(x), i)), s))
       #|  distance((-(x : Cart[Real, N]), -(y : Cart[Real, N]))) == distance((x, y))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, continuous_on((x : Cart[Real, M]) => f(-x), IMAGE(op_minus_minus, s)) == continuous_on(f, s)
       #|  \226\136\128 s : (Cart[Real, _]) -> Bool, \226\136\128 c : Cart[Real, _], uniformly_continuous_on((x : Cart[Real, _]) => c, s)
       #|  (B : Real) * norm((y : Cart[Real, M]) - (x : Cart[Real, M]))
@@ -53277,8 +53277,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  ((a : Bool) && (b : Bool) && (c : Bool)) == (b && a && c)
       #|  \226\136\128 f : (Cart[Real, _]) -> Cart[Real, _], \226\136\128 g : (Cart[Real, _]) -> Cart[Real, _], \226\136\128 s : (Cart[Real, _]) -> Bool, uniformly_continuous_on(f, s) && uniformly_continuous_on(g, IMAGE(f, s)) \226\134\146 uniformly_continuous_on(o(g, f), s)
       #|  norm((x : Cart[Real, N])) <= (a : Real) && norm((y : Cart[Real, N])) <= (b : Real) \226\134\146 norm(x + y) <= a + b
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (B : Real) * ((e : Real) / real_of_num(2) / real_of_num(2) / B / (B2 : Real) * B2) + B * ((B1 : Real) * (e / real_of_num(2) / real_of_num(2) / B / B1))
       #|  (y : Cart[Real, M])
       #|  (x : Cart[Real, M])
@@ -53445,8 +53445,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (s'' : (Cart[Real, M]) -> Bool)
       #|  \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 s' : (Cart[Real, M]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, \226\136\128 t' : (Cart[Real, N]) -> Bool, open_in(subtopology(euclidean, s), s') && open_in(subtopology(euclidean, t), t') \226\134\146 open_in(subtopology(euclidean, PCROSS(s, t)), PCROSS(s', t'))
       #|  distance(((x : Cart[Real, N]), (y : Cart[Real, N]))) < (e : Real) && distance(((z : Cart[Real, N]), y)) < e - distance((x, y)) \226\134\146 distance((x, z)) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  IN((x : Cart[Real, M]), (s : (Cart[Real, M]) -> Bool)) && IN((y : Cart[Real, N]), (t : (Cart[Real, N]) -> Bool))
       #|  INTER(ball(((y : Cart[Real, N]), (e : Real) / real_of_num(2))), (t : (Cart[Real, N]) -> Bool))
       #|  INTER(ball(((x : Cart[Real, M]), (e : Real) / real_of_num(2))), (s : (Cart[Real, M]) -> Bool))
@@ -53773,8 +53773,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (x : Cart[Real, N]) + op_pct((e : Real) / norm((a : Cart[Real, N])), a)
       #|  real_of_num(0) < (x : Real) \226\134\146 abs(x) <= x
       #|  distance(((x : Cart[Real, N]), x + (y : Cart[Real, N]))) == norm(y)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, N]) + op_pct((e : Real) / norm((a : Cart[Real, N])), a)
       #|  (e : Real)
       #|  (x : Cart[Real, N])
@@ -53949,9 +53949,9 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, (\226\136\131 B : Real, \226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], IN(x, s) && IN(y, s) \226\134\146 norm(f(x) - f(y)) <= B * norm(x - y)) && bounded(s) \226\134\146 bounded(IMAGE(f, s))
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, (\226\136\131 B : Real, \226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], IN(x, s) && IN(y, s) \226\134\146 norm(f(x) - f(y)) <= B * norm(x - y)) \226\134\146 continuous_on(f, s)
       #|  (a : Real) + real_of_num(2) * (b : Real) <= (c : Real) \226\134\146 norm((fx : Cart[Real, N]) - (fy : Cart[Real, N])) <= a && distance((fx, (gx : Cart[Real, N]))) < b && distance((fy, (gy : Cart[Real, N]))) < b \226\134\146 norm(gx - gy) <= c
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, M])
       #|  (x : Cart[Real, M])
       #|  (n : Num)
@@ -54005,9 +54005,9 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, (\226\136\128 x : Cart[Real, M], continuous(f, at(x))) && (\226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], f(x) == f(y) \226\134\146 x == y) \226\134\146 SUBSET(interior(IMAGE(f, s)), IMAGE(f, interior(s)))
       #|  norm((f : (Cart[Real, M]) -> Cart[Real, N])((x : Cart[Real, M])) - (a : Cart[Real, N]))
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 x : Cart[Real, M], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 a : Cart[Real, N], continuous(f, within(at(x), s)) && IN(x, s) && !(f(x) == a) \226\134\146 (\226\136\131 e : Real, real_of_num(0) < e && (\226\136\128 y : Cart[Real, M], IN(y, s) && distance((x, y)) < e \226\134\146 !(f(y) == a)))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (UNIV : (Cart[Real, M]) -> Bool)
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 x : Cart[Real, M], \226\136\128 a : Cart[Real, N], continuous(f, at(x)) && !(f(x) == a) \226\134\146 (\226\136\131 e : Real, real_of_num(0) < e && (\226\136\128 y : Cart[Real, M], distance((x, y)) < e \226\134\146 !(f(y) == a)))
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 x : Cart[Real, M], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 a : Cart[Real, N], continuous_on(f, s) && IN(x, s) && !(f(x) == a) \226\134\146 (\226\136\131 e : Real, real_of_num(0) < e && (\226\136\128 y : Cart[Real, M], IN(y, s) && distance((x, y)) < e \226\134\146 !(f(y) == a)))
@@ -54043,7 +54043,7 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 m : Real, \226\136\128 c : Cart[Real, N], open(s) && (m == real_of_num(0) \226\134\146 s == {}) \226\134\146 open(IMAGE((x : Cart[Real, N]) => op_pct(m, x) + c, s))
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, interior(IMAGE((x : Cart[Real, N]) => a + x, s)) == IMAGE((x : Cart[Real, N]) => a + x, interior(s))
       #|  distance(((z : Cart[Real, N]), (x : Cart[Real, N]) + (y : Cart[Real, N]))) < (e : Real) \226\134\146 distance((z - y, x)) < e
-      #|  :real
+      #|  :Real
       #|  (z : Cart[Real, N]) - (y : Cart[Real, N]) + y == z
       #|  (z : Cart[Real, N])
       #|  (e : Real)
@@ -54402,8 +54402,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (u : Cart[Real, M])
       #|  (v : Cart[Real, M])
       #|  (u : Cart[Real, M])
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (s : (Cart[Real, M]) -> Bool)
       #|  {(f : (Cart[Real, M]) -> Cart[Real, N])}
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, continuous_on(f, s) && compact(s) \226\134\146 uniformly_continuous_on(f, s)
@@ -54455,10 +54455,10 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 f : (Cart[Real, _]) -> Real, \226\136\128 x : Cart[Real, _], continuous(o(lift, f), at(x)) == (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 (\226\136\131 d : Real, real_of_num(0) < d && (\226\136\128 x' : Cart[Real, _], norm(x' - x) < d \226\134\146 abs(f(x') - f(x)) < e)))
       #|  \226\136\128 f : (Cart[Real, _]) -> Real, \226\136\128 s : (Cart[Real, _]) -> Bool, continuous_on(o(lift, f), s) == (\226\136\128 x : Cart[Real, _], IN(x, s) \226\134\146 (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 (\226\136\131 d : Real, real_of_num(0) < d && (\226\136\128 x' : Cart[Real, _], IN(x', s) && norm(x' - x) < d \226\134\146 abs(f(x') - f(x)) < e))))
       #|  \226\136\128 net : Net[A], \226\136\128 f : (A) -> Cart[Real, N], continuous(f, net) \226\134\146 continuous((x : A) => lift(norm(f(x))), net)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, continuous_on(f, s) \226\134\146 continuous_on((x : Cart[Real, M]) => lift(norm(f(x))), s)
       #|  \226\136\128 x : Cart[Real, _], continuous(o(lift, norm), at(x))
       #|  \226\136\128 s : (Cart[Real, _]) -> Bool, continuous_on(o(lift, norm), s)
@@ -54472,16 +54472,16 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 i : Num, \226\136\128 s : (Cart[Real, N]) -> Bool, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (continuous_on : ((Cart[Real, N]) -> Cart[Real, Unit], (Cart[Real, N]) -> Bool) -> Bool)((x : Cart[Real, N]) => lift((op_dollar : (Cart[Real, N], Num) -> Real)(x, i)), s)
       #|  \226\136\128 x : Cart[Real, N], continuous(o(lift, infnorm), at(x))
       #|  abs(distance(((a : Cart[Real, N]), (x : Cart[Real, N]))) - distance((a, (y : Cart[Real, N])))) <= norm(x - y)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 x : Cart[Real, N], continuous(o(lift, (x : Cart[Real, N]) => distance((a, x))), at(x))
       #|  abs(distance(((a : Cart[Real, N]), (x : Cart[Real, N]))) - distance((a, (y : Cart[Real, N])))) <= norm(x - y)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 s : (Cart[Real, _]) -> Bool, continuous_on(o(lift, (x : Cart[Real, _]) => distance((a, x))), s)
       #|  (x : Real) <= (s : Real) && !(x <= s - (e : Real)) \226\134\146 abs(x - s) < e
       #|  ((s : Real) <= s - (e : Real)) == !(real_of_num(0) < e)
@@ -54625,8 +54625,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, SUBSET(s, t) && bounded(t) \226\134\146 diameter(s) <= diameter(t)
       #|  (\226\136\128 x : Cart[Real, N], IN(x, (s : (Cart[Real, N]) -> Bool)) \226\134\146 norm((a : Cart[Real, N]) + x) <= (b : Real)) == (\226\136\128 x : Cart[Real, N], IN(x, IMAGE((x : Cart[Real, N]) => a + x, s)) \226\134\146 norm(x) <= b)
       #|  norm((a : Cart[Real, N]) - (y : Cart[Real, N])) == norm(-a + y)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (\226\136\128 a : _, \226\136\128 b : _, (P : (_) -> Bool)(a) \226\134\146 !(Q : (_, _) -> Bool)(b, a)) && (\226\136\128 a : _, \226\136\128 b : _, P(a) \226\134\146 !(R : (_, _) -> Bool)(b, a)) \226\134\146 (\226\136\131 x : _, P(x)) \226\134\146 (\226\136\128 b : _, (\226\136\128 x : _, Q(b, x)) == (\226\136\128 x : _, R(b, x)))
       #|  bounded((s : (Cart[Real, N]) -> Bool))
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, diameter(closure(s)) == diameter(s)
@@ -54638,15 +54638,15 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 r : Real, (bounded(s) && diameter(s) <= r) == (real_of_num(0) <= r && (\226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], IN(x, s) && IN(y, s) \226\134\146 distance((x, y)) <= r))
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], bounded(s) && IN(a, s) && IN(b, s) \226\134\146 distance((a, b)) <= diameter(s)
       #|  distance(((a : Cart[Real, N]), a + (b : Cart[Real, N]))) == norm(b) && distance((a, a - b)) == norm(b)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (a : Cart[Real, N]) + op_pct((r : Real), (b : Cart[Real, N])) - (a - op_pct(r, b)) == op_pct(real_of_num(2) * r, b)
       #|  norm((a : Cart[Real, N]) + op_pct((r : Real), basis(1)) - (a - op_pct(r, basis(1))))
       #|  \226\136\128 a : Cart[Real, N], \226\136\128 r : Real, diameter(cball((a, r))) == (if r < real_of_num(0) { real_of_num(0) } else { real_of_num(2) * r })
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_of_num(0) < (r : Real)
       #|  diameter(cball(((a : Cart[Real, N]), (r : Real))))
       #|  (r : Real) == real_of_num(0)
@@ -54657,8 +54657,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 a : Real, \226\136\128 s : (Cart[Real, N]) -> Bool, bounded(s) \226\134\146 diameter(IMAGE((x : Cart[Real, N]) => op_pct(a, x), s)) == abs(a) * diameter(s)
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 m : Real, \226\136\128 c : Cart[Real, N], bounded(s) \226\134\146 diameter(IMAGE((x : Cart[Real, N]) => op_pct(m, x) + c, s)) == abs(m) * diameter(s)
       #|  norm((x : Cart[Real, N]) - (x' : Cart[Real, N])) <= (s : Real) && norm((y : Cart[Real, N]) - (y' : Cart[Real, N])) <= (t : Real) \226\134\146 norm(x + y - (x' + y')) <= s + t
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  {(f : (_, _) -> _)(x, y) | x : _, y : _ | false} == {}
       #|  (t : (Cart[Real, N]) -> Bool) == {}
       #|  {(f : (_, _) -> _)(x, y) | x : _, y : _ | false} == {}
@@ -54771,8 +54771,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (r : Real) / real_of_num(2)
       #|  (s : (Cart[Real, N]) -> Bool) == {}
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 x : Cart[Real, N], \226\136\128 r : Real, real_of_num(0) < r && compact(s) && SUBSET(s, ball((x, r))) \226\134\146 (\226\136\131 r' : Real, real_of_num(0) < r' && r' < r && SUBSET(s, ball((x, r'))))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_of_num(0)
       #|  (x : Real) <= (y : Real) \226\134\146 x < y + real_of_num(1)
       #|  norm((x : Cart[Real, N])) + real_of_num(1)
@@ -54789,8 +54789,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (s : (Cart[Real, N]) -> Bool)
       #|  real_of_num(0) < (b : Real)
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 b : Real, compact(s) && (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 b * norm(x) < real_of_num(1)) \226\134\146 (\226\136\131 r : Real, real_of_num(0) < r && b * r < real_of_num(1) && (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 norm(x) < r))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  distance(((a : Cart[Real, N]), (b : Cart[Real, N])))
       #|  (b : Cart[Real, N])
       #|  (a : Cart[Real, N])
@@ -54799,8 +54799,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (s : (Cart[Real, N]) -> Bool) == {}
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], closed(s) && !IN(a, s) \226\134\146 (\226\136\131 d : Real, real_of_num(0) < d && (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 d <= distance((a, x))))
       #|  distance((vec(0), (x : Cart[Real, _]) - (y : Cart[Real, _]))) == distance((x, y))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (vec(0) == (x : Cart[Real, _]) - (y : Cart[Real, _])) == (x == y)
       #|  (vec : (Num) -> Cart[Real, N])(0)
       #|  {(x : Cart[Real, N]) - (y : Cart[Real, N]) | IN(x, (s : (Cart[Real, N]) -> Bool)) && IN(y, (t : (Cart[Real, N]) -> Bool))}
@@ -54988,7 +54988,7 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
       #|  interval([((a : Cart[Real, N]), (b : Cart[Real, N]))]) == {}
       #|  (\226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], diameter(interval([(a, b)])) == (if interval([(a, b)]) == {} { real_of_num(0) } else { norm(b - a) })) && (\226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], diameter(interval((a, b))) == (if interval((a, b)) == {} { real_of_num(0) } else { norm(b - a) }))
-      #|  :real
+      #|  :Real
       #|  (lambda : ((Num) -> Real) -> Cart[Real, M])((i : Num) => op_dollar((y : Cart[Real, N]), inverse((p : (Num) -> Num), i)))
       #|  (y : Cart[Real, N])
       #|  \226\136\128 p : (Num) -> Num, \226\136\128 a : Cart[Real, M], \226\136\128 b : Cart[Real, M], (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (permutes : ((Num) -> Num, (Num) -> Bool) -> Bool)(p, op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) \226\134\146 (IMAGE : ((Cart[Real, M]) -> Cart[Real, N], (Cart[Real, M]) -> Bool, Cart[Real, N]) -> Bool)((x : Cart[Real, M]) => (lambda : ((Num) -> Real) -> Cart[Real, N])((i : Num) => (op_dollar : (Cart[Real, M], Num) -> Real)(x, p(i))), (interval : (List[(Cart[Real, M], Cart[Real, M])], Cart[Real, M]) -> Bool)([(a, b)])) == (interval : (List[(Cart[Real, N], Cart[Real, N])], Cart[Real, N]) -> Bool)([((lambda : ((Num) -> Real) -> Cart[Real, N])((i : Num) => (op_dollar : (Cart[Real, M], Num) -> Real)(a, p(i))), (lambda : ((Num) -> Real) -> Cart[Real, N])((i : Num) => (op_dollar : (Cart[Real, M], Num) -> Real)(b, p(i))))])
@@ -55014,70 +55014,70 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 k : Num, \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) + 1 == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && 1 <= k && k <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (IMAGE : ((Cart[Real, N]) -> Cart[Real, M], (Cart[Real, N]) -> Bool, Cart[Real, M]) -> Bool)((dropout : (Num, Cart[Real, N]) -> Cart[Real, M])(k), (interval : (List[(Cart[Real, N], Cart[Real, N])], Cart[Real, N]) -> Bool)([(a, b)])) == (if (op_dollar : (Cart[Real, N], Num) -> Real)(a, k) <= (op_dollar : (Cart[Real, N], Num) -> Real)(b, k) { (interval : (List[(Cart[Real, M], Cart[Real, M])], Cart[Real, M]) -> Bool)([((dropout : (Num, Cart[Real, N]) -> Cart[Real, M])(k, a), (dropout : (Num, Cart[Real, N]) -> Cart[Real, M])(k, b))]) } else { ({} : (Cart[Real, M]) -> Bool) })
       #|  (s : (Cart[Real, _]) -> Bool) == (t : (Cart[Real, _]) -> Bool) \226\134\146 closed(s) && open(t) && bounded(t) \226\134\146 s == {} && t == {}
       #|  (\226\136\128 a : Cart[Real, N], \226\136\128 a' : Cart[Real, N], \226\136\128 r : Real, \226\136\128 r' : Real, (ball((a, r)) == ball((a', r'))) == (a == a' && r == r' || r <= real_of_num(0) && r' <= real_of_num(0))) && (\226\136\128 a : Cart[Real, N], \226\136\128 a' : Cart[Real, N], \226\136\128 r : Real, \226\136\128 r' : Real, (ball((a, r)) == cball((a', r'))) == (r <= real_of_num(0) && r' < real_of_num(0))) && (\226\136\128 a : Cart[Real, N], \226\136\128 a' : Cart[Real, N], \226\136\128 r : Real, \226\136\128 r' : Real, (cball((a, r)) == ball((a', r'))) == (r < real_of_num(0) && r' <= real_of_num(0))) && (\226\136\128 a : Cart[Real, N], \226\136\128 a' : Cart[Real, N], \226\136\128 r : Real, \226\136\128 r' : Real, (cball((a, r)) == cball((a', r'))) == (a == a' && r == r' || r < real_of_num(0) && r' < real_of_num(0)))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, Unit], \226\136\128 b : Cart[Real, Unit], \226\136\128 x : Cart[Real, Unit], IN(x, interval([(a, b)])) == (drop(a) <= drop(x) && drop(x) <= drop(b)) && IN(x, interval((a, b))) == (drop(a) < drop(x) && drop(x) < drop(b))
       #|  real_interval([((a : Real), (b : Real))]) == IMAGE(drop, interval([(lift(a), lift(b))])) && real_interval((a, b)) == IMAGE(drop, interval((lift(a), lift(b))))
       #|  interval([((a : Cart[Real, Unit]), (b : Cart[Real, Unit]))]) == IMAGE(lift, real_interval([(drop(a), drop(b))])) && interval((a, b)) == IMAGE(lift, real_interval((drop(a), drop(b))))
@@ -55507,8 +55507,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (s : (Cart[Real, N]) -> Bool)
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], \226\136\128 a : Real, \226\136\128 k : Num, (connected : ((Cart[Real, N]) -> Bool) -> Bool)(s) && (IN : (Cart[Real, N], (Cart[Real, N]) -> Bool) -> Bool)(x, s) && (IN : (Cart[Real, N], (Cart[Real, N]) -> Bool) -> Bool)(y, s) && 1 <= k && k <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (op_dollar : (Cart[Real, N], Num) -> Real)(x, k) <= a && a <= (op_dollar : (Cart[Real, N], Num) -> Real)(y, k) \226\134\146 (\226\136\131 z : Cart[Real, N], (IN : (Cart[Real, N], (Cart[Real, N]) -> Bool) -> Bool)(z, s) && (op_dollar : (Cart[Real, N], Num) -> Real)(z, k) == a)
       #|  !((u : Cart[Real, N]) == (v : Cart[Real, N])) \226\134\146 !(distance((u, (x : Cart[Real, N]))) + distance((v, x)) == real_of_num(0))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (v : Cart[Real, M])
       #|  (u : Cart[Real, M])
       #|  1
@@ -55518,8 +55518,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  IMAGE((x : Cart[Real, M]) => lift(distance(((u : Cart[Real, M]), x)) / (distance((u, x)) + distance(((v : Cart[Real, M]), x)))), (s : (Cart[Real, M]) -> Bool))
       #|  (t : Real)
       #|  !((u : Cart[Real, N]) == (v : Cart[Real, N])) \226\134\146 real_of_num(0) < distance((u, (x : Cart[Real, N]))) + distance((v, x))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  IMAGE((f : (_) -> Real), (s : (_) -> Bool)) == {(x : Real) | (P : (Real) -> Bool)(x)} \226\134\146 IMAGE((x : _) => (a : Cart[Real, N]) + op_pct(f(x), (b : Cart[Real, N])), s) == {a + op_pct((u : Real), b) | P(u)}
       #|  op_pct(real_of_num(1) - (u : Real), (a : Cart[Real, N])) + op_pct(u, (b : Cart[Real, N])) == a + op_pct(u, b - a)
       #|  (x : Cart[Real, M]) => (a : Cart[Real, N]) + op_pct(distance(((u : Cart[Real, M]), x)) / (distance((u, x)) + distance(((v : Cart[Real, M]), x))), (b : Cart[Real, N]) - a)
@@ -55527,8 +55527,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (u : Cart[Real, M])
       #|  !(\226\136\131 a : _, SUBSET((s : (_) -> Bool), {a})) \226\134\146 (\226\136\131 a : _, \226\136\131 b : _, IN(a, s) && IN(b, s) && !(a == b))
       #|  \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], connected(s) && !(\226\136\131 a : Cart[Real, M], SUBSET(s, {a})) \226\134\146 (\226\136\131 f : (Cart[Real, M]) -> Cart[Real, N], continuous_on(f, s) && IMAGE(f, s) == segment([(a, b)]))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 s : (Num) -> Cart[Real, Unit], bounded({s((n : Num)) | IN(n, UNIV)}) && (\226\136\128 n : Num, drop(s(n)) <= drop(s(SUC(n)))) \226\134\146 (\226\136\131 l : Cart[Real, Unit], op_minus_minus_gt(s, l, sequentially))
       #|  (n : Num) => -(s : (Num) -> Cart[Real, Unit])(n)
       #|  \226\136\128 s : (Num) -> Cart[Real, Unit], bounded({s((n : Num)) | IN(n, UNIV)}) && (\226\136\128 n : Num, drop(s(SUC(n))) <= drop(s(n))) \226\134\146 (\226\136\131 l : Cart[Real, Unit], op_minus_minus_gt(s, l, sequentially))
@@ -55972,10 +55972,10 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  ((s : Bool) \226\134\146 (t : Bool)) && (t \226\134\146 (u : Bool)) && (u \226\134\146 (v : Bool)) && (v \226\134\146 s) \226\134\146 s == t && s == u && s == v
       #|  (s : (Cart[Real, M]) -> Bool)
       #|  (\226\136\128 s : (Cart[Real, M]) -> Bool, connected(s) == (\226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 t : (Cart[Real, N]) -> Bool, continuous_on(f, s) && SUBSET(IMAGE(f, s), t) && (\226\136\128 y : Cart[Real, N], IN(y, t) \226\134\146 connected_component(t, y) == {y}) \226\134\146 (\226\136\131 a : Cart[Real, N], \226\136\128 x : Cart[Real, M], IN(x, s) \226\134\146 f(x) == a))) && (\226\136\128 s : (Cart[Real, M]) -> Bool, connected(s) == (\226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], continuous_on(f, s) && (\226\136\128 x : Cart[Real, M], IN(x, s) \226\134\146 (\226\136\131 e : Real, real_of_num(0) < e && (\226\136\128 y : Cart[Real, M], IN(y, s) && !(f(y) == f(x)) \226\134\146 e <= norm(f(y) - f(x))))) \226\134\146 (\226\136\131 a : Cart[Real, N], \226\136\128 x : Cart[Real, M], IN(x, s) \226\134\146 f(x) == a))) && (\226\136\128 s : (Cart[Real, M]) -> Bool, connected(s) == (\226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], continuous_on(f, s) && FINITE(IMAGE(f, s)) \226\134\146 (\226\136\131 a : Cart[Real, N], \226\136\128 x : Cart[Real, M], IN(x, s) \226\134\146 f(x) == a)))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (b : Cart[Real, M])
       #|  (a : Cart[Real, M])
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, connected(s) && continuous_on(f, s) && SUBSET(IMAGE(f, s), (t : (Cart[Real, N]) -> Bool)) && (\226\136\128 y : Cart[Real, N], IN(y, t) \226\134\146 connected_component(t, y) == {y}) \226\134\146 (\226\136\131 a : Cart[Real, N], \226\136\128 x : Cart[Real, M], IN(x, s) \226\134\146 f(x) == a)
@@ -56036,8 +56036,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (a : Real) * (b : Real) * (c : Real) == b * (a * c)
       #|  (distance : ((Cart[Real, N], Cart[Real, N])) -> Real)(((y : Cart[Real, N]), (f : (Cart[Real, M]) -> Cart[Real, N])((x : Cart[Real, M])))) * real_of_num((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) * (B : Real)
       #|  distance(((x : Cart[Real, _]) + (y : Cart[Real, _]), x)) == norm(y)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, M]) + (vsum : ((Num) -> Bool, (Num) -> Cart[Real, M]) -> Cart[Real, M])(op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))), (i : Num) => (op_pct : (Real, Cart[Real, M]) -> Cart[Real, M])((op_dollar : (Cart[Real, N], Num) -> Real)((u : Cart[Real, N]), i), (b : (Num) -> Cart[Real, M])(i)))
       #|  (u : Cart[Real, N]) == (y : Cart[Real, N]) - (f : (Cart[Real, M]) -> Cart[Real, N])((x : Cart[Real, M]))
       #|  (y : Cart[Real, N])
@@ -56523,7 +56523,7 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (j : Num)
       #|  (i : Num)
       #|  real_of_num(0) < real_of_num(1) + norm((x : Cart[Real, N]))
-      #|  :real
+      #|  :Real
       #|  (a : Real) <= (b : Real) \226\134\146 a <= real_of_num(1) + b
       #|  abs(op_dollar(op_dollar((B : Cart[Cart[Real, N], N]) - (A' : Cart[Cart[Real, N], N]), (r : Num)), (l : Num))) * (real_of_num(1) + norm(op_pct(real_of_num(2), basis((i : Num))) - (c : Cart[Real, N])))
       #|  (r : Num)
@@ -56541,7 +56541,7 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (B : Cart[Cart[Real, N], N])
       #|  (A' : Cart[Cart[Real, N], N]) == lambda((k : Num) => if k == (i : Num) { vec(0) } else { row(k, (A : Cart[Cart[Real, N], N])) })
       #|  real_of_num(0) < real_of_num(1) + norm((x : Cart[Real, N]))
-      #|  :real
+      #|  :Real
       #|  min((e : Real), e / real_of_num((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) / (real_of_num(1) + (norm : (Cart[Real, N]) -> Real)((op_pct : (Real, Cart[Real, N]) -> Cart[Real, N])(real_of_num(2), (basis : (Num) -> Cart[Real, N])((i : Num))) - (c : Cart[Real, N]))))
       #|  (i : Num)
       #|  (lambda : ((Num) -> Cart[Real, N]) -> Cart[Cart[Real, N], N])((k : Num) => if k == (i : Num) { (matrix_vector_mul : (Cart[Cart[Real, N], N], Cart[Real, N]) -> Cart[Real, N])((transp : (Cart[Cart[Real, N], N]) -> Cart[Cart[Real, N], N])((A : Cart[Cart[Real, N], N])), (c : Cart[Real, N])) } else { (row : (Num, Cart[Cart[Real, N], N]) -> Cart[Real, N])(k, A) })
@@ -56608,7 +56608,7 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  dim((s : (Cart[Real, N]) -> Bool))
       #|  \226\136\128 f : (Cart[Real, N]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, linear(f) && adjoint(f) == f && subspace(s) && (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 IN(f(x), s)) \226\134\146 (\226\136\131 b : (Cart[Real, N]) -> Bool, SUBSET(b, s) && HAS_SIZE(b, dim(s)) && pairwise(orthogonal, b) && (\226\136\128 x : Cart[Real, N], IN(x, b) \226\134\146 norm(x) == real_of_num(1) && (\226\136\131 c : Real, f(x) == op_pct(c, x))))
       #|  !((norm : (Cart[Real, N]) -> Real)((vec : (Num) -> Cart[Real, N])(0)) == real_of_num(1))
-      #|  :real
+      #|  :Real
       #|  (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
       #|  (b : (Cart[Real, N]) -> Bool)
       #|  (s : (Cart[Real, N]) -> Bool)
@@ -56859,8 +56859,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (x : Cart[Real, N])
       #|  \226\136\128 x : Cart[Real, N], norm(matrix_vector_mul(matrix_mul((A : Cart[Cart[Real, N], N]), matrix_inv((B : Cart[Cart[Real, N], N]))), x)) <= norm(x)
       #|  (norm((x : Cart[Real, N])) <= real_of_num(0)) == (x == vec(0))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, N])
       #|  (x : Cart[Real, N])
       #|  (abs((x : Real)) <= abs(real_of_num(0))) == (x == real_of_num(0))
@@ -57099,8 +57099,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (m : Num)
       #|  (m : Num)
       #|  (m : Num) - 1
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  INTER((s : (Num) -> Bool), op_dot_dot(0, (m : Num))) == s
       #|  (m : Num)
       #|  (n : Num)
@@ -57210,7 +57210,7 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (n : Num) => (vec : (Num) -> Cart[Real, Unit])(0)
       #|  \226\136\128 f : (Num) -> Cart[Real, Unit], \226\136\128 s : (Num) -> Bool, \226\136\128 a : Cart[Real, Unit], sums(f, a, s) && (\226\136\128 x : Num, IN(x, s) \226\134\146 real_of_num(0) <= drop(f(x))) \226\134\146 real_of_num(0) <= drop(a)
       #|  norm((x : Cart[Real, N])) <= (y : Real) \226\134\146 real_of_num(0) <= y
-      #|  :real
+      #|  :Real
       #|  0 < (m : Num) + 1
       #|  (m : Num) + 1
       #|  sums(o(lift, (g : (Num) -> Real)), lift((b : Real)), (s : (Num) -> Bool))
@@ -57300,8 +57300,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (e : Real)
       #|  \226\136\128 s : (Num) -> Bool, \226\136\128 x : (Num) -> Cart[Real, _], summable(s, x) \226\134\146 (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 eventually((n : Num) => IN(n, s) \226\134\146 norm(x(n)) < e, sequentially))
       #|  distance(((x : Cart[Real, _]), vec(0))) == norm(x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (n : Num) == SUC((m : Num))
       #|  (m : Num) == (n : Num) - 1
       #|  (N : Num) + 1 <= (n : Num) \226\134\146 N <= n && N <= n - 1
@@ -57315,8 +57315,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (n : Num)
       #|  (n : Num)
       #|  (n : Num) - 1
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 f : (Num) -> Cart[Real, N], \226\136\128 k : (Num) -> Bool, summable(k, f) \226\134\146 bounded(IMAGE(f, k))
       #|  \226\136\128 f : (Num) -> Cart[Real, N], \226\136\128 k : Num, summable(from(k), f) \226\134\146 bounded({vsum(op_dot_dot(k, (n : Num)), f) | IN(n, UNIV)})
       #|  (m : Num) >= (N1 : Num) + (N2 : Num) \226\134\146 m >= N2
@@ -57410,8 +57410,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (x : Cart[Real, N])
       #|  ((a : Bool) && (b : Bool) \226\134\146 (c : Bool)) == (b \226\134\146 a \226\134\146 c)
       #|  norm((x : Cart[Real, _])) <= (a : Real) && norm((y : Cart[Real, _])) <= (b : Real) \226\134\146 norm(x + y) <= a + b
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (i : Num)
       #|  (k : Num)
       #|  0
@@ -57467,8 +57467,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (\226\136\128 x : _, IN(x, (s : (_) -> Bool)) && IN((f : (_) -> _)(x), (n : (_) -> Bool)) && !IN(x, (m : (_) -> Bool)) \226\134\146 IN(f(x), (t : (_) -> Bool))) \226\134\146 SUBSET(DIFF(INTER(IMAGE(f, s), n), IMAGE(f, INTER(s, m))), INTER(IMAGE(f, s), t))
       #|  sum(INTER(IMAGE((f : (Num) -> Num), (s : (Num) -> Bool)), op_dot_dot((N : Num), (n : Num))), (i : Num) => norm((x : (Num) -> Cart[Real, N])(i)))
       #|  norm((a : Cart[Real, N])) < (e : Real) / real_of_num(2) && norm((b : Cart[Real, N])) < e / real_of_num(2) \226\134\146 norm(a - b) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (MAX((a : Num), (b : Num)) <= (c : Num)) == (a <= c && b <= c)
       #|  (n : Num)
       #|  MAX((N : Num), (P : Num))
@@ -57496,8 +57496,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (i : Num)
       #|  sum(op_dot_dot((m : Num) + 1, (n : Num)), (i : Num) => norm((a : (Num, Num) -> Cart[Real, M])(n, i))) * ((e : Real) / (real_of_num(2) * abs((b : Real)) + real_of_num(1)))
       #|  norm((x : Cart[Real, N])) < (e : Real) / real_of_num(2) && norm((y : Cart[Real, N])) <= e / real_of_num(2) \226\134\146 norm(x + y) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  0 <= (m : Num) + 1 && m <= (n : Num)
       #|  (MAX((a : Num), (b : Num)) <= (n : Num)) == (a <= n && b <= n)
       #|  (n : Num)
@@ -57561,8 +57561,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  real_of_num(1) - (k : Real) <= (n : Real) \226\134\146 real_of_num(0) < n + k
       #|  real_of_num(1) - (k : Real) <= (n : Real) \226\134\146 abs(n + k) == n + k
       #|  distance(((ab' : Cart[Real, N]), (ab : Cart[Real, N]))) < (e : Real) / real_of_num(8) \226\134\146 distance(((s : Cart[Real, N]), ab')) <= real_of_num(3) * (e / real_of_num(8)) \226\134\146 distance((s, ab)) < e / real_of_num(2)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (n : Num)
       #|  (n : Num) => max(real_of_num(1) - (k : Real), real_of_num(2) * real_of_num((N : Num)) + real_of_num(1)) <= real_of_num(n) && distance((op_pct(inv(real_of_num(n) + (real_of_num(1) - real_of_num(2) * real_of_num(N))), vsum(op_dot_dot(N, n - N), (i : Num) => (bop : (Cart[Real, M], Cart[Real, N]) -> Cart[Real, P])((x : (Num) -> Cart[Real, M])(i), (y : (Num) -> Cart[Real, N])(n - i)))), bop((a : Cart[Real, M]), (b : Cart[Real, N])))) < (e : Real) / real_of_num(4) && distance((lift((real_of_num(n) + k) / (real_of_num(n) + (real_of_num(1) - real_of_num(2) * real_of_num(N)))), vec(1))) < real_of_num(1) / real_of_num(4) && distance((op_pct((real_of_num(n) + (real_of_num(1) - real_of_num(2) * real_of_num(N))) / (real_of_num(n) + k), bop(a, b)), bop(a, b))) < e / real_of_num(8)
       #|  (i : Num)
@@ -57581,10 +57581,10 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  real_of_num(0) < (e : Real) / real_of_num(4)
       #|  (N : Num)
       #|  (x : Cart[Real, N]) + ((y : Cart[Real, N]) + (z : Cart[Real, N])) == (w : Cart[Real, N]) \226\134\146 (distance((x, vec(0))) < (e : Real) / real_of_num(4) && distance((z, vec(0))) < e / real_of_num(4)) && distance((y, (a : Cart[Real, N]))) < e / real_of_num(2) \226\134\146 distance((w, a)) < e
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (n : Num)
       #|  (n : Num) => max(real_of_num(2 * (N : Num) + 1), -(k : Real)) <= real_of_num(n) && (distance((op_pct(inv(real_of_num(n) + k), vsum(op_dot_dot((m : Num), N - 1), (i : Num) => (bop : (Cart[Real, M], Cart[Real, N]) -> Cart[Real, P])((x : (Num) -> Cart[Real, M])(i), (y : (Num) -> Cart[Real, N])(n - i)))), vec(0))) < (e : Real) / real_of_num(4) && distance((op_pct(inv(real_of_num(n) + k), vsum(op_dot_dot(n - N + 1, n), (i : Num) => bop(x(i), y(n - i)))), vec(0))) < e / real_of_num(4)) && distance((op_pct(inv(real_of_num(n) + k), vsum(op_dot_dot(N, n - N), (i : Num) => bop(x(i), y(n - i)))), bop((a : Cart[Real, M]), (b : Cart[Real, N])))) < e / real_of_num(2)
       #|  (m : Num) + 1 <= (n : Num) \226\134\146 1 <= n
@@ -57670,7 +57670,7 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (e : Real)
       #|  (e : Real)
       #|  \226\136\128 x : (Num) -> Cart[Real, N], cauchy(x) == summable(from(0), (n : Num) => x(n + 1) - x(n))
-      #|  :real
+      #|  :Real
       #|  (n : Num)
       #|  (n : Num)
       #|  0
@@ -57751,9 +57751,9 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (b : Cart[Real, N]) == (a : Cart[Real, N])
       #|  (M : Num) + (N : Num)
       #|  distance(((fx : Cart[Real, _]), (fy : Cart[Real, _]))) <= distance(((x : Cart[Real, _]), (y : Cart[Real, _]))) \226\134\146 !(distance((fx - fy, (a : Cart[Real, _]) - (b : Cart[Real, _]))) < distance((a, b)) - distance((x, y)))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (M : Num) + (N : Num)
       #|  (M : Num)
       #|  (N : Num)
@@ -57781,10 +57781,10 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (s : (Cart[Real, N]) -> Bool)
       #|  (g : (Cart[Real, N]) -> Cart[Real, N])
       #|  \226\136\128 f : (Cart[Real, N]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, compact(s) && !(s == {}) && SUBSET(IMAGE(f, s), s) && (\226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], IN(x, s) && IN(y, s) && !(x == y) \226\134\146 distance((f(x), f(y))) < distance((x, y))) \226\134\146 existsunique((x : Cart[Real, N]) => IN(x, s) && f(x) == x)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (n : Num)
       #|  (n : Num)
       #|  (y : Cart[Real, N])
@@ -57836,12 +57836,12 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  closest_point((s : (Cart[Real, N]) -> Bool), (x : Cart[Real, N]))
       #|  (x : Cart[Real, N])
       #|  closest_point((s : (Cart[Real, N]) -> Bool), (y : Cart[Real, N]))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 x : Cart[Real, N], closed(s) && !(s == {}) \226\134\146 continuous((x : Cart[Real, N]) => lift(distance((x, closest_point(s, x)))), at(x))
       #|  \226\136\128 s : (Cart[Real, _]) -> Bool, \226\136\128 t : (Cart[Real, _]) -> Bool, closed(s) && !(s == {}) \226\134\146 continuous_on((x : Cart[Real, _]) => lift(distance((x, closest_point(s, x)))), t)
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, closed(s) && !(s == {}) \226\134\146 uniformly_continuous_on((x : Cart[Real, N]) => lift(distance((x, closest_point(s, x)))), t)
@@ -57853,8 +57853,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  !((n : Real) <= (a : Real) * n) == (real_of_num(0) < (real_of_num(1) - a) * n)
       #|  real_of_num(0) <= (a : Real) \226\134\146 abs(min(real_of_num(1), a)) <= a
       #|  distance(((a : Cart[Real, N]), a - (x : Cart[Real, N]))) == norm(x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, N]) - ((y : Cart[Real, N]) - op_pct((e : Real), y - x)) == op_pct(real_of_num(1) - e, x - y)
       #|  closest_point((s : (Cart[Real, N]) -> Bool), (x : Cart[Real, N])) - op_pct(min(real_of_num(1), (e : Real) / norm(closest_point(s, x) - x)), closest_point(s, x) - x)
       #|  (x : Cart[Real, N])
@@ -57916,8 +57916,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (t : (Cart[Real, N]) -> Bool) == {}
       #|  (s : (Cart[Real, N]) -> Bool) == {}
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], \226\136\128 t : (Cart[Real, N]) -> Bool, setdist((s, t)) <= setdist((s, {a})) + setdist(({a}, t))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  {(f : (_, _) -> _)((x : _), (y : _)) | IN(x, {(a : _)}) && IN(y, {(b : _)})} == {f(a, b)}
       #|  \226\136\128 x : Cart[Real, _], \226\136\128 y : Cart[Real, _], setdist(({x}, {y})) == distance((x, y))
       #|  (c : Real)
@@ -58034,11 +58034,11 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  real_of_num(1) - (r : Real) / (y : Real) - (s : Real) / y == real_of_num(1) - (r + s) / y
       #|  (a : Cart[Real, N]) + op_pct((d : Real), (b : Cart[Real, N]) - a) - (b - op_pct((e : Real), b - a)) == op_pct(real_of_num(1) - d - e, a - b)
       #|  distance(((a : Cart[Real, N]), a - (x : Cart[Real, N]))) == norm(x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  distance(((a : Cart[Real, N]), a + (x : Cart[Real, N]))) == norm(x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  distance(((a : Cart[Real, N]) + op_pct((r : Real) / distance((a, (b : Cart[Real, N]))), b - a), b - op_pct((s : Real) / distance((a, b)), b - a)))
       #|  (r : Real) == real_of_num(0) && (s : Real) == real_of_num(0)
       #|  (b : Cart[Real, N]) == (a : Cart[Real, N])
@@ -58047,12 +58047,12 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  ((p : Bool) || (q : Bool) \226\134\146 (r : Bool)) == ((p \226\134\146 r) && (q \226\134\146 r))
       #|  ((x : _) == (if (p : Bool) { (y : _) } else { (z : _) })) == ((p \226\134\146 x == y) && (!p \226\134\146 x == z))
       #|  (\226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 r : Real, \226\136\128 s : Real, setdist((ball((a, r)), ball((b, s)))) == (if r <= real_of_num(0) || s <= real_of_num(0) { real_of_num(0) } else { max(real_of_num(0), distance((a, b)) - (r + s)) })) && (\226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 r : Real, \226\136\128 s : Real, setdist((ball((a, r)), cball((b, s)))) == (if r <= real_of_num(0) || s < real_of_num(0) { real_of_num(0) } else { max(real_of_num(0), distance((a, b)) - (r + s)) })) && (\226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 r : Real, \226\136\128 s : Real, setdist((cball((a, r)), ball((b, s)))) == (if r < real_of_num(0) || s <= real_of_num(0) { real_of_num(0) } else { max(real_of_num(0), distance((a, b)) - (r + s)) })) && (\226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 r : Real, \226\136\128 s : Real, setdist((cball((a, r)), cball((b, s)))) == (if r < real_of_num(0) || s < real_of_num(0) { real_of_num(0) } else { max(real_of_num(0), distance((a, b)) - (r + s)) }))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  distance(((a : Cart[Real, N]), (b : Cart[Real, N]))) == distance((a + (c : Cart[Real, N]), b + c))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Real) < (y : Real) \226\134\146 (!(p : Bool) \226\134\146 y <= x) \226\134\146 p
       #|  (c : Cart[Real, N])
       #|  (b : Cart[Real, N])
@@ -58083,8 +58083,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  IMAGE(o((y : (Num) -> Cart[Real, M]), (r : (Num) -> Num)), UNIV)
       #|  IMAGE(o((x : (Num) -> Cart[Real, M]), (r : (Num) -> Num)), UNIV)
       #|  norm((x : Cart[Real, N])) <= (B : Real) && B + (e : Real) < norm((y : Cart[Real, N])) \226\134\146 e <= distance((x, y))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (p : Num)
       #|  FINITE((s : (Num) -> Bool)) \226\134\146 !(s == UNIV)
       #|  (m : Num)
@@ -58103,9 +58103,9 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (l : Cart[Real, N])
       #|  (f : (Cart[Real, M]) -> Cart[Real, N])((x : (Num) -> Cart[Real, M])((r : (Num) -> Num)((n : Num))))
       #|  \226\136\128 xn : Cart[Real, N], \226\136\128 l : Cart[Real, N], distance(((xm : Cart[Real, N]), l)) < (e : Real) / real_of_num(4) && distance((xn, l)) < e / real_of_num(4) && e <= distance((xn, (yn : Cart[Real, N]))) \226\134\146 e / real_of_num(2) <= distance((xm, yn))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (n : Num)
       #|  (m : Num)
       #|  (e : Real) / real_of_num(2)
@@ -58144,8 +58144,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  op_tilde
       #|  false
       #|  !((p : Real) <= distance(((x : Cart[Real, N]), x + (y : Cart[Real, N])))) == (norm(y) < p)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, N]) + (y : Cart[Real, N])
       #|  (x : Cart[Real, N])
       #|  (t : (Cart[Real, N]) -> Bool)
@@ -58371,8 +58371,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (s : (Cart[Real, N]) -> Bool) == {}
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, bounded(s) && compact(t) && !(t == {}) \226\134\146 (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 (\226\136\131 y : Cart[Real, N], IN(y, t) && distance((x, y)) <= hausdist((s, t))))
       #|  distance(((y : Cart[Real, _]), (z : Cart[Real, _]))) <= (b : Real) \226\134\146 distance(((x : Cart[Real, _]), y)) <= (a : Real) && (s : Real) <= distance((x, z)) \226\134\146 s <= a + b
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\131 z : Cart[Real, N], IN(z, (u : (Cart[Real, N]) -> Bool)) && distance(((y : Cart[Real, N]), z)) <= hausdist(((t : (Cart[Real, N]) -> Bool), u))
       #|  \226\136\131 y : Cart[Real, N], IN(y, (t : (Cart[Real, N]) -> Bool)) && distance(((x : Cart[Real, N]), y)) <= hausdist(((s : (Cart[Real, N]) -> Bool), t))
       #|  (x : Cart[Real, N])
@@ -58417,10 +58417,10 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (closure : ((Cart[Real, N]) -> Bool, Cart[Real, N]) -> Bool)
       #|  (closure : ((Cart[Real, N]) -> Bool, Cart[Real, N]) -> Bool)
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, \226\136\128 u : (Cart[Real, N]) -> Bool, \226\136\128 v : (Cart[Real, N]) -> Bool, bounded(s) && bounded(t) && bounded(u) && bounded(v) \226\134\146 hausdist(({(x : Cart[Real, N]) + (y : Cart[Real, N]) | IN(x, s) && IN(y, t)}, {(x : Cart[Real, N]) + (y : Cart[Real, N]) | IN(x, u) && IN(y, v)})) <= hausdist((s, u)) + hausdist((t, v))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, \226\136\128 u : (Cart[Real, N]) -> Bool, bounded(s) && bounded(t) && bounded(u) \226\134\146 hausdist(({(x : Cart[Real, N]) + (y : Cart[Real, N]) | IN(x, s) && IN(y, t)}, {(x : Cart[Real, N]) + (y : Cart[Real, N]) | IN(x, s) && IN(y, u)})) <= hausdist((t, u))
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, \226\136\128 u : (Cart[Real, N]) -> Bool, bounded(s) && bounded(t) && bounded(u) \226\134\146 hausdist(({(x : Cart[Real, N]) + (y : Cart[Real, N]) | IN(x, s) && IN(y, u)}, {(x : Cart[Real, N]) + (y : Cart[Real, N]) | IN(x, t) && IN(y, u)})) <= hausdist((s, t))
       #|  real_of_num(0) <= (x : Real) \226\134\146 (x <= real_of_num(0)) == (x == real_of_num(0))
@@ -58432,13 +58432,13 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, compact(s) && compact(t) && !(s == {}) && !(t == {}) \226\134\146 hausdist((s, t)) == inf({(e : Real) | real_of_num(0) <= e && SUBSET(s, {(x : Cart[Real, N]) + (y : Cart[Real, N]) | IN(x, t) && norm(y) <= e}) && SUBSET(t, {(x : Cart[Real, N]) + (y : Cart[Real, N]) | IN(x, s) && norm(y) <= e})})
       #|  (b : Cart[Real, N]) - op_pct((e : Real), (a : Cart[Real, N]) - b) - a == op_pct(real_of_num(1) + e, b - a)
       #|  distance(((a : Cart[Real, N]), a - (x : Cart[Real, N]))) == norm(x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (b : Cart[Real, N]) - op_pct((s : Real) / distance(((a : Cart[Real, N]), b)), a - b)
       #|  (a : Cart[Real, N]) - op_pct((r : Real) / distance((a, (b : Cart[Real, N]))), b - a)
       #|  distance(((a : Cart[Real, N]), a + (x : Cart[Real, N]))) == norm(x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (a : Cart[Real, N]) + op_pct((s : Real), basis(1))
       #|  (a : Cart[Real, N]) + op_pct((r : Real), basis(1))
       #|  (b : Cart[Real, N]) == (a : Cart[Real, N])
@@ -58449,34 +58449,34 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  ((p : Bool) || (q : Bool) \226\134\146 (r : Bool)) == ((p \226\134\146 r) && (q \226\134\146 r))
       #|  ((x : _) == (if (p : Bool) { (y : _) } else { (z : _) })) == ((p \226\134\146 x == y) && (!p \226\134\146 x == z))
       #|  (\226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 r : Real, \226\136\128 s : Real, hausdist((ball((a, r)), ball((b, s)))) == (if r <= real_of_num(0) || s <= real_of_num(0) { real_of_num(0) } else { distance((a, b)) + abs(r - s) })) && (\226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 r : Real, \226\136\128 s : Real, hausdist((ball((a, r)), cball((b, s)))) == (if r <= real_of_num(0) || s < real_of_num(0) { real_of_num(0) } else { distance((a, b)) + abs(r - s) })) && (\226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 r : Real, \226\136\128 s : Real, hausdist((cball((a, r)), ball((b, s)))) == (if r < real_of_num(0) || s <= real_of_num(0) { real_of_num(0) } else { distance((a, b)) + abs(r - s) })) && (\226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 r : Real, \226\136\128 s : Real, hausdist((cball((a, r)), cball((b, s)))) == (if r < real_of_num(0) || s < real_of_num(0) { real_of_num(0) } else { distance((a, b)) + abs(r - s) }))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  distance(((y : Cart[Real, N]), (x : Cart[Real, N]))) <= (b : Real)
       #|  distance(((z : Cart[Real, N]), (x : Cart[Real, N])))
       #|  (x : Cart[Real, N])
@@ -58498,10 +58498,10 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  closure((t : (Cart[Real, N]) -> Bool))
       #|  hausdist(((s : (Cart[Real, N]) -> Bool), (t : (Cart[Real, N]) -> Bool))) == hausdist((closure(s), closure(t)))
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, bounded(s) && bounded(t) && !(s == {}) && !(t == {}) \226\134\146 hausdist((s, t)) == sup({abs(setdist(({(x : Cart[Real, N])}, s)) - setdist(({x}, t))) | IN(x, UNIV)})
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  hausdist(((s : (Cart[Real, N]) -> Bool), (t : (Cart[Real, N]) -> Bool))) == hausdist((closure(s), closure(t)))
       #|  (x : Real) <= (y : Real) + (e : Real) && y <= x + e \226\134\146 abs(x - y) <= e
       #|  hausdist(((s : (Cart[Real, N]) -> Bool), (t : (Cart[Real, N]) -> Bool)))
@@ -58517,9 +58517,9 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  !((k : (_) -> Bool) == {}) \226\134\146 (\226\136\128 x : _, IN(x, k) \226\134\146 (\226\136\131 y : _, (R : (_, _) -> Bool)(x, y) && (P : (_) -> Bool)(y))) \226\134\146 (\226\136\131 x : _, \226\136\131 y : _, (IN(x, k) && P(y)) && R(x, y))
       #|  !(INTER((s : (_) -> Bool), (t : (_) -> Bool)) == {}) == (\226\136\131 x : _, IN(x, s) && IN(x, t))
       #|  (e : Real) <= distance(((x : Cart[Real, N]), (y : Cart[Real, N]))) \226\134\146 norm((a : Cart[Real, N])) < e / real_of_num(2) && norm((b : Cart[Real, N])) < e / real_of_num(2) \226\134\146 !(x + a == y + b)
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (\226\136\128 x : _, \226\136\128 y : _, \226\136\128 a : _, \226\136\128 b : _, (IN(x, (s : (_) -> Bool)) && IN(y, (t : (_) -> Bool))) && IN(a, (u : (_) -> Bool)) && IN(b, u) \226\134\146 !((f : (_, _) -> _)(x, a) == f(y, b))) \226\134\146 INTER({f((x : _), (a : _)) | IN(x, s) && IN(a, u)}, INTER({f((x : _), (a : _)) | IN(x, t) && IN(a, u)}, (v : (_) -> Bool))) == {}
       #|  SUBSET((t : (_) -> Bool), (u : (_) -> Bool)) \226\134\146 SUBSET((s : (_) -> Bool), {(f : (_, _) -> _)((x : _), (y : _)) | IN(x, (k : (_) -> Bool)) && IN(y, t)}) \226\134\146 SUBSET(s, {f((x : _), (y : _)) | IN(x, k) && IN(y, u)})
       #|  (k : (Cart[Real, N]) -> Bool)
@@ -58674,7 +58674,7 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 f : (Num, Cart[Real, N]) -> Bool, (\226\136\128 n : Num, bounded(f(n)) && !(f(n) == {})) && (\226\136\128 m : Num, \226\136\128 n : Num, m <= n \226\134\146 hausdist((f(m), f(n))) < inv(pow(real_of_num(2), m))) \226\134\146 (\226\136\131 s : (Cart[Real, N]) -> Bool, bounded(s) && !(s == {}) && op_minus_minus_gt((n : Num) => lift(hausdist((f(n), s))), vec(0), sequentially))
       #|  \226\136\128 f : (Num, Cart[Real, N]) -> Bool, (\226\136\128 n : Num, bounded(f(n)) && !(f(n) == {})) && (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 (\226\136\131 N : Num, \226\136\128 m : Num, \226\136\128 n : Num, m >= N && n >= N \226\134\146 hausdist((f(m), f(n))) < e)) \226\134\146 (\226\136\131 s : (Cart[Real, N]) -> Bool, compact(s) && !(s == {}) && op_minus_minus_gt((n : Num) => lift(hausdist((f(n), s))), vec(0), sequentially))
       #|  (k : Num) + 1 <= (m : Num) \226\134\146 m - 1 + 1 == m && k <= m - 1
-      #|  :real
+      #|  :Real
       #|  (n : Num) + 1 <= (m : Num) \226\134\146 m - 1 + 1 == m && n <= m - 1
       #|  (s : (Cart[Real, N]) -> Bool)
       #|  \226\136\131 y : Cart[Real, N], IN(y, (f : (Num, Cart[Real, N]) -> Bool)((n : Num))) && distance((y, (x : Cart[Real, N]))) < (e : Real)
@@ -58726,8 +58726,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (e : Real) / real_of_num(4)
       #|  closure((s : (Cart[Real, N]) -> Bool))
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 e : Real, bounded(s) && real_of_num(0) < e \226\134\146 (\226\136\131 k : ((Cart[Real, N]) -> Bool) -> Bool, FINITE(k) && (\226\136\128 u : (Cart[Real, N]) -> Bool, IN(u, k) \226\134\146 !(u == {}) && SUBSET(u, s)) && (\226\136\128 t : (Cart[Real, N]) -> Bool, SUBSET(t, s) && !(t == {}) \226\134\146 (\226\136\131 u : (Cart[Real, N]) -> Bool, IN(u, k) && hausdist((t, u)) < e)))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_of_num(0) <= (x : Real) && (y : Real) <= (z : Real) \226\134\146 real_of_num(1) * y - real_of_num(1) * x <= z
       #|  inv((i : Real)) < (e : Real) \226\134\146 (x : Real) <= inv(real_of_num(2)) * inv(i) \226\134\146 x / (real_of_num(1) / real_of_num(2)) < e
       #|  sum(op_dot_dot((m : Num), (n : Num) - 1), (i : Num) => inv(pow(real_of_num(2), i)))
@@ -58827,7 +58827,7 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (x : Cart[Real, N]) => midpoint(((a : Cart[Real, M]), (b : Cart[Real, M])))
       #|  (\226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, (P : ((_) -> Bool, (_) -> Bool) -> Bool)(s, t) == P(t, s)) && (\226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, !(s == {}) && !(t == {}) \226\134\146 P(s, t)) && P({}, {}) && (\226\136\128 t : (_) -> Bool, !(t == {}) \226\134\146 P({}, t)) \226\134\146 (\226\136\128 s : (_) -> Bool, \226\136\128 t : (_) -> Bool, P(s, t))
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, \226\136\128 u : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, M], \226\136\128 b : Cart[Real, M], closed_in(subtopology(euclidean, u), s) && closed_in(subtopology(euclidean, u), t) && INTER(s, t) == {} && !(a == b) \226\134\146 (\226\136\131 f : (Cart[Real, N]) -> Cart[Real, M], continuous_on(f, u) && (\226\136\128 x : Cart[Real, N], IN(x, u) \226\134\146 IN(f(x), segment([(a, b)]))) && (\226\136\128 x : Cart[Real, N], IN(x, u) \226\134\146 (f(x) == a) == IN(x, s)) && (\226\136\128 x : Cart[Real, N], IN(x, u) \226\134\146 (f(x) == b) == IN(x, t)))
-      #|  :real
+      #|  :Real
       #|  (b : Cart[Real, M])
       #|  (a : Cart[Real, M])
       #|  (u : (Cart[Real, N]) -> Bool)
@@ -58873,12 +58873,12 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  {(x : _) | (P : (_) -> Bool)(x)} == P
       #|  (IMAGE : (((Cart[Real, N], Real), Cart[Real, N]) -> Bool, ((Cart[Real, N], Real)) -> Bool, (Cart[Real, N]) -> Bool) -> Bool)((GABS : ((((Cart[Real, N], Real), Cart[Real, N]) -> Bool) -> Bool, (Cart[Real, N], Real), Cart[Real, N]) -> Bool)((f : ((Cart[Real, N], Real), Cart[Real, N]) -> Bool) => \226\136\128 v : Cart[Real, N], \226\136\128 q : Real, (GEQ : ((Cart[Real, N]) -> Bool, (Cart[Real, N]) -> Bool) -> Bool)(f((v, q)), (ball : ((Cart[Real, N], Real), Cart[Real, N]) -> Bool)((v, q)))), (CROSS : ((Cart[Real, N]) -> Bool, (Real) -> Bool, (Cart[Real, N], Real)) -> Bool)({(v : Cart[Real, N]) | \226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 rational((op_dollar : (Cart[Real, N], Num) -> Real)(v, i))}, rational))
       #|  \226\136\131 b : ((Cart[Real, N]) -> Bool) -> Bool, COUNTABLE(b) && (\226\136\128 c : (Cart[Real, N]) -> Bool, IN(c, b) \226\134\146 open(c)) && (\226\136\128 s : (Cart[Real, N]) -> Bool, open(s) \226\134\146 (\226\136\131 u : ((Cart[Real, N]) -> Bool) -> Bool, SUBSET(u, b) && s == UNIONS(u)))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (s : (Cart[Real, N]) -> Bool)
       #|  (s : (Cart[Real, N]) -> Bool)
       #|  (b : (Num, Cart[Real, N]) -> Bool)
@@ -58978,8 +58978,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  {(c : (Cart[Real, N]) -> Bool) | compact(c) && open_in(subtopology(euclidean, (u : (Cart[Real, N]) -> Bool)), c)}
       #|  \226\136\128 u : (Cart[Real, N]) -> Bool, compact(u) \226\134\146 COUNTABLE({(c : (Cart[Real, N]) -> Bool) | closed_in(subtopology(euclidean, u), c) && open_in(subtopology(euclidean, u), c)})
       #|  (distance(((p : Cart[Real, N]), (q : Cart[Real, N]))) + real_of_num(1) <= real_of_num(1)) == (p == q)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Real) => (ball : ((Cart[Real, N], Real), Cart[Real, N]) -> Bool)(((op_pct : (Real, Cart[Real, N]) -> Cart[Real, N])(x, (basis : (Num) -> Cart[Real, N])(1)), real_of_num(1)))
       #|  {(s : (Num) -> Bool) | SUBSET(s, UNIV)}
       #|  (UNIONS : (((Cart[Real, N]) -> Bool) -> Bool, Cart[Real, N]) -> Bool)
@@ -59022,8 +59022,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (e : Real)
       #|  ((r : Bool) \226\134\146 (q : Bool)) && (q \226\134\146 (p : Bool)) && (p \226\134\146 r) \226\134\146 q == p && r == p
       #|  (\226\136\128 x : Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, limit_point_of(x, {(y : Cart[Real, N]) | condensation_point_of(y, s)}) == condensation_point_of(x, s)) && (\226\136\128 x : Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, condensation_point_of(x, {(y : Cart[Real, N]) | condensation_point_of(y, s)}) == condensation_point_of(x, s))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, closed({(x : Cart[Real, N]) | condensation_point_of(x, s)})
       #|  (s : (Cart[Real, N]) -> Bool)
       #|  (t : (Cart[Real, N]) -> Bool)
@@ -59047,12 +59047,12 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (x : Cart[Real, N])
       #|  \226\136\128 x : Cart[Real, N], (IN : (Cart[Real, N], (Cart[Real, N]) -> Bool) -> Bool)(x, (s : (Cart[Real, N]) -> Bool)) \226\134\146 (\226\136\131 q : Cart[Real, N], (\226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 rational((op_dollar : (Cart[Real, N], Num) -> Real)(q, i))) && (\226\136\128 y : Cart[Real, N], (IN : (Cart[Real, N], (Cart[Real, N]) -> Bool) -> Bool)(y, s) && !(y == x) \226\134\146 (norm : (Cart[Real, N]) -> Real)(x - q) < (norm : (Cart[Real, N]) -> Real)(y - q)))
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 (\226\136\131 e : Real, real_of_num(0) < e && (\226\136\128 y : Cart[Real, N], IN(y, s) && !(y == x) \226\134\146 e <= norm(y - x)))) \226\134\146 COUNTABLE(s)
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 s : (Cart[Real, _]) -> Bool, !COUNTABLE(s) \226\134\146 (\226\136\131 x : Cart[Real, _], IN(x, s) && limit_point_of(x, s))
       #|  IN((x : Cart[Real, Unit]), (s : (Cart[Real, Unit]) -> Bool))
       #|  (x : Cart[Real, Unit])
@@ -59113,8 +59113,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (B : (Cart[Real, Unit]) -> Cart[Real, Unit])
       #|  (l : Cart[Real, N])
       #|  \226\136\128 l : Cart[Real, N], distance(((x : Cart[Real, N]), l)) < (e : Real) / real_of_num(2) && distance(((y : Cart[Real, N]), l)) < e / real_of_num(2) \226\134\146 distance((x, y)) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, Unit])
       #|  (x : Cart[Real, Unit])
       #|  min(drop((b : Cart[Real, Unit])) - drop((a : Cart[Real, Unit])), drop(a) + (d : Real) - drop(b))
@@ -59228,7 +59228,7 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (b : Cart[Real, N])
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, (\226\136\128 c : (Cart[Real, M]) -> Bool, closed_in(subtopology(euclidean, s), c) \226\134\146 closed_in(subtopology(euclidean, t), IMAGE(f, c))) && (\226\136\128 w : (Cart[Real, M]) -> Bool, \226\136\128 x : Cart[Real, M], open_in(subtopology(euclidean, s), w) && IN(x, w) \226\134\146 (\226\136\131 u : (Cart[Real, M]) -> Bool, open_in(subtopology(euclidean, s), u) && PSUBSET({x}, u) && SUBSET(u, w) && continuous_on(f, u) && (\226\136\128 x' : Cart[Real, M], IN(x', u) && !(x' == x) \226\134\146 !(f(x') == f(x))))) \226\134\146 (\226\136\128 y : Cart[Real, N], FINITE({(x : Cart[Real, M]) | IN(x, s) && f(x) == y}))
       #|  (s : (Cart[Real, M]) -> Bool)
-      #|  :real
+      #|  :Real
       #|  (a : (Num) -> Cart[Real, M])((N : Num))
       #|  (N' : Num)
       #|  (a : (Num) -> Cart[Real, M])((N : Num))
@@ -59263,8 +59263,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (N' : Num)
       #|  (a : (Num) -> Cart[Real, M])((N' : Num))
       #|  (N : Num)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  connected_component((s : (Cart[Real, M]) -> Bool), (x : Cart[Real, M]))
       #|  (x : Cart[Real, M])
       #|  (s : (Cart[Real, M]) -> Bool)
@@ -59335,9 +59335,9 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (m : Num)
       #|  (y : Cart[Real, M])
       #|  norm((f : (_, _) -> Cart[Real, M])((k : (Num) -> _)((m : Num)), (y : _)) - f(k(m), (x : _))) < (e : Real) / real_of_num(3) && norm(f(k((n : Num)), y) - f(k(n), x)) < e / real_of_num(3) && norm(f(k(m), y) - f(k(n), y)) < e / real_of_num(3) \226\134\146 norm(f(k(m), x) - f(k(n), x)) < e
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, M])
       #|  (x : Cart[Real, M])
       #|  SUBSET((s : (Cart[Real, M]) -> Bool), UNIONS(IMAGE((x : Cart[Real, M]) => ball((x, (d : Real))), (t : (Cart[Real, M]) -> Bool))))
@@ -59389,8 +59389,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (x : Cart[Real, M])
       #|  abs((b : Real)) * norm((x : Cart[Real, M]) - (y : Cart[Real, M]))
       #|  norm((y : Cart[Real, M])) <= (b : Real) && (a : Real) <= (c : Real) \226\134\146 norm((x : Cart[Real, M]) - y) <= a \226\134\146 norm(x) <= b + c
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, M])
       #|  (x : Cart[Real, M])
       #|  (n : Num)
@@ -59484,8 +59484,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (n : Num)
       #|  \226\136\128 n : Num, \226\136\131 c : ((Cart[Real, N]) -> Bool) -> Bool, COUNTABLE(c) && UNIONS(c) == (s : (Cart[Real, N]) -> Bool) && (\226\136\128 u : (Cart[Real, N]) -> Bool, IN(u, c) \226\134\146 !(u == {}) && open_in(subtopology(euclidean, s), u) && (P : ((Cart[Real, N]) -> Bool) -> Bool)(u) && (\226\136\131 x : Cart[Real, N], IN(x, s) && IN(x, u) && SUBSET(u, ball((x, inv(real_of_num(n) + real_of_num(1)))))))
       #|  \226\136\128 P : ((Cart[Real, N]) -> Bool) -> Bool, \226\136\128 s : (Cart[Real, N]) -> Bool, locally((u : (Cart[Real, N]) -> Bool) => open_in(subtopology(euclidean, s), u) && P(u), s) == (\226\136\131 b : ((Cart[Real, N]) -> Bool) -> Bool, COUNTABLE(b) && (\226\136\128 c : (Cart[Real, N]) -> Bool, IN(c, b) \226\134\146 !(c == {}) && open_in(subtopology(euclidean, s), c) && P(c)) && (\226\136\128 t : (Cart[Real, N]) -> Bool, open_in(subtopology(euclidean, s), t) \226\134\146 (\226\136\131 u : ((Cart[Real, N]) -> Bool) -> Bool, SUBSET(u, b) && t == UNIONS(u))))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (s : (Cart[Real, N]) -> Bool)
       #|  (u : (Cart[Real, N]) -> Bool)
       #|  IN((y : Cart[Real, N]), (w : (Cart[Real, N]) -> Bool))
@@ -60064,8 +60064,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (z : Cart[Real, M])
       #|  (z : Cart[Real, M])
       #|  (y : Cart[Real, M])
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (UNIV : (Cart[Real, M]) -> Bool)
       #|  (f : (Cart[Real, M]) -> Cart[Real, N])
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], gdelta({(x : Cart[Real, M]) | continuous(f, at(x))})
@@ -60414,8 +60414,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  abs((x : Real)) <= (n : Real) \226\134\146 x == min(max(-n, x), n)
       #|  (i : Num)
       #|  norm((x : Cart[Real, N]) - (y : Cart[Real, N])) < (a : Real) - norm(y) \226\134\146 norm(x) <= a
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (m : Num)
       #|  (m : Num) => norm((d : (Num, Cart[Real, M]) -> Cart[Real, N])(m, (x : Cart[Real, M])) - (h : (Num, Cart[Real, M]) -> Cart[Real, N])((n : Num), x)) < inv(pow(real_of_num(2), n)) - norm(h(n, x))
       #|  (k : Num) => (d : (Num, Cart[Real, M]) -> Cart[Real, N])(k, (x : Cart[Real, M]))
@@ -60429,8 +60429,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (n : Num)
       #|  \226\136\128 n : Num, \226\136\131 d : (Num, Cart[Real, M]) -> Cart[Real, N], (\226\136\128 m : Num, (baire : (Num, (Cart[Real, M]) -> Bool, (Cart[Real, M]) -> Cart[Real, N]) -> Bool)((k : Num), (s : (Cart[Real, M]) -> Bool), d(m))) && (\226\136\128 m : Num, \226\136\128 x : Cart[Real, M], (norm : (Cart[Real, N]) -> Real)(d(m, x)) <= real_of_num((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) / pow(real_of_num(2), n)) && (\226\136\128 x : Cart[Real, M], (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(x, s) \226\134\146 (op_minus_minus_gt : ((Num) -> Cart[Real, N], Cart[Real, N], Net[Num]) -> Bool)((m : Num) => d(m, x), (h : (Num, Cart[Real, M]) -> Cart[Real, N])(n, x), sequentially))
       #|  (a : Real) + (b : Real) <= (c : Real) \226\134\146 norm((f : Cart[Real, N]) - (g : Cart[Real, N])) < a \226\134\146 norm((f' : Cart[Real, N]) - g) < b \226\134\146 norm(f' - f) < c
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 n : Num, \226\136\128 x : Cart[Real, M], IN(x, (s : (Cart[Real, M]) -> Bool)) \226\134\146 norm((h : (Num, Cart[Real, M]) -> Cart[Real, N])(n, x)) < inv(pow(real_of_num(2), n))
       #|  (h : (Num, Cart[Real, M]) -> Cart[Real, N]) == ((n : Num) => (x : Cart[Real, M]) => (f : (Num, Cart[Real, M]) -> Cart[Real, N])((r : (Num) -> Num)(n + 1), x) - f(r(n), x))
       #|  (r : (Num) -> Num)
@@ -60452,9 +60452,9 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (n : Num)
       #|  (x : Cart[Real, M])
       #|  (n : Num) + 1
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (g : (Num, Cart[Real, M]) -> Cart[Real, N])
       #|  (g : (Num, Cart[Real, M]) -> Cart[Real, N])
       #|  real_of_num(0) < real_of_num((n : Num)) + real_of_num(1)
@@ -60804,8 +60804,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (q : (Num, Cart[Real, M]) -> Cart[Real, N])((m : Num), (x : Cart[Real, M])) == vec(0)
       #|  (x : Real) < (y : Real) \226\134\146 min(y, x) == x
       #|  distance(((x : Cart[Real, N]), (y : Cart[Real, N]))) < (real_of_num(1) - norm(y)) / real_of_num(2) && (a : Real) < (real_of_num(1) - norm(y)) / real_of_num(2) \226\134\146 norm(x) < real_of_num(1) - a
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (m : Num)
       #|  (real_of_num(1) - norm((g : (Cart[Real, M]) -> Cart[Real, N])((x : Cart[Real, M])))) / real_of_num(2)
       #|  op_minus_minus_gt((n : Num) => (q : (Num, Cart[Real, M]) -> Cart[Real, N])(n, (x : Cart[Real, M])), (g : (Cart[Real, M]) -> Cart[Real, N])(x), sequentially)
@@ -60838,7 +60838,7 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  real_of_num(1)
       #|  (vec : (Num) -> Cart[Real, N])(0)
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 k : Num, 1 <= k \226\134\146 baire(k, s, f) == (\226\136\128 u : (Cart[Real, N]) -> Bool, open(u) \226\134\146 (\226\136\131 t : (Cart[Real, M]) -> Bool, UNION_OF(COUNTABLE, o(baire(k, UNIV), indicator), t) && {(x : Cart[Real, M]) | IN(x, s) && IN(f(x), u)} == INTER(s, t)))
-      #|  :real
+      #|  :Real
       #|  {(x : Cart[Real, M]) | IN(x, (s : (Cart[Real, M]) -> Bool)) && IN((f : (Cart[Real, M]) -> Cart[Real, N])(x), (u : (Cart[Real, N]) -> Bool))}
       #|  (u : (Cart[Real, N]) -> Bool)
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 k : Num, 1 <= k && UNION_OF(COUNTABLE, o(baire(k, UNIV), indicator), s) \226\134\146 baire(k, s, f) == (\226\136\128 u : (Cart[Real, N]) -> Bool, open(u) \226\134\146 UNION_OF(COUNTABLE, o(baire(k, UNIV), indicator), {(x : Cart[Real, M]) | IN(x, s) && IN(f(x), u)}))
@@ -60945,8 +60945,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  \226\136\128 f : (Cart[Real, N]) -> Cart[Real, Unit], \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 k : Num, baire(k, s, f) && 1 <= k && INTERSECTION_OF(COUNTABLE, o(baire(k, UNIV), indicator), s) && (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 norm(f(x)) < real_of_num(1)) \226\134\146 (\226\136\131 g : (Cart[Real, N]) -> Cart[Real, Unit], baire(k, UNIV, g) && (\226\136\128 x : Cart[Real, N], norm(g(x)) < real_of_num(1)) && (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 g(x) == f(x)))
       #|  {(y : Cart[Real, Unit]) | drop(y) >= pow(real_of_num(2) / real_of_num(3), (n : Num)) / real_of_num(3)}
       #|  {(y : Cart[Real, Unit]) | drop(y) <= -(pow(real_of_num(2) / real_of_num(3), (n : Num)) / real_of_num(3))}
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  {(x : Cart[Real, N]) | IN((h' : (Cart[Real, Unit]) -> Cart[Real, Unit])((g : (Cart[Real, N]) -> Cart[Real, Unit])(x)), (u : (Cart[Real, Unit]) -> Bool))} == {(x : Cart[Real, N]) | IN(x, UNIV) && IN(g(x), {(y : Cart[Real, Unit]) | IN(y, ball((vec(0), real_of_num(1)))) && IN(h'(y), u)})}
       #|  (u : (Cart[Real, Unit]) -> Bool)
       #|  o((h' : (Cart[Real, Unit]) -> Cart[Real, Unit]), (g : (Cart[Real, N]) -> Cart[Real, Unit]))
@@ -61313,8 +61313,8 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  (x : Real) < (e : Real) \226\134\146 e <= (d : Real) \226\134\146 x <= d
       #|  abs((x : Real)) <= (e : Real) \226\134\146 -e <= x && x - real_of_num(1) < e
       #|  (x : Cart[Real, Unit]) == (y : Cart[Real, Unit]) \226\134\146 distance((y, (z : Cart[Real, Unit]))) < (e : Real) \226\134\146 distance((x, z)) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (e : Real) * pow(real_of_num(2), (N2 : Num))
       #|  (x : Real) <= (y : Real) && y < x + real_of_num(1) && real_of_num(1) <= (z : Real) \226\134\146 abs(x - y) < z
       #|  abs(pow(real_of_num(2), (n : Num)))
@@ -61558,10 +61558,10 @@ test "Multivariate/topology matches Multivariate/topology.ml" {
       #|  {(y : Cart[Real, N]) | \226\136\131 t : (Cart[Real, M]) -> Bool, (SUBSET : ((Cart[Real, M]) -> Bool, (Cart[Real, M]) -> Bool) -> Bool)(t, (s : (Cart[Real, M]) -> Bool)) && (HAS_SIZE : ((Cart[Real, M]) -> Bool, Num) -> Bool)(t, (n : Num)) && (\226\136\128 x : Cart[Real, M], (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(x, t) \226\134\146 (f : (Cart[Real, M]) -> Cart[Real, N])(x) == y)} == (UNIONS : (((Cart[Real, N]) -> Bool) -> Bool, Cart[Real, N]) -> Bool)((IMAGE : ((((Cart[Real, M]) -> Bool) -> Bool, Cart[Real, N]) -> Bool, (((Cart[Real, M]) -> Bool) -> Bool) -> Bool, (Cart[Real, N]) -> Bool) -> Bool)((b : ((Cart[Real, M]) -> Bool) -> Bool) => (INTERS : (((Cart[Real, N]) -> Bool) -> Bool, Cart[Real, N]) -> Bool)((IMAGE : (((Cart[Real, M]) -> Bool, Cart[Real, N]) -> Bool, ((Cart[Real, M]) -> Bool) -> Bool, (Cart[Real, N]) -> Bool) -> Bool)((IMAGE : ((Cart[Real, M]) -> Cart[Real, N], (Cart[Real, M]) -> Bool, Cart[Real, N]) -> Bool)(f), b)), {(b : ((Cart[Real, M]) -> Bool) -> Bool) | (SUBSET : (((Cart[Real, M]) -> Bool) -> Bool, ((Cart[Real, M]) -> Bool) -> Bool) -> Bool)(b, {(INTER : ((Cart[Real, M]) -> Bool, (Cart[Real, M]) -> Bool, Cart[Real, M]) -> Bool)(s, (ball : ((Cart[Real, M], Real), Cart[Real, M]) -> Bool)(((a : Cart[Real, M]), (r : Real)))) | (\226\136\128 i : Num, 1 <= i && i <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) \226\134\146 rational((op_dollar : (Cart[Real, M], Num) -> Real)(a, i))) && rational(r)}) && (HAS_SIZE : (((Cart[Real, M]) -> Bool) -> Bool, Num) -> Bool)(b, n) && (pairwise : (((Cart[Real, M]) -> Bool, (Cart[Real, M]) -> Bool) -> Bool, ((Cart[Real, M]) -> Bool) -> Bool) -> Bool)((DISJOINT : ((Cart[Real, M]) -> Bool, (Cart[Real, M]) -> Bool) -> Bool), b)}))
       #|  (SUBSET((t : (_) -> Bool), {(x : _) | IN(x, (s : (_) -> Bool)) && (P : (_) -> Bool)(x)}) && (Q : ((_) -> Bool) -> Bool)(t)) == (SUBSET(t, s) && Q(t) && (\226\136\128 x : _, IN(x, t) \226\134\146 P(x)))
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 n : Num, continuous_on(f, s) && fsigma(s) \226\134\146 fsigma({(y : Cart[Real, N]) | FINITE({(x : Cart[Real, M]) | IN(x, s) && f(x) == y}) \226\134\146 n <= CARD({(x : Cart[Real, M]) | IN(x, s) && f(x) == y})})
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  !((m : Num) <= (n : Num)) == (SUC(n) <= m)
       #|  {(x : _) | (P : (_) -> Bool)(x) && (Q : (_) -> Bool)(x)} == DIFF(UNIV, {(x : _) | P(x) \226\134\146 !Q(x)})
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 n : Num, continuous_on(f, s) && fsigma(s) \226\134\146 gdelta({(y : Cart[Real, N]) | FINITE({(x : Cart[Real, M]) | IN(x, s) && f(x) == y}) && CARD({(x : Cart[Real, M]) | IN(x, s) && f(x) == y}) <= n})

@@ -83700,11 +83700,11 @@ Probability/characteristic_functions quotations (5000):
   op_minus_minus_minus_gt((n : Num) => sqrt(inv(real_of_num(SUC(n)))), sqrt(real_of_num(0)), sequentially)
   op_minus_minus_minus_gt((n : Num) => inv(sqrt(real_of_num(SUC(n)))), real_of_num(0), sequentially)
   :A
-  :num
+  :Num
   :A
-  :num
+  :Num
   :A
-  :num
+  :Num
   real_of_num(0) < (s : Real) && real_of_num(0) < (n : Real) \226\134\146 n * ((t : Real) / (n * s) * ((m : Real) / real_of_num(2))) == t * (m / real_of_num(2) * inv(s))
   (x : Real) == (y : Real) \226\134\146 x <= y
   3 == SUC(SUC(SUC(0)))
@@ -83737,10 +83737,10 @@ Probability/characteristic_functions quotations (5000):
   0
   (n : Num) => real_of_num(SUC(n)) * abs(simple_char_fn_im((p : Prob_space[A]), (X : (Num, A) -> Real)(0), (t : Real) / sqrt(real_of_num(SUC(n)))))
   :A
-  :num
+  :Num
   (n : Num) => pow(simple_char_fn_re((p : Prob_space[A]), (X : (Num, A) -> Real)(0), (t : Real) / sqrt(real_of_num(SUC(n)))), SUC(n))
   :A
-  :num
+  :Num
   \226\136\128 p : Prob_space[A], \226\136\128 X : (Num, A) -> Real, \226\136\128 t : Real, (\226\136\128 n : Num, simple_rv(p, X(n))) && simple_expectation(p, X(0)) == real_of_num(0) && real_of_num(0) < simple_expectation(p, (x : A) => pow(X(0, x), 2)) && (\226\136\128 i : Num, \226\136\128 t : Real, simple_char_fn_re(p, X(i), t) == simple_char_fn_re(p, X(0), t) && simple_char_fn_im(p, X(i), t) == simple_char_fn_im(p, X(0), t)) && (\226\136\128 n : Num, \226\136\128 k : Num, k < n \226\134\146 indep_rv(p, (x : A) => sum(op_dot_dot(0, k), (i : Num) => X(i, x)), X(SUC(k)))) \226\134\146 op_minus_minus_minus_gt((n : Num) => simple_char_fn_re(p, (x : A) => sum(op_dot_dot(0, n), (i : Num) => X(i, x)), t / sqrt(real_of_num(SUC(n)))), exp(-(pow(t, 2) * (simple_expectation(p, (x : A) => pow(X(0, x), 2)) / real_of_num(2)))), sequentially)
   \226\136\128 a : Real, \226\136\128 b : Real, \226\136\128 P : Real, \226\136\128 Q : Real, (a + b) * P - a * Q == b * P + a * (P - Q)
   (a : Real) * (real_of_num((n : Num)) * (b : Real))
@@ -83803,7 +83803,7 @@ Probability/characteristic_functions quotations (5000):
   (X : (Num, A) -> Real)(0)
   (p : Prob_space[A])
   :A
-  :num
+  :Num
   (t : Real) / sqrt(real_of_num(SUC((n : Num))))
   (n : Num)
   (X : (Num, A) -> Real)
@@ -83814,7 +83814,7 @@ Probability/characteristic_functions quotations (5000):
   0
   (n : Num) => real_of_num(3) * (real_of_num(SUC(n)) * abs(simple_char_fn_im((p : Prob_space[A]), (X : (Num, A) -> Real)(0), (t : Real) / sqrt(real_of_num(SUC(n))))))
   :A
-  :num
+  :Num
   \226\136\128 p : Prob_space[A], \226\136\128 X : (Num, A) -> Real, \226\136\128 t : Real, (\226\136\128 n : Num, simple_rv(p, X(n))) && simple_expectation(p, X(0)) == real_of_num(0) && real_of_num(0) < simple_expectation(p, (x : A) => pow(X(0, x), 2)) && (\226\136\128 i : Num, \226\136\128 t : Real, simple_char_fn_re(p, X(i), t) == simple_char_fn_re(p, X(0), t) && simple_char_fn_im(p, X(i), t) == simple_char_fn_im(p, X(0), t)) && (\226\136\128 n : Num, \226\136\128 k : Num, k < n \226\134\146 indep_rv(p, (x : A) => sum(op_dot_dot(0, k), (i : Num) => X(i, x)), X(SUC(k)))) \226\134\146 op_minus_minus_minus_gt((n : Num) => simple_char_fn_im(p, (x : A) => sum(op_dot_dot(0, n), (i : Num) => X(i, x)), t / sqrt(real_of_num(SUC(n)))), real_of_num(0), sequentially)
   \226\136\128 p : Prob_space[A], \226\136\128 X : (Num, A) -> Real, \226\136\128 t : Real, (\226\136\128 n : Num, simple_rv(p, X(n))) && simple_expectation(p, X(0)) == real_of_num(0) && real_of_num(0) < simple_expectation(p, (x : A) => pow(X(0, x), 2)) && (\226\136\128 i : Num, \226\136\128 t : Real, simple_char_fn_re(p, X(i), t) == simple_char_fn_re(p, X(0), t) && simple_char_fn_im(p, X(i), t) == simple_char_fn_im(p, X(0), t)) && (\226\136\128 n : Num, \226\136\128 k : Num, k < n \226\134\146 indep_rv(p, (x : A) => sum(op_dot_dot(0, k), (i : Num) => X(i, x)), X(SUC(k)))) \226\134\146 op_minus_minus_minus_gt((n : Num) => simple_char_fn_re(p, (x : A) => sum(op_dot_dot(0, n), (i : Num) => X(i, x)), t / sqrt(real_of_num(SUC(n)))), exp(-(pow(t, 2) * (simple_expectation(p, (x : A) => pow(X(0, x), 2)) / real_of_num(2)))), sequentially) && op_minus_minus_minus_gt((n : Num) => simple_char_fn_im(p, (x : A) => sum(op_dot_dot(0, n), (i : Num) => X(i, x)), t / sqrt(real_of_num(SUC(n)))), real_of_num(0), sequentially)
   real_of_num(0) < (sigma_sq : Real)

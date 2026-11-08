@@ -12918,10 +12918,10 @@ fn step_319() -> Unit raise {
   let t6661 = @simp.asm_rewrite_tac(@list.List([]))
   let t6660 = @simp.once_asm_rewrite_tac(@list.List([]))
   let t6659 = @tactics.mp_tac(@bool.spec(@term_syntax.parse_term("(p : (Num) -> Num)"), @topology.image_twizzle_interval()))
-  let t6655 = @parser.parse_type("N")
-  let t6656 = (@parser.parse_type("M"), t6655)
-  let t6654 = @parser.parse_type("M")
-  let t6657 = @kernel.inst_type(@list.List([(@parser.parse_type("N"), t6654), t6656]), @topology.image_twizzle_interval())
+  let t6655 = @term_syntax.parse_type("N")
+  let t6656 = (@term_syntax.parse_type("M"), t6655)
+  let t6654 = @term_syntax.parse_type("M")
+  let t6657 = @kernel.inst_type(@list.List([(@term_syntax.parse_type("N"), t6654), t6656]), @topology.image_twizzle_interval())
   let t6658 = @tactics.mp_tac(@bool.spec(@term_syntax.parse_term("inverse((p : (Num) -> Num))"), t6657))
   let t6651 = @drule.match_mp(@permutations.permutes_inverse())
   let t6653 = @tactics.first_assum(fn(x6652 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
@@ -15145,8 +15145,8 @@ fn step_366() -> Unit raise {
       s7973(x7974)
     }
   }, @list.List([@term_syntax.parse_term("(x : Cart[Real, N]) => (if IN(x, (s : (Cart[Real, N]) -> Bool)) { (h : (Cart[Real, N]) -> Cart[Real, Unit])(x) } else { vec(0) }) - (if IN(x, s) { (g : (Cart[Real, N]) -> Cart[Real, Unit])(x) } else { vec(0) })"), t7976, t7975]))
-  let t7970 = @parser.parse_type("M")
-  let t7971 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("N"), t7970)]), has_integral_subset_drop_le()))
+  let t7970 = @term_syntax.parse_type("M")
+  let t7971 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("N"), t7970)]), has_integral_subset_drop_le()))
   let t7968 = @meson.asm_meson_tac(@list.List([@realax.real_le_trans()]))
   let t7967 = @simp.asm_simp_tac(@list.List([@vectors.drop_sub(), @vectors.drop_vec(), @realarith.real_sub_le(), @realarith.real_pos()]))
   let t7966 = @tactics.repeat_tac(@tactics.strip_tac)
@@ -15159,8 +15159,8 @@ fn step_366() -> Unit raise {
       s7960(x7961)
     }
   }, @list.List([@term_syntax.parse_term("(x : Cart[Real, N]) => (if IN(x, (s : (Cart[Real, N]) -> Bool)) { (h : (Cart[Real, N]) -> Cart[Real, Unit])(x) } else { vec(0) }) - (if IN(x, s) { (g : (Cart[Real, N]) -> Cart[Real, Unit])(x) } else { vec(0) })"), t7962]))
-  let t7958 = @parser.parse_type("M")
-  let t7969 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("N"), t7958)]), has_integral_drop_pos())), t7963), t7964), t7965), t7966), @class.cond_cases_tac), t7967), t7968), @tactics.all_tac])
+  let t7958 = @term_syntax.parse_type("M")
+  let t7969 = @list.List([@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("N"), t7958)]), has_integral_drop_pos())), t7963), t7964), t7965), t7966), @class.cond_cases_tac), t7967), t7968), @tactics.all_tac])
   let t7957 = @tactics.match_mp_tac(lemma)
   let t7956 = @simp.asm_simp_tac(@list.List([@equal.gsym(integral_sub())]))
   let t7955 = @simp.asm_rewrite_tac(@list.List([]))
@@ -20184,14 +20184,14 @@ pub fn bounded_set_variation_on_pastecart() -> @kernel.Thm {
 /// BOUNDED_SET_VARIATION_FROM_PASTECART
 fn step_455() -> Unit raise {
   let t10961 = @simp.asm_rewrite_tac(@list.List([@vectors.norm_le_pastecart()]))
-  let t10955 = @parser.parse_type("P")
-  let t10956 = @kernel.inst_type(@list.List([(@parser.parse_type("Q"), t10955)]), set_variation_comparison())
+  let t10955 = @term_syntax.parse_type("P")
+  let t10956 = @kernel.inst_type(@list.List([(@term_syntax.parse_type("Q"), t10955)]), set_variation_comparison())
   let t10957 = @drule.match_mp(@simp.once_rewrite_rule(@list.List([@theorems.imp_conj()]))(t10956))
   let t10959 = @tactics.first_assum(fn(x10958 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     @tactics.match_mp_tac(t10957(x10958))
   })
-  let t10951 = @parser.parse_type("P")
-  let t10952 = @kernel.inst_type(@list.List([(@parser.parse_type("Q"), t10951)]), has_bounded_setvariation_comparison())
+  let t10951 = @term_syntax.parse_type("P")
+  let t10952 = @kernel.inst_type(@list.List([(@term_syntax.parse_type("Q"), t10951)]), has_bounded_setvariation_comparison())
   let t10953 = @drule.match_mp(@simp.once_rewrite_rule(@list.List([@theorems.imp_conj()]))(t10952))
   let t10960 = @tactics.orelse_tac(@tactics.first_assum(fn(x10954 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     @tactics.match_mp_tac(t10953(x10954))
@@ -33344,8 +33344,8 @@ fn step_604() -> Unit raise {
   let t19828 = @tactics.x_gen_tac(@term_syntax.parse_term("(n : Num)"))
   let t19827 = @simp.rewrite_tac(@list.List([@sets.subset(), @sets.forall_in_gspec(), @sets.in_univ()]))
   let t19826 = @tactics.match_mp_tac(@simp.rewrite_rule(@list.List([@theorems.imp_conj_alt()]))(equiintegrable_subset()))
-  let t19822 = @parser.parse_type("A")
-  let t19823 = @drule.match_mp(@kernel.inst_type(@list.List([(@parser.parse_type("num"), t19822)]), equiintegrable_sum()))
+  let t19822 = @term_syntax.parse_type("A")
+  let t19823 = @drule.match_mp(@kernel.inst_type(@list.List([(@term_syntax.parse_type("Num"), t19822)]), equiintegrable_sum()))
   let t19825 = @tactics.disch_then(fn(x19824 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     (fn(x19819 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
       let s19820 = @tactics.mp_tac(x19819)
@@ -35490,14 +35490,14 @@ pub fn bounded_vector_variation_on_pastecart() -> @kernel.Thm {
 /// BOUNDED_VARIATION_FROM_PASTECART
 fn step_668() -> Unit raise {
   let t20852 = @simp.asm_rewrite_tac(@list.List([@equal.gsym(@vectors.dist()), @vectors.dist_le_pastecart()]))
-  let t20846 = @parser.parse_type("N")
-  let t20847 = @kernel.inst_type(@list.List([(@parser.parse_type("Q"), t20846)]), vector_variation_comparison())
+  let t20846 = @term_syntax.parse_type("N")
+  let t20847 = @kernel.inst_type(@list.List([(@term_syntax.parse_type("Q"), t20846)]), vector_variation_comparison())
   let t20848 = @drule.match_mp(@simp.once_rewrite_rule(@list.List([@theorems.imp_conj()]))(t20847))
   let t20850 = @tactics.first_assum(fn(x20849 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     @tactics.match_mp_tac(t20848(x20849))
   })
-  let t20842 = @parser.parse_type("N")
-  let t20843 = @kernel.inst_type(@list.List([(@parser.parse_type("Q"), t20842)]), has_bounded_variation_comparison())
+  let t20842 = @term_syntax.parse_type("N")
+  let t20843 = @kernel.inst_type(@list.List([(@term_syntax.parse_type("Q"), t20842)]), has_bounded_variation_comparison())
   let t20844 = @drule.match_mp(@simp.once_rewrite_rule(@list.List([@theorems.imp_conj()]))(t20843))
   let t20851 = @tactics.orelse_tac(@tactics.first_assum(fn(x20845 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     @tactics.match_mp_tac(t20844(x20845))
@@ -41893,8 +41893,8 @@ fn step_759() -> Unit raise {
   }), t24748), t24749), @tactics.all_tac])
   let t24735 = @simp.rewrite_tac(@list.List([]))
   let t24734 = @tactics.exists_tac(@term_syntax.parse_term("(x : Cart[Real, Unit]) => (vsum : ((Num) -> Bool, (Num) -> Cart[Real, Unit]) -> Cart[Real, Unit])(op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))), (i : Num) => lift((vector_variation : ((Cart[Real, Unit]) -> Bool, (Cart[Real, Unit]) -> Cart[Real, Unit]) -> Real)((interval : (List[(Cart[Real, Unit], Cart[Real, Unit])], Cart[Real, Unit]) -> Bool)([((a : Cart[Real, Unit]), x)]), (u : Cart[Real, Unit]) => lift((op_dollar : (Cart[Real, N], Num) -> Real)((f : (Cart[Real, Unit]) -> Cart[Real, N])(u), i)))))"))
-  let t24732 = @parser.parse_type("P")
-  let t24733 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("1"), t24732)]), @topology.continuous_within_comparison()))
+  let t24732 = @term_syntax.parse_type("P")
+  let t24733 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("1"), t24732)]), @topology.continuous_within_comparison()))
   let t24731 = @list.List([@tactics.all_tac, @simp.asm_simp_tac(@list.List([@topology.continuous_within(), @topology.lim_trivial(), @topology.trivial_limit_within()]))])
   let t24730 = @class.asm_cases_tac(@term_syntax.parse_term("limit_point_of((c : Cart[Real, Unit]), interval([((a : Cart[Real, Unit]), c)]))"))
   let t24728 = @tactics.rule_assum_tac(@simp.rewrite_rule(@list.List([@topology.in_interval_1()])))
@@ -42430,8 +42430,8 @@ fn step_760() -> Unit raise {
   }), t25161), t25162), @tactics.all_tac])
   let t25148 = @simp.rewrite_tac(@list.List([]))
   let t25147 = @tactics.exists_tac(@term_syntax.parse_term("(x : Cart[Real, Unit]) => (vsum : ((Num) -> Bool, (Num) -> Cart[Real, Unit]) -> Cart[Real, Unit])(op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))), (i : Num) => lift((vector_variation : ((Cart[Real, Unit]) -> Bool, (Cart[Real, Unit]) -> Cart[Real, Unit]) -> Real)((interval : (List[(Cart[Real, Unit], Cart[Real, Unit])], Cart[Real, Unit]) -> Bool)([((a : Cart[Real, Unit]), x)]), (u : Cart[Real, Unit]) => lift((op_dollar : (Cart[Real, N], Num) -> Real)((f : (Cart[Real, Unit]) -> Cart[Real, N])(u), i)))))"))
-  let t25145 = @parser.parse_type("P")
-  let t25146 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("1"), t25145)]), @topology.continuous_within_comparison()))
+  let t25145 = @term_syntax.parse_type("P")
+  let t25146 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("1"), t25145)]), @topology.continuous_within_comparison()))
   let t25144 = @list.List([@tactics.all_tac, @simp.asm_simp_tac(@list.List([@topology.continuous_within(), @topology.lim_trivial(), @topology.trivial_limit_within()]))])
   let t25143 = @class.asm_cases_tac(@term_syntax.parse_term("limit_point_of((c : Cart[Real, Unit]), interval([(c, (b : Cart[Real, Unit]))]))"))
   let t25141 = @tactics.rule_assum_tac(@simp.rewrite_rule(@list.List([@topology.in_interval_1()])))

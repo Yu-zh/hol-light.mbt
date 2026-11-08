@@ -235,11 +235,11 @@ impconv quotations (31):
   ((B : Bool) \226\134\146 (A : Bool)) && (B \226\134\146 (D : Bool) \226\134\146 (C : Bool)) \226\134\146 B && D \226\134\146 A && C
   ((B : Bool) \226\134\146 (A : Bool)) \226\134\146 B && (C : Bool) \226\134\146 A && C
   ((C : Bool) \226\134\146 (B : Bool) \226\134\146 (A : Bool)) \226\134\146 B && C \226\134\146 A && C
-  :bool->bool->bool
+  :(Bool, Bool) -> Bool
   ((A : Bool) \226\134\146 (B : Bool) \226\134\146 (C : Bool)) == (B \226\134\146 A \226\134\146 C)
   (!(P : Bool) \226\134\146 (Q : Bool) == (R : Bool)) \226\134\146 Q == ((!P \226\134\146 R) && (P \226\134\146 Q))
   ((P : Bool) \226\134\146 (Q : Bool) == (R : Bool)) \226\134\146 Q == ((P \226\134\146 R) && (!P \226\134\146 Q))
-  :bool->bool->bool
+  :(Bool, Bool) -> Bool
   ((A : Bool) \226\134\146 (B : Bool) \226\134\146 (C : Bool)) == (B \226\134\146 A \226\134\146 C)
 imp_rewrite = []
 imp_rewrite_seq = [[] ?- ((#/\:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) (h:fun(bool,bool) a:bool)) (Q:fun(bool,bool) a:bool))) (P:fun(bool,bool) a:bool))) ((#/\:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) (h:fun(bool,bool) b:bool)) (Q:fun(bool,bool) b:bool))) (P:fun(bool,bool) b:bool)))]

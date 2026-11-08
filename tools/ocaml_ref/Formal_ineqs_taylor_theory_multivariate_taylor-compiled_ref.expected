@@ -396,7 +396,7 @@ Warning: inventing type variables
 Warning: inventing type variables
 Warning: inventing type variables
 Formal_ineqs/taylor/theory/multivariate_taylor-compiled quotations (789):
-  :real^N
+  :Cart[Real, N]
   \226\136\128 f : (_) -> _, \226\136\128 s : (_) -> Bool, \226\136\128 a : _, (\226\136\128 x : _, f(x) == f(a) \226\134\146 x == a) \226\134\146 IMAGE(f, DELETE(s, a)) == DELETE(IMAGE(f, s), f(a))
   (partial : (Num, (Cart[Real, N]) -> Real, Cart[Real, N]) -> Real)((i : Num), (f : (Cart[Real, N]) -> Real), (x : Cart[Real, N])) == derivative(o(f, (t : Real) => x + op_pct(t, basis(i))), real_of_num(0))
   (all_n : (Num, List[_], (Num, _) -> Bool) -> Bool)((n : Num), NIL, (s : (Num, _) -> Bool)) == true && all_n(n, CONS((h : _), (t : List[_])), s) == (s(n, h) && all_n(SUC(n), t, s))
@@ -452,10 +452,10 @@ Formal_ineqs/taylor/theory/multivariate_taylor-compiled quotations (789):
   o(lift, (x : _) => (f : (_) -> Real)(x) - (g : (_) -> Real)(x)) == ((x : _) => o(lift, f, x) - o(lift, g, x))
   o((t : Real) => (op : (_, _) -> _)((f : (Real) -> _)(t), (g : (Real) -> _)(t)), drop) == ((x : Cart[Real, Unit]) => op(f(drop(x)), g(drop(x))))
   o((t : Real) => (op : (_) -> _)((f : (Real) -> _)(t)), drop) == ((x : Cart[Real, Unit]) => op(f(drop(x))))
-  :real^N -> real^M
-  :real^N -> real^M
-  :real^N
-  :real^N
+  :(Cart[Real, N]) -> Cart[Real, M]
+  :(Cart[Real, N]) -> Cart[Real, M]
+  :Cart[Real, N]
+  :Cart[Real, N]
   differentiable((f : (Cart[Real, _]) -> Cart[Real, _]), at((g : (Cart[Real, _]) -> Cart[Real, _])((x : Cart[Real, _])))) \226\134\146 differentiable(g, at(x)) \226\134\146 frechet_derivative(o(f, g), at(x)) == o(frechet_derivative(f, at(g(x))), frechet_derivative(g, at(x)))
   frechet_derivative((x : Cart[Real, _]) => (y : Cart[Real, _]), at((z : Cart[Real, _]))) == ((x : Cart[Real, _]) => vec(0))
   frechet_derivative((x : Cart[Real, _]) => x, at((y : Cart[Real, _]))) == ((x : Cart[Real, _]) => x)
@@ -527,8 +527,8 @@ Formal_ineqs/taylor/theory/multivariate_taylor-compiled quotations (789):
   differentiable(o(lift, (f : (Cart[Real, _]) -> Real)), at((y : Cart[Real, _]))) \226\134\146 partial((i : Num), f, y) == drop(matrix_vector_mul(jacobian(o(lift, f), at(y)), basis(i)))
   (differentiable : ((Cart[Real, N]) -> Cart[Real, Unit], Net[Cart[Real, N]]) -> Bool)((o : ((Real) -> Cart[Real, Unit], (Cart[Real, N]) -> Real, Cart[Real, N]) -> Cart[Real, Unit])(lift, (f : (Cart[Real, N]) -> Real)), (at : (Cart[Real, N]) -> Net[Cart[Real, N]])((y : Cart[Real, N]))) \226\134\146 (IN : (Num, (Num) -> Bool) -> Bool)((i : Num), op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) \226\134\146 (partial : (Num, (Cart[Real, N]) -> Real, Cart[Real, N]) -> Real)(i, f, y) == drop((column : (Num, Cart[Cart[Real, N], Unit]) -> Cart[Real, Unit])(i, (jacobian : ((Cart[Real, N]) -> Cart[Real, Unit], Net[Cart[Real, N]]) -> Cart[Cart[Real, N], Unit])((o : ((Real) -> Cart[Real, Unit], (Cart[Real, N]) -> Real, Cart[Real, N]) -> Cart[Real, Unit])(lift, f), (at : (Cart[Real, N]) -> Net[Cart[Real, N]])(y))))
   (differentiable : ((Cart[Real, N]) -> Cart[Real, Unit], Net[Cart[Real, N]]) -> Bool)((o : ((Real) -> Cart[Real, Unit], (Cart[Real, N]) -> Real, Cart[Real, N]) -> Cart[Real, Unit])(lift, (f : (Cart[Real, N]) -> Real)), (at : (Cart[Real, N]) -> Net[Cart[Real, N]])((y : Cart[Real, N]))) \226\134\146 (IN : (Num, (Num) -> Bool) -> Bool)((i : Num), op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) \226\134\146 (partial : (Num, (Cart[Real, N]) -> Real, Cart[Real, N]) -> Real)(i, f, y) == (op_dollar : (Cart[Real, N], Num) -> Real)((op_dollar : (Cart[Cart[Real, N], Unit], Num) -> Cart[Real, N])((jacobian : ((Cart[Real, N]) -> Cart[Real, Unit], Net[Cart[Real, N]]) -> Cart[Cart[Real, N], Unit])((o : ((Real) -> Cart[Real, Unit], (Cart[Real, N]) -> Real, Cart[Real, N]) -> Cart[Real, Unit])(lift, f), (at : (Cart[Real, N]) -> Net[Cart[Real, N]])(y)), 1), i)
-  :real^N
-  :num
+  :Cart[Real, N]
+  :Num
   derivative(o((f : (_) -> Real), (t : Real) => (y : _))) == derivative((t : Real) => f(y))
   (basis : (Num) -> Cart[Real, N])((i : Num)) == (vec : (Num) -> Cart[Real, N])(0)
   !IN((i : Num), op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))) \226\134\146 partial(i, (f : (Cart[Real, _]) -> Real), (y : Cart[Real, _])) == real_of_num(0)
@@ -559,8 +559,8 @@ Formal_ineqs/taylor/theory/multivariate_taylor-compiled quotations (789):
   sum((_1 : (_) -> Bool), (_2 : (_) -> Real))
   sum((_1 : (_) -> Bool), (_2 : (_) -> Real))
   differentiable(o(lift, (f : (Cart[Real, _]) -> Real)), at(vector_add((y : Cart[Real, _]), op_pct((t : Real), (e : Cart[Real, _]))))) \226\134\146 has_real_derivative(o(f, (t : Real) => vector_add(y, op_pct(t, e))), sum(op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))), (i : Num) => real_mul(op_dollar(e, i), o(partial(i, f), (t : Real) => vector_add(y, op_pct(t, e)), t))), atreal(t))
-  :real^N -> real
-  :real^N -> real
+  :(Cart[Real, N]) -> Real
+  :(Cart[Real, N]) -> Real
   differentiable(o(lift, (f : (Cart[Real, _]) -> Real)), at((y : Cart[Real, _])))
   real_differentiable((u : (Real) -> Real), atreal((f : (Cart[Real, _]) -> Real)((y : Cart[Real, _])))) \226\134\146 partial((i : Num), o(u, f), y) == derivative(u, f(y)) * partial(i, f, y)
   partial((i : Num), (x : Cart[Real, _]) => -(f : (Cart[Real, _]) -> Real)(x), (y : Cart[Real, _])) == -partial(i, f, y)
@@ -574,7 +574,7 @@ Formal_ineqs/taylor/theory/multivariate_taylor-compiled quotations (789):
   (t : Real) => vector_add((y : Cart[Real, _]), op_pct(t, basis((i : Num))))
   partial((i : Num), (x : Cart[Real, _]) => (f : (Cart[Real, _]) -> Real)(x) * (g : (Cart[Real, _]) -> Real)(x), (y : Cart[Real, _])) == partial(i, f, y) * g(y) + f(y) * partial(i, g, y)
   real_differentiable((f : (Real) -> Real), atreal((x : Real))) \226\134\146 derivative(f, x) == derivative(o(f, (t : Real) => x + t), real_of_num(0))
-  :real^N->real
+  :(Cart[Real, N]) -> Real
   real_of_num(0) <= op_dollar((y : Cart[Real, _]), (j : Num)) - op_dollar((x : Cart[Real, _]), j)
   (h : (Real) -> _) == o((g : (Real) -> _), (t' : Real) => (t : Real) + t')
   o((f : (_) -> _), (_any : (_) -> _))
@@ -865,10 +865,10 @@ Formal_ineqs/taylor/theory/multivariate_taylor-compiled quotations (789):
   m_cell_domain((domain : (Cart[Real, N], Cart[Real, N])), (y : Cart[Real, N]), (w : Cart[Real, N])) \226\134\146 diff2_domain(domain, (f : (Cart[Real, N]) -> Real)) \226\134\146 m_taylor_partial_error(f, (i : Num), domain, w, (dd_bound : Real)) \226\134\146 (lo : Real) <= partial(i, f, y) \226\134\146 (lo_bound : Real) <= lo - dd_bound \226\134\146 (\226\136\128 p : Cart[Real, N], IN(p, interval([domain])) \226\134\146 lo_bound <= partial(i, f, p))
   \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 e : Real, abs(x - y) <= e \226\134\146 y - e <= x
   m_cell_domain((domain : (Cart[Real, N], Cart[Real, N])), (y : Cart[Real, N]), (w : Cart[Real, N])) \226\134\146 diff2_domain(domain, (f : (Cart[Real, N]) -> Real)) \226\134\146 m_taylor_partial_error(f, (i : Num), domain, w, (dd_bound : Real)) \226\134\146 interval_arith(partial(i, f, y), ((lo : Real), (hi : Real))) \226\134\146 (lo_bound : Real) <= lo - dd_bound \226\134\146 hi + dd_bound <= (hi_bound : Real) \226\134\146 m_bounded_on_int(partial(i, f), domain, (lo_bound, hi_bound))
-  :real^N -> real
-  :real^N -> real
-  :real^N
-  :real^N#real^N
+  :(Cart[Real, N]) -> Real
+  :(Cart[Real, N]) -> Real
+  :Cart[Real, N]
+  :(Cart[Real, N], Cart[Real, N])
   differentiable((f : (Cart[Real, _]) -> Cart[Real, _]), at((x : Cart[Real, _]))) \226\134\146 open((s : (Cart[Real, _]) -> Bool)) \226\134\146 IN(x, s) \226\134\146 (\226\136\128 y : Cart[Real, _], IN(y, s) \226\134\146 (g : (Cart[Real, _]) -> Cart[Real, _])(y) == f(y)) \226\134\146 differentiable(g, at(x))
   diff2((f : (Cart[Real, _]) -> Real), (x : Cart[Real, _])) \226\134\146 diff2((x : Cart[Real, _]) => (c : Real) * f(x), x)
   o(lift, (x : Cart[Real, _]) => (c : Real) * partial((i : Num), (f : (Cart[Real, _]) -> Real), x))
@@ -909,7 +909,7 @@ Formal_ineqs/taylor/theory/multivariate_taylor-compiled quotations (789):
   diff2_domain((domain : (Cart[Real, _], Cart[Real, _])), (f : (Cart[Real, _]) -> Real))
   diff2_domain((domain : (Cart[Real, _], Cart[Real, _])), (x : Cart[Real, _]) => (c : Real) * (f : (Cart[Real, _]) -> Real)(x))
   diff2_domain((domain : (Cart[Real, _], Cart[Real, _])), (x : Cart[Real, _]) => -(f : (Cart[Real, _]) -> Real)(x))
-  :real#real
+  :(Real, Real)
   m_bounded_on_int((f : (Cart[Real, _]) -> Real), (domain : (Cart[Real, _], Cart[Real, _])), (bounds : (Real, Real))) \226\134\146 interval_not_zero(bounds) \226\134\146 diff2_domain(domain, o(inv, f))
   !(P : Bool) == (P == false)
   m_bounded_on_int((f : (Cart[Real, _]) -> Real), (domain : (Cart[Real, _], Cart[Real, _])), (bounds : (Real, Real))) \226\134\146 interval_pos(bounds) \226\134\146 diff2_domain(domain, o(sqrt, f))
@@ -936,8 +936,8 @@ Formal_ineqs/taylor/theory/multivariate_taylor-compiled quotations (789):
   differentiable(o(lift, (f : (Cart[Real, N]) -> Real)), at((x : Cart[Real, N]))) \226\134\146 open((s : (Cart[Real, N]) -> Bool)) \226\134\146 IN(x, s) \226\134\146 (\226\136\128 y : Cart[Real, N], IN(y, s) \226\134\146 f(y) == (g : (Cart[Real, N]) -> Real)(y)) \226\134\146 partial((i : Num), f, x) == partial(i, g, x)
   o(lift, (f : (_) -> Real))
   (basis : (Num) -> Cart[Real, N])((i : Num))
-  :num
-  :num
+  :Num
+  :Num
   diff2((f : (Cart[Real, _]) -> Real), (x : Cart[Real, _])) \226\134\146 partial2((i : Num), (j : Num), (x : Cart[Real, _]) => (c : Real) * f(x), x) == c * partial2(i, j, f, x)
   diff2((f : (Cart[Real, _]) -> Real), (x : Cart[Real, _])) \226\134\146 partial2((i : Num), (j : Num), (x : Cart[Real, _]) => -f(x), x) == -partial2(i, j, f, x)
   -real_of_num(1)
@@ -957,10 +957,10 @@ Formal_ineqs/taylor/theory/multivariate_taylor-compiled quotations (789):
   IMAGE(lift, (t : (Real) -> Bool))
   o((v : (Real) -> _), drop)
   real_continuous((v : (Real) -> Real), atreal((x : Real))) \226\134\146 real_open((t : (Real) -> Bool)) \226\134\146 IN(x, t) \226\134\146 (\226\136\128 y : Real, IN(y, t) \226\134\146 (u : (Real) -> Real)(y) == v(y)) \226\134\146 real_continuous(u, atreal(x))
-  :real^N -> real
-  :real^N -> real
-  :real^N
-  :real^N#real^N
+  :(Cart[Real, N]) -> Real
+  :(Cart[Real, N]) -> Real
+  :Cart[Real, N]
+  :(Cart[Real, N], Cart[Real, N])
   (x : Cart[Real, _]) => (c : Real) * partial2((j : Num), (i : Num), (f : (Cart[Real, _]) -> Real), x)
   diff2c((f : (Cart[Real, _]) -> Real), (x : Cart[Real, _])) \226\134\146 diff2c((x : Cart[Real, _]) => (c : Real) * f(x), x)
   diff2c((f : (Cart[Real, _]) -> Real), (x : Cart[Real, _])) \226\134\146 diff2c((x : Cart[Real, _]) => -f(x), x)
@@ -1045,12 +1045,12 @@ Formal_ineqs/taylor/theory/multivariate_taylor-compiled quotations (789):
   INTER((s : (_) -> Bool), (t : (_) -> Bool))
   (x : Cart[Real, _]) => partial2((j : Num), (i : Num), (f : (Cart[Real, _]) -> Real), x) * (g : (Cart[Real, _]) -> Real)(x) + partial(i, f, x) * partial(j, g, x) + (partial(j, f, x) * partial(i, g, x) + f(x) * partial2(j, i, g, x))
   diff2c((f : (Cart[Real, _]) -> Real), (x : Cart[Real, _])) \226\134\146 diff2c((g : (Cart[Real, _]) -> Real), x) \226\134\146 diff2c((x : Cart[Real, _]) => f(x) * g(x), x)
-  :real^N -> real
-  :real^N -> real
+  :(Cart[Real, N]) -> Real
+  :(Cart[Real, N]) -> Real
   diff2c_domain((domain : (Cart[Real, _], Cart[Real, _])), (f : (Cart[Real, _]) -> Real))
   diff2c_domain((domain : (Cart[Real, _], Cart[Real, _])), (x : Cart[Real, _]) => (c : Real) * (f : (Cart[Real, _]) -> Real)(x))
   diff2c_domain((domain : (Cart[Real, _], Cart[Real, _])), (x : Cart[Real, _]) => -(f : (Cart[Real, _]) -> Real)(x))
-  :real#real
+  :(Real, Real)
   m_bounded_on_int((f : (Cart[Real, _]) -> Real), (domain : (Cart[Real, _], Cart[Real, _])), (bounds : (Real, Real))) \226\134\146 interval_not_zero(bounds) \226\134\146 diff2c_domain(domain, o(inv, f))
   !(P : Bool) == (P == false)
   m_bounded_on_int((f : (Cart[Real, _]) -> Real), (domain : (Cart[Real, _], Cart[Real, _])), (bounds : (Real, Real))) \226\134\146 interval_pos(bounds) \226\134\146 diff2c_domain(domain, o(sqrt, f))
@@ -1070,11 +1070,11 @@ Formal_ineqs/taylor/theory/multivariate_taylor-compiled quotations (789):
   diff2c_domain((domain : (Cart[Real, _], Cart[Real, _])), (x : Cart[Real, _]) => (f : (Cart[Real, _]) -> Real)(x) + (g : (Cart[Real, _]) -> Real)(x))
   diff2c_domain((domain : (Cart[Real, _], Cart[Real, _])), (x : Cart[Real, _]) => (f : (Cart[Real, _]) -> Real)(x) - (g : (Cart[Real, _]) -> Real)(x))
   diff2c_domain((domain : (Cart[Real, _], Cart[Real, _])), (x : Cart[Real, _]) => (f : (Cart[Real, _]) -> Real)(x) * (g : (Cart[Real, _]) -> Real)(x))
-  :real^N -> real
-  :real^N -> real
-  :real#real
-  :(real#real)list
-  :real^N
+  :(Cart[Real, N]) -> Real
+  :(Cart[Real, N]) -> Real
+  :(Real, Real)
+  :List[(Real, Real)]
+  :Cart[Real, N]
   differentiable(o(lift, (f : (Cart[Real, _]) -> Real)), at((x : Cart[Real, _]))) \226\134\146 interval_arith(-f(x), (bounds : (Real, Real))) \226\134\146 all_n(1, (d_bounds_list : List[(Real, Real)]), (i : Num) => (int : (Real, Real)) => interval_arith(-partial(i, f, x), int)) \226\134\146 m_lin_approx((x : Cart[Real, _]) => -f(x), x, bounds, d_bounds_list)
   differentiable(o(lift, (f : (Cart[Real, _]) -> Real)), at((x : Cart[Real, _]))) \226\134\146 interval_arith((c : Real) * f(x), (bounds : (Real, Real))) \226\134\146 all_n(1, (d_bounds_list : List[(Real, Real)]), (i : Num) => (int : (Real, Real)) => interval_arith(c * partial(i, f, x), int)) \226\134\146 m_lin_approx((x : Cart[Real, _]) => c * f(x), x, bounds, d_bounds_list)
   differentiable(o(lift, (f : (Cart[Real, _]) -> Real)), at((x : Cart[Real, _]))) \226\134\146 differentiable(o(lift, (g : (Cart[Real, _]) -> Real)), at(x)) \226\134\146 interval_arith(f(x) + g(x), (bounds : (Real, Real))) \226\134\146 all_n(1, (d_bounds_list : List[(Real, Real)]), (i : Num) => (int : (Real, Real)) => interval_arith(partial(i, f, x) + partial(i, g, x), int)) \226\134\146 m_lin_approx((x : Cart[Real, _]) => f(x) + g(x), x, bounds, d_bounds_list)
@@ -1082,22 +1082,22 @@ Formal_ineqs/taylor/theory/multivariate_taylor-compiled quotations (789):
   differentiable(o(lift, (f : (Cart[Real, _]) -> Real)), at((x : Cart[Real, _]))) \226\134\146 differentiable(o(lift, (g : (Cart[Real, _]) -> Real)), at(x)) \226\134\146 interval_arith(f(x) * g(x), (bounds : (Real, Real))) \226\134\146 all_n(1, (d_bounds_list : List[(Real, Real)]), (i : Num) => (int : (Real, Real)) => interval_arith(partial(i, f, x) * g(x) + f(x) * partial(i, g, x), int)) \226\134\146 m_lin_approx((x : Cart[Real, _]) => f(x) * g(x), x, bounds, d_bounds_list)
   (second_bounded : ((Cart[Real, _]) -> Real, (Cart[Real, _], Cart[Real, _]), List[List[(Real, Real)]]) -> Bool)((f : (Cart[Real, _]) -> Real), (domain : (Cart[Real, _], Cart[Real, _])), (dd_bounds_list : List[List[(Real, Real)]])) == (\226\136\128 x : Cart[Real, _], IN(x, interval([domain])) \226\134\146 all_n(1, dd_bounds_list, (i : Num) => (list_i : List[(Real, Real)]) => all_n(1, list_i, (j : Num) => (int : (Real, Real)) => interval_arith(partial2(j, i, f, x), int))))
   (m_taylor_interval : ((Cart[Real, _]) -> Real, (Cart[Real, _], Cart[Real, _]), Cart[Real, _], Cart[Real, _], (Real, Real), List[(Real, Real)], List[List[(Real, Real)]]) -> Bool)((f : (Cart[Real, _]) -> Real), (domain : (Cart[Real, _], Cart[Real, _])), (y : Cart[Real, _]), (w : Cart[Real, _]), (f_bounds : (Real, Real)), (d_bounds_list : List[(Real, Real)]), (dd_bounds_list : List[List[(Real, Real)]])) == (m_cell_domain(domain, y, w) && diff2c_domain(domain, f) && m_lin_approx(f, y, f_bounds, d_bounds_list) && second_bounded(f, domain, dd_bounds_list))
-  :real^N -> real
-  :real^N -> real
-  :real^N
-  :real^N
-  :real^N
-  :real^N
-  :real^N#real^N
-  :real#real
-  :real#real
-  :real#real
-  :(real#real)list
-  :(real#real)list
-  :(real#real)list
-  :((real#real)list)list
-  :((real#real)list)list
-  :((real#real)list)list
+  :(Cart[Real, N]) -> Real
+  :(Cart[Real, N]) -> Real
+  :Cart[Real, N]
+  :Cart[Real, N]
+  :Cart[Real, N]
+  :Cart[Real, N]
+  :(Cart[Real, N], Cart[Real, N])
+  :(Real, Real)
+  :(Real, Real)
+  :(Real, Real)
+  :List[(Real, Real)]
+  :List[(Real, Real)]
+  :List[(Real, Real)]
+  :List[List[(Real, Real)]]
+  :List[List[(Real, Real)]]
+  :List[List[(Real, Real)]]
   m_cell_domain((domain : (Cart[Real, _], Cart[Real, _])), (y : Cart[Real, _]), (w : Cart[Real, _]))
   diff2c_domain((domain : (Cart[Real, _], Cart[Real, _])), (f : (Cart[Real, _]) -> Real))
   m_bounded_on_int((f : (Cart[Real, _]) -> Real), (domain : (Cart[Real, _], Cart[Real, _])), (f_bounds : (Real, Real))) \226\134\146 interval_not_zero(f_bounds) \226\134\146 m_lin_approx(o(inv, f), (y : Cart[Real, _]), (bounds : (Real, Real)), (d_bounds_list : List[(Real, Real)])) \226\134\146 second_bounded(o(inv, f), domain, (dd_bounds_list : List[List[(Real, Real)]])) \226\134\146 m_taylor_interval(o(inv, f), domain, y, (w : Cart[Real, _]), bounds, d_bounds_list, dd_bounds_list)
@@ -1119,7 +1119,7 @@ Formal_ineqs/taylor/theory/multivariate_taylor-compiled quotations (789):
   m_lin_approx((x : Cart[Real, _]) => (f : (Cart[Real, _]) -> Real)(x) + (g : (Cart[Real, _]) -> Real)(x), (y : Cart[Real, _]), (bounds : (Real, Real)), (d_bounds_list : List[(Real, Real)])) \226\134\146 second_bounded((x : Cart[Real, _]) => f(x) + g(x), (domain : (Cart[Real, _], Cart[Real, _])), (dd_bounds_list : List[List[(Real, Real)]])) \226\134\146 m_taylor_interval((x : Cart[Real, _]) => f(x) + g(x), domain, y, (w : Cart[Real, _]), bounds, d_bounds_list, dd_bounds_list)
   m_lin_approx((x : Cart[Real, _]) => (f : (Cart[Real, _]) -> Real)(x) - (g : (Cart[Real, _]) -> Real)(x), (y : Cart[Real, _]), (bounds : (Real, Real)), (d_bounds_list : List[(Real, Real)])) \226\134\146 second_bounded((x : Cart[Real, _]) => f(x) - g(x), (domain : (Cart[Real, _], Cart[Real, _])), (dd_bounds_list : List[List[(Real, Real)]])) \226\134\146 m_taylor_interval((x : Cart[Real, _]) => f(x) - g(x), domain, y, (w : Cart[Real, _]), bounds, d_bounds_list, dd_bounds_list)
   m_lin_approx((x : Cart[Real, _]) => (f : (Cart[Real, _]) -> Real)(x) * (g : (Cart[Real, _]) -> Real)(x), (y : Cart[Real, _]), (bounds : (Real, Real)), (d_bounds_list : List[(Real, Real)])) \226\134\146 second_bounded((x : Cart[Real, _]) => f(x) * g(x), (domain : (Cart[Real, _], Cart[Real, _])), (dd_bounds_list : List[List[(Real, Real)]])) \226\134\146 m_taylor_interval((x : Cart[Real, _]) => f(x) * g(x), domain, y, (w : Cart[Real, _]), bounds, d_bounds_list, dd_bounds_list)
-  :real^N->real
+  :(Cart[Real, N]) -> Real
   real_of_num(0) < (b : Real) \226\134\146 ((a : Real) / b <= real_of_num(1)) == (a <= b)
   DISJOINT(DELETE(op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))), (j : Num)), {j})
   op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) == UNION(DELETE(op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))), (j : Num)), {j})

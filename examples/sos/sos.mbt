@@ -1183,7 +1183,7 @@ fn step_9() -> Unit raise {
   let div_tm = @term_syntax.parse_term("op_slash")
   let pow_tm = @term_syntax.parse_term("real_pow")
   let zero_tm = @term_syntax.parse_term("real_of_num(0)")
-  let real_ty = @parser.parse_type("real")
+  let real_ty = @term_syntax.parse_type("Real")
   fn poly_of_term_1(x279 : @kernel.Term) -> Poly raise {
     let tm = x279
     if (tm == zero_tm) {

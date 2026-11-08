@@ -8462,7 +8462,7 @@ test "GL/gl matches GL/gl.ml" {
       #|  (x : Num) => (y : Num) => false
       #|  {0}
       #|  :W
-      #|  :num
+      #|  :Num
       #|  !op_bar_minus_minus(False)
       #|  \226\136\128 p : Form, \226\136\128 q : Form, op_bar_minus_minus(op_lt_minus_gt(p, q)) \226\134\146 op_bar_minus_minus(op_minus_minus_gt(p, q))
       #|  \226\136\128 p : Form, \226\136\128 q : Form, op_bar_minus_minus(op_lt_minus_gt(p, q)) \226\134\146 op_bar_minus_minus(op_minus_minus_gt(q, p))

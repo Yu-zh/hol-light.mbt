@@ -1151,21 +1151,21 @@ test "realax matches realax.ml" {
       #|0..0..3..6..18..34..61..94..145..206..solved at 249
       #|0..0..3..14..36..111..307..901..solved at 935
       #|realax quotations (762):
-      #|  :A->A->A
-      #|  :A->A->A
-      #|  :A->A->A
-      #|  :A->A->A
-      #|  :A->A->bool
-      #|  :A->A->bool
-      #|  :A->A->bool
-      #|  :A->A->bool
-      #|  :A->A
-      #|  :A->num->A
-      #|  :A->A
-      #|  :A->A
-      #|  :A->A->A
-      #|  :A->A->A
-      #|  :num->A
+      #|  :(A, A) -> A
+      #|  :(A, A) -> A
+      #|  :(A, A) -> A
+      #|  :(A, A) -> A
+      #|  :(A, A) -> Bool
+      #|  :(A, A) -> Bool
+      #|  :(A, A) -> Bool
+      #|  :(A, A) -> Bool
+      #|  :(A) -> A
+      #|  :(A, Num) -> A
+      #|  :(A) -> A
+      #|  :(A) -> A
+      #|  :(A, A) -> A
+      #|  :(A, A) -> A
+      #|  :(Num) -> A
       #|  op_gt_eq
       #|  op_gt
       #|  op_lt_eq

@@ -74748,8 +74748,8 @@ test "Quaternions/qanal matches Quaternions/qanal.ml" {
       #|  \226\136\128 x : Cart[Real, 4], Re(x) == real_of_num(0) \226\134\146 pow(x, 2) == -pow(Hx(norm(x)), 2)
       #|  \226\136\128 net : Net[A], \226\136\128 P : (B) -> Bool, \226\136\128 f : (B, A) -> Cart[Real, 4], \226\136\128 g : (B, A) -> Cart[Real, 4], \226\136\128 l : (B) -> Cart[Real, 4], \226\136\128 m : (B) -> Cart[Real, 4], \226\136\128 b1 : Real, \226\136\128 b2 : Real, eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(l(n)) <= b1, net) && eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(m(n)) <= b2, net) && (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(f(n, x) - l(n)) < e, net)) && (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(g(n, x) - m(n)) < e, net)) \226\134\146 (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 eventually((x : A) => \226\136\128 n : B, P(n) \226\134\146 norm(f(n, x) * g(n, x) - l(n) * m(n)) < e, net))
       #|  (b : Real) <= norm((l : Cart[Real, 4])) && norm((f : Cart[Real, 4]) - l) < b / real_of_num(2) \226\134\146 b / real_of_num(2) <= norm(f)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (b : Real) / real_of_num(2)
       #|  pow((b : Real), 2) / real_of_num(2) == b / real_of_num(2) * b
       #|  (a : Real) * (e : Real) * (b : Real) == e * (a * b)
@@ -74855,10 +74855,10 @@ test "Quaternions/qanal matches Quaternions/qanal.ml" {
       #|  \226\136\128 f : (Cart[Real, N]) -> Cart[Real, 4], continuous_on(f, (s : (Cart[Real, N]) -> Bool)) && (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 !(f(x) == Hx(real_of_num(0)))) \226\134\146 continuous_on((x : Cart[Real, N]) => inv(f(x)), s)
       #|  \226\136\128 f : (Cart[Real, N]) -> Cart[Real, 4], \226\136\128 n : Num, \226\136\128 s : (Cart[Real, N]) -> Bool, continuous_on(f, s) \226\134\146 continuous_on((x : Cart[Real, N]) => pow(f(x), n), s)
       #|  norm((a : Cart[Real, N]) - (b : Cart[Real, N])) < (d : Real) \226\134\146 abs(norm(a) - norm(b)) < d
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 z : Cart[Real, N], continuous((z : Cart[Real, N]) => Hx(norm(z)), at(z))
       #|  \226\136\128 z : Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, continuous((z : Cart[Real, N]) => Hx(norm(z)), within(at(z), s))
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, continuous_on((z : Cart[Real, N]) => Hx(norm(z)), s)

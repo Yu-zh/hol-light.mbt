@@ -79100,8 +79100,8 @@ test "100/circle matches 100/circle.ml" {
       #|  (w : Cart[Real, 2])
       #|  (abs((r : Real)) * (x : Real) <= r) == (abs(r) * x <= r * real_of_num(1))
       #|  distance(((z : Cart[Real, 2]), (a : Cart[Real, 2]) + z)) == norm(a)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  pi
       #|  (z : Cart[Real, 2])
       #|  (r : Real)

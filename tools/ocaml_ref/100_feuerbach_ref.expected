@@ -53876,8 +53876,8 @@ Generating HOL version of proof
   (c : Cart[Real, 2]) + op_pct((v : Real), c + op_pct((u : Real), (y : Cart[Real, 2]) - c) - c) == c + op_pct(v, op_pct(u, y - c))
   -op_pct((a : Real), (x : Cart[Real, N]) - (y : Cart[Real, N])) == op_pct(a, y - x)
   distance(((x : Cart[Real, 2]) + (y : Cart[Real, 2]), x)) == norm(y)
-  :real
-  :real
+  :Real
+  :Real
   op_pct(real_of_num(1) - (u : Real), (c1 : Cart[Real, N])) + op_pct(u, (c2 : Cart[Real, N])) == c1 + op_pct(u, c2 - c1)
   distance((op_pct(real_of_num(1) - (u : Real), (c2 : Cart[Real, 2])) + op_pct(u, (y : Cart[Real, 2])), c2)) == (r2 : Real) - (r1 : Real)
   (u : Real) == real_of_num(0)
@@ -53891,8 +53891,8 @@ Generating HOL version of proof
   (r1 : Real) == (r2 : Real)
   -op_pct((a : Real), (x : Cart[Real, N]) - (y : Cart[Real, N])) == op_pct(a, y - x)
   distance(((x : Cart[Real, 2]), x + (y : Cart[Real, 2]))) == norm(y)
-  :real
-  :real
+  :Real
+  :Real
   op_pct(real_of_num(1) - (u : Real), (c1 : Cart[Real, N])) + op_pct(u, (c2 : Cart[Real, N])) == c1 + op_pct(u, c2 - c1)
   distance(((c1 : Cart[Real, 2]), op_pct(real_of_num(1) - (u : Real), c1) + op_pct(u, (c2 : Cart[Real, 2])))) == (r1 : Real)
   (u : Real)

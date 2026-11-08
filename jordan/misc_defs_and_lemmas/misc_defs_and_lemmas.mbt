@@ -2431,10 +2431,10 @@ fn step_98() -> Unit raise {
   let t1028 = @simp.asm_rewrite_tac(@list.List([]))
   let t1029 = @tactics.exists_tac(@term_syntax.parse_term("(F' : ((A) -> B) -> ((A) -> B, B))"))
   let t1030 = @tactics.exists_tac(@term_syntax.parse_term("{((u : (A) -> B), (v : B)) | IN(u, FUN(DELETE((a : (A) -> Bool), CHOICE(a)), (b : (B) -> Bool))) && IN(v, b)}"))
-  let t996 = @parser.parse_type("B")
-  let t997 = (@parser.parse_type("(A->B)#B"), t996)
-  let t995 = @parser.parse_type("A")
-  let t998 = @bool.pinst(@list.List([(@parser.parse_type("A->B"), t995), t997]), @list.List([]), finite_bij2())
+  let t996 = @term_syntax.parse_type("B")
+  let t997 = (@term_syntax.parse_type("((A) -> B, B)"), t996)
+  let t995 = @term_syntax.parse_type("A")
+  let t998 = @bool.pinst(@list.List([(@term_syntax.parse_type("(A) -> B"), t995), t997]), @list.List([]), finite_bij2())
   let t1031 = @tactics.match_mp_tac(@bool.spec(@term_syntax.parse_term("FUN((a : (A) -> Bool), (b : (B) -> Bool))"), t998))
   let t1032 = @tactics.subgoal_then(@term_syntax.parse_term("FINITE(FUN((a : (A) -> Bool), (b : (B) -> Bool)))"), fn(x992 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s993 = @tactics.assume_tac(x992)
@@ -2503,8 +2503,8 @@ fn step_98() -> Unit raise {
   })
   let t1062 = @simp.rewrite_tac(@list.List([@arith.exp()]))
   let t1063 = @simp.asm_rewrite_tac(@list.List([]))
-  let t967 = @parser.parse_type("A")
-  let t968 = @kernel.inst_type(@list.List([(@parser.parse_type("A->bool"), t967)]), num_intro())
+  let t967 = @term_syntax.parse_type("A")
+  let t968 = @kernel.inst_type(@list.List([(@term_syntax.parse_type("(A) -> Bool"), t967)]), num_intro())
   let t1064 = @list.List([@tactics.gen_tac, @tactics.match_mp_tac(@bool.spec(@term_syntax.parse_term("(CARD : ((A) -> Bool) -> Num)"), t968)), @nums.induct_tac, @tactics.gen_tac, @tactics_ext.disch_all_tac, t1063, t1062, t1061, t1060, t1059, @tactics.conj_tac, t1058, t1057, t1056, t1055, @tactics.gen_tac, t1054, @tactics_ext.disch_all_tac, t1053, t1052, t1051, t1050, t1049, t1048, t1047, t1046, t1045, @tactics_refine.label_all_tac, t1044, t1043, t1042, t1041, @tactics_refine.label_all_tac, (x988 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @tactics_ext.h_undisch_tac((x987 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => @tactics_ext.hyp("5", x987), x988), t1040, t1039, t1038, t1037, t1036, t1035, t1034, t1033, t1032, @tactics.all_tac, t1031, t1030, t1029, t1028, t1027, t1026, t1025, t1024, t1023, t1022, t1021, t1020, @tactics.all_tac, t1019, t1018, t1017, t1016, t1015, t1014, t1013, t1012, t1011])
   fun_size_c.set(@tactics_refine.prove_by_refinement(@term_syntax.parse_term("∀ b : (B) -> Bool, ∀ a : (A) -> Bool, FINITE(a) && FINITE(b) → HAS_SIZE(FUN(a, b), EXP(CARD(b), CARD(a)))"), t1064))
 }
@@ -2737,7 +2737,7 @@ fn step_114() -> Unit raise {
 ///|
 /// Jordan/misc_defs_and_lemmas.ml:1738
 fn step_115() -> Unit raise {
-  @preterm.make_overloadable("*#", @parser.parse_type("A -> B -> B"))
+  @preterm.make_overloadable("*#", @term_syntax.parse_type("(A, B) -> B"))
 }
 
 ///|

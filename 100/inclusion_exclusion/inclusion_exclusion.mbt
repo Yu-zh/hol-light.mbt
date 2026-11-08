@@ -520,8 +520,8 @@ fn step_11() -> Unit raise {
   let t293 = @tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.conj_tac, @list.List([@tactics.asm_tac(@sets.set_tac)(@list.List([])), @tactics.all_tac])), t271), t272), t273), @tactics.conj_tac), t276), t278), t279), t280), t281), t282), @tactics.ap_term_tac), @tactics.ap_term_tac), t284), t285), t286), t287), t288), t289), @tactics.binop_tac), t290), t291), t292)
   let t270 = @simp.asm_simp_tac(@list.List([finite_subsets_restrict()]))
   let t269 = @tactics.exists_tac(@term_syntax.parse_term("(u : (A) -> Bool) => INSERT((x : A), u)"))
-  let t267 = @parser.parse_type("B")
-  let t268 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("A"), t267)]), card_adjust_lemma()))
+  let t267 = @term_syntax.parse_type("B")
+  let t268 = @tactics.match_mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("A"), t267)]), card_adjust_lemma()))
   let t294 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.strip_tac), t268), t269), t270), t293)
   card_subsets_step_c.set(@tactics.prove(@term_syntax.parse_term("∀ x : A, ∀ s : (A) -> Bool, FINITE(s) && !IN(x, s) && SUBSET((u : (A) -> Bool), s) → CARD({(t : (A) -> Bool) | SUBSET(t, INSERT(x, s)) && SUBSET(u, t) && ODD(CARD(t))}) == CARD({(t : (A) -> Bool) | SUBSET(t, s) && SUBSET(u, t) && ODD(CARD(t))}) + CARD({(t : (A) -> Bool) | SUBSET(t, s) && SUBSET(u, t) && EVEN(CARD(t))}) && CARD({(t : (A) -> Bool) | SUBSET(t, INSERT(x, s)) && SUBSET(u, t) && EVEN(CARD(t))}) == CARD({(t : (A) -> Bool) | SUBSET(t, s) && SUBSET(u, t) && EVEN(CARD(t))}) + CARD({(t : (A) -> Bool) | SUBSET(t, s) && SUBSET(u, t) && ODD(CARD(t))})"), t294))
 }

@@ -531,8 +531,8 @@ test "Formal_ineqs/lib/ssrnat matches Formal_ineqs/lib/ssrnat.ml" {
       #|  \226\136\128 m1 : Num, \226\136\128 m2 : Num, \226\136\128 n : Num, minn(maxn(m1, m2), n) == maxn(minn(m1, n), minn(m2, n))
       #|  minn((m : Num), (_1 : Num))
       #|  \226\136\128 m : Num, \226\136\128 n1 : Num, \226\136\128 n2 : Num, minn(m, maxn(n1, n2)) == maxn(minn(m, n1), minn(m, n2))
-      #|  :num
-      #|  :num
+      #|  :Num
+      #|  :Num
       #|  :A
       #|  :A
       #|  (iter : (Num, (A) -> A, A) -> A)(SUC((n : Num)), (f : (A) -> A), (x : A)) == f(iter(n, f, x)) && iter(0, f, x) == x

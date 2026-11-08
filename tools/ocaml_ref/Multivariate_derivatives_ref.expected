@@ -63643,15 +63643,15 @@ Multivariate/derivatives quotations (1746):
   \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 f' : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 x : Cart[Real, M], has_derivative(f, f', at(x)) \226\134\146 f' == frechet_derivative(f, at(x))
   \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 f' : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 x : Cart[Real, M], \226\136\128 a : Cart[Real, M], \226\136\128 b : Cart[Real, M], (\226\136\128 i : Num, 1 <= i && i <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) \226\134\146 (op_dollar : (Cart[Real, M], Num) -> Real)(a, i) < (op_dollar : (Cart[Real, M], Num) -> Real)(b, i)) && (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(x, (interval : (List[(Cart[Real, M], Cart[Real, M])], Cart[Real, M]) -> Bool)([(a, b)])) && (has_derivative : ((Cart[Real, M]) -> Cart[Real, N], (Cart[Real, M]) -> Cart[Real, N], Net[Cart[Real, M]]) -> Bool)(f, f', (within : (Net[Cart[Real, M]], (Cart[Real, M]) -> Bool) -> Net[Cart[Real, M]])((at : (Cart[Real, M]) -> Net[Cart[Real, M]])(x), (interval : (List[(Cart[Real, M], Cart[Real, M])], Cart[Real, M]) -> Bool)([(a, b)]))) \226\134\146 (frechet_derivative : ((Cart[Real, M]) -> Cart[Real, N], Net[Cart[Real, M]], Cart[Real, M]) -> Cart[Real, N])(f, (within : (Net[Cart[Real, M]], (Cart[Real, M]) -> Bool) -> Net[Cart[Real, M]])((at : (Cart[Real, M]) -> Net[Cart[Real, M]])(x), (interval : (List[(Cart[Real, M], Cart[Real, M])], Cart[Real, M]) -> Bool)([(a, b)]))) == f'
   distance(((x : Cart[Real, M]), x + (e : Cart[Real, M]))) == norm(e)
-  :real
-  :real
+  :Real
+  :Real
   ((x : Real) * (y : Real) < real_of_num(0)) == (real_of_num(0) < x * -y)
   (fx : Real) <= (fy : Real) && (a : Real) == -(b : Real) && b < real_of_num(0) \226\134\146 a <= abs(fy - (fx + b))
   real_of_num(0) < (x : Real) \226\134\146 real_of_num(0) < abs(x)
   ((d : Real) <= (a : Real) * inv((b : Real)) * (c : Real)) == (d <= c * a / b)
   abs(op_dollar((y : Cart[Real, _]), (k : Num))) <= norm(y) && !(abs(op_dollar(y, k)) < (e : Real)) \226\134\146 !(norm(y) < e)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < (x : Real) \226\134\146 real_of_num(0) < abs(x)
   (x : Cart[Real, N]) + op_pct((a : Real), (y : Cart[Real, N]) - x) == op_pct(real_of_num(1) - a, x) + op_pct(a, y)
   (a : Bool) && (a \226\134\146 (b : Bool)) \226\134\146 a && b
@@ -63684,10 +63684,10 @@ Multivariate/derivatives quotations (1746):
   (real_of_num(0) <= -(x : Real) && real_of_num(0) <= x) == (x == real_of_num(0))
   (x : Cart[Real, N]) - (e : Cart[Real, N]) - x == -e && x + e - x == e
   distance(((x : Cart[Real, N]), x - (e : Cart[Real, N]))) == norm(e) && distance((x, x + e)) == norm(e)
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   (h : Cart[Real, M]) == vec(0)
   (h : Cart[Real, M])
   (e : Real)
@@ -63786,14 +63786,14 @@ Multivariate/derivatives quotations (1746):
   op_minus_minus_gt((y : Cart[Real, M]) => op_pct(inv(norm(y - (x : Cart[Real, M]))), lift(norm((f : (Cart[Real, M]) -> Cart[Real, N])(y) - f(x)) - norm((g : (Cart[Real, M]) -> Cart[Real, P])(y) - g(x)) - (norm((f' : (Cart[Real, M]) -> Cart[Real, N])(y - x)) - norm((g' : (Cart[Real, M]) -> Cart[Real, P])(y - x))))), vec(0), at(x))
   (b : Real)
   \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 g : (Cart[Real, M]) -> Cart[Real, P], \226\136\128 f' : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 g' : (Cart[Real, M]) -> Cart[Real, P], \226\136\128 x : Cart[Real, M], has_derivative(f, f', at(x)) && has_derivative(g, g', at(x)) && eventually((y : Cart[Real, M]) => norm(f(y) - f(x)) <= norm(g(y) - g(x)), at(x)) \226\134\146 onorm(f') <= onorm(g')
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   real_of_num(0)
   (s : (Cart[Real, M]) -> Bool)
   (x : Cart[Real, M]) => (h : Cart[Real, M]) => (vec : (Num) -> Cart[Real, N])(0)
@@ -63850,8 +63850,8 @@ Multivariate/derivatives quotations (1746):
   (e : Real) / ((B : Real) * (C : Real))
   (e : Real)
   norm((y : Cart[Real, N]) - (b : Cart[Real, N]) - (f' : Cart[Real, N])) <= (B : Real) / real_of_num(2) * norm((x : Cart[Real, M]) - (a : Cart[Real, M])) \226\134\146 norm(x - a) * B <= norm(f') \226\134\146 norm(y - b) >= B / real_of_num(2) * norm(x - a)
-  :real
-  :real
+  :Real
+  :Real
   (x : Cart[Real, M])
   (x : Cart[Real, M])
   (e : Real)
@@ -63866,7 +63866,7 @@ Multivariate/derivatives quotations (1746):
   (C : Real)
   (g' : (Cart[Real, N]) -> Cart[Real, M])
   \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 f' : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 g : (Cart[Real, N]) -> Cart[Real, M], \226\136\128 g' : (Cart[Real, N]) -> Cart[Real, M], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 a : Cart[Real, M], IN(a, s) && (\226\136\128 x : Cart[Real, M], IN(x, s) \226\134\146 g(f(x)) == x) && has_derivative(f, f', within(at(a), s)) && linear(g') && o(g', f') == I && continuous(g, within(at(f(a)), IMAGE(f, s))) \226\134\146 has_derivative(g, g', within(at(f(a)), IMAGE(f, s)))
-  :real
+  :Real
   (e : Real) / (B : Real) * norm((g : (Cart[Real, N]) -> Cart[Real, M])((z : Cart[Real, N])) - g((y : Cart[Real, N])))
   (z : Cart[Real, N])
   (k : Real)
@@ -64153,8 +64153,8 @@ Multivariate/derivatives quotations (1746):
   real_of_num(0) <= (x : Real) && x * inv((n : Real)) < x * real_of_num(1) \226\134\146 !(x <= abs(x) / n)
   abs(real_of_num((n : Num)) + real_of_num(2)) == real_of_num(n) + real_of_num(2)
   distance(((x : Cart[Real, N]), x + (y : Cart[Real, N]))) == norm(y)
-  :real
-  :real
+  :Real
+  :Real
   (x : Cart[Real, M])
   {(x : Cart[Real, M])}
   IN((x : _), (s : (_) -> Bool)) == !IN(x, DIFF(UNIV, s))
@@ -64187,9 +64187,9 @@ Multivariate/derivatives quotations (1746):
   \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 f' : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], has_derivative(f, f', at(x)) \226\134\146 op_minus_minus_gt((t : Cart[Real, Unit]) => op_pct(inv(drop(t)), f(x + op_pct(drop(t), y)) - f(x)), f'(y), at(vec(0)))
   op_pct((a : Real), (y : Cart[Real, M]) - ((x : Cart[Real, M]) + op_pct((b : Real), (u : Cart[Real, M])))) == -(op_pct(a * b, u) - op_pct(a, y - x)) && op_pct(a, y - x - op_pct(b, u)) == -(op_pct(a * b, u) - op_pct(a, y - x))
   norm((y : Cart[Real, M]) - (z : Cart[Real, M])) <= (a : Real) && norm((d : Cart[Real, M]) - (e : Cart[Real, M])) <= (b : Real) \226\134\146 norm(y - ((x : Cart[Real, M]) + d)) - norm(z - x - e) <= a + b
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   (y : Real) - (x : Real) <= (B : Real) * (e : Real) + (D : Real) * e \226\134\146 x < e \226\134\146 y < (B + (D + real_of_num(1))) * e
   (f' : (Cart[Real, M]) -> Cart[Real, N])((u : Cart[Real, M])) == op_pct(inv(norm((y : Cart[Real, M]) - (x : Cart[Real, M]))), op_pct(norm(y - x), f'(u)))
   lift(norm((y : Cart[Real, M]) - (x : Cart[Real, M])))
@@ -64244,13 +64244,13 @@ Multivariate/derivatives quotations (1746):
   (n : Real) <= (e : Real) && (x : Real) * n < real_of_num(1) * n \226\134\146 x * n < e
   (b : Cart[Real, N]) - (a : Cart[Real, N]) - op_pct((t : Real), b - a) == op_pct(real_of_num(1) - t, b - a)
   distance(((b : Cart[Real, N]), (a : Cart[Real, N]) + (x : Cart[Real, N]))) == norm(b - a - x)
-  :real
-  :real
+  :Real
+  :Real
   (t : Real)
   min(real_of_num(1), (dd : Real) * (q : Real) / norm((b : Cart[Real, N]) - (f : (Cart[Real, N]) -> Cart[Real, N])((a : Cart[Real, N]))))
   distance(((a : Cart[Real, N]), a + (x : Cart[Real, N]))) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
   (vv : (Cart[Real, N]) -> Bool)
   (vv : (Cart[Real, N]) -> Bool) == INTER(ball(((b : Cart[Real, N]), (e : Real))), ball(((f : (Cart[Real, N]) -> Cart[Real, N])((a : Cart[Real, N])), (dd : Real) * (q : Real))))
@@ -64279,8 +64279,8 @@ Multivariate/derivatives quotations (1746):
   {(x : Cart[Real, N]) | IN(x, (s : (Cart[Real, N]) -> Bool)) && IN((f : (Cart[Real, N]) -> Cart[Real, N])(x), ball(((b : Cart[Real, N]), (e : Real))))}
   IN((z : _), (u1 : (_) -> Bool)) \226\134\146 !(u1 == (u0 : (_) -> Bool)) && (INTER(u0, u1) == {}) == !(u0 == u1) \226\134\146 !IN(z, u0)
   norm((a : Cart[Real, N]) - (z : Cart[Real, N]) - (h : Cart[Real, N])) == norm(z - (a - h))
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < (x : Real) \226\134\146 abs(x) == x
   abs((t : Real))
   (a : Cart[Real, N]) - op_pct(real_of_num(1), a - (z : Cart[Real, N])) == z
@@ -64381,8 +64381,8 @@ Multivariate/derivatives quotations (1746):
   (f : (Cart[Real, N]) -> Cart[Real, N])((z1 : Cart[Real, N])) == (b : Cart[Real, N])
   (f : (Cart[Real, N]) -> Cart[Real, N])((z1 : Cart[Real, N]))
   \226\136\128 fz1 : Cart[Real, N], (e : Real) <= real_of_num(2) / real_of_num(3) * (dr : Real) && norm((fz : Cart[Real, N]) - fz1) <= e && distance(((fx : Cart[Real, N]), fz1)) < dr / real_of_num(3) \226\134\146 norm(fz - fx) < dr
-  :real
-  :real
+  :Real
+  :Real
   (d : Real) * (r : Real) <= norm((f : (Cart[Real, N]) -> Cart[Real, N])((z : Cart[Real, N])) - (w : Cart[Real, N]))
   (z : Cart[Real, N])
   ball(((x : Cart[Real, N]), (r : Real)))
@@ -64392,8 +64392,8 @@ Multivariate/derivatives quotations (1746):
   (x : Cart[Real, N])
   (w : Cart[Real, N])
   \226\136\128 a : Cart[Real, N], norm(a - (x : Cart[Real, N])) < (dr : Real) / real_of_num(3) && norm(a - (y : Cart[Real, N])) < dr / real_of_num(3) \226\134\146 norm(x - y) <= real_of_num(2) / real_of_num(3) * dr
-  :real
-  :real
+  :Real
+  :Real
   (z : Cart[Real, N])
   real_of_num(0) < (r : Real) \226\134\146 !(r < real_of_num(0))
   ({(f : (_) -> _)((x : _)) | IN(x, (s : (_) -> Bool))} == {}) == (s == {})
@@ -64414,8 +64414,8 @@ Multivariate/derivatives quotations (1746):
   (\226\136\131 z : _, IN(z, (c : (_) -> Bool)) && distance(((x : Cart[Real, N]), (f : (_) -> Cart[Real, N])(z))) < (a : Real)) == (\226\136\131 z : Cart[Real, N], IN(z, IMAGE(f, c)) && distance((x, z)) < a)
   (\226\136\131 z : _, IN(z, (c : (_) -> Bool)) && distance(((x : Cart[Real, N]), (f : (_) -> Cart[Real, N])(z))) < (a : Real)) \226\134\146 (\226\136\131 z : _, IN(z, c) && norm((b : Cart[Real, N]) + x) - norm(b + f(z)) <= a)
   distance(((x : Cart[Real, N]), (y : Cart[Real, N]))) < (a : Real) \226\134\146 norm((b : Cart[Real, N]) + x) - norm(b + y) <= a
-  :real
-  :real
+  :Real
+  :Real
   ((x : Real) - (y : Real) <= (z : Real)) == (x - z <= y)
   (x : Cart[Real, N]) - (b : Cart[Real, N]) == -b + x
   (\226\136\128 z : _, IN(z, (c : (_) -> Bool)) \226\134\146 norm((f : (_) -> Cart[Real, N])(z) - (b : Cart[Real, N])) <= (B : Real)) == (\226\136\128 z : Cart[Real, N], IN(z, IMAGE((x : Cart[Real, N]) => x - b, IMAGE(f, c))) \226\134\146 norm(z) <= B)
@@ -64457,8 +64457,8 @@ Multivariate/derivatives quotations (1746):
   \226\136\131 k : (Cart[Real, N]) -> Bool, compact(k) && connected(k) && IN((z1 : Cart[Real, N]), k) && IN((z2 : Cart[Real, N]), k) && SUBSET(k, cball(((x : Cart[Real, N]), (r : Real)))) && sup({norm((f : (Cart[Real, N]) -> Cart[Real, N])((z : Cart[Real, N])) - (b : Cart[Real, N])) | IN(z, k)}) == (e : Real)
   (e : Real)
   norm((x : Cart[Real, N])) <= (B : Real) \226\134\146 norm(x - (b : Cart[Real, N])) <= B + norm(b)
-  :real
-  :real
+  :Real
+  :Real
   (B : Real) + norm((b : Cart[Real, N]))
   (B : Real)
   (k : (Cart[Real, N]) -> Bool)
@@ -64510,10 +64510,10 @@ Multivariate/derivatives quotations (1746):
   real_of_num(0) < (B : Real) \226\134\146 B * (real_of_num(1) / (real_of_num(4) * B) * (x : Real) + real_of_num(1) / (real_of_num(2) * B) * x) == real_of_num(3) / real_of_num(4) * x
   (B : Real)
   (a : Real) + (d : Real) <= norm((f' : Cart[Real, N])) \226\134\146 norm((fy : Cart[Real, N]) - (fx : Cart[Real, N]) - f') <= d \226\134\146 a <= norm(fy - fx)
-  :real
-  :real
+  :Real
+  :Real
   norm((x : Cart[Real, N]) - (y : Cart[Real, N])) <= (e : Real) / real_of_num(2) \226\134\146 real_of_num(0) < e \226\134\146 norm(y - x) < e
-  :real
+  :Real
   (y : Cart[Real, N])
   real_of_num(0) < real_of_num(2) && real_of_num(0) < real_of_num(4)
   real_of_num(1) / (real_of_num(4) * (B : Real))
@@ -64530,16 +64530,16 @@ Multivariate/derivatives quotations (1746):
   real_of_num(0) < (l : Real)
   norm((h : Cart[Real, N]) - (u : Cart[Real, N])) <= min((l : Real), (m : Real) / real_of_num(2))
   real_of_num(0) < (l : Real) \226\134\146 real_of_num(0) < norm((h : Cart[Real, N])) + l
-  :real
+  :Real
   ((a : Real) / real_of_num(2) / (b : Real) * (x : Real) < a) == (a * (x / b) < a * real_of_num(2))
   pow((e : Real), 2)
   real_of_num(0) < (t : Real) \226\134\146 ((a : Real) * (abs(t) * (u : Real)) < (x : Real)) == (t * (a * u) < x)
   (p : Real) + (x : Real) < (y : Real) + (d : Real) \226\134\146 abs((q : Real) - p - -d) <= x \226\134\146 q < y
   real_of_num(0) < (l : Real) \226\134\146 real_of_num(0) < norm((h : Cart[Real, N])) + l
-  :real
+  :Real
   norm((y : Cart[Real, N]) - (x : Cart[Real, N])) <= (l : Real) \226\134\146 norm(x) <= norm(y) + l
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < (x : Real) \226\134\146 abs(x) == x
   (t : Real) * (norm((h : Cart[Real, N])) + (l : Real))
   (a : Cart[Real, N]) - (t : Cart[Real, N]) - a == -t
@@ -64549,17 +64549,17 @@ Multivariate/derivatives quotations (1746):
   (u : Cart[Real, N])
   (t : Real)
   real_of_num(0) < (l : Real) \226\134\146 real_of_num(0) < norm((h : Cart[Real, N])) + l
-  :real
+  :Real
   !((s : (_) -> Bool) == {}) && SUBSET(s, (t : (_) -> Bool)) \226\134\146 SUBSET(s, t) && !(t == {})
   (r : Bool) && (p : Bool) && (q : Bool) \226\134\146 p && q && r
   \226\136\128 x : Real, \226\136\128 y : Real, {(a : Cart[Real, N]) - op_pct((t : Real), (u : Cart[Real, N])) | norm(u - (h : Cart[Real, N])) <= x && real_of_num(0) < t && t < y} == IMAGE((z : Cart[Real, Finite_sum[Unit, N]]) => a - op_pct(drop(fstcart(z)), sndcart(z)), PCROSS(interval((vec(0), lift(y))), cball((h, x))))
   (\226\136\128 u : _, \226\136\128 t : _, (P : (_, _) -> Bool)(u, t) \226\134\146 IN((f : (_, _) -> _)(t, u), (c : (_) -> Bool))) == SUBSET({f((t : _), (u : _)) | P(u, t)}, c)
   real_of_num(0) < (l : Real) \226\134\146 real_of_num(0) < norm((h : Cart[Real, N])) + l
-  :real
+  :Real
   min((d : Real) / (norm((h : Cart[Real, N])) + (l : Real)), (m : Real) / real_of_num(2))
   (d : Real)
   real_of_num(0) < (l : Real) \226\134\146 real_of_num(0) < norm((h : Cart[Real, N])) + l
-  :real
+  :Real
   pow((e : Real), 2) / real_of_num(2) / (norm((h : Cart[Real, N])) + (l : Real))
   has_derivative((p : (Cart[Real, N]) -> Cart[Real, Unit]), (p' : (Cart[Real, N], Cart[Real, N]) -> Cart[Real, Unit])((a : Cart[Real, N])), at(a))
   min((l : Real), (m : Real) / real_of_num(2))
@@ -64613,17 +64613,17 @@ Multivariate/derivatives quotations (1746):
   (f : (Cart[Real, N]) -> Cart[Real, N])((a : Cart[Real, N])) == (b : Cart[Real, N])
   ((x : Real) / (y : Real) * (z : Real) < (t : Real)) == (x * z / y < t)
   real_of_num(0) < norm((h : Cart[Real, N])) + real_of_num(1)
-  :real
+  :Real
   min((a : Real), (b : Real)) <= b
   (t : Real) / (norm((h : Cart[Real, N])) + real_of_num(1)) * norm(h)
   real_of_num(0) < norm((h : Cart[Real, N])) + real_of_num(1)
-  :real
+  :Real
   real_of_num(0) < (x : Real) \226\134\146 abs(x) == x
   distance(((a : Cart[Real, N]) - (x : Cart[Real, N]), a)) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < norm((h : Cart[Real, N])) + real_of_num(1)
-  :real
+  :Real
   (a : Cart[Real, N]) - op_pct(min((t0 : Real) / real_of_num(2), (t : Real) / (norm((h : Cart[Real, N])) + real_of_num(1))), h)
   (t : Real)
   (c : (Cart[Real, N]) -> Bool)
@@ -64665,8 +64665,8 @@ Multivariate/derivatives quotations (1746):
   \226\136\128 x : Cart[Real, N], IN(x, (s : (Cart[Real, N]) -> Bool)) \226\134\146 (\226\136\131 g : (Cart[Real, N]) -> Cart[Real, N], linear(g) && o((f' : (Cart[Real, N], Cart[Real, N]) -> Cart[Real, N])(x), g) == I && o(g, f'(x)) == I)
   ((p : Bool) \226\134\146 (q : Bool) && (r : Bool)) == ((p \226\134\146 q) && (p \226\134\146 r))
   \226\136\128 f : (Cart[Real, N]) -> Cart[Real, N], \226\136\128 f' : (Cart[Real, N], Cart[Real, N]) -> Cart[Real, N], \226\136\128 a : Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, open(s) && IN(a, s) && (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 has_derivative(f, f'(x), at(x)) && !(det(matrix(f'(x))) == real_of_num(0))) \226\134\146 (\226\136\131 t : (Cart[Real, N]) -> Bool, \226\136\131 u : (Cart[Real, N]) -> Bool, \226\136\131 g : (Cart[Real, N]) -> Cart[Real, N], \226\136\131 g' : (Cart[Real, N], Cart[Real, N]) -> Cart[Real, N], open(t) && IN(a, t) && SUBSET(t, s) && open(u) && IN(f(a), u) && homeomorphism((t, u), (f, g)) && (\226\136\128 x : Cart[Real, N], IN(x, t) \226\134\146 has_derivative(f, f'(x), at(x)) && o(f'(x), g'(f(x))) == I && o(g'(f(x)), f'(x)) == I) && (\226\136\128 y : Cart[Real, N], IN(y, u) \226\134\146 has_derivative(g, g'(y), at(y)) && o(f'(g(y)), g'(y)) == I && o(g'(y), f'(g(y))) == I))
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(1)
   real_of_num(0) < (x : Real) \226\134\146 inv(x) * (real_of_num(3) * pow(x, 2) - real_of_num(2) * pow(x, 3)) == real_of_num(3) * x - real_of_num(2) * pow(x, 2)
   (y : Cart[Real, Finite_sum[Unit, N]]) => lift(real_of_num(3) * drop(fstcart(y)) - real_of_num(2) * pow(drop(fstcart(y)), 2))
@@ -64751,15 +64751,15 @@ Multivariate/derivatives quotations (1746):
   real_of_num(2) * pow((t : Real), 3) - real_of_num(3) * pow(t, 2) + real_of_num(1) == pow(real_of_num(1) - t, 2) + real_of_num(2) * (t * pow(real_of_num(1) - t, 2))
   (y : Real) <= (x : Real) && real_of_num(0) <= y - x + real_of_num(1) \226\134\146 abs(x - y) <= real_of_num(1)
   distance(((a : Cart[Real, N]), (b : Cart[Real, N]))) == real_of_num(1) * norm(b - a)
-  :real
-  :real
+  :Real
+  :Real
   distance(((a : Cart[Real, N]), (b : Cart[Real, N])))
   real_of_num(0) < (r : Real) \226\134\146 ((x : Real) * abs(r) < r) == (x * r < real_of_num(1) * r)
   norm((x : Cart[Real, N])) <= (r : Real) && norm((y : Cart[Real, N])) < r \226\134\146 distance(((a : Cart[Real, N]), a + x + y)) < real_of_num(2) * r && distance((a, a + x)) < real_of_num(2) * r
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   \226\136\128 x : Cart[Real, N], \226\136\128 t : Real, !(x == vec(0)) && real_of_num(0) <= t && t <= real_of_num(1) && !(t == real_of_num(0)) && !(t == real_of_num(1)) \226\134\146 IN((a : Cart[Real, N]) + op_pct(real_of_num(3) * pow(t, 2) - real_of_num(2) * pow(t, 3), (b : Cart[Real, N]) - a) + op_pct(t * ((real_of_num(1) - t) * (r : Real)), op_pct(inv(norm(x)), x)), ball((a, real_of_num(2) * r))) && IN(a + op_pct(real_of_num(3) * pow(t, 2) - real_of_num(2) * pow(t, 3), b - a), ball((a, real_of_num(2) * r)))
   (z : Cart[Real, Finite_sum[Unit, N]]) => if fstcart(z) == vec(0) { (f' : (Cart[Real, N], Cart[Real, N]) -> Cart[Real, N])((a : Cart[Real, N]), sndcart(z)) } else { if fstcart(z) == vec(1) { f'((b : Cart[Real, N]), sndcart(z)) } else { op_pct(norm(sndcart(z)) / (drop(fstcart(z)) * ((real_of_num(1) - drop(fstcart(z))) * (r : Real))), (f : (Cart[Real, N]) -> Cart[Real, N])(a + op_pct(real_of_num(3) * pow(drop(fstcart(z)), 2) - real_of_num(2) * pow(drop(fstcart(z)), 3), b - a) + op_pct(drop(fstcart(z)) * ((real_of_num(1) - drop(fstcart(z))) * r), op_pct(inv(norm(sndcart(z))), sndcart(z)))) - f(a + op_pct(real_of_num(3) * pow(drop(fstcart(z)), 2) - real_of_num(2) * pow(drop(fstcart(z)), 3), b - a))) } }
   (b : Cart[Real, N])

@@ -87527,10 +87527,10 @@ Multivariate/cauchy quotations (7972):
   integral(interval([(vec(0), vec(1))]), (x : Cart[Real, Unit]) => path_integral((h : (Cart[Real, Unit]) -> Cart[Real, 2]), (y : Cart[Real, 2]) => (f : (Cart[Real, 2], Cart[Real, 2]) -> Cart[Real, 2])((g : (Cart[Real, Unit]) -> Cart[Real, 2])(x), y) * vector_derivative(g, at(x))))
   \226\136\128 f : (Cart[Real, 2], Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, 2], \226\136\128 h : (Cart[Real, Unit]) -> Cart[Real, 2], continuous_on((y : Cart[Real, Finite_sum[2, 2]]) => f(fstcart(y), sndcart(y)), PCROSS(path_image(g), path_image(h))) && valid_path(g) && valid_path(h) && continuous_on((t : Cart[Real, Unit]) => vector_derivative(g, at(t)), interval([(vec(0), vec(1))])) && continuous_on((t : Cart[Real, Unit]) => vector_derivative(h, at(t)), interval([(vec(0), vec(1))])) \226\134\146 path_integral(g, (w : Cart[Real, 2]) => path_integral(h, f(w))) == path_integral(h, (z : Cart[Real, 2]) => path_integral(g, (w : Cart[Real, 2]) => f(w, z)))
   norm((a : Cart[Real, 2]) + ((b : Cart[Real, 2]) + ((c : Cart[Real, 2]) + (d : Cart[Real, 2])))) >= (e : Real) \226\134\146 norm(a) >= e / real_of_num(4) || norm(b) >= e / real_of_num(4) || norm(c) >= e / real_of_num(4) || norm(d) >= e / real_of_num(4)
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   (abs(inv(real_of_num(2))) * (x : Real) <= (k : Real) / real_of_num(2)) == (x <= k)
   (b : Cart[Real, 2]) + (c : Cart[Real, 2]) - (c + (a : Cart[Real, 2])) == b - a
   (a : Cart[Real, 2]) + (b : Cart[Real, 2]) - ((c : Cart[Real, 2]) + a) == b - c
@@ -87923,14 +87923,14 @@ Multivariate/cauchy quotations (7972):
   (p : (Cart[Real, Unit]) -> Cart[Real, 2])((u : Cart[Real, Unit]))
   (e : Real)
   \226\136\128 e : Real, \226\136\128 pu : Cart[Real, 2], distance(((pt : Cart[Real, 2]), (pn : Cart[Real, 2]))) < (ee : Real) / real_of_num(3) \226\134\146 distance((pn, pu)) < e / real_of_num(3) && e <= ee && norm((gu : Cart[Real, 2]) - pu) < e / real_of_num(3) && norm((hu : Cart[Real, 2]) - pu) < e / real_of_num(3) \226\134\146 distance((pt, gu)) < ee && distance((pt, hu)) < ee
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   (u : Cart[Real, Unit])
   (((p : Bool) \226\134\146 (q : Bool)) && (p \226\134\146 (r : Bool))) == (p \226\134\146 q && r)
   ((p : Bool) && (r : Bool)) && (p && r \226\134\146 (q : Bool) && (s : Bool)) \226\134\146 p && q && r && s
@@ -87958,8 +87958,8 @@ Multivariate/cauchy quotations (7972):
   \226\136\131 ff : (Cart[Real, 2], Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], IN(z, path_image((p : (Cart[Real, Unit]) -> Cart[Real, 2]))) \226\134\146 real_of_num(0) < (ee : (Cart[Real, 2]) -> Real)(z) && SUBSET(ball((z, ee(z))), (s : (Cart[Real, 2]) -> Bool)) && (\226\136\128 w : Cart[Real, 2], IN(w, ball((z, ee(z)))) \226\134\146 has_complex_derivative(ff(z), (f : (Cart[Real, 2]) -> Cart[Real, 2])(w), at(w)))
   (f : (Cart[Real, 2]) -> Cart[Real, 2])
   distance(((gu : Cart[Real, 2]), (gt : Cart[Real, 2]))) < (eu : Real) / real_of_num(3) \226\134\146 norm((ht : Cart[Real, 2]) - gt) < (e : Real) / real_of_num(3) && e <= eu \226\134\146 distance((gu, ht)) < eu
-  :real
-  :real
+  :Real
+  :Real
   IN((h : (Cart[Real, Unit]) -> Cart[Real, 2])((t : Cart[Real, Unit])), ball(((p : (Cart[Real, Unit]) -> Cart[Real, 2])((u : Cart[Real, Unit])), (ee : (Cart[Real, 2]) -> Real)(p(u)))))
   IN((g : (Cart[Real, Unit]) -> Cart[Real, 2])((t : Cart[Real, Unit])), ball(((p : (Cart[Real, Unit]) -> Cart[Real, 2])((u : Cart[Real, Unit])), (ee : (Cart[Real, 2]) -> Real)(p(u)))))
   (u : Cart[Real, Unit])
@@ -88024,14 +88024,14 @@ Multivariate/cauchy quotations (7972):
   real_of_num(0) < (e : Real) && (x : Real) < min((d : Real), e) / real_of_num(2) \226\134\146 x < e
   SUBSET((t : (_) -> Bool), DELETE(UNIV, (x : _))) == !IN(x, t)
   norm((h : Cart[Real, 2]) - (g : Cart[Real, 2])) < (d : Real) / real_of_num(2) && norm((p : Cart[Real, 2]) - g) < min(d, (e : Real)) / real_of_num(2) \226\134\146 norm(h - g) < d && norm(p - g) < d
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   (p : (Cart[Real, Unit]) -> Cart[Real, 2])
   (h : (Cart[Real, Unit]) -> Cart[Real, 2])
   !((a : Cart[Real, 2]) * ((b : Cart[Real, 2]) * (c : Cart[Real, 2])) == Cx(real_of_num(0))) \226\134\146 a * (b * (c * (Cx(real_of_num(1)) / (a * (b * c)) * (z : Cart[Real, 2])))) == z
@@ -88335,32 +88335,32 @@ Multivariate/cauchy quotations (7972):
   (z : Cart[Real, 2])
   DIFF(UNIV, path_image((g : (Cart[Real, Unit]) -> Cart[Real, 2])))
   \226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], path(g) && !IN(z, path_image(g)) \226\134\146 continuous((w : Cart[Real, 2]) => winding_number((g, w)), at(z))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   \226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, 2], path(g) \226\134\146 continuous_on((w : Cart[Real, 2]) => winding_number((g, w)), DIFF(UNIV, path_image(g)))
   complex_integer(winding_number(((g : (Cart[Real, Unit]) -> Cart[Real, 2]), (w : Cart[Real, 2])))) && complex_integer(winding_number((g, (z : Cart[Real, 2]))))
   (w : Cart[Real, 2])
@@ -88380,8 +88380,8 @@ Multivariate/cauchy quotations (7972):
   SUBSET(path_image((g : (Cart[Real, Unit]) -> Cart[Real, 2])), ball((Cx(real_of_num(0)), (B : Real))))
   (g : (Cart[Real, Unit]) -> Cart[Real, 2])
   \226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, 2], norm((p : (Cart[Real, Unit]) -> Cart[Real, 2])((t : Cart[Real, Unit])) - g(t)) < real_of_num(1) && norm(g(t)) <= (B : Real) \226\134\146 norm(p(t)) < B + real_of_num(1)
-  :real
-  :real
+  :Real
+  :Real
   (t : Cart[Real, Unit])
   ball((Cx(real_of_num(0)), (B : Real) + real_of_num(1)))
   (x : Cart[Real, 2])
@@ -88477,11 +88477,11 @@ Multivariate/cauchy quotations (7972):
   (b : Real) - (d : Real) / real_of_num(3) * norm((a : Cart[Real, 2]))
   (a : Cart[Real, 2])
   abs(Re((w' : Cart[Real, 2])) - Re((w : Cart[Real, 2]))) <= norm(w' - w) && abs(Re(w')) < real_of_num(1) / real_of_num(2) \226\134\146 !(distance((w', w)) < abs(Re(w)) - real_of_num(1) / real_of_num(2))
-  :real
-  :real
+  :Real
+  :Real
   distance(((z : Cart[Real, 2]) - (d : Cart[Real, 2]), z)) == norm(d)
-  :real
-  :real
+  :Real
+  :Real
   (z : Cart[Real, 2]) - op_pct((d : Real) / real_of_num(2) / norm((a : Cart[Real, 2])), a)
   (d : Real)
   abs(Re(winding_number(((g : (Cart[Real, Unit]) -> Cart[Real, 2]), (z : Cart[Real, 2]))))) - real_of_num(1) / real_of_num(2)
@@ -88561,10 +88561,10 @@ Multivariate/cauchy quotations (7972):
   (n : Num) <= SUC(n)
   (e : Real)
   \226\136\128 e : Real, norm((n' : Cart[Real, N]) - (n : Cart[Real, N])) < e / real_of_num(3) && e <= (ee : Real) \226\134\146 distance(((t : Cart[Real, N]), n)) < ee / real_of_num(3) \226\134\146 norm(n - t) < ee && norm(n' - t) < ee
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   lift(real_of_num(SUC((n : Num))) / real_of_num((N : Num)))
   lift(real_of_num((n : Num)) / real_of_num((N : Num)))
   (t : Cart[Real, Unit])
@@ -88599,14 +88599,14 @@ Multivariate/cauchy quotations (7972):
   (interval : (List[(Cart[Real, Unit], Cart[Real, Unit])], Cart[Real, Unit]) -> Bool)([((vec : (Num) -> Cart[Real, Unit])(0), (vec : (Num) -> Cart[Real, Unit])(1))])
   (ee : (Cart[Real, Unit]) -> Real)
   norm((g1 : Cart[Real, 2]) - (k1 : Cart[Real, 2])) < (e : Real) / real_of_num(4) && norm((g2 : Cart[Real, 2]) - (k2 : Cart[Real, 2])) < e / real_of_num(4) && norm(k1 - (kt : Cart[Real, 2])) < e / real_of_num(4) && norm(k2 - kt) < e / real_of_num(4) \226\134\146 norm(g1 - kt) < e && norm(g2 - kt) < e
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   (u : Cart[Real, Unit])
   (g2 : (Cart[Real, Unit]) -> Cart[Real, 2])
   (g1 : (Cart[Real, Unit]) -> Cart[Real, 2])
@@ -88641,10 +88641,10 @@ Multivariate/cauchy quotations (7972):
   (n : Num) <= SUC(n)
   (e : Real)
   \226\136\128 e : Real, norm((n' : Cart[Real, N]) - (n : Cart[Real, N])) < e / real_of_num(3) && e <= (ee : Real) \226\134\146 distance(((t : Cart[Real, N]), n)) < ee / real_of_num(3) \226\134\146 norm(n - t) < ee && norm(n' - t) < ee
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   lift(real_of_num(SUC((n : Num))) / real_of_num((N : Num)))
   lift(real_of_num((n : Num)) / real_of_num((N : Num)))
   (t : Cart[Real, Unit])
@@ -88679,14 +88679,14 @@ Multivariate/cauchy quotations (7972):
   (interval : (List[(Cart[Real, Unit], Cart[Real, Unit])], Cart[Real, Unit]) -> Bool)([((vec : (Num) -> Cart[Real, Unit])(0), (vec : (Num) -> Cart[Real, Unit])(1))])
   (ee : (Cart[Real, Unit]) -> Real)
   norm((g1 : Cart[Real, 2]) - (k1 : Cart[Real, 2])) < (e : Real) / real_of_num(4) && norm((g2 : Cart[Real, 2]) - (k2 : Cart[Real, 2])) < e / real_of_num(4) && norm(k1 - (kt : Cart[Real, 2])) < e / real_of_num(4) && norm(k2 - kt) < e / real_of_num(4) \226\134\146 norm(g1 - kt) < e && norm(g2 - kt) < e
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   (u : Cart[Real, Unit])
   (g2 : (Cart[Real, Unit]) -> Cart[Real, 2])
   (g1 : (Cart[Real, Unit]) -> Cart[Real, 2])
@@ -88793,29 +88793,29 @@ Multivariate/cauchy quotations (7972):
   IN((c : _), (s : (_) -> Bool)) \226\134\146 s == (t : (_) -> Bool) \226\134\146 IN(c, t)
   (c : Cart[Real, 2])
   distance(((a : Cart[Real, 2]), a + (e : Cart[Real, 2]))) == norm(e)
-  :real
-  :real
+  :Real
+  :Real
   distance(((a : Cart[Real, 2]), a - (e : Cart[Real, 2]))) == norm(e)
-  :real
-  :real
+  :Real
+  :Real
   INTER((b : (_) -> Bool), (p : (_) -> Bool)) == {} \226\134\146 SUBSET((s : (_) -> Bool), b) \226\134\146 INTER(p, s) == {}
   IN((b : _), (p : (_) -> Bool)) && !IN((c : _), p) && INTER(p, (s : (_) -> Bool)) == {} \226\134\146 INTER(p, UNION(s, {c, b})) == {b}
   INTER((s : (_) -> Bool), (t1 : (_) -> Bool)) == {(a : _)} && INTER(s, (t2 : (_) -> Bool)) == {(b : _)} \226\134\146 INTER(s, UNION(t1, t2)) == {a, b}
   INTER((s : (_) -> Bool), (t1 : (_) -> Bool)) == {(a : _)} && INTER(s, (t2 : (_) -> Bool)) == {(b : _)} \226\134\146 INTER(s, UNION(t1, t2)) == {a, b}
   (x : Real) * (e : Real) < real_of_num(1) * e && real_of_num(0) < e \226\134\146 x * (abs(e) * real_of_num(1)) < e
   distance(((a : Cart[Real, 2]), a + (e : Cart[Real, 2]))) == norm(e)
-  :real
-  :real
+  :Real
+  :Real
   op_pct(real_of_num(1) - (u : Real), (a : Cart[Real, 2]) + (e : Cart[Real, 2])) + op_pct(u, a - e) == a + op_pct(real_of_num(1) - real_of_num(2) * u, e)
   INTER((b : (_) -> Bool), (p : (_) -> Bool)) == {} \226\134\146 SUBSET((s : (_) -> Bool), b) && SUBSET((k : (_) -> Bool), p) \226\134\146 INTER(UNION(s, k), p) == k
   (s : (_) -> Bool) == (t : (_) -> Bool) \226\134\146 SUBSET(s, t)
   ((a : Cart[Real, 2]) == -(b : Cart[Real, 2])) == (b == -a)
   norm((z : Cart[Real, 2])) == real_of_num(1) \226\134\146 (u : Cart[Real, 2]) == -z \226\134\146 norm(u) == real_of_num(1)
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   ((p : Bool) \226\134\146 (p' : Bool)) && (p && (q : Bool) \226\134\146 (q' : Bool)) \226\134\146 p && q \226\134\146 p' && q'
   ((a : Cart[Real, 2]) + (x : Cart[Real, 2]) == a - x) == (x == vec(0))
   winding_number((op_plus_plus(linepath(((a : Cart[Real, 2]) - op_pct((e : Real), basis(1)), (c : Cart[Real, 2]))), op_plus_plus(linepath((c, a + op_pct(e, basis(1)))), linepath((a + op_pct(e, basis(1)), a - op_pct(e, basis(1)))))), (z : Cart[Real, 2])))
@@ -88847,58 +88847,58 @@ Multivariate/cauchy quotations (7972):
   (p : (Cart[Real, Unit]) -> Cart[Real, 2])
   \226\136\128 p : (Cart[Real, Unit]) -> Cart[Real, 2], \226\136\128 a : Cart[Real, 2], \226\136\128 e : Real, real_of_num(0) < e && simple_path(op_plus_plus(p, linepath((a - op_pct(e, basis(1)), a + op_pct(e, basis(1)))))) && pathstart(p) == a + op_pct(e, basis(1)) && pathfinish(p) == a - op_pct(e, basis(1)) && INTER(ball((a, e)), path_image(p)) == {} \226\134\146 (\226\136\131 z : Cart[Real, 2], IN(z, inside(path_image(op_plus_plus(p, linepath((a - op_pct(e, basis(1)), a + op_pct(e, basis(1)))))))) && norm(winding_number((op_plus_plus(p, linepath((a - op_pct(e, basis(1)), a + op_pct(e, basis(1))))), z))) == real_of_num(1))
   distance(((a : Cart[Real, 2]) + (d : Cart[Real, 2]), a + (e : Cart[Real, 2]))) == norm(d - e)
-  :real
-  :real
+  :Real
+  :Real
   distance(((a : Cart[Real, 2]) - (d : Cart[Real, 2]), a - (e : Cart[Real, 2]))) == norm(d - e)
-  :real
-  :real
+  :Real
+  :Real
   distance(((a : Cart[Real, 2]) - (d : Cart[Real, 2]), a + (e : Cart[Real, 2]))) == norm(d + e)
-  :real
-  :real
+  :Real
+  :Real
   UNION((s : (_) -> Bool), (t : (_) -> Bool)) == (u : (_) -> Bool) \226\134\146 !IN((z : _), s) && !IN(z, t) \226\134\146 !IN(z, u)
   !IN((z : Cart[Real, 2]), segment([((a : Cart[Real, 2]) - op_pct((kde : Real), basis(1)), a + op_pct(kde, basis(1)))])) && !IN(z, segment([(a + op_pct(kde, basis(1)), a + op_pct((e : Real), basis(1)))]))
   winding_number((linepath(((a : Cart[Real, 2]) - op_pct((d : Real), basis(1)), a - op_pct((kde : Real), basis(1)))), (z : Cart[Real, 2]))) + winding_number((linepath((a - op_pct(kde, basis(1)), a + op_pct((e : Real), basis(1)))), z))
   (d : Cart[Real, 2]) + ((k : Cart[Real, 2]) + (e : Cart[Real, 2])) == (z : Cart[Real, 2]) \226\134\146 e + ((p : Cart[Real, 2]) + d) + k == p + z
   IN((z : Cart[Real, _]), inside((s : (Cart[Real, _]) -> Bool))) \226\134\146 !IN(z, s)
   distance(((a : Cart[Real, 2]) - (d : Cart[Real, 2]), a - (e : Cart[Real, 2]))) == norm(d - e)
-  :real
-  :real
+  :Real
+  :Real
   distance(((a : Cart[Real, 2]) - (d : Cart[Real, 2]), a + (e : Cart[Real, 2]))) == norm(d + e)
-  :real
-  :real
+  :Real
+  :Real
   distance(((a : Cart[Real, 2]) + (d : Cart[Real, 2]), a + (e : Cart[Real, 2]))) == norm(d - e)
-  :real
-  :real
+  :Real
+  :Real
   distance(((a : Cart[Real, 2]) - (d : Cart[Real, 2]), a + (e : Cart[Real, 2]))) == norm(d + e)
-  :real
-  :real
+  :Real
+  :Real
   UNION(UNION((c : (_) -> Bool), UNION((p : (_) -> Bool), (a : (_) -> Bool))), (b : (_) -> Bool)) == UNION(p, UNION(a, UNION(b, c)))
   (p : Bool) == (p' : Bool) && (p && p' \226\134\146 (q : Bool) == (q' : Bool)) \226\134\146 p && q \226\134\146 p' && q'
   (z : Cart[Real, 2])
   ((k : Real) <= (real_of_num(1) - (u : Real)) * k + u * (e : Real)) == (real_of_num(0) <= u * (e - k)) && (k <= (real_of_num(1) - u) * (d : Real) + u * k) == (real_of_num(0) <= (real_of_num(1) - u) * (d - k))
   (x : Real) <= (y : Real) \226\134\146 x <= abs(y)
   distance(((a : Cart[Real, 2]), a + (d : Cart[Real, 2]))) == norm(d) && distance((a, a - (e : Cart[Real, 2]))) == norm(e)
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   op_pct(real_of_num(1) - (u : Real), (a : Cart[Real, 2]) - (d : Cart[Real, 2])) + op_pct(u, a - (e : Cart[Real, 2])) == a - (op_pct(real_of_num(1) - u, d) + op_pct(u, e)) && op_pct(real_of_num(1) - u, a + d) + op_pct(u, a + e) == a + (op_pct(real_of_num(1) - u, d) + op_pct(u, e))
   (INTER((s : (_) -> Bool), (t : (_) -> Bool)) == {}) == (\226\136\128 x : _, IN(x, t) \226\134\146 !IN(x, s))
   INTER((b : (_) -> Bool), (p : (_) -> Bool)) == {} \226\134\146 SUBSET((c : (_) -> Bool), b) \226\134\146 INTER(c, p) == {}
   ((a : Bool) && (b : Bool) && (c : Bool)) == (b && a && c)
   distance(((a : Cart[Real, 2]) - (d : Cart[Real, 2]), a + (e : Cart[Real, 2]))) == norm(d + e) && distance((a + d, a - e)) == norm(d + e) && distance((a - d, a - e)) == norm(d - e) && distance((a + d, a + e)) == norm(d - e)
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   real_of_num(0) < (kd : Real) && (a : Real) * kd <= real_of_num(1) * kd && kd < (k : Real) \226\134\146 a * (abs(kd) * real_of_num(1)) < k
   distance(((a : Cart[Real, 2]), a - (d : Cart[Real, 2]))) == norm(d)
-  :real
-  :real
+  :Real
+  :Real
   op_pct(real_of_num(1) - (u : Real), (a : Cart[Real, 2]) - (d : Cart[Real, 2])) + op_pct(u, a + d) == a - op_pct(real_of_num(1) - real_of_num(2) * u, d)
   INTER((b : (_) -> Bool), (p : (_) -> Bool)) == {} \226\134\146 SUBSET((s : (_) -> Bool), b) \226\134\146 INTER(s, p) == {}
   INTER((kk : (_) -> Bool), (p : (_) -> Bool)) == {} && INTER(kk, (ke : (_) -> Bool)) == {(kp : _)} && INTER((dk : (_) -> Bool), kk) == {(kn : _)} \226\134\146 SUBSET(INTER(UNION(ke, UNION(p, dk)), kk), {kp, kn})
@@ -88908,14 +88908,14 @@ Multivariate/cauchy quotations (7972):
   (a : Cart[Real, 2])
   \226\136\128 a : Cart[Real, 2], (\226\136\128 x : Cart[Real, _], IN(x, (t : (Cart[Real, _]) -> Bool)) \226\134\146 op_dollar(x, 1) < op_dollar(a, 1)) && (\226\136\128 x : Cart[Real, _], IN(x, (s : (Cart[Real, _]) -> Bool)) \226\134\146 op_dollar(a, 1) < op_dollar(x, 1)) \226\134\146 (\226\136\128 x : Cart[Real, _], !(IN(x, s) && IN(x, t)))
   distance(((a : Cart[Real, 2]) - (d : Cart[Real, 2]), a + (e : Cart[Real, 2]))) == norm(d + e) && distance((a + d, a - e)) == norm(d + e) && distance((a - d, a - e)) == norm(d - e) && distance((a + d, a + e)) == norm(d - e)
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   SUBSET(INTER((p : (_) -> Bool), (de : (_) -> Bool)), {(e : _), (d : _)}) \226\134\146 SUBSET((dk : (_) -> Bool), de) && SUBSET((ke : (_) -> Bool), de) && !IN(e, dk) && !IN(d, ke) && INTER(ke, dk) == {} \226\134\146 SUBSET(INTER(p, dk), {d}) && SUBSET(INTER(ke, UNION(p, dk)), {e})
   ((a : Cart[Real, 2]) - (d : Cart[Real, 2]) == a - (e : Cart[Real, 2])) == (e - d == vec(0))
   ((a : Cart[Real, 2]) + (e : Cart[Real, 2]) == a + (d : Cart[Real, 2])) == (e - d == vec(0))
@@ -88931,13 +88931,13 @@ Multivariate/cauchy quotations (7972):
   ((a : Cart[Real, 2]) - (d : Cart[Real, 2]) == a) == (d == vec(0))
   ((a : Cart[Real, 2]) + (e : Cart[Real, 2]) == a) == (e == vec(0))
   distance(((a : Cart[Real, 2]) - (d : Cart[Real, 2]), a)) + distance((a, a + (e : Cart[Real, 2]))) == norm(d) + norm(e)
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   distance(((a : Cart[Real, 2]) - (d : Cart[Real, 2]), a + (e : Cart[Real, 2]))) == norm(d + e)
-  :real
-  :real
+  :Real
+  :Real
   SUBSET(INTER((p : (_) -> Bool), (s : (_) -> Bool)), {(d : _), (e : _)}) \226\134\146 IN((a : _), s) && !(d == a) && !(e == a) \226\134\146 !IN(a, p)
   !IN((a : Cart[Real, 2]), path_image((p : (Cart[Real, Unit]) -> Cart[Real, 2])))
   linepath(((a : Cart[Real, 2]) - op_pct((d : Real), basis(1)), a + op_pct((e : Real), basis(1))))
@@ -88952,14 +88952,14 @@ Multivariate/cauchy quotations (7972):
   (!IN((z : _), (s : (_) -> Bool)) && !IN(z, (t : (_) -> Bool))) == !IN(z, UNION(s, t))
   winding_number((op_plus_plus((g : (Cart[Real, Unit]) -> Cart[Real, 2]), (h : (Cart[Real, Unit]) -> Cart[Real, 2])), (z : Cart[Real, 2]))) == winding_number((g, z)) + winding_number((h, z)) && winding_number((op_plus_plus(h, g), z)) == winding_number((h, z)) + winding_number((g, z)) \226\134\146 winding_number((op_plus_plus(g, h), z)) == winding_number((op_plus_plus(h, g), z))
   distance(((a : Cart[Real, 2]), a + (e : Cart[Real, 2]))) == norm(e)
-  :real
-  :real
+  :Real
+  :Real
   distance(((a : Cart[Real, 2]) - (d : Cart[Real, 2]), a)) == norm(d)
-  :real
-  :real
+  :Real
+  :Real
   distance(((a : Cart[Real, 2]) - (d : Cart[Real, 2]), a + (e : Cart[Real, 2]))) == norm(d + e)
-  :real
-  :real
+  :Real
+  :Real
   (a : Cart[Real, 2])
   (t : Cart[Real, Unit])
   (vec : (Num) -> Cart[Real, Unit])(1)
@@ -89124,8 +89124,8 @@ Multivariate/cauchy quotations (7972):
   ((a : Bool) == (b : Bool)) == ((a \226\134\146 b) && (b \226\134\146 a))
   \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, \226\136\128 s : Real, \226\136\128 t : Real, real_of_num(0) <= r && s <= t \226\134\146 path_image(partcirclepath((z, r, s, t))) == {z + Cx(r) * cexp(ii * Cx((x : Real))) | s <= x && x <= t}
   distance(((z : Cart[Real, 2]), z + (x : Cart[Real, 2]))) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   (t : Cart[Real, Unit])
   \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, \226\136\128 s : Real, \226\136\128 t : Real, SUBSET(path_image(partcirclepath((z, r, s, t))), sphere((z, abs(r))))
   \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, \226\136\128 s : Real, \226\136\128 t : Real, real_of_num(0) <= r \226\134\146 SUBSET(path_image(partcirclepath((z, r, s, t))), sphere((z, r)))
@@ -89142,8 +89142,8 @@ Multivariate/cauchy quotations (7972):
   {(x : _) | false} == {}
   (w : Cart[Real, 2]) == Cx(real_of_num(0))
   \226\136\128 b : Real, \226\136\128 w : Cart[Real, 2], FINITE({(z : Cart[Real, 2]) | norm(z) <= b && cexp(z) == w})
-  :real
-  :real
+  :Real
+  :Real
   !((a : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 ((x : Cart[Real, 2]) == (y : Cart[Real, 2]) / a) == (a * x == y)
   IMAGE((z : Cart[Real, 2]) => z / (a : Cart[Real, 2]), {(z : Cart[Real, 2]) | norm(z) <= (b : Real) * norm(a) && cexp(z) == (w : Cart[Real, 2])})
   \226\136\128 a : Cart[Real, 2], \226\136\128 b : Real, !(a == Cx(real_of_num(0))) \226\134\146 FINITE({(z : Cart[Real, 2]) | norm(z) <= b && cexp(a * z) == (w : Cart[Real, 2])})
@@ -89217,10 +89217,10 @@ Multivariate/cauchy quotations (7972):
   sphere(((z : Cart[Real, 2]), abs((r : Real))))
   \226\136\128 s : (_) -> Bool, !IN((z : _), s) && SUBSET((t : (_) -> Bool), s) \226\134\146 !IN(z, t)
   \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, \226\136\128 s : Real, \226\136\128 t : Real, !(r == real_of_num(0)) \226\134\146 winding_number((partcirclepath((z, r, s, t)), z)) == Cx((t - s) / (real_of_num(2) * pi))
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   (circlepath : ((Cart[Real, 2], Real), Cart[Real, Unit]) -> Cart[Real, 2])(((z : Cart[Real, 2]), (r : Real))) == partcirclepath((z, r, real_of_num(0), real_of_num(2) * pi))
   circlepath(((z : Cart[Real, 2]), (r : Real))) == ((x : Cart[Real, Unit]) => z + Cx(r) * cexp(Cx(real_of_num(2)) * (Cx(pi) * (ii * Cx(drop(x))))))
   \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, path(circlepath((z, r)))
@@ -89257,20 +89257,20 @@ Multivariate/cauchy quotations (7972):
   Cx(real_of_num(2)) * ((p : Cart[Real, 2]) * ((i : Cart[Real, 2]) * (z : Cart[Real, 2]))) == Cx(real_of_num(2)) * (p * z) * i
   (z : Cart[Real, 2]) + (r : Cart[Real, 2]) - z == r
   distance(((w : Cart[Real, 2]), (z : Cart[Real, 2]))) == norm(z - w)
-  :real
-  :real
+  :Real
+  :Real
   \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, real_of_num(0) <= r \226\134\146 path_image(circlepath((z, r))) == sphere((z, r))
   distance(((w : Cart[Real, 2]), (z : Cart[Real, 2]))) == norm(z - w)
-  :real
-  :real
+  :Real
+  :Real
   (k : (Cart[Real, 2]) -> Bool)
   (z : Cart[Real, 2])
   (f : (Cart[Real, 2]) -> Cart[Real, 2])
   (B : Real) * (real_of_num(2) * (pi * (r : Real))) == B * (r * (real_of_num(2) * pi - real_of_num(0)))
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 i : Cart[Real, 2], \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, \226\136\128 B : Real, \226\136\128 k : (Cart[Real, 2]) -> Bool, FINITE(k) && has_path_integral(f, i, circlepath((z, r))) && real_of_num(0) <= B && real_of_num(0) < r && (\226\136\128 x : Cart[Real, 2], norm(x - z) == r && !IN(x, k) \226\134\146 norm(f(x)) <= B) \226\134\146 norm(i) <= B * (real_of_num(2) * (pi * r))
   distance(((w : Cart[Real, 2]), (z : Cart[Real, 2]))) == norm(z - w)
-  :real
-  :real
+  :Real
+  :Real
   (z : Cart[Real, 2])
   (f : (Cart[Real, 2]) -> Cart[Real, 2])
   (B : Real) * (real_of_num(2) * (pi * (r : Real))) == B * (r * (real_of_num(2) * pi - real_of_num(0)))
@@ -89278,8 +89278,8 @@ Multivariate/cauchy quotations (7972):
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, continuous_on(f, path_image(circlepath((z, r)))) \226\134\146 path_integrable_on(f, circlepath((z, r)))
   \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, simple_path(circlepath((z, r))) == !(r == real_of_num(0))
   distance(((w : Cart[Real, 2]), (z : Cart[Real, 2]))) == norm(z - w)
-  :real
-  :real
+  :Real
+  :Real
   (n : Real) < (r : Real) \226\134\146 (real_of_num(0) <= n \226\134\146 real_of_num(0) <= r && real_of_num(0) < r) && n < r
   \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, \226\136\128 w : Cart[Real, 2], norm(w - z) < r \226\134\146 winding_number((circlepath((z, r)), w)) == Cx(real_of_num(1))
   real_of_num(1)
@@ -89315,8 +89315,8 @@ Multivariate/cauchy quotations (7972):
   cball(((z : Cart[Real, 2]), (r : Real)))
   (f : (Cart[Real, 2]) -> Cart[Real, 2])
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, \226\136\128 w : Cart[Real, 2], continuous_on(f, cball((z, r))) && holomorphic_on(f, ball((z, r))) && IN(w, ball((z, r))) \226\134\146 has_path_integral((u : Cart[Real, 2]) => f(u) / (u - w), Cx(real_of_num(2)) * (Cx(pi) * (ii * f(w))), circlepath((z, r)))
-  :real
-  :real
+  :Real
+  :Real
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, \226\136\128 w : Cart[Real, 2], holomorphic_on(f, cball((z, r))) && IN(w, ball((z, r))) \226\134\146 has_path_integral((u : Cart[Real, 2]) => f(u) / (u - w), Cx(real_of_num(2)) * (Cx(pi) * (ii * f(w))), circlepath((z, r)))
   real_of_num(0) < abs((B : Real)) + real_of_num(1)
   ((e : Real) / (x : Real) * (B : Real) <= e) == (real_of_num(0) <= e * (real_of_num(1) - B / x))
@@ -89403,8 +89403,8 @@ Multivariate/cauchy quotations (7972):
   DIFF((s : (Cart[Real, 2]) -> Bool), path_image((g : (Cart[Real, Unit]) -> Cart[Real, 2])))
   (w : Cart[Real, 2])
   \226\136\128 f' : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, \226\136\128 k : Num, \226\136\128 B : Real, !(k == 0) && open(s) && valid_path(g) && (\226\136\128 t : Cart[Real, Unit], IN(t, interval([(vec(0), vec(1))])) \226\134\146 norm(vector_derivative(g, at(t))) <= B) && continuous_on(f', path_image(g)) && (\226\136\128 w : Cart[Real, 2], IN(w, DIFF(s, path_image(g))) \226\134\146 has_path_integral((u : Cart[Real, 2]) => f'(u) / pow(u - w, k), f(w), g)) \226\134\146 (\226\136\128 w : Cart[Real, 2], IN(w, DIFF(s, path_image(g))) \226\134\146 path_integrable_on((u : Cart[Real, 2]) => f'(u) / pow(u - w, k + 1), g) && has_complex_derivative(f, Cx(real_of_num(k)) * path_integral(g, (u : Cart[Real, 2]) => f'(u) / pow(u - w, k + 1)), at(w)))
-  :real
-  :real
+  :Real
+  :Real
   has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
   has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
   (DIFF((s : (_) -> Bool), (t : (_) -> Bool)) == s) == (\226\136\128 x : _, IN(x, t) \226\134\146 !IN(x, s))
@@ -89419,7 +89419,7 @@ Multivariate/cauchy quotations (7972):
   !(p : Bool) \226\134\146 p \226\134\146 (q : Bool)
   real_of_num(0) <= (r : Real)
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 g : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, \226\136\128 k : Num, !(k == 0) && continuous_on(f, path_image(circlepath((z, r)))) && (\226\136\128 w : Cart[Real, 2], IN(w, ball((z, r))) \226\134\146 has_path_integral((u : Cart[Real, 2]) => f(u) / pow(u - w, k), g(w), circlepath((z, r)))) \226\134\146 (\226\136\128 w : Cart[Real, 2], IN(w, ball((z, r))) \226\134\146 path_integrable_on((u : Cart[Real, 2]) => f(u) / pow(u - w, k + 1), circlepath((z, r))) && has_complex_derivative(g, Cx(real_of_num(k)) * path_integral(circlepath((z, r)), (u : Cart[Real, 2]) => f(u) / pow(u - w, k + 1)), at(w)))
-  :real
+  :Real
   Cx(real_of_num(1)) / (Cx(real_of_num(2)) * (Cx(pi) * ii))
   (w : Cart[Real, 2])
   (n : Real) < (r : Real) \226\134\146 real_of_num(0) <= n \226\134\146 real_of_num(0) <= r
@@ -89468,9 +89468,9 @@ Multivariate/cauchy quotations (7972):
   (z : Cart[Real, 2])
   (z : Cart[Real, 2])
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, (\226\136\128 z : Cart[Real, 2], IN(z, s) \226\134\146 (\226\136\131 e : Real, \226\136\131 a : Cart[Real, 2], real_of_num(0) < e && IN(z, ball((a, e))) && continuous_on(f, ball((a, e))) && (\226\136\128 b : Cart[Real, 2], \226\136\128 c : Cart[Real, 2], SUBSET(segment([(b, c)]), ball((a, e))) \226\134\146 path_integral(linepath((a, b)), f) + (path_integral(linepath((b, c)), f) + path_integral(linepath((c, a)), f)) == Cx(real_of_num(0))))) \226\134\146 analytic_on(f, s)
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   (w : Cart[Real, 2])
   (x : Cart[Real, 2])
   (w : Cart[Real, 2])
@@ -89575,7 +89575,7 @@ Multivariate/cauchy quotations (7972):
   (x : Cart[Real, 2]) => Cx(real_of_num(2)) * (Cx(pi) * ii) / Cx(real_of_num(FACT((k : Num)))) * higher_complex_derivative(k, (f : (Cart[Real, 2]) -> Cart[Real, 2]), x)
   (f : (Cart[Real, 2]) -> Cart[Real, 2])
   !(real_of_num(0) < (r : Real)) \226\134\146 !(distance(((a : Cart[Real, _]), (b : Cart[Real, _]))) < r)
-  :real
+  :Real
   real_of_num(0) < (r : Real)
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, \226\136\128 k : Num, \226\136\128 w : Cart[Real, 2], continuous_on(f, cball((z, r))) && holomorphic_on(f, ball((z, r))) && IN(w, ball((z, r))) \226\134\146 has_path_integral((u : Cart[Real, 2]) => f(u) / pow(u - w, k + 1), Cx(real_of_num(2)) * (Cx(pi) * ii) / Cx(real_of_num(FACT(k))) * higher_complex_derivative(k, f, w), circlepath((z, r)))
   (w : Cart[Real, 2])
@@ -89598,12 +89598,12 @@ Multivariate/cauchy quotations (7972):
   (e : Real) / (B : Real) * (k : Real)
   ((r : Real) - (k : Real)) / r
   (distance(((z : Cart[Real, 2]), (x : Cart[Real, 2]))) == (r : Real)) == (norm(x - z) == r)
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   (r : Real) - distance(((z : Cart[Real, 2]), (w : Cart[Real, 2])))
   \226\136\131 k : Real, real_of_num(0) < k && k <= (r : Real) && norm((w : Cart[Real, 2]) - (z : Cart[Real, 2])) <= r - k && (\226\136\128 u : Cart[Real, 2], norm(u - z) == r \226\134\146 k <= norm(u - w))
   IMAGE((f : (Cart[Real, 2]) -> Cart[Real, 2]), cball(((z : Cart[Real, 2]), (r : Real))))
@@ -89640,33 +89640,33 @@ Multivariate/cauchy quotations (7972):
   ((r : Real) + distance(((w : Cart[Real, 2]), (z : Cart[Real, 2])))) / real_of_num(2)
   \226\136\131 r : Real, real_of_num(0) < r && holomorphic_on((f : (Cart[Real, 2]) -> Cart[Real, 2]), cball(((z : Cart[Real, 2]), r))) && IN((w : Cart[Real, 2]), ball((z, r)))
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], \226\136\128 w : Cart[Real, 2], \226\136\128 r : Real, holomorphic_on(f, ball((z, r))) && IN(w, ball((z, r))) \226\134\146 sums((n : Num) => higher_complex_derivative(n, f, z) / Cx(real_of_num(FACT(n))) * pow(w - z, n), f(w), from(0))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   abs((B : Real)) >= B && (real_of_num(0) <= (x : Real) && x < (z : Real) / real_of_num(2) \226\134\146 z / real_of_num(2) < z)
   \226\136\131 w : Cart[Real, 2], norm(w) == abs((B : Real))
   (d : Real) <= (x : Real) + (z : Real) \226\134\146 d == real_of_num(1) + (abs((b : Real)) + z) \226\134\146 x >= b
@@ -89710,8 +89710,8 @@ Multivariate/cauchy quotations (7972):
   !((x : Cart[Real, 2]) == (w : Cart[Real, 2])) \226\134\146 (a : Cart[Real, 2]) / (x - w) - (b : Cart[Real, 2]) / (x - w) == (a - b) / (x - w)
   !((x : Cart[Real, 2]) == (w : Cart[Real, 2]))
   distance(((z : Cart[Real, 2]), (w : Cart[Real, 2]))) == norm(w - z)
-  :real
-  :real
+  :Real
+  :Real
   (x : Cart[Real, 2])
   (a : A)
   real_of_num(0) < (e : Real) * abs((r : Real) - norm((w : Cart[Real, 2]) - (z : Cart[Real, 2])))
@@ -89719,8 +89719,8 @@ Multivariate/cauchy quotations (7972):
   (e : Real)
   cball(((z : Cart[Real, 2]), (r : Real)))
   distance(((z : Cart[Real, 2]), (w : Cart[Real, 2]))) == norm(w - z)
-  :real
-  :real
+  :Real
+  :Real
   (a : A)
   path_integrable_on((u : Cart[Real, 2]) => (g : (Cart[Real, 2]) -> Cart[Real, 2])(u) / (u - (w : Cart[Real, 2])), circlepath(((z : Cart[Real, 2]), (r : Real)))) && op_minus_minus_gt((n : A) => path_integral(circlepath((z, r)), (u : Cart[Real, 2]) => (f : (A, Cart[Real, 2]) -> Cart[Real, 2])(n, u) / (u - w)), path_integral(circlepath((z, r)), (u : Cart[Real, 2]) => g(u) / (u - w)), (net : Net[A]))
   (w : Cart[Real, 2])
@@ -89741,8 +89741,8 @@ Multivariate/cauchy quotations (7972):
   !((x : Cart[Real, 2]) == (w : Cart[Real, 2])) \226\134\146 (a : Cart[Real, 2]) / pow(x - w, 2) - (b : Cart[Real, 2]) / pow(x - w, 2) == (a - b) / pow(x - w, 2)
   !((x : Cart[Real, 2]) == (w : Cart[Real, 2]))
   distance(((z : Cart[Real, 2]), (w : Cart[Real, 2]))) == norm(w - z)
-  :real
-  :real
+  :Real
+  :Real
   (x : Cart[Real, 2])
   (a : A)
   real_of_num(0) < (e : Real) * pow(abs((r : Real) - norm((w : Cart[Real, 2]) - (z : Cart[Real, 2]))), 2)
@@ -89750,8 +89750,8 @@ Multivariate/cauchy quotations (7972):
   (e : Real)
   cball(((z : Cart[Real, 2]), (r : Real)))
   distance(((z : Cart[Real, 2]), (w : Cart[Real, 2]))) == norm(w - z)
-  :real
-  :real
+  :Real
+  :Real
   (a : A)
   Cx(real_of_num(1)) / (Cx(real_of_num(2)) * (Cx(pi) * ii))
   (w : Cart[Real, 2])
@@ -89831,18 +89831,18 @@ Multivariate/cauchy quotations (7972):
   (z : Cart[Real, 2])
   \226\136\128 z : Cart[Real, 2], (norm(z) < (r : Real)) == IN(z, ball((Cx(real_of_num(0)), r)))
   !(real_of_num(0) < (r : Real)) \226\134\146 !(norm((z : Cart[Real, _])) < r)
-  :real
+  :Real
   real_of_num(0) < (r : Real)
   \226\136\128 k : (Num) -> Bool, \226\136\128 a : (Num) -> Cart[Real, 2], \226\136\128 r : Real, summable(k, (n : Num) => a(n) * pow(Cx(r), n)) \226\134\146 (\226\136\131 g : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\131 g' : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], norm(z) < r \226\134\146 sums((n : Num) => a(n) * pow(z, n), g(z), k) && sums((n : Num) => Cx(real_of_num(n)) * (a(n) * pow(z, n - 1)), g'(z), k) && has_complex_derivative(g, g'(z), at(z)))
   has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   (z : Cart[Real, 2]) - (w : Cart[Real, 2])
   (z : Cart[Real, 2])
   (z : Cart[Real, 2]) => (g' : (Cart[Real, 2]) -> Cart[Real, 2])(z - (w : Cart[Real, 2]))
@@ -89864,8 +89864,8 @@ Multivariate/cauchy quotations (7972):
   (g' : (Cart[Real, 2]) -> Cart[Real, 2])
   (g : (Cart[Real, 2]) -> Cart[Real, 2])
   norm((z : Cart[Real, 2]) - (z + (w : Cart[Real, 2]))) == norm(w)
-  :real
-  :real
+  :Real
+  :Real
   (z : Cart[Real, 2]) + (w : Cart[Real, 2]) - z == w
   (z : Cart[Real, 2]) + Cx((norm(z - (w : Cart[Real, 2])) + (r : Real)) / real_of_num(2))
   (z : Cart[Real, 2])
@@ -89874,14 +89874,14 @@ Multivariate/cauchy quotations (7972):
   (k : (Num) -> Bool)
   (w : Cart[Real, 2])
   \226\136\128 a : (Num) -> Cart[Real, 2], \226\136\128 k : (Num) -> Bool, \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, (\226\136\128 w : Cart[Real, 2], IN(w, ball((z, r))) \226\134\146 sums((n : Num) => a(n) * pow(w - z, n), f(w), k)) \226\134\146 holomorphic_on(f, ball((z, r)))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   from(0)
   (n : Num) => higher_complex_derivative(n, (f : (Cart[Real, 2]) -> Cart[Real, 2]), (z : Cart[Real, 2])) / Cx(real_of_num(FACT(n)))
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], \226\136\128 r : Real, holomorphic_on(f, ball((z, r))) == (\226\136\128 w : Cart[Real, 2], IN(w, ball((z, r))) \226\134\146 sums((n : Num) => higher_complex_derivative(n, f, z) / Cx(real_of_num(FACT(n))) * pow(w - z, n), f(w), from(0)))
@@ -89922,12 +89922,12 @@ Multivariate/cauchy quotations (7972):
   \226\136\128 z : Cart[Real, 2], norm(z) < real_of_num(1) \226\134\146 sums((n : Num) => pow(-Cx(real_of_num(1)), n + 1) * (pow(z, n) / Cx(real_of_num(n))), clog(Cx(real_of_num(1)) + z), from(1))
   has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
   has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   (norm((x : Cart[Real, 2]) - (y : Cart[Real, 2])) <= real_of_num(0)) == (x == y)
-  :real
-  :real
+  :Real
+  :Real
   norm((z : Cart[Real, 2]) - (w : Cart[Real, 2])) <= norm(z) - norm(w)
   (w : Cart[Real, 2])
   real_of_num(1)
@@ -89959,8 +89959,8 @@ Multivariate/cauchy quotations (7972):
   \226\136\128 z : Cart[Real, 2], norm(z) < real_of_num(1) \226\134\146 (l : (Cart[Real, 2]) -> Cart[Real, 2])(z) == clog(Cx(real_of_num(1)) + z)
   (l : (Cart[Real, 2]) -> Cart[Real, 2])
   norm((x : Cart[Real, 2])) == real_of_num(1) && norm((y : Cart[Real, 2])) <= real_of_num(1) \226\134\146 norm(x - y) <= real_of_num(2)
-  :real
-  :real
+  :Real
+  :Real
   (n : Num)
   (w : Cart[Real, 2]) - -(z : Cart[Real, 2]) == w + z
   real_of_num(2) / norm(Cx(real_of_num(1)) + (z : Cart[Real, 2]))
@@ -89971,8 +89971,8 @@ Multivariate/cauchy quotations (7972):
   1
   \226\136\128 z : Cart[Real, 2], norm(z) <= real_of_num(1) && !(z == -Cx(real_of_num(1))) \226\134\146 summable(from(1), (n : Num) => pow(-Cx(real_of_num(1)), n + 1) * (pow(z, n) / Cx(real_of_num(n))))
   \226\136\128 z : Cart[Real, 2], norm(z) <= real_of_num(1) && !(z == -Cx(real_of_num(1))) \226\134\146 sums((n : Num) => pow(-Cx(real_of_num(1)), n + 1) * (pow(z, n) / Cx(real_of_num(n))), clog(Cx(real_of_num(1)) + z), from(1))
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) <= (x : Real) * ((m : Real) - real_of_num(1)) \226\134\146 x <= x * m
   0 < (m : Num)
   (m : Num)
@@ -90031,14 +90031,14 @@ Multivariate/cauchy quotations (7972):
   (norm : (Cart[Real, 2]) -> Real)
   !((n : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 (Cx(real_of_num(1)) + (z : Cart[Real, 2]) / n == Cx(real_of_num(0))) == (z == -n)
   !(norm((z : Cart[Real, 2])) + real_of_num(1) <= real_of_num(0))
-  :real
+  :Real
   (n : Num) == 0
   (n : Num)
   (N : Num)
   norm((z : Cart[Real, 2])) + real_of_num(1)
   (n : Num) => cexp(Cx(real_of_num(n)) * clog(Cx(real_of_num(1)) + (z : Cart[Real, 2]) / Cx(real_of_num(n))))
   \226\136\128 z : Cart[Real, 2], op_minus_minus_gt((n : Num) => pow(Cx(real_of_num(1)) + z / Cx(real_of_num(n)), n), cexp(z), sequentially)
-  :real
+  :Real
   \226\136\128 x : Real, op_minus_minus_minus_gt((n : Num) => pow(real_of_num(1) + x / real_of_num(n), n), exp(x), sequentially)
   (z : Cart[Real, 2]) * (Cx(real_of_num(2)) * z) == pow(z, 2) * Cx(real_of_num(2))
   (z : Cart[Real, 2])
@@ -90073,8 +90073,8 @@ Multivariate/cauchy quotations (7972):
   (n : Num) => (Cx(real_of_num(n)) + (z : Cart[Real, 2])) / (Cx(real_of_num(1)) + z / Cx(real_of_num(n))) * clog(Cx(real_of_num(1)) + ((w : Cart[Real, 2]) - z) / (Cx(real_of_num(n)) + z))
   (w : Cart[Real, 2]) == (z : Cart[Real, 2])
   \226\136\128 w : Cart[Real, 2], \226\136\128 z : Cart[Real, 2], op_minus_minus_gt((n : Num) => Cx(real_of_num(n)) * (clog(Cx(real_of_num(n)) + w) - clog(Cx(real_of_num(n)) + z)), w - z, sequentially)
-  :real
-  :real
+  :Real
+  :Real
   (1 <= (n : Num)) == !(n == 0)
   1
   (n : Num) => inv(Cx(real_of_num(n))) * (Cx(real_of_num(n)) * (clog(Cx(real_of_num(n)) + (w : Cart[Real, 2])) - clog(Cx(real_of_num(n)) + (z : Cart[Real, 2]))))
@@ -90173,8 +90173,8 @@ Multivariate/cauchy quotations (7972):
   (s : (Cart[Real, 2]) -> Bool)
   (h : (Cart[Real, 2]) -> Cart[Real, 2])
   (real_of_num(0) < distance(((a : Cart[Real, _]), (b : Cart[Real, _])))) == !(a == b)
-  :real
-  :real
+  :Real
+  :Real
   distance(((a : Cart[Real, 2]), (z : Cart[Real, 2])))
   (b : Cart[Real, 2])
   (z : Cart[Real, 2])
@@ -90197,9 +90197,9 @@ Multivariate/cauchy quotations (7972):
   (((p : Bool) \226\134\146 (q : Bool)) && (p \226\134\146 (r : Bool))) == (p \226\134\146 q && r)
   (\226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 a : Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, holomorphic_on(f, DELETE(s, a)) && IN(a, interior(s)) \226\134\146 (\226\136\131 g : (Cart[Real, 2]) -> Cart[Real, 2], holomorphic_on(g, s) && (\226\136\128 z : Cart[Real, 2], IN(z, DELETE(s, a)) \226\134\146 g(z) == f(z))) == op_minus_minus_gt((z : Cart[Real, 2]) => (z - a) * f(z), Cx(real_of_num(0)), at(a))) && (\226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 a : Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, holomorphic_on(f, DELETE(s, a)) && IN(a, interior(s)) \226\134\146 (\226\136\131 g : (Cart[Real, 2]) -> Cart[Real, 2], holomorphic_on(g, s) && (\226\136\128 z : Cart[Real, 2], IN(z, DELETE(s, a)) \226\134\146 g(z) == f(z))) == (\226\136\131 B : Real, eventually((z : Cart[Real, 2]) => norm(f(z)) <= B, at(a))))
   norm((g : (Cart[Real, 2]) -> Cart[Real, 2])((a : Cart[Real, 2]))) + real_of_num(1)
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   !((a : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 (x : Cart[Real, 2]) + a * (y : Cart[Real, 2]) == Cx(real_of_num(0)) \226\134\146 x + a * (z : Cart[Real, 2]) - Cx(real_of_num(0)) == Cx(real_of_num(0)) \226\134\146 z == y
   SUC((n : Num))
   (n : Num)
@@ -90410,18 +90410,18 @@ Multivariate/cauchy quotations (7972):
   (x : Cart[Real, 2])
   continuous_on((y : Cart[Real, Finite_sum[2, 2]]) => (d : (Cart[Real, 2], Cart[Real, 2]) -> Cart[Real, 2])(fstcart(y), sndcart(y)), {pastecart((x : Cart[Real, 2]), (z : Cart[Real, 2])) | IN(x, (u : (Cart[Real, 2]) -> Bool)) && IN(z, u)})
   (d : Real) + (c : Real) <= norm((y : Cart[Real, 2])) \226\134\146 norm((w : Cart[Real, 2])) <= c \226\134\146 d <= norm(w - y)
-  :real
-  :real
+  :Real
+  :Real
   (e : Real) / real_of_num(2) / (L : Real) * (x : Real) == x * (e / real_of_num(2)) / L
   (D : Real)
   (d : Real) + (c : Real) <= norm((y : Cart[Real, 2])) \226\134\146 real_of_num(0) < d && norm((w : Cart[Real, 2])) <= c \226\134\146 real_of_num(0) < norm(w - y)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < norm((w : Cart[Real, 2]) - (y : Cart[Real, 2]))
   (w : Cart[Real, 2])
   (d : Real) + (c : Real) <= norm((y : Cart[Real, _])) \226\134\146 real_of_num(0) < d && norm((w : Cart[Real, _])) <= c \226\134\146 !(w == y)
-  :real
-  :real
+  :Real
+  :Real
   (w : Cart[Real, 2])
   (L : Real) * ((e : Real) / real_of_num(2) / L)
   real_of_num(0) < (d : Real) \226\134\146 d + (c : Real) <= (x : Real) \226\134\146 !(x <= c)
@@ -90533,10 +90533,10 @@ Multivariate/cauchy quotations (7972):
   DELETE((s : (Cart[Real, 2]) -> Bool), (z : Cart[Real, 2]))
   ((\226\136\128 f : _, \226\136\128 s : _, \226\136\128 g : (Cart[Real, _]) -> Cart[Real, _], vector_polynomial_function(g) \226\134\146 (P : (_, _, (Cart[Real, _]) -> Cart[Real, _]) -> Bool)(f, s, g)) \226\134\146 (\226\136\128 f : _, \226\136\128 s : _, \226\136\128 g : (Cart[Real, _]) -> Cart[Real, _], P(f, s, g))) && (\226\136\128 f : _, \226\136\128 s : _, \226\136\128 g : (Cart[Real, _]) -> Cart[Real, _], vector_polynomial_function(g) \226\134\146 P(f, s, g)) \226\134\146 (\226\136\128 f : _, \226\136\128 s : _, \226\136\128 g : (Cart[Real, _]) -> Cart[Real, _], P(f, s, g))
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, \226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], open(s) && holomorphic_on(f, s) && IN(z, s) && valid_path(g) && pathfinish(g) == pathstart(g) && SUBSET(path_image(g), DELETE(s, z)) && (\226\136\128 w : Cart[Real, 2], !IN(w, s) \226\134\146 winding_number((g, w)) == Cx(real_of_num(0))) \226\134\146 has_path_integral((w : Cart[Real, 2]) => f(w) / (w - z), Cx(real_of_num(2)) * (Cx(pi) * (ii * (winding_number((g, z)) * f(z)))), g)
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   !((w : Cart[Real, 2]) == (z : Cart[Real, 2])) \226\134\146 (w - z) * (f : Cart[Real, 2]) / (w - z) == f
   (w : Cart[Real, 2]) == (z : Cart[Real, 2])
   (w : Cart[Real, 2])
@@ -90685,8 +90685,8 @@ Multivariate/cauchy quotations (7972):
   (z : Cart[Real, 2])
   I((w : Cart[Real, 2]))
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, \226\136\128 z : Cart[Real, 2], \226\136\128 w : Cart[Real, 2], open(s) && connected(s) && bounded(s) && (\226\136\128 w : Cart[Real, 2], IN(w, s) \226\134\146 IN(f(w), s)) && holomorphic_on(f, s) && IN(z, s) && f(z) == z && complex_derivative(f, z) == Cx(real_of_num(1)) && IN(w, s) \226\134\146 f(w) == w
-  :real
-  :real
+  :Real
+  :Real
   (s : (Cart[Real, 2]) -> Bool)
   complex_derivative((u : Cart[Real, 2]) => u, (w : Cart[Real, 2]))
   complex_derivative((g : (Cart[Real, 2]) -> Cart[Real, 2]), (f : (Cart[Real, 2]) -> Cart[Real, 2])((w : Cart[Real, 2]))) * complex_derivative(f, w) == complex_derivative(o(g, f), w)
@@ -90795,8 +90795,8 @@ Multivariate/cauchy quotations (7972):
   !((u : Cart[Real, 2]) == Cx(real_of_num(0)))
   \226\136\128 u : Cart[Real, 2], \226\136\128 z : Cart[Real, 2], norm(u) == real_of_num(1) && IN(z, ball((Cx(real_of_num(0)), (r : Real)))) \226\134\146 u * (g : (Cart[Real, 2]) -> Cart[Real, 2])(z) == g(u * z)
   \226\136\128 g : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 r : Real, real_of_num(0) < r && holomorphic_on(g, ball((Cx(real_of_num(0)), r))) && (\226\136\128 z : Cart[Real, 2], IN(z, ball((Cx(real_of_num(0)), r))) \226\134\146 IN(g(z), ball((Cx(real_of_num(0)), r)))) && g(Cx(real_of_num(0))) == Cx(real_of_num(0)) && holomorphic_on(f, ball((Cx(real_of_num(0)), r))) && (\226\136\128 z : Cart[Real, 2], IN(z, ball((Cx(real_of_num(0)), r))) \226\134\146 IN(f(z), ball((Cx(real_of_num(0)), r)))) && f(Cx(real_of_num(0))) == Cx(real_of_num(0)) && (\226\136\128 z : Cart[Real, 2], IN(z, ball((Cx(real_of_num(0)), r))) \226\134\146 g(f(z)) == z) && (\226\136\128 z : Cart[Real, 2], IN(z, ball((Cx(real_of_num(0)), r))) \226\134\146 f(g(z)) == z) \226\134\146 (\226\136\131 t : Real, \226\136\128 z : Cart[Real, 2], IN(z, ball((Cx(real_of_num(0)), r))) \226\134\146 g(z) == cexp(ii * Cx(t)) * z)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < (r : Real)
   real_of_num(FACT((n : Num))) * (B : Real) * ((r : Real) / pow(r, n + 1)) == real_of_num(FACT(n)) * (B / pow(r, n))
   real_of_num(0) < real_of_num(2) * pi / real_of_num(FACT((n : Num)))
@@ -90834,7 +90834,7 @@ Multivariate/cauchy quotations (7972):
   sums((n : Num) => higher_complex_derivative(n, (f : (Cart[Real, 2]) -> Cart[Real, 2]), Cx(real_of_num(0))) / Cx(real_of_num(FACT(n))) * pow((z : Cart[Real, 2]) - Cx(real_of_num(0)), n), f(z), from(0))
   real_of_num(0) <= -(b : Real) * (x : Real) \226\134\146 b * x <= real_of_num(0)
   (r : Real) <= real_of_num(0) \226\134\146 norm((z : Cart[Real, _])) <= r \226\134\146 z == vec(0)
-  :real
+  :Real
   (z : Cart[Real, 2])
   (z : Cart[Real, 2])
   (A : Real)
@@ -90964,10 +90964,10 @@ Multivariate/cauchy quotations (7972):
   (a : Cart[Real, 2])
   ((\226\136\128 x : _, (P : (_) -> Bool)(x)) || (\226\136\128 x : _, (Q : (_) -> Bool)(x))) == (\226\136\128 x : _, !P(x) \226\134\146 (\226\136\128 x : _, Q(x)))
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 g : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, open(s) && connected(s) && continuous_on(f, s) && holomorphic_on(g, s) && (\226\136\128 z : Cart[Real, 2], IN(z, s) \226\134\146 f(z) * g(z) == Cx(real_of_num(0))) \226\134\146 (\226\136\128 z : Cart[Real, 2], IN(z, s) \226\134\146 f(z) == Cx(real_of_num(0))) || (\226\136\128 z : Cart[Real, 2], IN(z, s) \226\134\146 g(z) == Cx(real_of_num(0)))
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   (k : (A) -> Bool) == {}
   (k : (A) -> Bool)
   (i : A)
@@ -91127,10 +91127,10 @@ Multivariate/cauchy quotations (7972):
   \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, x < y \226\134\146 x + z < y + z
   norm((f : (Cart[Real, 2]) -> Cart[Real, 2])((w : Cart[Real, 2])))
   \226\136\128 x : Cart[Real, 2], \226\136\128 y : Cart[Real, 2], !(norm(x) == norm(y)) \226\134\146 !(x == y)
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   !IN((x' : Cart[Real, 2]), (u : (Cart[Real, 2]) -> Bool))
   real_of_num(0) < (e : Real) \226\134\146 real_of_num(0) <= e / real_of_num(2)
   real_of_num(0) < (e : Real) \226\134\146 e / real_of_num(2) < e
@@ -91175,8 +91175,8 @@ Multivariate/cauchy quotations (7972):
   o(cexp, (f : (Cart[Real, 2]) -> Cart[Real, 2]))
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, \226\136\128 B : Real, bounded(s) && holomorphic_on(f, interior(s)) && continuous_on(f, closure(s)) && (\226\136\128 z : Cart[Real, 2], IN(z, frontier(s)) \226\134\146 Re(f(z)) <= B) \226\134\146 (\226\136\128 z : Cart[Real, 2], IN(z, s) \226\134\146 Re(f(z)) <= B)
   ((x : Cart[Real, 2]) == (c : Cart[Real, 2])) == (norm(x - c) <= real_of_num(0))
-  :real
-  :real
+  :Real
+  :Real
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, \226\136\128 c : Cart[Real, 2], bounded(s) && holomorphic_on(f, interior(s)) && continuous_on(f, closure(s)) && (\226\136\128 z : Cart[Real, 2], IN(z, frontier(s)) \226\134\146 f(z) == c) \226\134\146 (\226\136\128 z : Cart[Real, 2], IN(z, s) \226\134\146 f(z) == c)
   (w : Cart[Real, 2])
   (s : (Cart[Real, 2]) -> Bool)
@@ -91192,9 +91192,9 @@ Multivariate/cauchy quotations (7972):
   ((p : Bool) \226\134\146 (q : Bool) && (r : Bool)) == ((p \226\134\146 q) && (p \226\134\146 r))
   (c : Real)
   (norm((x : Cart[Real, _])) == real_of_num(0)) == (norm(x) <= real_of_num(0))
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   (c : Real) == real_of_num(0)
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, bounded(s) && open(s) && connected(s) && holomorphic_on(f, s) && continuous_on(f, closure(s)) && (\226\136\128 z : Cart[Real, 2], IN(z, s) \226\134\146 !(f(z) == Cx(real_of_num(0)))) && (\226\136\131 c : Real, \226\136\128 z : Cart[Real, 2], IN(z, frontier(s)) \226\134\146 norm(f(z)) == c) \226\134\146 (\226\136\131 a : Cart[Real, 2], \226\136\128 z : Cart[Real, 2], IN(z, s) \226\134\146 f(z) == a)
   Cx(real_of_num(0))
@@ -91251,8 +91251,8 @@ Multivariate/cauchy quotations (7972):
   (w : Cart[Real, 2])
   (w : Cart[Real, 2])
   (distance(((a : Cart[Real, _]), (b : Cart[Real, _]))) <= distance((a, b)) / real_of_num(2)) == (a == b)
-  :real
-  :real
+  :Real
+  :Real
   cball(((p : Cart[Real, 2]), (r : Real)))
   min((r : Real), min((d : Real) / real_of_num(2), distance(((p : Cart[Real, 2]), (z : Cart[Real, 2]))) / real_of_num(2)))
   (r : Real)
@@ -91260,8 +91260,8 @@ Multivariate/cauchy quotations (7972):
   (p : Cart[Real, 2])
   real_of_num(0) < (a : Real) && real_of_num(0) < (b : Real) && (c : Real) / real_of_num(2) == b \226\134\146 abs(min(a, b)) < c
   distance(((c : Cart[Real, 2]) + (z : Cart[Real, 2]), c)) == norm(z)
-  :real
-  :real
+  :Real
+  :Real
   (c : Cart[Real, 2]) + op_pct((a : Real), (z : Cart[Real, 2]) - c) == op_pct(real_of_num(1) - a, c) + op_pct(a, z)
   min(real_of_num(1) / real_of_num(2), (d : Real) / real_of_num(4) / distance(((z : Cart[Real, 2]), (c : Cart[Real, 2]))))
   (c : Cart[Real, 2]) + op_pct(min(real_of_num(1) / real_of_num(2), (d : Real) / real_of_num(4) / distance(((z : Cart[Real, 2]), c))), z - c)
@@ -91283,15 +91283,15 @@ Multivariate/cauchy quotations (7972):
   (s : (Cart[Real, 2]) -> Bool)
   IN((z : Cart[Real, 2]), interior((s : (Cart[Real, 2]) -> Bool)))
   (B : Real) < real_of_num(0) \226\134\146 !(norm((z : Cart[Real, _])) <= B)
-  :real
+  :Real
   !(frontier((s : (Cart[Real, 2]) -> Bool)) == {})
   (B : Real) < real_of_num(0)
   (s : (Cart[Real, 2]) -> Bool) == {}
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, \226\136\128 B : Real, holomorphic_on(f, interior(s)) && continuous_on(f, closure(s)) && (\226\136\128 z : Cart[Real, 2], IN(z, frontier(s)) \226\134\146 norm(f(z)) <= B) && !(s == UNIV) && bounded(IMAGE(f, s)) \226\134\146 (\226\136\128 z : Cart[Real, 2], IN(z, s) \226\134\146 norm(f(z)) <= B)
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   cexp(-(ii * Cx(real_of_num((k : Num)) * (d : Real)))) * (z : Cart[Real, 2])
   (z : Cart[Real, 2])
   (k : Num)
@@ -91370,15 +91370,15 @@ Multivariate/cauchy quotations (7972):
   (B : Real)
   Cx((b : Real))
   ((z : Cart[Real, _]) == vec(0)) == (norm(z) <= real_of_num(0))
-  :real
-  :real
+  :Real
+  :Real
   (norm((z : Cart[Real, _])) <= real_of_num(0)) == (z == vec(0))
-  :real
-  :real
+  :Real
+  :Real
   (z : Cart[Real, 2])
   ((x : Cart[Real, _]) == vec(0)) == (norm(x) <= real_of_num(0))
-  :real
-  :real
+  :Real
+  :Real
   {(z : Cart[Real, 2]) | (a : Real) < Re(z) && Re(z) < (b : Real)}
   (f : (Cart[Real, 2]) -> Cart[Real, 2])
   (z : Cart[Real, 2]) => (f : (Cart[Real, 2]) -> Cart[Real, 2])(Cx((a : Real) + (b : Real)) - z)
@@ -91393,7 +91393,7 @@ Multivariate/cauchy quotations (7972):
   rpow(min((ma : Real), (mb : Real)), (u : Real) + (v : Real))
   (b : Real) == (a : Real)
   norm((z : Cart[Real, _])) <= (a : Real) \226\134\146 real_of_num(0) <= a
-  :real
+  :Real
   real_of_num(0) <= (ma : Real) && real_of_num(0) <= (mb : Real)
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 a : Real, \226\136\128 b : Real, \226\136\128 u : Real, \226\136\128 v : Real, \226\136\128 ma : Real, \226\136\128 mb : Real, a <= b && holomorphic_on(f, {(z : Cart[Real, 2]) | a < Re(z) && Re(z) < b}) && continuous_on(f, {(z : Cart[Real, 2]) | a <= Re(z) && Re(z) <= b}) && bounded(IMAGE(f, {(z : Cart[Real, 2]) | a < Re(z) && Re(z) < b})) && (\226\136\128 z : Cart[Real, 2], Re(z) == a \226\134\146 norm(f(z)) <= ma) && (\226\136\128 z : Cart[Real, 2], Re(z) == b \226\134\146 norm(f(z)) <= mb) && real_of_num(0) <= u && real_of_num(0) <= v && u + v == real_of_num(1) \226\134\146 (\226\136\128 z : Cart[Real, 2], Re(z) == u * a + v * b \226\134\146 norm(f(z)) <= rpow(ma, u) * rpow(mb, v))
   Cx((a : Real) + (b : Real)) - (z : Cart[Real, 2])
@@ -91433,8 +91433,8 @@ Multivariate/cauchy quotations (7972):
   (z : Cart[Real, 2]) == Cx(real_of_num(0))
   (z : Cart[Real, 2])
   norm((z : Cart[Real, _])) == distance((vec(0), z))
-  :real
-  :real
+  :Real
+  :Real
   ((a : Real) <= (x : Real) && x <= (b : Real)) == (x <= b && !(x < a))
   (z : Cart[Real, 2]) == Cx(real_of_num(0))
   (z : Cart[Real, 2])
@@ -91473,8 +91473,8 @@ Multivariate/cauchy quotations (7972):
   (\226\136\128 x : _, \226\136\128 y : _, (P : (_, _) -> Bool)(x, y) == (Q : (_, _) -> Bool)(y, x)) \226\134\146 (\226\136\128 x : _, \226\136\128 y : _, P(x, y)) == (\226\136\128 x : _, \226\136\128 y : _, Q(x, y))
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 a : Real, \226\136\128 b : Real, real_of_num(0) < a && a <= b && holomorphic_on(f, {(z : Cart[Real, 2]) | exp(a) < norm(z) && norm(z) < exp(b)}) && continuous_on(f, {(z : Cart[Real, 2]) | exp(a) <= norm(z) && norm(z) <= exp(b)}) \226\134\146 real_log_convex_on((y : Real) => sup({norm(f((z : Cart[Real, 2]))) | norm(z) == exp(y)}), real_interval([(a, b)]))
   distance(((x : Cart[Real, _]), (y : Cart[Real, _]))) < norm(y) \226\134\146 !(x == vec(0))
-  :real
-  :real
+  :Real
+  :Real
   min((d : Real), (r : Real)) <= r
   SUBSET(ball(((z : Cart[Real, 2]), min((d : Real), (r : Real)))), ball((z, r)))
   min((d : Real), (r : Real))
@@ -91629,7 +91629,7 @@ Multivariate/cauchy quotations (7972):
   (f : (Cart[Real, 2]) -> Cart[Real, 2])
   (l : Cart[Real, 2]) == Cx(real_of_num(0))
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 l : Cart[Real, 2], holomorphic_on(f, UNIV) && op_minus_minus_gt(o(inv, f), l, at_infinity) \226\134\146 (\226\136\131 a : (Num) -> Cart[Real, 2], \226\136\131 n : Num, \226\136\128 z : Cart[Real, 2], f(z) == vsum(op_dot_dot(0, n), (i : Num) => a(i) * pow(z, i)))
-  :real
+  :Real
   vsum(op_dot_dot(0, (n : Num)), (i : Num) => (c : (Num) -> Cart[Real, 2])(i) * pow((z : Cart[Real, 2]), i))
   (z : Cart[Real, 2])
   (c : Real)
@@ -91663,8 +91663,8 @@ Multivariate/cauchy quotations (7972):
   real_of_num(2) * pi == real_of_num(2) * (real_of_num(1) * pi)
   (y : Cart[Real, 2]) + (z : Cart[Real, 2]) - y == z
   \226\136\128 z : Cart[Real, 2], distance(((x : Cart[Real, 2]), z)) < (a : Real) && distance(((y : Cart[Real, 2]), z)) < a \226\134\146 norm(x - y) < real_of_num(2) * a
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(2) * (x : Real) / (y : Real) == real_of_num(2) * (x / y)
   norm(Cx(real_of_num((n : Num))) * (l : (Cart[Real, 2]) -> Cart[Real, 2])((x : Cart[Real, 2])) - Cx(real_of_num(n)) * l((y : Cart[Real, 2]))) < real_of_num(2) * pi
   false \226\134\146 (p : Bool)
@@ -91694,8 +91694,8 @@ Multivariate/cauchy quotations (7972):
   (UNIV : (Cart[Real, 2]) -> Bool)
   (k : (Cart[Real, 2]) -> Bool)
   \226\136\128 n : Num, 0 < n \226\134\146 covering_space((DIFF(UNIV, {Cx(real_of_num(0))}), (z : Cart[Real, 2]) => pow(z, n)), DIFF(UNIV, {Cx(real_of_num(0))}))
-  :real
-  :real
+  :Real
+  :Real
   covering_space((DIFF(UNIV, {Cx(real_of_num(0))}), (z : Cart[Real, 2]) => pow(z, 2)), DIFF(UNIV, {Cx(real_of_num(0))}))
   real_of_num(0) < (e : Real) && (x : Real) <= e / real_of_num(2) \226\134\146 x < e
   (w : Cart[Real, 2])
@@ -91758,14 +91758,14 @@ Multivariate/cauchy quotations (7972):
   (f : (Cart[Real, 2]) -> Cart[Real, 2])
   (n : Num)
   distance(((z : Cart[Real, 2]), z + (r : Cart[Real, 2]))) == norm(r)
-  :real
-  :real
+  :Real
+  :Real
   ((z : Cart[Real, 2]) == z + (a : Cart[Real, 2])) == (a == Cx(real_of_num(0)))
   (z : Cart[Real, 2]) + Cx((r : Real) / real_of_num(2))
   (z : Cart[Real, 2])
   distance(((z : Cart[Real, 2]), z + (r : Cart[Real, 2]))) == norm(r)
-  :real
-  :real
+  :Real
+  :Real
   (z : Cart[Real, 2]) + Cx((r : Real) / real_of_num(2))
   (z : Cart[Real, 2])
   ball(((z : Cart[Real, 2]), (r : Real)))
@@ -91819,10 +91819,10 @@ Multivariate/cauchy quotations (7972):
   (p : (Cart[Real, 2]) -> Cart[Real, 2])
   \226\136\128 p : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 c : (Cart[Real, 2]) -> Bool, \226\136\128 s : (Cart[Real, 2]) -> Bool, \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 u : (Cart[Real, 2]) -> Bool, covering_space((c, p), s) && holomorphic_on(p, c) && open(c) && simply_connected(u) && locally(path_connected, u) && holomorphic_on(f, u) && SUBSET(IMAGE(f, u), s) \226\134\146 (\226\136\131 g : (Cart[Real, 2]) -> Cart[Real, 2], holomorphic_on(g, u) && SUBSET(IMAGE(g, u), c) && (\226\136\128 y : Cart[Real, 2], IN(y, u) \226\134\146 p(g(y)) == f(y)))
   \226\136\128 x : Cart[Real, 2], \226\136\128 y : Cart[Real, 2], x == y \226\134\146 norm(x) == norm(y)
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   norm((c : Cart[Real, 2]))
   \226\136\128 z : Cart[Real, 2], IN(z, (a : (Cart[Real, 2]) -> Bool)) \226\134\146 (f : (Cart[Real, 2]) -> Cart[Real, 2])(z) == (c : Cart[Real, 2])
   \226\136\128 x : Cart[Real, 2], IN(x, (a : (Cart[Real, 2]) -> Bool)) \226\134\146 IN(x, closure(a))
@@ -91909,16 +91909,16 @@ Multivariate/cauchy quotations (7972):
   real_of_num(1)
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], holomorphic_on(f, ball((Cx(real_of_num(0)), real_of_num(1)))) && (\226\136\128 z : Cart[Real, 2], norm(z) < real_of_num(1) \226\134\146 norm(f(z)) < real_of_num(1)) && f(Cx(real_of_num(0))) == Cx(real_of_num(0)) \226\134\146 (\226\136\128 z : Cart[Real, 2], norm(z) < real_of_num(1) \226\134\146 norm(f(z)) <= norm(z)) && norm(complex_derivative(f, Cx(real_of_num(0)))) <= real_of_num(1) && ((\226\136\131 z : Cart[Real, 2], norm(z) < real_of_num(1) && !(z == Cx(real_of_num(0))) && norm(f(z)) == norm(z)) || norm(complex_derivative(f, Cx(real_of_num(0)))) == real_of_num(1) \226\134\146 (\226\136\131 c : Cart[Real, 2], (\226\136\128 z : Cart[Real, 2], norm(z) < real_of_num(1) \226\134\146 f(z) == c * z) && norm(c) == real_of_num(1)))
   (y : Cart[Real, 2]) == (x : Cart[Real, 2]) \226\134\146 norm(x - (a : Cart[Real, 2])) <= norm(a - y)
-  :real
-  :real
+  :Real
+  :Real
   (a : Real) <= (x : Real) && (y : Real) < (b : Real) \226\134\146 x <= y \226\134\146 a < b
   ((z : Cart[Real, 2]) - (a : Cart[Real, 2])) / Cx((s : Real))
   (h : (Cart[Real, 2]) -> Cart[Real, 2])((f : (Cart[Real, 2]) -> Cart[Real, 2])((z : Cart[Real, 2])))
   (z : Cart[Real, 2])
   real_of_num(0) < (s : Real) \226\134\146 s * (z : Real) < s * real_of_num(1) \226\134\146 abs(s) * z < s
   distance(((a : Cart[Real, 2]), a + (x : Cart[Real, 2]))) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   IN((a : Cart[Real, 2]) + Cx((s : Real)) * (z : Cart[Real, 2]), ball((a, s)))
   (z : Cart[Real, 2])
   o((z : Cart[Real, 2]) => (z - (a : Cart[Real, 2])) / Cx((s : Real)), o((h : (Cart[Real, 2]) -> Cart[Real, 2]), o((f : (Cart[Real, 2]) -> Cart[Real, 2]), (z : Cart[Real, 2]) => a + Cx(s) * z)))
@@ -92058,8 +92058,8 @@ Multivariate/cauchy quotations (7972):
   IMAGE((f : (Cart[Real, 2]) -> Cart[Real, 2]), ball((Cx(real_of_num(0)), (real_of_num(1) - sqrt(real_of_num(2)) / real_of_num(2)) * (r : Real))))
   (y : Real) <= (x : Real) \226\134\146 (a : Real) - x <= a - y
   (abc : Real) <= norm((d : Cart[Real, 2])) - (e : Real) \226\134\146 norm((f : Cart[Real, 2]) - d) <= e \226\134\146 abc <= norm(f)
-  :real
-  :real
+  :Real
+  :Real
   (t : Real) * (z : Real) * (w : Real) == z * w * t
   norm(Cx((t : Real)) * (z : Cart[Real, 2])) <= norm(z)
   Cx((t : Real)) * (z : Cart[Real, 2])
@@ -92099,8 +92099,8 @@ Multivariate/cauchy quotations (7972):
   ball((Cx(real_of_num(0)), (r : Real)))
   (norm((z : Cart[Real, _])) < (R : Real) && (\226\136\128 w : Cart[Real, _], norm(w) == R \226\134\146 !(w == z))) == (norm(z) < R)
   distance(((z : Cart[Real, 2]), (w : Cart[Real, 2]))) == norm(w - z)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < (R : Real)
   circlepath((Cx(real_of_num(0)), (R : Real)))
   cball((Cx(real_of_num(0)), (R : Real)))
@@ -92118,16 +92118,16 @@ Multivariate/cauchy quotations (7972):
   (x : Cart[Real, 2])
   ((z : Cart[Real, 2]) - (a : Cart[Real, 2]) == (w : Cart[Real, 2]) - a) == (z == w)
   distance(((a : Cart[Real, 2]), a + (z : Cart[Real, 2]))) == norm(z)
-  :real
-  :real
+  :Real
+  :Real
   (z : Cart[Real, 2])
   cball(((a : Cart[Real, 2]), (r : Real)))
   distance(((a : Cart[Real, 2]), a + (z : Cart[Real, 2]))) == norm(z)
-  :real
-  :real
+  :Real
+  :Real
   ball(((a : Cart[Real, 2]), (r : Real)))
   norm((z : Cart[Real, 2])) < (r : Real) \226\134\146 distance(((a : Cart[Real, 2]), a + z)) <= r
-  :real
+  :Real
   (a : Cart[Real, 2]) + (z : Cart[Real, 2])
   complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (z : Cart[Real, 2])) == complex_derivative(f, z) * (Cx(real_of_num(0)) + Cx(real_of_num(1))) - Cx(real_of_num(0))
   \226\136\128 z : Cart[Real, 2], IN(z, ball((Cx(real_of_num(0)), (r : Real)))) \226\134\146 complex_derivative((w : Cart[Real, 2]) => (f : (Cart[Real, 2]) -> Cart[Real, 2])((a : Cart[Real, 2]) + w) - f(a), z) == complex_derivative(f, a + z)
@@ -92135,14 +92135,14 @@ Multivariate/cauchy quotations (7972):
   (z : Cart[Real, 2]) => (f : (Cart[Real, 2]) -> Cart[Real, 2])((a : Cart[Real, 2]) + z) - f(a)
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 r : Real, real_of_num(0) < r && holomorphic_on(f, cball((Cx(real_of_num(0)), r))) && f(Cx(real_of_num(0))) == Cx(real_of_num(0)) && (\226\136\128 z : Cart[Real, 2], IN(z, ball((Cx(real_of_num(0)), r))) \226\134\146 norm(complex_derivative(f, z)) <= real_of_num(2) * norm(complex_derivative(f, Cx(real_of_num(0))))) \226\134\146 SUBSET(ball((Cx(real_of_num(0)), (real_of_num(3) - real_of_num(2) * sqrt(real_of_num(2))) * (r * norm(complex_derivative(f, Cx(real_of_num(0))))))), IMAGE(f, ball((Cx(real_of_num(0)), r))))
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 a : Cart[Real, 2], \226\136\128 r : Real, real_of_num(0) < r && holomorphic_on(f, cball((a, r))) && (\226\136\128 z : Cart[Real, 2], IN(z, ball((a, r))) \226\134\146 norm(complex_derivative(f, z)) <= real_of_num(2) * norm(complex_derivative(f, a))) \226\134\146 SUBSET(ball((f(a), (real_of_num(3) - real_of_num(2) * sqrt(real_of_num(2))) * (r * norm(complex_derivative(f, a))))), IMAGE(f, ball((a, r))))
-  :real
+  :Real
   (z : Cart[Real, 2]) - (f : (Cart[Real, 2]) -> Cart[Real, 2])((a : Cart[Real, 2]))
   (z : Cart[Real, 2])
   Cx(real_of_num(0))
   (z : Cart[Real, 2])
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   real_of_num(0) < real_of_num(3) - real_of_num(2) * sqrt(real_of_num(2))
   sqrt(real_of_num(2)) < real_of_num(2113) / real_of_num(1494)
   ((a : Real) < (b : Real) * ((c : Real) / real_of_num(2) * (d : Real))) == (a < d * c * (b / real_of_num(2)))
@@ -92163,8 +92163,8 @@ Multivariate/cauchy quotations (7972):
   norm((p : Cart[Real, 2]) - (a : Cart[Real, 2])) < (r : Real)
   (p : Cart[Real, 2])
   distance(((a : Cart[Real, 2]), (b : Cart[Real, 2]))) == norm(b - a)
-  :real
-  :real
+  :Real
+  :Real
   ball(((a : Cart[Real, 2]), real_of_num(1)))
   Cx(real_of_num(0))
   IMAGE((g : (Cart[Real, 2]) -> Cart[Real, 2]), cball(((a : Cart[Real, 2]), (r : Real))))
@@ -92172,38 +92172,38 @@ Multivariate/cauchy quotations (7972):
   real_of_num(0) < (r : Real)
   (r : Real) == real_of_num(249) / real_of_num(256)
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 a : Cart[Real, 2], holomorphic_on(f, ball((a, real_of_num(1)))) && complex_derivative(f, a) == Cx(real_of_num(1)) \226\134\146 (\226\136\131 b : Cart[Real, 2], \226\136\131 r : Real, real_of_num(1) / real_of_num(12) < r && SUBSET(ball((b, r)), IMAGE(f, ball((a, real_of_num(1))))))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   real_of_num(0) < (r : Real) \226\134\146 (abs(r) * (z : Real) < r) == (real_of_num(0) < r * (real_of_num(1) - z))
   distance(((a : Cart[Real, 2]), a + (b : Cart[Real, 2]))) == norm(b)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < (r : Real) \226\134\146 (a : Real) * abs(r) == r * a
   norm((C : Cart[Real, 2]) * Cx((r : Real)))
   (x : Cart[Real, 2]) / ((C : Cart[Real, 2]) * Cx((r : Real)))
@@ -92216,8 +92216,8 @@ Multivariate/cauchy quotations (7972):
   Cx(real_of_num(0))
   real_of_num(0) < (r : Real) \226\134\146 (abs(r) * (z : Real) < r) == (real_of_num(0) < r * (real_of_num(1) - z))
   distance(((a : Cart[Real, 2]), a + (b : Cart[Real, 2]))) == norm(b)
-  :real
-  :real
+  :Real
+  :Real
   !((r : Cart[Real, 2]) == Cx(real_of_num(0))) && !((c : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 (d : Cart[Real, 2]) * r / (c * r) == d / c
   complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (a : Cart[Real, 2]) + Cx((r : Real)) * (z : Cart[Real, 2])) / (C : Cart[Real, 2]) == complex_derivative(f, a + Cx(r) * z) * Cx(r) / (C * Cx(r))
   \226\136\128 z : Cart[Real, 2], IN(z, ball((Cx(real_of_num(0)), real_of_num(1)))) \226\134\146 has_complex_derivative((z : Cart[Real, 2]) => (f : (Cart[Real, 2]) -> Cart[Real, 2])((a : Cart[Real, 2]) + Cx((r : Real)) * z) / ((C : Cart[Real, 2]) * Cx(r)), complex_derivative(f, a + Cx(r) * z) / C, at(z))
@@ -92290,8 +92290,8 @@ Multivariate/cauchy quotations (7972):
   \226\136\128 z : Cart[Real, 2], IN(z, UNION({complex(((m : Real), log(real_of_num((n : Num)) + sqrt(pow(real_of_num(n), 2) - real_of_num(1))) / pi)) | integer(m) && 0 < n}, {complex(((m : Real), -log(real_of_num((n : Num)) + sqrt(pow(real_of_num(n), 2) - real_of_num(1))) / pi)) | integer(m) && 0 < n})) \226\134\146 ccos(Cx(pi) * ccos(Cx(pi) * z)) == Cx(real_of_num(1)) || ccos(Cx(pi) * ccos(Cx(pi) * z)) == -Cx(real_of_num(1))
   norm((f : (Cart[Real, 2]) -> Cart[Real, 2])(Cx(real_of_num(0)))) <= (r : Real)
   norm((z : Cart[Real, 2]) - (w : Cart[Real, 2])) <= (c : Real) \226\134\146 norm(w) <= (a : Real) + (b : Real) \226\134\146 norm(z) <= a + (b + c)
-  :real
-  :real
+  :Real
+  :Real
   ((x : Real) / real_of_num(2) <= (y : Real)) == (x <= real_of_num(2) * y)
   (y : Cart[Real, 2]) == (Cx(real_of_num(1)) + (Cx(real_of_num(2)) * y - Cx(real_of_num(1)))) / Cx(real_of_num(2))
   real_of_num(12) * ((t : Real) / (s : Real)) == real_of_num(12) / s * t
@@ -92301,8 +92301,8 @@ Multivariate/cauchy quotations (7972):
   (w : Cart[Real, 2])
   (g : (Cart[Real, 2]) -> Cart[Real, 2])
   (x : Cart[Real, _]) == (y : Cart[Real, _]) \226\134\146 norm(x) < (d : Real) \226\134\146 norm(y) <= d
-  :real
-  :real
+  :Real
+  :Real
   ((a : Real) * ((c : Real) / real_of_num(12)) < real_of_num(1)) == (c * a < real_of_num(12))
   (v : Cart[Real, 2])
   (v : Cart[Real, 2])
@@ -92360,13 +92360,13 @@ Multivariate/cauchy quotations (7972):
   cball((Cx(real_of_num(0)), real_of_num(1)))
   (z : Cart[Real, 2]) => Cx(real_of_num(2)) * (f : (Cart[Real, 2]) -> Cart[Real, 2])(z) - Cx(real_of_num(1))
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 r : Real, holomorphic_on(f, cball((Cx(real_of_num(0)), real_of_num(1)))) && norm(f(Cx(real_of_num(0)))) <= r && (\226\136\128 z : Cart[Real, 2], IN(z, cball((Cx(real_of_num(0)), real_of_num(1)))) \226\134\146 !(f(z) == Cx(real_of_num(0)) || f(z) == Cx(real_of_num(1)))) \226\134\146 (\226\136\128 t : Real, \226\136\128 z : Cart[Real, 2], real_of_num(0) < t && t < real_of_num(1) && norm(z) <= t \226\134\146 norm(f(z)) <= exp(pi * exp(pi * (real_of_num(2) + (real_of_num(2) * r + real_of_num(12) * (t / (real_of_num(1) - t)))))))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   real_of_num(0) < (r : Real) \226\134\146 (abs(r) * (z : Real) <= real_of_num(1) * (r / real_of_num(3) / (real_of_num(1) / real_of_num(2)))) == (r * z <= r * (real_of_num(2) / real_of_num(3)))
   ball((Cx(real_of_num(0)), (r : Real)))
   complex_derivative((g : (Cart[Real, 2]) -> Cart[Real, 2]), Cx(real_of_num(0))) == Cx((r : Real)) * complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), Cx(real_of_num(0)))
@@ -92507,8 +92507,8 @@ Multivariate/cauchy quotations (7972):
   real_of_num(0) < (x : Real) && x <= (y : Real) * real_of_num(3) \226\134\146 x / real_of_num(6) <= real_of_num(2) / real_of_num(3) * y
   real_of_num(0) < (M : Real) \226\134\146 M * ((e : Real) / (real_of_num(6) * M)) == e / real_of_num(6)
   distance(((x : Cart[Real, 2]), (y : Cart[Real, 2]))) == norm(y - x)
-  :real
-  :real
+  :Real
+  :Real
   (M : Real) * ((e : Real) * (r : Real) / (real_of_num(6) * M))
   real_of_num(0) < (r : Real) \226\134\146 (e : Real) / r * (real_of_num(2) / real_of_num(3) * r * (x : Real)) == real_of_num(2) / real_of_num(3) * (e * x)
   !((w : Cart[Real, 2]) == (z : Cart[Real, 2])) && !(w == (y : Cart[Real, 2])) \226\134\146 (a : Cart[Real, 2]) / (w - z) - a / (w - y) == a * (z - y) / ((w - z) * (w - y))
@@ -92517,21 +92517,21 @@ Multivariate/cauchy quotations (7972):
   real_of_num(0) < (r : Real) \226\134\146 (e : Real) / r * (real_of_num(2) * (pi * ((c : Real) * r))) == real_of_num(2) * (pi * (e * c))
   (e : Real) / (r : Real)
   norm((z : Cart[Real, 2]) - (y : Cart[Real, 2])) < (r : Real) / real_of_num(3) \226\134\146 norm(y - z) < real_of_num(2) / real_of_num(3) * r
-  :real
+  :Real
   distance(((a : Cart[Real, _]), (b : Cart[Real, _]))) <= real_of_num(2) / real_of_num(3) * (r : Real) \226\134\146 distance((a, b)) <= r
-  :real
+  :Real
   (s : (Cart[Real, 2]) -> Bool)
   ((p : Bool) \226\134\146 !(q : Bool)) == (q \226\134\146 !p)
   distance(((z : Cart[Real, 2]), (w : Cart[Real, 2]))) == norm(w - z)
-  :real
-  :real
+  :Real
+  :Real
   distance(((z : Cart[Real, 2]), (w : Cart[Real, 2]))) == norm(w - z)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < (r : Real) \226\134\146 real_of_num(0) <= real_of_num(2) / real_of_num(3) * r
   distance(((z : Cart[Real, 2]), (w : Cart[Real, 2]))) == norm(w - z)
-  :real
-  :real
+  :Real
+  :Real
   circlepath(((z : Cart[Real, 2]), real_of_num(2) / real_of_num(3) * (r : Real)))
   cball(((z : Cart[Real, 2]), real_of_num(2) / real_of_num(3) * (r : Real)))
   (f : (Num, Cart[Real, 2]) -> Cart[Real, 2])((n : Num))
@@ -92544,7 +92544,7 @@ Multivariate/cauchy quotations (7972):
   (N : Num)
   (N : Num)
   distance(((a : Cart[Real, _]), (b : Cart[Real, _]))) <= real_of_num(2) / real_of_num(3) * (r : Real) \226\134\146 distance((a, b)) <= r
-  :real
+  :Real
   cball(((z : Cart[Real, 2]), real_of_num(2) / real_of_num(3) * (r : Real)))
   \226\136\131 M : Real, real_of_num(0) < M && (\226\136\128 n : Num, \226\136\128 w : Cart[Real, 2], distance(((z : Cart[Real, 2]), w)) <= real_of_num(2) / real_of_num(3) * (r : Real) \226\134\146 norm((f : (Num, Cart[Real, 2]) -> Cart[Real, 2])(n, w)) <= M)
   (r : Real)
@@ -92564,9 +92564,9 @@ Multivariate/cauchy quotations (7972):
   (i : Num)
   (z : Cart[Real, 2])
   (y : Cart[Real, 2])
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   (f : (Num, Cart[Real, 2]) -> Cart[Real, 2])
   \226\136\128 t : Real, \226\136\128 w : Cart[Real, 2], \226\136\128 z : Cart[Real, 2], (moebius_function : (Real, Cart[Real, 2], Cart[Real, 2]) -> Cart[Real, 2])(t, w, z) == cexp(ii * Cx(t)) * ((z - w) / (Cx(real_of_num(1)) - cnj(w) * z))
   \226\136\128 w : Cart[Real, 2], \226\136\128 z : Cart[Real, 2], moebius_function(real_of_num(0), w, z) == (z - w) / (Cx(real_of_num(1)) - cnj(w) * z)
@@ -92581,8 +92581,8 @@ Multivariate/cauchy quotations (7972):
   real_of_num(1) - pow(norm(moebius_function((t : Real), (w : Cart[Real, 2]), (z : Cart[Real, 2]))), 2) == (real_of_num(1) - pow(norm(w), 2)) / pow(norm(Cx(real_of_num(1)) - cnj(w) * z), 2) * (real_of_num(1) - pow(norm(z), 2))
   real_of_num(1) * norm((z : Cart[Real, 2]))
   norm((z : Cart[Real, 2])) == real_of_num(0) || real_of_num(0) < norm(z)
-  :real
-  :real
+  :Real
+  :Real
   (a : Real) * (b : Real) < real_of_num(1) \226\134\146 !(real_of_num(1) == a * b)
   !(norm(Cx(real_of_num(1))) == norm(cnj((w : Cart[Real, 2])) * (z : Cart[Real, 2])))
   !(Cx(real_of_num(1)) - cnj((w : Cart[Real, 2])) * (z : Cart[Real, 2]) == Cx(real_of_num(0)))
@@ -92640,8 +92640,8 @@ Multivariate/cauchy quotations (7972):
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 g : (Cart[Real, 2]) -> Cart[Real, 2], holomorphic_on(f, ball((Cx(real_of_num(0)), real_of_num(1)))) && (\226\136\128 z : Cart[Real, 2], IN(z, ball((Cx(real_of_num(0)), real_of_num(1)))) \226\134\146 IN(f(z), ball((Cx(real_of_num(0)), real_of_num(1))))) && holomorphic_on(g, ball((Cx(real_of_num(0)), real_of_num(1)))) && (\226\136\128 z : Cart[Real, 2], IN(z, ball((Cx(real_of_num(0)), real_of_num(1)))) \226\134\146 IN(g(z), ball((Cx(real_of_num(0)), real_of_num(1))))) && (\226\136\128 z : Cart[Real, 2], IN(z, ball((Cx(real_of_num(0)), real_of_num(1)))) \226\134\146 f(g(z)) == z) && (\226\136\128 z : Cart[Real, 2], IN(z, ball((Cx(real_of_num(0)), real_of_num(1)))) \226\134\146 g(f(z)) == z) \226\134\146 (\226\136\131 t : Real, \226\136\131 w : Cart[Real, 2], IN(w, ball((Cx(real_of_num(0)), real_of_num(1)))) && (\226\136\128 z : Cart[Real, 2], IN(z, ball((Cx(real_of_num(0)), real_of_num(1)))) \226\134\146 f(z) == moebius_function(t, w, z)))
   real_of_num(0) < (r : Real) \226\134\146 r / real_of_num(2) < r
   distance(((z : Cart[Real, 2]), (w : Cart[Real, 2]))) == norm(w - z)
-  :real
-  :real
+  :Real
+  :Real
   (r : Real)
   (z0 : Cart[Real, 2])
   (w : Cart[Real, 2]) * (mm : Cart[Real, 2]) == (z : Cart[Real, 2]) && !(w == Cx(real_of_num(0))) \226\134\146 z * ((h : Cart[Real, 2]) * ((m : Cart[Real, 2]) / w)) == m * mm * h
@@ -92655,8 +92655,8 @@ Multivariate/cauchy quotations (7972):
   IN((w : Cart[Real, 2]), ball(((z0 : Cart[Real, 2]), (r : Real))))
   (w : Cart[Real, 2]) == (z0 : Cart[Real, 2])
   distance(((z : Cart[Real, 2]), (w : Cart[Real, 2]))) == norm(w - z)
-  :real
-  :real
+  :Real
+  :Real
   (w : Cart[Real, 2])
   Cx(real_of_num(2)) * (Cx(pi) * (ii * Cx(real_of_num((m : Num)))))
   path_integral(circlepath(((z0 : Cart[Real, 2]), (r : Real) / real_of_num(2))), (z : Cart[Real, 2]) => Cx(real_of_num((m : Num))) / (z - z0) + complex_derivative((h : (Cart[Real, 2]) -> Cart[Real, 2]), z) / h(z))
@@ -92665,15 +92665,15 @@ Multivariate/cauchy quotations (7972):
   (n : Num)
   real_of_num(0) < (r : Real)
   distance(((w : Cart[Real, N]), (z : Cart[Real, N]))) == norm(z - w)
-  :real
-  :real
+  :Real
+  :Real
   (e : Real)
   {(w : Cart[Real, 2]) | norm(w - (z0 : Cart[Real, 2])) == (r : Real) / real_of_num(2)}
   (e : Real)
   (s : (Cart[Real, 2]) -> Bool)
   (x : Cart[Real, _]) == (y : Cart[Real, _]) && real_of_num(0) < (e : Real) \226\134\146 norm(x) <= e / real_of_num(2) \226\134\146 norm(y) < e
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < (r : Real) && real_of_num(0) < (e : Real) \226\134\146 real_of_num(1) * (r / real_of_num(4) * (e / real_of_num(2)) / pow(r / real_of_num(4), 1)) == e / real_of_num(2)
   real_of_num(0) < (r : Real)
   norm((w : Cart[Real, 2]) - (z0 : Cart[Real, 2])) == (r : Real) / real_of_num(2)
@@ -92702,22 +92702,22 @@ Multivariate/cauchy quotations (7972):
   (z0 : Cart[Real, 2]) + Cx((r : Real) / real_of_num(2))
   real_of_num(0) < (r : Real)
   distance(((w : Cart[Real, N]), (z : Cart[Real, N]))) == norm(z - w)
-  :real
-  :real
+  :Real
+  :Real
   IMAGE(o(norm, (g : (Cart[Real, 2]) -> Cart[Real, 2])), {(w : Cart[Real, 2]) | norm(w - (z0 : Cart[Real, 2])) == (r : Real) / real_of_num(2)})
   real_of_num(0) < (r : Real)
   (s : (Cart[Real, 2]) -> Bool)
   distance(((w : Cart[Real, N]), (z : Cart[Real, N]))) == norm(z - w)
-  :real
-  :real
+  :Real
+  :Real
   IMAGE(complex_derivative((g : (Cart[Real, 2]) -> Cart[Real, 2])), {(w : Cart[Real, 2]) | norm(w - (z0 : Cart[Real, 2])) == (r : Real) / real_of_num(2)})
   distance(((z : Cart[Real, 2]), (w : Cart[Real, 2]))) == norm(w - z)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < (r : Real) \226\134\146 r / real_of_num(2) < r
   distance(((z : Cart[Real, 2]), (w : Cart[Real, 2]))) == norm(w - z)
-  :real
-  :real
+  :Real
+  :Real
   (r : Real)
   (z0 : Cart[Real, 2])
   (n : Num)
@@ -92735,26 +92735,26 @@ Multivariate/cauchy quotations (7972):
   (g : (Cart[Real, 2]) -> Cart[Real, 2])
   (z0 : Cart[Real, 2])
   \226\136\128 f : (Num, Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 g : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, open(s) && connected(s) && (\226\136\128 n : Num, holomorphic_on(f(n), s)) && holomorphic_on(g, s) && (\226\136\128 k : (Cart[Real, 2]) -> Bool, \226\136\128 e : Real, compact(k) && SUBSET(k, s) && real_of_num(0) < e \226\134\146 (\226\136\131 N : Num, \226\136\128 n : Num, \226\136\128 x : Cart[Real, 2], n >= N && IN(x, k) \226\134\146 norm(f(n, x) - g(x)) < e)) && !(\226\136\131 c : Cart[Real, 2], \226\136\128 z : Cart[Real, 2], IN(z, s) \226\134\146 g(z) == c) && (\226\136\128 n : Num, \226\136\128 z : Cart[Real, 2], IN(z, s) \226\134\146 !(f(n, z) == Cx(real_of_num(0)))) \226\134\146 (\226\136\128 z : Cart[Real, 2], IN(z, s) \226\134\146 !(g(z) == Cx(real_of_num(0))))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
   ((x : Num) >= MAX((m : Num), (n : Num))) == (x >= m && x >= n)
   norm((x1 : Cart[Real, 2]) - (x2 : Cart[Real, 2])) < (e : Real) / real_of_num(2) && norm((y1 : Cart[Real, 2]) - (y2 : Cart[Real, 2])) < e / real_of_num(2) \226\134\146 norm(x1 - y1 - (x2 - y2)) < e
-  :real
-  :real
+  :Real
+  :Real
   (g : (Cart[Real, 2]) -> Cart[Real, 2])((z1 : Cart[Real, 2])) == g((z2 : Cart[Real, 2]))
   MAX((N1 : Num), (N2 : Num))
   (N2 : Num)
@@ -92819,8 +92819,8 @@ Multivariate/cauchy quotations (7972):
   real_of_num(1) / real_of_num(2)
   real_of_num(0) < (e : Real) \226\134\146 (abs(e) * (u : Real) <= e) == (e * u <= e * real_of_num(1))
   distance(((w : Cart[Real, 2]), w + (z : Cart[Real, 2]))) == norm(z)
-  :real
-  :real
+  :Real
+  :Real
   (u : Cart[Real, 2])
   (u : Cart[Real, 2])
   (r : Real)
@@ -92834,7 +92834,7 @@ Multivariate/cauchy quotations (7972):
   (e : Real)
   (w : Cart[Real, 2])
   \226\136\128 p : ((Cart[Real, 2]) -> Cart[Real, 2]) -> Bool, \226\136\128 q : ((Cart[Real, 2]) -> Cart[Real, 2]) -> Bool, \226\136\128 r : Real, \226\136\128 s : (Cart[Real, 2]) -> Bool, \226\136\128 w : Cart[Real, 2], open(s) && connected(s) && IN(w, s) && real_of_num(0) < r && (\226\136\128 h : (Cart[Real, 2]) -> Cart[Real, 2], IN(h, p) \226\134\146 holomorphic_on(h, s) && (\226\136\128 z : Cart[Real, 2], IN(z, s) \226\134\146 !(h(z) == Cx(real_of_num(0))) && !(h(z) == Cx(real_of_num(1))))) && (\226\136\128 h : (Cart[Real, 2]) -> Cart[Real, 2], IN(h, q) \226\134\146 IN(h, p) && norm(h(w)) <= r) \226\134\146 (\226\136\131 B : Real, \226\136\131 n : (Cart[Real, 2]) -> Bool, real_of_num(0) < B && open(n) && IN(w, n) && SUBSET(n, s) && (\226\136\128 h : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], IN(h, q) && IN(z, n) \226\134\146 norm(h(z)) <= B))
-  :real
+  :Real
   (s : (Cart[Real, N]) -> Bool)
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, connected(t) && !(s == {}) && SUBSET(s, t) && open(s) && (\226\136\128 x : Cart[Real, N], limit_point_of(x, s) && IN(x, t) \226\134\146 IN(x, s)) \226\134\146 s == t
   sup(IMAGE((b : (Cart[Real, 2]) -> Real), (j : (Cart[Real, 2]) -> Bool)))
@@ -92924,8 +92924,8 @@ Multivariate/cauchy quotations (7972):
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 k : Real, \226\136\128 B : Real, real_of_num(0) < k && holomorphic_on(f, DELETE(ball((Cx(real_of_num(0)), k)), Cx(real_of_num(0)))) && (\226\136\128 e : Real, real_of_num(0) < e && e < k \226\134\146 (\226\136\131 d : Real, real_of_num(0) < d && d < e && (\226\136\128 z : Cart[Real, 2], IN(z, sphere((Cx(real_of_num(0)), d))) \226\134\146 norm(f(z)) <= B))) \226\134\146 (\226\136\131 e : Real, real_of_num(0) < e && e < k && (\226\136\128 z : Cart[Real, 2], IN(z, DELETE(ball((Cx(real_of_num(0)), e)), Cx(real_of_num(0)))) \226\134\146 norm(f(z)) <= B))
   !((z : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 z * (w : Cart[Real, 2]) / z == w
   (x : Cart[Real, _]) == (y : Cart[Real, _]) \226\134\146 norm(x) <= (b : Real) \226\134\146 norm(y) <= abs(b) + real_of_num(1)
-  :real
-  :real
+  :Real
+  :Real
   abs(real_of_num((n : Num)) + real_of_num(1)) == real_of_num(n) + real_of_num(1)
   Cx(real_of_num((r : (Num) -> Num)((n : Num))) + real_of_num(1)) * (z : Cart[Real, 2])
   (n : Num)
@@ -92966,8 +92966,8 @@ Multivariate/cauchy quotations (7972):
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], holomorphic_on(f, DELETE(ball((Cx(real_of_num(0)), real_of_num(1))), Cx(real_of_num(0)))) && (\226\136\128 z : Cart[Real, 2], IN(z, DELETE(ball((Cx(real_of_num(0)), real_of_num(1))), Cx(real_of_num(0)))) \226\134\146 !(f(z) == Cx(real_of_num(0))) && !(f(z) == Cx(real_of_num(1)))) \226\134\146 (\226\136\131 e : Real, \226\136\131 b : Real, real_of_num(0) < e && e < real_of_num(1) && real_of_num(0) < b && ((\226\136\128 z : Cart[Real, 2], IN(z, DELETE(ball((Cx(real_of_num(0)), e)), Cx(real_of_num(0)))) \226\134\146 norm(f(z)) <= b) || (\226\136\128 z : Cart[Real, 2], IN(z, DELETE(ball((Cx(real_of_num(0)), e)), Cx(real_of_num(0)))) \226\134\146 norm(f(z)) >= b)))
   (z : Cart[Real, 2]) + ((w : Cart[Real, 2]) - z) == w
   norm((w : Cart[Real, 2]) - (z : Cart[Real, 2])) == distance((z, w))
-  :real
-  :real
+  :Real
+  :Real
   ((w : Cart[Real, 2]) - (z : Cart[Real, 2])) / Cx((r : Real))
   (w : Cart[Real, 2])
   inv(norm((a : Cart[Real, 2])) * (b : Real))
@@ -92979,8 +92979,8 @@ Multivariate/cauchy quotations (7972):
   (e : Real)
   ((r : Real) * (x : Real) < r) == (real_of_num(0) < r * (real_of_num(1) - x))
   distance(((a : Cart[Real, 2]), a + (b : Cart[Real, 2]))) == norm(b)
-  :real
-  :real
+  :Real
+  :Real
   ((z : Cart[Real, 2]) + (a : Cart[Real, 2]) * (b : Cart[Real, 2]) == z) == (a == Cx(real_of_num(0)) || b == Cx(real_of_num(0)))
   !((a : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 ((x : Cart[Real, 2]) / a == (z : Cart[Real, 2])) == (x == a * z)
   (w : Cart[Real, 2]) => (f : (Cart[Real, 2]) -> Cart[Real, 2])((z : Cart[Real, 2]) + Cx((r : Real)) * w) / (a : Cart[Real, 2])
@@ -93040,7 +93040,7 @@ Multivariate/cauchy quotations (7972):
   (g : (Cart[Real, 2]) -> Cart[Real, 2])
   ((p : Bool) \226\134\146 (q : Bool) \226\134\146 (r : Bool)) \226\134\146 (p \226\134\146 q) \226\134\146 p \226\134\146 r
   real_of_num(0) < abs((x : Real)) + (norm((a : Cart[Real, _])) + real_of_num(1))
-  :real
+  :Real
   norm((b : Cart[Real, 2]) - (a : Cart[Real, 2])) / (abs((c : Real)) + (norm(a) + real_of_num(1)))
   (k : (Cart[Real, 2]) -> Bool)
   (c : Real)
@@ -93082,8 +93082,8 @@ Multivariate/cauchy quotations (7972):
   (g : (Cart[Real, 2]) -> Cart[Real, 2])((z : Cart[Real, 2]))
   (g : (Cart[Real, 2]) -> Cart[Real, 2])
   norm((x : Cart[Real, 2]) - (y : Cart[Real, 2])) <= (B : Real) \226\134\146 norm(x) <= norm(y) + B
-  :real
-  :real
+  :Real
+  :Real
   (r : Real)
   (q : Bool) && ((p : Bool) \226\134\146 (r : Bool)) \226\134\146 p == q \226\134\146 r
   ball(((z : Cart[Real, 2]), (r : Real)))
@@ -93101,8 +93101,8 @@ Multivariate/cauchy quotations (7972):
   {(x : Cart[Real, 2])}
   (c : Real)
   (x : Cart[Real, 2])
-  :real
-  :real
+  :Real
+  :Real
   (z : Cart[Real, 2])
   (b : Cart[Real, 2])
   (a : Cart[Real, 2])
@@ -93290,24 +93290,24 @@ Multivariate/cauchy quotations (7972):
   (\226\136\128 x : _, \226\136\128 y : _, (P : (_) -> Bool)(x) && P(y) && (f : (_) -> _)(x) == f(y) \226\134\146 x == y) == (\226\136\128 x : _, \226\136\128 y : _, P(x) && P(y) \226\134\146 (f(x) == f(y)) == (x == y))
   ((r : Real) / real_of_num(3) / (x : Real) <= real_of_num(1) / real_of_num(3)) == (r / x <= real_of_num(1))
   norm((x : Cart[Real, 2])) <= real_of_num(1) / real_of_num(3) && norm((y : Cart[Real, 2])) <= real_of_num(1) / real_of_num(3) \226\134\146 norm(x - y) < real_of_num(1)
-  :real
-  :real
+  :Real
+  :Real
   (z : Cart[Real, 2])
   !((a : Cart[Real, 2]) == Cx(real_of_num(0))) && !((x : Cart[Real, 2]) + (k : Cart[Real, 2]) == Cx(real_of_num(0))) && !((y : Cart[Real, 2]) + k == Cx(real_of_num(0))) \226\134\146 (a / (x + k) - (c : Cart[Real, 2]) == a / (y + k) - c) == (x == y)
   real_of_num(0) < (r : Real) \226\134\146 !(r / real_of_num(3) == real_of_num(0))
   (z : Cart[Real, 2]) => Cx((r : Real) / real_of_num(3)) / ((g : (Cart[Real, 2]) -> Cart[Real, 2])(z) + g((a : Cart[Real, 2]))) - Cx(r / real_of_num(3)) / (g(a) + g(a))
   \226\136\128 z : Cart[Real, 2], IN(z, (s : (Cart[Real, 2]) -> Bool)) \226\134\146 !((g : (Cart[Real, 2]) -> Cart[Real, 2])(z) + g((a : Cart[Real, 2])) == Cx(real_of_num(0)))
   distance((-(a : Cart[Real, 2]), (b : Cart[Real, 2]))) == norm(b + a)
-  :real
-  :real
+  :Real
+  :Real
   pow(-(z : Cart[Real, 2]), 2) == pow(z, 2)
   pow(Cx(real_of_num(0)), 2) + (b : Cart[Real, 2]) == b
   (-(z : Cart[Real, 2]) == z) == (z == Cx(real_of_num(0)))
   (w : Cart[Real, 2]) == (z : Cart[Real, 2])
   (w : Cart[Real, 2])
   distance(((w : Cart[Real, 2]), -(z : Cart[Real, 2]))) == distance((-w, z))
-  :real
-  :real
+  :Real
+  :Real
   -(g : (Cart[Real, 2]) -> Cart[Real, 2])((z : Cart[Real, 2]))
   (z : Cart[Real, 2])
   \226\136\128 z : Cart[Real, 2], IN(z, (s : (Cart[Real, 2]) -> Bool)) \226\134\146 !IN((g : (Cart[Real, 2]) -> Cart[Real, 2])(z), ball((-g((a : Cart[Real, 2])), (r : Real))))
@@ -93315,8 +93315,8 @@ Multivariate/cauchy quotations (7972):
   (g : (Cart[Real, 2]) -> Cart[Real, 2])((a : Cart[Real, 2]))
   ball(((a : Cart[Real, 2]), (d : Real)))
   distance(((a : Cart[Real, 2]), a + (d : Cart[Real, 2]))) == norm(d)
-  :real
-  :real
+  :Real
+  :Real
   IN((a : Cart[Real, 2]), ball((a, (d : Real)))) && IN(a + Cx(d / real_of_num(2)), ball((a, d))) && !(a + Cx(d / real_of_num(2)) == a)
   (d : Real)
   (a : Cart[Real, 2])
@@ -93464,8 +93464,8 @@ Multivariate/cauchy quotations (7972):
   \226\136\128 m : Num, \226\136\128 n : Num, m <= n \226\134\146 SUBSET((X : (Num, Cart[Real, 2]) -> Bool)(n), X(m))
   \226\136\128 n : Num, SUBSET((X : (Num, Cart[Real, 2]) -> Bool)(n), closure((s : (Cart[Real, 2]) -> Bool)))
   norm((z : Cart[Real, 2])) == norm(z - vec(0))
-  :real
-  :real
+  :Real
+  :Real
   (n : Num)
   \226\136\128 n : Num, connected((X : (Num, Cart[Real, 2]) -> Bool)(n))
   \226\136\128 n : Num, closed((X : (Num, Cart[Real, 2]) -> Bool)(n))
@@ -93544,8 +93544,8 @@ Multivariate/cauchy quotations (7972):
   !((x : Cart[Real, 2]) == (z : Cart[Real, 2])) && !((gx : Cart[Real, 2]) + (gz : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 (pow(gx, 2) - pow(gz, 2)) / (x - z) / (gx + gz) == (gx - gz) / (x - z)
   INTER(ball(((z : Cart[Real, 2]), (d : Real))), (s : (Cart[Real, 2]) -> Bool))
   distance(((z : Cart[Real, 2]), (x : Cart[Real, 2]))) < norm(z) \226\134\146 !(x + z == vec(0))
-  :real
-  :real
+  :Real
+  :Real
   norm((g : (Cart[Real, 2]) -> Cart[Real, 2])((z : Cart[Real, 2])))
   (z : Cart[Real, 2])
   \226\136\131 d : Real, real_of_num(0) < d && (\226\136\128 w : Cart[Real, 2], IN(w, (s : (Cart[Real, 2]) -> Bool)) && IN(w, ball(((z : Cart[Real, 2]), d))) \226\134\146 !((g : (Cart[Real, 2]) -> Cart[Real, 2])(w) + g(z) == Cx(real_of_num(0))))
@@ -93591,10 +93591,10 @@ Multivariate/cauchy quotations (7972):
   (t : Cart[Real, Unit])
   integral(interval([(vec(0), vec(1))]), (x : Cart[Real, Unit]) => vector_derivative((g : (Cart[Real, Unit]) -> Cart[Real, 2]), at(x)))
   norm((g : Cart[Real, 2]) - (p : Cart[Real, 2])) < real_of_num(1) && norm(p) <= (B : Real) \226\134\146 norm(p) <= B + real_of_num(1) && norm(g) <= B + real_of_num(1)
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   (e : Real)
   winding_number((o(cexp, (g : (Cart[Real, Unit]) -> Cart[Real, 2])), Cx(real_of_num(0))))
   (g : (Cart[Real, Unit]) -> Cart[Real, 2])
@@ -93613,8 +93613,8 @@ Multivariate/cauchy quotations (7972):
   \226\136\131 e : Real, real_of_num(0) < e && (\226\136\128 t : Cart[Real, Unit], IN(t, interval([(vec(0), vec(1))])) \226\134\146 e <= norm(cexp((p : (Cart[Real, Unit]) -> Cart[Real, 2])(t))))
   \226\136\128 p : (Cart[Real, Unit]) -> Cart[Real, 2], path(p) \226\134\146 winding_number((o(cexp, p), Cx(real_of_num(0)))) == Cx(real_of_num(1)) / (Cx(real_of_num(2)) * (Cx(pi) * ii)) * (pathfinish(p) - pathstart(p))
   (x : Cart[Real, 2]) == (y : Cart[Real, 2]) && !((z : Cart[Real, _]) == vec(0)) \226\134\146 norm(x - y) < norm(z)
-  :real
-  :real
+  :Real
+  :Real
   winding_number((o(cexp, o((g : (Cart[Real, 2]) -> Cart[Real, 2]), (p : (Cart[Real, Unit]) -> Cart[Real, 2]))), Cx(real_of_num(0))))
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 g : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, \226\136\128 p : (Cart[Real, Unit]) -> Cart[Real, 2], continuous_on(f, s) && continuous_on(g, s) && (\226\136\128 z : Cart[Real, 2], IN(z, s) \226\134\146 f(z) == cexp(g(z))) && path(p) && SUBSET(path_image(p), s) \226\134\146 winding_number((o(f, p), Cx(real_of_num(0)))) == Cx(real_of_num(1)) / (Cx(real_of_num(2)) * (Cx(pi) * ii)) * (pathfinish(o(g, p)) - pathstart(o(g, p)))
   ball(((z : Cart[Real, 2]), (e : Real)))
@@ -93823,7 +93823,7 @@ Multivariate/cauchy quotations (7972):
   has_bounded_variation_on((g : (Cart[Real, Unit]) -> Cart[Real, 2]), interval([(vec(0), vec(1))]))
   path((g : (Cart[Real, Unit]) -> Cart[Real, 2]))
   \226\136\128 g : (Cart[Real, Unit]) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], absolutely_continuous_on(g, interval([(vec(0), vec(1))])) && pathfinish(g) == pathstart(g) && !IN(z, path_image(g)) \226\134\146 has_path_integral((w : Cart[Real, 2]) => Cx(real_of_num(1)) / (w - z), Cx(real_of_num(2)) * (Cx(pi) * (ii * winding_number((g, z)))), g)
-  :real
+  :Real
   (r : (Cart[Real, Unit]) -> Cart[Real, 2]) => pathfinish(r) == pathstart(r)
   SUBSET(IMAGE((f : (_) -> _), UNIV), DELETE(UNIV, (z : _))) == (\226\136\128 x : _, !(f(x) == z))
   DELETE(UNIV, (z : Cart[Real, 2]))
@@ -94205,22 +94205,22 @@ Multivariate/cauchy quotations (7972):
   (q : Real) == real_of_num(0)
   (q : Real)
   (norm((w : Cart[Real, _])) < norm((z : Cart[Real, _])) + distance((z, w))) == !(distance((vec(0), w)) == distance((vec(0), z)) + distance((z, w)))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   (y : Cart[Real, 2])
   !((z : Real) == real_of_num(0)) \226\134\146 (real_of_num(1) + (r : Real) / z) * z == z + r
   \226\136\128 y : Cart[Real, 2], IN(y, sphere(((z : Cart[Real, 2]), (r : Real)))) && !(y == (w : Cart[Real, 2])) \226\134\146 norm(y) < norm(w)
   distance(((z : Cart[Real, 2]), op_pct(real_of_num(1), z) + (w : Cart[Real, 2]))) == norm(w)
-  :real
-  :real
+  :Real
+  :Real
   IN((w : Cart[Real, 2]), sphere(((z : Cart[Real, 2]), (r : Real))))
   (w : Cart[Real, 2]) == op_pct(real_of_num(1) + (r : Real) / norm((z : Cart[Real, 2])), z)
   IMAGE((g : (_) -> _), (i : (_) -> Bool)) == (s : (_) -> Bool) && SUBSET(IMAGE(g, i), (b : (_) -> Bool)) && SUBSET(b, (c : (_) -> Bool)) && SUBSET((j : (_) -> Bool), i) && IN((f : _), IMAGE(g, i)) && IN((k : _), IMAGE(g, i)) \226\134\146 IMAGE(g, i) == INTER(c, s) && SUBSET(IMAGE(g, j), b) && IN(f, b) == IN(k, b)
@@ -94319,10 +94319,10 @@ Multivariate/cauchy quotations (7972):
   (a' : Cart[Real, 2])
   IN((b : Cart[Real, _]), segment([((a : Cart[Real, _]), b)])) && IN(b, (s : (Cart[Real, _]) -> Bool)) \226\134\146 !(INTER(segment([(a, b)]), s) == {})
   !((p : Cart[Real, _]) == (q : Cart[Real, _])) && (!((x : Cart[Real, _]) == (a : Cart[Real, _])) \226\134\146 distance((a, x)) < distance((p, q))) \226\134\146 !(distance((p, q)) <= distance((a, x)))
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   (x : Cart[Real, 2])
   (INTER(DELETE((s : (_) -> Bool), (a : _)), (t : (_) -> Bool)) == {}) == (\226\136\128 y : _, IN(y, INTER(s, t)) \226\134\146 y == a)
   (b : Cart[Real, 2])
@@ -94375,12 +94375,12 @@ Multivariate/cauchy quotations (7972):
   ball((Cx(real_of_num(0)), real_of_num(1)))
   (f : (Cart[Real, 2]) -> Cart[Real, 2])
   \226\136\128 f : (Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 s : (Cart[Real, 2]) -> Bool, holomorphic_on(f, ball((Cx(real_of_num(0)), real_of_num(1)))) && IMAGE(f, ball((Cx(real_of_num(0)), real_of_num(1)))) == s && (\226\136\128 w : Cart[Real, 2], \226\136\128 z : Cart[Real, 2], IN(w, ball((Cx(real_of_num(0)), real_of_num(1)))) && IN(z, ball((Cx(real_of_num(0)), real_of_num(1)))) && f(w) == f(z) \226\134\146 w == z) \226\134\146 (\226\136\131 g : (Cart[Real, 2]) -> Cart[Real, 2], continuous_on(g, cball((Cx(real_of_num(0)), real_of_num(1)))) && (\226\136\128 z : Cart[Real, 2], IN(z, ball((Cx(real_of_num(0)), real_of_num(1)))) \226\134\146 g(z) == f(z))) == (bounded(s) && locally(connected, frontier(s)))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   pathfinish((fg : (Cart[Real, Unit]) -> Cart[Real, 2]))
   pathstart((fg : (Cart[Real, Unit]) -> Cart[Real, 2]))
   (E : (Cart[Real, 2]) -> Bool)
@@ -94536,8 +94536,8 @@ Multivariate/cauchy quotations (7972):
   (E : (Cart[Real, 2]) -> Bool)
   (b : Cart[Real, 2])
   (a : Cart[Real, 2])
-  :real
-  :real
+  :Real
+  :Real
   SUBSET(segment([((u : Cart[Real, _]), (v : Cart[Real, _]))]), (t : (Cart[Real, _]) -> Bool)) \226\134\146 SUBSET(segment((u, v)), segment([(u, v)])) && (\226\136\128 x : Cart[Real, _], IN(x, t) \226\134\146 !IN(x, (s : (Cart[Real, _]) -> Bool))) && SUBSET(segment((u, v)), (b : (Cart[Real, _]) -> Bool)) \226\134\146 IN((w : Cart[Real, _]), segment((u, v))) \226\134\146 !(IN(w, b) \226\134\146 IN(w, s))
   (v : Cart[Real, 2])
   (u : Cart[Real, 2])

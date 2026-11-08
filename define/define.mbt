@@ -3254,7 +3254,7 @@ fn step_38() -> Unit raise {
           @lib.map(conv, @lib.range(1L, n)),
         )
         let th1 = @kernel.inst_type(
-          @list.List([(ty, @parser.parse_type("P"))]),
+          @list.List([(ty, @term_syntax.parse_type("P"))]),
           th,
         )
         let th2 = @simp.rewrite_rule(@list.List([@pair.forall_pair_thm()]))(th1)
@@ -3318,7 +3318,7 @@ fn step_38() -> Unit raise {
           @lib.map(conv_1, @lib.range(1L, n_1)),
         )
         let th1_1 = @kernel.inst_type(
-          @list.List([(ty_1, @parser.parse_type("Q"))]),
+          @list.List([(ty_1, @term_syntax.parse_type("Q"))]),
           th_1,
         )
         let th2_1 = @simp.rewrite_rule(@list.List([@pair.exists_pair_thm()]))(
@@ -4604,7 +4604,7 @@ fn step_38() -> Unit raise {
       raise Failure("prove_general_recursive_function_exists: sanity")
     }
   }
-  let num_ty = @parser.parse_type("num")
+  let num_ty = @term_syntax.parse_type("Num")
   let prove_depth_measure_exists : (String) -> @kernel.Thm raise = fn(
     x532 : String,
   ) -> @kernel.Thm raise {

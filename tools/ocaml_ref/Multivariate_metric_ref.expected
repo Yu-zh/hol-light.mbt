@@ -31348,7 +31348,7 @@ Multivariate/metric quotations (14748):
   (emb : (A, Num) -> Real)
   product_topology(UNIV, (n : Num) => euclideanreal)
   :B
-  :num->real
+  :(Num) -> Real
   (emb : (A, Num) -> Real)
   (y : A)
   (x : A)

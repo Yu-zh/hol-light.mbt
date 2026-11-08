@@ -3,7 +3,7 @@
 ///|
 /// HAS_SIZE_8
 fn step_1() -> Unit raise {
-  has_size_8_c.set(@cart.has_size_dimindex_rule(@parser.parse_type("8")))
+  has_size_8_c.set(@cart.has_size_dimindex_rule(@term_syntax.parse_type("8")))
 }
 
 ///|
@@ -18,7 +18,7 @@ pub fn has_size_8() -> @kernel.Thm {
 ///|
 /// HAS_SIZE_16
 fn step_2() -> Unit raise {
-  has_size_16_c.set(@cart.has_size_dimindex_rule(@parser.parse_type("16")))
+  has_size_16_c.set(@cart.has_size_dimindex_rule(@term_syntax.parse_type("16")))
 }
 
 ///|
@@ -33,7 +33,7 @@ pub fn has_size_16() -> @kernel.Thm {
 ///|
 /// HAS_SIZE_32
 fn step_3() -> Unit raise {
-  has_size_32_c.set(@cart.has_size_dimindex_rule(@parser.parse_type("32")))
+  has_size_32_c.set(@cart.has_size_dimindex_rule(@term_syntax.parse_type("32")))
 }
 
 ///|
@@ -48,7 +48,7 @@ pub fn has_size_32() -> @kernel.Thm {
 ///|
 /// HAS_SIZE_64
 fn step_4() -> Unit raise {
-  has_size_64_c.set(@cart.has_size_dimindex_rule(@parser.parse_type("64")))
+  has_size_64_c.set(@cart.has_size_dimindex_rule(@term_syntax.parse_type("64")))
 }
 
 ///|
@@ -63,7 +63,7 @@ pub fn has_size_64() -> @kernel.Thm {
 ///|
 /// HAS_SIZE_128
 fn step_5() -> Unit raise {
-  has_size_128_c.set(@cart.has_size_dimindex_rule(@parser.parse_type("128")))
+  has_size_128_c.set(@cart.has_size_dimindex_rule(@term_syntax.parse_type("128")))
 }
 
 ///|
@@ -78,7 +78,7 @@ pub fn has_size_128() -> @kernel.Thm {
 ///|
 /// HAS_SIZE_256
 fn step_6() -> Unit raise {
-  has_size_256_c.set(@cart.has_size_dimindex_rule(@parser.parse_type("256")))
+  has_size_256_c.set(@cart.has_size_dimindex_rule(@term_syntax.parse_type("256")))
 }
 
 ///|
@@ -93,7 +93,7 @@ pub fn has_size_256() -> @kernel.Thm {
 ///|
 /// HAS_SIZE_512
 fn step_7() -> Unit raise {
-  has_size_512_c.set(@cart.has_size_dimindex_rule(@parser.parse_type("512")))
+  has_size_512_c.set(@cart.has_size_dimindex_rule(@term_syntax.parse_type("512")))
 }
 
 ///|
@@ -2062,37 +2062,37 @@ pub fn mk_word_ty(x159 : @num.Num) -> @kernel.HolType raise {
 ///|
 /// Library/words.ml:432
 fn step_71() -> Unit raise {
-  @preterm.new_type_abbrev("nybble", @parser.parse_type("(4)word"))
+  @preterm.new_type_abbrev("nybble", @term_syntax.parse_type("Word[4]"))
 }
 
 ///|
 /// Library/words.ml:433
 fn step_72() -> Unit raise {
-  @preterm.new_type_abbrev("byte", @parser.parse_type("(8)word"))
+  @preterm.new_type_abbrev("byte", @term_syntax.parse_type("Word[8]"))
 }
 
 ///|
 /// Library/words.ml:434
 fn step_73() -> Unit raise {
-  @preterm.new_type_abbrev("int16", @parser.parse_type("(16)word"))
+  @preterm.new_type_abbrev("int16", @term_syntax.parse_type("Word[16]"))
 }
 
 ///|
 /// Library/words.ml:435
 fn step_74() -> Unit raise {
-  @preterm.new_type_abbrev("int32", @parser.parse_type("(32)word"))
+  @preterm.new_type_abbrev("int32", @term_syntax.parse_type("Word[32]"))
 }
 
 ///|
 /// Library/words.ml:436
 fn step_75() -> Unit raise {
-  @preterm.new_type_abbrev("int64", @parser.parse_type("(64)word"))
+  @preterm.new_type_abbrev("int64", @term_syntax.parse_type("Word[64]"))
 }
 
 ///|
 /// Library/words.ml:437
 fn step_76() -> Unit raise {
-  @preterm.new_type_abbrev("int128", @parser.parse_type("(128)word"))
+  @preterm.new_type_abbrev("int128", @term_syntax.parse_type("Word[128]"))
 }
 
 ///|
@@ -44425,7 +44425,7 @@ fn step_852() -> Unit raise {
     t4154,
   )
   let n_tm = @term_syntax.parse_term("(n : Num)")
-  let n_ty = @parser.parse_type("N")
+  let n_ty = @term_syntax.parse_type("N")
   let conv_cond_t : (@kernel.Term) -> @kernel.Thm raise = @simp.gen_rewrite_conv(
     fn(
       x4155 : (@kernel.Term) -> @kernel.Thm raise,
@@ -44583,7 +44583,7 @@ fn step_853() -> Unit raise {
     t4171,
   )
   let n_tm = @term_syntax.parse_term("(n : Int)")
-  let n_ty = @parser.parse_type("N")
+  let n_ty = @term_syntax.parse_type("N")
   let conv_cond_t : (@kernel.Term) -> @kernel.Thm raise = @simp.gen_rewrite_conv(
     fn(
       x4172 : (@kernel.Term) -> @kernel.Thm raise,
@@ -46747,7 +46747,7 @@ fn step_880() -> Unit raise {
   )
   let t4423 = @simp.rewrite_tac(@list.List([@calc_num.arith_zero()]))
   let qth = @tactics.prove(@term_syntax.parse_term("BIT0(_0) == _0"), t4423)
-  let nty = @parser.parse_type("N")
+  let nty = @term_syntax.parse_type("N")
   word_and_conv_c.set(fn(x4424 : @kernel.Term) -> @kernel.Thm raise {
     let tm = x4424
     match tm {
@@ -47272,7 +47272,7 @@ fn step_881() -> Unit raise {
   )
   let t4488 = @simp.rewrite_tac(@list.List([@calc_num.arith_zero()]))
   let qth = @tactics.prove(@term_syntax.parse_term("BIT0(_0) == _0"), t4488)
-  let nty = @parser.parse_type("N")
+  let nty = @term_syntax.parse_type("N")
   word_or_conv_c.set(fn(x4489 : @kernel.Term) -> @kernel.Thm raise {
     let tm = x4489
     match tm {
@@ -47797,7 +47797,7 @@ fn step_882() -> Unit raise {
   )
   let t4553 = @simp.rewrite_tac(@list.List([@calc_num.arith_zero()]))
   let qth = @tactics.prove(@term_syntax.parse_term("BIT0(_0) == _0"), t4553)
-  let nty = @parser.parse_type("N")
+  let nty = @term_syntax.parse_type("N")
   word_xor_conv_c.set(fn(x4554 : @kernel.Term) -> @kernel.Thm raise {
     let tm = x4554
     match tm {
@@ -48585,8 +48585,8 @@ pub fn word_insert_conv(x : @kernel.Term) -> @kernel.Thm raise {
 ///|
 /// WORD_DUPLICATE_CONV
 fn step_893() -> Unit raise {
-  let m_ty = @parser.parse_type("M")
-  let n_ty = @parser.parse_type("N")
+  let m_ty = @term_syntax.parse_type("M")
+  let n_ty = @term_syntax.parse_type("N")
   let m_tm = @term_syntax.parse_term("(m : Num)")
   let k_tm = @term_syntax.parse_term("(k : Num)")
   let t4657 = @simp.simp_tac(
@@ -49172,7 +49172,7 @@ fn step_894() -> Unit raise {
     @term_syntax.parse_term("∃ f : (Num, Num, Num) -> Bool, (∀ i : Num, f(i, _0) == {} && (∀ n : Num, f(i, BIT0(n)) == f(i + 1, n)) && (∀ n : Num, f(i, BIT1(n)) == INSERT(i, f(i + 1, n)))) && (∀ w : Word[N], bits_of_word(w) == f(0, val(w)))"),
     t4761,
   )
-  let nty = @parser.parse_type("N")
+  let nty = @term_syntax.parse_type("N")
   word_bits_of_word_conv_c.set(fn(x4762 : @kernel.Term) -> @kernel.Thm raise {
     let tm = x4762
     match tm {
@@ -49740,7 +49740,7 @@ fn step_895() -> Unit raise {
     @term_syntax.parse_term("∃ f : (Num) -> Num, (f(_0) == 0 && (∀ n : Num, f(BIT0(n)) == f(n)) && (∀ n : Num, f(BIT1(n)) == SUC(f(n)))) && (∀ w : Word[N], word_popcount(w) == f(val(w)))"),
     t4858,
   )
-  let nty = @parser.parse_type("N")
+  let nty = @term_syntax.parse_type("N")
   word_popcount_conv_c.set(fn(x4859 : @kernel.Term) -> @kernel.Thm raise {
     let tm = x4859
     match tm {
@@ -51815,10 +51815,10 @@ pub fn word_comparison_eq() -> @kernel.Thm {
 ///|
 /// WORDIFY_CONV
 fn step_924() -> Unit raise {
-  let m_ty = @parser.parse_type("M")
-  let n_ty = @parser.parse_type("N")
-  let p_ty = @parser.parse_type("P")
-  let num_ty = @parser.parse_type("num")
+  let m_ty = @term_syntax.parse_type("M")
+  let n_ty = @term_syntax.parse_type("N")
+  let p_ty = @term_syntax.parse_type("P")
+  let num_ty = @term_syntax.parse_type("Num")
   let and_th = @class.taut(@term_syntax.parse_term("(true && true) == true"))
   let t5103 = @simp.rewrite_tac(@list.List([val_word_bitval()]))
   let pth_bitval = @tactics.prove(
@@ -52088,8 +52088,8 @@ pub fn wordify_conv(x : @kernel.Term) -> @kernel.Thm raise {
 ///|
 /// VAL_WORD_ADJUST_CONV
 fn step_925() -> Unit raise {
-  let m_ty = @parser.parse_type("M")
-  let n_ty = @parser.parse_type("N")
+  let m_ty = @term_syntax.parse_type("M")
+  let n_ty = @term_syntax.parse_type("N")
   let t5146 = @simp.simp_tac(@list.List([val_word_zx()]))
   let pth = @tactics.prove(
     @term_syntax.parse_term("(dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (∀ x : Word[M], (val : (Word[M]) -> Num)(x) == (val : (Word[N]) -> Num)((word_zx : (Word[M]) -> Word[N])(x)))"),
@@ -52156,7 +52156,7 @@ pub fn val_word_adjust_binop_conv(x5152 : @kernel.Term) -> @kernel.Thm raise {
 ///|
 /// WORDIFY_ATOM_CONV
 fn step_926() -> Unit raise {
-  let num_ty = @parser.parse_type("num")
+  let num_ty = @term_syntax.parse_type("Num")
   let t5154 = @tactics.conv_tac(word_arith)
   let pth = @tactics.prove(
     @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ((val : (Word[N]) -> Num)(x) < (val : (Word[N]) -> Num)(y)) == (!(bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) && (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, y) || (!(bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) || (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, y)) && (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, (word_sub : (Word[N], Word[N]) -> Word[N])(x, y)))"),
@@ -52310,10 +52310,10 @@ pub fn wordify_atom_conv(x : @kernel.Term) -> @kernel.Thm raise {
 ///|
 /// IWORDIFY_CONV
 fn step_927() -> Unit raise {
-  let m_ty = @parser.parse_type("M")
-  let n_ty = @parser.parse_type("N")
-  let p_ty = @parser.parse_type("P")
-  let int_ty = @parser.parse_type("int")
+  let m_ty = @term_syntax.parse_type("M")
+  let n_ty = @term_syntax.parse_type("N")
+  let p_ty = @term_syntax.parse_type("P")
+  let int_ty = @term_syntax.parse_type("Int")
   let and_th = @class.taut(@term_syntax.parse_term("(true && true) == true"))
   let t5173 = @tactics.conv_tac(word_reduce_conv)
   let t5174 = @tactics.then_tac(
@@ -53303,8 +53303,8 @@ pub fn iwordify_conv(x : @kernel.Term) -> @kernel.Thm raise {
 ///|
 /// IVAL_WORD_ADJUST_CONV
 fn step_928() -> Unit raise {
-  let m_ty = @parser.parse_type("M")
-  let n_ty = @parser.parse_type("N")
+  let m_ty = @term_syntax.parse_type("M")
+  let n_ty = @term_syntax.parse_type("N")
   let t5309 = @simp.simp_tac(@list.List([ival_word_sx()]))
   let pth = @tactics.prove(
     @term_syntax.parse_term("(dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) → (∀ x : Word[M], (ival : (Word[M]) -> Int)(x) == (ival : (Word[N]) -> Int)((word_sx : (Word[M]) -> Word[N])(x)))"),
@@ -53371,7 +53371,7 @@ pub fn ival_word_adjust_binop_conv(x5315 : @kernel.Term) -> @kernel.Thm raise {
 ///|
 /// IWORDIFY_ATOM_CONV
 fn step_929() -> Unit raise {
-  let int_ty = @parser.parse_type("int")
+  let int_ty = @term_syntax.parse_type("Int")
   let t5317 = @tactics.conv_tac(word_arith)
   let pth = @tactics.prove(
     @term_syntax.parse_term("∀ x : Word[N], ∀ y : Word[N], ((ival : (Word[N]) -> Int)(x) < (ival : (Word[N]) -> Int)(y)) == ((bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) && !(bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, y) || ((bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) || !(bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, y)) && (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, (word_sub : (Word[N], Word[N]) -> Word[N])(x, y)))"),
@@ -53966,7 +53966,7 @@ fn step_935() -> Unit raise {
     )
   }
   let bit_tm = @term_syntax.parse_term("(bit : (Num, Word[N]) -> Bool)")
-  let n_ty = @parser.parse_type("N")
+  let n_ty = @term_syntax.parse_type("N")
   let wordbits_var : (@kernel.Term) -> @list.List[@kernel.Term] raise = fn(
     x5393 : @kernel.Term,
   ) -> @list.List[@kernel.Term] raise {

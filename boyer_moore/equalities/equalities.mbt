@@ -8,7 +8,7 @@ pub fn is_explicit_value_template(x1 : @kernel.Term) -> Bool raise {
     let constructors = x2
     let tm_1 = x3
     (@support.is_t(tm_1) || (@support.is_f(tm_1) || ((if @kernel.is_const(tm_1) {
-      let t4 = @parser.parse_type("num")
+      let t4 = @term_syntax.parse_type("Num")
       (@kernel.type_of(tm_1) == t4)
     } else {
       false

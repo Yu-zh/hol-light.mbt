@@ -50,9 +50,9 @@ fn step_2() -> Unit raise {
   let real_len = @term_syntax.parse_term("(LENGTH : (List[Real]) -> Num)")
   let sign_len = @term_syntax.parse_term("(LENGTH : (List[List[Sign]]) -> Num)")
   let num_mul = @term_syntax.parse_term("(op_star : (Num, Num) -> Num)")
-  let real_ty = @parser.parse_type("real")
+  let real_ty = @term_syntax.parse_type("Real")
   let two = @term_syntax.parse_term("2")
-  let sl_ty = @parser.parse_type("sign list")
+  let sl_ty = @term_syntax.parse_type("List[Sign]")
   fn condense_rec(x2 : @kernel.Thm) -> @kernel.Thm raise {
     let mat_thm = x2
     try {

@@ -322037,12 +322037,12 @@ test "100/pascal matches 100/pascal.ml" {
       #|  (k : Real)
       #|  (x : Cart[Real, 2])
       #|  (x : Cart[Real, 2])
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (\226\136\131 con' : _, \226\136\131 con : _, \226\136\131 a : _, \226\136\131 b : _, \226\136\131 c : _, \226\136\131 d : _, \226\136\131 e : _, \226\136\131 f : _, (P : (_, _, _, _, _, _, _, _) -> Bool)(con', con, a, b, c, d, e, f)) == (\226\136\131 a : _, \226\136\131 b : _, \226\136\131 d : _, \226\136\131 e : _, \226\136\131 f : _, \226\136\131 c : _, \226\136\131 con' : _, \226\136\131 con : _, P(con', con, a, b, c, d, e, f))
       #|  \226\136\128 con : (Cart[Real, 2]) -> Bool, affine_conic(con) == (\226\136\131 con' : (Point) -> Bool, projective_conic(con') && con == {(x : Cart[Real, 2]) | IN(projectivize(x), con')})
       #|  \226\136\128 con : (Cart[Real, 2]) -> Bool, \226\136\128 x1 : Cart[Real, 2], \226\136\128 x2 : Cart[Real, 2], \226\136\128 x3 : Cart[Real, 2], \226\136\128 x4 : Cart[Real, 2], \226\136\128 x5 : Cart[Real, 2], \226\136\128 x6 : Cart[Real, 2], \226\136\128 x7 : Cart[Real, 2], \226\136\128 x8 : Cart[Real, 2], \226\136\128 x9 : Cart[Real, 2], !collinear({x1, x2, x4}) && !collinear({x1, x2, x5}) && !collinear({x1, x2, x6}) && !collinear({x1, x3, x4}) && !collinear({x1, x3, x5}) && !collinear({x1, x3, x6}) && !collinear({x2, x3, x4}) && !collinear({x2, x3, x5}) && !collinear({x2, x3, x6}) && !collinear({x4, x5, x1}) && !collinear({x4, x5, x2}) && !collinear({x4, x5, x3}) && !collinear({x4, x6, x1}) && !collinear({x4, x6, x2}) && !collinear({x4, x6, x3}) && !collinear({x5, x6, x1}) && !collinear({x5, x6, x2}) && !collinear({x5, x6, x3}) \226\134\146 affine_conic(con) && IN(x1, con) && IN(x2, con) && IN(x3, con) && IN(x4, con) && IN(x5, con) && IN(x6, con) && collinear({x1, x9, x5}) && collinear({x1, x8, x6}) && collinear({x2, x9, x4}) && collinear({x2, x7, x6}) && collinear({x3, x8, x4}) && collinear({x3, x7, x5}) \226\134\146 collinear({x7, x8, x9})

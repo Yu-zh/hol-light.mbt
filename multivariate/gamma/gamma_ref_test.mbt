@@ -88496,9 +88496,9 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  norm((z : Cart[Real, 2])) <= norm((y : Cart[Real, 2])) + (d : Real)
       #|  ((n : Real) * (inv((k : Real)) / (d : Real)) + pow(n, 2) / k / (e : Real) <= real_of_num(2) * ((x : Real) + pow(x, 2)) / k) == (n * (real_of_num(1) / d + n / e) / k <= x * (real_of_num(2) + real_of_num(2) * x) / k)
       #|  (x' : Cart[Real, 2]) == -(y' : Cart[Real, 2]) && (d : Real) + (e : Real) <= (f : Real) \226\134\146 norm((x : Cart[Real, 2]) - x') <= d \226\134\146 norm((y : Cart[Real, 2]) - y') <= e \226\134\146 norm(x + y) <= f
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  !((k : Cart[Real, 2]) == Cx(real_of_num(0))) \226\134\146 (k + (z : Cart[Real, 2])) / k == Cx(real_of_num(1)) + z / k
       #|  norm((z : Cart[Real, 2])) < real_of_num((k : Num))
       #|  norm((z : Cart[Real, 2]))
@@ -88540,24 +88540,24 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  {(z : _) | \226\136\128 n : _, (P : (_, _) -> Bool)(n, z)} == DIFF(UNIV, {(z : _) | \226\136\131 n : _, !P(n, z)})
       #|  open({(z : Cart[Real, 2]) | \226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))})
       #|  (\226\136\128 z : Cart[Real, 2], (\226\136\128 n : Num, !(z + Cx(real_of_num(n)) == Cx(real_of_num(0)))) \226\134\146 op_minus_minus_gt((n : Num) => z * clog(Cx(real_of_num(n))) - clog(z) - vsum(op_dot_dot(1, n), (m : Num) => clog((Cx(real_of_num(m)) + z) / Cx(real_of_num(m)))), lgamma(z), sequentially)) && (\226\136\128 z : Cart[Real, 2], (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 complex_differentiable(lgamma, at(z)))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (a : Cart[Real, 2]) == (d : Cart[Real, 2]) - (c : Cart[Real, 2]) \226\134\146 (x : Cart[Real, 2]) - (y : Cart[Real, 2]) - a == x + c - (y + d)
       #|  (n : Num)
       #|  1
@@ -88763,12 +88763,12 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  real_of_num(1)
       #|  norm((w : Cart[Real, 2])) <= real_of_num(1)
       #|  norm((a : Cart[Real, 2])) <= (e : Real) && norm((b : Cart[Real, 2])) <= e \226\134\146 norm(a + b) / real_of_num(4) <= e / real_of_num(2)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (h'' : (Cart[Real, 2]) -> Cart[Real, 2])((w : Cart[Real, 2]))
       #|  \226\136\128 w : Cart[Real, 2], norm(w) <= norm(w) / real_of_num(2) && norm((z : Cart[Real, _])) <= norm(w) \226\134\146 z == vec(0)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (w : Cart[Real, 2])
       #|  cball((Cx(real_of_num(0)), real_of_num(1)))
       #|  (z : Cart[Real, 2]) => norm((h'' : (Cart[Real, 2]) -> Cart[Real, 2])(z))
@@ -88874,10 +88874,10 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
       #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]])) \226\134\146 f' == (g' : Cart[Real, 2]) \226\134\146 has_complex_derivative(f, g', net)
       #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]])) \226\134\146 f' == (g' : Cart[Real, 2]) \226\134\146 has_complex_derivative(f, g', net)
       #|  has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
       #|  Cx(real_of_num(0))
@@ -89213,8 +89213,8 @@ test "Multivariate/gamma matches Multivariate/gamma.ml" {
       #|  (t : Cart[Real, Unit]) => lift(rpow(-log(drop(t)), Re((z : Cart[Real, 2])) - real_of_num(1)))
       #|  \226\136\128 z : Cart[Real, 2], real_of_num(0) < Re(z) \226\134\146 integrable_on((t : Cart[Real, Unit]) => cpow(-clog(Cx(drop(t))), z - Cx(real_of_num(1))), interval([(vec(0), vec(1))]))
       #|  (i : Cart[Real, 2]) == (j : Cart[Real, 2]) \226\134\146 norm(i - (g : Cart[Real, 2])) < (e : Real) \226\134\146 distance((j, g)) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  lift(-log((x : Real)))
       #|  -lift((B : Real))
       #|  real_of_num(0) < (x : Real)

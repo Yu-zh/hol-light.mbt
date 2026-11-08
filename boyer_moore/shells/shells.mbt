@@ -204,7 +204,7 @@ fn step_2() -> Unit raise {
   let one_one = @list.List([@nums.suc_inj()])
   let t42 = @struct_equal.one_step_recty_eq_conv(induct, distinct, one_one)
   let t41 = @list.List([("PRE", @bool.conjunct2(@arith.pre()))])
-  num_shell_c.set(Shell::Shell("num", ShellInfo::{ arg_types: @list.List([]), constructors: @list.List([("0", @list.List([]), @list.List([])), ("SUC", @list.List([@parser.parse_type("num")]), t41)]), induct: induct, cases: cases, distinct: distinct, one_one: one_one, struct_conv: t42 }))
+  num_shell_c.set(Shell::Shell("num", ShellInfo::{ arg_types: @list.List([]), constructors: @list.List([("0", @list.List([]), @list.List([])), ("SUC", @list.List([@term_syntax.parse_type("Num")]), t41)]), induct: induct, cases: cases, distinct: distinct, one_one: one_one, struct_conv: t42 }))
 }
 
 ///|

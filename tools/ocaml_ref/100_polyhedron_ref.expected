@@ -61704,8 +61704,8 @@ Warning: inventing type variables
   (abs((e : Real)) / real_of_num(2) < e) == (real_of_num(0) < e)
   (x : Cart[Real, N]) - op_pct((a : Real), (y : Cart[Real, N]) - (z : Cart[Real, N])) == x + op_pct(a, z - y)
   distance(((u : Cart[Real, N]) - (a : Cart[Real, N]), u)) == norm(a)
-  :real
-  :real
+  :Real
+  :Real
   (u : Cart[Real, N]) - op_pct((e : Real) / real_of_num(2) / norm((v : Cart[Real, N]) - u), v - u)
   (e : Real)
   (u : Cart[Real, N])
@@ -61894,8 +61894,8 @@ Warning: inventing type variables
   (h : (Cart[Real, N]) -> Bool)
   IN((x : Cart[Real, N]) + op_pct((e : Real) / norm((y : Cart[Real, N]) - x), x - y), (s : (Cart[Real, N]) -> Bool))
   distance(((x : Cart[Real, N]), x + (r : Cart[Real, N]))) == norm(r)
-  :real
-  :real
+  :Real
+  :Real
   IN((x : Cart[Real, N]), hull(affine, (f : (Cart[Real, N]) -> Bool))) && IN((y : Cart[Real, N]), hull(affine, f))
   (x : Cart[Real, N]) + op_pct((e : Real) / norm((y : Cart[Real, N]) - x), x - y)
   !((y : Cart[Real, N]) == (x : Cart[Real, N]))

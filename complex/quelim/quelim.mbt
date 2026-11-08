@@ -2222,7 +2222,7 @@ fn step_30() -> Unit raise {
   let triv_exists_conv : (@kernel.Term) -> @kernel.Thm raise = @simp.gen_rewrite_conv(fn(x866 : (@kernel.Term) -> @kernel.Thm raise) -> ((@kernel.Term) -> @kernel.Thm raise) raise {
     x866
   }, @list.List([@theorems.exists_simp()]))
-  let complex_ty = @parser.parse_type("complex")
+  let complex_ty = @term_syntax.parse_type("Complex")
   let t873 = @simp.gen_rewrite_conv(fn(x870 : (@kernel.Term) -> @kernel.Thm raise) -> ((@kernel.Term) -> @kernel.Thm raise) raise {
     let s871 = @equal.top_depth_conv(x870)
     fn(x872 : @kernel.Term) -> @kernel.Thm raise {

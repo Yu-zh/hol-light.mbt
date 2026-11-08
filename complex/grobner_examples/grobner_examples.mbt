@@ -476,7 +476,7 @@ pub fn distinctpairs() -> @kernel.Thm {
 ///|
 /// EXPAND_COORDS_TAC
 fn step_40() -> Unit raise {
-  let complex2_ty = @parser.parse_type("real#real")
+  let complex2_ty = @term_syntax.parse_type("(Real, Real)")
   expand_coords_tac_c.set(fn(x22 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise {
     let (asl, w) = x22
     let fvs = @lib.filter(fn(x23 : @kernel.Term) -> Bool raise {

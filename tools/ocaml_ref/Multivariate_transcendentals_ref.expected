@@ -77008,8 +77008,8 @@ Multivariate/transcendentals quotations (2171):
   (e : Real) / real_of_num(2)
   (R : Real)
   \226\136\128 R : Real, \226\136\128 e : Real, real_of_num(0) < R && real_of_num(0) < e \226\134\146 (\226\136\131 N : Num, \226\136\128 n : Num, \226\136\128 z : Cart[Real, 2], n >= N && norm(z) < R \226\134\146 norm(vsum(op_dot_dot(0, n), (i : Num) => pow(z, i) / Cx(real_of_num(FACT(i)))) - cexp(z)) <= e)
-  :real
-  :real
+  :Real
+  :Real
   (w : Cart[Real, 2])
   (z : Cart[Real, 2])
   real_of_num(1)
@@ -77044,8 +77044,8 @@ Multivariate/transcendentals quotations (2171):
   ball((Cx(real_of_num(0)), norm((z : Cart[Real, 2])) + real_of_num(1)))
   \226\136\128 z : Cart[Real, 2], has_complex_derivative(cexp, cexp(z), at(z))
   has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
-  :real
-  :real
+  :Real
+  :Real
   \226\136\128 z : Cart[Real, 2], complex_differentiable(cexp, at(z))
   \226\136\128 s : (Cart[Real, 2]) -> Bool, \226\136\128 z : Cart[Real, 2], complex_differentiable(cexp, within(at(z), s))
   \226\136\128 z : Cart[Real, 2], continuous(cexp, at(z))
@@ -77072,8 +77072,8 @@ Multivariate/transcendentals quotations (2171):
   op_minus_minus_gt((z : Cart[Real, 2]) => (cexp(z) - Cx(real_of_num(1))) / z, Cx(real_of_num(1)), at(Cx(real_of_num(0))))
   Cx(real_of_num(0))
   norm((y : Cart[Real, 2])) == real_of_num(1) && (d : Real) <= (e : Real) \226\134\146 norm((x : Cart[Real, 2]) - y) <= d \226\134\146 norm(x) <= real_of_num(1) + e
-  :real
-  :real
+  :Real
+  :Real
   Cx(real_of_num(0))
   (z : Cart[Real, 2])
   (B : Real)
@@ -77081,10 +77081,10 @@ Multivariate/transcendentals quotations (2171):
   cexp
   cexp
   \226\136\128 B : Real, (\226\136\128 z : Cart[Real, 2], norm(z) <= real_of_num(1) / real_of_num(2) \226\134\146 norm(cexp(z)) <= B) \226\134\146 (\226\136\128 z : Cart[Real, 2], norm(z) <= real_of_num(1) / real_of_num(2) \226\134\146 norm(cexp(z)) <= real_of_num(1) + B / real_of_num(2))
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   (z : Cart[Real, 2])
   (w : Cart[Real, 2])
   (w : Cart[Real, 2])
@@ -77092,8 +77092,8 @@ Multivariate/transcendentals quotations (2171):
   IMAGE(cexp, cball((Cx(real_of_num(0)), real_of_num(1) / real_of_num(2))))
   \226\136\128 z : Cart[Real, 2], norm(z) <= real_of_num(1) / real_of_num(2) \226\134\146 norm(cexp(z)) <= real_of_num(2)
   norm((y : Cart[Real, 2])) == real_of_num(1) \226\134\146 norm((x : Cart[Real, 2]) - y) <= (d : Real) \226\134\146 norm(x) <= real_of_num(1) + d
-  :real
-  :real
+  :Real
+  :Real
   Cx(real_of_num(0))
   (z : Cart[Real, 2])
   real_of_num(2)
@@ -77579,16 +77579,16 @@ Multivariate/transcendentals quotations (2171):
   (z : Cart[Real, 2])
   exp(real_of_num(0)) == real_of_num(1) && (exp(real_of_num(0)) <= (w : Real) || exp(real_of_num(0)) <= (z : Real)) && w <= (u : Real) && z <= u \226\134\146 w + z <= real_of_num(2) * u
   norm((a : Cart[Real, 2])) + norm((b : Cart[Real, 2])) <= (d : Real) \226\134\146 norm(a + b) <= d
-  :real
-  :real
+  :Real
+  :Real
   ((x : Real) / real_of_num(2) <= (y : Real)) == (x <= real_of_num(2) * y)
   \226\136\128 z : Cart[Real, 2], norm(ccos(z)) <= exp(norm(z))
   (z : Cart[Real, 2])
   exp(real_of_num(0)) == real_of_num(1) && (exp(real_of_num(0)) <= (w : Real) || exp(real_of_num(0)) <= (z : Real)) && w <= (u : Real) && z <= u \226\134\146 real_of_num(2) + (w + z) <= real_of_num(4) * u
   norm((a : Cart[Real, 2])) + (norm((b : Cart[Real, 2])) + norm((c : Cart[Real, 2]))) <= (d : Real) \226\134\146 norm(a + (b + c)) <= d
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   ((x : Real) / real_of_num(2) <= real_of_num(2) * (y : Real)) == (x <= real_of_num(4) * y)
   Cx(real_of_num(1)) + ((z : Cart[Real, 2]) + (z' : Cart[Real, 2])) / Cx(real_of_num(2)) == (Cx(real_of_num(2)) + (z + z')) / Cx(real_of_num(2))
   \226\136\128 z : Cart[Real, 2], norm(Cx(real_of_num(1)) + ccos(z)) <= real_of_num(2) * exp(norm(z))
@@ -77608,9 +77608,9 @@ Multivariate/transcendentals quotations (2171):
   EVEN((k : Num))
   (k : Num)
   (sp : Cart[Real, 2]) - (sn : Cart[Real, 2]) == (s2 : Cart[Real, 2]) \226\134\146 norm((en : Cart[Real, 2]) - sn) <= (d : Real) \226\134\146 norm((ep : Cart[Real, 2]) - sp) <= d \226\134\146 norm(ep - en - s2) <= real_of_num(2) * d
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   ((x : Real) / real_of_num(2) <= (y : Real)) == (x <= real_of_num(2) * y)
   (a : Cart[Real, 2]) / (Cx(real_of_num(2)) * ii) - (b : Cart[Real, 2]) == (a - Cx(real_of_num(2)) * (ii * b)) / (Cx(real_of_num(2)) * ii)
   (z : Cart[Real, 2])
@@ -77620,8 +77620,8 @@ Multivariate/transcendentals quotations (2171):
   ii * (z : Cart[Real, 2])
   (k : Num)
   (s : Cart[Real, 2]) == (t : Cart[Real, 2]) \226\134\146 norm((x : Cart[Real, 2]) - s) <= (e : Real) \226\134\146 norm(x - t) <= e
-  :real
-  :real
+  :Real
+  :Real
   SUC(2 * (n : Num) + 1) == 2 * n + 2
   (z : Cart[Real, 2])
   SUC(2 * (n : Num) + 1)
@@ -77633,9 +77633,9 @@ Multivariate/transcendentals quotations (2171):
   EVEN((k : Num))
   (k : Num)
   (sp : Cart[Real, 2]) + (sn : Cart[Real, 2]) == (s2 : Cart[Real, 2]) \226\134\146 norm((en : Cart[Real, 2]) - sn) <= (d : Real) \226\134\146 norm((ep : Cart[Real, 2]) - sp) <= d \226\134\146 norm(ep + en - s2) <= real_of_num(2) * d
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   ((x : Real) / real_of_num(2) <= (y : Real)) == (x <= real_of_num(2) * y)
   (a : Cart[Real, 2]) / Cx(real_of_num(2)) - (b : Cart[Real, 2]) == (a - Cx(real_of_num(2)) * b) / Cx(real_of_num(2))
   (z : Cart[Real, 2])
@@ -77645,8 +77645,8 @@ Multivariate/transcendentals quotations (2171):
   ii * (z : Cart[Real, 2])
   (k : Num)
   (s : Cart[Real, 2]) == (t : Cart[Real, 2]) \226\134\146 norm((x : Cart[Real, 2]) - s) <= (e : Real) \226\134\146 norm(x - t) <= e
-  :real
-  :real
+  :Real
+  :Real
   2 * (n : Num) + 1 + 1 == 2 * n + 2
   (z : Cart[Real, 2])
   2 * (n : Num) + 1
@@ -78082,12 +78082,12 @@ Multivariate/transcendentals quotations (2171):
   (z : Cart[Real, 2]) => cexp(clog(z) / Cx(real_of_num(2)))
   (z : Cart[Real, 2]) == Cx(real_of_num(0))
   \226\136\128 z : Cart[Real, 2], (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 has_complex_derivative(csqrt, inv(Cx(real_of_num(2)) * csqrt(z)), at(z))
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   has_complex_derivative((f : (Cart[Real, 2]) -> Cart[Real, 2]), (f' : Cart[Real, 2]), (net : Net[Cart[Real, 2]]))
   \226\136\128 z : Cart[Real, 2], (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 complex_differentiable(csqrt, at(z))
   \226\136\128 s : (Cart[Real, 2]) -> Bool, \226\136\128 z : Cart[Real, 2], (Im(z) == real_of_num(0) \226\134\146 real_of_num(0) < Re(z)) \226\134\146 complex_differentiable(csqrt, within(at(z), s))

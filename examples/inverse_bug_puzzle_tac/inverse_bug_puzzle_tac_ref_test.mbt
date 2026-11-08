@@ -40116,7 +40116,7 @@ test "Examples/inverse_bug_puzzle_tac matches Examples/inverse_bug_puzzle_tac.ml
       #|0..0..1..7..33..122..solved at 346
       #|0..0..0..2..4..6..8..10..solved at 18
       #|Examples/inverse_bug_puzzle_tac quotations (137):
-      #|  :real^2#real^2#real^2
+      #|  :(Cart[Real, 2], Cart[Real, 2], Cart[Real, 2])
       #|  \226\136\128 y : Cart[Real, 2], \226\136\128 z : Cart[Real, 2], collinear({vec(0), y, z}) == (op_dollar(z, 1) * op_dollar(y, 2) == op_dollar(y, 1) * op_dollar(z, 2))
       #|  !collinear({(a : Cart[Real, _]), (b : Cart[Real, _]), (c : Cart[Real, _])}) \226\134\146 !(a == b) && !(a == c) && !(b == c)
       #|  SUBSET({(A : _), (C : _), (B : _)}, {A, B, C}) && SUBSET({B, A, C}, {A, B, C}) && SUBSET({B, C, A}, {A, B, C}) && SUBSET({C, A, B}, {A, B, C}) && SUBSET({C, B, A}, {A, B, C})

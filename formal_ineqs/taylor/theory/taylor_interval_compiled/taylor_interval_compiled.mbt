@@ -2279,13 +2279,13 @@ pub fn real_differentiable_at_abs_neg() -> @kernel.Thm {
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:451
 fn step_61() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("real->real")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(Real) -> Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:452
 fn step_62() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("x", @parser.parse_type("real")))
+  @sections.add_section_var(@kernel.mk_var("x", @term_syntax.parse_type("Real")))
 }
 
 ///|
@@ -4284,15 +4284,15 @@ fn step_137() -> Unit raise {
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:689
 fn step_138() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("real -> real")))
-  @sections.add_section_var(@kernel.mk_var("g", @parser.parse_type("real -> real")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(Real) -> Real")))
+  @sections.add_section_var(@kernel.mk_var("g", @term_syntax.parse_type("(Real) -> Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:690
 fn step_139() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("x", @parser.parse_type("real")))
-  @sections.add_section_var(@kernel.mk_var("c", @parser.parse_type("real")))
+  @sections.add_section_var(@kernel.mk_var("x", @term_syntax.parse_type("Real")))
+  @sections.add_section_var(@kernel.mk_var("c", @term_syntax.parse_type("Real")))
 }
 
 ///|
@@ -5756,20 +5756,20 @@ fn step_204() -> Unit raise {
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:860
 fn step_205() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("real->real")))
-  @sections.add_section_var(@kernel.mk_var("g", @parser.parse_type("real->real")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(Real) -> Real")))
+  @sections.add_section_var(@kernel.mk_var("g", @term_syntax.parse_type("(Real) -> Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:861
 fn step_206() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("int", @parser.parse_type("real#real")))
+  @sections.add_section_var(@kernel.mk_var("int", @term_syntax.parse_type("(Real, Real)")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:862
 fn step_207() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("n", @parser.parse_type("num")))
+  @sections.add_section_var(@kernel.mk_var("n", @term_syntax.parse_type("Num")))
 }
 
 ///|
@@ -12112,30 +12112,30 @@ pub fn iabs_pos() -> @kernel.Thm {
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1479
 fn step_347() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("real -> real")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(Real) -> Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1480
 fn step_348() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("x", @parser.parse_type("real")))
-  @sections.add_section_var(@kernel.mk_var("y", @parser.parse_type("real")))
-  @sections.add_section_var(@kernel.mk_var("z", @parser.parse_type("real")))
-  @sections.add_section_var(@kernel.mk_var("w", @parser.parse_type("real")))
+  @sections.add_section_var(@kernel.mk_var("x", @term_syntax.parse_type("Real")))
+  @sections.add_section_var(@kernel.mk_var("y", @term_syntax.parse_type("Real")))
+  @sections.add_section_var(@kernel.mk_var("z", @term_syntax.parse_type("Real")))
+  @sections.add_section_var(@kernel.mk_var("w", @term_syntax.parse_type("Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1481
 fn step_349() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f_bounds", @parser.parse_type("real#real")))
-  @sections.add_section_var(@kernel.mk_var("df_bounds", @parser.parse_type("real#real")))
-  @sections.add_section_var(@kernel.mk_var("ddf_bounds", @parser.parse_type("real#real")))
+  @sections.add_section_var(@kernel.mk_var("f_bounds", @term_syntax.parse_type("(Real, Real)")))
+  @sections.add_section_var(@kernel.mk_var("df_bounds", @term_syntax.parse_type("(Real, Real)")))
+  @sections.add_section_var(@kernel.mk_var("ddf_bounds", @term_syntax.parse_type("(Real, Real)")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1482
 fn step_350() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("dd_bound", @parser.parse_type("real")))
+  @sections.add_section_var(@kernel.mk_var("dd_bound", @term_syntax.parse_type("Real")))
 }
 
 ///|
@@ -14030,20 +14030,20 @@ fn step_372() -> Unit raise {
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1644
 fn step_373() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("real->real")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(Real) -> Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1645
 fn step_374() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f_bounds", @parser.parse_type("real#real")))
-  @sections.add_section_var(@kernel.mk_var("df_bounds", @parser.parse_type("real#real")))
+  @sections.add_section_var(@kernel.mk_var("f_bounds", @term_syntax.parse_type("(Real, Real)")))
+  @sections.add_section_var(@kernel.mk_var("df_bounds", @term_syntax.parse_type("(Real, Real)")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1646
 fn step_375() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("x", @parser.parse_type("real")))
+  @sections.add_section_var(@kernel.mk_var("x", @term_syntax.parse_type("Real")))
 }
 
 ///|
@@ -14325,28 +14325,28 @@ fn step_386() -> Unit raise {
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1691
 fn step_387() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("real->real")))
-  @sections.add_section_var(@kernel.mk_var("g", @parser.parse_type("real->real")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(Real) -> Real")))
+  @sections.add_section_var(@kernel.mk_var("g", @term_syntax.parse_type("(Real) -> Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1692
 fn step_388() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("x", @parser.parse_type("real")))
+  @sections.add_section_var(@kernel.mk_var("x", @term_syntax.parse_type("Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1693
 fn step_389() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f_bounds", @parser.parse_type("real#real")))
-  @sections.add_section_var(@kernel.mk_var("df_bounds", @parser.parse_type("real#real")))
+  @sections.add_section_var(@kernel.mk_var("f_bounds", @term_syntax.parse_type("(Real, Real)")))
+  @sections.add_section_var(@kernel.mk_var("df_bounds", @term_syntax.parse_type("(Real, Real)")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1694
 fn step_390() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("g_bounds", @parser.parse_type("real#real")))
-  @sections.add_section_var(@kernel.mk_var("dg_bounds", @parser.parse_type("real#real")))
+  @sections.add_section_var(@kernel.mk_var("g_bounds", @term_syntax.parse_type("(Real, Real)")))
+  @sections.add_section_var(@kernel.mk_var("dg_bounds", @term_syntax.parse_type("(Real, Real)")))
 }
 
 ///|
@@ -15846,43 +15846,43 @@ fn step_447() -> Unit raise {
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1917
 fn step_448() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f1", @parser.parse_type("real->real")))
-  @sections.add_section_var(@kernel.mk_var("f2", @parser.parse_type("real->real")))
+  @sections.add_section_var(@kernel.mk_var("f1", @term_syntax.parse_type("(Real) -> Real")))
+  @sections.add_section_var(@kernel.mk_var("f2", @term_syntax.parse_type("(Real) -> Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1918
 fn step_449() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f1_bounds", @parser.parse_type("real#real")))
-  @sections.add_section_var(@kernel.mk_var("f2_bounds", @parser.parse_type("real#real")))
+  @sections.add_section_var(@kernel.mk_var("f1_bounds", @term_syntax.parse_type("(Real, Real)")))
+  @sections.add_section_var(@kernel.mk_var("f2_bounds", @term_syntax.parse_type("(Real, Real)")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1919
 fn step_450() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("df1_lo", @parser.parse_type("real")))
-  @sections.add_section_var(@kernel.mk_var("df1_hi", @parser.parse_type("real")))
-  @sections.add_section_var(@kernel.mk_var("df2_lo", @parser.parse_type("real")))
-  @sections.add_section_var(@kernel.mk_var("df2_hi", @parser.parse_type("real")))
+  @sections.add_section_var(@kernel.mk_var("df1_lo", @term_syntax.parse_type("Real")))
+  @sections.add_section_var(@kernel.mk_var("df1_hi", @term_syntax.parse_type("Real")))
+  @sections.add_section_var(@kernel.mk_var("df2_lo", @term_syntax.parse_type("Real")))
+  @sections.add_section_var(@kernel.mk_var("df2_hi", @term_syntax.parse_type("Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1920
 fn step_451() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f_bounds", @parser.parse_type("real#real")))
+  @sections.add_section_var(@kernel.mk_var("f_bounds", @term_syntax.parse_type("(Real, Real)")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1921
 fn step_452() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("df_lo", @parser.parse_type("real")))
-  @sections.add_section_var(@kernel.mk_var("df_hi", @parser.parse_type("real")))
+  @sections.add_section_var(@kernel.mk_var("df_lo", @term_syntax.parse_type("Real")))
+  @sections.add_section_var(@kernel.mk_var("df_hi", @term_syntax.parse_type("Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1922
 fn step_453() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("x", @parser.parse_type("real")))
+  @sections.add_section_var(@kernel.mk_var("x", @term_syntax.parse_type("Real")))
 }
 
 ///|
@@ -16178,21 +16178,21 @@ fn step_461() -> Unit raise {
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1964
 fn step_462() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f1", @parser.parse_type("real->real")))
-  @sections.add_section_var(@kernel.mk_var("f2", @parser.parse_type("real->real")))
+  @sections.add_section_var(@kernel.mk_var("f1", @term_syntax.parse_type("(Real) -> Real")))
+  @sections.add_section_var(@kernel.mk_var("f2", @term_syntax.parse_type("(Real) -> Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1965
 fn step_463() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("int", @parser.parse_type("real#real")))
+  @sections.add_section_var(@kernel.mk_var("int", @term_syntax.parse_type("(Real, Real)")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:1966
 fn step_464() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("dd1", @parser.parse_type("real#real")))
-  @sections.add_section_var(@kernel.mk_var("dd2", @parser.parse_type("real#real")))
+  @sections.add_section_var(@kernel.mk_var("dd1", @term_syntax.parse_type("(Real, Real)")))
+  @sections.add_section_var(@kernel.mk_var("dd2", @term_syntax.parse_type("(Real, Real)")))
 }
 
 ///|
@@ -21354,13 +21354,13 @@ pub fn continuous_lt_exists_open() -> @kernel.Thm {
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:2578
 fn step_507() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("real->real")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(Real) -> Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:2579
 fn step_508() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("x", @parser.parse_type("real")))
+  @sections.add_section_var(@kernel.mk_var("x", @term_syntax.parse_type("Real")))
 }
 
 ///|
@@ -30071,33 +30071,33 @@ pub fn taylor_const() -> @kernel.Thm {
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:3620
 fn step_733() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("real->real")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(Real) -> Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:3621
 fn step_734() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("x", @parser.parse_type("real")))
-  @sections.add_section_var(@kernel.mk_var("y", @parser.parse_type("real")))
-  @sections.add_section_var(@kernel.mk_var("z", @parser.parse_type("real")))
-  @sections.add_section_var(@kernel.mk_var("w", @parser.parse_type("real")))
+  @sections.add_section_var(@kernel.mk_var("x", @term_syntax.parse_type("Real")))
+  @sections.add_section_var(@kernel.mk_var("y", @term_syntax.parse_type("Real")))
+  @sections.add_section_var(@kernel.mk_var("z", @term_syntax.parse_type("Real")))
+  @sections.add_section_var(@kernel.mk_var("w", @term_syntax.parse_type("Real")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:3622
 fn step_735() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f_bounds", @parser.parse_type("real#real")))
-  @sections.add_section_var(@kernel.mk_var("df_bounds", @parser.parse_type("real#real")))
-  @sections.add_section_var(@kernel.mk_var("dd_bounds", @parser.parse_type("real#real")))
+  @sections.add_section_var(@kernel.mk_var("f_bounds", @term_syntax.parse_type("(Real, Real)")))
+  @sections.add_section_var(@kernel.mk_var("df_bounds", @term_syntax.parse_type("(Real, Real)")))
+  @sections.add_section_var(@kernel.mk_var("dd_bounds", @term_syntax.parse_type("(Real, Real)")))
 }
 
 ///|
 /// Formal_ineqs/taylor/theory/taylor_interval-compiled.hl:3623
 fn step_736() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f_lo", @parser.parse_type("real")))
-  @sections.add_section_var(@kernel.mk_var("f_hi", @parser.parse_type("real")))
-  @sections.add_section_var(@kernel.mk_var("df_lo", @parser.parse_type("real")))
-  @sections.add_section_var(@kernel.mk_var("df_hi", @parser.parse_type("real")))
+  @sections.add_section_var(@kernel.mk_var("f_lo", @term_syntax.parse_type("Real")))
+  @sections.add_section_var(@kernel.mk_var("f_hi", @term_syntax.parse_type("Real")))
+  @sections.add_section_var(@kernel.mk_var("df_lo", @term_syntax.parse_type("Real")))
+  @sections.add_section_var(@kernel.mk_var("df_hi", @term_syntax.parse_type("Real")))
 }
 
 ///|

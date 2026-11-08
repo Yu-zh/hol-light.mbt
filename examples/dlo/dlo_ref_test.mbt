@@ -5803,7 +5803,7 @@ test "Examples/dlo matches Examples/dlo.ml" {
       #|  \226\136\128 l : Real, \226\136\128 ls : List[Real], (\226\136\131 x : Real, ALL((l : Real) => l < x, CONS(l, ls))) == true
       #|  \226\136\128 r : Real, \226\136\128 rs : List[Real], (\226\136\131 x : Real, ALL((r : Real) => x < r, CONS(r, rs))) == true
       #|  \226\136\128 l : Real, \226\136\128 ls : List[Real], \226\136\128 r : Real, \226\136\128 rs : List[Real], (\226\136\131 x : Real, ALL((l : Real) => l < x, CONS(l, ls)) && ALL((r : Real) => x < r, CONS(r, rs))) == ALL((l : Real) => ALL((r : Real) => l < r, CONS(r, rs)), CONS(l, ls))
-      #|  :real
+      #|  :Real
       #|  ((a : Bool) && true) == a
       #|  (\226\136\131 x : _, x == x) == true && (\226\136\131 x : _, x == (t : _)) == true && (\226\136\131 x : _, t == x) == true && (\226\136\131 x : _, x == t && (P : (_) -> Bool)(x)) == P(t) && (\226\136\131 x : _, t == x && P(x)) == P(t)
       #|  (\226\136\131 x : _, x == x && (P : (_) -> Bool)(x)) == (\226\136\131 x : _, P(x))

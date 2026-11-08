@@ -17579,7 +17579,7 @@ pub fn num_range_cases_then(x10040 : @kernel.Term, x10041 : Int64, x10042 : ((@l
   fn cases(x10044 : @kernel.Term, x10045 : Int64) -> @tactics.Tactic raise {
     let tm_1 = x10044
     let i = x10045
-    let v = @basics.genvar(@parser.parse_type("num"))
+    let v = @basics.genvar(@term_syntax.parse_type("Num"))
     let t10054 = @list.List([tac, if (i == hi) {
       @int.asm_arith_tac
     } else {

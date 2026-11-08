@@ -1318,8 +1318,8 @@ pub fn vector_zip() -> @kernel.Thm {
 fn step_63() -> Unit raise {
   let t256 = @simp.asm_simp_tac(@list.List([vector_zip(), @cart.lambda_beta()]))
   let t254 = @bool.spec_all(finite_index_inrange_2())
-  let t253 = @parser.parse_type("C")
-  let t255 = @tactics.choose_tac(@kernel.inst_type(@list.List([(@parser.parse_type("A#B"), t253)]), t254))
+  let t253 = @term_syntax.parse_type("C")
+  let t255 = @tactics.choose_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("(A, B)"), t253)]), t254))
   let t257 = @tactics.then_tac(@tactics.then_tac(@tactics.repeat_tac(@tactics.gen_tac), t255), t256)
   vector_zip_component_c.set(@tactics.prove(@term_syntax.parse_term("∀ i : Num, ∀ v1 : Cart[A, N], ∀ v2 : Cart[B, N], op_dollar(vector_zip(v1, v2), i) == (op_dollar(v1, i), op_dollar(v2, i))"), t257))
 }
@@ -1383,7 +1383,7 @@ pub fn vector_map2_as_vector_map() -> @kernel.Thm {
 ///|
 /// Multivariate/cvectors.ml:480
 fn step_67() -> Unit raise {
-  @preterm.make_overloadable("%", @parser.parse_type("A-> B-> B"))
+  @preterm.make_overloadable("%", @term_syntax.parse_type("(A, B) -> B"))
 }
 
 ///|
@@ -5716,16 +5716,16 @@ fn step_301() -> Unit raise {
   let t930 = @tactics.exists_tac(@term_syntax.parse_term("fstcart((l : Cart[Real, Finite_sum[N, N]]))"))
   let t929 = @tactics.exists_tac(@term_syntax.parse_term("o(cvector_re, (f : (Num) -> Cart[Cart[Real, 2], N]))"))
   let t926 = @bool.spec_all(sums_pastecart())
-  let t925 = @parser.parse_type("M")
-  let t927 = @kernel.inst_type(@list.List([(@parser.parse_type("N"), t925)]), t926)
+  let t925 = @term_syntax.parse_type("M")
+  let t927 = @kernel.inst_type(@list.List([(@term_syntax.parse_type("N"), t925)]), t926)
   let t928 = @tactics.match_mp_tac(@bool.gen_all(@drule.match_mp(@class.taut(@term_syntax.parse_term("((p : Bool) && (q : Bool)) == (r : Bool) → r → q")))(t927)))
   let t932 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.exists_tac(@term_syntax.parse_term("sndcart((l : Cart[Real, Finite_sum[N, N]]))")), t928), t929), t930), t931)
   let t924 = @simp.asm_rewrite_tac(@list.List([@class.eta_ax(), @trivia.o_def(), @cart.pastecart_fst_snd()]))
   let t923 = @tactics.exists_tac(@term_syntax.parse_term("sndcart((l : Cart[Real, Finite_sum[N, N]]))"))
   let t922 = @tactics.exists_tac(@term_syntax.parse_term("o(cvector_im, (f : (Num) -> Cart[Cart[Real, 2], N]))"))
   let t919 = @bool.spec_all(sums_pastecart())
-  let t918 = @parser.parse_type("M")
-  let t920 = @kernel.inst_type(@list.List([(@parser.parse_type("N"), t918)]), t919)
+  let t918 = @term_syntax.parse_type("M")
+  let t920 = @kernel.inst_type(@list.List([(@term_syntax.parse_type("N"), t918)]), t919)
   let t921 = @tactics.match_mp_tac(@bool.gen_all(@drule.match_mp(@class.taut(@term_syntax.parse_term("((p : Bool) && (q : Bool)) == (r : Bool) → r → p")))(t920)))
   let t933 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.exists_tac(@term_syntax.parse_term("fstcart((l : Cart[Real, Finite_sum[N, N]]))")), t921), t922), t923), t924)
   let t917 = @simp.asm_simp_tac(@list.List([@equal.gsym(sums_pastecart())]))

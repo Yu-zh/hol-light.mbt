@@ -94,7 +94,7 @@ fn step_2() -> Unit raise {
   let t27 = contrapos(@bool.disch_all(@equal.sym(@kernel.assume_rule(@term_syntax.parse_term("(a : A) == (b : A)")))))
   let t26 = @term_syntax.parse_term("(b : A)")
   let pth = @bool.genl(@list.List([@term_syntax.parse_term("(a : A)"), t26]), t27)
-  let aty = @parser.parse_type("A")
+  let aty = @term_syntax.parse_type("A")
   not_eq_sym_c.set(fn(x28 : @kernel.Thm) -> @kernel.Thm raise {
     let th = x28
     try {

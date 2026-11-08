@@ -114469,18 +114469,18 @@ test "WZ/examples matches WZ/examples.ml" {
       #|WZ/examples quotations (33048):
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => real_of_num(binom((n, k))) / spow(real_of_num(2), real_of_num(n)))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_mul
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -114488,7 +114488,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -114699,21 +114699,21 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => pow(real_of_num(binom((n, k))), 2) / real_of_num(binom((2 * n, n))))
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_mul
@@ -114722,10 +114722,10 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -114733,7 +114733,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -115140,36 +115140,36 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => real_of_num(binom((n, k))) * (real_of_num(binom(((m : Num), k + (p : Num)))) / real_of_num(binom((n + m, n + p)))))
       #|  real_of_num((p : Num)) <= real_of_num((m : Num))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  real_add
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_add
       #|  real_add
       #|  real_mul
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
       #|  real_of_num
-      #|  :num
+      #|  :Num
       #|  real_of_num
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -115177,7 +115177,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -115501,16 +115501,16 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num) + 1), (k : Num) => real_of_num(binom((n + 1, k + 1))) * ((real_of_num(k) + real_of_num(1)) * ((real_of_num(k) + real_of_num(1)) * (real_of_num(FACT(k)) / spow(real_of_num(n) + real_of_num(1), real_of_num(k) + real_of_num(1))))))
-      #|  :real
+      #|  :Real
       #|  real_div
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -115518,7 +115518,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -115835,23 +115835,23 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => spow(-real_of_num(1), real_of_num(k)) * (real_of_num(binom((n, k))) * (real_of_num(binom((2 * k, k))) * (spow(real_of_num(4), real_of_num(n)) / spow(real_of_num(4), real_of_num(k))))) / real_of_num(binom((2 * n, n))))
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_mul
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -115859,7 +115859,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -116444,16 +116444,16 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num) + 1), (k : Num) => spow(-real_of_num(1), real_of_num(k)) * real_of_num(binom((n + 1, k))))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_add
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -116461,7 +116461,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -116640,21 +116640,21 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => pow(real_of_num(binom((n + k, k))), 2) * pow(real_of_num(binom((n, k))), 2))
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_add
@@ -116662,41 +116662,41 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_mul
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_pow
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_pow
       #|  real_mul
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_pow
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_add
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_pow
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -116704,7 +116704,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -117443,91 +117443,91 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, 2 * (n : Num)), (k : Num) => spow(-real_of_num(1), real_of_num(k)) * pow(real_of_num(binom((2 * n, k))), 3) / (spow(-real_of_num(1), real_of_num(n)) * (real_of_num(FACT(3 * n)) / pow(real_of_num(FACT(n)), 3))))
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
-      #|  real_pow
-      #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  real_mul
-      #|  real_sub
-      #|  :real
-      #|  real_pow
-      #|  real_mul
-      #|  :real
-      #|  real_pow
-      #|  :real
-      #|  real_pow
-      #|  real_mul
-      #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
-      #|  real_pow
-      #|  real_mul
-      #|  real_mul
-      #|  real_sub
-      #|  :real
-      #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
-      #|  real_mul
-      #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
+      #|  real_pow
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  real_pow
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
-      #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
+      #|  real_pow
+      #|  :Real
+      #|  real_mul
+      #|  real_mul
+      #|  :Real
+      #|  real_pow
+      #|  :Real
+      #|  real_mul
+      #|  real_mul
+      #|  real_sub
+      #|  :Real
+      #|  real_pow
+      #|  :Real
+      #|  real_mul
+      #|  real_mul
+      #|  :Real
+      #|  :Real
+      #|  real_mul
+      #|  real_mul
+      #|  real_sub
+      #|  :Real
+      #|  real_mul
+      #|  :Real
+      #|  real_pow
+      #|  real_mul
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
@@ -117542,22 +117542,22 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_add
       #|  real_add
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_mul
@@ -117566,10 +117566,10 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_mul
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -117577,7 +117577,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -119147,43 +119147,43 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => pow(real_of_num(binom((n, k))), 3))
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
@@ -119193,37 +119193,37 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_add
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_pow
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_pow
       #|  real_mul
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_pow
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -119231,7 +119231,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -119957,20 +119957,20 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => (real_of_num(1) - real_of_num(2) * real_of_num(n)) * (spow(-real_of_num(1), real_of_num(k)) * (real_of_num(binom((n, k))) * spow(real_of_num(4), real_of_num(k))) / real_of_num(binom((2 * k, k)))))
-      #|  :real
+      #|  :Real
       #|  real_div
       #|  real_sub
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -119978,7 +119978,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -120356,35 +120356,35 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => spow(-real_of_num(1), real_of_num(k)) * (real_of_num(binom((n, k))) / real_of_num(FACT(k))))
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_mul
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_mul
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_add
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -120392,7 +120392,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -120775,40 +120775,40 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(UNIV, (k : Num) => spow(-real_of_num(1), real_of_num(k)) * (real_of_num(binom(((a : Num) + (n : Num), a + k))) * (real_of_num(binom((a + (c : Num), c + k))) * real_of_num(binom((n + c, n + k)))) / (real_of_num(FACT(a + (n + c))) / (real_of_num(FACT(a)) * (real_of_num(FACT(n)) * real_of_num(FACT(c)))))))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_add
       #|  real_mul
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  real_add
       #|  real_add
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_mul
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
       #|  real_of_num
-      #|  :num
+      #|  :Num
       #|  real_of_num
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -120816,7 +120816,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -121388,36 +121388,36 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(UNIV, (k : Num) => spow(-real_of_num(1), real_of_num(k)) * pow(real_of_num(binom((2 * (n : Num), k))), 2) / (spow(-real_of_num(1), real_of_num(n)) * real_of_num(binom((2 * n, n)))))
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
       #|  real_add
       #|  real_add
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_pow
@@ -121426,10 +121426,10 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -121437,7 +121437,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -122143,19 +122143,19 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num) + 1), (k : Num) => real_of_num(k) * (real_of_num(binom((n + 1, k))) / ((real_of_num(n) + real_of_num(1)) * spow(real_of_num(2), real_of_num(n)))))
-      #|  :real
+      #|  :Real
       #|  real_sub
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_mul
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -122163,7 +122163,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -122558,23 +122558,23 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num) + 1), (k : Num) => real_of_num(binom((n + (1 + k), 2 * k))) * (real_of_num(binom((2 * k, k))) * (spow(-real_of_num(1), real_of_num(k)) / (real_of_num(k) + real_of_num(1)))))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_add
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_add
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -122582,7 +122582,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -123080,26 +123080,26 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(UNIV, (k : Num) => (real_of_num((n : Num)) + real_of_num(2)) / (real_of_num(2) * real_of_num(k) + real_of_num(1)) * (real_of_num(binom((n, 2 * k))) * (spow(real_of_num(2), real_of_num(n) - real_of_num(2) * real_of_num(k) - real_of_num(1)) * (real_of_num(binom((2 * k + 1, k))) / real_of_num(binom((2 * n + 1, n)))))))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_add
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_mul
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -123107,7 +123107,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -124268,23 +124268,23 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(UNIV, (k : Num) => real_of_num(binom((2 * (n : Num) + 1, 2 * k))) * (spow(real_of_num(3), real_of_num(k)) / spow(real_of_num(2), real_of_num(n))))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
@@ -124292,23 +124292,23 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_add
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
@@ -124321,10 +124321,10 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_div
       #|  real_pow
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -124332,7 +124332,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -125704,36 +125704,36 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => pow(real_of_num(binom((n, k))), 2) * real_of_num(binom((2 * k, n))))
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_sub
-      #|  :real
-      #|  :real
-      #|  real_mul
-      #|  real_sub
-      #|  real_add
-      #|  :real
-      #|  real_mul
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
+      #|  :Real
+      #|  real_mul
+      #|  :Real
+      #|  real_mul
+      #|  real_sub
+      #|  real_add
       #|  real_mul
       #|  real_mul
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_pow
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_pow
@@ -125741,26 +125741,26 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_pow
       #|  real_mul
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_add
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_pow
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -125768,7 +125768,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -126510,30 +126510,30 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => spow(-real_of_num(1), real_of_num(k)) * (real_of_num(binom((n, k))) * (real_of_num(binom((n + (x : Num), n))) * (real_of_num(x) / (real_of_num(k) + real_of_num(x))))))
       #|  !(real_of_num((x : Num)) == real_of_num(0))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  real_add
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
       #|  real_of_num
-      #|  :real
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -126541,7 +126541,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -126851,36 +126851,36 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => real_of_num(binom((n, k))) * (real_of_num(FACT(k)) * real_of_num(FACT(k))))
-      #|  :real
+      #|  :Real
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_mul
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_pow
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -126888,7 +126888,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -127239,25 +127239,25 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => real_of_num(binom((n, k))) * (spow((x : Real), real_of_num(k)) / spow(x + real_of_num(1), real_of_num(n))))
       #|  !((x : Real) + real_of_num(1) == real_of_num(0))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_mul
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -127265,7 +127265,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -127491,24 +127491,24 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => real_of_num(binom((n, 2 * k))) * (real_of_num(2) / spow(real_of_num(2), real_of_num(n))))
       #|  !((n : Num) == 0)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
       #|  real_div
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -127516,7 +127516,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -127855,25 +127855,25 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => real_of_num(binom((2 * n + 1, 2 * k + 1))) / spow(real_of_num(2), real_of_num(2) * real_of_num(n) + real_of_num(1)))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
@@ -127882,17 +127882,17 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -127900,7 +127900,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -128743,24 +128743,24 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => real_of_num(binom((n, 2 * k))) * (real_of_num(binom((2 * k, k))) * spow(real_of_num(2), real_of_num(n))) / (spow(real_of_num(4), real_of_num(k)) * real_of_num(binom((2 * n, n)))))
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_mul
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -128768,7 +128768,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -129421,53 +129421,53 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => pow(real_of_num(binom((n, k))), 2) * (real_of_num(binom(((p : Num) + k, 2 * n))) / pow(real_of_num(binom((p, n))), 2)))
       #|  (n : Num) < (p : Num)
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_sub
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_add
       #|  real_add
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_pow
       #|  real_mul
@@ -129477,15 +129477,15 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
       #|  real_of_num
-      #|  :real
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -129493,7 +129493,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -130193,131 +130193,131 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => pow(real_of_num(binom((n, k))), 4))
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
-      #|  real_pow
-      #|  real_mul
-      #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
-      #|  real_sub
-      #|  :real
-      #|  real_pow
-      #|  real_mul
-      #|  :real
-      #|  real_pow
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
-      #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  real_pow
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  real_mul
-      #|  :real
-      #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  real_pow
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  real_mul
+      #|  :Real
+      #|  real_pow
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  real_pow
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
+      #|  real_pow
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  real_mul
+      #|  :Real
+      #|  :Real
       #|  real_pow
-      #|  :real
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
       #|  real_mul
-      #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  real_pow
+      #|  :Real
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
+      #|  real_pow
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  real_mul
+      #|  :Real
+      #|  :Real
+      #|  real_mul
+      #|  real_mul
+      #|  real_sub
+      #|  :Real
+      #|  real_mul
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
@@ -130336,13 +130336,13 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_add
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_pow
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_pow
@@ -130350,38 +130350,38 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_mul
       #|  real_mul
       #|  real_mul
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_add
       #|  real_mul
       #|  real_mul
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_pow
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -130389,7 +130389,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -132188,37 +132188,37 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => (real_of_num(2) * real_of_num(n) + real_of_num(1)) / spow(real_of_num(4), real_of_num(n)) * (real_of_num(binom((2 * n, n))) * (spow(-real_of_num(1), real_of_num(k)) * (real_of_num(binom((n, k))) * (spow(real_of_num(2), real_of_num(k)) / (real_of_num(2) * real_of_num(k) + real_of_num(1)))))))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_mul
       #|  real_mul
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_mul
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -132226,7 +132226,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -133262,31 +133262,31 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => (real_of_num(n) + (real_of_num((m : Num)) + real_of_num(1))) * (real_of_num(binom((n + m, m))) * (spow(-real_of_num(1), real_of_num(k)) * (real_of_num(binom((n, k))) / (real_of_num(m) + (real_of_num(k) + real_of_num(1)))))))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  real_add
       #|  real_add
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
       #|  real_of_num
-      #|  :real
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -133294,7 +133294,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -133677,39 +133677,39 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => real_of_num(binom((2 * n + 1, 2 * k))) * (real_of_num(binom((2 * k, k))) / spow(real_of_num(4), real_of_num(k))) / (real_of_num(binom((4 * n + 1, 2 * n))) / spow(real_of_num(4), real_of_num(n))))
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
-      #|  real_mul
-      #|  real_sub
-      #|  real_add
-      #|  real_add
-      #|  real_mul
-      #|  real_mul
-      #|  :real
-      #|  :real
-      #|  real_sub
-      #|  real_add
-      #|  :real
-      #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  real_add
+      #|  real_mul
+      #|  real_mul
+      #|  :Real
+      #|  :Real
+      #|  real_sub
+      #|  real_add
+      #|  :Real
+      #|  real_mul
+      #|  :Real
+      #|  real_mul
+      #|  real_sub
+      #|  real_add
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_mul
@@ -133719,10 +133719,10 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -133730,7 +133730,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -135286,25 +135286,25 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => real_of_num(binom((n, k))) * (real_of_num(binom((k, (j : Num)))) / (real_of_num(binom((n, j))) * spow(real_of_num(2), real_of_num(n) - real_of_num(j)))))
       #|  (j : Num) <= (n : Num)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_mul
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
       #|  real_of_num
-      #|  :real
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -135312,7 +135312,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -135692,24 +135692,24 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => spow(-real_of_num(1), real_of_num(n) - real_of_num(k)) * (spow(real_of_num(4), real_of_num(k)) * real_of_num(binom((n + (k + 1), 2 * k + 1)))) / (real_of_num(n) + real_of_num(1)))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_mul
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -135717,7 +135717,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -136338,15 +136338,15 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => spow(-real_of_num(1), real_of_num(k) + real_of_num((d : Num))) * (real_of_num(binom((d, k))) * (real_of_num(binom((n + k, (p : Num) + k))) / real_of_num(binom((n, p + d))))))
       #|  (p : Num) + (d : Num) <= (n : Num)
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  real_add
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_sub
       #|  real_mul
@@ -136354,20 +136354,20 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
       #|  real_of_num
-      #|  :num
+      #|  :Num
       #|  real_of_num
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -136375,7 +136375,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -136764,27 +136764,27 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  sum(UNIV, (k : Num) => real_of_num(binom(((p : Num), k))) * (real_of_num(binom(((q : Num), k))) * (real_of_num(binom(((n : Num) + k, p + q))) / (real_of_num(binom((n, p))) * real_of_num(binom((n, q)))))))
       #|  (q : Num) <= (n : Num)
       #|  (p : Num) <= (n : Num)
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_pow
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
       #|  real_of_num
-      #|  :num
+      #|  :Num
       #|  real_of_num
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -136792,7 +136792,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -137200,62 +137200,62 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => real_of_num(binom((2 * n + 1, 2 * k))) * (real_of_num(binom(((m : Num) + k, 2 * n))) / real_of_num(binom((2 * m + 1, 2 * n)))))
       #|  (n : Num) < (m : Num)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
-      #|  :real
-      #|  real_sub
-      #|  real_add
-      #|  real_add
-      #|  real_add
-      #|  real_mul
-      #|  real_mul
-      #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
-      #|  :real
-      #|  real_sub
-      #|  :real
+      #|  real_add
+      #|  real_add
       #|  real_mul
-      #|  :real
+      #|  real_mul
+      #|  real_mul
+      #|  :Real
+      #|  :Real
+      #|  real_sub
+      #|  real_add
+      #|  :Real
+      #|  :Real
+      #|  real_sub
+      #|  :Real
+      #|  real_mul
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_sub
@@ -137264,22 +137264,22 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_mul
       #|  real_mul
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
       #|  real_of_num
-      #|  :real
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -137287,7 +137287,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -138681,22 +138681,22 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  (n : Num)
       #|  sum(UNIV, (k : Num) => spow(-real_of_num(1), real_of_num(k) + real_of_num(1)) * (real_of_num(binom(((n : Num), k + 1))) / (real_of_num(k) + real_of_num(1))))
       #|  !(real_of_num((n : Num)) == real_of_num(0))
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_pow
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -138704,7 +138704,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -139021,24 +139021,24 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => spow(-real_of_num(1), real_of_num(k)) * real_of_num(binom((2 * n + 1, 2 * k))))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
@@ -139046,23 +139046,23 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_add
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
@@ -139073,10 +139073,10 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_div
       #|  real_div
       #|  real_pow
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -139084,7 +139084,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -140379,38 +140379,38 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => real_of_num(binom((2 * n + 1, 2 * k + 1))) * (real_of_num(k) / ((real_of_num(2) * real_of_num(n) - real_of_num(1)) * spow(real_of_num(4), real_of_num(n) - real_of_num(1)))))
-      #|  :real
+      #|  :Real
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
       #|  real_add
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
@@ -140420,13 +140420,13 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_div
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -140434,7 +140434,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -141361,43 +141361,43 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  (n : Num)
       #|  sum(UNIV, (k : Num) => spow(-real_of_num(1), real_of_num(k)) * (real_of_num(binom(((x : Num), k))) * rbinom((real_of_num(x), real_of_num(2) * real_of_num((n : Num)) - real_of_num(k)))) / (spow(-real_of_num(1), real_of_num(n)) * real_of_num(binom((x, n)))))
       #|  (n : Num) < (x : Num)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_mul
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_mul
       #|  real_mul
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
       #|  real_of_num
-      #|  :real
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -141405,7 +141405,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -142043,23 +142043,23 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => real_of_num(n) * (spow(-real_of_num(1), real_of_num(k)) * (real_of_num(binom((n, k))) * (real_of_num(binom((n + k, k))) * spow(real_of_num(4), real_of_num(k))))) / (spow(-real_of_num(1), real_of_num(n)) * (real_of_num(binom((2 * k, k))) * (real_of_num(n) + real_of_num(k)))))
       #|  0 < (n : Num)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_mul
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_mul
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -142067,7 +142067,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -142685,89 +142685,89 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, 2 * (n : Num)), (k : Num) => spow(-real_of_num(1), real_of_num(k)) * (real_of_num(binom((2 * n, k))) * (real_of_num(binom((2 * n + 2 * k, n + k))) * spow(real_of_num(2), real_of_num(2) * real_of_num(n) - real_of_num(k)))) / real_of_num(binom((2 * n, n))))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_add
       #|  real_pow
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
-      #|  real_pow
-      #|  real_mul
-      #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  real_pow
-      #|  real_mul
-      #|  real_sub
-      #|  :real
-      #|  real_pow
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  real_pow
-      #|  :real
-      #|  real_pow
-      #|  real_mul
-      #|  real_mul
-      #|  :real
-      #|  :real
-      #|  real_pow
-      #|  real_mul
-      #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
-      #|  real_mul
-      #|  real_mul
-      #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
       #|  real_mul
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
+      #|  real_pow
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  real_pow
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  real_mul
-      #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
+      #|  real_pow
+      #|  :Real
+      #|  real_mul
+      #|  real_mul
+      #|  real_sub
+      #|  :Real
+      #|  real_pow
+      #|  :Real
+      #|  real_mul
+      #|  real_mul
+      #|  :Real
+      #|  real_pow
+      #|  :Real
+      #|  real_mul
+      #|  real_mul
+      #|  :Real
+      #|  :Real
+      #|  real_mul
+      #|  real_mul
+      #|  :Real
+      #|  real_mul
+      #|  real_sub
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  real_sub
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
+      #|  real_pow
+      #|  real_mul
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
@@ -142784,28 +142784,28 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_mul
       #|  real_mul
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_add
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_mul
@@ -142815,43 +142815,43 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_add
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_mul
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_add
       #|  real_add
       #|  real_mul
       #|  real_div
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_mul
       #|  real_mul
       #|  real_mul
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -142859,7 +142859,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -145727,37 +145727,37 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => spow(-real_of_num(1), real_of_num(k)) * (real_of_num(binom((n, k))) * real_of_num(binom(((x : Num) + k, (r : Num) + k)))) / (spow(-real_of_num(1), real_of_num(n)) * real_of_num(binom((x, n + r)))))
       #|  (n : Num) + (r : Num) < (x : Num)
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  real_add
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_sub
       #|  real_mul
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
-      #|  :num
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
+      #|  :Num
       #|  real_of_num
-      #|  :num
+      #|  :Num
       #|  real_of_num
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -145765,7 +145765,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)
@@ -146190,51 +146190,51 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_of_num(1) / real_of_num(12345)
       #|  (n : Num)
       #|  sum(op_dot_dot(0, (n : Num)), (k : Num) => pow(real_of_num(binom((n, k))), 2) * real_of_num(binom((3 * n + k, 2 * n))) / pow(real_of_num(binom((3 * n, n))), 2))
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
-      #|  real_pow
-      #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  real_mul
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  real_mul
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  real_mul
+      #|  :Real
+      #|  real_pow
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_mul
       #|  real_sub
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_mul
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_mul
-      #|  :real
+      #|  :Real
       #|  real_pow
       #|  real_mul
       #|  real_sub
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_sub
       #|  real_add
@@ -146245,16 +146245,16 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_add
       #|  real_add
       #|  real_mul
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  real_sub
       #|  real_add
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  real_mul
       #|  real_add
       #|  real_pow
@@ -146265,10 +146265,10 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  real_div
       #|  real_div
       #|  real_div
-      #|  :num
-      #|  :real
-      #|  :num
-      #|  :real
+      #|  :Num
+      #|  :Real
+      #|  :Num
+      #|  :Real
       #|  !((m : Num) == (n : Num)) == (m + 1 <= n || n + 1 <= m)
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
@@ -146276,7 +146276,7 @@ test "WZ/examples matches WZ/examples.ml" {
       #|  Im((z : Cart[Real, 2]))
       #|  Re((z : Cart[Real, 2]))
       #|  (z : Cart[Real, 2])
-      #|  :real
+      #|  :Real
       #|  !ratty((e : (Real) -> Bool), ((n : Real), (k : Real)))
       #|  real_of_num(55)
       #|  real_of_num(0)

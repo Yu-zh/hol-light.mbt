@@ -1159,7 +1159,7 @@ calc_rat quotations (150):
   (\226\136\128 x : Real, real_of_num(0) * x == real_of_num(0)) && (\226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, (x + y == x + z) == (y == z)) && (\226\136\128 w : Real, \226\136\128 x : Real, \226\136\128 y : Real, \226\136\128 z : Real, (w * y + x * z == w * z + x * y) == (w == x || y == z))
   !(real_of_num(1) == real_of_num(0))
   \226\136\128 x : Real, \226\136\128 y : Real, !(x == y) == (\226\136\131 z : Real, (x - y) * z == real_of_num(1))
-  :real
+  :Real
   pow
   op_slash
   real_mul

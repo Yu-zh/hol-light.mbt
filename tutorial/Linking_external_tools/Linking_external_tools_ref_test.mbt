@@ -5843,7 +5843,7 @@ test "Tutorial/Linking_external_tools matches Tutorial/Linking_external_tools.ml
       #|  real_neg
       #|  real_neg
       #|  real_pow
-      #|  :real
+      #|  :Real
       #|  pow((x : Real) + sin(-real_of_num(2) * x), 2) - cos(x - real_of_num(22) / real_of_num(7))
       #|  real_of_num(1234567890)
       #|  pow((x : Real), 6) - real_of_num(1)

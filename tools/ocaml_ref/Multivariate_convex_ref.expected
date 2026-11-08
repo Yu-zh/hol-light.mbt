@@ -50151,8 +50151,8 @@ Multivariate/convex quotations (6096):
   (d : (Cart[Real, N]) -> Bool)
   (d : (Cart[Real, N]) -> Bool)
   (c : (Cart[Real, N]) -> Bool)
-  :real
-  :real
+  :Real
+  :Real
   IMAGE((p : (Cart[Real, N]) -> Cart[Real, N]), (pnc : (Cart[Real, N]) -> Bool)) == IMAGE(p, (srf : (Cart[Real, N]) -> Bool))
   o((s : (Cart[Real, N]) -> Cart[Real, N]), (p : (Cart[Real, N]) -> Cart[Real, N]))
   \226\136\128 s : (Cart[Real, N]) -> Cart[Real, N], \226\136\128 p : (Cart[Real, N]) -> Cart[Real, N], \226\136\128 srf : (Cart[Real, N]) -> Bool, \226\136\128 pnc : (Cart[Real, N]) -> Bool, compact(srf) && SUBSET(srf, pnc) && SUBSET(IMAGE(s, pnc), srf) && (\226\136\128 x : Cart[Real, N], IN(x, srf) \226\134\146 s(x) == x) && continuous_on(p, pnc) && (\226\136\128 x : Cart[Real, N], IN(x, pnc) \226\134\146 s(p(x)) == s(x) && p(s(x)) == p(x)) \226\134\146 continuous_on(s, pnc)
@@ -50353,8 +50353,8 @@ Multivariate/convex quotations (6096):
   real_of_num(0) < (x : Real) / (y : Real) \226\134\146 real_of_num(0) < x / real_of_num(2) / y && x / real_of_num(2) / y < x / y
   real_of_num(0) < (x : Real) && x < (d : Real) \226\134\146 abs(min(real_of_num(1), x)) < d
   distance(((x : Cart[Real, N]) + (a : Cart[Real, N]), x)) == norm(a)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < (x : Real) \226\134\146 !(min(real_of_num(1), x) == real_of_num(0))
   ((x : Cart[Real, N]) + (a : Cart[Real, N]) == x) == (a == vec(0))
   min(real_of_num(1), (d : Real) / real_of_num(2) / norm((z : Cart[Real, N]) - (x : Cart[Real, N])))
@@ -51315,8 +51315,8 @@ Multivariate/convex quotations (6096):
   aff_dim(UNION(hull(affine, {(a : Cart[Real, N]), (z : Cart[Real, N]), (b : Cart[Real, N])}), hull(affine, {(c : Cart[Real, N]), z, (d : Cart[Real, N])})))
   \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], \226\136\128 c : Cart[Real, N], \226\136\128 d : Cart[Real, N], \226\136\128 z : Cart[Real, N], collinear({a, z, b}) && collinear({c, z, d}) \226\134\146 coplanar({z, a, b, c, d})
   distance(((a : Cart[Real, N]) + (x : Cart[Real, N]), a + (y : Cart[Real, N]))) == distance((x, y))
-  :real
-  :real
+  :Real
+  :Real
   ((a : Cart[Real, N]) + (x : Cart[Real, N]) == a + (y : Cart[Real, N])) == (x == y)
   -(a : Cart[Real, N]) + (a + (x : Cart[Real, N])) == x
   (x : Cart[Real, N]) => (a : Cart[Real, M]) + (g : (Cart[Real, N]) -> Cart[Real, M])(-(b : Cart[Real, N]) + x)
@@ -51357,11 +51357,11 @@ Multivariate/convex quotations (6096):
   (X : Cart[Cart[Real, M], N]) == lambda((i : Num) => lambda((j : Num) => op_dollar(op_dollar((x : Cart[Cart[Real, N], M]), j), i) - op_dollar(op_dollar(x, 1), i)))
   \226\136\128 x : Cart[Cart[Real, N], M], \226\136\128 y : Cart[Cart[Real, N], M], (\226\136\128 i : Num, \226\136\128 j : Num, 1 <= i && i <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) && 1 <= j && j <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) \226\134\146 (distance : ((Cart[Real, N], Cart[Real, N])) -> Real)(((op_dollar : (Cart[Cart[Real, N], M], Num) -> Cart[Real, N])(x, i), (op_dollar : (Cart[Cart[Real, N], M], Num) -> Cart[Real, N])(x, j))) == (distance : ((Cart[Real, N], Cart[Real, N])) -> Real)(((op_dollar : (Cart[Cart[Real, N], M], Num) -> Cart[Real, N])(y, i), (op_dollar : (Cart[Cart[Real, N], M], Num) -> Cart[Real, N])(y, j)))) \226\134\146 (\226\136\131 a : Cart[Real, N], \226\136\131 f : (Cart[Real, N]) -> Cart[Real, N], (orthogonal_transformation : ((Cart[Real, N]) -> Cart[Real, N]) -> Bool)(f) && (\226\136\128 i : Num, 1 <= i && i <= (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) \226\134\146 (op_dollar : (Cart[Cart[Real, N], M], Num) -> Cart[Real, N])(y, i) == a + f((op_dollar : (Cart[Cart[Real, N], M], Num) -> Cart[Real, N])(x, i))))
   ((a : Cart[Real, N]) == (b : Cart[Real, N])) == (distance((a, a)) == distance((a, b)))
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   (a : Cart[Real, N]) + (x : Cart[Real, N]) - (a + (y : Cart[Real, N])) == x - y
   distance(((x : (A) -> Cart[Real, N])((r : (Num) -> A)((j : Num))), x((k : A))))
   (j : Num)
@@ -51390,14 +51390,14 @@ Multivariate/convex quotations (6096):
   (s : (A) -> Bool) == {}
   \226\136\128 x : (A) -> Cart[Real, N], \226\136\128 y : (A) -> Cart[Real, N], \226\136\128 s : (A) -> Bool, (\226\136\128 i : A, \226\136\128 j : A, IN(i, s) && IN(j, s) \226\134\146 distance((x(i), x(j))) == distance((y(i), y(j)))) \226\134\146 (\226\136\131 a : Cart[Real, N], \226\136\131 f : (Cart[Real, N]) -> Cart[Real, N], orthogonal_transformation(f) && (\226\136\128 i : A, IN(i, s) \226\134\146 y(i) == a + f(x(i))))
   ((a : Cart[Real, N]) == (b : Cart[Real, N])) == (distance((a, a)) == distance((a, b)))
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   distance(((a : Cart[Real, N]) + (x : Cart[Real, N]), a + (y : Cart[Real, N]))) == distance((x, y))
-  :real
-  :real
+  :Real
+  :Real
   distance(((a : Cart[Real, N]) + (f : (Cart[Real, N]) -> Cart[Real, N])((x : (A) -> Cart[Real, N])((j : A))), a + f(x((i : A)))))
   (j : A)
   \226\136\128 z : Cart[Real, N], IN(z, hull(affine, IMAGE((y : (A) -> Cart[Real, N]), (t : (A) -> Bool)))) \226\134\146 distance((z, y((i : A)))) == distance((z, (a : Cart[Real, N]) + (f : (Cart[Real, N]) -> Cart[Real, N])((x : (A) -> Cart[Real, N])(i))))
@@ -51756,8 +51756,8 @@ Multivariate/convex quotations (6096):
   (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))
   \226\136\128 s : (Cart[Real, N]) -> Bool, (COUNTABLE : ((Cart[Real, N]) -> Bool) -> Bool)(s) \226\134\146 (\226\136\131 f : (Cart[Real, N]) -> Cart[Real, N], (orthogonal_transformation : ((Cart[Real, N]) -> Cart[Real, N]) -> Bool)(f) && (det : (Cart[Cart[Real, N], N]) -> Real)((matrix : ((Cart[Real, N]) -> Cart[Real, N]) -> Cart[Cart[Real, N], N])(f)) == real_of_num(1) && (pairwise : ((Cart[Real, N], Cart[Real, N]) -> Bool, (Cart[Real, N]) -> Bool) -> Bool)((x : Cart[Real, N]) => (y : Cart[Real, N]) => \226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 !((op_dollar : (Cart[Real, N], Num) -> Real)(f(x), i) == (op_dollar : (Cart[Real, N], Num) -> Real)(f(y), i)), s))
   norm((z : Cart[Real, _]) - (z + ((a : Cart[Real, _]) - (y : Cart[Real, _])))) == norm(y - a)
-  :real
-  :real
+  :Real
+  :Real
   IN((z : Cart[Real, N]) + ((y : Cart[Real, N]) - (a : Cart[Real, N])), cball((z, (b : (Cart[Real, N]) -> Real)(z))))
   (z : Cart[Real, N])
   (v : Cart[Real, N]) + (a : Cart[Real, N]) - a == v
@@ -51865,8 +51865,8 @@ Multivariate/convex quotations (6096):
   ((\226\136\128 s : (_) -> Bool, FINITE(s) \226\134\146 (P : ((_) -> Bool) -> Bool)(s)) \226\134\146 (\226\136\128 s : (_) -> Bool, P(s))) && (\226\136\128 s : (_) -> Bool, FINITE(s) \226\134\146 P(s)) \226\134\146 (\226\136\128 s : (_) -> Bool, P(s))
   \226\136\128 a : Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 x : Cart[Real, N], IN(x, hull(convex, s)) && !IN(x, s) \226\134\146 (\226\136\131 y : Cart[Real, N], IN(y, hull(convex, s)) && norm(x - a) < norm(y - a))
   norm((y : Cart[Real, N]) - (a : Cart[Real, N])) == distance((a, y))
-  :real
-  :real
+  :Real
+  :Real
   !((p : Bool) && (q : Bool)) == (p \226\134\146 !q)
   (a : Cart[Real, N])
   \226\136\128 a : Cart[Real, N], \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 x : Cart[Real, N], IN(x, hull(convex, s)) && !IN(x, s) \226\134\146 (\226\136\131 y : Cart[Real, N], IN(y, s) && norm(x - a) < norm(y - a))
@@ -51908,8 +51908,8 @@ Multivariate/convex quotations (6096):
   distance(((x : Cart[Real, N]), closest_point((s : (Cart[Real, N]) -> Bool), x))) <= distance((x, (y : Cart[Real, N])))
   closest_point((s : (Cart[Real, N]) -> Bool), (x : Cart[Real, N]))
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], convex(s) && closed(s) && !(s == {}) \226\134\146 closest_point(IMAGE((x : Cart[Real, N]) => a + x, s), a + (x : Cart[Real, N])) == a + closest_point(s, x)
-  :real
-  :real
+  :Real
+  :Real
   !((x : Real) == real_of_num(0)) \226\134\146 x < real_of_num(2) * abs(x)
   real_of_num(2) * ((x : Real) * (a : Real)) <= (b : Real) * ((c : Real) * (z : Real)) && real_of_num(2) * (-x * a) <= -b * (-c * z) \226\134\146 real_of_num(2) * abs(x * a) <= b * (c * z)
   (x : Cart[Real, N]) == vec(0)
@@ -52197,8 +52197,8 @@ Multivariate/convex quotations (6096):
   IN((z : Cart[Real, N]), closure((s : (Cart[Real, N]) -> Bool)))
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 z : Cart[Real, N], convex(s) && !(s == {}) && !IN(z, s) \226\134\146 (\226\136\131 a : Cart[Real, N], \226\136\131 b : Real, \226\136\131 y : Cart[Real, N], !(a == vec(0)) && dot(a, z) <= b && IN(y, closure(s)) && dot(a, y) == b && (\226\136\128 x : Cart[Real, N], IN(x, closure(s)) \226\134\146 dot(a, x) >= b))
   norm((a : Cart[Real, N]) - (a' : Cart[Real, N])) + norm((b : Cart[Real, N]) - (b' : Cart[Real, N])) <= (r : Real) \226\134\146 norm(a + b - (a' + b')) <= r
-  :real
-  :real
+  :Real
+  :Real
   distance((op_pct((u : Real), (x : Cart[Real, N])) + op_pct((v : Real), (y : Cart[Real, N])), op_pct(u, (x' : Cart[Real, N])) + op_pct(v, (y' : Cart[Real, N]))))
   (x' : Cart[Real, N])
   (y' : Cart[Real, N])
@@ -52532,7 +52532,7 @@ Multivariate/convex quotations (6096):
   max(real_of_num(0), (r : Real) - inf(IMAGE((x : Cart[Real, N]) => r - norm(x - (a : Cart[Real, N])), (s : (Cart[Real, N]) -> Bool))))
   \226\136\128 x : Real, \226\136\128 a : Cart[Real, N], real_of_num(0) <= x && SUBSET((s : (Cart[Real, N]) -> Bool), cball((a, x))) \226\134\146 (r : Real) <= x
   norm((x : Cart[Real, N])) < (r : Real) \226\134\146 real_of_num(0) < r
-  :real
+  :Real
   real_of_num(0) < (r : Real)
   \226\136\128 x : Cart[Real, N], \226\136\128 a : Cart[Real, N], IN(x, DIFF((s : (Cart[Real, N]) -> Bool), (t : (Cart[Real, N]) -> Bool))) && norm(a) < (d : Real) \226\134\146 norm(x - a) < (r : Real)
   \226\136\128 x : Cart[Real, N], \226\136\128 e : Real, real_of_num(0) < e && e < (b : Real) && IN(x, (t : (Cart[Real, N]) -> Bool)) \226\134\146 norm(x - op_pct(e, basis(1))) < (r : Real)
@@ -52541,8 +52541,8 @@ Multivariate/convex quotations (6096):
   (op_pct : (Real, Cart[Real, N]) -> Cart[Real, N])(min((b : Real) / real_of_num(2), (d : Real) / real_of_num(2)), (basis : (Num) -> Cart[Real, N])(1))
   \226\136\131 a : Cart[Real, N], \226\136\128 x : Cart[Real, N], IN(x, (s : (Cart[Real, N]) -> Bool)) \226\134\146 norm(x - a) < (r : Real)
   norm((a : Cart[Real, N])) < (r : Real) - norm((x : Cart[Real, N])) \226\134\146 norm(x - a) < r
-  :real
-  :real
+  :Real
+  :Real
   FINITE(DIFF((s : (Cart[Real, N]) -> Bool), (t : (Cart[Real, N]) -> Bool)))
   inf(IMAGE((x : Cart[Real, N]) => (r : Real) - norm(x), DIFF((s : (Cart[Real, N]) -> Bool), (t : (Cart[Real, N]) -> Bool))))
   DIFF((s : (Cart[Real, N]) -> Bool), (t : (Cart[Real, N]) -> Bool)) == {}
@@ -52599,8 +52599,8 @@ Multivariate/convex quotations (6096):
   (t : (Cart[Real, N]) -> Bool)
   (d : Real) + inv(real_of_num((n : Num)) + real_of_num(1))
   (\226\136\131 x : Cart[Real, N], norm(x) <= (B : Real) && distance(((a : Cart[Real, N]), x)) <= (d : Real)) \226\134\146 norm(a) <= B + d
-  :real
-  :real
+  :Real
+  :Real
   (n : Num)
   (cball : ((Cart[Real, N], Real), Cart[Real, N]) -> Bool)(((vec : (Num) -> Cart[Real, N])(0), (B : Real) + ((d : Real) + real_of_num(1))))
   (B : Real)
@@ -52628,8 +52628,8 @@ Multivariate/convex quotations (6096):
   IMAGE((x : Cart[Real, N]) => cball((x, (r : Real))), (s : (Cart[Real, N]) -> Bool))
   real_of_num(0) <= (r : Real)
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 r : Real, (bounded : ((Cart[Real, N]) -> Bool) -> Bool)(s) && sqrt(real_of_num((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))) / real_of_num(2 * (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) + 2)) * (diameter : ((Cart[Real, N]) -> Bool) -> Real)(s) <= r \226\134\146 (\226\136\131 a : Cart[Real, N], (SUBSET : ((Cart[Real, N]) -> Bool, (Cart[Real, N]) -> Bool) -> Bool)(s, (cball : ((Cart[Real, N], Real), Cart[Real, N]) -> Bool)((a, r))))
-  :real
-  :real
+  :Real
+  :Real
   (a : Real) * (b : Real) < (c : Real) && real_of_num(0) < c \226\134\146 a * (b / real_of_num(2)) <= c
   (b : Real) <= (c : Real) \226\134\146 (a : Real) < b \226\134\146 a <= c
   (real_of_num(2) * (x : Real) < (e : Real) * (e * (p : Real))) == (x < e * (e * (p / real_of_num(2))))
@@ -52638,9 +52638,9 @@ Multivariate/convex quotations (6096):
   (b : Cart[Real, N]) + op_pct((e : Real), (u : Cart[Real, N])) - (a : Cart[Real, N]) == b - a + op_pct(e, u)
   (n : Real) <= (rc : Real) && !((m : Real) <= rc) \226\134\146 n < m
   norm((y : Cart[Real, N])) <= (e : Real) && (u : Real) <= (v : Real) \226\134\146 norm((x : Cart[Real, N]) + y) - norm(x) <= e && u <= v
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   (b : Cart[Real, N]) + op_pct((e : Real), (u : Cart[Real, N])) - (a : Cart[Real, N]) == b - a + op_pct(e, u)
   (b : Real) <= (rc : Real) && !((b' : Real) <= rc) \226\134\146 b' - b <= (e : Real) && (u : Real) <= (v : Real) \226\134\146 u <= v && rc <= b + e
   (d : Real) < (k : Real) \226\134\146 real_of_num(0) < (e : Real) && (a : Real) <= (b : Real) && (u : Real) - d <= e && b <= a + e \226\134\146 abs(a - b) <= e && u - k <= e
@@ -52687,8 +52687,8 @@ Multivariate/convex quotations (6096):
   real_of_num(0) < (c : Real)
   \226\136\131 a : Cart[Real, N], \226\136\131 r : Cart[Real, Unit], IN(pastecart(a, r), (p : (Cart[Real, Finite_sum[N, Unit]]) -> Bool))
   (norm((x : Cart[Real, N]) - (y : Cart[Real, N])) <= real_of_num(0)) == (x == y)
-  :real
-  :real
+  :Real
+  :Real
   (c : Real) == real_of_num(0)
   (z : Cart[Real, N])
   (y : Cart[Real, N])
@@ -52724,8 +52724,8 @@ Multivariate/convex quotations (6096):
   (r : Real)
   (a : Cart[Real, N])
   norm(vec(0) - (x : Cart[Real, N])) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   (vec : (Num) -> Cart[Real, N])(0)
   (B : Real)
   (B : Real)
@@ -52790,7 +52790,7 @@ Multivariate/convex quotations (6096):
   IMAGE(FST, (r : ((Cart[Real, M], Cart[Real, N])) -> Bool))
   (x : Cart[Real, M]) => select((y : Cart[Real, N]) => (r : ((Cart[Real, M], Cart[Real, N])) -> Bool)((x, y)))
   norm((x : Cart[Real, N]) - (y : Cart[Real, N])) <= norm((z : Cart[Real, M]) - z) \226\134\146 x == y
-  :real
+  :Real
   \226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, N], \226\136\128 z : Cart[Real, N], (r : ((Cart[Real, M], Cart[Real, N])) -> Bool)((x, y)) && r((x, z)) \226\134\146 y == z
   (r : ((Cart[Real, M], Cart[Real, N])) -> Bool)
   fn { (x, y) => IN(x, (s : (Cart[Real, M]) -> Bool)) && (f : (Cart[Real, M]) -> Cart[Real, N])(x) == y }
@@ -52806,8 +52806,8 @@ Multivariate/convex quotations (6096):
   (b : Cart[Real, N])
   (\226\136\128 x : _, \226\136\128 y : _, IN(x, (s : (_) -> Bool)) && IN(y, s) \226\134\146 (f : (_) -> _)(x) == f(y)) == (\226\136\131 a : _, \226\136\128 x : _, IN(x, s) \226\134\146 f(x) == a)
   (norm((x : Cart[Real, N]) - (y : Cart[Real, N])) <= real_of_num(0)) == (x == y)
-  :real
-  :real
+  :Real
+  :Real
   (B : Real) == real_of_num(0)
   \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, \226\136\128 B : Real, real_of_num(0) <= B && (\226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], IN(x, s) && IN(y, s) \226\134\146 norm(f(x) - f(y)) <= B * norm(x - y)) \226\134\146 (\226\136\131 g : (Cart[Real, M]) -> Cart[Real, N], (\226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], norm(g(x) - g(y)) <= B * norm(x - y)) && (\226\136\128 x : Cart[Real, M], IN(x, s) \226\134\146 g(x) == f(x)))
   real_of_num(0) <= abs((B : Real)) + real_of_num(1) && B <= abs(B) + real_of_num(1)
@@ -52816,8 +52816,8 @@ Multivariate/convex quotations (6096):
   (f : (Cart[Real, M]) -> Cart[Real, N])
   \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 s : (Cart[Real, M]) -> Bool, (\226\136\131 B : Real, \226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], IN(x, s) && IN(y, s) \226\134\146 norm(f(x) - f(y)) <= B * norm(x - y)) \226\134\146 (\226\136\131 g : (Cart[Real, M]) -> Cart[Real, N], (\226\136\131 B : Real, \226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], norm(g(x) - g(y)) <= B * norm(x - y)) && (\226\136\128 x : Cart[Real, M], IN(x, s) \226\134\146 g(x) == f(x)))
   distance(((a : Cart[Real, M]), (v : Cart[Real, M]))) < (d : Real) / real_of_num(6) \226\134\146 distance((a, (a' : Cart[Real, M]))) <= real_of_num(6) * distance((a, v)) \226\134\146 distance((a', a)) < d
-  :real
-  :real
+  :Real
+  :Real
   IN((x : Cart[Real, M]), (t : (Cart[Real, M]) -> Bool))
   (t : (Cart[Real, M]) -> Bool)
   (x : Cart[Real, M])
@@ -52881,9 +52881,9 @@ Multivariate/convex quotations (6096):
   (y : Cart[Real, N])
   (s : (Cart[Real, M]) -> Bool) == {}
   \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 c : (Cart[Real, N]) -> Bool, \226\136\128 u : (Cart[Real, M]) -> Bool, \226\136\128 s : (Cart[Real, M]) -> Bool, convex(c) && !(c == {}) && closed_in(subtopology(euclidean, u), s) && continuous_on(f, s) && SUBSET(IMAGE(f, s), c) \226\134\146 (\226\136\131 g : (Cart[Real, M]) -> Cart[Real, N], continuous_on(g, u) && SUBSET(IMAGE(g, u), c) && (\226\136\128 x : Cart[Real, M], IN(x, s) \226\134\146 g(x) == f(x)))
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   (s : (Cart[Real, M]) -> Bool)
   (u : (Cart[Real, M]) -> Bool)
   (cball : ((Cart[Real, N], Real), Cart[Real, N]) -> Bool)(((vec : (Num) -> Cart[Real, N])(0), (B : Real)))
@@ -53190,8 +53190,8 @@ Multivariate/convex quotations (6096):
   (d : Cart[Real, N])
   (c : Cart[Real, N])
   distance(((c : Cart[Real, N]), c + ((x : Cart[Real, N]) - (y : Cart[Real, N])))) == distance((y, x))
-  :real
-  :real
+  :Real
+  :Real
   SUBSET(ball(((d : Cart[Real, N]), (e : Real))), (s : (Cart[Real, N]) -> Bool))
   SUBSET(ball(((c : Cart[Real, N]), (e : Real))), (s : (Cart[Real, N]) -> Bool))
   op_pct(inv(real_of_num(2)), (c : Cart[Real, N]) + ((y : Cart[Real, N]) - op_pct(inv(real_of_num(2)), c + (d : Cart[Real, N]))) + (d + (y - op_pct(inv(real_of_num(2)), c + d)))) == y
@@ -53270,8 +53270,8 @@ Multivariate/convex quotations (6096):
   (d : Real)
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 e : Real, \226\136\128 x : Cart[Real, N], \226\136\128 c : Cart[Real, N], convex(s) && IN(c, interior(s)) && IN(x, s) && real_of_num(0) < e && e <= real_of_num(1) \226\134\146 IN(x - op_pct(e, x - c), interior(s))
   norm((c : Cart[Real, _]) - (c + (x : Cart[Real, _]))) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   (x : Cart[Real, N]) - op_pct((e : Real), x - (c : Cart[Real, N])) == (y : Cart[Real, N]) - op_pct(e, y - (z : Cart[Real, N]))
   (z : Cart[Real, N]) == (c : Cart[Real, N]) + op_pct((real_of_num(1) - (e : Real)) / e, (x : Cart[Real, N]) - (y : Cart[Real, N]))
   (e : Real) * (d : Real) / (real_of_num(1) - e)
@@ -53351,8 +53351,8 @@ Multivariate/convex quotations (6096):
   (e : Real)
   (x : Cart[Real, N])
   \226\136\128 s : (Cart[Real, N]) -> Bool, relative_interior(relative_interior(s)) == relative_interior(s)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < real_of_num(2) * real_of_num((n : Num)) + real_of_num(1)
   abs((x : Real)) < (a : Real) \226\134\146 x <= a
   real_of_num(CARD((b : (Cart[Real, N]) -> Bool))) * (real_of_num(2) * inv(real_of_num(2) * real_of_num((n : Num)) + real_of_num(1)))
@@ -53423,8 +53423,8 @@ Multivariate/convex quotations (6096):
   IN((z : Cart[Real, N]), hull(affine, (s : (Cart[Real, N]) -> Bool)))
   (a : Real) / (b : Real) * (c : Real) == c * a / b
   distance(((c : Cart[Real, N]), c + (x : Cart[Real, N]))) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   distance(((c : Cart[Real, N]), (z : Cart[Real, N]))) < (d : Real)
   (x : Cart[Real, N]) - op_pct((e : Real), x - (c : Cart[Real, N])) == (y : Cart[Real, N]) - op_pct(e, y - (z : Cart[Real, N]))
   (z : Cart[Real, N]) == (c : Cart[Real, N]) + op_pct((real_of_num(1) - (e : Real)) / e, (x : Cart[Real, N]) - (y : Cart[Real, N]))
@@ -53436,8 +53436,8 @@ Multivariate/convex quotations (6096):
   \226\136\131 y : Cart[Real, N], IN(y, (s : (Cart[Real, N]) -> Bool)) && norm(y - (x : Cart[Real, N])) * (real_of_num(1) - (e : Real)) < e * (d : Real)
   (d : Real)
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 e : Real, \226\136\128 x : Cart[Real, N], \226\136\128 c : Cart[Real, N], convex(s) && IN(c, relative_interior(s)) && IN(x, closure(s)) && real_of_num(0) < e && e <= real_of_num(1) \226\134\146 IN(x - op_pct(e, x - c), relative_interior(s))
-  :real
-  :real
+  :Real
+  :Real
   op_pct(real_of_num(1) - (u : Real), (a : Cart[Real, N])) + op_pct(u, (b : Cart[Real, N])) == b - op_pct(real_of_num(1) - u, b - a)
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], \226\136\128 b : Cart[Real, N], convex(s) && IN(a, relative_interior(s)) && IN(b, closure(s)) \226\134\146 SUBSET(segment((a, b)), relative_interior(s))
   inv((c : Real))
@@ -53549,8 +53549,8 @@ Multivariate/convex quotations (6096):
   !(relative_interior((s : (Cart[Real, N]) -> Bool)) == {})
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, convex(s) && !(s == {}) && SUBSET(relative_interior(s), t) && SUBSET(t, closure(s)) \226\134\146 starlike(t)
   distance(((x : Cart[Real, N]), x + (y : Cart[Real, N]))) == norm(y)
-  :real
-  :real
+  :Real
+  :Real
   (y : Cart[Real, N]) + op_pct(real_of_num(1) + (e : Real), (x : Cart[Real, N]) - y) == x + op_pct(e, x - y)
   real_of_num(1) + (e : Real) / norm((x : Cart[Real, N]) - (y : Cart[Real, N]))
   real_of_num(2)
@@ -53577,8 +53577,8 @@ Multivariate/convex quotations (6096):
   (s : (Cart[Real, N]) -> Bool) == {}
   \226\136\128 s : (Cart[Real, N]) -> Bool, (relative_interior(s) == closure(s)) == affine(s)
   distance(((a : Cart[Real, N]) + (x : Cart[Real, N]), a + (y : Cart[Real, N]))) == norm(x - y)
-  :real
-  :real
+  :Real
+  :Real
   (x : Real) < (d : Real)
   (x : Real)
   !((d : Real) + (l : Real) <= d) == (real_of_num(0) < l)
@@ -53589,8 +53589,8 @@ Multivariate/convex quotations (6096):
   ((x : Real) / real_of_num(2) / (y : Real) < x / y) == (real_of_num(0) < x / y)
   real_of_num(0) < (x : Real) && x < (y : Real) && real_of_num(0) < (d : Real) \226\134\146 abs(d - min(d, x) - d) < y
   distance(((a : Cart[Real, N]) + (x : Cart[Real, N]), a + (y : Cart[Real, N]))) == norm(x - y)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < (x : Real) && real_of_num(0) < (d : Real) \226\134\146 d - min(d, x) < d
   (a : Cart[Real, N]) + op_pct((d : Real) - min(d, (x : Real) / real_of_num(2) / norm((l : Cart[Real, N]))), l)
   (x : Real)
@@ -53600,14 +53600,14 @@ Multivariate/convex quotations (6096):
   (a : Bool) && (a \226\134\146 (b : Bool)) \226\134\146 a && b
   (d : Real)
   distance(((a : Cart[Real, N]), a + (x : Cart[Real, N]))) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   (B : Real) / norm((l : Cart[Real, N]))
   (B : Real)
   (a : Cart[Real, N])
   distance(((a : Cart[Real, N]) + (x : Cart[Real, N]), a)) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   (x : Real)
   (e : Real) / norm((l : Cart[Real, N]))
   (e : Real)
@@ -53750,8 +53750,8 @@ Multivariate/convex quotations (6096):
   (x : Cart[Real, N]) + op_pct((e : Real) / norm(x - (y : Cart[Real, N])), x - y)
   (s : (Cart[Real, N]) -> Bool)
   distance(((x : Cart[Real, M]), x + (y : Cart[Real, M]))) == norm(y)
-  :real
-  :real
+  :Real
+  :Real
   (x : Cart[Real, N]) + op_pct((e : Real) / norm(x - (y : Cart[Real, N])), x - y)
   (y : Cart[Real, N]) == (x : Cart[Real, N])
   (e : Real)
@@ -53782,8 +53782,8 @@ Multivariate/convex quotations (6096):
   !((n : Real) <= (a : Real) * n) == (real_of_num(0) < (real_of_num(1) - a) * n)
   real_of_num(0) <= (a : Real) \226\134\146 abs(min(real_of_num(1), a)) <= a
   distance(((a : Cart[Real, N]), a - (x : Cart[Real, N]))) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   (x : Cart[Real, N]) - ((y : Cart[Real, N]) - op_pct((e : Real), y - x)) == op_pct(real_of_num(1) - e, x - y)
   closest_point((s : (Cart[Real, N]) -> Bool), (x : Cart[Real, N])) - op_pct(min(real_of_num(1), (e : Real) / norm(closest_point(s, x) - x)), closest_point(s, x) - x)
   (x : Cart[Real, N])
@@ -53800,8 +53800,8 @@ Multivariate/convex quotations (6096):
   ((x : Cart[Real, N]) == op_pct(real_of_num(1) - (u : Real), (a : Cart[Real, N])) + op_pct(u, x + op_pct((v : Real), x - a))) == (op_pct(real_of_num(1) - u * (real_of_num(1) + v), x - a) == vec(0))
   ((a : Cart[Real, N]) == a + (x : Cart[Real, N])) == (x == vec(0))
   distance(((x : Cart[Real, N]), x + (y : Cart[Real, N]))) == norm(y)
-  :real
-  :real
+  :Real
+  :Real
   (x : Cart[Real, N]) + op_pct((d : Real) / norm(x - (a : Cart[Real, N])), x - a)
   (d : Real)
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 x : Cart[Real, N], \226\136\128 a : Cart[Real, N], convex(s) && IN(x, relative_interior(s)) && IN(a, hull(affine, s)) && !(x == a) \226\134\146 (\226\136\131 b : Cart[Real, N], IN(b, s) && IN(x, segment((a, b))))
@@ -53964,8 +53964,8 @@ Multivariate/convex quotations (6096):
   op_bslash_slash
   op_bslash_slash
   false
-  :real
-  :real
+  :Real
+  :Real
   interior((s : (Cart[Real, N]) -> Bool)) == {}
   \226\136\128 s : (Cart[Real, N]) -> Bool, is_interval(s) \226\134\146 is_interval(interior(s))
   (b : Real)
@@ -54010,7 +54010,7 @@ Multivariate/convex quotations (6096):
   (a : Cart[Real, N])
   \226\136\128 f : (Cart[Real, N]) -> Real, \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 t : (Cart[Real, N]) -> Bool, convex(s) && convex(t) && IN(vec(0), s) && convex_on((x : Cart[Real, N]) => -f(x), t) && (\226\136\128 x : Cart[Real, N], IN(x, t) \226\134\146 real_of_num(0) < f(x)) \226\134\146 convex({(x : Cart[Real, N]) | IN(x, t) && IN(op_pct(inv(f(x)), x), s)})
   !(real_of_num(1) + norm((x : Cart[Real, N])) == real_of_num(0))
-  :real
+  :Real
   (x : Cart[Real, N]) == op_pct(real_of_num(1) + norm(x), op_pct(inv(real_of_num(1) + norm(x)), x))
   (x : Cart[Real, N])
   (\226\136\128 x : _, IN((f : (_) -> _)(x), (ss : (_) -> Bool)) \226\134\146 IN(x, ss)) \226\134\146 SUBSET(INTER(IMAGE(f, (br : (_) -> Bool)), ss), INTER(IMAGE(f, br), IMAGE(f, ss)))
@@ -54028,23 +54028,23 @@ Multivariate/convex quotations (6096):
   (s : (Cart[Real, N]) -> Bool)
   (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
   real_of_num(0) < real_of_num(1) + norm((x : Cart[Real, N]))
-  :real
+  :Real
   op_pct(inv(real_of_num(1) + norm((x : Cart[Real, N]))), x)
   real_of_num(1) + norm((x : Cart[Real, N]))
   (x : Cart[Real, N])
   real_of_num(0) <= real_of_num(1) + norm((x : Cart[Real, N]))
-  :real
+  :Real
   (s : (Cart[Real, N]) -> Bool)
   (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
   ((P : Bool) \226\134\146 (a : Real) == real_of_num(1)) \226\134\146 P \226\134\146 op_pct(a, (y : Cart[Real, _])) == y
   (x : Cart[Real, N])
   (x : Cart[Real, N])
   real_of_num(0) < real_of_num(1) + norm((x : Cart[Real, N]))
-  :real
+  :Real
   !(real_of_num(1) + norm((x : Cart[Real, N])) == real_of_num(0))
-  :real
+  :Real
   real_of_num(0) <= real_of_num(1) + norm((x : Cart[Real, N]))
-  :real
+  :Real
   (p : Bool) && (p \226\134\146 (q : Bool)) \226\134\146 p && q
   (g : (Cart[Real, N]) -> Cart[Real, N])
   (f : (Cart[Real, N]) -> Cart[Real, N])
@@ -54076,11 +54076,11 @@ Multivariate/convex quotations (6096):
   INTER((s : (_) -> Bool), (t : (_) -> Bool)) == {} \226\134\146 (\226\136\128 w : _, IN(w, t) \226\134\146 !IN(w, s))
   (w : Cart[Real, N])
   distance(((x : Cart[Real, N]), x + (y : Cart[Real, N]))) == norm(y)
-  :real
-  :real
+  :Real
+  :Real
   norm((a : Cart[Real, N]) - (b : Cart[Real, N])) == distance((b, a))
-  :real
-  :real
+  :Real
+  :Real
   norm((a : Cart[Real, N])) * distance(((x : Cart[Real, N]), x + op_pct((l : Real), -a)))
   (d : Real) < (l : Real) * (a : Real) && (x : Real) <= (y : Real) \226\134\146 abs((v : Real) - (x + l * -a)) <= d \226\134\146 !(v >= y)
   (v : Cart[Real, N]) - ((x : Cart[Real, N]) + op_pct((l : Real), -(a : Cart[Real, N])))
@@ -54089,8 +54089,8 @@ Multivariate/convex quotations (6096):
   (\226\136\128 y : _, IN(y, (t : (_) -> Bool)) \226\134\146 (P : (_) -> Bool)(y)) \226\134\146 (\226\136\128 x : _, IN(x, (u : (_) -> Bool)) \226\134\146 !P(x)) \226\134\146 INTER(u, t) == {}
   INTER(ball(((x : Cart[Real, N]) + op_pct((l : Real), -(a : Cart[Real, N])), distance((x, x + op_pct(l, -a))))), closure((s : (Cart[Real, N]) -> Bool))) == {}
   distance(((y : Cart[Real, N]), (z : Cart[Real, N]))) < (d : Real) - distance(((x : Cart[Real, N]), z)) \226\134\146 distance((x, y)) < d
-  :real
-  :real
+  :Real
+  :Real
   (d : Real) - distance(((x : Cart[Real, N]), x + op_pct((l : Real), -(a : Cart[Real, N]))))
   IN((x : Cart[Real, N]) + op_pct((l : Real), -(a : Cart[Real, N])), frontier(DIFF(UNIV, (t : (Cart[Real, N]) -> Bool))))
   closure((t : (Cart[Real, N]) -> Bool))
@@ -54143,8 +54143,8 @@ Multivariate/convex quotations (6096):
   real_of_num(0) < (x : Real) \226\134\146 abs(min(x, real_of_num(1))) <= x
   (e : Real) / real_of_num(2) / norm((b : Cart[Real, N]) - (a : Cart[Real, N])) * norm(b - a)
   distance(((b : Cart[Real, N]) - (x : Cart[Real, N]), b)) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < (x : Real) \226\134\146 !(min(x, real_of_num(1)) == real_of_num(0))
   ((b : Cart[Real, N]) - (x : Cart[Real, N]) == b) == (x == vec(0))
   (b : Cart[Real, N]) - op_pct(min((e : Real) / real_of_num(2) / norm(b - (a : Cart[Real, N])), real_of_num(1)), b - a)
@@ -54171,8 +54171,8 @@ Multivariate/convex quotations (6096):
   (b : Cart[Real, N]) == b + op_pct((e : Real) / norm(b - (a : Cart[Real, N])), b - a) - op_pct(e / norm(b - a) / (real_of_num(1) + e / norm(b - a)), b + op_pct(e / norm(b - a), b - a) - a)
   real_of_num(0) < (e : Real) \226\134\146 abs(e) <= e
   distance(((b : Cart[Real, N]), b + (e : Cart[Real, N]))) == norm(e)
-  :real
-  :real
+  :Real
+  :Real
   (b : Cart[Real, N]) + op_pct((e : Real) / norm(b - (a : Cart[Real, N])), b - a)
   (b : Cart[Real, N]) == (a : Cart[Real, N])
   (e : Real)
@@ -54190,8 +54190,8 @@ Multivariate/convex quotations (6096):
   real_of_num(0) < (x : Real) \226\134\146 abs(min(x, real_of_num(1))) <= x
   (e : Real) / real_of_num(2) / norm((b : Cart[Real, N]) - (a : Cart[Real, N])) * norm(b - a)
   distance(((b : Cart[Real, N]) - (x : Cart[Real, N]), b)) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0) < (x : Real) \226\134\146 !(min(x, real_of_num(1)) == real_of_num(0))
   ((b : Cart[Real, N]) - (x : Cart[Real, N]) == b) == (x == vec(0))
   (b : Cart[Real, N]) - op_pct(min((e : Real) / real_of_num(2) / norm(b - (a : Cart[Real, N])), real_of_num(1)), b - a)
@@ -54218,8 +54218,8 @@ Multivariate/convex quotations (6096):
   (b : Cart[Real, N]) == b + op_pct((e : Real) / norm(b - (a : Cart[Real, N])), b - a) - op_pct(e / norm(b - a) / (real_of_num(1) + e / norm(b - a)), b + op_pct(e / norm(b - a), b - a) - a)
   real_of_num(0) < (e : Real) \226\134\146 abs(e) <= e
   distance(((b : Cart[Real, N]), b + (e : Cart[Real, N]))) == norm(e)
-  :real
-  :real
+  :Real
+  :Real
   (b : Cart[Real, N]) + op_pct((e : Real) / norm(b - (a : Cart[Real, N])), b - a)
   (b : Cart[Real, N]) == (a : Cart[Real, N])
   (e : Real)
@@ -54275,8 +54275,8 @@ Multivariate/convex quotations (6096):
   (s : (Cart[Real, N]) -> Bool)
   real_of_num(0) < (a : Real) && real_of_num(0) < (x : Real) && x < (y : Real) \226\134\146 abs(min(a, x)) < y
   distance(((b : Cart[Real, N]) - (a : Cart[Real, N]), b)) == norm(a)
-  :real
-  :real
+  :Real
+  :Real
   (b : Cart[Real, N]) - op_pct(min(real_of_num(1) / real_of_num(2), (e : Real) / real_of_num(2) / norm(b - (a : Cart[Real, N]))), b - a)
   (a : Cart[Real, N])
   (b : Cart[Real, N]) == (a : Cart[Real, N])
@@ -54298,8 +54298,8 @@ Multivariate/convex quotations (6096):
   real_of_num(0) < (x : Real) \226\134\146 real_of_num(1) < real_of_num(1) + x && real_of_num(0) < real_of_num(1) + x && !(real_of_num(1) + x == real_of_num(0))
   inv(real_of_num(1) + (e : Real) / norm((x : Cart[Real, N])))
   distance(((a : Cart[Real, N]), a + (x : Cart[Real, N]))) == norm(x)
-  :real
-  :real
+  :Real
+  :Real
   op_pct(real_of_num(1) + (e : Real) / norm((x : Cart[Real, N])), x)
   (vec : (Num) -> Cart[Real, N])(0)
   (s : (Cart[Real, N]) -> Bool)
@@ -54553,8 +54553,8 @@ Multivariate/convex quotations (6096):
   \226\136\128 a : Real, \226\136\128 k : Num, frontier({(x : Cart[Real, N]) | abs(op_dollar(x, k)) <= a}) == {(x : Cart[Real, N]) | abs(op_dollar(x, k)) == a}
   \226\136\128 a : Real, \226\136\128 k : Num, frontier({(x : Cart[Real, N]) | abs(op_dollar(x, k)) < a}) == (if a == real_of_num(0) { {} } else { {(x : Cart[Real, N]) | abs(op_dollar(x, k)) == a} })
   distance(((x : Cart[Real, N]) + (a : Cart[Real, N]), x)) == norm(a)
-  :real
-  :real
+  :Real
+  :Real
   (x : Cart[Real, N]) + (a : Cart[Real, N]) + op_pct(-real_of_num(1), x) == a
   (x : Cart[Real, N]) + op_pct((e : Real) / real_of_num(2) / norm((a : Cart[Real, N])), a) + op_pct(-real_of_num(1), x)
   (x : Cart[Real, N]) + op_pct((e : Real) / real_of_num(2) / norm((a : Cart[Real, N])), a)
@@ -54683,8 +54683,8 @@ Multivariate/convex quotations (6096):
   \226\136\128 x : Cart[Real, N], \226\136\128 u : Real, IN(x, (s : (Cart[Real, N]) -> Bool)) && real_of_num(0) <= u && u < real_of_num(1) \226\134\146 IN(op_pct(u, x), relative_interior(s))
   (a : Cart[Real, N])
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], compact(s) && IN(a, relative_interior(s)) && (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 SUBSET(segment((a, x)), relative_interior(s))) \226\134\146 homeomorphic(DIFF(s, relative_interior(s)), INTER(sphere((a, real_of_num(1))), hull(affine, s))) && homeomorphic(s, INTER(cball((a, real_of_num(1))), hull(affine, s))) && homeomorphic(relative_interior(s), INTER(ball((a, real_of_num(1))), hull(affine, s)))
-  :real
-  :real
+  :Real
+  :Real
   (proj : (Cart[Real, N]) -> Cart[Real, N])
   (g : (Cart[Real, N]) -> Cart[Real, M])
   (f : (Cart[Real, M]) -> Cart[Real, N])
@@ -54758,8 +54758,8 @@ Multivariate/convex quotations (6096):
   (x : Cart[Real, N]) - (op_pct(real_of_num(1) - (u : Real), x) + op_pct(u, (y : Cart[Real, N]))) == op_pct(u, x - y) && y - (op_pct(real_of_num(1) - u, x) + op_pct(u, y)) == op_pct(u - real_of_num(1), x - y)
   op_pct((a : Real), (x : Cart[Real, N])) - op_pct((b : Real), (y : Cart[Real, N])) == op_pct(a, x - (w : Cart[Real, N])) - op_pct(b, y - w) + op_pct(a - b, w)
   distance(((x : Cart[Real, N]) - (w : Cart[Real, N]), (y : Cart[Real, N]) - w)) == distance((x, y))
-  :real
-  :real
+  :Real
+  :Real
   (((u : Real) - real_of_num(1)) * (x : Real) <= real_of_num(0)) == (real_of_num(0) <= (real_of_num(1) - u) * x)
   (x : Cart[Real, N]) - (op_pct(real_of_num(1) - (u : Real), x) + op_pct(u, (y : Cart[Real, N]))) == op_pct(u, x - y) && y - (op_pct(real_of_num(1) - u, x) + op_pct(u, y)) == op_pct(u - real_of_num(1), x - y)
   (y : Cart[Real, N]) - (w : Cart[Real, N])
@@ -54791,8 +54791,8 @@ Multivariate/convex quotations (6096):
   inv(norm((x : Cart[Real, N])))
   real_of_num(0) < dot((x : Cart[Real, _]), (y : Cart[Real, _])) \226\134\146 dot(x, y) == real_of_num(0) \226\134\146 false
   norm((w : Cart[Real, N])) == distance((vec(0), w))
-  :real
-  :real
+  :Real
+  :Real
   SUBSET((s : (Cart[Real, N]) -> Bool), cball((vec(0), (R : Real))))
   distance(((y : Cart[Real, N]), (x' : Cart[Real, N]))) * norm((x : Cart[Real, N]))
   (y : Cart[Real, N])
@@ -54862,8 +54862,8 @@ Multivariate/convex quotations (6096):
   inv((b : Real))
   (g : (Cart[Real, N]) -> Cart[Real, N])
   (norm((x : Cart[Real, N]) - (y : Cart[Real, N])) <= real_of_num(0)) == (x == y)
-  :real
-  :real
+  :Real
+  :Real
   (y : Cart[Real, N])
   (x : Cart[Real, N])
   (y : Cart[Real, N])
@@ -54871,7 +54871,7 @@ Multivariate/convex quotations (6096):
   op_pct((a : Real), (x : Cart[Real, N]))
   (a : Real)
   !((norm : (Cart[Real, N]) -> Real)((vec : (Num) -> Cart[Real, N])(0)) == real_of_num(1))
-  :real
+  :Real
   (x : Cart[Real, N])
   (vec : (Num) -> Cart[Real, N])(0)
   (s : (Cart[Real, N]) -> Bool)
@@ -55139,8 +55139,8 @@ Multivariate/convex quotations (6096):
   \226\136\128 y : Cart[Real, N], IN(y, (s : (Cart[Real, N]) -> Bool)) \226\134\146 dot((a : Cart[Real, N]), (x : Cart[Real, N])) <= dot(a, y)
   IN((x : _), (s : (_) -> Bool)) \226\134\146 SUBSET(s, (t : (_) -> Bool)) \226\134\146 IN(x, t)
   distance(((y : Cart[Real, N]), y + (e : Cart[Real, N]))) == norm(e)
-  :real
-  :real
+  :Real
+  :Real
   (y : Cart[Real, N]) + op_pct(-((e : Real) / norm((a : Cart[Real, N]))), (x : Cart[Real, N]) + a - x)
   (e : Real)
   IN((y : Cart[Real, N]), relative_interior((s : (Cart[Real, N]) -> Bool)))
@@ -55173,7 +55173,7 @@ Multivariate/convex quotations (6096):
   \226\136\131 N : Num, \226\136\128 n : Num, N <= n \226\134\146 (t : Real) / norm((x : (Num) -> Cart[Real, N])(n)) <= real_of_num(1)
   (t : Real)
   !((norm : (Cart[Real, N]) -> Real)((vec : (Num) -> Cart[Real, N])(0)) == real_of_num(1))
-  :real
+  :Real
   (r : (Num) -> Num)
   (l : Cart[Real, N])
   (n : Num) => op_pct(inv(norm((x : (Num) -> Cart[Real, N])(n))), x(n))
@@ -55250,7 +55250,7 @@ Multivariate/convex quotations (6096):
   (x : Cart[Real, N])
   real_of_num(0) <= (x : Real) \226\134\146 real_of_num(0) < real_of_num(1) + x
   distance(((z : Cart[Real, N]), (y : Cart[Real, N]))) < (k : Real) \226\134\146 k <= (d : Real) \226\134\146 norm(z - y) < d
-  :real
+  :Real
   real_of_num(0) <= (x : Real) \226\134\146 real_of_num(0) < real_of_num(1) + x
   real_of_num(0) <= (x : Real) && x * (real_of_num(1) + (e : Real)) < (d : Real) \226\134\146 x * e < d
   (x : Real) <= (a : Real) \226\134\146 x <= abs(a)
@@ -55305,8 +55305,8 @@ Multivariate/convex quotations (6096):
   (v : (Cart[Real, N]) -> Real)
   (u : (Cart[Real, N]) -> Real)
   distance(((a : Cart[Real, N]), a - (b : Cart[Real, N]))) == norm(b)
-  :real
-  :real
+  :Real
+  :Real
   (y : Cart[Real, N]) - op_pct((d : Real), (a : Cart[Real, N]) - (b : Cart[Real, N]))
   (e : Real) / real_of_num(2) / norm((a : Cart[Real, N]) - (b : Cart[Real, N]))
   \226\136\131 d : Real, real_of_num(0) < d && norm(op_pct(d, (a : Cart[Real, N]) - (b : Cart[Real, N]))) < (e : Real)
@@ -55425,15 +55425,15 @@ Multivariate/convex quotations (6096):
   (x : Real) < (y : Real) \226\134\146 y <= real_of_num(1) \226\134\146 !(x == real_of_num(1))
   real_of_num(0) < (e : Real) \226\134\146 abs(e / real_of_num(2)) * real_of_num(1) < e
   distance(((x : Cart[Real, _]), x + (e : Cart[Real, _]))) == norm(e)
-  :real
-  :real
+  :Real
+  :Real
   (x : Cart[Real, N]) + op_pct((e : Real) / real_of_num(2), basis(1))
   real_of_num(0) < (e : Real)
   (k : Num)
   real_of_num(0) < (e : Real) \226\134\146 abs(e / real_of_num(2)) * real_of_num(1) < e
   distance(((x : Cart[Real, _]), x - (e : Cart[Real, _]))) == norm(e)
-  :real
-  :real
+  :Real
+  :Real
   (x : Cart[Real, N]) - op_pct((e : Real) / real_of_num(2), basis((k : Num)))
   (k : Num)
   (x : Cart[Real, N])
@@ -55472,7 +55472,7 @@ Multivariate/convex quotations (6096):
   (z : Cart[Real, N]) == barycentre((s : (Cart[Real, N]) -> Bool))
   \226\136\131 a : Cart[Real, N], (s : (Cart[Real, N]) -> Bool) == {a}
   !(real_of_num(0) <= (r : Real)) \226\134\146 !(distance(((x : Cart[Real, _]), (y : Cart[Real, _]))) == r)
-  :real
+  :Real
   real_of_num(0) <= (r : Real)
   \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 n : Num, \226\136\128 r : Real, HAS_SIZE(s, n) && (\226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], IN(x, s) && IN(y, s) && !(x == y) \226\134\146 distance((x, y)) == r) \226\134\146 (\226\136\128 x : Cart[Real, N], IN(x, s) \226\134\146 distance((barycentre(s), x)) == sqrt((real_of_num(n) - real_of_num(1)) / (real_of_num(2) * real_of_num(n))) * r)
   !((n : Num) == 0)
@@ -55480,15 +55480,15 @@ Multivariate/convex quotations (6096):
   (b : Cart[Real, N])
   (c : Cart[Real, N])
   (distance(((b : Cart[Real, N]), (y : Cart[Real, N]))) == (r : Real) && distance((y, b)) == r) == (distance((b, y)) == r)
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
+  :Real
   !IN((b : Cart[Real, N]), hull(affine, (k : (Cart[Real, N]) -> Bool)))
   (b : Cart[Real, N]) == vec(0) + b
   IN((b : Cart[Real, N]), hull(affine, (s : (Cart[Real, N]) -> Bool)))
@@ -55522,8 +55522,8 @@ Multivariate/convex quotations (6096):
   \226\136\128 r : Real, \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 n : Num, int_of_num(n) <= aff_dim(s) + int_of_num(1) && real_of_num(0) < r \226\134\146 (\226\136\131 k : (Cart[Real, N]) -> Bool, HAS_SIZE(k, n) && !affine_dependent(k) && SUBSET(k, hull(affine, s)) && (\226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], IN(x, k) && IN(y, k) && !(x == y) \226\134\146 distance((x, y)) == r))
   (x : Cart[Real, N]) - (y : Cart[Real, N]) == op_pct(real_of_num(1), x - y)
   distance(((a : Cart[Real, N]) + (x : Cart[Real, N]), a + (y : Cart[Real, N]))) == distance((x, y))
-  :real
-  :real
+  :Real
+  :Real
   ((a : Cart[Real, N]) + (x : Cart[Real, N]) == a + (y : Cart[Real, N])) == (x == y)
   (a : Cart[Real, N]) - (b : Cart[Real, N]) + b == a
   (k : (Cart[Real, N]) -> Bool) == {}
@@ -55544,8 +55544,8 @@ Multivariate/convex quotations (6096):
   \226\136\128 r : Real, \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], \226\136\128 n : Num, int_of_num(n) <= aff_dim(s) + int_of_num(1) && real_of_num(0) < r && IN(a, hull(affine, s)) && 1 < n \226\134\146 (\226\136\131 k : (Cart[Real, N]) -> Bool, HAS_SIZE(k, n) && !affine_dependent(k) && SUBSET(k, hull(affine, s)) && barycentre(k) == a && (\226\136\128 x : Cart[Real, N], IN(x, k) \226\134\146 distance((a, x)) == r) && (\226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], IN(x, k) && IN(y, k) && !(x == y) \226\134\146 distance((x, y)) == sqrt(real_of_num(2) * real_of_num(n) / (real_of_num(n) - real_of_num(1))) * r))
   op_pct(real_of_num(2), (a : Cart[Real, N])) - (x : Cart[Real, N]) == op_pct(real_of_num(1), a - x) + a
   distance(((a : Cart[Real, N]), op_pct(real_of_num(2), a) - (x : Cart[Real, N]))) == distance((a, x))
-  :real
-  :real
+  :Real
+  :Real
   IN(op_pct(real_of_num(2), (a : Cart[Real, N])) - (x : Cart[Real, N]), cball((a, (d : Real)))) && IN(op_pct(real_of_num(2), a) - x, hull(affine, (s : (Cart[Real, N]) -> Bool)))
   \226\136\128 x : Cart[Real, N], IN(x, hull(convex, (k : (Cart[Real, N]) -> Bool))) \226\134\146 (f : (Cart[Real, N]) -> Real)(x) <= (b : Real)
   op_pct(real_of_num(1) / real_of_num(2), (x : Cart[Real, N])) + op_pct(real_of_num(1) / real_of_num(2), op_pct(real_of_num(2), (a : Cart[Real, N])) - x) == a
@@ -55591,18 +55591,18 @@ Multivariate/convex quotations (6096):
   (a : Real) * (b : Real) / (c : Real) == a / c * b
   (z : Cart[Real, N]) == (x : Cart[Real, N])
   distance(((a : Cart[Real, N]), (z : Cart[Real, N]))) == (e : Real) \226\134\146 distance((a, (x : Cart[Real, N]))) <= e / real_of_num(2) \226\134\146 e / real_of_num(2) <= norm(z - x)
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   (e : Real) / real_of_num(2) <= norm((z : Cart[Real, N]) - (x : Cart[Real, N]))
   (y : Cart[Real, N])
   (z : Cart[Real, N])
   (x : Cart[Real, N])
   abs(real_of_num(1) - (d : Real)) * ((e : Real) / real_of_num(2)) + abs(d) * (e / real_of_num(2))
   norm((x : Cart[Real, N])) + norm((y : Cart[Real, N])) < (e : Real) \226\134\146 !(norm(-(x + y)) == e)
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   (a : Cart[Real, _]) - ((x : Cart[Real, _]) + op_pct((d : Real), (y : Cart[Real, _]) - x)) == -(op_pct(real_of_num(1) - d, x - a) + op_pct(d, y - a))
   inv((d : Real))
   ((y : Cart[Real, N]) == op_pct(real_of_num(1) - (u : Real), (x : Cart[Real, N])) + op_pct(u, x + op_pct((d : Real), y - x))) == (op_pct(u * d - real_of_num(1), y - x) == vec(0))
@@ -55629,8 +55629,8 @@ Multivariate/convex quotations (6096):
   (f : (Cart[Real, N]) -> Real)
   \226\136\128 f : (Cart[Real, N]) -> Real, \226\136\128 s : (Cart[Real, N]) -> Bool, \226\136\128 a : Cart[Real, N], convex_on(f, s) && IN(a, relative_interior(s)) \226\134\146 (\226\136\131 e : Real, \226\136\131 B : Real, real_of_num(0) < e && real_of_num(0) < B && SUBSET(INTER(cball((a, e)), hull(affine, s)), s) && (\226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], IN(x, INTER(cball((a, e)), hull(affine, s))) && IN(y, INTER(cball((a, e)), hull(affine, s))) \226\134\146 abs(f(x) - f(y)) <= B * norm(x - y)))
   norm((a : Cart[Real, N]) - (b : Cart[Real, N])) == distance((b, a))
-  :real
-  :real
+  :Real
+  :Real
   (d : Real) < (e : Real) \226\134\146 abs((a : Real) - (b : Real)) <= d \226\134\146 abs(b - a) < e
   (b : Cart[Real, N])
   (a : Cart[Real, N])

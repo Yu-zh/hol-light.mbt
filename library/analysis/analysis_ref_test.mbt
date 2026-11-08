@@ -6627,7 +6627,7 @@ test "Library/analysis matches Library/analysis.ml" {
       #|  (x : Real) - real_of_num(1)
       #|  \226\136\128 x : Real, \226\136\128 y : Real, real_of_num(1) < x \226\134\146 (\226\136\131 n : Num, y < pow(x, n))
       #|  \226\136\128 x : Real, \226\136\131 n : Num, x < pow(real_of_num(2), n)
-      #|  :A->(B->real)->real
+      #|  :(A, (B) -> Real) -> Real
       #|  (sum : ((A) -> Bool, (A) -> Real) -> Real)
       #|  (psum : ((Num, Num), (Num) -> Real) -> Real)
       #|  fn { (n, m) => (f : (Num) -> Real) => (sm : (Num, Num, (Num) -> Real) -> Real)(n, m, f) }

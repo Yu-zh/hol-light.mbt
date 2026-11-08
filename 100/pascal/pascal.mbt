@@ -1350,7 +1350,7 @@ fn step_63() -> Unit raise {
   let t311 = @tactics.map_every(fn(x306 : String) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {
     let s = x306
     let t310 = @simp.rewrite_tac(@list.List([]))
-    let t309 = @tactics.x_gen_tac(@kernel.mk_var(s, @parser.parse_type("real")))
+    let t309 = @tactics.x_gen_tac(@kernel.mk_var(s, @term_syntax.parse_type("Real")))
     @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.ap_term_tac, @simp.gen_rewrite_tac(fn(x308 : (@kernel.Term) -> @kernel.Thm raise) -> ((@kernel.Term) -> @kernel.Thm raise) raise {
       x308
     }, @list.List([@class.fun_eq_thm()]))), t309), t310)

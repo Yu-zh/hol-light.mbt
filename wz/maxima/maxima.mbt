@@ -386,7 +386,7 @@ pub fn wz_maxima_parse_atom(x34 : @list.List[String]) -> ((@kernel.Term, @list.L
   let c = x36
   (@printer.isalnum(c) || (c == "_"))
 }, @lib.explode(s_1))) => {
-      let t37 = @parser.parse_type("real")
+      let t37 = @term_syntax.parse_type("Real")
       (@kernel.mk_var(wz_maxima_name(s_1), t37), rst_10)
     }
     _ => raise Failure("wz_maxima_parse_atom: expression expected")
@@ -531,16 +531,16 @@ pub fn wz_maxima_certificate(x48 : @kernel.Term, x49 : @kernel.Term) -> ((@kerne
   let instantiations = @lib.map(fn(x52 : @kernel.Term) -> (@kernel.Term, @kernel.Term) raise {
     let v = x52
     let (name, ty) = @kernel.dest_var(v)
-    let replacement = if (ty == @parser.parse_type("num")) {
+    let replacement = if (ty == @term_syntax.parse_type("Num")) {
       @kernel.mk_comb(wz_maxima_real_of_num(), v)
     } else {
-      if (ty == @parser.parse_type("real")) {
+      if (ty == @term_syntax.parse_type("Real")) {
         v
       } else {
         raise Failure("WZ_MAXIMA_CERTIFICATE: unsupported variable type")
       }
     }
-    (replacement, @kernel.mk_var(name, @parser.parse_type("real")))
+    (replacement, @kernel.mk_var(name, @term_syntax.parse_type("Real")))
   }, variables)
   let t54 = @lib.map((x53 : @kernel.Term) => @basics.subst(instantiations, x53), ctm)
   (@basics.subst(instantiations, rtm), t54)

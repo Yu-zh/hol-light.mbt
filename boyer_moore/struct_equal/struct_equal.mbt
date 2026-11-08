@@ -514,8 +514,8 @@ fn step_3() -> Unit raise {
         }
       }
     }
-    let v1 = @basics.genvar(@parser.parse_type("bool"))
-    let v2 = @basics.genvar(@parser.parse_type("bool"))
+    let v1 = @basics.genvar(@term_syntax.parse_type("Bool"))
+    let v2 = @basics.genvar(@term_syntax.parse_type("Bool"))
     let th1 = @kernel.assume_rule(@basics.mk_eq(v1, @term_syntax.parse_term("false")))
     let cnj = @bool.mk_conj(v1, v2)
     let th1_1 = @bool.disch(cnj, @kernel.eq_mp(th1, @bool.conjunct1(@kernel.assume_rule(cnj))))

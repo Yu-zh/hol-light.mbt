@@ -257,8 +257,8 @@ fn step_11() -> Unit raise {
   let t82 = @term_syntax.parse_term("repeating")
   let t83 = @tactics.mp_tac(@bool.ispecl(@list.List([@term_syntax.parse_term("canonical"), t82]), @card.card_disjoint_union()))
   let t81 = @simp.rewrite_tac(@list.List([@card.card_not_lt()]))
-  let t79 = @parser.parse_type("A")
-  let t80 = @tactics.mp_tac(@kernel.inst_type(@list.List([(@parser.parse_type("num"), t79)]), @card.cantor_thm_univ()))
+  let t79 = @term_syntax.parse_type("A")
+  let t80 = @tactics.mp_tac(@kernel.inst_type(@list.List([(@term_syntax.parse_type("Num"), t79)]), @card.cantor_thm_univ()))
   let t100 = @tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.thenl(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@simp.rewrite_tac(@list.List([countable()])), @tactics.strip_tac), t80), t81), t83), @tactics.ants_tac), t85), t89), t91), @tactics.disch_tac), t93), t94), t96), @tactics.conj_tac), t99)
   uncountable_canonical_c.set(@tactics.prove(@term_syntax.parse_term("!countable(canonical)"), t100))
 }

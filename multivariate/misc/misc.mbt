@@ -2808,7 +2808,7 @@ pub fn closed_real_interval() -> @kernel.Thm {
 ///|
 /// Multivariate/misc.ml:346
 fn step_38() -> Unit raise {
-  @preterm.make_overloadable("real_interval", @parser.parse_type("A"))
+  @preterm.make_overloadable("real_interval", @term_syntax.parse_type("A"))
 }
 
 ///|

@@ -5618,7 +5618,7 @@ define quotations (111):
   ((a : Bool) && (x : _) == (k : _) \226\134\146 x == (y : _) \226\134\146 (d : Bool)) \226\134\146 a && x == k && y == k \226\134\146 d
   ((a : Bool) && (b : Bool) && (c : Bool) && (x : _) == (k : _) \226\134\146 x == (y : _) \226\134\146 (d : Bool)) \226\134\146 a && x == k && b && y == k && c \226\134\146 d
   ALL(fn { (s, t) => (P : (_, _) -> Bool)(s, t) }, [((a : _), (b : _))]) == P(a, b) && ALL(fn { (s, t) => P(s, t) }, CONS((a, b), (l : List[(_, _)]))) == (P(a, b) && ALL(fn { (s, t) => P(s, t) }, l))
-  :num
+  :Num
   1
   fn { (x1, y1) => fn { (x2, y2) => (r : (A, A) -> Bool)(x1, x2) || x1 == x2 && (s : (B, B) -> Bool)(y1, y2) } }
   (\226\136\131 r : (A, A) -> Bool, WF(r) && (\226\136\131 s : (B, B) -> Bool, WF(s) && (P : (((A, B), (A, B)) -> Bool) -> Bool)(fn { (x1, y1) => fn { (x2, y2) => r(x1, x2) || x1 == x2 && s(y1, y2) } }))) \226\134\146 (\226\136\131 t : ((A, B), (A, B)) -> Bool, WF(t) && P(t))

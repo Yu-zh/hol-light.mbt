@@ -6154,7 +6154,7 @@ test "Unity/mk_leadsto matches Unity/mk_leadsto.ml" {
       #|  (\226\136\128 p : (A) -> Bool, In(p, (P : ((A) -> Bool) -> Bool)) \226\134\146 (\226\136\128 R : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, (Pr : List[(A) -> A])) \226\134\146 R(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, R(p, r, Pr) && R(r, q, Pr) \226\134\146 R(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p' : (A) -> Bool, In(p', P) \226\134\146 R(p', q, Pr)) \226\134\146 R(p, q, Pr))) \226\134\146 R(p, (q : (A) -> Bool), Pr))) \226\134\146 (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 (R : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, R(p, r, Pr) && R(r, q, Pr) \226\134\146 R(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p' : (A) -> Bool, In(p', P) \226\134\146 R(p', q, Pr)) \226\134\146 R(p, q, Pr))) \226\134\146 R(p, q, Pr))
       #|  \226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, (Pr : List[(A) -> A])) \226\134\146 (R : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, R(p, r, Pr) && R(r, q, Pr) \226\134\146 R(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p' : (A) -> Bool, In(p', P) \226\134\146 R(p', q, Pr)) \226\134\146 R(p, q, Pr))
       #|  \226\136\128 p : (A) -> Bool, \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 Pr : List[(A) -> A], p == LUB(P) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) \226\134\146 LEADSTO(p, q, Pr)
-      #|  :bool
+      #|  :Bool
       #|  (P : ((A) -> Bool) -> Bool)
       #|  LUB((P : ((A) -> Bool) -> Bool))
       #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) \226\134\146 LEADSTO(LUB(P), q, Pr)
@@ -6163,8 +6163,8 @@ test "Unity/mk_leadsto matches Unity/mk_leadsto.ml" {
       #|  (P : (Num, A) -> Bool)((i : Num)) == P((i' : Num))
       #|  \226\136\131 i' : Num, (P : (Num, A) -> Bool)((i : Num)) == P(i')
       #|  \226\136\128 P : (Num, A) -> Bool, \226\136\128 q : Bool, \226\136\128 i : Num, ((\226\136\131 i' : Num, P(i) == P(i')) \226\134\146 q) == (\226\136\128 i' : Num, P(i) == P(i') \226\134\146 q)
-      #|  :bool
-      #|  :bool
+      #|  :Bool
+      #|  :Bool
       #|  \226\136\128 p : (A) -> Bool, (\226\136\131 i : Num, p == (P : (Num, A) -> Bool)(i)) \226\134\146 LEADSTO(p, (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  (P : (Num, A) -> Bool)((i : Num))
       #|  (i : Num)
@@ -6246,10 +6246,10 @@ test "Unity/mk_leadsto matches Unity/mk_leadsto.ml" {
       #|  \226\136\128 p : (A) -> Bool, In(p, (P : ((A) -> Bool) -> Bool)) \226\134\146 LEADSTO(p, (q : (A) -> Bool), (Pr : List[(A) -> A])) \226\134\146 (X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, q, Pr)
       #|  \226\136\128 p : (A) -> Bool, In(p, (P : ((A) -> Bool) -> Bool)) \226\134\146 LEADSTO(p, (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  \226\136\128 X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, LEADSTO(p, r, Pr) && (LEADSTO(p, r, Pr) \226\134\146 X(p, r, Pr)) && LEADSTO(r, q, Pr) && (LEADSTO(r, q, Pr) \226\134\146 X(r, q, Pr)) \226\134\146 LEADSTO(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr) \226\134\146 X(p, q, Pr)) \226\134\146 LEADSTO(LUB(P), q, Pr) \226\134\146 X(LUB(P), q, Pr))) == (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 LEADSTO(p, q, Pr) && (LEADSTO(p, q, Pr) \226\134\146 X(p, q, Pr))) && (\226\136\128 r : (A) -> Bool, (LEADSTO(p, r, Pr) && (LEADSTO(p, r, Pr) \226\134\146 X(p, r, Pr))) && LEADSTO(r, q, Pr) && (LEADSTO(r, q, Pr) \226\134\146 X(r, q, Pr)) \226\134\146 LEADSTO(p, q, Pr) && (LEADSTO(p, q, Pr) \226\134\146 X(p, q, Pr))) && (\226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p' : (A) -> Bool, In(p', P) \226\134\146 LEADSTO(p', q, Pr) && (LEADSTO(p', q, Pr) \226\134\146 X(p', q, Pr))) \226\134\146 LEADSTO(p, q, Pr) && (LEADSTO(p, q, Pr) \226\134\146 X(p, q, Pr))))
-      #|  :bool
-      #|  :bool
-      #|  :bool
-      #|  :bool
+      #|  :Bool
+      #|  :Bool
+      #|  :Bool
+      #|  :Bool
       #|  LEADSTO((p : (A) -> Bool), (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  (p : (A) -> Bool) => (q : (A) -> Bool) => (Pr : List[(A) -> A]) => LEADSTO(p, q, Pr) && (LEADSTO(p, q, Pr) \226\134\146 (X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, q, Pr))
       #|  \226\136\128 X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, LEADSTO(p, r, Pr) && (LEADSTO(p, r, Pr) \226\134\146 X(p, r, Pr)) && LEADSTO(r, q, Pr) && (LEADSTO(r, q, Pr) \226\134\146 X(r, q, Pr)) \226\134\146 LEADSTO(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr) \226\134\146 X(p, q, Pr)) \226\134\146 LEADSTO(LUB(P), q, Pr) \226\134\146 X(LUB(P), q, Pr))) \226\134\146 LEADSTO(p, q, Pr) \226\134\146 X(p, q, Pr)
@@ -6267,9 +6267,9 @@ test "Unity/mk_leadsto matches Unity/mk_leadsto.ml" {
       #|  \226\136\128 p : (A) -> Bool, In(p, (P : ((A) -> Bool) -> Bool)) \226\134\146 (X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  \226\136\128 p : (A) -> Bool, In(p, (P : ((A) -> Bool) -> Bool)) \226\134\146 LEADSTO(p, (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  \226\136\128 X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 LEADSTO(p, q, Pr) && X(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, (LEADSTO(p, r, Pr) && X(p, r, Pr)) && LEADSTO(r, q, Pr) && X(r, q, Pr) \226\134\146 LEADSTO(p, q, Pr) && X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p' : (A) -> Bool, In(p', P) \226\134\146 LEADSTO(p', q, Pr) && X(p', q, Pr)) \226\134\146 LEADSTO(p, q, Pr) && X(p, q, Pr))) == (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, LEADSTO(p, r, Pr) && X(p, r, Pr) && LEADSTO(r, q, Pr) && X(r, q, Pr) \226\134\146 LEADSTO(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 X(p, q, Pr)) \226\134\146 LEADSTO(LUB(P), q, Pr) \226\134\146 X(LUB(P), q, Pr)))
-      #|  :bool
-      #|  :bool
-      #|  :bool
+      #|  :Bool
+      #|  :Bool
+      #|  :Bool
       #|  LEADSTO((p : (A) -> Bool), (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  (p : (A) -> Bool) => (q : (A) -> Bool) => (Pr : List[(A) -> A]) => LEADSTO(p, q, Pr) && (X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, q, Pr)
       #|  \226\136\128 X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, LEADSTO(p, r, Pr) && X(p, r, Pr) && LEADSTO(r, q, Pr) && X(r, q, Pr) \226\134\146 LEADSTO(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 X(p, q, Pr)) \226\134\146 LEADSTO(LUB(P), q, Pr) \226\134\146 X(LUB(P), q, Pr))) \226\134\146 LEADSTO(p, q, Pr) \226\134\146 X(p, q, Pr)
@@ -6296,15 +6296,15 @@ test "Unity/mk_leadsto matches Unity/mk_leadsto.ml" {
       #|  \226\136\128 p : (A) -> Bool, In(p, (P : ((A) -> Bool) -> Bool)) \226\134\146 (X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  \226\136\128 p : (A) -> Bool, In(p, (P : ((A) -> Bool) -> Bool)) \226\134\146 LEADSTO(p, (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  \226\136\128 X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 LEADSTO(p, q, Pr) && X(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, (LEADSTO(p, r, Pr) && X(p, r, Pr)) && LEADSTO(r, q, Pr) && X(r, q, Pr) \226\134\146 LEADSTO(p, q, Pr) && X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p' : (A) -> Bool, In(p', P) \226\134\146 LEADSTO(p', q, Pr) && X(p', q, Pr)) \226\134\146 LEADSTO(p, q, Pr) && X(p, q, Pr))) == (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, LEADSTO(p, r, Pr) && LEADSTO(r, q, Pr) && X(p, r, Pr) && X(r, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 X(p, q, Pr)) \226\134\146 X(p, q, Pr)))
-      #|  :bool
-      #|  :bool
+      #|  :Bool
+      #|  :Bool
       #|  LEADSTO((p : (A) -> Bool), (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  (p : (A) -> Bool) => (q : (A) -> Bool) => (Pr : List[(A) -> A]) => LEADSTO(p, q, Pr) && (X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, q, Pr)
       #|  \226\136\128 X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, LEADSTO(p, r, Pr) && LEADSTO(r, q, Pr) && X(p, r, Pr) && X(r, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 X(p, q, Pr)) \226\134\146 X(p, q, Pr))) \226\134\146 (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, LEADSTO(p, q, Pr) \226\134\146 X(p, q, Pr))
       #|  \226\136\128 p : (A) -> Bool, p == LUB((P : ((A) -> Bool) -> Bool)) \226\134\146 (X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  LUB((P : ((A) -> Bool) -> Bool))
       #|  \226\136\128 X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, LEADSTO(p, r, Pr) && LEADSTO(r, q, Pr) && X(p, r, Pr) && X(r, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 X(p, q, Pr)) \226\134\146 X(p, q, Pr))) == (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, LEADSTO(p, r, Pr) && LEADSTO(r, q, Pr) && X(p, r, Pr) && X(r, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 X(p, q, Pr)) \226\134\146 X(LUB(P), q, Pr)))
-      #|  :bool
+      #|  :Bool
       #|  \226\136\128 X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, LEADSTO(p, r, Pr) && LEADSTO(r, q, Pr) && X(p, r, Pr) && X(r, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 X(p, q, Pr)) \226\134\146 X(LUB(P), q, Pr))) \226\134\146 (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, LEADSTO(p, q, Pr) \226\134\146 X(p, q, Pr))
       #|  \226\136\128 s : A, (p : (A) -> Bool)(s) \226\134\146 (q : (A) -> Bool)(s)
       #|  (Pr : List[(A) -> A])
@@ -6373,7 +6373,7 @@ test "Unity/mk_leadsto matches Unity/mk_leadsto.ml" {
       #|  (s : A) => (p : (A) -> Bool)(s) && (r : (A) -> Bool)(s)
       #|  \226\136\128 s : A, op_slash_bslash_star(LUB((P : ((A) -> Bool) -> Bool)), (r : (A) -> Bool), s) == LUB((p : (A) -> Bool) => \226\136\131 p' : (A) -> Bool, In(p', P) && p == op_slash_bslash_star(p', r), s)
       #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 r : (A) -> Bool, \226\136\128 q' : (A) -> Bool, \226\136\128 b : (A) -> Bool, \226\136\128 st : (A) -> A, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p'' : (A) -> Bool, In(p'', P) \226\134\146 LEADSTO(op_slash_bslash_star(p'', r), op_bslash_slash_star(op_slash_bslash_star(q', r), b), CONS(st, Pr))) \226\134\146 (\226\136\128 p : (A) -> Bool, (\226\136\131 p' : (A) -> Bool, In(p', P) && p == op_slash_bslash_star(p', r)) \226\134\146 LEADSTO(p, op_bslash_slash_star(op_slash_bslash_star(q', r), b), CONS(st, Pr)))
-      #|  :bool
+      #|  :Bool
       #|  (\226\136\128 p : (A) -> Bool, (\226\136\131 p' : (A) -> Bool, In(p', (P : ((A) -> Bool) -> Bool)) && p == op_slash_bslash_star(p', (r : (A) -> Bool))) \226\134\146 LEADSTO(p, op_bslash_slash_star(op_slash_bslash_star((q' : (A) -> Bool), r), (b : (A) -> Bool)), CONS((st : (A) -> A), (Pr : List[(A) -> A])))) \226\134\146 LEADSTO(LUB((p : (A) -> Bool) => \226\136\131 p' : (A) -> Bool, In(p', P) && p == op_slash_bslash_star(p', r)), op_bslash_slash_star(op_slash_bslash_star(q', r), b), CONS(st, Pr))
       #|  CONS((st : (A) -> A), (Pr : List[(A) -> A]))
       #|  op_bslash_slash_star(op_slash_bslash_star((q' : (A) -> Bool), (r : (A) -> Bool)), (b : (A) -> Bool))
@@ -6422,14 +6422,14 @@ test "Unity/mk_leadsto matches Unity/mk_leadsto.ml" {
       #|  ENSURES((p' : (A) -> Bool), (q' : (A) -> Bool), CONS((st : (A) -> A), (Pr : List[(A) -> A])))
       #|  (q' : (A) -> Bool) == False
       #|  \226\136\128 p' : (A) -> Bool, \226\136\128 q' : (A) -> Bool, (ENSURES(p', q', CONS((st : (A) -> A), (Pr : List[(A) -> A]))) \226\134\146 q' == False \226\134\146 (\226\136\128 s : A, Not(p', s))) && (\226\136\128 r : (A) -> Bool, (r == False \226\134\146 (\226\136\128 s : A, Not(p', s))) && (q' == False \226\134\146 (\226\136\128 s : A, Not(r, s))) \226\134\146 q' == False \226\134\146 (\226\136\128 s : A, Not(p', s))) && (\226\136\128 P : ((A) -> Bool) -> Bool, p' == LUB(P) && (\226\136\128 p'' : (A) -> Bool, In(p'', P) \226\134\146 q' == False \226\134\146 (\226\136\128 s : A, Not(p'', s))) \226\134\146 q' == False \226\134\146 (\226\136\128 s : A, Not(p', s)))
-      #|  :bool
-      #|  :bool
-      #|  :bool
-      #|  :bool
-      #|  :bool
-      #|  :bool
-      #|  :bool
-      #|  :bool
+      #|  :Bool
+      #|  :Bool
+      #|  :Bool
+      #|  :Bool
+      #|  :Bool
+      #|  :Bool
+      #|  :Bool
+      #|  :Bool
       #|  (False : (A) -> Bool)
       #|  \226\136\128 p : (A) -> Bool, \226\136\128 st : (A) -> A, \226\136\128 Pr : List[(A) -> A], LEADSTO(p, False, CONS(st, Pr)) \226\134\146 (\226\136\131 q : (A) -> Bool, q == False && LEADSTO(p, q, CONS(st, Pr)))
       #|  \226\136\128 p : (A) -> Bool, \226\136\128 st : (A) -> A, \226\136\128 Pr : List[(A) -> A], LEADSTO(p, False, CONS(st, Pr)) \226\134\146 (\226\136\128 s : A, Not(p, s))
@@ -6504,8 +6504,8 @@ test "Unity/mk_leadsto matches Unity/mk_leadsto.ml" {
       #|  (P : ((A) -> Bool) -> Bool)
       #|  (r : (A) -> Bool)
       #|  \226\136\128 R1 : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 R2 : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, R1(p, q, Pr) \226\134\146 R2(p, q, Pr)) \226\134\146 (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, LEADSTO2Fn(R1, p, q, Pr) \226\134\146 LEADSTO2Fn(R2, p, q, Pr))
-      #|  :bool
-      #|  :bool
+      #|  :Bool
+      #|  :Bool
       #|  (Pr : List[(A) -> A])
       #|  (q : (A) -> Bool)
       #|  (p : (A) -> Bool)
@@ -6535,7 +6535,7 @@ test "Unity/mk_leadsto matches Unity/mk_leadsto.ml" {
       #|  (p : (A) -> Bool)
       #|  \226\136\128 R : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, (\226\136\128 p' : (A) -> Bool, \226\136\128 q' : (A) -> Bool, LEADSTO2Fn(R, p', q', (Pr : List[(A) -> A])) \226\134\146 R(p', q', Pr)) \226\134\146 R((p : (A) -> Bool), (q : (A) -> Bool), Pr)
       #|  \226\136\128 R : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, R == LEADSTO2Fn(R) \226\134\146 (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 Pr : List[(A) -> A], LEADSTO2(p, q, Pr) \226\134\146 R(p, q, Pr))
-      #|  :bool
+      #|  :Bool
       #|  \226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 Pr : List[(A) -> A], LEADSTO2Fn((R : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool), p, q, Pr) \226\134\146 R(p, q, Pr)
       #|  (q : (A) -> Bool)
       #|  (p : (A) -> Bool)
@@ -6544,7 +6544,7 @@ test "Unity/mk_leadsto matches Unity/mk_leadsto.ml" {
       #|  \226\136\128 p : (A) -> Bool, p == LUB((P : ((A) -> Bool) -> Bool)) \226\134\146 (R : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  LUB((P : ((A) -> Bool) -> Bool))
       #|  \226\136\128 R : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, LEADSTO2Fn(R, p, q, Pr) \226\134\146 R(p, q, Pr)) == LEADSTO2Fam(R, Pr)
-      #|  :bool
+      #|  :Bool
       #|  \226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 Pr : List[(A) -> A], ENSURES(p, q, Pr) \226\134\146 LEADSTO2(p, q, Pr)
       #|  \226\136\128 p : (A) -> Bool, \226\136\128 r : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 Pr : List[(A) -> A], ENSURES(p, r, Pr) && LEADSTO2(r, q, Pr) \226\134\146 LEADSTO2(p, q, Pr)
       #|  (\226\136\128 p : (A) -> Bool, In(p, (P : ((A) -> Bool) -> Bool)) \226\134\146 (\226\136\128 R : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, (Pr : List[(A) -> A])) \226\134\146 R(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, ENSURES(p, r, Pr) && R(r, q, Pr) \226\134\146 R(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 p' : (A) -> Bool, In(p', P) \226\134\146 R(p', q, Pr)) \226\134\146 R(LUB(P), q, Pr))) \226\134\146 R(p, (q : (A) -> Bool), Pr))) \226\134\146 (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 (R : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, ENSURES(p, r, Pr) && R(r, q, Pr) \226\134\146 R(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 p' : (A) -> Bool, In(p', P) \226\134\146 R(p', q, Pr)) \226\134\146 R(LUB(P), q, Pr))) \226\134\146 R(p, q, Pr))
@@ -6560,7 +6560,7 @@ test "Unity/mk_leadsto matches Unity/mk_leadsto.ml" {
       #|  \226\136\128 p1 : (A) -> Bool, \226\136\128 p2 : (A) -> Bool, \226\136\128 s : A, op_bslash_slash_star(p1, p2, s) == LUB((p : (A) -> Bool) => p == p1 || p == p2, s)
       #|  (s : A)
       #|  \226\136\128 R : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p' : (A) -> Bool, \226\136\128 q' : (A) -> Bool, ENSURES(p', q', Pr) || (\226\136\131 r : (A) -> Bool, ENSURES(p', r, Pr) && R(r, q', Pr)) || (\226\136\131 P : ((A) -> Bool) -> Bool, p' == LUB(P) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 R(p, q', Pr))) \226\134\146 R(p', q', Pr)) \226\134\146 (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 R(p, q, Pr)) \226\134\146 R(p, q, Pr))
-      #|  :bool
+      #|  :Bool
       #|  \226\136\128 R : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 p1 : (A) -> Bool, \226\136\128 p2 : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 Pr : List[(A) -> A], \226\136\128 Pr : List[(A) -> A], R(p1, q, Pr) \226\134\146 R(p2, q, Pr) \226\134\146 (\226\136\128 p : (A) -> Bool, ((p : (A) -> Bool) => p == p1 || p == p2)(p) \226\134\146 R(p, q, Pr))
       #|  \226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p : (A) -> Bool, P(p) \226\134\146 (R : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, q, (Pr : List[(A) -> A]))) \226\134\146 R(p, q, Pr)
       #|  (p : (A) -> Bool) => p == (p1 : (A) -> Bool) || p == (p2 : (A) -> Bool)
@@ -6734,7 +6734,7 @@ test "Unity/mk_leadsto matches Unity/mk_leadsto.ml" {
       #|  (s : A) => (p : (A) -> Bool)(s) && (p' : (A) -> Bool)(s)
       #|  \226\136\128 s : A, op_slash_bslash_star((p : (A) -> Bool), LUB((P : ((A) -> Bool) -> Bool)), s) == LUB((p'' : (A) -> Bool) => \226\136\131 p' : (A) -> Bool, In(p', P) && p'' == op_slash_bslash_star(p, p'), s)
       #|  \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 r' : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 q' : (A) -> Bool, \226\136\128 st : (A) -> A, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p' : (A) -> Bool, In(p', P) \226\134\146 LEADSTO(op_slash_bslash_star((p : (A) -> Bool), p'), op_bslash_slash_star(op_slash_bslash_star(q, q'), r'), CONS(st, Pr))) \226\134\146 (\226\136\128 p' : (A) -> Bool, (\226\136\131 p''' : (A) -> Bool, In(p''', P) && p' == op_slash_bslash_star(p, p''')) \226\134\146 LEADSTO(p', op_bslash_slash_star(op_slash_bslash_star(q, q'), r'), CONS(st, Pr)))
-      #|  :bool
+      #|  :Bool
       #|  (\226\136\128 p' : (A) -> Bool, (\226\136\131 p''' : (A) -> Bool, In(p''', (P : ((A) -> Bool) -> Bool)) && p' == op_slash_bslash_star((p : (A) -> Bool), p''')) \226\134\146 LEADSTO(p', op_bslash_slash_star(op_slash_bslash_star((q : (A) -> Bool), (q' : (A) -> Bool)), (r' : (A) -> Bool)), CONS((st : (A) -> A), (Pr : List[(A) -> A])))) \226\134\146 LEADSTO(LUB((p'' : (A) -> Bool) => \226\136\131 p' : (A) -> Bool, In(p', P) && p'' == op_slash_bslash_star(p, p')), op_bslash_slash_star(op_slash_bslash_star(q, q'), r'), CONS(st, Pr))
       #|  CONS((st : (A) -> A), (Pr : List[(A) -> A]))
       #|  op_bslash_slash_star(op_slash_bslash_star((q : (A) -> Bool), (q' : (A) -> Bool)), (r' : (A) -> Bool))
@@ -6880,9 +6880,9 @@ test "Unity/mk_leadsto matches Unity/mk_leadsto.ml" {
       #|  \226\136\128 p : (A) -> Bool, In(p, (P : ((A) -> Bool) -> Bool)) \226\134\146 (X : ((A) -> Bool, (A) -> Bool) -> Bool)(p, (q : (A) -> Bool))
       #|  \226\136\128 p : (A) -> Bool, In(p, (P : ((A) -> Bool) -> Bool)) \226\134\146 LEADSTO(p, (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  \226\136\128 X : ((A) -> Bool, (A) -> Bool) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 LEADSTO(p, q, Pr) && X(p, q)) && (\226\136\128 r : (A) -> Bool, LEADSTO(p, r, Pr) && X(p, r) && LEADSTO(r, q, Pr) && X(r, q) \226\134\146 LEADSTO(p, q, Pr) && X(p, q)) && (\226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p' : (A) -> Bool, In(p', P) \226\134\146 LEADSTO(p', q, Pr) && X(p', q)) \226\134\146 LEADSTO(p, q, Pr) && X(p, q))) == (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 X(p, q)) && (\226\136\128 r : (A) -> Bool, LEADSTO(p, r, Pr) && X(p, r) && LEADSTO(r, q, Pr) && X(r, q) \226\134\146 X(p, q)) && (\226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 X(p, q)) \226\134\146 X(LUB(P), q)))
-      #|  :bool
-      #|  :bool
-      #|  :bool
+      #|  :Bool
+      #|  :Bool
+      #|  :Bool
       #|  LEADSTO((p : (A) -> Bool), (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  (p : (A) -> Bool) => (q : (A) -> Bool) => (Pr : List[(A) -> A]) => LEADSTO(p, q, Pr) && (X : ((A) -> Bool, (A) -> Bool) -> Bool)(p, q)
       #|  \226\136\128 X : ((A) -> Bool, (A) -> Bool) -> Bool, \226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 X(p, q)) && (\226\136\128 r : (A) -> Bool, LEADSTO(p, r, Pr) && X(p, r) && LEADSTO(r, q, Pr) && X(r, q) \226\134\146 X(p, q)) && (\226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 X(p, q)) \226\134\146 X(LUB(P), q))) \226\134\146 LEADSTO(p, q, Pr) \226\134\146 X(p, q)
@@ -6920,8 +6920,8 @@ test "Unity/mk_leadsto matches Unity/mk_leadsto.ml" {
       #|  \226\136\128 X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 Pr : List[(A) -> A], ENSURES(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, \226\136\128 r : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 Pr : List[(A) -> A], LEADSTO(p, r, Pr) && LEADSTO(r, q, Pr) && X(p, r, Pr) && X(r, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, \226\136\128 P : ((A) -> Bool) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 Pr : List[(A) -> A], p == LUB(P) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 X(p, q, Pr)) \226\134\146 X(p, q, Pr)) \226\134\146 (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, \226\136\128 Pr : List[(A) -> A], LEADSTO(p, q, Pr) \226\134\146 X(p, q, Pr))
       #|  \226\136\128 X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, In(p, (P : ((A) -> Bool) -> Bool)) \226\134\146 LEADSTO2(p, (q : (A) -> Bool), Pr) && X(p, q, Pr)) == ((\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO2(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 X(p, q, Pr)))
       #|  \226\136\128 X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, ENSURES(p, r, Pr) && LEADSTO(r, q, Pr) && X(p, r, Pr) && X(r, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 X(p, q, Pr)) \226\134\146 X(p, q, Pr))) == (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, ENSURES(p, r, Pr) && LEADSTO(r, q, Pr) && X(r, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 X(p, q, Pr)) \226\134\146 X(p, q, Pr)))
-      #|  :bool
-      #|  :bool
+      #|  :Bool
+      #|  :Bool
       #|  \226\136\128 p : (A) -> Bool, In(p, (P : ((A) -> Bool) -> Bool)) \226\134\146 (X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  \226\136\128 p : (A) -> Bool, In(p, (P : ((A) -> Bool) -> Bool)) \226\134\146 LEADSTO2(p, (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  \226\136\128 p : (A) -> Bool, p == LUB((P : ((A) -> Bool) -> Bool)) \226\134\146 (X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, (q : (A) -> Bool), (Pr : List[(A) -> A]))
@@ -6929,8 +6929,8 @@ test "Unity/mk_leadsto matches Unity/mk_leadsto.ml" {
       #|  \226\136\128 p : (A) -> Bool, In(p, (P : ((A) -> Bool) -> Bool)) \226\134\146 LEADSTO2(p, (q : (A) -> Bool), (Pr : List[(A) -> A])) && (X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, q, Pr)
       #|  \226\136\128 p : (A) -> Bool, In(p, (P : ((A) -> Bool) -> Bool)) \226\134\146 LEADSTO2(p, (q : (A) -> Bool), (Pr : List[(A) -> A])) && (X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, q, Pr)
       #|  \226\136\128 X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool, \226\136\128 Pr : List[(A) -> A], (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, ENSURES(p, r, Pr) && LEADSTO2(r, q, Pr) && X(r, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO2(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 X(p, q, Pr)) \226\134\146 X(p, q, Pr))) == (\226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, Pr) \226\134\146 LEADSTO2(p, q, Pr) && X(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, ENSURES(p, r, Pr) && LEADSTO2(r, q, Pr) && X(r, q, Pr) \226\134\146 LEADSTO2(p, q, Pr) && X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO2(p, q, Pr) && X(p, q, Pr)) \226\134\146 LEADSTO2(LUB(P), q, Pr) && X(LUB(P), q, Pr)))
-      #|  :bool
-      #|  :bool
+      #|  :Bool
+      #|  :Bool
       #|  \226\136\128 p : (A) -> Bool, \226\136\128 q : (A) -> Bool, (ENSURES(p, q, (Pr : List[(A) -> A])) \226\134\146 (X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, q, Pr)) && (\226\136\128 r : (A) -> Bool, ENSURES(p, r, Pr) && LEADSTO2(r, q, Pr) && X(r, q, Pr) \226\134\146 X(p, q, Pr)) && (\226\136\128 P : ((A) -> Bool) -> Bool, p == LUB(P) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 LEADSTO2(p, q, Pr)) && (\226\136\128 p : (A) -> Bool, In(p, P) \226\134\146 X(p, q, Pr)) \226\134\146 X(p, q, Pr))
       #|  LEADSTO2((p : (A) -> Bool), (q : (A) -> Bool), (Pr : List[(A) -> A]))
       #|  (p : (A) -> Bool) => (q : (A) -> Bool) => (Pr : List[(A) -> A]) => LEADSTO2(p, q, Pr) && (X : ((A) -> Bool, (A) -> Bool, List[(A) -> A]) -> Bool)(p, q, Pr)

@@ -5522,7 +5522,7 @@ Searching with limit 1
 Searching with limit 2
 Searching with limit 3
 Boyer_Moore/terms_and_clauses quotations (23):
-  :bool
+  :Bool
   (b : Bool)
   (b : Bool)
   true

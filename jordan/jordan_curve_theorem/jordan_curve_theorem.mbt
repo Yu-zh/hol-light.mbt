@@ -18332,7 +18332,7 @@ pub fn dest_graph_t() -> @kernel.Thm {
 ///|
 /// mk_graph_t, dest_graph_t
 fn step_606() -> Unit raise {
-  let (mk_graph_t, dest_graph_t) = @tactics_ext2.abbrev_type(@parser.parse_type("(A->bool)#(B->bool)#(B->(A->bool))"), "graph_t")
+  let (mk_graph_t, dest_graph_t) = @tactics_ext2.abbrev_type(@term_syntax.parse_type("((A) -> Bool, (B) -> Bool, (B, A) -> Bool)"), "graph_t")
   mk_graph_t_c.set(mk_graph_t)
   dest_graph_t_c.set(dest_graph_t)
 }
@@ -23730,7 +23730,7 @@ pub fn graph_edge_end_select() -> @kernel.Thm {
 fn step_730() -> Unit raise {
   let inf_def = @term_syntax.parse_term("inf((X : (Real) -> Bool)) == select((s : Real) => (∀ x : Real, X(x) → s <= x) && (∀ y : Real, (∀ x : Real, X(x) → y <= x) → y <= s))")
   let t13965 = @kernel.mk_const("inf", @list.List([]))
-  let def = @basics.subst(@list.List([(@kernel.mk_var("inf", @parser.parse_type("(real->bool)->real")), t13965)]), inf_def)
+  let def = @basics.subst(@list.List([(@kernel.mk_var("inf", @term_syntax.parse_type("((Real) -> Bool) -> Real")), t13965)]), inf_def)
   inf_c.set(jordan_def(def))
 }
 

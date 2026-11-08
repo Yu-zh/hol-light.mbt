@@ -6415,8 +6415,8 @@ Complex/complex_grobner quotations (31):
   complex_pow
   Cx(real_of_num(0))
   complex_sub
-  :complex
-  :complex
+  :Complex
+  :Complex
   complex_pow
   complex_mul
   complex_add

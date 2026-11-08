@@ -5878,13 +5878,13 @@ test "Unity/mk_unity_prog matches Unity/mk_unity_prog.ml" {
       #|Warning: inventing type variables
       #|Warning: inventing type variables
       #|Unity/mk_unity_prog quotations (93):
-      #|  :num
-      #|  :bool
-      #|  :Loc->Val
-      #|  :(stype->T)#((stype->T)->stype->stype->stype)
-      #|  :(stype->I->T)#((stype->I->T)->stype->stype->stype)
-      #|  :(stype->A#B)#((stype->A#B)->stype->stype->stype)
-      #|  :Loc->(num->Val)->(Val->num)->num->(stype->stype)list#num
+      #|  :Num
+      #|  :Bool
+      #|  :(Loc) -> Val
+      #|  :((Stype) -> T, ((Stype) -> T, Stype, Stype) -> Stype)
+      #|  :((Stype, I) -> T, ((Stype, I) -> T, Stype, Stype) -> Stype)
+      #|  :((Stype) -> (A, B), ((Stype) -> (A, B), Stype, Stype) -> Stype)
+      #|  :(Loc, (Num) -> Val, (Val) -> Num, Num) -> (List[(Stype) -> Stype], Num)
       #|  (VAR_EXP : ((((Loc) -> Val) -> T, (((Loc) -> Val) -> T, (Loc) -> Val, (Loc) -> Val, Loc) -> Val), (Loc) -> Val) -> T)((v : (((Loc) -> Val) -> T, (((Loc) -> Val) -> T, (Loc) -> Val, (Loc) -> Val, Loc) -> Val))) == FST(v)
       #|  (VAR_ASG : ((((Loc) -> Val) -> T, (((Loc) -> Val) -> T, (Loc) -> Val, (Loc) -> Val, Loc) -> Val), ((Loc) -> Val) -> T, (Loc) -> Val, (Loc) -> Val, Loc) -> Val)((v : (((Loc) -> Val) -> T, (((Loc) -> Val) -> T, (Loc) -> Val, (Loc) -> Val, Loc) -> Val))) == SND(v)
       #|  (LOC_EXP : (Loc, (Val) -> T, (Loc) -> Val) -> T)((loc : Loc), (ds : (Val) -> T), (s : (Loc) -> Val)) == ds(s(loc))

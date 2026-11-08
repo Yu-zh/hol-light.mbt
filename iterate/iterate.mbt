@@ -6020,10 +6020,10 @@ fn step_85() -> Unit raise {
     }),
   ])
   let t615 = @simp.rewrite_tac(@list.List([@trivia.o_def(), in_numseg()]))
-  let t611 = @parser.parse_type("A")
+  let t611 = @term_syntax.parse_type("A")
   let t612 = @drule.match_mp(
     @kernel.inst_type(
-      @list.List([(@parser.parse_type("X"), t611)]),
+      @list.List([(@term_syntax.parse_type("X"), t611)]),
       iterate_image(),
     ),
   )

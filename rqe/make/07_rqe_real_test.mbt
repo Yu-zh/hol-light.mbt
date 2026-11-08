@@ -5774,7 +5774,7 @@ test "Rqe/rqe_real matches Rqe/rqe_real.ml" {
       #|0..0..2..5..11..solved at 16
       #|0..0..2..5..11..solved at 16
       #|Rqe/rqe_real quotations (87):
-      #|  :real
+      #|  :Real
       #|  (x : Real)
       #|  (y : Real)
       #|  (z : Real)

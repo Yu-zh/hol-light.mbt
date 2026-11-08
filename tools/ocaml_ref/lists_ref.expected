@@ -1003,7 +1003,7 @@ lists quotations (4286):
   EL(0, CONS((h : A), (t : List[A]))) == h && ((n : Num) == SUC((m : Num)) \226\134\146 EL(n, CONS(h, t)) == EL(m, t))
   (l : List[A]) == APPEND(l, NIL) && APPEND(REVERSE(NIL), l) == l && APPEND(REVERSE(CONS((h : A), (t : List[A]))), l) == APPEND(REVERSE(t), CONS(h, l))
   (l : List[A]) == APPEND(l, NIL) && APPEND(list_of_seq((f : (Num) -> A), 0), l) == l && ((n : Num) == SUC((m : Num)) \226\134\146 APPEND(list_of_seq(f, n), l) == APPEND(list_of_seq(f, m), CONS(f(m), l)))
-  :char list
+  :List[Char]
   ASCII
   false
   true

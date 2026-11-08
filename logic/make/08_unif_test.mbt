@@ -8309,7 +8309,7 @@ test "Logic/unif matches Logic/unif.ml" {
       #|  (x : A) => LENGTH(FILTER(op_eq(x), (l : List[A])))
       #|  multiplicity(multiset((x : A) => LENGTH(FILTER(op_eq(x), (l : List[A])))), (a : A)) == LENGTH(FILTER(op_eq(a), l))
       #|  :A
-      #|  :(A)list
+      #|  :List[A]
       #|  \226\136\128 a : A, \226\136\128 l : List[A], !(LENGTH(FILTER(op_eq(a), l)) == 0) \226\134\146 MEM(a, l)
       #|  multiset((x : A) => LENGTH(FILTER(op_eq(x), (m : List[A]))))
       #|  (a : A)

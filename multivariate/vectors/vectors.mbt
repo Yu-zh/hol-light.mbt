@@ -206,7 +206,7 @@ fn step_15() -> Unit raise {
 ///|
 /// prioritize_vector
 fn step_16() -> Unit raise {
-  let ty = @parser.parse_type("real^N")
+  let ty = @term_syntax.parse_type("Cart[Real, N]")
   prioritize_vector_c.set(fn(x15 : Unit) -> Unit raise {
     let _ = x15
     @preterm.prioritize_overload(ty)
@@ -1515,7 +1515,7 @@ pub fn forall_real_one() -> @kernel.Thm {
 ///|
 /// Multivariate/vectors.ml:408
 fn step_95() -> Unit raise {
-  @preterm.make_overloadable("norm", @parser.parse_type("A->real"))
+  @preterm.make_overloadable("norm", @term_syntax.parse_type("(A) -> Real"))
 }
 
 ///|
@@ -2916,7 +2916,7 @@ fn step_147() -> Unit raise {
       }, ntms)))
       let asl = @lib.map(fn(x496 : (@kernel.Term, @lib.Func[@kernel.Term, @num.Num])) -> @kernel.Thm raise {
         let (t_10, _) = x496
-        let t497 = @basics.genvar(@parser.parse_type("real"))
+        let t497 = @basics.genvar(@term_syntax.parse_type("Real"))
         @kernel.assume_rule(@basics.mk_eq(@basics.mk_icomb(@kernel.mk_const("vector_norm", @list.List([])), t_10), t497))
       }, lctab)
       let replace_conv : (@kernel.Term) -> @kernel.Thm raise = @simp.gen_rewrite_conv(fn(x498 : (@kernel.Term) -> @kernel.Thm raise) -> ((@kernel.Term) -> @kernel.Thm raise) raise {
@@ -5508,7 +5508,7 @@ fn step_258() -> Unit raise {
       let f_tm = @term_syntax.parse_term("(f : (Num) -> Cart[Real, N])")
       let m_tm = @term_syntax.parse_term("(m : Num)")
       let n_tm = @term_syntax.parse_term("(n : Num)")
-      let n_ty = @parser.parse_type("N")
+      let n_ty = @term_syntax.parse_type("N")
       fn conv(x1086 : @kernel.Term) -> @kernel.Thm raise {
         let tm = x1086
         let (smn, ftm) = @kernel.dest_comb(tm)
@@ -7980,7 +7980,7 @@ fn step_370() -> Unit raise {
 ///|
 /// Multivariate/vectors.ml:2646
 fn step_371() -> Unit raise {
-  @preterm.make_overloadable("**", @parser.parse_type("A->B->C"))
+  @preterm.make_overloadable("**", @term_syntax.parse_type("(A, B) -> C"))
 }
 
 ///|
@@ -27656,7 +27656,7 @@ pub fn closed_interval() -> @kernel.Thm {
 ///|
 /// Multivariate/vectors.ml:10058
 fn step_1185() -> Unit raise {
-  @preterm.make_overloadable("interval", @parser.parse_type("A"))
+  @preterm.make_overloadable("interval", @term_syntax.parse_type("A"))
 }
 
 ///|

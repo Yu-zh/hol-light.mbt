@@ -6177,11 +6177,11 @@ test "Jordan/float matches Jordan/float.ml" {
       #|  (x : Real) + (y : Real) - ((f : Real) + (g : Real)) == x - f + (y - g)
       #|  ((A : Bool) \226\134\146 (B : Bool) \226\134\146 (C : Bool)) \226\134\146 A && B \226\134\146 C
       #|  \226\136\128 x : Real, \226\136\128 f : Real, \226\136\128 ex : Real, \226\136\128 y : Real, \226\136\128 g : Real, \226\136\128 ey : Real, interval(x, f, ex) && interval(y, g, ey) \226\134\146 interval(x + y, f + g, ex + ey)
-      #|  :real
+      #|  :Real
       #|  real_le
       #|  real_le
       #|  real_le
-      #|  :real
+      #|  :Real
       #|  real_le
       #|  real_le
       #|  real_le
@@ -6213,35 +6213,35 @@ test "Jordan/float matches Jordan/float.ml" {
       #|  (f : Real) * ((y : Real) - (g : Real))
       #|  (x : Real) * (y : Real) - (f : Real) * (g : Real) == f * (y - g) + ((x - f) * g + (x - f) * (y - g))
       #|  \226\136\128 x : Real, \226\136\128 f : Real, \226\136\128 ex : Real, \226\136\128 y : Real, \226\136\128 g : Real, \226\136\128 ey : Real, interval(x, f, ex) && interval(y, g, ey) \226\134\146 interval(x * y, f * g, abs(f) * ey + (ex * abs(g) + ex * ey))
-      #|  :real
+      #|  :Real
       #|  real_le
       #|  real_le
       #|  real_le
-      #|  :real
+      #|  :Real
       #|  real_le
       #|  real_le
       #|  real_le
-      #|  :real
+      #|  :Real
       #|  real_le
       #|  real_le
       #|  real_le
-      #|  :real
+      #|  :Real
       #|  real_le
       #|  real_le
       #|  real_le
-      #|  :real
+      #|  :Real
       #|  real_le
       #|  real_le
       #|  real_le
       #|  \226\136\128 n : Num, interval(real_of_num(n), float(int_of_num(n), int_of_num(0)), float(int_of_num(0), int_of_num(0)))
       #|  abs((x : Real) - (g : Real)) <= abs((f : Real) - g) + abs(x - f)
       #|  \226\136\128 x : Real, \226\136\128 f : Real, \226\136\128 ex : Real, \226\136\128 g : Real, interval(x, f, ex) \226\134\146 interval(x, g, abs(f - g) + ex)
-      #|  :real
+      #|  :Real
       #|  real_le
       #|  real_le
       #|  real_le
       #|  \226\136\128 x : Real, \226\136\128 f : Real, \226\136\128 ex : Real, \226\136\128 ex' : Real, ex <= ex' \226\134\146 interval(x, f, ex) \226\134\146 interval(x, f, ex')
-      #|  :real
+      #|  :Real
       #|  real_le
       #|  real_le
       #|  real_le
@@ -6287,19 +6287,19 @@ test "Jordan/float matches Jordan/float.ml" {
       #|  (B : Bool) \226\134\146 (A : Bool) \226\134\146 B
       #|  !((y : Real) == real_of_num(0))
       #|  \226\136\128 x : Real, \226\136\128 f : Real, \226\136\128 ex : Real, \226\136\128 y : Real, \226\136\128 g : Real, \226\136\128 ey : Real, \226\136\128 h : Real, \226\136\128 ez : Real, interval(x, f, ex) && interval(y, g, ey) && ey < abs(g) && ex + (abs(f - h * g) + abs(h) * ey) <= ez * (abs(g) - ey) \226\134\146 interval(x / y, h, ez)
-      #|  :real
+      #|  :Real
       #|  real_le
       #|  real_le
       #|  real_le
-      #|  :real
+      #|  :Real
       #|  real_le
       #|  real_le
       #|  real_le
-      #|  :real
+      #|  :Real
       #|  real_le
       #|  real_le
       #|  real_le
-      #|  :real
+      #|  :Real
       #|  real_le
       #|  real_le
       #|  real_le

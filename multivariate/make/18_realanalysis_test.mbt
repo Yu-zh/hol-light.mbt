@@ -83218,8 +83218,8 @@ test "Multivariate/realanalysis matches Multivariate/realanalysis.ml" {
       #|  (n : Num) => vsum(INTER((s : (Num) -> Bool), op_dot_dot(0, n)), o(Cx, (a : (Num) -> Real)))
       #|  sequentially
       #|  (b : Cart[Real, 2]) == (a : Cart[Real, 2]) \226\134\146 norm((x : Cart[Real, 2]) - a) < (e : Real) \226\134\146 norm(x - b) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  Cx((r : Real))
       #|  abs((r : Real)) < real_of_num(1)
       #|  (r : Real) <= real_of_num(1) \226\134\146 (real_of_num(0) < abs(r - real_of_num(1))) == (r < real_of_num(1))
@@ -83416,18 +83416,18 @@ test "Multivariate/realanalysis matches Multivariate/realanalysis.ml" {
       #|  (e : Real)
       #|  (e : Real)
       #|  \226\136\128 z : Cart[Real, _], real_continuous(norm, at(z))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 s : (Cart[Real, _]) -> Bool, \226\136\128 z : Cart[Real, _], real_continuous(norm, within(at(z), s))
       #|  (e : Real)
       #|  (e : Real)
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 z : Cart[Real, _], real_continuous((x : Cart[Real, _]) => distance((a, x)), at(z))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  \226\136\128 a : Cart[Real, _], \226\136\128 s : (Cart[Real, _]) -> Bool, \226\136\128 z : Cart[Real, _], real_continuous((x : Cart[Real, _]) => distance((a, x)), within(at(z), s))
       #|  (has_real_derivative : ((Real) -> Real, Real, Net[Real]) -> Bool)((f : (Real) -> Real), (f' : Real), (net : Net[Real])) == op_minus_minus_minus_gt((x : Real) => inv(x - netlimit(net)) * (f(x) - (f(netlimit(net)) + f' * (x - netlimit(net)))), real_of_num(0), net)
       #|  (real_differentiable : ((Real) -> Real, Net[Real]) -> Bool)((f : (Real) -> Real), (net : Net[Real])) == (\226\136\131 f' : Real, has_real_derivative(f, f', net))
@@ -83445,8 +83445,8 @@ test "Multivariate/realanalysis matches Multivariate/realanalysis.ml" {
       #|  has_real_derivative((f : (Real) -> Real), (f' : Real), atreal((a : Real))) == op_minus_minus_minus_gt((x : Real) => (f(x) - f(a)) / (x - a), f', atreal(a))
       #|  real_of_num(0) < abs((y : Real) - (x : Real)) \226\134\146 (fy : Real) - ((fx : Real) + (f' : Real) * (y - x)) == (y - x) * ((fy - fx) / (y - x) - f')
       #|  distance(((x : Cart[Real, _]), vec(0))) == norm(x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  has_real_derivative((f : (Real) -> Real), (f' : Real), within(atreal((x : Real)), (s : (Real) -> Bool))) == has_derivative(o(lift, o(f, drop)), (x : Cart[Real, Unit]) => op_pct(f', x), within(at(lift(x)), IMAGE(lift, s)))
       #|  has_real_derivative((f : (Real) -> Real), (f' : Real), atreal((x : Real))) == has_derivative(o(lift, o(f, drop)), (x : Cart[Real, Unit]) => op_pct(f', x), at(lift(x)))
       #|  has_real_derivative((f : (Real) -> Real), (f' : Real), within(atreal((x : Real)), (s : (Real) -> Bool))) == has_vector_derivative(o(lift, o(f, drop)), lift(f'), within(at(lift(x)), IMAGE(lift, s)))
@@ -83544,7 +83544,7 @@ test "Multivariate/realanalysis matches Multivariate/realanalysis.ml" {
       #|  \226\136\128 f : (Real) -> Real, \226\136\128 f' : Real, \226\136\128 a : Real, \226\136\128 s : (Real) -> Bool, IN(a, s) && real_open(s) \226\134\146 has_real_derivative(f, f', within(atreal(a), s)) == has_real_derivative(f, f', atreal(a))
       #|  \226\136\128 f : (Real) -> Real, \226\136\128 s : (Real) -> Bool, \226\136\128 z : Real, real_differentiable(f, atreal(z)) \226\134\146 real_differentiable(f, within(atreal(z), s))
       #|  distance(((a : Cart[Real, 2]), (b : Cart[Real, 2]))) < (d : Real) \226\134\146 (z : Real) <= norm(a - b) \226\134\146 z < d
-      #|  :real
+      #|  :Real
       #|  (d : Real)
       #|  ((a : Bool) && (b : Bool) && (c : Bool) && (d : Bool) \226\134\146 (e : Bool)) == (a && b && c \226\134\146 d \226\134\146 e)
       #|  \226\136\128 f : (Real) -> Real, \226\136\128 f' : Real, \226\136\128 g : (Real) -> Real, \226\136\128 x : Real, \226\136\128 s : (Real) -> Bool, \226\136\128 d : Real, real_of_num(0) < d && IN(x, s) && (\226\136\128 x' : Real, IN(x', s) && abs(x' - x) < d \226\134\146 f(x') == g(x')) && has_real_derivative(f, f', within(atreal(x), s)) \226\134\146 has_real_derivative(g, f', within(atreal(x), s))
@@ -84058,18 +84058,18 @@ test "Multivariate/realanalysis matches Multivariate/realanalysis.ml" {
       #|  ((c : Real) - (l : Real)) / real_of_num(2)
       #|  ((c : Real) + (l : Real)) / real_of_num(2)
       #|  distance(((a : Cart[Real, N]) + (v : Cart[Real, N]), a)) == norm(v)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  distance(((a : Cart[Real, N]) + (v : Cart[Real, N]), a)) == norm(v)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, N])
       #|  (f : (Cart[Real, N]) -> Real)((x : Cart[Real, N]))
       #|  sup({(f : (Cart[Real, N]) -> Real)((y : Cart[Real, N])) | real_of_num(0) < distance((y, (a : Cart[Real, N]))) && distance((y, a)) <= distance(((x : Cart[Real, N]), a))})
       #|  (b : Real) < b
       #|  distance(((a : Cart[Real, N]) + (v : Cart[Real, N]), a)) == norm(v)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, N])
       #|  (x : Cart[Real, N]) == (a : Cart[Real, N]) + op_pct((r1 : Real) / real_of_num(2), basis(1))
       #|  (r1 : Real) == min((r : Real), (d : Real))
@@ -84078,8 +84078,8 @@ test "Multivariate/realanalysis matches Multivariate/realanalysis.ml" {
       #|  (r0 : Real)
       #|  (b0 : Real)
       #|  distance((op_pct(inv(real_of_num(2)), (x : Cart[Real, N]) + (a : Cart[Real, N])), a)) == inv(real_of_num(2)) * distance((x, a))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, N])
       #|  (f : (Cart[Real, N]) -> Real)((y : Cart[Real, N]))
       #|  (y : Cart[Real, N]) == op_pct(inv(real_of_num(2)), (x : Cart[Real, N]) + (a : Cart[Real, N]))
@@ -84206,18 +84206,18 @@ test "Multivariate/realanalysis matches Multivariate/realanalysis.ml" {
       #|  ((l : Real) - (c : Real)) / real_of_num(2)
       #|  ((c : Real) + (l : Real)) / real_of_num(2)
       #|  distance(((a : Cart[Real, N]) + (v : Cart[Real, N]), a)) == norm(v)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  distance(((a : Cart[Real, N]) + (v : Cart[Real, N]), a)) == norm(v)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, N])
       #|  (f : (Cart[Real, N]) -> Real)((x : Cart[Real, N]))
       #|  inf({(f : (Cart[Real, N]) -> Real)((y : Cart[Real, N])) | real_of_num(0) < distance((y, (a : Cart[Real, N]))) && distance((y, a)) <= distance(((x : Cart[Real, N]), a))})
       #|  (b : Real) < b
       #|  distance(((a : Cart[Real, N]) + (v : Cart[Real, N]), a)) == norm(v)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, N])
       #|  (x : Cart[Real, N]) == (a : Cart[Real, N]) + op_pct((r1 : Real) / real_of_num(2), basis(1))
       #|  (r1 : Real) == min((r : Real), (d : Real))
@@ -84226,8 +84226,8 @@ test "Multivariate/realanalysis matches Multivariate/realanalysis.ml" {
       #|  (r0 : Real)
       #|  (b0 : Real)
       #|  distance((op_pct(inv(real_of_num(2)), (x : Cart[Real, N]) + (a : Cart[Real, N])), a)) == inv(real_of_num(2)) * distance((x, a))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (y : Cart[Real, N])
       #|  (f : (Cart[Real, N]) -> Real)((y : Cart[Real, N]))
       #|  (y : Cart[Real, N]) == op_pct(inv(real_of_num(2)), (x : Cart[Real, N]) + (a : Cart[Real, N]))
@@ -86154,8 +86154,8 @@ test "Multivariate/realanalysis matches Multivariate/realanalysis.ml" {
       #|  (x : Real)
       #|  \226\136\128 P : ((Real) -> Real) -> Bool, \226\136\128 s : (Real) -> Bool, real_compact(s) && (\226\136\128 f : (Real) -> Real, P(f) \226\134\146 real_continuous_on(f, s)) && (\226\136\128 c : Real, P((x : Real) => c)) && (\226\136\128 f : (Real) -> Real, \226\136\128 g : (Real) -> Real, P(f) && P(g) \226\134\146 P((x : Real) => f(x) + g(x))) && (\226\136\128 f : (Real) -> Real, \226\136\128 g : (Real) -> Real, P(f) && P(g) \226\134\146 P((x : Real) => f(x) * g(x))) && (\226\136\128 x : Real, \226\136\128 y : Real, IN(x, s) && IN(y, s) && !(x == y) \226\134\146 (\226\136\131 f : (Real) -> Real, P(f) && !(f(x) == f(y)))) \226\134\146 (\226\136\128 f : (Real) -> Real, \226\136\128 e : Real, real_continuous_on(f, s) && real_of_num(0) < e \226\134\146 (\226\136\131 g : (Real) -> Real, P(g) && (\226\136\128 x : Real, IN(x, s) \226\134\146 abs(f(x) - g(x)) < e)))
       #|  norm((x1 : Cart[Real, 2]) - (x2 : Cart[Real, 2])) < (e : Real) / real_of_num(2) && norm((y1 : Cart[Real, 2]) - (y2 : Cart[Real, 2])) < e / real_of_num(2) \226\134\146 norm(x1 + y1 - (x2 + y2)) < e
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, N])
       #|  (x : Cart[Real, N]) => Cx(Re((h : (Cart[Real, N]) -> Cart[Real, 2])(x))) + ii * Cx(Re((g : (Cart[Real, N]) -> Cart[Real, 2])(x)))
       #|  (h : (Cart[Real, N]) -> Cart[Real, 2])
@@ -86370,10 +86370,10 @@ test "Multivariate/realanalysis matches Multivariate/realanalysis.ml" {
       #|  (i : Num)
       #|  \226\136\128 p : (Cart[Real, Unit]) -> Cart[Real, N], vector_polynomial_function(p) \226\134\146 rectifiable_path(p)
       #|  norm((x : Cart[Real, N]) - (a : Cart[Real, N])) < (e : Real) / real_of_num(4) && norm((b : Cart[Real, N])) < e / real_of_num(4) && norm((c : Cart[Real, N])) <= real_of_num(1) * (e / real_of_num(4)) && norm((d : Cart[Real, N])) <= real_of_num(1) * (e / real_of_num(4)) \226\134\146 norm(a + (b + (c - d)) - x) < e
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (t : Cart[Real, Unit]) => (q : (Cart[Real, Unit]) -> Cart[Real, N])(t) + ((g : (Cart[Real, Unit]) -> Cart[Real, N])(vec(0)) - q(vec(0)) + op_pct(drop(t), g(vec(1)) - q(vec(1)) - (g(vec(0)) - q(vec(0)))))
       #|  (q : (Cart[Real, Unit]) -> Cart[Real, N])
       #|  (real_of_num(0) < (x : Real) / real_of_num(4)) == (real_of_num(0) < x)
@@ -86397,8 +86397,8 @@ test "Multivariate/realanalysis matches Multivariate/realanalysis.ml" {
       #|  path_connected((s : (Cart[Real, N]) -> Bool))
       #|  \226\136\128 s : (Cart[Real, N]) -> Bool, open(s) && connected(s) \226\134\146 (\226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], IN(x, s) && IN(y, s) \226\134\146 (\226\136\131 g : (Cart[Real, Unit]) -> Cart[Real, N], vector_polynomial_function(g) && SUBSET(path_image(g), s) && pathstart(g) == x && pathfinish(g) == y))
       #|  norm((x : Cart[Real, N])) <= (B : Real) && norm((a : Cart[Real, N])) <= B \226\134\146 norm(x - a) <= real_of_num(2) * B
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  abs((g : (Cart[Real, N]) -> Real)((x : Cart[Real, N])) - g((a : Cart[Real, N]))) <= (C : Real) * norm(x - a) && C * norm(x - a) <= C * (B : Real) \226\134\146 abs(g(x)) <= abs(g(a)) + C * B
       #|  (a : Real) * (b : Real) * (c : Real) == a * c * b
       #|  abs(((f : Real) - (f' : Real)) * (g : Real)) <= (a : Real) * (n : Real) && abs((g - (g' : Real)) * f') <= (b : Real) * n \226\134\146 abs(f * g - f' * g') <= (a + b) * n
@@ -86418,7 +86418,7 @@ test "Multivariate/realanalysis matches Multivariate/realanalysis.ml" {
       #|  bounded((s : (Cart[Real, N]) -> Bool))
       #|  \226\136\128 f : (Cart[Real, N]) -> Real, \226\136\128 s : (Cart[Real, N]) -> Bool, real_polynomial_function(f) && bounded(s) \226\134\146 (\226\136\131 B : Real, real_of_num(0) < B && (\226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], IN(x, s) && IN(y, s) \226\134\146 abs(f(x) - f(y)) <= B * norm(x - y)))
       #|  (x : Real) <= (y : Real) \226\134\146 x <= norm((a : Cart[Real, N])) + y
-      #|  :real
+      #|  :Real
       #|  real_of_num(0) <= (x : Real) \226\134\146 real_of_num(0) < real_of_num(1) + x
       #|  real_of_num(1) + (sum : ((Num) -> Bool, (Num) -> Real) -> Real)(op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool))), (i : Num) => (op_dollar : (Cart[Real, N], Num) -> Real)((b : Cart[Real, N]), i))
       #|  \226\136\131 b : Cart[Real, N], \226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 real_of_num(0) < (op_dollar : (Cart[Real, N], Num) -> Real)(b, i) && (\226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(x, (s : (Cart[Real, M]) -> Bool)) && (IN : (Cart[Real, M], (Cart[Real, M]) -> Bool) -> Bool)(y, s) \226\134\146 abs((op_dollar : (Cart[Real, N], Num) -> Real)((f : (Cart[Real, M]) -> Cart[Real, N])(x), i) - (op_dollar : (Cart[Real, N], Num) -> Real)(f(y), i)) <= (op_dollar : (Cart[Real, N], Num) -> Real)(b, i) * (norm : (Cart[Real, M]) -> Real)(x - y))
@@ -86774,8 +86774,8 @@ test "Multivariate/realanalysis matches Multivariate/realanalysis.ml" {
       #|  \226\136\128 f : (Cart[Real, N]) -> Cart[Real, 2], \226\136\128 g : (Cart[Real, N]) -> Cart[Real, 2], \226\136\128 s : (Cart[Real, N]) -> Bool, measurable_on(f, s) && measurable_on(g, s) \226\134\146 measurable_on((x : Cart[Real, N]) => f(x) * g(x), s)
       #|  (x : Real) < (y : Real) \226\134\146 (z : Real) <= x \226\134\146 z <= y
       #|  distance(((g : Cart[Real, _]), (f : Cart[Real, _]))) < norm(f) / real_of_num(2) \226\134\146 norm(f) / real_of_num(2) <= norm(g)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (n : Num)
       #|  (n : Num)
       #|  (N1 : Num) + ((N2 : Num) + 1)

@@ -88136,8 +88136,8 @@ Autoformalization/carleson quotations (19012):
   (C1 : Real)
   \226\136\131 Cgm : Real, real_of_num(0) <= Cgm && (\226\136\128 c : ((Int, Int, Int)) -> Cart[Real, 2], \226\136\128 P : ((Int, Int, Int)) -> Bool, \226\136\128 tau : (Int, Int, Int), \226\136\128 m : Int, \226\136\128 nhat : Int, \226\136\128 x : Real, \226\136\128 x' : Real, FINITE(P) && SUBSET(tile_J(tau), dyho(m, nhat)) && real_of_num(0) < zpow(real_of_num(2), m) && abs(x - x') <= zpow(real_of_num(2), -m) \226\134\146 norm(vsum({(s : (Int, Int, Int)) | IN(s, P) && tile_ler(s, tau) && tile_k(s) <= m}, (s : (Int, Int, Int)) => c(s) * phi_sigma(s, carleson_phi, x))) <= Cgm * hl_maximal((z : Real) => norm(vsum({(s : (Int, Int, Int)) | IN(s, P) && tile_ler(s, tau)}, (s : (Int, Int, Int)) => c(s) * phi_sigma(s, carleson_phi, z))), x'))
   \226\136\128 a : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], norm(a - b) <= norm(a) + norm(b)
-  :real
-  :real
+  :Real
+  :Real
   tile_ler((x : (Int, Int, Int)), (tau : (Int, Int, Int)))
   IN((x : (Int, Int, Int)), (P : ((Int, Int, Int)) -> Bool))
   \226\136\128 m1 : Int, \226\136\128 m2 : Int, \226\136\128 P : ((Int, Int, Int)) -> Bool, \226\136\128 tau : (Int, Int, Int), \226\136\128 x : (Int, Int, Int), m1 <= m2 \226\134\146 (IN(x, P) && tile_ler(x, tau) && m1 < tile_k(x) && tile_k(x) <= m2) == ((IN(x, P) && tile_ler(x, tau) && tile_k(x) <= m2) && !(IN(x, P) && tile_ler(x, tau) && tile_k(x) <= m1))
@@ -93826,8 +93826,8 @@ Autoformalization/carleson quotations (19012):
   \226\136\128 f : (Real) -> Cart[Real, 2], \226\136\128 y : Real, (\226\136\131 B : Real, \226\136\128 a : Real, \226\136\128 b : Real, a <= b \226\134\146 inv(sqrt(real_of_num(2) * pi)) * norm(integral(IMAGE(lift, real_interval([(a, b)])), (x : Cart[Real, Unit]) => cexp(-(ii * (Cx(y) * Cx(drop(x))))) * f(drop(x)))) <= B) \226\134\146 real_of_num(0) <= carleson_Ahat(f, y)
   real_of_num((M : Num))
   \226\136\128 sp : Cart[Real, 2], \226\136\128 sq : Cart[Real, 2], \226\136\128 c : Cart[Real, 2], \226\136\128 e : Real, real_of_num(0) < e && norm(sp - c) <= e / real_of_num(3) && norm(sq - c) <= e / real_of_num(3) \226\134\146 distance((sp, sq)) < e
-  :real
-  :real
+  :Real
+  :Real
   (e : Real)
   (II : (Real, Real) -> Cart[Real, 2])(-(N : Real), N)
   (II : (Real, Real) -> Cart[Real, 2])(-real_of_num((q : Num)), real_of_num(q))
@@ -93843,9 +93843,9 @@ Autoformalization/carleson quotations (19012):
   (n : Num) => (II : (Real, Real) -> Cart[Real, 2])(-real_of_num(n), real_of_num(n))
   \226\136\128 II : (Real, Real) -> Cart[Real, 2], (\226\136\128 e : Real, real_of_num(0) < e \226\134\146 (\226\136\131 N : Real, real_of_num(0) <= N && (\226\136\128 a : Real, \226\136\128 b : Real, a <= -N && N <= b \226\134\146 norm(II(a, b) - II(-N, N)) <= e))) \226\134\146 (\226\136\131 z : Cart[Real, 2], op_minus_minus_gt((n : Num) => II(-real_of_num(n), real_of_num(n)), z, sequentially))
   \226\136\128 sx : Cart[Real, 2], \226\136\128 sk : Cart[Real, 2], \226\136\128 c : Cart[Real, 2], \226\136\128 z : Cart[Real, 2], \226\136\128 e : Real, norm(sx - c) <= e / real_of_num(3) && norm(sk - c) <= e / real_of_num(3) && distance((sk, z)) < e / real_of_num(3) \226\134\146 distance((sx, z)) < e
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
   (e : Real)
   (z : Cart[Real, 2])
   (II : (Real, Real) -> Cart[Real, 2])(-(N : Real), N)
@@ -97356,8 +97356,8 @@ Autoformalization/carleson quotations (19012):
   (n : Num)
   (K : Real)
   \226\136\128 f : (Real) -> Cart[Real, 2], \226\136\128 y : Real, IN((z : Cart[Real, Unit]) => f(drop(z)), lspace(UNIV, real_of_num(2))) && (\226\136\131 K : Real, \226\136\128 m : Num, carleson_Ahat_trunc(f, real_of_num(m), y) <= K) \226\134\146 (\226\136\128 n : Num, \226\136\131 B : Real, \226\136\128 a : Real, \226\136\128 b : Real, a <= b \226\134\146 inv(sqrt(real_of_num(2) * pi)) * norm(integral(IMAGE(lift, real_interval([(a, b)])), (x : Cart[Real, Unit]) => cexp(-(ii * (Cx(y) * Cx(drop(x))))) * f(drop(x))) - integral(IMAGE(lift, real_interval([(-real_of_num(n), real_of_num(n))])), (x : Cart[Real, Unit]) => cexp(-(ii * (Cx(y) * Cx(drop(x))))) * f(drop(x)))) <= B)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num((k : Num)) + real_of_num(1)
   (k : Num)
   \226\136\128 f : (Real) -> Cart[Real, 2], \226\136\128 y : Real, !IN(y, {(y : Real) | \226\136\128 k : Num, \226\136\131 m : Num, real_of_num(k) + real_of_num(1) < carleson_Ahat_trunc(f, real_of_num(m), y)}) \226\134\146 (\226\136\131 K : Real, \226\136\128 m : Num, carleson_Ahat_trunc(f, real_of_num(m), y) <= K)
@@ -100541,8 +100541,8 @@ Autoformalization/carleson quotations (19012):
   inv(sqrt(real_of_num(2) * pi)) * (norm(Cx(sqrt(real_of_num(2) * pi)) * fourier((w : Real) => if w < (b : Real) { (h : (Real) -> Cart[Real, 2])(w) } else { Cx(real_of_num(0)) }, (y : Real))) + norm(Cx(sqrt(real_of_num(2) * pi)) * fourier((w : Real) => if w < (a : Real) { h(w) } else { Cx(real_of_num(0)) }, y)))
   real_of_num(0) < carleson_thetatilde(real_of_num(1), real_of_num(0))
   \226\136\128 h : (Real) -> Cart[Real, 2], \226\136\128 a : Real, \226\136\128 b : Real, \226\136\128 y : Real, schwartz(h) && a <= b \226\134\146 inv(sqrt(real_of_num(2) * pi)) * norm(integral(IMAGE(lift, real_interval([(a, b)])), (x : Cart[Real, Unit]) => cexp(-(ii * (Cx(y) * Cx(drop(x))))) * h(drop(x)))) <= inv(pi * carleson_thetatilde(real_of_num(1), real_of_num(0))) * carleson_Atilde((x : Real) => fourier(h, -x), -y)
-  :real
-  :real
+  :Real
+  :Real
   real_of_num(0)
   real_of_num(0)
   inv(sqrt(real_of_num(2) * pi)) * norm(integral(IMAGE(lift, real_interval([(real_of_num(0), real_of_num(0))])), (x : Cart[Real, Unit]) => cexp(-(ii * (Cx((y : Real)) * Cx(drop(x))))) * (h : (Real) -> Cart[Real, 2])(drop(x))))

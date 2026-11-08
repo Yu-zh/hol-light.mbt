@@ -81290,12 +81290,12 @@ test "Autoformalization/fourier_transform matches Autoformalization/fourier_tran
       #|  real_of_num(2) * inv(abs((u : Real))) <= real_of_num(2) / (d : Real)
       #|  real_of_num(2) * inv(abs((u : Real))) * (norm((f : (Real) -> Cart[Real, 2])((x : Real) - u)) + norm(if abs(u) <= real_of_num(1) { f(x) } else { vec(0) }))
       #|  \226\136\128 f : (Real) -> Cart[Real, 2], \226\136\128 x : Real, \226\136\128 K : Real, \226\136\128 d : Real, \226\136\128 u : Real, real_of_num(0) < d && !(u == real_of_num(0)) && !(abs(u) <= d) \226\134\146 real_of_num(2) * (inv(abs(u)) * norm(f(x - u) - (if abs(u) <= real_of_num(1) { f(x) } else { vec(0) }))) <= real_of_num(2) * (K * (if abs(u) <= d { real_of_num(1) } else { real_of_num(0) })) + (real_of_num(2) / d * norm(f(x - u)) + real_of_num(2) / d * (norm(f(x)) * (if abs(u) <= real_of_num(1) { real_of_num(1) } else { real_of_num(0) })))
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (u : Real)
       #|  (d : Real)
       #|  (K : Real)
@@ -81429,8 +81429,8 @@ test "Autoformalization/fourier_transform matches Autoformalization/fourier_tran
       #|  \226\136\128 M : Real, \226\136\128 N : Real, \226\136\128 B : Real, \226\136\128 P : Real, real_of_num(0) <= M && real_of_num(0) < P && real_of_num(2) * M / P < N - B \226\134\146 M < (N - B) * P
       #|  (M : Real) < ((N : Real) - (B : Real)) * (norm((L : Cart[Real, 2])) / real_of_num(2))
       #|  norm((fz : Cart[Real, 2]) - (L : Cart[Real, 2])) < norm(L) / real_of_num(2) \226\134\146 norm(L) / real_of_num(2) <= norm(fz)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (z : Cart[Real, Unit])
       #|  (UNIV : (Cart[Real, Unit]) -> Bool)
       #|  interval([(lift((B : Real)), lift((N : Real)))])
@@ -82359,8 +82359,8 @@ test "Autoformalization/fourier_transform matches Autoformalization/fourier_tran
       #|  (e : (Num, Real) -> Cart[Real, 2])
       #|  (d : (Num, Real) -> Cart[Real, 2])
       #|  \226\136\128 h1 : (Real) -> Cart[Real, 2], \226\136\128 h2 : (Real) -> Cart[Real, 2], schwartz(h1) && schwartz(h2) \226\134\146 schwartz((x : Real) => h1(x) + h2(x))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (B : Real)
       #|  (m : Num)
       #|  (k : Num)

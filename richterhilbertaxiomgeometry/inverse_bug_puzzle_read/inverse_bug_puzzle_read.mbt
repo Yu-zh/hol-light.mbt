@@ -3,7 +3,7 @@
 ///|
 /// RichterHilbertAxiomGeometry/inverse_bug_puzzle_read.ml:22
 fn step_1() -> Unit raise {
-  @preterm.new_type_abbrev("triple", @parser.parse_type("real^2#real^2#real^2"))
+  @preterm.new_type_abbrev("triple", @term_syntax.parse_type("(Cart[Real, 2], Cart[Real, 2], Cart[Real, 2])"))
 }
 
 ///|

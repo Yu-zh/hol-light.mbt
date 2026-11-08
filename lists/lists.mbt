@@ -4457,7 +4457,7 @@ fn step_138() -> Unit raise {
 ///|
 /// lists.ml:884
 fn step_139() -> Unit raise {
-  @preterm.new_type_abbrev("string", @parser.parse_type("char list"))
+  @preterm.new_type_abbrev("string", @term_syntax.parse_type("List[Char]"))
 }
 
 ///|
@@ -4656,7 +4656,7 @@ fn step_140() -> Unit raise {
       },
       @lib.range(0L, @lib.sub63(Int::to_int64(@lib.string_length(s)), 1L)),
     )
-    let t382 = @parser.parse_type("char")
+    let t382 = @term_syntax.parse_type("Char")
     mk_list(@lib.map(mk_code_1, ns), t382)
   }
   let t395 = @term_syntax.parse_term("(c7 : Bool)")

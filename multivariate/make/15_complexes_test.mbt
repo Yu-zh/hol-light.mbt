@@ -74217,7 +74217,7 @@ test "Multivariate/complexes matches Multivariate/complexes.ml" {
       #|Warning: inventing type variables
       #|Warning: inventing type variables
       #|Multivariate/complexes quotations (538):
-      #|  :real^2
+      #|  :Cart[Real, 2]
       #|  (op_minus_minus : (Cart[Real, 2]) -> Cart[Real, 2])
       #|  (op_plus : (Cart[Real, 2], Cart[Real, 2]) -> Cart[Real, 2])
       #|  (op_minus : (Cart[Real, 2], Cart[Real, 2]) -> Cart[Real, 2])
@@ -74671,8 +74671,8 @@ test "Multivariate/complexes matches Multivariate/complexes.ml" {
       #|  \226\136\128 a : Cart[Real, 2], \226\136\128 c : (Num) -> Cart[Real, 2], \226\136\128 n : Num, vsum(op_dot_dot(0, n), (i : Num) => complex_mul(c(i), complex_pow(a, i))) == Cx(real_of_num(0)) \226\134\146 (\226\136\131 b : (Num) -> Cart[Real, 2], \226\136\128 z : Cart[Real, 2], vsum(op_dot_dot(0, n), (i : Num) => complex_mul(c(i), complex_pow(z, i))) == complex_mul(z - a, vsum(op_dot_dot(0, n - 1), (i : Num) => complex_mul(b(i), complex_pow(z, i)))))
       #|  (n : Num) + 1 + 1 == 1 + (n + 1)
       #|  (a : Real) + norm((y : Cart[Real, 2])) <= (b : Real) \226\134\146 norm((x : Cart[Real, 2])) <= a \226\134\146 norm(x + y) <= b
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (z : Cart[Real, 2])
       #|  (z : Cart[Real, 2])
       #|  max((M : Real), (real_of_num(1) / real_of_num(2) + norm((c : (Num) -> Cart[Real, 2])((n : Num) + 1))) / (e : Real))
@@ -74683,8 +74683,8 @@ test "Multivariate/complexes matches Multivariate/complexes.ml" {
       #|  pow(norm((z : Cart[Real, 2])), 1)
       #|  (c : Real) * (x : Real) - c / real_of_num(2) * x == x * (c / real_of_num(2))
       #|  abs((b : Real)) + real_of_num(1) <= norm((y : Cart[Real, 2])) - (a : Real) \226\134\146 norm((x : Cart[Real, 2])) <= a \226\134\146 b <= norm(y + x)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (z : Cart[Real, 2])
       #|  (z : Cart[Real, 2])
       #|  max((M : Real), max(real_of_num(1), (abs((B : Real)) + real_of_num(1)) / (norm((c : (Num) -> Cart[Real, 2])((n : Num))) / real_of_num(2))))

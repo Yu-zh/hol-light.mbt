@@ -9,13 +9,13 @@ fn step_1() -> Unit raise {
 ///|
 /// RichterHilbertAxiomGeometry/TarskiAxiomGeometry_read.ml:21
 fn step_2() -> Unit raise {
-  @readable.newconstant("≃", @parser.parse_type("TarskiPlane#TarskiPlane->TarskiPlane#TarskiPlane->bool"))
+  @readable.newconstant("≃", @term_syntax.parse_type("((TarskiPlane, TarskiPlane), (TarskiPlane, TarskiPlane)) -> Bool"))
 }
 
 ///|
 /// RichterHilbertAxiomGeometry/TarskiAxiomGeometry_read.ml:22
 fn step_3() -> Unit raise {
-  @readable.newconstant("ℬ", @parser.parse_type("TarskiPlane->TarskiPlane->TarskiPlane->bool"))
+  @readable.newconstant("ℬ", @term_syntax.parse_type("(TarskiPlane, TarskiPlane, TarskiPlane) -> Bool"))
 }
 
 ///|

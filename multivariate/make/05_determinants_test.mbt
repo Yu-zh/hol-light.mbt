@@ -40384,11 +40384,11 @@ test "Multivariate/determinants matches Multivariate/determinants.ml" {
       #|  \226\136\128 A : Cart[Cart[Real, N], N], (orthogonal_matrix : (Cart[Cart[Real, N], N]) -> Bool)(A) == ((\226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (norm : (Cart[Real, N]) -> Real)((row : (Num, Cart[Cart[Real, N], N]) -> Cart[Real, N])(i, A)) == real_of_num(1)) && (\226\136\128 i : Num, \226\136\128 j : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && 1 <= j && j <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && !(i == j) \226\134\146 (orthogonal : (Cart[Real, N], Cart[Real, N]) -> Bool)((row : (Num, Cart[Cart[Real, N], N]) -> Cart[Real, N])(i, A), (row : (Num, Cart[Cart[Real, N], N]) -> Cart[Real, N])(j, A))))
       #|  \226\136\128 A : Cart[Cart[Real, N], N], (orthogonal_matrix : (Cart[Cart[Real, N], N]) -> Bool)(A) == ((\226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (norm : (Cart[Real, N]) -> Real)((row : (Num, Cart[Cart[Real, N], N]) -> Cart[Real, N])(i, A)) == real_of_num(1)) && (pairwise : ((Num, Num) -> Bool, (Num) -> Bool) -> Bool)((i : Num) => (j : Num) => (orthogonal : (Cart[Real, N], Cart[Real, N]) -> Bool)((row : (Num, Cart[Cart[Real, N], N]) -> Cart[Real, N])(i, A), (row : (Num, Cart[Cart[Real, N], N]) -> Cart[Real, N])(j, A)), op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))
       #|  !((norm : (Cart[Real, N]) -> Real)((vec : (Num) -> Cart[Real, N])(0)) == real_of_num(1))
-      #|  :real
+      #|  :Real
       #|  ((p : Bool) \226\134\146 (q : Bool) == ((r : Bool) && (s : Bool))) \226\134\146 (p && q) == (r && p && s)
       #|  \226\136\128 A : Cart[Cart[Real, N], N], (orthogonal_matrix : (Cart[Cart[Real, N], N]) -> Bool)(A) == ((CARD : ((Cart[Real, N]) -> Bool) -> Num)((rows : (Cart[Cart[Real, N], N], Cart[Real, N]) -> Bool)(A)) == (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) && (\226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (norm : (Cart[Real, N]) -> Real)((row : (Num, Cart[Cart[Real, N], N]) -> Cart[Real, N])(i, A)) == real_of_num(1)) && (pairwise : ((Cart[Real, N], Cart[Real, N]) -> Bool, (Cart[Real, N]) -> Bool) -> Bool)((orthogonal : (Cart[Real, N], Cart[Real, N]) -> Bool), (rows : (Cart[Cart[Real, N], N], Cart[Real, N]) -> Bool)(A)))
       #|  !((norm : (Cart[Real, N]) -> Real)((vec : (Num) -> Cart[Real, N])(0)) == real_of_num(1))
-      #|  :real
+      #|  :Real
       #|  SUBSET(UNIV, (s : (_) -> Bool)) \226\134\146 s == UNIV
       #|  \226\136\128 A : Cart[Cart[Real, N], N], (orthogonal_matrix : (Cart[Cart[Real, N], N]) -> Bool)(A) == ((span : ((Cart[Real, N]) -> Bool, Cart[Real, N]) -> Bool)((rows : (Cart[Cart[Real, N], N], Cart[Real, N]) -> Bool)(A)) == (UNIV : (Cart[Real, N]) -> Bool) && (\226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (norm : (Cart[Real, N]) -> Real)((row : (Num, Cart[Cart[Real, N], N]) -> Cart[Real, N])(i, A)) == real_of_num(1)) && (pairwise : ((Cart[Real, N], Cart[Real, N]) -> Bool, (Cart[Real, N]) -> Bool) -> Bool)((orthogonal : (Cart[Real, N], Cart[Real, N]) -> Bool), (rows : (Cart[Cart[Real, N], N], Cart[Real, N]) -> Bool)(A)))
       #|  \226\136\128 A : Cart[Cart[Real, N], N], (orthogonal_matrix : (Cart[Cart[Real, N], N]) -> Bool)(A) == ((\226\136\128 i : Num, 1 <= i && i <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (norm : (Cart[Real, N]) -> Real)((column : (Num, Cart[Cart[Real, N], N]) -> Cart[Real, N])(i, A)) == real_of_num(1)) && (pairwise : ((Num, Num) -> Bool, (Num) -> Bool) -> Bool)((i : Num) => (j : Num) => (orthogonal : (Cart[Real, N], Cart[Real, N]) -> Bool)((column : (Num, Cart[Cart[Real, N], N]) -> Cart[Real, N])(i, A), (column : (Num, Cart[Cart[Real, N], N]) -> Cart[Real, N])(j, A)), op_dot_dot(1, (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))
@@ -40444,8 +40444,8 @@ test "Multivariate/determinants matches Multivariate/determinants.ml" {
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], \226\136\128 c : Real, f(vec(0)) == vec(0) && (\226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], distance((f(x), f(y))) == c * distance((x, y))) \226\134\146 linear(f)
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], f(vec(0)) == vec(0) && (\226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], distance((f(x), f(y))) == distance((x, y))) \226\134\146 linear(f)
       #|  distance(((x : Cart[Real, N]) - (a : Cart[Real, N]), (y : Cart[Real, N]) - a)) == distance((x, y))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (a : Cart[Real, N]) + ((x : Cart[Real, N]) - a) == x
       #|  (x : Cart[Real, M]) => (f : (Cart[Real, M]) -> Cart[Real, N])(x) - f(vec(0))
       #|  \226\136\128 f : (Cart[Real, M]) -> Cart[Real, N], (\226\136\128 x : Cart[Real, M], \226\136\128 y : Cart[Real, M], distance((f(x), f(y))) == distance((x, y))) \226\134\146 (\226\136\131 h : (Cart[Real, M]) -> Cart[Real, N], linear(h) && (\226\136\128 x : Cart[Real, M], f(x) == f(vec(0)) + h(x)))
@@ -40564,7 +40564,7 @@ test "Multivariate/determinants matches Multivariate/determinants.ml" {
       #|  \226\136\131 f : (Cart[Real, N]) -> Cart[Real, N], (\226\136\128 x : Cart[Real, N], \226\136\128 y : Cart[Real, N], IN(x, UNION((b : (Cart[Real, N]) -> Bool), (b' : (Cart[Real, N]) -> Bool))) && IN(y, UNION(b, b')) \226\134\146 (f(x) == f(y)) == (x == y)) && SUBSET(IMAGE(f, b), (c : (Cart[Real, N]) -> Bool)) && SUBSET(IMAGE(f, UNION(b, b')), UNION(c, (c' : (Cart[Real, N]) -> Bool)))
       #|  FINITE(UNION((b : (Cart[Real, N]) -> Bool), (b' : (Cart[Real, N]) -> Bool))) && FINITE(UNION((c : (Cart[Real, N]) -> Bool), (c' : (Cart[Real, N]) -> Bool)))
       #|  !((norm : (Cart[Real, N]) -> Real)((vec : (Num) -> Cart[Real, N])(0)) == real_of_num(1))
-      #|  :real
+      #|  :Real
       #|  independent(UNION((b : (Cart[Real, N]) -> Bool), (b' : (Cart[Real, N]) -> Bool))) && independent(UNION((c : (Cart[Real, N]) -> Bool), (c' : (Cart[Real, N]) -> Bool)))
       #|  (c' : (Cart[Real, N]) -> Bool)
       #|  (b' : (Cart[Real, N]) -> Bool)
@@ -40811,7 +40811,7 @@ test "Multivariate/determinants matches Multivariate/determinants.ml" {
       #|  (UNIV == IMAGE((f : (_) -> _), UNIV)) == (\226\136\128 y : _, \226\136\131 x : _, f(x) == y)
       #|  \226\136\128 a : Cart[Real, N], !(a == vec(0)) \226\134\146 (vec : (Num) -> Cart[Real, _])(0) == (op_pct : (Real, Cart[Real, _]) -> Cart[Real, _])(norm(a), (vec : (Num) -> Cart[Real, _])(0)) && a == op_pct(norm(a), op_pct(inv(norm(a)), a)) && {} == IMAGE((x : Cart[Real, _]) => op_pct(norm(a), x), {}) && {} == IMAGE(IMAGE((x : Cart[Real, _]) => op_pct(norm(a), x)), {}) && UNIV == IMAGE((x : Cart[Real, N]) => op_pct(norm(a), x), UNIV) && UNIV == IMAGE(IMAGE((x : Cart[Real, N]) => op_pct(norm(a), x)), UNIV) && NIL == MAP((x : Cart[Real, _]) => op_pct(norm(a), x), NIL)
       #|  :C
-      #|  :real^1
+      #|  :Cart[Real, 1]
       #|  (x : Cart[Real, N]) => op_pct(norm((a : Cart[Real, N])), x)
       #|  !((x : Real) == real_of_num(0)) \226\134\146 x * (inv(x) * (a : Real)) == a
       #|  ((a : Bool) && (b : Bool)) && (c : Bool) && (d : Bool) \226\134\146 (a && b && c) && d

@@ -383,8 +383,8 @@ pub fn multiset_filtereq() -> @kernel.Thm {
 ///|
 /// WF_MULTIZIP
 fn step_9() -> Unit raise {
-  let t209 = @parser.parse_type("A")
-  let lemma = @kernel.inst_type(@list.List([(@parser.parse_type("(A)list"), t209)]), @wf.wf_measure_gen())
+  let t209 = @term_syntax.parse_type("A")
+  let lemma = @kernel.inst_type(@list.List([(@term_syntax.parse_type("List[A]"), t209)]), @wf.wf_measure_gen())
   let t246 = @simp.asm_rewrite_tac(@list.List([@lists.length(), @lists.mem()]))
   let t245 = @simp.rewrite_tac(@list.List([@lists.filter(), @lists.length(), @lists.mem()]))
   let t244 = @tactics.subgoal_then(@term_syntax.parse_term("∀ a : A, ∀ l : List[A], !(LENGTH(FILTER(op_eq(a), l)) == 0) → MEM(a, l)"), fn(x242 : @kernel.Thm) -> (((@list.List[(String, @kernel.Thm)], @kernel.Term)) -> ((@list.List[@kernel.Term], (@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)])), @list.List[(@list.List[(String, @kernel.Thm)], @kernel.Term)], ((@list.List[(Int64, @kernel.Term)], @list.List[(@kernel.Term, @kernel.Term)], @list.List[(@kernel.HolType, @kernel.HolType)]), @list.List[@kernel.Thm]) -> @kernel.Thm raise) raise) raise {

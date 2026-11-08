@@ -7744,12 +7744,12 @@ test "Library/words matches Library/words.ml" {
       #|  \226\136\128 b : (Num) -> Bool, \226\136\128 s : (Num) -> Bool, \226\136\128 n : Num, FINITE(s) \226\134\146 MOD(nsum(s, (i : Num) => EXP(2, i) * bitval(b(i))), EXP(2, n)) == nsum({(i : Num) | IN(i, s) && i < n}, (i : Num) => EXP(2, i) * bitval(b(i)))
       #|  \226\136\131 x : Cart[Bool, N], true
       #|  \226\136\128 v : Word[N], \226\136\128 w : Word[N], (v == w) == (bitvector(v) == bitvector(w))
-      #|  :(4)word
-      #|  :(8)word
-      #|  :(16)word
-      #|  :(32)word
-      #|  :(64)word
-      #|  :(128)word
+      #|  :Word[4]
+      #|  :Word[8]
+      #|  :Word[16]
+      #|  :Word[32]
+      #|  :Word[64]
+      #|  :Word[128]
       #|  (bit : (Num, Word[N]) -> Bool)((i : Num), (w : Word[N])) == (if i < (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) { (op_dollar : (Cart[Bool, N], Num) -> Bool)((bitvector : (Word[N]) -> Cart[Bool, N])(w), i + 1) } else { false })
       #|  1 <= (i : Num) && i <= (n : Num) \226\134\146 i == i - 1 + 1 && i - 1 < n
       #|  (i : Num) < (n : Num) \226\134\146 1 <= i + 1 && i + 1 <= n
@@ -9489,7 +9489,7 @@ test "Library/words matches Library/words.ml" {
       #|  :M
       #|  :N
       #|  :P
-      #|  :num
+      #|  :Num
       #|  (true && true) == true
       #|  \226\136\128 b : Bool, bitval(b) == (val : (Word[Unit]) -> Num)((word : (Num) -> Word[Unit])(bitval(b)))
       #|  EXP(2, SUC(MAX((dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)), (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)))))
@@ -9500,7 +9500,7 @@ test "Library/words matches Library/words.ml" {
       #|  :M
       #|  :N
       #|  (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (\226\136\128 x : Word[M], (val : (Word[M]) -> Num)(x) == (val : (Word[N]) -> Num)((word_zx : (Word[M]) -> Word[N])(x)))
-      #|  :num
+      #|  :Num
       #|  \226\136\128 x : Word[N], \226\136\128 y : Word[N], ((val : (Word[N]) -> Num)(x) < (val : (Word[N]) -> Num)(y)) == (!(bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) && (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, y) || (!(bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) || (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, y)) && (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, (word_sub : (Word[N], Word[N]) -> Word[N])(x, y)))
       #|  (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1
       #|  (x : Num)
@@ -9508,7 +9508,7 @@ test "Library/words matches Library/words.ml" {
       #|  :M
       #|  :N
       #|  :P
-      #|  :int
+      #|  :Int
       #|  (true && true) == true
       #|  \226\136\128 b : Bool, int_of_num(bitval(b)) == (ival : (Word[2]) -> Int)((word : (Num) -> Word[2])(bitval(b)))
       #|  (n : Num) < (p : Num) \226\134\146 n <= p - 1
@@ -9552,7 +9552,7 @@ test "Library/words matches Library/words.ml" {
       #|  :M
       #|  :N
       #|  (dimindex : ((M) -> Bool) -> Num)((UNIV : (M) -> Bool)) <= (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) \226\134\146 (\226\136\128 x : Word[M], (ival : (Word[M]) -> Int)(x) == (ival : (Word[N]) -> Int)((word_sx : (Word[M]) -> Word[N])(x)))
-      #|  :int
+      #|  :Int
       #|  \226\136\128 x : Word[N], \226\136\128 y : Word[N], ((ival : (Word[N]) -> Int)(x) < (ival : (Word[N]) -> Int)(y)) == ((bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) && !(bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, y) || ((bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, x) || !(bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, y)) && (bit : (Num, Word[N]) -> Bool)((dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1, (word_sub : (Word[N], Word[N]) -> Word[N])(x, y)))
       #|  (dimindex : ((N) -> Bool) -> Num)((UNIV : (N) -> Bool)) - 1
       #|  (x : Num)

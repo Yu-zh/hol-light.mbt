@@ -37846,7 +37846,7 @@ test "Multivariate/metric matches Multivariate/metric.ml" {
       #|  (emb : (A, Num) -> Real)
       #|  product_topology(UNIV, (n : Num) => euclideanreal)
       #|  :B
-      #|  :num->real
+      #|  :(Num) -> Real
       #|  (emb : (A, Num) -> Real)
       #|  (y : A)
       #|  (x : A)

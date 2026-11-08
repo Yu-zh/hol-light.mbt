@@ -20,8 +20,8 @@ pub fn holds_nnfc_unfold() -> @kernel.Thm {
 ///|
 /// COMPLETENESS_NUM
 fn step_2() -> Unit raise {
-  let t3 = @parser.parse_type("A")
-  let t4 = @kernel.inst_type(@list.List([(@parser.parse_type("num"), t3)]), @completeness.completeness_theorem_gen())
+  let t3 = @term_syntax.parse_type("A")
+  let t4 = @kernel.inst_type(@list.List([(@term_syntax.parse_type("Num"), t3)]), @completeness.completeness_theorem_gen())
   let completeness_theorem_num = @simp.rewrite_rule(@list.List([@sets.num_infinite()]))(t4)
   let t15 = @meson.asm_meson_tac(@list.List([]))
   let t14 = @simp.asm_rewrite_tac(@list.List([]))

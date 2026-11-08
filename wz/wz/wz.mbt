@@ -2474,7 +2474,7 @@ pub fn ron_tm() -> @kernel.Term {
 ///|
 /// real_ty
 fn step_68() -> Unit raise {
-  real_ty_c.set(@parser.parse_type("real"))
+  real_ty_c.set(@term_syntax.parse_type("Real"))
 }
 
 ///|
@@ -2611,11 +2611,11 @@ pub fn wz_initial_reductions(x1195 : @kernel.Term, x1196 : @kernel.Term, x1197 :
   let (ktm, bod) = @kernel.dest_abs(@kernel.rand(stm))
   let parms = @lib.filter(fn(x1200 : @kernel.Term) -> Bool raise {
     let t = x1200
-    let t1201 = @parser.parse_type("real")
+    let t1201 = @term_syntax.parse_type("Real")
     (@kernel.type_of(t) == t1201)
   }, @lib.map(fn(x1202 : @kernel.Term) -> @kernel.Term raise {
     let t_1 = x1202
-    let t1203 = @parser.parse_type("num")
+    let t1203 = @term_syntax.parse_type("Num")
     if (@kernel.type_of(t_1) == t1203) {
       @kernel.mk_comb(@term_syntax.parse_term("real_of_num"), t_1)
     } else {
@@ -2683,7 +2683,7 @@ pub fn wz_initial_reductions(x1195 : @kernel.Term, x1196 : @kernel.Term, x1197 :
   let t1235 = @kernel.mk_abs(@term_syntax.parse_term("(z : Cart[Real, 2])"), t1226)
   let t1236 = @basics.list_mk_abs(@list.List([ntm, ktm]), hbod)
   let t1237 = @basics.list_mk_abs(@list.List([ntm, ktm]), bod)
-  let t1238 = @sets.mk_setenum((parms, @parser.parse_type("real")))
+  let t1238 = @sets.mk_setenum((parms, @term_syntax.parse_type("Real")))
   let t1239 = @bool.specl(@list.List([@kernel.mk_abs(ntm, @kernel.rand(@kernel.concl(pth))), t1238, t1237, t1236, t1235, t1234, t1233, t1232]), zeilberger())
   let t1240 = @equal.conv_rule(@equal.top_depth_conv(@pair.gen_beta_conv), t1239)
   let th0 = @simp.pure_rewrite_rule(@list.List([@complexes.re(), @complexes.im()]))(t1240)

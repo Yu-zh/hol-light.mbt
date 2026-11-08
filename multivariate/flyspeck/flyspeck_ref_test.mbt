@@ -82953,7 +82953,7 @@ test "Multivariate/flyspeck matches Multivariate/flyspeck.ml" {
       #|  ((i : Num) < 3) == (i <= 2)
       #|  \226\136\128 x : Cart[Real, 2], \226\136\128 y : Cart[Real, 2], pad2d3d(x) == pad2d3d(y) \226\134\146 x == y
       #|  \226\136\128 x : Cart[Real, 2], norm(pad2d3d(x)) == norm(x)
-      #|  :real^2
+      #|  :Cart[Real, 2]
       #|  pad2d3d
       #|  {} == IMAGE(pad2d3d, {}) && vec(0) == pad2d3d(vec(0))
       #|  (plane : ((Cart[Real, _]) -> Bool) -> Bool)((x : (Cart[Real, _]) -> Bool)) == (\226\136\131 u : Cart[Real, _], \226\136\131 v : Cart[Real, _], \226\136\131 w : Cart[Real, _], !collinear({u, v, w}) && x == hull(affine, {u, v, w}))
@@ -83525,8 +83525,8 @@ test "Multivariate/flyspeck matches Multivariate/flyspeck.ml" {
       #|  \226\136\128 v : Cart[Real, 3], \226\136\128 w : Cart[Real, 3], \226\136\128 w1 : Cart[Real, 3], \226\136\128 w2 : Cart[Real, 3], \226\136\128 h1 : Real, \226\136\128 h2 : Real, \226\136\128 r1 : Real, \226\136\128 r2 : Real, \226\136\128 e1 : Cart[Real, 3], \226\136\128 e2 : Cart[Real, 3], \226\136\128 e3 : Cart[Real, 3], \226\136\128 psi : Real, \226\136\128 theta : Real, real_of_num(0) <= theta && theta < real_of_num(2) * pi && orthonormal(e1, e2, e3) && op_pct(distance((w, v)), e3) == w - v && !(w == v) && real_of_num(0) < r1 && real_of_num(0) < r2 && w1 - v == op_pct(r1 * cos(psi), e1) + (op_pct(r1 * sin(psi), e2) + op_pct(h1, w - v)) && w2 - v == op_pct(r2 * cos(psi + theta), e1) + (op_pct(r2 * sin(psi + theta), e2) + op_pct(h2, w - v)) \226\134\146 azim(v, w, w1, w2) == theta
       #|  {(a : Cart[Real, 3]) + (x : Cart[Real, 3]), a + (y : Cart[Real, 3]), a + (z : Cart[Real, 3])} == IMAGE((x : Cart[Real, 3]) => a + x, {x, y, z})
       #|  distance((vector_add((a : Cart[Real, _]), (v : Cart[Real, _])), vector_add(a, (w : Cart[Real, _])))) == distance((v, w))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  ((a : Cart[Real, 3]) + (w : Cart[Real, 3]) == a + (v : Cart[Real, 3])) == (w == v)
       #|  (a : Cart[Real, 3]) + (w : Cart[Real, 3]) - (a + (v : Cart[Real, 3])) == w - v
       #|  \226\136\128 a : Cart[Real, 3], \226\136\128 v : Cart[Real, 3], \226\136\128 w : Cart[Real, 3], \226\136\128 w1 : Cart[Real, 3], \226\136\128 w2 : Cart[Real, 3], azim(a + v, a + w, a + w1, a + w2) == azim(v, w, w1, w2)
@@ -84185,8 +84185,8 @@ test "Multivariate/flyspeck matches Multivariate/flyspeck.ml" {
       #|  (w : Cart[Real, 2])
       #|  (abs((r : Real)) * (x : Real) <= r) == (abs(r) * x <= r * real_of_num(1))
       #|  distance(((z : Cart[Real, _]), vector_add((a : Cart[Real, _]), z))) == vector_norm(a)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  pi
       #|  (z : Cart[Real, 2])
       #|  (r : Real)
@@ -84219,8 +84219,8 @@ test "Multivariate/flyspeck matches Multivariate/flyspeck.ml" {
       #|  (frustt : (Cart[Real, _], Cart[Real, _], Real, Real, Cart[Real, _]) -> Bool)((v0 : Cart[Real, _]), (v1 : Cart[Real, _]), (h : Real), (a : Real)) == frustum(v0, v1, real_of_num(0), h, a)
       #|  \226\136\128 v0 : Cart[Real, _], \226\136\128 h1 : Real, \226\136\128 h2 : Real, \226\136\128 a : Real, frustum(v0, v0, h1, h2, a) == {}
       #|  norm((x : Cart[Real, N])) == (a : Real) && norm((y : Cart[Real, N])) == (b : Real) \226\134\146 norm(x + y) <= a + b
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (real_of_num(1) - (t : Real)) * (norm((x : Cart[Real, N])) * (norm((v1 : Cart[Real, N])) * (a : Real))) + t * (norm((y : Cart[Real, N])) * (norm(v1) * a))
       #|  (t : Real)
       #|  (y : Cart[Real, N])
@@ -84233,8 +84233,8 @@ test "Multivariate/flyspeck matches Multivariate/flyspeck.ml" {
       #|  \226\136\128 v0 : Cart[Real, N], \226\136\128 v1 : Cart[Real, N], \226\136\128 a : Real, open(rcone_gt(v0, v1, a))
       #|  op_pct(real_of_num(2), (v : Cart[Real, N])) - (x : Cart[Real, N]) - v == -(x - v)
       #|  distance((vector_sub(op_pct(real_of_num(2), (x : Cart[Real, _])), (y : Cart[Real, _])), x)) == distance((y, x))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (a : Cart[Real, N]) - (a - (b : Cart[Real, N])) == b
       #|  \226\136\128 v0 : Cart[Real, N], \226\136\128 v1 : Cart[Real, N], \226\136\128 a : Real, rcone_gt(v0, v1, -a) == IMAGE((x : Cart[Real, N]) => op_pct(real_of_num(2), v0) - x, DIFF(UNIV, rcone_ge(v0, v1, a)))
       #|  real_of_num(0) < (a : Real)
@@ -84280,7 +84280,7 @@ test "Multivariate/flyspeck matches Multivariate/flyspeck.ml" {
       #|  (vec : (Num) -> Cart[Real, 3])(0)
       #|  \226\136\128 t : Cart[Real, 3], \226\136\128 r : Real, real_of_num(0) <= r \226\134\146 measurable(ellipsoid(t, r)) && measure(ellipsoid(t, r)) == abs(op_dollar(t, 1) * (op_dollar(t, 2) * op_dollar(t, 3))) * (real_of_num(4) / real_of_num(3) * (pi * pow(r, 3)))
       #|  !(real_of_num(0) <= (r : Real)) \226\134\146 !(norm((x : Cart[Real, 3])) < r)
-      #|  :real
+      #|  :Real
       #|  real_of_num(0) <= (r : Real)
       #|  \226\136\128 t : Cart[Real, 3], \226\136\128 r : Real, measurable(ellipsoid(t, r))
       #|  (conic_cap : (Cart[Real, _], Cart[Real, _], Real, Real, Cart[Real, _]) -> Bool)((v0 : Cart[Real, _]), (v1 : Cart[Real, _]), (r : Real), (a : Real)) == INTER(normball(v0, r), rcone_gt(v0, v1, a))
@@ -84339,7 +84339,7 @@ test "Multivariate/flyspeck matches Multivariate/flyspeck.ml" {
       #|  (ball : ((Cart[Real, 3], Real), Cart[Real, 3]) -> Bool)(((vec : (Num) -> Cart[Real, 3])(0), (r : Real)))
       #|  (a : Bool) && (b : Bool) && (a && b \226\134\146 (c : Bool) && (d : Bool)) \226\134\146 a && b && c && d
       #|  (r : Real) < real_of_num(0) \226\134\146 !(norm((x : Cart[Real, _])) < r)
-      #|  :real
+      #|  :Real
       #|  (n : Real) * ((x : Real) * (a : Real)) == x * (n * a)
       #|  ((b : Real) * (y : Real) <= (n : Real) * (b * real_of_num(1) * (a : Real))) == (b * (real_of_num(1) * y) <= b * (a * n))
       #|  abs((x : Real)) <= (a : Real) \226\134\146 x <= a
@@ -84360,8 +84360,8 @@ test "Multivariate/flyspeck matches Multivariate/flyspeck.ml" {
       #|  real_of_num(0) <= (a : Real) && a < real_of_num(1) \226\134\146 !(abs(a) == real_of_num(1))
       #|  ((a : Real) * (x : Real) == x) == (a == real_of_num(1) || x == real_of_num(0))
       #|  distance(((x : Cart[Real, _]), vector_add(x, (a : Cart[Real, _])))) == vector_norm(a)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (c : Cart[Real, N]) + (x : Cart[Real, N])
       #|  (c : Cart[Real, N])
       #|  (vec : (Num) -> Cart[Real, N])(0)
@@ -84423,8 +84423,8 @@ test "Multivariate/flyspeck matches Multivariate/flyspeck.ml" {
       #|  {(z : Cart[Real, 2]) | dot(cexp(ii * Cx(pi / real_of_num(2) + (t : Real))), z) == real_of_num(0)}
       #|  \226\136\128 t : Real, negligible({(z : Cart[Real, 2]) | Arg(z) == t})
       #|  norm((z : Cart[Real, _])) == distance((vec(0), z))
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  {(z : _) | (P : (_) -> Bool)(z) && (Q : (_) -> Bool)(z)} == INTER({(z : _) | P(z)}, {(z : _) | Q(z)})
       #|  \226\136\128 r : Real, \226\136\128 t : Real, measurable({(z : Cart[Real, 2]) | norm(z) <= r && Arg(z) <= t})
       #|  {(z : Cart[Real, 2]) | Arg(z) == (t : Real)}
@@ -84460,8 +84460,8 @@ test "Multivariate/flyspeck matches Multivariate/flyspeck.ml" {
       #|  real_of_num(0) < (p : Real) \226\134\146 (t : Real) / (real_of_num(2) * p) * (real_of_num(2) * p) == t
       #|  real_of_num(0) < (p : Real) \226\134\146 (t : Real) / (real_of_num(2) * p) * (p * (r : Real)) == t * (r / real_of_num(2))
       #|  distance((vec(0), (z : Cart[Real, _]))) == norm(z)
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (r : Real)
       #|  (vec : (Num) -> Cart[Real, 2])(0)
       #|  real_of_num(2) * pi
@@ -84472,7 +84472,7 @@ test "Multivariate/flyspeck matches Multivariate/flyspeck.ml" {
       #|  UNION({(x : Cart[Real, 2]) | distance((vec(0), x)) == (r : Real)}, UNION({(z : Cart[Real, 2]) | Arg(z) == real_of_num(0)}, {(z : Cart[Real, 2]) | Arg(z) == (t : Real)}))
       #|  {(x : Cart[Real, 2]) | norm(x) <= (r : Real) && Arg(x) <= (t : Real)}
       #|  !(real_of_num(0) <= (r : Real)) \226\134\146 !(norm((x : Cart[Real, _])) < r)
-      #|  :real
+      #|  :Real
       #|  \226\136\128 t : Real, \226\136\128 r : Real, real_of_num(0) <= t && t <= real_of_num(2) * pi \226\134\146 has_measure({(x : Cart[Real, 2]) | norm(x) < r && real_of_num(0) < Arg(x) && Arg(x) < t}, if real_of_num(0) <= r { t * (pow(r, 2) / real_of_num(2)) } else { real_of_num(0) })
       #|  \226\136\128 t : Real, \226\136\128 r : Real, real_of_num(0) <= t && t <= real_of_num(2) * pi \226\134\146 measure({(x : Cart[Real, 2]) | norm(x) < r && real_of_num(0) < Arg(x) && Arg(x) < t}) == (if real_of_num(0) <= r { t * (pow(r, 2) / real_of_num(2)) } else { real_of_num(0) })
       #|  (w : Real) == real_of_num(0)
@@ -84749,7 +84749,7 @@ test "Multivariate/flyspeck matches Multivariate/flyspeck.ml" {
       #|  :M
       #|  :2
       #|  (r : Real) < real_of_num(0) \226\134\146 !(norm((x : Cart[Real, _])) < r)
-      #|  :real
+      #|  :Real
       #|  (n : Real) * ((x : Real) * (a : Real)) == x * (n * a)
       #|  ((b : Real) * (y : Real) <= (n : Real) * (b * real_of_num(1) * (a : Real))) == (b * (real_of_num(1) * y) <= b * (a * n))
       #|  abs((x : Real)) <= (a : Real) \226\134\146 x <= a

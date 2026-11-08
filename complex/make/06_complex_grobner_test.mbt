@@ -6456,8 +6456,8 @@ test "Complex/complex_grobner matches Complex/complex_grobner.ml" {
       #|  complex_pow
       #|  Cx(real_of_num(0))
       #|  complex_sub
-      #|  :complex
-      #|  :complex
+      #|  :Complex
+      #|  :Complex
       #|  complex_pow
       #|  complex_mul
       #|  complex_add

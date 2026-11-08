@@ -13267,9 +13267,9 @@ test "Arithmetic/definability matches Arithmetic/definability.ml" {
       #|  op_q_q
       #|  numeral
       #|  (op_bar_minus_gt : (Num, Term, (Num) -> Term, Num) -> Term)
-      #|  :term
-      #|  :form
-      #|  :num
+      #|  :Term
+      #|  :Form
+      #|  :Num
       #|  formsubst
       #|  holds((v : (Num) -> Num))
       #|  (v : (Num) -> Num)

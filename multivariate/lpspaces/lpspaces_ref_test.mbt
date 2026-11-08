@@ -79476,8 +79476,8 @@ test "Multivariate/lpspaces matches Multivariate/lpspaces.ml" {
       #|  inv((p : Real))
       #|  (x : Cart[Real, M])
       #|  norm((x : Cart[Real, N])) <= (a : Real) && norm((y : Cart[Real, N])) <= a \226\134\146 norm(x - y) <= real_of_num(2) * a
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  integrable_on((hp : (Cart[Real, M]) -> Cart[Real, Unit]), (s : (Cart[Real, M]) -> Bool))
       #|  real_of_num(1) <= (p : Real) \226\134\146 !(p == real_of_num(0))
       #|  ({} : (Cart[Real, M]) -> Bool)
@@ -79611,9 +79611,9 @@ test "Multivariate/lpspaces matches Multivariate/lpspaces.ml" {
       #|  \226\136\128 x : Cart[Real, M], IN(x, DIFF((s : (Cart[Real, M]) -> Bool), (k : (Cart[Real, M]) -> Bool))) \226\134\146 op_minus_minus_gt((n : Num) => (f : (Num, Cart[Real, M]) -> Cart[Real, N])(n, x), (g : (Cart[Real, M]) -> Cart[Real, N])(x), sequentially)
       #|  (x : Cart[Real, M])
       #|  norm((x : Cart[Real, N])) <= norm((z : Cart[Real, N])) && norm((y : Cart[Real, N])) <= norm(z) \226\134\146 norm(x - y) <= norm(op_pct(real_of_num(2), z))
-      #|  :real
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
+      #|  :Real
       #|  (x : Cart[Real, M])
       #|  (k : Num)
       #|  IN((h : (Cart[Real, M]) -> Cart[Real, N]), lspace((s : (Cart[Real, M]) -> Bool), (p : Real)))
@@ -79697,8 +79697,8 @@ test "Multivariate/lpspaces matches Multivariate/lpspaces.ml" {
       #|  (x : Cart[Real, M])
       #|  (k : Num)
       #|  norm((c : Cart[Real, N]) - (a : Cart[Real, N])) <= norm((b : Cart[Real, N]) - a) \226\134\146 distance((b, a)) < (ee : Real) \226\134\146 distance((c, a)) < ee
-      #|  :real
-      #|  :real
+      #|  :Real
+      #|  :Real
       #|  (n : Num)
       #|  (N : Num)
       #|  (ee : Real)

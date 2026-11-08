@@ -80214,16 +80214,16 @@ Functionspaces/cfunspace quotations (563):
   \226\136\128 f : (_, _) -> _, \226\136\128 g1 : (_) -> _, \226\136\128 g2 : (_) -> _, \226\136\128 x : _, fun_map2(f, g1, g2, x) == f(g1(x), g2(x))
   (K : (A, B) -> A)((x : A)) == ((y : B) => x)
   \226\136\128 x : _, \226\136\128 y : _, K(x, y) == x
-  :A->complex
-  :B->complex
-  :C->complex
+  :(A) -> Complex
+  :(B) -> Complex
+  :(C) -> Complex
   (cfun_add : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2]) == fun_map2(op_plus)
   (cfun_smul : (Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2])((a : Cart[Real, 2])) == o(op_star(a))
   (cfun_neg : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]) == o(op_minus_minus)
   (cfun_sub : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2]) == fun_map2(op_minus)
   (cfun_zero : (A) -> Cart[Real, 2]) == K(Cx(real_of_num(0)))
   (cfun_cnj : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]) == o(cnj)
-  :A->B->B
+  :(A, B) -> B
   (cfun_add : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2])
   (cfun_smul : (Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2])
   (cfun_neg : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2])
@@ -80297,9 +80297,9 @@ Functionspaces/cfunspace quotations (563):
   \226\136\128 a : Cart[Real, 2], \226\136\128 x : (Singleton) -> Cart[Real, 2], complex_of_cfun(cfun_smul(a, x)) == a * complex_of_cfun(x)
   o(complex_of_cfun, cfun_of_complex) == I
   o(cfun_of_complex, complex_of_cfun) == I
-  :cfun->cfun->complex
+  :(Cfun, Cfun) -> Complex
   (equv : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2], ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2]) -> Bool)((f : (A) -> Cart[Real, 2]), (g : (A) -> Cart[Real, 2]), (inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2])) == (inprod(f - g, f - g) == Cx(real_of_num(0)))
-  :(cfun->bool)#inprod
+  :((Cfun) -> Bool, Inprod)
   (is_inner_space : ((((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2])) -> Bool)(((s : ((A) -> Cart[Real, 2]) -> Bool), (inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2]))) == (is_cfun_subspace(s) && (\226\136\128 x : (A) -> Cart[Real, 2], IN(x, s) \226\134\146 real(inprod(x, x)) && real_of_num(0) <= real_of_complex(inprod(x, x)) && (\226\136\128 y : (A) -> Cart[Real, 2], IN(y, s) \226\134\146 (inprod(x, x) == Cx(real_of_num(0)) \226\134\146 inprod(y, x) == Cx(real_of_num(0))) && cnj(inprod(y, x)) == inprod(x, y) && (\226\136\128 a : Cart[Real, 2], inprod(x, cfun_smul(a, y)) == a * inprod(x, y)) && (\226\136\128 z : (A) -> Cart[Real, 2], IN(z, s) \226\134\146 inprod(x + y, z) == inprod(x, z) + inprod(y, z)))))
   \226\136\128 P : ((((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2])) -> Bool, (\226\136\128 is_ : (((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2]), P(is_)) == (\226\136\128 s : ((A) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((A) -> Cart[Real, 2], (A) -> Cart[Real, 2]) -> Cart[Real, 2], P((s, inprod)))
   \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) \226\134\146 is_cfun_subspace(s)
@@ -80365,9 +80365,9 @@ Functionspaces/cfunspace quotations (563):
   (x : Real) == (y : Real) + (z : Real) \226\134\146 real_of_num(0) <= y && (t : Real) == z \226\134\146 t <= x
   \226\136\128 f : (_, _) -> Real, \226\136\128 g : (_, _) -> Real, ((P : Bool) \226\134\146 f((x : _), (y : _)) <= g(x, y)) \226\134\146 P && (z : Real) <= f(x, y) \226\134\146 z <= g(x, y)
   \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) \226\134\146 (\226\136\128 x : (_) -> Cart[Real, 2], \226\136\128 y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) \226\134\146 pow(real_of_complex((inprod(x, y) - inprod(y, x)) / (Cx(real_of_num(2)) * ii)), 2) <= real_of_complex(inprod(x, x)) * real_of_complex(inprod(y, y)))
-  :cfunB->cfun
-  :cfunC->cfunB
-  :cfun->cfun
+  :(CfunB) -> Cfun
+  :(CfunC) -> CfunB
+  :(Cfun) -> Cfun
   (cop_add : (((B) -> Cart[Real, 2], A) -> Cart[Real, 2], ((B) -> Cart[Real, 2], A) -> Cart[Real, 2], (B) -> Cart[Real, 2], A) -> Cart[Real, 2]) == fun_map2(op_plus)
   (cop_sub : (((B) -> Cart[Real, 2], A) -> Cart[Real, 2], ((B) -> Cart[Real, 2], A) -> Cart[Real, 2], (B) -> Cart[Real, 2], A) -> Cart[Real, 2]) == fun_map2(op_minus)
   (cop_neg : (((B) -> Cart[Real, 2], A) -> Cart[Real, 2], (B) -> Cart[Real, 2], A) -> Cart[Real, 2]) == o(op_minus_minus)
@@ -80486,12 +80486,12 @@ Functionspaces/cfunspace quotations (563):
   \226\136\128 x : (_) -> Cart[Real, 2], \226\136\128 y : (_) -> Cart[Real, 2], \226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, is_set_linear_cop(s, op) && IN(x, s) && IN(y, s) \226\134\146 op(x + y) == op(x) + op(y)
   \226\136\128 x : (_) -> Cart[Real, 2], \226\136\128 y : (_) -> Cart[Real, 2], \226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, is_cfun_subspace(s) && is_set_linear_cop(s, op) && IN(x, s) && IN(y, s) \226\134\146 op(x - y) == op(x) - op(y)
   \226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, is_set_linear_cop(s, op) && is_cfun_subspace(s) \226\134\146 op(cfun_zero) == cfun_zero
-  :cfun->complex
-  :cfunB->complex
+  :(Cfun) -> Complex
+  :(CfunB) -> Complex
   (cfun_dual : (((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2]) -> Cart[Real, 2]) -> Bool)((spc : ((A) -> Cart[Real, 2]) -> Bool)) == {(f : ((A) -> Cart[Real, 2]) -> Cart[Real, 2]) | is_linear_cop(o(cfun_of_complex, f))}
   (cop_transpose : (((B) -> Cart[Real, 2], A) -> Cart[Real, 2], ((A) -> Cart[Real, 2]) -> Cart[Real, 2], (B) -> Cart[Real, 2]) -> Cart[Real, 2])((f : ((B) -> Cart[Real, 2], A) -> Cart[Real, 2])) == ((phi : ((A) -> Cart[Real, 2]) -> Cart[Real, 2]) => o(phi, f))
   (commutator : (((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2])((op1 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]), (op2 : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2])) == cop_mul(op1, op2) - cop_mul(op2, op1)
-  :A->A->A
+  :(A, A) -> A
   (commutator : (((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], (A) -> Cart[Real, 2], A) -> Cart[Real, 2])
   \226\136\128 op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], com(op1, op2) == -com(op2, op1)
   \226\136\128 op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 a : Cart[Real, 2], \226\136\128 b : Cart[Real, 2], \226\136\128 c : Cart[Real, 2], \226\136\128 d : Cart[Real, 2], is_linear_cop(op1) && is_linear_cop(op2) \226\134\146 com(cop_smul(a, op1) + cop_smul(b, op2), cop_smul(c, op1) + cop_smul(d, op2)) == cop_smul(a * d, com(op1, op2)) - cop_smul(b * c, com(op1, op2))
@@ -80548,20 +80548,20 @@ Functionspaces/cfunspace quotations (563):
   \226\136\128 is_ : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), is_self_adjoint1(is_, cop_zero)
   \226\136\128 is_ : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), is_inner_space(is_) \226\134\146 (\226\136\128 op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_self_adjoint1(is_, op1) && is_self_adjoint1(is_, op2) \226\134\146 is_self_adjoint1(is_, cop_mul(op1, op2) + cop_mul(op2, op1)))
   \226\136\128 is_ : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), is_inner_space(is_) \226\134\146 (\226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) && is_self_adjoint1(is_, op) \226\134\146 is_self_adjoint1(is_, -op))
-  :inner_space->cop->bool
+  :(Inner_space, Cop) -> Bool
   \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) \226\134\146 (\226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_linear_cop(op) && (\226\136\128 x : (_) -> Cart[Real, 2], \226\136\128 y : (_) -> Cart[Real, 2], inprod(op(x), y) == -inprod(x, op(y))) && is_closed_by(s, op) \226\134\146 is_self_adjoint1((s, inprod), cop_smul(ii, op)))
   \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) \226\134\146 (\226\136\128 op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_self_adjoint1((s, inprod), op1) && is_self_adjoint1((s, inprod), op2) \226\134\146 (\226\136\128 x : (_) -> Cart[Real, 2], \226\136\128 y : (_) -> Cart[Real, 2], IN(x, s) && IN(y, s) \226\134\146 inprod(com(op1, op2, x), y) == -inprod(x, com(op1, op2, y))))
   ((x : Cart[Real, 2]) == -(y : Cart[Real, 2])) == (y == -x)
   \226\136\128 is_ : (((_) -> Cart[Real, 2]) -> Bool, ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2]), is_inner_space(is_) \226\134\146 (\226\136\128 op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], is_self_adjoint1(is_, op1) && is_self_adjoint1(is_, op2) \226\134\146 is_self_adjoint1(is_, cop_smul(ii, com(op1, op2))))
   \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) \226\134\146 (\226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 state : (_) -> Cart[Real, 2], is_self_adjoint1((s, inprod), op) && IN(state, s) \226\134\146 real(expectation(inprod, state, op)))
   \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) \226\134\146 (\226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 state : (_) -> Cart[Real, 2], is_self_adjoint1((s, inprod), op) && IN(state, s) \226\134\146 is_self_adjoint1((s, inprod), deviation(inprod, state, op)))
-  :inner_space->cop->bool
+  :(Inner_space, Cop) -> Bool
   real
   real
   \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) \226\134\146 (\226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 state : (_) -> Cart[Real, 2], IN(state, s) && is_self_adjoint1((s, inprod), op) \226\134\146 real(variance(inprod, state, op)))
   real
   op_slash_bslash
-  :inner_space->cop->bool
+  :(Inner_space, Cop) -> Bool
   (is_eigen_pair : (((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ((A) -> Cart[Real, 2], Cart[Real, 2])) -> Bool)((op : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]), ((x : (A) -> Cart[Real, 2]), (a : Cart[Real, 2]))) == (is_linear_cop(op) \226\134\146 op(x) == cfun_smul(a, x) && !(x == cfun_zero))
   \226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 v : Cart[Real, 2], \226\136\128 x : (_) -> Cart[Real, 2], is_eigen_pair(op, (x, v)) \226\134\146 (\226\136\128 a : Cart[Real, 2], !(a == Cx(real_of_num(0))) \226\134\146 is_eigen_pair(op, (cfun_smul(a, x), v)))
   \226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 v : Cart[Real, 2], \226\136\128 x : (_) -> Cart[Real, 2], \226\136\128 y : (_) -> Cart[Real, 2], is_eigen_pair(op, (x, v)) && is_eigen_pair(op, (y, v)) && !(x + y == cfun_zero) \226\134\146 is_eigen_pair(op, (x + y, v))
@@ -80606,20 +80606,20 @@ Functionspaces/cfunspace quotations (563):
   \226\136\128 op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 s1 : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 s2 : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_symmetric((s, inprod), s1, op1) && is_symmetric((s, inprod), s2, op2) \226\134\146 is_symmetric((s, inprod), INTER({(x : (_) -> Cart[Real, 2]) | IN(x, s2) && IN(op2(x), s1)}, {(x : (_) -> Cart[Real, 2]) | IN(x, s1) && IN(op1(x), s2)}), cop_mul(op1, op2) + cop_mul(op2, op1))
   -(op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2]) == cop_smul(-Cx(real_of_num(1)), op)
   \226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 s1 : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_symmetric((s, inprod), s1, op) \226\134\146 is_symmetric((s, inprod), s1, -op)
-  :inner_space->(cfun->boo)->cop->bool
+  :(Inner_space, (Cfun) -> Boo, Cop) -> Bool
   real
   \226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 s1 : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_unbounded_linear_cop(s1, op) && SUBSET(s1, s) && (\226\136\128 x : (_) -> Cart[Real, 2], IN(x, s1) \226\134\146 IN(op(x), s)) && (\226\136\128 x : (_) -> Cart[Real, 2], \226\136\128 y : (_) -> Cart[Real, 2], IN(x, s1) && IN(y, s1) \226\134\146 inprod(op(x), y) == -inprod(x, op(y))) \226\134\146 is_symmetric((s, inprod), s1, cop_smul(ii, op))
   \226\136\128 op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 s1 : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 s2 : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op1) && is_symmetric((s, inprod), s2, op2) \226\134\146 (\226\136\128 x : (_) -> Cart[Real, 2], \226\136\128 y : (_) -> Cart[Real, 2], IN(x, s2) && IN(op2(x), s1) && IN(x, s1) && IN(op1(x), s2) && IN(y, s2) && IN(op2(y), s1) && IN(y, s1) && IN(op1(y), s2) \226\134\146 inprod(com(op1, op2, x), y) == -inprod(x, com(op1, op2, y)))
   -((a : Cart[Real, 2]) - (b : Cart[Real, 2])) == b - a
   \226\136\128 op1 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 op2 : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 s1 : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 s2 : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op1) && is_symmetric((s, inprod), s2, op2) \226\134\146 is_symmetric((s, inprod), INTER({(x : (_) -> Cart[Real, 2]) | IN(x, s2) && IN(op2(x), s1)}, {(x : (_) -> Cart[Real, 2]) | IN(x, s1) && IN(op1(x), s2)}), cop_smul(ii, com(op1, op2)))
-  :inner_space->(cfun->boo)->cop->bool
+  :(Inner_space, (Cfun) -> Boo, Cop) -> Bool
   real
   real
   real
   real
   \226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 s1 : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) \226\134\146 (\226\136\128 state : (_) -> Cart[Real, 2], IN(state, s1) \226\134\146 real(expectation(inprod, state, op)))
   \226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 s1 : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], \226\136\128 state : (_) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) && IN(state, s1) \226\134\146 is_symmetric((s, inprod), INTER(s1, s1), deviation(inprod, state, op))
-  :inner_space->(cfun->boo)->cop->bool
+  :(Inner_space, (Cfun) -> Boo, Cop) -> Bool
   real
   real
   real
@@ -80627,7 +80627,7 @@ Functionspaces/cfunspace quotations (563):
   INTER((s : (_) -> Bool), s) == s
   \226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 s1 : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 inprod : ((_) -> Cart[Real, 2], (_) -> Cart[Real, 2]) -> Cart[Real, 2], is_inner_space((s, inprod)) && is_symmetric((s, inprod), s1, op) \226\134\146 (\226\136\128 state : (_) -> Cart[Real, 2], IN(state, s1) && IN(deviation(inprod, state, op, state), s1) \226\134\146 real(variance(inprod, state, op)))
   real
-  :inner_space->(cfun->boo)->cop->bool
+  :(Inner_space, (Cfun) -> Boo, Cop) -> Bool
   (is_eigen_pair_unbounded : (((A) -> Cart[Real, 2]) -> Bool, ((A) -> Cart[Real, 2], A) -> Cart[Real, 2], ((A) -> Cart[Real, 2], Cart[Real, 2])) -> Bool)((s : ((A) -> Cart[Real, 2]) -> Bool), (op : ((A) -> Cart[Real, 2], A) -> Cart[Real, 2]), ((x : (A) -> Cart[Real, 2]), (a : Cart[Real, 2]))) == (is_unbounded_linear_cop(s, op) \226\134\146 IN(x, s) && op(x) == cfun_smul(a, x) && !(x == cfun_zero))
   \226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 v : Cart[Real, 2], \226\136\128 x : (_) -> Cart[Real, 2], is_eigen_pair_unbounded(s, op, (x, v)) \226\134\146 (\226\136\128 a : Cart[Real, 2], !(a == Cx(real_of_num(0))) \226\134\146 is_eigen_pair_unbounded(s, op, (cfun_smul(a, x), v)))
   \226\136\128 op : ((_) -> Cart[Real, 2], _) -> Cart[Real, 2], \226\136\128 s : ((_) -> Cart[Real, 2]) -> Bool, \226\136\128 v : Cart[Real, 2], \226\136\128 x : (_) -> Cart[Real, 2], \226\136\128 y : (_) -> Cart[Real, 2], is_eigen_pair_unbounded(s, op, (x, v)) && is_eigen_pair_unbounded(s, op, (y, v)) && !(x + y == cfun_zero) \226\134\146 is_eigen_pair_unbounded(s, op, (x + y, v))

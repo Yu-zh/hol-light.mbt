@@ -9,8 +9,8 @@ fn step_1() -> Unit raise {
 ///|
 /// Formal_ineqs/lib/ssrbool.hl:10
 fn step_2() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("P", @parser.parse_type("bool")))
-  @sections.add_section_var(@kernel.mk_var("Q", @parser.parse_type("bool")))
+  @sections.add_section_var(@kernel.mk_var("P", @term_syntax.parse_type("Bool")))
+  @sections.add_section_var(@kernel.mk_var("Q", @term_syntax.parse_type("Bool")))
 }
 
 ///|
@@ -639,20 +639,20 @@ fn step_39() -> Unit raise {
 ///|
 /// Formal_ineqs/lib/ssrbool.hl:211
 fn step_40() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("vT", @parser.parse_type("A")))
-  @sections.add_section_var(@kernel.mk_var("vF", @parser.parse_type("A")))
+  @sections.add_section_var(@kernel.mk_var("vT", @term_syntax.parse_type("A")))
+  @sections.add_section_var(@kernel.mk_var("vF", @term_syntax.parse_type("A")))
 }
 
 ///|
 /// Formal_ineqs/lib/ssrbool.hl:212
 fn step_41() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("A -> B")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(A) -> B")))
 }
 
 ///|
 /// Formal_ineqs/lib/ssrbool.hl:213
 fn step_42() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("b", @parser.parse_type("bool")))
+  @sections.add_section_var(@kernel.mk_var("b", @term_syntax.parse_type("Bool")))
 }
 
 ///|

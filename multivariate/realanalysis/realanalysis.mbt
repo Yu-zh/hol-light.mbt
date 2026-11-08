@@ -16395,7 +16395,7 @@ pub fn open_real_segment() -> @kernel.Thm {
 ///|
 /// Multivariate/realanalysis.ml:7049
 fn step_697() -> Unit raise {
-  @preterm.make_overloadable("real_segment", @parser.parse_type("A"))
+  @preterm.make_overloadable("real_segment", @term_syntax.parse_type("A"))
 }
 
 ///|

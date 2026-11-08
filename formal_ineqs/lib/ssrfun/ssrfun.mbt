@@ -405,7 +405,7 @@ fn step_19() -> Unit raise {
 ///|
 /// Formal_ineqs/lib/ssrfun.hl:78
 fn step_20() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("A -> R")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(A) -> R")))
 }
 
 ///|
@@ -817,14 +817,14 @@ fn step_37() -> Unit raise {
 ///|
 /// Formal_ineqs/lib/ssrfun.hl:138
 fn step_38() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("B -> A")))
-  @sections.add_section_var(@kernel.mk_var("g", @parser.parse_type("B -> A")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(B) -> A")))
+  @sections.add_section_var(@kernel.mk_var("g", @term_syntax.parse_type("(B) -> A")))
 }
 
 ///|
 /// Formal_ineqs/lib/ssrfun.hl:139
 fn step_39() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("h", @parser.parse_type("C -> B")))
+  @sections.add_section_var(@kernel.mk_var("h", @term_syntax.parse_type("(C) -> B")))
 }
 
 ///|
@@ -1281,7 +1281,7 @@ fn step_57() -> Unit raise {
 ///|
 /// Formal_ineqs/lib/ssrfun.hl:213
 fn step_58() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("B -> A")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(B) -> A")))
 }
 
 ///|
@@ -1558,13 +1558,13 @@ fn step_68() -> Unit raise {
 ///|
 /// Formal_ineqs/lib/ssrfun.hl:249
 fn step_69() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("BB -> AA")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(BB) -> AA")))
 }
 
 ///|
 /// Formal_ineqs/lib/ssrfun.hl:250
 fn step_70() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("h", @parser.parse_type("CC -> BB")))
+  @sections.add_section_var(@kernel.mk_var("h", @term_syntax.parse_type("(CC) -> BB")))
 }
 
 ///|
@@ -1864,7 +1864,7 @@ fn step_78() -> Unit raise {
 ///|
 /// Formal_ineqs/lib/ssrfun.hl:287
 fn step_79() -> Unit raise {
-  @sections.add_section_var(@kernel.mk_var("f", @parser.parse_type("A -> A")))
+  @sections.add_section_var(@kernel.mk_var("f", @term_syntax.parse_type("(A) -> A")))
 }
 
 ///|

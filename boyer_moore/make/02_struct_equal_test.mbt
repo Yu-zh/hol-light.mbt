@@ -5561,8 +5561,8 @@ test "Boyer_Moore/struct_equal matches Boyer_Moore/struct_equal.ml" {
       #|Searching with limit 2
       #|Searching with limit 3
       #|Boyer_Moore/struct_equal quotations (8):
-      #|  :bool
-      #|  :bool
+      #|  :Bool
+      #|  :Bool
       #|  false
       #|  false
       #|  false

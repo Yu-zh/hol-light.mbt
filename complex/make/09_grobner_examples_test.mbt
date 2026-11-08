@@ -10611,7 +10611,7 @@ test "Complex/grobner_examples matches Complex/grobner_examples.ml" {
       #|  (is_intersection : ((Real, Real), ((Real, Real), Real, Real), ((Real, Real), Real, Real)) -> Bool)((p : (Real, Real)), ((a : (Real, Real)), (b : (Real, Real))), ((c : (Real, Real)), (d : (Real, Real)))) == (collinear(a, p, b) && collinear(c, p, d))
       #|  (isotropic : (((Real, Real), Real, Real)) -> Bool)(((a : (Real, Real)), (b : (Real, Real)))) == perpendicular((a, b), (a, b))
       #|  (distinctpairs : (List[((Real, Real), Real, Real)]) -> Bool)((pprs : List[((Real, Real), Real, Real)])) == !(ITLIST(GABS((f : (((Real, Real), Real, Real), Real) -> Real) => \226\136\128 a : (Real, Real), \226\136\128 b : (Real, Real), GEQ(f((a, b)), (pr : Real) => (pow(FST(a) - FST(b), 2) + pow(SND(a) - SND(b), 2)) * pr)), pprs, real_of_num(1)) == real_of_num(0))
-      #|  :real#real
+      #|  :(Real, Real)
       #|  GABS((f : ((_, _)) -> _) => \226\136\128 x : _, \226\136\128 y : _, GEQ(f((x, y)), (P : (_, _) -> _)(x, y)), ((a : _), (b : _))) == P(a, b)
       #|  is_midpoint((d : (Real, Real)), ((b : (Real, Real)), (c : (Real, Real)))) && is_midpoint((e : (Real, Real)), ((a : (Real, Real)), c)) && is_midpoint((f : (Real, Real)), (a, b)) && is_intersection((m : (Real, Real)), (b, e), (a, d)) \226\134\146 collinear(c, f, m)
       #|  collinear((x : (Real, Real)), (a0 : (Real, Real)), (a3 : (Real, Real))) && collinear(x, (a1 : (Real, Real)), (a2 : (Real, Real))) && collinear((y : (Real, Real)), a2, a3) && collinear(y, a1, a0) && is_midpoint((m1 : (Real, Real)), (a1, a3)) && is_midpoint((m2 : (Real, Real)), (a0, a2)) && is_midpoint((m3 : (Real, Real)), (x, y)) \226\134\146 collinear(m1, m2, m3)

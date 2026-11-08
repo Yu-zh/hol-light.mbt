@@ -2862,7 +2862,7 @@ pub fn open_segment_alt() -> @kernel.Thm {
 ///|
 /// Multivariate/topology.ml:1025
 fn step_157() -> Unit raise {
-  @preterm.make_overloadable("segment", @parser.parse_type("A"))
+  @preterm.make_overloadable("segment", @term_syntax.parse_type("A"))
 }
 
 ///|
@@ -30109,8 +30109,8 @@ fn step_1242() -> Unit raise {
   let t9940 = @tactics.mp_tac(@bool.ispec(@term_syntax.parse_term("{(n : Num) | IN((x : (Num) -> Cart[Real, M])(n), (s : (Cart[Real, M]) -> Bool))}"), @misc.infinite_enumerate_weak()))
   let t9938 = @simp.simp_tac(@list.List([]))
   let t9936 = @tactics.mp_tac(@bool.spec(@term_syntax.parse_term("(k : Num)"), cauchy_offset()))
-  let t9934 = @parser.parse_type("N")
-  let t9935 = @kernel.inst_type(@list.List([(@parser.parse_type("M"), t9934)]), cauchy_offset())
+  let t9934 = @term_syntax.parse_type("N")
+  let t9935 = @kernel.inst_type(@list.List([(@term_syntax.parse_type("M"), t9934)]), cauchy_offset())
   let t9937 = @list.List([@tactics.mp_tac(@bool.spec(@term_syntax.parse_term("(k : Num)"), t9935)), t9936])
   let t9933 = @tactics.match_mp_tac(@class.taut(@term_syntax.parse_term("(q : Bool) == (p : Bool) && (r : Bool) == (s : Bool) → p → (q → r) → s")))
   let t9932 = @simp.asm_rewrite_tac(@list.List([@trivia.o_def()]))

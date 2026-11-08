@@ -87331,7 +87331,7 @@ Examples/misiurewicz quotations (493):
   SUBSET((t : (_) -> Bool), IMAGE((f : (_) -> _), (s : (_) -> Bool))) \226\134\146 (\226\136\128 x : _, IN(x, s) \226\134\146 (P : (_) -> Bool)(f(x))) \226\134\146 (\226\136\128 x : _, IN(x, t) \226\134\146 P(x))
   (t : Real) / (s : Real) * (r : Real) == r / s * t
   (s : Real) <= (t : Real) \226\134\146 norm((w : Cart[Real, 2]) - (b : Cart[Real, 2])) <= s \226\134\146 distance((b, w)) <= t
-  :real
+  :Real
   (f : (Cart[Real, 2]) -> Cart[Real, 2])((w : Cart[Real, 2]))
   (f : (Cart[Real, 2]) -> Cart[Real, 2])((b : Cart[Real, 2]))
   (r : Real) / (s : Real)
@@ -87381,10 +87381,10 @@ Examples/misiurewicz quotations (493):
   (b : Cart[Real, 2])
   (a : Cart[Real, 2])
   distance(((w : Cart[Real, 2]), w + (x : Cart[Real, 2]))) == norm(x) && distance((w, w - x)) == norm(x)
-  :real
-  :real
-  :real
-  :real
+  :Real
+  :Real
+  :Real
+  :Real
   real_of_num(0) < pi \226\134\146 abs(pi / real_of_num(2)) * real_of_num(1) < pi
   (w : Cart[Real, 2]) == ITER((r : (Num) -> Num)((n : Num)), cexp, (z : Cart[Real, 2]))
   pi < (x : Real) \226\134\146 x <= (y : Real) \226\134\146 pi <= y
@@ -87559,8 +87559,8 @@ Examples/misiurewicz quotations (493):
   (w : Cart[Real, 2])
   (w : Cart[Real, 2])
   distance(((y : Cart[Real, 2]), (x : Cart[Real, 2]))) < (e : Real) / real_of_num(2) \226\134\146 norm((z : Cart[Real, 2]) - y) < e / real_of_num(2) \226\134\146 norm(z - x) < e
-  :real
-  :real
+  :Real
+  :Real
   (y : Cart[Real, 2])
   (n : Num)
   (N : Num)

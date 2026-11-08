@@ -10389,7 +10389,7 @@ test "Logic/prolog matches Logic/prolog.ml" {
       #|  (c : Form) == conclusion((cl : (Form) -> Bool))
       #|  (asm : List[Form]) == hypotheses((cl : (Form) -> Bool))
       #|  :A
-      #|  :term
+      #|  :Term
       #|  horn((cl : (Form) -> Bool))
       #|  definite((cl : (Form) -> Bool))
       #|  (cl : (Form) -> Bool)
@@ -10413,7 +10413,7 @@ test "Logic/prolog matches Logic/prolog.ml" {
       #|  (x : Num)
       #|  ALL(holds(minmodel(IMAGE(interp, (s : ((Form) -> Bool) -> Bool))), (v : (Num) -> Term)), MAP(formsubst((i : (Num) -> Term)), hypotheses((cl : (Form) -> Bool))))
       #|  :A
-      #|  :term
+      #|  :Term
       #|  horn((cl : (Form) -> Bool))
       #|  interp((cl : (Form) -> Bool))
       #|  o(termval(minmodel(IMAGE(interp, (s : ((Form) -> Bool) -> Bool))), (v : (Num) -> Term)), (i : (Num) -> Term))
@@ -10444,7 +10444,7 @@ test "Logic/prolog matches Logic/prolog.ml" {
       #|  !((a : Bool) && !(b : Bool)) == (a \226\134\146 b)
       #|  ((a : Bool) || (b : Bool)) == (!a \226\134\146 b)
       #|  :A
-      #|  :term
+      #|  :Term
       #|  horn((cl : (Form) -> Bool))
       #|  (cl : (Form) -> Bool)
       #|  (t : Term)
@@ -10489,7 +10489,7 @@ test "Logic/prolog matches Logic/prolog.ml" {
       #|  (c : Form) == conclusion((cl : (Form) -> Bool))
       #|  (asm : List[Form]) == hypotheses((cl : (Form) -> Bool))
       #|  :A
-      #|  :term
+      #|  :Term
       #|  horn((cl : (Form) -> Bool))
       #|  definite((cl : (Form) -> Bool))
       #|  (cl : (Form) -> Bool)
@@ -10504,7 +10504,7 @@ test "Logic/prolog matches Logic/prolog.ml" {
       #|  (x : Num)
       #|  (a : Bool) && !(b : Bool) \226\134\146 (a \226\134\146 b || (c : Bool)) \226\134\146 c
       #|  :A
-      #|  :term
+      #|  :Term
       #|  horn((cl : (Form) -> Bool))
       #|  (cl : (Form) -> Bool)
       #|  o(termval(iminmodel(IMAGE(interp, (s : ((Form) -> Bool) -> Bool))), (v : (Num) -> Term)), (i : (Num) -> Term))
@@ -10536,7 +10536,7 @@ test "Logic/prolog matches Logic/prolog.ml" {
       #|  !((a : Bool) && !(b : Bool)) == (a \226\134\146 b)
       #|  ((a : Bool) || (b : Bool)) == (!a \226\134\146 b)
       #|  :A
-      #|  :term
+      #|  :Term
       #|  horn((cl : (Form) -> Bool))
       #|  (cl : (Form) -> Bool)
       #|  (t : Term)

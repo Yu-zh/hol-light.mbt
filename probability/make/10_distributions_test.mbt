@@ -85500,7 +85500,7 @@ test "Probability/distributions matches Probability/distributions.ml" {
       #|  abs(sqrt(abs((z : Real)))) < real_of_num(1)
       #|  (n : Num) => real_of_num(n) * pow(sqrt(abs((z : Real))), n)
       #|  :A
-      #|  :num
+      #|  :Num
       #|  \226\136\128 r : Num, \226\136\128 z : Real, abs(z) < real_of_num(1) \226\134\146 op_minus_minus_minus_gt((n : Num) => pow(real_of_num(n), r) * pow(z, n), real_of_num(0), sequentially)
       #|  (n : Num) * EXP(n, (k : Num)) + EXP(n, k) == SUC(n) * EXP(n, k)
       #|  SUC((k : Num))
@@ -85520,11 +85520,11 @@ test "Probability/distributions matches Probability/distributions.ml" {
       #|  (r : Num)
       #|  (N : Num) => pow(real_of_num(2), (r : Num)) * (pow(real_of_num(N), r) * pow(abs((z : Real)), N))
       #|  :A
-      #|  :num
+      #|  :Num
       #|  0
       #|  (N : Num) => real_of_num(EXP(N + (r : Num), r)) * pow(abs((z : Real)), N)
       #|  :A
-      #|  :num
+      #|  :Num
       #|  \226\136\128 r : Num, \226\136\128 z : Real, abs(z) < real_of_num(1) \226\134\146 op_minus_minus_minus_gt((N : Num) => real_of_num(binom((N + r, r))) * pow(z, N), real_of_num(0), sequentially)
       #|  FACT((n : Num)) * binom((n, n)) == FACT(n) * 1
       #|  (n : Num)

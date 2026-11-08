@@ -5532,8 +5532,8 @@ Library/isum quotations (29):
   support(op_plus, (x : A) => real_of_int((f : (A) -> Int)(x)), (s : (A) -> Bool)) == support(op_plus, f, s)
   \226\136\128 f : (A) -> Int, \226\136\128 s : (A) -> Bool, real_of_int(isum(s, f)) == sum(s, (x : A) => real_of_int(f(x)))
   real_of_int
-  :real
-  :int
+  :Real
+  :Int
   real_of_int(if (b : Bool) { (x : Int) } else { (y : Int) }) == (if b { real_of_int(x) } else { real_of_int(y) })
   ((x : _) => real_of_int(o((f : (_) -> Int), (g : (_) -> _), x))) == o((x : _) => real_of_int(f(x)), g)
   \226\136\128 s : (A) -> Bool, \226\136\128 t : (A, B) -> Bool, \226\136\128 x : (A, B) -> Int, FINITE(s) && (\226\136\128 i : A, IN(i, s) \226\134\146 FINITE(t(i))) \226\134\146 isum(s, (i : A) => isum(t(i), x(i))) == isum({((i : A), (j : B)) | IN(i, s) && IN(j, t(i))}, fn { (i, j) => x(i, j) })

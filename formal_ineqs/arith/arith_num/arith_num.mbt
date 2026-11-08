@@ -33,7 +33,7 @@ pub fn maximum() -> Int64 {
 ///|
 /// fnum_type
 fn step_3() -> Unit raise {
-  fnum_type_c.set(@parser.parse_type("num->num"))
+  fnum_type_c.set(@term_syntax.parse_type("(Num) -> Num"))
 }
 
 ///|
