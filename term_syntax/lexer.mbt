@@ -35,6 +35,7 @@ fn keyword(name : String) -> @grammar.Token raise {
     "fn" => FN
     "match" => MATCH
     "enum" => ENUM
+    "struct" => STRUCT
     _ =>
       if moonbit_keywords.contains(name) {
         raise Failure("term syntax: " + name + " is a MoonBit keyword")

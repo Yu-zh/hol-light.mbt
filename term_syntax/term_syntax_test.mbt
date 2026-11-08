@@ -177,6 +177,21 @@ test "type definitions" {
 }
 
 ///|
+test "record definitions" {
+  let num = @kernel.mk_type("num", @list.List([]))
+  assert_eq(
+    @term_syntax.parse_record_definition("struct Point { x : Num; y : List[Num]; }"),
+    ("point", @list.List([("x", num), ("y", @kernel.mk_type("list", @list.List([num])))])),
+  )
+  // a field referring to the record reads as the type being defined
+  let zz_r = @kernel.mk_vartype("zz_r")
+  assert_eq(
+    @term_syntax.parse_record_definition("struct Zz_r { kids : List[Zz_r] }"),
+    ("zz_r", @list.List([("kids", @kernel.mk_type("list", @list.List([zz_r])))])),
+  )
+}
+
+///|
 test "an enum's own types read before other names" {
   // `Zz_t` between backticks is a type variable, not the type being defined
   let defs = @term_syntax.parse_type_definition("enum Zz_t { Zl; Zb(`Zz_t`, Zz_t) }")

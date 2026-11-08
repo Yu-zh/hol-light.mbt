@@ -16,6 +16,8 @@ pub let fixed_resolution : @ref.Ref[Bool]
 
 pub fn parse_preterm(String) -> @preterm.Preterm raise
 
+pub fn parse_record_definition(String) -> (String, @list.List[(String, @kernel.HolType)]) raise
+
 pub fn parse_term(String) -> @kernel.Term raise
 
 pub fn parse_term_in_context(@list.List[(String, @preterm.Pretype)], String, ty? : @preterm.Pretype) -> @kernel.Term raise

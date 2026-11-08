@@ -7,7 +7,7 @@
 ///|
 test "define_auto_record_type adds a record's read/write theorems" {
   @records.load()
-  let (ith, _, cth) = @records.define_auto_record_type("test_point = { xcoord: num; ycoord: num }")
+  let (ith, _, cth) = @records.define_auto_record_type("struct Test_point { xcoord : Num; ycoord : Num }")
   assert_eq(@records.get_record_components(cth).length(), 2)
   let rw = @records.record_read_write_thms(ith, cth)
   assert_eq(rw.length(), 2)

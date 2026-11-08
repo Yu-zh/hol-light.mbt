@@ -173,7 +173,7 @@ fn step_3() -> Unit raise {
     x10 : String,
   ) -> (@kernel.Thm, @kernel.Thm, @kernel.Thm) raise {
     let s = x10
-    let (tyname, fields) = parse_record_specification(s)
+    let (tyname, fields) = @term_syntax.parse_record_definition(s)
     if @lib.can(
         (
           x11 : @list.List[
@@ -273,7 +273,8 @@ let define_record_type_c : @lib.Cell[
 ] = @lib.Cell::new("define_record_type")
 
 ///|
-/// `define_record_type`
+/// `define_record_type`, with the record written as a MoonBit struct (term
+/// syntax): `define_record_type("struct Point { x : Num; y : Num }")`.
 pub fn define_record_type(
   x : String,
 ) -> (@kernel.Thm, @kernel.Thm, @kernel.Thm) raise {

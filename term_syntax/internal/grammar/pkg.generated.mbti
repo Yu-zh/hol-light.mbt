@@ -19,6 +19,8 @@ pub let no_guard_mark : String
 
 pub fn pretype(Array[(Token, Int, Int)], initial_pos? : Int) -> @preterm.Pretype raise ParseError
 
+pub fn record_definition(Array[(Token, Int, Int)], initial_pos? : Int) -> (String, String, @list.List[(String, @preterm.Pretype)]) raise ParseError
+
 pub let set_abs_mark : String
 
 pub let set_compr_mark : String
@@ -58,6 +60,7 @@ pub(all) enum Token {
   FN
   MATCH
   ENUM
+  STRUCT
   FORALL
   EXISTS
   IMPLIES
@@ -100,6 +103,7 @@ pub(all) enum TokenKind {
   TK_FN
   TK_MATCH
   TK_ENUM
+  TK_STRUCT
   TK_FORALL
   TK_EXISTS
   TK_IMPLIES
