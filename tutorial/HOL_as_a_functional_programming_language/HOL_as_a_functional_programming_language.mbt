@@ -112,7 +112,7 @@ pub fn ite_recursion() -> @kernel.Thm {
 ///|
 /// ite_INDUCT, ite_RECURSION
 fn step_1() -> Unit raise {
-  let (ite_induct, ite_recursion) = @ind_types.define_type("ite = False | True | Atomic num | Ite ite ite ite")
+  let (ite_induct, ite_recursion) = @ind_types.define_type("enum Ite { False; True; Atomic(Num); Ite(Ite, Ite, Ite) }")
   ite_induct_c.set(ite_induct)
   ite_recursion_c.set(ite_recursion)
 }

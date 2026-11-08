@@ -1396,7 +1396,7 @@ pub fn sing_rec() -> @kernel.Thm {
 ///|
 /// SING_IND, SING_REC
 fn step_89() -> Unit raise {
-  let (sing_ind, sing_rec) = @ind_types.define_type("singleton = SING_ELT")
+  let (sing_ind, sing_rec) = @ind_types.define_type("enum Singleton { SING_ELT }")
   sing_ind_c.set(sing_ind)
   sing_rec_c.set(sing_rec)
 }

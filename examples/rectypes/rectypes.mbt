@@ -3,55 +3,55 @@
 ///|
 /// Examples/rectypes.ml:5
 fn step_1() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "Term = Var A B | App bool Termlist;\n              Termlist = Empty | Consp Term Termlist"))
+  ignore(@lib.time(@ind_types.define_type, "enum `Term` { Var(A, B); App(Bool, `Termlist`) } enum `Termlist` { Empty; Consp(`Term`, `Termlist`) }"))
 }
 
 ///|
 /// Examples/rectypes.ml:8
 fn step_2() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "List = Nil | Cons A List"))
+  ignore(@lib.time(@ind_types.define_type, "enum `List` { Nil; Cons(A, `List`) }"))
 }
 
 ///|
 /// Examples/rectypes.ml:10
 fn step_3() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "Btree = Leaf A | Node B Btree Btree"))
+  ignore(@lib.time(@ind_types.define_type, "enum `Btree` { Leaf(A); Node(B, `Btree`, `Btree`) }"))
 }
 
 ///|
 /// Examples/rectypes.ml:12
 fn step_4() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "Command = Assign ind Expression\n                    | If Expression Command\n                    | Ite Expression Command Command\n                    | While Expression Command\n                    | Do Command Expression;\n            Expression = Constant num\n                       | Variable ind\n                       | Summ Expression Expression\n                       | Product Expression Expression"))
+  ignore(@lib.time(@ind_types.define_type, "enum `Command` { Assign(Ind, `Expression`); If(`Expression`, `Command`); Ite(`Expression`, `Command`, `Command`); While(`Expression`, `Command`); Do(`Command`, `Expression`) } enum `Expression` { Constant(Num); Variable(Ind); Summ(`Expression`, `Expression`); Product(`Expression`, `Expression`) }"))
 }
 
 ///|
 /// Examples/rectypes.ml:22
 fn step_5() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "testa = empty_testa | cons_testa testa testb;\n            testb = contentb L testc;\n            testc = connection M testa"))
+  ignore(@lib.time(@ind_types.define_type, "enum Testa { empty_testa; cons_testa(Testa, Testb) } enum Testb { contentb(L, Testc) } enum Testc { connection(M, Testa) }"))
 }
 
 ///|
 /// Examples/rectypes.ml:26
 fn step_6() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "atexp = Varb ind | Let dec exp;\n            exp   = Exp1 atexp | Exp2 exp atexp | Exp3 matching;\n            matching = Match1 rule | Matches rule matching;\n            rule  = Rule pat exp;\n            dec   = Val valbind | Local dec dec | Decs dec dec;\n            valbind = Single pat exp | Multi pat exp valbind | Rec valbind;\n            pat = Wild | Varpat ind"))
+  ignore(@lib.time(@ind_types.define_type, "enum Atexp { Varb(Ind); Let(Dec, Exp) } enum Exp { Exp1(Atexp); Exp2(Exp, Atexp); Exp3(Matching) } enum Matching { Match1(Rule); Matches(Rule, Matching) } enum Rule { Rule(Pat, Exp) } enum Dec { Val(Valbind); Local(Dec, Dec); Decs(Dec, Dec) } enum Valbind { Single(Pat, Exp); Multi(Pat, Exp, Valbind); Rec(Valbind) } enum Pat { Wild; Varpat(Ind) }"))
 }
 
 ///|
 /// Examples/rectypes.ml:34
 fn step_7() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "tri = ONE | TWO | THREE"))
+  ignore(@lib.time(@ind_types.define_type, "enum Tri { ONE; TWO; THREE }"))
 }
 
 ///|
 /// Examples/rectypes.ml:40
 fn step_8() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "T = X1 | X2 | X3 | X4 | X5 | X6 | X7 | X8 | X9 | X10 | X11 |\n                X12 | X13 | X14 | X15 | X16 | X17 | X18 | X19 | X20 | X21 |\n                X22 | X23 | X24 | X25 | X26 | X27 | X28 | X29 | X30 | X31 |\n                X32 | X33 | X34"))
+  ignore(@lib.time(@ind_types.define_type, "enum `T` { X1; X2; X3; X4; X5; X6; X7; X8; X9; X10; X11; X12; X13; X14; X15; X16; X17; X18; X19; X20; X21; X22; X23; X24; X25; X26; X27; X28; X29; X30; X31; X32; X33; X34 }"))
 }
 
 ///|
 /// Examples/rectypes.ml:45
 fn step_9() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "TY1 = NoF__ | Fk__ A TY2;\n            TY2 = Ta__ bool | Td__ bool | Tf__ TY1 | Tk__ bool | Tp__ bool\n                | App__ A TY1 TY2 TY3 | Pair__ TY2 TY2;\n            TY3 = NoS__ | Fresh__ TY2 | Trustworthy__ A\n                | PrivateKey__ A B C | PublicKey__ A B C\n                | Conveyed__ A TY2 | Possesses__ A TY2 | Received__ A TY2\n                | Recognizes__ A TY2 | NeverMalFromSelf__ A B TY2\n                | Sends__ A TY2 B | SharedSecret__ A TY2 B\n                | Believes__ A TY3 | And__ TY3 TY3"))
+  ignore(@lib.time(@ind_types.define_type, "enum `TY1` { NoF__; Fk__(A, `TY2`) } enum `TY2` { Ta__(Bool); Td__(Bool); Tf__(`TY1`); Tk__(Bool); Tp__(Bool); App__(A, `TY1`, `TY2`, `TY3`); Pair__(`TY2`, `TY2`) } enum `TY3` { NoS__; Fresh__(`TY2`); Trustworthy__(A); PrivateKey__(A, B, C); PublicKey__(A, B, C); Conveyed__(A, `TY2`); Possesses__(A, `TY2`); Received__(A, `TY2`); Recognizes__(A, `TY2`); NeverMalFromSelf__(A, B, `TY2`); Sends__(A, `TY2`, B); SharedSecret__(A, `TY2`, B); Believes__(A, `TY3`); And__(`TY3`, `TY3`) }"))
 }
 
 ///|
@@ -75,7 +75,7 @@ pub fn term_recursion() -> @kernel.Thm {
 ///|
 /// term_INDUCTION, term_RECURSION
 fn step_10() -> Unit raise {
-  let (term_induction, term_recursion) = @lib.time(@ind_types.define_type, "term = Vari int | Fni int (term list)")
+  let (term_induction, term_recursion) = @lib.time(@ind_types.define_type, "enum `term` { Vari(Int); Fni(Int, List[`term`]) }")
   term_induction_c.set(term_induction)
   term_recursion_c.set(term_recursion)
 }
@@ -101,7 +101,7 @@ pub fn bintree_recursion() -> @kernel.Thm {
 ///|
 /// bintree_INDUCTION, bintree_RECURSION
 fn step_11() -> Unit raise {
-  let (bintree_induction, bintree_recursion) = @lib.time(@ind_types.define_type, "bintree = Leafb | Branchb (bintree # bintree)")
+  let (bintree_induction, bintree_recursion) = @lib.time(@ind_types.define_type, "enum Bintree { Leafb; Branchb((Bintree, Bintree)) }")
   bintree_induction_c.set(bintree_induction)
   bintree_recursion_c.set(bintree_recursion)
 }
@@ -127,7 +127,7 @@ pub fn etree_recursion() -> @kernel.Thm {
 ///|
 /// etree_INDUCTION, etree_RECURSION
 fn step_12() -> Unit raise {
-  let (etree_induction, etree_recursion) = @lib.time(@ind_types.define_type, "etree = Terminal | Nonterminal (num + etree)")
+  let (etree_induction, etree_recursion) = @lib.time(@ind_types.define_type, "enum Etree { Terminal; Nonterminal(Sum[Num, Etree]) }")
   etree_induction_c.set(etree_induction)
   etree_recursion_c.set(etree_recursion)
 }
@@ -153,7 +153,7 @@ pub fn ptree_recursion() -> @kernel.Thm {
 ///|
 /// ptree_INDUCTION, ptree_RECURSION
 fn step_13() -> Unit raise {
-  let (ptree_induction, ptree_recursion) = @lib.time(@ind_types.define_type, "ptree = Only (ptree option)")
+  let (ptree_induction, ptree_recursion) = @lib.time(@ind_types.define_type, "enum Ptree { Only(Option[Ptree]) }")
   ptree_induction_c.set(ptree_induction)
   ptree_recursion_c.set(ptree_recursion)
 }
@@ -179,7 +179,7 @@ pub fn mut_recursion() -> @kernel.Thm {
 ///|
 /// mut_INDUCTION, mut_RECURSION
 fn step_14() -> Unit raise {
-  let (mut_induction, mut_recursion) = @lib.time(@ind_types.define_type, "mutual = Mutual A mutual D otherone | Friend D otherone;\n   otherone = Great C | Expectations mutual otherone")
+  let (mut_induction, mut_recursion) = @lib.time(@ind_types.define_type, "enum Mutual { Mutual(A, Mutual, D, Otherone); Friend(D, Otherone) } enum Otherone { Great(C); Expectations(Mutual, Otherone) }")
   mut_induction_c.set(mut_induction)
   mut_recursion_c.set(mut_recursion)
 }
@@ -205,7 +205,7 @@ pub fn groof_recursion() -> @kernel.Thm {
 ///|
 /// groof_INDUCTION, groof_RECURSION
 fn step_15() -> Unit raise {
-  let (groof_induction, groof_recursion) = @lib.time(@ind_types.define_type, "groof = Wu bool\n         | Wibble (A,groof,L)mutual\n         | Wobble groof groof")
+  let (groof_induction, groof_recursion) = @lib.time(@ind_types.define_type, "enum Groof { Wu(Bool); Wibble(Mutual[A, Groof, L]); Wobble(Groof, Groof) }")
   groof_induction_c.set(groof_induction)
   groof_recursion_c.set(groof_recursion)
 }
@@ -231,7 +231,7 @@ pub fn biterm_recursion() -> @kernel.Thm {
 ///|
 /// biterm_INDUCTION, biterm_RECURSION
 fn step_16() -> Unit raise {
-  let (biterm_induction, biterm_recursion) = @lib.time(@ind_types.define_type, "biterm = Variab int\n          | Fnapp (biterm list + biterm list)")
+  let (biterm_induction, biterm_recursion) = @lib.time(@ind_types.define_type, "enum Biterm { Variab(Int); Fnapp(Sum[List[Biterm], List[Biterm]]) }")
   biterm_induction_c.set(biterm_induction)
   biterm_recursion_c.set(biterm_recursion)
 }
@@ -257,7 +257,7 @@ pub fn triterm_recursion() -> @kernel.Thm {
 ///|
 /// triterm_INDUCTION, triterm_RECURSION
 fn step_17() -> Unit raise {
-  let (triterm_induction, triterm_recursion) = @lib.time(@ind_types.define_type, "triterm = Var0 int\n          | Fun2 (triterm list + triterm list)\n          | Fun1 (triterm list)")
+  let (triterm_induction, triterm_recursion) = @lib.time(@ind_types.define_type, "enum Triterm { Var0(Int); Fun2(Sum[List[Triterm], List[Triterm]]); Fun1(List[Triterm]) }")
   triterm_induction_c.set(triterm_induction)
   triterm_recursion_c.set(triterm_recursion)
 }
@@ -283,7 +283,7 @@ pub fn xtree_recursion() -> @kernel.Thm {
 ///|
 /// xtree_INDUCTION, xtree_RECURSION
 fn step_18() -> Unit raise {
-  let (xtree_induction, xtree_recursion) = @lib.time(@ind_types.define_type, "xtree = Leafx A\n           | Branchx (xtree list)")
+  let (xtree_induction, xtree_recursion) = @lib.time(@ind_types.define_type, "enum Xtree { Leafx(A); Branchx(List[Xtree]) }")
   xtree_induction_c.set(xtree_induction)
   xtree_recursion_c.set(xtree_recursion)
 }
@@ -309,7 +309,7 @@ pub fn simper_recursion() -> @kernel.Thm {
 ///|
 /// simper_INDUCTION, simper_RECURSION
 fn step_19() -> Unit raise {
-  let (simper_induction, simper_recursion) = @lib.time(@ind_types.define_type, "simper = Leaves A B\n          | Bough (simper xtree)")
+  let (simper_induction, simper_recursion) = @lib.time(@ind_types.define_type, "enum Simper { Leaves(A, B); Bough(Xtree[Simper]) }")
   simper_induction_c.set(simper_induction)
   simper_recursion_c.set(simper_recursion)
 }
@@ -335,7 +335,7 @@ pub fn array_recursion() -> @kernel.Thm {
 ///|
 /// array_INDUCTION, array_RECURSION
 fn step_20() -> Unit raise {
-  let (array_induction, array_recursion) = @lib.time(@ind_types.define_type, "array = Array num (A list)")
+  let (array_induction, array_recursion) = @lib.time(@ind_types.define_type, "enum Array { Array(Num, List[A]) }")
   array_induction_c.set(array_induction)
   array_recursion_c.set(array_recursion)
 }
@@ -361,7 +361,7 @@ pub fn value_recursion() -> @kernel.Thm {
 ///|
 /// value_INDUCTION, value_RECURSION
 fn step_21() -> Unit raise {
-  let (value_induction, value_recursion) = @lib.time(@ind_types.define_type, "value = Integer num\n         | Boolean bool\n         | List_of (value list)\n         | Tree_of (value xtree)\n         | Array_of (value array)")
+  let (value_induction, value_recursion) = @lib.time(@ind_types.define_type, "enum Value { Integer(Num); Boolean(Bool); List_of(List[Value]); Tree_of(Xtree[Value]); Array_of(Array[Value]) }")
   value_induction_c.set(value_induction)
   value_recursion_c.set(value_recursion)
 }
@@ -387,7 +387,7 @@ pub fn example_recursion() -> @kernel.Thm {
 ///|
 /// example_INDUCTION, example_RECURSION
 fn step_22() -> Unit raise {
-  let (example_induction, example_recursion) = @lib.time(@ind_types.define_type, "command = Assignment (num list # expression list)\n           | Sequence (command list);\n   expression = Numeral num\n              | Plus (expression # expression)\n              | Valof command")
+  let (example_induction, example_recursion) = @lib.time(@ind_types.define_type, "enum `command` { Assignment((List[Num], List[`expression`])); Sequence(List[`command`]) } enum `expression` { Numeral(Num); Plus((`expression`, `expression`)); Valof(`command`) }")
   example_induction_c.set(example_induction)
   example_recursion_c.set(example_recursion)
 }
@@ -413,7 +413,7 @@ pub fn zonk_recursion() -> @kernel.Thm {
 ///|
 /// zonk_INDUCTION, zonk_RECURSION
 fn step_23() -> Unit raise {
-  let (zonk_induction, zonk_recursion) = @lib.time(@ind_types.define_type, "zonk = Stonk ((zonk,pink,A)mutual)list # expression\n        | Tonk zonk (pink list)\n        | Honk num;\n   pink = Floyd (zonk # pink)\n        | Purple num\n        | Rain (A # pink)")
+  let (zonk_induction, zonk_recursion) = @lib.time(@ind_types.define_type, "enum Zonk { Stonk((List[Mutual[Zonk, Pink, A]], Expression)); Tonk(Zonk, List[Pink]); Honk(Num) } enum Pink { Floyd((Zonk, Pink)); Purple(Num); Rain((A, Pink)) }")
   zonk_induction_c.set(zonk_induction)
   zonk_recursion_c.set(zonk_recursion)
 }
@@ -421,43 +421,43 @@ fn step_23() -> Unit raise {
 ///|
 /// Examples/rectypes.ml:126
 fn step_24() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "Size = Byte | Word | Long"))
+  ignore(@lib.time(@ind_types.define_type, "enum `Size` { Byte; Word; Long }"))
 }
 
 ///|
 /// Examples/rectypes.ml:128
 fn step_25() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "DataRegister\n              = RegD0\n              | RegD1\n              | RegD2\n              | RegD3\n              | RegD4\n              | RegD5\n              | RegD6\n              | RegD7"))
+  ignore(@lib.time(@ind_types.define_type, "enum `DataRegister` { RegD0; RegD1; RegD2; RegD3; RegD4; RegD5; RegD6; RegD7 }"))
 }
 
 ///|
 /// Examples/rectypes.ml:138
 fn step_26() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "AddressRegister\n              = RegA0\n              | RegA1\n              | RegA2\n              | RegA3\n              | RegA4\n              | RegA5\n              | RegA6\n              | RegA7"))
+  ignore(@lib.time(@ind_types.define_type, "enum `AddressRegister` { RegA0; RegA1; RegA2; RegA3; RegA4; RegA5; RegA6; RegA7 }"))
 }
 
 ///|
 /// Examples/rectypes.ml:148
 fn step_27() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "DataOrAddressRegister\n              = data DataRegister\n              | address AddressRegister"))
+  ignore(@lib.time(@ind_types.define_type, "enum `DataOrAddressRegister` { data(DataRegister); address(AddressRegister) }"))
 }
 
 ///|
 /// Examples/rectypes.ml:152
 fn step_28() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "Condition\n              = Hi\n              | Ls\n              | Cc\n              | Cs\n              | Ne\n              | Eq\n              | Vc\n              | Vs\n              | Pl\n              | Mi\n              | Ge\n              | Lt\n              | Gt\n              | Le"))
+  ignore(@lib.time(@ind_types.define_type, "enum `Condition` { Hi; Ls; Cc; Cs; Ne; Eq; Vc; Vs; Pl; Mi; Ge; Lt; Gt; Le }"))
 }
 
 ///|
 /// Examples/rectypes.ml:168
 fn step_29() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "AddressingMode\n        = immediate num\n        | direct DataOrAddressRegister\n        | indirect AddressRegister\n        | postinc AddressRegister\n        | predec AddressRegister\n        | indirectdisp num AddressRegister\n        | indirectindex num AddressRegister DataOrAddressRegister Size\n        | absolute num\n        | pcdisp num\n        | pcindex num DataOrAddressRegister Size"))
+  ignore(@lib.time(@ind_types.define_type, "enum `AddressingMode` { immediate(Num); direct(DataOrAddressRegister); indirect(AddressRegister); postinc(AddressRegister); predec(AddressRegister); indirectdisp(Num, AddressRegister); indirectindex(Num, AddressRegister, DataOrAddressRegister, Size); absolute(Num); pcdisp(Num); pcindex(Num, DataOrAddressRegister, Size) }"))
 }
 
 ///|
 /// Examples/rectypes.ml:180
 fn step_30() -> Unit raise {
-  ignore(@lib.time(@ind_types.define_type, "M68kInstruction\n    = ABCD AddressingMode AddressingMode\n    | ADD Size AddressingMode AddressingMode\n    | ADDA Size AddressingMode AddressRegister\n    | ADDI Size num AddressingMode\n    | ADDQ Size num AddressingMode\n    | ADDX Size AddressingMode AddressingMode\n    | AND Size AddressingMode AddressingMode\n    | ANDI Size num AddressingMode\n    | ANDItoCCR num\n    | ANDItoSR num\n    | ASL Size AddressingMode DataRegister\n    | ASLW AddressingMode\n    | ASR Size AddressingMode DataRegister\n    | ASRW AddressingMode\n    | Bcc Condition Size num\n    | BTST Size AddressingMode AddressingMode\n    | BCHG Size AddressingMode AddressingMode\n    | BCLR Size AddressingMode AddressingMode\n    | BSET Size AddressingMode AddressingMode\n    | BRA Size num\n    | BSR Size num\n    | CHK AddressingMode DataRegister\n    | CLR Size AddressingMode\n    | CMP Size AddressingMode DataRegister\n    | CMPA Size AddressingMode AddressRegister\n    | CMPI Size num AddressingMode\n    | CMPM Size AddressRegister AddressRegister\n    | DBT DataRegister num\n    | DBF DataRegister num\n    | DBcc Condition DataRegister num\n    | DIVS AddressingMode DataRegister\n    | DIVU AddressingMode DataRegister\n    | EOR Size DataRegister AddressingMode\n    | EORI Size num AddressingMode\n    | EORItoCCR num\n    | EORItoSR num\n    | EXG DataOrAddressRegister DataOrAddressRegister\n    | EXT Size DataRegister\n    | ILLEGAL\n    | JMP AddressingMode\n    | JSR AddressingMode\n    | LEA AddressingMode AddressRegister\n    | LINK AddressRegister num\n    | LSL Size AddressingMode DataRegister\n    | LSLW AddressingMode\n    | LSR Size AddressingMode DataRegister\n    | LSRW AddressingMode\n    | MOVE Size AddressingMode AddressingMode\n    | MOVEtoCCR AddressingMode\n    | MOVEtoSR AddressingMode\n    | MOVEfromSR AddressingMode\n    | MOVEtoUSP AddressingMode\n    | MOVEfromUSP AddressingMode\n    | MOVEA Size AddressingMode AddressRegister\n    | MOVEMto Size AddressingMode DataOrAddressRegister list\n    | MOVEMfrom Size DataOrAddressRegister list AddressingMode\n    | MOVEP Size AddressingMode AddressingMode\n    | MOVEQ num DataRegister\n    | MULS AddressingMode DataRegister\n    | MULU AddressingMode DataRegister\n    | NBCD AddressingMode\n    | NEG Size AddressingMode\n    | NEGX Size AddressingMode\n    | NOP\n    | NOT Size AddressingMode\n    | OR Size AddressingMode AddressingMode\n    | ORI Size num AddressingMode\n    | ORItoCCR num\n    | ORItoSR num\n    | PEA AddressingMode\n    | RESET\n    | ROL Size AddressingMode DataRegister\n    | ROLW AddressingMode\n    | ROR Size AddressingMode DataRegister\n    | RORW AddressingMode\n    | ROXL Size AddressingMode DataRegister\n    | ROXLW AddressingMode\n    | ROXR Size AddressingMode DataRegister\n    | ROXRW AddressingMode\n    | RTE\n    | RTR\n    | RTS\n    | SBCD AddressingMode AddressingMode\n    | ST AddressingMode\n    | SF AddressingMode\n    | Scc Condition AddressingMode\n    | STOP num\n    | SUB Size AddressingMode AddressingMode\n    | SUBA Size AddressingMode AddressingMode\n    | SUBI Size num AddressingMode\n    | SUBQ Size num AddressingMode\n    | SUBX Size AddressingMode AddressingMode\n    | SWAP DataRegister\n    | TAS AddressingMode\n    | TRAP num\n    | TRAPV\n    | TST Size AddressingMode\n    | UNLK AddressRegister"))
+  ignore(@lib.time(@ind_types.define_type, "enum `M68kInstruction` { ABCD(AddressingMode, AddressingMode); ADD(Size, AddressingMode, AddressingMode); ADDA(Size, AddressingMode, AddressRegister); ADDI(Size, Num, AddressingMode); ADDQ(Size, Num, AddressingMode); ADDX(Size, AddressingMode, AddressingMode); AND(Size, AddressingMode, AddressingMode); ANDI(Size, Num, AddressingMode); ANDItoCCR(Num); ANDItoSR(Num); ASL(Size, AddressingMode, DataRegister); ASLW(AddressingMode); ASR(Size, AddressingMode, DataRegister); ASRW(AddressingMode); Bcc(Condition, Size, Num); BTST(Size, AddressingMode, AddressingMode); BCHG(Size, AddressingMode, AddressingMode); BCLR(Size, AddressingMode, AddressingMode); BSET(Size, AddressingMode, AddressingMode); BRA(Size, Num); BSR(Size, Num); CHK(AddressingMode, DataRegister); CLR(Size, AddressingMode); CMP(Size, AddressingMode, DataRegister); CMPA(Size, AddressingMode, AddressRegister); CMPI(Size, Num, AddressingMode); CMPM(Size, AddressRegister, AddressRegister); DBT(DataRegister, Num); DBF(DataRegister, Num); DBcc(Condition, DataRegister, Num); DIVS(AddressingMode, DataRegister); DIVU(AddressingMode, DataRegister); EOR(Size, DataRegister, AddressingMode); EORI(Size, Num, AddressingMode); EORItoCCR(Num); EORItoSR(Num); EXG(DataOrAddressRegister, DataOrAddressRegister); EXT(Size, DataRegister); ILLEGAL; JMP(AddressingMode); JSR(AddressingMode); LEA(AddressingMode, AddressRegister); LINK(AddressRegister, Num); LSL(Size, AddressingMode, DataRegister); LSLW(AddressingMode); LSR(Size, AddressingMode, DataRegister); LSRW(AddressingMode); MOVE(Size, AddressingMode, AddressingMode); MOVEtoCCR(AddressingMode); MOVEtoSR(AddressingMode); MOVEfromSR(AddressingMode); MOVEtoUSP(AddressingMode); MOVEfromUSP(AddressingMode); MOVEA(Size, AddressingMode, AddressRegister); MOVEMto(Size, AddressingMode, List[DataOrAddressRegister]); MOVEMfrom(Size, List[DataOrAddressRegister], AddressingMode); MOVEP(Size, AddressingMode, AddressingMode); MOVEQ(Num, DataRegister); MULS(AddressingMode, DataRegister); MULU(AddressingMode, DataRegister); NBCD(AddressingMode); NEG(Size, AddressingMode); NEGX(Size, AddressingMode); NOP; NOT(Size, AddressingMode); OR(Size, AddressingMode, AddressingMode); ORI(Size, Num, AddressingMode); ORItoCCR(Num); ORItoSR(Num); PEA(AddressingMode); RESET; ROL(Size, AddressingMode, DataRegister); ROLW(AddressingMode); ROR(Size, AddressingMode, DataRegister); RORW(AddressingMode); ROXL(Size, AddressingMode, DataRegister); ROXLW(AddressingMode); ROXR(Size, AddressingMode, DataRegister); ROXRW(AddressingMode); RTE; RTR; RTS; SBCD(AddressingMode, AddressingMode); ST(AddressingMode); SF(AddressingMode); Scc(Condition, AddressingMode); STOP(Num); SUB(Size, AddressingMode, AddressingMode); SUBA(Size, AddressingMode, AddressingMode); SUBI(Size, Num, AddressingMode); SUBQ(Size, Num, AddressingMode); SUBX(Size, AddressingMode, AddressingMode); SWAP(DataRegister); TAS(AddressingMode); TRAP(Num); TRAPV; TST(Size, AddressingMode); UNLK(AddressRegister) }"))
 }
 
 ///|
@@ -481,7 +481,7 @@ pub fn string_recursion() -> @kernel.Thm {
 ///|
 /// string_INDUCTION, string_RECURSION
 fn step_31() -> Unit raise {
-  let (string_induction, string_recursion) = @lib.time(@ind_types.define_type, "string = EMPTY_STRING | CONS_STRING num string")
+  let (string_induction, string_recursion) = @lib.time(@ind_types.define_type, "enum String { EMPTY_STRING; CONS_STRING(Num, String) }")
   string_induction_c.set(string_induction)
   string_recursion_c.set(string_recursion)
 }
@@ -507,7 +507,7 @@ pub fn strid_recursion() -> @kernel.Thm {
 ///|
 /// strid_INDUCTION, strid_RECURSION
 fn step_32() -> Unit raise {
-  let (strid_induction, strid_recursion) = @lib.time(@ind_types.define_type, "strid = STRID string;\n   var = VAR string;\n   con = CON string;\n   scon = SCINT int | SCSTR string;\n   excon = EXCON string;\n   label = LABEL string")
+  let (strid_induction, strid_recursion) = @lib.time(@ind_types.define_type, "enum Strid { STRID(String) } enum Var { VAR(String) } enum Con { CON(String) } enum Scon { SCINT(Int); SCSTR(String) } enum Excon { EXCON(String) } enum Label { LABEL(String) }")
   strid_induction_c.set(strid_induction)
   strid_recursion_c.set(strid_recursion)
 }
@@ -533,7 +533,7 @@ pub fn nonemptylist_recursion() -> @kernel.Thm {
 ///|
 /// nonemptylist_INDUCTION, nonemptylist_RECURSION
 fn step_33() -> Unit raise {
-  let (nonemptylist_induction, nonemptylist_recursion) = @lib.time(@ind_types.define_type, "nonemptylist = Head_and_tail A (A list)")
+  let (nonemptylist_induction, nonemptylist_recursion) = @lib.time(@ind_types.define_type, "enum Nonemptylist { Head_and_tail(A, List[A]) }")
   nonemptylist_induction_c.set(nonemptylist_induction)
   nonemptylist_recursion_c.set(nonemptylist_recursion)
 }
@@ -559,7 +559,7 @@ pub fn long_recursion() -> @kernel.Thm {
 ///|
 /// long_INDUCTION, long_RECURSION
 fn step_34() -> Unit raise {
-  let (long_induction, long_recursion) = @lib.time(@ind_types.define_type, "long = BASE A | QUALIFIED strid long")
+  let (long_induction, long_recursion) = @lib.time(@ind_types.define_type, "enum Long { BASE(A); QUALIFIED(Strid, Long) }")
   long_induction_c.set(long_induction)
   long_recursion_c.set(long_recursion)
 }
@@ -585,7 +585,7 @@ pub fn myra_recursion() -> @kernel.Thm {
 ///|
 /// myra_INDUCTION, myra_RECURSION
 fn step_35() -> Unit raise {
-  let (myra_induction, myra_recursion) = @lib.time(@ind_types.define_type, "atpat_e = WILDCARDatpat_e\n           | SCONatpat_e scon\n           | VARatpat_e var\n           | CONatpat_e (con long)\n           | EXCONatpat_e (excon long)\n           | RECORDatpat_e (patrow_e option)\n           | PARatpat_e pat_e;\n\n   patrow_e = DOTDOTDOT_e\n            | PATROW_e label pat_e (patrow_e option);\n\n   pat_e = ATPATpat_e atpat_e\n         | CONpat_e (con long) atpat_e\n         | EXCONpat_e (excon long) atpat_e\n         | LAYEREDpat_e var pat_e;\n\n   conbind_e = CONBIND_e con (conbind_e option);\n\n   datbind_e = DATBIND_e conbind_e (datbind_e option);\n\n   exbind_e = EXBIND1_e excon (exbind_e option)\n            | EXBIND2_e excon (excon long) (exbind_e option);\n\n   atexp_e = SCONatexp_e scon\n           | VARatexp_e (var long)\n           | CONatexp_e (con long)\n           | EXCONatexp_e (excon long)\n           | RECORDatexp_e (exprow_e option)\n           | LETatexp_e dec_e exp_e\n           | PARatexp_e exp_e;\n\n   exprow_e = EXPROW_e label exp_e (exprow_e option);\n\n   exp_e = ATEXPexp_e atexp_e\n         | APPexp_e exp_e atexp_e\n         | HANDLEexp_e exp_e match_e\n         | RAISEexp_e exp_e\n         | FNexp_e match_e;\n\n   match_e = MATCH_e mrule_e (match_e option);\n\n   mrule_e = MRULE_e pat_e exp_e;\n\n   dec_e = VALdec_e valbind_e\n         | DATATYPEdec_e datbind_e\n         | ABSTYPEdec_e datbind_e dec_e\n         | EXCEPTdec_e exbind_e\n         | LOCALdec_e dec_e dec_e\n         | OPENdec_e ((strid long) nonemptylist)\n         | EMPTYdec_e\n         | SEQdec_e dec_e dec_e;\n\n   valbind_e = PLAINvalbind_e pat_e exp_e (valbind_e option)\n             | RECvalbind_e valbind_e")
+  let (myra_induction, myra_recursion) = @lib.time(@ind_types.define_type, "enum Atpat_e { WILDCARDatpat_e; SCONatpat_e(Scon); VARatpat_e(Var); CONatpat_e(Long[Con]); EXCONatpat_e(Long[Excon]); RECORDatpat_e(Option[Patrow_e]); PARatpat_e(Pat_e) } enum Patrow_e { DOTDOTDOT_e; PATROW_e(Label, Pat_e, Option[Patrow_e]) } enum Pat_e { ATPATpat_e(Atpat_e); CONpat_e(Long[Con], Atpat_e); EXCONpat_e(Long[Excon], Atpat_e); LAYEREDpat_e(Var, Pat_e) } enum Conbind_e { CONBIND_e(Con, Option[Conbind_e]) } enum Datbind_e { DATBIND_e(Conbind_e, Option[Datbind_e]) } enum Exbind_e { EXBIND1_e(Excon, Option[Exbind_e]); EXBIND2_e(Excon, Long[Excon], Option[Exbind_e]) } enum Atexp_e { SCONatexp_e(Scon); VARatexp_e(Long[Var]); CONatexp_e(Long[Con]); EXCONatexp_e(Long[Excon]); RECORDatexp_e(Option[Exprow_e]); LETatexp_e(Dec_e, Exp_e); PARatexp_e(Exp_e) } enum Exprow_e { EXPROW_e(Label, Exp_e, Option[Exprow_e]) } enum Exp_e { ATEXPexp_e(Atexp_e); APPexp_e(Exp_e, Atexp_e); HANDLEexp_e(Exp_e, Match_e); RAISEexp_e(Exp_e); FNexp_e(Match_e) } enum Match_e { MATCH_e(Mrule_e, Option[Match_e]) } enum Mrule_e { MRULE_e(Pat_e, Exp_e) } enum Dec_e { VALdec_e(Valbind_e); DATATYPEdec_e(Datbind_e); ABSTYPEdec_e(Datbind_e, Dec_e); EXCEPTdec_e(Exbind_e); LOCALdec_e(Dec_e, Dec_e); OPENdec_e(Nonemptylist[Long[Strid]]); EMPTYdec_e; SEQdec_e(Dec_e, Dec_e) } enum Valbind_e { PLAINvalbind_e(Pat_e, Exp_e, Option[Valbind_e]); RECvalbind_e(Valbind_e) }")
   myra_induction_c.set(myra_induction)
   myra_recursion_c.set(myra_recursion)
 }
@@ -611,7 +611,7 @@ pub fn daryl_recursion() -> @kernel.Thm {
 ///|
 /// daryl_INDUCTION, daryl_RECURSION
 fn step_36() -> Unit raise {
-  let (daryl_induction, daryl_recursion) = @lib.time(@ind_types.define_type, "Source_text\n     = module string (string list) (Module_item list)\n     | Source_textMeta string;\n  Module_item\n     = declaration Declaration\n     | initial Statement\n     | always Statement\n     | assign Lvalue Exprn\n     | Module_itemMeta string;\n  Declaration\n     = reg_declaration (Range option) (string list)\n     | net_declaration (Range option) (string list)\n     | input_declaration (Range option) (string list)\n     | output_declaration (Range option) (string list)\n     | DeclarationMeta string;\n  Range = range Exprn Exprn | RangeMeta string;\n  Statement\n     = clock_statement Clock Statement_or_null\n     | blocking_assignment Lvalue Exprn\n     | non_blocking_assignment Lvalue Exprn\n     | conditional_statement\n          Exprn Statement_or_null (Statement_or_null option)\n     | case_statement Exprn (Case_item list)\n     | while_loop Exprn Statement\n     | repeat_loop Exprn Statement\n     | for_loop\n          Lvalue Exprn Exprn Lvalue Exprn Statement\n     | forever_loop Statement\n     | disable string\n     | seq_block (string option) (Statement list)\n     | StatementMeta string;\n  Statement_or_null\n     = statement Statement | null_statement | Statement_or_nullMeta string;\n  Clock\n     = posedge string\n     | negedge string\n     | clock string\n     | ClockMeta string;\n  Case_item\n     = case_item (Exprn list) Statement_or_null\n     | default_case_item Statement_or_null\n     | Case_itemMeta string;\n  Exprn\n     = plus Exprn Exprn\n     | minus Exprn Exprn\n     | lshift Exprn Exprn\n     | rshift Exprn Exprn\n     | lt Exprn Exprn\n     | leq Exprn Exprn\n     | gt Exprn Exprn\n     | geq Exprn Exprn\n     | logeq Exprn Exprn\n     | logneq Exprn Exprn\n     | caseeq Exprn Exprn\n     | caseneq Exprn Exprn\n     | bitand Exprn Exprn\n     | bitxor Exprn Exprn\n     | bitor Exprn Exprn\n     | logand Exprn Exprn\n     | logor Exprn Exprn\n     | conditional Exprn Exprn Exprn\n     | positive Primary\n     | negative Primary\n     | lognot Primary\n     | bitnot Primary\n     | reducand Primary\n     | reducxor Primary\n     | reducor Primary\n     | reducnand Primary\n     | reducxnor Primary\n     | reducnor Primary\n     | primary Primary\n     | ExpressionMeta string;\n  Primary\n     = primary_number Number\n     | primary_IDENTIFIER string\n     | primary_bit_select string Exprn\n     | primary_part_select string Exprn Exprn\n     | primary_gen_bit_select Exprn Exprn\n     | primary_gen_part_select Exprn Exprn Exprn\n     | primary_concatenation Concatenation\n     | primary_multiple_concatenation Multiple_concatenation\n     | brackets Exprn\n     | PrimaryMeta string;\n  Lvalue\n     = lvalue string\n     | lvalue_bit_select string Exprn\n     | lvalue_part_select string Exprn Exprn\n     | lvalue_concatenation Concatenation\n     | LvalueMeta string;\n  Number\n     = decimal string\n     | based string option string\n     | NumberMeta string;\n  Concatenation\n     = concatenation (Exprn list) | ConcatenationMeta string;\n  Multiple_concatenation\n     = multiple_concatenation Exprn (Exprn list)\n     | Multiple_concatenationMeta string;\n  meta\n     = Meta_Source_text Source_text\n     | Meta_Module_item Module_item\n     | Meta_Declaration Declaration\n     | Meta_Range Range\n     | Meta_Statement Statement\n     | Meta_Statement_or_null Statement_or_null\n     | Meta_Clock Clock\n     | Meta_Case_item Case_item\n     | Meta_Expression Exprn\n     | Meta_Primary Primary\n     | Meta_Lvalue Lvalue\n     | Meta_Number Number\n     | Meta_Concatenation Concatenation\n     | Meta_Multiple_concatenation Multiple_concatenation")
+  let (daryl_induction, daryl_recursion) = @lib.time(@ind_types.define_type, "enum `Source_text` { `module`(String, List[String], List[`Module_item`]); Source_textMeta(String) } enum `Module_item` { declaration(`Declaration`); initial(`Statement`); always(`Statement`); assign(`Lvalue`, `Exprn`); Module_itemMeta(String) } enum `Declaration` { reg_declaration(Option[`Range`], List[String]); net_declaration(Option[`Range`], List[String]); input_declaration(Option[`Range`], List[String]); output_declaration(Option[`Range`], List[String]); DeclarationMeta(String) } enum `Range` { range(`Exprn`, `Exprn`); RangeMeta(String) } enum `Statement` { clock_statement(`Clock`, `Statement_or_null`); blocking_assignment(`Lvalue`, `Exprn`); non_blocking_assignment(`Lvalue`, `Exprn`); conditional_statement(`Exprn`, `Statement_or_null`, Option[`Statement_or_null`]); case_statement(`Exprn`, List[`Case_item`]); while_loop(`Exprn`, `Statement`); repeat_loop(`Exprn`, `Statement`); for_loop(`Lvalue`, `Exprn`, `Exprn`, `Lvalue`, `Exprn`, `Statement`); forever_loop(`Statement`); disable(String); seq_block(Option[String], List[`Statement`]); StatementMeta(String) } enum `Statement_or_null` { statement(`Statement`); null_statement; Statement_or_nullMeta(String) } enum `Clock` { posedge(String); negedge(String); clock(String); ClockMeta(String) } enum `Case_item` { case_item(List[`Exprn`], `Statement_or_null`); default_case_item(`Statement_or_null`); Case_itemMeta(String) } enum `Exprn` { plus(`Exprn`, `Exprn`); minus(`Exprn`, `Exprn`); lshift(`Exprn`, `Exprn`); rshift(`Exprn`, `Exprn`); lt(`Exprn`, `Exprn`); leq(`Exprn`, `Exprn`); gt(`Exprn`, `Exprn`); geq(`Exprn`, `Exprn`); logeq(`Exprn`, `Exprn`); logneq(`Exprn`, `Exprn`); caseeq(`Exprn`, `Exprn`); caseneq(`Exprn`, `Exprn`); bitand(`Exprn`, `Exprn`); bitxor(`Exprn`, `Exprn`); bitor(`Exprn`, `Exprn`); logand(`Exprn`, `Exprn`); logor(`Exprn`, `Exprn`); conditional(`Exprn`, `Exprn`, `Exprn`); positive(`Primary`); negative(`Primary`); lognot(`Primary`); bitnot(`Primary`); reducand(`Primary`); reducxor(`Primary`); reducor(`Primary`); reducnand(`Primary`); reducxnor(`Primary`); reducnor(`Primary`); primary(`Primary`); ExpressionMeta(String) } enum `Primary` { primary_number(`Number`); primary_IDENTIFIER(String); primary_bit_select(String, `Exprn`); primary_part_select(String, `Exprn`, `Exprn`); primary_gen_bit_select(`Exprn`, `Exprn`); primary_gen_part_select(`Exprn`, `Exprn`, `Exprn`); primary_concatenation(`Concatenation`); primary_multiple_concatenation(`Multiple_concatenation`); brackets(`Exprn`); PrimaryMeta(String) } enum `Lvalue` { lvalue(String); lvalue_bit_select(String, `Exprn`); lvalue_part_select(String, `Exprn`, `Exprn`); lvalue_concatenation(`Concatenation`); LvalueMeta(String) } enum `Number` { decimal(String); based(Option[String], String); NumberMeta(String) } enum `Concatenation` { concatenation(List[`Exprn`]); ConcatenationMeta(String) } enum `Multiple_concatenation` { multiple_concatenation(`Exprn`, List[`Exprn`]); Multiple_concatenationMeta(String) } enum Meta { Meta_Source_text(`Source_text`); Meta_Module_item(`Module_item`); Meta_Declaration(`Declaration`); Meta_Range(`Range`); Meta_Statement(`Statement`); Meta_Statement_or_null(`Statement_or_null`); Meta_Clock(`Clock`); Meta_Case_item(`Case_item`); Meta_Expression(`Exprn`); Meta_Primary(`Primary`); Meta_Lvalue(`Lvalue`); Meta_Number(`Number`); Meta_Concatenation(`Concatenation`); Meta_Multiple_concatenation(`Multiple_concatenation`) }")
   daryl_induction_c.set(daryl_induction)
   daryl_recursion_c.set(daryl_recursion)
 }

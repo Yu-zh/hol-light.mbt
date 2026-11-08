@@ -21,7 +21,7 @@ pub fn line_recursion() -> @kernel.Thm {
 ///|
 /// line_INDUCT, line_RECURSION
 fn step_1() -> Unit raise {
-  let (line_induct, line_recursion) = @ind_types.define_type("line = Line_1 | Line_2 | Line_3 | Line_4 |\n         Line_5 | Line_6 | Line_7")
+  let (line_induct, line_recursion) = @ind_types.define_type("enum Line { Line_1; Line_2; Line_3; Line_4; Line_5; Line_6; Line_7 }")
   line_induct_c.set(line_induct)
   line_recursion_c.set(line_recursion)
 }
@@ -47,7 +47,7 @@ pub fn point_recursion() -> @kernel.Thm {
 ///|
 /// point_INDUCT, point_RECURSION
 fn step_2() -> Unit raise {
-  let (point_induct, point_recursion) = @ind_types.define_type("point = Point_1 | Point_2 | Point_3 | Point_4 |\n          Point_5 | Point_6 | Point_7")
+  let (point_induct, point_recursion) = @ind_types.define_type("enum Point { Point_1; Point_2; Point_3; Point_4; Point_5; Point_6; Point_7 }")
   point_induct_c.set(point_induct)
   point_recursion_c.set(point_recursion)
 }

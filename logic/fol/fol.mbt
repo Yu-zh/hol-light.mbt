@@ -118,7 +118,7 @@ pub fn term_raw_recursion() -> @kernel.Thm {
 ///|
 /// term_raw_INDUCT, term_raw_RECURSION
 fn step_5() -> Unit raise {
-  let (term_raw_induct, term_raw_recursion) = @ind_types.define_type("term = V num | Fn num (term list)")
+  let (term_raw_induct, term_raw_recursion) = @ind_types.define_type("enum Term { V(Num); Fn(Num, List[Term]) }")
   term_raw_induct_c.set(term_raw_induct)
   term_raw_recursion_c.set(term_raw_recursion)
 }
@@ -277,7 +277,7 @@ pub fn form_recursion() -> @kernel.Thm {
 ///|
 /// form_INDUCTION, form_RECURSION
 fn step_12() -> Unit raise {
-  let (form_induction, form_recursion) = @ind_types.define_type("form = False\n                    | Atom num (term list)\n                    | --> form form\n                    | !! num form")
+  let (form_induction, form_recursion) = @ind_types.define_type("enum Form { False; Atom(Num, List[Term]); `-->`(Form, Form); `!!`(Num, Form) }")
   form_induction_c.set(form_induction)
   form_recursion_c.set(form_recursion)
 }

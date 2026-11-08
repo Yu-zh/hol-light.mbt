@@ -233,7 +233,7 @@ pub fn command_recursion() -> @kernel.Thm {
 ///|
 /// command_INDUCTION, command_RECURSION
 fn step_19() -> Unit raise {
-  let (command_induction, command_recursion) = @ind_types.define_type("command = Assign (S->S)\n           | Seq command command\n           | Ite (S->bool) command command\n           | While (S->bool) command")
+  let (command_induction, command_recursion) = @ind_types.define_type("enum Command { Assign((S) -> S); Seq(Command, Command); Ite((S) -> Bool, Command, Command); While((S) -> Bool, Command) }")
   command_induction_c.set(command_induction)
   command_recursion_c.set(command_recursion)
 }

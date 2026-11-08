@@ -311,7 +311,7 @@ pub fn cform_recursion() -> @kernel.Thm {
 ///|
 /// cform_INDUCT, cform_RECURSION
 fn step_16() -> Unit raise {
-  let (cform_induct, cform_recursion) = @ind_types.define_type("cform = Lt int\n         | Gt int\n         | Eq int\n         | Ne int\n         | Divides int int\n         | Ndivides int int\n         | And cform cform\n         | Or cform cform\n         | Nox bool")
+  let (cform_induct, cform_recursion) = @ind_types.define_type("enum Cform { Lt(Int); Gt(Int); Eq(Int); Ne(Int); Divides(Int, Int); Ndivides(Int, Int); And(Cform, Cform); Or(Cform, Cform); Nox(Bool) }")
   cform_induct_c.set(cform_induct)
   cform_recursion_c.set(cform_recursion)
 }

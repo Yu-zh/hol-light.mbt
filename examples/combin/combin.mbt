@@ -58,7 +58,7 @@ pub fn cl_recursion() -> @kernel.Thm {
 ///|
 /// cl_INDUCT, cl_RECURSION
 fn step_4() -> Unit raise {
-  let (cl_induct, cl_recursion) = @ind_types.define_type("cl = S | K | % cl cl")
+  let (cl_induct, cl_recursion) = @ind_types.define_type("enum Cl { S; K; `%`(Cl, Cl) }")
   cl_induct_c.set(cl_induct)
   cl_recursion_c.set(cl_recursion)
 }

@@ -39,7 +39,7 @@ pub fn term_recursion() -> @kernel.Thm {
 ///|
 /// term_INDUCT, term_RECURSION
 fn step_4() -> Unit raise {
-  let (term_induct, term_recursion) = @ind_types.define_type("term = Z\n        | V num\n        | Suc term\n        | ++ term term\n        | ** term term")
+  let (term_induct, term_recursion) = @ind_types.define_type("enum Term { Z; V(Num); Suc(Term); `++`(Term, Term); `**`(Term, Term) }")
   term_induct_c.set(term_induct)
   term_recursion_c.set(term_recursion)
 }
@@ -152,7 +152,7 @@ pub fn form_recursion() -> @kernel.Thm {
 ///|
 /// form_INDUCT, form_RECURSION
 fn step_15() -> Unit raise {
-  let (form_induct, form_recursion) = @ind_types.define_type("form = False\n        | True\n        | === term term\n        | << term term\n        | <<= term term\n        | Not form\n        | && form form\n        | || form form\n        | --> form form\n        | <-> form form\n        | !! num form\n        | ?? num form")
+  let (form_induct, form_recursion) = @ind_types.define_type("enum Form { False; True; `===`(Term, Term); `<<`(Term, Term); `<<=`(Term, Term); Not(Form); `&&`(Form, Form); `||`(Form, Form); `-->`(Form, Form); `<->`(Form, Form); `!!`(Num, Form); `??`(Num, Form) }")
   form_induct_c.set(form_induct)
   form_recursion_c.set(form_recursion)
 }

@@ -9397,7 +9397,8 @@ pub fn the_inductive_types() -> Ref[
 }
 
 ///|
-/// `define_type`
+/// `define_type`, with the types written as MoonBit enums (term syntax):
+/// `define_type("enum Tree { Leaf(Num); Node(Tree, Tree) }")`.
 pub fn define_type(x1217 : String) -> (@kernel.Thm, @kernel.Thm) raise {
   let s = x1217
   try {
@@ -9406,7 +9407,7 @@ pub fn define_type(x1217 : String) -> (@kernel.Thm, @kernel.Thm) raise {
     retval
   } catch {
     Failure(_) => {
-      let defspec = parse_inductive_type_specification(s)
+      let defspec = @term_syntax.parse_type_definition(s)
       let newtypes = @lib.map(
         fn(
           x1218 : (

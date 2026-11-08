@@ -79,16 +79,16 @@ test "ind_types matches ind_types.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   log.attempt("deftype_tree", () => {
-    let (a, b) = @ind_types.define_type("tree = Leaf num | Node tree tree")
+    let (a, b) = @ind_types.define_type("enum Tree { Leaf(Num); Node(Tree, Tree) }")
     sthm(a) + " ;; " + sthm(b)
   })
   log.attempt("deftype_nested", () => {
-    let (a, b) = @ind_types.define_type("rose = Rose num (rose list)")
+    let (a, b) = @ind_types.define_type("enum Rose { Rose(Num, List[Rose]) }")
     sthm(a) + " ;; " + sthm(b)
   })
   log.attempt("deftype_mutual", () => {
     let (a, b) = @ind_types.define_type(
-      "even_t = Ez | Es odd_t ; odd_t = Os even_t",
+      "enum Even_t { Ez; Es(Odd_t) } enum Odd_t { Os(Even_t) }",
     )
     sthm(a) + " ;; " + sthm(b)
   })

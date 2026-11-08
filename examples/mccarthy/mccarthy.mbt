@@ -21,7 +21,7 @@ pub fn string_recursion() -> @kernel.Thm {
 ///|
 /// string_INDUCT, string_RECURSION
 fn step_1() -> Unit raise {
-  let (string_induct, string_recursion) = @ind_types.define_type("string = String (int list)")
+  let (string_induct, string_recursion) = @ind_types.define_type("enum String { String(List[Int]) }")
   string_induct_c.set(string_induct)
   string_recursion_c.set(string_recursion)
 }
@@ -47,7 +47,7 @@ pub fn exp_recursion() -> @kernel.Thm {
 ///|
 /// exp_INDUCT, exp_RECURSION
 fn step_2() -> Unit raise {
-  let (exp_induct, exp_recursion) = @ind_types.define_type("exp = Lit num\n                   | Var string\n                   | Plus exp exp")
+  let (exp_induct, exp_recursion) = @ind_types.define_type("enum Exp { Lit(Num); Var(String); Plus(Exp, Exp) }")
   exp_induct_c.set(exp_induct)
   exp_recursion_c.set(exp_recursion)
 }
@@ -89,7 +89,7 @@ pub fn cell_recursion() -> @kernel.Thm {
 ///|
 /// cell_INDUCT, cell_RECURSION
 fn step_4() -> Unit raise {
-  let (cell_induct, cell_recursion) = @ind_types.define_type("cell = Acc\n                    | Reg num")
+  let (cell_induct, cell_recursion) = @ind_types.define_type("enum Cell { Acc; Reg(Num) }")
   cell_induct_c.set(cell_induct)
   cell_recursion_c.set(cell_recursion)
 }
@@ -115,7 +115,7 @@ pub fn inst_recursion() -> @kernel.Thm {
 ///|
 /// inst_INDUCT, inst_RECURSION
 fn step_5() -> Unit raise {
-  let (inst_induct, inst_recursion) = @ind_types.define_type("inst = LI num\n                    | LOAD num\n                    | STO num\n                    | ADD num")
+  let (inst_induct, inst_recursion) = @ind_types.define_type("enum Inst { LI(Num); LOAD(Num); STO(Num); ADD(Num) }")
   inst_induct_c.set(inst_induct)
   inst_recursion_c.set(inst_recursion)
 }

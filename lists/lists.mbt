@@ -4448,7 +4448,7 @@ pub fn char_recursion() -> @kernel.Thm {
 /// char_INDUCT, char_RECURSION
 fn step_138() -> Unit raise {
   let (char_induct, char_recursion) = @ind_types.define_type(
-    "char = ASCII bool bool bool bool bool bool bool bool",
+    "enum Char { ASCII(Bool, Bool, Bool, Bool, Bool, Bool, Bool, Bool) }",
   )
   char_induct_c.set(char_induct)
   char_recursion_c.set(char_recursion)

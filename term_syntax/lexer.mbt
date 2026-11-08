@@ -34,6 +34,7 @@ fn keyword(name : String) -> @grammar.Token raise {
     "else" => ELSE
     "fn" => FN
     "match" => MATCH
+    "enum" => ENUM
     _ =>
       if moonbit_keywords.contains(name) {
         raise Failure("term syntax: " + name + " is a MoonBit keyword")
@@ -72,6 +73,14 @@ fn tokens(s : String) -> Array[(@grammar.Token, Int, Int)] raise {
           raise Failure("term syntax: `\{name}` names a constant")
         }
         toks.push((RAWIDENT(name), at(input), at(rest)))
+        continue rest
+      }
+      // a HOL name verbatim, as types (`Term`) and constructors (`module`)
+      // are written when the syntax would otherwise read another
+      (re"^`[A-Za-z][A-Za-z0-9_]*'*`" as raw, after=rest) => {
+        toks.push(
+          (VERBATIM(raw[1:raw.length() - 1].to_owned()), at(input), at(rest)),
+        )
         continue rest
       }
       (re"^[0-9]+" as digits, after=rest) => {

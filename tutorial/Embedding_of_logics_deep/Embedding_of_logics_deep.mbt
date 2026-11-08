@@ -21,7 +21,7 @@ pub fn string_recursion() -> @kernel.Thm {
 ///|
 /// string_INDUCT, string_RECURSION
 fn step_1() -> Unit raise {
-  let (string_induct, string_recursion) = @ind_types.define_type("string = String num")
+  let (string_induct, string_recursion) = @ind_types.define_type("enum String { String(Num) }")
   string_induct_c.set(string_induct)
   string_recursion_c.set(string_recursion)
 }
@@ -89,7 +89,7 @@ pub fn form_recursion() -> @kernel.Thm {
 ///|
 /// form_INDUCT, form_RECURSION
 fn step_9() -> Unit raise {
-  let (form_induct, form_recursion) = @ind_types.define_type("form = False\n       | True\n       | Atom string\n       | Not form\n       | && form form\n       | || form form\n       | --> form form\n       | <-> form form\n       | Box form\n       | Diamond form")
+  let (form_induct, form_recursion) = @ind_types.define_type("enum Form { False; True; Atom(String); Not(Form); `&&`(Form, Form); `||`(Form, Form); `-->`(Form, Form); `<->`(Form, Form); Box(Form); Diamond(Form) }")
   form_induct_c.set(form_induct)
   form_recursion_c.set(form_recursion)
 }

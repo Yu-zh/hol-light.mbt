@@ -21,7 +21,7 @@ pub fn sign_recursion() -> @kernel.Thm {
 ///|
 /// sign_INDUCT, sign_RECURSION
 fn step_1() -> Unit raise {
-  let (sign_induct, sign_recursion) = @ind_types.define_type("sign = Zero | Pos | Neg | Nonzero | Unknown")
+  let (sign_induct, sign_recursion) = @ind_types.define_type("enum Sign { Zero; Pos; Neg; Nonzero; Unknown }")
   sign_induct_c.set(sign_induct)
   sign_recursion_c.set(sign_recursion)
 }

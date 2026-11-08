@@ -408,6 +408,50 @@ pub fn parse_type(s : String) -> @kernel.HolType raise {
 }
 
 ///|
+/// The inductive types the enums `s` define, as ind_types' define_type
+/// takes them: `enum Tree { Leaf(Num); Node(Tree, Tree) }` defines tree,
+/// with a constructor `Leaf` from num and `Node` from two trees. Each type
+/// is given as the type variable named as the HOL type (`Tree` is tree), by
+/// which its constructors' arguments refer to it. A name between backticks
+/// is the HOL name verbatim, for one that starts with a capital: enum `Term`
+/// defines Term, which its constructors call `Term`.
+pub fn parse_type_definition(
+  s : String,
+) -> @list.List[
+  (@kernel.HolType, @list.List[(String, @list.List[@kernel.HolType])]),
+] raise {
+  let toks = tokens(s)
+  // the enums' names, which their constructors refer to the types by
+  let spellings = []
+  for i in 0..<(toks.length() - 1) {
+    match (toks[i].0, toks[i + 1].0) {
+      (ENUM, UIDENT(name)) => spellings.push(name)
+      (ENUM, VERBATIM(name)) => spellings.push("`" + name + "`")
+      _ => ()
+    }
+  }
+  ignore(@grammar.take_error())
+  let enums = @grammar.with_defined_types(spellings, () => {
+    @grammar.type_definition(toks) catch {
+      e => raise Failure("term syntax: " + describe(e))
+    }
+  })
+  check_semantics()
+  // a type being defined reads as a type variable of its own
+  let defined = enums.map(e => (
+    @kernel.mk_vartype(e.0),
+    @kernel.mk_vartype(e.1),
+  ))
+  enums.map(e => (
+    @kernel.mk_vartype(e.0),
+    e.2.map(c => (
+      c.0,
+      c.1.map(pty => @kernel.type_subst(defined, @preterm.type_of_pretype(pty))),
+    )),
+  ))
+}
+
+///|
 /// The term `s` denotes where the variables `env` names have the types it
 /// gives them, and of type `ty` when given: Library/q.ml reads its
 /// quotations so, in a goal's context. The context's variables are named

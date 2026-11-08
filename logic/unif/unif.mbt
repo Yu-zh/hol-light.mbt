@@ -1448,7 +1448,7 @@ pub fn retval_recursion() -> @kernel.Thm {
 ///|
 /// retval_INDUCT, retval_RECURSION
 fn step_37() -> Unit raise {
-  let (retval_induct, retval_recursion) = @ind_types.define_type("retval = TT | FF | Exception")
+  let (retval_induct, retval_recursion) = @ind_types.define_type("enum Retval { TT; FF; Exception }")
   retval_induct_c.set(retval_induct)
   retval_recursion_c.set(retval_recursion)
 }

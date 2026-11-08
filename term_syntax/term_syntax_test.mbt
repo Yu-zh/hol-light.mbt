@@ -151,6 +151,84 @@ test "a context variable named like a constant means the variable" {
 }
 
 ///|
+test "type definitions" {
+  let tree = @kernel.mk_vartype("tree")
+  let num = @kernel.mk_type("num", @list.List([]))
+  assert_eq(
+    @term_syntax.parse_type_definition("enum Tree { Leaf(Num); Node(Tree, Tree) }"),
+    @list.List([
+      (tree, @list.List([("Leaf", @list.List([num])), ("Node", @list.List([tree, tree]))])),
+    ]),
+  )
+  // mutually recursive types, symbolic and nullary constructors
+  let defs = @term_syntax.parse_type_definition(
+    "enum Form { False; `&&`(Form, Form); All(Num, List[Term]) } enum Term { V(Num); Fn(Num, List[Term]); }",
+  )
+  let term = @kernel.mk_vartype("term")
+  let form = @kernel.mk_vartype("form")
+  let terms = @kernel.mk_type("list", @list.List([term]))
+  assert_eq(
+    defs,
+    @list.List([
+      (form, @list.List([("False", @list.List([])), ("&&", @list.List([form, form])), ("All", @list.List([num, terms]))])),
+      (term, @list.List([("V", @list.List([num])), ("Fn", @list.List([num, terms]))])),
+    ]),
+  )
+}
+
+///|
+test "an enum's own types read before other names" {
+  // `Zz_t` between backticks is a type variable, not the type being defined
+  let defs = @term_syntax.parse_type_definition("enum Zz_t { Zl; Zb(`Zz_t`, Zz_t) }")
+  let zz_t = @kernel.mk_vartype("zz_t")
+  assert_eq(
+    defs,
+    @list.List([
+      (zz_t, @list.List([("Zl", @list.List([])), ("Zb", @list.List([@kernel.mk_vartype("Zz_t"), zz_t]))])),
+    ]),
+  )
+  // nor is a type variable an abbreviation stands for
+  @preterm.new_type_abbrev("zz_ab", @parser.parse_type("A#num"))
+  defer @preterm.remove_type_abbrev("zz_ab")
+  let a = @kernel.mk_vartype("a")
+  assert_eq(
+    @term_syntax.parse_type_definition("enum A { Mk(Zz_ab, A) }"),
+    @list.List([(a, @list.List([("Mk", @list.List([@parser.parse_type("A#num"), a]))]))]),
+  )
+  // even one named as the syntax names a type being defined
+  let enum_a = @kernel.mk_vartype("enum A")
+  @preterm.new_type_abbrev("zz_ae", enum_a)
+  defer @preterm.remove_type_abbrev("zz_ae")
+  assert_eq(
+    @term_syntax.parse_type_definition("enum A { Mk(Zz_ae, A) }"),
+    @list.List([(a, @list.List([("Mk", @list.List([enum_a, a]))]))]),
+  )
+}
+
+///|
+test "verbatim type names" {
+  // a HOL type whose name starts with a capital, beside one that doesn't
+  @kernel.new_type("zz_v", 0L)
+  @kernel.new_type("Zz_v", 1L)
+  let ty = @term_syntax.parse_type
+  let lower = @kernel.mk_type("zz_v", @list.List([]))
+  let upper = @kernel.mk_type("Zz_v", @list.List([@kernel.bool_ty]))
+  assert_eq(ty("Zz_v"), lower)
+  assert_eq(ty("`Zz_v`[Bool]"), upper)
+  inspect(@term_syntax.print_type(upper), content="`Zz_v`[Bool]")
+  assert_true((try Some(ty("`Zz_v`")) catch { _ => None }) is None)
+  // and an enum defining one, whose constructors refer to it so; a
+  // constructor named like a keyword is written so too
+  let zz_w = @kernel.mk_vartype("Zz_w")
+  assert_eq(
+    @term_syntax.parse_type_definition("enum `Zz_w` { Zw0; Zw(`Zz_w`, A); `module` }"),
+    @list.List([
+      (zz_w, @list.List([("Zw0", @list.List([])), ("Zw", @list.List([zz_w, @kernel.mk_vartype("A")])), ("module", @list.List([]))])),
+    ]),
+  )
+}
+
+///|
 test "type abbreviations" {
   @preterm.new_type_abbrev("zz_pair", @parser.parse_type("A#num"))
   defer @preterm.remove_type_abbrev("zz_pair")

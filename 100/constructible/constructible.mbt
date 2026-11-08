@@ -234,7 +234,7 @@ pub fn expression_recursion() -> @kernel.Thm {
 ///|
 /// expression_INDUCT, expression_RECURSION
 fn step_7() -> Unit raise {
-  let (expression_induct, expression_recursion) = @ind_types.define_type("expression = Constant real\n             | Negation expression\n             | Inverse expression\n             | Addition expression expression\n             | Multiplication expression expression\n             | Sqrt expression")
+  let (expression_induct, expression_recursion) = @ind_types.define_type("enum Expression { Constant(Real); Negation(Expression); Inverse(Expression); Addition(Expression, Expression); Multiplication(Expression, Expression); Sqrt(Expression) }")
   expression_induct_c.set(expression_induct)
   expression_recursion_c.set(expression_recursion)
 }

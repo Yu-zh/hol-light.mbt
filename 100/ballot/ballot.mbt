@@ -162,7 +162,7 @@ pub fn vote_recursion() -> @kernel.Thm {
 ///|
 /// vote_INDUCT, vote_RECURSION
 fn step_7() -> Unit raise {
-  let (vote_induct, vote_recursion) = @ind_types.define_type("vote = A | B")
+  let (vote_induct, vote_recursion) = @ind_types.define_type("enum Vote { A; B }")
   vote_induct_c.set(vote_induct)
   vote_recursion_c.set(vote_recursion)
 }

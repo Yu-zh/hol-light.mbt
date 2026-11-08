@@ -45,7 +45,7 @@ pub fn node_recursion() -> @kernel.Thm {
 ///|
 /// node_INDUCT, node_RECURSION
 fn step_5() -> Unit raise {
-  let (node_induct, node_recursion) = @ind_types.define_type("node = Node num")
+  let (node_induct, node_recursion) = @ind_types.define_type("enum Node { Node(Num) }")
   node_induct_c.set(node_induct)
   node_recursion_c.set(node_recursion)
 }
@@ -71,7 +71,7 @@ pub fn propform_recursion() -> @kernel.Thm {
 ///|
 /// propform_INDUCT, propform_RECURSION
 fn step_6() -> Unit raise {
-  let (propform_induct, propform_recursion) = @ind_types.define_type("propform = Propform (num->bool)->bool")
+  let (propform_induct, propform_recursion) = @ind_types.define_type("enum Propform { Propform(((Num) -> Bool) -> Bool) }")
   propform_induct_c.set(propform_induct)
   propform_recursion_c.set(propform_recursion)
 }
@@ -113,7 +113,7 @@ pub fn quat_recursion() -> @kernel.Thm {
 ///|
 /// quat_INDUCT, quat_RECURSION
 fn step_8() -> Unit raise {
-  let (quat_induct, quat_recursion) = @ind_types.define_type("quat = X | ZERO | ONE | TOP")
+  let (quat_induct, quat_recursion) = @ind_types.define_type("enum Quat { X; ZERO; ONE; TOP }")
   quat_induct_c.set(quat_induct)
   quat_recursion_c.set(quat_recursion)
 }
@@ -288,7 +288,7 @@ pub fn trajform_recursion() -> @kernel.Thm {
 ///|
 /// trajform_INDUCT, trajform_RECURSION
 fn step_18() -> Unit raise {
-  let (trajform_induct, trajform_recursion) = @ind_types.define_type("trajform = Is_0 node\n           | Is_1 node\n           | Andj trajform trajform\n           | When trajform propform\n           | Next trajform")
+  let (trajform_induct, trajform_recursion) = @ind_types.define_type("enum Trajform { Is_0(Node); Is_1(Node); Andj(Trajform, Trajform); When(Trajform, Propform); Next(Trajform) }")
   trajform_induct_c.set(trajform_induct)
   trajform_recursion_c.set(trajform_recursion)
 }

@@ -21,7 +21,7 @@ pub fn type_recursion() -> @kernel.Thm {
 ///|
 /// type_INDUCT, type_RECURSION
 fn step_1() -> Unit raise {
-  let (type_induct, type_recursion) = @ind_types.define_type("type = Tyvar string\n            | Bool\n            | Ind\n            | Fun type type")
+  let (type_induct, type_recursion) = @ind_types.define_type("enum Type { Tyvar(String); Bool; Ind; Fun(Type, Type) }")
   type_induct_c.set(type_induct)
   type_recursion_c.set(type_recursion)
 }
@@ -107,7 +107,7 @@ pub fn term_recursion() -> @kernel.Thm {
 ///|
 /// term_INDUCT, term_RECURSION
 fn step_6() -> Unit raise {
-  let (term_induct, term_recursion) = @ind_types.define_type("term = Var string type\n       | Equal type | Select type\n       | Comb term term\n       | Abs string type term")
+  let (term_induct, term_recursion) = @ind_types.define_type("enum Term { Var(String, Type); Equal(Type); Select(Type); Comb(Term, Term); Abs(String, Type, Term) }")
   term_induct_c.set(term_induct)
   term_recursion_c.set(term_recursion)
 }
@@ -1192,7 +1192,7 @@ pub fn result_recursion() -> @kernel.Thm {
 ///|
 /// result_INDUCT, result_RECURSION
 fn step_47() -> Unit raise {
-  let (result_induct, result_recursion) = @ind_types.define_type("result = Clash term | Result term")
+  let (result_induct, result_recursion) = @ind_types.define_type("enum Result { Clash(Term); Result(Term) }")
   result_induct_c.set(result_induct)
   result_recursion_c.set(result_recursion)
 }

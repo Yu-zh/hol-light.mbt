@@ -1183,7 +1183,7 @@ pub fn day_recursion() -> @kernel.Thm {
 ///|
 /// day_INDUCT, day_RECURSION
 fn step_59() -> Unit raise {
-  let (day_induct, day_recursion) = @ind_types.define_type("day = Sunday | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday")
+  let (day_induct, day_recursion) = @ind_types.define_type("enum Day { Sunday; Monday; Tuesday; Wednesday; Thursday; Friday; Saturday }")
   day_induct_c.set(day_induct)
   day_recursion_c.set(day_recursion)
 }

@@ -107,6 +107,11 @@ fn type_name(name : String) -> String raise Unprintable {
       return s
     }
   }
+  // the name verbatim between backticks, as `List` for a type HOL calls List
+  // beside list
+  if is_ident(name) && name.to_array()[0] is ('A'..='Z' | 'a'..='z') {
+    return "`" + name + "`"
+  }
   raise Unprintable("type constant " + name)
 }
 

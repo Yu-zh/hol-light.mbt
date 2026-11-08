@@ -167,9 +167,12 @@ fn named_type(
     }
     return @preterm.pretype_of_type(ty)
   }
-  let chars = name.to_array()
-  let lower = chars[0].to_string().to_lower() +
-    String::from_array(chars[1:])
+  // a type being defined, after abbreviations as in HOL's parser (a
+  // definition of string refers to the abbreviation's char list)
+  if defined_type(name, args) is Some(ty) {
+    return ty
+  }
+  let lower = lowered(name)
   // `Num` is num; a type constant whose name is capitalised already is
   // written as it is
   let lower = if (try @kernel.get_type_arity(lower) catch { _ => -1L }) < 0L &&
@@ -193,13 +196,95 @@ fn named_type(
 }
 
 ///|
+/// The enum headers of the definition being read, as spelt (a verbatim name
+/// between backticks): its constructors' arguments name these types.
+let defining : Ref[Array[String]] = Ref::{ val: [] }
+
+///|
+/// The number of the innermost `with_defined_types` call, so its type
+/// variables are fresh.
+let generation : Ref[Int] = Ref::{ val: 0 }
+
+///|
+/// How many `with_defined_types` calls have begun.
+let generations : Ref[Int] = Ref::{ val: 0 }
+
+///|
+/// `f()`, reading the types the enum headers `spellings` name as the types
+/// being defined, before any constant or type variable.
+pub fn[T] with_defined_types(
+  spellings : Array[String],
+  f : () -> T raise,
+) -> T raise {
+  let (saved, saved_generation) = (defining.val, generation.val)
+  generations.val += 1
+  defining.val = spellings
+  generation.val = generations.val
+  defer {
+    defining.val = saved
+    generation.val = saved_generation
+  }
+  f()
+}
+
+///|
+/// The type variable a type being defined reads as, which no type written
+/// in the syntax is and, numbered by its call, no abbreviation holds:
+/// `enum Tree 3` for the one `enum Tree` defines.
+fn defined_type_var(spelling : String) -> String {
+  "enum " + spelling + " " + generation.val.to_string()
+}
+
+///|
+fn defined_type(
+  spelling : String,
+  args : @list.List[@preterm.Pretype],
+) -> @preterm.Pretype? {
+  guard defining.val.contains(spelling) else { return None }
+  if !args.is_empty() {
+    reject("type " + spelling + " takes no arguments")
+  }
+  Some(@preterm.Utv(defined_type_var(spelling)))
+}
+
+///|
+/// The HOL name a capitalised type name stands for: num for `Num`.
+fn lowered(name : String) -> String {
+  let chars = name.to_array()
+  chars[0].to_string().to_lower() + String::from_array(chars[1:])
+}
+
+///|
+/// A type name between backticks: the HOL type constant of that name
+/// verbatim (`Term` in backticks for a type HOL calls Term), or else the
+/// type variable so named, as a type being defined is.
+fn verbatim_type(
+  name : String,
+  args : @list.List[@preterm.Pretype],
+) -> @preterm.Pretype {
+  if defined_type("`" + name + "`", args) is Some(ty) {
+    return ty
+  }
+  let arity = @kernel.get_type_arity(name) catch { _ => -1L }
+  if arity >= 0L {
+    if arity != args.length().to_int64() {
+      reject("type " + name + " takes \{arity} arguments")
+    }
+    @preterm.Ptycon(name, args.map(fill_hole))
+  } else if args.is_empty() {
+    @preterm.Utv(name)
+  } else {
+    reject("unknown type " + name)
+    @preterm.Utv(name)
+  }
+}
+
+///|
 /// The type `name` abbreviates (new_type_abbrev), written capitalised as a
 /// type: `Complex` for complex.
 pub fn type_abbreviation(name : String) -> @kernel.HolType? {
-  let chars = name.to_array()
-  let lower = chars[0].to_string().to_lower() + String::from_array(chars[1:])
   let abbrevs = @preterm.type_abbrevs()
-  match abbrevs.lookup(lower) {
+  match abbrevs.lookup(lowered(name)) {
     Some(ty) => Some(ty)
     None => abbrevs.lookup(name)
   }

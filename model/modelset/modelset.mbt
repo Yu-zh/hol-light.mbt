@@ -481,7 +481,7 @@ pub fn setlevel_recursion() -> @kernel.Thm {
 ///|
 /// setlevel_INDUCT, setlevel_RECURSION
 fn step_25() -> Unit raise {
-  let (setlevel_induct, setlevel_recursion) = @ind_types.define_type("setlevel = Ur_bool\n           | Ur_ind\n           | Powerset setlevel\n           | Cartprod setlevel setlevel")
+  let (setlevel_induct, setlevel_recursion) = @ind_types.define_type("enum Setlevel { Ur_bool; Ur_ind; Powerset(Setlevel); Cartprod(Setlevel, Setlevel) }")
   setlevel_induct_c.set(setlevel_induct)
   setlevel_recursion_c.set(setlevel_recursion)
 }

@@ -293,7 +293,7 @@ pub fn roundmode_recursion() -> @kernel.Thm {
 ///|
 /// roundmode_INDUCT, roundmode_RECURSION
 fn step_19() -> Unit raise {
-  let (roundmode_induct, roundmode_recursion) = @ind_types.define_type("roundmode = To_near | To_zero | To_pinf | To_ninf")
+  let (roundmode_induct, roundmode_recursion) = @ind_types.define_type("enum Roundmode { To_near; To_zero; To_pinf; To_ninf }")
   roundmode_induct_c.set(roundmode_induct)
   roundmode_recursion_c.set(roundmode_recursion)
 }

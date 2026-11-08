@@ -57,7 +57,7 @@ pub fn form_recursion() -> @kernel.Thm {
 ///|
 /// form_INDUCT, form_RECURSION
 fn step_7() -> Unit raise {
-  let (form_induct, form_recursion) = @ind_types.define_type("form = False\n        | True\n        | Atom string\n        | Not form\n        | && form form\n        | || form form\n        | --> form form\n        | <-> form form\n        | Box form")
+  let (form_induct, form_recursion) = @ind_types.define_type("enum Form { False; True; Atom(String); Not(Form); `&&`(Form, Form); `||`(Form, Form); `-->`(Form, Form); `<->`(Form, Form); Box(Form) }")
   form_induct_c.set(form_induct)
   form_recursion_c.set(form_recursion)
 }

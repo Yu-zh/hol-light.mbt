@@ -21,7 +21,7 @@ pub fn string_recursion() -> @kernel.Thm {
 ///|
 /// string_INDUCT, string_RECURSION
 fn step_1() -> Unit raise {
-  let (string_induct, string_recursion) = @ind_types.define_type("string = String (int list)")
+  let (string_induct, string_recursion) = @ind_types.define_type("enum String { String(List[Int]) }")
   string_induct_c.set(string_induct)
   string_recursion_c.set(string_recursion)
 }
@@ -47,7 +47,7 @@ pub fn expression_recursion() -> @kernel.Thm {
 ///|
 /// expression_INDUCT, expression_RECURSION
 fn step_2() -> Unit raise {
-  let (expression_induct, expression_recursion) = @ind_types.define_type("expression = Literal num\n            | Variable string\n            | Plus expression expression\n            | Times expression expression")
+  let (expression_induct, expression_recursion) = @ind_types.define_type("enum Expression { Literal(Num); Variable(String); Plus(Expression, Expression); Times(Expression, Expression) }")
   expression_induct_c.set(expression_induct)
   expression_recursion_c.set(expression_recursion)
 }
@@ -73,7 +73,7 @@ pub fn command_recursion() -> @kernel.Thm {
 ///|
 /// command_INDUCT, command_RECURSION
 fn step_3() -> Unit raise {
-  let (command_induct, command_recursion) = @ind_types.define_type("command = Assign string expression\n           | Sequence command command\n           | If expression command command\n           | While expression command")
+  let (command_induct, command_recursion) = @ind_types.define_type("enum Command { Assign(String, Expression); Sequence(Command, Command); If(Expression, Command, Command); While(Expression, Command) }")
   command_induct_c.set(command_induct)
   command_recursion_c.set(command_recursion)
 }

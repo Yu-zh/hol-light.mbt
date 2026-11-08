@@ -1823,7 +1823,7 @@ pub fn tybit0_recursion() -> @kernel.Thm {
 /// tybit0_INDUCT, tybit0_RECURSION
 fn step_56() -> Unit raise {
   let (tybit0_induct, tybit0_recursion) = @ind_types.define_type(
-    "tybit0 = mktybit0((A,A)finite_sum)",
+    "enum Tybit0 { mktybit0(Finite_sum[A, A]) }",
   )
   tybit0_induct_c.set(tybit0_induct)
   tybit0_recursion_c.set(tybit0_recursion)
@@ -1853,7 +1853,7 @@ pub fn tybit1_recursion() -> @kernel.Thm {
 /// tybit1_INDUCT, tybit1_RECURSION
 fn step_57() -> Unit raise {
   let (tybit1_induct, tybit1_recursion) = @ind_types.define_type(
-    "tybit1 = mktybit1(((A,A)finite_sum,1)finite_sum)",
+    "enum Tybit1 { mktybit1(Finite_sum[Finite_sum[A, A], 1]) }",
   )
   tybit1_induct_c.set(tybit1_induct)
   tybit1_recursion_c.set(tybit1_recursion)

@@ -5,6 +5,7 @@ import {
   "bobzhang/hol_light/kernel",
   "bobzhang/hol_light/preterm",
   "moonbitlang/core/debug",
+  "moonbitlang/core/list",
 }
 
 // Values
@@ -28,7 +29,11 @@ pub fn term(Array[(Token, Int, Int)], initial_pos? : Int) -> @preterm.Preterm ra
 
 pub fn type_abbreviation(String) -> @kernel.HolType?
 
+pub fn type_definition(Array[(Token, Int, Int)], initial_pos? : Int) -> @list.List[(String, String, @list.List[(String, @list.List[@preterm.Pretype])])] raise ParseError
+
 pub fn unescape(String) -> String
+
+pub fn[T] with_defined_types(Array[String], () -> T raise) -> T raise
 
 // Errors
 pub suberror ParseError {
@@ -41,6 +46,7 @@ pub(all) enum Token {
   LIDENT(String)
   UIDENT(String)
   RAWIDENT(String)
+  VERBATIM(String)
   INT(String)
   INFIX1(String)
   INFIX3(String)
@@ -51,6 +57,7 @@ pub(all) enum Token {
   ELSE
   FN
   MATCH
+  ENUM
   FORALL
   EXISTS
   IMPLIES
@@ -81,6 +88,7 @@ pub(all) enum TokenKind {
   TK_LIDENT
   TK_UIDENT
   TK_RAWIDENT
+  TK_VERBATIM
   TK_INT
   TK_INFIX1
   TK_INFIX3
@@ -91,6 +99,7 @@ pub(all) enum TokenKind {
   TK_ELSE
   TK_FN
   TK_MATCH
+  TK_ENUM
   TK_FORALL
   TK_EXISTS
   TK_IMPLIES

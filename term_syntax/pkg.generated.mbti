@@ -22,6 +22,8 @@ pub fn parse_term_in_context(@list.List[(String, @preterm.Pretype)], String, ty?
 
 pub fn parse_type(String) -> @kernel.HolType raise
 
+pub fn parse_type_definition(String) -> @list.List[(@kernel.HolType, @list.List[(String, @list.List[@kernel.HolType])])] raise
+
 pub fn print_term(@kernel.Term) -> String raise Unprintable
 
 pub fn print_type(@kernel.HolType) -> String raise Unprintable
