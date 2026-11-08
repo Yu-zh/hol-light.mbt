@@ -233,12 +233,12 @@ Formal_ineqs/taylor/theory/taylor_interval-compiled quotations (812):
   (n : Num) <= SUC((m : Num))
   real_of_num(1)
   has_real_derivative((g : (Real) -> Real), (g' : Real), atreal((x : Real))) && (\226\136\131 s : (Real) -> Bool, real_open(s) && IN(x, s) && (\226\136\128 y : Real, IN(y, s) \226\134\146 (f : (Real) -> Real)(y) == g(y))) \226\134\146 has_real_derivative(f, g', atreal(x))
-  T
-  T
-  T
-  T
-  T
-  T
+  true
+  true
+  true
+  true
+  true
+  true
   real_differentiable((g : (Real) -> Real), atreal((x : Real))) && real_open((s : (Real) -> Bool)) && IN(x, s) && (\226\136\128 y : Real, IN(y, s) \226\134\146 (f : (Real) -> Real)(y) == g(y)) \226\134\146 real_differentiable(f, atreal(x))
   :real->real
   :real->real
