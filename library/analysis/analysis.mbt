@@ -20119,9 +20119,7 @@ fn step_254() -> Unit raise {
   )
   sum_exists_c.set(
     @tactics.prove(
-      @parser.parse_term(
-        "?sum. (forall f n. sum(n,0) f = &0) /\\\n         (forall f m n. sum(n,SUC m) f = sum(n,m) f + f(n + m))",
-      ),
+      @term_syntax.parse_term("∃ sum : ((Num, Num), (Num) -> Real) -> Real, (∀ f : (Num) -> Real, ∀ n : Num, sum((n, 0), f) == real_of_num(0)) && (∀ f : (Num) -> Real, ∀ m : Num, ∀ n : Num, sum((n, SUC(m)), f) == sum((n, m), f) + f(n + m))"),
       t2090,
     ),
   )

@@ -235,17 +235,6 @@ fn is_constant_name(name : String) -> Bool {
 }
 
 ///|
-/// Whether `t` uses the constant named `name`.
-fn uses_constant(t : @kernel.Term, name : String) -> Bool {
-  match t {
-    Const(n, _) => n == name
-    Var(_, _) => false
-    Comb(f, x) => uses_constant(f, name) || uses_constant(x, name)
-    Abs(v, b) => uses_constant(v, name) || uses_constant(b, name)
-  }
-}
-
-///|
 /// Whether `name` is a symbolic name the syntax writes between backticks:
 /// HOL symbol characters only (no letters, digits, `_`, primes or
 /// backticks), as the lexer's RAWIDENT accepts.
@@ -310,6 +299,23 @@ fn Printer::spelling(self : Printer, c : @kernel.Term) -> String {
     }
   }
   name
+}
+
+///|
+/// Whether a constant in `t` is the constant named `name` or is written as
+/// `name`.
+fn Printer::writes_constant_as(
+  self : Printer,
+  t : @kernel.Term,
+  name : String,
+) -> Bool {
+  match t {
+    Const(n, _) => n == name || self.spelling(t) == name
+    Var(_, _) => false
+    Comb(f, x) =>
+      self.writes_constant_as(f, name) || self.writes_constant_as(x, name)
+    Abs(_, b) => self.writes_constant_as(b, name)
+  }
 }
 
 ///|
@@ -428,17 +434,20 @@ fn Printer::bind(
     }) ==
     name
   })
-  // a binder named like a constant binds a variable that shadows the
-  // constant (term_syntax's binder_alias): T and F always, since the syntax
-  // writes truth and falsity as true and false; any other constant that is
-  // no interface name when `body` does not use it, since in the binder's
-  // scope the name means the binder. A pattern's constant names are
-  // constants, as in HOL, so a pattern variable named so is renamed
-  // (`truth=false`), as is a binder named like an interface name
+  // a binder named like a constant or an interface name binds a variable
+  // that shadows it (term_syntax's binder_alias): T and F always, since the
+  // syntax writes truth and falsity as true and false; any other
+  // identifier when no constant in `body` is written so, since in the
+  // binder's scope the name means the binder (a symbolic name that names a
+  // constant cannot be written between backticks). A pattern's constant
+  // names are constants, as in HOL, so a pattern variable named so is
+  // renamed (`truth=false`)
   let truth = truth &&
     (name == "T" ||
     name == "F" ||
-    (names_plain_constant(name) && !uses_constant(body, name)))
+    (is_ident(name) &&
+    is_constant_name(name) &&
+    !self.writes_constant_as(body, name)))
   // a binder with a symbolic name no identifier spells is written between
   // backticks (bound occurrences too); a free one has its op_ spelling
   let writable = is_ident(name) || is_raw_name(name)

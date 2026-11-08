@@ -69,55 +69,19 @@ fn names_constant(n : String) -> Bool {
 }
 
 ///|
-/// Whether `n` names a constant and no interface name: a binder named so
-/// shadows the constant, as in HOL (an interface name, such as `inv`, may
-/// stand for constants of other names, so a binder named so is renamed).
-fn names_plain_constant(n : String) -> Bool {
-  (try @kernel.get_const_type(n) catch { _ => None } noraise { _ => Some(()) })
-  is Some(_) &&
-  !@printer.the_interface.val.iter().any(e => e.0 == n)
-}
-
-///|
-/// Whether an identifier `n` occurs in `t` (before names are resolved).
-fn mentions(t : @preterm.Preterm, n : String) -> Bool {
-  match t {
-    Varp(m, _) => m == n
-    Constp(_, _) => false
-    Combp(f, x) => mentions(f, n) || mentions(x, n)
-    Absp(v, b) => mentions(v, n) || mentions(b, n)
-    Typing(x, _) => mentions(x, n)
-  }
-}
-
-///|
-/// The name a binder `n` over `scope` is given: its own; under
-/// `binder_alias` if it names a constant (no interface name), which it
-/// shadows in `scope`; or, for an interface name, the first one with primes
-/// that is read as no constant, that `scope` does not mention and that no
-/// binder in scope (`bound`) was renamed to (either would be captured).
-fn binder_rename(
-  n : String,
-  scope : @preterm.Preterm,
-  bound : @list.List[(String, String)],
-) -> String {
+/// The name a binder `n` is elaborated under: under `binder_alias` if it
+/// names a constant or is an interface name, which it shadows in its scope,
+/// as a local binding shadows a global name in MoonBit; else its own.
+fn binder_rename(n : String) -> String {
   // a binder named like a constant binds a variable, as in HOL, under an
   // alias named back after elaboration (binder_alias); in its scope the
   // name means the binder. Truth and falsity, written true and false,
   // elaborate to the constants themselves, so T and F are never shadowed
-  if n == "T" || n == "F" || names_plain_constant(n) {
-    return binder_alias + n
+  if n == "T" || n == "F" || names_constant(n) {
+    binder_alias + n
+  } else {
+    n
   }
-  if !names_constant(n) {
-    return n
-  }
-  let mut renamed = n + "'"
-  while names_constant(renamed) ||
-        mentions(scope, renamed) ||
-        bound.iter().any(b => b.1 == renamed) {
-    renamed = renamed + "'"
-  }
-  renamed
 }
 
 ///|
@@ -238,7 +202,7 @@ fn resolve_names(
       let mut bound = bound
       while b is Absp(v, body) {
         let n = binder_name(v)
-        let renamed = binder_rename(n, binders, bound)
+        let renamed = binder_rename(n)
         vs.push(rename_binder(v, renamed))
         bound = bound.prepend((n, renamed))
         b = body
@@ -300,7 +264,7 @@ fn resolve_names(
     }
     Absp(v, b) => {
       let n = binder_name(v)
-      let renamed = binder_rename(n, b, bound)
+      let renamed = binder_rename(n)
       Absp(
         rename_binder(v, renamed),
         resolve_names(b, bound.prepend((n, renamed))),

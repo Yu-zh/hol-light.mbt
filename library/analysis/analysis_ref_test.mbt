@@ -6632,7 +6632,7 @@ test "Library/analysis matches Library/analysis.ml" {
       #|  (psum : ((Num, Num), (Num) -> Real) -> Real)
       #|  fn { (n, m) => (f : (Num) -> Real) => (sm : (Num, Num, (Num) -> Real) -> Real)(n, m, f) }
       #|  (\226\136\128 f : (Num) -> Real, \226\136\128 n : Num, (sm : (Num, Num, (Num) -> Real) -> Real)(n, 0, f) == real_of_num(0)) && (\226\136\128 f : (Num) -> Real, \226\136\128 m : Num, \226\136\128 n : Num, sm(n, SUC(m), f) == sm(n, m, f) + f(n + m))
-      #|  ?sum. (forall f n. sum(n,0) f = &0) /\\\n         (forall f m n. sum(n,SUC m) f = sum(n,m) f + f(n + m))
+      #|  \226\136\131 sum : ((Num, Num), (Num) -> Real) -> Real, (\226\136\128 f : (Num) -> Real, \226\136\128 n : Num, sum((n, 0), f) == real_of_num(0)) && (\226\136\128 f : (Num) -> Real, \226\136\128 m : Num, \226\136\128 n : Num, sum((n, SUC(m)), f) == sum((n, m), f) + f(n + m))
       #|  sum(((n : Num), 0), (f : (Num) -> Real)) == real_of_num(0) && sum((n, SUC((m : Num))), f) == sum((n, m), f) + f(n + m)
       #|  op_dot_dot((m : Num), m + (n : Num))
       #|  FINITE({(i : Num) | (m : Num) <= i && i < m + (n : Num)}) && {(i : Num) | m <= i && i < m + SUC(n)} == INSERT(m + n, {(i : Num) | m <= i && i < m + n})

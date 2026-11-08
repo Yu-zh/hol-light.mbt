@@ -452,6 +452,23 @@ test "binders named T and F bind variables, as in HOL" {
 }
 
 ///|
+test "a binder named like an interface name shadows it" {
+  ignore(@define.define_)
+  // in its scope the name means the binder, which keeps its name
+  let t = @term_syntax.parse_term("(gcd : Num) => gcd + 1")
+  inspect(@kernel.dest_var(@kernel.dest_abs(t).0).0, content="gcd")
+  inspect(@term_syntax.print_term(t), content="(gcd : Num) => gcd + 1")
+  // printed with a primed name where a constant in its scope is written so
+  let u = @kernel.mk_abs(
+    @kernel.mk_var("gcd", @kernel.bool_ty),
+    @term_syntax.parse_term("gcd((1, 2)) == 1"),
+  )
+  let s = @term_syntax.print_term(u)
+  assert_true(@term_syntax.same_term(@term_syntax.parse_term(s), u))
+  inspect(s, content="(gcd' : Bool) => gcd((1, 2)) == 1")
+}
+
+///|
 test "binders named T and F: comprehensions and patterns" {
   // the comprehension under a binder named T keeps its listed binders
   let t = @term_syntax.parse_term(
