@@ -6,6 +6,7 @@ import {
   "bobzhang/hol_light/drule",
   "bobzhang/hol_light/equal",
   "bobzhang/hol_light/kernel",
+  "bobzhang/hol_light/term_syntax",
   "bobzhang/hol_light/library/words",
   "bobzhang/hol_light/nums",
   "bobzhang/hol_light/parser",

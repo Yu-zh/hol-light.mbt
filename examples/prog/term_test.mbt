@@ -7,14 +7,14 @@ fn check_program_terms() -> Unit raise {
       @kernel.mk_var(word, @kernel.bool_ty),
     )
   }
-  let predicate = @parser.parse_term("\\x:num. x = 0")
-  let skip = @parser.parse_term("SKIP:num command")
+  let predicate = @term_syntax.parse_term("(x : Num) => x == 0")
+  let skip = @term_syntax.parse_term("(SKIP : Command[Num])")
   let built = @basics.list_mk_icomb(
     "correct",
     @list.List([predicate, skip, predicate]),
   )
-  let quoted = @parser.parse_term(
-    "correct (\\x:num. x = 0) SKIP (\\x:num. x = 0)",
+  let quoted = @term_syntax.parse_term(
+    "correct((x : Num) => x == 0, SKIP, (x : Num) => x == 0)",
   )
   assert_eq(built, quoted)
   let rule = @bool.ispecl(
@@ -28,13 +28,13 @@ fn check_program_terms() -> Unit raise {
   let proof = @bool.mp(rule, @prog.pred_taut(implication))
   assert_eq(@kernel.concl(proof), quoted)
   assert_true(@kernel.hyp(proof).is_empty())
-  let update = @parser.parse_term("\\x:num. x + 1")
+  let update = @term_syntax.parse_term("(x : Num) => x + 1")
   let assign = @basics.list_mk_icomb("Assign", @list.List([update]))
-  assert_eq(assign, @parser.parse_term("Assign (\\x:num. x + 1)"))
+  assert_eq(assign, @term_syntax.parse_term("Assign((x : Num) => x + 1)"))
   let sequence = @basics.list_mk_icomb("Seq", @list.List([assign, skip]))
   assert_eq(
     sequence,
-    @parser.parse_term("Assign (\\x:num. x + 1) Seq (SKIP:num command)"),
+    @term_syntax.parse_term("Seq(Assign((x : Num) => x + 1), SKIP)"),
   )
   assert_eq(@parser.parse_term(@printer.string_of_term(sequence)), sequence)
   assert_true(@kernel.hyp(@prog.example_factorial()).is_empty())

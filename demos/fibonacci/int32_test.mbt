@@ -29,31 +29,26 @@ test "Int32 Fibonacci equivalence includes wrapping overflow" {
   @words.load()
   // Natural-number input; 32-bit results. word_add wraps modulo 2^32.
   let recursive = @define.define_(
-    @parser.parse_term(
-      (
-        #|(fib32_rec 0 = (word 0:32 word)) /\
-        #|(fib32_rec (SUC 0) = word 1) /\
-        #|(forall n. fib32_rec (SUC (SUC n)) = word_add (fib32_rec n) (fib32_rec (SUC n)))
-      ),
+    @term_syntax.parse_term(
+      "(fib32_rec : (Num) -> Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]])(0) == word(0) && fib32_rec(SUC(0)) == word(1) && (∀ n : Num, fib32_rec(SUC(SUC(n))) == word_add(fib32_rec(n), fib32_rec(SUC(n))))",
     ),
   )
   // n loop iterations, with state (a, b) and simultaneous update (b, a + b).
   let loop_def = @recursion.new_recursive_definition(@nums.num_recursion())(
-    @parser.parse_term(
-      (
-        #|(forall a b:32 word. fib32_loop 0 a b = a) /\
-        #|(forall n a b. fib32_loop (SUC n) a b = fib32_loop n b (word_add a b))
-      ),
+    @term_syntax.parse_term(
+      "(∀ a : Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]], ∀ b : Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]], (fib32_loop : (Num, Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]], Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]]) -> Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]])(0, a, b) == a) && (∀ n : Num, ∀ a : Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]], ∀ b : Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]], fib32_loop(SUC(n), a, b) == fib32_loop(n, b, word_add(a, b)))",
     ),
   )
   let iterative = @drule.new_definition(
-    @parser.parse_term("fib32_iter n = fib32_loop n (word 0) (word 1)"),
+    @term_syntax.parse_term(
+      "(fib32_iter : (Num) -> Word[Tybit0[Tybit0[Tybit0[Tybit0[Tybit0[Unit]]]]]])((n : Num)) == fib32_loop(n, word(0), word(1))",
+    ),
   )
   // Generalize the starting index: n more steps from (fib(k), fib(k+1)).
   let recurrence = @bool.conjunct2(@bool.conjunct2(recursive))
   let invariant = @tactics.prove(
-    @parser.parse_term(
-      "forall n k. fib32_loop n (fib32_rec k) (fib32_rec (SUC k)) = fib32_rec (n + k)",
+    @term_syntax.parse_term(
+      "∀ n : Num, ∀ k : Num, fib32_loop(n, fib32_rec(k), fib32_rec(SUC(k))) == fib32_rec(n + k)",
     ),
     @tactics.then_tac(
       @nums.induct_tac,
@@ -62,28 +57,30 @@ test "Int32 Fibonacci equivalence includes wrapping overflow" {
       ),
     ),
   )
-  let n = @parser.parse_term("n:num")
+  let n = @term_syntax.parse_term("(n : Num)")
   let at_zero = @simp.rewrite_rule(
     @list.List([recursive, @arith.add_clauses()]),
   )(
     @bool.gen(
       n,
-      @bool.specl(@list.List([n, @parser.parse_term("0")]), invariant),
+      @bool.specl(@list.List([n, @term_syntax.parse_term("0")]), invariant),
     ),
   )
   let equivalence = @tactics.prove(
-    @parser.parse_term("forall n. fib32_iter n = fib32_rec n"),
+    @term_syntax.parse_term("∀ n : Num, fib32_iter(n) == fib32_rec(n)"),
     @simp.rewrite_tac(@list.List([iterative, at_zero])),
   )
   assert_true(@kernel.hyp(invariant).is_empty())
   assert_true(@kernel.hyp(equivalence).is_empty())
   assert_eq(
     @kernel.concl(equivalence),
-    @parser.parse_term("forall n. fib32_iter n = fib32_rec n"),
+    @term_syntax.parse_term("∀ n : Num, fib32_iter(n) == fib32_rec(n)"),
   )
   // ival interprets the very same bits as a signed two's-complement integer.
   let signed_equivalence = @tactics.prove(
-    @parser.parse_term("forall n. ival (fib32_iter n) = ival (fib32_rec n)"),
+    @term_syntax.parse_term(
+      "∀ n : Num, ival(fib32_iter(n)) == ival(fib32_rec(n))",
+    ),
     @simp.rewrite_tac(@list.List([equivalence])),
   )
   assert_true(@kernel.hyp(signed_equivalence).is_empty())
@@ -97,7 +94,10 @@ test "Int32 Fibonacci equivalence includes wrapping overflow" {
     ),
   ]
   for i in 2..<101 {
-    let step = @bool.spec(@parser.parse_term((i - 2).to_string()), recurrence)
+    let step = @bool.spec(
+      @term_syntax.parse_term((i - 2).to_string()),
+      recurrence,
+    )
     let indices = @equal.conv_rule(@calc_num.num_reduce_conv, step)
     let unfolded = @simp.rewrite_rule(
       @list.List([values[i - 2], values[i - 1]]),
@@ -107,13 +107,13 @@ test "Int32 Fibonacci equivalence includes wrapping overflow" {
   for i in 0..<101 {
     let result = fib_int32_iterative(i)
     let signed_literal = if result < 0 {
-      "-- &" + (-result.to_int64()).to_string()
+      "-int_of_num(" + (-result.to_int64()).to_string() + ")"
     } else {
-      "&" + result.to_string()
+      "int_of_num(" + result.to_string() + ")"
     }
     let concrete = @tactics.prove(
-      @parser.parse_term(
-        "ival (fib32_iter " + i.to_string() + ") = " + signed_literal,
+      @term_syntax.parse_term(
+        "ival(fib32_iter(" + i.to_string() + ")) == " + signed_literal,
       ),
       @tactics.then_tac(
         @simp.rewrite_tac(@list.List([equivalence, values[i]])),
