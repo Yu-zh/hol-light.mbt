@@ -169,7 +169,7 @@ pub fn[TA] drop_(x18 : Int64, x19 : @list.List[TA]) -> @list.List[TA] raise {
 /// `lp_prover`
 pub fn lp_prover(x20 : @list.List[@lib.Func[@kernel.Term, @num.Num]], x21 : @list.List[@lib.Func[@kernel.Term, @num.Num]], x22 : @list.List[@lib.Func[@kernel.Term, @num.Num]]) -> @realarith.Positivstellensatz raise {
   let (eq, le, lt) = (x20, x21, x22)
-  let one_tm = @parser.parse_term("&1:real")
+  let one_tm = @term_syntax.parse_term("real_of_num(1)")
   let vars = @lib.subtract(@lib.itlist(fn(x26 : @lib.Func[@kernel.Term, @num.Num], x27 : @list.List[@kernel.Term]) -> @list.List[@kernel.Term] raise {
     (fn(x23 : @list.List[@kernel.Term]) -> ((@list.List[@kernel.Term]) -> @list.List[@kernel.Term] raise) raise {
       fn(x24 : @list.List[@kernel.Term]) -> @list.List[@kernel.Term] raise {
