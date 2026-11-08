@@ -1327,7 +1327,7 @@ pub fn match_mp_th(x296 : @kernel.Thm, x297 : Int64, x298 : @kernel.Thm) -> @ker
           if (n_1 <= 1L) {
             let th1 = @drule.instantiate_all(ii, th0)
             let th2 = @bool.prove_hyp(th, th1)
-            let list0 = head.concat(t.prepend(("undisch", @parser.parse_term("T"))))
+            let list0 = head.concat(t.prepend(("undisch", @term_syntax.parse_term("true"))))
             let f_vars = @kernel.frees(tm0)
             let list1 = @lib.filter(fn(x302 : (String, @kernel.Term)) -> Bool raise {
               let (s, tm_1) = x302
