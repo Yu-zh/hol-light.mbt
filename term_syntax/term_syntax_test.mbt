@@ -157,4 +157,10 @@ test "type abbreviations" {
   // a type variable named like the abbreviation would read as it
   let v = @kernel.mk_vartype("Zz_pair")
   assert_true((try Some(@term_syntax.print_type(v)) catch { _ => None }) is None)
+  // Unit is HOL's 1 before any abbreviation named unit, in both directions
+  @preterm.new_type_abbrev("unit", @kernel.bool_ty)
+  defer @preterm.remove_type_abbrev("unit")
+  let one = @kernel.mk_type("1", @list.List([]))
+  assert_eq(ty("Unit"), one)
+  inspect(@term_syntax.print_type(one), content="Unit")
 }

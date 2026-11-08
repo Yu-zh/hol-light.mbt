@@ -85,11 +85,11 @@ fn lowered(name : String) -> String {
 /// What the type name `s` reads as (the parser's rule, internal/grammar):
 /// Some(type constant), or None for a type variable.
 fn reads_as_type(s : String) -> String? {
-  if @grammar.type_abbreviation(s) is Some(_) {
+  if s == "Unit" && !is_type_constant("unit") {
+    Some("1")
+  } else if @grammar.type_abbreviation(s) is Some(_) {
     // an abbreviation, which names neither a constant nor a variable
     Some("")
-  } else if s == "Unit" && !is_type_constant("unit") {
-    Some("1")
   } else if is_type_constant(lowered(s)) {
     Some(lowered(s))
   } else if is_type_constant(s) {
