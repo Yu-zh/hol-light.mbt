@@ -1167,7 +1167,7 @@ pub fn generalize_heuristic_aderhold(x239 : @kernel.Term, x240 : Bool) -> ((@lis
         fn(x242 : @kernel.Thm) -> @kernel.Thm raise {
           let th = x242
           let rest = @basics.dest_disj(@kernel.concl(th)).1
-          let t243 = @equal.ap_thm(@equal.ap_term(@parser.parse_term("(\\/)"), lemma), rest)
+          let t243 = @equal.ap_thm(@equal.ap_term(@term_syntax.parse_term("op_bslash_slash"), lemma), rest)
           @kernel.eq_mp(@equal.conv_rule(@equal.rand_conv(@simp.rewr_conv(@rewrite_rules.f_or())), t243), th)
         }
       }
@@ -1243,7 +1243,7 @@ pub fn generalize_heuristic_ext(x256 : @kernel.Term, x257 : Bool) -> ((@list.Lis
         fn(x259 : @kernel.Thm) -> @kernel.Thm raise {
           let th = x259
           let rest = @basics.dest_disj(@kernel.concl(th)).1
-          let t260 = @equal.ap_thm(@equal.ap_term(@parser.parse_term("(\\/)"), lemma), rest)
+          let t260 = @equal.ap_thm(@equal.ap_term(@term_syntax.parse_term("op_bslash_slash"), lemma), rest)
           @kernel.eq_mp(@equal.conv_rule(@equal.rand_conv(@simp.rewr_conv(@rewrite_rules.f_or())), t260), th)
         }
       }
