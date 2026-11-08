@@ -8397,9 +8397,9 @@ fn step_83() -> Unit raise {
     })(((x6011 : @kernel.Thm) => @lib.check(fn(x6008 : @kernel.Thm) -> Bool raise {
       let th_2 = x6008
       let t6009 = @kernel.concl(th_2)
-      if @basics.free_in(@parser.parse_term("g:A->real"), t6009) {
+      if @basics.free_in(@term_syntax.parse_term("(g : (A) -> Real)"), t6009) {
         let t6010 = @kernel.concl(th_2)
-        !@basics.free_in(@parser.parse_term("f:A->real"), t6010)
+        !@basics.free_in(@term_syntax.parse_term("(f : (A) -> Real)"), t6010)
       } else {
         false
       }
