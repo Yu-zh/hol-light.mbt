@@ -47,6 +47,21 @@ fn is_ident_char(c : Char) -> Bool {
 }
 
 ///|
+/// Whether `name` between backticks lexes as a verbatim name (`'a`, `num`).
+fn lexes_verbatim(name : String) -> Bool {
+  let cs = name.to_array()
+  let mut i = if cs is ['\'', ..] { 1 } else { 0 }
+  guard i < cs.length() && cs[i] is ('a'..='z' | 'A'..='Z') else { return false }
+  while i < cs.length() && is_ident_char(cs[i]) {
+    i += 1
+  }
+  while i < cs.length() && cs[i] == '\'' {
+    i += 1
+  }
+  i == cs.length()
+}
+
+///|
 /// Whether `name` lexes as one identifier (with optional trailing primes)
 /// that is not a keyword.
 fn is_ident(name : String) -> Bool {
@@ -87,6 +102,9 @@ fn lowered(name : String) -> String {
 fn reads_as_type(s : String) -> String? {
   if s == "Unit" && !is_type_constant("unit") {
     Some("1")
+  } else if @grammar.defines_type(s) {
+    // a type being defined, which names neither a constant nor a variable
+    Some("")
   } else if @grammar.type_abbreviation(s) is Some(_) {
     // an abbreviation, which names neither a constant nor a variable
     Some("")
@@ -109,7 +127,9 @@ fn type_name(name : String) -> String raise Unprintable {
   }
   // the name verbatim between backticks, as `List` for a type HOL calls List
   // beside list
-  if is_ident(name) && name.to_array()[0] is ('A'..='Z' | 'a'..='z') {
+  if is_ident(name) &&
+    name.to_array()[0] is ('A'..='Z' | 'a'..='z') &&
+    !@grammar.defines_type("`" + name + "`") {
     return "`" + name + "`"
   }
   raise Unprintable("type constant " + name)
@@ -151,6 +171,12 @@ fn print_type_at(ty : @kernel.HolType, simple : Bool) -> String raise Unprintabl
         is_ident(name) &&
         reads_as_type(name) is None {
         name
+      } else if lexes_verbatim(name) &&
+        (try @kernel.get_type_arity(name) catch { _ => -1L }) < 0L &&
+        !@grammar.defines_type("`" + name + "`") {
+        // between backticks, a name no type constant has reads as the
+        // type variable: `num` before num is defined, `'a`
+        "`" + name + "`"
       } else {
         raise Unprintable("type variable " + name)
       }

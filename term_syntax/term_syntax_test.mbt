@@ -236,6 +236,14 @@ test "verbatim type names" {
   let a = @kernel.mk_vartype("'a")
   assert_eq(ty("`'a`"), a)
   assert_eq(ty("List[`'a`]"), @kernel.mk_type("list", @list.List([a])))
+  inspect(@term_syntax.print_type(a), content="`'a`")
+  // so is one named as a type constant is before it is defined, though
+  // not once it is
+  let zz_u = @kernel.mk_vartype("zz_u")
+  inspect(@term_syntax.print_type(zz_u), content="`zz_u`")
+  assert_eq(ty("`zz_u`"), zz_u)
+  let zz_v = @kernel.mk_vartype("zz_v")
+  assert_true((try Some(@term_syntax.print_type(zz_v)) catch { _ => None }) is None)
   // and an enum defining one, whose constructors refer to it so; a
   // constructor named like a keyword is written so too
   let zz_w = @kernel.mk_vartype("Zz_w")
@@ -254,9 +262,11 @@ test "type abbreviations" {
   let ty = @term_syntax.parse_type
   assert_eq(ty("(Zz_pair) -> Bool"), @parser.parse_type("A#num->bool"))
   assert_true((try Some(ty("Zz_pair[Num]")) catch { _ => None }) is None)
-  // a type variable named like the abbreviation would read as it
+  // a type variable named like the abbreviation would read as it, so is
+  // written verbatim
   let v = @kernel.mk_vartype("Zz_pair")
-  assert_true((try Some(@term_syntax.print_type(v)) catch { _ => None }) is None)
+  inspect(@term_syntax.print_type(v), content="`Zz_pair`")
+  assert_eq(ty("`Zz_pair`"), v)
   // Unit is HOL's 1 before any abbreviation named unit, in both directions
   @preterm.new_type_abbrev("unit", @kernel.bool_ty)
   defer @preterm.remove_type_abbrev("unit")

@@ -76,12 +76,14 @@ fn round(t : @kernel.Term) -> String raise {
 ///|
 test "spellings that would read back as something else" {
   let num = @kernel.mk_type("num", @list.List([]))
-  // a type variable named like a type is not written as that type
+  // a type variable named like a type is not written as that type, but
+  // verbatim
   let unit_var = @kernel.mk_vartype("Unit")
   let r = try @term_syntax.print_type(unit_var) catch {
     @term_syntax.Unprintable(_) => "unprintable"
   }
-  inspect(r, content="unprintable")
+  inspect(r, content="`Unit`")
+  assert_eq(@term_syntax.parse_type(r), unit_var)
   // nor is an invented one, which a hole would not bring back
   let invented = @kernel.mk_vartype("?123")
   let endo = @basics.mk_fun_ty(invented, invented)

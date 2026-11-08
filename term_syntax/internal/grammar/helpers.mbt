@@ -228,6 +228,13 @@ pub fn[T] with_defined_types(
 }
 
 ///|
+/// Whether the type `spelling` names (`Tree`, or `` `Term` `` between
+/// backticks) is being defined, so reads as no other.
+pub fn defines_type(spelling : String) -> Bool {
+  defining.val.contains(spelling)
+}
+
+///|
 /// The type variable a type being defined reads as, which no type written
 /// in the syntax is and, numbered by its call, no abbreviation holds:
 /// `enum Tree 3` for the one `enum Tree` defines.

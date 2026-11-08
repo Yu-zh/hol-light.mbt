@@ -11,6 +11,8 @@ import {
 // Values
 pub let clause_mark : String
 
+pub fn defines_type(String) -> Bool
+
 pub fn escape(String) -> String?
 
 pub let generated_mark : String
