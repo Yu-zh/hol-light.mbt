@@ -15506,7 +15506,7 @@ test "Tutorial/Number_theory matches Tutorial/Number_theory.ml" {
       #|0..0..2..4..8..13..24..37..50..67..92..117..163..219..275..366..solved at 443
       #|0..0..2..6..12..19..32..55..80..119..204..295..450..705..1029..1496..2305..3279..solved at 3641
       #|0..0..2..6..12..19..32..55..80..119..204..295..450..705..1029..1496..2305..3279..solved at 3624
-      #|Tutorial/Number_theory quotations (50):
+      #|Tutorial/Number_theory quotations (46):
       #|  prime(EXP(2, EXP(2, (x : Num))) + 1)
       #|  (x : Num)
       #|  prime(EXP(2, EXP(2, (x : Num))) + 1)
@@ -15519,16 +15519,12 @@ test "Tutorial/Number_theory matches Tutorial/Number_theory.ml" {
       #|  (x : Num)
       #|  prime(EXP(2, EXP(2, (x : Num))) + 1)
       #|  (x : Num)
-      #|  [641, 1; 6700417, 1]
       #|  prime(EXP(2, EXP(2, (x : Num))) + 1)
       #|  (x : Num)
-      #|  [274177, 1; 67280421310721, 1]
       #|  prime(EXP(2, EXP(2, (x : Num))) + 1)
       #|  (x : Num)
-      #|  [59649589127497217, 1; 5704689200685129054721, 1]
       #|  prime(EXP(2, EXP(2, (x : Num))) + 1)
       #|  (x : Num)
-      #|  [1238926361552897, 1; 93461639715357977769163558199606896584051237541638188580280321, 1]
       #|  \226\136\128 x : Num, \226\136\128 y : Num, divides((n : Num), x) && divides(n, y) \226\134\146 op_eq_eq(x, y, mod(n))
       #|  op_eq_eq(EXP(9, 8), 9, mod(3))
       #|  op_eq_eq(EXP(9, 3), 9, mod(3))

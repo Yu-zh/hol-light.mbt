@@ -363,9 +363,8 @@ pub fn gcd_conv(x91 : @kernel.Term, x92 : @kernel.Term) -> @kernel.Thm raise {
   let t96 = @tactics.exists_tac(@nums.mk_numeral(s1))
   let t95 = @tactics.exists_tac(@nums.mk_numeral(r1))
   let t101 = @tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.then_tac(@tactics.match_mp_tac(gcd_certificate()), t95), t96), t97), t98), t99), t100), @int.arith_tac)
-  let t93 = (" = " + @num.string_of_num(g))
-  let t94 = (" " + (@num.string_of_num(b_1) + t93))
-  @tactics_refine.prove(@parser.parse_term(("GCD " + (@num.string_of_num(a_1) + t94))), t101)
+  let t94 = ", " + @num.string_of_num(b_1) + ") == " + @num.string_of_num(g)
+  @tactics_refine.prove(@term_syntax.parse_term("GCD(" + @num.string_of_num(a_1) + t94), t101)
 }
 
 ///|
@@ -408,7 +407,7 @@ pub fn test_num_ext_gcd(x105 : Int64, x106 : Int64) -> Unit raise {
   if !@list.List::is_empty(@kernel.hyp(th)) {
     raise Failure(("num_ext_gcd test suite failure " + (a1 + (" " + b1))))
   } else {
-    let t108 = @parser.parse_term(("GCD " + (a1 + (" " + (b1 + ("=" + c1))))))
+    let t108 = @term_syntax.parse_term("GCD(" + a1 + ", " + b1 + ") == " + c1)
     if !((@kernel.concl(th) == t108)) {
       raise Failure(("num_ext_gcd test suite failure " + (a1 + (" " + b1))))
     } else {

@@ -5804,30 +5804,30 @@ Jordan/num_ext_gcd quotations (53):
   DIVIDE((y : Num), (a : Num)) && DIVIDE(y, (b : Num)) && (\226\136\128 h : Num, DIVIDE(h, a) && DIVIDE(h, b) \226\134\146 DIVIDE(h, y))
   DIVIDE((h : Num), (r : Num) * (a : Num) + (s : Num) * (b : Num)) && DIVIDE(h, (r' : Num) * a + (s' : Num) * b)
   \226\136\128 a : Num, \226\136\128 b : Num, \226\136\128 g : Num, (\226\136\131 r : Num, \226\136\131 s : Num, \226\136\131 r' : Num, \226\136\131 s' : Num, \226\136\131 a' : Num, \226\136\131 b' : Num, a == a' * g && b == b' * g && g + (r' * a + s' * b) == r * a + s * b) \226\134\146 GCD(a, b) == g
-  GCD 0 0 = 0
-  GCD 0 0=0
-  GCD 0 1 = 1
-  GCD 0 1=1
-  GCD 1 0 = 1
-  GCD 1 0=1
-  GCD 0 0 = 0
-  GCD 0 0=0
-  GCD 2 3 = 1
-  GCD 2 3=1
-  GCD 4 6 = 2
-  GCD 4 6=2
-  GCD 0 2 = 2
-  GCD 0 2=2
-  GCD 2 0 = 2
-  GCD 2 0=2
-  GCD 10 100 = 10
-  GCD 10 100=10
-  GCD 100 10 = 10
-  GCD 100 10=10
-  GCD 17 100 = 1
-  GCD 17 100=1
-  GCD 100 17 = 1
-  GCD 100 17=1
+  GCD(0, 0) == 0
+  GCD(0, 0) == 0
+  GCD(0, 1) == 1
+  GCD(0, 1) == 1
+  GCD(1, 0) == 1
+  GCD(1, 0) == 1
+  GCD(0, 0) == 0
+  GCD(0, 0) == 0
+  GCD(2, 3) == 1
+  GCD(2, 3) == 1
+  GCD(4, 6) == 2
+  GCD(4, 6) == 2
+  GCD(0, 2) == 2
+  GCD(0, 2) == 2
+  GCD(2, 0) == 2
+  GCD(2, 0) == 2
+  GCD(10, 100) == 10
+  GCD(10, 100) == 10
+  GCD(100, 10) == 10
+  GCD(100, 10) == 10
+  GCD(17, 100) == 1
+  GCD(17, 100) == 1
+  GCD(100, 17) == 1
+  GCD(100, 17) == 1
 DIVIDE =  |- (#forall:fun(fun(num,bool),bool) (\b:num. (#forall:fun(fun(num,bool),bool) (\a:num. ((#=:fun(bool,fun(bool,bool)) ((#DIVIDE:fun(num,fun(num,bool)) a:num) b:num)) (#?:fun(fun(num,bool),bool) (\m:num. ((#=:fun(num,fun(num,bool)) b:num) ((#*:fun(num,fun(num,num)) m:num) a:num)))))))))
 DIVIDE_DIVIDE =  |- (#forall:fun(fun(num,bool),bool) (\a:num. (#forall:fun(fun(num,bool),bool) (\b:num. (#forall:fun(fun(num,bool),bool) (\c:num. ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) ((#DIVIDE:fun(num,fun(num,bool)) a:num) b:num)) ((#DIVIDE:fun(num,fun(num,bool)) b:num) c:num))) ((#DIVIDE:fun(num,fun(num,bool)) a:num) c:num))))))))
 DIVIDE_EQ =  |- (#forall:fun(fun(num,bool),bool) (\a:num. (#forall:fun(fun(num,bool),bool) (\b:num. ((#==>:fun(bool,fun(bool,bool)) ((#/\:fun(bool,fun(bool,bool)) ((#DIVIDE:fun(num,fun(num,bool)) a:num) b:num)) ((#DIVIDE:fun(num,fun(num,bool)) b:num) a:num))) ((#=:fun(num,fun(num,bool)) a:num) b:num))))))

@@ -1679,7 +1679,7 @@ pub fn spec0(x374 : @list.List[String], x375 : @list.List[(String, @kernel.Term)
     try {
       (@lib.assoc(name, vars), true)
     } catch {
-      Failure(_) => (@parser.parse_term(name), false)
+      Failure(_) => (@term_syntax.parse_term(name), false)
       e => raise e
     }
   }

@@ -25649,18 +25649,19 @@ fn step_204() -> Unit raise {
     let l0_p = @lib.rev(l0)
     let l1 = @lib.chop_list(@lib.index("]", l0_p), l0_p).1
     let l2 = @lib.rev(@lib.chop_list(@lib.index("[", l1), l1).0).prepend("[")
-    let tm = @parser.parse_term(@lib.implode(l2))
-    @lib.map(
-      fn(x2701 : @kernel.Term) -> (@num.Num, @num.Num) raise {
-        (fn(
-          x2699 : (@kernel.Term, @kernel.Term),
-        ) -> (@num.Num, @num.Num) raise {
-          let t2700 = @basics.dest_numeral(x2699.1)
-          (@basics.dest_numeral(x2699.0), t2700)
-        })(@pair.dest_pair(x2701))
-      },
-      @basics.dest_list(tm),
-    )
+    // GP prints the factorisation as a matrix `[p1, e1; p2, e2; ...]`: read
+    // the numbers off in order and pair them up.
+    let nums : Array[@num.Num] = []
+    let mut digits = ""
+    for c in @lib.implode(l2) {
+      if c >= '0' && c <= '9' {
+        digits = digits + c.to_string()
+      } else if digits != "" {
+        nums.push(@num.num_of_string(digits))
+        digits = ""
+      }
+    }
+    @list.List(Array::makei(nums.length() / 2, i => (nums[2 * i], nums[2 * i + 1])))
   }
   factor_c.set(fn(x2702 : @num.Num) -> @list.List[(@num.Num, @num.Num)] raise {
     let n = x2702

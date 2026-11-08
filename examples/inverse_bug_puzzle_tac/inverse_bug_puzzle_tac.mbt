@@ -90,7 +90,7 @@ pub fn consider(x14 : String, x15 : @kernel.Term, x16 : @list.List[((@list.List[
   }
   let n_1 = findsuchthat(1L)
   let vars = @lib.string_sub(vars_suchthat, 0, @lib.int63_to_int(@lib.sub63(n_1, 1L)))
-  let xl = @lib.map(@parser.parse_term, (fn(x23 : String) -> @list.List[String] raise {
+  let xl = @lib.map(@term_syntax.parse_term, (fn(x23 : String) -> @list.List[String] raise {
     (fn(x22 : ArrayView[@lexer.Lexcode]) -> @list.List[String] raise {
       (fn(x21 : (@list.List[String], ArrayView[@lexer.Lexcode])) -> @list.List[String] raise {
         x21.0
