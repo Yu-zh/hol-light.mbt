@@ -559,37 +559,96 @@ fn typify(
 }
 
 ///|
-/// Resolve overloadings, continuation-passing so that `tryfind` can
-/// backtrack over the interface choices.
-fn resolve_interface(
-  ptm : Preterm,
-  cont : (Env) -> Env raise,
-  env : Env,
-) -> Env raise {
-  match ptm {
-    Combp(f, x) => resolve_interface(f, e => resolve_interface(x, cont, e), env)
-    Absp(v, bod) =>
-      resolve_interface(v, e => resolve_interface(bod, cont, e), env)
-    Varp(_) => cont(env)
-    Constp(s, ty) => {
-      let maps = @lib.filter(
-        (e : (String, (String, HolType))) => e.0 == s,
-        @printer.the_interface.val,
-      )
-      if maps.is_empty() {
-        cont(env)
-      } else {
-        @lib.tryfind(
-          (m : (String, (String, HolType))) => {
-            let ty1 = pretype_instance(m.1.1)
-            cont(unify(Some(ptm), env, ty1, ty))
-          },
-          maps,
+/// Resolve overloadings: the first choice of a meaning for each overloaded
+/// name, in the order the walk meets them (function before argument,
+/// binder before body), under which every choice's type unifies.
+///
+/// preterm.ml does this continuation-passing, `tryfind` at each overloaded
+/// name calling the rest of the walk. That needs OCaml's tail calls, which
+/// MoonBit's wasm backends do not make through closures: ported as it was,
+/// it took a stack frame per node of the term and overflowed the wasm stack
+/// on large terms (a 3000-character statement in a debug build). Here the
+/// walk is a loop that lists the overloaded names, and the search over
+/// their choices keeps its own stack. The order of the calls is the same, `pretype_instance` and
+/// `unify` included (`pretype_instance` numbers fresh type variables), and
+/// so is every result and error: a choice is abandoned on `Failure` only,
+/// and when the first name's choices run out the search fails as the
+/// outermost `tryfind` would.
+fn resolve_interface(ptm : Preterm, env : Env) -> Env raise {
+  // the overloaded names, with the meanings to try for each; the walk
+  // stops at a `Typing` node, which the search reports once it gets there
+  let points : Array[(Preterm, Pretype, List[(String, (String, HolType))])] = []
+  let mut typing = false
+  let todo = [ptm]
+  while todo.pop() is Some(t) {
+    match t {
+      Combp(f, x) => {
+        todo.push(x)
+        todo.push(f)
+      }
+      Absp(v, bod) => {
+        todo.push(bod)
+        todo.push(v)
+      }
+      Varp(_) => ()
+      Constp(s, ty) => {
+        let maps = @lib.filter(
+          (e : (String, (String, HolType))) => e.0 == s,
+          @printer.the_interface.val,
         )
+        if !maps.is_empty() {
+          points.push((t, ty, maps))
+        }
+      }
+      Typing(_) => {
+        typing = true
+        break
       }
     }
-    Typing(_) => raise @lib.MatchFailure("preterm.ml: resolve_interface")
   }
+  // depth-first search: envs[i] is the environment before name i, and
+  // left[i] the meanings of name i not tried yet
+  let envs = [env]
+  let left : Array[List[(String, (String, HolType))]] = []
+  let mut i = 0
+  while true {
+    if i == points.length() {
+      if typing {
+        raise @lib.MatchFailure("preterm.ml: resolve_interface")
+      }
+      return envs[i]
+    }
+    if left.length() == i {
+      left.push(points[i].2)
+    }
+    match left[i] {
+      More(m, tail~) => {
+        left[i] = tail
+        let (ptm_i, ty, _) = points[i]
+        let next = try {
+          let ty1 = pretype_instance(m.1.1)
+          Some(unify(Some(ptm_i), envs[i], ty1, ty))
+        } catch {
+          Failure(_) => None
+          e => raise e
+        }
+        if next is Some(e) {
+          envs.push(e)
+          i = i + 1
+        }
+      }
+      Empty => {
+        // every meaning of name i failed: back to the name before it
+        if i == 0 {
+          raise Failure("tryfind")
+        }
+        ignore(left.pop())
+        ignore(envs.pop())
+        i = i - 1
+      }
+    }
+  }
+  envs[i]
 }
 
 ///|
@@ -717,7 +776,7 @@ pub fn retypecheck(
       raise Failure("typechecking error (initial type assignment):" + e)
     e => raise e
   }
-  let env1 = resolve_interface(ptm1, e => e, env) catch {
+  let env1 = resolve_interface(ptm1, env) catch {
     Failure(_) => raise Failure("typechecking error (overload resolution)")
     e => raise e
   }

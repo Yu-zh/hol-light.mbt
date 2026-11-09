@@ -261,6 +261,12 @@ definitions register constants, quotations advance the type-variable and
   `tools/ocaml_ref/parse_cases.txt` (186 outputs: types, terms, structure
   with invented type-variable numbers, `GEN%PVAR` numbering, overloading
   across num/int/real, warnings and error messages, wrapping).
+  Overload resolution (`resolve_interface`) is a loop with its own search
+  stack: preterm.ml's continuation-passing walk relies on OCaml's tail
+  calls, which MoonBit's wasm backends do not make through closures, so
+  ported as it was it took a frame per node of the term and overflowed the
+  default wasm stack on a 3000-character term in a debug build
+  (`preterm/resolve_test.mbt`).
   Phase 3 is complete.
 - [ ] Phase 4: `equal/` is done (conversions as `Conv = (Term) -> Thm raise`
   closures, conversionals, depth conversions with upstream's exact `try`
