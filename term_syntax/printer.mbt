@@ -237,13 +237,6 @@ priv struct Printer {
   overloads : Bool
   // names of every variable of the term, which a renamed binder avoids
   names : Array[String]
-  // write sets as {a, b} and {e | p} (else as INSERT, GSPEC, ...)
-  sets : Bool
-  // the GEN%PVAR binders of the comprehensions written with their binders
-  // listed ({e | x : A | p}) where {e | p} would do, as a quotation may:
-  // HOL's parser reads the element of the two forms a different number of
-  // times (pgen_cost), numbering the comprehensions in it differently
-  listed : Array[String]
   // write a comprehension whose binder is not a GEN%PVAR name as GSPEC(...):
   // set notation reads with a GEN%PVAR binder, renaming it
   exact : Bool
@@ -545,7 +538,7 @@ fn Printer::term(
     Var(_, _) => self.variable(t, bound)
     Const("T", _) => "true"
     Const("F", _) => "false"
-    Const("EMPTY", _) if self.sets => self.annotated("{}", t)
+    Const("EMPTY", _) => self.annotated("{}", t)
     // an operator or binder that is not applied as the syntax spells it is
     // named like any symbolic constant (op_plus, op_tilde, ...)
     Const(_, _) => self.constant(t)
@@ -627,15 +620,15 @@ fn Printer::comb(
       elems.push(self.term(r, EXPR, bound))
       "(" + elems.join(", ") + ")"
     }
-    (Const("INSERT", _), [_, _]) if self.sets && set_elements(t) is Some(items) =>
+    (Const("INSERT", _), [_, _]) if set_elements(t) is Some(items) =>
       "{" + items.map(x => self.term(x, EXPR, bound)).join(", ") + "}"
     // with no binders to list, only the implicit form can write it; a
     // comprehension applied to arguments ({x | P x} y) is written so too
-    (Const("GSPEC", _), [Abs(g, body), ..]) if self.sets &&
-      !(self.exact && !(g is Var(n, _) && pvar_number(n) is Some(_))) &&
+    (Const("GSPEC", _), [Abs(g, body), ..]) if !(self.exact &&
+      !(g is Var(n, _) && pvar_number(n) is Some(_))) &&
       comprehension(g, body) is Some((scoped, p, e)) &&
       (!scoped.is_empty() || implicit_binders(e, p, bound).is_empty()) => {
-      let s = self.comprehension(g, scoped, p, e, bound)
+      let s = self.comprehension(scoped, p, e, bound)
       if args.length() == 1 {
         s
       } else {
@@ -986,20 +979,6 @@ fn implicit_binders(
 }
 
 ///|
-/// A comprehension the printer writes in set notation, with a GEN%PVAR
-/// binder: (its number, its binder's name, e, p, whether {e | p} binds
-/// its binders, whether it has binders to list), as the printer finds it
-/// (with no binder in scope renamed).
-priv struct Notation {
-  number : Int
-  name : String
-  e : @kernel.Term
-  p : @kernel.Term
-  implicit : Bool
-  listable : Bool
-}
-
-///|
 /// n for a GEN%PVAR name `GEN%PVAR%n`.
 fn pvar_number(name : String) -> Int? {
   guard name.strip_prefix("GEN%PVAR%") is Some(digits) &&
@@ -1015,130 +994,10 @@ fn pvar_number(name : String) -> Int? {
 }
 
 ///|
-fn notation(t : @kernel.Term) -> Notation? {
-  guard t is Comb(Const("GSPEC", _), Abs(Var(name, _) as g, body)) &&
-    pvar_number(name) is Some(number) else {
-    return None
-  }
-  guard comprehension(g, body) is Some((scoped, p, e)) else { return None }
-  let xs = scoped.map(x => x.0)
-  let binds = implicit_binders(e, p, @list.List([]))
-  // with no binders to list, only {e | p} can write it, else GSPEC(...)
-  if scoped.is_empty() && !binds.is_empty() {
-    return None
-  }
-  Some({ number, name, e, p, implicit: binds == xs, listable: !xs.is_empty() })
-}
-
-///|
-/// The comprehensions in set notation in `t` not inside another, in the
-/// order of their numbers (the order a reading takes their names in).
-fn outermost_notations(t : @kernel.Term) -> Array[Notation] {
-  let found = []
-  fn go(t : @kernel.Term) {
-    match notation(t) {
-      Some(n) => found.push(n)
-      None =>
-        match t {
-          Comb(f, x) => {
-            go(f)
-            go(x)
-          }
-          Abs(_, b) => go(b)
-          _ => ()
-        }
-    }
-  }
-  go(t)
-  found.sort_by_key(n => n.number)
-  found
-}
-
-///|
-/// The comprehensions to write with their binders listed, where {e | p}
-/// would do, so that reading the printed `t` numbers its GEN%PVAR names as
-/// the quotation's reading did, taking `taken` names: None when none does.
-///
-/// A reading takes its names in order and a comprehension takes its own
-/// last, so the comprehensions of a reading are read from where the one
-/// before ends. {e | p} reads e twice and {e | vs | p} three times
-/// (pgen_cost), the last reading of e ending where p's begins, so for k
-/// earlier readings of e from `start`, start + (k + 1) * f(e) is where the
-/// last ends.
-fn listed_comprehensions(t : @kernel.Term, taken : Int) -> Array[String]? {
-  let outer = outermost_notations(t)
-  if outer.is_empty() {
-    return Some([])
-  }
-  let end = outer[outer.length() - 1].number + 1
-  let listed = []
-  if read_names(t, end - taken, end, listed) {
-    Some(listed)
-  } else {
-    None
-  }
-}
-
-///|
-/// Whether a reading of `t` from `start` to `end` (exclusive) numbers its
-/// comprehensions as they are, adding to `listed` those to list.
-fn read_names(
-  t : @kernel.Term,
-  start : Int,
-  end : Int,
-  listed : Array[String],
-) -> Bool {
-  let mut at = start
-  for n in outermost_notations(t) {
-    if !read_comprehension(n, at, listed) {
-      return false
-    }
-    at = n.number + 1
-  }
-  at == end
-}
-
-///|
-/// Whether the comprehension `n`, read from `start`, is numbered as it is.
-fn read_comprehension(n : Notation, start : Int, listed : Array[String]) -> Bool {
-  let inner = outermost_notations(n.e)
-  if inner.is_empty() {
-    // e takes no names: both forms read p from the start
-    return read_names(n.p, start, n.number, listed)
-  }
-  let e_end = inner[inner.length() - 1].number + 1
-  if !read_names(n.p, e_end, n.number, listed) {
-    return false
-  }
-  let before = listed.length()
-  let forms = match (n.implicit, n.listable) {
-    (true, true) => [1, 2]
-    (true, false) => [1]
-    (false, _) => [2]
-  }
-  for k in forms {
-    if e_end > start && (e_end - start) % (k + 1) == 0 {
-      let size = (e_end - start) / (k + 1)
-      if read_names(n.e, e_end - size, e_end, listed) {
-        if k == 2 && n.implicit {
-          listed.push(n.name)
-        }
-        return true
-      }
-      while listed.length() > before {
-        listed.pop() |> ignore
-      }
-    }
-  }
-  false
-}
-
-///|
 /// `{e | p}` when HOL's rule binds exactly `xs` (in order), else
 /// `{e | x : A, y : B | p}`.
 fn Printer::comprehension(
   self : Printer,
-  g : @kernel.Term,
   scoped : Array[(@kernel.Term, @kernel.Term)],
   p : @kernel.Term,
   e : @kernel.Term,
@@ -1156,9 +1015,7 @@ fn Printer::comprehension(
     binders.push(b)
     inner = next
   }
-  if !renamed &&
-    implicit_binders(e, p, inner) == xs &&
-    !(g is Var(n, _) && self.listed.contains(n)) {
+  if !renamed && implicit_binders(e, p, inner) == xs {
     // each binder is written with its type where it first occurs in e,
     // as {e | p} reads it (a symbolic one spelt op_)
     let inner = op_spelled(inner, xs.length(), [e, p])
@@ -1206,20 +1063,21 @@ fn Printer::comprehension(
 /// `t` in the term syntax: `parse_term(print_term(t))` is `t` again, up to
 /// the names of bound variables and invented type variables (`same_term`).
 pub fn print_term(t : @kernel.Term) -> String raise Unprintable {
-  print_term_with(t, sets=true)
+  print_term_with(t)
 }
 
 ///|
 /// `t` in the term syntax as read in the context `env` (variables with
 /// their types, as `parse_term_in_context` takes): its free variables the
 /// context gives the same type are written without one. With `exact`, the
-/// reading has the same bound variable names, as `spell_quotation` needs.
+/// reading has the same bound variable names, not just the same term up to
+/// renaming them.
 pub fn print_term_in_context(
   env : @list.List[(String, @preterm.Pretype)],
   t : @kernel.Term,
   exact? : Bool = false,
 ) -> String raise Unprintable {
-  let s = print_term_with(t, sets=true, exact~, context=env)
+  let s = print_term_with(t, exact~, context=env)
   // the printed reading is t up to bound variable names: exactly t, but
   // for the names of invented type variables
   if exact {
@@ -1238,8 +1096,6 @@ pub fn print_term_in_context(
 ///|
 fn print_term_with(
   t : @kernel.Term,
-  sets~ : Bool,
-  listed? : Array[String] = [],
   exact? : Bool = false,
   context? : @list.List[(String, @preterm.Pretype)] = @list.List([]),
 ) -> String raise Unprintable {
@@ -1269,8 +1125,6 @@ fn print_term_with(
         all_constants,
         overloads,
         names,
-        sets,
-        listed,
         exact,
         untyped: [],
       }.term(
@@ -1344,141 +1198,6 @@ fn canonical_invented(t : @kernel.Term, from? : Int64 = 0L) -> @kernel.Term {
 /// and of invented type variables (the round trip of `print_term`).
 pub fn same_term(a : @kernel.Term, b : @kernel.Term) -> Bool {
   @basics.aconv(canonical_invented(a), canonical_invented(b))
-}
-
-///|
-/// The spelling of the quotation `old`, which denotes `t`, in the term
-/// syntax: `print_term(t)`, when it reads back as `old` does with nothing
-/// renamed, bound variables included (theorems show them), and takes as
-/// many GEN%PVAR names (both readings start from the same counter), so
-/// that later generated names do not move. Invented type variables may
-/// differ in name. tools/migrate.mbtx migrates only such quotations, so the
-/// theorems of a migrated package print as before.
-pub fn spell_quotation(old : String, t : @kernel.Term) -> String raise Unprintable {
-  // set notation, else the sets as written (GSPEC(...)), which an old
-  // quotation may spell out. A comprehension whose element has one may be
-  // written either way, numbering the GEN%PVAR names in it differently:
-  // the forms the quotation's numbering shows are tried too.
-  // the first form's failure says most (later forms are fallbacks)
-  let mut error : Unprintable? = None
-  let forms = [(true, [])]
-  let taken = try @parser.reread_term(old).1 catch { _ => -1 }
-  if listed_comprehensions(t, taken) is Some(listed) && !listed.is_empty() {
-    forms.push((true, listed))
-  }
-  forms.push((false, []))
-  let tried = []
-  for form in forms {
-    let (sets, listed) = form
-    let s = print_term_with(t, sets~, listed~, exact=true) catch {
-      e => {
-        if error is None { error = Some(e) }
-        continue
-      }
-    }
-    if tried.contains(s) {
-      continue
-    }
-    tried.push(s)
-    check_spelling(old, s) catch {
-      e => {
-        if error is None { error = Some(e) }
-        continue
-      }
-    }
-    return s
-  }
-  raise error.unwrap_or(Unprintable("term"))
-}
-
-///|
-/// Check that the term syntax `s` reads now exactly as the quotation `old`
-/// does: the same term with nothing renamed, bound variables included, and
-/// as many GEN%PVAR names taken (both readings start from the same
-/// counter). Only type variables the readings themselves invent may
-/// differ in name; one invented before (which the environment may share)
-/// must be the same.
-pub fn check_spelling(old : String, s : String) -> Unit raise Unprintable {
-  // under the live interface and the fixed view alike (resolution.mbt)
-  with_resolution(false, () => check_spelling_once(old, s)) catch {
-    Unprintable(_) as e => raise e
-    _ => raise Unprintable("term")
-  }
-  with_resolution(true, () => check_spelling_once(old, s)) catch {
-    Unprintable(m) => raise Unprintable(m + " (names read context-free)")
-    _ => raise Unprintable("term")
-  }
-}
-
-///|
-/// A type, briefly, for a diagnostic (a type variable after a quote).
-fn brief_type(ty : @kernel.HolType) -> String {
-  match ty {
-    Tyvar(n) => "'" + n
-    Tyapp(c, @list.Empty) => c
-    Tyapp(c, args) => c + "(" + args.iter().map(brief_type).join(",") + ")"
-  }
-}
-
-///|
-/// Where the reading `b` of a spelling first departs from the quotation's
-/// reading `a`, for a diagnostic.
-fn difference(a : @kernel.Term, b : @kernel.Term) -> String {
-  match (a, b) {
-    (Var(n, s), Var(m, t)) =>
-      if n != m {
-        "variable \{n} read as \{m}"
-      } else {
-        "variable \{n} : \{brief_type(s)} read with type \{brief_type(t)}"
-      }
-    (Const(n, s), Const(m, t)) =>
-      if n != m {
-        "constant \{n} read as \{m}"
-      } else {
-        "constant \{n} : \{brief_type(s)} read with type \{brief_type(t)}"
-      }
-    (Comb(f, x), Comb(g, y)) => if f != g { difference(f, g) } else { difference(x, y) }
-    (Abs(Var(v, s), x), Abs(Var(w, t), y)) =>
-      if v != w {
-        "bound variable \{v} read as \{w}"
-      } else if s != t {
-        "bound variable \{v} : \{brief_type(s)} read with type \{brief_type(t)}"
-      } else {
-        difference(x, y)
-      }
-    _ => "\{shape(a)} read as \{shape(b)}"
-  }
-}
-
-///|
-fn shape(t : @kernel.Term) -> String {
-  match t {
-    Var(n, _) => "variable " + n
-    Const(n, _) => "constant " + n
-    Comb(_, _) => "application"
-    Abs(_, _) => "abstraction"
-  }
-}
-
-///|
-fn check_spelling_once(old : String, s : String) -> Unit raise Unprintable {
-  let from = @preterm.type_var_counter()
-  let (a, na) = @parser.reread_term(old) catch {
-    _ => raise Unprintable("quotation that does not read back")
-  }
-  let (b, nb) = reread(s) catch {
-    _ => raise Unprintable("term that does not read back")
-  }
-  let ca = canonical_invented(a, from~)
-  let cb = canonical_invented(b, from~)
-  if cb != ca {
-    raise Unprintable("term that reads back differently: " + difference(ca, cb))
-  }
-  if na != nb {
-    raise Unprintable(
-      "term that takes \{nb} GEN%PVAR names where the quotation takes \{na}",
-    )
-  }
 }
 
 ///|

@@ -1,54 +1,61 @@
 ///|
-fn same(new : String, old : String) -> Unit raise {
+/// Check that `new` reads as `spelt` does: the term HOL reads its quotation
+/// as, spelt out (operators applied by name, binders one at a time).
+fn same(new : String, spelt : String) -> Unit raise {
   let t = @term_syntax.parse_term(new)
-  let u = @parser.parse_term(old)
+  let u = @term_syntax.parse_term(spelt)
   if !@basics.aconv(t, u) {
-    fail("\{new} is not \{old}")
+    fail("\{new} is not \{spelt}")
   }
 }
 
 ///|
 test "quantifiers, connectives and their precedence" {
-  same("∀ n : Num, n + 0 == n", "forall n:num. n + 0 = n")
-  same("∀ p : Bool, ∃ q : Bool, p → q", "forall p:bool. ?q:bool. p ==> q")
-  same("∀ x : _, ∀ y : _, x + y == y + x", "forall x y. x + y = y + x")
-  same("∀ x : Num, x == x && true", "forall x:num. x = x /\\ T")
-  same("∀ a : Bool, ∀ b : Bool, ∀ c : Bool, a && b || c", "forall a b c. a /\\ b \\/ c")
-  same("∀ p : _, ∀ q : _, ∀ r : _, p → q → r", "forall p q r. p ==> q ==> r")
-  same("∀ a : _, ∀ b : _, ∀ c : _, ∀ d : Num, a + b * c == d", "forall a b c d. a + b * c = d")
-  same("∀ p : _, ∀ q : _, !p || q", "forall p q. ~p \\/ q")
-  same("∀ x : Num, ∀ y : _, x != y → y != x", "forall x:num y. ~(x = y) ==> ~(y = x)")
-  same("∀ a : Num, ∀ b : _, a - b <= a", "forall a b. a - b <= a")
+  same("∀ n : Num, n + 0 == n", "∀ n : Num, op_eq(op_plus(n, 0), n)")
+  same("∀ p : Bool, ∃ q : Bool, p → q", "∀ p : Bool, ∃ q : Bool, op_eq_eq_gt(p, q)")
+  same("∀ x : _, ∀ y : _, x + y == y + x", "∀ x : Num, ∀ y : Num, op_eq(op_plus(x, y), op_plus(y, x))")
+  same("∀ x : Num, x == x && true", "∀ x : Num, op_slash_bslash(op_eq(x, x), true)")
+  same("∀ a : Bool, ∀ b : Bool, ∀ c : Bool, a && b || c", "∀ a : Bool, ∀ b : Bool, ∀ c : Bool, op_bslash_slash(op_slash_bslash(a, b), c)")
+  same("∀ p : _, ∀ q : _, ∀ r : _, p → q → r", "∀ p : Bool, ∀ q : Bool, ∀ r : Bool, op_eq_eq_gt(p, op_eq_eq_gt(q, r))")
+  same("∀ a : _, ∀ b : _, ∀ c : _, ∀ d : Num, a + b * c == d", "∀ a : Num, ∀ b : Num, ∀ c : Num, ∀ d : Num, op_eq(op_plus(a, op_star(b, c)), d)")
+  same("∀ p : _, ∀ q : _, !p || q", "∀ p : Bool, ∀ q : Bool, op_bslash_slash(op_tilde(p), q)")
+  same("∀ x : Num, ∀ y : _, x != y → y != x", "∀ x : Num, ∀ y : Num, op_eq_eq_gt(op_tilde(op_eq(x, y)), op_tilde(op_eq(y, x)))")
+  same("∀ a : Num, ∀ b : _, a - b <= a", "∀ a : Num, ∀ b : Num, op_lt_eq(op_minus(a, b), a)")
 }
 
 ///|
 test "application, lambdas, conditionals, tuples and lists" {
-  same("∀ n : _, SUC(n) > n", "forall n. SUC n > n")
-  same("(x : Num) => x * 2", "\\x:num. x * 2")
-  same("(x : Num, y : Num) => x + y", "\\x:num y:num. x + y")
-  same("∀ f : (Num, Num) -> Num, ∀ x : _, ∀ y : _, x.f(y) == f(x, y)", "forall f:num->num->num x y. f x y = f x y")
-  same("∀ c : Bool, ∀ a : Num, ∀ b : _, (if c { a } else { b }) <= a + b", "forall c a b. (if c then a else b) <= a + b")
-  same("(1, 2)", "1,2")
-  same("(1, true, 3)", "1,T,3")
-  same("[1, 2, 3]", "[1;2;3]")
+  same("∀ n : _, SUC(n) > n", "∀ n : Num, op_gt(SUC(n), n)")
+  same("(x : Num) => x * 2", "(x : Num) => op_star(x, 2)")
+  same("(x : Num, y : Num) => x + y", "(x : Num) => (y : Num) => op_plus(x, y)")
+  same("∀ f : (Num, Num) -> Num, ∀ x : _, ∀ y : _, x.f(y) == f(x, y)", "∀ f : (Num) -> (Num) -> Num, ∀ x : Num, ∀ y : Num, op_eq(f(x)(y), f(x)(y))")
+  same("∀ c : Bool, ∀ a : Num, ∀ b : _, (if c { a } else { b }) <= a + b", "∀ c : Bool, ∀ a : Num, ∀ b : Num, op_lt_eq(COND(c, a, b), op_plus(a, b))")
+  same("(1, 2)", "op_comma(1, 2)")
+  same("(1, true, 3)", "op_comma(1, op_comma(true, 3))")
+  same("[1, 2, 3]", "CONS(1, CONS(2, CONS(3, NIL)))")
 }
 
 ///|
 test "HOL names: primes and capitalised binders" {
-  same("∀ x' : Num, x' == x'", "forall x':num. x' = x'")
+  same("∀ x' : Num, x' == x'", "∀ x' : Num, op_eq(x', x')")
   // as in MoonBit, a quantifier is not an operand of → without parentheses
-  same("∀ P : (Num) -> Bool, P(0) → (∃ n : _, P(n))", "forall P:num->bool. P 0 ==> ?n. P n")
+  same("∀ P : (Num) -> Bool, P(0) → (∃ n : _, P(n))", "∀ P : (Num) -> Bool, op_eq_eq_gt(P(0), ∃ n : Num, P(n))")
 }
 
 ///|
 test "types" {
   let ty = @term_syntax.parse_type
-  assert_eq(ty("(Num, Bool) -> Bool"), @parser.parse_type("num->bool->bool"))
-  assert_eq(ty("(Num, Bool)"), @parser.parse_type("num#bool"))
-  assert_eq(ty("List[A]"), @parser.parse_type("(A)list"))
-  assert_eq(ty("((A) -> B, A) -> B"), @parser.parse_type("(A->B)->A->B"))
-  assert_eq(ty("List[6]"), @parser.parse_type("(6)list"))
-  assert_eq(ty("1"), @parser.parse_type("1"))
+  let num = @kernel.mk_type("num", @list.List([]))
+  let a = @kernel.mk_vartype("A")
+  let b = @kernel.mk_vartype("B")
+  let arrow = @basics.mk_fun_ty
+  let list = (x : @kernel.HolType) => @kernel.mk_type("list", @list.List([x]))
+  assert_eq(ty("(Num, Bool) -> Bool"), arrow(num, arrow(@kernel.bool_ty, @kernel.bool_ty)))
+  assert_eq(ty("(Num, Bool)"), @kernel.mk_type("prod", @list.List([num, @kernel.bool_ty])))
+  assert_eq(ty("List[A]"), list(a))
+  assert_eq(ty("((A) -> B, A) -> B"), arrow(arrow(a, b), arrow(a, b)))
+  assert_eq(ty("List[6]"), list(ty("6")))
+  assert_eq(ty("1"), @kernel.mk_type("1", @list.List([])))
   assert_true((try Some(ty("0")) catch { _ => None }) is None)
 }
 
@@ -66,12 +73,12 @@ test "syntax errors name the offset" {
 ///|
 test "binders cannot capture what the syntax stands for" {
   // true is the constant T even under a binder named T
-  same("(T : Bool) => true", "\\x:bool. T")
-  same("(T : Bool) => T", "\\x:bool. x")
-  same("(NIL : Num) => [NIL]", "\\x:num. [x]")
+  same("(T : Bool) => true", "(x : Bool) => true")
+  same("(T : Bool) => T", "(x : Bool) => x")
+  same("(NIL : Num) => [NIL]", "(x : Num) => CONS(x, NIL)")
   // a binder named like a constant or an interface name binds its uses
-  same("(SUC : Num) => SUC", "\\x:num. x")
-  same("(exists : Num) => exists", "\\x:num. x")
+  same("(SUC : Num) => SUC", "(x : Num) => x")
+  same("(exists : Num) => exists", "(x : Num) => x")
 }
 
 ///|
@@ -113,14 +120,14 @@ test "names with a semicolon are escaped" {
 
 ///|
 test "an overload declared before its constant reads as the constant once defined" {
-  @preterm.make_overloadable("zz_ovl", @parser.parse_type("A->A"))
+  @preterm.make_overloadable("zz_ovl", @term_syntax.parse_type("(A) -> A"))
   @preterm.overload_interface(
     "zz_ovl",
     @term_syntax.parse_term("(zz_ovl_num : (Num) -> Num)"),
   )
   // a read before the definition must not fix the view without the overload
   ignore(@term_syntax.parse_term("(0 : Num)"))
-  @kernel.new_constant("zz_ovl_num", @parser.parse_type("num->num"))
+  @kernel.new_constant("zz_ovl_num", @term_syntax.parse_type("(Num) -> Num"))
   let t = @term_syntax.parse_term("zz_ovl((0 : Num))")
   assert_true(@kernel.is_const(@kernel.rator(t)))
 }
@@ -239,12 +246,16 @@ test "an enum's own types read before other names" {
     ]),
   )
   // nor is a type variable an abbreviation stands for
-  @preterm.new_type_abbrev("zz_ab", @parser.parse_type("A#num"))
+  let a_num = @kernel.mk_type(
+    "prod",
+    @list.List([@kernel.mk_vartype("A"), @kernel.mk_type("num", @list.List([]))]),
+  )
+  @preterm.new_type_abbrev("zz_ab", a_num)
   defer @preterm.remove_type_abbrev("zz_ab")
   let a = @kernel.mk_vartype("a")
   assert_eq(
     @term_syntax.parse_type_definition("enum A { Mk(Zz_ab, A) }"),
-    @list.List([(a, @list.List([("Mk", @list.List([@parser.parse_type("A#num"), a]))]))]),
+    @list.List([(a, @list.List([("Mk", @list.List([a_num, a]))]))]),
   )
   // even one named as the syntax names a type being defined
   let enum_a = @kernel.mk_vartype("enum A")
@@ -293,10 +304,14 @@ test "verbatim type names" {
 
 ///|
 test "type abbreviations" {
-  @preterm.new_type_abbrev("zz_pair", @parser.parse_type("A#num"))
+  let a_num = @kernel.mk_type(
+    "prod",
+    @list.List([@kernel.mk_vartype("A"), @kernel.mk_type("num", @list.List([]))]),
+  )
+  @preterm.new_type_abbrev("zz_pair", a_num)
   defer @preterm.remove_type_abbrev("zz_pair")
   let ty = @term_syntax.parse_type
-  assert_eq(ty("(Zz_pair) -> Bool"), @parser.parse_type("A#num->bool"))
+  assert_eq(ty("(Zz_pair) -> Bool"), @basics.mk_fun_ty(a_num, @kernel.bool_ty))
   assert_true((try Some(ty("Zz_pair[Num]")) catch { _ => None }) is None)
   // a type variable named like the abbreviation would read as it, so is
   // written verbatim
