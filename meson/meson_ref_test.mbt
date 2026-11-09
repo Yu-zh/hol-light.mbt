@@ -14,29 +14,29 @@ test "meson matches meson.ml" {
     log.show_theory_output(th)
   }
   log.show_theory_trace("meson")
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   let ms = (name : String, s : String) => {
     log.attempt(name, () => {
       let t = tm(s)
       sthm(@tactics.prove(t, @meson.meson_tac(@list.List([]))))
     })
   }
-  ms("mp", "(forall x:A. P x ==> Q x) /\\ P a ==> Q a")
-  ms("swap", "(?x:A. forall y:B. P x y) ==> (forall y. ?x. P x y)")
-  ms("drinker", "?x:A. P x ==> forall y. P y")
+  ms("mp", "(∀ x : A, (P : (A) -> Bool)(x) → (Q : (A) -> Bool)(x)) && P((a : A)) → Q(a)")
+  ms("swap", "(∃ x : A, ∀ y : B, (P : (A, B) -> Bool)(x, y)) → (∀ y : B, ∃ x : A, P(x, y))")
+  ms("drinker", "∃ x : A, (P : (A) -> Bool)(x) → (∀ y : A, P(y))")
   ms(
-    "trans", "(forall x y z:A. R x y /\\ R y z ==> R x z) /\\ R a b /\\ R b c /\\ R c d ==> R a d",
+    "trans", "(∀ x : A, ∀ y : A, ∀ z : A, (R : (A, A) -> Bool)(x, y) && R(y, z) → R(x, z)) && R((a : A), (b : A)) && R(b, (c : A)) && R(c, (d : A)) → R(a, d)",
   )
-  ms("equality", "(forall x:A. f(f x) = x) ==> forall y. ?x. f x = y")
-  ms("p18", "?y:A. forall x. F y ==> F x")
+  ms("equality", "(∀ x : A, (f : (A) -> A)(f(x)) == x) → (∀ y : A, ∃ x : A, f(x) == y)")
+  ms("p18", "∃ y : A, ∀ x : _, F(y) → F(x)")
   log.attempt("meson_thms", () => {
-    let a = @kernel.assume_rule(tm("forall x:A. P x ==> Q x"))
-    let b = @kernel.assume_rule(tm("(P:A->bool) c"))
-    let t = tm("(Q:A->bool) c")
+    let a = @kernel.assume_rule(tm("∀ x : A, (P : (A) -> Bool)(x) → (Q : (A) -> Bool)(x)"))
+    let b = @kernel.assume_rule(tm("(P : (A) -> Bool)((c : A))"))
+    let t = tm("(Q : (A) -> Bool)((c : A))")
     sthm(@tactics.prove(t, @meson.meson_tac(@list.List([a, b]))))
   })
   log.attempt("asm_meson", () => {
-    let t = tm("(forall x:A. P x ==> Q x) ==> P a ==> Q a")
+    let t = tm("(∀ x : A, (P : (A) -> Bool)(x) → (Q : (A) -> Bool)(x)) → P((a : A)) → Q(a)")
     let tac = @tactics.then_tac(
       @tactics.repeat_tac(@tactics.disch_tac),
       @meson.asm_meson_tac(@list.List([])),
@@ -44,11 +44,11 @@ test "meson matches meson.ml" {
     sthm(@tactics.prove(t, tac))
   })
   log.attempt("depth_limit", () => {
-    let t = tm("(p:bool) ==> q")
+    let t = tm("(p : Bool) → (q : Bool)")
     sthm(@tactics.prove(t, @meson.gen_meson_tac(0, 2, 1, @list.List([]))))
   })
   log.attempt("inferences", () => @meson.inferences().val.to_string())
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   inspect(
     log.contents(),

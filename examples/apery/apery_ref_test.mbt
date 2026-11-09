@@ -210,7 +210,7 @@ test "Examples/apery matches Examples/apery.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(@parser.parse_term("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

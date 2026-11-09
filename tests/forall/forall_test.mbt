@@ -1,17 +1,17 @@
 ///|
 test "forall is the universal quantifier and round trips through the printer" {
-  let term = @parser.parse_term("forall x:bool. x = x")
+  let term = @term_syntax.parse_term("∀ x : Bool, x == x")
   let x = @kernel.mk_var("x", @kernel.bool_ty)
   assert_eq(term, @bool.mk_forall(x, @basics.mk_eq(x, x)))
   let printed = @printer.string_of_term(term)
   assert_true(printed.has_prefix("forall "))
-  assert_eq(@parser.parse_term(printed), term)
+  assert_eq(@term_syntax.parse_term(@term_syntax.print_term(term)), term)
   assert_true(@basics.is_forall(term))
   let (quantifier, _) = @kernel.dest_comb(term)
   assert_eq(@kernel.dest_const(quantifier).0, "forall")
   assert_true(@kernel.constants().any(entry => entry.0 == "forall"))
   assert_true(!@kernel.constants().any(entry => entry.0 == "!"))
-  assert_true(@basics.is_uexists(@parser.parse_term("?!x:bool. x")))
+  assert_true(@basics.is_uexists(@term_syntax.parse_term("existsunique((x : Bool) => x)")))
   assert_true(!@printer.parses_as_binder("!"))
 }
 
