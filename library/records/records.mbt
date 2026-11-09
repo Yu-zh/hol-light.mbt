@@ -1,92 +1,6 @@
 // Translated from upstream Library/records.ml; edit this file directly.
 
 ///|
-/// parse_record_specification
-fn step_1() -> Unit raise {
-  let ptype : (ArrayView[@lexer.Lexcode]) -> (
-    @kernel.HolType,
-    ArrayView[@lexer.Lexcode],
-  ) raise = fn(
-    x1 : ArrayView[@lexer.Lexcode],
-  ) -> (@kernel.HolType, ArrayView[@lexer.Lexcode]) raise {
-    let src = x1
-    let (pty, rst) = @parser.parse_pretype(src)
-    (@preterm.type_of_pretype(pty), rst)
-  }
-  let recordelement : (ArrayView[@lexer.Lexcode]) -> (
-    (String, @kernel.HolType),
-    ArrayView[@lexer.Lexcode],
-  ) raise = fn(
-    x2 : ArrayView[@lexer.Lexcode],
-  ) -> ((String, @kernel.HolType), ArrayView[@lexer.Lexcode]) raise {
-    let src_1 = x2
-    match src_1 {
-      [@lexer.Lexcode::Ident(t), @lexer.Lexcode::Resword(":"), ..rst_1] => {
-        let (ty, ors) = ptype(rst_1)
-        ((t, ty), ors)
-      }
-      _ => raise @parserutil.Noparse
-    }
-  }
-  let recordelements : (ArrayView[@lexer.Lexcode]) -> (
-    @list.List[(String, @kernel.HolType)],
-    ArrayView[@lexer.Lexcode],
-  ) raise = @parserutil.listof(
-    recordelement,
-    @parserutil.a(@lexer.Lexcode::Resword(";")),
-    "';' or '}'",
-  )
-  let t3 = @parserutil.a(@lexer.Lexcode::Resword("}"))
-  let recspec : (ArrayView[@lexer.Lexcode]) -> (
-    @list.List[(String, @kernel.HolType)],
-    ArrayView[@lexer.Lexcode],
-  ) raise = @parserutil.map(
-    @parserutil.seq(
-      @parserutil.seq(@parserutil.a(@lexer.Lexcode::Resword("{")), recordelements),
-      t3,
-    ),
-    fn(
-      x4 : (
-        (@lexer.Lexcode, @list.List[(String, @kernel.HolType)]),
-        @lexer.Lexcode,
-      ),
-    ) -> @list.List[(String, @kernel.HolType)] raise {
-      let ((_, s), _) = x4
-      s
-    },
-  )
-  parse_record_specification_c.set(fn(
-    x5 : String,
-  ) -> (String, @list.List[(String, @kernel.HolType)]) raise {
-    let s_1 = x5
-    match @lexer.lex(s_1) {
-      [@lexer.Lexcode::Ident(tyname), @lexer.Lexcode::Ident("="), ..rst_2] => {
-        let (rs, er) = recspec(rst_2)
-        if !er.is_empty() {
-          raise Failure("Stuff after record spec")
-        } else {
-          (tyname, rs)
-        }
-      }
-      _ => raise @parserutil.Noparse
-    }
-  })
-}
-
-///|
-let parse_record_specification_c : @lib.Cell[
-  (String) -> (String, @list.List[(String, @kernel.HolType)]) raise,
-] = @lib.Cell::new("parse_record_specification")
-
-///|
-/// `parse_record_specification`
-pub fn parse_record_specification(
-  x : String,
-) -> (String, @list.List[(String, @kernel.HolType)]) raise {
-  parse_record_specification_c.get()(x)
-}
-
-///|
 /// the_record_types
 fn step_2() -> Unit raise {
   the_record_types_c.set(Ref::{ val: @list.List([]), })
@@ -538,7 +452,6 @@ pub fn define_auto_record_type(
 
 ///|
 fn load_steps() -> Unit raise {
-  step_1()
   step_2()
   step_3()
 }

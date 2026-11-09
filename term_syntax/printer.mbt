@@ -1210,12 +1210,50 @@ pub fn print_term(t : @kernel.Term) -> String raise Unprintable {
 }
 
 ///|
+/// `t` in the term syntax as read in the context `env` (variables with
+/// their types, as `parse_term_in_context` takes): its free variables the
+/// context gives the same type are written without one. With `exact`, the
+/// reading has the same bound variable names, as `spell_quotation` needs.
+pub fn print_term_in_context(
+  env : @list.List[(String, @preterm.Pretype)],
+  t : @kernel.Term,
+  exact? : Bool = false,
+) -> String raise Unprintable {
+  let s = print_term_with(t, sets=true, exact~, context=env)
+  // the printed reading is t up to bound variable names: exactly t, but
+  // for the names of invented type variables
+  if exact {
+    let read = @parser.with_pgen_counter_restored(() => {
+      parse_term_in_context(env, s)
+    }) catch {
+      _ => raise Unprintable("term that does not read back")
+    }
+    if canonical_invented(read) != canonical_invented(t) {
+      raise Unprintable("term whose bound variables would be renamed")
+    }
+  }
+  s
+}
+
+///|
 fn print_term_with(
   t : @kernel.Term,
   sets~ : Bool,
   listed? : Array[String] = [],
   exact? : Bool = false,
+  context? : @list.List[(String, @preterm.Pretype)] = @list.List([]),
 ) -> String raise Unprintable {
+  // the free variables the context types, read as bound around the term
+  let outer : Bound = @kernel.frees(t).filter(v => {
+    guard v is Var(name, ty) else { return false }
+    match context.iter().find_first(p => p.0 == name) {
+      Some((_, pty)) =>
+        try @preterm.type_of_pretype(pty) == ty catch {
+          _ => false
+        }
+      None => false
+    }
+  }).map(v => (v, if v is Var(name, _) { name } else { "" }))
   let vars = @basics.variables(t).to_array()
   let fixed = vars
     .map(v => @kernel.tyvars(@kernel.type_of(v)))
@@ -1238,7 +1276,7 @@ fn print_term_with(
       }.term(
         t,
         EXPR,
-        @list.List([]),
+        outer,
       )
     }) catch {
       Unprintable(_) as e => raise e
@@ -1262,7 +1300,7 @@ fn print_term_with(
         }
       }
       printed = true
-      if reads_as(s, t) {
+      if reads_as(s, t, context) {
         return s
       }
     }
@@ -1455,10 +1493,21 @@ fn reread(s : String) -> (@kernel.Term, Int) raise {
 }
 
 ///|
-fn reads_as(s : String, t : @kernel.Term) -> Bool {
+fn reads_as(
+  s : String,
+  t : @kernel.Term,
+  context : @list.List[(String, @preterm.Pretype)],
+) -> Bool {
+  fn read() -> @kernel.Term raise {
+    if context.is_empty() {
+      reread(s).0
+    } else {
+      @parser.with_pgen_counter_restored(() => parse_term_in_context(context, s))
+    }
+  }
   // under the live interface and the fixed view alike (resolution.mbt)
-  try same_term(with_resolution(false, () => reread(s).0), t) &&
-    same_term(with_resolution(true, () => reread(s).0), t) catch {
+  try same_term(with_resolution(false, read), t) &&
+    same_term(with_resolution(true, read), t) catch {
     _ => false
   }
 }
