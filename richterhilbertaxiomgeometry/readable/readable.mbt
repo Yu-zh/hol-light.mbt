@@ -50,18 +50,11 @@ pub fn make_env(x25 : @list.List[(String, @kernel.Thm)], x26 : @kernel.Term) -> 
 }
 
 ///|
-/// `parse_env_string`
-pub fn parse_env_string(x32 : @list.List[(String, @preterm.Pretype)], x33 : String) -> @kernel.Term raise {
-  let env = x32
-  let s = x33
-  let (ptm, l) = (fn(x34 : String) -> (@preterm.Preterm, ArrayView[@lexer.Lexcode]) raise {
-    @parser.parse_preterm(@lexer.lex(x34))
-  })(s)
-  if l.is_empty() {
-    @preterm.term_of_preterm(((x36 : @preterm.Preterm) => @preterm.retypecheck(env, x36))(ptm))
-  } else {
-    raise Readable_fail::Readable_fail(("Unparsed input  at the end of the term\n" + s))
-  }
+/// `parse_env_string`: the term the term syntax `s` denotes where the
+/// variables `env` names have the types it gives them (a goal's free
+/// variables, `make_env`).
+pub fn parse_env_string(env : @list.List[(String, @preterm.Pretype)], s : String) -> @kernel.Term raise {
+  @term_syntax.parse_term_in_context(env, s)
 }
 
 ///|
@@ -82,14 +75,14 @@ pub fn parseasinfix(x39 : String, x40 : (Int64, String)) -> Unit raise {
 /// `NewDefinition`
 pub fn newdefinition(x41 : String) -> @kernel.Thm raise {
   let s = x41
-  @pair.new_definition(parse_env_string(@list.List([]), cleanmathfontsforhol_light(s)))
+  @pair.new_definition(parse_env_string(@list.List([]), s))
 }
 
 ///|
 /// `NewAxiom`
 pub fn newaxiom(x42 : String) -> @kernel.Thm raise {
   let s = x42
-  @kernel.new_axiom(parse_env_string(@list.List([]), cleanmathfontsforhol_light(s)))
+  @kernel.new_axiom(parse_env_string(@list.List([]), s))
 }
 
 ///|
@@ -218,7 +211,9 @@ pub fn consider(x84 : String, x85 : String, x86 : String, x87 : ((@list.List[(St
   let lab = x86
   let tac = x87
   let t89 = @theorems.destruct_tac(("@" + (svars + ("." + lab))))
-  let t90 = ("?" + (svars + (". " + stm)))
+  // the statement is the existential itself (∃ x : T, P), its variables
+  // `svars`
+  let t90 = stm
   @tactics.thenl((x91 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => subgoal_then(t90, t89, x91), @list.List([tac, @tactics.all_tac]))
 }
 
@@ -235,7 +230,7 @@ pub fn case_split(x92 : String, x93 : ((@list.List[(String, @kernel.Thm)], @kern
     if (t == "") {
       ("(" + (s + ")"))
     } else {
-      ("(" + (s + (") \\/ " + t)))
+      ("(" + (s + (") || " + t)))
     }
   }, listofdisj, "")
   @tactics.thenl(@tactics.then_tac((x99 : (@list.List[(String, @kernel.Thm)], @kernel.Term)) => subgoal_tac(disjunction, "", tac, x99), @tactics.first_x_assum(@theorems.destruct_tac(sdestruct))), listoftac)
@@ -470,22 +465,20 @@ pub fn real_ring(x : @list.List[@kernel.Thm]) -> @tactics.Tactic raise {
 ///|
 /// `interactive_goal`
 pub fn interactive_goal(x203 : String) -> @tactics.Goalstack raise {
-  let s = x203
-  let thm = cleanmathfontsforhol_light(s)
-  @tactics.g(parse_env_string(@list.List([]), thm))
+  @tactics.g(parse_env_string(@list.List([]), x203))
 }
 
 ///|
 /// SKOLEM_THM_GEN
 fn step_23() -> Unit raise {
   skolem_thm_gen_c.set(prove(
-    "\n  forall P R. (forall x. P x ==> ?y. R x y)  <=>  ?f. forall x. P x ==> R x (f x)",
+    "∀ P : (_) -> Bool, ∀ R : (_, _) -> Bool, (∀ x : _, P(x) → (∃ y : _, R(x, y))) == (∃ f : (_) -> _, ∀ x : _, P(x) → R(x, f(x)))",
     steps(
       [
         intro_tac("forall P R"),
         eq_tac("Right", by(fol, [])),
         intro_tac("H1"),
-        exists("\\ x. @y. R x y"),
+        exists("(x : _) => select((y : _) => R(x, y))"),
         by(fol, [Label("H1")]),
       ],
     ),
@@ -505,7 +498,7 @@ pub fn skolem_thm_gen() -> @kernel.Thm {
 /// MOD_MOD_REFL'
 fn step_25() -> Unit raise {
   mod_mod_refl_p_c.set(prove(
-    "\n  forall m n. ~(n = 0)  ==>  ((m MOD n) MOD n = m MOD n)",
+    "∀ m : Num, ∀ n : Num, !(n == 0) → MOD(MOD(m, n), n) == MOD(m, n)",
     steps(
       [
         intro_tac("forall m n, H1"),
@@ -513,7 +506,7 @@ fn step_25() -> Unit raise {
           th => @tactics.mp_tac(th),
           TermsRule(
             tms => th => @bool.specl(tms, th),
-            ["m", " n", " 1"],
+            ["m", "n", "1"],
             Thm("MOD_MOD", () => @arith.mod_mod()),
           ),
         ),
@@ -545,14 +538,14 @@ pub fn mod_mod_refl_p() -> @kernel.Thm {
 /// NSQRT_2
 fn step_33() -> Unit raise {
   nsqrt_2_v1_c.set(prove(
-    "\n  forall p q. p * p = 2 * q * q  ==>  q = 0",
+    "∀ p : Num, ∀ q : Num, p * p == 2 * (q * q) → q == 0",
     steps_then(
       [
         by_thm(@tactics.match_mp_tac, Thm("num_WF", () => @arith.num_wf())),
         intro_tac("forall p, A, forall q, B"),
-        have("\n    EVEN(p * p) <=> EVEN(2 * q * q)", "", by(fol, [Label("B")])),
+        have("EVEN(p * p) == EVEN(2 * (q * q))", "", by(fol, [Label("B")])),
         have(
-          "\n    EVEN(p)",
+          "EVEN(p)",
           "",
           by(
             fol,
@@ -565,7 +558,7 @@ fn step_33() -> Unit raise {
         ),
         consider(
           "m",
-          "p = 2 * m    ",
+          "∃ m : Num, p == 2 * m",
           "C",
           by(fol, [Prev, Thm("EVEN_EXISTS", () => @arith.even_exists())]),
         ),
@@ -579,7 +572,7 @@ fn step_33() -> Unit raise {
             steps(
               [
                 have(
-                  "\n      q * q = 2 * m * m ==> m = 0",
+                  "q * q == 2 * (m * m) → m == 0",
                   "",
                   by(fol, [Label("qp"), Label("A")]),
                 ),
@@ -589,11 +582,11 @@ fn step_33() -> Unit raise {
             steps(
               [
                 have(
-                  "\n      p * p <= q * q",
+                  "p * p <= q * q",
                   "",
                   by(fol, [Prev, Thm("LE_MULT2", () => @arith.le_mult2())]),
                 ),
-                have("\n      q * q = 0", "", by(arithmetic, [Prev, Label("B")])),
+                have("q * q == 0", "", by(arithmetic, [Prev, Label("B")])),
                 by(num_ring, [Prev]),
               ],
             ),
@@ -616,7 +609,7 @@ pub fn nsqrt_2_v1() -> @kernel.Thm {
 ///|
 /// RichterHilbertAxiomGeometry/readable.ml:614
 fn step_42() -> Unit raise {
-  ignore(interactive_goal(parse_qproof(";∀p q. p * p = 2 * q * q  ⇒  q = 0\n")))
+  ignore(interactive_goal("∀ p : Num, ∀ q : Num, p * p == 2 * (q * q) → q == 0"))
 }
 
 ///|
@@ -627,7 +620,7 @@ fn step_43() -> Unit raise {
       [
         by_thm(@tactics.match_mp_tac, Thm("num_WF", () => @arith.num_wf())),
         intro_tac("forall p, A, forall q, B"),
-        have("\n    EVEN(p * p) <=> EVEN(2 * q * q)", "", @tactics.all_tac),
+        have("EVEN(p * p) == EVEN(2 * (q * q))", "", @tactics.all_tac),
       ],
     ),
   ))
@@ -646,7 +639,7 @@ fn step_45() -> Unit raise {
     steps(
       [
         have(
-          "\n    EVEN(p)",
+          "EVEN(p)",
           "",
           by(
             fol,
@@ -659,7 +652,7 @@ fn step_45() -> Unit raise {
         ),
         consider(
           "m",
-          "p = 2 * m    ",
+          "∃ m : Num, p == 2 * m",
           "C",
           steps([by(fol, [Prev, Thm("EVEN_EXISTS", () => @arith.even_exists())])]),
         ),
@@ -688,7 +681,7 @@ fn step_47() -> Unit raise {
     steps(
       [
         have(
-          "\n      q * q = 2 * m * m ==> m = 0",
+          "q * q == 2 * (m * m) → m == 0",
           "",
           by(fol, [Label("qp"), Label("A")]),
         ),
@@ -705,11 +698,11 @@ fn step_48() -> Unit raise {
     steps(
       [
         have(
-          "\n      p * p <= q * q",
+          "p * p <= q * q",
           "",
           by(fol, [Prev, Thm("LE_MULT2", () => @arith.le_mult2())]),
         ),
-        have("\n      q * q = 0", "", by(arithmetic, [Prev, Label("B")])),
+        have("q * q == 0", "", by(arithmetic, [Prev, Label("B")])),
         by(num_ring, [Prev]),
       ],
     ),
@@ -735,7 +728,7 @@ pub fn nsqrt_2() -> @kernel.Thm {
 /// EXP_2
 fn step_50() -> Unit raise {
   exp_2_c.set(prove(
-    "\n  forall n:num. n EXP 2 = n * n",
+    "∀ n : Num, EXP(n, 2) == n * n",
     by(
       rewrite,
       [
@@ -778,7 +771,7 @@ pub fn binom() -> @kernel.Thm {
 /// BINOM_LT
 fn step_58() -> Unit raise {
   binom_lt_c.set(prove(
-    "\n  forall n k. n < k  ==>  binom(n,k) = 0",
+    "∀ n : Num, ∀ k : Num, n < k → binom((n, k)) == 0",
     steps(
       [
         @nums.induct_tac,
@@ -795,7 +788,7 @@ fn step_58() -> Unit raise {
         by(
           @simp.asm_simp_tac,
           [
-            TermRule(@int.arith_rule, "n < k ==> n < SUC(k)"),
+            TermRule(@int.arith_rule, "n < k → n < SUC(k)"),
             Thm("ARITH", () => @calc_num.arith()),
           ],
         ),
@@ -817,11 +810,11 @@ pub fn binom_lt() -> @kernel.Thm {
 /// BINOMIAL_THEOREM
 fn step_66() -> Unit raise {
   binomial_theorem_c.set(prove(
-    "\n  forall n. (x + y) EXP n = nsum(0..n) (\\k. binom(n,k) * x EXP k * y EXP (n - k))",
+    "∀ n : Num, EXP((x : Num) + (y : Num), n) == nsum(op_dot_dot(0, n), (k : Num) => binom((n, k)) * (EXP(x, k) * EXP(y, n - k)))",
     steps(
       [
         have(
-          "\n    forall f n. nsum (0.. SUC n) f = f(0) + nsum (0..n) (\\ i. f (SUC i))",
+          "∀ f : (Num) -> Num, ∀ n : Num, nsum(op_dot_dot(0, SUC(n)), f) == f(0) + nsum(op_dot_dot(0, n), (i : Num) => f(SUC(i)))",
           "Nsum0SUC",
           by(
             simplify,
@@ -869,7 +862,7 @@ fn step_66() -> Unit raise {
             ThmsTermRule(
               ths => tm => @meson.meson(ths, tm),
               [Thm("binom", () => binom())],
-              "1 = binom(n, 0)",
+              "1 == binom((n, 0))",
             ),
             Rule(@equal.gsym, Label("Nsum0SUC")),
           ],
@@ -878,7 +871,7 @@ fn step_66() -> Unit raise {
           simplify,
           [
             Thm("NSUM_CLAUSES_RIGHT", () => @iterate.nsum_clauses_right()),
-            TermRule(@int.arith_rule, "0 < SUC n  /\\   0 <= SUC n"),
+            TermRule(@int.arith_rule, "0 < SUC(n) && 0 <= SUC(n)"),
             Thm("LT", () => @arith.lt()),
             Thm("BINOM_LT", () => binom_lt()),
             Thm("MULT_CLAUSES", () => @arith.mult_clauses()),
@@ -889,7 +882,7 @@ fn step_66() -> Unit raise {
         by(
           simplify,
           [
-            TermRule(@int.arith_rule, "k <= n  ==>  SUC n - k = SUC(n - k)"),
+            TermRule(@int.arith_rule, "(k : Num) <= n → SUC(n) - k == SUC(n - k)"),
             Thm("EXP", () => @arith.exp()),
             Thm("MULT_AC", () => @arith.mult_ac()),
           ],

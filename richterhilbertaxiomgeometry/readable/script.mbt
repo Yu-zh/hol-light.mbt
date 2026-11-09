@@ -4,8 +4,9 @@
 // directly, with the same steps in the same order, so it proves the same
 // theorem and parses its terms in the same order.
 //
-// Statements and terms are still HOL quotations, parsed in the context of
-// the goal they are used in (`parse_env_string`), as in the text format.
+// Statements and terms are in the term syntax, read in the context of the
+// goal they are used in (`parse_env_string`): its free variables need no
+// type.
 
 ///|
 /// A theorem argument of a proof step, resolved against the goal when the

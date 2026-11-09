@@ -45,7 +45,7 @@ fn step_7() -> Unit raise {
 ///|
 /// cong_DEF
 fn step_8() -> Unit raise {
-  cong_def_c.set(@readable.newdefinition(@readable.parse_qproof(";a,b,c ≊ x,y,z ⇔\n   a,b ≃ x,y ∧ a,c ≃ x,z ∧ b,c ≃ y,z")))
+  cong_def_c.set(@readable.newdefinition("(TarskiTriangleCong : ((TarskiPlane, TarskiPlane, TarskiPlane), (TarskiPlane, TarskiPlane, TarskiPlane)) -> Bool)(((a : TarskiPlane), (b : TarskiPlane), (c : TarskiPlane)), ((x : TarskiPlane), (y : TarskiPlane), (z : TarskiPlane))) == (TarskiCong((a, b), (x, y)) && TarskiCong((a, c), (x, z)) && TarskiCong((b, c), (y, z)))"))
 }
 
 ///|
@@ -60,7 +60,7 @@ pub fn cong_def() -> @kernel.Thm {
 ///|
 /// is_ordered_DEF
 fn step_9() -> Unit raise {
-  is_ordered_def_c.set(@readable.newdefinition(@readable.parse_qproof(";is_ordered (a,b,c,d) ⇔\n  ℬ a b c ∧ ℬ a b d ∧ ℬ a c d ∧ ℬ b c d")))
+  is_ordered_def_c.set(@readable.newdefinition("(is_ordered : ((TarskiPlane, TarskiPlane, TarskiPlane, TarskiPlane)) -> Bool)(((a : TarskiPlane), (b : TarskiPlane), (c : TarskiPlane), (d : TarskiPlane))) == (TarskiBetween(a, b, c) && TarskiBetween(a, b, d) && TarskiBetween(a, c, d) && TarskiBetween(b, c, d))"))
 }
 
 ///|
@@ -75,7 +75,7 @@ pub fn is_ordered_def() -> @kernel.Thm {
 ///|
 /// Line_DEF
 fn step_10() -> Unit raise {
-  line_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  x on_line a,b ⇔\n  ¬(a = b) ∧ (ℬ a b x ∨ ℬ a x b ∨ ℬ x a b)")))
+  line_def_c.set(@readable.newdefinition("(on_line : (TarskiPlane, (TarskiPlane, TarskiPlane)) -> Bool)((x : TarskiPlane), ((a : TarskiPlane), (b : TarskiPlane))) == (!(a == b) && (TarskiBetween(a, b, x) || TarskiBetween(a, x, b) || TarskiBetween(x, a, b)))"))
 }
 
 ///|
@@ -90,7 +90,7 @@ pub fn line_def() -> @kernel.Thm {
 ///|
 /// LineEq_DEF
 fn step_11() -> Unit raise {
-  lineeq_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  a,b equal_line x,y ⇔\n  ¬(a = b) ∧ ¬(x = y) ∧ ∀ c .  c on_line a,b  ⇔  c on_line x,y")))
+  lineeq_def_c.set(@readable.newdefinition("(equal_line : ((TarskiPlane, TarskiPlane), (TarskiPlane, TarskiPlane)) -> Bool)(((a : TarskiPlane), (b : TarskiPlane)), ((x : TarskiPlane), (y : TarskiPlane))) == (!(a == b) && !(x == y) && (∀ c : TarskiPlane, on_line(c, (a, b)) == on_line(c, (x, y))))"))
 }
 
 ///|
@@ -105,7 +105,7 @@ pub fn lineeq_def() -> @kernel.Thm {
 ///|
 /// A1
 fn step_12() -> Unit raise {
-  a1_c.set(@readable.newaxiom(@readable.parse_qproof(";\n  ∀a b. a,b ≃ b,a")))
+  a1_c.set(@readable.newaxiom("∀ a : TarskiPlane, ∀ b : TarskiPlane, TarskiCong((a, b), (b, a))"))
 }
 
 ///|
@@ -120,7 +120,7 @@ pub fn a1() -> @kernel.Thm {
 ///|
 /// A2
 fn step_13() -> Unit raise {
-  a2_c.set(@readable.newaxiom(@readable.parse_qproof(";\n  ∀a b p q r s. a,b ≃ p,q ∧ a,b ≃ r,s ⇒ p,q ≃ r,s")))
+  a2_c.set(@readable.newaxiom("∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ p : TarskiPlane, ∀ q : TarskiPlane, ∀ r : TarskiPlane, ∀ s : TarskiPlane, TarskiCong((a, b), (p, q)) && TarskiCong((a, b), (r, s)) → TarskiCong((p, q), (r, s))"))
 }
 
 ///|
@@ -135,7 +135,7 @@ pub fn a2() -> @kernel.Thm {
 ///|
 /// A3
 fn step_14() -> Unit raise {
-  a3_c.set(@readable.newaxiom(@readable.parse_qproof(";\n  ∀a b c. a,b ≃ c,c ⇒ a = b")))
+  a3_c.set(@readable.newaxiom("∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, TarskiCong((a, b), (c, c)) → a == b"))
 }
 
 ///|
@@ -150,7 +150,7 @@ pub fn a3() -> @kernel.Thm {
 ///|
 /// A4
 fn step_15() -> Unit raise {
-  a4_c.set(@readable.newaxiom(@readable.parse_qproof(";\n  ∀a q b c. ∃x. ℬ q a x ∧ a,x ≃ b,c")))
+  a4_c.set(@readable.newaxiom("∀ a : TarskiPlane, ∀ q : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∃ x : TarskiPlane, TarskiBetween(q, a, x) && TarskiCong((a, x), (b, c))"))
 }
 
 ///|
@@ -165,7 +165,7 @@ pub fn a4() -> @kernel.Thm {
 ///|
 /// A5
 fn step_16() -> Unit raise {
-  a5_c.set(@readable.newaxiom(@readable.parse_qproof(";\n  ∀a b c x a' b' c' x'.\n        ¬(a = b) ∧ a,b,c ≊ a',b',c' ∧\n        ℬ a b x ∧ ℬ a' b' x' ∧ b,x ≃ b',x'\n        ⇒ c,x ≃ c',x'")))
+  a5_c.set(@readable.newaxiom("∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ x : TarskiPlane, ∀ a' : TarskiPlane, ∀ b' : TarskiPlane, ∀ c' : TarskiPlane, ∀ x' : TarskiPlane, !(a == b) && TarskiTriangleCong((a, b, c), (a', b', c')) && TarskiBetween(a, b, x) && TarskiBetween(a', b', x') && TarskiCong((b, x), (b', x')) → TarskiCong((c, x), (c', x'))"))
 }
 
 ///|
@@ -180,7 +180,7 @@ pub fn a5() -> @kernel.Thm {
 ///|
 /// A6
 fn step_17() -> Unit raise {
-  a6_c.set(@readable.newaxiom(@readable.parse_qproof(";\n  ∀a b. ℬ a b a ⇒ a = b")))
+  a6_c.set(@readable.newaxiom("∀ a : TarskiPlane, ∀ b : TarskiPlane, TarskiBetween(a, b, a) → a == b"))
 }
 
 ///|
@@ -195,7 +195,7 @@ pub fn a6() -> @kernel.Thm {
 ///|
 /// A7
 fn step_18() -> Unit raise {
-  a7_c.set(@readable.newaxiom(@readable.parse_qproof(";\n  ∀a b p q z.  ℬ a p z ∧ ℬ b q z\n    ⇒ ∃x. ℬ p x b ∧ ℬ q x a")))
+  a7_c.set(@readable.newaxiom("∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ p : TarskiPlane, ∀ q : TarskiPlane, ∀ z : TarskiPlane, TarskiBetween(a, p, z) && TarskiBetween(b, q, z) → (∃ x : TarskiPlane, TarskiBetween(p, x, b) && TarskiBetween(q, x, a))"))
 }
 
 ///|
@@ -211,7 +211,7 @@ pub fn a7() -> @kernel.Thm {
 /// EquivReflexive
 fn step_19() -> Unit raise {
   equivreflexive_c.set(@readable.prove(
-    "\n  forall a b. a,b TarskiCong a,b",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, TarskiCong((a, b), (a, b))",
     @readable.by(
       @readable.fol,
       [@readable.Thm("A1", () => a1()), @readable.Thm("A2", () => a2())],
@@ -232,7 +232,7 @@ pub fn equivreflexive() -> @kernel.Thm {
 /// EquivSymmetric
 fn step_23() -> Unit raise {
   equivsymmetric_c.set(@readable.prove(
-    "\n  forall a b c d. a,b TarskiCong c,d ==> c,d TarskiCong a,b",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ d : TarskiPlane, TarskiCong((a, b), (c, d)) → TarskiCong((c, d), (a, b))",
     @readable.by(
       @readable.fol,
       [
@@ -256,7 +256,7 @@ pub fn equivsymmetric() -> @kernel.Thm {
 /// EquivTransitive
 fn step_25() -> Unit raise {
   equivtransitive_c.set(@readable.prove(
-    "\n  forall a b p q r s.  a,b TarskiCong p,q /\\  p,q TarskiCong r,s ==> a,b TarskiCong r,s",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ p : TarskiPlane, ∀ q : TarskiPlane, ∀ r : TarskiPlane, ∀ s : TarskiPlane, TarskiCong((a, b), (p, q)) && TarskiCong((p, q), (r, s)) → TarskiCong((a, b), (r, s))",
     @readable.by(
       @readable.fol,
       [
@@ -280,7 +280,7 @@ pub fn equivtransitive() -> @kernel.Thm {
 /// Baaa_THM
 fn step_27() -> Unit raise {
   baaa_thm_c.set(@readable.prove(
-    "\n  forall a b. TarskiBetween a a a /\\  a,a TarskiCong b,b",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, TarskiBetween(a, a, a) && TarskiCong((a, a), (b, b))",
     @readable.by(
       @readable.fol,
       [@readable.Thm("A4", () => a4()), @readable.Thm("A3", () => a3())],
@@ -301,7 +301,7 @@ pub fn baaa_thm() -> @kernel.Thm {
 /// Bqaa_THM
 fn step_30() -> Unit raise {
   bqaa_thm_c.set(@readable.prove(
-    "\n  forall a q. TarskiBetween q a a",
+    "∀ a : TarskiPlane, ∀ q : TarskiPlane, TarskiBetween(q, a, a)",
     @readable.by(
       @readable.fol,
       [@readable.Thm("A4", () => a4()), @readable.Thm("A3", () => a3())],
@@ -322,12 +322,12 @@ pub fn bqaa_thm() -> @kernel.Thm {
 /// C1_THM
 fn step_31() -> Unit raise {
   c1_thm_c.set(@readable.prove(
-    "\n  forall a b x y. ~(a = b)  /\\   TarskiBetween a b x  /\\   TarskiBetween a b y  /\\   b,x TarskiCong b,y\n   ==> y = x",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ x : TarskiPlane, ∀ y : TarskiPlane, !(a == b) && TarskiBetween(a, b, x) && TarskiBetween(a, b, y) && TarskiCong((b, x), (b, y)) → y == x",
     @readable.steps(
       [
         @readable.intro_tac("forall a b x y, H1 H2 H3 H4"),
         @readable.have(
-          "\n    a,b,y TarskiTriangleCong a,b,y",
+          "TarskiTriangleCong((a, b, y), (a, b, y))",
           "",
           @readable.by(
             @readable.fol,
@@ -338,7 +338,7 @@ fn step_31() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    y,x TarskiCong y,y",
+          "TarskiCong((y, x), (y, y))",
           "",
           @readable.by(
             @readable.fol,
@@ -371,18 +371,18 @@ pub fn c1_thm() -> @kernel.Thm {
 /// Bsymmetry_THM
 fn step_34() -> Unit raise {
   bsymmetry_thm_c.set(@readable.prove(
-    "\n  forall a p z.  TarskiBetween a p z ==> TarskiBetween z p a",
+    "∀ a : TarskiPlane, ∀ p : TarskiPlane, ∀ z : TarskiPlane, TarskiBetween(a, p, z) → TarskiBetween(z, p, a)",
     @readable.steps(
       [
         @readable.intro_tac("forall a p z, H1"),
         @readable.have(
-          "\n    TarskiBetween p z z",
+          "TarskiBetween(p, z, z)",
           "",
           @readable.by(@readable.fol, [@readable.Thm("Bqaa_THM", () => bqaa_thm())]),
         ),
         @readable.consider(
           "x",
-          "TarskiBetween p x p /\\  TarskiBetween z x a    ",
+          "∃ x : TarskiPlane, TarskiBetween(p, x, p) && TarskiBetween(z, x, a)",
           "xExists",
           @readable.by(
             @readable.fol,
@@ -408,7 +408,7 @@ pub fn bsymmetry_thm() -> @kernel.Thm {
 /// Baaq_THM
 fn step_38() -> Unit raise {
   baaq_thm_c.set(@readable.prove(
-    "\n  forall a q.  TarskiBetween a a q",
+    "∀ a : TarskiPlane, ∀ q : TarskiPlane, TarskiBetween(a, a, q)",
     @readable.by(
       @readable.fol,
       [
@@ -432,13 +432,13 @@ pub fn baaq_thm() -> @kernel.Thm {
 /// BEquality_THM
 fn step_40() -> Unit raise {
   bequality_thm_c.set(@readable.prove(
-    "\n  forall a b c.  TarskiBetween a b c /\\  TarskiBetween b a c ==> a = b",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, TarskiBetween(a, b, c) && TarskiBetween(b, a, c) → a == b",
     @readable.steps(
       [
         @readable.intro_tac("forall a b c, H1 H2"),
         @readable.consider(
           "x",
-          "TarskiBetween b x b /\\  TarskiBetween a x a    ",
+          "∃ x : TarskiPlane, TarskiBetween(b, x, b) && TarskiBetween(a, x, a)",
           "A7implies",
           @readable.by(
             @readable.fol,
@@ -468,13 +468,13 @@ pub fn bequality_thm() -> @kernel.Thm {
 /// B124and234then123_THM
 fn step_41() -> Unit raise {
   b124and234then123_thm_c.set(@readable.prove(
-    "\n  forall a b c d. TarskiBetween a b d  /\\   TarskiBetween b c d  ==>  TarskiBetween a b c",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ d : TarskiPlane, TarskiBetween(a, b, d) && TarskiBetween(b, c, d) → TarskiBetween(a, b, c)",
     @readable.steps(
       [
         @readable.intro_tac("forall a b c d, H1 H2"),
         @readable.consider(
           "x",
-          "TarskiBetween b x b /\\  TarskiBetween c x a    ",
+          "∃ x : TarskiPlane, TarskiBetween(b, x, b) && TarskiBetween(c, x, a)",
           "A7implies",
           @readable.by(
             @readable.fol,
@@ -511,18 +511,18 @@ pub fn b124and234then123_thm() -> @kernel.Thm {
 /// BTransitivity_THM
 fn step_42() -> Unit raise {
   btransitivity_thm_c.set(@readable.prove(
-    "\n  forall a b c d.  ~(b = c)  /\\   TarskiBetween a b c  /\\   TarskiBetween b c d\n    ==>  TarskiBetween a c d",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ d : TarskiPlane, !(b == c) && TarskiBetween(a, b, c) && TarskiBetween(b, c, d) → TarskiBetween(a, c, d)",
     @readable.steps(
       [
         @readable.intro_tac("forall a b c d, H1 H2 H3"),
         @readable.consider(
           "x",
-          "TarskiBetween a c x /\\  c,x TarskiCong c,d    ",
+          "∃ x : TarskiPlane, TarskiBetween(a, c, x) && TarskiCong((c, x), (c, d))",
           "X1",
           @readable.by(@readable.fol, [@readable.Thm("A4", () => a4())]),
         ),
         @readable.have(
-          "\n    TarskiBetween x c b",
+          "TarskiBetween(x, c, b)",
           "",
           @readable.by(
             @readable.fol,
@@ -535,7 +535,7 @@ fn step_42() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    x = d",
+          "x == d",
           "",
           @readable.by(
             @readable.fol,
@@ -568,12 +568,12 @@ pub fn btransitivity_thm() -> @kernel.Thm {
 /// BTransitivityOrdered_THM
 fn step_45() -> Unit raise {
   btransitivityordered_thm_c.set(@readable.prove(
-    "\n  forall a b c d.  ~(b = c)  /\\   TarskiBetween a b c  /\\   TarskiBetween b c d\n    ==> is_ordered (a,b,c,d)",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ d : TarskiPlane, !(b == c) && TarskiBetween(a, b, c) && TarskiBetween(b, c, d) → is_ordered((a, b, c, d))",
     @readable.steps(
       [
         @readable.intro_tac("forall a b c d, H1 H2 H3"),
         @readable.have(
-          "\n    TarskiBetween a c d",
+          "TarskiBetween(a, c, d)",
           "X1",
           @readable.by(
             @readable.fol,
@@ -586,7 +586,7 @@ fn step_45() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween d b a",
+          "TarskiBetween(d, b, a)",
           "",
           @readable.by(
             @readable.fol,
@@ -628,12 +628,12 @@ pub fn btransitivityordered_thm() -> @kernel.Thm {
 /// B124and234Ordered_THM
 fn step_48() -> Unit raise {
   b124and234ordered_thm_c.set(@readable.prove(
-    "\n  forall a b c d.  TarskiBetween a b d  /\\   TarskiBetween b c d  ==>  is_ordered (a,b,c,d)",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ d : TarskiPlane, TarskiBetween(a, b, d) && TarskiBetween(b, c, d) → is_ordered((a, b, c, d))",
     @readable.steps(
       [
         @readable.intro_tac("forall a b c d, H1 H2"),
         @readable.have(
-          "\n    TarskiBetween a b c",
+          "TarskiBetween(a, b, c)",
           "Babc",
           @readable.by(
             @readable.fol,
@@ -645,7 +645,7 @@ fn step_48() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "~(b = c)",
+          "!(b == c)",
           "",
           @readable.by(
             @readable.fol,
@@ -685,12 +685,12 @@ pub fn b124and234ordered_thm() -> @kernel.Thm {
 /// SegmentAddition_THM
 fn step_50() -> Unit raise {
   segmentaddition_thm_c.set(@readable.prove(
-    "\n  forall a b c a' b' c'.  TarskiBetween a b c  /\\  TarskiBetween a' b' c'  /\\ \n    a,b TarskiCong a',b'  /\\   b,c TarskiCong b',c'\n    ==>  a,c TarskiCong a',c'",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ a' : TarskiPlane, ∀ b' : TarskiPlane, ∀ c' : TarskiPlane, TarskiBetween(a, b, c) && TarskiBetween(a', b', c') && TarskiCong((a, b), (a', b')) && TarskiCong((b, c), (b', c')) → TarskiCong((a, c), (a', c'))",
     @readable.steps(
       [
         @readable.intro_tac("forall a b c a' b' c', H1 H2 H3 H4"),
         @readable.assuming(
-          "~(a = b)",
+          "!(a == b)",
           "aNOTb",
           @readable.by(
             @readable.fol,
@@ -703,7 +703,7 @@ fn step_50() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    a,b,a TarskiTriangleCong a',b',a'",
+          "TarskiTriangleCong((a, b, a), (a', b', a'))",
           "",
           @readable.by(
             @readable.fol,
@@ -745,7 +745,7 @@ pub fn segmentaddition_thm() -> @kernel.Thm {
 /// CongruenceDoubleSymmetry_THM
 fn step_53() -> Unit raise {
   congruencedoublesymmetry_thm_c.set(@readable.prove(
-    "\n  forall a b c d.  a,b TarskiCong c,d  ==>  b,a TarskiCong d,c",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ d : TarskiPlane, TarskiCong((a, b), (c, d)) → TarskiCong((b, a), (d, c))",
     @readable.by(
       @readable.fol,
       [
@@ -769,18 +769,18 @@ pub fn congruencedoublesymmetry_thm() -> @kernel.Thm {
 /// C1prime_THM
 fn step_54() -> Unit raise {
   c1prime_thm_c.set(@readable.prove(
-    "\n  forall a b x y.  ~(a = b)  /\\   TarskiBetween a b x  /\\   TarskiBetween a b y  /\\   a,x TarskiCong a,y\n    ==> x = y",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ x : TarskiPlane, ∀ y : TarskiPlane, !(a == b) && TarskiBetween(a, b, x) && TarskiBetween(a, b, y) && TarskiCong((a, x), (a, y)) → x == y",
     @readable.steps(
       [
         @readable.intro_tac("forall a b x y, H1 H2 H3 H4"),
         @readable.consider(
           "m",
-          "TarskiBetween b a m /\\  a,m TarskiCong a,b    ",
+          "∃ m : TarskiPlane, TarskiBetween(b, a, m) && TarskiCong((a, m), (a, b))",
           "X1",
           @readable.by(@readable.fol, [@readable.Thm("A4", () => a4())]),
         ),
         @readable.have(
-          "\n    TarskiBetween m a b",
+          "TarskiBetween(m, a, b)",
           "X2",
           @readable.by(
             @readable.fol,
@@ -791,7 +791,7 @@ fn step_54() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(m = a)",
+          "!(m == a)",
           "X3",
           @readable.by(
             @readable.fol,
@@ -804,7 +804,7 @@ fn step_54() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    is_ordered (m,a,b,x)",
+          "is_ordered((m, a, b, x))",
           "",
           @readable.by(
             @readable.fol,
@@ -820,7 +820,7 @@ fn step_54() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween m a x",
+          "TarskiBetween(m, a, x)",
           "X4",
           @readable.by(
             @readable.fol,
@@ -828,7 +828,7 @@ fn step_54() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    is_ordered (m,a,b,y)",
+          "is_ordered((m, a, b, y))",
           "",
           @readable.by(
             @readable.fol,
@@ -844,7 +844,7 @@ fn step_54() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween m a y",
+          "TarskiBetween(m, a, y)",
           "",
           @readable.by(
             @readable.fol,
@@ -879,12 +879,12 @@ pub fn c1prime_thm() -> @kernel.Thm {
 /// SegmentSubtraction_THM
 fn step_55() -> Unit raise {
   segmentsubtraction_thm_c.set(@readable.prove(
-    "\n  forall a b c a' b' c'.  TarskiBetween a b c /\\  TarskiBetween a' b' c' /\\ \n    a,b TarskiCong a',b' /\\  a,c TarskiCong a',c'  ==>  b,c TarskiCong b',c'",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ a' : TarskiPlane, ∀ b' : TarskiPlane, ∀ c' : TarskiPlane, TarskiBetween(a, b, c) && TarskiBetween(a', b', c') && TarskiCong((a, b), (a', b')) && TarskiCong((a, c), (a', c')) → TarskiCong((b, c), (b', c'))",
     @readable.steps(
       [
         @readable.intro_tac("forall a b c a' b' c', H1 H2 H3 H4"),
         @readable.assuming(
-          "~(a = b)",
+          "!(a == b)",
           "Z1",
           @readable.by(
             @readable.fol,
@@ -899,12 +899,12 @@ fn step_55() -> Unit raise {
         ),
         @readable.consider(
           "x",
-          "TarskiBetween a b x /\\  b,x TarskiCong b',c'    ",
+          "∃ x : TarskiPlane, TarskiBetween(a, b, x) && TarskiCong((b, x), (b', c'))",
           "Z2",
           @readable.by(@readable.fol, [@readable.Thm("A4", () => a4())]),
         ),
         @readable.have(
-          "\n    a,x TarskiCong a',c'",
+          "TarskiCong((a, x), (a', c'))",
           "",
           @readable.by(
             @readable.fol,
@@ -917,7 +917,7 @@ fn step_55() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    a,x TarskiCong a,c",
+          "TarskiCong((a, x), (a, c))",
           "",
           @readable.by(
             @readable.fol,
@@ -930,7 +930,7 @@ fn step_55() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    x = c",
+          "x == c",
           "",
           @readable.by(
             @readable.fol,
@@ -962,18 +962,18 @@ pub fn segmentsubtraction_thm() -> @kernel.Thm {
 /// EasyAngleTransport_THM
 fn step_58() -> Unit raise {
   easyangletransport_thm_c.set(@readable.prove(
-    "\n    forall a O b.  ~(O = a)\n      ==> ?x y.  TarskiBetween b O x /\\  TarskiBetween a O y /\\  x,y,O TarskiTriangleCong a,b,O",
+    "∀ a : TarskiPlane, ∀ O : TarskiPlane, ∀ b : TarskiPlane, !(O == a) → (∃ x : TarskiPlane, ∃ y : TarskiPlane, TarskiBetween(b, O, x) && TarskiBetween(a, O, y) && TarskiTriangleCong((x, y, O), (a, b, O)))",
     @readable.steps(
       [
         @readable.intro_tac("forall a O b, H1"),
         @readable.consider(
           "x y",
-          "TarskiBetween b O x /\\  O,x TarskiCong O,a  /\\ \n    TarskiBetween a O y /\\  O,y TarskiCong O,b    ",
+          "∃ x : TarskiPlane, ∃ y : TarskiPlane, TarskiBetween(b, O, x) && TarskiCong((O, x), (O, a)) && TarskiBetween(a, O, y) && TarskiCong((O, y), (O, b))",
           "X2",
           @readable.by(@readable.fol, [@readable.Thm("A4", () => a4())]),
         ),
         @readable.have(
-          "\n    x,O TarskiCong a,O",
+          "TarskiCong((x, O), (a, O))",
           "X3",
           @readable.by(
             @readable.fol,
@@ -987,7 +987,7 @@ fn step_58() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    a,O,x TarskiTriangleCong x,O,a",
+          "TarskiTriangleCong((a, O, x), (x, O, a))",
           "X5",
           @readable.by(
             @readable.fol,
@@ -1001,7 +1001,7 @@ fn step_58() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    x,y TarskiCong a,b",
+          "TarskiCong((x, y), (a, b))",
           "",
           @readable.by(
             @readable.fol,
@@ -1015,7 +1015,7 @@ fn step_58() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    x,y,O TarskiTriangleCong a,b,O",
+          "TarskiTriangleCong((x, y, O), (a, b, O))",
           "",
           @readable.by(
             @readable.fol,
@@ -1050,12 +1050,12 @@ pub fn easyangletransport_thm() -> @kernel.Thm {
 /// B123and134Ordered_THM
 fn step_60() -> Unit raise {
   b123and134ordered_thm_c.set(@readable.prove(
-    "\n  forall a b c d.\n TarskiBetween a b c /\\ \n TarskiBetween a c d ==>\n is_ordered (a,b,c,d)",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ d : TarskiPlane, TarskiBetween(a, b, c) && TarskiBetween(a, c, d) → is_ordered((a, b, c, d))",
     @readable.steps(
       [
         @readable.intro_tac("forall a b c d, H1 H2"),
         @readable.have(
-          "\n    is_ordered (d,c,b,a)",
+          "is_ordered((d, c, b, a))",
           "",
           @readable.by(
             @readable.fol,
@@ -1068,7 +1068,7 @@ fn step_60() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween d b a /\\  TarskiBetween d c b",
+          "TarskiBetween(d, b, a) && TarskiBetween(d, c, b)",
           "",
           @readable.by(
             @readable.fol,
@@ -1103,18 +1103,18 @@ pub fn b123and134ordered_thm() -> @kernel.Thm {
 /// BextendToLine_THM
 fn step_62() -> Unit raise {
   bextendtoline_thm_c.set(@readable.prove(
-    "\n  forall a b c d.  ~(a = b)  /\\   TarskiBetween a b c  /\\   TarskiBetween a b d\n    ==> ?x.  is_ordered (a,b,c,x) /\\  is_ordered (a,b,d,x)",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ d : TarskiPlane, !(a == b) && TarskiBetween(a, b, c) && TarskiBetween(a, b, d) → (∃ x : TarskiPlane, is_ordered((a, b, c, x)) && is_ordered((a, b, d, x)))",
     @readable.steps(
       [
         @readable.intro_tac("forall a b c d, H1 H2 H3"),
         @readable.consider(
           "u",
-          "TarskiBetween a c u /\\  c,u TarskiCong b,d    ",
+          "∃ u : TarskiPlane, TarskiBetween(a, c, u) && TarskiCong((c, u), (b, d))",
           "X1",
           @readable.by(@readable.fol, [@readable.Thm("A4", () => a4())]),
         ),
         @readable.have(
-          "\n    is_ordered (a,b,c,u)",
+          "is_ordered((a, b, c, u))",
           "X2",
           @readable.by(
             @readable.fol,
@@ -1126,7 +1126,7 @@ fn step_62() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween u c b",
+          "TarskiBetween(u, c, b)",
           "X3",
           @readable.by(
             @readable.fol,
@@ -1138,7 +1138,7 @@ fn step_62() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    u,c TarskiCong b,d",
+          "TarskiCong((u, c), (b, d))",
           "X4",
           @readable.by(
             @readable.fol,
@@ -1150,7 +1150,7 @@ fn step_62() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween a b u",
+          "TarskiBetween(a, b, u)",
           "X5",
           @readable.by(
             @readable.fol,
@@ -1162,12 +1162,12 @@ fn step_62() -> Unit raise {
         ),
         @readable.consider(
           "x",
-          "TarskiBetween a d x /\\  d,x TarskiCong b,c    ",
+          "∃ x : TarskiPlane, TarskiBetween(a, d, x) && TarskiCong((d, x), (b, c))",
           "Y1",
           @readable.by(@readable.fol, [@readable.Thm("A4", () => a4())]),
         ),
         @readable.have(
-          "\n    is_ordered (a,b,d,x)",
+          "is_ordered((a, b, d, x))",
           "Y2",
           @readable.by(
             @readable.fol,
@@ -1179,7 +1179,7 @@ fn step_62() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    c,b TarskiCong d,x",
+          "TarskiCong((c, b), (d, x))",
           "Y5",
           @readable.by(
             @readable.fol,
@@ -1192,7 +1192,7 @@ fn step_62() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween a b x",
+          "TarskiBetween(a, b, x)",
           "Y6",
           @readable.by(
             @readable.fol,
@@ -1203,7 +1203,7 @@ fn step_62() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    u,b TarskiCong b,x",
+          "TarskiCong((u, b), (b, x))",
           "",
           @readable.by(
             @readable.fol,
@@ -1218,7 +1218,7 @@ fn step_62() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    u = x",
+          "u == x",
           "",
           @readable.by(
             @readable.fol,
@@ -1255,14 +1255,14 @@ pub fn bextendtoline_thm() -> @kernel.Thm {
 /// GuptaEasy_THM
 fn step_64() -> Unit raise {
   guptaeasy_thm_c.set(@readable.prove(
-    "\n  forall a b c d.  ~(a = b) /\\  TarskiBetween a b c /\\  TarskiBetween a b d /\\ \n    ~(b = c) /\\  ~(b = d)  ==>  ~TarskiBetween c b d",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ d : TarskiPlane, !(a == b) && TarskiBetween(a, b, c) && TarskiBetween(a, b, d) && !(b == c) && !(b == d) → !TarskiBetween(c, b, d)",
     @readable.steps(
       [
         @readable.intro_tac("forall a b c d, H1 H2 H3 H4 H5"),
-        @readable.assuming("TarskiBetween c b d", "H6", @readable.by(@readable.fol, [])),
+        @readable.assuming("TarskiBetween(c, b, d)", "H6", @readable.by(@readable.fol, [])),
         @readable.consider(
           "x",
-          "is_ordered (a,b,c,x) /\\  is_ordered (a,b,d,x)    ",
+          "∃ x : TarskiPlane, is_ordered((a, b, c, x)) && is_ordered((a, b, d, x))",
           "X1",
           @readable.by(
             @readable.fol,
@@ -1275,7 +1275,7 @@ fn step_64() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween b d x",
+          "TarskiBetween(b, d, x)",
           "",
           @readable.by(
             @readable.fol,
@@ -1286,7 +1286,7 @@ fn step_64() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    is_ordered (c,b,d,x)",
+          "is_ordered((c, b, d, x))",
           "",
           @readable.by(
             @readable.fol,
@@ -1302,7 +1302,7 @@ fn step_64() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween b c x /\\  TarskiBetween c b x",
+          "TarskiBetween(b, c, x) && TarskiBetween(c, b, x)",
           "",
           @readable.by(
             @readable.fol,
@@ -1339,12 +1339,12 @@ pub fn guptaeasy_thm() -> @kernel.Thm {
 /// Inner5Segments_THM
 fn step_67() -> Unit raise {
   inner5segments_thm_c.set(@readable.prove(
-    "\n  forall a b c x a' b' c' x'.  a,b,c TarskiTriangleCong a',b',c' /\\ \n    TarskiBetween a x c /\\  TarskiBetween a' x' c' /\\  c,x TarskiCong c',x'  ==>  b,x TarskiCong b',x'",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ x : TarskiPlane, ∀ a' : TarskiPlane, ∀ b' : TarskiPlane, ∀ c' : TarskiPlane, ∀ x' : TarskiPlane, TarskiTriangleCong((a, b, c), (a', b', c')) && TarskiBetween(a, x, c) && TarskiBetween(a', x', c') && TarskiCong((c, x), (c', x')) → TarskiCong((b, x), (b', x'))",
     @readable.steps(
       [
         @readable.intro_tac("forall a b c x a' b' c' x', H1 H2 H3 H4"),
         @readable.have(
-          "\n    a,b TarskiCong a',b' /\\  a,c TarskiCong a',c' /\\  b,c TarskiCong b',c'",
+          "TarskiCong((a, b), (a', b')) && TarskiCong((a, c), (a', c')) && TarskiCong((b, c), (b', c'))",
           "X1",
           @readable.by(
             @readable.fol,
@@ -1352,7 +1352,7 @@ fn step_67() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "~(x = c)",
+          "!(x == c)",
           "Case2",
           @readable.by(
             @readable.fol,
@@ -1366,7 +1366,7 @@ fn step_67() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(a = c)",
+          "!(a == c)",
           "X2",
           @readable.by(
             @readable.fol,
@@ -1375,18 +1375,18 @@ fn step_67() -> Unit raise {
         ),
         @readable.consider(
           "y",
-          "TarskiBetween a c y /\\  c,y TarskiCong a,c    ",
+          "∃ y : TarskiPlane, TarskiBetween(a, c, y) && TarskiCong((c, y), (a, c))",
           "X3",
           @readable.by(@readable.fol, [@readable.Thm("A4", () => a4())]),
         ),
         @readable.consider(
           "y'",
-          "TarskiBetween a' c' y' /\\  c',y' TarskiCong a,c    ",
+          "∃ y' : TarskiPlane, TarskiBetween(a', c', y') && TarskiCong((c', y'), (a, c))",
           "X4",
           @readable.by(@readable.fol, [@readable.Thm("A4", () => a4())]),
         ),
         @readable.have(
-          "\n    c,y TarskiCong c',y'",
+          "TarskiCong((c, y), (c', y'))",
           "X5",
           @readable.by(
             @readable.fol,
@@ -1399,7 +1399,7 @@ fn step_67() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    c,b TarskiCong c',b'",
+          "TarskiCong((c, b), (c', b'))",
           "X6",
           @readable.by(
             @readable.fol,
@@ -1413,7 +1413,7 @@ fn step_67() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    a,c,b TarskiTriangleCong a',c',b'",
+          "TarskiTriangleCong((a, c, b), (a', c', b'))",
           "",
           @readable.by(
             @readable.fol,
@@ -1425,7 +1425,7 @@ fn step_67() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    b,y TarskiCong b',y'",
+          "TarskiCong((b, y), (b', y'))",
           "X7",
           @readable.by(
             @readable.fol,
@@ -1440,7 +1440,7 @@ fn step_67() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(y = c)",
+          "!(y == c)",
           "X8",
           @readable.by(
             @readable.fol,
@@ -1453,7 +1453,7 @@ fn step_67() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween y c x",
+          "TarskiBetween(y, c, x)",
           "X9",
           @readable.by(
             @readable.fol,
@@ -1466,7 +1466,7 @@ fn step_67() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween y' c' a' /\\  TarskiBetween c' x' a'",
+          "TarskiBetween(y', c', a') && TarskiBetween(c', x', a')",
           "",
           @readable.by(
             @readable.fol,
@@ -1479,7 +1479,7 @@ fn step_67() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween y' c' x'",
+          "TarskiBetween(y', c', x')",
           "X10",
           @readable.by(
             @readable.fol,
@@ -1490,7 +1490,7 @@ fn step_67() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    y,c,b TarskiTriangleCong y',c',b'",
+          "TarskiTriangleCong((y, c, b), (y', c', b'))",
           "",
           @readable.by(
             @readable.fol,
@@ -1535,12 +1535,12 @@ pub fn inner5segments_thm() -> @kernel.Thm {
 /// RhombusDiagBisect_THM
 fn step_68() -> Unit raise {
   rhombusdiagbisect_thm_c.set(@readable.prove(
-    "\n  forall b c d c' d'.  TarskiBetween b c d' /\\  TarskiBetween b d c' /\\ \n    c,d' TarskiCong c,d /\\  d,c' TarskiCong c,d /\\  d',c' TarskiCong c,d\n    ==> ?e. TarskiBetween c e c' /\\  TarskiBetween d e d' /\\  c,e TarskiCong c',e /\\  d,e TarskiCong d',e",
+    "∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ d : TarskiPlane, ∀ c' : TarskiPlane, ∀ d' : TarskiPlane, TarskiBetween(b, c, d') && TarskiBetween(b, d, c') && TarskiCong((c, d'), (c, d)) && TarskiCong((d, c'), (c, d)) && TarskiCong((d', c'), (c, d)) → (∃ e : TarskiPlane, TarskiBetween(c, e, c') && TarskiBetween(d, e, d') && TarskiCong((c, e), (c', e)) && TarskiCong((d, e), (d', e)))",
     @readable.steps(
       [
         @readable.intro_tac("forall b c d c' d', H1 H2 H3 H4 H5"),
         @readable.have(
-          "\n    TarskiBetween d' c b /\\  TarskiBetween c' d b",
+          "TarskiBetween(d', c, b) && TarskiBetween(c', d, b)",
           "X1",
           @readable.by(
             @readable.fol,
@@ -1553,7 +1553,7 @@ fn step_68() -> Unit raise {
         ),
         @readable.consider(
           "e",
-          "TarskiBetween c e c' /\\  TarskiBetween d e d'    ",
+          "∃ e : TarskiPlane, TarskiBetween(c, e, c') && TarskiBetween(d, e, d')",
           "X2",
           @readable.by(
             @readable.fol,
@@ -1561,7 +1561,7 @@ fn step_68() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    c,d TarskiCong c,d'",
+          "TarskiCong((c, d), (c, d'))",
           "X3",
           @readable.by(
             @readable.fol,
@@ -1572,7 +1572,7 @@ fn step_68() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    c,c' TarskiCong c,c'",
+          "TarskiCong((c, c'), (c, c'))",
           "X4",
           @readable.by(
             @readable.fol,
@@ -1580,7 +1580,7 @@ fn step_68() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    c,d,c' TarskiTriangleCong c,d',c'",
+          "TarskiTriangleCong((c, d, c'), (c, d', c'))",
           "",
           @readable.by(
             @readable.fol,
@@ -1596,7 +1596,7 @@ fn step_68() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    d,e TarskiCong d',e",
+          "TarskiCong((d, e), (d', e))",
           "X5",
           @readable.by(
             @readable.fol,
@@ -1609,7 +1609,7 @@ fn step_68() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    d,c TarskiCong d,c'",
+          "TarskiCong((d, c), (d, c'))",
           "X7",
           @readable.by(
             @readable.fol,
@@ -1622,7 +1622,7 @@ fn step_68() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    d,d' TarskiCong d,d'",
+          "TarskiCong((d, d'), (d, d'))",
           "X8",
           @readable.by(
             @readable.fol,
@@ -1630,7 +1630,7 @@ fn step_68() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    c,d' TarskiCong c',d'",
+          "TarskiCong((c, d'), (c', d'))",
           "",
           @readable.by(
             @readable.fol,
@@ -1644,7 +1644,7 @@ fn step_68() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    d,c,d' TarskiTriangleCong d,c',d'",
+          "TarskiTriangleCong((d, c, d'), (d, c', d'))",
           "",
           @readable.by(
             @readable.fol,
@@ -1658,7 +1658,7 @@ fn step_68() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    c,e TarskiCong c',e",
+          "TarskiCong((c, e), (c', e))",
           "",
           @readable.by(
             @readable.fol,
@@ -1692,12 +1692,12 @@ pub fn rhombusdiagbisect_thm() -> @kernel.Thm {
 /// FlatNormal_THM
 fn step_70() -> Unit raise {
   flatnormal_thm_c.set(@readable.prove(
-    "\n  forall a b c d d' e.  TarskiBetween d e d'  /\\ \n    c,d' TarskiCong c,d  /\\   d,e TarskiCong d',e  /\\   ~(c = d)  /\\   ~(e = d)\n    ==> ?p r q. TarskiBetween p r q /\\  TarskiBetween r c d' /\\  TarskiBetween e c p /\\ \n    r,c,p TarskiTriangleCong r,c,q /\\  r,c TarskiCong e,c /\\  p,r TarskiCong d,e",
+    "∀ a : _, ∀ b : _, ∀ c : TarskiPlane, ∀ d : TarskiPlane, ∀ d' : TarskiPlane, ∀ e : TarskiPlane, TarskiBetween(d, e, d') && TarskiCong((c, d'), (c, d)) && TarskiCong((d, e), (d', e)) && !(c == d) && !(e == d) → (∃ p : TarskiPlane, ∃ r : TarskiPlane, ∃ q : TarskiPlane, TarskiBetween(p, r, q) && TarskiBetween(r, c, d') && TarskiBetween(e, c, p) && TarskiTriangleCong((r, c, p), (r, c, q)) && TarskiCong((r, c), (e, c)) && TarskiCong((p, r), (d, e)))",
     @readable.steps(
       [
         @readable.intro_tac("forall a b c d d' e, H1 H2 H3 H4 H5"),
         @readable.have(
-          "\n    ~(c = d')",
+          "!(c == d')",
           "",
           @readable.by(
             @readable.fol,
@@ -1711,7 +1711,7 @@ fn step_70() -> Unit raise {
         ),
         @readable.consider(
           "p r",
-          "TarskiBetween e c p /\\  TarskiBetween d' c r /\\  p,r,c TarskiTriangleCong d',e,c    ",
+          "∃ p : TarskiPlane, ∃ r : TarskiPlane, TarskiBetween(e, c, p) && TarskiBetween(d', c, r) && TarskiTriangleCong((p, r, c), (d', e, c))",
           "X1",
           @readable.by(
             @readable.fol,
@@ -1722,7 +1722,7 @@ fn step_70() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    p,r TarskiCong d',e /\\  p,c TarskiCong d',c /\\  r,c TarskiCong e,c",
+          "TarskiCong((p, r), (d', e)) && TarskiCong((p, c), (d', c)) && TarskiCong((r, c), (e, c))",
           "X2",
           @readable.by(
             @readable.fol,
@@ -1734,7 +1734,7 @@ fn step_70() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    p,r TarskiCong d,e",
+          "TarskiCong((p, r), (d, e))",
           "X3",
           @readable.by(
             @readable.fol,
@@ -1747,7 +1747,7 @@ fn step_70() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(p = r)",
+          "!(p == r)",
           "X4",
           @readable.by(
             @readable.fol,
@@ -1761,12 +1761,12 @@ fn step_70() -> Unit raise {
         ),
         @readable.consider(
           "q",
-          "TarskiBetween p r q /\\  r,q TarskiCong e,d    ",
+          "∃ q : TarskiPlane, TarskiBetween(p, r, q) && TarskiCong((r, q), (e, d))",
           "X5",
           @readable.by(@readable.fol, [@readable.Thm("A4", () => a4())]),
         ),
         @readable.have(
-          "\n    c,p TarskiCong c,d",
+          "TarskiCong((c, p), (c, d))",
           "X7",
           @readable.by(
             @readable.fol,
@@ -1783,7 +1783,7 @@ fn step_70() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n\n    c,q TarskiCong c,d",
+          "TarskiCong((c, q), (c, d))",
           "",
           @readable.by(
             @readable.fol,
@@ -1798,7 +1798,7 @@ fn step_70() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    r,c,p TarskiTriangleCong r,c,q",
+          "TarskiTriangleCong((r, c, p), (r, c, q))",
           "",
           @readable.by(
             @readable.fol,
@@ -1848,12 +1848,12 @@ pub fn flatnormal_thm() -> @kernel.Thm {
 /// EqDist2PointsBetween_THM
 fn step_72() -> Unit raise {
   eqdist2pointsbetween_thm_c.set(@readable.prove(
-    "\n  forall a b c p q.  ~(a = b) /\\  TarskiBetween a b c /\\  a,p TarskiCong a,q /\\  b,p TarskiCong b,q\n    ==> c,p TarskiCong c,q",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ p : TarskiPlane, ∀ q : TarskiPlane, !(a == b) && TarskiBetween(a, b, c) && TarskiCong((a, p), (a, q)) && TarskiCong((b, p), (b, q)) → TarskiCong((c, p), (c, q))",
     @readable.steps(
       [
         @readable.intro_tac("forall a b c p q, H1 H2 H3 H4"),
         @readable.have(
-          "\n    a,b,p TarskiTriangleCong a,b,q",
+          "TarskiTriangleCong((a, b, p), (a, b, q))",
           "",
           @readable.by(
             @readable.fol,
@@ -1866,7 +1866,7 @@ fn step_72() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    p,c TarskiCong q,c",
+          "TarskiCong((p, c), (q, c))",
           "",
           @readable.by(
             @readable.fol,
@@ -1907,12 +1907,12 @@ pub fn eqdist2pointsbetween_thm() -> @kernel.Thm {
 /// EqDist2PointsInnerBetween_THM
 fn step_73() -> Unit raise {
   eqdist2pointsinnerbetween_thm_c.set(@readable.prove(
-    "\n  forall a x c p q.  TarskiBetween a x c  /\\   a,p TarskiCong a,q  /\\   c,p TarskiCong c,q\n    ==> x,p TarskiCong x,q",
+    "∀ a : TarskiPlane, ∀ x : TarskiPlane, ∀ c : TarskiPlane, ∀ p : TarskiPlane, ∀ q : TarskiPlane, TarskiBetween(a, x, c) && TarskiCong((a, p), (a, q)) && TarskiCong((c, p), (c, q)) → TarskiCong((x, p), (x, q))",
     @readable.steps(
       [
         @readable.intro_tac("forall a x c p q, H1 H2 H3"),
         @readable.have(
-          "\n    a,p,c TarskiTriangleCong a,q,c",
+          "TarskiTriangleCong((a, p, c), (a, q, c))",
           "",
           @readable.by(
             @readable.fol,
@@ -1929,7 +1929,7 @@ fn step_73() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    p,x TarskiCong q,x",
+          "TarskiCong((p, x), (q, x))",
           "",
           @readable.by(
             @readable.fol,
@@ -1969,12 +1969,12 @@ pub fn eqdist2pointsinnerbetween_thm() -> @kernel.Thm {
 /// Gupta_THM
 fn step_74() -> Unit raise {
   gupta_thm_c.set(@readable.prove(
-    "\n  forall a b c d.  ~(a = b)  /\\   TarskiBetween a b c  /\\   TarskiBetween a b d\n    ==> TarskiBetween b d c  \\/  TarskiBetween b c d",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ d : TarskiPlane, !(a == b) && TarskiBetween(a, b, c) && TarskiBetween(a, b, d) → TarskiBetween(b, d, c) || TarskiBetween(b, c, d)",
     @readable.steps(
       [
         @readable.intro_tac("forall a b c d, H1 H2 H3"),
         @readable.assuming(
-          "~(b = c) /\\  ~(b = d) /\\  ~(c = d)",
+          "!(b == c) && !(b == d) && !(c == d)",
           "H4",
           @readable.by(
             @readable.fol,
@@ -1986,24 +1986,24 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "~TarskiBetween b d c",
+          "!TarskiBetween(b, d, c)",
           "H5",
           @readable.by(@readable.fol, []),
         ),
         @readable.consider(
           "d'",
-          "TarskiBetween a c d' /\\  c,d' TarskiCong c,d    ",
+          "∃ d' : TarskiPlane, TarskiBetween(a, c, d') && TarskiCong((c, d'), (c, d))",
           "X1",
           @readable.by(@readable.fol, [@readable.Thm("A4", () => a4())]),
         ),
         @readable.consider(
           "c'",
-          "TarskiBetween a d c' /\\  d,c' TarskiCong c,d    ",
+          "∃ c' : TarskiPlane, TarskiBetween(a, d, c') && TarskiCong((d, c'), (c, d))",
           "X2",
           @readable.by(@readable.fol, [@readable.Thm("A4", () => a4())]),
         ),
         @readable.have(
-          "\n    is_ordered (a,b,c,d')",
+          "is_ordered((a, b, c, d'))",
           "",
           @readable.by(
             @readable.fol,
@@ -2015,7 +2015,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween a b d' /\\  TarskiBetween b c d'",
+          "TarskiBetween(a, b, d') && TarskiBetween(b, c, d')",
           "X3",
           @readable.by(
             @readable.fol,
@@ -2023,7 +2023,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    is_ordered (a,b,d,c')",
+          "is_ordered((a, b, d, c'))",
           "",
           @readable.by(
             @readable.fol,
@@ -2035,7 +2035,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween a b c' /\\  TarskiBetween b d c'",
+          "TarskiBetween(a, b, c') && TarskiBetween(b, d, c')",
           "X4",
           @readable.by(
             @readable.fol,
@@ -2043,7 +2043,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(c = d')",
+          "!(c == d')",
           "X5",
           @readable.by(
             @readable.fol,
@@ -2056,7 +2056,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(d = c')",
+          "!(d == c')",
           "X6",
           @readable.by(
             @readable.fol,
@@ -2069,7 +2069,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(b = d')",
+          "!(b == d')",
           "X7",
           @readable.by(
             @readable.fol,
@@ -2081,7 +2081,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(b = c')",
+          "!(b == c')",
           "X8",
           @readable.by(
             @readable.fol,
@@ -2094,12 +2094,12 @@ fn step_74() -> Unit raise {
         ),
         @readable.consider(
           "u",
-          "TarskiBetween c d' u /\\  d',u TarskiCong b,d    ",
+          "∃ u : TarskiPlane, TarskiBetween(c, d', u) && TarskiCong((d', u), (b, d))",
           "Y1",
           @readable.by(@readable.fol, [@readable.Thm("A4", () => a4())]),
         ),
         @readable.have(
-          "\n    is_ordered (b,c,d',u)",
+          "is_ordered((b, c, d', u))",
           "",
           @readable.by(
             @readable.fol,
@@ -2115,7 +2115,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween b c u /\\   TarskiBetween b d' u",
+          "TarskiBetween(b, c, u) && TarskiBetween(b, d', u)",
           "Y2",
           @readable.by(
             @readable.fol,
@@ -2124,12 +2124,12 @@ fn step_74() -> Unit raise {
         ),
         @readable.consider(
           "b'",
-          "TarskiBetween d c' b' /\\  c',b' TarskiCong b,c    ",
+          "∃ b' : TarskiPlane, TarskiBetween(d, c', b') && TarskiCong((c', b'), (b, c))",
           "Y3",
           @readable.by(@readable.fol, [@readable.Thm("A4", () => a4())]),
         ),
         @readable.have(
-          "\n    is_ordered (b,d,c',b')",
+          "is_ordered((b, d, c', b'))",
           "",
           @readable.by(
             @readable.fol,
@@ -2145,7 +2145,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween b d b' /\\  TarskiBetween b c' b'",
+          "TarskiBetween(b, d, b') && TarskiBetween(b, c', b')",
           "Y4",
           @readable.by(
             @readable.fol,
@@ -2153,7 +2153,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    c,d' TarskiCong c',d",
+          "TarskiCong((c, d'), (c', d))",
           "Y7",
           @readable.by(
             @readable.fol,
@@ -2167,7 +2167,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    c,u TarskiCong c',b",
+          "TarskiCong((c, u), (c', b))",
           "Y8",
           @readable.by(
             @readable.fol,
@@ -2183,7 +2183,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    b,c TarskiCong b',c'",
+          "TarskiCong((b, c), (b', c'))",
           "Y10",
           @readable.by(
             @readable.fol,
@@ -2196,7 +2196,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    b,u TarskiCong b,b'",
+          "TarskiCong((b, u), (b, b'))",
           "Y11",
           @readable.by(
             @readable.fol,
@@ -2213,7 +2213,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    is_ordered (a,b,d',u)",
+          "is_ordered((a, b, d', u))",
           "Y12",
           @readable.by(
             @readable.fol,
@@ -2229,7 +2229,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    is_ordered (a,b,c',b')",
+          "is_ordered((a, b, c', b'))",
           "",
           @readable.by(
             @readable.fol,
@@ -2245,7 +2245,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween a b u /\\  TarskiBetween a b b'",
+          "TarskiBetween(a, b, u) && TarskiBetween(a, b, b')",
           "",
           @readable.by(
             @readable.fol,
@@ -2257,7 +2257,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    u = b'",
+          "u == b'",
           "Y13",
           @readable.by(
             @readable.fol,
@@ -2270,7 +2270,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n\n    b,c,c' TarskiTriangleCong b',c',c",
+          "TarskiTriangleCong((b, c, c'), (b', c', c))",
           "Z2",
           @readable.by(
             @readable.fol,
@@ -2289,7 +2289,7 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    d',c' TarskiCong c,d",
+          "TarskiCong((d', c'), (c, d))",
           "",
           @readable.by(
             @readable.fol,
@@ -2308,7 +2308,7 @@ fn step_74() -> Unit raise {
         ),
         @readable.consider(
           "e",
-          "TarskiBetween c e c' /\\  TarskiBetween d e d' /\\  c,e TarskiCong c',e /\\  d,e TarskiCong d',e    ",
+          "∃ e : TarskiPlane, TarskiBetween(c, e, c') && TarskiBetween(d, e, d') && TarskiCong((c, e), (c', e)) && TarskiCong((d, e), (d', e))",
           "Z4",
           @readable.by(
             @readable.fol,
@@ -2323,13 +2323,13 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(e = c)",
+          "!(e == c)",
           "U1",
           @readable.steps(
             [
-              @readable.assuming("e = c", "U2", @readable.by(@readable.fol, [])),
+              @readable.assuming("e == c", "U2", @readable.by(@readable.fol, [])),
               @readable.have(
-                "\n      c' = c",
+                "c' == c",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -2342,7 +2342,7 @@ fn step_74() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      TarskiBetween b d c",
+                "TarskiBetween(b, d, c)",
                 "U3",
                 @readable.by(@readable.fol, [@readable.Prev, @readable.Label("X4")]),
               ),
@@ -2354,14 +2354,14 @@ fn step_74() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    e = d",
+          "e == d",
           "V1",
           @readable.steps(
             [
-              @readable.assuming("~(e = d)", "V2", @readable.by(@readable.fol, [])),
+              @readable.assuming("!(e == d)", "V2", @readable.by(@readable.fol, [])),
               @readable.consider(
                 "p r q",
-                "TarskiBetween p r q /\\  TarskiBetween r c d' /\\  TarskiBetween e c p /\\ \n      r,c,p TarskiTriangleCong r,c,q /\\  r,c TarskiCong e,c /\\  p,r TarskiCong d,e    ",
+                "∃ p : TarskiPlane, ∃ r : TarskiPlane, ∃ q : TarskiPlane, TarskiBetween(p, r, q) && TarskiBetween(r, c, d') && TarskiBetween(e, c, p) && TarskiTriangleCong((r, c, p), (r, c, q)) && TarskiCong((r, c), (e, c)) && TarskiCong((p, r), (d, e))",
                 "W1",
                 @readable.steps(
                   [
@@ -2369,7 +2369,7 @@ fn step_74() -> Unit raise {
                       th => @tactics.mp_tac(th),
                       @readable.TermsRule(
                         tms => th => @bool.ispecl(tms, th),
-                        ["a", " b", " c", " d", " d'", " e"],
+                        ["a", "b", "c", "d", "d'", "e"],
                         @readable.Thm("FlatNormal_THM", () => flatnormal_thm()),
                       ),
                     ),
@@ -2386,7 +2386,7 @@ fn step_74() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      r,p TarskiCong r,q /\\  c,p TarskiCong c,q",
+                "TarskiCong((r, p), (r, q)) && TarskiCong((c, p), (c, q))",
                 "W2",
                 @readable.by(
                   @readable.fol,
@@ -2394,7 +2394,7 @@ fn step_74() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n\n      ~(c = r)",
+                "!(c == r)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -2407,7 +2407,7 @@ fn step_74() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      d',p TarskiCong d',q",
+                "TarskiCong((d', p), (d', q))",
                 "W3",
                 @readable.by(
                   @readable.fol,
@@ -2423,7 +2423,7 @@ fn step_74() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n\n\n      b',p TarskiCong b',q",
+                "TarskiCong((b', p), (b', q))",
                 "W4",
                 @readable.by(
                   @readable.fol,
@@ -2441,7 +2441,7 @@ fn step_74() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n\n      b,p TarskiCong b,q",
+                "TarskiCong((b, p), (b, q))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -2459,7 +2459,7 @@ fn step_74() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n\n      c',p TarskiCong c',q",
+                "TarskiCong((c', p), (c', q))",
                 "W7",
                 @readable.by(
                   @readable.fol,
@@ -2475,7 +2475,7 @@ fn step_74() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n\n      is_ordered (c',e,c,p)",
+                "is_ordered((c', e, c, p))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -2492,7 +2492,7 @@ fn step_74() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      TarskiBetween c' c p",
+                "TarskiBetween(c', c, p)",
                 "W8",
                 @readable.by(
                   @readable.fol,
@@ -2503,7 +2503,7 @@ fn step_74() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ~(c' = c)",
+                "!(c' == c)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -2515,7 +2515,7 @@ fn step_74() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      p,p TarskiCong p,q",
+                "TarskiCong((p, p), (p, q))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -2573,12 +2573,12 @@ pub fn gupta_thm() -> @kernel.Thm {
 /// I1part1_THM
 fn step_82() -> Unit raise {
   i1part1_thm_c.set(@readable.prove(
-    "\n  forall a b x. ~(a = b)  /\\   ~(a = x)  /\\   x on_line a,b  ==>\n    forall c. c on_line a,b   ==>  c on_line a,x",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ x : TarskiPlane, !(a == b) && !(a == x) && on_line(x, (a, b)) → (∀ c : TarskiPlane, on_line(c, (a, b)) → on_line(c, (a, x)))",
     @readable.steps(
       [
         @readable.intro_tac("forall a b x, H1 H2 H3, forall c, H4"),
         @readable.have(
-          "\n    TarskiBetween a b x \\/ TarskiBetween a x b \\/ TarskiBetween x a b",
+          "TarskiBetween(a, b, x) || TarskiBetween(a, x, b) || TarskiBetween(x, a, b)",
           "X1",
           @readable.by(
             @readable.fol,
@@ -2586,7 +2586,7 @@ fn step_82() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween a b c \\/ TarskiBetween a c b \\/ TarskiBetween c a b",
+          "TarskiBetween(a, b, c) || TarskiBetween(a, c, b) || TarskiBetween(c, a, b)",
           "X2",
           @readable.by(
             @readable.fol,
@@ -2594,7 +2594,7 @@ fn step_82() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "~(x = b) /\\  ~(b = c)",
+          "!(x == b) && !(b == c)",
           "Case2",
           @readable.by(
             @readable.fol,
@@ -2609,32 +2609,24 @@ fn step_82() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    TarskiBetween a x c \\/ TarskiBetween a c x \\/ TarskiBetween x a c",
+          "TarskiBetween(a, x, c) || TarskiBetween(a, c, x) || TarskiBetween(x, a, c)",
           "",
           @readable.case_split(
             "Y1 | Y2 | Y3    ",
             @readable.by(@readable.fol, [@readable.Label("X1")]),
-            @list.List(
-              ["TarskiBetween a b x", "TarskiBetween a x b", "TarskiBetween x a b"],
-            ),
+            @list.List(["TarskiBetween(a, b, x)", "TarskiBetween(a, x, b)", "TarskiBetween(x, a, b)"]),
             @list.List(
               [
                 @readable.case_split(
                   "Y11 | Bacb | Bcab    ",
                   @readable.by(@readable.fol, [@readable.Label("X2")]),
-                  @list.List(
-                    [
-                      "TarskiBetween a b c",
-                      "TarskiBetween a c b",
-                      "TarskiBetween c a b",
-                    ],
-                  ),
+                  @list.List(["TarskiBetween(a, b, c)", "TarskiBetween(a, c, b)", "TarskiBetween(c, a, b)"]),
                   @list.List(
                     [
                       @readable.steps(
                         [
                           @readable.have(
-                            "\n          TarskiBetween b x c \\/ TarskiBetween b c x",
+                            "TarskiBetween(b, x, c) || TarskiBetween(b, c, x)",
                             "",
                             @readable.by(
                               @readable.fol,
@@ -2647,7 +2639,7 @@ fn step_82() -> Unit raise {
                             ),
                           ),
                           @readable.have(
-                            "\n          is_ordered (a,b,x,c) \\/ is_ordered (a,b,c,x)",
+                            "is_ordered((a, b, x, c)) || is_ordered((a, b, c, x))",
                             "",
                             @readable.by(
                               @readable.fol,
@@ -2675,7 +2667,7 @@ fn step_82() -> Unit raise {
                       @readable.steps(
                         [
                           @readable.have(
-                            "\n          is_ordered (a,c,b,x)",
+                            "is_ordered((a, c, b, x))",
                             "",
                             @readable.by(
                               @readable.fol,
@@ -2701,7 +2693,7 @@ fn step_82() -> Unit raise {
                       @readable.steps(
                         [
                           @readable.have(
-                            "\n          is_ordered (c,a,b,x)",
+                            "is_ordered((c, a, b, x))",
                             "",
                             @readable.by(
                               @readable.fol,
@@ -2732,19 +2724,13 @@ fn step_82() -> Unit raise {
                 @readable.case_split(
                   "Babc | Y22 | Bcab    ",
                   @readable.by(@readable.fol, [@readable.Label("X2")]),
-                  @list.List(
-                    [
-                      "TarskiBetween a b c",
-                      "TarskiBetween a c b",
-                      "TarskiBetween c a b",
-                    ],
-                  ),
+                  @list.List(["TarskiBetween(a, b, c)", "TarskiBetween(a, c, b)", "TarskiBetween(c, a, b)"]),
                   @list.List(
                     [
                       @readable.steps(
                         [
                           @readable.have(
-                            "\n          is_ordered (a,x,b,c)",
+                            "is_ordered((a, x, b, c))",
                             "",
                             @readable.by(
                               @readable.fol,
@@ -2771,7 +2757,7 @@ fn step_82() -> Unit raise {
                         [
                           @readable.consider(
                             "m",
-                            "TarskiBetween b a m /\\  a,m TarskiCong a,b    ",
+                            "∃ m : TarskiPlane, TarskiBetween(b, a, m) && TarskiCong((a, m), (a, b))",
                             "X5",
                             @readable.by(
                               @readable.fol,
@@ -2779,7 +2765,7 @@ fn step_82() -> Unit raise {
                             ),
                           ),
                           @readable.have(
-                            "\n          ~(a = m)",
+                            "!(a == m)",
                             "X6",
                             @readable.by(
                               @readable.fol,
@@ -2792,7 +2778,7 @@ fn step_82() -> Unit raise {
                             ),
                           ),
                           @readable.have(
-                            "\n          TarskiBetween m a b",
+                            "TarskiBetween(m, a, b)",
                             "",
                             @readable.by(
                               @readable.fol,
@@ -2803,7 +2789,7 @@ fn step_82() -> Unit raise {
                             ),
                           ),
                           @readable.have(
-                            "   \n          TarskiBetween m a c /\\  TarskiBetween m a x",
+                            "TarskiBetween(m, a, c) && TarskiBetween(m, a, x)",
                             "",
                             @readable.by(
                               @readable.fol,
@@ -2831,7 +2817,7 @@ fn step_82() -> Unit raise {
                       @readable.steps(
                         [
                           @readable.have(
-                            "\n          TarskiBetween c a x",
+                            "TarskiBetween(c, a, x)",
                             "",
                             @readable.by(
                               @readable.fol,
@@ -2860,19 +2846,13 @@ fn step_82() -> Unit raise {
                 @readable.case_split(
                   "Babc | Bacb | Bcab    ",
                   @readable.by(@readable.fol, [@readable.Label("X2")]),
-                  @list.List(
-                    [
-                      "TarskiBetween a b c",
-                      "TarskiBetween a c b",
-                      "TarskiBetween c a b",
-                    ],
-                  ),
+                  @list.List(["TarskiBetween(a, b, c)", "TarskiBetween(a, c, b)", "TarskiBetween(c, a, b)"]),
                   @list.List(
                     [
                       @readable.steps(
                         [
                           @readable.have(
-                            "\n          is_ordered (x,a,b,c)",
+                            "is_ordered((x, a, b, c))",
                             "",
                             @readable.by(
                               @readable.fol,
@@ -2914,7 +2894,7 @@ fn step_82() -> Unit raise {
                       @readable.steps(
                         [
                           @readable.have(
-                            "\n          TarskiBetween b a x /\\  TarskiBetween b a c",
+                            "TarskiBetween(b, a, x) && TarskiBetween(b, a, c)",
                             "",
                             @readable.by(
                               @readable.fol,
@@ -2969,12 +2949,12 @@ pub fn i1part1_thm() -> @kernel.Thm {
 /// I1part2_THM
 fn step_85() -> Unit raise {
   i1part2_thm_c.set(@readable.prove(
-    "\n  forall a b x.  ~(a = b) /\\  ~(a = x) /\\  x on_line a,b  ==>  a,b equal_line a,x",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ x : TarskiPlane, !(a == b) && !(a == x) && on_line(x, (a, b)) → equal_line((a, b), (a, x))",
     @readable.steps(
       [
         @readable.intro_tac("forall a b x, H1 H2 H3"),
         @readable.have(
-          "\n    forall c. c on_line a,b <=> c on_line a,x",
+          "∀ c : TarskiPlane, on_line(c, (a, b)) == on_line(c, (a, x))",
           "",
           @readable.steps(
             [
@@ -2992,7 +2972,7 @@ fn step_85() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      b on_line a,x",
+                "on_line(b, (a, x))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -3044,7 +3024,7 @@ pub fn i1part2_thm() -> @kernel.Thm {
 /// LineEqRefl_THM
 fn step_88() -> Unit raise {
   lineeqrefl_thm_c.set(@readable.prove(
-    "\n  forall a b.  ~(a = b)  ==>  a,b equal_line a,b",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, !(a == b) → equal_line((a, b), (a, b))",
     @readable.by(@readable.fol, [@readable.Thm("LineEq_DEF", () => lineeq_def())]),
   ))
 }
@@ -3062,12 +3042,12 @@ pub fn lineeqrefl_thm() -> @kernel.Thm {
 /// LineEqA1_THM
 fn step_89() -> Unit raise {
   lineeqa1_thm_c.set(@readable.prove(
-    "\n  forall a b.  ~(a = b)  ==>  a,b equal_line b,a",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, !(a == b) → equal_line((a, b), (b, a))",
     @readable.steps(
       [
         @readable.intro_tac("forall a b, H1"),
         @readable.have(
-          "\n    forall c. c on_line a,b  <=>  c on_line b,a",
+          "∀ c : TarskiPlane, on_line(c, (a, b)) == on_line(c, (b, a))",
           "",
           @readable.by(
             @readable.fol,
@@ -3104,7 +3084,7 @@ pub fn lineeqa1_thm() -> @kernel.Thm {
 /// LineEqSymmetric_THM
 fn step_90() -> Unit raise {
   lineeqsymmetric_thm_c.set(@readable.prove(
-    "\n  forall a b c d.  ~(a = b) /\\  ~(c = d)  ==>  a,b equal_line c,d\n    ==>  c,d equal_line a,b",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ d : TarskiPlane, !(a == b) && !(c == d) → equal_line((a, b), (c, d)) → equal_line((c, d), (a, b))",
     @readable.by(@readable.fol, [@readable.Thm("LineEq_DEF", () => lineeq_def())]),
   ))
 }
@@ -3122,12 +3102,12 @@ pub fn lineeqsymmetric_thm() -> @kernel.Thm {
 /// LineEqTrans_THM
 fn step_91() -> Unit raise {
   lineeqtrans_thm_c.set(@readable.prove(
-    "\n  forall a b c d e f.  ~(a = b) /\\  ~(c = d) /\\  ~(e = f)  ==>  a,b equal_line c,d  ==>\n    c,d equal_line e,f ==>  a,b equal_line e,f",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ d : TarskiPlane, ∀ e : TarskiPlane, ∀ f : TarskiPlane, !(a == b) && !(c == d) && !(e == f) → equal_line((a, b), (c, d)) → equal_line((c, d), (e, f)) → equal_line((a, b), (e, f))",
     @readable.steps(
       [
         @readable.intro_tac("forall a b c d e f, H1, H2, H3"),
         @readable.have(
-          "\n    forall y. y on_line a,b  <=>  y on_line e,f",
+          "∀ y : TarskiPlane, on_line(y, (a, b)) == on_line(y, (e, f))",
           "",
           @readable.by(
             @readable.fol,
@@ -3164,7 +3144,7 @@ pub fn lineeqtrans_thm() -> @kernel.Thm {
 /// onlineEq_THM
 fn step_92() -> Unit raise {
   onlineeq_thm_c.set(@readable.prove(
-    "\n  forall a b c d x.  x on_line a,b  ==>  a,b equal_line c,d\n    ==>  x on_line c,d",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ c : TarskiPlane, ∀ d : TarskiPlane, ∀ x : TarskiPlane, on_line(x, (a, b)) → equal_line((a, b), (c, d)) → on_line(x, (c, d))",
     @readable.by(@readable.fol, [@readable.Thm("LineEq_DEF", () => lineeq_def())]),
   ))
 }
@@ -3182,12 +3162,12 @@ pub fn onlineeq_thm() -> @kernel.Thm {
 /// I1part2Reverse_THM
 fn step_93() -> Unit raise {
   i1part2reverse_thm_c.set(@readable.prove(
-    "\n  forall a b y.  ~(a = b) /\\  ~(b = y)  ==>  y on_line a,b\n    ==>  a,b equal_line y,b",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ y : TarskiPlane, !(a == b) && !(b == y) → on_line(y, (a, b)) → equal_line((a, b), (y, b))",
     @readable.steps(
       [
         @readable.intro_tac("forall a b y, H1, H3"),
         @readable.have(
-          "\n    a,b equal_line b,a /\\  b,y equal_line y,b",
+          "equal_line((a, b), (b, a)) && equal_line((b, y), (y, b))",
           "Y1",
           @readable.by(
             @readable.fol,
@@ -3195,7 +3175,7 @@ fn step_93() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    y on_line b,a",
+          "on_line(y, (b, a))",
           "",
           @readable.by(
             @readable.fol,
@@ -3207,7 +3187,7 @@ fn step_93() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    a,b equal_line b,y",
+          "equal_line((a, b), (b, y))",
           "",
           @readable.by(
             @readable.fol,
@@ -3247,19 +3227,19 @@ pub fn i1part2reverse_thm() -> @kernel.Thm {
 /// I1_THM
 fn step_98() -> Unit raise {
   i1_thm_c.set(@readable.prove(
-    "\n  forall a b x y.  ~(a = b) /\\  ~(x = y) /\\  a on_line x,y /\\  b on_line x,y\n    ==> x,y equal_line a,b",
+    "∀ a : TarskiPlane, ∀ b : TarskiPlane, ∀ x : TarskiPlane, ∀ y : TarskiPlane, !(a == b) && !(x == y) && on_line(a, (x, y)) && on_line(b, (x, y)) → equal_line((x, y), (a, b))",
     @readable.steps_then(
       [@readable.intro_tac("forall a b x y, H1 H2 H3 H4")],
       @readable.case_split(
         "H5 | H6    ",
         @readable.by(@readable.fol, []),
-        @list.List(["(x = b)", "~(x = b)"]),
+        @list.List(["x == b", "!(x == b)"]),
         @list.List(
           [
             @readable.steps(
               [
                 @readable.have(
-                  "\n      b,a equal_line a,b  /\\   x,y equal_line b,y",
+                  "equal_line((b, a), (a, b)) && equal_line((x, y), (b, y))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -3290,7 +3270,7 @@ fn step_98() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      x,y equal_line x,b",
+                  "equal_line((x, y), (x, b))",
                   "P4",
                   @readable.by(
                     @readable.fol,
@@ -3304,7 +3284,7 @@ fn step_98() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      a on_line x,b",
+                  "on_line(a, (x, b))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -3318,7 +3298,7 @@ fn step_98() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      x,b equal_line a,b",
+                  "equal_line((x, b), (a, b))",
                   "",
                   @readable.by(
                     @readable.fol,

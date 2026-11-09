@@ -40,7 +40,12 @@ pub fn oriented_area() -> @kernel.Thm {
 ///|
 /// move
 fn step_4() -> Unit raise {
-  move__c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀A B C A' B' C':real^2. move (A,B,C) (A',B',C') ⇔\n  (B = B' ∧ C = C' ∧ collinear {vec 0,C - B,A' - A} ∨\n  A = A' ∧ C = C' ∧ collinear {vec 0,C - A,B' - B} ∨\n  A = A' ∧ B = B' ∧ collinear {vec 0,B - A,C' - C})")))
+  move__c.set(@pair.new_definition(
+    // `move` is a MoonBit keyword, which the term syntax cannot name yet
+    @preterm.term_of_preterm(
+      @preterm.retypecheck(@list.List([]), @parser.parse_preterm(@lexer.lex("\n  forall A B C A' B' C':real^2. move (A,B,C) (A',B',C') <=>\n  (B = B' /\\  C = C' /\\  collinear {vec 0,C - B,A' - A} \\/\n  A = A' /\\  C = C' /\\  collinear {vec 0,C - A,B' - B} \\/\n  A = A' /\\  B = B' /\\  collinear {vec 0,B - A,C' - C})")).0),
+    ),
+  ))
 }
 
 ///|
@@ -55,7 +60,7 @@ pub fn move_() -> @kernel.Thm {
 ///|
 /// reachable
 fn step_5() -> Unit raise {
-  reachable_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀p p'.\n  reachable p p'  ⇔  ∃n. ∃s. s 0 = p ∧ s n = p' ∧\n  (∀m. 0 <= m ∧ m < n ⇒ move (s m) (s (SUC m)))")))
+  reachable_c.set(@readable.newdefinition("∀ p : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∀ p' : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), (reachable : ((Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2])) -> Bool)(p, p') == (∃ n : Num, ∃ s : (Num) -> (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), s(0) == p && s(n) == p' && (∀ m : Num, 0 <= m && m < n → op_move(s(m), s(SUC(m)))))"))
 }
 
 ///|
@@ -70,7 +75,7 @@ pub fn reachable() -> @kernel.Thm {
 ///|
 /// reachableN
 fn step_6() -> Unit raise {
-  reachablen_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀p p'. ∀n.\n  reachableN p p' n  ⇔  ∃s. s 0 = p ∧ s n = p' ∧\n  (∀m. 0 <= m ∧ m < n ⇒ move (s m) (s (SUC m)))")))
+  reachablen_c.set(@readable.newdefinition("∀ p : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∀ p' : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∀ n : Num, (reachableN : ((Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), Num) -> Bool)(p, p', n) == (∃ s : (Num) -> (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), s(0) == p && s(n) == p' && (∀ m : Num, 0 <= m && m < n → op_move(s(m), s(SUC(m)))))"))
 }
 
 ///|
@@ -85,7 +90,7 @@ pub fn reachablen() -> @kernel.Thm {
 ///|
 /// move2Cond
 fn step_7() -> Unit raise {
-  move2cond_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀ A B A' B':real^2. move2Cond A B A' B'  ⇔\n  ¬collinear {B,A,A'} ∧ ¬collinear {A',B,B'}   ∨\n  ¬collinear {A,B,B'} ∧ ¬collinear {B',A,A'}")))
+  move2cond_c.set(@readable.newdefinition("∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ A' : Cart[Real, 2], ∀ B' : Cart[Real, 2], (move2Cond : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]) -> Bool)(A, B, A', B') == (!collinear({B, A, A'}) && !collinear({A', B, B'}) || !collinear({A, B, B'}) && !collinear({B', A, A'}))"))
 }
 
 ///|
@@ -101,7 +106,7 @@ pub fn move2cond() -> @kernel.Thm {
 /// oriented_areaSymmetry
 fn step_8() -> Unit raise {
   oriented_areasymmetry_c.set(@readable.prove(
-    "\n  oriented_area (A,B,C) = oriented_area(A',B',C')  ==>\n  oriented_area (B,C,A) = oriented_area (B',C',A')  /\\ \n  oriented_area (C,A,B) = oriented_area (C',A',B')  /\\ \n  oriented_area (A,C,B) = oriented_area (A',C',B')  /\\ \n  oriented_area (B,A,C) = oriented_area (B',A',C')  /\\ \n  oriented_area (C,B,A) = oriented_area (C',B',A')",
+    "oriented_area(((A : Cart[Real, 2]), (B : Cart[Real, 2]), (C : Cart[Real, 2]))) == oriented_area(((A' : Cart[Real, 2]), (B' : Cart[Real, 2]), (C' : Cart[Real, 2]))) → oriented_area((B, C, A)) == oriented_area((B', C', A')) && oriented_area((C, A, B)) == oriented_area((C', A', B')) && oriented_area((A, C, B)) == oriented_area((A', C', B')) && oriented_area((B, A, C)) == oriented_area((B', A', C')) && oriented_area((C, B, A)) == oriented_area((C', B', A'))",
     @readable.steps(
       [
         @readable.by(
@@ -127,7 +132,7 @@ pub fn oriented_areasymmetry() -> @kernel.Thm {
 /// COLLINEAR_3_2Dzero
 fn step_12() -> Unit raise {
   collinear_3_2dzero_c.set(@readable.prove(
-    "\n  forall y z:real^2. collinear{vec 0,y,z} <=>\n                  z$1 * y$2 = y$1 * z$2",
+    "∀ y : Cart[Real, 2], ∀ z : Cart[Real, 2], collinear({vec(0), y, z}) == (op_dollar(z, 1) * op_dollar(y, 2) == op_dollar(y, 1) * op_dollar(z, 2))",
     @readable.steps(
       [
         @readable.by(
@@ -153,7 +158,7 @@ pub fn collinear_3_2dzero() -> @kernel.Thm {
 /// Noncollinear_3ImpliesDistinct
 fn step_14() -> Unit raise {
   noncollinear_3impliesdistinct_c.set(@readable.prove(
-    "\n  ~collinear {a,b,c}  ==>  ~(a = b) /\\  ~(a = c) /\\  ~(b = c)",
+    "!collinear({(a : Cart[Real, _]), (b : Cart[Real, _]), (c : Cart[Real, _])}) → !(a == b) && !(a == c) && !(b == c)",
     @readable.by(
       @readable.fol,
       [
@@ -180,11 +185,11 @@ pub fn noncollinear_3impliesdistinct() -> @kernel.Thm {
 /// collinearSymmetry
 fn step_18() -> Unit raise {
   collinearsymmetry_c.set(@readable.prove(
-    "\n  collinear {A,B,C}\n         ==> collinear {A,C,B} /\\  collinear {B,A,C} /\\ \n             collinear {B,C,A} /\\  collinear {C,A,B} /\\  collinear {C,B,A}",
+    "collinear({(A : Cart[Real, _]), (B : Cart[Real, _]), (C : Cart[Real, _])}) → collinear({A, C, B}) && collinear({B, A, C}) && collinear({B, C, A}) && collinear({C, A, B}) && collinear({C, B, A})",
     @readable.steps(
       [
         @readable.have(
-          "\n    {A,C,B} SUBSET {A,B,C} /\\   {B,A,C} SUBSET {A,B,C} /\\ \n    {B,C,A} SUBSET {A,B,C} /\\   {C,A,B} SUBSET {A,B,C} /\\   {C,B,A} SUBSET {A,B,C}",
+          "SUBSET({A, C, B}, {A, B, C}) && SUBSET({B, A, C}, {A, B, C}) && SUBSET({B, C, A}, {A, B, C}) && SUBSET({C, A, B}, {A, B, C}) && SUBSET({C, B, A}, {A, B, C})",
           "",
           @readable.by(@readable.set, []),
         ),
@@ -213,12 +218,12 @@ pub fn collinearsymmetry() -> @kernel.Thm {
 /// Noncollinear_2Span
 fn step_21() -> Unit raise {
   noncollinear_2span_c.set(@readable.prove(
-    "\n  forall u v w:real^2. ~collinear  {vec 0,v,w} ==> ? s t. s % v + t % w = u",
+    "∀ u : Cart[Real, 2], ∀ v : Cart[Real, 2], ∀ w : Cart[Real, 2], !collinear({vec(0), v, w}) → (∃ s : Real, ∃ t : Real, op_pct(s, v) + op_pct(t, w) == u)",
     @readable.steps(
       [
         @readable.intro_tac("forall u v w, H1"),
         @readable.have(
-          "\n    ~(v$1 * w$2 - w$1 * v$2 = &0)",
+          "!(op_dollar(v, 1) * op_dollar(w, 2) - op_dollar(w, 1) * op_dollar(v, 2) == real_of_num(0))",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -231,12 +236,12 @@ fn step_21() -> Unit raise {
         ),
         @readable.consider(
           "M",
-          "M = transp(vector[v;w]):real^2^2    ",
+          "∃ M : Cart[Cart[Real, 2], 2], M == transp(vector([v, w]))",
           "Mexists",
           @readable.by(@readable.fol, [@readable.Prev]),
         ),
         @readable.have(
-          "\n    ~(det M = &0) /\\ \n    (forall  x. (M ** x)$1 = v$1 * x$1 + w$1 * x$2  /\\ \n    (M ** x)$2 = v$2 * x$1 + w$2 * x$2)",
+          "!(det(M) == real_of_num(0)) && (∀ x : Cart[Real, 2], op_dollar(matrix_vector_mul(M, x), 1) == op_dollar(v, 1) * op_dollar(x, 1) + op_dollar(w, 1) * op_dollar(x, 2) && op_dollar(matrix_vector_mul(M, x), 2) == op_dollar(v, 2) * op_dollar(x, 1) + op_dollar(w, 2) * op_dollar(x, 2))",
           "MatMult",
           @readable.by(
             @readable.simplify,
@@ -257,13 +262,13 @@ fn step_21() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    forall  r n. ~(r < n)  /\\   r <= MIN n n  ==>  r = n",
+          "∀ r : Num, ∀ n : Num, !(r < n) && r <= MIN(n, n) → r == n",
           "",
           @readable.by(@readable.arithmetic, []),
         ),
         @readable.consider(
           "x",
-          "M ** x = u    ",
+          "∃ x : Cart[Real, 2], matrix_vector_mul(M, x) == u",
           "xDef",
           @readable.by(
             @readable.fol,
@@ -279,10 +284,10 @@ fn step_21() -> Unit raise {
             ],
           ),
         ),
-        @readable.exists("x$1"),
-        @readable.exists("x$2"),
+        @readable.exists("op_dollar(x, 1)"),
+        @readable.exists("op_dollar(x, 2)"),
         @readable.have(
-          "\n    x$1 * v$1 + x$2 * w$1 = u$1  /\\ \n    x$1 * v$2 + x$2 * w$2 = u$2",
+          "op_dollar(x, 1) * op_dollar(v, 1) + op_dollar(x, 2) * op_dollar(w, 1) == op_dollar(u, 1) && op_dollar(x, 1) * op_dollar(v, 2) + op_dollar(x, 2) * op_dollar(w, 2) == op_dollar(u, 2)",
           "xDef",
           @readable.by(
             @readable.fol,
@@ -326,7 +331,7 @@ pub fn noncollinear_2span() -> @kernel.Thm {
 /// moveInvariant
 fn step_42() -> Unit raise {
   moveinvariant_c.set(@readable.prove(
-    "\n  forall p p'. move p p' ==> oriented_area p = oriented_area p'",
+    "∀ p : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∀ p' : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), op_move(p, p') → oriented_area(p) == oriented_area(p')",
     @readable.steps(
       [
         @readable.by(
@@ -358,7 +363,7 @@ pub fn moveinvariant() -> @kernel.Thm {
 /// ReachLemma
 fn step_46() -> Unit raise {
   reachlemma_c.set(@readable.prove(
-    "\n  forall p p'. reachable p p'  <=>  ?n.  reachableN p p' n",
+    "∀ p : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∀ p' : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), reachable(p, p') == (∃ n : Num, reachableN(p, p', n))",
     @readable.steps(
       [
         @readable.by(
@@ -386,18 +391,18 @@ pub fn reachlemma() -> @kernel.Thm {
 /// reachableN_CLAUSES
 fn step_49() -> Unit raise {
   reachablen_clauses_c.set(@readable.prove(
-    "\n  forall  p p'. (reachableN p p' 0  <=>  p = p') /\\ \n  forall  n. reachableN p p' (SUC n)  <=>  ? q. reachableN p q n  /\\  move q p'",
+    "∀ p : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∀ p' : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), reachableN(p, p', 0) == (p == p') && (∀ n : Num, reachableN(p, p', SUC(n)) == (∃ q : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), reachableN(p, q, n) && op_move(q, p')))",
     @readable.steps(
       [
         @readable.intro_tac("forall p p'"),
         @readable.consider(
           "s0",
-          "s0 =  \\ m:num. p:triple    ",
+          "∃ s0 : (Num) -> (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), s0 == ((m : Num) => p)",
           "s0exists",
           @readable.by(@readable.fol, []),
         ),
         @readable.have(
-          "\n    reachableN p p' 0  <=>  p = p'",
+          "reachableN(p, p', 0) == (p == p')",
           "0CLAUSE",
           @readable.by(
             @readable.fol,
@@ -410,14 +415,14 @@ fn step_49() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    forall  n. reachableN p p' (SUC n)  ==>  ? q. reachableN p q n  /\\  move q p'",
+          "∀ n : Num, reachableN(p, p', SUC(n)) → (∃ q : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), reachableN(p, q, n) && op_move(q, p'))",
           "Imp1",
           @readable.steps(
             [
               @readable.intro_tac("forall n, H1"),
               @readable.consider(
                 "s",
-                "s 0 = p /\\  s (SUC n) = p' /\\  forall m. m < SUC n ==> move (s m) (s (SUC m))    ",
+                "∃ s : (Num) -> (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), s(0) == p && s(SUC(n)) == p' && (∀ m : Num, m < SUC(n) → op_move(s(m), s(SUC(m))))",
                 "sDef",
                 @readable.by(
                   @readable.fol,
@@ -430,7 +435,7 @@ fn step_49() -> Unit raise {
               ),
               @readable.consider(
                 "q",
-                "q = s n    ",
+                "∃ q : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), q == s(n)",
                 "qDef",
                 @readable.by(@readable.fol, []),
               ),
@@ -448,7 +453,7 @@ fn step_49() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    forall n. (? q. reachableN p q n  /\\  move q p')  ==>  reachableN p p' (SUC n)",
+          "∀ n : Num, (∃ q : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), reachableN(p, q, n) && op_move(q, p')) → reachableN(p, p', SUC(n))",
           "Imp2",
           @readable.steps(
             [
@@ -466,7 +471,7 @@ fn step_49() -> Unit raise {
               @readable.intro_tac("forall q, nReach, move_qp'"),
               @readable.consider(
                 "s",
-                "s 0 = p /\\  s n = q /\\  forall m. m < n ==> move (s m) (s (SUC m))    ",
+                "∃ s : (Num) -> (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), s(0) == p && s(n) == q && (∀ m : Num, m < n → op_move(s(m), s(SUC(m))))",
                 "sDef",
                 @readable.by(
                   @readable.fol,
@@ -486,7 +491,7 @@ fn step_49() -> Unit raise {
                   @readable.Thm("LE_0", () => @arith.le_0()),
                 ],
               ),
-              @readable.exists("\\ m. if m < SUC n then s m else p'"),
+              @readable.exists("(m : Num) => if m < SUC(n) { s(m) } else { p' }"),
               @readable.by(
                 @readable.fol,
                 [
@@ -523,7 +528,7 @@ pub fn reachablen_clauses() -> @kernel.Thm {
 /// reachableInvariant
 fn step_57() -> Unit raise {
   reachableinvariant_c.set(@readable.prove(
-    "\n  forall p p'. reachable p p'  ==>  oriented_area p = oriented_area p'",
+    "∀ p : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∀ p' : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), reachable(p, p') → oriented_area(p) == oriented_area(p')",
     @readable.steps(
       [
         @readable.by(
@@ -568,7 +573,7 @@ pub fn reachableinvariant() -> @kernel.Thm {
 /// reachableN_One
 fn step_64() -> Unit raise {
   reachablen_one_c.set(@readable.prove(
-    "\n  reachableN P0 P1 1 <=> move P0 P1",
+    "reachableN((P0 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2])), (P1 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2])), 1) == op_move(P0, P1)",
     @readable.by(
       @readable.fol,
       [
@@ -593,7 +598,7 @@ pub fn reachablen_one() -> @kernel.Thm {
 /// reachableN_Two
 fn step_66() -> Unit raise {
   reachablen_two_c.set(@readable.prove(
-    "\n  reachableN P0 P2 2 <=> ?P1. move P0 P1 /\\  move P1 P2",
+    "reachableN((P0 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2])), (P2 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2])), 2) == (∃ P1 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), op_move(P0, P1) && op_move(P1, P2))",
     @readable.by(
       @readable.fol,
       [
@@ -618,11 +623,11 @@ pub fn reachablen_two() -> @kernel.Thm {
 /// reachableN_Three
 fn step_69() -> Unit raise {
   reachablen_three_c.set(@readable.prove(
-    "\n  reachableN P0 P3 3  <=>  ?P1 P2. move P0 P1 /\\  move P1 P2 /\\  move P2 P3",
+    "reachableN((P0 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2])), (P3 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2])), 3) == (∃ P1 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∃ P2 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), op_move(P0, P1) && op_move(P1, P2) && op_move(P2, P3))",
     @readable.by(
       @readable.fol,
       [
-        @readable.TermRule(@int.arith_rule, "3 = SUC 2"),
+        @readable.TermRule(@int.arith_rule, "3 == SUC(2)"),
         @readable.Thm("reachableN_Two", () => reachablen_two()),
         @readable.Thm("reachableN_CLAUSES", () => reachablen_clauses()),
       ],
@@ -643,11 +648,11 @@ pub fn reachablen_three() -> @kernel.Thm {
 /// reachableN_Four
 fn step_72() -> Unit raise {
   reachablen_four_c.set(@readable.prove(
-    "\n  reachableN P0 P4 4  <=>  ?P1 P2 P3. move P0 P1 /\\  move P1 P2 /\\ \n  move P2 P3 /\\  move P3 P4",
+    "reachableN((P0 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2])), (P4 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2])), 4) == (∃ P1 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∃ P2 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∃ P3 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), op_move(P0, P1) && op_move(P1, P2) && op_move(P2, P3) && op_move(P3, P4))",
     @readable.by(
       @readable.fol,
       [
-        @readable.TermRule(@int.arith_rule, "4 = SUC 3"),
+        @readable.TermRule(@int.arith_rule, "4 == SUC(3)"),
         @readable.Thm("reachableN_Three", () => reachablen_three()),
         @readable.Thm("reachableN_CLAUSES", () => reachablen_clauses()),
       ],
@@ -668,13 +673,13 @@ pub fn reachablen_four() -> @kernel.Thm {
 /// reachableN_Five
 fn step_74() -> Unit raise {
   reachablen_five_c.set(@readable.prove(
-    "\n  reachableN P0 P5 5  <=>  ?P1 P2 P3 P4. move P0 P1 /\\  move P1 P2 /\\ \n  move P2 P3 /\\  move P3 P4 /\\  move P4 P5",
+    "reachableN((P0 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2])), (P5 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2])), 5) == (∃ P1 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∃ P2 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∃ P3 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∃ P4 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), op_move(P0, P1) && op_move(P1, P2) && op_move(P2, P3) && op_move(P3, P4) && op_move(P4, P5))",
     @readable.steps(
       [
         @readable.by(
           @readable.rewrite,
           [
-            @readable.TermRule(@int.arith_rule, "5 = SUC 4"),
+            @readable.TermRule(@int.arith_rule, "5 == SUC(4)"),
             @readable.Thm("reachableN_CLAUSES", () => reachablen_clauses()),
           ],
         ),
@@ -700,11 +705,11 @@ pub fn reachablen_five() -> @kernel.Thm {
 /// moveSymmetry
 fn step_76() -> Unit raise {
   movesymmetry_c.set(@readable.prove(
-    "\n  move (A,B,C) (A',B',C') ==>\n  move (B,C,A) (B',C',A') /\\  move (C,A,B) (C',A',B') /\\ \n  move (A,C,B) (A',C',B') /\\  move (B,A,C) (B',A',C') /\\  move (C,B,A) (C',B',A')",
+    "op_move(((A : Cart[Real, 2]), (B : Cart[Real, 2]), (C : Cart[Real, 2])), ((A' : Cart[Real, 2]), (B' : Cart[Real, 2]), (C' : Cart[Real, 2]))) → op_move((B, C, A), (B', C', A')) && op_move((C, A, B), (C', A', B')) && op_move((A, C, B), (A', C', B')) && op_move((B, A, C), (B', A', C')) && op_move((C, B, A), (C', B', A'))",
     @readable.steps(
       [
         @readable.have(
-          "\n    forall X Y Z X':real^2. collinear {vec 0, Z - Y, X' - X}\n    ==> collinear {vec 0, Y - Z, X' - X}",
+          "∀ X : Cart[Real, 2], ∀ Y : Cart[Real, 2], ∀ Z : Cart[Real, 2], ∀ X' : Cart[Real, 2], collinear({vec(0), Z - Y, X' - X}) → collinear({vec(0), Y - Z, X' - X})",
           "",
           @readable.steps(
             [
@@ -719,7 +724,7 @@ fn step_76() -> Unit raise {
         @readable.by_thm(th => @tactics.mp_tac(th), @readable.Prev),
         @readable.by(@readable.rewrite, [@readable.Thm("move", () => move_())]),
         @readable.have(
-          "\n    forall X Y Z X':real^2. collinear {vec 0, Z - Y, X' - X}\n      ==> collinear {vec 0, Y - Z, X' - X}",
+          "∀ X : Cart[Real, 2], ∀ Y : Cart[Real, 2], ∀ Z : Cart[Real, 2], ∀ X' : Cart[Real, 2], collinear({vec(0), Z - Y, X' - X}) → collinear({vec(0), Y - Z, X' - X})",
           "",
           @readable.steps(
             [
@@ -752,7 +757,7 @@ pub fn movesymmetry() -> @kernel.Thm {
 /// reachableNSymmetry
 fn step_78() -> Unit raise {
   reachablensymmetry_c.set(@readable.prove(
-    "\n  forall  n. forall  A B C A' B' C'. reachableN (A,B,C) (A',B',C') n  ==>\n  reachableN (B,C,A) (B',C',A') n  /\\   reachableN (C,A,B) (C',A',B') n /\\ \n  reachableN (A,C,B) (A',C',B') n  /\\   reachableN (B,A,C) (B',A',C') n /\\ \n  reachableN (C,B,A) (C',B',A') n",
+    "∀ n : Num, ∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ C : Cart[Real, 2], ∀ A' : Cart[Real, 2], ∀ B' : Cart[Real, 2], ∀ C' : Cart[Real, 2], reachableN((A, B, C), (A', B', C'), n) → reachableN((B, C, A), (B', C', A'), n) && reachableN((C, A, B), (C', A', B'), n) && reachableN((A, C, B), (A', C', B'), n) && reachableN((B, A, C), (B', A', C'), n) && reachableN((C, B, A), (C', B', A'), n)",
     @readable.steps(
       [
         @readable.by_thm(
@@ -786,11 +791,11 @@ fn step_78() -> Unit raise {
             @readable.Thm("LEFT_AND_EXISTS_THM", () => @theorems.left_and_exists_thm()),
           ],
         ),
-        @readable.exists("(Y,Z,X)"),
-        @readable.exists("(Z,X,Y)"),
-        @readable.exists("(X,Z,Y)"),
-        @readable.exists("(Y,X,Z)"),
-        @readable.exists("(Z,Y,X)"),
+        @readable.exists("(Y, Z, X)"),
+        @readable.exists("(Z, X, Y)"),
+        @readable.exists("(X, Z, Y)"),
+        @readable.exists("(Y, X, Z)"),
+        @readable.exists("(Z, Y, X)"),
         @readable.by(
           @readable.simplify,
           [
@@ -817,7 +822,7 @@ pub fn reachablensymmetry() -> @kernel.Thm {
 /// ORIENTED_AREA_COLLINEAR_CONG
 fn step_83() -> Unit raise {
   oriented_area_collinear_cong_c.set(@readable.prove(
-    "\n  forall  A B C A' B' C.\n    oriented_area (A,B,C) = oriented_area (A',B',C')\n    ==> (collinear {A,B,C} <=> collinear {A',B',C'})",
+    "∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ C : _, ∀ A' : Cart[Real, 2], ∀ B' : Cart[Real, 2], ∀ C : Cart[Real, 2], oriented_area((A, B, C)) == oriented_area((A', B', (C' : Cart[Real, 2]))) → collinear({A, B, C}) == collinear({A', B', C'})",
     @readable.steps(
       [
         @readable.by(
@@ -846,17 +851,17 @@ pub fn oriented_area_collinear_cong() -> @kernel.Thm {
 /// Basic2move_THM
 fn step_85() -> Unit raise {
   basic2move_thm_c.set(@readable.prove(
-    "\n forall  A B C A'. ~collinear {A,B,C} /\\  ~collinear {B,A,A'} ==>\n   ?X. move (A,B,C) (A,B,X)  /\\   move (A,B,X) (A',B,X)",
+    "∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ C : Cart[Real, 2], ∀ A' : Cart[Real, 2], !collinear({A, B, C}) && !collinear({B, A, A'}) → (∃ X : Cart[Real, 2], op_move((A, B, C), (A, B, X)) && op_move((A, B, X), (A', B, X)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C A', H1 H2"),
         @readable.have(
-          "\n    forall r. r % (A - B) = (--r) % (B - A)  /\\ \n      r % (A - B) = r % (A - B) + &0 % (C - B)",
+          "∀ r : Real, op_pct(r, A - B) == op_pct(-r, B - A) && op_pct(r, A - B) == op_pct(r, A - B) + op_pct(real_of_num(0), C - B)",
           "add0vector_mul",
           vec2_tac,
         ),
         @readable.have(
-          "\n    ~ ? r. A' - A = r % (A - B)",
+          "!(∃ r : Real, A' - A == op_pct(r, A - B))",
           "H2'",
           @readable.by(
             @readable.fol,
@@ -870,7 +875,7 @@ fn step_85() -> Unit raise {
         ),
         @readable.consider(
           "r t",
-          "A' - A = r % (A - B) + t % (C - B)    ",
+          "∃ r : Real, ∃ t : Real, A' - A == op_pct(r, A - B) + op_pct(t, C - B)",
           "rExists",
           @readable.by(
             @readable.fol,
@@ -883,7 +888,7 @@ fn step_85() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(t = &0)",
+          "!(t == real_of_num(0))",
           "tNonzero",
           @readable.by(
             @readable.fol,
@@ -892,12 +897,12 @@ fn step_85() -> Unit raise {
         ),
         @readable.consider(
           "s X",
-          "s = r / t  /\\   X = C + s % (A - B)    ",
+          "∃ s : Real, ∃ X : Cart[Real, 2], s == r / t && X == C + op_pct(s, A - B)",
           "Xexists",
           @readable.by(@readable.fol, [@readable.Label("rExists")]),
         ),
         @readable.have(
-          "\n    A' - A = (t * s) % (A - B) + t % (C - B)",
+          "A' - A == op_pct(t * s, A - B) + op_pct(t, C - B)",
           "",
           @readable.by(
             @readable.fol,
@@ -910,7 +915,7 @@ fn step_85() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A' - A = t % (X - B) /\\  X - C = (-- s) % (B - A)",
+          "A' - A == op_pct(t, X - B) && X - C == op_pct(-s, B - A)",
           "",
           @readable.steps(
             [
@@ -923,7 +928,7 @@ fn step_85() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    collinear {vec 0,B - A,X - C}  /\\   collinear {vec 0,X - B,A' - A}",
+          "collinear({vec(0), B - A, X - C}) && collinear({vec(0), X - B, A' - A})",
           "",
           @readable.by(
             @readable.fol,
@@ -955,13 +960,13 @@ pub fn basic2move_thm() -> @kernel.Thm {
 /// FourStepMoveAB
 fn step_89() -> Unit raise {
   fourstepmoveab_c.set(@readable.prove(
-    "\n  forall A B C A' B'. ~collinear {A,B,C} ==>\n  ~collinear {B,A,A'} /\\  ~collinear {A',B,B'} ==>\n  ? X Y. move (A,B,C) (A,B,X)  /\\   move (A,B,X) (A',B,X)  /\\ \n  move (A',B,X) (A',B,Y)  /\\   move (A',B,Y) (A',B',Y)",
+    "∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ C : Cart[Real, 2], ∀ A' : Cart[Real, 2], ∀ B' : Cart[Real, 2], !collinear({A, B, C}) → !collinear({B, A, A'}) && !collinear({A', B, B'}) → (∃ X : Cart[Real, 2], ∃ Y : Cart[Real, 2], op_move((A, B, C), (A, B, X)) && op_move((A, B, X), (A', B, X)) && op_move((A', B, X), (A', B, Y)) && op_move((A', B, Y), (A', B', Y)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C A' B', H1, H2"),
         @readable.consider(
           "X",
-          "move (A,B,C) (A,B,X)  /\\   move (A,B,X) (A',B,X)    ",
+          "∃ X : Cart[Real, 2], op_move((A, B, C), (A, B, X)) && op_move((A, B, X), (A', B, X))",
           "ABX",
           @readable.by(
             @readable.fol,
@@ -973,7 +978,7 @@ fn step_89() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n   ~collinear {A,B,X} /\\  ~collinear {A',B,X}",
+          "!collinear({A, B, X}) && !collinear({A', B, X})",
           "",
           @readable.by(
             @readable.fol,
@@ -989,7 +994,7 @@ fn step_89() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n   ~collinear {B,A',X}",
+          "!collinear({B, A', X})",
           "",
           @readable.by(
             @readable.fol,
@@ -1001,7 +1006,7 @@ fn step_89() -> Unit raise {
         ),
         @readable.consider(
           "Y",
-          "move (B,A',X) (B,A',Y)  /\\   move (B,A',Y) (B',A',Y)    ",
+          "∃ Y : Cart[Real, 2], op_move((B, A', X), (B, A', Y)) && op_move((B, A', Y), (B', A', Y))",
           "BA'Y",
           @readable.by(
             @readable.fol,
@@ -1013,7 +1018,7 @@ fn step_89() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    move (A',B,X) (A',B,Y)  /\\   move (A',B,Y) (A',B',Y)",
+          "op_move((A', B, X), (A', B, Y)) && op_move((A', B, Y), (A', B', Y))",
           "",
           @readable.by(
             @readable.fol,
@@ -1043,7 +1048,7 @@ pub fn fourstepmoveab() -> @kernel.Thm {
 /// FourStepMoveABBAreach
 fn step_93() -> Unit raise {
   fourstepmoveabbareach_c.set(@readable.prove(
-    "\n  forall A B C A' B'. ~collinear {A,B,C} /\\  move2Cond A B A' B' ==>\n  ? Y. reachableN (A,B,C) (A',B',Y) 4",
+    "∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ C : Cart[Real, 2], ∀ A' : Cart[Real, 2], ∀ B' : Cart[Real, 2], !collinear({A, B, C}) && move2Cond(A, B, A', B') → (∃ Y : Cart[Real, 2], reachableN((A, B, C), (A', B', Y), 4))",
     @readable.steps_then(
       [@readable.intro_tac("forall A B C A' B', H1 H2")],
       @readable.case_split(
@@ -1056,12 +1061,7 @@ fn step_93() -> Unit raise {
             @readable.Thm("move2Cond", () => move2cond()),
           ],
         ),
-        @list.List(
-          [
-            "~collinear {B,A,A'} /\\  ~collinear {A',B,B'}",
-            "~collinear {A,B,B'} /\\  ~collinear {B',A,A'}",
-          ],
-        ),
+        @list.List(["!collinear({B, A, A'}) && !collinear({A', B, B'})", "!collinear({A, B, B'}) && !collinear({B', A, A'})"]),
         @list.List(
           [
             @readable.steps(
@@ -1080,7 +1080,7 @@ fn step_93() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      ~collinear {B,A,C}",
+                  "!collinear({B, A, C})",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -1092,7 +1092,7 @@ fn step_93() -> Unit raise {
                 ),
                 @readable.consider(
                   "X Y",
-                  "move (B,A,C) (B,A,X)  /\\   move (B,A,X) (B',A,X) /\\ \n      move (B',A,X) (B',A,Y)  /\\   move (B',A,Y) (B',A',Y)    ",
+                  "∃ X : Cart[Real, 2], ∃ Y : Cart[Real, 2], op_move((B, A, C), (B, A, X)) && op_move((B, A, X), (B', A, X)) && op_move((B', A, X), (B', A, Y)) && op_move((B', A, Y), (B', A', Y))",
                   "BAX",
                   @readable.by(
                     @readable.fol,
@@ -1133,12 +1133,12 @@ pub fn fourstepmoveabbareach() -> @kernel.Thm {
 /// NotMove2ImpliesCollinear
 fn step_96() -> Unit raise {
   notmove2impliescollinear_v1_c.set(@readable.prove(
-    "\n  forall A B C A' B' C'. ~collinear {A,B,C} /\\  ~collinear {A',B',C'} /\\ \n  ~(A = A') /\\  ~(B = B') /\\  ~move2Cond A B A' B' ==>\n  collinear {A,B,A',B'}",
+    "∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ C : Cart[Real, 2], ∀ A' : Cart[Real, 2], ∀ B' : Cart[Real, 2], ∀ C' : Cart[Real, 2], !collinear({A, B, C}) && !collinear({A', B', C'}) && !(A == A') && !(B == B') && !move2Cond(A, B, A', B') → collinear({A, B, A', B'})",
     @readable.steps_then(
       [
         @readable.intro_tac("forall A B C A' B' C', H1 H1' H2 H2' H3"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A' = B')",
+          "!(A == B) && !(A' == B')",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -1153,7 +1153,7 @@ fn step_96() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    {A,B,A',B'} SUBSET {A,A',B,B'}  /\\ \n    {A,B,A',B'} SUBSET {B,B',A',A}  /\\   {A,B,A',B'} SUBSET {A',B',B,A}",
+          "SUBSET({A, B, A', B'}, {A, A', B, B'}) && SUBSET({A, B, A', B'}, {B, B', A', A}) && SUBSET({A, B, A', B'}, {A', B', B, A})",
           "set4symmetry",
           @readable.by(@sets.set_tac, []),
         ),
@@ -1164,14 +1164,7 @@ fn step_96() -> Unit raise {
           @readable.fol,
           [@readable.Label("H3"), @readable.Thm("move2Cond", () => move2cond())],
         ),
-        @list.List(
-          [
-            "collinear {B,A,A'} /\\  collinear {A,B,B'}",
-            "collinear {B,A,A'} /\\  collinear {B',A,A'}",
-            "collinear {A',B,B'} /\\  collinear {A,B,B'}",
-            "collinear {A',B,B'} /\\  collinear {B',A,A'}",
-          ],
-        ),
+        @list.List(["collinear({B, A, A'}) && collinear({A, B, B'})", "collinear({B, A, A'}) && collinear({B', A, A'})", "collinear({A', B, B'}) && collinear({A, B, B'})", "collinear({A', B, B'}) && collinear({B', A, A'})"]),
         @list.List(
           [
             @readable.steps(
@@ -1262,12 +1255,12 @@ pub fn notmove2impliescollinear_v1() -> @kernel.Thm {
 /// NotMove2ImpliesCollinear
 fn step_100() -> Unit raise {
   notmove2impliescollinear_c.set(@readable.prove(
-    "\n  forall A B C A' B' C'. ~collinear {A,B,C} /\\  ~collinear {A',B',C'} /\\ \n  ~(A = A') /\\  ~(B = B') /\\  ~move2Cond A B A' B' ==>\n  collinear {A,B,A',B'}",
+    "∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ C : Cart[Real, 2], ∀ A' : Cart[Real, 2], ∀ B' : Cart[Real, 2], ∀ C' : Cart[Real, 2], !collinear({A, B, C}) && !collinear({A', B', C'}) && !(A == A') && !(B == B') && !move2Cond(A, B, A', B') → collinear({A, B, A', B'})",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C A' B' C', H1 H1' H2 H2' H3"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A' = B')",
+          "!(A == B) && !(A' == B')",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -1282,12 +1275,12 @@ fn step_100() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    {A,B,A',B'} SUBSET {A,A',B,B'}  /\\ \n    {A,B,A',B'} SUBSET {B,B',A',A}  /\\   {A,B,A',B'} SUBSET {A',B',B,A}",
+          "SUBSET({A, B, A', B'}, {A, A', B, B'}) && SUBSET({A, B, A', B'}, {B, B', A', A}) && SUBSET({A, B, A', B'}, {A', B', B, A})",
           "set4symmetry",
           @readable.by(@sets.set_tac, []),
         ),
         @readable.have(
-          "\n    collinear {B,A,A'} /\\  collinear {A,B,B'}  \\/\n    collinear {B,A,A'} /\\  collinear {B',A,A'}  \\/\n    collinear {A',B,B'} /\\  collinear {A,B,B'}  \\/\n    collinear {A',B,B'} /\\  collinear {B',A,A'}",
+          "collinear({B, A, A'}) && collinear({A, B, B'}) || collinear({B, A, A'}) && collinear({B', A, A'}) || collinear({A', B, B'}) && collinear({A, B, B'}) || collinear({A', B, B'}) && collinear({B', A, A'})",
           "",
           @readable.by(
             @readable.fol,
@@ -1325,22 +1318,22 @@ pub fn notmove2impliescollinear() -> @kernel.Thm {
 /// DistinctImplies2moveable
 fn step_101() -> Unit raise {
   distinctimplies2moveable_c.set(@readable.prove(
-    "\n  forall A B C A' B' C'. ~collinear {A,B,C} /\\  ~collinear {A',B',C'} /\\ \n  ~(A = A') /\\  ~(B = B') /\\  ~(C = C')  ==>\n  move2Cond A B A' B' \\/ move2Cond B C B' C'",
+    "∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ C : Cart[Real, 2], ∀ A' : Cart[Real, 2], ∀ B' : Cart[Real, 2], ∀ C' : Cart[Real, 2], !collinear({A, B, C}) && !collinear({A', B', C'}) && !(A == A') && !(B == B') && !(C == C') → move2Cond(A, B, A', B') || move2Cond(B, C, B', C')",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C A' B' C', H1 H1' H2a H2b H2c"),
         @readable.have(
-          "\n    {A,B,B'} SUBSET {A,B,A',B'} /\\  {B,B',C} SUBSET {B,C,B',C'}",
+          "SUBSET({A, B, B'}, {A, B, A', B'}) && SUBSET({B, B', C}, {B, C, B', C'})",
           "3subset4",
           @readable.by(@sets.set_tac, []),
         ),
         @readable.assuming(
-          "~move2Cond A B A' B'  /\\  ~move2Cond B C B' C'",
+          "!move2Cond(A, B, A', B') && !move2Cond(B, C, B', C')",
           "Con",
           @readable.by(@readable.fol, []),
         ),
         @readable.have(
-          "\n    collinear {A,B,A',B'} /\\  collinear {B,C,B',C'}",
+          "collinear({A, B, A', B'}) && collinear({B, C, B', C'})",
           "",
           @readable.by(
             @readable.fol,
@@ -1360,7 +1353,7 @@ fn step_101() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    collinear {A,B,C}",
+          "collinear({A, B, C})",
           "",
           @readable.by(
             @readable.fol,
@@ -1397,12 +1390,12 @@ pub fn distinctimplies2moveable() -> @kernel.Thm {
 /// SameCdiffAB
 fn step_104() -> Unit raise {
   samecdiffab_c.set(@readable.prove(
-    "\n  forall A B C A' B' C'.  ~collinear {A,B,C} /\\  ~collinear {A',B',C'} ==>\n  C = C' /\\  ~(A = A') /\\  ~(B = B') ==>\n  ? Y. reachableN (A,B,C) (Y,B',C') 2  \\/ reachableN (A,B,C) (A',B',Y) 4",
+    "∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ C : Cart[Real, 2], ∀ A' : Cart[Real, 2], ∀ B' : Cart[Real, 2], ∀ C' : Cart[Real, 2], !collinear({A, B, C}) && !collinear({A', B', C'}) → C == C' && !(A == A') && !(B == B') → (∃ Y : Cart[Real, 2], reachableN((A, B, C), (Y, B', C'), 2) || reachableN((A, B, C), (A', B', Y), 4))",
     @readable.steps_then(
       [
         @readable.intro_tac("forall A B C A' B' C', H1, H2"),
         @readable.have(
-          "\n    {B,B',A} SUBSET {A,B,A',B'}  /\\   {A,B,C} SUBSET {B,B',A,C}",
+          "SUBSET({B, B', A}, {A, B, A', B'}) && SUBSET({A, B, C}, {B, B', A, C})",
           "easy_set",
           @readable.by(@sets.set_tac, []),
         ),
@@ -1410,20 +1403,14 @@ fn step_104() -> Unit raise {
       @readable.case_split(
         "Ncol | move | col_Nmove    ",
         @readable.by(@readable.fol, []),
-        @list.List(
-          [
-            "~collinear {C,B,B'}",
-            "move2Cond A B A' B'",
-            "collinear {C,B,B'}  /\\   ~move2Cond A B A' B'",
-          ],
-        ),
+        @list.List(["!collinear({C, B, B'})", "move2Cond(A, B, A', B')", "collinear({C, B, B'}) && !move2Cond(A, B, A', B')"]),
         @list.List(
           [
             @readable.steps(
               [
                 @readable.consider(
                   "X",
-                  "move (B,C,A) (B,C,X) /\\  move (B,C,X) (B',C',X)    ",
+                  "∃ X : Cart[Real, 2], op_move((B, C, A), (B, C, X)) && op_move((B, C, X), (B', C', X))",
                   "BCX",
                   @readable.by(
                     @readable.fol,
@@ -1465,7 +1452,7 @@ fn step_104() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      collinear {B,B',A} /\\  collinear {B,B',C}",
+                  "collinear({B, B', A}) && collinear({B, B', C})",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -1519,12 +1506,12 @@ pub fn samecdiffab() -> @kernel.Thm {
 /// FourMovesToCorrectTwo
 fn step_107() -> Unit raise {
   fourmovestocorrecttwo_c.set(@readable.prove(
-    "\n  forall A B C A' B' C'. ~collinear {A,B,C} /\\  ~collinear {A',B',C'} ==>\n  ? n. n < 5 /\\  ? Y. reachableN (A,B,C) (A',B',Y) n  \\/\n    reachableN (A,B,C) (A',Y,C') n  \\/ reachableN (A,B,C) (Y,B',C') n",
+    "∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ C : Cart[Real, 2], ∀ A' : Cart[Real, 2], ∀ B' : Cart[Real, 2], ∀ C' : Cart[Real, 2], !collinear({A, B, C}) && !collinear({A', B', C'}) → (∃ n : Num, n < 5 && (∃ Y : Cart[Real, 2], reachableN((A, B, C), (A', B', Y), n) || reachableN((A, B, C), (A', Y, C'), n) || reachableN((A, B, C), (Y, B', C'), n)))",
     @readable.steps_then(
       [
         @readable.intro_tac("forall A B C A' B' C', H1"),
         @readable.have(
-          "\n    ~collinear {B,C,A} /\\ \n    ~collinear{B',C',A'} /\\  ~collinear {C,A,B} /\\  ~collinear {C',A',B'}",
+          "!collinear({B, C, A}) && !collinear({B', C', A'}) && !collinear({C, A, B}) && !collinear({C', A', B'})",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -1535,7 +1522,7 @@ fn step_107() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    0 < 5 /\\  2 < 5 /\\  3 < 5 /\\  4 < 5",
+          "0 < 5 && 2 < 5 && 3 < 5 && 4 < 5",
           "easy_arith",
           @int.arith_tac,
         ),
@@ -1543,13 +1530,7 @@ fn step_107() -> Unit raise {
       @readable.case_split(
         "case01 | case2 | case3    ",
         @readable.by(@readable.fol, []),
-        @list.List(
-          [
-            "A = A' /\\  B = B' /\\  C = C'  \\/\n    A = A' /\\  B = B' /\\  ~(C = C')  \\/  A = A' /\\  ~(B = B') /\\  C = C' \\/\n    ~(A = A') /\\  B = B' /\\  C = C'",
-            "A = A' /\\  ~(B = B') /\\  ~(C = C')  \\/\n    ~(A = A') /\\  B = B' /\\  ~(C = C')  \\/  ~(A = A') /\\  ~(B = B') /\\  C = C'",
-            "~(A = A') /\\  ~(B = B') /\\  ~(C = C')",
-          ],
-        ),
+        @list.List(["(A == A' && B == B' && C == C' || A == A' && B == B' && !(C == C') || A == A' && !(B == B') && C == C' || !(A == A') && B == B' && C == C')", "(A == A' && !(B == B') && !(C == C') || !(A == A') && B == B' && !(C == C') || !(A == A') && !(B == B') && C == C')", "!(A == A') && !(B == B') && !(C == C')"]),
         @list.List(
           [
             @readable.steps(
@@ -1629,7 +1610,7 @@ pub fn fourmovestocorrecttwo() -> @kernel.Thm {
 /// CorrectFinalPoint
 fn step_111() -> Unit raise {
   correctfinalpoint_c.set(@readable.prove(
-    "\n oriented_area (A,B,C) = oriented_area (A,B,C') ==>\n   move (A,B,C) (A,B,C')",
+    "oriented_area(((A : Cart[Real, 2]), (B : Cart[Real, 2]), (C : Cart[Real, 2]))) == oriented_area((A, B, (C' : Cart[Real, 2]))) → op_move((A, B, C), (A, B, C'))",
     @readable.steps(
       [
         @readable.by(
@@ -1659,12 +1640,12 @@ pub fn correctfinalpoint() -> @kernel.Thm {
 /// FiveMovesOrLess
 fn step_112() -> Unit raise {
   fivemovesorless_c.set(@readable.prove(
-    "\n forall A B C A' B' C'. ~collinear {A,B,C}  /\\ \n  oriented_area (A,B,C) = oriented_area (A',B',C') ==>\n   ? n. n <= 5 /\\  reachableN (A,B,C) (A',B',C') n",
+    "∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ C : Cart[Real, 2], ∀ A' : Cart[Real, 2], ∀ B' : Cart[Real, 2], ∀ C' : Cart[Real, 2], !collinear({A, B, C}) && oriented_area((A, B, C)) == oriented_area((A', B', C')) → (∃ n : Num, n <= 5 && reachableN((A, B, C), (A', B', C'), n))",
     @readable.steps_then(
       [
         @readable.intro_tac("forall A B C A' B' C', H1 H2"),
         @readable.have(
-          "\n    ~collinear {A',B',C'}",
+          "!collinear({A', B', C'})",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -1679,7 +1660,7 @@ fn step_112() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C) /\\  ~(B = C) /\\ \n    ~(A' = B') /\\  ~(A' = C') /\\  ~(B' = C')",
+          "!(A == B) && !(A == C) && !(B == C) && !(A' == B') && !(A' == C') && !(B' == C')",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -1695,7 +1676,7 @@ fn step_112() -> Unit raise {
         ),
         @readable.consider(
           "n Y",
-          "n < 5 /\\  (reachableN (A,B,C) (A',B',Y) n \\/\n    reachableN (A,B,C) (A',Y,C') n \\/ reachableN (A,B,C) (Y,B',C') n)    ",
+          "∃ n : Num, ∃ Y : Cart[Real, 2], n < 5 && (reachableN((A, B, C), (A', B', Y), n) || reachableN((A, B, C), (A', Y, C'), n) || reachableN((A, B, C), (Y, B', C'), n))",
           "2Correct",
           @readable.by(
             @readable.fol,
@@ -1710,19 +1691,13 @@ fn step_112() -> Unit raise {
       @readable.case_split(
         "A'B'Y | A'YC' | YB'C'    ",
         @readable.by(@readable.fol, [@readable.Label("2Correct")]),
-        @list.List(
-          [
-            "reachableN (A,B,C) (A',B',Y) n",
-            "reachableN (A,B,C) (A',Y,C') n",
-            "reachableN (A,B,C) (Y,B',C') n",
-          ],
-        ),
+        @list.List(["reachableN((A, B, C), (A', B', Y), n)", "reachableN((A, B, C), (A', Y, C'), n)", "reachableN((A, B, C), (Y, B', C'), n)"]),
         @list.List(
           [
             @readable.steps(
               [
                 @readable.have(
-                  "\n      oriented_area (A',B',Y) = oriented_area (A',B',C')",
+                  "oriented_area((A', B', Y)) == oriented_area((A', B', C'))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -1735,7 +1710,7 @@ fn step_112() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      move (A',B',Y) (A',B',C')",
+                  "op_move((A', B', Y), (A', B', C'))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -1761,7 +1736,7 @@ fn step_112() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      oriented_area (A',C',Y) = oriented_area (A',C',B')",
+                  "oriented_area((A', C', Y)) == oriented_area((A', C', B'))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -1778,7 +1753,7 @@ fn step_112() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      move (A',Y,C') (A',B',C')",
+                  "op_move((A', Y, C'), (A', B', C'))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -1805,7 +1780,7 @@ fn step_112() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      oriented_area (B',C',Y) = oriented_area (B',C',A')",
+                  "oriented_area((B', C', Y)) == oriented_area((B', C', A'))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -1822,7 +1797,7 @@ fn step_112() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      move (Y,B',C') (A',B',C')",
+                  "op_move((Y, B', C'), (A', B', C'))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -1866,17 +1841,17 @@ pub fn fivemovesorless() -> @kernel.Thm {
 /// NOTENOUGH_4
 fn step_118() -> Unit raise {
   notenough_4_c.set(@readable.prove(
-    "\n  ?p0 p4. oriented_area p0 = oriented_area p4 /\\  ~reachableN p0 p4 4",
+    "∃ p0 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∃ p4 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), oriented_area(p0) == oriented_area(p4) && !reachableN(p0, p4, 4)",
     @readable.steps(
       [
         @readable.consider(
           "p0 p4",
-          "p0:triple = vector [&0;&0],vector [&0;&1],vector [&1;&0]  /\\ \n    p4:triple = vector [&1;&1],vector [&1;&2],vector [&2;&1]    ",
+          "∃ p0 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∃ p4 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), p0 == (vector([real_of_num(0), real_of_num(0)]), vector([real_of_num(0), real_of_num(1)]), vector([real_of_num(1), real_of_num(0)])) && p4 == (vector([real_of_num(1), real_of_num(1)]), vector([real_of_num(1), real_of_num(2)]), vector([real_of_num(2), real_of_num(1)]))",
           "p04Def",
           @readable.by(@readable.fol, []),
         ),
         @readable.have(
-          "\n    oriented_area p0 = oriented_area p4",
+          "oriented_area(p0) == oriented_area(p4)",
           "equal_areas",
           @readable.steps(
             [
@@ -1889,7 +1864,7 @@ fn step_118() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~reachableN p0 p4 4",
+          "!reachableN(p0, p4, 4)",
           "",
           @readable.steps(
             [
@@ -1928,12 +1903,12 @@ pub fn notenough_4() -> @kernel.Thm {
 /// FiveMovesOrLess_STRONG
 fn step_121() -> Unit raise {
   fivemovesorless_strong_c.set(@readable.prove(
-    "\n  forall A B C A' B' C'.\n    oriented_area (A,B,C) = oriented_area (A',B',C') ==>\n    ?n. n <= 5 /\\  reachableN (A,B,C) (A',B',C') n",
+    "∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ C : Cart[Real, 2], ∀ A' : Cart[Real, 2], ∀ B' : Cart[Real, 2], ∀ C' : Cart[Real, 2], oriented_area((A, B, C)) == oriented_area((A', B', C')) → (∃ n : Num, n <= 5 && reachableN((A, B, C), (A', B', C'), n))",
     @readable.steps_then(
       [
         @readable.intro_tac("forall A B C A' B' C', H1"),
         @readable.have(
-          "\n    (forall X Y:real^2. collinear {X,Y,Y}) /\\ \n    (forall A B A'. move (A,B,B) (A',B,B))  /\\ \n    forall A B C B'. (collinear {A,B,C} /\\  collinear {A,B',C}  ==>\n    move (A,B,C) (A,B',C))",
+          "(∀ X : Cart[Real, 2], ∀ Y : Cart[Real, 2], collinear({X, Y, Y})) && (∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ A' : Cart[Real, 2], op_move((A, B, B), (A', B, B))) && (∀ A : Cart[Real, 2], ∀ B : Cart[Real, 2], ∀ C : Cart[Real, 2], ∀ B' : Cart[Real, 2], collinear({A, B, C}) && collinear({A, B', C}) → op_move((A, B, C), (A, B', C)))",
           "EZcollinear",
           @readable.steps(
             [
@@ -1952,7 +1927,7 @@ fn step_121() -> Unit raise {
       @readable.case_split(
         "ABCncol | ABCcol    ",
         @readable.by(@readable.fol, []),
-        @list.List(["~collinear {A,B,C}", "collinear {A,B,C}"]),
+        @list.List(["!collinear({A, B, C})", "collinear({A, B, C})"]),
         @list.List(
           [
             @readable.steps(
@@ -1970,7 +1945,7 @@ fn step_121() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      collinear {A',B',C'}",
+                  "collinear({A', B', C'})",
                   "A'B'C'col",
                   @readable.by(
                     @readable.fol,
@@ -1986,12 +1961,12 @@ fn step_121() -> Unit raise {
                 ),
                 @readable.consider(
                   "P1 P2 P3 P4",
-                  "P1 = A,C,C  /\\   P2 = B',C,C  /\\   P3 = B',B',C  /\\   P4 = B',B',C'    ",
+                  "∃ P1 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∃ P2 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∃ P3 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), ∃ P4 : (Cart[Real, 2], Cart[Real, 2], Cart[Real, 2]), P1 == (A, C, C) && P2 == (B', C, C) && P3 == (B', B', C) && P4 == (B', B', C')",
                   "P1234exist",
                   @readable.by(@readable.fol, []),
                 ),
                 @readable.have(
-                  "\n      move (A,B,C) P1  /\\   move P1 P2  /\\   move P2 P3  /\\   move P3 P4  /\\ \n      move P4 (A',B',C')",
+                  "op_move((A, B, C), P1) && op_move(P1, P2) && op_move(P2, P3) && op_move(P3, P4) && op_move(P4, (A', B', C'))",
                   "",
                   @readable.by(
                     @readable.fol,
