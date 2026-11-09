@@ -59,8 +59,10 @@ from concurrent.futures import ThreadPoolExecutor
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TIMES = os.path.join(ROOT, "tools", "test_times.tsv")
 # hol.ml's hand-ported files and the support packages
-QUICK = ["kernel", "lib", "num", "pp", "basics", "nets", "printer", "preterm", "lexer", "parserutil", "parser",
+QUICK = ["kernel", "lib", "num", "pp", "basics", "nets", "printer", "preterm", "lexer", "parserutil",
          "equal", "bool", "drule", "tactics", "itab", "simp", "omap", "oset", "testkit", "tests/forall"]
+# test packages in subdirectories that check core packages
+CORE_TESTS = ["tests/hol_printer"]
 SKIP_DIRS = {"tools", "_build", "target"}
 
 
@@ -79,7 +81,7 @@ def packages():
 def tier_of(pkg):
     if pkg in QUICK:
         return "quick"
-    if "/" in pkg:
+    if "/" in pkg and pkg not in CORE_TESTS:
         return pkg.split("/")[0]
     return "core"
 
@@ -98,7 +100,7 @@ def select(names, pkgs):
         elif n == "all":
             sel = pkgs
         elif n == "core":
-            sel = [p for p in pkgs if "/" not in p or p in QUICK]
+            sel = [p for p in pkgs if "/" not in p or p in QUICK or p in CORE_TESTS]
         elif n in pkgs:
             sel = [n]
         else:

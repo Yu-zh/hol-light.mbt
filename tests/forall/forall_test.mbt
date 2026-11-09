@@ -16,25 +16,6 @@ test "forall is the universal quantifier and round trips through the printer" {
 }
 
 ///|
-test "legacy universal notation is rejected" {
-  for source in ["!x:bool. x", "(!)", "!", "forall x:bool. !y:bool. x = y"] {
-    try @parser.parse_term(source) catch {
-      Failure(message) =>
-        assert_eq(message, "'!' notation has been removed; use 'forall'")
-      error => raise error
-    } noraise {
-      _ => fail("legacy notation was accepted: " + source)
-    }
-  }
-  try @parser.parse_preterm([Ident("!")]) catch {
-    @parserutil.Noparse => ()
-    error => raise error
-  } noraise {
-    _ => fail("legacy token was accepted")
-  }
-}
-
-///|
 test "canonical forall preserves the quantifier's precedence in term ordering" {
   let quantifier = @kernel.mk_const("forall", @list.List([]))
   for (name, _) in @kernel.constants() {

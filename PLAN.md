@@ -79,7 +79,7 @@ closed"); the `.mbt` files are now edited directly.
 | `Lazy` (thecops), exceptions other than `Failure` (`Unchanged`, `Noparse`, `Not_found`) | Port to `Lazy`-like explicit cells and separate `suberror`s. `can`/`try … with Failure _` catch only `Failure`. `abort` is used only for states the kernel makes impossible. |
 | `Num` / Zarith bignums and rationals | `num/` implements arbitrary-precision rationals on top of `@bigint`, matching the `Num` operations HOL uses (`quo_num`/`mod_num` sign rules, `string_of_num`, …). |
 | `Format` pretty printing | Port a minimal OCaml `Format` box engine (`pp/`) so that printer output matches byte for byte. |
-| Term quotations `` `...` `` (camlp5 `pa_j`) | Becomes a call to the parser on a string (`@parser.parse_term("...")`). Type quotations `` `:ty` `` become `parse_type`. |
+| Term quotations `` `...` `` (camlp5 `pa_j`) | Becomes a call to the term syntax on a string in a fixed MoonBit-like syntax (`@term_syntax.parse_term("∀ n : Num, n + 0 == n")`). Type quotations `` `:ty` `` become `@term_syntax.parse_type`. |
 | `Hashtbl.hash`-dependent order | Where iteration order changes results, use insertion-ordered `Map` and check against the reference output. |
 
 ## Naming
@@ -103,7 +103,9 @@ num/       Num replacement on @bigint
 pp/        OCaml Format subset
 basics/    basics.ml, nets.ml
 printer/   printer.ml
-parser/    preterm.ml, parser.ml
+preterm/   preterm.ml (typechecking)
+term_syntax/  the fixed quotation syntax (replaced parser.ml, #434)
+theory/    theory traces and outputs for the reference tests
 equal/ … drule/ tactics/ simp/ …   one package per layer, in hol.ml load order
 theories/… generated or hand-ported theory scripts
 ```
@@ -251,7 +253,8 @@ definitions register constants, quotations advance the type-variable and
   character strings, decimals, interface reversal, theorems, wrapping at
   margins 78 and 30). Known difference: standard output is line-based, so
   `print_flush` on `std_formatter` ends a partial line with a newline.
-  `preterm/` and `parser/` are done: typechecking with overload
+  `preterm/` and `parser/` are done (the parser was later replaced by
+  `term_syntax/` and removed, #434): typechecking with overload
   resolution, then the lexer and combinator grammar. The lexer is a loop,
   and the grammar uses the same combinators as upstream so that
   backtracking re-runs actions identically. They match upstream on

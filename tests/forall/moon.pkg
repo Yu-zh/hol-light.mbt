@@ -2,8 +2,6 @@ import {
   "bobzhang/hol_light/bool",
   "bobzhang/hol_light/basics",
   "bobzhang/hol_light/kernel",
-  "bobzhang/hol_light/parser",
-  "bobzhang/hol_light/parserutil",
   "bobzhang/hol_light/printer",
   "bobzhang/hol_light/term_syntax",
   "moonbitlang/core/list",

@@ -1,6 +1,6 @@
 // Hand-built printer checks against printer.ml: replays
-// tools/ocaml_ref/printer_ref.ml (keep in sync). Larger parse/print
-// round-trip tests come with the parser.
+// tools/ocaml_ref/printer_ref.ml (keep in sync). tests/hol_printer checks
+// terms that need the library's constants (patterns, strings).
 
 ///|
 priv struct Log {

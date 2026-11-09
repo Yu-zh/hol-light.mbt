@@ -1,5 +1,6 @@
-# Shared parser/printer cases: interpreted by tools/ocaml_ref/parser_ref.ml
-# and parser/parser_ref_test.mbt. Commands:
+# Parser/printer cases, once run by parser_ref.ml and parser_ref_test.mbt
+# (removed with the old parser, #434); tools/ocaml_ref/forall_reference.py
+# still reads their T:/Y: lines. Commands:
 #   newtype NAME ARITY | const NAME : TYPE | infix NAME PREC ASSOC
 #   binder NAME | prefix NAME | overloadable SYM : TYPE
 #   overload SYM TERM | override SYM TERM | abbrev NAME : TYPE

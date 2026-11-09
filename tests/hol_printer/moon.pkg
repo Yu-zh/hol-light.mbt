@@ -1,0 +1,5 @@
+import {
+  "bobzhang/hol_light/printer",
+  "bobzhang/hol_light/term_syntax",
+  "bobzhang/hol_light/define",
+} for "test"

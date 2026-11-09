@@ -9,7 +9,7 @@ constructs theorems only through its API.
 ## Status
 
 - **Core**: everything `hol.ml` loads. `lib`, `fusion` (`kernel/`), `basics`,
-  `nets`, `printer`, `preterm`, `lexer`, `parser`, `equal`, `bool`, `drule`, `tactics`,
+  `nets`, `printer`, `preterm`, `lexer`, `equal`, `bool`, `drule`, `tactics`,
   `itab` and `simp` are ported by hand; the theory files (`theorems` ..
   `define`) are translated.
 - **Library/**: every file but `tactician_light.ml` (`library/<name>`).
@@ -67,16 +67,20 @@ let th = @prime.prime_2()
 The `lexer` package owns `Lexcode`, `lex`, and the fixed reserved words
 (`is_reserved_word`); `//` starts a line comment. Loading a theory cannot
 reserve words or change comment syntax.
-The `parser` package consumes lexer tokens and owns parser combinators and
-type/term parsing. `lex` returns an owned `Array[Lexcode]`; token parsers take
-`ArrayView[Lexcode]` and return the unconsumed suffix as a view into the same array.
-Keep the token array unchanged while parsing. Both packages use the character
-classes and operator tables in `printer`.
+The `parserutil` package owns the parser combinators over lexer tokens. `lex`
+returns an owned `Array[Lexcode]`; token parsers take `ArrayView[Lexcode]` and
+return the unconsumed suffix as a view into the same array. Keep the token
+array unchanged while parsing. `lex` uses the character classes in
+`printer`.
 
-Universal quantification uses `forall x. P x`, including `(forall)` when the
-quantifier is passed as a function. The old `!x. P x` and `(!)` spellings are
-rejected. Existential `?` and unique-existence `?!` notation are unchanged.
-The internal logical constant is also named `forall`; parser, printer, and
+Term and type quotations are read by `term_syntax`, a fixed MoonBit-like
+syntax (`@term_syntax.parse_term("∀ n : Num, n + 0 == n")`); HOL Light's
+extensible quotation parser has been removed.
+
+In HOL's notation, which the printer writes and `lex` reads, universal
+quantification uses `forall x. P x`, including `(forall)` when the quantifier
+is passed as a function. The old `!x. P x` and `(!)` spellings are rejected. Existential `?` and unique-existence `?!` notation are unchanged.
+The internal logical constant is also named `forall`; printer and
 term constructors use the same name without an alias.
 `tools/hol_notation.py` migrated the HOL-input literals of the translated
 files; it is not a runtime compatibility parser.

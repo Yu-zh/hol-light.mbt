@@ -36,14 +36,10 @@ reference and re-embeds its golden.
    `proof`. RichterHilbertAxiomGeometry's readable-format proofs are MoonBit
    programs (`@readable.prove`), and the text format's parser is gone. Left: overload priorities (`prioritize_*`,
    `override_interface`) and type abbreviations, decided with step 2.
-2. A sub-MoonBit term syntax parsed by `moonbitlang/parser`
-   (`∀ x : _, body`, `∃ x : _, body`, `→`), with a printer, checked by
-   round-trip over the library's theorems, alongside the old parser.
-3. Migrate quotations package by package with a converter that parses with
-   the old parser at load time, prints in the new syntax and checks the
-   result is alpha-equal; remove each notation's registration after its
-   last user migrates. Normalize or preserve global counters first, so
-   parallel migrations do not all change downstream goldens.
+2. A sub-MoonBit term syntax (`term_syntax`: `∀ x : _, body`,
+   `∃ x : _, body`, `→`), with a printer, checked by round-trip over the
+   library's theorems: done.
+3. Migrate every quotation to it and remove the old parser: done (#434).
 
 ## Open issues
 

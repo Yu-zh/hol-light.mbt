@@ -1,7 +1,7 @@
 // ===========================================================================
-// The preterms HOL's parser builds for set comprehensions and pattern
-// clauses, numbering GEN%PVAR variables: shared by the term syntax and
-// the old parser so that both number them alike.
+// The preterms HOL's parser built for set comprehensions and pattern
+// clauses, numbering GEN%PVAR variables as it did: the term syntax builds
+// them so, and the library's goldens keep upstream's numbering.
 // ===========================================================================
 
 ///|
