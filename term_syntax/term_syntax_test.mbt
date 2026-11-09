@@ -274,3 +274,16 @@ test "type abbreviations" {
   assert_eq(ty("Unit"), one)
   inspect(@term_syntax.print_type(one), content="Unit")
 }
+
+///|
+test "a name that is a MoonBit keyword is written between backticks" {
+  let t = @term_syntax.parse_term("∀ `move` : Bool, `move` || (`ref` : Bool)")
+  inspect(
+    @term_syntax.print_term(t),
+    content="∀ `move` : Bool, `move` || (`ref` : Bool)",
+  )
+  @kernel.new_constant("yield", @kernel.bool_ty)
+  let c = @term_syntax.parse_term("`yield`")
+  inspect(@kernel.is_const(c), content="true")
+  inspect(@term_syntax.print_term(c), content="`yield`")
+}

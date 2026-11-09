@@ -80,9 +80,15 @@ fn tokens(s : String) -> Array[(@grammar.Token, Int, Int)] raise {
       // primed type variables (`'a`) are written when the syntax would
       // otherwise read another
       (re"^`'?[A-Za-z][A-Za-z0-9_]*'*`" as raw, after=rest) => {
-        toks.push(
-          (VERBATIM(raw[1:raw.length() - 1].to_owned()), at(input), at(rest)),
-        )
+        let name = raw[1:raw.length() - 1].to_owned()
+        // a keyword between backticks is a name like any identifier's
+        // (move, a constant of inverse_bug_puzzle_read)
+        let tok : @grammar.Token = if is_keyword(name) {
+          LIDENT(name)
+        } else {
+          VERBATIM(name)
+        }
+        toks.push((tok, at(input), at(rest)))
         continue rest
       }
       (re"^[0-9]+" as digits, after=rest) => {

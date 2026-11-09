@@ -34,8 +34,8 @@ test "a raw name reads as the variable of that name" {
 
 ///|
 test "backticks take symbol characters only" {
-  // keywords and ordinary names are not escaped this way
-  for s in ["`fn`", "`x`", "`a<b`", "``"] {
+  // ordinary names are not escaped this way (a keyword is: `fn`)
+  for s in ["`x`", "`a<b`", "``"] {
     let read = try {
       @term_syntax.parse_term(s) |> ignore
       true
