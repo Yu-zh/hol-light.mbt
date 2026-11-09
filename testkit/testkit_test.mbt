@@ -25,7 +25,7 @@ test "probe_counters prints what the probes that advance the counters print" {
   let real = @testkit.Log::new()
   real.capture_reports()
   real.attempt("counter_tyvar", () => {
-    @testkit.stm(@parser.parse_term("zz_counter"))
+    @testkit.stm(@term_syntax.parse_term("(zz_counter : _)"))
   })
   real.attempt("counter_genvar", () => {
     @testkit.stm(@basics.genvar(@kernel.bool_ty))

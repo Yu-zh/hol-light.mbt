@@ -9,3 +9,7 @@ import {
   "bobzhang/hol_light/pp",
   "moonbitlang/core/encoding/utf8",
 }
+
+import {
+  "bobzhang/hol_light/term_syntax",
+} for "test"

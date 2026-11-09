@@ -17,7 +17,7 @@ test "ind_defs matches ind_defs.ml" {
     log.show_theory_output(th)
   }
   log.show_theory_trace("ind_defs")
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   let ndef = (name : String, s : String) => {
     log.attempt(name, () => {
       let t = tm(s)
@@ -25,62 +25,62 @@ test "ind_defs matches ind_defs.ml" {
     })
   }
   log.attempt("strip_ncomb", () => {
-    let t = tm("(f:A->A->A->A) a b c")
+    let t = tm("(f : (A, A, A) -> A)((a : A), (b : A), (c : A))")
     let (h, args) = @ind_defs.strip_ncomb(2)(t)
     stm(h) + " [" + args.map(stm).to_array().join("; ") + "]"
   })
   log.attempt("strip_ncomb_bad", () => {
-    let t = tm("(f:A->A) a")
+    let t = tm("(f : (A) -> A)((a : A))")
     let (h, args) = @ind_defs.strip_ncomb(2)(t)
     stm(h) + " [" + args.map(stm).to_array().join("; ") + "]"
   })
   log.attempt("RIGHT_BETAS", () => {
-    let x = tm("x:A")
-    let y = tm("y:A")
-    let f = tm("(\\a b. (P:A->A->bool) b a) = Q")
+    let x = tm("(x : A)")
+    let y = tm("(y : A)")
+    let f = tm("((a : A) => (b : A) => (P : (A, A) -> Bool)(b, a)) == (Q : (A, A) -> Bool)")
     sthm(@ind_defs.right_betas(@list.List([x, y]))(@kernel.assume_rule(f)))
   })
   log.attempt("EXISTS_EQUATION", () => {
-    let e = tm("(x:A) = a")
-    let th = @kernel.assume_rule(tm("(P:A->bool) a"))
+    let e = tm("(x : A) == (a : A)")
+    let th = @kernel.assume_rule(tm("(P : (A) -> Bool)((a : A))"))
     sthm(@ind_defs.exists_equation(e)(th))
   })
   ndef(
-    "RTC", "(forall x:A. RTC R x x) /\\ (forall x y z. R x y /\\ RTC R y z ==> RTC R x z)",
+    "RTC", "(∀ x : A, (RTC : ((A, A) -> Bool, A, A) -> Bool)((R : (A, A) -> Bool), x, x)) && (∀ x : A, ∀ y : A, ∀ z : A, R(x, y) && RTC(R, y, z) → RTC(R, x, z))",
   )
   ndef(
-    "EVOD", "EV (a:A) /\\ (forall x. OD x ==> EV ((f:A->A) x)) /\\ (forall x. EV x ==> OD (f x))",
+    "EVOD", "(EV : (A) -> Bool)((a : A)) && (∀ x : A, (OD : (A) -> Bool)(x) → EV((f : (A) -> A)(x))) && (∀ x : A, EV(x) → OD(f(x)))",
   )
-  ndef("EVB", "EVB T /\\ (forall x. ODB x ==> EVB (~x)) /\\ (forall x. EVB x ==> ODB (~x))")
+  ndef("EVB", "(EVB : (Bool) -> Bool)(true) && (∀ x : Bool, (ODB : (Bool) -> Bool)(x) → EVB(!x)) && (∀ x : Bool, EVB(x) → ODB(!x))")
   log.attempt("strong_ok", () => {
-    let t = tm("NB F /\\ (forall x. NB x ==> NB (~x))")
+    let t = tm("(NB : (Bool) -> Bool)(false) && (∀ x : Bool, NB(x) → NB(!x))")
     let (rules, ind, _) = @ind_defs.new_inductive_definition(t)
     sthm(@ind_defs.derive_strong_induction((rules, ind)))
   })
-  ndef("ACC", "forall x:A. (forall y. R y x ==> ACC R y) ==> ACC R x")
+  ndef("ACC", "∀ x : A, (∀ y : A, (R : (A, A) -> Bool)(y, x) → (ACC : ((A, A) -> Bool, A) -> Bool)(R, y)) → ACC(R, x)")
   ndef(
-    "RTC_again", "(forall x:A. RTC R x x) /\\ (forall x y z. R x y /\\ RTC R y z ==> RTC R x z)",
+    "RTC_again", "(∀ x : A, RTC((R : (A, A) -> Bool), x, x)) && (∀ x : A, ∀ y : A, ∀ z : A, R(x, y) && RTC(R, y, z) → RTC(R, x, z))",
   )
   log.attempt("exist", () => {
-    let t = tm("(forall x:A. TC R x x ==> TC R x x) /\\ (forall x y. R x y ==> TC R x y)")
+    let t = tm("(∀ x : A, (TC : ((A, A) -> Bool, A, A) -> Bool)((R : (A, A) -> Bool), x, x) → TC(R, x, x)) && (∀ x : A, ∀ y : A, R(x, y) → TC(R, x, y))")
     sthm(@ind_defs.prove_inductive_relations_exist(t))
   })
   log.attempt("derive_nonschematic", () => {
-    let t = tm("(forall x:A. Q x) /\\ (forall x. Q x ==> Q ((g:A->A) x))")
+    let t = tm("(∀ x : A, (Q : (A) -> Bool)(x)) && (∀ x : A, Q(x) → Q((g : (A) -> A)(x)))")
     sthm(@ind_defs.derive_nonschematic_inductive_relations(t))
   })
-  ndef("bad_clause", "forall x:A. ~(BAD x) ==> BAD x")
+  ndef("bad_clause", "∀ x : A, !(BAD : (A) -> Bool)(x) → BAD(x)")
   log.attempt("strong", () => {
-    let t = tm("EV2 (a:A) /\\ (forall x. EV2 x ==> EV2 ((f:A->A) x))")
+    let t = tm("(EV2 : (A) -> Bool)((a : A)) && (∀ x : A, EV2(x) → EV2((f : (A) -> A)(x)))")
     let (rules, ind, _) = @ind_defs.new_inductive_definition(t)
     sthm(@ind_defs.derive_strong_induction((rules, ind)))
   })
   log.attempt("prove_monotonicity_hyps", () => {
-    let th = @kernel.assume_rule(tm("(forall x:A. P x ==> Q x) ==> R"))
+    let th = @kernel.assume_rule(tm("(∀ x : A, (P : (A) -> Bool)(x) → (Q : (A) -> Bool)(x)) → (R : Bool)"))
     sthm(@ind_defs.prove_monotonicity_hyps(th))
   })
   log.attempt("MONO_TAC", () => {
-    let w = tm("(forall x:A. P x ==> Q x) ==> (forall x. P x /\\ c) ==> (forall x. Q x /\\ c)")
+    let w = tm("(∀ x : A, (P : (A) -> Bool)(x) → (Q : (A) -> Bool)(x)) → (∀ x : A, P(x) && (c : Bool)) → (∀ x : A, Q(x) && c)")
     let tac = @tactics.then_tac(@tactics.disch_tac, g => @ind_defs.mono_tac(g))
     let (_, gls, _) = tac((@list.List([]), w))
     gls.length().to_string()
@@ -98,7 +98,7 @@ test "ind_defs matches ind_defs.ml" {
     @kernel.definitions().map(sthm).to_array().join(" ;; ")
   })
   log.attempt("axioms", () => @kernel.axioms().length().to_string())
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   inspect(
     log.contents(),

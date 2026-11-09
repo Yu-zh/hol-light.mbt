@@ -1,11 +1,9 @@
 ///|
 fn check_program_terms() -> Unit raise {
+  // the program syntax's words name variables (`while` between backticks)
   for word in ["var", "end", "skip", "abort", ":=", "while", "do"] {
-    assert_false(@lexer.is_reserved_word(word))
-    assert_eq(
-      @parser.parse_term(word + " : bool"),
-      @kernel.mk_var(word, @kernel.bool_ty),
-    )
+    let v = @kernel.mk_var(word, @kernel.bool_ty)
+    assert_eq(@term_syntax.parse_term(@term_syntax.print_term(v)), v)
   }
   let predicate = @term_syntax.parse_term("(x : Num) => x == 0")
   let skip = @term_syntax.parse_term("(SKIP : Command[Num])")
@@ -36,6 +34,6 @@ fn check_program_terms() -> Unit raise {
     sequence,
     @term_syntax.parse_term("Seq(Assign((x : Num) => x + 1), SKIP)"),
   )
-  assert_eq(@parser.parse_term(@printer.string_of_term(sequence)), sequence)
+  assert_eq(@term_syntax.parse_term(@term_syntax.print_term(sequence)), sequence)
   assert_true(@kernel.hyp(@prog.example_factorial()).is_empty())
 }

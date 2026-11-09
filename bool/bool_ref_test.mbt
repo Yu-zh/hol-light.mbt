@@ -184,7 +184,7 @@ test "bool matches bool.ml" {
     @printer.string_of_term(tm("∀ x : _, ∃ y : _, x == y && (p : Bool) == (q : Bool) → !(r : Bool) || false"))
   })
   log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
-  log.attempt("counter_pgenvar", () => stm(@parser.parse_term("{x | T}")))
+  log.attempt("counter_pgenvar", () => stm(tm("{(x : _) | true}")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   inspect(
     log.contents(),
