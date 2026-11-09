@@ -25,7 +25,7 @@ test "Boyer_Moore/induction matches Boyer_Moore/induction.ml" {
   log.capture_stdout()
   // BEGIN generated theorem list
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

@@ -69,7 +69,7 @@ test "Logic/prolog matches Logic/prolog.ml" {
   log.attempt("IBACKCHAIN_COMPLETE", () => sthm(@prolog.ibackchain_complete()))
   log.attempt("IBACKCHAIN_MINIMAL", () => sthm(@prolog.ibackchain_minimal()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

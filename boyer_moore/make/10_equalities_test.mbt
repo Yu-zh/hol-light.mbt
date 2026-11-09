@@ -26,7 +26,7 @@ test "Boyer_Moore/equalities matches Boyer_Moore/equalities.ml" {
   // BEGIN generated theorem list
   log.attempt("EQ_EQ_IMP_DISJ_EQ", () => sthm(@equalities.eq_eq_imp_disj_eq()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

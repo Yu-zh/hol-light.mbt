@@ -36,7 +36,7 @@ test "Permutation/qsort matches Permutation/qsort.ml" {
   log.attempt("MEM_QSORT", () => sthm(@qsort.mem_qsort()))
   log.attempt("ORDERED_QSORT", () => sthm(@qsort.ordered_qsort()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

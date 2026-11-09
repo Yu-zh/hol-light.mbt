@@ -27,7 +27,7 @@ test "drule matches drule.ml" {
   let th = (name : String, f : () -> Thm raise) => {
     log.attempt(name, () => sthm(f()))
   }
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   let hyp_of = (s : String) => @kernel.assume_rule(tm(s))
   let tmatch = (name : String, lc : Array[String], v : String, c : String) => {
     log.attempt(name, () => {
@@ -35,59 +35,59 @@ test "drule matches drule.ml" {
       sinst(@drule.term_match(lconsts, tm(v), tm(c)))
     })
   }
-  th("MK_CONJ", () => @drule.mk_conj_rule(hyp_of("a <=> b"), hyp_of("c <=> d")))
-  th("MK_DISJ", () => @drule.mk_disj_rule(hyp_of("a <=> b"), hyp_of("c <=> d")))
+  th("MK_CONJ", () => @drule.mk_conj_rule(hyp_of("(a : Bool) == (b : Bool)"), hyp_of("(c : Bool) == (d : Bool)")))
+  th("MK_DISJ", () => @drule.mk_disj_rule(hyp_of("(a : Bool) == (b : Bool)"), hyp_of("(c : Bool) == (d : Bool)")))
   th("MK_FORALL", () => {
-    @drule.mk_forall_rule(tm("x:A"), @kernel.refl(tm("(P:A->bool) x")))
+    @drule.mk_forall_rule(tm("(x : A)"), @kernel.refl(tm("(P : (A) -> Bool)((x : A))")))
   })
   th("MK_FORALL_bad", () => {
-    @drule.mk_forall_rule(tm("x:A"), hyp_of("(P:A->bool) x <=> Q x"))
+    @drule.mk_forall_rule(tm("(x : A)"), hyp_of("(P : (A) -> Bool)((x : A)) == (Q : (A) -> Bool)(x)"))
   })
   th("MK_EXISTS", () => {
-    @drule.mk_exists_rule(tm("x:A"), @kernel.refl(tm("(P:A->bool) x")))
+    @drule.mk_exists_rule(tm("(x : A)"), @kernel.refl(tm("(P : (A) -> Bool)((x : A))")))
   })
   th("MP_CONV", () => {
-    @drule.mp_conv(@equal.beta_conv, hyp_of("(\\x:bool. x) T ==> b"))
+    @drule.mp_conv(@equal.beta_conv, hyp_of("((x : Bool) => x)(true) → (b : Bool)"))
   })
   th("MP_CONV2", () => {
-    @drule.mp_conv(t => @kernel.assume_rule(t), hyp_of("a ==> b"))
+    @drule.mp_conv(t => @kernel.assume_rule(t), hyp_of("(a : Bool) → (b : Bool)"))
   })
-  th("BETAS_CONV", () => @drule.betas_conv(tm("(\\x y. (f:A->A->A) x y) a b")))
-  th("BETAS_CONV_bad", () => @drule.betas_conv(tm("(f:A->A) a")))
-  tmatch("match_fo", [], "(f:A->B) x", "(g:num->bool) n")
-  tmatch("match_const", [], "x /\\ y", "a /\\ (b \\/ c)")
-  tmatch("match_poly", [], "(x:A) = y", "T = F")
-  tmatch("match_bound", [], "\\x:A. (f:A->B) x", "\\y:num. (g:num->bool) y")
-  tmatch("match_lconst", ["x:bool"], "x /\\ y", "x /\\ T")
-  tmatch("match_lconst_bad", ["x:bool"], "x /\\ y", "y /\\ T")
-  tmatch("match_bad", [], "x /\\ y", "a \\/ b")
-  tmatch("match_ho", [], "forall x:A. (P:A->bool) x", "forall n:num. n = n")
-  tmatch("match_ho2", [], "?x:A. (P:A->B->bool) x y", "?n:num. n = m /\\ m = n")
-  tmatch("match_ho_app", [], "(P:A->bool) (f (x:A))", "Q (g (y:B)):bool")
-  tmatch("match_ho_beta", [], "\\x:A. (P:A->A->bool) x c", "\\n:num. n = c")
-  tmatch("match_repeat", [], "(x:A) = x", "T = T")
-  tmatch("match_repeat_bad", [], "(x:A) = x", "T = F")
+  th("BETAS_CONV", () => @drule.betas_conv(tm("((x : A) => (y : A) => (f : (A, A) -> A)(x, y))((a : A), (b : A))")))
+  th("BETAS_CONV_bad", () => @drule.betas_conv(tm("(f : (A) -> A)((a : A))")))
+  tmatch("match_fo", [], "(f : (A) -> B)((x : A))", "(g : (`num`) -> Bool)((n : `num`))")
+  tmatch("match_const", [], "(x : Bool) && (y : Bool)", "(a : Bool) && ((b : Bool) || (c : Bool))")
+  tmatch("match_poly", [], "(x : A) == (y : A)", "true == false")
+  tmatch("match_bound", [], "(x : A) => (f : (A) -> B)(x)", "(y : `num`) => (g : (`num`) -> Bool)(y)")
+  tmatch("match_lconst", ["(x : Bool)"], "(x : Bool) && (y : Bool)", "(x : Bool) && true")
+  tmatch("match_lconst_bad", ["(x : Bool)"], "(x : Bool) && (y : Bool)", "(y : Bool) && true")
+  tmatch("match_bad", [], "(x : Bool) && (y : Bool)", "(a : Bool) || (b : Bool)")
+  tmatch("match_ho", [], "∀ x : A, (P : (A) -> Bool)(x)", "∀ n : `num`, n == n")
+  tmatch("match_ho2", [], "∃ x : A, (P : (A, B) -> Bool)(x, (y : B))", "∃ n : `num`, n == (m : `num`) && m == n")
+  tmatch("match_ho_app", [], "(P : (A) -> Bool)((f : (A) -> A)((x : A)))", "(Q : (_) -> Bool)((g : (B) -> _)((y : B)))")
+  tmatch("match_ho_beta", [], "(x : A) => (P : (A, A) -> Bool)(x, (c : A))", "(n : `num`) => n == (c : `num`)")
+  tmatch("match_repeat", [], "(x : A) == x", "true == true")
+  tmatch("match_repeat_bad", [], "(x : A) == x", "true == false")
   let i1 = @drule.term_match(
     @list.List([]),
-    tm("forall x:A. (P:A->bool) x"),
-    tm("forall n:num. n = n"),
+    tm("∀ x : A, (P : (A) -> Bool)(x)"),
+    tm("∀ n : `num`, n == n"),
   )
   log.attempt("instantiate_ho", () => {
-    stm(@drule.instantiate(i1, tm("(P:A->bool) (z:A)")))
+    stm(@drule.instantiate(i1, tm("(P : (A) -> Bool)((z : A))")))
   })
   th("INSTANTIATE_ho", () => {
-    @drule.instantiate_rule(i1, @kernel.refl(tm("(P:A->bool) (z:A)")))
+    @drule.instantiate_rule(i1, @kernel.refl(tm("(P : (A) -> Bool)((z : A))")))
   })
   th("INSTANTIATE_bad", () => {
     @drule.instantiate_rule(
-      (@list.List([]), @list.singleton((tm("T"), tm("q:bool"))), @list.List([])),
-      hyp_of("q:bool"),
+      (@list.List([]), @list.singleton((tm("true"), tm("(q : Bool)"))), @list.List([])),
+      hyp_of("(q : Bool)"),
     )
   })
   th("INSTANTIATE_ALL", () => {
     @drule.instantiate_all(
-      (@list.List([]), @list.singleton((tm("T"), tm("q:bool"))), @list.List([])),
-      hyp_of("q:bool"),
+      (@list.List([]), @list.singleton((tm("true"), tm("(q : Bool)"))), @list.List([])),
+      hyp_of("(q : Bool)"),
     )
   })
   th("INSTANTIATE_ALL_ty", () => {
@@ -97,27 +97,27 @@ test "drule matches drule.ml" {
         @list.List([]),
         @list.singleton((@kernel.bool_ty, @kernel.aty)),
       ),
-      hyp_of("(x:A) = x"),
+      hyp_of("(x : A) == x"),
     )
   })
   log.attempt("term_unify", () => {
-    let x = tm("x:A")
-    let y = tm("y:A")
-    let t1 = tm("(f:A->A->A) x (g y)")
-    let t2 = tm("(f:A->A->A) (g z) y")
+    let x = tm("(x : A)")
+    let y = tm("(y : A)")
+    let t1 = tm("(f : (A, A) -> A)((x : A), (g : (_) -> A)((y : _)))")
+    let t2 = tm("(f : (A, A) -> A)((g : (_) -> A)((z : _)), (y : A))")
     sinst(@drule.term_unify(@list.List([x, y]), t1, t2))
   })
   log.attempt("term_unify_occurs", () => {
     sinst(
-      @drule.term_unify(@list.singleton(tm("x:A")), tm("x:A"), tm("(g:A->A) x")),
+      @drule.term_unify(@list.singleton(tm("(x : A)")), tm("(x : A)"), tm("(g : (A) -> A)((x : A))")),
     )
   })
   log.attempt("term_unify_abs", () => {
     sinst(
       @drule.term_unify(
-        @list.singleton(tm("x:A")),
-        tm("\\u:A. (f:A->A->A) u x"),
-        tm("\\v:A. (f:A->A->A) v c"),
+        @list.singleton(tm("(x : A)")),
+        tm("(u : A) => (f : (A, A) -> A)(u, (x : A))"),
+        tm("(v : A) => (f : (A, A) -> A)(v, (c : A))"),
       ),
     )
   })
@@ -127,8 +127,8 @@ test "drule matches drule.ml" {
   log.attempt("type_unify", () => {
     sty_insts(
       @drule.type_unify(
-        @parser.parse_type("A->B"),
-        @parser.parse_type("bool->C"),
+        @term_syntax.parse_type("(A) -> B"),
+        @term_syntax.parse_type("(Bool) -> C"),
         @list.List([]),
       ),
     )
@@ -136,8 +136,8 @@ test "drule matches drule.ml" {
   log.attempt("type_unify_bad", () => {
     sty_insts(
       @drule.type_unify(
-        @parser.parse_type("A->A"),
-        @parser.parse_type("bool->(A->bool)"),
+        @term_syntax.parse_type("(A) -> A"),
+        @term_syntax.parse_type("(Bool, A) -> Bool"),
         @list.List([]),
       ),
     )
@@ -145,8 +145,8 @@ test "drule matches drule.ml" {
   log.attempt("term_type_unify", () => {
     sinst(
       @drule.term_type_unify(
-        tm("(f:A->B) x"),
-        tm("(g:bool->C) T"),
+        tm("(f : (A) -> B)((x : A))"),
+        tm("(g : (Bool) -> C)(true)"),
         (@list.List([]), @list.List([]), @list.List([])),
       ),
     )
@@ -155,73 +155,73 @@ test "drule matches drule.ml" {
     stm(
       @drule.deep_alpha(
         @list.List([("y", "x"), ("b", "a")]),
-        tm("\\x:A. \\a:A. (f:A->A->A) x a"),
+        tm("(x : A) => (a : A) => (f : (A, A) -> A)(x, a)"),
       ),
     )
   })
-  let addth = hyp_of("forall x y. (f:A->A->A) x y = f y x")
+  let addth = hyp_of("∀ x : A, ∀ y : A, (f : (A, A) -> A)(x, y) == f(y, x)")
   th("PART_MATCH", () => {
-    @drule.part_match(@equal.lhs, addth)(tm("(f:A->A->A) u v"))
+    @drule.part_match(@equal.lhs, addth)(tm("(f : (A, A) -> A)((u : A), (v : A))"))
   })
   th("PART_MATCH_bad", () => {
-    @drule.part_match(@equal.lhs, addth)(tm("(g:A->A->A) u v"))
+    @drule.part_match(@equal.lhs, addth)(tm("(g : (A, A) -> A)((u : A), (v : A))"))
   })
   th("GEN_PART_MATCH", () => {
-    @drule.gen_part_match(@equal.lhs, hyp_of("forall x. (f:A->A->A) x y = f y x"))(
-      tm("(f:A->A->A) u v"),
+    @drule.gen_part_match(@equal.lhs, hyp_of("∀ x : A, (f : (A, A) -> A)(x, (y : A)) == f(y, x)"))(
+      tm("(f : (A, A) -> A)((u : A), (v : A))"),
     )
   })
   th("MATCH_MP", () => {
-    @drule.match_mp(hyp_of("forall x:A. (P:A->bool) x ==> Q x"))(
-      hyp_of("(P:A->bool) c"),
+    @drule.match_mp(hyp_of("∀ x : A, (P : (A) -> Bool)(x) → (Q : (A) -> Bool)(x)"))(
+      hyp_of("(P : (A) -> Bool)((c : A))"),
     )
   })
   th("MATCH_MP_ty", () => {
-    @drule.match_mp(hyp_of("forall x:A. (x = x) ==> T"))(@kernel.refl(tm("F")))
+    @drule.match_mp(hyp_of("∀ x : A, x == x → true"))(@kernel.refl(tm("false")))
   })
   th("MATCH_MP_bad", () => {
-    @drule.match_mp(hyp_of("forall x:A. (P:A->bool) x ==> Q x"))(
-      hyp_of("(R:A->bool) c"),
+    @drule.match_mp(hyp_of("∀ x : A, (P : (A) -> Bool)(x) → (Q : (A) -> Bool)(x)"))(
+      hyp_of("(R : (A) -> Bool)((c : A))"),
     )
   })
   th("MATCH_MP_notimp", () => {
     // OCaml evaluates the argument before MATCH_MP fails.
-    let a1 = hyp_of("a:bool")
-    let a2 = hyp_of("a:bool")
+    let a1 = hyp_of("(a : Bool)")
+    let a2 = hyp_of("(a : Bool)")
     @drule.match_mp(a1)(a2)
   })
   th("MATCH_MP_partial", () => {
-    @drule.match_mp(hyp_of("forall x y:A. (P:A->bool) x ==> (R:A->A->bool) x y"))(
-      hyp_of("(P:A->bool) c"),
+    @drule.match_mp(hyp_of("∀ x : A, ∀ y : A, (P : (A) -> Bool)(x) → (R : (A, A) -> Bool)(x, y)"))(
+      hyp_of("(P : (A) -> Bool)((c : A))"),
     )
   })
-  let hr = hyp_of("forall x:A. (P:A->bool) ((f:A->A) x) <=> Q x")
+  let hr = hyp_of("∀ x : A, (P : (A) -> Bool)((f : (A) -> A)(x)) == (Q : (A) -> Bool)(x)")
   th("HIGHER_REWRITE_CONV", () => {
     @drule.higher_rewrite_conv(@list.singleton(hr))(true)(
-      tm("a /\\ (R:A->bool) ((f:A->A) c)"),
+      tm("(a : Bool) && (R : (A) -> Bool)((f : (A) -> A)((c : A)))"),
     )
   })
   th("new_definition", () => {
-    @drule.new_definition(tm("TWICE (f:A->A) x = f (f x)"))
+    @drule.new_definition(tm("(TWICE : ((A) -> A, A) -> A)((f : (A) -> A), (x : A)) == f(f(x))"))
   })
-  th("new_definition_bad", () => @drule.new_definition(tm("a /\\ b")))
+  th("new_definition_bad", () => @drule.new_definition(tm("(a : Bool) && (b : Bool)")))
   th("mk_thm", () => {
-    @drule.mk_thm(@list.List([tm("a:bool"), tm("b:bool")]), tm("c:bool"))
+    @drule.mk_thm(@list.List([tm("(a : Bool)"), tm("(b : Bool)")]), tm("(c : Bool)"))
   })
   log.attempt("axioms", () => @kernel.axioms().map(sthm).to_array().join(" ;; "))
   log.attempt("constants", () => {
     @kernel.constants().map(e => e.0).to_array().join(" ")
   })
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   log.attempt("term_unify_abs_bad", () => {
-    let t1 = tm("\\x:bool. x")
-    let t2 = tm("(~)")
+    let t1 = tm("(x : Bool) => x")
+    let t2 = tm("op_tilde")
     sinst(@drule.term_unify(@list.List([]), t1, t2))
   })
   log.attempt("term_type_unify_abs_bad", () => {
-    let t1 = tm("\\x:bool. x")
-    let t2 = tm("(~)")
+    let t1 = tm("(x : Bool) => x")
+    let t2 = tm("op_tilde")
     sinst(
       @drule.term_type_unify(
         t1,

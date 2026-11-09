@@ -25,7 +25,7 @@ test "Minisat/minisat_prove matches Minisat/minisat_prove.ml" {
   log.capture_stdout()
   // BEGIN generated theorem list
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -37,20 +37,20 @@ test "Minisat/minisat_prove matches Minisat/minisat_prove.ml" {
   // SAT_PROVE runs MiniSat (the directory's own test.ml also needs zChaff):
   // three small problems, the runs recorded and replayed
   log.attempt("SAT_PROVE 1", () => {
-    sthm(@minisat_prove.sat_prove(tm("(p ==> q) <=> (p <=> p /\\ q)")))
+    sthm(@minisat_prove.sat_prove(tm("((p : Bool) → (q : Bool)) == (p == (p && q))")))
   })
   log.attempt("SAT_PROVE 2", () => {
-    sthm(@minisat_prove.sat_prove(tm("((p ==> q) ==> p) ==> p")))
+    sthm(@minisat_prove.sat_prove(tm("(((p : Bool) → (q : Bool)) → p) → p")))
   })
   log.attempt("SAT_PROVE 3", () => {
     sthm(
       @minisat_prove.sat_prove(
-        tm("(a \\/ b) /\\ (~a \\/ c) /\\ (~b \\/ c) ==> c"),
+        tm("((a : Bool) || (b : Bool)) && (!a || (c : Bool)) && (!b || c) → c"),
       ),
     )
   })
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

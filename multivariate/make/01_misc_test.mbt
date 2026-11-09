@@ -318,7 +318,7 @@ test "Multivariate/misc matches Multivariate/misc.ml" {
   log.attempt("CARD_SUSLIN_LE", () => sthm(@misc.card_suslin_le()))
   log.attempt("CARD_SUSLIN_EQ", () => sthm(@misc.card_suslin_eq()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

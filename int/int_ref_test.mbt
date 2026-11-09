@@ -553,7 +553,7 @@ test "int matches int.ml" {
   log.attempt("REAL_ABS_ZPOW", () => sthm(@int.real_abs_zpow()))
   log.attempt("REAL_SGN_ZPOW", () => sthm(@int.real_sgn_zpow()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -563,16 +563,16 @@ test "int matches int.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   log.attempt("int_arith", () => {
-    sthm(@int.int_arith(tm("x < y ==> x + &1 <= y")))
+    sthm(@int.int_arith(tm("(x : Int) < (y : Int) → x + int_of_num(1) <= y")))
   })
   log.attempt("int_reduce", () => {
-    sthm(@int.int_reduce_conv(tm("--(&7) div &2 + &17 rem &5")))
+    sthm(@int.int_reduce_conv(tm("div(-int_of_num(7), int_of_num(2)) + rem(int_of_num(17), int_of_num(5))")))
   })
   log.attempt("int_ring", () => {
-    sthm(@int.int_ring(tm("(x + y) pow 2 = x pow 2 + &2 * x * y + y pow 2")))
+    sthm(@int.int_ring(tm("pow((x : Int) + (y : Int), 2) == pow(x, 2) + (int_of_num(2) * (x * y) + pow(y, 2))")))
   })
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

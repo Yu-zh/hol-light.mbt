@@ -316,7 +316,7 @@ test "Formal_ineqs/lib/ssrnat matches Formal_ineqs/lib/ssrnat.ml" {
   log.attempt("Ssrnat.leq_add_distn", () => sthm(@ssrnat.leq_add_distn()))
   log.attempt("Ssrnat.sqrn_distn", () => sthm(@ssrnat.sqrn_distn()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

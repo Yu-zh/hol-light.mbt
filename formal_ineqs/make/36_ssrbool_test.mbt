@@ -134,7 +134,7 @@ test "Formal_ineqs/lib/ssrbool matches Formal_ineqs/lib/ssrbool.ml" {
   log.attempt("Ssrbool.subrelUl", () => sthm(@ssrbool.subrelul()))
   log.attempt("Ssrbool.subrelUr", () => sthm(@ssrbool.subrelur()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

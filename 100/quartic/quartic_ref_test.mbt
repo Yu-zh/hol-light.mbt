@@ -32,7 +32,7 @@ test "100/quartic matches 100/quartic.ml" {
   log.attempt("QUARTIC_1", () => sthm(@quartic.quartic_1()))
   log.attempt("QUARTIC_CASES", () => sthm(@quartic.quartic_cases()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -42,7 +42,7 @@ test "100/quartic matches 100/quartic.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

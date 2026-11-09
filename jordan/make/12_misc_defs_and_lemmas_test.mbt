@@ -248,7 +248,7 @@ test "Jordan/misc_defs_and_lemmas matches Jordan/misc_defs_and_lemmas.ml" {
   log.attempt("PI_SER", () => sthm(@misc_defs_and_lemmas.pi_ser()))
   log.attempt("inv_twopow", () => sthm(@misc_defs_and_lemmas.inv_twopow()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

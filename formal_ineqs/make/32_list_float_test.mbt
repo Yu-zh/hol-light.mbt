@@ -19,7 +19,7 @@ test "Formal_ineqs/list/list_float matches Formal_ineqs/list/list_float.ml" {
   log.attempt("List_float.error_mul_f2", () => sthm(@list_float.error_mul_f2()))
   log.attempt("List_float.error_mul_f1", () => sthm(@list_float.error_mul_f1()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

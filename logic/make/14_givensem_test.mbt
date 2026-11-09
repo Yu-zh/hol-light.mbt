@@ -131,7 +131,7 @@ test "Logic/givensem matches Logic/givensem.ml" {
   log.attempt("SUB_FROMNEW", () => sthm(@givensem.sub_fromnew()))
   log.attempt("LEVEL_FROMNEW", () => sthm(@givensem.level_fromnew()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

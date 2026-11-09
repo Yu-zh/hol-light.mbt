@@ -161,7 +161,7 @@ test "Formal_ineqs/trig/series matches Formal_ineqs/trig/series.ml" {
   log.attempt("Series.cos_series", () => sthm(@series.cos_series()))
   log.attempt("Series.cos_infsum", () => sthm(@series.cos_infsum()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

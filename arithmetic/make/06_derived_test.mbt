@@ -143,7 +143,7 @@ test "Arithmetic/derived matches Arithmetic/derived.ml" {
   log.attempt("eq_trans_imp", () => sthm(@derived.eq_trans_imp()))
   log.attempt("TERMSUBST_NUMERAL", () => sthm(@derived.termsubst_numeral()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

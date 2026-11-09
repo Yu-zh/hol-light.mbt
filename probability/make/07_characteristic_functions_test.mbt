@@ -1211,7 +1211,7 @@ test "Probability/characteristic_functions matches Probability/characteristic_fu
     sthm(@characteristic_functions.sin_lipschitz())
   })
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

@@ -50,7 +50,7 @@ test "Rqe/rqe_real matches Rqe/rqe_real.ml" {
   log.attempt("PARITY_POW_LT", () => sthm(@rqe_real.parity_pow_lt()))
   log.attempt("EVEN_ODD_POW", () => sthm(@rqe_real.even_odd_pow()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

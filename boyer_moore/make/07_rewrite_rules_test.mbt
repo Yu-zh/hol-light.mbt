@@ -46,7 +46,7 @@ test "Boyer_Moore/rewrite_rules matches Boyer_Moore/rewrite_rules.ml" {
   log.attempt("F_OR", () => sthm(@rewrite_rules.f_or()))
   log.attempt("OR_F", () => sthm(@rewrite_rules.or_f()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

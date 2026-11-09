@@ -35,7 +35,7 @@ test "Minisat/sat_script matches Minisat/sat_script.ml" {
   log.attempt("NOT_ELIM2", () => sthm(@sat_script.not_elim2()))
   log.attempt("IMP_F_EQ_F", () => sthm(@sat_script.imp_f_eq_f()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

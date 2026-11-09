@@ -26,7 +26,7 @@ test "Minisat/sat_tools matches Minisat/sat_tools.ml" {
   log.attempt("EQF_Imp1", () => sthm(@sat_tools.eqf_imp1()))
   log.attempt("EQT_Imp2", () => sthm(@sat_tools.eqt_imp2()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

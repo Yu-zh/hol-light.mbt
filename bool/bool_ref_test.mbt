@@ -15,7 +15,7 @@ test "bool matches bool.ml" {
   let th = (name : String, f : () -> @kernel.Thm raise) => {
     log.attempt(name, () => sthm(f()))
   }
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   let names = (l : @list.List[(String, @kernel.HolType)]) => {
     l.map(e => e.0).to_array().join(" ")
   }
@@ -56,9 +56,9 @@ test "bool matches bool.ml" {
   for t in theorems {
     th(t.0, () => t.1)
   }
-  let a = tm("a:bool")
-  let b = tm("b:bool")
-  let c = tm("c:bool")
+  let a = tm("(a : Bool)")
+  let b = tm("(b : Bool)")
+  let c = tm("(c : Bool)")
   let ha = @kernel.assume_rule(a)
   let hb = @kernel.assume_rule(b)
   let hyp_of = (s : String) => @kernel.assume_rule(tm(s))
@@ -70,121 +70,121 @@ test "bool matches bool.ml" {
   th("CONJUNCT2", () => @bool.conjunct2(@bool.conj(ha, hb)))
   th("CONJUNCT1_bad", () => @bool.conjunct1(ha))
   log.attempt("CONJUNCTS", () => {
-    @bool.conjuncts_rule(hyp_of("a /\\ (b /\\ c) /\\ d"))
+    @bool.conjuncts_rule(hyp_of("(a : Bool) && ((b : Bool) && (c : Bool)) && (d : Bool)"))
     .map(sthm)
     .to_array()
     .join(" ;; ")
   })
-  th("MP", () => @bool.mp(hyp_of("a ==> b"), ha))
-  th("MP_bad", () => @bool.mp(hyp_of("a ==> b"), hb))
+  th("MP", () => @bool.mp(hyp_of("(a : Bool) → (b : Bool)"), ha))
+  th("MP_bad", () => @bool.mp(hyp_of("(a : Bool) → (b : Bool)"), hb))
   th("DISCH", () => @bool.disch(a, @bool.conj(ha, hb)))
   th("DISCH_ALL", () => @bool.disch_all(@bool.conj(ha, hb)))
-  th("UNDISCH", () => @bool.undisch(hyp_of("a ==> b ==> c")))
-  th("UNDISCH_ALL", () => @bool.undisch_all(hyp_of("a ==> b ==> c")))
+  th("UNDISCH", () => @bool.undisch(hyp_of("(a : Bool) → (b : Bool) → (c : Bool)")))
+  th("UNDISCH_ALL", () => @bool.undisch_all(hyp_of("(a : Bool) → (b : Bool) → (c : Bool)")))
   th("IMP_ANTISYM_RULE", () => {
-    @bool.imp_antisym_rule(hyp_of("a ==> b"), hyp_of("b ==> a"))
+    @bool.imp_antisym_rule(hyp_of("(a : Bool) → (b : Bool)"), hyp_of("(b : Bool) → (a : Bool)"))
   })
   th("ADD_ASSUM", () => @bool.add_assum(c, ha))
   log.attempt("EQ_IMP_RULE", () => {
-    let (x, y) = @bool.eq_imp_rule(hyp_of("a <=> b"))
+    let (x, y) = @bool.eq_imp_rule(hyp_of("(a : Bool) == (b : Bool)"))
     sthm(x) + " ;; " + sthm(y)
   })
-  th("IMP_TRANS", () => @bool.imp_trans(hyp_of("a ==> b"), hyp_of("b ==> c")))
+  th("IMP_TRANS", () => @bool.imp_trans(hyp_of("(a : Bool) → (b : Bool)"), hyp_of("(b : Bool) → (c : Bool)")))
   th("IMP_TRANS_bad", () => {
-    @bool.imp_trans(hyp_of("a ==> b"), hyp_of("c ==> c"))
+    @bool.imp_trans(hyp_of("(a : Bool) → (b : Bool)"), hyp_of("(c : Bool) → c"))
   })
-  let fa = hyp_of("forall x:A. (P:A->bool) x")
-  th("SPEC", () => @bool.spec(tm("y:A"), fa))
-  th("SPEC_bad", () => @bool.spec(tm("y:B"), fa))
+  let fa = hyp_of("∀ x : A, (P : (A) -> Bool)(x)")
+  th("SPEC", () => @bool.spec(tm("(y : A)"), fa))
+  th("SPEC_bad", () => @bool.spec(tm("(y : B)"), fa))
   th("SPECL", () => {
     @bool.specl(
-      @list.List([tm("u:num"), tm("v:num")]),
-      hyp_of("forall x y:num. (R:num->num->bool) x y"),
+      @list.List([tm("(u : `num`)"), tm("(v : `num`)")]),
+      hyp_of("∀ x : `num`, ∀ y : `num`, (R : (`num`, `num`) -> Bool)(x, y)"),
     )
   })
   th("SPEC_ALL", () => {
-    @bool.spec_all(hyp_of("forall x y:num. (R:num->num->bool) x y /\\ R y x"))
+    @bool.spec_all(hyp_of("∀ x : `num`, ∀ y : `num`, (R : (`num`, `num`) -> Bool)(x, y) && R(y, x)"))
   })
-  th("ISPEC", () => @bool.ispec(tm("n:num"), hyp_of("forall x:A. x = x")))
+  th("ISPEC", () => @bool.ispec(tm("(n : `num`)"), hyp_of("∀ x : A, x == x")))
   th("ISPECL", () => {
     @bool.ispecl(
-      @list.List([tm("n:num"), tm("T")]),
-      hyp_of("forall(x:A) (y:B). x = x /\\ y = y"),
+      @list.List([tm("(n : `num`)"), tm("true")]),
+      hyp_of("∀ x : A, ∀ y : B, x == x && y == y"),
     )
   })
   th("GEN", () => {
-    @bool.gen(tm("x:A"), @bool.disch_all(hyp_of("(P:A->bool) x ==> P x")))
+    @bool.gen(tm("(x : A)"), @bool.disch_all(hyp_of("(P : (A) -> Bool)((x : A)) → P(x)")))
   })
-  th("GEN_bad", () => @bool.gen(tm("x:A"), hyp_of("(P:A->bool) x")))
+  th("GEN_bad", () => @bool.gen(tm("(x : A)"), hyp_of("(P : (A) -> Bool)((x : A))")))
   th("GENL", () => {
     @bool.genl(
-      @list.List([tm("x:A"), tm("y:A")]),
-      @kernel.refl(tm("(f:A->A->A) x y")),
+      @list.List([tm("(x : A)"), tm("(y : A)")]),
+      @kernel.refl(tm("(f : (A, A) -> A)((x : A), (y : A))")),
     )
   })
   th("GEN_ALL", () => {
-    @bool.gen_all(@bool.disch_all(hyp_of("(P:A->B->bool) x y")))
+    @bool.gen_all(@bool.disch_all(hyp_of("(P : (A, B) -> Bool)((x : A), (y : B))")))
   })
   th("EXISTS", () => {
     @bool.exists_rule(
-      tm("?x:num. x = x"),
-      tm("n:num"),
-      @kernel.refl(tm("n:num")),
+      tm("∃ x : `num`, x == x"),
+      tm("(n : `num`)"),
+      @kernel.refl(tm("(n : `num`)")),
     )
   })
   th("SIMPLE_EXISTS", () => {
-    @bool.simple_exists(tm("n:num"), @kernel.refl(tm("n:num")))
+    @bool.simple_exists(tm("(n : `num`)"), @kernel.refl(tm("(n : `num`)")))
   })
   th("CHOOSE", () => {
     @bool.choose_rule(
-      tm("x:A"),
-      hyp_of("?x:A. (P:A->bool) x"),
-      @bool.add_assum(tm("(P:A->bool) x"), @kernel.refl(tm("T"))),
+      tm("(x : A)"),
+      hyp_of("∃ x : A, (P : (A) -> Bool)(x)"),
+      @bool.add_assum(tm("(P : (A) -> Bool)((x : A))"), @kernel.refl(tm("true"))),
     )
   })
   th("SIMPLE_CHOOSE", () => {
     @bool.simple_choose(
-      tm("x:A"),
-      @bool.add_assum(tm("(P:A->bool) x"), @kernel.refl(tm("T"))),
+      tm("(x : A)"),
+      @bool.add_assum(tm("(P : (A) -> Bool)((x : A))"), @kernel.refl(tm("true"))),
     )
   })
   th("DISJ1", () => @bool.disj1(ha, b))
   th("DISJ2", () => @bool.disj2(a, hb))
   th("DISJ_CASES", () => {
-    @bool.disj_cases(hyp_of("a \\/ b"), @bool.disj2(b, ha), @bool.disj1(hb, a))
+    @bool.disj_cases(hyp_of("(a : Bool) || (b : Bool)"), @bool.disj2(b, ha), @bool.disj1(hb, a))
   })
-  th("DISJ_CASES_bad", () => @bool.disj_cases(hyp_of("a \\/ b"), ha, hb))
+  th("DISJ_CASES_bad", () => @bool.disj_cases(hyp_of("(a : Bool) || (b : Bool)"), ha, hb))
   th("SIMPLE_DISJ_CASES", () => {
     @bool.simple_disj_cases(
-      @bool.add_assum(a, @kernel.refl(tm("T"))),
-      @bool.add_assum(b, @kernel.refl(tm("T"))),
+      @bool.add_assum(a, @kernel.refl(tm("true"))),
+      @bool.add_assum(b, @kernel.refl(tm("true"))),
     )
   })
-  th("NOT_ELIM", () => @bool.not_elim(hyp_of("~a")))
-  th("NOT_INTRO", () => @bool.not_intro(hyp_of("a ==> F")))
-  th("EQF_INTRO", () => @bool.eqf_intro(hyp_of("~a")))
-  th("EQF_ELIM", () => @bool.eqf_elim(hyp_of("a <=> F")))
-  th("CONTR", () => @bool.contr(a, hyp_of("F")))
+  th("NOT_ELIM", () => @bool.not_elim(hyp_of("!(a : Bool)")))
+  th("NOT_INTRO", () => @bool.not_intro(hyp_of("(a : Bool) → false")))
+  th("EQF_INTRO", () => @bool.eqf_intro(hyp_of("!(a : Bool)")))
+  th("EQF_ELIM", () => @bool.eqf_elim(hyp_of("(a : Bool) == false")))
+  th("CONTR", () => @bool.contr(a, hyp_of("false")))
   th("CONTR_bad", () => @bool.contr(a, ha))
-  th("EXISTENCE", () => @bool.existence(hyp_of("?!x:num. x = n")))
+  th("EXISTENCE", () => @bool.existence(hyp_of("existsunique((x : `num`) => x == (n : `num`))")))
   th("PINST", () => {
     @bool.pinst(
       @list.singleton((@kernel.bool_ty, @kernel.aty)),
-      @list.singleton((tm("T"), @kernel.mk_var("x", @kernel.aty))),
-      @kernel.refl(tm("(f:A->A) x")),
+      @list.singleton((tm("true"), @kernel.mk_var("x", @kernel.aty))),
+      @kernel.refl(tm("(f : (A) -> A)((x : A))")),
     )
   })
   th("PROVE_HYP", () => @bool.prove_hyp(ha, @bool.conj(ha, hb)))
   log.attempt("mk_iff", () => stm(@bool.mk_iff(a, b)))
-  log.attempt("dest_iff_bad", () => stm(@bool.dest_iff(tm("(x:num) = y")).0))
+  log.attempt("dest_iff_bad", () => stm(@bool.dest_iff(tm("(x : `num`) == (y : `num`)")).0))
   log.attempt("mk_neg", () => stm(@bool.mk_neg(a)))
-  log.attempt("mk_neg_bad", () => stm(@bool.mk_neg(tm("x:num"))))
-  log.attempt("verbose", () => stm(tm("forall x. exists y. x = y /\\ true")))
+  log.attempt("mk_neg_bad", () => stm(@bool.mk_neg(tm("(x : `num`)"))))
+  log.attempt("verbose", () => stm(tm("∀ x : _, ∃ y : _, x == y && true")))
   log.attempt("print", () => {
-    @printer.string_of_term(tm("forall x. ?y. x = y /\\ (p <=> q) ==> ~r \\/ F"))
+    @printer.string_of_term(tm("∀ x : _, ∃ y : _, x == y && (p : Bool) == (q : Bool) → !(r : Bool) || false"))
   })
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
-  log.attempt("counter_pgenvar", () => stm(tm("{x | T}")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
+  log.attempt("counter_pgenvar", () => stm(@parser.parse_term("{x | T}")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   inspect(
     log.contents(),

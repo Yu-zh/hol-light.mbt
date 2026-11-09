@@ -16,26 +16,26 @@ test "compute matches compute.ml" {
     log.show_theory_output(th)
   }
   log.show_theory_trace("compute")
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   let ev = (name : String, s : String) => {
     log.attempt(name, () => sthm(@compute.eval_conv(tm(s))))
   }
-  ev("eval_bool", "(T /\\ F) \\/ ~F")
-  ev("eval_cond", "if T /\\ T then (a:A) else b")
-  ev("eval_let", "let x = T in x /\\ ~x")
-  ev("eval_beta", "(\\x:bool. x \\/ F) T")
-  ev("eval_pair", "FST (T, F) /\\ SND (F, T)")
+  ev("eval_bool", "true && false || !false")
+  ev("eval_cond", "if true && true { (a : A) } else { (b : A) }")
+  ev("eval_let", "LET((x : Bool) => LET_END(x && !x), true)")
+  ev("eval_beta", "((x : Bool) => x || false)(true)")
+  ev("eval_pair", "FST((true, false)) && SND((false, true))")
   log.attempt("eval_weak", () => {
     sthm(
-      @compute.weak_cbv_conv(@compute.bool_compset(()))(tm("(\\x. x /\\ T) F")),
+      @compute.weak_cbv_conv(@compute.bool_compset(()))(tm("((x : Bool) => x && true)(false)")),
     )
   })
-  ev("eval_fail", "p:bool")
+  ev("eval_fail", "(p : Bool)")
   try {
-    let d = @pair.new_definition(tm("myneg b = if b then F else T"))
+    let d = @pair.new_definition(tm("(myneg : (Bool) -> Bool)((b : Bool)) == (if b { false } else { true })"))
     log.attempt("add_funs", () => {
       @compute.add_funs(@list.singleton(d))
-      sthm(@compute.eval_conv(tm("myneg (myneg T)")))
+      sthm(@compute.eval_conv(tm("myneg(myneg(true))")))
     })
   } catch {
     e => fail("setup: \{e}")
@@ -43,7 +43,7 @@ test "compute matches compute.ml" {
   log.attempt("restr", () => {
     sthm(
       @compute.restr_eval_conv(@list.singleton(tm("myneg")))(
-        tm("myneg (T /\\ F)"),
+        tm("myneg(true && false)"),
       ),
     )
   })

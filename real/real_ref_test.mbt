@@ -352,7 +352,7 @@ test "real matches real.ml" {
   log.attempt("REAL_ABS_LE_SQRT_POS", () => sthm(@real.real_abs_le_sqrt_pos()))
   log.attempt("REAL_ABS_LE_SQRT", () => sthm(@real.real_abs_le_sqrt()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -362,18 +362,18 @@ test "real matches real.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   log.attempt("arith_lin", () => {
-    sthm(@realarith.real_arith(tm("x < y ==> x + &1 < y + &1")))
+    sthm(@realarith.real_arith(tm("(x : Real) < (y : Real) → x + real_of_num(1) < y + real_of_num(1)")))
   })
   log.attempt("arith_abs", () => {
-    sthm(@realarith.real_arith(tm("abs(x) <= &1 ==> --(&1) <= x")))
+    sthm(@realarith.real_arith(tm("abs((x : Real)) <= real_of_num(1) → -real_of_num(1) <= x")))
   })
-  log.attempt("arith_max", () => sthm(@realarith.real_arith(tm("max x y >= x"))))
+  log.attempt("arith_max", () => sthm(@realarith.real_arith(tm("max((x : Real), (y : Real)) >= x"))))
   log.attempt("arith_chain", () => {
-    sthm(@realarith.real_arith(tm("a <= b /\\ b <= c /\\ c <= a ==> a = c")))
+    sthm(@realarith.real_arith(tm("(a : Real) <= (b : Real) && b <= (c : Real) && c <= a → a == c")))
   })
-  log.attempt("arith_fail", () => sthm(@realarith.real_arith(tm("x * x >= &0"))))
+  log.attempt("arith_fail", () => sthm(@realarith.real_arith(tm("(x : Real) * x >= real_of_num(0)"))))
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

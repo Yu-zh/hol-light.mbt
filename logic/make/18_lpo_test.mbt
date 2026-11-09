@@ -86,7 +86,7 @@ test "Logic/lpo matches Logic/lpo.ml" {
   log.attempt("LEX_TOTAL", () => sthm(@lpo.lex_total()))
   log.attempt("LPO_GROUND_COMPLETE", () => sthm(@lpo.lpo_ground_complete()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

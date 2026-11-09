@@ -20,7 +20,7 @@ test "firstorder matches firstorder.ml" {
     log.show_theory_output(th)
   }
   log.show_theory_trace("firstorder")
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   let l123 = @list.List([1, 2, 3])
   log.attempt("list_rest", () => {
     "[" +
@@ -74,12 +74,12 @@ test "firstorder matches firstorder.ml" {
   log.attempt("roundtrip", () => {
     @firstorder.reset_vars(())
     @firstorder.reset_consts(())
-    let t = tm("forall x:A. P x (f x y) ==> ~Q (c:A)")
+    let t = tm("∀ x : A, (P : (A, _) -> Bool)(x, (f : (A, _) -> _)(x, (y : _))) → !(Q : (A) -> Bool)((c : A))")
     let fm = @firstorder.fol_of_form(@list.List([]), @list.List([]), t)
     let a = @firstorder.fol_of_atom(
       @list.List([]),
       @list.List([]),
-      tm("(R:A->A->bool) (g a) b"),
+      tm("(R : (A, A) -> Bool)((g : (_) -> A)((a : _)), (b : A))"),
     )
     stm(@firstorder.hol_of_literal(a.0, a.1)) +
     " / " +
@@ -88,7 +88,7 @@ test "firstorder matches firstorder.ml" {
       _ => "?"
     })
   })
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   inspect(
     log.contents(),

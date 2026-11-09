@@ -19,7 +19,7 @@ test "recursion matches recursion.ml" {
   log.capture_stdout()
   // BEGIN generated theorem list
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -31,19 +31,19 @@ test "recursion matches recursion.ml" {
   log.attempt("recdef", () => {
     sthm(
       @recursion.new_recursive_definition(@nums.num_recursion())(
-        tm("(dbl 0 = 0) /\\ (forall n. dbl (SUC n) = SUC (SUC (dbl n)))"),
+        tm("(dbl : (Num) -> Num)(0) == 0 && (∀ n : Num, dbl(SUC(n)) == SUC(SUC(dbl(n))))"),
       ),
     )
   })
   log.attempt("recdef_fail", () => {
     sthm(
       @recursion.new_recursive_definition(@nums.num_recursion())(
-        tm("bad (SUC n) = bad n"),
+        tm("(bad : (Num) -> _)(SUC((n : Num))) == bad(n)"),
       ),
     )
   })
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

@@ -27,7 +27,7 @@ test "Rqe/matinsert_thms matches Rqe/matinsert_thms.ml" {
   // BEGIN generated theorem list
   log.attempt("matinsert_lem0", () => sthm(@matinsert_thms.matinsert_lem0()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

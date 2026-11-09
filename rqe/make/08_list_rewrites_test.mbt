@@ -24,7 +24,7 @@ test "Rqe/list_rewrites matches Rqe/list_rewrites.ml" {
   // BEGIN generated theorem list
   log.attempt("NOT_NIL", () => sthm(@list_rewrites.not_nil()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

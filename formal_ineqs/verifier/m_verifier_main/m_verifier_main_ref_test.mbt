@@ -16,7 +16,7 @@ test "Formal_ineqs/verifier/m_verifier_main matches Formal_ineqs/verifier/m_veri
   log.capture_stdout()
   // BEGIN generated theorem list
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -31,7 +31,7 @@ test "Formal_ineqs/verifier/m_verifier_main matches Formal_ineqs/verifier/m_veri
   log.attempt("verify sqrt(pi)", () => {
     sthm(
       @m_verifier_main.verify_ineq(@m_verifier_main.default_params())(5L)(
-        tm("sqrt(pi) < #1.773"),
+        tm("sqrt(pi) < DECIMAL(1773, 1000)"),
       ).0,
     )
   })
@@ -39,13 +39,13 @@ test "Formal_ineqs/verifier/m_verifier_main matches Formal_ineqs/verifier/m_veri
     sthm(
       @m_verifier_main.verify_ineq(@m_verifier_main.default_params())(5L)(
         tm(
-          "-- &1 / sqrt(&3) <= x /\\ x <= sqrt(&2) /\\ -- sqrt(pi) <= y /\\ y <= &1 ==> x pow 2 * y - x * y pow 4 + y pow 6 - &7 + x pow 4 > -- #7.17995",
+          "-real_of_num(1) / sqrt(real_of_num(3)) <= (x : Real) && x <= sqrt(real_of_num(2)) && -sqrt(pi) <= (y : Real) && y <= real_of_num(1) → pow(x, 2) * y - x * pow(y, 4) + (pow(y, 6) - real_of_num(7) + pow(x, 4)) > -DECIMAL(717995, 100000)",
         ),
       ).0,
     )
   })
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

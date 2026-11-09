@@ -220,7 +220,7 @@ test "IEEE/float_thms matches IEEE/float_thms.ml" {
   log.attempt("FLOAT_RD_LE_0_2", () => sthm(@float_thms.float_rd_le_0_2()))
   log.attempt("FLOAT_RD_MONO", () => sthm(@float_thms.float_rd_mono()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

@@ -39,7 +39,7 @@ test "nums matches nums.ml" {
   log.attempt("BIT0_DEF", () => sthm(@nums.bit0_def()))
   log.attempt("BIT1_DEF", () => sthm(@nums.bit1_def()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -62,9 +62,9 @@ test "nums matches nums.ml" {
   log.attempt("is_numeral", () => {
     @nums.is_numeral(tm("7")).to_string() +
     " " +
-    @nums.is_numeral(tm("x:num")).to_string()
+    @nums.is_numeral(tm("(x : Num)")).to_string()
   })
-  log.attempt("print", () => @printer.string_of_term(tm("SUC 0 = 1")))
+  log.attempt("print", () => @printer.string_of_term(tm("SUC(0) == 1")))
   log.attempt("neg", () => stm(@nums.mk_numeral(@num.num_of_int(-1))))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   inspect(

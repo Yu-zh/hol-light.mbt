@@ -38,7 +38,7 @@ test "calc_rat matches calc_rat.ml" {
   log.attempt("REAL_SHRINK_GROW_EQ", () => sthm(@calc_rat.real_shrink_grow_eq()))
   log.attempt("REAL_SHRINK_GROW", () => sthm(@calc_rat.real_shrink_grow()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -48,26 +48,26 @@ test "calc_rat matches calc_rat.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   log.attempt("rat_reduce", () => {
-    sthm(@calc_rat.real_rat_reduce_conv(tm("&1 / &3 + &1 / &6")))
+    sthm(@calc_rat.real_rat_reduce_conv(tm("real_of_num(1) / real_of_num(3) + real_of_num(1) / real_of_num(6)")))
   })
   log.attempt("rat_cmp", () => {
-    sthm(@calc_rat.real_rat_reduce_conv(tm("&2 / &3 < &3 / &4")))
+    sthm(@calc_rat.real_rat_reduce_conv(tm("real_of_num(2) / real_of_num(3) < real_of_num(3) / real_of_num(4)")))
   })
   log.attempt("rat_pow", () => {
-    sthm(@calc_rat.real_rat_reduce_conv(tm("(&2 / &3) pow 3")))
+    sthm(@calc_rat.real_rat_reduce_conv(tm("pow(real_of_num(2) / real_of_num(3), 3)")))
   })
   log.attempt("field", () => {
-    sthm(@calc_rat.real_field(tm("~(x = &0) ==> x * inv(x) = &1")))
+    sthm(@calc_rat.real_field(tm("!((x : Real) == real_of_num(0)) → x * inv(x) == real_of_num(1)")))
   })
   log.attempt("field2", () => {
     sthm(
       @calc_rat.real_field(
-        tm("~(a = &0) /\\ ~(b = &0) ==> inv(a * b) = inv a * inv b"),
+        tm("!((a : Real) == real_of_num(0)) && !((b : Real) == real_of_num(0)) → inv(a * b) == inv(a) * inv(b)"),
       ),
     )
   })
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

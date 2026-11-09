@@ -64,7 +64,7 @@ test "Library/bitmatch matches Library/bitmatch.ml" {
     sthm(@bitmatch.conspat_word1_inverts())
   })
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -77,10 +77,10 @@ test "Library/bitmatch matches Library/bitmatch.ml" {
   log.attempt("bitmatch_conv_2^31", () => {
     sthm(
       @bitmatch.bitmatch_conv(
-        @bitmatch.mk_bitmatch(tm("word 2147483648:32 word"), [
+        @bitmatch.mk_bitmatch(tm("(word : (Num) -> Word[32])(2147483648)"), [
           (
-            @bitmatch.mk_bitpat([tm("a:1 word"), tm("b:31 word")]),
-            tm("b:31 word"),
+            @bitmatch.mk_bitpat([tm("(a : Word[Unit])"), tm("(b : Word[31])")]),
+            tm("(b : Word[31])"),
           ),
         ]),
       ),
@@ -89,17 +89,17 @@ test "Library/bitmatch matches Library/bitmatch.ml" {
   log.attempt("bitmatch_conv_2^32-1", () => {
     sthm(
       @bitmatch.bitmatch_conv(
-        @bitmatch.mk_bitmatch(tm("word 4294967295:32 word"), [
+        @bitmatch.mk_bitmatch(tm("(word : (Num) -> Word[32])(4294967295)"), [
           (
-            @bitmatch.mk_bitpat([tm("a:16 word"), tm("b:16 word")]),
-            tm("a:16 word"),
+            @bitmatch.mk_bitpat([tm("(a : Word[16])"), tm("(b : Word[16])")]),
+            tm("(a : Word[16])"),
           ),
         ]),
       ),
     )
   })
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

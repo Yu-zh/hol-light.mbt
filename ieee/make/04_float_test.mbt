@@ -34,7 +34,7 @@ test "IEEE/float matches IEEE/float.ml" {
   log.attempt("flround", () => sthm(@float.flround()))
   log.attempt("fl_eps", () => sthm(@float.fl_eps()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

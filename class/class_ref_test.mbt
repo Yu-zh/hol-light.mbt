@@ -66,7 +66,7 @@ test "class matches class.ml" {
   log.attempt("bool_INDUCT", () => sthm(@class.bool_induct()))
   log.attempt("bool_RECURSION", () => sthm(@class.bool_recursion()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   let st = (name : String, f : () -> (@kernel.Term, @tactics.Tactic) raise) => {
     log.attempt(name, () => {
       let (w, tac) = f()
@@ -77,10 +77,10 @@ test "class matches class.ml" {
   let th = (name : String, f : () -> @kernel.Thm raise) => {
     log.attempt(name, () => sthm(f()))
   }
-  th("ETA_CONV", () => @class.eta_conv(tm("\\x:A. (f:A->B) x")))
-  th("ETA_CONV_bad", () => @class.eta_conv(tm("\\x:A. (f:A->A->B) x x")))
+  th("ETA_CONV", () => @class.eta_conv(tm("(x : A) => (f : (A) -> B)(x)")))
+  th("ETA_CONV_bad", () => @class.eta_conv(tm("(x : A) => (f : (A, A) -> B)(x, x)")))
   log.attempt("select", () => {
-    let t = tm("@x:A. P x")
+    let t = tm("select((x : A) => (P : (A) -> Bool)(x))")
     let (v, b) = @class.dest_select(t)
     @class.is_select(t).to_string() +
     " " +
@@ -91,26 +91,26 @@ test "class matches class.ml" {
     stm(@class.mk_select((v, b)))
   })
   th("SELECT_RULE", () => {
-    @class.select_rule(@kernel.assume_rule(tm("?x:A. P x")))
+    @class.select_rule(@kernel.assume_rule(tm("∃ x : A, (P : (A) -> Bool)(x)")))
   })
-  th("SELECT_CONV", () => @class.select_conv(tm("(P:A->bool) (@x. P x)")))
-  th("TAUT1", () => @class.taut(tm("p \\/ ~p")))
-  th("TAUT2", () => @class.taut(tm("(p ==> q) \\/ (q ==> p)")))
-  th("TAUT3", () => @class.taut(tm("(a <=> b) <=> (a /\\ b) \\/ (~a /\\ ~b)")))
-  th("TAUT_bad", () => @class.taut(tm("p ==> q")))
+  th("SELECT_CONV", () => @class.select_conv(tm("(P : (A) -> Bool)(select((x : A) => P(x)))")))
+  th("TAUT1", () => @class.taut(tm("(p : Bool) || !p")))
+  th("TAUT2", () => @class.taut(tm("((p : Bool) → (q : Bool)) || (q → p)")))
+  th("TAUT3", () => @class.taut(tm("((a : Bool) == (b : Bool)) == (a && b || !a && !b)")))
+  th("TAUT_bad", () => @class.taut(tm("(p : Bool) → (q : Bool)")))
   th("TAUT_cond", () => {
-    @class.taut(tm("(if b then x else y) = (if ~b then y else x:A)"))
+    @class.taut(tm("(if (b : Bool) { (x : A) } else { (y : A) }) == (if !b { y } else { x })"))
   })
   th("CCONTR", () => {
-    let p = tm("p:bool")
-    let th0 = @kernel.assume_rule(tm("~p ==> F"))
+    let p = tm("(p : Bool)")
+    let th0 = @kernel.assume_rule(tm("!(p : Bool) → false"))
     @class.ccontr(p)(@bool.undisch(th0))
   })
-  th("CONTRAPOS_CONV", () => @class.contrapos_conv(tm("p ==> q")))
+  th("CONTRAPOS_CONV", () => @class.contrapos_conv(tm("(p : Bool) → (q : Bool)")))
   log.attempt("cond", () => {
-    let b = tm("b:bool")
-    let x = tm("x:A")
-    let y = tm("y:A")
+    let b = tm("(b : Bool)")
+    let x = tm("(x : A)")
+    let y = tm("(y : A)")
     let c = @class.mk_cond(b, x, y)
     let (b1, (x1, y1)) = @class.dest_cond(c)
     @class.is_cond(c).to_string() +
@@ -124,27 +124,27 @@ test "class matches class.ml" {
     stm(y1)
   })
   th("COND_ELIM_CONV", () => {
-    @class.cond_elim_conv(tm("(P:A->bool) (if b then x else y)"))
+    @class.cond_elim_conv(tm("(P : (A) -> Bool)(if (b : Bool) { (x : A) } else { (y : A) })"))
   })
   st("COND_CASES_TAC", () => {
-    (tm("(P:A->bool) (if b then x else y)"), g => @class.cond_cases_tac(g))
+    (tm("(P : (A) -> Bool)(if (b : Bool) { (x : A) } else { (y : A) })"), g => @class.cond_cases_tac(g))
   })
   st("BOOL_CASES_TAC", () => {
-    let w = tm("(P:bool->bool) b")
-    let b = tm("b:bool")
+    let w = tm("(P : (Bool) -> Bool)((b : Bool))")
+    let b = tm("(b : Bool)")
     (w, @class.bool_cases_tac(b))
   })
   st("ASM_CASES_TAC", () => {
-    let w = tm("q:bool")
-    let p = tm("p:bool")
+    let w = tm("(q : Bool)")
+    let p = tm("(p : Bool)")
     (w, @class.asm_cases_tac(p))
   })
   st("REFUTE_THEN", () => {
-    (tm("p:bool"), @class.refute_then(th => @tactics.assume_tac(th)))
+    (tm("(p : Bool)"), @class.refute_then(th => @tactics.assume_tac(th)))
   })
   let new_unit = () => {
-    let t = tm("?b:bool. b")
-    let tt = tm("T")
+    let t = tm("∃ b : Bool, b")
+    let tt = tm("true")
     let th0 = @tactics.prove(
       t,
       @tactics.then_tac(
@@ -170,7 +170,7 @@ test "class matches class.ml" {
   })
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   log.attempt("axioms", () => @kernel.axioms().map(sthm).to_array().join(" ;; "))
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   inspect(
     log.contents(),

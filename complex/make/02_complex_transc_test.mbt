@@ -69,7 +69,7 @@ test "Complex/complex_transc matches Complex/complex_transc.ml" {
   log.attempt("UNWINDING_2PI", () => sthm(@complex_transc.unwinding_2pi()))
   log.attempt("CLOG_MUL", () => sthm(@complex_transc.clog_mul()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

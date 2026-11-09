@@ -88,7 +88,7 @@ test "Unity/mk_unless matches Unity/mk_unless.ml" {
   log.attempt("UNLESS_cor22", () => sthm(@mk_unless.unless_cor22()))
   log.attempt("UNLESS_cor23", () => sthm(@mk_unless.unless_cor23()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

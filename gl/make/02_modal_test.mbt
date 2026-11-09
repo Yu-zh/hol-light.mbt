@@ -57,7 +57,7 @@ test "GL/modal matches GL/modal.ml" {
   log.attempt("diam_DEF", () => sthm(@modal.diam_def()))
   log.attempt("dotbox_DEF", () => sthm(@modal.dotbox_def()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

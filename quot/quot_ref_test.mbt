@@ -16,18 +16,18 @@ test "quot matches quot.ml" {
     log.show_theory_output(th)
   }
   log.show_theory_trace("quot")
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   let rw = (ths : Array[@kernel.Thm]) => @simp.rewrite_tac(@list.List(ths))
   let meson = @meson.meson_tac(@list.List([])) catch { e => fail("\{e}") }
   try {
-    let beq = @drule.new_definition(tm("BEQ x y <=> (x:bool <=> y)"))
-    let refl_th = @tactics.prove(tm("forall x. BEQ x x"), rw([beq]))
+    let beq = @drule.new_definition(tm("(BEQ : (Bool, Bool) -> Bool)((x : Bool), (y : Bool)) == (x == y)"))
+    let refl_th = @tactics.prove(tm("∀ x : Bool, BEQ(x, x)"), rw([beq]))
     let sym_th = @tactics.prove(
-      tm("forall x y. BEQ x y <=> BEQ y x"),
+      tm("∀ x : Bool, ∀ y : Bool, BEQ(x, y) == BEQ(y, x)"),
       @tactics.then_tac(rw([beq]), meson),
     )
     let trans_th = @tactics.prove(
-      tm("forall x y z. BEQ x y /\\ BEQ y z ==> BEQ x z"),
+      tm("∀ x : Bool, ∀ y : Bool, ∀ z : Bool, BEQ(x, y) && BEQ(y, z) → BEQ(x, z)"),
       @tactics.then_tac(rw([beq]), meson),
     )
     let q = @quot.define_quotient_type(
@@ -37,12 +37,12 @@ test "quot matches quot.ml" {
     )
     log.attempt("define", () => sthm(q.0) + " ;; " + sthm(q.1))
     let wth = @tactics.prove(
-      tm("forall x y. BEQ x y ==> BEQ (~x) (~y)"),
+      tm("∀ x : Bool, ∀ y : Bool, BEQ(x, y) → BEQ(!x, !y)"),
       @tactics.then_tac(rw([beq]), meson),
     )
     let lf = @quot.lift_function(q.1)((refl_th, trans_th))("qnot")(wth)
     log.attempt("lift_function", () => sthm(lf.0) + " ;; " + sthm(lf.1))
-    let th = @tactics.prove(tm("forall x. BEQ (~ ~x) x"), rw([beq]))
+    let th = @tactics.prove(tm("∀ x : Bool, BEQ(!!x, x)"), rw([beq]))
     log.attempt("lift_theorem", () => {
       sthm(
         @quot.lift_theorem(q)((refl_th, sym_th, trans_th))(
@@ -65,7 +65,7 @@ test "quot matches quot.ml" {
   log.attempt("constants", () => {
     @kernel.constants().map(c => c.0).to_array().join(" ")
   })
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   inspect(
     log.contents(),

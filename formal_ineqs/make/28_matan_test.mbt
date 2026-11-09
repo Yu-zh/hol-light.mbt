@@ -61,7 +61,7 @@ test "Formal_ineqs/trig/matan matches Formal_ineqs/trig/matan.ml" {
   })
   log.attempt("Matan.matan_d2_bound", () => sthm(@matan.matan_d2_bound()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

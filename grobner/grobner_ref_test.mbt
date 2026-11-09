@@ -20,7 +20,7 @@ test "grobner matches grobner.ml" {
   log.capture_stdout()
   // BEGIN generated theorem list
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -30,20 +30,20 @@ test "grobner matches grobner.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   log.attempt("ring_sq", () => {
-    sthm(@grobner.num_ring(tm("(x + y) EXP 2 = x EXP 2 + 2 * x * y + y EXP 2")))
+    sthm(@grobner.num_ring(tm("EXP((x : Num) + (y : Num), 2) == EXP(x, 2) + (2 * (x * y) + EXP(y, 2))")))
   })
   log.attempt("ring_comm", () => {
-    sthm(@grobner.num_ring(tm("a * b + c = c + b * a")))
+    sthm(@grobner.num_ring(tm("(a : Num) * (b : Num) + (c : Num) == c + b * a")))
   })
   log.attempt("ring_impl", () => {
-    sthm(@grobner.num_ring(tm("x = y ==> x * z = y * z")))
+    sthm(@grobner.num_ring(tm("(x : Num) == (y : Num) → x * (z : Num) == y * z")))
   })
   log.attempt("ring_cancel", () => {
-    sthm(@grobner.num_ring(tm("a + b = a + c ==> b = c")))
+    sthm(@grobner.num_ring(tm("(a : Num) + (b : Num) == a + (c : Num) → b == c")))
   })
-  log.attempt("ring_false", () => sthm(@grobner.num_ring(tm("x * x = 2"))))
+  log.attempt("ring_false", () => sthm(@grobner.num_ring(tm("(x : Num) * x == 2"))))
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

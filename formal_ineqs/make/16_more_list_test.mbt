@@ -38,7 +38,7 @@ test "Formal_ineqs/list/more_list matches Formal_ineqs/list/more_list.ml" {
   })
   log.attempt("More_list.EL_BUTLAST", () => sthm(@more_list.el_butlast()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

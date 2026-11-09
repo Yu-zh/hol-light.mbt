@@ -139,7 +139,7 @@ test "WZ/wz matches WZ/wz.ml" {
   log.attempt("pth_main", () => sthm(@wz.pth_main()))
   log.attempt("pth", () => sthm(@wz.pth()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

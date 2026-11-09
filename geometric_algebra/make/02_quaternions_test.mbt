@@ -41,7 +41,7 @@ test "Geometric_Algebra/quaternions matches Geometric_Algebra/quaternions.ml" {
   log.attempt("geomalg_300_quat", () => sthm(@quaternions.geomalg_300_quat()))
   log.attempt("CNJ_QUAT", () => sthm(@quaternions.cnj_quat()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

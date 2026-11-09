@@ -83,7 +83,7 @@ test "define matches define.ml" {
     sthm(@define.recursion_superadmissible())
   })
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -94,21 +94,21 @@ test "define matches define.ml" {
   // BEGIN EXTRA
   log.attempt("define_fib", () => {
     sthm(
-      @define.define_(tm("fib n = if n < 2 then 1 else fib(n - 1) + fib(n - 2)")),
+      @define.define_(tm("(fib : (Num) -> Num)((n : Num)) == (if n < 2 { 1 } else { fib(n - 1) + fib(n - 2) })")),
     )
   })
   log.attempt("define_gcd", () => {
-    sthm(@define.define_(tm("gcdx m n = if n = 0 then m else gcdx n (m MOD n)")))
+    sthm(@define.define_(tm("(gcdx : (Num, Num) -> Num)((m : Num), (n : Num)) == (if n == 0 { m } else { gcdx(n, MOD(m, n)) })")))
   })
   log.attempt("define_pat", () => {
     sthm(
       @define.define_(
-        tm("(sumlist [] = 0) /\\ (sumlist (CONS h t) = h + sumlist t)"),
+        tm("(sumlist : (List[Num]) -> Num)(NIL) == 0 && sumlist(CONS((h : Num), (t : List[Num]))) == h + sumlist(t)"),
       ),
     )
   })
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

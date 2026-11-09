@@ -60,7 +60,7 @@ test "EC/nistp384 matches EC/nistp384.ml" {
   log.attempt("CYCLIC_P384_GROUP", () => sthm(@nistp384.cyclic_p384_group()))
   log.attempt("ABELIAN_P384_GROUP", () => sthm(@nistp384.abelian_p384_group()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
@@ -70,7 +70,7 @@ test "EC/nistp384 matches EC/nistp384.ml" {
   log.attempt("definitions", () => @kernel.definitions().length().to_string())
   // BEGIN EXTRA
   // END EXTRA
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   @testkit.check_axioms()
   inspect(

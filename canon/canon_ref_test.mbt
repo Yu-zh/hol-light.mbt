@@ -14,59 +14,59 @@ test "canon matches canon.ml" {
   log.show_theory_trace("canon")
   // BEGIN generated theorem list
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   let cv = (name : String, c : @equal.Conv, s : String) => {
     log.attempt(name, () => {
       let t = tm(s)
       sthm(c(t))
     })
   }
-  let fol = "(forall x:A. P x ==> (?y. Q x y)) /\\ ~(?z. R z /\\ (P z <=> Q z z))"
-  cv("PRESIMP_CONV", @canon.presimp_conv, "~(a /\\ ~b) ==> (T /\\ c) \\/ F")
+  let fol = "(∀ x : A, (P : (A) -> Bool)(x) → (∃ y : A, (Q : (A, A) -> Bool)(x, y))) && !(∃ z : A, (R : (A) -> Bool)(z) && P(z) == Q(z, z))"
+  cv("PRESIMP_CONV", @canon.presimp_conv, "!((a : Bool) && !(b : Bool)) → true && (c : Bool) || false")
   cv("NNF_CONV", @canon.nnf_conv, fol)
-  cv("NNFC_CONV", @canon.nnfc_conv, "~(p <=> q) \\/ (r <=> ~s)")
-  cv("NNF_CONV_eq", @canon.nnf_conv, "~(p <=> q) \\/ (r <=> ~s)")
-  cv("SKOLEM_CONV", @canon.skolem_conv, "forall x:A. ?y:B. P x y /\\ (?z:C. Q x z)")
-  cv("PRENEX_CONV", @canon.prenex_conv, "(forall x:A. P x) /\\ (?y:A. Q y) ==> R")
-  cv("WEAK_DNF_CONV", @canon.weak_dnf_conv, "(a \\/ b) /\\ (c \\/ d)")
-  cv("DNF_CONV", @canon.dnf_conv, "(a \\/ b) /\\ (c \\/ a)")
-  cv("WEAK_CNF_CONV", @canon.weak_cnf_conv, "(a /\\ b) \\/ (c /\\ d)")
-  cv("CNF_CONV", @canon.cnf_conv, "(a /\\ b) \\/ (c /\\ a)")
-  cv("CONJ_CANON_CONV", @canon.conj_canon_conv, "(b /\\ a) /\\ (a /\\ c)")
-  cv("DISJ_CANON_CONV", @canon.disj_canon_conv, "(b \\/ a) \\/ (a \\/ c)")
-  cv("CONJ_ACI_RULE", @canon.conj_aci_rule, "(a /\\ b) /\\ c <=> c /\\ b /\\ a")
-  cv("DISJ_ACI_RULE", @canon.disj_aci_rule, "(a \\/ b) \\/ c <=> c \\/ b \\/ a")
+  cv("NNFC_CONV", @canon.nnfc_conv, "!((p : Bool) == (q : Bool)) || (r : Bool) == !(s : Bool)")
+  cv("NNF_CONV_eq", @canon.nnf_conv, "!((p : Bool) == (q : Bool)) || (r : Bool) == !(s : Bool)")
+  cv("SKOLEM_CONV", @canon.skolem_conv, "∀ x : A, ∃ y : B, (P : (A, B) -> Bool)(x, y) && (∃ z : C, (Q : (A, C) -> Bool)(x, z))")
+  cv("PRENEX_CONV", @canon.prenex_conv, "(∀ x : A, (P : (A) -> Bool)(x)) && (∃ y : A, (Q : (A) -> Bool)(y)) → (R : Bool)")
+  cv("WEAK_DNF_CONV", @canon.weak_dnf_conv, "((a : Bool) || (b : Bool)) && ((c : Bool) || (d : Bool))")
+  cv("DNF_CONV", @canon.dnf_conv, "((a : Bool) || (b : Bool)) && ((c : Bool) || a)")
+  cv("WEAK_CNF_CONV", @canon.weak_cnf_conv, "(a : Bool) && (b : Bool) || (c : Bool) && (d : Bool)")
+  cv("CNF_CONV", @canon.cnf_conv, "(a : Bool) && (b : Bool) || (c : Bool) && a")
+  cv("CONJ_CANON_CONV", @canon.conj_canon_conv, "((b : Bool) && (a : Bool)) && a && (c : Bool)")
+  cv("DISJ_CANON_CONV", @canon.disj_canon_conv, "((b : Bool) || (a : Bool)) || a || (c : Bool)")
+  cv("CONJ_ACI_RULE", @canon.conj_aci_rule, "(((a : Bool) && (b : Bool)) && (c : Bool)) == (c && b && a)")
+  cv("DISJ_ACI_RULE", @canon.disj_aci_rule, "(((a : Bool) || (b : Bool)) || (c : Bool)) == (c || b || a)")
   cv(
-    "LAMBDA_ELIM_CONV", @canon.lambda_elim_conv, "(P:(A->B)->bool) (\\x. f x y)",
+    "LAMBDA_ELIM_CONV", @canon.lambda_elim_conv, "(P : ((A) -> B) -> Bool)((x : A) => (f : (A, _) -> B)(x, (y : _)))",
   )
   cv(
-    "CONDS_ELIM_CONV", @canon.conds_elim_conv, "(P:A->bool) (if b then x else y) /\\ c",
+    "CONDS_ELIM_CONV", @canon.conds_elim_conv, "(P : (A) -> Bool)(if (b : Bool) { (x : A) } else { (y : A) }) && (c : Bool)",
   )
   cv(
-    "CONDS_CELIM_CONV", @canon.conds_celim_conv, "(P:A->bool) (if b then x else y) /\\ c",
+    "CONDS_CELIM_CONV", @canon.conds_celim_conv, "(P : (A) -> Bool)(if (b : Bool) { (x : A) } else { (y : A) }) && (c : Bool)",
   )
   log.attempt("ASSOC_CONV", () => {
-    let t = tm("(a /\\ b) /\\ (c /\\ d)")
+    let t = tm("((a : Bool) && (b : Bool)) && (c : Bool) && (d : Bool)")
     sthm(@canon.assoc_conv(@theorems.conj_assoc())(t))
   })
   log.attempt("PROP_ATOM_CONV", () => {
-    let t = tm("(a:bool) /\\ ~(b ==> (\\x:bool. x) c)")
+    let t = tm("(a : Bool) && !((b : Bool) → ((x : Bool) => x)((c : Bool)))")
     sthm(@canon.prop_atom_conv(@equal.depth_conv(@equal.beta_conv), t))
   })
   log.attempt("GEN_NNF_CONV", () => {
-    let t = tm("~(p /\\ (q \\/ ~r))")
+    let t = tm("!((p : Bool) && ((q : Bool) || !(r : Bool)))")
     let c = @canon.gen_nnf_conv(true)(
       (@equal.all_conv, t => (@kernel.refl(t), @kernel.refl(t))),
     )
     sthm(c(t))
   })
   log.attempt("SELECT_ELIM_TAC", () => {
-    let w = tm("(P:A->bool) (@x. P x) ==> Q")
+    let w = tm("(P : (A) -> Bool)(select((x : A) => P(x))) → (Q : Bool)")
     let (_, gls, _) = @canon.select_elim_tac((@list.List([]), w))
     "[" + gls.map(g => stm(g.1)).to_array().join("; ") + "]"
   })
   log.attempt("ASM_FOL_TAC", () => {
-    let w = tm("(forall x:A. P x) ==> P a")
+    let w = tm("(∀ x : A, (P : (A) -> Bool)(x)) → P((a : A))")
     let tac = @tactics.then_tac(@tactics.disch_tac, g => @canon.asm_fol_tac(g))
     let (_, gls, _) = tac((@list.List([]), w))
     "[" +
@@ -81,7 +81,7 @@ test "canon matches canon.ml" {
     .join("; ") +
     "]"
   })
-  log.attempt("counter_tyvar", () => stm(tm("zz_counter")))
+  log.attempt("counter_tyvar", () => stm(tm("(zz_counter : _)")))
   log.attempt("counter_genvar", () => stm(@basics.genvar(@kernel.bool_ty)))
   inspect(
     log.contents(),

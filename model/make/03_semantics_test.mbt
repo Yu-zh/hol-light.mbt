@@ -76,7 +76,7 @@ test "Model/semantics matches Model/semantics.ml" {
   log.attempt("HOL_IS_SOUND", () => sthm(@semantics.hol_is_sound()))
   log.attempt("HOL_IS_CONSISTENT", () => sthm(@semantics.hol_is_consistent()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })

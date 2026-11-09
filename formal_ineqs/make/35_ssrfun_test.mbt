@@ -87,7 +87,7 @@ test "Formal_ineqs/lib/ssrfun matches Formal_ineqs/lib/ssrfun.ml" {
   log.attempt("Ssrfun.idempotent", () => sthm(@ssrfun.idempotent()))
   log.attempt("Ssrfun.associative", () => sthm(@ssrfun.associative()))
   // END generated theorem list
-  let tm = @parser.parse_term
+  let tm = @term_syntax.parse_term
   log.attempt("types", () => {
     @kernel.types().map(p => p.0 + "/" + p.1.to_string()).to_array().join(" ")
   })
