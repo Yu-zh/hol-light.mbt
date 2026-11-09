@@ -310,3 +310,23 @@ test "type abbreviations" {
   assert_eq(ty("Unit"), one)
   inspect(@term_syntax.print_type(one), content="Unit")
 }
+
+///|
+test "a name that is a MoonBit keyword is written between backticks" {
+  let t = @term_syntax.parse_term("∀ `move` : Bool, `move` || (`ref` : Bool)")
+  inspect(
+    @term_syntax.print_term(t),
+    content="∀ `move` : Bool, `move` || (`ref` : Bool)",
+  )
+  @kernel.new_constant("yield", @kernel.bool_ty)
+  let c = @term_syntax.parse_term("`yield`")
+  inspect(@kernel.is_const(c), content="true")
+  inspect(@term_syntax.print_term(c), content="`yield`")
+  // types and enums keep their backticks: a type named move
+  let move_ty = @kernel.mk_vartype("move")
+  inspect(@term_syntax.parse_type("`move`") == move_ty, content="true")
+  assert_eq(
+    @term_syntax.parse_type_definition("enum `move` { Mk(`move`) }"),
+    @list.List([(move_ty, @list.List([("Mk", @list.List([move_ty]))]))]),
+  )
+}

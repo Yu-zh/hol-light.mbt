@@ -291,12 +291,20 @@ fn is_raw_name(name : String) -> Bool {
 }
 
 ///|
+/// Whether `name` is spelt like an identifier but is one of MoonBit's
+/// keywords (move), which is written between backticks.
+fn is_keyword_name(name : String) -> Bool {
+  is_keyword(name) &&
+  name.iter().all(c => c is ('a'..='z' | 'A'..='Z' | '0'..='9' | '_'))
+}
+
+///|
 /// A variable's printed name as the syntax spells it: an identifier as it
-/// is, a symbolic name between backticks.
+/// is, a symbolic name or a keyword between backticks.
 fn spell_name(name : String) -> String raise Unprintable {
   if is_ident(name) {
     name
-  } else if is_raw_name(name) {
+  } else if is_raw_name(name) || is_keyword_name(name) {
     "`" + name + "`"
   } else {
     raise Unprintable("name " + name)
@@ -313,6 +321,8 @@ fn Printer::name(_self : Printer, name : String) -> String raise Unprintable {
 fn constant_name(name : String) -> String raise Unprintable {
   if is_ident(name) && @grammar.unescape(name) == name {
     name
+  } else if is_keyword_name(name) {
+    "`" + name + "`"
   } else {
     match @grammar.escape(name) {
       Some(s) => s
@@ -436,6 +446,8 @@ fn Printer::variable(
   // spelt as a constant's is
   let s = if is_ident(name) {
     name
+  } else if is_keyword_name(name) {
+    "`" + name + "`"
   } else {
     match @grammar.escape(name) {
       Some(e) => e
@@ -498,12 +510,19 @@ fn Printer::bind(
     !self.writes_constant_as(body, name)))
   // a binder with a symbolic name no identifier spells is written between
   // backticks (bound occurrences too); a free one has its op_ spelling
-  let writable = is_ident(name) || is_raw_name(name)
+  let keyword = is_keyword_name(name)
+  let writable = is_ident(name) || is_raw_name(name) || keyword
   let plain = writable && (truth || !is_constant_name(name))
-  let mut printed = if plain { name } else if is_ident(name) { name + "'" } else { "v" }
+  let mut printed = if plain {
+    name
+  } else if is_ident(name) || keyword {
+    name + "'"
+  } else {
+    "v"
+  }
   if clash || !plain {
     // a symbolic name takes no primes: a fresh identifier instead
-    if !is_ident(printed) {
+    if !is_ident(printed) && !is_keyword_name(printed) {
       printed = "v"
     }
     while self.names.contains(printed) || is_constant_name(printed) {

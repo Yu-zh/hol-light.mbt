@@ -112,7 +112,6 @@ enum_constructor -> (String, @list.List[@preterm.Pretype])
 
 constructor_name -> String
   : binder { $1 }
-  | VERBATIM { $1 }
   ;
 
 // a record type (Library/records' define_record_type) as a MoonBit struct:
@@ -216,6 +215,7 @@ simple_expr -> @preterm.Preterm
   | UIDENT %prec prec_apply_non_ident_fn { pvar($1) }
   | LIDENT %prec prec_apply_non_ident_fn { pvar($1) }
   | RAWIDENT %prec prec_apply_non_ident_fn { pvar($1) }
+  | VERBATIM %prec prec_apply_non_ident_fn { pvar($1) }
   | tuple_expr { $1 }
   | "[" list_commas(expr) "]" { list($2) }
   | "{" "}" { pconst("EMPTY") }
@@ -251,10 +251,12 @@ set_binder -> (String, @preterm.Pretype)
   : binder ":" type_ { ($1, $3) }
   ;
 
+// a name between backticks is the name: a keyword's (`move`)
 %inline binder -> String
   : LIDENT { $1 }
   | UIDENT { $1 }
   | RAWIDENT { $1 }
+  | VERBATIM { $1 }
   ;
 
 non_empty_list_commas_rev[T](X : T) -> @list.List[T]

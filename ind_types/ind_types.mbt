@@ -6087,116 +6087,6 @@ fn[TD] derive_induction_theorem_l(
 }
 
 ///|
-/// parse_inductive_type_specification
-fn step_34() -> Unit raise {
-  let parse_type_loc : (ArrayView[@lexer.Lexcode]) -> (
-    @kernel.HolType,
-    ArrayView[@lexer.Lexcode],
-  ) raise = fn(
-    x728 : ArrayView[@lexer.Lexcode],
-  ) -> (@kernel.HolType, ArrayView[@lexer.Lexcode]) raise {
-    let src = x728
-    let (pty, rst) = @parser.parse_pretype(src)
-    (@preterm.type_of_pretype(pty), rst)
-  }
-  let parse_type_conapp : (ArrayView[@lexer.Lexcode]) -> (
-    (String, @list.List[@kernel.HolType]),
-    ArrayView[@lexer.Lexcode],
-  ) raise = fn(
-    x729 : ArrayView[@lexer.Lexcode],
-  ) -> ((String, @list.List[@kernel.HolType]), ArrayView[@lexer.Lexcode]) raise {
-    let src_1 = x729
-    let (cn_1, sps_1) = match src_1 {
-      [@lexer.Lexcode::Ident(cn), ..sps] => (cn, sps)
-      _ => @lib.failure()
-    }
-    let (tys, rst_1) = @parserutil.many(parse_type_loc)(sps_1)
-    ((cn_1, tys), rst_1)
-  }
-  let parse_type_clause : (ArrayView[@lexer.Lexcode]) -> (
-    (@kernel.HolType, @list.List[(String, @list.List[@kernel.HolType])]),
-    ArrayView[@lexer.Lexcode],
-  ) raise = fn(
-    x730 : ArrayView[@lexer.Lexcode],
-  ) -> (
-    (@kernel.HolType, @list.List[(String, @list.List[@kernel.HolType])]),
-    ArrayView[@lexer.Lexcode],
-  ) raise {
-    let src_2 = x730
-    let (tn_1, sps_3) = match src_2 {
-      [@lexer.Lexcode::Ident(tn), ..sps_2] => (tn, sps_2)
-      _ => @lib.failure()
-    }
-    let t731 = @parserutil.listof(
-      parse_type_conapp,
-      @parserutil.a(@lexer.Lexcode::Resword("|")),
-      "type definition clauses",
-    )
-    let (tys_1, rst_2) = @parserutil.map(
-      @parserutil.seq(@parserutil.a(@lexer.Lexcode::Ident("=")), t731),
-      fn(
-        x732 : (
-          @lexer.Lexcode,
-          @list.List[(String, @list.List[@kernel.HolType])],
-        ),
-      ) -> @list.List[(String, @list.List[@kernel.HolType])] raise {
-        x732.1
-      },
-    )(sps_3)
-    ((@kernel.mk_vartype(tn_1), tys_1), rst_2)
-  }
-  let parse_type_definition : (ArrayView[@lexer.Lexcode]) -> (
-    @list.List[
-      (@kernel.HolType, @list.List[(String, @list.List[@kernel.HolType])]),
-    ],
-    ArrayView[@lexer.Lexcode],
-  ) raise = @parserutil.listof(
-    parse_type_clause,
-    @parserutil.a(@lexer.Lexcode::Resword(";")),
-    "type definition",
-  )
-  parse_inductive_type_specification_c.set(fn(
-    x733 : String,
-  ) -> @list.List[
-    (@kernel.HolType, @list.List[(String, @list.List[@kernel.HolType])]),
-  ] raise {
-    let s = x733
-    let (spec, rst_3) = (fn(
-      x734 : String,
-    ) -> (
-      @list.List[
-        (@kernel.HolType, @list.List[(String, @list.List[@kernel.HolType])]),
-      ],
-      ArrayView[@lexer.Lexcode],
-    ) raise {
-      parse_type_definition(@lexer.lex(x734))
-    })(s)
-    if rst_3.is_empty() {
-      spec
-    } else {
-      raise Failure("parse_inductive_type_specification: junk after def")
-    }
-  })
-}
-
-///|
-let parse_inductive_type_specification_c : @lib.Cell[
-  (String) -> @list.List[
-    (@kernel.HolType, @list.List[(String, @list.List[@kernel.HolType])]),
-  ] raise,
-] = @lib.Cell::new("parse_inductive_type_specification")
-
-///|
-/// `parse_inductive_type_specification`
-pub fn parse_inductive_type_specification(
-  x : String,
-) -> @list.List[
-  (@kernel.HolType, @list.List[(String, @list.List[@kernel.HolType])]),
-] raise {
-  parse_inductive_type_specification_c.get()(x)
-}
-
-///|
 let sum_induct_c : @lib.Cell[@kernel.Thm] = @lib.Cell::new("sum_INDUCT")
 
 ///|
@@ -6218,7 +6108,7 @@ pub fn sum_recursion() -> @kernel.Thm {
 /// sum_INDUCT, sum_RECURSION
 fn step_35() -> Unit raise {
   let (sum_induct, sum_recursion) = define_type_raw_v1(
-    parse_inductive_type_specification("sum = INL A | INR B"),
+    @term_syntax.parse_type_definition("enum Sum { INL(A); INR(B) }"),
   )
   sum_induct_c.set(sum_induct)
   sum_recursion_c.set(sum_recursion)
@@ -6680,7 +6570,7 @@ pub fn option_recursion() -> @kernel.Thm {
 /// option_INDUCT, option_RECURSION
 fn step_39() -> Unit raise {
   let (option_induct, option_recursion) = define_type_raw_v2(
-    parse_inductive_type_specification("option = NONE | SOME A"),
+    @term_syntax.parse_type_definition("enum Option { NONE; SOME(A) }"),
   )
   option_induct_c.set(option_induct)
   option_recursion_c.set(option_recursion)
@@ -6708,7 +6598,7 @@ pub fn list_recursion() -> @kernel.Thm {
 /// list_INDUCT, list_RECURSION
 fn step_40() -> Unit raise {
   let (list_induct, list_recursion) = define_type_raw_v2(
-    parse_inductive_type_specification("list = NIL | CONS A list"),
+    @term_syntax.parse_type_definition("enum List { NIL; CONS(A, List) }"),
   )
   list_induct_c.set(list_induct)
   list_recursion_c.set(list_recursion)
@@ -10113,7 +10003,6 @@ fn load_steps() -> Unit raise {
   step_31()
   step_32()
   step_33()
-  step_34()
   step_35()
   step_36()
   step_37()
