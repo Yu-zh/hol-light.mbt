@@ -41,14 +41,20 @@ test "overload resolution backtracks to an earlier choice" {
   @preterm.make_overloadable("resolve_test_h", @basics.mk_fun_ty(a, bool_ty))
   @preterm.make_overloadable("resolve_test_g", a)
   let names = @preterm.with_interface_restored(() => {
-    // h2 is tried first (the newest entry), and needs g : bool, which no
-    // meaning of g has; so the search goes back to h1
+    // h2 is tried first (the newest entry) and fits; it needs g : bool,
+    // which neither meaning of g has, so the search goes back to h1. g has
+    // two meanings: with one, typify would give g its type at once, and h2
+    // would fail before the search reached g
     @preterm.overload_interface(
       "resolve_test_h",
       @kernel.mk_var("h1", @basics.mk_fun_ty(bb, bool_ty)),
     )
     @preterm.overload_interface("resolve_test_h", @kernel.mk_var("h2", bb))
     @preterm.overload_interface("resolve_test_g", @kernel.mk_var("g1", bb))
+    @preterm.overload_interface(
+      "resolve_test_g",
+      @kernel.mk_var("g2", @basics.mk_fun_ty(bb, bool_ty)),
+    )
     let ptm : @preterm.Preterm = Combp(
       Varp("resolve_test_h", @preterm.dpty),
       Varp("resolve_test_g", @preterm.dpty),
