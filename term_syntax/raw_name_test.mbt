@@ -52,7 +52,8 @@ test "a binder named like a constant gets no backticks" {
   // `+` would read as the constant: no spelling reads back exactly, bound
   // variable names included (HOL's \(+) a. (+) a a)
   let a = @kernel.mk_vartype("A")
-  let plus = @kernel.mk_var("+", @basics.mk_fun_ty(a, @basics.mk_fun_ty(a, a)))
+  let b = @kernel.mk_vartype("B")
+  let plus = @kernel.mk_var("+", @basics.mk_fun_ty(a, @basics.mk_fun_ty(a, b)))
   let x = @kernel.mk_var("a", a)
   let t = @kernel.mk_abs(plus, @kernel.mk_abs(x, @kernel.mk_comb(@kernel.mk_comb(plus, x), x)))
   let printable = try {

@@ -118,7 +118,7 @@ test "pattern variables are scoped as HOL scopes them" {
   assert_true(
     reads_like(
       "match (f : (A) -> A) { (select => select) => select }",
-      "match (f : (A) -> A) { ((select : A) => select) => select }",
+      "_MATCH((f : (A) -> A), (v : (A) -> A) => (v' : _) => _UNGUARDED_PATTERN(GEQ((x : A) => x, v), GEQ(select, v')))",
     ),
   )
   // a pattern variable spelt as a symbolic name shadows an enclosing
