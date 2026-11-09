@@ -24,6 +24,16 @@ pub let overload_registry : @ref.Ref[@list.List[(String, (String, @kernel.HolTyp
 
 pub fn override_interface(String, @kernel.Term) -> Unit raise
 
+pub fn pfrees(Preterm) -> @list.List[Preterm] raise
+
+pub fn pgen_count() -> Int
+
+pub fn pmk_pattern_binding(((Preterm, @list.List[Preterm]), Preterm), () -> @list.List[Preterm] raise) -> Preterm raise
+
+pub fn pmk_setabs(Preterm, Preterm) -> Preterm raise
+
+pub fn pmk_setcompr(Preterm, @list.List[Preterm], Preterm) -> Preterm
+
 pub fn preterm_of_term(@kernel.Term) -> Preterm
 
 pub fn pretype_of_type(@kernel.HolType) -> Pretype
@@ -38,6 +48,8 @@ pub fn remove_type_abbrev(String) -> Unit
 
 pub fn retypecheck(@list.List[(String, Pretype)], Preterm) -> Preterm raise
 
+pub fn skip_pgenvars(Int) -> Unit
+
 pub fn term_of_preterm(Preterm) -> @kernel.Term raise
 
 pub fn type_abbrevs() -> @list.List[(String, @kernel.HolType)]
@@ -51,6 +63,8 @@ pub fn type_of_pretype(Pretype) -> @kernel.HolType raise
 pub fn type_var_counter() -> Int64
 
 pub fn[T] with_interface_restored(() -> T raise) -> T raise
+
+pub fn[T] with_pgen_counter_restored(() -> T raise) -> T raise
 
 // Errors
 

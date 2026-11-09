@@ -138,8 +138,8 @@ fn resolve_pattern(
   @list.List[(String, String)],
 ) raise {
   // read once without taking GEN%PVAR names, to find what it binds
-  let frees = @parser.with_pgen_counter_restored(() => {
-    @parser.pfrees(resolve_names(pat, @list.List([])))
+  let frees = @preterm.with_pgen_counter_restored(() => {
+    @preterm.pfrees(resolve_names(pat, @list.List([])))
   })
   let names = frees.map(v => if v is Varp(n, _) { n } else { "" })
   let own = []
@@ -193,7 +193,7 @@ fn resolve_names(
     // a set comprehension is elaborated as HOL's parser does (GEN%PVAR
     // binder, the variables it binds), which needs the names resolved
     Combp(Combp(Varp(m, _), e), p) if m == @grammar.set_abs_mark => {
-      @parser.skip_pgenvars(pgen_cost(e))
+      @preterm.skip_pgenvars(pgen_cost(e))
       setabs(resolve_names(e, bound), resolve_names(p, bound))
     }
     Combp(Varp(m, _), binders) if m == @grammar.set_compr_mark => {
@@ -210,8 +210,8 @@ fn resolve_names(
       guard b is Combp(Combp(Varp(_, _), e), p) else {
         raise Failure("term syntax: malformed set comprehension")
       }
-      @parser.skip_pgenvars(2 * pgen_cost(e))
-      @parser.pmk_setcompr(
+      @preterm.skip_pgenvars(2 * pgen_cost(e))
+      @preterm.pmk_setcompr(
         resolve_names(e, bound),
         @list.List(vs),
         resolve_names(p, bound),
@@ -230,7 +230,7 @@ fn resolve_names(
       // the clause binds the variables HOL's parser finds in the pattern,
       // whatever names the resolution gave the rest (a binder renamed
       // because it is named like a constant)
-      @parser.pmk_pattern_binding(((p, tests), resolve_names(body, inner)), () => vs)
+      @preterm.pmk_pattern_binding(((p, tests), resolve_names(body, inner)), () => vs)
     }
     // truth and falsity are the constants themselves, so that a binder
     // named T or F (which HOL allows) cannot capture them
@@ -305,7 +305,7 @@ fn parse_preterm_under(
 }
 
 ///|
-/// HOL's `{e | p}` (@parser.pmk_setabs) over resolved preterms: it binds
+/// HOL's `{e | p}` (@preterm.pmk_setabs) over resolved preterms: it binds
 /// the variables free in both, or all those of `e` when it has at most one
 /// or `p` has none, and a constant's name, such as T, is no variable there
 /// (HOL reads it as the constant's, even under a binder), so the aliased
@@ -314,14 +314,14 @@ fn setabs(
   e : @preterm.Preterm,
   p : @preterm.Preterm,
 ) -> @preterm.Preterm raise {
-  let fvs = @parser.pfrees(unalias_preterm(e))
-  let bvs = @parser.pfrees(unalias_preterm(p))
+  let fvs = @preterm.pfrees(unalias_preterm(e))
+  let bvs = @preterm.pfrees(unalias_preterm(p))
   let evs = if fvs.length() <= 1 || bvs.is_empty() {
     fvs
   } else {
     fvs.filter(v => bvs.contains(v))
   }
-  @parser.pmk_setcompr(e, evs, p)
+  @preterm.pmk_setcompr(e, evs, p)
 }
 
 ///|
@@ -368,7 +368,7 @@ fn unalias_binders(t : @kernel.Term) -> @kernel.Term raise {
 ///|
 /// The HOL term `s` denotes.
 pub fn parse_term(s : String) -> @kernel.Term raise {
-  @parser.record_quotation(s)
+  @theory.record_quotation(s)
   elaborate(s)
 }
 
@@ -394,7 +394,7 @@ fn elaborate(s : String) -> @kernel.Term raise {
 ///|
 /// The HOL type `s` denotes, recorded as a type quotation (`:s`).
 pub fn parse_type(s : String) -> @kernel.HolType raise {
-  @parser.record_quotation(":" + s)
+  @theory.record_quotation(":" + s)
   let toks = tokens(s)
   ignore(@grammar.take_error())
   let pty = @grammar.pretype(toks) catch {

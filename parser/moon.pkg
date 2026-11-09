@@ -3,7 +3,7 @@ import {
   "bobzhang/hol_light/kernel",
   "bobzhang/hol_light/lib",
   "bobzhang/hol_light/num",
-  "bobzhang/hol_light/pp",
+  "bobzhang/hol_light/theory",
   "bobzhang/hol_light/printer",
   "bobzhang/hol_light/preterm",
   "bobzhang/hol_light/parserutil",
@@ -11,5 +11,6 @@ import {
 }
 
 import {
+  "bobzhang/hol_light/pp",
   "moonbitlang/core/string",
 } for "test"

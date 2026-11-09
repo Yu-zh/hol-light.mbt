@@ -301,10 +301,10 @@ test "set notation: binders, counters, degenerate comprehensions" {
   assert_true(@kernel.frees(t).contains(@kernel.mk_var("T'", @kernel.bool_ty)))
   // checking a spelling leaves the GEN%PVAR counter as it was
   let s = @parser.parse_term("{n | n < 2}")
-  let before = @parser.pgen_count()
+  let before = @preterm.pgen_count()
   ignore(@term_syntax.print_term(s))
   ignore(@term_syntax.spell_quotation("{n | n < 2}", s))
-  assert_eq(@parser.pgen_count(), before)
+  assert_eq(@preterm.pgen_count(), before)
   // a comprehension with no binders to list is written as GSPEC
   inspect(
     @term_syntax.print_term(

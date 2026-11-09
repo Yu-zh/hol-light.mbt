@@ -263,18 +263,18 @@ pub fn ocaml_escaped(s : String) -> String {
 }
 
 ///|
-/// Start recording the quotations parsed (see `@parser.quotation_trace`).
+/// Start recording the quotations parsed (see `@theory.quotation_trace`).
 pub fn start_trace() -> Unit {
-  @parser.quotation_trace.val = Some([])
+  @theory.quotation_trace.val = Some([])
 }
 
 ///|
 /// Log the recorded quotations as tools/ocaml_ref/prelude.ml's `show_trace`.
 pub fn Log::show_trace(self : Log, name : String) -> Unit {
-  let t = @parser.quotation_trace.val.unwrap_or([])
+  let t = @theory.quotation_trace.val.unwrap_or([])
   self.out(name + " quotations (" + t.length().to_string() + "):")
   self.out_quotations(t)
-  @parser.quotation_trace.val = None
+  @theory.quotation_trace.val = None
 }
 
 ///|
@@ -305,7 +305,7 @@ fn Log::out_quotations(self : Log, t : Array[String]) -> Unit {
 /// Log what theory `name` printed while loading (upstream prints it as the
 /// file loads).
 pub fn Log::show_theory_output(self : Log, name : String) -> Unit {
-  for line in @parser.theory_output(name) {
+  for line in @theory.theory_output(name) {
     self.out(line)
   }
 }
@@ -314,7 +314,7 @@ pub fn Log::show_theory_output(self : Log, name : String) -> Unit {
 /// Log the quotations theory `name` parsed while loading, as
 /// tools/ocaml_ref/prelude.ml's `show_trace`.
 pub fn Log::show_theory_trace(self : Log, name : String) -> Unit {
-  let t = @parser.theory_trace(name)
+  let t = @theory.theory_trace(name)
   self.out(name + " quotations (" + t.length().to_string() + "):")
   self.out_quotations(t)
 }
