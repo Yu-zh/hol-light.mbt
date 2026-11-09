@@ -100,12 +100,13 @@ test "spellings that would read back as something else" {
     round(@kernel.mk_comb(@kernel.mk_const("NUMERAL", @list.List([])), bit0)),
     content="NUMERAL(BIT0(_0))",
   )
-  // a binder named like a keyword is renamed; one named like an interface
-  // alias (exists) is not, since the term syntax does not read aliases
+  // a binder named like a keyword is written between backticks; one named
+  // like an interface alias (exists) is not, since the term syntax does not
+  // read aliases
   let ex = @kernel.mk_var("exists", num)
   inspect(round(@kernel.mk_abs(ex, ex)), content="(exists : Num) => exists")
   let kw = @kernel.mk_var("let", num)
-  inspect(round(@kernel.mk_abs(kw, kw)), content="(v : Num) => v")
+  inspect(round(@kernel.mk_abs(kw, kw)), content="(`let` : Num) => `let`")
 }
 
 ///|
