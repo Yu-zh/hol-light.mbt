@@ -953,7 +953,7 @@ fn comprehension(
 
 ///|
 /// The variables HOL's `{e | p}` binds: those free in both, or all those of
-/// `e` when it has at most one or `p` has none (@parser.pmk_setabs; a
+/// `e` when it has at most one or `p` has none (@preterm.pmk_setabs; a
 /// variable named like a constant or a numeral reads as that).
 fn implicit_binders(
   e : @kernel.Term,
@@ -1223,7 +1223,7 @@ pub fn print_term_in_context(
   // the printed reading is t up to bound variable names: exactly t, but
   // for the names of invented type variables
   if exact {
-    let read = @parser.with_pgen_counter_restored(() => {
+    let read = @preterm.with_pgen_counter_restored(() => {
       parse_term_in_context(env, s)
     }) catch {
       _ => raise Unprintable("term that does not read back")
@@ -1485,10 +1485,10 @@ fn check_spelling_once(old : String, s : String) -> Unit raise Unprintable {
 /// `s` read now, without advancing the GEN%PVAR counter, and how many
 /// GEN%PVAR names it took.
 fn reread(s : String) -> (@kernel.Term, Int) raise {
-  @parser.with_pgen_counter_restored(() => {
-    let start = @parser.pgen_count()
+  @preterm.with_pgen_counter_restored(() => {
+    let start = @preterm.pgen_count()
     let t = elaborate(s)
-    (t, @parser.pgen_count() - start)
+    (t, @preterm.pgen_count() - start)
   })
 }
 
@@ -1502,7 +1502,7 @@ fn reads_as(
     if context.is_empty() {
       reread(s).0
     } else {
-      @parser.with_pgen_counter_restored(() => parse_term_in_context(context, s))
+      @preterm.with_pgen_counter_restored(() => parse_term_in_context(context, s))
     }
   }
   // under the live interface and the fixed view alike (resolution.mbt)

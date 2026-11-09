@@ -22,7 +22,14 @@ using @parserutil {
 using @kernel {type Term, type HolType}
 
 ///|
-using @preterm {type Preterm, type Pretype}
+using @preterm {
+  type Preterm,
+  type Pretype,
+  pfrees,
+  pmk_setcompr,
+  pmk_setabs,
+  pmk_pattern_binding,
+}
 
 ///|
 using @lexer {type Lexcode}
@@ -221,35 +228,6 @@ fn pairwise(
 }
 
 ///|
-/// Free "variables" of a preterm (identifiers that are not constants,
-/// numerals or interface names).
-pub fn pfrees(ptm : Preterm) -> List[Preterm] raise {
-  match ptm {
-    @preterm.Varp(v, pty) =>
-      if v == "" && pty == dpty {
-        @list.List([])
-      } else if @lib.can(c => @kernel.get_const_type(c), v) ||
-        @lib.can(@num.num_of_string, v) ||
-        @printer.the_interface.val.any(e => e.0 == v) {
-        @list.List([])
-      } else {
-        @list.singleton(ptm)
-      }
-    @preterm.Constp(_) => @list.List([])
-    @preterm.Combp(p1, p2) => {
-      // `union (pfrees p1) (pfrees p2)`: arguments right to left.
-      let f2 = pfrees(p2)
-      @lib.union(pfrees(p1), f2)
-    }
-    @preterm.Absp(p1, p2) => {
-      let f1 = pfrees(p1)
-      @lib.subtract(pfrees(p2), f1)
-    }
-    @preterm.Typing(p, _) => pfrees(p)
-  }
-}
-
-///|
 fn pdest_eq(p : Preterm) -> (Preterm, Preterm) raise {
   match p {
     @preterm.Combp(@preterm.Combp(@preterm.Varp("=" | "<=>", _), l), r) =>
@@ -295,21 +273,6 @@ fn pmk_set_enum(ptms : List[Preterm]) -> Preterm {
 }
 
 ///|
-let pgen_counter : Ref[Int] = Ref::{ val: 0, }
-
-///|
-fn pgenvar() -> Preterm {
-  let count = pgen_counter.val
-  pgen_counter.val = count + 1
-  pv("GEN%PVAR%" + count.to_string())
-}
-
-///|
-fn pmk_exists(v : Preterm, ptm : Preterm) -> Preterm {
-  @preterm.Combp(pv("?"), @preterm.Absp(v, ptm))
-}
-
-///|
 fn pmk_list(els : List[Preterm]) -> Preterm {
   @lib.itlist(
     (x, y) => @preterm.Combp(@preterm.Combp(pv("CONS"), x), y),
@@ -339,38 +302,6 @@ fn literal_bytes(s : String) -> Array[Int] {
 ///|
 fn pmk_string(s : String) -> Preterm {
   pmk_list(@list.List(literal_bytes(s).map(pmk_char)))
-}
-
-///|
-/// `{fabs | bvs | babs}`: GSPEC (\GEN%PVAR%n. ?bvs. SETSPEC GEN%PVAR%n babs
-/// fabs). Also the term syntax's elaboration of set comprehensions, so that
-/// both number GEN%PVAR alike.
-pub fn pmk_setcompr(
-  fabs : Preterm,
-  bvs : List[Preterm],
-  babs : Preterm,
-) -> Preterm {
-  let v = pgenvar()
-  let bod = @lib.itlist(
-    pmk_exists,
-    bvs,
-    @preterm.Combp(@preterm.Combp(@preterm.Combp(pv("SETSPEC"), v), babs), fabs),
-  )
-  @preterm.Combp(pv("GSPEC"), @preterm.Absp(v, bod))
-}
-
-///|
-/// `{fabs | babs}`, binding the variables free in both (all those of `fabs`
-/// when it has at most one, or `babs` has none).
-pub fn pmk_setabs(fabs : Preterm, babs : Preterm) -> Preterm raise {
-  let fvs = pfrees(fabs)
-  let bvs = pfrees(babs)
-  let evs = if fvs.length() <= 1 || bvs.is_empty() {
-    fvs
-  } else {
-    @lib.intersect(fvs, bvs)
-  }
-  pmk_setcompr(fabs, evs, babs)
 }
 
 ///|
@@ -407,42 +338,8 @@ fn mk_precedence(
 }
 
 ///|
-fn pmk_geq(s : Preterm, t : Preterm) -> Preterm {
-  @preterm.Combp(@preterm.Combp(pv("GEQ"), s), t)
-}
-
-///|
 fn pmk_pattern(pgr : ((Preterm, List[Preterm]), Preterm)) -> Preterm raise {
   pmk_pattern_binding(pgr, () => pfrees(pgr.0.0))
-}
-
-///|
-/// `pmk_pattern`, the clause binding the variables `vs` gives (the
-/// pattern's free variables, as `pmk_pattern` computes them, where the
-/// pattern is read differently from the names it binds: the term syntax).
-pub fn pmk_pattern_binding(
-  pgr : ((Preterm, List[Preterm]), Preterm),
-  vs : () -> List[Preterm] raise,
-) -> Preterm raise {
-  let ((pat, guards), res) = pgr
-  let x = pgenvar()
-  let y = pgenvar()
-  let vs = vs()
-  let bod = if guards.is_empty() {
-    @preterm.Combp(
-      @preterm.Combp(pv("_UNGUARDED_PATTERN"), pmk_geq(pat, x)),
-      pmk_geq(res, y),
-    )
-  } else {
-    @preterm.Combp(
-      @preterm.Combp(
-        @preterm.Combp(pv("_GUARDED_PATTERN"), pmk_geq(pat, x)),
-        @lib.hd(guards),
-      ),
-      pmk_geq(res, y),
-    )
-  }
-  @preterm.Absp(x, @preterm.Absp(y, @lib.itlist(pmk_exists, vs, bod)))
 }
 
 ///|
@@ -792,71 +689,6 @@ pub fn parse_preterm(inp : Toks) -> (Preterm, Toks) raise {
 }
 
 ///|
-/// When set, every `parse_type`/`parse_term` input is recorded (prefixed
-/// with `:` for types), so tests can compare the order in which a theory
-/// parses its quotations with upstream.
-pub let quotation_trace : Ref[Array[String]?] = Ref::{ val: None, }
-
-///|
-let theory_traces : Map[String, Array[String]] = Map([])
-
-///|
-/// The theories being loaded, innermost last, with where each one's output
-/// starts: a file may load another part-way through
-/// (Autoformalization/planar_graph.ml loads Multivariate/cauchy.ml after
-/// 12K lines).
-let loading_theories : Array[(String, Int)] = []
-
-///|
-/// Called by a theory's `load` before its steps: the quotations it parses
-/// are recorded under `name` (see `theory_trace`), and under the theories
-/// it is loaded inside of, as upstream's trace of such a file has them.
-pub fn begin_theory(name : String) -> Unit {
-  theory_traces[name] = []
-  // Theories load in `fn init`, where wasm cannot write to stdout yet.
-  @pp.defer_stdout.val = true
-  loading_theories.push((name, @pp.stdout_backlog_length()))
-}
-
-///|
-/// Whether theory `name` is loading (innermost or not): what `parse_term`
-/// reads now goes into its trace.
-pub fn is_loading(name : String) -> Bool {
-  loading_theories.iter().any(th => th.0 == name)
-}
-
-///|
-pub fn end_theory() -> Unit {
-  // OCaml's toplevel flushes the formatter after each phrase: what the
-  // file's last phrase printed (Jordan/real_ext_geom_series.ml ends with
-  // `pop_priority()`) is the file's output
-  @pp.std_formatter.print_flush()
-  match loading_theories.pop() {
-    Some((name, start)) =>
-      theory_outputs[name] = @pp.stdout_backlog_since(start)
-    None => ()
-  }
-  if loading_theories.is_empty() {
-    @pp.defer_stdout.val = false
-  }
-}
-
-///|
-let theory_outputs : Map[String, Array[String]] = Map([])
-
-///|
-/// The lines theory `name` printed on stdout while loading.
-pub fn theory_output(name : String) -> Array[String] {
-  theory_outputs.get(name).unwrap_or([])
-}
-
-///|
-/// The quotations parsed while loading theory `name`, in order.
-pub fn theory_trace(name : String) -> Array[String] {
-  theory_traces.get(name).unwrap_or([])
-}
-
-///|
 /// Called with each quotation `parse_term` reads, the site `parse_term_at`
 /// gave it (-1 for none) and the term it denotes; tools/migrate.mbtx
 /// records the term's new spelling with it.
@@ -876,30 +708,9 @@ pub fn parse_term_at(site : Int, s : String) -> Term raise {
 }
 
 ///|
-/// Record `s` in the quotation traces, as `parse_term` does: for the
-/// other front ends of terms (@term_syntax).
-pub fn record_quotation(s : String) -> Unit {
-  trace(s)
-}
-
-///|
-fn trace(s : String) -> Unit {
-  match quotation_trace.val {
-    Some(t) => t.push(s)
-    None => ()
-  }
-  for th in loading_theories {
-    match theory_traces.get(th.0) {
-      Some(t) => t.push(s)
-      None => ()
-    }
-  }
-}
-
-///|
 /// Parse a HOL type.
 pub fn parse_type(s : String) -> HolType raise {
-  trace(":" + s)
+  @theory.record_quotation(":" + s)
   let (pty, l) = parse_pretype(@lexer.lex(s))
   if l.is_empty() {
     @preterm.type_of_pretype(pty)
@@ -913,7 +724,7 @@ pub fn parse_type(s : String) -> HolType raise {
 pub fn parse_term(s : String) -> Term raise {
   let site = quotation_site.val
   quotation_site.val = -1
-  trace(s)
+  @theory.record_quotation(s)
   let tm = elaborate(s)
   match quotation_hook.val {
     Some(hook) => hook(site, s, tm)
@@ -937,32 +748,31 @@ fn elaborate(s : String) -> Term raise {
 /// trace or hook and without advancing the GEN%PVAR counter, and how many
 /// GEN%PVAR names it took: for comparing another reading of `s` with it.
 pub fn reread_term(s : String) -> (Term, Int) raise {
-  let start = pgen_counter.val
-  defer { pgen_counter.val = start }
-  let tm = elaborate(s)
-  (tm, pgen_counter.val - start)
+  @preterm.with_pgen_counter_restored(() => {
+    let start = @preterm.pgen_count()
+    let tm = elaborate(s)
+    (tm, @preterm.pgen_count() - start)
+  })
 }
 
 ///|
-/// Run `f` and restore the GEN%PVAR counter (which set comprehensions
-/// advance) to what it was: a reading that is only checked leaves later
-/// generated names as they were.
-pub fn[T] with_pgen_counter_restored(f : () -> T raise) -> T raise {
-  let start = pgen_counter.val
-  defer { pgen_counter.val = start }
-  f()
+/// The theory bookkeeping moved to @theory; the generated `load`s still call
+/// it here.
+pub fn begin_theory(name : String) -> Unit {
+  @theory.begin_theory(name)
 }
 
 ///|
-/// Take `n` GEN%PVAR names unused: the names HOL's parser takes reading a
-/// set comprehension's element in the alternatives it tries first (the
-/// term syntax reads it once).
-pub fn skip_pgenvars(n : Int) -> Unit {
-  pgen_counter.val = pgen_counter.val + n
+pub fn end_theory() -> Unit {
+  @theory.end_theory()
 }
 
 ///|
-/// The GEN%PVAR counter.
-pub fn pgen_count() -> Int {
-  pgen_counter.val
+pub fn is_loading(name : String) -> Bool {
+  @theory.is_loading(name)
+}
+
+///|
+pub fn theory_trace(name : String) -> Array[String] {
+  @theory.theory_trace(name)
 }
