@@ -28,6 +28,8 @@ pub fn parse_type_definition(String) -> @list.List[(@kernel.HolType, @list.List[
 
 pub fn print_term(@kernel.Term) -> String raise Unprintable
 
+pub fn print_term_in_context(@list.List[(String, @preterm.Pretype)], @kernel.Term, exact? : Bool) -> String raise Unprintable
+
 pub fn print_type(@kernel.HolType) -> String raise Unprintable
 
 pub fn same_term(@kernel.Term, @kernel.Term) -> Bool
@@ -35,9 +37,10 @@ pub fn same_term(@kernel.Term, @kernel.Term) -> Bool
 pub fn spell_quotation(String, @kernel.Term) -> String raise Unprintable
 
 // Errors
+#derive(@debug.Debug)
 pub(all) suberror Unprintable {
   Unprintable(String)
-} derive(@debug.Debug)
+}
 pub fn Unprintable::to_repr(Self) -> @debug.Repr
 
 // Types and methods
