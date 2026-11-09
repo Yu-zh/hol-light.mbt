@@ -11,12 +11,12 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @transcendentals.load()
-  @parser.begin_theory("Examples/complexpolygon")
+  @theory.begin_theory("Examples/complexpolygon")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Examples/complexpolygon.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

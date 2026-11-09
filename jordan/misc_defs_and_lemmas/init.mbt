@@ -11,7 +11,7 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @tactics_ext2.load()
-  @parser.begin_theory("Jordan/misc_defs_and_lemmas")
+  @theory.begin_theory("Jordan/misc_defs_and_lemmas")
   load_steps() catch {
     e =>
       abort(
@@ -19,7 +19,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -30,7 +30,7 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Jordan/misc_defs_and_lemmas")
+  @theory.begin_theory("Jordan/misc_defs_and_lemmas")
   load_steps() catch {
     e =>
       abort(
@@ -38,5 +38,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

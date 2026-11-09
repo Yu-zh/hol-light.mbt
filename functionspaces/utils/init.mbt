@@ -13,14 +13,14 @@ pub fn load() -> Unit {
   @realanalysis.load()
   @q.load()
   @q.load()
-  @parser.begin_theory("Functionspaces/utils")
+  @theory.begin_theory("Functionspaces/utils")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Functionspaces/utils.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -32,12 +32,12 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @q.load()
-  @parser.begin_theory("Functionspaces/utils")
+  @theory.begin_theory("Functionspaces/utils")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Functionspaces/utils.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

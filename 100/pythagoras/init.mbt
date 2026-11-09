@@ -12,9 +12,9 @@ pub fn load() -> Unit {
   loaded.val = true
   @misc.load()
   @vectors.load()
-  @parser.begin_theory("100/pythagoras")
+  @theory.begin_theory("100/pythagoras")
   load_steps() catch {
     e => abort("HOL Light: loading 100/pythagoras.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

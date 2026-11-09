@@ -12,9 +12,9 @@ pub fn load() -> Unit {
   loaded.val = true
   @cauchy.load()
   @lpspaces.load()
-  @parser.begin_theory("100/green")
+  @theory.begin_theory("100/green")
   load_steps() catch {
     e => abort("HOL Light: loading 100/green.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

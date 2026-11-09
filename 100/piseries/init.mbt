@@ -16,9 +16,9 @@ pub fn load() -> Unit {
   @poly.load()
   @machin.load()
   @iter.load()
-  @parser.begin_theory("100/piseries")
+  @theory.begin_theory("100/piseries")
   load_steps() catch {
     e => abort("HOL Light: loading 100/piseries.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -12,7 +12,7 @@ pub fn load() -> Unit {
   loaded.val = true
   @m_taylor_arith.load()
   @m_taylor_arith.load()
-  @parser.begin_theory("Formal_ineqs/taylor/m_taylor_arith2")
+  @theory.begin_theory("Formal_ineqs/taylor/m_taylor_arith2")
   load_steps() catch {
     e =>
       abort(
@@ -20,7 +20,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -32,7 +32,7 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @m_taylor_arith.load()
-  @parser.begin_theory("Formal_ineqs/taylor/m_taylor_arith2")
+  @theory.begin_theory("Formal_ineqs/taylor/m_taylor_arith2")
   load_steps() catch {
     e =>
       abort(
@@ -40,5 +40,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -14,12 +14,12 @@ pub fn load() -> Unit {
   @binomial.load()
   @iter.load()
   @moretop.load()
-  @parser.begin_theory("Multivariate/cauchy")
+  @theory.begin_theory("Multivariate/cauchy")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Multivariate/cauchy.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

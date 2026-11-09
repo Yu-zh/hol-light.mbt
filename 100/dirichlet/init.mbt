@@ -16,9 +16,9 @@ pub fn load() -> Unit {
   @pocklington.load()
   @multiplicative.load()
   @mangoldt.load()
-  @parser.begin_theory("100/dirichlet")
+  @theory.begin_theory("100/dirichlet")
   load_steps() catch {
     e => abort("HOL Light: loading 100/dirichlet.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

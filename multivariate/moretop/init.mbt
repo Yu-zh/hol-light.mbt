@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @realanalysis.load()
   @realanalysis.load()
-  @parser.begin_theory("Multivariate/moretop")
+  @theory.begin_theory("Multivariate/moretop")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Multivariate/moretop.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

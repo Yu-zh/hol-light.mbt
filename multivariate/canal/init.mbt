@@ -15,10 +15,10 @@ pub fn load() -> Unit {
   @iter.load()
   @integration.load()
   @complexes.load()
-  @parser.begin_theory("Multivariate/canal")
+  @theory.begin_theory("Multivariate/canal")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Multivariate/canal.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

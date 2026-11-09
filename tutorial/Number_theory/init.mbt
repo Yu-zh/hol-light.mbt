@@ -13,12 +13,12 @@ pub fn load() -> Unit {
   @prime.load()
   @pocklington.load()
   @binomial.load()
-  @parser.begin_theory("Tutorial/Number_theory")
+  @theory.begin_theory("Tutorial/Number_theory")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Tutorial/Number_theory.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

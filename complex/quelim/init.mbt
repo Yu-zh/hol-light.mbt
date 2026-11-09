@@ -12,11 +12,11 @@ pub fn load() -> Unit {
   loaded.val = true
   @fundamental.load()
   @fundamental.load()
-  @parser.begin_theory("Complex/quelim")
+  @theory.begin_theory("Complex/quelim")
   load_steps() catch {
     e => abort("HOL Light: loading Complex/quelim.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -28,9 +28,9 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @fundamental.load()
-  @parser.begin_theory("Complex/quelim")
+  @theory.begin_theory("Complex/quelim")
   load_steps() catch {
     e => abort("HOL Light: loading Complex/quelim.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -10,9 +10,9 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Library/integer")
+  @theory.begin_theory("Library/integer")
   load_steps() catch {
     e => abort("HOL Light: loading Library/integer.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

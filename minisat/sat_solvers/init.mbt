@@ -11,14 +11,14 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @dimacs_tools.load()
-  @parser.begin_theory("Minisat/sat_solvers")
+  @theory.begin_theory("Minisat/sat_solvers")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Minisat/sat_solvers.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,12 +29,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Minisat/sat_solvers")
+  @theory.begin_theory("Minisat/sat_solvers")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Minisat/sat_solvers.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

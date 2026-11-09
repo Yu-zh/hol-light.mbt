@@ -11,11 +11,11 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @common.load()
-  @parser.begin_theory("IEEE/fixed")
+  @theory.begin_theory("IEEE/fixed")
   load_steps() catch {
     e => abort("HOL Light: loading IEEE/fixed.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -26,9 +26,9 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("IEEE/fixed")
+  @theory.begin_theory("IEEE/fixed")
   load_steps() catch {
     e => abort("HOL Light: loading IEEE/fixed.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

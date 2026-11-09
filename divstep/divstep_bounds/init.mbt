@@ -15,14 +15,14 @@ pub fn load() -> Unit {
   @divstep.load()
   @idivstep.load()
   @hull_light.load()
-  @parser.begin_theory("Divstep/divstep_bounds")
+  @theory.begin_theory("Divstep/divstep_bounds")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Divstep/divstep_bounds.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -37,12 +37,12 @@ pub fn load_alone() -> Unit {
   @divstep.load()
   @idivstep.load()
   @hull_light.load()
-  @parser.begin_theory("Divstep/divstep_bounds")
+  @theory.begin_theory("Divstep/divstep_bounds")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Divstep/divstep_bounds.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

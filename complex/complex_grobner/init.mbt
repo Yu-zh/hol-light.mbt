@@ -13,14 +13,14 @@ pub fn load() -> Unit {
   @quelim.load()
   @complexnumbers.load()
   @quelim.load()
-  @parser.begin_theory("Complex/complex_grobner")
+  @theory.begin_theory("Complex/complex_grobner")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Complex/complex_grobner.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -33,12 +33,12 @@ pub fn load_alone() -> Unit {
   loaded.val = true
   @complexnumbers.load()
   @quelim.load()
-  @parser.begin_theory("Complex/complex_grobner")
+  @theory.begin_theory("Complex/complex_grobner")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Complex/complex_grobner.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

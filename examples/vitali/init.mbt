@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @realanalysis.load()
-  @parser.begin_theory("Examples/vitali")
+  @theory.begin_theory("Examples/vitali")
   load_steps() catch {
     e => abort("HOL Light: loading Examples/vitali.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

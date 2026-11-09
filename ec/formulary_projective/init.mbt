@@ -11,12 +11,12 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @projective.load()
-  @parser.begin_theory("EC/formulary_projective")
+  @theory.begin_theory("EC/formulary_projective")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading EC/formulary_projective.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

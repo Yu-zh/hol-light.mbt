@@ -12,14 +12,14 @@ pub fn load() -> Unit {
   loaded.val = true
   @clt.load()
   @clt.load()
-  @parser.begin_theory("Probability/ergodic")
+  @theory.begin_theory("Probability/ergodic")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Probability/ergodic.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -31,12 +31,12 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @clt.load()
-  @parser.begin_theory("Probability/ergodic")
+  @theory.begin_theory("Probability/ergodic")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Probability/ergodic.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

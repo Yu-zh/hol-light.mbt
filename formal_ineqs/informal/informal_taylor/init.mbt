@@ -13,7 +13,7 @@ pub fn load() -> Unit {
   @informal_eval_interval.load()
   @misc_functions.load()
   @informal_eval_interval.load()
-  @parser.begin_theory("Formal_ineqs/informal/informal_taylor")
+  @theory.begin_theory("Formal_ineqs/informal/informal_taylor")
   load_steps() catch {
     e =>
       abort(
@@ -21,7 +21,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -34,7 +34,7 @@ pub fn load_alone() -> Unit {
   loaded.val = true
   @misc_functions.load()
   @informal_eval_interval.load()
-  @parser.begin_theory("Formal_ineqs/informal/informal_taylor")
+  @theory.begin_theory("Formal_ineqs/informal/informal_taylor")
   load_steps() catch {
     e =>
       abort(
@@ -42,5 +42,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

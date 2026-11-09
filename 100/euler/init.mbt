@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @binary.load()
-  @parser.begin_theory("100/euler")
+  @theory.begin_theory("100/euler")
   load_steps() catch {
     e => abort("HOL Light: loading 100/euler.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

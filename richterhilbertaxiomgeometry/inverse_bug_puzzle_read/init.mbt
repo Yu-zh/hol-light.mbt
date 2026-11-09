@@ -18,7 +18,7 @@ pub fn load() -> Unit {
   @homology.skip_load()
   @determinants.load()
   @readable.load()
-  @parser.begin_theory("RichterHilbertAxiomGeometry/inverse_bug_puzzle_read")
+  @theory.begin_theory("RichterHilbertAxiomGeometry/inverse_bug_puzzle_read")
   load_steps() catch {
     e =>
       abort(
@@ -26,5 +26,5 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

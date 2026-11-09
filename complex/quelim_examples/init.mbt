@@ -11,14 +11,14 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @complex_real.load()
-  @parser.begin_theory("Complex/quelim_examples")
+  @theory.begin_theory("Complex/quelim_examples")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Complex/quelim_examples.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,12 +29,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Complex/quelim_examples")
+  @theory.begin_theory("Complex/quelim_examples")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Complex/quelim_examples.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @wo.load()
-  @parser.begin_theory("Library/card")
+  @theory.begin_theory("Library/card")
   load_steps() catch {
     e => abort("HOL Light: loading Library/card.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

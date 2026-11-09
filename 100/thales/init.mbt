@@ -12,9 +12,9 @@ pub fn load() -> Unit {
   loaded.val = true
   @convex.load()
   @sos.load()
-  @parser.begin_theory("100/thales")
+  @theory.begin_theory("100/thales")
   load_steps() catch {
     e => abort("HOL Light: loading 100/thales.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

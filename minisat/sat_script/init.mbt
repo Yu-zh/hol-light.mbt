@@ -11,12 +11,12 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @sat_solvers.load()
-  @parser.begin_theory("Minisat/sat_script")
+  @theory.begin_theory("Minisat/sat_script")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Minisat/sat_script.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -27,10 +27,10 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Minisat/sat_script")
+  @theory.begin_theory("Minisat/sat_script")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Minisat/sat_script.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

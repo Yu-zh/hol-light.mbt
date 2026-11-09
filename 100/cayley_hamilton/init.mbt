@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @complexes.load()
   @msum.load()
-  @parser.begin_theory("100/cayley_hamilton")
+  @theory.begin_theory("100/cayley_hamilton")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading 100/cayley_hamilton.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

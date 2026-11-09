@@ -11,10 +11,10 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @words.load()
-  @parser.begin_theory("Library/bitmatch")
+  @theory.begin_theory("Library/bitmatch")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Library/bitmatch.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

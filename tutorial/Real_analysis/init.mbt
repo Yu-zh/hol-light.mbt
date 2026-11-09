@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @analysis.load()
   @transc.load()
-  @parser.begin_theory("Tutorial/Real_analysis")
+  @theory.begin_theory("Tutorial/Real_analysis")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Tutorial/Real_analysis.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

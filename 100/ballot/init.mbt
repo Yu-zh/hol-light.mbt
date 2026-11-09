@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @binomial.load()
-  @parser.begin_theory("100/ballot")
+  @theory.begin_theory("100/ballot")
   load_steps() catch {
     e => abort("HOL Light: loading 100/ballot.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

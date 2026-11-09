@@ -10,10 +10,10 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Library/analysis")
+  @theory.begin_theory("Library/analysis")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Library/analysis.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @cross.load()
-  @parser.begin_theory("100/desargues")
+  @theory.begin_theory("100/desargues")
   load_steps() catch {
     e => abort("HOL Light: loading 100/desargues.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

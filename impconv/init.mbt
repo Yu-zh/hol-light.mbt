@@ -2,9 +2,9 @@
 
 ///|
 fn init {
-  @parser.begin_theory("impconv")
+  @theory.begin_theory("impconv")
   load_steps() catch {
     e => abort("HOL Light: loading impconv.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

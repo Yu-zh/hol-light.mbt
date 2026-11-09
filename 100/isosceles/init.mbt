@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @geom.load()
-  @parser.begin_theory("100/isosceles")
+  @theory.begin_theory("100/isosceles")
   load_steps() catch {
     e => abort("HOL Light: loading 100/isosceles.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

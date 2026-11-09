@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @weierstrass.load()
-  @parser.begin_theory("EC/projective")
+  @theory.begin_theory("EC/projective")
   load_steps() catch {
     e => abort("HOL Light: loading EC/projective.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

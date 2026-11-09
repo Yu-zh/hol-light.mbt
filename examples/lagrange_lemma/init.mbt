@@ -10,12 +10,12 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Examples/lagrange_lemma")
+  @theory.begin_theory("Examples/lagrange_lemma")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Examples/lagrange_lemma.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

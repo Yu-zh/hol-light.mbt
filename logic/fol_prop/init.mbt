@@ -11,11 +11,11 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @skolem.load()
-  @parser.begin_theory("Logic/fol_prop")
+  @theory.begin_theory("Logic/fol_prop")
   load_steps() catch {
     e => abort("HOL Light: loading Logic/fol_prop.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -26,9 +26,9 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Logic/fol_prop")
+  @theory.begin_theory("Logic/fol_prop")
   load_steps() catch {
     e => abort("HOL Light: loading Logic/fol_prop.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

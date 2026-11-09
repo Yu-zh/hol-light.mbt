@@ -13,9 +13,9 @@ pub fn load() -> Unit {
   @montgomery.load()
   @excluderoots.load()
   @computegroup.load()
-  @parser.begin_theory("EC/curve25519")
+  @theory.begin_theory("EC/curve25519")
   load_steps() catch {
     e => abort("HOL Light: loading EC/curve25519.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

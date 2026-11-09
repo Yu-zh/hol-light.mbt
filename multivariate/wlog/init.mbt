@@ -13,10 +13,10 @@ pub fn load() -> Unit {
   @convex.load()
   @determinants.load()
   @convex.load()
-  @parser.begin_theory("Multivariate/wlog")
+  @theory.begin_theory("Multivariate/wlog")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Multivariate/wlog.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

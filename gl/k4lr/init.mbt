@@ -11,11 +11,11 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @completeness.load()
-  @parser.begin_theory("GL/k4lr")
+  @theory.begin_theory("GL/k4lr")
   load_steps() catch {
     e => abort("HOL Light: loading GL/k4lr.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -26,9 +26,9 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("GL/k4lr")
+  @theory.begin_theory("GL/k4lr")
   load_steps() catch {
     e => abort("HOL Light: loading GL/k4lr.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

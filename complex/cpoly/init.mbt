@@ -12,11 +12,11 @@ pub fn load() -> Unit {
   loaded.val = true
   @complex_transc.load()
   @complexnumbers.load()
-  @parser.begin_theory("Complex/cpoly")
+  @theory.begin_theory("Complex/cpoly")
   load_steps() catch {
     e => abort("HOL Light: loading Complex/cpoly.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -28,9 +28,9 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @complexnumbers.load()
-  @parser.begin_theory("Complex/cpoly")
+  @theory.begin_theory("Complex/cpoly")
   load_steps() catch {
     e => abort("HOL Light: loading Complex/cpoly.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -11,12 +11,12 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @arithprov.load()
-  @parser.begin_theory("Arithmetic/godel")
+  @theory.begin_theory("Arithmetic/godel")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Arithmetic/godel.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -27,10 +27,10 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Arithmetic/godel")
+  @theory.begin_theory("Arithmetic/godel")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Arithmetic/godel.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

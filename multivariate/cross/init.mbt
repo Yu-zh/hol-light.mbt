@@ -12,10 +12,10 @@ pub fn load() -> Unit {
   loaded.val = true
   @topology.load()
   @topology.load()
-  @parser.begin_theory("Multivariate/cross")
+  @theory.begin_theory("Multivariate/cross")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Multivariate/cross.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

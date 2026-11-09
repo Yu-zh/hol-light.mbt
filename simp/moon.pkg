@@ -4,7 +4,7 @@ import {
   "bobzhang/hol_light/lib",
   "bobzhang/hol_light/basics",
   "bobzhang/hol_light/nets",
-  "bobzhang/hol_light/parser",
+  "bobzhang/hol_light/theory",
   "bobzhang/hol_light/equal",
   "bobzhang/hol_light/bool",
   "bobzhang/hol_light/drule",

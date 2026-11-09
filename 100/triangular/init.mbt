@@ -12,9 +12,9 @@ pub fn load() -> Unit {
   loaded.val = true
   @misc.load()
   @analysis.load()
-  @parser.begin_theory("100/triangular")
+  @theory.begin_theory("100/triangular")
   load_steps() catch {
     e => abort("HOL Light: loading 100/triangular.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

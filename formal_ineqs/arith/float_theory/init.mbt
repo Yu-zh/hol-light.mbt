@@ -14,7 +14,7 @@ pub fn load() -> Unit {
   @arith_nat.load()
   @num_exp_theory.load()
   @interval_arith.load()
-  @parser.begin_theory("Formal_ineqs/arith/float_theory")
+  @theory.begin_theory("Formal_ineqs/arith/float_theory")
   load_steps() catch {
     e =>
       abort(
@@ -22,7 +22,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -36,7 +36,7 @@ pub fn load_alone() -> Unit {
   @arith_nat.load()
   @num_exp_theory.load()
   @interval_arith.load()
-  @parser.begin_theory("Formal_ineqs/arith/float_theory")
+  @theory.begin_theory("Formal_ineqs/arith/float_theory")
   load_steps() catch {
     e =>
       abort(
@@ -44,5 +44,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

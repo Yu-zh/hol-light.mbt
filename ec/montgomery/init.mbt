@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @misc.load()
-  @parser.begin_theory("EC/montgomery")
+  @theory.begin_theory("EC/montgomery")
   load_steps() catch {
     e => abort("HOL Light: loading EC/montgomery.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

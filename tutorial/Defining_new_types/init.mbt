@@ -18,7 +18,7 @@ pub fn load() -> Unit {
   @grouptheory.skip_load()
   @homology.skip_load()
   @Vectors.load()
-  @parser.begin_theory("Tutorial/Defining_new_types")
+  @theory.begin_theory("Tutorial/Defining_new_types")
   load_steps() catch {
     e =>
       abort(
@@ -26,5 +26,5 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

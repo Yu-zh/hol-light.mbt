@@ -13,9 +13,9 @@ pub fn load() -> Unit {
   @cauchy.load()
   @pocklington.load()
   @mangoldt.load()
-  @parser.begin_theory("100/pnt")
+  @theory.begin_theory("100/pnt")
   load_steps() catch {
     e => abort("HOL Light: loading 100/pnt.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

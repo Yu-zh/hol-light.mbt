@@ -4,9 +4,9 @@
 
 ///|
 fn init {
-  @parser.begin_theory("theorems")
+  @theory.begin_theory("theorems")
   load_steps() catch {
     e => abort("HOL Light: loading theorems.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

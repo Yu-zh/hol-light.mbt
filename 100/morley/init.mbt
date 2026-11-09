@@ -12,9 +12,9 @@ pub fn load() -> Unit {
   loaded.val = true
   @iter.load()
   @geom.load()
-  @parser.begin_theory("100/morley")
+  @theory.begin_theory("100/morley")
   load_steps() catch {
     e => abort("HOL Light: loading 100/morley.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -11,12 +11,12 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @jacobian.load()
-  @parser.begin_theory("EC/formulary_jacobian")
+  @theory.begin_theory("EC/formulary_jacobian")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading EC/formulary_jacobian.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

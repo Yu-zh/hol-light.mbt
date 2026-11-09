@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @paths.load()
   @paths.load()
-  @parser.begin_theory("Multivariate/polytope")
+  @theory.begin_theory("Multivariate/polytope")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Multivariate/polytope.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

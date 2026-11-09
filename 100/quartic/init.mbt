@@ -10,9 +10,9 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("100/quartic")
+  @theory.begin_theory("100/quartic")
   load_steps() catch {
     e => abort("HOL Light: loading 100/quartic.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

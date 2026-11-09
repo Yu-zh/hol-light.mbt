@@ -10,9 +10,9 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Library/bdd")
+  @theory.begin_theory("Library/bdd")
   load_steps() catch {
     e => abort("HOL Light: loading Library/bdd.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -11,14 +11,14 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @clausal_form.load()
-  @parser.begin_theory("Boyer_Moore/waterfall")
+  @theory.begin_theory("Boyer_Moore/waterfall")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Boyer_Moore/waterfall.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,12 +29,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Boyer_Moore/waterfall")
+  @theory.begin_theory("Boyer_Moore/waterfall")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Boyer_Moore/waterfall.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -11,14 +11,14 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @num_ext_gcd.load()
-  @parser.begin_theory("Jordan/num_ext_nabs")
+  @theory.begin_theory("Jordan/num_ext_nabs")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Jordan/num_ext_nabs.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,12 +29,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Jordan/num_ext_nabs")
+  @theory.begin_theory("Jordan/num_ext_nabs")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Jordan/num_ext_nabs.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -12,14 +12,14 @@ pub fn load() -> Unit {
   loaded.val = true
   @morelist.load()
   @morelist.load()
-  @parser.begin_theory("Permutation/permuted")
+  @theory.begin_theory("Permutation/permuted")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Permutation/permuted.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -31,12 +31,12 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @morelist.load()
-  @parser.begin_theory("Permutation/permuted")
+  @theory.begin_theory("Permutation/permuted")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Permutation/permuted.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

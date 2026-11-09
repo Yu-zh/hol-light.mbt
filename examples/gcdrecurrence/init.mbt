@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @prime.load()
   @integer.load()
-  @parser.begin_theory("Examples/gcdrecurrence")
+  @theory.begin_theory("Examples/gcdrecurrence")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Examples/gcdrecurrence.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -13,10 +13,10 @@ pub fn load() -> Unit {
   @cauchy.load()
   @lpspaces.load()
   @green.load()
-  @parser.begin_theory("100/isoperimetric")
+  @theory.begin_theory("100/isoperimetric")
   load_steps() catch {
     e =>
       abort("HOL Light: loading 100/isoperimetric.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

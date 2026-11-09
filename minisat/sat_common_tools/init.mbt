@@ -10,7 +10,7 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Minisat/sat_common_tools")
+  @theory.begin_theory("Minisat/sat_common_tools")
   load_steps() catch {
     e =>
       abort(
@@ -18,7 +18,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,7 +29,7 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Minisat/sat_common_tools")
+  @theory.begin_theory("Minisat/sat_common_tools")
   load_steps() catch {
     e =>
       abort(
@@ -37,5 +37,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

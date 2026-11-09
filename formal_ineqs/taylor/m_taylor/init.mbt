@@ -19,7 +19,7 @@ pub fn load() -> Unit {
   @misc_vars.load()
   @taylor_interval_compiled.load()
   @multivariate_taylor_compiled.load()
-  @parser.begin_theory("Formal_ineqs/taylor/m_taylor")
+  @theory.begin_theory("Formal_ineqs/taylor/m_taylor")
   load_steps() catch {
     e =>
       abort(
@@ -27,7 +27,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -46,7 +46,7 @@ pub fn load_alone() -> Unit {
   @misc_vars.load()
   @taylor_interval_compiled.load()
   @multivariate_taylor_compiled.load()
-  @parser.begin_theory("Formal_ineqs/taylor/m_taylor")
+  @theory.begin_theory("Formal_ineqs/taylor/m_taylor")
   load_steps() catch {
     e =>
       abort(
@@ -54,5 +54,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

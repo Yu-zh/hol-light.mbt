@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @convex.load()
-  @parser.begin_theory("100/chords")
+  @theory.begin_theory("100/chords")
   load_steps() catch {
     e => abort("HOL Light: loading 100/chords.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

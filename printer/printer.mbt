@@ -498,9 +498,11 @@ pub fn try_user_color_printer(fmt : Formatter, tm : Term) -> Unit raise {
 ///|
 /// As upstream's `set_max_boxes 100` (printer.ml), and route `report`
 /// through the standard formatter (lib.ml's `report` uses Format), so all
-/// output is ordered.
+/// output is ordered. "," is an infix (parser.ml declares it: set
+/// enumerations need it, and it is not a reserved word).
 fn init {
   @pp.std_formatter.set_max_boxes(100)
+  parse_as_infix(",", (14, "right"))
   @lib.report_sink.val = s => {
     @pp.std_formatter.print_string(s)
     @pp.std_formatter.print_newline()

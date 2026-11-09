@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @complex_transc.load()
-  @parser.begin_theory("100/cubic")
+  @theory.begin_theory("100/cubic")
   load_steps() catch {
     e => abort("HOL Light: loading 100/cubic.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

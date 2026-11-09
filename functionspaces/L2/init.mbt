@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @cfunspace.load()
   @cfunspace.load()
-  @parser.begin_theory("Functionspaces/L2")
+  @theory.begin_theory("Functionspaces/L2")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Functionspaces/L2.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,10 +29,10 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @cfunspace.load()
-  @parser.begin_theory("Functionspaces/L2")
+  @theory.begin_theory("Functionspaces/L2")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Functionspaces/L2.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

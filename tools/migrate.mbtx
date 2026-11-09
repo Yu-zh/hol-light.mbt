@@ -361,7 +361,7 @@ async fn theory_of(pkg : String) -> String {
     while src.contains("begin_theory( ") {
       src = src.replace_all(old="begin_theory( ", new="begin_theory(")
     }
-    match between(src, "@parser.begin_theory(\"", "\"") {
+    match between(src, "@theory.begin_theory(\"", "\"") {
       Some(t) => return t
       None => ()
     }

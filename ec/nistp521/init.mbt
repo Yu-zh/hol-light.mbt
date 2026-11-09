@@ -13,9 +13,9 @@ pub fn load() -> Unit {
   @weierstrass.load()
   @excluderoots.load()
   @computegroup.load()
-  @parser.begin_theory("EC/nistp521")
+  @theory.begin_theory("EC/nistp521")
   load_steps() catch {
     e => abort("HOL Light: loading EC/nistp521.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

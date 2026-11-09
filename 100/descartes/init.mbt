@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @realanalysis.load()
-  @parser.begin_theory("100/descartes")
+  @theory.begin_theory("100/descartes")
   load_steps() catch {
     e => abort("HOL Light: loading 100/descartes.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -14,14 +14,14 @@ pub fn load() -> Unit {
   @transc.load()
   @floor.load()
   @complexnumbers.load()
-  @parser.begin_theory("Complex/complex_transc")
+  @theory.begin_theory("Complex/complex_transc")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Complex/complex_transc.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -35,12 +35,12 @@ pub fn load_alone() -> Unit {
   @transc.load()
   @floor.load()
   @complexnumbers.load()
-  @parser.begin_theory("Complex/complex_transc")
+  @theory.begin_theory("Complex/complex_transc")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Complex/complex_transc.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @permutation.load()
   @permuted.load()
-  @parser.begin_theory("Permutation/qsort")
+  @theory.begin_theory("Permutation/qsort")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Permutation/qsort.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,10 +29,10 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @permuted.load()
-  @parser.begin_theory("Permutation/qsort")
+  @theory.begin_theory("Permutation/qsort")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Permutation/qsort.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

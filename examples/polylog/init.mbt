@@ -11,10 +11,10 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @transc.load()
-  @parser.begin_theory("Examples/polylog")
+  @theory.begin_theory("Examples/polylog")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Examples/polylog.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

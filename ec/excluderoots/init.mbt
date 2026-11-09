@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @pocklington.load()
-  @parser.begin_theory("EC/excluderoots")
+  @theory.begin_theory("EC/excluderoots")
   load_steps() catch {
     e => abort("HOL Light: loading EC/excluderoots.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

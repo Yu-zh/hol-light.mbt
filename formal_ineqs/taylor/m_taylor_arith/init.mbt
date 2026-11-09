@@ -13,7 +13,7 @@ pub fn load() -> Unit {
   @m_verifier.load()
   @m_taylor.load()
   @misc_vars.load()
-  @parser.begin_theory("Formal_ineqs/taylor/m_taylor_arith")
+  @theory.begin_theory("Formal_ineqs/taylor/m_taylor_arith")
   load_steps() catch {
     e =>
       abort(
@@ -21,7 +21,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -34,7 +34,7 @@ pub fn load_alone() -> Unit {
   loaded.val = true
   @m_taylor.load()
   @misc_vars.load()
-  @parser.begin_theory("Formal_ineqs/taylor/m_taylor_arith")
+  @theory.begin_theory("Formal_ineqs/taylor/m_taylor_arith")
   load_steps() catch {
     e =>
       abort(
@@ -42,5 +42,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

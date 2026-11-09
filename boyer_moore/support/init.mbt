@@ -10,14 +10,14 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Boyer_Moore/support")
+  @theory.begin_theory("Boyer_Moore/support")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Boyer_Moore/support.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -28,12 +28,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Boyer_Moore/support")
+  @theory.begin_theory("Boyer_Moore/support")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Boyer_Moore/support.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

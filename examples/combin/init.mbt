@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @reduct.load()
-  @parser.begin_theory("Examples/combin")
+  @theory.begin_theory("Examples/combin")
   load_steps() catch {
     e => abort("HOL Light: loading Examples/combin.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -11,14 +11,14 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @minisat_resolve.load()
-  @parser.begin_theory("Minisat/minisat_prove")
+  @theory.begin_theory("Minisat/minisat_prove")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Minisat/minisat_prove.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,12 +29,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Minisat/minisat_prove")
+  @theory.begin_theory("Minisat/minisat_prove")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Minisat/minisat_prove.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

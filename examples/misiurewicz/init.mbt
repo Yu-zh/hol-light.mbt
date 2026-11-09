@@ -11,12 +11,12 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @cauchy.load()
-  @parser.begin_theory("Examples/misiurewicz")
+  @theory.begin_theory("Examples/misiurewicz")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Examples/misiurewicz.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

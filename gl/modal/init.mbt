@@ -11,11 +11,11 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @misc.load()
-  @parser.begin_theory("GL/modal")
+  @theory.begin_theory("GL/modal")
   load_steps() catch {
     e => abort("HOL Light: loading GL/modal.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -26,9 +26,9 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("GL/modal")
+  @theory.begin_theory("GL/modal")
   load_steps() catch {
     e => abort("HOL Light: loading GL/modal.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

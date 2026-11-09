@@ -13,12 +13,12 @@ pub fn load() -> Unit {
   @prime.load()
   @products.load()
   @floor.load()
-  @parser.begin_theory("Examples/harmonicsum")
+  @theory.begin_theory("Examples/harmonicsum")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Examples/harmonicsum.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

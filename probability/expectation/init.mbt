@@ -12,14 +12,14 @@ pub fn load() -> Unit {
   loaded.val = true
   @independence.load()
   @independence.load()
-  @parser.begin_theory("Probability/expectation")
+  @theory.begin_theory("Probability/expectation")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Probability/expectation.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -31,12 +31,12 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @independence.load()
-  @parser.begin_theory("Probability/expectation")
+  @theory.begin_theory("Probability/expectation")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Probability/expectation.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

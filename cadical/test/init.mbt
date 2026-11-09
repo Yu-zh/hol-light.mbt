@@ -12,9 +12,9 @@ pub fn load() -> Unit {
   loaded.val = true
   @cadical.load()
   @taut.load()
-  @parser.begin_theory("Cadical/test")
+  @theory.begin_theory("Cadical/test")
   load_steps() catch {
     e => abort("HOL Light: loading Cadical/test.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

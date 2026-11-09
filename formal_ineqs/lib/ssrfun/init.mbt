@@ -13,14 +13,14 @@ pub fn load() -> Unit {
   @sections.load()
   @ssreflect.load()
   @sections.load()
-  @parser.begin_theory("Formal_ineqs/lib/ssrfun")
+  @theory.begin_theory("Formal_ineqs/lib/ssrfun")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Formal_ineqs/lib/ssrfun.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -33,12 +33,12 @@ pub fn load_alone() -> Unit {
   loaded.val = true
   @ssreflect.load()
   @sections.load()
-  @parser.begin_theory("Formal_ineqs/lib/ssrfun")
+  @theory.begin_theory("Formal_ineqs/lib/ssrfun")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Formal_ineqs/lib/ssrfun.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

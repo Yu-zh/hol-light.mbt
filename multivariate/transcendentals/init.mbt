@@ -13,7 +13,7 @@ pub fn load() -> Unit {
   @canal.load()
   @measure.load()
   @canal.load()
-  @parser.begin_theory("Multivariate/transcendentals")
+  @theory.begin_theory("Multivariate/transcendentals")
   load_steps() catch {
     e =>
       abort(
@@ -21,5 +21,5 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

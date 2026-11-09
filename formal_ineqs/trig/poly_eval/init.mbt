@@ -15,7 +15,7 @@ pub fn load() -> Unit {
   @misc_functions.load()
   @misc_vars.load()
   @more_float.load()
-  @parser.begin_theory("Formal_ineqs/trig/poly_eval")
+  @theory.begin_theory("Formal_ineqs/trig/poly_eval")
   load_steps() catch {
     e =>
       abort(
@@ -23,7 +23,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -38,7 +38,7 @@ pub fn load_alone() -> Unit {
   @misc_functions.load()
   @misc_vars.load()
   @more_float.load()
-  @parser.begin_theory("Formal_ineqs/trig/poly_eval")
+  @theory.begin_theory("Formal_ineqs/trig/poly_eval")
   load_steps() catch {
     e =>
       abort(
@@ -46,5 +46,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

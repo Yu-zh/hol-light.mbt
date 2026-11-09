@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @pnt.load()
-  @parser.begin_theory("Examples/apery")
+  @theory.begin_theory("Examples/apery")
   load_steps() catch {
     e => abort("HOL Light: loading Examples/apery.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

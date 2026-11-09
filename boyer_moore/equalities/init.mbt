@@ -11,14 +11,14 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @terms_and_clauses.load()
-  @parser.begin_theory("Boyer_Moore/equalities")
+  @theory.begin_theory("Boyer_Moore/equalities")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Boyer_Moore/equalities.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,12 +29,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Boyer_Moore/equalities")
+  @theory.begin_theory("Boyer_Moore/equalities")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Boyer_Moore/equalities.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

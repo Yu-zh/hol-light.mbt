@@ -11,10 +11,10 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @words.load()
-  @parser.begin_theory("Examples/bitblast")
+  @theory.begin_theory("Examples/bitblast")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Examples/bitblast.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

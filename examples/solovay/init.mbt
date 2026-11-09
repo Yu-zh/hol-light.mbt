@@ -21,10 +21,10 @@ pub fn load() -> Unit {
   @vectors.load()
   @sos.load()
   @rqe_make.load()
-  @parser.begin_theory("Examples/solovay")
+  @theory.begin_theory("Examples/solovay")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Examples/solovay.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

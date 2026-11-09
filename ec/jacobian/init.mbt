@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @weierstrass.load()
-  @parser.begin_theory("EC/jacobian")
+  @theory.begin_theory("EC/jacobian")
   load_steps() catch {
     e => abort("HOL Light: loading EC/jacobian.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

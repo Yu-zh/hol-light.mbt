@@ -11,14 +11,14 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @rewrite_rules.load()
-  @parser.begin_theory("Boyer_Moore/definitions")
+  @theory.begin_theory("Boyer_Moore/definitions")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Boyer_Moore/definitions.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,12 +29,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Boyer_Moore/definitions")
+  @theory.begin_theory("Boyer_Moore/definitions")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Boyer_Moore/definitions.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

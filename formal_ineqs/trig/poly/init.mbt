@@ -13,14 +13,14 @@ pub fn load() -> Unit {
   @more_list.load()
   @more_list.load()
   @interval_arith.load()
-  @parser.begin_theory("Formal_ineqs/trig/poly")
+  @theory.begin_theory("Formal_ineqs/trig/poly")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Formal_ineqs/trig/poly.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -33,12 +33,12 @@ pub fn load_alone() -> Unit {
   loaded.val = true
   @more_list.load()
   @interval_arith.load()
-  @parser.begin_theory("Formal_ineqs/trig/poly")
+  @theory.begin_theory("Formal_ineqs/trig/poly")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Formal_ineqs/trig/poly.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

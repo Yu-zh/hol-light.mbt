@@ -13,7 +13,7 @@ pub fn load() -> Unit {
   @eval_interval.load()
   @arith_nat.load()
   @misc_vars.load()
-  @parser.begin_theory("Formal_ineqs/list/list_conversions")
+  @theory.begin_theory("Formal_ineqs/list/list_conversions")
   load_steps() catch {
     e =>
       abort(
@@ -21,7 +21,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -34,7 +34,7 @@ pub fn load_alone() -> Unit {
   loaded.val = true
   @arith_nat.load()
   @misc_vars.load()
-  @parser.begin_theory("Formal_ineqs/list/list_conversions")
+  @theory.begin_theory("Formal_ineqs/list/list_conversions")
   load_steps() catch {
     e =>
       abort(
@@ -42,5 +42,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

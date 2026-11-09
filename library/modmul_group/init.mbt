@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @grouptheory.load()
   @primitive.load()
-  @parser.begin_theory("Library/modmul_group")
+  @theory.begin_theory("Library/modmul_group")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Library/modmul_group.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

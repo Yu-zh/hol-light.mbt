@@ -11,10 +11,10 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @card.load()
-  @parser.begin_theory("Library/matroids")
+  @theory.begin_theory("Library/matroids")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Library/matroids.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

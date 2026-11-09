@@ -12,9 +12,9 @@ pub fn load() -> Unit {
   loaded.val = true
   @prime.load()
   @floor.load()
-  @parser.begin_theory("100/sqrt")
+  @theory.begin_theory("100/sqrt")
   load_steps() catch {
     e => abort("HOL Light: loading 100/sqrt.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

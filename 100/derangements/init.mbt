@@ -13,10 +13,10 @@ pub fn load() -> Unit {
   @transc.load()
   @calc_real.load()
   @floor.load()
-  @parser.begin_theory("100/derangements")
+  @theory.begin_theory("100/derangements")
   load_steps() catch {
     e =>
       abort("HOL Light: loading 100/derangements.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

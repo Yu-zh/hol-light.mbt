@@ -38,12 +38,6 @@ using @lexer {type Lexcode}
 type Toks = ArrayView[Lexcode]
 
 ///|
-fn init {
-  // "," is needed for set enumerations and is not a reserved word.
-  @printer.parse_as_infix(",", (14, "right"))
-}
-
-///|
 fn res(s : String) -> (Toks) -> (Lexcode, Toks) raise {
   a(Resword(s))
 }

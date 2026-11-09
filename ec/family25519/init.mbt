@@ -15,9 +15,9 @@ pub fn load() -> Unit {
   @edwards25519.load()
   @curve25519.load()
   @wei25519.load()
-  @parser.begin_theory("EC/family25519")
+  @theory.begin_theory("EC/family25519")
   load_steps() catch {
     e => abort("HOL Light: loading EC/family25519.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

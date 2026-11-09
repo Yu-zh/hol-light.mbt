@@ -1172,11 +1172,11 @@ pub fn expand_tac(s : String) -> Tactic {
 
 ///|
 fn init {
-  @parser.begin_theory("simp")
+  @theory.begin_theory("simp")
   load_steps() catch {
     e => abort("HOL Light: loading simp.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|

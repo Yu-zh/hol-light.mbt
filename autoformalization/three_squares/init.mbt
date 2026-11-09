@@ -12,7 +12,7 @@ pub fn load() -> Unit {
   loaded.val = true
   @jacobi.load()
   @dirichlet.load()
-  @parser.begin_theory("Autoformalization/three_squares")
+  @theory.begin_theory("Autoformalization/three_squares")
   load_steps() catch {
     e =>
       abort(
@@ -20,5 +20,5 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

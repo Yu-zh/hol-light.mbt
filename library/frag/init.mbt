@@ -13,11 +13,11 @@ pub fn load() -> Unit {
   if skipped.val {
     return
   }
-  @parser.begin_theory("Library/frag")
+  @theory.begin_theory("Library/frag")
   load_steps() catch {
     e => abort("HOL Light: loading Library/frag.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|

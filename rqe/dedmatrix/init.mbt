@@ -11,11 +11,11 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @inferpsign.load()
-  @parser.begin_theory("Rqe/dedmatrix")
+  @theory.begin_theory("Rqe/dedmatrix")
   load_steps() catch {
     e => abort("HOL Light: loading Rqe/dedmatrix.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -26,9 +26,9 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Rqe/dedmatrix")
+  @theory.begin_theory("Rqe/dedmatrix")
   load_steps() catch {
     e => abort("HOL Light: loading Rqe/dedmatrix.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

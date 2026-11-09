@@ -15,7 +15,7 @@ pub fn load() -> Unit {
   @permutations.load()
   @floor.load()
   @products.load()
-  @parser.begin_theory("Multivariate/determinants")
+  @theory.begin_theory("Multivariate/determinants")
   load_steps() catch {
     e =>
       abort(
@@ -23,5 +23,5 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

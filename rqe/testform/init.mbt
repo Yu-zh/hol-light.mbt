@@ -11,11 +11,11 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @work_thms.load()
-  @parser.begin_theory("Rqe/testform")
+  @theory.begin_theory("Rqe/testform")
   load_steps() catch {
     e => abort("HOL Light: loading Rqe/testform.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -26,9 +26,9 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Rqe/testform")
+  @theory.begin_theory("Rqe/testform")
   load_steps() catch {
     e => abort("HOL Light: loading Rqe/testform.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

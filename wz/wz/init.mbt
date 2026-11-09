@@ -11,11 +11,11 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @gamma.load()
-  @parser.begin_theory("WZ/wz")
+  @theory.begin_theory("WZ/wz")
   load_steps() catch {
     e => abort("HOL Light: loading WZ/wz.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -27,9 +27,9 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @gamma.load()
-  @parser.begin_theory("WZ/wz")
+  @theory.begin_theory("WZ/wz")
   load_steps() catch {
     e => abort("HOL Light: loading WZ/wz.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

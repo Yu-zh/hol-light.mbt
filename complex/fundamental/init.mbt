@@ -13,14 +13,14 @@ pub fn load() -> Unit {
   @cpoly.load()
   @complex_transc.load()
   @cpoly.load()
-  @parser.begin_theory("Complex/fundamental")
+  @theory.begin_theory("Complex/fundamental")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Complex/fundamental.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -33,12 +33,12 @@ pub fn load_alone() -> Unit {
   loaded.val = true
   @complex_transc.load()
   @cpoly.load()
-  @parser.begin_theory("Complex/fundamental")
+  @theory.begin_theory("Complex/fundamental")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Complex/fundamental.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

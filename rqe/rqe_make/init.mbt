@@ -48,9 +48,9 @@ pub fn load() -> Unit {
   @dedmatrix.load()
   @pdivides.load()
   @rqe_main.load()
-  @parser.begin_theory("Rqe/make")
+  @theory.begin_theory("Rqe/make")
   load_steps() catch {
     e => abort("HOL Light: loading Rqe/make.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

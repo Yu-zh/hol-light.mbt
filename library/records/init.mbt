@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @components.load()
-  @parser.begin_theory("Library/records")
+  @theory.begin_theory("Library/records")
   load_steps() catch {
     e => abort("HOL Light: loading Library/records.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

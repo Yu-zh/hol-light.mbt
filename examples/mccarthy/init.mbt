@@ -10,10 +10,10 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Examples/mccarthy")
+  @theory.begin_theory("Examples/mccarthy")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Examples/mccarthy.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

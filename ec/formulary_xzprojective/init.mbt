@@ -11,7 +11,7 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @xzprojective.load()
-  @parser.begin_theory("EC/formulary_xzprojective")
+  @theory.begin_theory("EC/formulary_xzprojective")
   load_steps() catch {
     e =>
       abort(
@@ -19,5 +19,5 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

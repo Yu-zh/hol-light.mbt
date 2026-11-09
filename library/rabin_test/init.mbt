@@ -11,10 +11,10 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @fieldtheory.load()
-  @parser.begin_theory("Library/rabin_test")
+  @theory.begin_theory("Library/rabin_test")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Library/rabin_test.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -12,7 +12,7 @@ pub fn load() -> Unit {
   loaded.val = true
   @degree.load()
   @degree.load()
-  @parser.begin_theory("Multivariate/derivatives")
+  @theory.begin_theory("Multivariate/derivatives")
   load_steps() catch {
     e =>
       abort(
@@ -20,5 +20,5 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -13,7 +13,7 @@ pub fn load() -> Unit {
   @informal_exp.load()
   @informal_interval.load()
   @informal_exp.load()
-  @parser.begin_theory("Formal_ineqs/informal/informal_log")
+  @theory.begin_theory("Formal_ineqs/informal/informal_log")
   load_steps() catch {
     e =>
       abort(
@@ -21,7 +21,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -34,7 +34,7 @@ pub fn load_alone() -> Unit {
   loaded.val = true
   @informal_interval.load()
   @informal_exp.load()
-  @parser.begin_theory("Formal_ineqs/informal/informal_log")
+  @theory.begin_theory("Formal_ineqs/informal/informal_log")
   load_steps() catch {
     e =>
       abort(
@@ -42,5 +42,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

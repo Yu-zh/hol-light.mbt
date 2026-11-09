@@ -11,10 +11,10 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @integration.load()
-  @parser.begin_theory("100/cubedissection")
+  @theory.begin_theory("100/cubedissection")
   load_steps() catch {
     e =>
       abort("HOL Light: loading 100/cubedissection.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

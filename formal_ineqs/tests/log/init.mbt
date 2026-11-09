@@ -11,14 +11,14 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @float_theory.load()
-  @parser.begin_theory("Formal_ineqs/tests/log")
+  @theory.begin_theory("Formal_ineqs/tests/log")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Formal_ineqs/tests/log.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,12 +29,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Formal_ineqs/tests/log")
+  @theory.begin_theory("Formal_ineqs/tests/log")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Formal_ineqs/tests/log.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -17,14 +17,14 @@ pub fn load() -> Unit {
   @inclusion_exclusion.load()
   @card.load()
   @realanalysis.load()
-  @parser.begin_theory("Probability/measure")
+  @theory.begin_theory("Probability/measure")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Probability/measure.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -38,12 +38,12 @@ pub fn load_alone() -> Unit {
   @inclusion_exclusion.load()
   @card.load()
   @realanalysis.load()
-  @parser.begin_theory("Probability/measure")
+  @theory.begin_theory("Probability/measure")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Probability/measure.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

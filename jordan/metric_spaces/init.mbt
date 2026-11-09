@@ -11,14 +11,14 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @misc_defs_and_lemmas.load()
-  @parser.begin_theory("Jordan/metric_spaces")
+  @theory.begin_theory("Jordan/metric_spaces")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Jordan/metric_spaces.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,12 +29,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Jordan/metric_spaces")
+  @theory.begin_theory("Jordan/metric_spaces")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Jordan/metric_spaces.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

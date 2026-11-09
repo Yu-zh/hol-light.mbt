@@ -10,9 +10,9 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Examples/cooper")
+  @theory.begin_theory("Examples/cooper")
   load_steps() catch {
     e => abort("HOL Light: loading Examples/cooper.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

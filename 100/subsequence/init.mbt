@@ -10,9 +10,9 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("100/subsequence")
+  @theory.begin_theory("100/subsequence")
   load_steps() catch {
     e => abort("HOL Light: loading 100/subsequence.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

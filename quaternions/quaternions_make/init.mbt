@@ -19,10 +19,10 @@ pub fn load() -> Unit {
   @qanal.load()
   @qderivative.load()
   @qisom.load()
-  @parser.begin_theory("Quaternions/make")
+  @theory.begin_theory("Quaternions/make")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Quaternions/make.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

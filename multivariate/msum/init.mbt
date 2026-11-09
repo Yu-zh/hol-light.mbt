@@ -12,10 +12,10 @@ pub fn load() -> Unit {
   loaded.val = true
   @vectors.load()
   @vectors.load()
-  @parser.begin_theory("Multivariate/msum")
+  @theory.begin_theory("Multivariate/msum")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Multivariate/msum.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

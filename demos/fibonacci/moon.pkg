@@ -9,7 +9,6 @@ import {
   "bobzhang/hol_light/term_syntax",
   "bobzhang/hol_light/library/words",
   "bobzhang/hol_light/nums",
-  "bobzhang/hol_light/parser",
   "bobzhang/hol_light/printer",
   "bobzhang/hol_light/recursion",
   "bobzhang/hol_light/simp",

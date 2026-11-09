@@ -12,7 +12,7 @@ pub fn load() -> Unit {
   loaded.val = true
   @probability_measure.load()
   @probability_measure.load()
-  @parser.begin_theory("Probability/random_variables")
+  @theory.begin_theory("Probability/random_variables")
   load_steps() catch {
     e =>
       abort(
@@ -20,7 +20,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -32,7 +32,7 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @probability_measure.load()
-  @parser.begin_theory("Probability/random_variables")
+  @theory.begin_theory("Probability/random_variables")
   load_steps() catch {
     e =>
       abort(
@@ -40,5 +40,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

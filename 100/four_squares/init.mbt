@@ -12,10 +12,10 @@ pub fn load() -> Unit {
   loaded.val = true
   @prime.load()
   @analysis.load()
-  @parser.begin_theory("100/four_squares")
+  @theory.begin_theory("100/four_squares")
   load_steps() catch {
     e =>
       abort("HOL Light: loading 100/four_squares.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -10,12 +10,12 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("100/inclusion_exclusion")
+  @theory.begin_theory("100/inclusion_exclusion")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading 100/inclusion_exclusion.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

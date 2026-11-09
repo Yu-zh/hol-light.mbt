@@ -11,14 +11,14 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @mk_comp_unity.load()
-  @parser.begin_theory("Unity/mk_unity_prog")
+  @theory.begin_theory("Unity/mk_unity_prog")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Unity/mk_unity_prog.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,12 +29,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Unity/mk_unity_prog")
+  @theory.begin_theory("Unity/mk_unity_prog")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Unity/mk_unity_prog.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

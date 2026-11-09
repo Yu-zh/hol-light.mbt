@@ -11,10 +11,10 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @morelist.load()
-  @parser.begin_theory("Permutation/nummax")
+  @theory.begin_theory("Permutation/nummax")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Permutation/nummax.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

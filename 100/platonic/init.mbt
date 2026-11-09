@@ -12,9 +12,9 @@ pub fn load() -> Unit {
   loaded.val = true
   @polyhedron.load()
   @cross.load()
-  @parser.begin_theory("100/platonic")
+  @theory.begin_theory("100/platonic")
   load_steps() catch {
     e => abort("HOL Light: loading 100/platonic.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

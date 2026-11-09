@@ -19,10 +19,10 @@ pub fn load() -> Unit {
   @homology.skip_load()
   @vectors.load()
   @solovay.load()
-  @parser.begin_theory("Tutorial/Vectors")
+  @theory.begin_theory("Tutorial/Vectors")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Tutorial/Vectors.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

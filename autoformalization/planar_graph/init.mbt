@@ -14,7 +14,7 @@ pub fn load() -> Unit {
   @clifford.skip_load()
   @moretop.load()
   @rstc.load()
-  @parser.begin_theory("Autoformalization/planar_graph")
+  @theory.begin_theory("Autoformalization/planar_graph")
   load_steps() catch {
     e =>
       abort(
@@ -22,5 +22,5 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

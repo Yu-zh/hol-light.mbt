@@ -12,7 +12,7 @@ pub fn load() -> Unit {
   loaded.val = true
   @isum.load()
   @three_squares.load()
-  @parser.begin_theory("Autoformalization/fifteen_theorem")
+  @theory.begin_theory("Autoformalization/fifteen_theorem")
   load_steps() catch {
     e =>
       abort(
@@ -20,5 +20,5 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

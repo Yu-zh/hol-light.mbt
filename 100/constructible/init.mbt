@@ -13,10 +13,10 @@ pub fn load() -> Unit {
   @prime.load()
   @floor.load()
   @transcendentals.load()
-  @parser.begin_theory("100/constructible")
+  @theory.begin_theory("100/constructible")
   load_steps() catch {
     e =>
       abort("HOL Light: loading 100/constructible.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

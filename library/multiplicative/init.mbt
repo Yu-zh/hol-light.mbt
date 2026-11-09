@@ -13,12 +13,12 @@ pub fn load() -> Unit {
   @products.load()
   @prime.load()
   @pocklington.load()
-  @parser.begin_theory("Library/multiplicative")
+  @theory.begin_theory("Library/multiplicative")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Library/multiplicative.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -12,11 +12,11 @@ pub fn load() -> Unit {
   loaded.val = true
   @real_ext_geom_series.load()
   @num_calc_simp.load_alone()
-  @parser.begin_theory("Jordan/real_ext")
+  @theory.begin_theory("Jordan/real_ext")
   load_steps() catch {
     e => abort("HOL Light: loading Jordan/real_ext.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -27,9 +27,9 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Jordan/real_ext")
+  @theory.begin_theory("Jordan/real_ext")
   load_steps() catch {
     e => abort("HOL Light: loading Jordan/real_ext.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

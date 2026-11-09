@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @edwards.load()
-  @parser.begin_theory("EC/exprojective")
+  @theory.begin_theory("EC/exprojective")
   load_steps() catch {
     e => abort("HOL Light: loading EC/exprojective.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

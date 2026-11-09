@@ -11,7 +11,7 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @prime.load()
-  @parser.begin_theory("Tutorial/Semantics_of_programming_languages_shallow")
+  @theory.begin_theory("Tutorial/Semantics_of_programming_languages_shallow")
   load_steps() catch {
     e =>
       abort(
@@ -19,5 +19,5 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

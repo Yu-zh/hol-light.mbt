@@ -11,12 +11,12 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @bdd.load()
-  @parser.begin_theory("Examples/bdd_examples")
+  @theory.begin_theory("Examples/bdd_examples")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Examples/bdd_examples.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

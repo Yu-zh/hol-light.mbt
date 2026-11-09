@@ -14,9 +14,9 @@ pub fn load() -> Unit {
   @binomial.load()
   @inclusion_exclusion.load()
   @combinations.load()
-  @parser.begin_theory("100/polyhedron")
+  @theory.begin_theory("100/polyhedron")
   load_steps() catch {
     e => abort("HOL Light: loading 100/polyhedron.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

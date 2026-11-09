@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @analysis.load()
-  @parser.begin_theory("100/lhopital")
+  @theory.begin_theory("100/lhopital")
   load_steps() catch {
     e => abort("HOL Light: loading 100/lhopital.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -17,14 +17,14 @@ pub fn load() -> Unit {
   if skipped.val {
     return
   }
-  @parser.begin_theory("Multivariate/homology")
+  @theory.begin_theory("Multivariate/homology")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Multivariate/homology.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|

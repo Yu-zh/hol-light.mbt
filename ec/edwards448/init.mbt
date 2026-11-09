@@ -13,9 +13,9 @@ pub fn load() -> Unit {
   @edwards.load()
   @excluderoots.load()
   @computegroup.load()
-  @parser.begin_theory("EC/edwards448")
+  @theory.begin_theory("EC/edwards448")
   load_steps() catch {
     e => abort("HOL Light: loading EC/edwards448.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

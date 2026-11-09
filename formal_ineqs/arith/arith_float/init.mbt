@@ -18,7 +18,7 @@ pub fn load() -> Unit {
   @misc_vars.load()
   @log.load()
   @floor.load()
-  @parser.begin_theory("Formal_ineqs/arith/arith_float")
+  @theory.begin_theory("Formal_ineqs/arith/arith_float")
   load_steps() catch {
     e =>
       abort(
@@ -26,7 +26,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -44,7 +44,7 @@ pub fn load_alone() -> Unit {
   @misc_vars.load()
   @log.load()
   @floor.load()
-  @parser.begin_theory("Formal_ineqs/arith/arith_float")
+  @theory.begin_theory("Formal_ineqs/arith/arith_float")
   load_steps() catch {
     e =>
       abort(
@@ -52,5 +52,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

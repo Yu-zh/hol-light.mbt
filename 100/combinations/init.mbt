@@ -11,10 +11,10 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @binomial.load()
-  @parser.begin_theory("100/combinations")
+  @theory.begin_theory("100/combinations")
   load_steps() catch {
     e =>
       abort("HOL Light: loading 100/combinations.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

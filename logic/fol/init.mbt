@@ -15,11 +15,11 @@ pub fn load() -> Unit {
   @rstc.load()
   @reduct.load()
   @multiwf.load()
-  @parser.begin_theory("Logic/fol")
+  @theory.begin_theory("Logic/fol")
   load_steps() catch {
     e => abort("HOL Light: loading Logic/fol.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -30,9 +30,9 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Logic/fol")
+  @theory.begin_theory("Logic/fol")
   load_steps() catch {
     e => abort("HOL Light: loading Logic/fol.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -2,9 +2,9 @@
 
 ///|
 fn init {
-  @parser.begin_theory("recursion")
+  @theory.begin_theory("recursion")
   load_steps() catch {
     e => abort("HOL Light: loading recursion.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

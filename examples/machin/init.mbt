@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @transc.load()
-  @parser.begin_theory("Examples/machin")
+  @theory.begin_theory("Examples/machin")
   load_steps() catch {
     e => abort("HOL Light: loading Examples/machin.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

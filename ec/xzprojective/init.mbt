@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @montgomery.load()
-  @parser.begin_theory("EC/xzprojective")
+  @theory.begin_theory("EC/xzprojective")
   load_steps() catch {
     e => abort("HOL Light: loading EC/xzprojective.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

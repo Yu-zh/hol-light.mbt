@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @analysis.load()
-  @parser.begin_theory("Library/transc")
+  @theory.begin_theory("Library/transc")
   load_steps() catch {
     e => abort("HOL Light: loading Library/transc.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

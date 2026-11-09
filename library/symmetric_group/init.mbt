@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @permutations.load()
   @grouptheory.load()
-  @parser.begin_theory("Library/symmetric_group")
+  @theory.begin_theory("Library/symmetric_group")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Library/symmetric_group.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

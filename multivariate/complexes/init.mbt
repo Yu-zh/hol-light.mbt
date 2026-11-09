@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @measure.load()
   @convex.load()
-  @parser.begin_theory("Multivariate/complexes")
+  @theory.begin_theory("Multivariate/complexes")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Multivariate/complexes.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

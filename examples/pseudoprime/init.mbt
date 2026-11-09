@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @jacobi.load()
   @miller_rabin.load()
-  @parser.begin_theory("Examples/pseudoprime")
+  @theory.begin_theory("Examples/pseudoprime")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Examples/pseudoprime.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

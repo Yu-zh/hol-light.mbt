@@ -15,12 +15,12 @@ pub fn load() -> Unit {
   @realanalysis.load()
   @geom.load()
   @cross.load()
-  @parser.begin_theory("Multivariate/flyspeck")
+  @theory.begin_theory("Multivariate/flyspeck")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Multivariate/flyspeck.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

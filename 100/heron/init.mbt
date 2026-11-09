@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @measure.load()
-  @parser.begin_theory("100/heron")
+  @theory.begin_theory("100/heron")
   load_steps() catch {
     e => abort("HOL Light: loading 100/heron.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

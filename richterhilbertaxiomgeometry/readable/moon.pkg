@@ -8,7 +8,7 @@ import {
   "bobzhang/hol_light/printer",
   "bobzhang/hol_light/preterm",
   "bobzhang/hol_light/lexer",
-  "bobzhang/hol_light/parser",
+  "bobzhang/hol_light/theory",
   "bobzhang/hol_light/parserutil",
   "bobzhang/hol_light/pp",
   "bobzhang/hol_light/equal",

@@ -12,11 +12,11 @@ pub fn load() -> Unit {
   loaded.val = true
   @wz.load()
   @wz.load()
-  @parser.begin_theory("WZ/maxima")
+  @theory.begin_theory("WZ/maxima")
   load_steps() catch {
     e => abort("HOL Light: loading WZ/maxima.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -28,9 +28,9 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @wz.load()
-  @parser.begin_theory("WZ/maxima")
+  @theory.begin_theory("WZ/maxima")
   load_steps() catch {
     e => abort("HOL Light: loading WZ/maxima.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

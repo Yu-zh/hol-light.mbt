@@ -12,9 +12,9 @@ pub fn load() -> Unit {
   loaded.val = true
   @curve25519.load()
   @xzprojective.load()
-  @parser.begin_theory("EC/x25519")
+  @theory.begin_theory("EC/x25519")
   load_steps() catch {
     e => abort("HOL Light: loading EC/x25519.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

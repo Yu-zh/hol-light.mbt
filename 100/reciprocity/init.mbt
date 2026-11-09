@@ -13,9 +13,9 @@ pub fn load() -> Unit {
   @prime.load()
   @pocklington.load()
   @products.load()
-  @parser.begin_theory("100/reciprocity")
+  @theory.begin_theory("100/reciprocity")
   load_steps() catch {
     e => abort("HOL Light: loading 100/reciprocity.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

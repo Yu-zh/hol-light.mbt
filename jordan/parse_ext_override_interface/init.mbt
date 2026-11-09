@@ -11,7 +11,7 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @tactics_fix.load()
-  @parser.begin_theory("Jordan/parse_ext_override_interface")
+  @theory.begin_theory("Jordan/parse_ext_override_interface")
   load_steps() catch {
     e =>
       abort(
@@ -19,7 +19,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -30,7 +30,7 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Jordan/parse_ext_override_interface")
+  @theory.begin_theory("Jordan/parse_ext_override_interface")
   load_steps() catch {
     e =>
       abort(
@@ -38,5 +38,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

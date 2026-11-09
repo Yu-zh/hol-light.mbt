@@ -11,11 +11,11 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @card.load()
-  @parser.begin_theory("Model/syntax")
+  @theory.begin_theory("Model/syntax")
   load_steps() catch {
     e => abort("HOL Light: loading Model/syntax.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -26,9 +26,9 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Model/syntax")
+  @theory.begin_theory("Model/syntax")
   load_steps() catch {
     e => abort("HOL Light: loading Model/syntax.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

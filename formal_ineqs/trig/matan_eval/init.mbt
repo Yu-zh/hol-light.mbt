@@ -14,7 +14,7 @@ pub fn load() -> Unit {
   @more_float.load()
   @matan.load()
   @atn_eval.load()
-  @parser.begin_theory("Formal_ineqs/trig/matan_eval")
+  @theory.begin_theory("Formal_ineqs/trig/matan_eval")
   load_steps() catch {
     e =>
       abort(
@@ -22,7 +22,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -36,7 +36,7 @@ pub fn load_alone() -> Unit {
   @more_float.load()
   @matan.load()
   @atn_eval.load()
-  @parser.begin_theory("Formal_ineqs/trig/matan_eval")
+  @theory.begin_theory("Formal_ineqs/trig/matan_eval")
   load_steps() catch {
     e =>
       abort(
@@ -44,5 +44,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

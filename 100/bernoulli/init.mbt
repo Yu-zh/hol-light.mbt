@@ -13,9 +13,9 @@ pub fn load() -> Unit {
   @binomial.load()
   @analysis.load()
   @transc.load()
-  @parser.begin_theory("100/bernoulli")
+  @theory.begin_theory("100/bernoulli")
   load_steps() catch {
     e => abort("HOL Light: loading 100/bernoulli.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

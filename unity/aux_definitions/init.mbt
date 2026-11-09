@@ -11,14 +11,14 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @hol88.load()
-  @parser.begin_theory("Unity/aux_definitions")
+  @theory.begin_theory("Unity/aux_definitions")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Unity/aux_definitions.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,12 +29,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Unity/aux_definitions")
+  @theory.begin_theory("Unity/aux_definitions")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Unity/aux_definitions.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

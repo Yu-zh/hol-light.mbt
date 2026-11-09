@@ -18,12 +18,12 @@ pub fn load() -> Unit {
   @grouptheory.skip_load()
   @homology.skip_load()
   @Vectors.load()
-  @parser.begin_theory("Tutorial/Custom_tactics")
+  @theory.begin_theory("Tutorial/Custom_tactics")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Tutorial/Custom_tactics.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

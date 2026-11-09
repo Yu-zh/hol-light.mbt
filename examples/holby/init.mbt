@@ -10,9 +10,9 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Examples/holby")
+  @theory.begin_theory("Examples/holby")
   load_steps() catch {
     e => abort("HOL Light: loading Examples/holby.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

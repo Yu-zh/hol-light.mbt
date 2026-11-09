@@ -38,11 +38,11 @@ fn tm_cell(name : String) -> Cell[Term] {
 /// Loading: importing this package runs upstream's bool.ml load-time
 /// steps, in order, after the theories it imports.
 fn init {
-  @parser.begin_theory("bool")
+  @theory.begin_theory("bool")
   load_steps() catch {
     e => abort("HOL Light: loading bool.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 // ---------------------------------------------------------------------------

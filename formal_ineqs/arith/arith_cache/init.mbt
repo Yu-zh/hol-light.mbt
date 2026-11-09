@@ -13,7 +13,7 @@ pub fn load() -> Unit {
   @arith_num.load()
   @arith_options.load()
   @arith_num.load()
-  @parser.begin_theory("Formal_ineqs/arith/arith_cache")
+  @theory.begin_theory("Formal_ineqs/arith/arith_cache")
   load_steps() catch {
     e =>
       abort(
@@ -21,7 +21,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -34,7 +34,7 @@ pub fn load_alone() -> Unit {
   loaded.val = true
   @arith_options.load()
   @arith_num.load()
-  @parser.begin_theory("Formal_ineqs/arith/arith_cache")
+  @theory.begin_theory("Formal_ineqs/arith/arith_cache")
   load_steps() catch {
     e =>
       abort(
@@ -42,5 +42,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

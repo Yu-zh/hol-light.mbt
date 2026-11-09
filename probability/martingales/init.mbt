@@ -12,14 +12,14 @@ pub fn load() -> Unit {
   loaded.val = true
   @expectation.load()
   @expectation.load()
-  @parser.begin_theory("Probability/martingales")
+  @theory.begin_theory("Probability/martingales")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Probability/martingales.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -31,12 +31,12 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @expectation.load()
-  @parser.begin_theory("Probability/martingales")
+  @theory.begin_theory("Probability/martingales")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Probability/martingales.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

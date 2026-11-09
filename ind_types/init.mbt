@@ -2,9 +2,9 @@
 
 ///|
 fn init {
-  @parser.begin_theory("ind_types")
+  @theory.begin_theory("ind_types")
   load_steps() catch {
     e => abort("HOL Light: loading ind_types.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

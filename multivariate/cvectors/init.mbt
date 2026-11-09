@@ -13,12 +13,12 @@ pub fn load() -> Unit {
   @complexes.load()
   @complexes.load()
   @cross.load()
-  @parser.begin_theory("Multivariate/cvectors")
+  @theory.begin_theory("Multivariate/cvectors")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Multivariate/cvectors.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

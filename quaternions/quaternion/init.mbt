@@ -11,14 +11,14 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @quaternions_misc.load()
-  @parser.begin_theory("Quaternions/quaternion")
+  @theory.begin_theory("Quaternions/quaternion")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Quaternions/quaternion.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,12 +29,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Quaternions/quaternion")
+  @theory.begin_theory("Quaternions/quaternion")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Quaternions/quaternion.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

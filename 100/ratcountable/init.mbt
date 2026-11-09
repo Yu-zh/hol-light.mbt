@@ -11,10 +11,10 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @card.load()
-  @parser.begin_theory("100/ratcountable")
+  @theory.begin_theory("100/ratcountable")
   load_steps() catch {
     e =>
       abort("HOL Light: loading 100/ratcountable.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

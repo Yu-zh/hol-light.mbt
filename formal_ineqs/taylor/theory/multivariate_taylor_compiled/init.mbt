@@ -14,7 +14,7 @@ pub fn load() -> Unit {
   @ssrbool.load()
   @ssrnat.load()
   @taylor_interval_compiled.load()
-  @parser.begin_theory(
+  @theory.begin_theory(
     "Formal_ineqs/taylor/theory/multivariate_taylor-compiled",
   )
   load_steps() catch {
@@ -24,7 +24,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -38,7 +38,7 @@ pub fn load_alone() -> Unit {
   @ssrbool.load()
   @ssrnat.load()
   @taylor_interval_compiled.load()
-  @parser.begin_theory(
+  @theory.begin_theory(
     "Formal_ineqs/taylor/theory/multivariate_taylor-compiled",
   )
   load_steps() catch {
@@ -48,5 +48,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

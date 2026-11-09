@@ -10,9 +10,9 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Library/isum")
+  @theory.begin_theory("Library/isum")
   load_steps() catch {
     e => abort("HOL Light: loading Library/isum.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

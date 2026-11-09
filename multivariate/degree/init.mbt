@@ -13,12 +13,12 @@ pub fn load() -> Unit {
   @polytope.load()
   @homology.load()
   @polytope.load()
-  @parser.begin_theory("Multivariate/degree")
+  @theory.begin_theory("Multivariate/degree")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Multivariate/degree.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

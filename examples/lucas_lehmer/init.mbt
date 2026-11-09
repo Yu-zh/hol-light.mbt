@@ -15,12 +15,12 @@ pub fn load() -> Unit {
   @floor.load()
   @vectors.load()
   @sqrt.load()
-  @parser.begin_theory("Examples/lucas_lehmer")
+  @theory.begin_theory("Examples/lucas_lehmer")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Examples/lucas_lehmer.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

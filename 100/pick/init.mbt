@@ -13,9 +13,9 @@ pub fn load() -> Unit {
   @polytope.load()
   @measure.load()
   @moretop.load()
-  @parser.begin_theory("100/pick")
+  @theory.begin_theory("100/pick")
   load_steps() catch {
     e => abort("HOL Light: loading 100/pick.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

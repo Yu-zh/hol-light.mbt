@@ -12,10 +12,10 @@ pub fn load() -> Unit {
   loaded.val = true
   @jacobi.load()
   @permutations.load()
-  @parser.begin_theory("Examples/zolotarev")
+  @theory.begin_theory("Examples/zolotarev")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Examples/zolotarev.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

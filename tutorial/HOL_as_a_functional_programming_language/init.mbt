@@ -10,7 +10,7 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Tutorial/HOL_as_a_functional_programming_language")
+  @theory.begin_theory("Tutorial/HOL_as_a_functional_programming_language")
   load_steps() catch {
     e =>
       abort(
@@ -18,5 +18,5 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

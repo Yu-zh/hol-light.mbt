@@ -13,9 +13,9 @@ pub fn load() -> Unit {
   @analysis.load()
   @transc.load()
   @prime.load()
-  @parser.begin_theory("Examples/pell")
+  @theory.begin_theory("Examples/pell")
   load_steps() catch {
     e => abort("HOL Light: loading Examples/pell.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

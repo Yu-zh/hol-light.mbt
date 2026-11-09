@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @qderivative.load()
   @cross.load()
-  @parser.begin_theory("Quaternions/qisom")
+  @theory.begin_theory("Quaternions/qisom")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Quaternions/qisom.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,10 +29,10 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @cross.load()
-  @parser.begin_theory("Quaternions/qisom")
+  @theory.begin_theory("Quaternions/qisom")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Quaternions/qisom.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

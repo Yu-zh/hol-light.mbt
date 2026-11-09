@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @transcendentals.load()
-  @parser.begin_theory("100/cosine")
+  @theory.begin_theory("100/cosine")
   load_steps() catch {
     e => abort("HOL Light: loading 100/cosine.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

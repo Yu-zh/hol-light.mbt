@@ -10,10 +10,10 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Library/binomial")
+  @theory.begin_theory("Library/binomial")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Library/binomial.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

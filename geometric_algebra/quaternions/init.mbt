@@ -13,7 +13,7 @@ pub fn load() -> Unit {
   @geometricalgebra.load()
   @geometricalgebra.load()
   @quaternions_make.load()
-  @parser.begin_theory("Geometric_Algebra/quaternions")
+  @theory.begin_theory("Geometric_Algebra/quaternions")
   load_steps() catch {
     e =>
       abort(
@@ -21,7 +21,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -34,7 +34,7 @@ pub fn load_alone() -> Unit {
   loaded.val = true
   @geometricalgebra.load()
   @quaternions_make.load()
-  @parser.begin_theory("Geometric_Algebra/quaternions")
+  @theory.begin_theory("Geometric_Algebra/quaternions")
   load_steps() catch {
     e =>
       abort(
@@ -42,5 +42,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

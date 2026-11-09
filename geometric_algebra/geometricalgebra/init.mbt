@@ -11,7 +11,7 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @clifford.load()
-  @parser.begin_theory("Geometric_Algebra/geometricalgebra")
+  @theory.begin_theory("Geometric_Algebra/geometricalgebra")
   load_steps() catch {
     e =>
       abort(
@@ -19,7 +19,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -31,7 +31,7 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @clifford.load()
-  @parser.begin_theory("Geometric_Algebra/geometricalgebra")
+  @theory.begin_theory("Geometric_Algebra/geometricalgebra")
   load_steps() catch {
     e =>
       abort(
@@ -39,5 +39,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

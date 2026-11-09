@@ -11,14 +11,14 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @aux_definitions.load()
-  @parser.begin_theory("Unity/mk_state_logic")
+  @theory.begin_theory("Unity/mk_state_logic")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Unity/mk_state_logic.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,12 +29,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Unity/mk_state_logic")
+  @theory.begin_theory("Unity/mk_state_logic")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Unity/mk_state_logic.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

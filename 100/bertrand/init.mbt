@@ -16,9 +16,9 @@ pub fn load() -> Unit {
   @transc.load()
   @calc_real.load()
   @floor.load()
-  @parser.begin_theory("100/bertrand")
+  @theory.begin_theory("100/bertrand")
   load_steps() catch {
     e => abort("HOL Light: loading 100/bertrand.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

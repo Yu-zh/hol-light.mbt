@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @iter.load()
   @prime.load()
-  @parser.begin_theory("Library/pocklington")
+  @theory.begin_theory("Library/pocklington")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Library/pocklington.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

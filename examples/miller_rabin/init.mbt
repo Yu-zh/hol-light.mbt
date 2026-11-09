@@ -11,12 +11,12 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @primitive.load()
-  @parser.begin_theory("Examples/miller_rabin")
+  @theory.begin_theory("Examples/miller_rabin")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Examples/miller_rabin.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

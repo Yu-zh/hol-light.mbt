@@ -14,9 +14,9 @@ pub fn load() -> Unit {
   @random_variables.load_alone()
   @independence.load_alone()
   @expectation.load_alone()
-  @parser.begin_theory("100/buffon")
+  @theory.begin_theory("100/buffon")
   load_steps() catch {
     e => abort("HOL Light: loading 100/buffon.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

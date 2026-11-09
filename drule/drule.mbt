@@ -33,11 +33,11 @@ pub type Instantiation = (
 /// Loading: importing this package runs upstream's drule.ml load-time
 /// steps, in order, after the theories it imports.
 fn init {
-  @parser.begin_theory("drule")
+  @theory.begin_theory("drule")
   load_steps() catch {
     e => abort("HOL Light: loading drule.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 // ---------------------------------------------------------------------------

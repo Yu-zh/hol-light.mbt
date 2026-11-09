@@ -10,9 +10,9 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("100/ramsey")
+  @theory.begin_theory("100/ramsey")
   load_steps() catch {
     e => abort("HOL Light: loading 100/ramsey.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

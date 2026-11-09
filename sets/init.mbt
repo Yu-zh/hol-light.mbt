@@ -2,9 +2,9 @@
 
 ///|
 fn init {
-  @parser.begin_theory("sets")
+  @theory.begin_theory("sets")
   load_steps() catch {
     e => abort("HOL Light: loading sets.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

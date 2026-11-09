@@ -2021,11 +2021,11 @@ pub fn top_thm() -> Thm raise {
 
 ///|
 fn init {
-  @parser.begin_theory("tactics")
+  @theory.begin_theory("tactics")
   load_steps() catch {
     e => abort("HOL Light: loading tactics.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|

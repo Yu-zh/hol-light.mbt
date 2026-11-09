@@ -13,12 +13,12 @@ pub fn load() -> Unit {
   @homology.load()
   @matroids.load()
   @misc.load()
-  @parser.begin_theory("Multivariate/vectors")
+  @theory.begin_theory("Multivariate/vectors")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Multivariate/vectors.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

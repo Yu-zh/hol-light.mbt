@@ -11,14 +11,14 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @float.load()
-  @parser.begin_theory("Jordan/tactics_ext2")
+  @theory.begin_theory("Jordan/tactics_ext2")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Jordan/tactics_ext2.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -29,12 +29,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Jordan/tactics_ext2")
+  @theory.begin_theory("Jordan/tactics_ext2")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Jordan/tactics_ext2.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @rstc.load()
-  @parser.begin_theory("Examples/reduct")
+  @theory.begin_theory("Examples/reduct")
   load_steps() catch {
     e => abort("HOL Light: loading Examples/reduct.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

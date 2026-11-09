@@ -130,12 +130,12 @@ definitions register constants, quotations advance the type-variable and
   OCaml 4.14 evaluation order: arguments and tuples right to left,
   `let … and …` and `match (…)` left to right.
 - The parser records the quotations each theory parses while loading
-  (`@parser.theory_trace(name)`).
+  (`@theory.theory_trace(name)`).
 - On wasm, writing to stdout inside `fn init` traps (native is fine). So
   `begin_theory` holds stdout lines back (`@pp.defer_stdout`) until
   `end_theory`. The held-back lines are printed before the next line of
   output after initialisation (or by `@pp.flush_stdout_backlog()`), and are
-  kept per theory for tests (`@parser.theory_output(name)`).
+  kept per theory for tests (`@theory.theory_output(name)`).
 - Load-fidelity tests compare, after loading each file in a fresh process:
   the three counters (types, `GEN%PVAR`, `genvar`), `types()`,
   `constants()`, `definitions()`, `axioms()`, warnings, and structural

@@ -12,11 +12,11 @@ pub fn load() -> Unit {
   loaded.val = true
   @characteristic_functions.load()
   @characteristic_functions.load()
-  @parser.begin_theory("Probability/clt")
+  @theory.begin_theory("Probability/clt")
   load_steps() catch {
     e => abort("HOL Light: loading Probability/clt.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -28,9 +28,9 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @characteristic_functions.load()
-  @parser.begin_theory("Probability/clt")
+  @theory.begin_theory("Probability/clt")
   load_steps() catch {
     e => abort("HOL Light: loading Probability/clt.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

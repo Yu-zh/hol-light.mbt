@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @matroids.load()
   @ringtheory.load()
-  @parser.begin_theory("Library/fieldtheory")
+  @theory.begin_theory("Library/fieldtheory")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Library/fieldtheory.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -15,7 +15,7 @@ pub fn load() -> Unit {
   @polytope.load()
   @measure.load()
   @transcendentals.load()
-  @parser.begin_theory("Multivariate/realanalysis")
+  @theory.begin_theory("Multivariate/realanalysis")
   load_steps() catch {
     e =>
       abort(
@@ -23,5 +23,5 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

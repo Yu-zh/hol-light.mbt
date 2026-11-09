@@ -11,7 +11,7 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @transc.load()
-  @parser.begin_theory("Tutorial/Linking_external_tools")
+  @theory.begin_theory("Tutorial/Linking_external_tools")
   load_steps() catch {
     e =>
       abort(
@@ -19,5 +19,5 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

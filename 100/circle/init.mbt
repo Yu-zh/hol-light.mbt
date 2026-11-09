@@ -12,9 +12,9 @@ pub fn load() -> Unit {
   loaded.val = true
   @measure.load()
   @realanalysis.load()
-  @parser.begin_theory("100/circle")
+  @theory.begin_theory("100/circle")
   load_steps() catch {
     e => abort("HOL Light: loading 100/circle.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

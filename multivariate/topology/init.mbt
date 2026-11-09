@@ -15,12 +15,12 @@ pub fn load() -> Unit {
   @iter.load()
   @metric.load()
   @determinants.load()
-  @parser.begin_theory("Multivariate/topology")
+  @theory.begin_theory("Multivariate/topology")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Multivariate/topology.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

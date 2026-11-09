@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @moretop.load()
-  @parser.begin_theory("Examples/borsuk")
+  @theory.begin_theory("Examples/borsuk")
   load_steps() catch {
     e => abort("HOL Light: loading Examples/borsuk.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

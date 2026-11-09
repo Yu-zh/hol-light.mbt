@@ -11,10 +11,10 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @transc.load()
-  @parser.begin_theory("Library/calc_real")
+  @theory.begin_theory("Library/calc_real")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Library/calc_real.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

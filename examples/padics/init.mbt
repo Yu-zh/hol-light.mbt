@@ -12,9 +12,9 @@ pub fn load() -> Unit {
   loaded.val = true
   @prime.load()
   @metric.load()
-  @parser.begin_theory("Examples/padics")
+  @theory.begin_theory("Examples/padics")
   load_steps() catch {
     e => abort("HOL Light: loading Examples/padics.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

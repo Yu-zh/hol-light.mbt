@@ -13,14 +13,14 @@ pub fn load() -> Unit {
   @analysis.load()
   @transc.load()
   @polylog.load()
-  @parser.begin_theory("Jordan/tactics_refine")
+  @theory.begin_theory("Jordan/tactics_refine")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Jordan/tactics_refine.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -31,12 +31,12 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Jordan/tactics_refine")
+  @theory.begin_theory("Jordan/tactics_refine")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Jordan/tactics_refine.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

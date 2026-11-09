@@ -12,9 +12,9 @@ pub fn load() -> Unit {
   loaded.val = true
   @edwards.load()
   @montgomery.load()
-  @parser.begin_theory("EC/edmont")
+  @theory.begin_theory("EC/edmont")
   load_steps() catch {
     e => abort("HOL Light: loading EC/edmont.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

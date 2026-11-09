@@ -2,9 +2,9 @@
 
 ///|
 fn init {
-  @parser.begin_theory("compute")
+  @theory.begin_theory("compute")
   load_steps() catch {
     e => abort("HOL Light: loading compute.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

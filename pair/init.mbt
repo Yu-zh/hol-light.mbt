@@ -2,9 +2,9 @@
 
 ///|
 fn init {
-  @parser.begin_theory("pair")
+  @theory.begin_theory("pair")
   load_steps() catch {
     e => abort("HOL Light: loading pair.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

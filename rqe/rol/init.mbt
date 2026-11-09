@@ -11,11 +11,11 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @asym.load()
-  @parser.begin_theory("Rqe/rol")
+  @theory.begin_theory("Rqe/rol")
   load_steps() catch {
     e => abort("HOL Light: loading Rqe/rol.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -26,9 +26,9 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Rqe/rol")
+  @theory.begin_theory("Rqe/rol")
   load_steps() catch {
     e => abort("HOL Light: loading Rqe/rol.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

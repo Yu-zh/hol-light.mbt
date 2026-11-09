@@ -16,7 +16,7 @@ pub fn load() -> Unit {
   @interval_arith.load()
   @atn_eval.load()
   @cos_eval.load()
-  @parser.begin_theory("Formal_ineqs/trig/sin_eval")
+  @theory.begin_theory("Formal_ineqs/trig/sin_eval")
   load_steps() catch {
     e =>
       abort(
@@ -24,7 +24,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -40,7 +40,7 @@ pub fn load_alone() -> Unit {
   @interval_arith.load()
   @atn_eval.load()
   @cos_eval.load()
-  @parser.begin_theory("Formal_ineqs/trig/sin_eval")
+  @theory.begin_theory("Formal_ineqs/trig/sin_eval")
   load_steps() catch {
     e =>
       abort(
@@ -48,5 +48,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

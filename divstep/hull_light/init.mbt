@@ -11,12 +11,12 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @idivstep.load()
-  @parser.begin_theory("Divstep/hull_light")
+  @theory.begin_theory("Divstep/hull_light")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Divstep/hull_light.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -27,10 +27,10 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Divstep/hull_light")
+  @theory.begin_theory("Divstep/hull_light")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Divstep/hull_light.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

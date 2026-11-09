@@ -12,9 +12,9 @@ pub fn load() -> Unit {
   loaded.val = true
   @floor.load()
   @poly.load()
-  @parser.begin_theory("100/liouville")
+  @theory.begin_theory("100/liouville")
   load_steps() catch {
     e => abort("HOL Light: loading 100/liouville.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -12,9 +12,9 @@ pub fn load() -> Unit {
   loaded.val = true
   @montgomery.load()
   @weierstrass.load()
-  @parser.begin_theory("EC/montwe")
+  @theory.begin_theory("EC/montwe")
   load_steps() catch {
     e => abort("HOL Light: loading EC/montwe.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

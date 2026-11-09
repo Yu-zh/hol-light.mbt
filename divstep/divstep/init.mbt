@@ -15,11 +15,11 @@ pub fn load() -> Unit {
   @floor.load()
   @iter.load()
   @integer.load()
-  @parser.begin_theory("Divstep/divstep")
+  @theory.begin_theory("Divstep/divstep")
   load_steps() catch {
     e => abort("HOL Light: loading Divstep/divstep.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -32,9 +32,9 @@ pub fn load_alone() -> Unit {
   loaded.val = true
   @iter.load()
   @integer.load()
-  @parser.begin_theory("Divstep/divstep")
+  @theory.begin_theory("Divstep/divstep")
   load_steps() catch {
     e => abort("HOL Light: loading Divstep/divstep.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

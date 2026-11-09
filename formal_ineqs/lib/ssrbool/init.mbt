@@ -12,7 +12,7 @@ pub fn load() -> Unit {
   loaded.val = true
   @ssrfun.load()
   @ssrfun.load()
-  @parser.begin_theory("Formal_ineqs/lib/ssrbool")
+  @theory.begin_theory("Formal_ineqs/lib/ssrbool")
   load_steps() catch {
     e =>
       abort(
@@ -20,7 +20,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -32,7 +32,7 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @ssrfun.load()
-  @parser.begin_theory("Formal_ineqs/lib/ssrbool")
+  @theory.begin_theory("Formal_ineqs/lib/ssrbool")
   load_steps() catch {
     e =>
       abort(
@@ -40,5 +40,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

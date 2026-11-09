@@ -10,11 +10,11 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Cadical/dimacs")
+  @theory.begin_theory("Cadical/dimacs")
   load_steps() catch {
     e => abort("HOL Light: loading Cadical/dimacs.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -25,9 +25,9 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Cadical/dimacs")
+  @theory.begin_theory("Cadical/dimacs")
   load_steps() catch {
     e => abort("HOL Light: loading Cadical/dimacs.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

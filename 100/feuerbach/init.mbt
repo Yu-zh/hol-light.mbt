@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @convex.load()
-  @parser.begin_theory("100/feuerbach")
+  @theory.begin_theory("100/feuerbach")
   load_steps() catch {
     e => abort("HOL Light: loading 100/feuerbach.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

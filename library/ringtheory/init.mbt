@@ -13,10 +13,10 @@ pub fn load() -> Unit {
   @binomial.load()
   @pocklington.load()
   @card.load()
-  @parser.begin_theory("Library/ringtheory")
+  @theory.begin_theory("Library/ringtheory")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Library/ringtheory.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

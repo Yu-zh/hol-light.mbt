@@ -12,9 +12,9 @@ pub fn load() -> Unit {
   loaded.val = true
   @grouptheory.load()
   @ringtheory.load()
-  @parser.begin_theory("EC/computegroup")
+  @theory.begin_theory("EC/computegroup")
   load_steps() catch {
     e => abort("HOL Light: loading EC/computegroup.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

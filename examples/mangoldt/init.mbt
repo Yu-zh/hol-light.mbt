@@ -12,10 +12,10 @@ pub fn load() -> Unit {
   loaded.val = true
   @pocklington.load()
   @transcendentals.load()
-  @parser.begin_theory("Examples/mangoldt")
+  @theory.begin_theory("Examples/mangoldt")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Examples/mangoldt.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -2,9 +2,9 @@
 
 ///|
 fn init {
-  @parser.begin_theory("quot")
+  @theory.begin_theory("quot")
   load_steps() catch {
     e => abort("HOL Light: loading quot.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @topology.load()
   @topology.load()
-  @parser.begin_theory("Multivariate/convex")
+  @theory.begin_theory("Multivariate/convex")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Multivariate/convex.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

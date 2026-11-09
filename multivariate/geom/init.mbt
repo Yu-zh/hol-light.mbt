@@ -12,10 +12,10 @@ pub fn load() -> Unit {
   loaded.val = true
   @realanalysis.load()
   @realanalysis.load()
-  @parser.begin_theory("Multivariate/geom")
+  @theory.begin_theory("Multivariate/geom")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Multivariate/geom.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

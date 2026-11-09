@@ -11,11 +11,11 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @poly_ext.load()
-  @parser.begin_theory("Rqe/simplify")
+  @theory.begin_theory("Rqe/simplify")
   load_steps() catch {
     e => abort("HOL Light: loading Rqe/simplify.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -26,9 +26,9 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Rqe/simplify")
+  @theory.begin_theory("Rqe/simplify")
   load_steps() catch {
     e => abort("HOL Light: loading Rqe/simplify.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

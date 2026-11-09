@@ -10,9 +10,9 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Examples/bondy")
+  @theory.begin_theory("Examples/bondy")
   load_steps() catch {
     e => abort("HOL Light: loading Examples/bondy.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

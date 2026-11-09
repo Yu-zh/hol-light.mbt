@@ -13,7 +13,7 @@ pub fn load() -> Unit {
   @isum.load()
   @permutations.load()
   @schnirelmann.load()
-  @parser.begin_theory("Autoformalization/hilbert_waring")
+  @theory.begin_theory("Autoformalization/hilbert_waring")
   load_steps() catch {
     e =>
       abort(
@@ -21,5 +21,5 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

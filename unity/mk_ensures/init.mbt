@@ -11,12 +11,12 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @mk_unless.load()
-  @parser.begin_theory("Unity/mk_ensures")
+  @theory.begin_theory("Unity/mk_ensures")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Unity/mk_ensures.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -27,10 +27,10 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Unity/mk_ensures")
+  @theory.begin_theory("Unity/mk_ensures")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Unity/mk_ensures.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

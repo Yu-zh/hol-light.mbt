@@ -12,10 +12,10 @@ pub fn load() -> Unit {
   loaded.val = true
   @card.load()
   @floor.load()
-  @parser.begin_theory("Multivariate/misc")
+  @theory.begin_theory("Multivariate/misc")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Multivariate/misc.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

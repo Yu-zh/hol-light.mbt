@@ -15,10 +15,10 @@ pub fn load() -> Unit {
   @binomial.load()
   @pocklington.load()
   @multiplicative.load()
-  @parser.begin_theory("Library/primitive")
+  @theory.begin_theory("Library/primitive")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Library/primitive.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

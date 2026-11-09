@@ -11,9 +11,9 @@ pub fn load() -> Unit {
   }
   loaded.val = true
   @transcendentals.load()
-  @parser.begin_theory("100/ptolemy")
+  @theory.begin_theory("100/ptolemy")
   load_steps() catch {
     e => abort("HOL Light: loading 100/ptolemy.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

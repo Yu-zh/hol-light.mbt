@@ -14,9 +14,9 @@ pub fn load() -> Unit {
   @primitive.load()
   @grouptheory.load()
   @ringtheory.load()
-  @parser.begin_theory("EC/misc")
+  @theory.begin_theory("EC/misc")
   load_steps() catch {
     e => abort("HOL Light: loading EC/misc.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

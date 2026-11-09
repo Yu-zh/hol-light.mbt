@@ -12,12 +12,12 @@ pub fn load() -> Unit {
   loaded.val = true
   @rstc.load()
   @words.load()
-  @parser.begin_theory("Library/word_automata")
+  @theory.begin_theory("Library/word_automata")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Library/word_automata.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

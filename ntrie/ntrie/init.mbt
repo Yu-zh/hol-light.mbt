@@ -10,9 +10,9 @@ pub fn load() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Ntrie/ntrie")
+  @theory.begin_theory("Ntrie/ntrie")
   load_steps() catch {
     e => abort("HOL Light: loading Ntrie/ntrie.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

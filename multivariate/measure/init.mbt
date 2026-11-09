@@ -15,12 +15,12 @@ pub fn load() -> Unit {
   @permutations.load()
   @integration.load()
   @determinants.load()
-  @parser.begin_theory("Multivariate/measure")
+  @theory.begin_theory("Multivariate/measure")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Multivariate/measure.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -12,7 +12,7 @@ pub fn load() -> Unit {
   loaded.val = true
   @products.load()
   @transc.load()
-  @parser.begin_theory("100/arithmetic_geometric_mean")
+  @theory.begin_theory("100/arithmetic_geometric_mean")
   load_steps() catch {
     e =>
       abort(
@@ -20,5 +20,5 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

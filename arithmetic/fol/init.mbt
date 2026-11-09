@@ -12,11 +12,11 @@ pub fn load() -> Unit {
   loaded.val = true
   @rstc.load()
   @prime.load()
-  @parser.begin_theory("Arithmetic/fol")
+  @theory.begin_theory("Arithmetic/fol")
   load_steps() catch {
     e => abort("HOL Light: loading Arithmetic/fol.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -27,9 +27,9 @@ pub fn load_alone() -> Unit {
     return
   }
   loaded.val = true
-  @parser.begin_theory("Arithmetic/fol")
+  @theory.begin_theory("Arithmetic/fol")
   load_steps() catch {
     e => abort("HOL Light: loading Arithmetic/fol.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

@@ -13,10 +13,10 @@ pub fn load() -> Unit {
   @convex.load()
   @homology.load()
   @convex.load()
-  @parser.begin_theory("Multivariate/paths")
+  @theory.begin_theory("Multivariate/paths")
   load_steps() catch {
     e =>
       abort("HOL Light: loading Multivariate/paths.ml failed: " + e.to_string())
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

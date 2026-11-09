@@ -17,7 +17,7 @@ pub fn load() -> Unit {
   @informal_verifier.load()
   @verifier_options.load()
   @misc_vars.load()
-  @parser.begin_theory("Formal_ineqs/verifier/m_verifier_build")
+  @theory.begin_theory("Formal_ineqs/verifier/m_verifier_build")
   load_steps() catch {
     e =>
       abort(
@@ -25,7 +25,7 @@ pub fn load() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -42,7 +42,7 @@ pub fn load_alone() -> Unit {
   @informal_verifier.load()
   @verifier_options.load()
   @misc_vars.load()
-  @parser.begin_theory("Formal_ineqs/verifier/m_verifier_build")
+  @theory.begin_theory("Formal_ineqs/verifier/m_verifier_build")
   load_steps() catch {
     e =>
       abort(
@@ -50,5 +50,5 @@ pub fn load_alone() -> Unit {
         e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }

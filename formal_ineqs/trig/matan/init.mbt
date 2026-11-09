@@ -12,14 +12,14 @@ pub fn load() -> Unit {
   loaded.val = true
   @sin_eval.load()
   @series.load()
-  @parser.begin_theory("Formal_ineqs/trig/matan")
+  @theory.begin_theory("Formal_ineqs/trig/matan")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Formal_ineqs/trig/matan.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
 
 ///|
@@ -31,12 +31,12 @@ pub fn load_alone() -> Unit {
   }
   loaded.val = true
   @series.load()
-  @parser.begin_theory("Formal_ineqs/trig/matan")
+  @theory.begin_theory("Formal_ineqs/trig/matan")
   load_steps() catch {
     e =>
       abort(
         "HOL Light: loading Formal_ineqs/trig/matan.ml failed: " + e.to_string(),
       )
   }
-  @parser.end_theory()
+  @theory.end_theory()
 }
