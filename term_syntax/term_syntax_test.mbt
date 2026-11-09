@@ -286,4 +286,11 @@ test "a name that is a MoonBit keyword is written between backticks" {
   let c = @term_syntax.parse_term("`yield`")
   inspect(@kernel.is_const(c), content="true")
   inspect(@term_syntax.print_term(c), content="`yield`")
+  // types and enums keep their backticks: a type named move
+  let move_ty = @kernel.mk_vartype("move")
+  inspect(@term_syntax.parse_type("`move`") == move_ty, content="true")
+  assert_eq(
+    @term_syntax.parse_type_definition("enum `move` { Mk(`move`) }"),
+    @list.List([(move_ty, @list.List([("Mk", @list.List([move_ty]))]))]),
+  )
 }
