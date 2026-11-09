@@ -151,6 +151,28 @@ test "a context variable named like a constant means the variable" {
 }
 
 ///|
+test "print_term_in_context leaves the context's variables untyped" {
+  let bool_pty = @preterm.pretype_of_type(@kernel.bool_ty)
+  let num_pty = @preterm.pretype_of_type(@kernel.mk_type("num", @list.List([])))
+  let env = @list.List([("x", bool_pty), ("select", bool_pty), ("n", num_pty)])
+  let e = @term_syntax.parse_term_in_context(env, "x && z && select")
+  inspect(
+    @term_syntax.print_term_in_context(env, e),
+    content="x && (z : Bool) && select",
+  )
+  // the context would give a variable of the same name its type
+  let n = @kernel.mk_var("n", @kernel.bool_ty)
+  inspect(
+    try @term_syntax.print_term_in_context(env, n) catch {
+      Unprintable(m) => m
+    },
+    content="term whose types the syntax cannot pin down",
+  )
+  let f = @term_syntax.parse_term_in_context(env, "∀ m : Num, m == n")
+  inspect(@term_syntax.print_term_in_context(env, f), content="∀ m : Num, m == n")
+}
+
+///|
 test "type definitions" {
   let tree = @kernel.mk_vartype("tree")
   let num = @kernel.mk_type("num", @list.List([]))
