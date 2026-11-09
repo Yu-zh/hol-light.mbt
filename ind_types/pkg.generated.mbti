@@ -118,7 +118,6 @@ pub fn outl() -> @kernel.Thm
 
 pub fn outr() -> @kernel.Thm
 
-pub fn parse_inductive_type_specification(String) -> @list.List[(@kernel.HolType, @list.List[(String, @list.List[@kernel.HolType])])] raise
 
 pub fn prove_cases_thm(@kernel.Thm) -> @kernel.Thm raise
 
