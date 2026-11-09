@@ -75,7 +75,7 @@ fn step_12() -> Unit raise {
 ///|
 /// NOTIN
 fn step_13() -> Unit raise {
-  notin_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀a l. a ∉ l ⇔ ¬(a ∈ l)")))
+  notin_c.set(@readable.newdefinition("∀ a : _, ∀ l : (_) -> Bool, (NOTIN : (_, (_) -> Bool) -> Bool)(a, l) == !IN(a, l)"))
 }
 
 ///|
@@ -91,7 +91,7 @@ pub fn notin() -> @kernel.Thm {
 /// INTER_TENSOR
 fn step_14() -> Unit raise {
   inter_tensor_c.set(@readable.prove(
-    "\n  forall s s' t t'.  s SUBSET s' /\\  t SUBSET t'  ==>  s INTER t SUBSET s' INTER t'",
+    "∀ s : (_) -> Bool, ∀ s' : (_) -> Bool, ∀ t : (_) -> Bool, ∀ t' : (_) -> Bool, SUBSET(s, s') && SUBSET(t, t') → SUBSET(INTER(s, t), INTER(s', t'))",
     @readable.by(@readable.set, []),
   ))
 }
@@ -108,7 +108,7 @@ pub fn inter_tensor() -> @kernel.Thm {
 ///|
 /// Interval_DEF
 fn step_16() -> Unit raise {
-  interval_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀A B. Open (A, B) = {X | Between A X B}")))
+  interval_def_c.set(@readable.newdefinition("∀ A : Point, ∀ B : Point, (Open : ((Point, Point), Point) -> Bool)((A, B)) == {(X : Point) | Between(A, X, B)}"))
 }
 
 ///|
@@ -123,7 +123,7 @@ pub fn interval_def() -> @kernel.Thm {
 ///|
 /// Collinear_DEF
 fn step_17() -> Unit raise {
-  collinear_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  Collinear A B C  ⇔\n  ∃l. Line l ∧ A ∈ l ∧ B ∈ l ∧ C ∈ l")))
+  collinear_def_c.set(@readable.newdefinition("(Collinear : (Point, Point, Point) -> Bool)((A : Point), (B : Point), (C : Point)) == (∃ l : (Point) -> Bool, Line(l) && IN(A, l) && IN(B, l) && IN(C, l))"))
 }
 
 ///|
@@ -138,7 +138,7 @@ pub fn collinear_def() -> @kernel.Thm {
 ///|
 /// SameSide_DEF
 fn step_18() -> Unit raise {
-  sameside_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  A,B same_side l  ⇔\n  Line l ∧ ¬ ∃X.  X ∈ l  ∧  X ∈ Open (A, B)")))
+  sameside_def_c.set(@readable.newdefinition("(same_side : ((Point, Point), (Point) -> Bool) -> Bool)(((A : Point), (B : Point)), (l : (Point) -> Bool)) == (Line(l) && !(∃ X : Point, IN(X, l) && IN(X, Open((A, B)))))"))
 }
 
 ///|
@@ -153,7 +153,7 @@ pub fn sameside_def() -> @kernel.Thm {
 ///|
 /// Ray_DEF
 fn step_19() -> Unit raise {
-  ray_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀A B. ray A B = {X | ¬(A = B) ∧ Collinear A B X ∧ A ∉ Open (X, B)}")))
+  ray_def_c.set(@readable.newdefinition("∀ A : Point, ∀ B : Point, (ray : (Point, Point, Point) -> Bool)(A, B) == {(X : Point) | !(A == B) && Collinear(A, B, X) && NOTIN(A, Open((X, B)))}"))
 }
 
 ///|
@@ -168,7 +168,7 @@ pub fn ray_def() -> @kernel.Thm {
 ///|
 /// Ordered_DEF
 fn step_20() -> Unit raise {
-  ordered_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ordered A B C D  ⇔\n  B ∈ Open (A, C) ∧ B ∈ Open (A, D) ∧ C ∈ Open (A, D) ∧ C ∈ Open (B, D)")))
+  ordered_def_c.set(@readable.newdefinition("(ordered : (Point, Point, Point, Point) -> Bool)((A : Point), (B : Point), (C : Point), (D : Point)) == (IN(B, Open((A, C))) && IN(B, Open((A, D))) && IN(C, Open((A, D))) && IN(C, Open((B, D))))"))
 }
 
 ///|
@@ -183,7 +183,7 @@ pub fn ordered_def() -> @kernel.Thm {
 ///|
 /// InteriorAngle_DEF
 fn step_21() -> Unit raise {
-  interiorangle_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀A O B.  int_angle A O B =\n    {P | ¬Collinear A O B ∧ ∃a b.\n               Line a ∧ O ∈ a ∧ A ∈ a ∧ Line b ∧ O ∈ b ∧ B ∈ b ∧\n               P ∉ a ∧ P ∉ b ∧ P,B same_side a ∧ P,A same_side b}")))
+  interiorangle_def_c.set(@readable.newdefinition("∀ A : Point, ∀ O : Point, ∀ B : Point, (int_angle : (Point, Point, Point, Point) -> Bool)(A, O, B) == {(P : Point) | !Collinear(A, O, B) && (∃ a : (Point) -> Bool, ∃ b : (Point) -> Bool, Line(a) && IN(O, a) && IN(A, a) && Line(b) && IN(O, b) && IN(B, b) && NOTIN(P, a) && NOTIN(P, b) && same_side((P, B), a) && same_side((P, A), b))}"))
 }
 
 ///|
@@ -198,7 +198,7 @@ pub fn interiorangle_def() -> @kernel.Thm {
 ///|
 /// InteriorTriangle_DEF
 fn step_22() -> Unit raise {
-  interiortriangle_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀A B C.  int_triangle A B C =\n    {P | P ∈ int_angle A B C  ∧\n         P ∈ int_angle B C A  ∧\n         P ∈ int_angle C A B}")))
+  interiortriangle_def_c.set(@readable.newdefinition("∀ A : Point, ∀ B : Point, ∀ C : Point, (int_triangle : (Point, Point, Point, Point) -> Bool)(A, B, C) == {(P : Point) | IN(P, int_angle(A, B, C)) && IN(P, int_angle(B, C, A)) && IN(P, int_angle(C, A, B))}"))
 }
 
 ///|
@@ -213,7 +213,7 @@ pub fn interiortriangle_def() -> @kernel.Thm {
 ///|
 /// Tetralateral_DEF
 fn step_23() -> Unit raise {
-  tetralateral_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  Tetralateral A B C D  ⇔\n  ¬(A = B) ∧ ¬(A = C) ∧ ¬(A = D) ∧ ¬(B = C) ∧ ¬(B = D) ∧ ¬(C = D) ∧\n  ¬Collinear A B C ∧ ¬Collinear B C D ∧ ¬Collinear C D A ∧ ¬Collinear D A B")))
+  tetralateral_def_c.set(@readable.newdefinition("(Tetralateral : (Point, Point, Point, Point) -> Bool)((A : Point), (B : Point), (C : Point), (D : Point)) == (!(A == B) && !(A == C) && !(A == D) && !(B == C) && !(B == D) && !(C == D) && !Collinear(A, B, C) && !Collinear(B, C, D) && !Collinear(C, D, A) && !Collinear(D, A, B))"))
 }
 
 ///|
@@ -228,7 +228,7 @@ pub fn tetralateral_def() -> @kernel.Thm {
 ///|
 /// Quadrilateral_DEF
 fn step_24() -> Unit raise {
-  quadrilateral_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  Quadrilateral A B C D  ⇔\n  Tetralateral A B C D ∧\n  Open (A, B) ∩ Open (C, D) = ∅ ∧\n  Open (B, C) ∩ Open (D, A) = ∅")))
+  quadrilateral_def_c.set(@readable.newdefinition("(Quadrilateral : (Point, Point, Point, Point) -> Bool)((A : Point), (B : Point), (C : Point), (D : Point)) == (Tetralateral(A, B, C, D) && INTER(Open((A, B)), Open((C, D))) == {} && INTER(Open((B, C)), Open((D, A))) == {})"))
 }
 
 ///|
@@ -243,7 +243,7 @@ pub fn quadrilateral_def() -> @kernel.Thm {
 ///|
 /// ConvexQuad_DEF
 fn step_25() -> Unit raise {
-  convexquad_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ConvexQuadrilateral A B C D  ⇔\n  Quadrilateral A B C D ∧\n  A ∈ int_angle B C D ∧ B ∈ int_angle C D A ∧ C ∈ int_angle D A B ∧ D ∈ int_angle A B C")))
+  convexquad_def_c.set(@readable.newdefinition("(ConvexQuadrilateral : (Point, Point, Point, Point) -> Bool)((A : Point), (B : Point), (C : Point), (D : Point)) == (Quadrilateral(A, B, C, D) && IN(A, int_angle(B, C, D)) && IN(B, int_angle(C, D, A)) && IN(C, int_angle(D, A, B)) && IN(D, int_angle(A, B, C)))"))
 }
 
 ///|
@@ -258,7 +258,7 @@ pub fn convexquad_def() -> @kernel.Thm {
 ///|
 /// Segment_DEF
 fn step_26() -> Unit raise {
-  segment_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  seg A B = {A, B} ∪ Open (A, B)")))
+  segment_def_c.set(@readable.newdefinition("(seg : (Point, Point, Point) -> Bool)((A : Point), (B : Point)) == UNION({A, B}, Open((A, B)))"))
 }
 
 ///|
@@ -273,7 +273,7 @@ pub fn segment_def() -> @kernel.Thm {
 ///|
 /// SEGMENT
 fn step_27() -> Unit raise {
-  segment_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  Segment s  ⇔  ∃A B. s = seg A B ∧ ¬(A = B)")))
+  segment_c.set(@readable.newdefinition("(Segment : ((Point) -> Bool) -> Bool)((s : (Point) -> Bool)) == (∃ A : Point, ∃ B : Point, s == seg(A, B) && !(A == B))"))
 }
 
 ///|
@@ -288,7 +288,7 @@ pub fn segment() -> @kernel.Thm {
 ///|
 /// SegmentOrdering_DEF
 fn step_28() -> Unit raise {
-  segmentordering_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  s <__ t   ⇔\n  Segment s ∧\n  ∃C D X. t = seg C D ∧ X ∈ Open (C, D) ∧ s ≡ seg C X")))
+  segmentordering_def_c.set(@readable.newdefinition("(op_lt_us_us : ((Point) -> Bool, (Point) -> Bool) -> Bool)((s : (Point) -> Bool), (t : (Point) -> Bool)) == (Segment(s) && (∃ C : Point, ∃ D : Point, ∃ X : Point, t == seg(C, D) && IN(X, Open((C, D))) && op_eq_eq_eq(s, seg(C, X))))"))
 }
 
 ///|
@@ -303,7 +303,7 @@ pub fn segmentordering_def() -> @kernel.Thm {
 ///|
 /// Angle_DEF
 fn step_29() -> Unit raise {
-  angle_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∡ A O B = ray O A ∪ ray O B")))
+  angle_def_c.set(@readable.newdefinition("(angle : (Point, Point, Point, Point) -> Bool)((A : Point), (O : Point), (B : Point)) == UNION(ray(O, A), ray(O, B))"))
 }
 
 ///|
@@ -318,7 +318,7 @@ pub fn angle_def() -> @kernel.Thm {
 ///|
 /// ANGLE
 fn step_30() -> Unit raise {
-  angle_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  Angle α  ⇔  ∃A O B. α = ∡ A O B ∧ ¬Collinear A O B")))
+  angle_c.set(@readable.newdefinition("(Angle : ((Point) -> Bool) -> Bool)((alpha : (Point) -> Bool)) == (∃ A : Point, ∃ O : Point, ∃ B : Point, alpha == angle(A, O, B) && !Collinear(A, O, B))"))
 }
 
 ///|
@@ -333,7 +333,7 @@ pub fn angle() -> @kernel.Thm {
 ///|
 /// AngleOrdering_DEF
 fn step_31() -> Unit raise {
-  angleordering_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  α <_ang β  ⇔\n  Angle α ∧\n  ∃A O B G. ¬Collinear A O B  ∧  β = ∡ A O B ∧\n             G ∈ int_angle A O B  ∧  α ≡ ∡ A O G")))
+  angleordering_def_c.set(@readable.newdefinition("(op_lt_us_ang : ((Point) -> Bool, (Point) -> Bool) -> Bool)((alpha : (Point) -> Bool), (beta : (Point) -> Bool)) == (Angle(alpha) && (∃ A : Point, ∃ O : Point, ∃ B : Point, ∃ G : Point, !Collinear(A, O, B) && beta == angle(A, O, B) && IN(G, int_angle(A, O, B)) && op_eq_eq_eq(alpha, angle(A, O, G))))"))
 }
 
 ///|
@@ -348,7 +348,7 @@ pub fn angleordering_def() -> @kernel.Thm {
 ///|
 /// RAY
 fn step_32() -> Unit raise {
-  ray_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  Ray r  ⇔  ∃O A. ¬(O = A) ∧ r = ray O A")))
+  ray_c.set(@readable.newdefinition("(Ray : ((Point) -> Bool) -> Bool)((r : (Point) -> Bool)) == (∃ O : Point, ∃ A : Point, !(O == A) && r == ray(O, A))"))
 }
 
 ///|
@@ -363,7 +363,7 @@ pub fn ray() -> @kernel.Thm {
 ///|
 /// TriangleCong_DEF
 fn step_33() -> Unit raise {
-  trianglecong_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀A B C A' B' C'. (A, B, C) ≅ (A', B', C')  ⇔\n  ¬Collinear A B C ∧ ¬Collinear A' B' C' ∧\n  seg A B ≡ seg A' B' ∧ seg A C ≡ seg A' C' ∧ seg B C ≡ seg B' C' ∧\n  ∡ A B C ≡ ∡ A' B' C' ∧\n  ∡ B C A ≡ ∡ B' C' A' ∧\n  ∡ C A B ≡ ∡ C' A' B'")))
+  trianglecong_def_c.set(@readable.newdefinition("∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ A' : Point, ∀ B' : Point, ∀ C' : Point, (cong : ((Point, Point, Point), (Point, Point, Point)) -> Bool)((A, B, C), (A', B', C')) == (!Collinear(A, B, C) && !Collinear(A', B', C') && op_eq_eq_eq(seg(A, B), seg(A', B')) && op_eq_eq_eq(seg(A, C), seg(A', C')) && op_eq_eq_eq(seg(B, C), seg(B', C')) && op_eq_eq_eq(angle(A, B, C), angle(A', B', C')) && op_eq_eq_eq(angle(B, C, A), angle(B', C', A')) && op_eq_eq_eq(angle(C, A, B), angle(C', A', B')))"))
 }
 
 ///|
@@ -378,7 +378,7 @@ pub fn trianglecong_def() -> @kernel.Thm {
 ///|
 /// SupplementaryAngles_DEF
 fn step_34() -> Unit raise {
-  supplementaryangles_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀α β. α suppl β   ⇔\n  ∃A O B A'. ¬Collinear A O B  ∧  O ∈ Open (A, A')  ∧  α = ∡ A O B  ∧  β = ∡ B O A'")))
+  supplementaryangles_def_c.set(@readable.newdefinition("∀ alpha : (Point) -> Bool, ∀ beta : (Point) -> Bool, (suppl : ((Point) -> Bool, (Point) -> Bool) -> Bool)(alpha, beta) == (∃ A : Point, ∃ O : Point, ∃ B : Point, ∃ A' : Point, !Collinear(A, O, B) && IN(O, Open((A, A'))) && alpha == angle(A, O, B) && beta == angle(B, O, A'))"))
 }
 
 ///|
@@ -393,7 +393,7 @@ pub fn supplementaryangles_def() -> @kernel.Thm {
 ///|
 /// RightAngle_DEF
 fn step_35() -> Unit raise {
-  rightangle_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀α. Right α  ⇔  ∃β. α suppl β ∧ α ≡ β")))
+  rightangle_def_c.set(@readable.newdefinition("∀ alpha : (Point) -> Bool, (Right : ((Point) -> Bool) -> Bool)(alpha) == (∃ beta : (Point) -> Bool, suppl(alpha, beta) && op_eq_eq_eq(alpha, beta))"))
 }
 
 ///|
@@ -408,7 +408,7 @@ pub fn rightangle_def() -> @kernel.Thm {
 ///|
 /// PlaneComplement_DEF
 fn step_36() -> Unit raise {
-  planecomplement_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀α. complement α = {P | P ∉ α}")))
+  planecomplement_def_c.set(@readable.newdefinition("∀ alpha : (_) -> Bool, (complement : ((_) -> Bool, _) -> Bool)(alpha) == {(P : _) | NOTIN(P, alpha)}"))
 }
 
 ///|
@@ -423,7 +423,7 @@ pub fn planecomplement_def() -> @kernel.Thm {
 ///|
 /// CONVEX
 fn step_37() -> Unit raise {
-  convex_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  Convex α  ⇔  ∀A B. A ∈ α ∧ B ∈ α  ⇒ Open (A, B) ⊂ α")))
+  convex_c.set(@readable.newdefinition("(Convex : ((Point) -> Bool) -> Bool)((alpha : (Point) -> Bool)) == (∀ A : Point, ∀ B : Point, IN(A, alpha) && IN(B, alpha) → SUBSET(Open((A, B)), alpha))"))
 }
 
 ///|
@@ -438,7 +438,7 @@ pub fn convex() -> @kernel.Thm {
 ///|
 /// PARALLEL
 fn step_38() -> Unit raise {
-  parallel_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀l k. l ∥ k   ⇔\n  Line l ∧ Line k ∧ l ∩ k = ∅")))
+  parallel_c.set(@readable.newdefinition("∀ l : (Point) -> Bool, ∀ k : (Point) -> Bool, (parallel : ((Point) -> Bool, (Point) -> Bool) -> Bool)(l, k) == (Line(l) && Line(k) && INTER(l, k) == {})"))
 }
 
 ///|
@@ -453,7 +453,7 @@ pub fn parallel() -> @kernel.Thm {
 ///|
 /// Parallelogram_DEF
 fn step_39() -> Unit raise {
-  parallelogram_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀A B C D. Parallelogram A B C D  ⇔\n  Quadrilateral A B C D ∧ ∃a b c d.\n  Line a ∧ A ∈ a ∧ B ∈ a ∧\n  Line b ∧ B ∈ b ∧ C ∈ b ∧\n  Line c  ∧ C ∈ c ∧ D ∈ d ∧\n  Line d ∧ D ∈ d ∧ A ∈ d ∧\n  a ∥ c  ∧  b ∥ d")))
+  parallelogram_def_c.set(@readable.newdefinition("∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, (Parallelogram : (Point, Point, Point, Point) -> Bool)(A, B, C, D) == (Quadrilateral(A, B, C, D) && (∃ a : (Point) -> Bool, ∃ b : (Point) -> Bool, ∃ c : (Point) -> Bool, ∃ d : (Point) -> Bool, Line(a) && IN(A, a) && IN(B, a) && Line(b) && IN(B, b) && IN(C, b) && Line(c) && IN(C, c) && IN(D, d) && Line(d) && IN(D, d) && IN(A, d) && parallel(a, c) && parallel(b, d)))"))
 }
 
 ///|
@@ -468,7 +468,7 @@ pub fn parallelogram_def() -> @kernel.Thm {
 ///|
 /// InteriorCircle_DEF
 fn step_40() -> Unit raise {
-  interiorcircle_def_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀O R.  int_circle O R = {P | ¬(O = R) ∧ (P = O  ∨  seg O P <__ seg O R)}\n")))
+  interiorcircle_def_c.set(@readable.newdefinition("∀ O : Point, ∀ R : Point, (int_circle : (Point, Point, Point) -> Bool)(O, R) == {(P : Point) | !(O == R) && (P == O || op_lt_us_us(seg(O, P), seg(O, R)))}"))
 }
 
 ///|
@@ -483,7 +483,7 @@ pub fn interiorcircle_def() -> @kernel.Thm {
 ///|
 /// I1
 fn step_41() -> Unit raise {
-  i1_c.set(@readable.newaxiom(@readable.parse_qproof(";∀A B.  ¬(A = B) ⇒ ∃! l. Line l ∧  A ∈ l ∧ B ∈ l")))
+  i1_c.set(@readable.newaxiom("∀ A : Point, ∀ B : Point, !(A == B) → existsunique((l : (Point) -> Bool) => Line(l) && IN(A, l) && IN(B, l))"))
 }
 
 ///|
@@ -498,7 +498,7 @@ pub fn i1() -> @kernel.Thm {
 ///|
 /// I2
 fn step_42() -> Unit raise {
-  i2_c.set(@readable.newaxiom(@readable.parse_qproof(";∀l. Line l  ⇒  ∃A B. A ∈ l ∧ B ∈ l ∧ ¬(A = B)")))
+  i2_c.set(@readable.newaxiom("∀ l : (Point) -> Bool, Line(l) → (∃ A : Point, ∃ B : Point, IN(A, l) && IN(B, l) && !(A == B))"))
 }
 
 ///|
@@ -513,7 +513,7 @@ pub fn i2() -> @kernel.Thm {
 ///|
 /// I3
 fn step_43() -> Unit raise {
-  i3_c.set(@readable.newaxiom(@readable.parse_qproof(";∃A B C. ¬(A = B) ∧ ¬(A = C) ∧ ¬(B = C) ∧\n                             ¬Collinear A B C")))
+  i3_c.set(@readable.newaxiom("∃ A : Point, ∃ B : Point, ∃ C : Point, !(A == B) && !(A == C) && !(B == C) && !Collinear(A, B, C)"))
 }
 
 ///|
@@ -528,7 +528,7 @@ pub fn i3() -> @kernel.Thm {
 ///|
 /// B1
 fn step_44() -> Unit raise {
-  b1_c.set(@readable.newaxiom(@readable.parse_qproof(";∀A B C. Between A B C ⇒ ¬(A = B) ∧ ¬(A = C) ∧ ¬(B = C) ∧\n            Between C B A ∧ Collinear A B C")))
+  b1_c.set(@readable.newaxiom("∀ A : Point, ∀ B : Point, ∀ C : Point, Between(A, B, C) → !(A == B) && !(A == C) && !(B == C) && Between(C, B, A) && Collinear(A, B, C)"))
 }
 
 ///|
@@ -543,7 +543,7 @@ pub fn b1() -> @kernel.Thm {
 ///|
 /// B2
 fn step_45() -> Unit raise {
-  b2_c.set(@readable.newaxiom(@readable.parse_qproof(";∀A B. ¬(A = B) ⇒ ∃C. Between A B C")))
+  b2_c.set(@readable.newaxiom("∀ A : Point, ∀ B : Point, !(A == B) → (∃ C : Point, Between(A, B, C))"))
 }
 
 ///|
@@ -558,7 +558,7 @@ pub fn b2() -> @kernel.Thm {
 ///|
 /// B3
 fn step_46() -> Unit raise {
-  b3_c.set(@readable.newaxiom(@readable.parse_qproof(";∀A B C. ¬(A = B) ∧ ¬(A = C) ∧ ¬(B = C) ∧ Collinear A B C\n    ⇒ (Between A B C ∨ Between B C A ∨ Between C A B) ∧\n        ¬(Between A B C ∧ Between B C A) ∧\n        ¬(Between A B C ∧ Between C A B) ∧\n        ¬(Between B C A ∧ Between C A B)")))
+  b3_c.set(@readable.newaxiom("∀ A : Point, ∀ B : Point, ∀ C : Point, !(A == B) && !(A == C) && !(B == C) && Collinear(A, B, C) → (Between(A, B, C) || Between(B, C, A) || Between(C, A, B)) && !(Between(A, B, C) && Between(B, C, A)) && !(Between(A, B, C) && Between(C, A, B)) && !(Between(B, C, A) && Between(C, A, B))"))
 }
 
 ///|
@@ -573,7 +573,7 @@ pub fn b3() -> @kernel.Thm {
 ///|
 /// B4
 fn step_47() -> Unit raise {
-  b4_c.set(@readable.newaxiom(@readable.parse_qproof(";∀l A B C. Line l ∧ ¬Collinear A B C ∧\n   A ∉ l ∧ B ∉ l ∧ C ∉ l ∧\n   (∃X. X ∈ l ∧ Between A X C) ⇒\n   (∃Y. Y ∈ l ∧ Between A Y B) ∨ (∃Y. Y ∈ l ∧ Between B Y C)")))
+  b4_c.set(@readable.newaxiom("∀ l : (Point) -> Bool, ∀ A : Point, ∀ B : Point, ∀ C : Point, Line(l) && !Collinear(A, B, C) && NOTIN(A, l) && NOTIN(B, l) && NOTIN(C, l) && (∃ X : Point, IN(X, l) && Between(A, X, C)) → (∃ Y : Point, IN(Y, l) && Between(A, Y, B)) || (∃ Y : Point, IN(Y, l) && Between(B, Y, C))"))
 }
 
 ///|
@@ -588,7 +588,7 @@ pub fn b4() -> @kernel.Thm {
 ///|
 /// C1
 fn step_48() -> Unit raise {
-  c1_c.set(@readable.newaxiom(@readable.parse_qproof(";∀s O Z. Segment s ∧ ¬(O = Z)  ⇒\n   ∃! P. P ∈ ray O Z ━ {O}  ∧  seg O P ≡ s")))
+  c1_c.set(@readable.newaxiom("∀ s : (Point) -> Bool, ∀ O : Point, ∀ Z : Point, Segment(s) && !(O == Z) → existsunique((P : Point) => IN(P, DIFF(ray(O, Z), {O})) && op_eq_eq_eq(seg(O, P), s))"))
 }
 
 ///|
@@ -603,7 +603,7 @@ pub fn c1() -> @kernel.Thm {
 ///|
 /// C2Reflexive
 fn step_49() -> Unit raise {
-  c2reflexive_c.set(@readable.newaxiom(@readable.parse_qproof(";Segment s  ⇒  s ≡ s")))
+  c2reflexive_c.set(@readable.newaxiom("Segment((s : (Point) -> Bool)) → op_eq_eq_eq(s, s)"))
 }
 
 ///|
@@ -618,7 +618,7 @@ pub fn c2reflexive() -> @kernel.Thm {
 ///|
 /// C2Symmetric
 fn step_50() -> Unit raise {
-  c2symmetric_c.set(@readable.newaxiom(@readable.parse_qproof(";Segment s ∧ Segment t ∧ s ≡ t  ⇒  t ≡ s")))
+  c2symmetric_c.set(@readable.newaxiom("Segment((s : (Point) -> Bool)) && Segment((t : (Point) -> Bool)) && op_eq_eq_eq(s, t) → op_eq_eq_eq(t, s)"))
 }
 
 ///|
@@ -633,7 +633,7 @@ pub fn c2symmetric() -> @kernel.Thm {
 ///|
 /// C2Transitive
 fn step_51() -> Unit raise {
-  c2transitive_c.set(@readable.newaxiom(@readable.parse_qproof(";Segment s ∧ Segment t ∧ Segment u ∧\n   s ≡ t ∧ t ≡ u ⇒  s ≡ u")))
+  c2transitive_c.set(@readable.newaxiom("Segment((s : (Point) -> Bool)) && Segment((t : (Point) -> Bool)) && Segment((u : (Point) -> Bool)) && op_eq_eq_eq(s, t) && op_eq_eq_eq(t, u) → op_eq_eq_eq(s, u)"))
 }
 
 ///|
@@ -648,7 +648,7 @@ pub fn c2transitive() -> @kernel.Thm {
 ///|
 /// C3
 fn step_52() -> Unit raise {
-  c3_c.set(@readable.newaxiom(@readable.parse_qproof(";∀A B C A' B' C'.  B ∈ Open (A, C) ∧ B' ∈ Open (A', C') ∧\n  seg A B ≡ seg A' B' ∧ seg B C ≡ seg B' C'  ⇒\n  seg A C ≡ seg A' C'")))
+  c3_c.set(@readable.newaxiom("∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ A' : Point, ∀ B' : Point, ∀ C' : Point, IN(B, Open((A, C))) && IN(B', Open((A', C'))) && op_eq_eq_eq(seg(A, B), seg(A', B')) && op_eq_eq_eq(seg(B, C), seg(B', C')) → op_eq_eq_eq(seg(A, C), seg(A', C'))"))
 }
 
 ///|
@@ -663,7 +663,7 @@ pub fn c3() -> @kernel.Thm {
 ///|
 /// C4
 fn step_53() -> Unit raise {
-  c4_c.set(@readable.newaxiom(@readable.parse_qproof(";∀α O A l Y. Angle α ∧ ¬(O = A) ∧ Line l ∧ O ∈ l ∧ A ∈ l ∧ Y ∉ l\n    ⇒ ∃! r. Ray r  ∧  ∃B. ¬(O = B)  ∧  r = ray O B  ∧\n          B ∉ l  ∧  B,Y same_side l  ∧  ∡ A O B ≡ α")))
+  c4_c.set(@readable.newaxiom("∀ alpha : (Point) -> Bool, ∀ O : Point, ∀ A : Point, ∀ l : (Point) -> Bool, ∀ Y : Point, Angle(alpha) && !(O == A) && Line(l) && IN(O, l) && IN(A, l) && NOTIN(Y, l) → existsunique((r : (Point) -> Bool) => Ray(r) && (∃ B : Point, !(O == B) && r == ray(O, B) && NOTIN(B, l) && same_side((B, Y), l) && op_eq_eq_eq(angle(A, O, B), alpha)))"))
 }
 
 ///|
@@ -678,7 +678,7 @@ pub fn c4() -> @kernel.Thm {
 ///|
 /// C5Reflexive
 fn step_54() -> Unit raise {
-  c5reflexive_c.set(@readable.newaxiom(@readable.parse_qproof(";Angle α  ⇒  α ≡ α")))
+  c5reflexive_c.set(@readable.newaxiom("Angle((alpha : (Point) -> Bool)) → op_eq_eq_eq(alpha, alpha)"))
 }
 
 ///|
@@ -693,7 +693,7 @@ pub fn c5reflexive() -> @kernel.Thm {
 ///|
 /// C5Symmetric
 fn step_55() -> Unit raise {
-  c5symmetric_c.set(@readable.newaxiom(@readable.parse_qproof(";Angle α ∧ Angle β ∧ α ≡ β  ⇒  β ≡ α")))
+  c5symmetric_c.set(@readable.newaxiom("Angle((alpha : (Point) -> Bool)) && Angle((beta : (Point) -> Bool)) && op_eq_eq_eq(alpha, beta) → op_eq_eq_eq(beta, alpha)"))
 }
 
 ///|
@@ -708,7 +708,7 @@ pub fn c5symmetric() -> @kernel.Thm {
 ///|
 /// C5Transitive
 fn step_56() -> Unit raise {
-  c5transitive_c.set(@readable.newaxiom(@readable.parse_qproof(";Angle α ∧ Angle β ∧ Angle γ ∧\n   α ≡ β ∧ β ≡ γ ⇒  α ≡ γ")))
+  c5transitive_c.set(@readable.newaxiom("Angle((alpha : (Point) -> Bool)) && Angle((beta : (Point) -> Bool)) && Angle((gamma : (Point) -> Bool)) && op_eq_eq_eq(alpha, beta) && op_eq_eq_eq(beta, gamma) → op_eq_eq_eq(alpha, gamma)"))
 }
 
 ///|
@@ -723,7 +723,7 @@ pub fn c5transitive() -> @kernel.Thm {
 ///|
 /// C6
 fn step_57() -> Unit raise {
-  c6_c.set(@readable.newaxiom(@readable.parse_qproof(";∀A B C A' B' C'. ¬Collinear A B C ∧ ¬Collinear A' B' C' ∧\n   seg B A ≡ seg B' A' ∧ seg B C ≡ seg B' C' ∧ ∡ A B C ≡ ∡ A' B' C'\n   ⇒ ∡ B C A ≡ ∡ B' C' A'")))
+  c6_c.set(@readable.newaxiom("∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ A' : Point, ∀ B' : Point, ∀ C' : Point, !Collinear(A, B, C) && !Collinear(A', B', C') && op_eq_eq_eq(seg(B, A), seg(B', A')) && op_eq_eq_eq(seg(B, C), seg(B', C')) && op_eq_eq_eq(angle(A, B, C), angle(A', B', C')) → op_eq_eq_eq(angle(B, C, A), angle(B', C', A'))"))
 }
 
 ///|
@@ -739,7 +739,7 @@ pub fn c6() -> @kernel.Thm {
 /// IN_Interval
 fn step_58() -> Unit raise {
   in_interval_c.set(@readable.prove(
-    "\n  forall A B X. X IN Open (A, B)  <=>  Between A X B",
+    "∀ A : Point, ∀ B : Point, ∀ X : Point, IN(X, Open((A, B))) == Between(A, X, B)",
     @readable.by(
       @readable.rewrite,
       [
@@ -763,7 +763,7 @@ pub fn in_interval() -> @kernel.Thm {
 /// IN_Ray
 fn step_62() -> Unit raise {
   in_ray_c.set(@readable.prove(
-    "\n  forall A B X. X IN ray A B  <=>  ~(A = B) /\\  Collinear A B X /\\  A NOTIN Open (X, B)",
+    "∀ A : Point, ∀ B : Point, ∀ X : Point, IN(X, ray(A, B)) == (!(A == B) && Collinear(A, B, X) && NOTIN(A, Open((X, B))))",
     @readable.by(
       @readable.rewrite,
       [
@@ -787,7 +787,7 @@ pub fn in_ray() -> @kernel.Thm {
 /// IN_InteriorAngle
 fn step_64() -> Unit raise {
   in_interiorangle_c.set(@readable.prove(
-    "\n  forall A O B P. P IN int_angle A O B  <=>\n    ~Collinear A O B /\\  ?a b.\n    Line a /\\  O IN a /\\  A IN a /\\  Line b /\\  O IN b /\\  B IN b /\\ \n    P NOTIN a /\\  P NOTIN b /\\  P,B same_side a /\\  P,A same_side b",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ P : Point, IN(P, int_angle(A, O, B)) == (!Collinear(A, O, B) && (∃ a : (Point) -> Bool, ∃ b : (Point) -> Bool, Line(a) && IN(O, a) && IN(A, a) && Line(b) && IN(O, b) && IN(B, b) && NOTIN(P, a) && NOTIN(P, b) && same_side((P, B), a) && same_side((P, A), b)))",
     @readable.by(
       @readable.rewrite,
       [
@@ -811,7 +811,7 @@ pub fn in_interiorangle() -> @kernel.Thm {
 /// IN_InteriorTriangle
 fn step_66() -> Unit raise {
   in_interiortriangle_c.set(@readable.prove(
-    "\n  forall A B C P. P IN int_triangle A B C  <=>\n    P IN int_angle A B C  /\\   P IN int_angle B C A  /\\   P IN int_angle C A B",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ P : Point, IN(P, int_triangle(A, B, C)) == (IN(P, int_angle(A, B, C)) && IN(P, int_angle(B, C, A)) && IN(P, int_angle(C, A, B)))",
     @readable.by(
       @readable.rewrite,
       [
@@ -835,7 +835,7 @@ pub fn in_interiortriangle() -> @kernel.Thm {
 /// IN_PlaneComplement
 fn step_68() -> Unit raise {
   in_planecomplement_c.set(@readable.prove(
-    "\n  forall alpha. forall P. P IN complement alpha  <=>  P NOTIN alpha",
+    "∀ alpha : (_) -> Bool, ∀ P : _, IN(P, complement(alpha)) == NOTIN(P, alpha)",
     @readable.by(
       @readable.rewrite,
       [
@@ -859,7 +859,7 @@ pub fn in_planecomplement() -> @kernel.Thm {
 /// IN_InteriorCircle
 fn step_70() -> Unit raise {
   in_interiorcircle_c.set(@readable.prove(
-    "\n  forall O R P. P IN int_circle O R  <=>\n    ~(O = R) /\\  (P = O  \\/  seg O P <__ seg O R)",
+    "∀ O : Point, ∀ R : Point, ∀ P : Point, IN(P, int_circle(O, R)) == (!(O == R) && (P == O || op_lt_us_us(seg(O, P), seg(O, R))))",
     @readable.by(
       @readable.rewrite,
       [
@@ -883,7 +883,7 @@ pub fn in_interiorcircle() -> @kernel.Thm {
 /// B1'
 fn step_72() -> Unit raise {
   b1_p_c.set(@readable.prove(
-    "\n  forall A B C.  B IN Open (A, C) ==> ~(A = B) /\\  ~(A = C) /\\  ~(B = C) /\\ \n            B IN Open (C, A) /\\  Collinear A B C",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, IN(B, Open((A, C))) → !(A == B) && !(A == C) && !(B == C) && IN(B, Open((C, A))) && Collinear(A, B, C)",
     @readable.by(
       @readable.fol,
       [
@@ -907,7 +907,7 @@ pub fn b1_p() -> @kernel.Thm {
 /// B2'
 fn step_76() -> Unit raise {
   b2_p_c.set(@readable.prove(
-    "\n  forall A B. ~(A = B) ==> ?C.  B IN Open (A, C)",
+    "∀ A : Point, ∀ B : Point, !(A == B) → (∃ C : Point, IN(B, Open((A, C))))",
     @readable.by(
       @readable.fol,
       [
@@ -931,7 +931,7 @@ pub fn b2_p() -> @kernel.Thm {
 /// B3'
 fn step_78() -> Unit raise {
   b3_p_c.set(@readable.prove(
-    "\n  forall A B C. ~(A = B) /\\  ~(A = C) /\\  ~(B = C) /\\  Collinear A B C\n    ==> (B IN Open (A, C) \\/ C IN Open (B, A) \\/ A IN Open (C, B)) /\\ \n       ~(B IN Open (A, C) /\\  C IN Open (B, A)) /\\ \n       ~(B IN Open (A, C) /\\  A IN Open (C, B)) /\\ \n       ~(C IN Open (B, A) /\\  A IN Open (C, B))",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, !(A == B) && !(A == C) && !(B == C) && Collinear(A, B, C) → (IN(B, Open((A, C))) || IN(C, Open((B, A))) || IN(A, Open((C, B)))) && !(IN(B, Open((A, C))) && IN(C, Open((B, A)))) && !(IN(B, Open((A, C))) && IN(A, Open((C, B)))) && !(IN(C, Open((B, A))) && IN(A, Open((C, B))))",
     @readable.by(
       @readable.fol,
       [
@@ -955,7 +955,7 @@ pub fn b3_p() -> @kernel.Thm {
 /// B4'
 fn step_80() -> Unit raise {
   b4_p_c.set(@readable.prove(
-    "\n  forall l A B C. Line l /\\  ~Collinear A B C /\\ \n    A NOTIN l /\\  B NOTIN l /\\  C NOTIN l /\\ \n    (?X. X IN l /\\   X IN Open (A, C)) ==>\n    (?Y. Y IN l /\\   Y IN Open (A, B)) \\/ (?Y. Y IN l /\\   Y IN Open (B, C))",
+    "∀ l : (Point) -> Bool, ∀ A : Point, ∀ B : Point, ∀ C : Point, Line(l) && !Collinear(A, B, C) && NOTIN(A, l) && NOTIN(B, l) && NOTIN(C, l) && (∃ X : Point, IN(X, l) && IN(X, Open((A, C)))) → (∃ Y : Point, IN(Y, l) && IN(Y, Open((A, B)))) || (∃ Y : Point, IN(Y, l) && IN(Y, Open((B, C))))",
     @readable.by(
       @readable.rewrite,
       [
@@ -979,7 +979,7 @@ pub fn b4_p() -> @kernel.Thm {
 /// B4''
 fn step_82() -> Unit raise {
   b4_p_p_c.set(@readable.prove(
-    "\n  forall l A B C.\n  Line l /\\  ~Collinear A B C /\\  A NOTIN l /\\  B NOTIN l /\\  C NOTIN l  /\\ \n  A,B same_side l  /\\   B,C same_side l  ==>  A,C same_side l",
+    "∀ l : (Point) -> Bool, ∀ A : Point, ∀ B : Point, ∀ C : Point, Line(l) && !Collinear(A, B, C) && NOTIN(A, l) && NOTIN(B, l) && NOTIN(C, l) && same_side((A, B), l) && same_side((B, C), l) → same_side((A, C), l)",
     @readable.steps(
       [
         @readable.by(
@@ -1005,7 +1005,7 @@ pub fn b4_p_p() -> @kernel.Thm {
 /// DisjointOneNotOther
 fn step_85() -> Unit raise {
   disjointonenotother_c.set(@readable.prove(
-    "\n  forall l m. (forall x:A. x IN m  ==> x NOTIN l)  <=>  l INTER m = {}",
+    "∀ l : (A) -> Bool, ∀ m : (A) -> Bool, (∀ x : A, IN(x, m) → NOTIN(x, l)) == (INTER(l, m) == {})",
     @readable.by(
       @readable.fol,
       [
@@ -1030,7 +1030,7 @@ pub fn disjointonenotother() -> @kernel.Thm {
 /// EquivIntersectionHelp
 fn step_89() -> Unit raise {
   equivintersectionhelp_c.set(@readable.prove(
-    "\n  forall e x:A. forall l m:A->bool.\n  (l INTER m = {x}  \\/  m INTER l = {x})  /\\   e IN m DIFF {x}   ==>  e NOTIN l",
+    "∀ e : A, ∀ x : A, ∀ l : (A) -> Bool, ∀ m : (A) -> Bool, (INTER(l, m) == {x} || INTER(m, l) == {x}) && IN(e, DIFF(m, {x})) → NOTIN(e, l)",
     @readable.by(
       @readable.fol,
       [
@@ -1056,13 +1056,13 @@ pub fn equivintersectionhelp() -> @kernel.Thm {
 /// CollinearSymmetry
 fn step_92() -> Unit raise {
   collinearsymmetry_c.set(@readable.prove(
-    "\n  forall A B C. Collinear A B C  ==>\n    Collinear A C B /\\  Collinear B A C /\\  Collinear B C A /\\ \n    Collinear C A B /\\  Collinear C B A",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, Collinear(A, B, C) → Collinear(A, C, B) && Collinear(B, A, C) && Collinear(B, C, A) && Collinear(C, A, B) && Collinear(C, B, A)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C, H1"),
         @readable.consider(
           "l",
-          "Line l /\\  A IN l /\\  B IN l /\\  C IN l    ",
+          "∃ l : (Point) -> Bool, Line(l) && IN(A, l) && IN(B, l) && IN(C, l)",
           "l_line",
           @readable.by(
             @readable.fol,
@@ -1094,13 +1094,13 @@ pub fn collinearsymmetry() -> @kernel.Thm {
 /// ExistsNewPointOnLine
 fn step_94() -> Unit raise {
   existsnewpointonline_c.set(@readable.prove(
-    "\n  forall P. Line l /\\  P IN l  ==>  ?Q. Q IN l /\\  ~(P = Q)",
+    "∀ P : Point, Line((l : (Point) -> Bool)) && IN(P, l) → (∃ Q : Point, IN(Q, l) && !(P == Q))",
     @readable.steps(
       [
         @readable.intro_tac("forall P, H1"),
         @readable.consider(
           "A B",
-          "A IN l /\\  B IN l /\\  ~(A = B)    ",
+          "∃ A : Point, ∃ B : Point, IN(A, l) && IN(B, l) && !(A == B)",
           "l_line",
           @readable.by(
             @readable.fol,
@@ -1126,23 +1126,23 @@ pub fn existsnewpointonline() -> @kernel.Thm {
 /// ExistsPointOffLine
 fn step_96() -> Unit raise {
   existspointoffline_c.set(@readable.prove(
-    "\n  forall l. Line l  ==>  ?Q. Q NOTIN l",
+    "∀ l : (Point) -> Bool, Line(l) → (∃ Q : Point, NOTIN(Q, l))",
     @readable.steps(
       [
         @readable.intro_tac("forall l, H1"),
         @readable.consider(
           "A B C",
-          "~(A = B) /\\  ~(A = C) /\\  ~(B = C) /\\  ~Collinear A B C    ",
+          "∃ A : Point, ∃ B : Point, ∃ C : Point, !(A == B) && !(A == C) && !(B == C) && !Collinear(A, B, C)",
           "Distinct",
           @readable.by(@readable.fol, [@readable.Thm("I3", () => i3())]),
         ),
         @readable.assuming(
-          "(A IN l) /\\  (B IN l) /\\  (C IN l)",
+          "IN(A, l) && IN(B, l) && IN(C, l)",
           "all_on",
           @readable.by(@readable.fol, [@readable.Thm("NOTIN", () => notin())]),
         ),
         @readable.have(
-          "\n    Collinear A B C",
+          "Collinear(A, B, C)",
           "",
           @readable.by(
             @readable.fol,
@@ -1172,12 +1172,12 @@ pub fn existspointoffline() -> @kernel.Thm {
 /// BetweenLinear
 fn step_98() -> Unit raise {
   betweenlinear_c.set(@readable.prove(
-    "\n  forall A B C m. Line m /\\  A IN m /\\  C IN m  /\\ \n    (B IN Open (A, C) \\/ C IN Open (B, A)  \\/ A IN Open (C, B))  ==>  B IN m",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ m : (Point) -> Bool, Line(m) && IN(A, m) && IN(C, m) && (IN(B, Open((A, C))) || IN(C, Open((B, A))) || IN(A, Open((C, B)))) → IN(B, m)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C m, H1m H1A H1C H2"),
         @readable.have(
-          "\n    ~(A = C) /\\ \n    (Collinear A B C \\/ Collinear B C A \\/ Collinear C A B)",
+          "!(A == C) && (Collinear(A, B, C) || Collinear(B, C, A) || Collinear(C, A, B))",
           "X1",
           @readable.by(
             @readable.fol,
@@ -1186,7 +1186,7 @@ fn step_98() -> Unit raise {
         ),
         @readable.consider(
           "l",
-          "Line l /\\  A IN l /\\  B IN l /\\  C IN l    ",
+          "∃ l : (Point) -> Bool, Line(l) && IN(A, l) && IN(B, l) && IN(C, l)",
           "X2",
           @readable.by(
             @readable.fol,
@@ -1194,7 +1194,7 @@ fn step_98() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    l = m",
+          "l == m",
           "",
           @readable.by(
             @readable.fol,
@@ -1228,13 +1228,13 @@ pub fn betweenlinear() -> @kernel.Thm {
 /// CollinearLinear
 fn step_101() -> Unit raise {
   collinearlinear_c.set(@readable.prove(
-    "\n  forall A B C m. Line m /\\  A IN m /\\  C IN m  /\\ \n    (Collinear A B C \\/ Collinear B C A \\/ Collinear C A B)  /\\ \n    ~(A = C)  ==>  B IN m",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ m : (Point) -> Bool, Line(m) && IN(A, m) && IN(C, m) && (Collinear(A, B, C) || Collinear(B, C, A) || Collinear(C, A, B)) && !(A == C) → IN(B, m)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C m, H1m H1A H1C H2 H3"),
         @readable.consider(
           "l",
-          "Line l /\\  A IN l /\\  B IN l /\\  C IN l    ",
+          "∃ l : (Point) -> Bool, Line(l) && IN(A, l) && IN(B, l) && IN(C, l)",
           "X1",
           @readable.by(
             @readable.fol,
@@ -1245,7 +1245,7 @@ fn step_101() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    l = m",
+          "l == m",
           "",
           @readable.by(
             @readable.fol,
@@ -1278,12 +1278,12 @@ pub fn collinearlinear() -> @kernel.Thm {
 /// NonCollinearImpliesDistinct
 fn step_102() -> Unit raise {
   noncollinearimpliesdistinct_c.set(@readable.prove(
-    "\n  forall A B C. ~Collinear A B C  ==>  ~(A = B) /\\  ~(A = C) /\\  ~(B = C)",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, !Collinear(A, B, C) → !(A == B) && !(A == C) && !(B == C)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C, H1"),
         @readable.assuming(
-          "A = B /\\  B = C",
+          "A == B && B == C",
           "equal",
           @readable.by(
             @readable.fol,
@@ -1296,7 +1296,7 @@ fn step_102() -> Unit raise {
         ),
         @readable.consider(
           "Q",
-          "~(Q = A)    ",
+          "∃ Q : Point, !(Q == A)",
           "notQA",
           @readable.by(@readable.fol, [@readable.Thm("I3", () => i3())]),
         ),
@@ -1328,14 +1328,14 @@ pub fn noncollinearimpliesdistinct() -> @kernel.Thm {
 /// NonCollinearRaa
 fn step_103() -> Unit raise {
   noncollinearraa_c.set(@readable.prove(
-    "\n  forall A B C l.  ~(A = C)  ==>  Line l /\\  A IN l /\\  C IN l  ==>  B NOTIN l\n    ==>  ~Collinear A B C",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ l : (Point) -> Bool, !(A == C) → Line(l) && IN(A, l) && IN(C, l) → NOTIN(B, l) → !Collinear(A, B, C)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C l, Distinct, l_line, notBl"),
-        @readable.assuming("Collinear A B C", "ANCcol", @readable.by(@readable.fol, [])),
+        @readable.assuming("Collinear(A, B, C)", "ANCcol", @readable.by(@readable.fol, [])),
         @readable.consider(
           "m",
-          "Line m /\\  A IN m /\\  B IN m /\\  C IN m    ",
+          "∃ m : (Point) -> Bool, Line(m) && IN(A, m) && IN(B, m) && IN(C, m)",
           "m_line",
           @readable.by(
             @readable.fol,
@@ -1343,7 +1343,7 @@ fn step_103() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    m = l",
+          "m == l",
           "",
           @readable.by(
             @readable.fol,
@@ -1356,7 +1356,7 @@ fn step_103() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B IN l",
+          "IN(B, l)",
           "",
           @readable.by(@readable.fol, [@readable.Label("m_line"), @readable.Prev]),
         ),
@@ -1386,19 +1386,19 @@ pub fn noncollinearraa() -> @kernel.Thm {
 /// TwoSidesTriangle1Intersection
 fn step_104() -> Unit raise {
   twosidestriangle1intersection_c.set(@readable.prove(
-    "\n  forall A B C Y. ~Collinear A B C  /\\   Collinear B C Y  /\\   Collinear A C Y\n     ==> Y = C",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ Y : Point, !Collinear(A, B, C) && Collinear(B, C, Y) && Collinear(A, C, Y) → Y == C",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C Y, ABCcol BCYcol ACYcol"),
-        @readable.assuming("~(C = Y)", "notCY", @readable.by(@readable.fol, [])),
+        @readable.assuming("!(C == Y)", "notCY", @readable.by(@readable.fol, [])),
         @readable.consider(
           "l",
-          "Line l /\\  C IN l /\\  Y IN l    ",
+          "∃ l : (Point) -> Bool, Line(l) && IN(C, l) && IN(Y, l)",
           "l_line",
           @readable.by(@readable.fol, [@readable.Prev, @readable.Thm("I1", () => i1())]),
         ),
         @readable.have(
-          "\n    B IN l /\\  A IN l",
+          "IN(B, l) && IN(A, l)",
           "",
           @readable.by(
             @readable.fol,
@@ -1439,12 +1439,12 @@ pub fn twosidestriangle1intersection() -> @kernel.Thm {
 /// OriginInRay
 fn step_105() -> Unit raise {
   origininray_c.set(@readable.prove(
-    "\n  forall O Q. ~(Q = O)  ==>  O IN ray O Q",
+    "∀ O : Point, ∀ Q : Point, !(Q == O) → IN(O, ray(O, Q))",
     @readable.steps(
       [
         @readable.intro_tac("forall O Q, H1"),
         @readable.have(
-          "\n    O NOTIN Open (O, Q)",
+          "NOTIN(O, Open((O, Q)))",
           "OOQ",
           @readable.by(
             @readable.fol,
@@ -1452,7 +1452,7 @@ fn step_105() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Collinear O Q O",
+          "Collinear(O, Q, O)",
           "",
           @readable.by(
             @readable.fol,
@@ -1490,12 +1490,12 @@ pub fn origininray() -> @kernel.Thm {
 /// EndpointInRay
 fn step_107() -> Unit raise {
   endpointinray_c.set(@readable.prove(
-    "\n  forall O Q. ~(Q = O)  ==>  Q IN ray O Q",
+    "∀ O : Point, ∀ Q : Point, !(Q == O) → IN(Q, ray(O, Q))",
     @readable.steps(
       [
         @readable.intro_tac("forall O Q, H1"),
         @readable.have(
-          "\n    O NOTIN Open (Q, Q)",
+          "NOTIN(O, Open((Q, Q)))",
           "notOQQ",
           @readable.by(
             @readable.fol,
@@ -1503,7 +1503,7 @@ fn step_107() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Collinear O Q Q",
+          "Collinear(O, Q, Q)",
           "",
           @readable.by(
             @readable.fol,
@@ -1541,14 +1541,14 @@ pub fn endpointinray() -> @kernel.Thm {
 /// I1Uniqueness
 fn step_108() -> Unit raise {
   i1uniqueness_c.set(@readable.prove(
-    "\n  forall X l m. Line l  /\\   Line m  /\\   ~(l = m)  /\\   X IN l  /\\   X IN m\n     ==> l INTER m = {X}",
+    "∀ X : Point, ∀ l : (Point) -> Bool, ∀ m : (Point) -> Bool, Line(l) && Line(m) && !(l == m) && IN(X, l) && IN(X, m) → INTER(l, m) == {X}",
     @readable.steps(
       [
         @readable.intro_tac("forall X l m, H0l H0m H1 H2l H2m"),
-        @readable.assuming("~(l INTER m = {X})", "H3", @readable.by(@readable.fol, [])),
+        @readable.assuming("!(INTER(l, m) == {X})", "H3", @readable.by(@readable.fol, [])),
         @readable.consider(
           "A",
-          "A IN l INTER m  /\\  ~(A = X)    ",
+          "∃ A : Point, IN(A, INTER(l, m)) && !(A == X)",
           "X1",
           @readable.by(
             @readable.fol,
@@ -1593,12 +1593,12 @@ pub fn i1uniqueness() -> @kernel.Thm {
 /// DisjointLinesImplySameSide
 fn step_110() -> Unit raise {
   disjointlinesimplysameside_c.set(@readable.prove(
-    "\n  forall l m A B.  Line l /\\  Line m /\\  A IN m /\\  B IN m /\\  l INTER m = {}  ==>  A,B same_side l",
+    "∀ l : (Point) -> Bool, ∀ m : (Point) -> Bool, ∀ A : Point, ∀ B : Point, Line(l) && Line(m) && IN(A, m) && IN(B, m) && INTER(l, m) == {} → same_side((A, B), l)",
     @readable.steps(
       [
         @readable.intro_tac("forall l m A B, l_line m_line Am Bm lm0"),
         @readable.have(
-          "\n      l INTER Open (A,B) = {}",
+          "INTER(l, Open((A, B))) == {}",
           "",
           @readable.by(
             @readable.fol,
@@ -1644,12 +1644,12 @@ pub fn disjointlinesimplysameside() -> @kernel.Thm {
 /// EquivIntersection
 fn step_116() -> Unit raise {
   equivintersection_c.set(@readable.prove(
-    "\n  forall A B X l m.  Line l /\\  Line m /\\  l INTER m = {X} /\\  A IN m DIFF {X} /\\  B IN m DIFF {X} /\\ \n    X NOTIN Open (A, B)  ==>  A,B same_side l",
+    "∀ A : Point, ∀ B : Point, ∀ X : Point, ∀ l : (Point) -> Bool, ∀ m : (Point) -> Bool, Line(l) && Line(m) && INTER(l, m) == {X} && IN(A, DIFF(m, {X})) && IN(B, DIFF(m, {X})) && NOTIN(X, Open((A, B))) → same_side((A, B), l)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B X l m, l_line m_line H1 H2l H2m H3"),
         @readable.have(
-          "\n    Open (A, B) SUBSET m",
+          "SUBSET(Open((A, B)), m)",
           "",
           @readable.by(
             @readable.fol,
@@ -1667,7 +1667,7 @@ fn step_116() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    l INTER Open (A, B) SUBSET {X}",
+          "SUBSET(INTER(l, Open((A, B))), {X})",
           "",
           @readable.by(
             @readable.fol,
@@ -1680,7 +1680,7 @@ fn step_116() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    l INTER Open (A, B) SUBSET {}",
+          "SUBSET(INTER(l, Open((A, B))), {})",
           "",
           @readable.by(
             @readable.fol,
@@ -1723,7 +1723,7 @@ pub fn equivintersection() -> @kernel.Thm {
 /// RayLine
 fn step_119() -> Unit raise {
   rayline_c.set(@readable.prove(
-    "\n  forall O P l. Line l /\\  O IN l /\\  P IN l  ==>  ray O P  SUBSET l",
+    "∀ O : Point, ∀ P : Point, ∀ l : (Point) -> Bool, Line(l) && IN(O, l) && IN(P, l) → SUBSET(ray(O, P), l)",
     @readable.by(
       @readable.fol,
       [
@@ -1748,12 +1748,12 @@ pub fn rayline() -> @kernel.Thm {
 /// RaySameSide
 fn step_121() -> Unit raise {
   raysameside_c.set(@readable.prove(
-    "\n  forall l O A P. Line l /\\  O IN l /\\  A NOTIN l /\\  P IN ray O A DIFF {O}\n     ==>  P NOTIN l  /\\   P,A same_side l",
+    "∀ l : (Point) -> Bool, ∀ O : Point, ∀ A : Point, ∀ P : Point, Line(l) && IN(O, l) && NOTIN(A, l) && IN(P, DIFF(ray(O, A), {O})) → NOTIN(P, l) && same_side((P, A), l)",
     @readable.steps(
       [
         @readable.intro_tac("forall l O A P, l_line Ol notAl PrOA"),
         @readable.have(
-          "\n    ~(O = A)",
+          "!(O == A)",
           "notOA",
           @readable.by(
             @readable.fol,
@@ -1767,7 +1767,7 @@ fn step_121() -> Unit raise {
         ),
         @readable.consider(
           "d",
-          "Line d /\\  O IN d /\\  A IN d    ",
+          "∃ d : (Point) -> Bool, Line(d) && IN(O, d) && IN(A, d)",
           "d_line",
           @readable.by(
             @readable.fol,
@@ -1775,7 +1775,7 @@ fn step_121() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(l = d)",
+          "!(l == d)",
           "",
           @readable.by(
             @readable.fol,
@@ -1787,7 +1787,7 @@ fn step_121() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    l INTER d = {O}",
+          "INTER(l, d) == {O}",
           "ldO",
           @readable.by(
             @readable.fol,
@@ -1801,7 +1801,7 @@ fn step_121() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A IN d DIFF {O}",
+          "IN(A, DIFF(d, {O}))",
           "Ad_O",
           @readable.by(
             @readable.fol,
@@ -1814,7 +1814,7 @@ fn step_121() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray O A SUBSET d",
+          "SUBSET(ray(O, A), d)",
           "",
           @readable.by(
             @readable.fol,
@@ -1822,7 +1822,7 @@ fn step_121() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P IN d DIFF {O}",
+          "IN(P, DIFF(d, {O}))",
           "Pd_O",
           @readable.by(
             @readable.fol,
@@ -1836,7 +1836,7 @@ fn step_121() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P NOTIN l",
+          "NOTIN(P, l)",
           "notPl",
           @readable.by(
             @readable.fol,
@@ -1848,7 +1848,7 @@ fn step_121() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    O NOTIN Open (P, A)",
+          "NOTIN(O, Open((P, A)))",
           "",
           @readable.by(
             @readable.fol,
@@ -1861,7 +1861,7 @@ fn step_121() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P,A same_side l",
+          "same_side((P, A), l)",
           "",
           @readable.by(
             @readable.fol,
@@ -1896,12 +1896,12 @@ pub fn raysameside() -> @kernel.Thm {
 /// IntervalRayEZ
 fn step_126() -> Unit raise {
   intervalrayez_c.set(@readable.prove(
-    "\n  forall A B C. B IN Open (A, C)  ==>  B IN ray A C DIFF {A}  /\\   C IN ray A B DIFF {A}",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, IN(B, Open((A, C))) → IN(B, DIFF(ray(A, C), {A})) && IN(C, DIFF(ray(A, B), {A}))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C, H1"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C) /\\  ~(B = C) /\\  Collinear A B C",
+          "!(A == B) && !(A == C) && !(B == C) && Collinear(A, B, C)",
           "ABC",
           @readable.by(
             @readable.fol,
@@ -1909,7 +1909,7 @@ fn step_126() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A NOTIN Open (B, C)  /\\   A NOTIN Open (C, B)",
+          "NOTIN(A, Open((B, C))) && NOTIN(A, Open((C, B)))",
           "",
           @readable.by(
             @readable.fol,
@@ -1952,12 +1952,12 @@ pub fn intervalrayez() -> @kernel.Thm {
 /// NoncollinearityExtendsToLine
 fn step_129() -> Unit raise {
   noncollinearityextendstoline_c.set(@readable.prove(
-    "\n  forall A O B X. ~Collinear A O B  ==>  Collinear O B X  /\\  ~(X = O)\n      ==>  ~Collinear A O X",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ X : Point, !Collinear(A, O, B) → Collinear(O, B, X) && !(X == O) → !Collinear(A, O, X)",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B X, H1, H2"),
         @readable.have(
-          "\n    ~(A = O) /\\  ~(A = B) /\\  ~(O = B)",
+          "!(A == O) && !(A == B) && !(O == B)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -1972,7 +1972,7 @@ fn step_129() -> Unit raise {
         ),
         @readable.consider(
           "b",
-          "Line b /\\  O IN b /\\  B IN b    ",
+          "∃ b : (Point) -> Bool, Line(b) && IN(O, b) && IN(B, b)",
           "b_line",
           @readable.by(
             @readable.fol,
@@ -1980,7 +1980,7 @@ fn step_129() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A NOTIN b",
+          "NOTIN(A, b)",
           "notAb",
           @readable.by(
             @readable.fol,
@@ -1993,7 +1993,7 @@ fn step_129() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    X IN b",
+          "IN(X, b)",
           "",
           @readable.by(
             @readable.fol,
@@ -2036,7 +2036,7 @@ pub fn noncollinearityextendstoline() -> @kernel.Thm {
 /// SameSideReflexive
 fn step_131() -> Unit raise {
   samesidereflexive_c.set(@readable.prove(
-    "\n  forall l A. Line l /\\   A NOTIN l ==> A,A same_side l",
+    "∀ l : (Point) -> Bool, ∀ A : Point, Line(l) && NOTIN(A, l) → same_side((A, A), l)",
     @readable.by(
       @readable.fol,
       [
@@ -2060,7 +2060,7 @@ pub fn samesidereflexive() -> @kernel.Thm {
 /// SameSideSymmetric
 fn step_132() -> Unit raise {
   samesidesymmetric_c.set(@readable.prove(
-    "\n  forall l A B. Line l /\\   A NOTIN l /\\  B NOTIN l ==>\n  A,B same_side l ==> B,A same_side l",
+    "∀ l : (Point) -> Bool, ∀ A : Point, ∀ B : Point, Line(l) && NOTIN(A, l) && NOTIN(B, l) → same_side((A, B), l) → same_side((B, A), l)",
     @readable.by(
       @readable.fol,
       [
@@ -2084,12 +2084,12 @@ pub fn samesidesymmetric() -> @kernel.Thm {
 /// SameSideTransitive
 fn step_133() -> Unit raise {
   samesidetransitive_c.set(@readable.prove(
-    "\n  forall l A B C. Line l  ==>  A NOTIN l /\\  B NOTIN l /\\  C NOTIN l  ==>  A,B same_side l\n    ==>  B,C same_side l  ==>  A,C same_side l",
+    "∀ l : (Point) -> Bool, ∀ A : Point, ∀ B : Point, ∀ C : Point, Line(l) → NOTIN(A, l) && NOTIN(B, l) && NOTIN(C, l) → same_side((A, B), l) → same_side((B, C), l) → same_side((A, C), l)",
     @readable.steps(
       [
         @readable.intro_tac("forall l A B C, l_line, notABCl, Asim_lB, Bsim_lC"),
         @readable.assuming(
-          "Collinear A B C  /\\  ~(A = B) /\\  ~(A = C) /\\  ~(B = C)",
+          "Collinear(A, B, C) && !(A == B) && !(A == C) && !(B == C)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -2105,7 +2105,7 @@ fn step_133() -> Unit raise {
         ),
         @readable.consider(
           "m",
-          "Line m /\\  A IN m /\\  C IN m    ",
+          "∃ m : (Point) -> Bool, Line(m) && IN(A, m) && IN(C, m)",
           "m_line",
           @readable.by(
             @readable.fol,
@@ -2113,7 +2113,7 @@ fn step_133() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B IN m",
+          "IN(B, m)",
           "Bm",
           @readable.by(
             @readable.fol,
@@ -2125,7 +2125,7 @@ fn step_133() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "~(m INTER l = {})",
+          "!(INTER(m, l) == {})",
           "Intersect",
           @readable.by(
             @readable.fol,
@@ -2141,7 +2141,7 @@ fn step_133() -> Unit raise {
         ),
         @readable.consider(
           "X",
-          "X IN l /\\  X IN m    ",
+          "∃ X : Point, IN(X, l) && IN(X, m)",
           "Xlm",
           @readable.by(
             @readable.fol,
@@ -2153,7 +2153,7 @@ fn step_133() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Collinear A X B  /\\   Collinear B A C  /\\   Collinear A B C",
+          "Collinear(A, X, B) && Collinear(B, A, C) && Collinear(A, B, C)",
           "ABXcol",
           @readable.by(
             @readable.fol,
@@ -2167,7 +2167,7 @@ fn step_133() -> Unit raise {
         ),
         @readable.consider(
           "E",
-          "E IN l /\\  ~(E = X)    ",
+          "∃ E : Point, IN(E, l) && !(E == X)",
           "El_X",
           @readable.by(
             @readable.fol,
@@ -2179,7 +2179,7 @@ fn step_133() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear E A X",
+          "!Collinear(E, A, X)",
           "EAXncol",
           @readable.by(
             @readable.fol,
@@ -2196,7 +2196,7 @@ fn step_133() -> Unit raise {
         ),
         @readable.consider(
           "B'",
-          "~(B = E)  /\\   B IN Open (E, B')    ",
+          "∃ B' : Point, !(B == E) && IN(B, Open((E, B')))",
           "EBB'",
           @readable.by(
             @readable.fol,
@@ -2209,7 +2209,7 @@ fn step_133() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(B' = E) /\\  ~(B' = B) /\\  Collinear B E B'",
+          "!(B' == E) && !(B' == B) && Collinear(B, E, B')",
           "EBB'col",
           @readable.by(
             @readable.fol,
@@ -2221,7 +2221,7 @@ fn step_133() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A B B'  /\\   ~Collinear B' B A  /\\   ~Collinear B' A B",
+          "!Collinear(A, B, B') && !Collinear(B', B, A) && !Collinear(B', A, B)",
           "ABB'ncol",
           @readable.by(
             @readable.fol,
@@ -2239,7 +2239,7 @@ fn step_133() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear B' B C /\\   ~Collinear B' A C /\\   ~Collinear A B' C",
+          "!Collinear(B', B, C) && !Collinear(B', A, C) && !Collinear(A, B', C)",
           "AB'Cncol",
           @readable.by(
             @readable.fol,
@@ -2256,7 +2256,7 @@ fn step_133() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B' IN ray E B DIFF {E}  /\\   B IN ray E B' DIFF {E}",
+          "IN(B', DIFF(ray(E, B), {E})) && IN(B, DIFF(ray(E, B'), {E}))",
           "",
           @readable.by(
             @readable.fol,
@@ -2267,7 +2267,7 @@ fn step_133() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B' NOTIN l  /\\   B',B same_side l  /\\   B,B' same_side l",
+          "NOTIN(B', l) && same_side((B', B), l) && same_side((B, B'), l)",
           "notB'l",
           @readable.by(
             @readable.fol,
@@ -2281,7 +2281,7 @@ fn step_133() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A,B' same_side l /\\   B',C same_side l",
+          "same_side((A, B'), l) && same_side((B', C), l)",
           "",
           @readable.by(
             @readable.fol,
@@ -2327,12 +2327,12 @@ pub fn samesidetransitive() -> @kernel.Thm {
 /// ConverseCrossbar
 fn step_141() -> Unit raise {
   conversecrossbar_c.set(@readable.prove(
-    "\n  forall O A B G. ~Collinear A O B  /\\   G IN Open (A, B)  ==>  G IN int_angle A O B",
+    "∀ O : Point, ∀ A : Point, ∀ B : Point, ∀ G : Point, !Collinear(A, O, B) && IN(G, Open((A, B))) → IN(G, int_angle(A, O, B))",
     @readable.steps(
       [
         @readable.intro_tac("forall O A B G, H1 H2"),
         @readable.have(
-          "\n    ~(A = O) /\\  ~(A = B) /\\  ~(O = B)",
+          "!(A == O) && !(A == B) && !(O == B)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -2347,13 +2347,13 @@ fn step_141() -> Unit raise {
         ),
         @readable.consider(
           "a",
-          "Line a /\\  O IN a /\\  A IN a    ",
+          "∃ a : (Point) -> Bool, Line(a) && IN(O, a) && IN(A, a)",
           "a_line",
           @readable.by(@readable.fol, [@readable.Prev, @readable.Thm("I1", () => i1())]),
         ),
         @readable.consider(
           "b",
-          "Line b /\\  O IN b /\\  B IN b    ",
+          "∃ b : (Point) -> Bool, Line(b) && IN(O, b) && IN(B, b)",
           "b_line",
           @readable.by(
             @readable.fol,
@@ -2362,7 +2362,7 @@ fn step_141() -> Unit raise {
         ),
         @readable.consider(
           "l",
-          "Line l /\\  A IN l /\\  B IN l    ",
+          "∃ l : (Point) -> Bool, Line(l) && IN(A, l) && IN(B, l)",
           "l_line",
           @readable.by(
             @readable.fol,
@@ -2370,7 +2370,7 @@ fn step_141() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B NOTIN a  /\\   A NOTIN b",
+          "NOTIN(B, a) && NOTIN(A, b)",
           "",
           @readable.by(
             @readable.fol,
@@ -2384,7 +2384,7 @@ fn step_141() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(a = l)  /\\   ~(b = l)",
+          "!(a == l) && !(b == l)",
           "",
           @readable.by(
             @readable.fol,
@@ -2396,7 +2396,7 @@ fn step_141() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    a INTER l = {A}  /\\   b INTER l = {B}",
+          "INTER(a, l) == {A} && INTER(b, l) == {B}",
           "alA",
           @readable.by(
             @readable.fol,
@@ -2410,7 +2410,7 @@ fn step_141() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = G) /\\  ~(A = B) /\\  ~(G = B)",
+          "!(A == G) && !(A == B) && !(G == B)",
           "AGB",
           @readable.by(
             @readable.fol,
@@ -2418,7 +2418,7 @@ fn step_141() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A NOTIN Open (G, B)  /\\   B NOTIN Open (G, A)",
+          "NOTIN(A, Open((G, B))) && NOTIN(B, Open((G, A)))",
           "notGAB",
           @readable.by(
             @readable.fol,
@@ -2431,7 +2431,7 @@ fn step_141() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN l",
+          "IN(G, l)",
           "Gl",
           @readable.by(
             @readable.fol,
@@ -2443,7 +2443,7 @@ fn step_141() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G NOTIN a  /\\   G NOTIN b",
+          "NOTIN(G, a) && NOTIN(G, b)",
           "notGa",
           @readable.by(
             @readable.fol,
@@ -2458,7 +2458,7 @@ fn step_141() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN l DIFF {A} /\\  B IN l DIFF {A} /\\  G IN l DIFF {B} /\\  A IN l DIFF {B}",
+          "IN(G, DIFF(l, {A})) && IN(B, DIFF(l, {A})) && IN(G, DIFF(l, {B})) && IN(A, DIFF(l, {B}))",
           "",
           @readable.by(
             @readable.fol,
@@ -2472,7 +2472,7 @@ fn step_141() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G,B same_side a  /\\   G,A same_side b",
+          "same_side((G, B), a) && same_side((G, A), b)",
           "",
           @readable.by(
             @readable.fol,
@@ -2516,13 +2516,13 @@ pub fn conversecrossbar() -> @kernel.Thm {
 /// InteriorUse
 fn step_143() -> Unit raise {
   interioruse_c.set(@readable.prove(
-    "\n  forall A O B P a b.\n    Line a /\\  O IN a /\\  A IN a /\\  Line b /\\  O IN b /\\  B IN b  ==>\n    P  IN int_angle A O B  ==>\n    P NOTIN a /\\  P NOTIN b /\\  P,B same_side a /\\  P,A same_side b",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ P : Point, ∀ a : (Point) -> Bool, ∀ b : (Point) -> Bool, Line(a) && IN(O, a) && IN(A, a) && Line(b) && IN(O, b) && IN(B, b) → IN(P, int_angle(A, O, B)) → NOTIN(P, a) && NOTIN(P, b) && same_side((P, B), a) && same_side((P, A), b)",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B P a b, aOAbOB, P_AOB"),
         @readable.consider(
           "alpha beta",
-          "~Collinear A O B /\\ \n    Line alpha /\\  O IN alpha /\\  A IN alpha /\\ \n    Line beta /\\  O IN beta /\\ B IN beta /\\ \n    P NOTIN alpha /\\  P NOTIN beta /\\ \n    P,B same_side alpha /\\  P,A same_side beta    ",
+          "∃ alpha : (Point) -> Bool, ∃ beta : (Point) -> Bool, !Collinear(A, O, B) && Line(alpha) && IN(O, alpha) && IN(A, alpha) && Line(beta) && IN(O, beta) && IN(B, beta) && NOTIN(P, alpha) && NOTIN(P, beta) && same_side((P, B), alpha) && same_side((P, A), beta)",
           "exists",
           @readable.by(
             @readable.fol,
@@ -2533,7 +2533,7 @@ fn step_143() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = O) /\\  ~(A = B) /\\  ~(O = B)",
+          "!(A == O) && !(A == B) && !(O == B)",
           "",
           @readable.by(
             @readable.fol,
@@ -2547,7 +2547,7 @@ fn step_143() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    alpha = a /\\  beta = b",
+          "alpha == a && beta == b",
           "",
           @readable.by(
             @readable.fol,
@@ -2578,13 +2578,13 @@ pub fn interioruse() -> @kernel.Thm {
 /// InteriorEZHelp
 fn step_144() -> Unit raise {
   interiorezhelp_c.set(@readable.prove(
-    "\n  forall A O B P. P IN int_angle A O B  ==>\n  ~(P = A) /\\  ~(P = O) /\\  ~(P = B) /\\  ~Collinear A O P",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ P : Point, IN(P, int_angle(A, O, B)) → !(P == A) && !(P == O) && !(P == B) && !Collinear(A, O, P)",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B P, P_AOB"),
         @readable.consider(
           "a b",
-          "~Collinear A O B /\\ \n    Line a /\\  O IN a /\\  A IN a /\\ \n    Line b /\\  O IN b /\\ B IN b /\\ \n    P NOTIN a /\\  P NOTIN b    ",
+          "∃ a : (Point) -> Bool, ∃ b : (Point) -> Bool, !Collinear(A, O, B) && Line(a) && IN(O, a) && IN(A, a) && Line(b) && IN(O, b) && IN(B, b) && NOTIN(P, a) && NOTIN(P, b)",
           "def_int",
           @readable.by(
             @readable.fol,
@@ -2595,7 +2595,7 @@ fn step_144() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(P = A) /\\  ~(P = O) /\\  ~(P = B)",
+          "!(P == A) && !(P == O) && !(P == B)",
           "PnotAOB",
           @readable.by(
             @readable.fol,
@@ -2603,7 +2603,7 @@ fn step_144() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = O)",
+          "!(A == O)",
           "",
           @readable.by(
             @readable.fol,
@@ -2617,7 +2617,7 @@ fn step_144() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A O P",
+          "!Collinear(A, O, P)",
           "",
           @readable.by(
             @readable.fol,
@@ -2648,7 +2648,7 @@ pub fn interiorezhelp() -> @kernel.Thm {
 /// InteriorAngleSymmetry
 fn step_146() -> Unit raise {
   interioranglesymmetry_c.set(@readable.prove(
-    "\n  forall A O B P: point. P IN int_angle A O B  ==>  P IN int_angle B O A",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ P : Point, IN(P, int_angle(A, O, B)) → IN(P, int_angle(B, O, A))",
     @readable.steps(
       [
         @readable.by(
@@ -2677,13 +2677,13 @@ pub fn interioranglesymmetry() -> @kernel.Thm {
 /// InteriorWellDefined
 fn step_147() -> Unit raise {
   interiorwelldefined_c.set(@readable.prove(
-    "\n  forall A O B X P. P IN int_angle A O B  /\\   X IN ray O B DIFF {O}  ==>  P IN int_angle A O X",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ X : Point, ∀ P : Point, IN(P, int_angle(A, O, B)) && IN(X, DIFF(ray(O, B), {O})) → IN(P, int_angle(A, O, X))",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B X P, H1 H2"),
         @readable.consider(
           "a b",
-          "~Collinear A O B /\\ \n    Line a /\\  O IN a /\\  A IN a /\\  P NOTIN a     /\\      Line b /\\  O IN b /\\  B IN b /\\  P NOTIN b /\\ \n    P,B same_side a /\\  P,A same_side b    ",
+          "∃ a : (Point) -> Bool, ∃ b : (Point) -> Bool, !Collinear(A, O, B) && Line(a) && IN(O, a) && IN(A, a) && NOTIN(P, a) && Line(b) && IN(O, b) && IN(B, b) && NOTIN(P, b) && same_side((P, B), a) && same_side((P, A), b)",
           "def_int",
           @readable.by(
             @readable.fol,
@@ -2694,7 +2694,7 @@ fn step_147() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(X = O) /\\  ~(O = B) /\\  Collinear O B X",
+          "!(X == O) && !(O == B) && Collinear(O, B, X)",
           "H2'",
           @readable.by(
             @readable.fol,
@@ -2707,7 +2707,7 @@ fn step_147() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B NOTIN a",
+          "NOTIN(B, a)",
           "notBa",
           @readable.by(
             @readable.fol,
@@ -2719,7 +2719,7 @@ fn step_147() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A O X",
+          "!Collinear(A, O, X)",
           "AOXnoncol",
           @readable.by(
             @readable.fol,
@@ -2734,7 +2734,7 @@ fn step_147() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    X IN b",
+          "IN(X, b)",
           "Xb",
           @readable.by(
             @readable.fol,
@@ -2746,7 +2746,7 @@ fn step_147() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    X NOTIN a  /\\   B,X same_side a",
+          "NOTIN(X, a) && same_side((B, X), a)",
           "",
           @readable.by(
             @readable.fol,
@@ -2760,7 +2760,7 @@ fn step_147() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P,X same_side a",
+          "same_side((P, X), a)",
           "",
           @readable.by(
             @readable.fol,
@@ -2800,13 +2800,13 @@ pub fn interiorwelldefined() -> @kernel.Thm {
 /// WholeRayInterior
 fn step_150() -> Unit raise {
   wholerayinterior_c.set(@readable.prove(
-    "\n  forall A O B X P. X IN int_angle A O B  /\\   P IN ray O X DIFF {O}  ==>  P IN int_angle A O B",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ X : Point, ∀ P : Point, IN(X, int_angle(A, O, B)) && IN(P, DIFF(ray(O, X), {O})) → IN(P, int_angle(A, O, B))",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B X P, XintAOB PrOX"),
         @readable.consider(
           "a b",
-          "~Collinear A O B /\\ \n    Line a /\\  O IN a /\\  A IN a /\\  X NOTIN a   /\\    Line b /\\  O IN b /\\  B IN b /\\  X NOTIN b /\\ \n    X,B same_side a /\\  X,A same_side b    ",
+          "∃ a : (Point) -> Bool, ∃ b : (Point) -> Bool, !Collinear(A, O, B) && Line(a) && IN(O, a) && IN(A, a) && NOTIN(X, a) && Line(b) && IN(O, b) && IN(B, b) && NOTIN(X, b) && same_side((X, B), a) && same_side((X, A), b)",
           "def_int",
           @readable.by(
             @readable.fol,
@@ -2817,7 +2817,7 @@ fn step_150() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P NOTIN a /\\  P,X same_side a /\\  P NOTIN b /\\  P,X same_side b",
+          "NOTIN(P, a) && same_side((P, X), a) && NOTIN(P, b) && same_side((P, X), b)",
           "Psim_abX",
           @readable.by(
             @readable.fol,
@@ -2829,7 +2829,7 @@ fn step_150() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P,B same_side a  /\\  P,A same_side b",
+          "same_side((P, B), a) && same_side((P, A), b)",
           "",
           @readable.by(
             @readable.fol,
@@ -2869,12 +2869,12 @@ pub fn wholerayinterior() -> @kernel.Thm {
 /// AngleOrdering
 fn step_151() -> Unit raise {
   angleordering_c.set(@readable.prove(
-    "\n  forall O A P Q a. ~(O = A)  ==>  Line a /\\  O IN a /\\  A IN a  ==>\n    P NOTIN a /\\  Q NOTIN a  ==>  P,Q same_side a  ==>  ~Collinear P O Q  ==>\n    P IN int_angle Q O A  \\/  Q IN int_angle P O A",
+    "∀ O : Point, ∀ A : Point, ∀ P : Point, ∀ Q : Point, ∀ a : (Point) -> Bool, !(O == A) → Line(a) && IN(O, a) && IN(A, a) → NOTIN(P, a) && NOTIN(Q, a) → same_side((P, Q), a) → !Collinear(P, O, Q) → IN(P, int_angle(Q, O, A)) || IN(Q, int_angle(P, O, A))",
     @readable.steps(
       [
         @readable.intro_tac("forall O A P Q a, H1, H2, H3, H4, H5"),
         @readable.have(
-          "\n    ~(P = O) /\\  ~(P = Q) /\\  ~(O = Q)",
+          "!(P == O) && !(P == Q) && !(O == Q)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -2889,7 +2889,7 @@ fn step_151() -> Unit raise {
         ),
         @readable.consider(
           "q",
-          "Line q /\\  O IN q /\\  Q IN q    ",
+          "∃ q : (Point) -> Bool, Line(q) && IN(O, q) && IN(Q, q)",
           "q_line",
           @readable.by(
             @readable.fol,
@@ -2897,7 +2897,7 @@ fn step_151() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P NOTIN q",
+          "NOTIN(P, q)",
           "notPq",
           @readable.by(
             @readable.fol,
@@ -2910,12 +2910,12 @@ fn step_151() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "~(P IN int_angle Q O A)",
+          "!IN(P, int_angle(Q, O, A))",
           "notPintQOA",
           @readable.by(@readable.fol, []),
         ),
         @readable.have(
-          "\n    ~Collinear Q O A  /\\   ~Collinear P O A",
+          "!Collinear(Q, O, A) && !Collinear(P, O, A)",
           "POAncol",
           @readable.by(
             @readable.fol,
@@ -2930,7 +2930,7 @@ fn step_151() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n~(P,A same_side q)",
+          "!same_side((P, A), q)",
           "",
           @readable.by(
             @readable.fol,
@@ -2948,7 +2948,7 @@ fn step_151() -> Unit raise {
         ),
         @readable.consider(
           "G",
-          "G IN q /\\  G IN Open (P, A)    ",
+          "∃ G : Point, IN(G, q) && IN(G, Open((P, A)))",
           "existG",
           @readable.by(
             @readable.fol,
@@ -2960,7 +2960,7 @@ fn step_151() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN int_angle P O A",
+          "IN(G, int_angle(P, O, A))",
           "G_POA",
           @readable.by(
             @readable.fol,
@@ -2972,7 +2972,7 @@ fn step_151() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G NOTIN a /\\  G,P same_side a /\\  ~(G = O)",
+          "NOTIN(G, a) && same_side((G, P), a) && !(G == O)",
           "Gsim_aP",
           @readable.by(
             @readable.fol,
@@ -2987,7 +2987,7 @@ fn step_151() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G,Q same_side a",
+          "same_side((G, Q), a)",
           "",
           @readable.by(
             @readable.fol,
@@ -3001,7 +3001,7 @@ fn step_151() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    O NOTIN Open (Q, G)",
+          "NOTIN(O, Open((Q, G)))",
           "notQOG",
           @readable.by(
             @readable.fol,
@@ -3015,7 +3015,7 @@ fn step_151() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Collinear O G Q",
+          "Collinear(O, G, Q)",
           "",
           @readable.by(
             @readable.fol,
@@ -3027,7 +3027,7 @@ fn step_151() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Q IN ray O G DIFF {O}",
+          "IN(Q, DIFF(ray(O, G), {O}))",
           "",
           @readable.by(
             @readable.fol,
@@ -3068,18 +3068,18 @@ pub fn angleordering() -> @kernel.Thm {
 /// InteriorsDisjointSupplement
 fn step_154() -> Unit raise {
   interiorsdisjointsupplement_c.set(@readable.prove(
-    "\n  forall A O B A'. ~Collinear A O B  /\\   O IN Open (A, A')  ==>\n    int_angle B O A'  INTER  int_angle A O B = {}",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ A' : Point, !Collinear(A, O, B) && IN(O, Open((A, A'))) → INTER(int_angle(B, O, A'), int_angle(A, O, B)) == {}",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B A', H1 H2"),
         @readable.have(
-          "\n    forall D. D IN int_angle A O B  ==>  D NOTIN int_angle B O A'",
+          "∀ D : Point, IN(D, int_angle(A, O, B)) → NOTIN(D, int_angle(B, O, A'))",
           "",
           @readable.steps(
             [
               @readable.intro_tac("forall D, H3"),
               @readable.have(
-                "\n      ~(A = O) /\\  ~(O = B)",
+                "!(A == O) && !(O == B)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -3094,7 +3094,7 @@ fn step_154() -> Unit raise {
               ),
               @readable.consider(
                 "a b",
-                "Line a /\\  O IN a /\\  A IN a /\\  Line b /\\  O IN b /\\  B IN b /\\  A' IN a    ",
+                "∃ a : (Point) -> Bool, ∃ b : (Point) -> Bool, Line(a) && IN(O, a) && IN(A, a) && Line(b) && IN(O, b) && IN(B, b) && IN(A', a)",
                 "ab_line",
                 @readable.by(
                   @readable.fol,
@@ -3107,7 +3107,7 @@ fn step_154() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ~Collinear B O A'",
+                "!Collinear(B, O, A')",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -3124,7 +3124,7 @@ fn step_154() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      A NOTIN b  /\\   A' NOTIN b",
+                "NOTIN(A, b) && NOTIN(A', b)",
                 "notAb",
                 @readable.by(
                   @readable.fol,
@@ -3138,7 +3138,7 @@ fn step_154() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ~(A',A same_side b)",
+                "!same_side((A', A), b)",
                 "A'nsim_bA",
                 @readable.by(
                   @readable.fol,
@@ -3151,7 +3151,7 @@ fn step_154() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      D NOTIN b  /\\   D,A same_side b",
+                "NOTIN(D, b) && same_side((D, A), b)",
                 "DintAOB",
                 @readable.by(
                   @readable.fol,
@@ -3163,7 +3163,7 @@ fn step_154() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ~(D,A' same_side b)",
+                "!same_side((D, A'), b)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -3214,13 +3214,13 @@ pub fn interiorsdisjointsupplement() -> @kernel.Thm {
 /// InteriorReflectionInterior
 fn step_157() -> Unit raise {
   interiorreflectioninterior_c.set(@readable.prove(
-    "\n  forall A O B D A'. O IN Open (A, A')  /\\   D IN int_angle A O B  ==>\n    B  IN int_angle D O A'",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ D : Point, ∀ A' : Point, IN(O, Open((A, A'))) && IN(D, int_angle(A, O, B)) → IN(B, int_angle(D, O, A'))",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B D A', H1 H2"),
         @readable.consider(
           "a b",
-          "~Collinear A O B /\\  Line a /\\  O IN a /\\  A IN a /\\  D NOTIN a /\\ \n    Line b /\\  O IN b /\\  B IN b /\\  D NOTIN b /\\  D,B same_side a    ",
+          "∃ a : (Point) -> Bool, ∃ b : (Point) -> Bool, !Collinear(A, O, B) && Line(a) && IN(O, a) && IN(A, a) && NOTIN(D, a) && Line(b) && IN(O, b) && IN(B, b) && NOTIN(D, b) && same_side((D, B), a)",
           "DintAOB",
           @readable.by(
             @readable.fol,
@@ -3231,7 +3231,7 @@ fn step_157() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(O = B) /\\  ~(O = A') /\\  B NOTIN a",
+          "!(O == B) && !(O == A') && NOTIN(B, a)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -3249,7 +3249,7 @@ fn step_157() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear D O B",
+          "!Collinear(D, O, B)",
           "DOB_ncol",
           @readable.by(
             @readable.fol,
@@ -3262,7 +3262,7 @@ fn step_157() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A' IN a",
+          "IN(A', a)",
           "A'a",
           @readable.by(
             @readable.fol,
@@ -3274,7 +3274,7 @@ fn step_157() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D NOTIN int_angle B O A'",
+          "NOTIN(D, int_angle(B, O, A'))",
           "",
           @readable.by(
             @readable.fol,
@@ -3320,13 +3320,13 @@ pub fn interiorreflectioninterior() -> @kernel.Thm {
 /// Crossbar_THM
 fn step_160() -> Unit raise {
   crossbar_thm_c.set(@readable.prove(
-    "\n  forall O A B D. D IN int_angle A O B  ==>  ?G. G IN Open (A, B)  /\\   G IN ray O D DIFF {O}",
+    "∀ O : Point, ∀ A : Point, ∀ B : Point, ∀ D : Point, IN(D, int_angle(A, O, B)) → (∃ G : Point, IN(G, Open((A, B))) && IN(G, DIFF(ray(O, D), {O})))",
     @readable.steps(
       [
         @readable.intro_tac("forall O A B D, H1"),
         @readable.consider(
           "a b",
-          "~Collinear A O B /\\ \n    Line a /\\  O IN a /\\  A IN a /\\ \n    Line b /\\  O IN b /\\  B IN b /\\ \n    D NOTIN a /\\  D NOTIN b /\\  D,B same_side a /\\  D,A same_side b    ",
+          "∃ a : (Point) -> Bool, ∃ b : (Point) -> Bool, !Collinear(A, O, B) && Line(a) && IN(O, a) && IN(A, a) && Line(b) && IN(O, b) && IN(B, b) && NOTIN(D, a) && NOTIN(D, b) && same_side((D, B), a) && same_side((D, A), b)",
           "DintAOB",
           @readable.by(
             @readable.fol,
@@ -3337,7 +3337,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B NOTIN a",
+          "NOTIN(B, a)",
           "notBa",
           @readable.by(
             @readable.fol,
@@ -3349,7 +3349,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = O) /\\  ~(A = B) /\\  ~(O = B) /\\  ~(D = O)",
+          "!(A == O) && !(A == B) && !(O == B) && !(D == O)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -3365,13 +3365,13 @@ fn step_160() -> Unit raise {
         ),
         @readable.consider(
           "l",
-          "Line l /\\  O IN l /\\  D IN l    ",
+          "∃ l : (Point) -> Bool, Line(l) && IN(O, l) && IN(D, l)",
           "l_line",
           @readable.by(@readable.fol, [@readable.Prev, @readable.Thm("I1", () => i1())]),
         ),
         @readable.consider(
           "A'",
-          "O IN Open (A, A')    ",
+          "∃ A' : Point, IN(O, Open((A, A')))",
           "AOA'",
           @readable.by(
             @readable.fol,
@@ -3379,7 +3379,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A' IN a /\\  Collinear A O A' /\\  ~(A' = O)",
+          "IN(A', a) && Collinear(A, O, A') && !(A' == O)",
           "A'a",
           @readable.by(
             @readable.fol,
@@ -3392,7 +3392,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A,A' same_side l)",
+          "!same_side((A, A'), l)",
           "Ansim_lA'",
           @readable.by(
             @readable.fol,
@@ -3404,7 +3404,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B IN int_angle D O A'",
+          "IN(B, int_angle(D, O, A'))",
           "",
           @readable.by(
             @readable.fol,
@@ -3419,7 +3419,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B,A' same_side l",
+          "same_side((B, A'), l)",
           "Bsim_lA'",
           @readable.by(
             @readable.fol,
@@ -3433,7 +3433,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A O D  /\\   ~Collinear B O D",
+          "!Collinear(A, O, D) && !Collinear(B, O, D)",
           "AODncol",
           @readable.by(
             @readable.fol,
@@ -3445,7 +3445,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear D O A'",
+          "!Collinear(D, O, A')",
           "",
           @readable.by(
             @readable.fol,
@@ -3461,7 +3461,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A NOTIN l /\\  B NOTIN l /\\  A' NOTIN l",
+          "NOTIN(A, l) && NOTIN(B, l) && NOTIN(A', l)",
           "",
           @readable.by(
             @readable.fol,
@@ -3475,7 +3475,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A,B same_side l)",
+          "!same_side((A, B), l)",
           "",
           @readable.by(
             @readable.fol,
@@ -3490,7 +3490,7 @@ fn step_160() -> Unit raise {
         ),
         @readable.consider(
           "G",
-          "G IN Open (A, B) /\\  G IN l    ",
+          "∃ G : Point, IN(G, Open((A, B))) && IN(G, l)",
           "AGB",
           @readable.by(
             @readable.fol,
@@ -3502,7 +3502,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Collinear O D G",
+          "Collinear(O, D, G)",
           "ODGcol",
           @readable.by(
             @readable.fol,
@@ -3514,7 +3514,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN int_angle A O B",
+          "IN(G, int_angle(A, O, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -3526,7 +3526,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G NOTIN a  /\\   G,B same_side a  /\\   ~(G = O)",
+          "NOTIN(G, a) && same_side((G, B), a) && !(G == O)",
           "Gsim_aB",
           @readable.by(
             @readable.fol,
@@ -3539,7 +3539,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B,D same_side a",
+          "same_side((B, D), a)",
           "",
           @readable.by(
             @readable.fol,
@@ -3551,7 +3551,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G,D same_side a",
+          "same_side((G, D), a)",
           "Gsim_aD",
           @readable.by(
             @readable.fol,
@@ -3565,7 +3565,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    O NOTIN Open (G, D)",
+          "NOTIN(O, Open((G, D)))",
           "",
           @readable.by(
             @readable.fol,
@@ -3578,7 +3578,7 @@ fn step_160() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN ray O D DIFF {O}",
+          "IN(G, DIFF(ray(O, D), {O}))",
           "",
           @readable.by(
             @readable.fol,
@@ -3612,13 +3612,13 @@ pub fn crossbar_thm() -> @kernel.Thm {
 /// AlternateConverseCrossbar
 fn step_164() -> Unit raise {
   alternateconversecrossbar_c.set(@readable.prove(
-    "\n  forall O A B G. Collinear A G B  /\\   G IN int_angle A O B  ==>  G IN Open (A, B)",
+    "∀ O : Point, ∀ A : Point, ∀ B : Point, ∀ G : Point, Collinear(A, G, B) && IN(G, int_angle(A, O, B)) → IN(G, Open((A, B)))",
     @readable.steps(
       [
         @readable.intro_tac("forall O A B G, H1"),
         @readable.consider(
           "a b",
-          "~Collinear A O B  /\\   Line a /\\  O IN a /\\  A IN a  /\\   Line b /\\  O IN b /\\  B IN b  /\\ \n    G,B same_side a  /\\   G,A same_side b    ",
+          "∃ a : (Point) -> Bool, ∃ b : (Point) -> Bool, !Collinear(A, O, B) && Line(a) && IN(O, a) && IN(A, a) && Line(b) && IN(O, b) && IN(B, b) && same_side((G, B), a) && same_side((G, A), b)",
           "GintAOB",
           @readable.by(
             @readable.fol,
@@ -3629,7 +3629,7 @@ fn step_164() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(G = A) /\\  ~(G = B)  /\\   A NOTIN Open (G, B)  /\\   B NOTIN Open (G, A)",
+          "!(A == B) && !(G == A) && !(G == B) && NOTIN(A, Open((G, B))) && NOTIN(B, Open((G, A)))",
           "",
           @readable.by(
             @readable.fol,
@@ -3674,13 +3674,13 @@ pub fn alternateconversecrossbar() -> @kernel.Thm {
 /// InteriorOpposite
 fn step_165() -> Unit raise {
   interioropposite_c.set(@readable.prove(
-    "\n  forall A O B P p. P IN int_angle A O B  ==>  Line p /\\  O IN p /\\  P IN p\n    ==>  ~(A,B same_side p)",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ P : Point, ∀ p : (Point) -> Bool, IN(P, int_angle(A, O, B)) → Line(p) && IN(O, p) && IN(P, p) → !same_side((A, B), p)",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B P p, PintAOB, p_line"),
         @readable.consider(
           "G",
-          "G IN Open (A, B) /\\  G IN ray O P    ",
+          "∃ G : Point, IN(G, Open((A, B))) && IN(G, ray(O, P))",
           "Gexists",
           @readable.by(
             @readable.fol,
@@ -3721,13 +3721,13 @@ pub fn interioropposite() -> @kernel.Thm {
 /// IntervalTransitivity
 fn step_167() -> Unit raise {
   intervaltransitivity_c.set(@readable.prove(
-    "\n  forall O P Q R m. Line m  /\\  O IN m  ==>  P IN m DIFF {O} /\\  Q IN m DIFF {O} /\\  R IN m DIFF {O}  ==>\n    O NOTIN Open (P, Q) /\\  O NOTIN Open (Q, R)  ==>  O NOTIN Open (P, R)",
+    "∀ O : Point, ∀ P : Point, ∀ Q : Point, ∀ R : Point, ∀ m : (Point) -> Bool, Line(m) && IN(O, m) → IN(P, DIFF(m, {O})) && IN(Q, DIFF(m, {O})) && IN(R, DIFF(m, {O})) → NOTIN(O, Open((P, Q))) && NOTIN(O, Open((Q, R))) → NOTIN(O, Open((P, R)))",
     @readable.steps(
       [
         @readable.intro_tac("forall O P Q R m, H0, H2, H3"),
         @readable.consider(
           "E",
-          "E NOTIN m /\\   ~(O = E)    ",
+          "∃ E : Point, NOTIN(E, m) && !(O == E)",
           "notEm",
           @readable.by(
             @readable.fol,
@@ -3740,12 +3740,12 @@ fn step_167() -> Unit raise {
         ),
         @readable.consider(
           "l",
-          "Line l /\\  O IN l /\\  E IN l    ",
+          "∃ l : (Point) -> Bool, Line(l) && IN(O, l) && IN(E, l)",
           "l_line",
           @readable.by(@readable.fol, [@readable.Prev, @readable.Thm("I1", () => i1())]),
         ),
         @readable.have(
-          "\n    ~(m = l)",
+          "!(m == l)",
           "",
           @readable.by(
             @readable.fol,
@@ -3757,7 +3757,7 @@ fn step_167() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    l INTER m = {O}",
+          "INTER(l, m) == {O}",
           "lmO",
           @readable.by(
             @readable.fol,
@@ -3771,7 +3771,7 @@ fn step_167() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P NOTIN l /\\   Q NOTIN l /\\  R NOTIN l",
+          "NOTIN(P, l) && NOTIN(Q, l) && NOTIN(R, l)",
           "notPQRl",
           @readable.by(
             @readable.fol,
@@ -3783,7 +3783,7 @@ fn step_167() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P,Q same_side l  /\\   Q,R same_side l",
+          "same_side((P, Q), l) && same_side((Q, R), l)",
           "",
           @readable.by(
             @readable.fol,
@@ -3798,7 +3798,7 @@ fn step_167() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P,R same_side l",
+          "same_side((P, R), l)",
           "Psim_lR",
           @readable.by(
             @readable.fol,
@@ -3837,13 +3837,13 @@ pub fn intervaltransitivity() -> @kernel.Thm {
 /// RayWellDefinedHalfway
 fn step_169() -> Unit raise {
   raywelldefinedhalfway_c.set(@readable.prove(
-    "\n  forall O P Q. ~(Q = O)  /\\   P IN ray O Q DIFF {O}  ==>  ray O P SUBSET ray O Q",
+    "∀ O : Point, ∀ P : Point, ∀ Q : Point, !(Q == O) && IN(P, DIFF(ray(O, Q), {O})) → SUBSET(ray(O, P), ray(O, Q))",
     @readable.steps(
       [
         @readable.intro_tac("forall O P Q, H1 H2"),
         @readable.consider(
           "m",
-          "Line m /\\  O IN m /\\  Q IN m    ",
+          "∃ m : (Point) -> Bool, Line(m) && IN(O, m) && IN(Q, m)",
           "OQm",
           @readable.by(
             @readable.fol,
@@ -3851,7 +3851,7 @@ fn step_169() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P IN ray O Q  /\\   ~(P = O)  /\\   O NOTIN Open (P, Q)",
+          "IN(P, ray(O, Q)) && !(P == O) && NOTIN(O, Open((P, Q)))",
           "H2'",
           @readable.by(
             @readable.fol,
@@ -3864,7 +3864,7 @@ fn step_169() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P IN m  /\\   P IN m DIFF {O}  /\\   Q IN m DIFF {O}",
+          "IN(P, m) && IN(P, DIFF(m, {O})) && IN(Q, DIFF(m, {O}))",
           "PQm_O",
           @readable.by(
             @readable.fol,
@@ -3882,7 +3882,7 @@ fn step_169() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    O NOTIN Open (P, Q)",
+          "NOTIN(O, Open((P, Q)))",
           "notPOQ",
           @readable.by(
             @readable.fol,
@@ -3892,7 +3892,7 @@ fn step_169() -> Unit raise {
         @readable.by(@readable.rewrite, [@readable.Thm("SUBSET", () => @sets.subset())]),
         @readable.intro_tac("forall [X], XrayOP"),
         @readable.have(
-          "\n    X IN m  /\\   O NOTIN Open (X, P)",
+          "IN(X, m) && NOTIN(O, Open((X, P)))",
           "XrOP",
           @readable.by(
             @readable.fol,
@@ -3908,7 +3908,7 @@ fn step_169() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Collinear O Q X",
+          "Collinear(O, Q, X)",
           "OQXcol",
           @readable.by(
             @readable.fol,
@@ -3920,7 +3920,7 @@ fn step_169() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "~(X = O)",
+          "!(X == O)",
           "notXO",
           @readable.by(
             @readable.fol,
@@ -3928,7 +3928,7 @@ fn step_169() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    X IN m DIFF {O}",
+          "IN(X, DIFF(m, {O}))",
           "",
           @readable.by(
             @readable.fol,
@@ -3941,7 +3941,7 @@ fn step_169() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    O NOTIN Open (X, Q)",
+          "NOTIN(O, Open((X, Q)))",
           "",
           @readable.by(
             @readable.fol,
@@ -3982,12 +3982,12 @@ pub fn raywelldefinedhalfway() -> @kernel.Thm {
 /// RayWellDefined
 fn step_172() -> Unit raise {
   raywelldefined_c.set(@readable.prove(
-    "\n  forall O P Q. ~(Q = O)  /\\   P IN ray O Q DIFF {O}  ==>  ray O P = ray O Q",
+    "∀ O : Point, ∀ P : Point, ∀ Q : Point, !(Q == O) && IN(P, DIFF(ray(O, Q), {O})) → ray(O, P) == ray(O, Q)",
     @readable.steps(
       [
         @readable.intro_tac("forall O P Q, H1  H2"),
         @readable.have(
-          "\n    ray O P SUBSET ray O Q",
+          "SUBSET(ray(O, P), ray(O, Q))",
           "PsubsetQ",
           @readable.by(
             @readable.fol,
@@ -3999,7 +3999,7 @@ fn step_172() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(P = O)  /\\   Collinear O Q P  /\\   O NOTIN Open (P, Q)",
+          "!(P == O) && Collinear(O, Q, P) && NOTIN(O, Open((P, Q)))",
           "H2'",
           @readable.by(
             @readable.fol,
@@ -4012,7 +4012,7 @@ fn step_172() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Q IN ray O P DIFF {O}",
+          "IN(Q, DIFF(ray(O, P), {O}))",
           "",
           @readable.by(
             @readable.fol,
@@ -4029,7 +4029,7 @@ fn step_172() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray O Q SUBSET ray O P",
+          "SUBSET(ray(O, Q), ray(O, P))",
           "QsubsetP",
           @readable.by(
             @readable.fol,
@@ -4066,12 +4066,12 @@ pub fn raywelldefined() -> @kernel.Thm {
 /// OppositeRaysIntersect1pointHelp
 fn step_175() -> Unit raise {
   oppositeraysintersect1pointhelp_c.set(@readable.prove(
-    "\n  forall A O B X. O IN Open (A, B)  /\\   X IN ray O B DIFF {O}\n    ==>  X NOTIN ray O A  /\\   O IN Open (X, A)",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ X : Point, IN(O, Open((A, B))) && IN(X, DIFF(ray(O, B), {O})) → NOTIN(X, ray(O, A)) && IN(O, Open((X, A)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B X, H1 H2"),
         @readable.have(
-          "\n    ~(A = O) /\\  ~(A = B) /\\  ~(O = B) /\\  Collinear A O B",
+          "!(A == O) && !(A == B) && !(O == B) && Collinear(A, O, B)",
           "AOB",
           @readable.by(
             @readable.fol,
@@ -4079,7 +4079,7 @@ fn step_175() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(X = O) /\\  Collinear O B X /\\  O NOTIN Open (X, B)",
+          "!(X == O) && Collinear(O, B, X) && NOTIN(O, Open((X, B)))",
           "H2'",
           @readable.by(
             @readable.fol,
@@ -4093,7 +4093,7 @@ fn step_175() -> Unit raise {
         ),
         @readable.consider(
           "m",
-          "Line m /\\  A IN m /\\  B IN m    ",
+          "∃ m : (Point) -> Bool, Line(m) && IN(A, m) && IN(B, m)",
           "m_line",
           @readable.by(
             @readable.fol,
@@ -4101,7 +4101,7 @@ fn step_175() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    O IN m  /\\  X IN m",
+          "IN(O, m) && IN(X, m)",
           "Om",
           @readable.by(
             @readable.fol,
@@ -4114,7 +4114,7 @@ fn step_175() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A IN m DIFF {O}  /\\   X IN m DIFF {O}  /\\   B IN m DIFF {O}",
+          "IN(A, DIFF(m, {O})) && IN(X, DIFF(m, {O})) && IN(B, DIFF(m, {O}))",
           "",
           @readable.by(
             @readable.fol,
@@ -4160,12 +4160,12 @@ pub fn oppositeraysintersect1pointhelp() -> @kernel.Thm {
 /// OppositeRaysIntersect1point
 fn step_176() -> Unit raise {
   oppositeraysintersect1point_c.set(@readable.prove(
-    "\n  forall A O B. O IN Open (A, B)  ==>  ray O A INTER ray O B  =  {O}",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, IN(O, Open((A, B))) → INTER(ray(O, A), ray(O, B)) == {O}",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B, H1"),
         @readable.have(
-          "\n    ~(A = O) /\\  ~(O = B)",
+          "!(A == O) && !(O == B)",
           "",
           @readable.by(
             @readable.fol,
@@ -4225,7 +4225,7 @@ pub fn oppositeraysintersect1point() -> @kernel.Thm {
 /// IntervalRay
 fn step_180() -> Unit raise {
   intervalray_c.set(@readable.prove(
-    "\n  forall A B C. B IN Open (A, C)  ==>  ray A B = ray A C",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, IN(B, Open((A, C))) → ray(A, B) == ray(A, C)",
     @readable.by(
       @readable.fol,
       [
@@ -4250,7 +4250,7 @@ pub fn intervalray() -> @kernel.Thm {
 /// Reverse4Order
 fn step_182() -> Unit raise {
   reverse4order_c.set(@readable.prove(
-    "\n  forall A B C D. ordered A B C D  ==>  ordered D C B A",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, ordered(A, B, C, D) → ordered(D, C, B, A)",
     @readable.steps(
       [
         @readable.by(
@@ -4276,12 +4276,12 @@ pub fn reverse4order() -> @kernel.Thm {
 /// TransitivityBetweennessHelp
 fn step_184() -> Unit raise {
   transitivitybetweennesshelp_c.set(@readable.prove(
-    "\n  forall A B C D. B IN Open (A, C)  /\\   C IN Open (B, D)\n   ==>  B IN Open (A, D)",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, IN(B, Open((A, C))) && IN(C, Open((B, D))) → IN(B, Open((A, D)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D, H1"),
         @readable.have(
-          "\n    D IN ray B C DIFF {B}",
+          "IN(D, DIFF(ray(B, C), {B}))",
           "",
           @readable.by(
             @readable.fol,
@@ -4321,12 +4321,12 @@ pub fn transitivitybetweennesshelp() -> @kernel.Thm {
 /// TransitivityBetweenness
 fn step_185() -> Unit raise {
   transitivitybetweenness_c.set(@readable.prove(
-    "\n  forall A B C D. B IN Open (A, C)  /\\   C IN Open (B, D)  ==>  ordered A B C D",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, IN(B, Open((A, C))) && IN(C, Open((B, D))) → ordered(A, B, C, D)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D, H1"),
         @readable.have(
-          "\n    B IN Open (A, D)",
+          "IN(B, Open((A, D)))",
           "ABD",
           @readable.by(
             @readable.fol,
@@ -4340,7 +4340,7 @@ fn step_185() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C IN Open (D, B)  /\\   B IN Open (C, A)",
+          "IN(C, Open((D, B))) && IN(B, Open((C, A)))",
           "",
           @readable.by(
             @readable.fol,
@@ -4348,7 +4348,7 @@ fn step_185() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C IN Open (D, A)",
+          "IN(C, Open((D, A)))",
           "",
           @readable.by(
             @readable.fol,
@@ -4389,18 +4389,18 @@ pub fn transitivitybetweenness() -> @kernel.Thm {
 /// IntervalsAreConvex
 fn step_187() -> Unit raise {
   intervalsareconvex_c.set(@readable.prove(
-    "\n  forall A B C. B IN Open (A, C)  ==>  Open (A, B)  SUBSET  Open (A, C)",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, IN(B, Open((A, C))) → SUBSET(Open((A, B)), Open((A, C)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C, H1"),
         @readable.have(
-          "\n    forall X. X IN Open (A, B)  ==>  X IN Open (A, C)",
+          "∀ X : Point, IN(X, Open((A, B))) → IN(X, Open((A, C)))",
           "",
           @readable.steps(
             [
               @readable.intro_tac("forall X, AXB"),
               @readable.have(
-                "\n      X IN ray B A DIFF {B}",
+                "IN(X, DIFF(ray(B, A), {B}))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -4412,7 +4412,7 @@ fn step_187() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      B IN Open (X, C)",
+                "IN(B, Open((X, C)))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -4463,12 +4463,12 @@ pub fn intervalsareconvex() -> @kernel.Thm {
 /// TransitivityBetweennessVariant
 fn step_188() -> Unit raise {
   transitivitybetweennessvariant_c.set(@readable.prove(
-    "\n  forall A X B C. X IN Open (A, B)  /\\   B IN Open (A, C)  ==>  ordered A X B C",
+    "∀ A : Point, ∀ X : Point, ∀ B : Point, ∀ C : Point, IN(X, Open((A, B))) && IN(B, Open((A, C))) → ordered(A, X, B, C)",
     @readable.steps(
       [
         @readable.intro_tac("forall A X B C, H1"),
         @readable.have(
-          "\n    X IN ray B A DIFF {B}",
+          "IN(X, DIFF(ray(B, A), {B}))",
           "",
           @readable.by(
             @readable.fol,
@@ -4480,7 +4480,7 @@ fn step_188() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B IN Open (X, C)",
+          "IN(B, Open((X, C)))",
           "",
           @readable.by(
             @readable.fol,
@@ -4521,17 +4521,17 @@ pub fn transitivitybetweennessvariant() -> @kernel.Thm {
 /// Interval2sides2aLineHelp
 fn step_190() -> Unit raise {
   interval2sides2alinehelp_c.set(@readable.prove(
-    "\n  forall A B C X. B IN Open (A, C)  ==>  X NOTIN Open (A, B) \\/ X NOTIN Open (B, C)",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ X : Point, IN(B, Open((A, C))) → NOTIN(X, Open((A, B))) || NOTIN(X, Open((B, C)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C X, H1"),
         @readable.assuming(
-          "~(X NOTIN Open (A, B))",
+          "!NOTIN(X, Open((A, B)))",
           "AXB",
           @readable.by(@readable.fol, []),
         ),
         @readable.have(
-          "\n    ordered A X B C",
+          "ordered(A, X, B, C)",
           "",
           @readable.by(
             @readable.fol,
@@ -4552,7 +4552,7 @@ fn step_190() -> Unit raise {
             @readable.ThmsTermRule(
               ths => tm => @meson.meson(ths, tm),
               [@readable.Prev, @readable.Thm("Ordered_DEF", () => ordered_def())],
-              "B IN Open (X, C)",
+              "IN(B, Open((X, C)))",
             ),
             @readable.Thm("B1'", () => b1_p()),
             @readable.Thm("B3'", () => b3_p()),
@@ -4577,12 +4577,12 @@ pub fn interval2sides2alinehelp() -> @kernel.Thm {
 /// Interval2sides2aLine
 fn step_193() -> Unit raise {
   interval2sides2aline_c.set(@readable.prove(
-    "\n  forall A B C X. Collinear A B C\n    ==>  X NOTIN Open (A, B)  \\/  X NOTIN Open (A, C)  \\/  X NOTIN Open (B, C)",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ X : Point, Collinear(A, B, C) → NOTIN(X, Open((A, B))) || NOTIN(X, Open((A, C))) || NOTIN(X, Open((B, C)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C X, H1"),
         @readable.assuming(
-          "~(A = B) /\\  ~(A = C) /\\  ~(B = C)",
+          "!(A == B) && !(A == C) && !(B == C)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -4590,7 +4590,7 @@ fn step_193() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B IN Open (A, C)  \\/  C IN Open (B, A)  \\/  A IN Open (C, B)",
+          "IN(B, Open((A, C))) || IN(C, Open((B, A))) || IN(A, Open((C, B)))",
           "",
           @readable.by(
             @readable.fol,
@@ -4624,12 +4624,12 @@ pub fn interval2sides2aline() -> @kernel.Thm {
 /// TwosidesTriangle2aLine
 fn step_195() -> Unit raise {
   twosidestriangle2aline_c.set(@readable.prove(
-    "\n  forall A B C l. Line l /\\  ~Collinear A B C  ==>  A NOTIN l /\\  B NOTIN l /\\  C NOTIN l  ==>\n    ~(A,B same_side l) /\\  ~(B,C same_side l)  ==>  A,C same_side l",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ l : (Point) -> Bool, Line(l) && !Collinear(A, B, C) → NOTIN(A, l) && NOTIN(B, l) && NOTIN(C, l) → !same_side((A, B), l) && !same_side((B, C), l) → same_side((A, C), l)",
     @readable.steps_then(
       [
         @readable.intro_tac("forall  A B C l, H1, off_l, H2"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C) /\\  ~(B = C)",
+          "!(A == B) && !(A == C) && !(B == C)",
           "ABCdistinct",
           @readable.by(
             @readable.fol,
@@ -4644,12 +4644,12 @@ fn step_195() -> Unit raise {
         ),
         @readable.consider(
           "m",
-          "Line m /\\  A IN m /\\  C IN m    ",
+          "∃ m : (Point) -> Bool, Line(m) && IN(A, m) && IN(C, m)",
           "m_line",
           @readable.by(@readable.fol, [@readable.Prev, @readable.Thm("I1", () => i1())]),
         ),
         @readable.assuming(
-          "~(l INTER m = {})",
+          "!(INTER(l, m) == {})",
           "lmIntersect",
           @readable.by(
             @readable.fol,
@@ -4665,7 +4665,7 @@ fn step_195() -> Unit raise {
         ),
         @readable.consider(
           "Y",
-          "Y IN l /\\  Y IN m    ",
+          "∃ Y : Point, IN(Y, l) && IN(Y, m)",
           "Ylm",
           @readable.by(
             @readable.fol,
@@ -4678,7 +4678,7 @@ fn step_195() -> Unit raise {
         ),
         @readable.consider(
           "X Z",
-          "X IN l  /\\   X IN Open (A, B)  /\\   Z IN l  /\\   Z IN Open (C, B)    ",
+          "∃ X : Point, ∃ Z : Point, IN(X, l) && IN(X, Open((A, B))) && IN(Z, l) && IN(Z, Open((C, B)))",
           "H2'",
           @readable.by(
             @readable.fol,
@@ -4691,7 +4691,7 @@ fn step_195() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C) /\\  ~(B = C) /\\  Y IN m DIFF {A}  /\\   Y IN m DIFF {C}  /\\   C IN m DIFF {A}  /\\   A IN m DIFF {C}",
+          "!(A == B) && !(A == C) && !(B == C) && IN(Y, DIFF(m, {A})) && IN(Y, DIFF(m, {C})) && IN(C, DIFF(m, {A})) && IN(A, DIFF(m, {C}))",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -4712,7 +4712,7 @@ fn step_195() -> Unit raise {
         ),
         @readable.consider(
           "p",
-          "Line p /\\  B IN p /\\  A IN p    ",
+          "∃ p : (Point) -> Bool, Line(p) && IN(B, p) && IN(A, p)",
           "p_line",
           @readable.by(
             @readable.fol,
@@ -4721,7 +4721,7 @@ fn step_195() -> Unit raise {
         ),
         @readable.consider(
           "q",
-          "Line q /\\  B IN q /\\  C IN q    ",
+          "∃ q : (Point) -> Bool, Line(q) && IN(B, q) && IN(C, q)",
           "q_line",
           @readable.by(
             @readable.fol,
@@ -4729,7 +4729,7 @@ fn step_195() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    X IN p  /\\  Z IN q",
+          "IN(X, p) && IN(Z, q)",
           "Xp",
           @readable.by(
             @readable.fol,
@@ -4743,7 +4743,7 @@ fn step_195() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A NOTIN q /\\  B NOTIN m /\\  C NOTIN p",
+          "NOTIN(A, q) && NOTIN(B, m) && NOTIN(C, p)",
           "vertex_off_line",
           @readable.by(
             @readable.fol,
@@ -4758,7 +4758,7 @@ fn step_195() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    X NOTIN q  /\\   X,A same_side q  /\\   Z NOTIN p  /\\   Z,C same_side p",
+          "NOTIN(X, q) && same_side((X, A), q) && NOTIN(Z, p) && same_side((Z, C), p)",
           "Xsim_qA",
           @readable.by(
             @readable.fol,
@@ -4774,7 +4774,7 @@ fn step_195() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(m = p)  /\\   ~(m = q)",
+          "!(m == p) && !(m == q)",
           "",
           @readable.by(
             @readable.fol,
@@ -4786,7 +4786,7 @@ fn step_195() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    p INTER m = {A}  /\\   q INTER m = {C}",
+          "INTER(p, m) == {A} && INTER(q, m) == {C}",
           "pmA",
           @readable.by(
             @readable.fol,
@@ -4803,7 +4803,7 @@ fn step_195() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Y NOTIN p  /\\   Y NOTIN q",
+          "NOTIN(Y, p) && NOTIN(Y, q)",
           "notYpq",
           @readable.by(
             @readable.fol,
@@ -4815,7 +4815,7 @@ fn step_195() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    X IN ray A B DIFF {A}  /\\   Z IN ray C B DIFF {C}",
+          "IN(X, DIFF(ray(A, B), {A})) && IN(Z, DIFF(ray(C, B), {C}))",
           "",
           @readable.by(
             @readable.fol,
@@ -4828,7 +4828,7 @@ fn step_195() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    X NOTIN m  /\\   Z NOTIN m  /\\   X,B same_side m  /\\   B,Z same_side m",
+          "NOTIN(X, m) && NOTIN(Z, m) && same_side((X, B), m) && same_side((B, Z), m)",
           "notXZm",
           @readable.by(
             @readable.fol,
@@ -4842,7 +4842,7 @@ fn step_195() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    X,Z same_side m",
+          "same_side((X, Z), m)",
           "",
           @readable.by(
             @readable.fol,
@@ -4855,7 +4855,7 @@ fn step_195() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Collinear X Y Z /\\  Y NOTIN Open (X, Z) /\\   ~(Y = X) /\\  ~(Y = Z) /\\  ~(X = Z)",
+          "Collinear(X, Y, Z) && NOTIN(Y, Open((X, Z))) && !(Y == X) && !(Y == Z) && !(X == Z)",
           "",
           @readable.by(
             @readable.fol,
@@ -4875,7 +4875,7 @@ fn step_195() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Z IN Open (X, Y)  \\/  X IN Open (Z, Y)",
+          "IN(Z, Open((X, Y))) || IN(X, Open((Z, Y)))",
           "",
           @readable.by(
             @readable.fol,
@@ -4891,13 +4891,13 @@ fn step_195() -> Unit raise {
       @readable.case_split(
         "ZXY | XZY    ",
         @readable.by(@readable.fol, [@readable.Prev]),
-        @list.List(["X IN Open (Z, Y)", "Z IN Open (X, Y)"]),
+        @list.List(["IN(X, Open((Z, Y)))", "IN(Z, Open((X, Y)))"]),
         @list.List(
           [
             @readable.steps(
               [
                 @readable.have(
-                  "\n      ~(Z,Y same_side p)",
+                  "!same_side((Z, Y), p)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -4910,7 +4910,7 @@ fn step_195() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~(C,Y same_side p)",
+                  "!same_side((C, Y), p)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -4925,7 +4925,7 @@ fn step_195() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      A IN Open (C, Y)",
+                  "IN(A, Open((C, Y)))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -4957,7 +4957,7 @@ fn step_195() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      ~(X,Y same_side q)",
+                  "!same_side((X, Y), q)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -4970,7 +4970,7 @@ fn step_195() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~(A,Y same_side q)",
+                  "!same_side((A, Y), q)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -4985,7 +4985,7 @@ fn step_195() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      C IN Open (Y, A)",
+                  "IN(C, Open((Y, A)))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -5034,12 +5034,12 @@ pub fn twosidestriangle2aline() -> @kernel.Thm {
 /// LineUnionOf2Rays
 fn step_197() -> Unit raise {
   lineunionof2rays_c.set(@readable.prove(
-    "\n  forall A O B l. Line l /\\  A IN l /\\  B IN l  ==>  O IN Open (A, B)\n   ==>  l = ray O A UNION ray O B",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ l : (Point) -> Bool, Line(l) && IN(A, l) && IN(B, l) → IN(O, Open((A, B))) → l == UNION(ray(O, A), ray(O, B))",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B l, H1, H2"),
         @readable.have(
-          "\n    ~(A = O) /\\  ~(O = B) /\\  O IN l",
+          "!(A == O) && !(O == B) && IN(O, l)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -5052,7 +5052,7 @@ fn step_197() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray O A UNION ray O B  SUBSET  l",
+          "SUBSET(UNION(ray(O, A), ray(O, B)), l)",
           "AOBsub_l",
           @readable.by(
             @readable.fol,
@@ -5065,18 +5065,18 @@ fn step_197() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    forall X. X IN l  ==>  X IN ray O A  \\/  X IN ray O B",
+          "∀ X : Point, IN(X, l) → IN(X, ray(O, A)) || IN(X, ray(O, B))",
           "",
           @readable.steps(
             [
               @readable.intro_tac("forall X, Xl"),
               @readable.assuming(
-                "~(X IN ray O B)",
+                "!IN(X, ray(O, B))",
                 "notXrOB",
                 @readable.by(@readable.fol, []),
               ),
               @readable.have(
-                "\n      Collinear O B X  /\\   Collinear X A B  /\\   Collinear O A X",
+                "Collinear(O, B, X) && Collinear(X, A, B) && Collinear(O, A, X)",
                 "XABcol",
                 @readable.by(
                   @readable.fol,
@@ -5089,7 +5089,7 @@ fn step_197() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      O IN Open (X, B)",
+                "IN(O, Open((X, B)))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -5103,7 +5103,7 @@ fn step_197() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      O NOTIN Open (X, A)",
+                "NOTIN(O, Open((X, A)))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -5130,7 +5130,7 @@ fn step_197() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    l SUBSET ray O A UNION ray O B",
+          "SUBSET(l, UNION(ray(O, A), ray(O, B)))",
           "",
           @readable.by(
             @readable.fol,
@@ -5167,12 +5167,12 @@ pub fn lineunionof2rays() -> @kernel.Thm {
 /// AtMost2Sides
 fn step_201() -> Unit raise {
   atmost2sides_c.set(@readable.prove(
-    "\n  forall A B C l.  Line l  ==>  A NOTIN l /\\  B NOTIN l /\\  C NOTIN l\n   ==>  A,B same_side l  \\/  A,C same_side l  \\/  B,C same_side l",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ l : (Point) -> Bool, Line(l) → NOTIN(A, l) && NOTIN(B, l) && NOTIN(C, l) → same_side((A, B), l) || same_side((A, C), l) || same_side((B, C), l)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C l, l_line, H2"),
         @readable.assuming(
-          "~(A = C)",
+          "!(A == C)",
           "notAC",
           @readable.by(
             @readable.fol,
@@ -5184,7 +5184,7 @@ fn step_201() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "Collinear A B C",
+          "Collinear(A, B, C)",
           "ABCcol",
           @readable.by(
             @readable.fol,
@@ -5197,7 +5197,7 @@ fn step_201() -> Unit raise {
         ),
         @readable.consider(
           "m",
-          "Line m /\\  A IN m /\\  B IN m /\\  C IN m    ",
+          "∃ m : (Point) -> Bool, Line(m) && IN(A, m) && IN(B, m) && IN(C, m)",
           "m_line",
           @readable.by(
             @readable.fol,
@@ -5210,7 +5210,7 @@ fn step_201() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "~(m INTER l = {})",
+          "!(INTER(m, l) == {})",
           "m_lNot0",
           @readable.by(
             @readable.fol,
@@ -5226,7 +5226,7 @@ fn step_201() -> Unit raise {
         ),
         @readable.consider(
           "X",
-          "X IN l /\\  X IN m    ",
+          "∃ X : Point, IN(X, l) && IN(X, m)",
           "Xlm",
           @readable.by(
             @readable.fol,
@@ -5238,7 +5238,7 @@ fn step_201() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A IN m DIFF {X}  /\\   B IN m DIFF {X}  /\\   C IN m DIFF {X}",
+          "IN(A, DIFF(m, {X})) && IN(B, DIFF(m, {X})) && IN(C, DIFF(m, {X}))",
           "ABCm_X",
           @readable.by(
             @readable.fol,
@@ -5253,7 +5253,7 @@ fn step_201() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    X NOTIN Open (A, B)  \\/  X NOTIN Open (A, C)  \\/  X NOTIN Open (B, C)",
+          "NOTIN(X, Open((A, B))) || NOTIN(X, Open((A, C))) || NOTIN(X, Open((B, C)))",
           "",
           @readable.by(
             @readable.fol,
@@ -5296,17 +5296,17 @@ pub fn atmost2sides() -> @kernel.Thm {
 /// FourPointsOrder
 fn step_203() -> Unit raise {
   fourpointsorder_c.set(@readable.prove(
-    "\n  forall A B C X l.  Line l /\\  A IN l /\\  B IN l /\\  C IN l /\\  X IN l  ==>\n    ~(X = A) /\\  ~(X = B) /\\  ~(X = C)  ==>  B IN Open (A, C)\n   ==>  ordered X A B C  \\/  ordered A X B C  \\/\n       ordered A B X C  \\/  ordered A B C X",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ X : Point, ∀ l : (Point) -> Bool, Line(l) && IN(A, l) && IN(B, l) && IN(C, l) && IN(X, l) → !(X == A) && !(X == B) && !(X == C) → IN(B, Open((A, C))) → ordered(X, A, B, C) || ordered(A, X, B, C) || ordered(A, B, X, C) || ordered(A, B, C, X)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C X l, H1, H2, H3"),
         @readable.have(
-          "\n    A IN Open (X, B)  \\/  X IN Open (A, B)  \\/  X IN Open (B, C)  \\/  C IN Open (B, X)",
+          "IN(A, Open((X, B))) || IN(X, Open((A, B))) || IN(X, Open((B, C))) || IN(C, Open((B, X)))",
           "",
           @readable.steps(
             [
               @readable.have(
-                "\n      ~(A = B) /\\  ~(B = C)",
+                "!(A == B) && !(B == C)",
                 "ABCdistinct",
                 @readable.by(
                   @readable.fol,
@@ -5314,7 +5314,7 @@ fn step_203() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      Collinear A B X /\\  Collinear A C X /\\  Collinear C B X",
+                "Collinear(A, B, X) && Collinear(A, C, X) && Collinear(C, B, X)",
                 "ACXcol",
                 @readable.by(
                   @readable.fol,
@@ -5325,7 +5325,7 @@ fn step_203() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      A IN Open (X, B)  \\/  X IN Open (A, B)  \\/  B IN Open (A, X)",
+                "IN(A, Open((X, B))) || IN(X, Open((A, B))) || IN(B, Open((A, X)))",
                 "3pos",
                 @readable.by(
                   @readable.fol,
@@ -5339,12 +5339,12 @@ fn step_203() -> Unit raise {
                 ),
               ),
               @readable.assuming(
-                "B IN Open (A, X)",
+                "IN(B, Open((A, X)))",
                 "ABX",
                 @readable.by(@readable.fol, [@readable.Label("3pos")]),
               ),
               @readable.have(
-                "\n      B NOTIN Open (C, X)",
+                "NOTIN(B, Open((C, X)))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -5404,12 +5404,12 @@ pub fn fourpointsorder() -> @kernel.Thm {
 /// HilbertAxiomRedundantByMoore
 fn step_205() -> Unit raise {
   hilbertaxiomredundantbymoore_c.set(@readable.prove(
-    "\n  forall A B C D l.  Line l /\\  A IN l /\\  B IN l /\\  C IN l /\\  D IN l  ==>\n    ~(A = B) /\\  ~(A = C) /\\  ~(A = D) /\\  ~(B = C) /\\  ~(B = D) /\\  ~(C = D)\n   ==>  ordered D A B C \\/ ordered A D B C \\/ ordered A B D C \\/ ordered A B C D \\/\n       ordered D A C B \\/ ordered A D C B \\/ ordered A C D B \\/ ordered A C B D \\/\n       ordered D C A B \\/ ordered C D A B \\/ ordered C A D B \\/ ordered C A B D",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, ∀ l : (Point) -> Bool, Line(l) && IN(A, l) && IN(B, l) && IN(C, l) && IN(D, l) → !(A == B) && !(A == C) && !(A == D) && !(B == C) && !(B == D) && !(C == D) → ordered(D, A, B, C) || ordered(A, D, B, C) || ordered(A, B, D, C) || ordered(A, B, C, D) || ordered(D, A, C, B) || ordered(A, D, C, B) || ordered(A, C, D, B) || ordered(A, C, B, D) || ordered(D, C, A, B) || ordered(C, D, A, B) || ordered(C, A, D, B) || ordered(C, A, B, D)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D l, H1, H2"),
         @readable.have(
-          "\n    Collinear A B C",
+          "Collinear(A, B, C)",
           "",
           @readable.by(
             @readable.fol,
@@ -5420,7 +5420,7 @@ fn step_205() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B IN Open (A, C)  \\/  C IN Open (A, B)  \\/  A IN Open (C, B)",
+          "IN(B, Open((A, C))) || IN(C, Open((A, B))) || IN(A, Open((C, B)))",
           "",
           @readable.by(
             @readable.fol,
@@ -5459,12 +5459,12 @@ pub fn hilbertaxiomredundantbymoore() -> @kernel.Thm {
 /// InteriorTransitivity
 fn step_207() -> Unit raise {
   interiortransitivity_c.set(@readable.prove(
-    "\n  forall A O B M G.  G IN int_angle A O B  /\\   M IN int_angle A O G\n   ==>  M IN int_angle A O B",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ M : Point, ∀ G : Point, IN(G, int_angle(A, O, B)) && IN(M, int_angle(A, O, G)) → IN(M, int_angle(A, O, B))",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B M G, GintAOB MintAOG"),
         @readable.have(
-          "\n    ~Collinear A O B",
+          "!Collinear(A, O, B)",
           "AOBncol",
           @readable.by(
             @readable.fol,
@@ -5476,7 +5476,7 @@ fn step_207() -> Unit raise {
         ),
         @readable.consider(
           "G'",
-          "G' IN Open (A, B)  /\\   G' IN ray O G DIFF {O}    ",
+          "∃ G' : Point, IN(G', Open((A, B))) && IN(G', DIFF(ray(O, G), {O}))",
           "CrossG",
           @readable.by(
             @readable.fol,
@@ -5487,7 +5487,7 @@ fn step_207() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    M IN int_angle A O G'",
+          "IN(M, int_angle(A, O, G'))",
           "",
           @readable.by(
             @readable.fol,
@@ -5500,7 +5500,7 @@ fn step_207() -> Unit raise {
         ),
         @readable.consider(
           "M'",
-          "M' IN Open (A, G')  /\\   M' IN ray O M DIFF {O}    ",
+          "∃ M' : Point, IN(M', Open((A, G'))) && IN(M', DIFF(ray(O, M), {O}))",
           "CrossM",
           @readable.by(
             @readable.fol,
@@ -5508,7 +5508,7 @@ fn step_207() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(M' = O) /\\  ~(M = O) /\\  Collinear O M M' /\\  O NOTIN Open (M', M)",
+          "!(M' == O) && !(M == O) && Collinear(O, M, M') && NOTIN(O, Open((M', M)))",
           "",
           @readable.by(
             @readable.fol,
@@ -5521,7 +5521,7 @@ fn step_207() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    M IN ray O M' DIFF {O}",
+          "IN(M, DIFF(ray(O, M'), {O}))",
           "MrOM'",
           @readable.by(
             @readable.fol,
@@ -5537,7 +5537,7 @@ fn step_207() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Open (A, G') SUBSET Open (A, B)  /\\   M' IN Open (A, B)",
+          "SUBSET(Open((A, G')), Open((A, B))) && IN(M', Open((A, B)))",
           "",
           @readable.by(
             @readable.fol,
@@ -5550,7 +5550,7 @@ fn step_207() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    M' IN int_angle A O B",
+          "IN(M', int_angle(A, O, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -5587,12 +5587,12 @@ pub fn interiortransitivity() -> @kernel.Thm {
 /// HalfPlaneConvexNonempty
 fn step_210() -> Unit raise {
   halfplaneconvexnonempty_c.set(@readable.prove(
-    "\n  forall l H A.  Line l /\\  A NOTIN l  ==>  H = {X | X NOTIN l  /\\   X,A same_side l}\n    ==>  ~(H = {})  /\\   H SUBSET complement l  /\\   Convex H",
+    "∀ l : (Point) -> Bool, ∀ H : (Point) -> Bool, ∀ A : Point, Line(l) && NOTIN(A, l) → H == {(X : Point) | NOTIN(X, l) && same_side((X, A), l)} → !(H == {}) && SUBSET(H, complement(l)) && Convex(H)",
     @readable.steps(
       [
         @readable.intro_tac("forall l H A, l_line, HalfPlane"),
         @readable.have(
-          "\n    forall X. X IN H  <=>  X NOTIN l  /\\   X,A same_side l",
+          "∀ X : Point, IN(X, H) == (NOTIN(X, l) && same_side((X, A), l))",
           "Hdef",
           @readable.by(
             @readable.simplify,
@@ -5603,7 +5603,7 @@ fn step_210() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    H SUBSET complement l",
+          "SUBSET(H, complement(l))",
           "Hsub",
           @readable.by(
             @readable.fol,
@@ -5615,7 +5615,7 @@ fn step_210() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A,A same_side l  /\\   A IN H",
+          "same_side((A, A), l) && IN(A, H)",
           "",
           @readable.by(
             @readable.fol,
@@ -5627,7 +5627,7 @@ fn step_210() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(H = {})",
+          "!(H == {})",
           "Hnonempty",
           @readable.by(
             @readable.fol,
@@ -5638,18 +5638,18 @@ fn step_210() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    forall P Q X.  P IN H /\\  Q IN H /\\  X IN Open (P, Q)  ==>  X IN H",
+          "∀ P : Point, ∀ Q : Point, ∀ X : Point, IN(P, H) && IN(Q, H) && IN(X, Open((P, Q))) → IN(X, H)",
           "",
           @readable.steps(
             [
               @readable.intro_tac("forall P Q X, PXQ"),
               @readable.have(
-                "\n      P NOTIN l  /\\   P,A same_side l  /\\   Q NOTIN l  /\\   Q,A same_side l",
+                "NOTIN(P, l) && same_side((P, A), l) && NOTIN(Q, l) && same_side((Q, A), l)",
                 "PQinH",
                 @readable.by(@readable.fol, [@readable.Prev, @readable.Label("Hdef")]),
               ),
               @readable.have(
-                "\n      P,Q same_side l",
+                "same_side((P, Q), l)",
                 "Psim_lQ",
                 @readable.by(
                   @readable.fol,
@@ -5662,7 +5662,7 @@ fn step_210() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      X NOTIN l",
+                "NOTIN(X, l)",
                 "notXl",
                 @readable.by(
                   @readable.fol,
@@ -5675,7 +5675,7 @@ fn step_210() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      Open (X, P) SUBSET Open (P, Q)",
+                "SUBSET(Open((X, P)), Open((P, Q)))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -5688,7 +5688,7 @@ fn step_210() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      X,P same_side l",
+                "same_side((X, P), l)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -5702,7 +5702,7 @@ fn step_210() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      X,A same_side l",
+                "same_side((X, A), l)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -5752,13 +5752,13 @@ pub fn halfplaneconvexnonempty() -> @kernel.Thm {
 /// PlaneSeparation
 fn step_214() -> Unit raise {
   planeseparation_c.set(@readable.prove(
-    "\n  forall l.  Line l\n   ==>  ?H1 H2. H1 INTER H2 = {}  /\\   ~(H1 = {})  /\\   ~(H2 = {})  /\\ \n         Convex H1  /\\   Convex H2  /\\   complement l = H1 UNION H2  /\\ \n         forall P Q. P IN H1 /\\  Q IN H2  ==>  ~(P,Q same_side l)",
+    "∀ l : (Point) -> Bool, Line(l) → (∃ H1 : (Point) -> Bool, ∃ H2 : (Point) -> Bool, INTER(H1, H2) == {} && !(H1 == {}) && !(H2 == {}) && Convex(H1) && Convex(H2) && complement(l) == UNION(H1, H2) && (∀ P : Point, ∀ Q : Point, IN(P, H1) && IN(Q, H2) → !same_side((P, Q), l)))",
     @readable.steps(
       [
         @readable.intro_tac("forall l, l_line"),
         @readable.consider(
           "A",
-          "A NOTIN l    ",
+          "∃ A : Point, NOTIN(A, l)",
           "notAl",
           @readable.by(
             @readable.fol,
@@ -5770,7 +5770,7 @@ fn step_214() -> Unit raise {
         ),
         @readable.consider(
           "E",
-          "E IN l  /\\   ~(A = E)    ",
+          "∃ E : Point, IN(E, l) && !(A == E)",
           "El",
           @readable.by(
             @readable.fol,
@@ -5784,7 +5784,7 @@ fn step_214() -> Unit raise {
         ),
         @readable.consider(
           "B",
-          "E IN Open (A, B)  /\\   ~(E = B)  /\\   Collinear A E B    ",
+          "∃ B : Point, IN(E, Open((A, B))) && !(E == B) && Collinear(A, E, B)",
           "AEB",
           @readable.by(
             @readable.fol,
@@ -5796,7 +5796,7 @@ fn step_214() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B NOTIN l",
+          "NOTIN(B, l)",
           "notBl",
           @readable.by(
             @readable.fol,
@@ -5812,7 +5812,7 @@ fn step_214() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A,B same_side l)",
+          "!same_side((A, B), l)",
           "Ansim_lB",
           @readable.by(
             @readable.fol,
@@ -5826,12 +5826,12 @@ fn step_214() -> Unit raise {
         ),
         @readable.consider(
           "H1 H2",
-          "H1 = {X | X NOTIN l  /\\   X,A same_side l}  /\\ \n    H2 = {X | X NOTIN l  /\\   X,B same_side l}    ",
+          "∃ H1 : (Point) -> Bool, ∃ H2 : (Point) -> Bool, H1 == {(X : Point) | NOTIN(X, l) && same_side((X, A), l)} && H2 == {(X : Point) | NOTIN(X, l) && same_side((X, B), l)}",
           "H12sets",
           @readable.by(@readable.fol, []),
         ),
         @readable.have(
-          "\n    forall X. (X IN H1  <=>  X NOTIN l /\\  X,A same_side l) /\\ \n         (X IN H2  <=>  X NOTIN l /\\  X,B same_side l)",
+          "∀ X : Point, IN(X, H1) == (NOTIN(X, l) && same_side((X, A), l)) && IN(X, H2) == (NOTIN(X, l) && same_side((X, B), l))",
           "H12def",
           @readable.by(
             @readable.simplify,
@@ -5839,18 +5839,18 @@ fn step_214() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    H1 INTER H2 = {}",
+          "INTER(H1, H2) == {}",
           "H12disjoint",
           @readable.steps(
             [
               @readable.assuming(
-                "~(H1 INTER H2 = {})",
+                "!(INTER(H1, H2) == {})",
                 "nonempty",
                 @readable.by(@readable.fol, []),
               ),
               @readable.consider(
                 "V",
-                "V IN H1 /\\  V IN H2    ",
+                "∃ V : Point, IN(V, H1) && IN(V, H2)",
                 "VinH12",
                 @readable.by(
                   @readable.fol,
@@ -5862,12 +5862,12 @@ fn step_214() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      V NOTIN l  /\\   V,A same_side l  /\\   V NOTIN l  /\\   V,B same_side l",
+                "NOTIN(V, l) && same_side((V, A), l) && NOTIN(V, l) && same_side((V, B), l)",
                 "",
                 @readable.by(@readable.fol, [@readable.Prev, @readable.Label("H12def")]),
               ),
               @readable.have(
-                "\n      A,B same_side l",
+                "same_side((A, B), l)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -5886,7 +5886,7 @@ fn step_214() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(H1 = {}) /\\  ~(H2 = {}) /\\  H1 SUBSET complement l /\\  H2 SUBSET complement l /\\ \n    Convex H1 /\\  Convex H2",
+          "!(H1 == {}) && !(H2 == {}) && SUBSET(H1, complement(l)) && SUBSET(H2, complement(l)) && Convex(H1) && Convex(H2)",
           "H12convex_nonempty",
           @readable.by(
             @readable.fol,
@@ -5900,7 +5900,7 @@ fn step_214() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    H1 UNION H2  SUBSET  complement l",
+          "SUBSET(UNION(H1, H2), complement(l))",
           "H12sub",
           @readable.by(
             @readable.fol,
@@ -5911,13 +5911,13 @@ fn step_214() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    forall C. C IN complement l  ==>  C IN H1 UNION H2",
+          "∀ C : Point, IN(C, complement(l)) → IN(C, UNION(H1, H2))",
           "",
           @readable.steps(
             [
               @readable.intro_tac("forall C, compl"),
               @readable.have(
-                "\n      C NOTIN l",
+                "NOTIN(C, l)",
                 "notCl",
                 @readable.by(
                   @readable.fol,
@@ -5928,7 +5928,7 @@ fn step_214() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      C,A same_side l  \\/  C,B same_side l",
+                "same_side((C, A), l) || same_side((C, B), l)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -5955,7 +5955,7 @@ fn step_214() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    complement l  SUBSET  H1 UNION H2",
+          "SUBSET(complement(l), UNION(H1, H2))",
           "",
           @readable.by(
             @readable.fol,
@@ -5963,7 +5963,7 @@ fn step_214() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    complement l  =  H1 UNION H2",
+          "complement(l) == UNION(H1, H2)",
           "compl_H1unionH2",
           @readable.by(
             @readable.fol,
@@ -5975,13 +5975,13 @@ fn step_214() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    forall P Q. P IN H1 /\\  Q IN H2  ==>  ~(P,Q same_side l)",
+          "∀ P : Point, ∀ Q : Point, IN(P, H1) && IN(Q, H2) → !same_side((P, Q), l)",
           "opp_sides",
           @readable.steps(
             [
               @readable.intro_tac("forall P Q, both"),
               @readable.have(
-                "\n      P NOTIN l  /\\   P,A same_side l  /\\    Q NOTIN l  /\\   Q,B same_side l",
+                "NOTIN(P, l) && same_side((P, A), l) && NOTIN(Q, l) && same_side((Q, B), l)",
                 "PH1_QH2",
                 @readable.by(
                   @readable.fol,
@@ -6034,12 +6034,12 @@ pub fn planeseparation() -> @kernel.Thm {
 /// TetralateralSymmetry
 fn step_218() -> Unit raise {
   tetralateralsymmetry_c.set(@readable.prove(
-    "\n  forall A B C D.  Tetralateral A B C D\n    ==>  Tetralateral B C D A /\\  Tetralateral A B D C",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, Tetralateral(A, B, C, D) → Tetralateral(B, C, D, A) && Tetralateral(A, B, D, C)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D, H1"),
         @readable.have(
-          "\n    ~Collinear A B D /\\  ~Collinear B D C /\\  ~Collinear D C A /\\  ~Collinear C A B",
+          "!Collinear(A, B, D) && !Collinear(B, D, C) && !Collinear(D, C, A) && !Collinear(C, A, B)",
           "TetraABCD",
           @readable.by(
             @readable.fol,
@@ -6083,18 +6083,18 @@ pub fn tetralateralsymmetry() -> @kernel.Thm {
 /// EasyEmptyIntersectionsTetralateralHelp
 fn step_220() -> Unit raise {
   easyemptyintersectionstetralateralhelp_c.set(@readable.prove(
-    "\n  forall A B C D. Tetralateral A B C D  ==>  Open (A, B) INTER Open (B, C) = {}",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, Tetralateral(A, B, C, D) → INTER(Open((A, B)), Open((B, C))) == {}",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D, H1"),
         @readable.have(
-          "\n    forall X. X IN Open (B, C)  ==>  X NOTIN Open (A, B)",
+          "∀ X : Point, IN(X, Open((B, C))) → NOTIN(X, Open((A, B)))",
           "",
           @readable.steps(
             [
               @readable.intro_tac("forall X, BXC"),
               @readable.have(
-                "\n      ~Collinear A B C /\\  Collinear B X C /\\  ~(X = B)",
+                "!Collinear(A, B, C) && Collinear(B, X, C) && !(X == B)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -6107,7 +6107,7 @@ fn step_220() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ~Collinear A X B",
+                "!Collinear(A, X, B)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -6158,12 +6158,12 @@ pub fn easyemptyintersectionstetralateralhelp() -> @kernel.Thm {
 /// EasyEmptyIntersectionsTetralateral
 fn step_221() -> Unit raise {
   easyemptyintersectionstetralateral_c.set(@readable.prove(
-    "\n  forall A B C D. Tetralateral A B C D\n   ==>  Open (A, B) INTER Open (B, C) = {}  /\\   Open (B, C) INTER Open (C, D) = {}  /\\ \n       Open (C, D) INTER Open (D, A) = {}  /\\   Open (D, A) INTER Open (A, B) = {}",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, Tetralateral(A, B, C, D) → INTER(Open((A, B)), Open((B, C))) == {} && INTER(Open((B, C)), Open((C, D))) == {} && INTER(Open((C, D)), Open((D, A))) == {} && INTER(Open((D, A)), Open((A, B))) == {}",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D, H1"),
         @readable.have(
-          "\n    Tetralateral B C D A  /\\  Tetralateral C D A B  /\\  Tetralateral D A B C",
+          "Tetralateral(B, C, D, A) && Tetralateral(C, D, A, B) && Tetralateral(D, A, B, C)",
           "",
           @readable.by(
             @readable.fol,
@@ -6202,18 +6202,18 @@ pub fn easyemptyintersectionstetralateral() -> @kernel.Thm {
 /// SegmentSameSideOppositeLine
 fn step_224() -> Unit raise {
   segmentsamesideoppositeline_c.set(@readable.prove(
-    "\n  forall A B C D a c.  Quadrilateral A B C D  ==>\n    Line a /\\  A IN a /\\  B IN a  ==>  Line c /\\  C IN c /\\  D IN c\n    ==>  A,B same_side c  \\/  C,D same_side a",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, ∀ a : (Point) -> Bool, ∀ c : (Point) -> Bool, Quadrilateral(A, B, C, D) → Line(a) && IN(A, a) && IN(B, a) → Line(c) && IN(C, c) && IN(D, c) → same_side((A, B), c) || same_side((C, D), a)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D a c, H1, a_line, c_line"),
         @readable.assuming(
-          "~(C,D same_side a)",
+          "!same_side((C, D), a)",
           "CDnsim_a",
           @readable.by(@readable.fol, []),
         ),
         @readable.consider(
           "G",
-          "G IN a /\\  G IN Open (C, D)    ",
+          "∃ G : Point, IN(G, a) && IN(G, Open((C, D)))",
           "CGD",
           @readable.by(
             @readable.fol,
@@ -6225,7 +6225,7 @@ fn step_224() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN c /\\  Collinear G B A",
+          "IN(G, c) && Collinear(G, B, A)",
           "Gc",
           @readable.by(
             @readable.fol,
@@ -6239,7 +6239,7 @@ fn step_224() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear B C D  /\\   ~Collinear C D A  /\\   Open (A, B) INTER Open (C, D) = {}",
+          "!Collinear(B, C, D) && !Collinear(C, D, A) && INTER(Open((A, B)), Open((C, D))) == {}",
           "quadABCD",
           @readable.by(
             @readable.fol,
@@ -6251,7 +6251,7 @@ fn step_224() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A NOTIN c /\\  B NOTIN c /\\  ~(A = G) /\\  ~(B = G)",
+          "NOTIN(A, c) && NOTIN(B, c) && !(A == G) && !(B == G)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -6265,7 +6265,7 @@ fn step_224() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G NOTIN Open (A, B)",
+          "NOTIN(G, Open((A, B)))",
           "",
           @readable.by(
             @readable.fol,
@@ -6277,7 +6277,7 @@ fn step_224() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A IN ray G B DIFF {G}",
+          "IN(A, DIFF(ray(G, B), {G}))",
           "",
           @readable.by(
             @readable.fol,
@@ -6319,12 +6319,12 @@ pub fn segmentsamesideoppositeline() -> @kernel.Thm {
 /// ConvexImpliesQuad
 fn step_226() -> Unit raise {
   conveximpliesquad_c.set(@readable.prove(
-    "\n  forall A B C D. Tetralateral A B C D  ==>\n    C IN int_angle D A B  /\\   D IN int_angle A B C\n    ==>  Quadrilateral A B C D",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, Tetralateral(A, B, C, D) → IN(C, int_angle(D, A, B)) && IN(D, int_angle(A, B, C)) → Quadrilateral(A, B, C, D)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D, H1, H2"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(B = C) /\\  ~(A = D)",
+          "!(A == B) && !(B == C) && !(A == D)",
           "TetraABCD",
           @readable.by(
             @readable.fol,
@@ -6336,7 +6336,7 @@ fn step_226() -> Unit raise {
         ),
         @readable.consider(
           "a",
-          "Line a /\\  A IN a /\\  B IN a    ",
+          "∃ a : (Point) -> Bool, Line(a) && IN(A, a) && IN(B, a)",
           "a_line",
           @readable.by(
             @readable.fol,
@@ -6345,7 +6345,7 @@ fn step_226() -> Unit raise {
         ),
         @readable.consider(
           "b",
-          "Line b /\\  B IN b /\\  C IN b    ",
+          "∃ b : (Point) -> Bool, Line(b) && IN(B, b) && IN(C, b)",
           "b_line",
           @readable.by(
             @readable.fol,
@@ -6354,7 +6354,7 @@ fn step_226() -> Unit raise {
         ),
         @readable.consider(
           "d",
-          "Line d /\\  D IN d /\\  A IN d    ",
+          "∃ d : (Point) -> Bool, Line(d) && IN(D, d) && IN(A, d)",
           "d_line",
           @readable.by(
             @readable.fol,
@@ -6362,7 +6362,7 @@ fn step_226() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Open (B, C) SUBSET b  /\\   Open (A, B) SUBSET a",
+          "SUBSET(Open((B, C)), b) && SUBSET(Open((A, B)), a)",
           "BCbABa",
           @readable.by(
             @readable.fol,
@@ -6375,7 +6375,7 @@ fn step_226() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D,A same_side b  /\\   C,D same_side a",
+          "same_side((D, A), b) && same_side((C, D), a)",
           "",
           @readable.by(
             @readable.fol,
@@ -6389,7 +6389,7 @@ fn step_226() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    b INTER Open (D, A) = {}  /\\   a INTER Open (C, D) = {}",
+          "INTER(b, Open((D, A))) == {} && INTER(a, Open((C, D))) == {}",
           "",
           @readable.by(
             @readable.fol,
@@ -6432,12 +6432,12 @@ pub fn conveximpliesquad() -> @kernel.Thm {
 /// DiagonalsIntersectImpliesConvexQuad
 fn step_227() -> Unit raise {
   diagonalsintersectimpliesconvexquad_c.set(@readable.prove(
-    "\n  forall A B C D G. ~Collinear B C D  ==>\n    G IN Open (A, C)  /\\   G IN Open (B, D)\n    ==>  ConvexQuadrilateral A B C D",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, ∀ G : Point, !Collinear(B, C, D) → IN(G, Open((A, C))) && IN(G, Open((B, D))) → ConvexQuadrilateral(A, B, C, D)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D G, BCDncol, DiagInt"),
         @readable.have(
-          "\n    ~(B = C) /\\  ~(B = D) /\\  ~(C = D) /\\  ~(C = A) /\\  ~(A = G) /\\  ~(D = G) /\\  ~(B = G)",
+          "!(B == C) && !(B == D) && !(C == D) && !(C == A) && !(A == G) && !(D == G) && !(B == G)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -6453,7 +6453,7 @@ fn step_227() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Collinear A G C /\\  Collinear B G D",
+          "Collinear(A, G, C) && Collinear(B, G, D)",
           "Gcols",
           @readable.by(
             @readable.fol,
@@ -6461,7 +6461,7 @@ fn step_227() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear C D G /\\  ~Collinear B C G",
+          "!Collinear(C, D, G) && !Collinear(B, C, G)",
           "Gncols",
           @readable.by(
             @readable.fol,
@@ -6478,7 +6478,7 @@ fn step_227() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear C D A",
+          "!Collinear(C, D, A)",
           "CDAncol",
           @readable.by(
             @readable.fol,
@@ -6495,7 +6495,7 @@ fn step_227() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A B C /\\  ~Collinear D A G",
+          "!Collinear(A, B, C) && !Collinear(D, A, G)",
           "ABCncol",
           @readable.by(
             @readable.fol,
@@ -6513,7 +6513,7 @@ fn step_227() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear D A B",
+          "!Collinear(D, A, B)",
           "DABncol",
           @readable.by(
             @readable.fol,
@@ -6530,7 +6530,7 @@ fn step_227() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = D)",
+          "!(A == B) && !(A == D)",
           "",
           @readable.by(
             @readable.fol,
@@ -6544,7 +6544,7 @@ fn step_227() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Tetralateral A B C D",
+          "Tetralateral(A, B, C, D)",
           "TetraABCD",
           @readable.by(
             @readable.fol,
@@ -6560,7 +6560,7 @@ fn step_227() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A IN ray C G DIFF {C}  /\\   B IN ray D G DIFF {D}  /\\   C IN ray A G DIFF {A}  /\\   D IN ray B G DIFF {B}",
+          "IN(A, DIFF(ray(C, G), {C})) && IN(B, DIFF(ray(D, G), {D})) && IN(C, DIFF(ray(A, G), {A})) && IN(D, DIFF(ray(B, G), {B}))",
           "ArCG",
           @readable.by(
             @readable.fol,
@@ -6572,7 +6572,7 @@ fn step_227() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN int_angle B C D /\\  G IN int_angle C D A /\\  G IN int_angle D A B /\\  G IN int_angle A B C",
+          "IN(G, int_angle(B, C, D)) && IN(G, int_angle(C, D, A)) && IN(G, int_angle(D, A, B)) && IN(G, int_angle(A, B, C))",
           "",
           @readable.by(
             @readable.fol,
@@ -6588,7 +6588,7 @@ fn step_227() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A IN int_angle B C D /\\  B IN int_angle C D A /\\  C IN int_angle D A B /\\  D IN int_angle A B C",
+          "IN(A, int_angle(B, C, D)) && IN(B, int_angle(C, D, A)) && IN(C, int_angle(D, A, B)) && IN(D, int_angle(A, B, C))",
           "",
           @readable.by(
             @readable.fol,
@@ -6626,12 +6626,12 @@ pub fn diagonalsintersectimpliesconvexquad() -> @kernel.Thm {
 /// DoubleNotSimImpliesDiagonalsIntersect
 fn step_230() -> Unit raise {
   doublenotsimimpliesdiagonalsintersect_c.set(@readable.prove(
-    "\n  forall A B C D l m.  Line l /\\  A IN l /\\  C IN l  ==>  Line m /\\  B IN m /\\  D IN m  ==>\n    Tetralateral A B C D  ==>  ~(B,D same_side l)  ==>  ~(A,C same_side m)\n    ==>  (?G. G IN Open (A, C) INTER Open (B, D)) /\\  ConvexQuadrilateral A B C D",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, ∀ l : (Point) -> Bool, ∀ m : (Point) -> Bool, Line(l) && IN(A, l) && IN(C, l) → Line(m) && IN(B, m) && IN(D, m) → Tetralateral(A, B, C, D) → !same_side((B, D), l) → !same_side((A, C), m) → (∃ G : Point, IN(G, INTER(Open((A, C)), Open((B, D))))) && ConvexQuadrilateral(A, B, C, D)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D l m, l_line, m_line, H1, H2, H3"),
         @readable.have(
-          "\n    ~Collinear A B C /\\  ~Collinear B C D /\\  ~Collinear C D A /\\  ~Collinear D A B",
+          "!Collinear(A, B, C) && !Collinear(B, C, D) && !Collinear(C, D, A) && !Collinear(D, A, B)",
           "TetraABCD",
           @readable.by(
             @readable.fol,
@@ -6643,7 +6643,7 @@ fn step_230() -> Unit raise {
         ),
         @readable.consider(
           "G",
-          "G IN Open (A, C) /\\  G IN m    ",
+          "∃ G : Point, IN(G, Open((A, C))) && IN(G, m)",
           "AGC",
           @readable.by(
             @readable.fol,
@@ -6655,7 +6655,7 @@ fn step_230() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN l",
+          "IN(G, l)",
           "Gl",
           @readable.by(
             @readable.fol,
@@ -6667,7 +6667,7 @@ fn step_230() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A NOTIN m /\\  B NOTIN l /\\  D NOTIN l",
+          "NOTIN(A, m) && NOTIN(B, l) && NOTIN(D, l)",
           "",
           @readable.by(
             @readable.fol,
@@ -6681,7 +6681,7 @@ fn step_230() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(l = m) /\\  B IN m DIFF {G} /\\  D IN m DIFF {G}",
+          "!(l == m) && IN(B, DIFF(m, {G})) && IN(D, DIFF(m, {G}))",
           "BDm_G",
           @readable.by(
             @readable.fol,
@@ -6697,7 +6697,7 @@ fn step_230() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    l INTER m = {G}",
+          "INTER(l, m) == {G}",
           "",
           @readable.by(
             @readable.fol,
@@ -6712,7 +6712,7 @@ fn step_230() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN Open (B, D)",
+          "IN(G, Open((B, D)))",
           "",
           @readable.by(
             @readable.fol,
@@ -6758,12 +6758,12 @@ pub fn doublenotsimimpliesdiagonalsintersect() -> @kernel.Thm {
 /// ConvexQuadImpliesDiagonalsIntersect
 fn step_232() -> Unit raise {
   convexquadimpliesdiagonalsintersect_c.set(@readable.prove(
-    "\n  forall A B C D l m.  Line l /\\  A IN l /\\  C IN l  ==>  Line m /\\  B IN m /\\  D IN m  ==>\n    ConvexQuadrilateral A B C D\n    ==>  ~(B,D same_side l) /\\  ~(A,C same_side m) /\\ \n       (?G. G IN Open (A, C) INTER Open (B, D)) /\\  ~Quadrilateral A B D C",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, ∀ l : (Point) -> Bool, ∀ m : (Point) -> Bool, Line(l) && IN(A, l) && IN(C, l) → Line(m) && IN(B, m) && IN(D, m) → ConvexQuadrilateral(A, B, C, D) → !same_side((B, D), l) && !same_side((A, C), m) && (∃ G : Point, IN(G, INTER(Open((A, C)), Open((B, D))))) && !Quadrilateral(A, B, D, C)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D l m, l_line, m_line, ConvQuadABCD"),
         @readable.have(
-          "\n    Tetralateral A B C D /\\  A IN int_angle B C D /\\  D IN int_angle A B C",
+          "Tetralateral(A, B, C, D) && IN(A, int_angle(B, C, D)) && IN(D, int_angle(A, B, C))",
           "convquadABCD",
           @readable.by(
             @readable.fol,
@@ -6775,7 +6775,7 @@ fn step_232() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(B,D same_side l)  /\\   ~(A,C same_side m)",
+          "!same_side((B, D), l) && !same_side((A, C), m)",
           "opp_sides",
           @readable.by(
             @readable.fol,
@@ -6789,7 +6789,7 @@ fn step_232() -> Unit raise {
         ),
         @readable.consider(
           "G",
-          "G IN Open (A, C) INTER Open (B, D)    ",
+          "∃ G : Point, IN(G, INTER(Open((A, C)), Open((B, D))))",
           "Gexists",
           @readable.by(
             @readable.fol,
@@ -6806,7 +6806,7 @@ fn step_232() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(Open (B, D) INTER Open (C, A) = {})",
+          "!(INTER(Open((B, D)), Open((C, A))) == {})",
           "",
           @readable.by(
             @readable.fol,
@@ -6819,7 +6819,7 @@ fn step_232() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Quadrilateral A B D C",
+          "!Quadrilateral(A, B, D, C)",
           "",
           @readable.by(
             @readable.fol,
@@ -6851,12 +6851,12 @@ pub fn convexquadimpliesdiagonalsintersect() -> @kernel.Thm {
 /// FourChoicesTetralateralHelp
 fn step_235() -> Unit raise {
   fourchoicestetralateralhelp_v1_c.set(@readable.prove(
-    "\n  forall A B C D. Tetralateral A B C D  /\\   C IN int_angle D A B\n    ==>  ConvexQuadrilateral A B C D \\/ C IN int_triangle D A B",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, Tetralateral(A, B, C, D) && IN(C, int_angle(D, A, B)) → ConvexQuadrilateral(A, B, C, D) || IN(C, int_triangle(D, A, B))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D, H1 CintDAB"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(D = A) /\\  ~(A = C) /\\  ~(B = D) /\\  ~Collinear A B C /\\  ~Collinear B C D /\\  ~Collinear C D A /\\  ~Collinear D A B",
+          "!(A == B) && !(D == A) && !(A == C) && !(B == D) && !Collinear(A, B, C) && !Collinear(B, C, D) && !Collinear(C, D, A) && !Collinear(D, A, B)",
           "TetraABCD",
           @readable.by(
             @readable.fol,
@@ -6868,7 +6868,7 @@ fn step_235() -> Unit raise {
         ),
         @readable.consider(
           "a d",
-          "Line a /\\  A IN a /\\  B IN a  /\\ \n    Line d /\\  D IN d /\\  A IN d    ",
+          "∃ a : (Point) -> Bool, ∃ d : (Point) -> Bool, Line(a) && IN(A, a) && IN(B, a) && Line(d) && IN(D, d) && IN(A, d)",
           "ad_line",
           @readable.by(
             @readable.fol,
@@ -6877,7 +6877,7 @@ fn step_235() -> Unit raise {
         ),
         @readable.consider(
           "l m",
-          "Line l /\\  A IN l /\\  C IN l  /\\ \n    Line m /\\  B IN m /\\  D IN m    ",
+          "∃ l : (Point) -> Bool, ∃ m : (Point) -> Bool, Line(l) && IN(A, l) && IN(C, l) && Line(m) && IN(B, m) && IN(D, m)",
           "lm_line",
           @readable.by(
             @readable.fol,
@@ -6885,7 +6885,7 @@ fn step_235() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C NOTIN a /\\  C NOTIN d /\\  B NOTIN l /\\  D NOTIN l /\\  A NOTIN m /\\  C NOTIN m /\\  ~Collinear A B D /\\  ~Collinear B D A",
+          "NOTIN(C, a) && NOTIN(C, d) && NOTIN(B, l) && NOTIN(D, l) && NOTIN(A, m) && NOTIN(C, m) && !Collinear(A, B, D) && !Collinear(B, D, A)",
           "tetra'",
           @readable.by(
             @readable.fol,
@@ -6900,7 +6900,7 @@ fn step_235() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(B,D same_side l)",
+          "!same_side((B, D), l)",
           "Bsim_lD",
           @readable.by(
             @readable.fol,
@@ -6914,7 +6914,7 @@ fn step_235() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "A,C same_side m",
+          "same_side((A, C), m)",
           "same",
           @readable.by(
             @readable.fol,
@@ -6930,7 +6930,7 @@ fn step_235() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C,A same_side m",
+          "same_side((C, A), m)",
           "Csim_mA",
           @readable.by(
             @readable.fol,
@@ -6943,7 +6943,7 @@ fn step_235() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C,B same_side d  /\\   C,D same_side a",
+          "same_side((C, B), d) && same_side((C, D), a)",
           "",
           @readable.by(
             @readable.fol,
@@ -6955,7 +6955,7 @@ fn step_235() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C IN int_angle A B D  /\\   C IN int_angle B D A",
+          "IN(C, int_angle(A, B, D)) && IN(C, int_angle(B, D, A))",
           "",
           @readable.by(
             @readable.fol,
@@ -6995,12 +6995,12 @@ pub fn fourchoicestetralateralhelp_v1() -> @kernel.Thm {
 /// FourChoicesTetralateralHelp
 fn step_237() -> Unit raise {
   fourchoicestetralateralhelp_c.set(@readable.prove(
-    "\n  forall A B C D. Tetralateral A B C D  /\\   C IN int_angle D A B\n    ==>  ConvexQuadrilateral A B C D \\/ C IN int_triangle D A B",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, Tetralateral(A, B, C, D) && IN(C, int_angle(D, A, B)) → ConvexQuadrilateral(A, B, C, D) || IN(C, int_triangle(D, A, B))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D, H1 CintDAB"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(D = A) /\\  ~(A = C) /\\  ~(B = D) /\\  ~Collinear A B C /\\  ~Collinear B C D /\\  ~Collinear C D A /\\  ~Collinear D A B",
+          "!(A == B) && !(D == A) && !(A == C) && !(B == D) && !Collinear(A, B, C) && !Collinear(B, C, D) && !Collinear(C, D, A) && !Collinear(D, A, B)",
           "TetraABCD",
           @readable.by(
             @readable.fol,
@@ -7012,7 +7012,7 @@ fn step_237() -> Unit raise {
         ),
         @readable.consider(
           "a d",
-          "Line a /\\  A IN a /\\  B IN a  /\\ \n    Line d /\\  D IN d /\\  A IN d    ",
+          "∃ a : (Point) -> Bool, ∃ d : (Point) -> Bool, Line(a) && IN(A, a) && IN(B, a) && Line(d) && IN(D, d) && IN(A, d)",
           "ad_line",
           @readable.by(
             @readable.fol,
@@ -7021,7 +7021,7 @@ fn step_237() -> Unit raise {
         ),
         @readable.consider(
           "l m",
-          "Line l /\\  A IN l /\\  C IN l  /\\ \n    Line m /\\  B IN m /\\  D IN m    ",
+          "∃ l : (Point) -> Bool, ∃ m : (Point) -> Bool, Line(l) && IN(A, l) && IN(C, l) && Line(m) && IN(B, m) && IN(D, m)",
           "lm_line",
           @readable.by(
             @readable.fol,
@@ -7029,7 +7029,7 @@ fn step_237() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C NOTIN a /\\  C NOTIN d /\\  B NOTIN l /\\  D NOTIN l /\\  A NOTIN m /\\  C NOTIN m /\\  ~Collinear A B D /\\  ~Collinear B D A",
+          "NOTIN(C, a) && NOTIN(C, d) && NOTIN(B, l) && NOTIN(D, l) && NOTIN(A, m) && NOTIN(C, m) && !Collinear(A, B, D) && !Collinear(B, D, A)",
           "tetra'",
           @readable.by(
             @readable.fol,
@@ -7044,7 +7044,7 @@ fn step_237() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(B,D same_side l)",
+          "!same_side((B, D), l)",
           "Bsim_lD",
           @readable.by(
             @readable.fol,
@@ -7058,7 +7058,7 @@ fn step_237() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "A,C same_side m",
+          "same_side((A, C), m)",
           "same",
           @readable.by(
             @readable.fol,
@@ -7074,7 +7074,7 @@ fn step_237() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C,A same_side m",
+          "same_side((C, A), m)",
           "Csim_mA",
           @readable.by(
             @readable.fol,
@@ -7087,7 +7087,7 @@ fn step_237() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C,B same_side d  /\\   C,D same_side a",
+          "same_side((C, B), d) && same_side((C, D), a)",
           "",
           @readable.by(
             @readable.fol,
@@ -7099,7 +7099,7 @@ fn step_237() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C IN int_angle A B D  /\\   C IN int_angle B D A",
+          "IN(C, int_angle(A, B, D)) && IN(C, int_angle(B, D, A))",
           "",
           @readable.by(
             @readable.fol,
@@ -7139,7 +7139,7 @@ pub fn fourchoicestetralateralhelp() -> @kernel.Thm {
 /// InteriorTriangleSymmetry
 fn step_238() -> Unit raise {
   interiortrianglesymmetry_c.set(@readable.prove(
-    "\n  forall A B C P. P IN int_triangle A B C  ==> P IN int_triangle B C A",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ P : Point, IN(P, int_triangle(A, B, C)) → IN(P, int_triangle(B, C, A))",
     @readable.by(
       @readable.fol,
       [@readable.Thm("IN_InteriorTriangle", () => in_interiortriangle())],
@@ -7160,12 +7160,12 @@ pub fn interiortrianglesymmetry() -> @kernel.Thm {
 /// FourChoicesTetralateral
 fn step_239() -> Unit raise {
   fourchoicestetralateral_c.set(@readable.prove(
-    "\n  forall A B C D a. Tetralateral A B C D  ==>\n    Line a /\\  A IN a /\\  B IN a  ==>  C,D same_side a\n    ==>  ConvexQuadrilateral A B C D  \\/  ConvexQuadrilateral A B D C  \\/\n       D IN int_triangle A B C  \\/  C IN int_triangle D A B",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, ∀ a : (Point) -> Bool, Tetralateral(A, B, C, D) → Line(a) && IN(A, a) && IN(B, a) → same_side((C, D), a) → ConvexQuadrilateral(A, B, C, D) || ConvexQuadrilateral(A, B, D, C) || IN(D, int_triangle(A, B, C)) || IN(C, int_triangle(D, A, B))",
     @readable.steps_then(
       [
         @readable.intro_tac("forall A B C D a, H1, a_line, Csim_aD"),
         @readable.have(
-          "\n     ~(A = B) /\\  ~Collinear A B C /\\  ~Collinear C D A /\\  ~Collinear D A B /\\  Tetralateral A B D C",
+          "!(A == B) && !Collinear(A, B, C) && !Collinear(C, D, A) && !Collinear(D, A, B) && Tetralateral(A, B, D, C)",
           "TetraABCD",
           @readable.by(
             @readable.fol,
@@ -7177,7 +7177,7 @@ fn step_239() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear C A D /\\  C NOTIN a /\\  D NOTIN a",
+          "!Collinear(C, A, D) && NOTIN(C, a) && NOTIN(D, a)",
           "notCDa",
           @readable.by(
             @readable.fol,
@@ -7191,7 +7191,7 @@ fn step_239() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C IN int_angle D A B  \\/  D IN int_angle C A B",
+          "IN(C, int_angle(D, A, B)) || IN(D, int_angle(C, A, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -7208,13 +7208,13 @@ fn step_239() -> Unit raise {
       @readable.case_split(
         "CintDAB | DintCAB    ",
         @readable.by(@readable.fol, [@readable.Prev]),
-        @list.List(["C IN int_angle D A B", "D IN int_angle C A B"]),
+        @list.List(["IN(C, int_angle(D, A, B))", "IN(D, int_angle(C, A, B))"]),
         @list.List(
           [
             @readable.steps(
               [
                 @readable.have(
-                  "\n      ConvexQuadrilateral A B C D  \\/  C IN int_triangle D A B",
+                  "ConvexQuadrilateral(A, B, C, D) || IN(C, int_triangle(D, A, B))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -7234,7 +7234,7 @@ fn step_239() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      ConvexQuadrilateral A B D C  \\/  D IN int_triangle C A B",
+                  "ConvexQuadrilateral(A, B, D, C) || IN(D, int_triangle(C, A, B))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -7280,7 +7280,7 @@ pub fn fourchoicestetralateral() -> @kernel.Thm {
 /// QuadrilateralSymmetry
 fn step_242() -> Unit raise {
   quadrilateralsymmetry_c.set(@readable.prove(
-    "\n  forall A B C D. Quadrilateral A B C D  ==>\n    Quadrilateral B C D A  /\\   Quadrilateral C D A B  /\\   Quadrilateral D A B C",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, Quadrilateral(A, B, C, D) → Quadrilateral(B, C, D, A) && Quadrilateral(C, D, A, B) && Quadrilateral(D, A, B, C)",
     @readable.by(
       @readable.fol,
       [
@@ -7306,12 +7306,12 @@ pub fn quadrilateralsymmetry() -> @kernel.Thm {
 /// FiveChoicesQuadrilateral
 fn step_244() -> Unit raise {
   fivechoicesquadrilateral_c.set(@readable.prove(
-    "\n  forall A B C D l m.  Quadrilateral A B C D  ==>\n    Line l /\\  A IN l /\\  C IN l  /\\   Line m /\\  B IN m /\\  D IN m\n    ==>  (ConvexQuadrilateral A B C D  \\/  A IN int_triangle B C D  \\/\n       B IN int_triangle C D A  \\/  C IN int_triangle D A B  \\/\n       D IN int_triangle A B C)  /\\ \n       (~(B,D same_side l) \\/ ~(A,C same_side m))",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, ∀ l : (Point) -> Bool, ∀ m : (Point) -> Bool, Quadrilateral(A, B, C, D) → Line(l) && IN(A, l) && IN(C, l) && Line(m) && IN(B, m) && IN(D, m) → (ConvexQuadrilateral(A, B, C, D) || IN(A, int_triangle(B, C, D)) || IN(B, int_triangle(C, D, A)) || IN(C, int_triangle(D, A, B)) || IN(D, int_triangle(A, B, C))) && (!same_side((B, D), l) || !same_side((A, C), m))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D l m, H1, lm_line"),
         @readable.have(
-          "\n    Tetralateral A B C D",
+          "Tetralateral(A, B, C, D)",
           "H1Tetra",
           @readable.by(
             @readable.fol,
@@ -7322,7 +7322,7 @@ fn step_244() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = D) /\\  ~(B = C) /\\  ~(C = D)",
+          "!(A == B) && !(A == D) && !(B == C) && !(C == D)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -7334,7 +7334,7 @@ fn step_244() -> Unit raise {
         ),
         @readable.consider(
           "a c",
-          "Line a /\\  A IN a /\\  B IN a  /\\ \n    Line c /\\  C IN c /\\  D IN c    ",
+          "∃ a : (Point) -> Bool, ∃ c : (Point) -> Bool, Line(a) && IN(A, a) && IN(B, a) && Line(c) && IN(C, c) && IN(D, c)",
           "ac_line",
           @readable.by(
             @readable.fol,
@@ -7342,7 +7342,7 @@ fn step_244() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Quadrilateral C D A B  /\\   Tetralateral C D A B",
+          "Quadrilateral(C, D, A, B) && Tetralateral(C, D, A, B)",
           "tetraCDAB",
           @readable.by(
             @readable.fol,
@@ -7354,7 +7354,7 @@ fn step_244() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~ConvexQuadrilateral A B D C  /\\   ~ConvexQuadrilateral C D B A",
+          "!ConvexQuadrilateral(A, B, D, C) && !ConvexQuadrilateral(C, D, B, A)",
           "notconvquad",
           @readable.by(
             @readable.fol,
@@ -7371,12 +7371,12 @@ fn step_244() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ConvexQuadrilateral A B C D  \\/  A IN int_triangle B C D  \\/\n    B IN int_triangle C D A  \\/  C IN int_triangle D A B  \\/\n    D IN int_triangle A B C",
+          "ConvexQuadrilateral(A, B, C, D) || IN(A, int_triangle(B, C, D)) || IN(B, int_triangle(C, D, A)) || IN(C, int_triangle(D, A, B)) || IN(D, int_triangle(A, B, C))",
           "5choices",
           @readable.steps(
             [
               @readable.have(
-                "\n      A,B same_side c  \\/  C,D same_side a",
+                "same_side((A, B), c) || same_side((C, D), a)",
                 "2pos",
                 @readable.by(
                   @readable.fol,
@@ -7391,7 +7391,7 @@ fn step_244() -> Unit raise {
                 ),
               ),
               @readable.assuming(
-                "A,B same_side c",
+                "same_side((A, B), c)",
                 "Asym_cB",
                 @readable.by(
                   @readable.fol,
@@ -7408,7 +7408,7 @@ fn step_244() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ConvexQuadrilateral C D A B  \\/  B IN int_triangle C D A  \\/\n      A IN int_triangle B C D",
+                "ConvexQuadrilateral(C, D, A, B) || IN(B, int_triangle(C, D, A)) || IN(A, int_triangle(B, C, D))",
                 "X1",
                 @readable.by(
                   @readable.fol,
@@ -7436,7 +7436,7 @@ fn step_244() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(B,D same_side l) \\/ ~(A,C same_side m)",
+          "!same_side((B, D), l) || !same_side((A, C), m)",
           "",
           @readable.by(
             @readable.fol,
@@ -7472,7 +7472,7 @@ pub fn fivechoicesquadrilateral() -> @kernel.Thm {
 /// IntervalSymmetry
 fn step_249() -> Unit raise {
   intervalsymmetry_c.set(@readable.prove(
-    "\n  forall A B. Open (A, B) = Open (B, A)",
+    "∀ A : Point, ∀ B : Point, Open((A, B)) == Open((B, A))",
     @readable.by(
       @readable.fol,
       [
@@ -7496,7 +7496,7 @@ pub fn intervalsymmetry() -> @kernel.Thm {
 /// SegmentSymmetry
 fn step_250() -> Unit raise {
   segmentsymmetry_c.set(@readable.prove(
-    "\n  forall A B. seg A B = seg B A",
+    "∀ A : Point, ∀ B : Point, seg(A, B) == seg(B, A)",
     @readable.by(
       @readable.fol,
       [
@@ -7521,13 +7521,13 @@ pub fn segmentsymmetry() -> @kernel.Thm {
 /// C1OppositeRay
 fn step_254() -> Unit raise {
   c1oppositeray_c.set(@readable.prove(
-    "\n  forall O P s.  Segment s /\\  ~(O = P)  ==>  ?Q. P IN Open (O, Q)  /\\   seg P Q === s",
+    "∀ O : Point, ∀ P : Point, ∀ s : (Point) -> Bool, Segment(s) && !(O == P) → (∃ Q : Point, IN(P, Open((O, Q))) && op_eq_eq_eq(seg(P, Q), s))",
     @readable.steps(
       [
         @readable.intro_tac("forall O P s, H1"),
         @readable.consider(
           "Z",
-          "P IN Open (O, Z)  /\\   ~(P = Z)    ",
+          "∃ Z : Point, IN(P, Open((O, Z))) && !(P == Z)",
           "OPZ",
           @readable.by(
             @readable.fol,
@@ -7540,7 +7540,7 @@ fn step_254() -> Unit raise {
         ),
         @readable.consider(
           "Q",
-          "Q IN ray P Z DIFF {P} /\\  seg P Q === s    ",
+          "∃ Q : Point, IN(Q, DIFF(ray(P, Z), {P})) && op_eq_eq_eq(seg(P, Q), s)",
           "PQeq",
           @readable.by(
             @readable.fol,
@@ -7548,7 +7548,7 @@ fn step_254() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P IN Open (Q, O)",
+          "IN(P, Open((Q, O)))",
           "",
           @readable.by(
             @readable.fol,
@@ -7584,12 +7584,12 @@ pub fn c1oppositeray() -> @kernel.Thm {
 /// OrderedCongruentSegments
 fn step_256() -> Unit raise {
   orderedcongruentsegments_c.set(@readable.prove(
-    "\n  forall A B C D G.  ~(A = C) /\\  ~(D = G)  ==>  seg A C === seg D G  ==>  B IN Open (A, C)\n    ==>  ?E. E IN Open (D, G)  /\\   seg A B === seg D E",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, ∀ G : Point, !(A == C) && !(D == G) → op_eq_eq_eq(seg(A, C), seg(D, G)) → IN(B, Open((A, C))) → (∃ E : Point, IN(E, Open((D, G))) && op_eq_eq_eq(seg(A, B), seg(D, E)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D G, H1, H2, H3"),
         @readable.have(
-          "\n    Segment (seg A B) /\\  Segment (seg A C) /\\  Segment (seg B C) /\\  Segment (seg D G)",
+          "Segment(seg(A, B)) && Segment(seg(A, C)) && Segment(seg(B, C)) && Segment(seg(D, G))",
           "segs",
           @readable.by(
             @readable.fol,
@@ -7602,7 +7602,7 @@ fn step_256() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg D G === seg A C",
+          "op_eq_eq_eq(seg(D, G), seg(A, C))",
           "DGeqAC",
           @readable.by(
             @readable.fol,
@@ -7615,7 +7615,7 @@ fn step_256() -> Unit raise {
         ),
         @readable.consider(
           "E",
-          "E IN ray D G DIFF {D} /\\  seg D E === seg A B    ",
+          "∃ E : Point, IN(E, DIFF(ray(D, G), {D})) && op_eq_eq_eq(seg(D, E), seg(A, B))",
           "DEeqAB",
           @readable.by(
             @readable.fol,
@@ -7627,7 +7627,7 @@ fn step_256() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(E = D) /\\  Collinear D E G /\\  D NOTIN Open (G, E)",
+          "!(E == D) && Collinear(D, E, G) && NOTIN(D, Open((G, E)))",
           "ErDG",
           @readable.by(
             @readable.fol,
@@ -7644,7 +7644,7 @@ fn step_256() -> Unit raise {
         ),
         @readable.consider(
           "G'",
-          "E IN Open (D, G') /\\  seg E G' === seg B C    ",
+          "∃ G' : Point, IN(E, Open((D, G'))) && op_eq_eq_eq(seg(E, G'), seg(B, C))",
           "DEG'",
           @readable.by(
             @readable.fol,
@@ -7656,7 +7656,7 @@ fn step_256() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg D G' === seg A C",
+          "op_eq_eq_eq(seg(D, G'), seg(A, C))",
           "DG'eqAC",
           @readable.by(
             @readable.fol,
@@ -7669,7 +7669,7 @@ fn step_256() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Segment (seg D G') /\\  Segment (seg D E)",
+          "Segment(seg(D, G')) && Segment(seg(D, E))",
           "",
           @readable.by(
             @readable.fol,
@@ -7681,7 +7681,7 @@ fn step_256() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg A C === seg D G' /\\  seg A B === seg D E",
+          "op_eq_eq_eq(seg(A, C), seg(D, G')) && op_eq_eq_eq(seg(A, B), seg(D, E))",
           "ABeqDE",
           @readable.by(
             @readable.fol,
@@ -7695,7 +7695,7 @@ fn step_256() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G' IN ray D E DIFF {D}  /\\   G IN ray D E DIFF {D}",
+          "IN(G', DIFF(ray(D, E), {D})) && IN(G, DIFF(ray(D, E), {D}))",
           "",
           @readable.by(
             @readable.fol,
@@ -7711,7 +7711,7 @@ fn step_256() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G' = G",
+          "G' == G",
           "",
           @readable.by(
             @readable.fol,
@@ -7747,12 +7747,12 @@ pub fn orderedcongruentsegments() -> @kernel.Thm {
 /// SegmentSubtraction
 fn step_261() -> Unit raise {
   segmentsubtraction_c.set(@readable.prove(
-    "\n  forall A B C A' B' C'. B IN Open (A, C)  /\\   B' IN Open (A', C')  ==>\n    seg A B === seg A' B'  ==>  seg A C === seg A' C'\n    ==>  seg B C === seg B' C'",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ A' : Point, ∀ B' : Point, ∀ C' : Point, IN(B, Open((A, C))) && IN(B', Open((A', C'))) → op_eq_eq_eq(seg(A, B), seg(A', B')) → op_eq_eq_eq(seg(A, C), seg(A', C')) → op_eq_eq_eq(seg(B, C), seg(B', C'))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C A' B' C', H1, H2, H3"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C) /\\  Collinear A B C /\\  Segment (seg A' C') /\\  Segment (seg B' C')",
+          "!(A == B) && !(A == C) && Collinear(A, B, C) && Segment(seg(A', C')) && Segment(seg(B', C'))",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -7765,7 +7765,7 @@ fn step_261() -> Unit raise {
         ),
         @readable.consider(
           "Q",
-          "B IN Open (A, Q)  /\\   seg B Q === seg B' C'    ",
+          "∃ Q : Point, IN(B, Open((A, Q))) && op_eq_eq_eq(seg(B, Q), seg(B', C'))",
           "defQ",
           @readable.by(
             @readable.fol,
@@ -7773,7 +7773,7 @@ fn step_261() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg A Q === seg A' C'",
+          "op_eq_eq_eq(seg(A, Q), seg(A', C'))",
           "AQ_A'C'",
           @readable.by(
             @readable.fol,
@@ -7786,7 +7786,7 @@ fn step_261() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = Q)  /\\   Collinear A B Q  /\\   A NOTIN Open (C, B)  /\\   A NOTIN Open (Q, B)",
+          "!(A == Q) && Collinear(A, B, Q) && NOTIN(A, Open((C, B))) && NOTIN(A, Open((Q, B)))",
           "",
           @readable.steps(
             [
@@ -7811,7 +7811,7 @@ fn step_261() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C IN ray A B DIFF {A}  /\\   Q IN ray A B DIFF {A}",
+          "IN(C, DIFF(ray(A, B), {A})) && IN(Q, DIFF(ray(A, B), {A}))",
           "",
           @readable.by(
             @readable.fol,
@@ -7853,13 +7853,13 @@ pub fn segmentsubtraction() -> @kernel.Thm {
 /// SegmentOrderingUse
 fn step_262() -> Unit raise {
   segmentorderinguse_c.set(@readable.prove(
-    "\n  forall A B s.  Segment s  /\\   ~(A = B)  ==>  s <__ seg A B\n    ==>  ?G. G IN Open (A, B)  /\\   s === seg A G",
+    "∀ A : Point, ∀ B : Point, ∀ s : (Point) -> Bool, Segment(s) && !(A == B) → op_lt_us_us(s, seg(A, B)) → (∃ G : Point, IN(G, Open((A, B))) && op_eq_eq_eq(s, seg(A, G)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B s, H1, H2"),
         @readable.consider(
           "A' B' G'",
-          "seg A B = seg A' B'  /\\   G' IN Open (A', B')  /\\   s === seg A' G'    ",
+          "∃ A' : Point, ∃ B' : Point, ∃ G' : Point, seg(A, B) == seg(A', B') && IN(G', Open((A', B'))) && op_eq_eq_eq(s, seg(A', G'))",
           "H2'",
           @readable.by(
             @readable.fol,
@@ -7870,7 +7870,7 @@ fn step_262() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A' = G') /\\  ~(A' = B')  /\\   seg A' B' === seg A B",
+          "!(A' == G') && !(A' == B') && op_eq_eq_eq(seg(A', B'), seg(A, B))",
           "A'notB'G'",
           @readable.by(
             @readable.fol,
@@ -7885,7 +7885,7 @@ fn step_262() -> Unit raise {
         ),
         @readable.consider(
           "G",
-          "G IN Open (A, B)  /\\   seg A' G' === seg A G    ",
+          "∃ G : Point, IN(G, Open((A, B))) && op_eq_eq_eq(seg(A', G'), seg(A, G))",
           "AGB",
           @readable.by(
             @readable.fol,
@@ -7902,7 +7902,7 @@ fn step_262() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    s === seg A G",
+          "op_eq_eq_eq(s, seg(A, G))",
           "",
           @readable.by(
             @readable.fol,
@@ -7936,13 +7936,13 @@ pub fn segmentorderinguse() -> @kernel.Thm {
 /// SegmentTrichotomy1
 fn step_267() -> Unit raise {
   segmenttrichotomy1_c.set(@readable.prove(
-    "\n  forall s t.  s <__ t  ==>  ~(s === t)",
+    "∀ s : (Point) -> Bool, ∀ t : (Point) -> Bool, op_lt_us_us(s, t) → !op_eq_eq_eq(s, t)",
     @readable.steps(
       [
         @readable.intro_tac("forall s t, H1"),
         @readable.consider(
           "A B G",
-          "Segment s /\\  t = seg A B /\\  G IN Open (A, B) /\\  s === seg A G    ",
+          "∃ A : Point, ∃ B : Point, ∃ G : Point, Segment(s) && t == seg(A, B) && IN(G, Open((A, B))) && op_eq_eq_eq(s, seg(A, G))",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -7953,7 +7953,7 @@ fn step_267() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = G) /\\  ~(A = B) /\\  ~(G = B)",
+          "!(A == G) && !(A == B) && !(G == B)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -7961,7 +7961,7 @@ fn step_267() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg A B === seg A B",
+          "op_eq_eq_eq(seg(A, B), seg(A, B))",
           "ABrefl",
           @readable.by(
             @readable.fol,
@@ -7973,7 +7973,7 @@ fn step_267() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN ray A B DIFF {A}  /\\   B IN ray A B DIFF {A}",
+          "IN(G, DIFF(ray(A, B), {A})) && IN(B, DIFF(ray(A, B), {A}))",
           "",
           @readable.by(
             @readable.fol,
@@ -7988,7 +7988,7 @@ fn step_267() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(seg A G === seg A B)  /\\  seg A G === s",
+          "!op_eq_eq_eq(seg(A, G), seg(A, B)) && op_eq_eq_eq(seg(A, G), s)",
           "",
           @readable.by(
             @readable.fol,
@@ -8031,13 +8031,13 @@ pub fn segmenttrichotomy1() -> @kernel.Thm {
 /// SegmentTrichotomy2
 fn step_270() -> Unit raise {
   segmenttrichotomy2_c.set(@readable.prove(
-    "\n  forall s t u.  s <__ t  /\\   Segment u  /\\   t === u  ==>  s <__ u",
+    "∀ s : (Point) -> Bool, ∀ t : (Point) -> Bool, ∀ u : (Point) -> Bool, op_lt_us_us(s, t) && Segment(u) && op_eq_eq_eq(t, u) → op_lt_us_us(s, u)",
     @readable.steps(
       [
         @readable.intro_tac("forall s t u, H1 H2"),
         @readable.consider(
           "A B P",
-          "Segment s  /\\   t = seg A B  /\\   P IN Open (A, B)  /\\   s === seg A P    ",
+          "∃ A : Point, ∃ B : Point, ∃ P : Point, Segment(s) && t == seg(A, B) && IN(P, Open((A, B))) && op_eq_eq_eq(s, seg(A, P))",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -8048,7 +8048,7 @@ fn step_270() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = P)",
+          "!(A == B) && !(A == P)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -8057,7 +8057,7 @@ fn step_270() -> Unit raise {
         ),
         @readable.consider(
           "X Y",
-          "u = seg X Y /\\  ~(X = Y)    ",
+          "∃ X : Point, ∃ Y : Point, u == seg(X, Y) && !(X == Y)",
           "uXY",
           @readable.by(
             @readable.fol,
@@ -8066,7 +8066,7 @@ fn step_270() -> Unit raise {
         ),
         @readable.consider(
           "Q",
-          "Q IN Open (X, Y)  /\\   seg A P === seg X Q    ",
+          "∃ Q : Point, IN(Q, Open((X, Y))) && op_eq_eq_eq(seg(A, P), seg(X, Q))",
           "XQY",
           @readable.by(
             @readable.fol,
@@ -8083,7 +8083,7 @@ fn step_270() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(X = Q)  /\\   s === seg X Q",
+          "!(X == Q) && op_eq_eq_eq(s, seg(X, Q))",
           "",
           @readable.by(
             @readable.fol,
@@ -8126,13 +8126,13 @@ pub fn segmenttrichotomy2() -> @kernel.Thm {
 /// SegmentOrderTransitivity
 fn step_271() -> Unit raise {
   segmentordertransitivity_c.set(@readable.prove(
-    "\n  forall s t u.  s <__ t  /\\   t <__ u  ==>  s <__ u",
+    "∀ s : (Point) -> Bool, ∀ t : (Point) -> Bool, ∀ u : (Point) -> Bool, op_lt_us_us(s, t) && op_lt_us_us(t, u) → op_lt_us_us(s, u)",
     @readable.steps(
       [
         @readable.intro_tac("forall s t u, H1"),
         @readable.consider(
           "A B G",
-          "u = seg A B  /\\   G IN Open (A, B)  /\\   t === seg A G    ",
+          "∃ A : Point, ∃ B : Point, ∃ G : Point, u == seg(A, B) && IN(G, Open((A, B))) && op_eq_eq_eq(t, seg(A, G))",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -8143,7 +8143,7 @@ fn step_271() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = G) /\\  Segment s",
+          "!(A == B) && !(A == G) && Segment(s)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -8156,7 +8156,7 @@ fn step_271() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    s <__ seg A G",
+          "op_lt_us_us(s, seg(A, G))",
           "",
           @readable.by(
             @readable.fol,
@@ -8171,7 +8171,7 @@ fn step_271() -> Unit raise {
         ),
         @readable.consider(
           "F",
-          "F IN Open (A, G) /\\  s === seg A F    ",
+          "∃ F : Point, IN(F, Open((A, G))) && op_eq_eq_eq(s, seg(A, F))",
           "AFG",
           @readable.by(
             @readable.fol,
@@ -8183,7 +8183,7 @@ fn step_271() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    F IN Open (A, B)",
+          "IN(F, Open((A, B)))",
           "",
           @readable.by(
             @readable.fol,
@@ -8223,12 +8223,12 @@ pub fn segmentordertransitivity() -> @kernel.Thm {
 /// SegmentTrichotomy
 fn step_274() -> Unit raise {
   segmenttrichotomy_c.set(@readable.prove(
-    "\n  forall s t.  Segment s /\\  Segment t\n    ==>  (s === t  \\/  s <__ t  \\/  t <__ s)  /\\   ~(s === t /\\  s <__ t)  /\\ \n       ~(s === t /\\  t <__ s)  /\\   ~(s <__ t /\\  t <__ s)",
+    "∀ s : (Point) -> Bool, ∀ t : (Point) -> Bool, Segment(s) && Segment(t) → (op_eq_eq_eq(s, t) || op_lt_us_us(s, t) || op_lt_us_us(t, s)) && !(op_eq_eq_eq(s, t) && op_lt_us_us(s, t)) && !(op_eq_eq_eq(s, t) && op_lt_us_us(t, s)) && !(op_lt_us_us(s, t) && op_lt_us_us(t, s))",
     @readable.steps(
       [
         @readable.intro_tac("forall s t, H1"),
         @readable.have(
-          "\n    ~(s === t  /\\   s <__ t)",
+          "!(op_eq_eq_eq(s, t) && op_lt_us_us(s, t))",
           "Not12",
           @readable.by(
             @readable.fol,
@@ -8239,7 +8239,7 @@ fn step_274() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(s === t  /\\   t <__ s)",
+          "!(op_eq_eq_eq(s, t) && op_lt_us_us(t, s))",
           "Not13",
           @readable.by(
             @readable.fol,
@@ -8252,7 +8252,7 @@ fn step_274() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(s <__ t  /\\   t <__ s)",
+          "!(op_lt_us_us(s, t) && op_lt_us_us(t, s))",
           "Not23",
           @readable.by(
             @readable.fol,
@@ -8271,7 +8271,7 @@ fn step_274() -> Unit raise {
         ),
         @readable.consider(
           "O P",
-          "s = seg O P  /\\   ~(O = P)    ",
+          "∃ O : Point, ∃ P : Point, s == seg(O, P) && !(O == P)",
           "sOP",
           @readable.by(
             @readable.fol,
@@ -8280,7 +8280,7 @@ fn step_274() -> Unit raise {
         ),
         @readable.consider(
           "Q",
-          "Q IN ray O P DIFF {O}  /\\   seg O Q === t    ",
+          "∃ Q : Point, IN(Q, DIFF(ray(O, P), {O})) && op_eq_eq_eq(seg(O, Q), t)",
           "QrOP",
           @readable.by(
             @readable.fol,
@@ -8288,7 +8288,7 @@ fn step_274() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    O NOTIN Open (Q, P)  /\\   Collinear O P Q   /\\   ~(O = Q)",
+          "NOTIN(O, Open((Q, P))) && Collinear(O, P, Q) && !(O == Q)",
           "notQOP",
           @readable.by(
             @readable.fol,
@@ -8301,7 +8301,7 @@ fn step_274() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    s === seg O P  /\\   t === seg O Q  /\\   seg O Q === t  /\\   seg O P === s",
+          "op_eq_eq_eq(s, seg(O, P)) && op_eq_eq_eq(t, seg(O, Q)) && op_eq_eq_eq(seg(O, Q), t) && op_eq_eq_eq(seg(O, P), s)",
           "stOPQ",
           @readable.by(
             @readable.fol,
@@ -8317,7 +8317,7 @@ fn step_274() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "~(Q = P)",
+          "!(Q == P)",
           "notQP",
           @readable.by(
             @readable.fol,
@@ -8332,7 +8332,7 @@ fn step_274() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P IN Open (O, Q)  \\/  Q IN Open (O, P)",
+          "IN(P, Open((O, Q))) || IN(Q, Open((O, P)))",
           "",
           @readable.by(
             @readable.fol,
@@ -8347,7 +8347,7 @@ fn step_274() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    s <__ seg O Q  \\/  t <__ seg O P",
+          "op_lt_us_us(s, seg(O, Q)) || op_lt_us_us(t, seg(O, P))",
           "",
           @readable.by(
             @readable.fol,
@@ -8360,7 +8360,7 @@ fn step_274() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    s <__ t  \\/  t <__ s",
+          "op_lt_us_us(s, t) || op_lt_us_us(t, s)",
           "",
           @readable.by(
             @readable.fol,
@@ -8399,12 +8399,12 @@ pub fn segmenttrichotomy() -> @kernel.Thm {
 /// C4Uniqueness
 fn step_277() -> Unit raise {
   c4uniqueness_c.set(@readable.prove(
-    "\n  forall O A B P l.  Line l /\\  O IN l /\\  A IN l /\\  ~(O = A)  ==>\n    B NOTIN l /\\  P NOTIN l /\\  P,B same_side l  ==>  angle A O P === angle A O B\n    ==>  ray O B = ray O P",
+    "∀ O : Point, ∀ A : Point, ∀ B : Point, ∀ P : Point, ∀ l : (Point) -> Bool, Line(l) && IN(O, l) && IN(A, l) && !(O == A) → NOTIN(B, l) && NOTIN(P, l) && same_side((P, B), l) → op_eq_eq_eq(angle(A, O, P), angle(A, O, B)) → ray(O, B) == ray(O, P)",
     @readable.steps(
       [
         @readable.intro_tac("forall O A B P l, H1, H2, H3"),
         @readable.have(
-          "\n    ~(O = B) /\\  ~(O = P) /\\  Ray (ray O B) /\\  Ray (ray O P)",
+          "!(O == B) && !(O == P) && Ray(ray(O, B)) && Ray(ray(O, P))",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -8417,7 +8417,7 @@ fn step_277() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A O B  /\\   B,B same_side l",
+          "!Collinear(A, O, B) && same_side((B, B), l)",
           "Bsim_lB",
           @readable.by(
             @readable.fol,
@@ -8432,7 +8432,7 @@ fn step_277() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle (angle A O B)  /\\   angle A O B === angle A O B",
+          "Angle(angle(A, O, B)) && op_eq_eq_eq(angle(A, O, B), angle(A, O, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -8473,7 +8473,7 @@ pub fn c4uniqueness() -> @kernel.Thm {
 /// AngleSymmetry
 fn step_282() -> Unit raise {
   anglesymmetry_c.set(@readable.prove(
-    "\n  forall A O B. angle A O B = angle B O A",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, angle(A, O, B) == angle(B, O, A)",
     @readable.by(
       @readable.fol,
       [
@@ -8497,12 +8497,12 @@ pub fn anglesymmetry() -> @kernel.Thm {
 /// TriangleCongSymmetry
 fn step_285() -> Unit raise {
   trianglecongsymmetry_c.set(@readable.prove(
-    "\n  forall A B C A' B' C'. A,B,C cong A',B',C'\n   ==>  A,C,B cong A',C',B' /\\  B,A,C cong B',A',C' /\\ \n       B,C,A cong B',C',A' /\\  C,A,B cong C',A',B' /\\  C,B,A cong C',B',A'",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ A' : Point, ∀ B' : Point, ∀ C' : Point, cong((A, B, C), (A', B', C')) → cong((A, C, B), (A', C', B')) && cong((B, A, C), (B', A', C')) && cong((B, C, A), (B', C', A')) && cong((C, A, B), (C', A', B')) && cong((C, B, A), (C', B', A'))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C A' B' C', H1"),
         @readable.have(
-          "\n    ~Collinear A B C /\\  ~Collinear A' B' C' /\\ \n    seg A B === seg A' B' /\\  seg A C === seg A' C' /\\  seg B C === seg B' C' /\\ \n    angle A B C === angle A' B' C' /\\  angle B C A === angle B' C' A' /\\  angle C A B === angle C' A' B'",
+          "!Collinear(A, B, C) && !Collinear(A', B', C') && op_eq_eq_eq(seg(A, B), seg(A', B')) && op_eq_eq_eq(seg(A, C), seg(A', C')) && op_eq_eq_eq(seg(B, C), seg(B', C')) && op_eq_eq_eq(angle(A, B, C), angle(A', B', C')) && op_eq_eq_eq(angle(B, C, A), angle(B', C', A')) && op_eq_eq_eq(angle(C, A, B), angle(C', A', B'))",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -8513,7 +8513,7 @@ fn step_285() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg B A === seg B' A' /\\  seg C A === seg C' A' /\\  seg C B === seg C' B'",
+          "op_eq_eq_eq(seg(B, A), seg(B', A')) && op_eq_eq_eq(seg(C, A), seg(C', A')) && op_eq_eq_eq(seg(C, B), seg(C', B'))",
           "segments",
           @readable.by(
             @readable.fol,
@@ -8524,7 +8524,7 @@ fn step_285() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C B A === angle C' B' A' /\\  angle A C B === angle A' C' B' /\\  angle B A C === angle B' A' C'",
+          "op_eq_eq_eq(angle(C, B, A), angle(C', B', A')) && op_eq_eq_eq(angle(A, C, B), angle(A', C', B')) && op_eq_eq_eq(angle(B, A, C), angle(B', A', C'))",
           "",
           @readable.by(
             @readable.fol,
@@ -8562,12 +8562,12 @@ pub fn trianglecongsymmetry() -> @kernel.Thm {
 /// SAS
 fn step_289() -> Unit raise {
   sas_c.set(@readable.prove(
-    "\n  forall A B C A' B' C'. ~Collinear A B C /\\  ~Collinear A' B' C'  ==>\n    seg B A === seg B' A'  /\\   seg B C === seg B' C'  ==> angle A B C === angle A' B' C'\n    ==>  A,B,C cong A',B',C'",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ A' : Point, ∀ B' : Point, ∀ C' : Point, !Collinear(A, B, C) && !Collinear(A', B', C') → op_eq_eq_eq(seg(B, A), seg(B', A')) && op_eq_eq_eq(seg(B, C), seg(B', C')) → op_eq_eq_eq(angle(A, B, C), angle(A', B', C')) → cong((A, B, C), (A', B', C'))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C A' B' C', H1, H2, H3"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C) /\\  ~(A' = C')",
+          "!(A == B) && !(A == C) && !(A' == C')",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -8582,7 +8582,7 @@ fn step_289() -> Unit raise {
         ),
         @readable.consider(
           "c",
-          "Line c /\\  A IN c /\\  B IN c    ",
+          "∃ c : (Point) -> Bool, Line(c) && IN(A, c) && IN(B, c)",
           "c_line",
           @readable.by(
             @readable.fol,
@@ -8590,7 +8590,7 @@ fn step_289() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C NOTIN c",
+          "NOTIN(C, c)",
           "notCc",
           @readable.by(
             @readable.fol,
@@ -8603,7 +8603,7 @@ fn step_289() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B C A === angle B' C' A'",
+          "op_eq_eq_eq(angle(B, C, A), angle(B', C', A'))",
           "BCAeq",
           @readable.by(
             @readable.fol,
@@ -8616,7 +8616,7 @@ fn step_289() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B A C === angle B' A' C'",
+          "op_eq_eq_eq(angle(B, A, C), angle(B', A', C'))",
           "BACeq",
           @readable.by(
             @readable.fol,
@@ -8632,7 +8632,7 @@ fn step_289() -> Unit raise {
         ),
         @readable.consider(
           "Y",
-          "Y IN ray A C DIFF {A}  /\\   seg A Y === seg A' C'    ",
+          "∃ Y : Point, IN(Y, DIFF(ray(A, C), {A})) && op_eq_eq_eq(seg(A, Y), seg(A', C'))",
           "YrAC",
           @readable.by(
             @readable.fol,
@@ -8644,7 +8644,7 @@ fn step_289() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Y NOTIN c  /\\   Y,C same_side c",
+          "NOTIN(Y, c) && same_side((Y, C), c)",
           "Ysim_cC",
           @readable.by(
             @readable.fol,
@@ -8657,7 +8657,7 @@ fn step_289() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear Y A B",
+          "!Collinear(Y, A, B)",
           "YABncol",
           @readable.by(
             @readable.fol,
@@ -8671,7 +8671,7 @@ fn step_289() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray A Y = ray A C  /\\   angle Y A B = angle C A B",
+          "ray(A, Y) == ray(A, C) && angle(Y, A, B) == angle(C, A, B)",
           "",
           @readable.by(
             @readable.fol,
@@ -8684,7 +8684,7 @@ fn step_289() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle Y A B === angle C' A' B'",
+          "op_eq_eq_eq(angle(Y, A, B), angle(C', A', B'))",
           "",
           @readable.by(
             @readable.fol,
@@ -8696,7 +8696,7 @@ fn step_289() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A B Y === angle A' B' C'",
+          "op_eq_eq_eq(angle(A, B, Y), angle(A', B', C'))",
           "ABYeq",
           @readable.by(
             @readable.fol,
@@ -8713,7 +8713,7 @@ fn step_289() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle (angle A B C) /\\  Angle (angle A' B' C') /\\  Angle (angle A B Y)",
+          "Angle(angle(A, B, C)) && Angle(angle(A', B', C')) && Angle(angle(A, B, Y))",
           "",
           @readable.by(
             @readable.fol,
@@ -8726,7 +8726,7 @@ fn step_289() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A B Y === angle A B C",
+          "op_eq_eq_eq(angle(A, B, Y), angle(A, B, C))",
           "ABYeqABC",
           @readable.by(
             @readable.fol,
@@ -8741,7 +8741,7 @@ fn step_289() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray B C = ray B Y  /\\   ~(Y = B)  /\\   Y IN ray B C",
+          "ray(B, C) == ray(B, Y) && !(Y == B) && IN(Y, ray(B, C))",
           "",
           @readable.by(
             @readable.fol,
@@ -8759,7 +8759,7 @@ fn step_289() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Collinear B C Y  /\\   Collinear A C Y",
+          "Collinear(B, C, Y) && Collinear(A, C, Y)",
           "ABCYcol",
           @readable.by(
             @readable.fol,
@@ -8773,7 +8773,7 @@ fn step_289() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C = Y",
+          "C == Y",
           "",
           @readable.by(
             @readable.fol,
@@ -8788,7 +8788,7 @@ fn step_289() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg A C === seg A' C'",
+          "op_eq_eq_eq(seg(A, C), seg(A', C'))",
           "",
           @readable.by(@readable.fol, [@readable.Prev, @readable.Label("YrAC")]),
         ),
@@ -8824,12 +8824,12 @@ pub fn sas() -> @kernel.Thm {
 /// ASA
 fn step_295() -> Unit raise {
   asa_c.set(@readable.prove(
-    "\n  forall A B C A' B' C'. ~Collinear A B C /\\  ~Collinear A' B' C'  ==>\n    seg A C === seg A' C'  ==>  angle C A B === angle C' A' B'  /\\   angle B C A === angle B' C' A'\n    ==>  A,B,C cong A',B',C'",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ A' : Point, ∀ B' : Point, ∀ C' : Point, !Collinear(A, B, C) && !Collinear(A', B', C') → op_eq_eq_eq(seg(A, C), seg(A', C')) → op_eq_eq_eq(angle(C, A, B), angle(C', A', B')) && op_eq_eq_eq(angle(B, C, A), angle(B', C', A')) → cong((A, B, C), (A', B', C'))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C A' B' C', H1, H2, H3"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C) /\\  ~(B = C) /\\  ~(A' = B') /\\  ~(A' = C') /\\  ~(B' = C') /\\ \n    Segment (seg C' B')",
+          "!(A == B) && !(A == C) && !(B == C) && !(A' == B') && !(A' == C') && !(B' == C') && Segment(seg(C', B'))",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -8845,7 +8845,7 @@ fn step_295() -> Unit raise {
         ),
         @readable.consider(
           "D",
-          "D IN ray C B DIFF {C}  /\\   seg C D === seg C' B'  /\\   ~(D = C)    ",
+          "∃ D : Point, IN(D, DIFF(ray(C, B), {C})) && op_eq_eq_eq(seg(C, D), seg(C', B')) && !(D == C)",
           "DrCB",
           @readable.by(
             @readable.fol,
@@ -8858,7 +8858,7 @@ fn step_295() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Collinear C B D",
+          "Collinear(C, B, D)",
           "CBDcol",
           @readable.by(
             @readable.fol,
@@ -8871,7 +8871,7 @@ fn step_295() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear D C A /\\  Angle (angle C A D) /\\  Angle (angle C' A' B') /\\  Angle (angle C A B)",
+          "!Collinear(D, C, A) && Angle(angle(C, A, D)) && Angle(angle(C', A', B')) && Angle(angle(C, A, B))",
           "DCAncol",
           @readable.by(
             @readable.fol,
@@ -8891,7 +8891,7 @@ fn step_295() -> Unit raise {
         ),
         @readable.consider(
           "b",
-          "Line b /\\  A IN b /\\  C IN b    ",
+          "∃ b : (Point) -> Bool, Line(b) && IN(A, b) && IN(C, b)",
           "b_line",
           @readable.by(
             @readable.fol,
@@ -8899,7 +8899,7 @@ fn step_295() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B NOTIN b /\\  ~(D = A)",
+          "NOTIN(B, b) && !(D == A)",
           "notBb",
           @readable.by(
             @readable.fol,
@@ -8917,7 +8917,7 @@ fn step_295() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D NOTIN b  /\\   D,B same_side b",
+          "NOTIN(D, b) && same_side((D, B), b)",
           "Dsim_bB",
           @readable.by(
             @readable.fol,
@@ -8930,7 +8930,7 @@ fn step_295() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray C D = ray C B",
+          "ray(C, D) == ray(C, B)",
           "",
           @readable.by(
             @readable.fol,
@@ -8942,7 +8942,7 @@ fn step_295() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle D C A === angle B' C' A'",
+          "op_eq_eq_eq(angle(D, C, A), angle(B', C', A'))",
           "",
           @readable.by(
             @readable.fol,
@@ -8954,7 +8954,7 @@ fn step_295() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D,C,A cong B',C',A'",
+          "cong((D, C, A), (B', C', A'))",
           "",
           @readable.by(
             @readable.fol,
@@ -8971,7 +8971,7 @@ fn step_295() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C A D === angle C' A' B'",
+          "op_eq_eq_eq(angle(C, A, D), angle(C', A', B'))",
           "",
           @readable.by(
             @readable.fol,
@@ -8982,7 +8982,7 @@ fn step_295() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C A D === angle C A B",
+          "op_eq_eq_eq(angle(C, A, D), angle(C, A, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -8996,7 +8996,7 @@ fn step_295() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray A B = ray A D  /\\   D IN ray A B",
+          "ray(A, B) == ray(A, D) && IN(D, ray(A, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -9013,7 +9013,7 @@ fn step_295() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Collinear A B D",
+          "Collinear(A, B, D)",
           "ABDcol",
           @readable.by(
             @readable.fol,
@@ -9021,7 +9021,7 @@ fn step_295() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D = B",
+          "D == B",
           "",
           @readable.by(
             @readable.fol,
@@ -9038,12 +9038,12 @@ fn step_295() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg C B === seg C' B'",
+          "op_eq_eq_eq(seg(C, B), seg(C', B'))",
           "",
           @readable.by(@readable.fol, [@readable.Prev, @readable.Label("DrCB")]),
         ),
         @readable.have(
-          "\n    B,C,A cong B',C',A'",
+          "cong((B, C, A), (B', C', A'))",
           "",
           @readable.by(
             @readable.fol,
@@ -9083,12 +9083,12 @@ pub fn asa() -> @kernel.Thm {
 /// AngleSubtraction
 fn step_298() -> Unit raise {
   anglesubtraction_c.set(@readable.prove(
-    "\n  forall A O B A' O' B' G G'. G IN int_angle A O B  /\\   G' IN int_angle A' O' B'  ==>\n    angle A O B === angle A' O' B'  /\\   angle A O G === angle A' O' G'\n    ==>  angle G O B === angle G' O' B'",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ A' : Point, ∀ O' : Point, ∀ B' : Point, ∀ G : Point, ∀ G' : Point, IN(G, int_angle(A, O, B)) && IN(G', int_angle(A', O', B')) → op_eq_eq_eq(angle(A, O, B), angle(A', O', B')) && op_eq_eq_eq(angle(A, O, G), angle(A', O', G')) → op_eq_eq_eq(angle(G, O, B), angle(G', O', B'))",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B A' O' B' G G', H1, H2"),
         @readable.have(
-          "\n    ~Collinear A O B /\\  ~Collinear A' O' B'",
+          "!Collinear(A, O, B) && !Collinear(A', O', B')",
           "A'O'B'ncol",
           @readable.by(
             @readable.fol,
@@ -9099,7 +9099,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = O) /\\  ~(O = B) /\\  ~(G = O) /\\  ~(G' = O') /\\  Segment (seg O' A') /\\  Segment (seg O' B')",
+          "!(A == O) && !(O == B) && !(G == O) && !(G' == O') && Segment(seg(O', A')) && Segment(seg(O', B'))",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -9117,12 +9117,12 @@ fn step_298() -> Unit raise {
         ),
         @readable.consider(
           "X Y",
-          "X IN ray O A DIFF {O}  /\\   seg O X === seg O' A'  /\\   Y IN ray O B DIFF {O}  /\\   seg O Y === seg O' B'    ",
+          "∃ X : Point, ∃ Y : Point, IN(X, DIFF(ray(O, A), {O})) && op_eq_eq_eq(seg(O, X), seg(O', A')) && IN(Y, DIFF(ray(O, B), {O})) && op_eq_eq_eq(seg(O, Y), seg(O', B'))",
           "XYexists",
           @readable.by(@readable.fol, [@readable.Prev, @readable.Thm("C1", () => c1())]),
         ),
         @readable.have(
-          "\n    G IN int_angle X O Y",
+          "IN(G, int_angle(X, O, Y))",
           "GintXOY",
           @readable.by(
             @readable.fol,
@@ -9136,7 +9136,7 @@ fn step_298() -> Unit raise {
         ),
         @readable.consider(
           "H H'",
-          "H IN Open (X, Y)  /\\   H IN ray O G DIFF {O}  /\\ \n    H' IN Open (A', B')  /\\   H' IN ray O' G' DIFF {O'}    ",
+          "∃ H : Point, ∃ H' : Point, IN(H, Open((X, Y))) && IN(H, DIFF(ray(O, G), {O})) && IN(H', Open((A', B'))) && IN(H', DIFF(ray(O', G'), {O'}))",
           "Hexists",
           @readable.by(
             @readable.fol,
@@ -9148,7 +9148,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    H IN int_angle X O Y  /\\   H' IN int_angle A' O' B'",
+          "IN(H, int_angle(X, O, Y)) && IN(H', int_angle(A', O', B'))",
           "HintXOY",
           @readable.by(
             @readable.fol,
@@ -9161,7 +9161,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray O X = ray O A  /\\   ray O Y = ray O B  /\\   ray O H = ray O G  /\\   ray O' H' = ray O' G'",
+          "ray(O, X) == ray(O, A) && ray(O, Y) == ray(O, B) && ray(O, H) == ray(O, G) && ray(O', H') == ray(O', G')",
           "Orays",
           @readable.by(
             @readable.fol,
@@ -9174,7 +9174,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle X O Y === angle A' O' B'  /\\   angle X O H === angle A' O' H'",
+          "op_eq_eq_eq(angle(X, O, Y), angle(A', O', B')) && op_eq_eq_eq(angle(X, O, H), angle(A', O', H'))",
           "H2'",
           @readable.by(
             @readable.fol,
@@ -9186,7 +9186,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear X O Y",
+          "!Collinear(X, O, Y)",
           "",
           @readable.by(
             @readable.fol,
@@ -9197,7 +9197,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    X,O,Y cong A',O',B'",
+          "cong((X, O, Y), (A', O', B'))",
           "",
           @readable.by(
             @readable.fol,
@@ -9211,7 +9211,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg X Y === seg A' B'  /\\   angle O Y X === angle O' B' A'  /\\   angle Y X O === angle B' A' O'",
+          "op_eq_eq_eq(seg(X, Y), seg(A', B')) && op_eq_eq_eq(angle(O, Y, X), angle(O', B', A')) && op_eq_eq_eq(angle(Y, X, O), angle(B', A', O'))",
           "XOYcong",
           @readable.by(
             @readable.fol,
@@ -9222,7 +9222,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear O H X /\\  ~Collinear O' H' A' /\\  ~Collinear O Y H /\\  ~Collinear O' B' H'",
+          "!Collinear(O, H, X) && !Collinear(O', H', A') && !Collinear(O, Y, H) && !Collinear(O', B', H')",
           "OHXncol",
           @readable.by(
             @readable.fol,
@@ -9235,7 +9235,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray X H = ray X Y  /\\   ray A' H' = ray A' B'  /\\   ray Y H = ray Y X  /\\   ray B' H' = ray B' A'",
+          "ray(X, H) == ray(X, Y) && ray(A', H') == ray(A', B') && ray(Y, H) == ray(Y, X) && ray(B', H') == ray(B', A')",
           "Hrays",
           @readable.by(
             @readable.fol,
@@ -9247,7 +9247,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle H X O === angle H' A' O'",
+          "op_eq_eq_eq(angle(H, X, O), angle(H', A', O'))",
           "",
           @readable.by(
             @readable.fol,
@@ -9259,7 +9259,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    O,H,X cong O',H',A'",
+          "cong((O, H, X), (O', H', A'))",
           "",
           @readable.by(
             @readable.fol,
@@ -9273,7 +9273,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg X H === seg A' H'",
+          "op_eq_eq_eq(seg(X, H), seg(A', H'))",
           "",
           @readable.by(
             @readable.fol,
@@ -9285,7 +9285,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg H Y === seg H' B'",
+          "op_eq_eq_eq(seg(H, Y), seg(H', B'))",
           "",
           @readable.by(
             @readable.fol,
@@ -9298,7 +9298,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg Y O  === seg B' O'  /\\   seg Y H === seg B' H'",
+          "op_eq_eq_eq(seg(Y, O), seg(B', O')) && op_eq_eq_eq(seg(Y, H), seg(B', H'))",
           "YHeq",
           @readable.by(
             @readable.fol,
@@ -9310,7 +9310,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle O Y H === angle O' B' H'",
+          "op_eq_eq_eq(angle(O, Y, H), angle(O', B', H'))",
           "",
           @readable.by(
             @readable.fol,
@@ -9322,7 +9322,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    O,Y,H cong O',B',H'",
+          "cong((O, Y, H), (O', B', H'))",
           "",
           @readable.by(
             @readable.fol,
@@ -9335,7 +9335,7 @@ fn step_298() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n  angle H O Y === angle H' O' B'",
+          "op_eq_eq_eq(angle(H, O, Y), angle(H', O', B'))",
           "",
           @readable.by(
             @readable.fol,
@@ -9371,12 +9371,12 @@ pub fn anglesubtraction() -> @kernel.Thm {
 /// OrderedCongruentAngles
 fn step_301() -> Unit raise {
   orderedcongruentangles_c.set(@readable.prove(
-    "\n  forall A O B A' O' B' G. ~Collinear A' O' B'  /\\   angle A O B === angle A' O' B'  /\\  G IN int_angle A O B\n    ==>  ?G'. G' IN int_angle A' O' B'  /\\   angle A O G === angle A' O' G'",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ A' : Point, ∀ O' : Point, ∀ B' : Point, ∀ G : Point, !Collinear(A', O', B') && op_eq_eq_eq(angle(A, O, B), angle(A', O', B')) && IN(G, int_angle(A, O, B)) → (∃ G' : Point, IN(G', int_angle(A', O', B')) && op_eq_eq_eq(angle(A, O, G), angle(A', O', G')))",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B A' O' B' G, H1 H2 H3"),
         @readable.have(
-          "\n    ~Collinear A O B",
+          "!Collinear(A, O, B)",
           "AOBncol",
           @readable.by(
             @readable.fol,
@@ -9387,7 +9387,7 @@ fn step_301() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = O) /\\  ~(O = B) /\\  ~(A' = B') /\\  ~(O = G) /\\  Segment (seg O' A') /\\  Segment (seg O' B')",
+          "!(A == O) && !(O == B) && !(A' == B') && !(O == G) && Segment(seg(O', A')) && Segment(seg(O', B'))",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -9406,12 +9406,12 @@ fn step_301() -> Unit raise {
         ),
         @readable.consider(
           "X Y",
-          "X IN ray O A DIFF {O}  /\\   seg O X === seg O' A'  /\\   Y IN ray O B DIFF {O}  /\\   seg O Y === seg O' B'    ",
+          "∃ X : Point, ∃ Y : Point, IN(X, DIFF(ray(O, A), {O})) && op_eq_eq_eq(seg(O, X), seg(O', A')) && IN(Y, DIFF(ray(O, B), {O})) && op_eq_eq_eq(seg(O, Y), seg(O', B'))",
           "defXY",
           @readable.by(@readable.fol, [@readable.Prev, @readable.Thm("C1", () => c1())]),
         ),
         @readable.have(
-          "\n    G IN int_angle X O Y",
+          "IN(G, int_angle(X, O, Y))",
           "GintXOY",
           @readable.by(
             @readable.fol,
@@ -9424,7 +9424,7 @@ fn step_301() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear X O Y /\\  ~(X = Y)",
+          "!Collinear(X, O, Y) && !(X == Y)",
           "XOYncol",
           @readable.by(
             @readable.fol,
@@ -9440,7 +9440,7 @@ fn step_301() -> Unit raise {
         ),
         @readable.consider(
           "H",
-          "H IN Open (X, Y)  /\\   H IN ray O G DIFF {O}    ",
+          "∃ H : Point, IN(H, Open((X, Y))) && IN(H, DIFF(ray(O, G), {O}))",
           "defH",
           @readable.by(
             @readable.fol,
@@ -9451,7 +9451,7 @@ fn step_301() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray O X = ray O A  /\\   ray O Y = ray O B  /\\   ray O H = ray O G",
+          "ray(O, X) == ray(O, A) && ray(O, Y) == ray(O, B) && ray(O, H) == ray(O, G)",
           "Orays",
           @readable.by(
             @readable.fol,
@@ -9464,7 +9464,7 @@ fn step_301() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle X O Y === angle A' O' B'",
+          "op_eq_eq_eq(angle(X, O, Y), angle(A', O', B'))",
           "",
           @readable.by(
             @readable.fol,
@@ -9476,7 +9476,7 @@ fn step_301() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    X,O,Y cong A',O',B'",
+          "cong((X, O, Y), (A', O', B'))",
           "",
           @readable.by(
             @readable.fol,
@@ -9490,7 +9490,7 @@ fn step_301() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg X Y === seg A' B'  /\\   angle O X Y === angle O' A' B'",
+          "op_eq_eq_eq(seg(X, Y), seg(A', B')) && op_eq_eq_eq(angle(O, X, Y), angle(O', A', B'))",
           "YXOcong",
           @readable.by(
             @readable.fol,
@@ -9503,7 +9503,7 @@ fn step_301() -> Unit raise {
         ),
         @readable.consider(
           "G'",
-          "G' IN Open (A', B')  /\\   seg X H === seg A' G'    ",
+          "∃ G' : Point, IN(G', Open((A', B'))) && op_eq_eq_eq(seg(X, H), seg(A', G'))",
           "A'G'B'",
           @readable.by(
             @readable.fol,
@@ -9520,7 +9520,7 @@ fn step_301() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G' IN int_angle A' O' B'",
+          "IN(G', int_angle(A', O', B'))",
           "G'intA'O'B'",
           @readable.by(
             @readable.fol,
@@ -9532,7 +9532,7 @@ fn step_301() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray X H = ray X Y  /\\   ray A' G' = ray A' B'",
+          "ray(X, H) == ray(X, Y) && ray(A', G') == ray(A', B')",
           "",
           @readable.by(
             @readable.fol,
@@ -9544,7 +9544,7 @@ fn step_301() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle O X H === angle O' A' G'",
+          "op_eq_eq_eq(angle(O, X, H), angle(O', A', G'))",
           "HXOeq",
           @readable.by(
             @readable.fol,
@@ -9556,7 +9556,7 @@ fn step_301() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    H IN int_angle X O Y",
+          "IN(H, int_angle(X, O, Y))",
           "",
           @readable.by(
             @readable.fol,
@@ -9568,7 +9568,7 @@ fn step_301() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear O X H /\\  ~Collinear O' A' G'",
+          "!Collinear(O, X, H) && !Collinear(O', A', G')",
           "",
           @readable.by(
             @readable.fol,
@@ -9581,7 +9581,7 @@ fn step_301() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    O,X,H cong O',A',G'",
+          "cong((O, X, H), (O', A', G'))",
           "",
           @readable.by(
             @readable.fol,
@@ -9596,7 +9596,7 @@ fn step_301() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle X O H === angle A' O' G'",
+          "op_eq_eq_eq(angle(X, O, H), angle(A', O', G'))",
           "",
           @readable.by(
             @readable.fol,
@@ -9634,12 +9634,12 @@ pub fn orderedcongruentangles() -> @kernel.Thm {
 /// AngleAddition
 fn step_302() -> Unit raise {
   angleaddition_c.set(@readable.prove(
-    "\n  forall A O B A' O' B' G G'.  G IN int_angle A O B  /\\   G' IN int_angle A' O' B'  ==>\n    angle A O G === angle A' O' G'  /\\   angle G O B === angle G' O' B'\n   ==>  angle A O B === angle A' O' B'",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ A' : Point, ∀ O' : Point, ∀ B' : Point, ∀ G : Point, ∀ G' : Point, IN(G, int_angle(A, O, B)) && IN(G', int_angle(A', O', B')) → op_eq_eq_eq(angle(A, O, G), angle(A', O', G')) && op_eq_eq_eq(angle(G, O, B), angle(G', O', B')) → op_eq_eq_eq(angle(A, O, B), angle(A', O', B'))",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B A' O' B' G G', H1, H2"),
         @readable.have(
-          "\n    ~Collinear A O B /\\  ~Collinear A' O' B'",
+          "!Collinear(A, O, B) && !Collinear(A', O', B')",
           "AOBncol",
           @readable.by(
             @readable.fol,
@@ -9650,7 +9650,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = O) /\\  ~(A = B) /\\  ~(O = B) /\\  ~(A' = O') /\\  ~(A' = B') /\\  ~(O' = B') /\\  ~(G = O)",
+          "!(A == O) && !(A == B) && !(O == B) && !(A' == O') && !(A' == B') && !(O' == B') && !(G == O)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -9667,7 +9667,7 @@ fn step_302() -> Unit raise {
         ),
         @readable.consider(
           "a b",
-          "Line a /\\  O IN a /\\  A IN a  /\\ \n    Line b /\\  O IN b /\\  B IN b    ",
+          "∃ a : (Point) -> Bool, ∃ b : (Point) -> Bool, Line(a) && IN(O, a) && IN(A, a) && Line(b) && IN(O, b) && IN(B, b)",
           "a_line",
           @readable.by(
             @readable.fol,
@@ -9676,7 +9676,7 @@ fn step_302() -> Unit raise {
         ),
         @readable.consider(
           "g",
-          "Line g /\\  O IN g /\\  G IN g    ",
+          "∃ g : (Point) -> Bool, Line(g) && IN(O, g) && IN(G, g)",
           "g_line",
           @readable.by(
             @readable.fol,
@@ -9684,7 +9684,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G NOTIN a /\\  G,B same_side a",
+          "NOTIN(G, a) && same_side((G, B), a)",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -9696,7 +9696,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A O G /\\  ~Collinear A' O' G'",
+          "!Collinear(A, O, G) && !Collinear(A', O', G')",
           "AOGncol",
           @readable.by(
             @readable.fol,
@@ -9708,7 +9708,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle (angle A O B) /\\  Angle (angle A' O' B') /\\  Angle (angle A O G) /\\  Angle (angle A' O' G')",
+          "Angle(angle(A, O, B)) && Angle(angle(A', O', B')) && Angle(angle(A, O, G)) && Angle(angle(A', O', G'))",
           "angles",
           @readable.by(
             @readable.fol,
@@ -9720,7 +9720,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ?! r. Ray r /\\  ?X. ~(O = X) /\\  r = ray O X /\\  X NOTIN a /\\  X,G same_side a /\\  angle A O X === angle A' O' B'",
+          "existsunique((r : (Point) -> Bool) => Ray(r) && (∃ X : Point, !(O == X) && r == ray(O, X) && NOTIN(X, a) && same_side((X, G), a) && op_eq_eq_eq(angle(A, O, X), angle(A', O', B'))))",
           "",
           @readable.by(
             @readable.simplify,
@@ -9736,12 +9736,12 @@ fn step_302() -> Unit raise {
         ),
         @readable.consider(
           "X",
-          "X NOTIN a /\\  X,G same_side a /\\  angle A O X === angle A' O' B'    ",
+          "∃ X : Point, NOTIN(X, a) && same_side((X, G), a) && op_eq_eq_eq(angle(A, O, X), angle(A', O', B'))",
           "Xexists",
           @readable.by(@readable.fol, [@readable.Prev]),
         ),
         @readable.have(
-          "\n    ~Collinear A O X",
+          "!Collinear(A, O, X)",
           "AOXncol",
           @readable.by(
             @readable.fol,
@@ -9755,7 +9755,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A' O' B' === angle A O X",
+          "op_eq_eq_eq(angle(A', O', B'), angle(A, O, X))",
           "",
           @readable.by(
             @readable.fol,
@@ -9770,7 +9770,7 @@ fn step_302() -> Unit raise {
         ),
         @readable.consider(
           "Y",
-          "Y IN int_angle A O X  /\\   angle A' O' G' === angle A O Y    ",
+          "∃ Y : Point, IN(Y, int_angle(A, O, X)) && op_eq_eq_eq(angle(A', O', G'), angle(A, O, Y))",
           "YintAOX",
           @readable.by(
             @readable.fol,
@@ -9783,7 +9783,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A O Y",
+          "!Collinear(A, O, Y)",
           "",
           @readable.by(
             @readable.fol,
@@ -9791,7 +9791,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A O Y  === angle A O G",
+          "op_eq_eq_eq(angle(A, O, Y), angle(A, O, G))",
           "AOGeq",
           @readable.by(
             @readable.fol,
@@ -9809,7 +9809,7 @@ fn step_302() -> Unit raise {
         ),
         @readable.consider(
           "x",
-          "Line x /\\  O IN x /\\  X IN x    ",
+          "∃ x : (Point) -> Bool, Line(x) && IN(O, x) && IN(X, x)",
           "x_line",
           @readable.by(
             @readable.fol,
@@ -9817,7 +9817,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Y NOTIN a /\\  Y,X same_side a",
+          "NOTIN(Y, a) && same_side((Y, X), a)",
           "",
           @readable.by(
             @readable.fol,
@@ -9830,7 +9830,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Y NOTIN a /\\  Y,G same_side a",
+          "NOTIN(Y, a) && same_side((Y, G), a)",
           "",
           @readable.by(
             @readable.fol,
@@ -9844,7 +9844,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray O G = ray O Y",
+          "ray(O, G) == ray(O, Y)",
           "",
           @readable.by(
             @readable.fol,
@@ -9859,7 +9859,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN ray O Y DIFF {O}",
+          "IN(G, DIFF(ray(O, Y), {O}))",
           "",
           @readable.by(
             @readable.fol,
@@ -9873,7 +9873,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN int_angle A O X",
+          "IN(G, int_angle(A, O, X))",
           "GintAOX",
           @readable.by(
             @readable.fol,
@@ -9885,7 +9885,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle G O X === angle G' O' B'",
+          "op_eq_eq_eq(angle(G, O, X), angle(G', O', B'))",
           "GOXeq",
           @readable.by(
             @readable.fol,
@@ -9899,7 +9899,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear G O X /\\  ~Collinear G O B /\\  ~Collinear G' O' B'",
+          "!Collinear(G, O, X) && !Collinear(G, O, B) && !Collinear(G', O', B')",
           "GOXncol",
           @readable.by(
             @readable.fol,
@@ -9913,7 +9913,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle (angle G O X) /\\  Angle (angle G O B) /\\  Angle (angle G' O' B')",
+          "Angle(angle(G, O, X)) && Angle(angle(G, O, B)) && Angle(angle(G', O', B'))",
           "",
           @readable.by(
             @readable.fol,
@@ -9921,7 +9921,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle G O X === angle G O B",
+          "op_eq_eq_eq(angle(G, O, X), angle(G, O, B))",
           "G'O'Xeq",
           @readable.by(
             @readable.fol,
@@ -9936,7 +9936,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A,X same_side g) /\\  ~(A,B same_side g)",
+          "!same_side((A, X), g) && !same_side((A, B), g)",
           "Ansim_aXB",
           @readable.by(
             @readable.fol,
@@ -9949,7 +9949,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A NOTIN g /\\  B NOTIN g /\\  X NOTIN g",
+          "NOTIN(A, g) && NOTIN(B, g) && NOTIN(X, g)",
           "notABXg",
           @readable.by(
             @readable.fol,
@@ -9965,7 +9965,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    X,B same_side g",
+          "same_side((X, B), g)",
           "",
           @readable.by(
             @readable.fol,
@@ -9978,7 +9978,7 @@ fn step_302() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray O X = ray O B",
+          "ray(O, X) == ray(O, B)",
           "",
           @readable.by(
             @readable.fol,
@@ -10018,13 +10018,13 @@ pub fn angleaddition() -> @kernel.Thm {
 /// AngleOrderingUse
 fn step_305() -> Unit raise {
   angleorderinguse_c.set(@readable.prove(
-    "\n  forall A O B alpha.  Angle alpha  /\\   ~Collinear A O B  ==>  alpha <_ang angle A O B\n    ==>  ?G. G IN int_angle A O B /\\  alpha === angle A O G",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ alpha : (Point) -> Bool, Angle(alpha) && !Collinear(A, O, B) → op_lt_us_ang(alpha, angle(A, O, B)) → (∃ G : Point, IN(G, int_angle(A, O, B)) && op_eq_eq_eq(alpha, angle(A, O, G)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B alpha, H1, H3"),
         @readable.consider(
           "A' O' B' G'",
-          "~Collinear A' O' B'  /\\   angle A O B = angle A' O' B'  /\\   G' IN int_angle A' O' B'  /\\   alpha === angle A' O' G'    ",
+          "∃ A' : Point, ∃ O' : Point, ∃ B' : Point, ∃ G' : Point, !Collinear(A', O', B') && angle(A, O, B) == angle(A', O', B') && IN(G', int_angle(A', O', B')) && op_eq_eq_eq(alpha, angle(A', O', G'))",
           "H3'",
           @readable.by(
             @readable.fol,
@@ -10035,7 +10035,7 @@ fn step_305() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle (angle A O B) /\\  Angle (angle A' O' B') /\\  Angle (angle A' O' G')",
+          "Angle(angle(A, O, B)) && Angle(angle(A', O', B')) && Angle(angle(A', O', G'))",
           "angles",
           @readable.by(
             @readable.fol,
@@ -10048,7 +10048,7 @@ fn step_305() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A' O' B' === angle A O B",
+          "op_eq_eq_eq(angle(A', O', B'), angle(A, O, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -10061,7 +10061,7 @@ fn step_305() -> Unit raise {
         ),
         @readable.consider(
           "G",
-          "G IN int_angle A O B  /\\   angle A' O' G' === angle A O G    ",
+          "∃ G : Point, IN(G, int_angle(A, O, B)) && op_eq_eq_eq(angle(A', O', G'), angle(A, O, G))",
           "GintAOB",
           @readable.by(
             @readable.fol,
@@ -10074,7 +10074,7 @@ fn step_305() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    alpha === angle A O G",
+          "op_eq_eq_eq(alpha, angle(A, O, G))",
           "",
           @readable.by(
             @readable.fol,
@@ -10109,14 +10109,14 @@ pub fn angleorderinguse() -> @kernel.Thm {
 /// AngleTrichotomy1
 fn step_307() -> Unit raise {
   angletrichotomy1_c.set(@readable.prove(
-    "\n  forall alpha beta. alpha <_ang beta  ==>  ~(alpha === beta)",
+    "∀ alpha : (Point) -> Bool, ∀ beta : (Point) -> Bool, op_lt_us_ang(alpha, beta) → !op_eq_eq_eq(alpha, beta)",
     @readable.steps(
       [
         @readable.intro_tac("forall alpha beta, H1"),
-        @readable.assuming("alpha === beta", "Con", @readable.by(@readable.fol, [])),
+        @readable.assuming("op_eq_eq_eq(alpha, beta)", "Con", @readable.by(@readable.fol, [])),
         @readable.consider(
           "A O B G",
-          "Angle alpha /\\  ~Collinear A O B /\\  beta = angle A O B /\\  G IN int_angle A O B /\\  alpha === angle A O G    ",
+          "∃ A : Point, ∃ O : Point, ∃ B : Point, ∃ G : Point, Angle(alpha) && !Collinear(A, O, B) && beta == angle(A, O, B) && IN(G, int_angle(A, O, B)) && op_eq_eq_eq(alpha, angle(A, O, G))",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -10127,7 +10127,7 @@ fn step_307() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = O) /\\  ~(O = B) /\\  ~Collinear A O G",
+          "!(A == O) && !(O == B) && !Collinear(A, O, G)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -10143,7 +10143,7 @@ fn step_307() -> Unit raise {
         ),
         @readable.consider(
           "a",
-          "Line a /\\  O IN a /\\  A IN a    ",
+          "∃ a : (Point) -> Bool, Line(a) && IN(O, a) && IN(A, a)",
           "a_line",
           @readable.by(
             @readable.fol,
@@ -10152,7 +10152,7 @@ fn step_307() -> Unit raise {
         ),
         @readable.consider(
           "b",
-          "Line b /\\  O IN b /\\  B IN b    ",
+          "∃ b : (Point) -> Bool, Line(b) && IN(O, b) && IN(B, b)",
           "b_line",
           @readable.by(
             @readable.fol,
@@ -10160,7 +10160,7 @@ fn step_307() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B NOTIN a",
+          "NOTIN(B, a)",
           "notBa",
           @readable.by(
             @readable.fol,
@@ -10173,7 +10173,7 @@ fn step_307() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G NOTIN a /\\  G NOTIN b /\\  G,B same_side a",
+          "NOTIN(G, a) && NOTIN(G, b) && same_side((G, B), a)",
           "GintAOB",
           @readable.by(
             @readable.fol,
@@ -10186,7 +10186,7 @@ fn step_307() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A O G === alpha",
+          "op_eq_eq_eq(angle(A, O, G), alpha)",
           "",
           @readable.by(
             @readable.fol,
@@ -10199,7 +10199,7 @@ fn step_307() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A O G === angle A O B",
+          "op_eq_eq_eq(angle(A, O, G), angle(A, O, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -10214,7 +10214,7 @@ fn step_307() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray O B = ray O G",
+          "ray(O, B) == ray(O, G)",
           "",
           @readable.by(
             @readable.fol,
@@ -10229,7 +10229,7 @@ fn step_307() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN b",
+          "IN(G, b)",
           "",
           @readable.by(
             @readable.fol,
@@ -10269,13 +10269,13 @@ pub fn angletrichotomy1() -> @kernel.Thm {
 /// AngleTrichotomy2
 fn step_308() -> Unit raise {
   angletrichotomy2_c.set(@readable.prove(
-    "\n  forall alpha beta gamma.  alpha <_ang beta  /\\   Angle gamma  /\\   beta === gamma  ==>  alpha <_ang gamma",
+    "∀ alpha : (Point) -> Bool, ∀ beta : (Point) -> Bool, ∀ gamma : (Point) -> Bool, op_lt_us_ang(alpha, beta) && Angle(gamma) && op_eq_eq_eq(beta, gamma) → op_lt_us_ang(alpha, gamma)",
     @readable.steps(
       [
         @readable.intro_tac("forall alpha beta gamma, H1 H2 H3"),
         @readable.consider(
           "A O B G",
-          "Angle alpha /\\  ~Collinear A O B /\\  beta = angle A O B /\\  G IN int_angle A O B /\\  alpha === angle A O G    ",
+          "∃ A : Point, ∃ O : Point, ∃ B : Point, ∃ G : Point, Angle(alpha) && !Collinear(A, O, B) && beta == angle(A, O, B) && IN(G, int_angle(A, O, B)) && op_eq_eq_eq(alpha, angle(A, O, G))",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -10287,7 +10287,7 @@ fn step_308() -> Unit raise {
         ),
         @readable.consider(
           "A' O' B'",
-          "gamma = angle A' O' B' /\\  ~Collinear A' O' B'    ",
+          "∃ A' : Point, ∃ O' : Point, ∃ B' : Point, gamma == angle(A', O', B') && !Collinear(A', O', B')",
           "gammaA'O'B'",
           @readable.by(
             @readable.fol,
@@ -10296,7 +10296,7 @@ fn step_308() -> Unit raise {
         ),
         @readable.consider(
           "G'",
-          "G' IN int_angle A' O' B' /\\  angle A O G === angle A' O' G'    ",
+          "∃ G' : Point, IN(G', int_angle(A', O', B')) && op_eq_eq_eq(angle(A, O, G), angle(A', O', G'))",
           "G'intA'O'B'",
           @readable.by(
             @readable.fol,
@@ -10309,7 +10309,7 @@ fn step_308() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A O G /\\  ~Collinear A' O' G'",
+          "!Collinear(A, O, G) && !Collinear(A', O', G')",
           "ncol",
           @readable.by(
             @readable.fol,
@@ -10321,7 +10321,7 @@ fn step_308() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    alpha === angle A' O' G'",
+          "op_eq_eq_eq(alpha, angle(A', O', G'))",
           "",
           @readable.by(
             @readable.fol,
@@ -10364,13 +10364,13 @@ pub fn angletrichotomy2() -> @kernel.Thm {
 /// AngleOrderTransitivity
 fn step_309() -> Unit raise {
   angleordertransitivity_c.set(@readable.prove(
-    "\n  forall alpha beta gamma. alpha <_ang beta  /\\   beta <_ang gamma  ==>  alpha <_ang gamma",
+    "∀ alpha : (Point) -> Bool, ∀ beta : (Point) -> Bool, ∀ gamma : (Point) -> Bool, op_lt_us_ang(alpha, beta) && op_lt_us_ang(beta, gamma) → op_lt_us_ang(alpha, gamma)",
     @readable.steps(
       [
         @readable.intro_tac("forall alpha beta gamma, H1 H2"),
         @readable.consider(
           "A O B G",
-          "Angle beta /\\  ~Collinear A O B /\\  gamma = angle A O B /\\  G IN int_angle A O B /\\  beta === angle A O G    ",
+          "∃ A : Point, ∃ O : Point, ∃ B : Point, ∃ G : Point, Angle(beta) && !Collinear(A, O, B) && gamma == angle(A, O, B) && IN(G, int_angle(A, O, B)) && op_eq_eq_eq(beta, angle(A, O, G))",
           "H2'",
           @readable.by(
             @readable.fol,
@@ -10381,7 +10381,7 @@ fn step_309() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A O G",
+          "!Collinear(A, O, G)",
           "AOGncol",
           @readable.by(
             @readable.fol,
@@ -10392,7 +10392,7 @@ fn step_309() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle alpha /\\  Angle (angle A O G)  /\\  Angle gamma",
+          "Angle(alpha) && Angle(angle(A, O, G)) && Angle(gamma)",
           "angles",
           @readable.by(
             @readable.fol,
@@ -10406,7 +10406,7 @@ fn step_309() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    alpha <_ang angle A O G",
+          "op_lt_us_ang(alpha, angle(A, O, G))",
           "",
           @readable.by(
             @readable.fol,
@@ -10420,7 +10420,7 @@ fn step_309() -> Unit raise {
         ),
         @readable.consider(
           "F",
-          "F IN int_angle A O G /\\  alpha === angle A O F    ",
+          "∃ F : Point, IN(F, int_angle(A, O, G)) && op_eq_eq_eq(alpha, angle(A, O, F))",
           "FintAOG",
           @readable.by(
             @readable.fol,
@@ -10433,7 +10433,7 @@ fn step_309() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    F IN int_angle A O B",
+          "IN(F, int_angle(A, O, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -10472,12 +10472,12 @@ pub fn angleordertransitivity() -> @kernel.Thm {
 /// AngleTrichotomy
 fn step_313() -> Unit raise {
   angletrichotomy_c.set(@readable.prove(
-    "\n  forall alpha beta.  Angle alpha /\\  Angle beta\n   ==>  (alpha === beta  \\/  alpha <_ang beta  \\/  beta <_ang alpha)  /\\ \n       ~(alpha === beta  /\\   alpha <_ang beta)  /\\ \n       ~(alpha === beta  /\\   beta <_ang alpha)  /\\ \n       ~(alpha <_ang beta  /\\   beta <_ang alpha)",
+    "∀ alpha : (Point) -> Bool, ∀ beta : (Point) -> Bool, Angle(alpha) && Angle(beta) → (op_eq_eq_eq(alpha, beta) || op_lt_us_ang(alpha, beta) || op_lt_us_ang(beta, alpha)) && !(op_eq_eq_eq(alpha, beta) && op_lt_us_ang(alpha, beta)) && !(op_eq_eq_eq(alpha, beta) && op_lt_us_ang(beta, alpha)) && !(op_lt_us_ang(alpha, beta) && op_lt_us_ang(beta, alpha))",
     @readable.steps_then(
       [
         @readable.intro_tac("forall alpha beta, H1"),
         @readable.have(
-          "\n    ~(alpha === beta  /\\   alpha <_ang beta)",
+          "!(op_eq_eq_eq(alpha, beta) && op_lt_us_ang(alpha, beta))",
           "Not12",
           @readable.by(
             @readable.fol,
@@ -10485,7 +10485,7 @@ fn step_313() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(alpha === beta  /\\   beta <_ang alpha)",
+          "!(op_eq_eq_eq(alpha, beta) && op_lt_us_ang(beta, alpha))",
           "Not13",
           @readable.by(
             @readable.fol,
@@ -10497,7 +10497,7 @@ fn step_313() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(alpha <_ang beta  /\\   beta <_ang alpha)",
+          "!(op_lt_us_ang(alpha, beta) && op_lt_us_ang(beta, alpha))",
           "Not23",
           @readable.by(
             @readable.fol,
@@ -10511,7 +10511,7 @@ fn step_313() -> Unit raise {
         ),
         @readable.consider(
           "P O A",
-          "alpha = angle P O A /\\  ~Collinear P O A    ",
+          "∃ P : Point, ∃ O : Point, ∃ A : Point, alpha == angle(P, O, A) && !Collinear(P, O, A)",
           "POA",
           @readable.by(
             @readable.fol,
@@ -10519,7 +10519,7 @@ fn step_313() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(P = O) /\\  ~(O = A)",
+          "!(P == O) && !(O == A)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -10534,12 +10534,12 @@ fn step_313() -> Unit raise {
         ),
         @readable.consider(
           "a",
-          "Line a /\\  O IN a /\\  A IN a    ",
+          "∃ a : (Point) -> Bool, Line(a) && IN(O, a) && IN(A, a)",
           "a_line",
           @readable.by(@readable.fol, [@readable.Prev, @readable.Thm("I1", () => i1())]),
         ),
         @readable.have(
-          "\n    P NOTIN a",
+          "NOTIN(P, a)",
           "notPa",
           @readable.by(
             @readable.fol,
@@ -10554,7 +10554,7 @@ fn step_313() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ?! r. Ray r /\\  ?Q. ~(O = Q) /\\  r = ray O Q /\\  Q NOTIN a /\\  Q,P same_side a /\\  angle A O Q === beta",
+          "existsunique((r : (Point) -> Bool) => Ray(r) && (∃ Q : Point, !(O == Q) && r == ray(O, Q) && NOTIN(Q, a) && same_side((Q, P), a) && op_eq_eq_eq(angle(A, O, Q), beta)))",
           "",
           @readable.by(
             @readable.simplify,
@@ -10569,12 +10569,12 @@ fn step_313() -> Unit raise {
         ),
         @readable.consider(
           "Q",
-          "~(O = Q) /\\  Q NOTIN a /\\  Q,P same_side a /\\  angle A O Q === beta    ",
+          "∃ Q : Point, !(O == Q) && NOTIN(Q, a) && same_side((Q, P), a) && op_eq_eq_eq(angle(A, O, Q), beta)",
           "Qexists",
           @readable.by(@readable.fol, [@readable.Prev]),
         ),
         @readable.have(
-          "\n    O NOTIN Open (Q, P)",
+          "NOTIN(O, Open((Q, P)))",
           "notQOP",
           @readable.by(
             @readable.fol,
@@ -10587,7 +10587,7 @@ fn step_313() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A O P",
+          "!Collinear(A, O, P)",
           "AOPncol",
           @readable.by(
             @readable.fol,
@@ -10598,7 +10598,7 @@ fn step_313() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A O Q",
+          "!Collinear(A, O, Q)",
           "AOQncol",
           @readable.by(
             @readable.fol,
@@ -10613,7 +10613,7 @@ fn step_313() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle (angle A O P) /\\  Angle (angle A O Q)",
+          "Angle(angle(A, O, P)) && Angle(angle(A, O, Q))",
           "",
           @readable.by(
             @readable.fol,
@@ -10625,7 +10625,7 @@ fn step_313() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    alpha === angle A O P  /\\   beta === angle A O Q  /\\   angle A O P === alpha",
+          "op_eq_eq_eq(alpha, angle(A, O, P)) && op_eq_eq_eq(beta, angle(A, O, Q)) && op_eq_eq_eq(angle(A, O, P), alpha)",
           "flip",
           @readable.by(
             @readable.fol,
@@ -10644,13 +10644,13 @@ fn step_313() -> Unit raise {
       @readable.case_split(
         "QOPcol | QOPcolncol    ",
         @readable.by(@readable.fol, [@readable.Prev]),
-        @list.List(["Collinear Q O P", "~Collinear Q O P"]),
+        @list.List(["Collinear(Q, O, P)", "!Collinear(Q, O, P)"]),
         @list.List(
           [
             @readable.steps(
               [
                 @readable.have(
-                  "\n      Collinear O P Q",
+                  "Collinear(O, P, Q)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -10661,7 +10661,7 @@ fn step_313() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      Q IN ray O P DIFF {O}",
+                  "IN(Q, DIFF(ray(O, P), {O}))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -10677,7 +10677,7 @@ fn step_313() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ray O Q = ray O P",
+                  "ray(O, Q) == ray(O, P)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -10689,7 +10689,7 @@ fn step_313() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle P O A = angle A O Q",
+                  "angle(P, O, A) == angle(A, O, Q)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -10716,7 +10716,7 @@ fn step_313() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      P IN int_angle Q O A \\/ Q IN int_angle P O A",
+                  "IN(P, int_angle(Q, O, A)) || IN(Q, int_angle(P, O, A))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -10731,7 +10731,7 @@ fn step_313() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      P IN int_angle A O Q \\/ Q IN int_angle A O P",
+                  "IN(P, int_angle(A, O, Q)) || IN(Q, int_angle(A, O, P))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -10745,7 +10745,7 @@ fn step_313() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      alpha <_ang angle A O Q  \\/  beta <_ang angle A O P",
+                  "op_lt_us_ang(alpha, angle(A, O, Q)) || op_lt_us_ang(beta, angle(A, O, P))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -10760,7 +10760,7 @@ fn step_313() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      alpha <_ang beta  \\/  beta <_ang alpha",
+                  "op_lt_us_ang(alpha, beta) || op_lt_us_ang(beta, alpha)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -10804,13 +10804,13 @@ pub fn angletrichotomy() -> @kernel.Thm {
 /// SupplementExists
 fn step_316() -> Unit raise {
   supplementexists_c.set(@readable.prove(
-    "\n  forall alpha. Angle alpha  ==>  ?alpha'. alpha suppl alpha'",
+    "∀ alpha : (Point) -> Bool, Angle(alpha) → (∃ alpha' : (Point) -> Bool, suppl(alpha, alpha'))",
     @readable.steps(
       [
         @readable.intro_tac("forall alpha, H1"),
         @readable.consider(
           "A O B",
-          "alpha = angle A O B /\\  ~Collinear A O B /\\  ~(A = O)    ",
+          "∃ A : Point, ∃ O : Point, ∃ B : Point, alpha == angle(A, O, B) && !Collinear(A, O, B) && !(A == O)",
           "def_alpha",
           @readable.by(
             @readable.fol,
@@ -10826,7 +10826,7 @@ fn step_316() -> Unit raise {
         ),
         @readable.consider(
           "A'",
-          "O IN Open (A, A')    ",
+          "∃ A' : Point, IN(O, Open((A, A')))",
           "AOA'",
           @readable.by(
             @readable.fol,
@@ -10834,7 +10834,7 @@ fn step_316() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A O B  suppl  angle A' O B",
+          "suppl(angle(A, O, B), angle(A', O, B))",
           "AOBsup",
           @readable.by(
             @readable.fol,
@@ -10865,13 +10865,13 @@ pub fn supplementexists() -> @kernel.Thm {
 /// SupplementImpliesAngle
 fn step_318() -> Unit raise {
   supplementimpliesangle_c.set(@readable.prove(
-    "\n  forall alpha beta.  alpha suppl beta  ==>  Angle alpha /\\  Angle beta",
+    "∀ alpha : (Point) -> Bool, ∀ beta : (Point) -> Bool, suppl(alpha, beta) → Angle(alpha) && Angle(beta)",
     @readable.steps(
       [
         @readable.intro_tac("forall alpha beta, H1"),
         @readable.consider(
           "A O B A'",
-          "~Collinear A O B  /\\   O IN Open (A, A')  /\\   alpha = angle A O B  /\\   beta = angle B O A'    ",
+          "∃ A : Point, ∃ O : Point, ∃ B : Point, ∃ A' : Point, !Collinear(A, O, B) && IN(O, Open((A, A'))) && alpha == angle(A, O, B) && beta == angle(B, O, A')",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -10882,7 +10882,7 @@ fn step_318() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(O = A') /\\  Collinear A O A'",
+          "!(O == A') && Collinear(A, O, A')",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -10897,7 +10897,7 @@ fn step_318() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear B O A'",
+          "!Collinear(B, O, A')",
           "",
           @readable.by(
             @readable.fol,
@@ -10938,7 +10938,7 @@ pub fn supplementimpliesangle() -> @kernel.Thm {
 /// RightImpliesAngle
 fn step_319() -> Unit raise {
   rightimpliesangle_c.set(@readable.prove(
-    "\n  forall alpha. Right alpha  ==>  Angle alpha",
+    "∀ alpha : (Point) -> Bool, Right(alpha) → Angle(alpha)",
     @readable.by(
       @readable.fol,
       [
@@ -10962,13 +10962,13 @@ pub fn rightimpliesangle() -> @kernel.Thm {
 /// SupplementSymmetry
 fn step_322() -> Unit raise {
   supplementsymmetry_c.set(@readable.prove(
-    "\n  forall alpha beta. alpha suppl beta  ==>  beta suppl alpha",
+    "∀ alpha : (Point) -> Bool, ∀ beta : (Point) -> Bool, suppl(alpha, beta) → suppl(beta, alpha)",
     @readable.steps(
       [
         @readable.intro_tac("forall alpha beta, H1"),
         @readable.consider(
           "A O B A'",
-          "~Collinear A O B  /\\   O IN Open (A, A')  /\\   alpha = angle A O B  /\\   beta = angle B O A'    ",
+          "∃ A : Point, ∃ O : Point, ∃ B : Point, ∃ A' : Point, !Collinear(A, O, B) && IN(O, Open((A, A'))) && alpha == angle(A, O, B) && beta == angle(B, O, A')",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -10979,7 +10979,7 @@ fn step_322() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n  ~(O = A') /\\  Collinear A O A'",
+          "!(O == A') && Collinear(A, O, A')",
           "",
           @readable.by(
             @readable.fol,
@@ -10994,7 +10994,7 @@ fn step_322() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n  ~Collinear A' O B",
+          "!Collinear(A', O, B)",
           "A'OBncol",
           @readable.by(
             @readable.fol,
@@ -11010,7 +11010,7 @@ fn step_322() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n  O IN Open (A', A)  /\\   beta = angle A' O B  /\\   alpha = angle B O A",
+          "IN(O, Open((A', A))) && beta == angle(A', O, B) && alpha == angle(B, O, A)",
           "",
           @readable.by(
             @readable.fol,
@@ -11047,13 +11047,13 @@ pub fn supplementsymmetry() -> @kernel.Thm {
 /// SupplementsCongAnglesCong
 fn step_323() -> Unit raise {
   supplementsconganglescong_c.set(@readable.prove(
-    "\n  forall alpha beta alpha' beta'.  alpha suppl alpha'  /\\   beta suppl beta'  ==>  alpha === beta\n    ==>  alpha' === beta'",
+    "∀ alpha : (Point) -> Bool, ∀ beta : (Point) -> Bool, ∀ alpha' : (Point) -> Bool, ∀ beta' : (Point) -> Bool, suppl(alpha, alpha') && suppl(beta, beta') → op_eq_eq_eq(alpha, beta) → op_eq_eq_eq(alpha', beta')",
     @readable.steps(
       [
         @readable.intro_tac("forall alpha beta alpha' beta', H1, H2"),
         @readable.consider(
           "A O B A'",
-          "~Collinear A O B  /\\   O IN Open (A, A')  /\\   alpha = angle A O B  /\\   alpha' = angle B O A'    ",
+          "∃ A : Point, ∃ O : Point, ∃ B : Point, ∃ A' : Point, !Collinear(A, O, B) && IN(O, Open((A, A'))) && alpha == angle(A, O, B) && alpha' == angle(B, O, A')",
           "def_alpha",
           @readable.by(
             @readable.fol,
@@ -11064,7 +11064,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = O) /\\  ~(O = B) /\\  ~(A = A') /\\  ~(O = A') /\\  Collinear A O A'",
+          "!(A == O) && !(O == B) && !(A == A') && !(O == A') && Collinear(A, O, A')",
           "Distinctalpha",
           @readable.by(
             @readable.fol,
@@ -11079,7 +11079,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear B A A' /\\  ~Collinear O A' B",
+          "!Collinear(B, A, A') && !Collinear(O, A', B)",
           "BAA'ncol",
           @readable.by(
             @readable.fol,
@@ -11095,7 +11095,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Segment (seg O A) /\\  Segment (seg O B) /\\  Segment (seg O A')",
+          "Segment(seg(O, A)) && Segment(seg(O, B)) && Segment(seg(O, A'))",
           "Osegments",
           @readable.by(
             @readable.fol,
@@ -11107,7 +11107,7 @@ fn step_323() -> Unit raise {
         ),
         @readable.consider(
           "C P D C'",
-          "~Collinear C P D  /\\   P IN Open (C, C')  /\\   beta = angle C P D  /\\   beta' = angle D P C'    ",
+          "∃ C : Point, ∃ P : Point, ∃ D : Point, ∃ C' : Point, !Collinear(C, P, D) && IN(P, Open((C, C'))) && beta == angle(C, P, D) && beta' == angle(D, P, C')",
           "def_beta",
           @readable.by(
             @readable.fol,
@@ -11118,7 +11118,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(C = P) /\\  ~(P = D) /\\  ~(P = C')",
+          "!(C == P) && !(P == D) && !(P == C')",
           "Distinctbeta",
           @readable.by(
             @readable.fol,
@@ -11134,7 +11134,7 @@ fn step_323() -> Unit raise {
         ),
         @readable.consider(
           "X",
-          "X IN ray P C DIFF {P}  /\\   seg P X === seg O A    ",
+          "∃ X : Point, IN(X, DIFF(ray(P, C), {P})) && op_eq_eq_eq(seg(P, X), seg(O, A))",
           "defX",
           @readable.by(
             @readable.fol,
@@ -11147,7 +11147,7 @@ fn step_323() -> Unit raise {
         ),
         @readable.consider(
           "Y",
-          "Y IN ray P D DIFF {P}  /\\   seg P Y === seg O B  /\\   ~(Y = P)    ",
+          "∃ Y : Point, IN(Y, DIFF(ray(P, D), {P})) && op_eq_eq_eq(seg(P, Y), seg(O, B)) && !(Y == P)",
           "defY",
           @readable.by(
             @readable.fol,
@@ -11162,7 +11162,7 @@ fn step_323() -> Unit raise {
         ),
         @readable.consider(
           "X'",
-          "X' IN ray P C' DIFF {P}  /\\   seg P X' === seg O A'    ",
+          "∃ X' : Point, IN(X', DIFF(ray(P, C'), {P})) && op_eq_eq_eq(seg(P, X'), seg(O, A'))",
           "defX'",
           @readable.by(
             @readable.fol,
@@ -11174,7 +11174,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P IN Open (X', C)  /\\   P IN Open (X, X')",
+          "IN(P, Open((X', C))) && IN(P, Open((X, X')))",
           "XPX'",
           @readable.by(
             @readable.fol,
@@ -11190,7 +11190,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(X = P) /\\  ~(X' = P) /\\  Collinear X P X' /\\  ~(X = X') /\\  ray A' O = ray A' A /\\  ray X' P = ray X' X",
+          "!(X == P) && !(X' == P) && Collinear(X, P, X') && !(X == X') && ray(A', O) == ray(A', A) && ray(X', P) == ray(X', X)",
           "XPX'line",
           @readable.by(
             @readable.fol,
@@ -11207,7 +11207,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n     Collinear P D Y /\\  Collinear P C X",
+          "Collinear(P, D, Y) && Collinear(P, C, X)",
           "",
           @readable.by(
             @readable.fol,
@@ -11221,7 +11221,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear C P Y /\\  ~Collinear X P Y",
+          "!Collinear(C, P, Y) && !Collinear(X, P, Y)",
           "XPYncol",
           @readable.by(
             @readable.fol,
@@ -11239,7 +11239,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear Y X X' /\\  ~Collinear P X' Y",
+          "!Collinear(Y, X, X') && !Collinear(P, X', Y)",
           "YXX'ncol",
           @readable.by(
             @readable.fol,
@@ -11256,7 +11256,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray P X = ray P C  /\\   ray P Y = ray P D  /\\   ray P X' = ray P C'",
+          "ray(P, X) == ray(P, C) && ray(P, Y) == ray(P, D) && ray(P, X') == ray(P, C')",
           "equalPrays",
           @readable.by(
             @readable.fol,
@@ -11270,7 +11270,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    beta = angle X P Y  /\\   beta' = angle Y P X'  /\\   angle A O B === angle X P Y",
+          "beta == angle(X, P, Y) && beta' == angle(Y, P, X') && op_eq_eq_eq(angle(A, O, B), angle(X, P, Y))",
           "AOBeqXPY",
           @readable.by(
             @readable.fol,
@@ -11284,7 +11284,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n   seg O A === seg P X  /\\   seg O B === seg P Y  /\\   seg A' O === seg X' P",
+          "op_eq_eq_eq(seg(O, A), seg(P, X)) && op_eq_eq_eq(seg(O, B), seg(P, Y)) && op_eq_eq_eq(seg(A', O), seg(X', P))",
           "OAeq",
           @readable.by(
             @readable.fol,
@@ -11301,7 +11301,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg A A' === seg X X'",
+          "op_eq_eq_eq(seg(A, A'), seg(X, X'))",
           "AA'eq",
           @readable.by(
             @readable.fol,
@@ -11316,7 +11316,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A,O,B cong X,P,Y",
+          "cong((A, O, B), (X, P, Y))",
           "",
           @readable.by(
             @readable.fol,
@@ -11330,7 +11330,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg A B === seg X Y  /\\   angle B A O === angle Y X P",
+          "op_eq_eq_eq(seg(A, B), seg(X, Y)) && op_eq_eq_eq(angle(B, A, O), angle(Y, X, P))",
           "AOBcong",
           @readable.by(
             @readable.fol,
@@ -11342,7 +11342,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray A O = ray A A'  /\\   ray X P = ray X  X'  /\\   angle B A A' === angle Y X X'",
+          "ray(A, O) == ray(A, A') && ray(X, P) == ray(X, X') && op_eq_eq_eq(angle(B, A, A'), angle(Y, X, X'))",
           "",
           @readable.by(
             @readable.fol,
@@ -11356,7 +11356,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B,A,A' cong Y,X,X'",
+          "cong((B, A, A'), (Y, X, X'))",
           "",
           @readable.by(
             @readable.fol,
@@ -11372,7 +11372,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg A' B === seg X' Y  /\\   angle A A' B === angle X X' Y",
+          "op_eq_eq_eq(seg(A', B), seg(X', Y)) && op_eq_eq_eq(angle(A, A', B), angle(X, X', Y))",
           "",
           @readable.by(
             @readable.fol,
@@ -11384,7 +11384,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    O,A',B cong P,X',Y",
+          "cong((O, A', B), (P, X', Y))",
           "",
           @readable.by(
             @readable.fol,
@@ -11400,7 +11400,7 @@ fn step_323() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B O A' === angle Y P X'",
+          "op_eq_eq_eq(angle(B, O, A'), angle(Y, P, X'))",
           "",
           @readable.by(
             @readable.fol,
@@ -11438,7 +11438,7 @@ pub fn supplementsconganglescong() -> @kernel.Thm {
 /// SupplementUnique
 fn step_324() -> Unit raise {
   supplementunique_c.set(@readable.prove(
-    "\n  forall alpha beta beta'.  alpha suppl beta  /\\    alpha suppl beta'  ==>  beta === beta'",
+    "∀ alpha : (Point) -> Bool, ∀ beta : (Point) -> Bool, ∀ beta' : (Point) -> Bool, suppl(alpha, beta) && suppl(alpha, beta') → op_eq_eq_eq(beta, beta')",
     @readable.by(
       @readable.fol,
       [
@@ -11464,13 +11464,13 @@ pub fn supplementunique() -> @kernel.Thm {
 /// CongRightImpliesRight
 fn step_326() -> Unit raise {
   congrightimpliesright_c.set(@readable.prove(
-    "\n  forall alpha beta. Angle alpha  /\\   Right beta  ==>  alpha === beta  ==>  Right alpha",
+    "∀ alpha : (Point) -> Bool, ∀ beta : (Point) -> Bool, Angle(alpha) && Right(beta) → op_eq_eq_eq(alpha, beta) → Right(alpha)",
     @readable.steps(
       [
         @readable.intro_tac("forall alpha beta, H1, H2"),
         @readable.consider(
           "alpha' beta'",
-          "alpha suppl alpha'  /\\   beta suppl beta'  /\\   beta === beta'    ",
+          "∃ alpha' : (Point) -> Bool, ∃ beta' : (Point) -> Bool, suppl(alpha, alpha') && suppl(beta, beta') && op_eq_eq_eq(beta, beta')",
           "suppl",
           @readable.by(
             @readable.fol,
@@ -11483,7 +11483,7 @@ fn step_326() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    alpha' === beta'",
+          "op_eq_eq_eq(alpha', beta')",
           "alpha'eqbeta'",
           @readable.by(
             @readable.fol,
@@ -11498,7 +11498,7 @@ fn step_326() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle beta /\\  Angle alpha' /\\  Angle beta'",
+          "Angle(beta) && Angle(alpha') && Angle(beta')",
           "",
           @readable.by(
             @readable.fol,
@@ -11509,7 +11509,7 @@ fn step_326() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    alpha === alpha'",
+          "op_eq_eq_eq(alpha, alpha')",
           "",
           @readable.by(
             @readable.fol,
@@ -11550,17 +11550,17 @@ pub fn congrightimpliesright() -> @kernel.Thm {
 /// RightAnglesCongruentHelp
 fn step_328() -> Unit raise {
   rightanglescongruenthelp_c.set(@readable.prove(
-    "\n  forall A O B A' P a.  ~Collinear A O B  /\\   O IN Open (A, A')  ==>\n    Right (angle A O B)  /\\   Right (angle A O P)\n    ==>  P NOTIN int_angle A O B",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ A' : Point, ∀ P : Point, ∀ a : _, !Collinear(A, O, B) && IN(O, Open((A, A'))) → Right(angle(A, O, B)) && Right(angle(A, O, P)) → NOTIN(P, int_angle(A, O, B))",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B A' P a, H1, H2"),
         @readable.assuming(
-          "~(P NOTIN int_angle A O B)",
+          "!NOTIN(P, int_angle(A, O, B))",
           "Con",
           @readable.by(@readable.fol, []),
         ),
         @readable.have(
-          "\n    P IN int_angle A O B",
+          "IN(P, int_angle(A, O, B))",
           "PintAOB",
           @readable.by(
             @readable.fol,
@@ -11568,7 +11568,7 @@ fn step_328() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B IN int_angle P O A'  /\\   B IN int_angle A' O P",
+          "IN(B, int_angle(P, O, A')) && IN(B, int_angle(A', O, P))",
           "BintA'OP",
           @readable.by(
             @readable.fol,
@@ -11584,7 +11584,7 @@ fn step_328() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A O P /\\  ~Collinear P O A'",
+          "!Collinear(A, O, P) && !Collinear(P, O, A')",
           "AOPncol",
           @readable.by(
             @readable.fol,
@@ -11597,7 +11597,7 @@ fn step_328() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A O B suppl angle B O A'  /\\   angle A O P suppl angle P O A'",
+          "suppl(angle(A, O, B), angle(B, O, A')) && suppl(angle(A, O, P), angle(P, O, A'))",
           "AOBsup",
           @readable.by(
             @readable.fol,
@@ -11610,7 +11610,7 @@ fn step_328() -> Unit raise {
         ),
         @readable.consider(
           "alpha' beta'",
-          "angle A O B suppl alpha'  /\\   angle A O B === alpha'  /\\   angle A O P suppl beta'  /\\   angle A O P === beta'    ",
+          "∃ alpha' : (Point) -> Bool, ∃ beta' : (Point) -> Bool, suppl(angle(A, O, B), alpha') && op_eq_eq_eq(angle(A, O, B), alpha') && suppl(angle(A, O, P), beta') && op_eq_eq_eq(angle(A, O, P), beta')",
           "supplalpha'",
           @readable.by(
             @readable.fol,
@@ -11621,7 +11621,7 @@ fn step_328() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    alpha' === angle B O A'  /\\   beta' === angle P O A'",
+          "op_eq_eq_eq(alpha', angle(B, O, A')) && op_eq_eq_eq(beta', angle(P, O, A'))",
           "alpha'eqA'OB",
           @readable.by(
             @readable.fol,
@@ -11633,7 +11633,7 @@ fn step_328() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle (angle A O B) /\\  Angle alpha' /\\  Angle (angle B O A') /\\  Angle (angle A O P) /\\  Angle beta' /\\  Angle (angle P O A')",
+          "Angle(angle(A, O, B)) && Angle(alpha') && Angle(angle(B, O, A')) && Angle(angle(A, O, P)) && Angle(beta') && Angle(angle(P, O, A'))",
           "angles",
           @readable.by(
             @readable.fol,
@@ -11646,7 +11646,7 @@ fn step_328() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A O B === angle B O A'  /\\   angle A O P === angle P O A'",
+          "op_eq_eq_eq(angle(A, O, B), angle(B, O, A')) && op_eq_eq_eq(angle(A, O, P), angle(P, O, A'))",
           "H2'",
           @readable.by(
             @readable.fol,
@@ -11659,7 +11659,7 @@ fn step_328() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A O P === angle A O P  /\\   angle B O A' === angle B O A'",
+          "op_eq_eq_eq(angle(A, O, P), angle(A, O, P)) && op_eq_eq_eq(angle(B, O, A'), angle(B, O, A'))",
           "refl",
           @readable.by(
             @readable.fol,
@@ -11670,7 +11670,7 @@ fn step_328() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A O P <_ang angle A O B  /\\   angle B O A' <_ang angle P O A'",
+          "op_lt_us_ang(angle(A, O, P), angle(A, O, B)) && op_lt_us_ang(angle(B, O, A'), angle(P, O, A'))",
           "BOA'lessPOA'",
           @readable.by(
             @readable.fol,
@@ -11688,7 +11688,7 @@ fn step_328() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A O P <_ang angle B O A'",
+          "op_lt_us_ang(angle(A, O, P), angle(B, O, A'))",
           "",
           @readable.by(
             @readable.fol,
@@ -11701,7 +11701,7 @@ fn step_328() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A O P <_ang angle P O A'",
+          "op_lt_us_ang(angle(A, O, P), angle(P, O, A'))",
           "",
           @readable.by(
             @readable.fol,
@@ -11738,13 +11738,13 @@ pub fn rightanglescongruenthelp() -> @kernel.Thm {
 /// RightAnglesCongruent
 fn step_330() -> Unit raise {
   rightanglescongruent_c.set(@readable.prove(
-    "\n  forall alpha beta. Right alpha /\\  Right beta  ==>  alpha === beta",
+    "∀ alpha : (Point) -> Bool, ∀ beta : (Point) -> Bool, Right(alpha) && Right(beta) → op_eq_eq_eq(alpha, beta)",
     @readable.steps(
       [
         @readable.intro_tac("forall alpha beta, H1"),
         @readable.consider(
           "alpha'",
-          "alpha suppl alpha'  /\\   alpha === alpha'    ",
+          "∃ alpha' : (Point) -> Bool, suppl(alpha, alpha') && op_eq_eq_eq(alpha, alpha')",
           "alpharight",
           @readable.by(
             @readable.fol,
@@ -11756,7 +11756,7 @@ fn step_330() -> Unit raise {
         ),
         @readable.consider(
           "A O B A'",
-          "~Collinear A O B  /\\   O IN Open (A, A')  /\\   alpha = angle A O B  /\\   alpha' = angle B O A'    ",
+          "∃ A : Point, ∃ O : Point, ∃ B : Point, ∃ A' : Point, !Collinear(A, O, B) && IN(O, Open((A, A'))) && alpha == angle(A, O, B) && alpha' == angle(B, O, A')",
           "def_alpha",
           @readable.by(
             @readable.fol,
@@ -11767,7 +11767,7 @@ fn step_330() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = O) /\\  ~(O = B)",
+          "!(A == O) && !(O == B)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -11783,7 +11783,7 @@ fn step_330() -> Unit raise {
         ),
         @readable.consider(
           "a",
-          "Line a /\\  O IN a /\\  A IN a    ",
+          "∃ a : (Point) -> Bool, Line(a) && IN(O, a) && IN(A, a)",
           "a_line",
           @readable.by(
             @readable.fol,
@@ -11791,7 +11791,7 @@ fn step_330() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B NOTIN a",
+          "NOTIN(B, a)",
           "notBa",
           @readable.by(
             @readable.fol,
@@ -11804,7 +11804,7 @@ fn step_330() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle beta",
+          "Angle(beta)",
           "",
           @readable.by(
             @readable.fol,
@@ -11815,7 +11815,7 @@ fn step_330() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ?! r. Ray r /\\  ?P. ~(O = P) /\\  r = ray O P /\\  P NOTIN a /\\  P,B same_side a /\\  angle A O P === beta",
+          "existsunique((r : (Point) -> Bool) => Ray(r) && (∃ P : Point, !(O == P) && r == ray(O, P) && NOTIN(P, a) && same_side((P, B), a) && op_eq_eq_eq(angle(A, O, P), beta)))",
           "",
           @readable.by(
             @readable.simplify,
@@ -11830,12 +11830,12 @@ fn step_330() -> Unit raise {
         ),
         @readable.consider(
           "P",
-          "~(O = P) /\\  P NOTIN a /\\  P,B same_side a /\\  angle A O P === beta    ",
+          "∃ P : Point, !(O == P) && NOTIN(P, a) && same_side((P, B), a) && op_eq_eq_eq(angle(A, O, P), beta)",
           "defP",
           @readable.by(@readable.fol, [@readable.Prev]),
         ),
         @readable.have(
-          "\n    O NOTIN Open (P, B)",
+          "NOTIN(O, Open((P, B)))",
           "notPOB",
           @readable.by(
             @readable.fol,
@@ -11848,7 +11848,7 @@ fn step_330() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A O P",
+          "!Collinear(A, O, P)",
           "AOPncol",
           @readable.by(
             @readable.fol,
@@ -11862,7 +11862,7 @@ fn step_330() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Right (angle A O P)",
+          "Right(angle(A, O, P))",
           "AOPright",
           @readable.by(
             @readable.fol,
@@ -11876,7 +11876,7 @@ fn step_330() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P NOTIN int_angle A O B  /\\   B NOTIN int_angle A O P",
+          "NOTIN(P, int_angle(A, O, B)) && NOTIN(B, int_angle(A, O, P))",
           "",
           @readable.by(
             @readable.fol,
@@ -11894,7 +11894,7 @@ fn step_330() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Collinear P O B",
+          "Collinear(P, O, B)",
           "",
           @readable.by(
             @readable.fol,
@@ -11911,7 +11911,7 @@ fn step_330() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    P IN ray O B DIFF {O}",
+          "IN(P, DIFF(ray(O, B), {O}))",
           "",
           @readable.by(
             @readable.fol,
@@ -11928,7 +11928,7 @@ fn step_330() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray O P = ray O B  /\\   angle A O P = angle A O B",
+          "ray(O, P) == ray(O, B) && angle(A, O, P) == angle(A, O, B)",
           "",
           @readable.by(
             @readable.fol,
@@ -11962,12 +11962,12 @@ pub fn rightanglescongruent() -> @kernel.Thm {
 /// OppositeRightAnglesLinear
 fn step_334() -> Unit raise {
   oppositerightangleslinear_c.set(@readable.prove(
-    "\n  forall A B O H h.  ~Collinear A O H /\\  ~Collinear H O B  ==>\n    Right (angle A O H) /\\  Right (angle H O B)  ==>\n    Line h /\\  O IN h /\\  H IN h  /\\   ~(A,B same_side h)\n    ==>  O IN Open (A, B)",
+    "∀ A : Point, ∀ B : Point, ∀ O : Point, ∀ H : Point, ∀ h : (Point) -> Bool, !Collinear(A, O, H) && !Collinear(H, O, B) → Right(angle(A, O, H)) && Right(angle(H, O, B)) → Line(h) && IN(O, h) && IN(H, h) && !same_side((A, B), h) → IN(O, Open((A, B)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B O H h, H0, H1, H2"),
         @readable.have(
-          "\n    ~(A = O) /\\  ~(O = H) /\\  ~(O = B)",
+          "!(A == O) && !(O == H) && !(O == B)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -11981,7 +11981,7 @@ fn step_334() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A NOTIN h /\\  B NOTIN h",
+          "NOTIN(A, h) && NOTIN(B, h)",
           "notABh",
           @readable.by(
             @readable.fol,
@@ -11995,7 +11995,7 @@ fn step_334() -> Unit raise {
         ),
         @readable.consider(
           "E",
-          "O IN Open (A, E) /\\  ~(E = O)    ",
+          "∃ E : Point, IN(O, Open((A, E))) && !(E == O)",
           "AOE",
           @readable.by(
             @readable.fol,
@@ -12007,7 +12007,7 @@ fn step_334() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A O H  suppl  angle H O E",
+          "suppl(angle(A, O, H), angle(H, O, E))",
           "AOHsupplHOE",
           @readable.by(
             @readable.fol,
@@ -12019,7 +12019,7 @@ fn step_334() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    E NOTIN h",
+          "NOTIN(E, h)",
           "notEh",
           @readable.by(
             @readable.fol,
@@ -12033,7 +12033,7 @@ fn step_334() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A,E same_side  h)",
+          "!same_side((A, E), h)",
           "",
           @readable.by(
             @readable.fol,
@@ -12045,7 +12045,7 @@ fn step_334() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B,E same_side  h",
+          "same_side((B, E), h)",
           "Bsim_hE",
           @readable.by(
             @readable.fol,
@@ -12061,7 +12061,7 @@ fn step_334() -> Unit raise {
         ),
         @readable.consider(
           "alpha'",
-          "angle A O H  suppl  alpha'  /\\   angle A O H === alpha'    ",
+          "∃ alpha' : (Point) -> Bool, suppl(angle(A, O, H), alpha') && op_eq_eq_eq(angle(A, O, H), alpha')",
           "AOHsupplalpha'",
           @readable.by(
             @readable.fol,
@@ -12072,7 +12072,7 @@ fn step_334() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle (angle H O B) /\\  Angle (angle A O H) /\\  Angle alpha' /\\  Angle (angle H O E)",
+          "Angle(angle(H, O, B)) && Angle(angle(A, O, H)) && Angle(alpha') && Angle(angle(H, O, E))",
           "angalpha'",
           @readable.by(
             @readable.fol,
@@ -12086,7 +12086,7 @@ fn step_334() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle H O B === angle A O H  /\\   alpha' === angle H O E",
+          "op_eq_eq_eq(angle(H, O, B), angle(A, O, H)) && op_eq_eq_eq(alpha', angle(H, O, E))",
           "",
           @readable.by(
             @readable.fol,
@@ -12100,7 +12100,7 @@ fn step_334() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle H O B === angle H O E",
+          "op_eq_eq_eq(angle(H, O, B), angle(H, O, E))",
           "",
           @readable.by(
             @readable.fol,
@@ -12113,7 +12113,7 @@ fn step_334() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray O B = ray O E",
+          "ray(O, B) == ray(O, E)",
           "",
           @readable.by(
             @readable.fol,
@@ -12129,7 +12129,7 @@ fn step_334() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B IN ray O E DIFF {O}",
+          "IN(B, DIFF(ray(O, E), {O}))",
           "",
           @readable.by(
             @readable.fol,
@@ -12172,12 +12172,12 @@ pub fn oppositerightangleslinear() -> @kernel.Thm {
 /// RightImpliesSupplRight
 fn step_336() -> Unit raise {
   rightimpliessupplright_c.set(@readable.prove(
-    "\n  forall A O B A'.  ~Collinear A O B  /\\   O IN Open (A, A')  /\\   Right (angle A O B)\n    ==>  Right (angle B O A')",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ A' : Point, !Collinear(A, O, B) && IN(O, Open((A, A'))) && Right(angle(A, O, B)) → Right(angle(B, O, A'))",
     @readable.steps(
       [
         @readable.intro_tac("forall A O B A', H1 H2 H3"),
         @readable.have(
-          "\n    angle A O B suppl angle B O A'  /\\   Angle (angle A O B)  /\\   Angle (angle B O A')",
+          "suppl(angle(A, O, B), angle(B, O, A')) && Angle(angle(A, O, B)) && Angle(angle(B, O, A'))",
           "AOBsuppl",
           @readable.by(
             @readable.fol,
@@ -12191,7 +12191,7 @@ fn step_336() -> Unit raise {
         ),
         @readable.consider(
           "beta",
-          "angle A O B suppl beta /\\  angle A O B === beta    ",
+          "∃ beta : (Point) -> Bool, suppl(angle(A, O, B), beta) && op_eq_eq_eq(angle(A, O, B), beta)",
           "betasuppl",
           @readable.by(
             @readable.fol,
@@ -12202,7 +12202,7 @@ fn step_336() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle beta  /\\   beta === angle A O B",
+          "Angle(beta) && op_eq_eq_eq(beta, angle(A, O, B))",
           "angbeta",
           @readable.by(
             @readable.fol,
@@ -12214,7 +12214,7 @@ fn step_336() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B O A' === beta",
+          "op_eq_eq_eq(angle(B, O, A'), beta)",
           "",
           @readable.by(
             @readable.fol,
@@ -12226,7 +12226,7 @@ fn step_336() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B O A' === angle A O B",
+          "op_eq_eq_eq(angle(B, O, A'), angle(A, O, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -12266,12 +12266,12 @@ pub fn rightimpliessupplright() -> @kernel.Thm {
 /// IsoscelesCongBaseAngles
 fn step_337() -> Unit raise {
   isoscelescongbaseangles_c.set(@readable.prove(
-    "\n  forall A B C.  ~Collinear A B C  /\\   seg B A === seg B C  ==>   angle C A B  === angle A C B",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, !Collinear(A, B, C) && op_eq_eq_eq(seg(B, A), seg(B, C)) → op_eq_eq_eq(angle(C, A, B), angle(A, C, B))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C, H1 H2"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(B = C) /\\  ~Collinear C B A",
+          "!(A == B) && !(B == C) && !Collinear(C, B, A)",
           "CBAncol",
           @readable.by(
             @readable.fol,
@@ -12286,7 +12286,7 @@ fn step_337() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg B C === seg B A  /\\   angle A B C === angle C B A",
+          "op_eq_eq_eq(seg(B, C), seg(B, A)) && op_eq_eq_eq(angle(A, B, C), angle(C, B, A))",
           "",
           @readable.by(
             @readable.fol,
@@ -12331,12 +12331,12 @@ pub fn isoscelescongbaseangles() -> @kernel.Thm {
 /// C4withC1
 fn step_338() -> Unit raise {
   c4withc1_c.set(@readable.prove(
-    "\n  forall alpha l O A Y P Q.  Angle alpha /\\  ~(O = A) /\\  ~(P = Q)  ==>\n    Line l /\\  O IN l /\\  A IN l /\\  Y NOTIN l  ==>\n    ?N. ~(O = N) /\\  N NOTIN l /\\  N,Y same_side l /\\  seg O N === seg P Q /\\  angle A O N === alpha",
+    "∀ alpha : (Point) -> Bool, ∀ l : (Point) -> Bool, ∀ O : Point, ∀ A : Point, ∀ Y : Point, ∀ P : Point, ∀ Q : Point, Angle(alpha) && !(O == A) && !(P == Q) → Line(l) && IN(O, l) && IN(A, l) && NOTIN(Y, l) → (∃ N : Point, !(O == N) && NOTIN(N, l) && same_side((N, Y), l) && op_eq_eq_eq(seg(O, N), seg(P, Q)) && op_eq_eq_eq(angle(A, O, N), alpha))",
     @readable.steps(
       [
         @readable.intro_tac("forall alpha l O A Y P Q, H1, l_line"),
         @readable.have(
-          "\n    ?! r. Ray r /\\  ?B. ~(O = B) /\\  r = ray O B /\\  B NOTIN l /\\  B,Y same_side l /\\  angle A O B === alpha",
+          "existsunique((r : (Point) -> Bool) => Ray(r) && (∃ B : Point, !(O == B) && r == ray(O, B) && NOTIN(B, l) && same_side((B, Y), l) && op_eq_eq_eq(angle(A, O, B), alpha)))",
           "",
           @readable.by(
             @readable.simplify,
@@ -12349,13 +12349,13 @@ fn step_338() -> Unit raise {
         ),
         @readable.consider(
           "B",
-          "~(O = B) /\\  B NOTIN l /\\  B,Y same_side l /\\  angle A O B === alpha    ",
+          "∃ B : Point, !(O == B) && NOTIN(B, l) && same_side((B, Y), l) && op_eq_eq_eq(angle(A, O, B), alpha)",
           "Bexists",
           @readable.by(@readable.fol, [@readable.Prev]),
         ),
         @readable.consider(
           "N",
-          "N IN ray O B DIFF {O}  /\\   seg O N === seg P Q    ",
+          "∃ N : Point, IN(N, DIFF(ray(O, B), {O})) && op_eq_eq_eq(seg(O, N), seg(P, Q))",
           "Nexists",
           @readable.by(
             @readable.fol,
@@ -12368,7 +12368,7 @@ fn step_338() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    N NOTIN l /\\  N,B same_side l",
+          "NOTIN(N, l) && same_side((N, B), l)",
           "notNl",
           @readable.by(
             @readable.fol,
@@ -12381,7 +12381,7 @@ fn step_338() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    N,Y same_side l",
+          "same_side((N, Y), l)",
           "Nsim_lY",
           @readable.by(
             @readable.fol,
@@ -12394,7 +12394,7 @@ fn step_338() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray O N = ray O B",
+          "ray(O, N) == ray(O, B)",
           "",
           @readable.by(
             @readable.fol,
@@ -12406,7 +12406,7 @@ fn step_338() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A O N === alpha",
+          "op_eq_eq_eq(angle(A, O, N), alpha)",
           "",
           @readable.by(
             @readable.fol,
@@ -12447,12 +12447,12 @@ pub fn c4withc1() -> @kernel.Thm {
 /// C4OppositeSide
 fn step_339() -> Unit raise {
   c4oppositeside_c.set(@readable.prove(
-    "\n  forall alpha l O A Z P Q.  Angle alpha /\\  ~(O = A) /\\  ~(P = Q)  ==>\n    Line l /\\  O IN l /\\  A IN l /\\  Z NOTIN l\n    ==>  ?N. ~(O = N) /\\  N NOTIN l /\\  ~(Z,N same_side l) /\\ \n    seg O N === seg P Q /\\  angle A O N === alpha",
+    "∀ alpha : (Point) -> Bool, ∀ l : (Point) -> Bool, ∀ O : Point, ∀ A : Point, ∀ Z : Point, ∀ P : Point, ∀ Q : Point, Angle(alpha) && !(O == A) && !(P == Q) → Line(l) && IN(O, l) && IN(A, l) && NOTIN(Z, l) → (∃ N : Point, !(O == N) && NOTIN(N, l) && !same_side((Z, N), l) && op_eq_eq_eq(seg(O, N), seg(P, Q)) && op_eq_eq_eq(angle(A, O, N), alpha))",
     @readable.steps(
       [
         @readable.intro_tac("forall alpha l O A Z P Q, H1, l_line"),
         @readable.have(
-          "\n    ~(Z = O)",
+          "!(Z == O)",
           "",
           @readable.by(
             @readable.fol,
@@ -12461,7 +12461,7 @@ fn step_339() -> Unit raise {
         ),
         @readable.consider(
           "Y",
-          "O IN Open (Z, Y)    ",
+          "∃ Y : Point, IN(O, Open((Z, Y)))",
           "ZOY",
           @readable.by(
             @readable.fol,
@@ -12469,7 +12469,7 @@ fn step_339() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(O = Y) /\\  Collinear O Z Y",
+          "!(O == Y) && Collinear(O, Z, Y)",
           "notOY",
           @readable.by(
             @readable.fol,
@@ -12481,7 +12481,7 @@ fn step_339() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Y NOTIN l",
+          "NOTIN(Y, l)",
           "notYl",
           @readable.by(
             @readable.fol,
@@ -12495,7 +12495,7 @@ fn step_339() -> Unit raise {
         ),
         @readable.consider(
           "N",
-          "~(O = N) /\\  N NOTIN l  /\\   N,Y same_side l  /\\  seg O N === seg P Q  /\\   angle A O N === alpha    ",
+          "∃ N : Point, !(O == N) && NOTIN(N, l) && same_side((N, Y), l) && op_eq_eq_eq(seg(O, N), seg(P, Q)) && op_eq_eq_eq(angle(A, O, N), alpha)",
           "Nexists",
           @readable.by(
             @readable.simplify,
@@ -12508,7 +12508,7 @@ fn step_339() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(Z,Y same_side l)",
+          "!same_side((Z, Y), l)",
           "",
           @readable.by(
             @readable.fol,
@@ -12520,7 +12520,7 @@ fn step_339() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(Z,N same_side l)",
+          "!same_side((Z, N), l)",
           "",
           @readable.by(
             @readable.fol,
@@ -12552,12 +12552,12 @@ pub fn c4oppositeside() -> @kernel.Thm {
 /// SSS
 fn step_341() -> Unit raise {
   sss_c.set(@readable.prove(
-    "\n  forall A B C A' B' C'.  ~Collinear A B C /\\  ~Collinear A' B' C'  ==>\n    seg A B === seg A' B'  /\\   seg A C === seg A' C'  /\\   seg B C === seg B' C'\n    ==>  A,B,C cong A',B',C'",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ A' : Point, ∀ B' : Point, ∀ C' : Point, !Collinear(A, B, C) && !Collinear(A', B', C') → op_eq_eq_eq(seg(A, B), seg(A', B')) && op_eq_eq_eq(seg(A, C), seg(A', C')) && op_eq_eq_eq(seg(B, C), seg(B', C')) → cong((A, B, C), (A', B', C'))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C A' B' C', H1, H2"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C) /\\  ~(B = C) /\\  ~(A' = B') /\\  ~(B' = C')",
+          "!(A == B) && !(A == C) && !(B == C) && !(A' == B') && !(B' == C')",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -12572,7 +12572,7 @@ fn step_341() -> Unit raise {
         ),
         @readable.consider(
           "h",
-          "Line h /\\  A IN h /\\  C IN h    ",
+          "∃ h : (Point) -> Bool, Line(h) && IN(A, h) && IN(C, h)",
           "h_line",
           @readable.by(
             @readable.fol,
@@ -12580,7 +12580,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B NOTIN h",
+          "NOTIN(B, h)",
           "notBh",
           @readable.by(
             @readable.fol,
@@ -12593,7 +12593,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Segment (seg A B) /\\  Segment (seg C B) /\\  Segment (seg A' B') /\\  Segment (seg C' B')",
+          "Segment(seg(A, B)) && Segment(seg(C, B)) && Segment(seg(A', B')) && Segment(seg(C', B'))",
           "segments",
           @readable.by(
             @readable.fol,
@@ -12605,7 +12605,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle (angle C' A' B')",
+          "Angle(angle(C', A', B'))",
           "",
           @readable.by(
             @readable.fol,
@@ -12618,7 +12618,7 @@ fn step_341() -> Unit raise {
         ),
         @readable.consider(
           "N",
-          "~(A = N) /\\  N NOTIN h /\\  ~(B,N same_side h) /\\  seg A N === seg A' B'  /\\   angle C A N === angle C' A' B'    ",
+          "∃ N : Point, !(A == N) && NOTIN(N, h) && !same_side((B, N), h) && op_eq_eq_eq(seg(A, N), seg(A', B')) && op_eq_eq_eq(angle(C, A, N), angle(C', A', B'))",
           "Nexists",
           @readable.by(
             @readable.simplify,
@@ -12632,7 +12632,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(C = N)",
+          "!(C == N)",
           "",
           @readable.by(
             @readable.fol,
@@ -12644,7 +12644,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Segment (seg A N) /\\  Segment (seg C N)",
+          "Segment(seg(A, N)) && Segment(seg(C, N))",
           "segN",
           @readable.by(
             @readable.fol,
@@ -12656,7 +12656,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A N C",
+          "!Collinear(A, N, C)",
           "ANCncol",
           @readable.by(
             @readable.fol,
@@ -12669,7 +12669,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle (angle A B C) /\\  Angle (angle A' B' C') /\\  Angle (angle A N C)",
+          "Angle(angle(A, B, C)) && Angle(angle(A', B', C')) && Angle(angle(A, N, C))",
           "angles",
           @readable.by(
             @readable.fol,
@@ -12681,7 +12681,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg A B === seg A N",
+          "op_eq_eq_eq(seg(A, B), seg(A, N))",
           "ABeqAN",
           @readable.by(
             @readable.fol,
@@ -12696,7 +12696,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C,A,N cong C',A',B'",
+          "cong((C, A, N), (C', A', B'))",
           "",
           @readable.by(
             @readable.fol,
@@ -12711,7 +12711,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A N C === angle A' B' C'  /\\   seg C N === seg C' B'",
+          "op_eq_eq_eq(angle(A, N, C), angle(A', B', C')) && op_eq_eq_eq(seg(C, N), seg(C', B'))",
           "ANCeq",
           @readable.by(
             @readable.fol,
@@ -12722,7 +12722,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg C B === seg C N",
+          "op_eq_eq_eq(seg(C, B), seg(C, N))",
           "CBeqCN",
           @readable.by(
             @readable.fol,
@@ -12739,7 +12739,7 @@ fn step_341() -> Unit raise {
         ),
         @readable.consider(
           "G",
-          "G IN h /\\  G IN Open (B, N)    ",
+          "∃ G : Point, IN(G, h) && IN(G, Open((B, N)))",
           "BGN",
           @readable.by(
             @readable.fol,
@@ -12751,7 +12751,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(B = N)",
+          "!(B == N)",
           "notBN",
           @readable.by(
             @readable.fol,
@@ -12759,7 +12759,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray B G = ray B N  /\\   ray N G = ray N B",
+          "ray(B, G) == ray(B, N) && ray(N, G) == ray(N, B)",
           "Grays",
           @readable.by(
             @readable.fol,
@@ -12772,7 +12772,7 @@ fn step_341() -> Unit raise {
         ),
         @readable.consider(
           "v",
-          "Line v /\\  B IN v /\\  N IN v    ",
+          "∃ v : (Point) -> Bool, Line(v) && IN(B, v) && IN(N, v)",
           "v_line",
           @readable.by(
             @readable.fol,
@@ -12780,7 +12780,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN v /\\  ~(h = v)",
+          "IN(G, v) && !(h == v)",
           "",
           @readable.by(
             @readable.fol,
@@ -12794,7 +12794,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    h INTER v = {G}",
+          "INTER(h, v) == {G}",
           "hvG",
           @readable.by(
             @readable.fol,
@@ -12808,13 +12808,13 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(G = A)  ==>  angle A B G === angle A N G",
+          "!(G == A) → op_eq_eq_eq(angle(A, B, G), angle(A, N, G))",
           "ABGeqANG",
           @readable.steps(
             [
               @readable.intro_tac("notGA"),
               @readable.have(
-                "\n      A NOTIN v",
+                "NOTIN(A, v)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -12832,7 +12832,7 @@ fn step_341() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ~Collinear B A N",
+                "!Collinear(B, A, N)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -12847,7 +12847,7 @@ fn step_341() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle N B A === angle B N A",
+                "op_eq_eq_eq(angle(N, B, A), angle(B, N, A))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -12862,7 +12862,7 @@ fn step_341() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle G B A === angle G N A",
+                "op_eq_eq_eq(angle(G, B, A), angle(G, N, A))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -12882,13 +12882,13 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(G = C)  ==>  angle G B C === angle G N C",
+          "!(G == C) → op_eq_eq_eq(angle(G, B, C), angle(G, N, C))",
           "GBCeqGNC",
           @readable.steps(
             [
               @readable.intro_tac("notGC"),
               @readable.have(
-                "\n      C NOTIN v",
+                "NOTIN(C, v)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -12906,7 +12906,7 @@ fn step_341() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ~Collinear B C N",
+                "!Collinear(B, C, N)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -12921,7 +12921,7 @@ fn step_341() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle N B C === angle B N C",
+                "op_eq_eq_eq(angle(N, B, C), angle(B, N, C))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -12948,12 +12948,12 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A B C === angle A N C",
+          "op_eq_eq_eq(angle(A, B, C), angle(A, N, C))",
           "",
           @readable.steps_then(
             [
               @readable.assuming(
-                "~(G = A) /\\  ~(G = C)",
+                "!(G == A) && !(G == C)",
                 "AGCdistinct",
                 @readable.by(
                   @readable.fol,
@@ -12965,7 +12965,7 @@ fn step_341() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle A B G === angle A N G  /\\   angle G B C === angle G N C",
+                "op_eq_eq_eq(angle(A, B, G), angle(A, N, G)) && op_eq_eq_eq(angle(G, B, C), angle(G, N, C))",
                 "Gequivs",
                 @readable.by(
                   @readable.fol,
@@ -12977,7 +12977,7 @@ fn step_341() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ~Collinear G B C /\\  ~Collinear G N C /\\  ~Collinear G B A /\\  ~Collinear G N A",
+                "!Collinear(G, B, C) && !Collinear(G, N, C) && !Collinear(G, B, A) && !Collinear(G, N, A)",
                 "Gncols",
                 @readable.by(
                   @readable.fol,
@@ -12992,7 +12992,7 @@ fn step_341() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      Collinear A G C",
+                "Collinear(A, G, C)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -13004,7 +13004,7 @@ fn step_341() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      G IN Open (A, C) \\/ C IN Open (G, A) \\/ A IN Open (C, G)",
+                "IN(G, Open((A, C))) || IN(C, Open((G, A))) || IN(A, Open((C, G)))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -13020,13 +13020,13 @@ fn step_341() -> Unit raise {
             @readable.case_split(
               "AGC | GAC | CAG    ",
               @readable.by(@readable.fol, [@readable.Prev]),
-              @list.List(["G IN Open (A, C)", "C IN Open (G, A)", "A IN Open (C, G)"]),
+              @list.List(["IN(G, Open((A, C)))", "IN(C, Open((G, A)))", "IN(A, Open((C, G)))"]),
               @list.List(
                 [
                   @readable.steps(
                     [
                       @readable.have(
-                        "\n        G IN int_angle A B C  /\\   G IN int_angle A N C",
+                        "IN(G, int_angle(A, B, C)) && IN(G, int_angle(A, N, C))",
                         "",
                         @readable.by(
                           @readable.fol,
@@ -13051,7 +13051,7 @@ fn step_341() -> Unit raise {
                   @readable.steps(
                     [
                       @readable.have(
-                        "\n        C IN int_angle G B A  /\\   C IN int_angle G N A",
+                        "IN(C, int_angle(G, B, A)) && IN(C, int_angle(G, N, A))",
                         "",
                         @readable.by(
                           @readable.fol,
@@ -13077,7 +13077,7 @@ fn step_341() -> Unit raise {
                   @readable.steps(
                     [
                       @readable.have(
-                        "\n        A IN int_angle G B C  /\\   A IN int_angle G N C",
+                        "IN(A, int_angle(G, B, C)) && IN(A, int_angle(G, N, C))",
                         "",
                         @readable.by(
                           @readable.fol,
@@ -13106,7 +13106,7 @@ fn step_341() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A B C === angle A' B' C'",
+          "op_eq_eq_eq(angle(A, B, C), angle(A', B', C'))",
           "",
           @readable.by(
             @readable.fol,
@@ -13146,12 +13146,12 @@ pub fn sss() -> @kernel.Thm {
 /// AngleBisector
 fn step_345() -> Unit raise {
   anglebisector_c.set(@readable.prove(
-    "\n  forall A B C. ~Collinear B A C  ==>  ?M. M IN int_angle B A C  /\\   angle B A M === angle M A C",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, !Collinear(B, A, C) → (∃ M : Point, IN(M, int_angle(B, A, C)) && op_eq_eq_eq(angle(B, A, M), angle(M, A, C)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C, H1"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C)",
+          "!(A == B) && !(A == C)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -13166,7 +13166,7 @@ fn step_345() -> Unit raise {
         ),
         @readable.consider(
           "D",
-          "B IN Open (A, D)    ",
+          "∃ D : Point, IN(B, Open((A, D)))",
           "ABD",
           @readable.by(
             @readable.fol,
@@ -13174,7 +13174,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = D) /\\  Collinear A B D /\\  Segment (seg A D)",
+          "!(A == D) && Collinear(A, B, D) && Segment(seg(A, D))",
           "ABD'",
           @readable.by(
             @readable.fol,
@@ -13187,7 +13187,7 @@ fn step_345() -> Unit raise {
         ),
         @readable.consider(
           "E",
-          "E IN ray A C DIFF {A}  /\\   seg A E === seg A D  /\\   ~(A = E)    ",
+          "∃ E : Point, IN(E, DIFF(ray(A, C), {A})) && op_eq_eq_eq(seg(A, E), seg(A, D)) && !(A == E)",
           "ErAC",
           @readable.by(
             @readable.fol,
@@ -13202,7 +13202,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Collinear A C E  /\\   D IN ray A B DIFF {A}",
+          "Collinear(A, C, E) && IN(D, DIFF(ray(A, B), {A}))",
           "notAE",
           @readable.by(
             @readable.fol,
@@ -13217,7 +13217,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray A D = ray A B  /\\   ray A E =  ray A C",
+          "ray(A, D) == ray(A, B) && ray(A, E) == ray(A, C)",
           "equalrays",
           @readable.by(
             @readable.fol,
@@ -13230,7 +13230,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear D A E /\\  ~Collinear E A D /\\  ~Collinear A E D",
+          "!Collinear(D, A, E) && !Collinear(E, A, D) && !Collinear(A, E, D)",
           "EADncol",
           @readable.by(
             @readable.fol,
@@ -13248,7 +13248,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle D E A === angle E D A",
+          "op_eq_eq_eq(angle(D, E, A), angle(E, D, A))",
           "DEAeq",
           @readable.by(
             @readable.fol,
@@ -13260,7 +13260,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear E D A /\\  Angle (angle E D A) /\\  ~Collinear A D E /\\  ~Collinear D E A",
+          "!Collinear(E, D, A) && Angle(angle(E, D, A)) && !Collinear(A, D, E) && !Collinear(D, E, A)",
           "angEDA",
           @readable.by(
             @readable.fol,
@@ -13272,7 +13272,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(D = E)",
+          "!(D == E)",
           "notDE",
           @readable.by(
             @readable.fol,
@@ -13287,12 +13287,12 @@ fn step_345() -> Unit raise {
         ),
         @readable.consider(
           "h",
-          "Line h /\\  D IN h /\\  E IN h    ",
+          "∃ h : (Point) -> Bool, Line(h) && IN(D, h) && IN(E, h)",
           "h_line",
           @readable.by(@readable.fol, [@readable.Prev, @readable.Thm("I1", () => i1())]),
         ),
         @readable.have(
-          "\n    A NOTIN h",
+          "NOTIN(A, h)",
           "notAh",
           @readable.by(
             @readable.fol,
@@ -13306,7 +13306,7 @@ fn step_345() -> Unit raise {
         ),
         @readable.consider(
           "M",
-          "~(D = M)  /\\   M NOTIN h  /\\   ~(A,M same_side h)  /\\   seg D M === seg D A  /\\   angle E D M === angle E D A    ",
+          "∃ M : Point, !(D == M) && NOTIN(M, h) && !same_side((A, M), h) && op_eq_eq_eq(seg(D, M), seg(D, A)) && op_eq_eq_eq(angle(E, D, M), angle(E, D, A))",
           "Mexists",
           @readable.by(
             @readable.simplify,
@@ -13321,7 +13321,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = M)",
+          "!(A == M)",
           "notAM",
           @readable.by(
             @readable.fol,
@@ -13333,7 +13333,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear E D M /\\  ~Collinear D E M /\\  ~Collinear M E D",
+          "!Collinear(E, D, M) && !Collinear(D, E, M) && !Collinear(M, E, D)",
           "EDMncol",
           @readable.by(
             @readable.fol,
@@ -13347,7 +13347,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg D E === seg D E  /\\   seg M A === seg M A",
+          "op_eq_eq_eq(seg(D, E), seg(D, E)) && op_eq_eq_eq(seg(M, A), seg(M, A))",
           "MArefl",
           @readable.by(
             @readable.fol,
@@ -13360,7 +13360,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    E,D,M cong E,D,A",
+          "cong((E, D, M), (E, D, A))",
           "",
           @readable.by(
             @readable.fol,
@@ -13374,7 +13374,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg M E === seg A E /\\  angle M E D === angle A E D /\\  angle D E M === angle D E A",
+          "op_eq_eq_eq(seg(M, E), seg(A, E)) && op_eq_eq_eq(angle(M, E, D), angle(A, E, D)) && op_eq_eq_eq(angle(D, E, M), angle(D, E, A))",
           "MEDcong",
           @readable.by(
             @readable.fol,
@@ -13387,7 +13387,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle E D A === angle D E A  /\\   angle E D A === angle E D M  /\\   angle D E A === angle D E M",
+          "op_eq_eq_eq(angle(E, D, A), angle(D, E, A)) && op_eq_eq_eq(angle(E, D, A), angle(E, D, M)) && op_eq_eq_eq(angle(D, E, A), angle(D, E, M))",
           "EDAeqEDM",
           @readable.by(
             @readable.fol,
@@ -13404,7 +13404,7 @@ fn step_345() -> Unit raise {
         ),
         @readable.consider(
           "G",
-          "G IN h /\\  G IN Open (A, M)    ",
+          "∃ G : Point, IN(G, h) && IN(G, Open((A, M)))",
           "AGM",
           @readable.by(
             @readable.fol,
@@ -13416,7 +13416,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    M IN ray A G DIFF {A}",
+          "IN(M, DIFF(ray(A, G), {A}))",
           "MrAG",
           @readable.by(
             @readable.fol,
@@ -13425,7 +13425,7 @@ fn step_345() -> Unit raise {
         ),
         @readable.consider(
           "v",
-          "Line v /\\  A IN v /\\  M IN v /\\  G IN v    ",
+          "∃ v : (Point) -> Bool, Line(v) && IN(A, v) && IN(M, v) && IN(G, v)",
           "v_line",
           @readable.by(
             @readable.fol,
@@ -13438,7 +13438,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(v = h)  /\\   v INTER h = {G}",
+          "!(v == h) && INTER(v, h) == {G}",
           "vhG",
           @readable.by(
             @readable.fol,
@@ -13453,13 +13453,13 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D NOTIN v",
+          "NOTIN(D, v)",
           "notDv",
           @readable.steps(
             [
-              @readable.assuming("~(D NOTIN v)", "Con", @readable.by(@readable.fol, [])),
+              @readable.assuming("!NOTIN(D, v)", "Con", @readable.by(@readable.fol, [])),
               @readable.have(
-                "\n      D IN v  /\\   D = G",
+                "IN(D, v) && D == G",
                 "DG",
                 @readable.by(
                   @readable.fol,
@@ -13474,7 +13474,7 @@ fn step_345() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      D IN Open (A, M)",
+                "IN(D, Open((A, M)))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -13482,7 +13482,7 @@ fn step_345() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle E D A suppl angle E D M",
+                "suppl(angle(E, D, A), angle(E, D, M))",
                 "EDAsuppl",
                 @readable.by(
                   @readable.fol,
@@ -13498,7 +13498,7 @@ fn step_345() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      Right (angle E D A)",
+                "Right(angle(E, D, A))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -13510,7 +13510,7 @@ fn step_345() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      Right (angle A E D)",
+                "Right(angle(A, E, D))",
                 "RightAED",
                 @readable.by(
                   @readable.fol,
@@ -13528,7 +13528,7 @@ fn step_345() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      Right (angle D E M)",
+                "Right(angle(D, E, M))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -13546,7 +13546,7 @@ fn step_345() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      E IN Open (A, M)",
+                "IN(E, Open((A, M)))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -13565,7 +13565,7 @@ fn step_345() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      E IN v  /\\   E = G",
+                "IN(E, v) && E == G",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -13588,13 +13588,13 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    E NOTIN v",
+          "NOTIN(E, v)",
           "notEv",
           @readable.steps(
             [
-              @readable.assuming("~(E NOTIN v)", "Con", @readable.by(@readable.fol, [])),
+              @readable.assuming("!NOTIN(E, v)", "Con", @readable.by(@readable.fol, [])),
               @readable.have(
-                "\n      E IN v  /\\   E = G",
+                "IN(E, v) && E == G",
                 "EG",
                 @readable.by(
                   @readable.fol,
@@ -13609,12 +13609,12 @@ fn step_345() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      E IN Open (A, M)",
+                "IN(E, Open((A, M)))",
                 "",
                 @readable.by(@readable.fol, [@readable.Prev, @readable.Label("AGM")]),
               ),
               @readable.have(
-                "\n      angle D E A suppl angle D E M",
+                "suppl(angle(D, E, A), angle(D, E, M))",
                 "DEAsuppl",
                 @readable.by(
                   @readable.fol,
@@ -13630,7 +13630,7 @@ fn step_345() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      Right (angle D E A)",
+                "Right(angle(D, E, A))",
                 "RightDEA",
                 @readable.by(
                   @readable.fol,
@@ -13642,7 +13642,7 @@ fn step_345() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      Right (angle E D A)",
+                "Right(angle(E, D, A))",
                 "RightEDA",
                 @readable.by(
                   @readable.fol,
@@ -13658,7 +13658,7 @@ fn step_345() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      Right (angle E D M)",
+                "Right(angle(E, D, M))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -13675,7 +13675,7 @@ fn step_345() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      D IN Open (A, M)",
+                "IN(D, Open((A, M)))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -13695,7 +13695,7 @@ fn step_345() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      D IN v /\\  D = G",
+                "IN(D, v) && D == G",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -13718,7 +13718,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear M A E /\\  ~Collinear M A D  /\\   ~(M = E)",
+          "!Collinear(M, A, E) && !Collinear(M, A, D) && !(M == E)",
           "MAEncol",
           @readable.by(
             @readable.fol,
@@ -13737,7 +13737,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg M E === seg A D",
+          "op_eq_eq_eq(seg(M, E), seg(A, D))",
           "MEeqAD",
           @readable.by(
             @readable.fol,
@@ -13753,7 +13753,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg A D === seg M D",
+          "op_eq_eq_eq(seg(A, D), seg(M, D))",
           "",
           @readable.by(
             @readable.fol,
@@ -13767,7 +13767,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg M E === seg M D",
+          "op_eq_eq_eq(seg(M, E), seg(M, D))",
           "",
           @readable.by(
             @readable.fol,
@@ -13783,7 +13783,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    M,A,E cong M,A,D",
+          "cong((M, A, E), (M, A, D))",
           "",
           @readable.by(
             @readable.fol,
@@ -13797,7 +13797,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle M A E === angle M A D",
+          "op_eq_eq_eq(angle(M, A, E), angle(M, A, D))",
           "MAEeq",
           @readable.by(
             @readable.fol,
@@ -13808,7 +13808,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle D A M === angle M A E",
+          "op_eq_eq_eq(angle(D, A, M), angle(M, A, E))",
           "",
           @readable.by(
             @readable.fol,
@@ -13822,7 +13822,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B A M === angle M A C",
+          "op_eq_eq_eq(angle(B, A, M), angle(M, A, C))",
           "BAMeqMAC",
           @readable.by(
             @readable.fol,
@@ -13834,17 +13834,17 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(E,D same_side v)",
+          "!same_side((E, D), v)",
           "",
           @readable.steps(
             [
               @readable.assuming(
-                "E,D same_side v",
+                "same_side((E, D), v)",
                 "Con",
                 @readable.by(@readable.fol, []),
               ),
               @readable.have(
-                "\n      ray A D = ray A E",
+                "ray(A, D) == ray(A, E)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -13874,7 +13874,7 @@ fn step_345() -> Unit raise {
         ),
         @readable.consider(
           "H",
-          "H IN v /\\  H IN Open (E, D)    ",
+          "∃ H : Point, IN(H, v) && IN(H, Open((E, D)))",
           "EHD",
           @readable.by(
             @readable.fol,
@@ -13886,7 +13886,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    H = G",
+          "H == G",
           "",
           @readable.by(
             @readable.fol,
@@ -13901,7 +13901,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN int_angle E A D",
+          "IN(G, int_angle(E, A, D))",
           "GintEAD",
           @readable.by(
             @readable.fol,
@@ -13914,7 +13914,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    M IN int_angle E A D",
+          "IN(M, int_angle(E, A, D))",
           "MintEAD",
           @readable.by(
             @readable.fol,
@@ -13926,7 +13926,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B IN ray A D DIFF {A}   /\\    C IN ray A E DIFF {A}",
+          "IN(B, DIFF(ray(A, D), {A})) && IN(C, DIFF(ray(A, E), {A}))",
           "",
           @readable.by(
             @readable.fol,
@@ -13940,7 +13940,7 @@ fn step_345() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    M IN int_angle B A C",
+          "IN(M, int_angle(B, A, C))",
           "",
           @readable.by(
             @readable.fol,
@@ -13971,12 +13971,12 @@ pub fn anglebisector() -> @kernel.Thm {
 /// EuclidPropositionI_6
 fn step_348() -> Unit raise {
   euclidpropositioni_6_c.set(@readable.prove(
-    "\n  forall A B C. ~Collinear A B C  /\\   angle B A C === angle B C A  ==>  seg B A === seg B C",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, !Collinear(A, B, C) && op_eq_eq_eq(angle(B, A, C), angle(B, C, A)) → op_eq_eq_eq(seg(B, A), seg(B, C))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C, H1 H2"),
         @readable.have(
-          "\n    ~(A = C)",
+          "!(A == C)",
           "",
           @readable.by(
             @readable.fol,
@@ -13990,7 +13990,7 @@ fn step_348() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg C A === seg A C",
+          "op_eq_eq_eq(seg(C, A), seg(A, C))",
           "CAeqAC",
           @readable.by(
             @readable.fol,
@@ -14003,7 +14003,7 @@ fn step_348() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear B C A /\\  ~Collinear C B A /\\  ~Collinear B A C",
+          "!Collinear(B, C, A) && !Collinear(C, B, A) && !Collinear(B, A, C)",
           "BCAncol",
           @readable.by(
             @readable.fol,
@@ -14014,7 +14014,7 @@ fn step_348() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A C B === angle C A B",
+          "op_eq_eq_eq(angle(A, C, B), angle(C, A, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -14028,7 +14028,7 @@ fn step_348() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C,B,A cong A,B,C",
+          "cong((C, B, A), (A, B, C))",
           "",
           @readable.by(
             @readable.fol,
@@ -14064,13 +14064,13 @@ pub fn euclidpropositioni_6() -> @kernel.Thm {
 /// IsoscelesExists
 fn step_349() -> Unit raise {
   isoscelesexists_c.set(@readable.prove(
-    "\n  forall A B. ~(A = B)  ==>  ?D. ~Collinear A D B  /\\   seg D A === seg D B",
+    "∀ A : Point, ∀ B : Point, !(A == B) → (∃ D : Point, !Collinear(A, D, B) && op_eq_eq_eq(seg(D, A), seg(D, B)))",
     @readable.steps_then(
       [
         @readable.intro_tac("forall A B, H1"),
         @readable.consider(
           "l",
-          "Line l /\\  A IN l /\\  B IN l    ",
+          "∃ l : (Point) -> Bool, Line(l) && IN(A, l) && IN(B, l)",
           "l_line",
           @readable.by(
             @readable.fol,
@@ -14079,7 +14079,7 @@ fn step_349() -> Unit raise {
         ),
         @readable.consider(
           "C",
-          "C NOTIN l    ",
+          "∃ C : Point, NOTIN(C, l)",
           "notCl",
           @readable.by(
             @readable.fol,
@@ -14090,7 +14090,7 @@ fn step_349() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear C A B /\\  ~Collinear C B A /\\  ~Collinear A B C /\\  ~Collinear A C B /\\  ~Collinear B A C",
+          "!Collinear(C, A, B) && !Collinear(C, B, A) && !Collinear(A, B, C) && !Collinear(A, C, B) && !Collinear(B, A, C)",
           "CABncol",
           @readable.by(
             @readable.fol,
@@ -14105,7 +14105,7 @@ fn step_349() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C A B === angle C B A  \\/  angle C A B <_ang angle C B A  \\/  angle C B A <_ang angle C A B",
+          "op_eq_eq_eq(angle(C, A, B), angle(C, B, A)) || op_lt_us_ang(angle(C, A, B), angle(C, B, A)) || op_lt_us_ang(angle(C, B, A), angle(C, A, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -14120,13 +14120,7 @@ fn step_349() -> Unit raise {
       @readable.case_split(
         "cong | less | greater    ",
         @readable.by(@readable.fol, [@readable.Prev]),
-        @list.List(
-          [
-            "angle C A B === angle C B A",
-            "angle C A B <_ang angle C B A",
-            "angle C B A <_ang angle C A B",
-          ],
-        ),
+        @list.List(["op_eq_eq_eq(angle(C, A, B), angle(C, B, A))", "op_lt_us_ang(angle(C, A, B), angle(C, B, A))", "op_lt_us_ang(angle(C, B, A), angle(C, A, B))"]),
         @list.List(
           [
             @readable.steps(
@@ -14144,7 +14138,7 @@ fn step_349() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      angle C A B <_ang angle A B C",
+                  "op_lt_us_ang(angle(C, A, B), angle(A, B, C))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -14156,7 +14150,7 @@ fn step_349() -> Unit raise {
                 ),
                 @readable.consider(
                   "E",
-                  "E IN int_angle A B C  /\\   angle C A B === angle A B E    ",
+                  "∃ E : Point, IN(E, int_angle(A, B, C)) && op_eq_eq_eq(angle(C, A, B), angle(A, B, E))",
                   "Eexists",
                   @readable.by(
                     @readable.fol,
@@ -14169,7 +14163,7 @@ fn step_349() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~(B = E)",
+                  "!(B == E)",
                   "notBE",
                   @readable.by(
                     @readable.fol,
@@ -14181,7 +14175,7 @@ fn step_349() -> Unit raise {
                 ),
                 @readable.consider(
                   "D",
-                  "D IN Open (A, C)  /\\   D IN ray B E DIFF {B}    ",
+                  "∃ D : Point, IN(D, Open((A, C))) && IN(D, DIFF(ray(B, E), {B}))",
                   "Dexists",
                   @readable.by(
                     @readable.fol,
@@ -14192,7 +14186,7 @@ fn step_349() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      D IN int_angle A B C",
+                  "IN(D, int_angle(A, B, C))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -14204,7 +14198,7 @@ fn step_349() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~Collinear A D B",
+                  "!Collinear(A, D, B)",
                   "ADBncol",
                   @readable.by(
                     @readable.fol,
@@ -14216,7 +14210,7 @@ fn step_349() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ray B D = ray B E  /\\   ray A D = ray A C",
+                  "ray(B, D) == ray(B, E) && ray(A, D) == ray(A, C)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -14229,7 +14223,7 @@ fn step_349() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle D A B === angle A B D",
+                  "op_eq_eq_eq(angle(D, A, B), angle(A, B, D))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -14254,7 +14248,7 @@ fn step_349() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      angle C B A <_ang angle B A C",
+                  "op_lt_us_ang(angle(C, B, A), angle(B, A, C))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -14266,7 +14260,7 @@ fn step_349() -> Unit raise {
                 ),
                 @readable.consider(
                   "E",
-                  "E IN int_angle B A C  /\\   angle C B A === angle B A E    ",
+                  "∃ E : Point, IN(E, int_angle(B, A, C)) && op_eq_eq_eq(angle(C, B, A), angle(B, A, E))",
                   "Eexists",
                   @readable.by(
                     @readable.fol,
@@ -14279,7 +14273,7 @@ fn step_349() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~(A = E)",
+                  "!(A == E)",
                   "notAE",
                   @readable.by(
                     @readable.fol,
@@ -14291,7 +14285,7 @@ fn step_349() -> Unit raise {
                 ),
                 @readable.consider(
                   "D",
-                  "D IN Open (B, C) /\\  D IN ray A E DIFF {A}    ",
+                  "∃ D : Point, IN(D, Open((B, C))) && IN(D, DIFF(ray(A, E), {A}))",
                   "Dexists",
                   @readable.by(
                     @readable.fol,
@@ -14302,7 +14296,7 @@ fn step_349() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      D IN int_angle B A C",
+                  "IN(D, int_angle(B, A, C))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -14314,7 +14308,7 @@ fn step_349() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~Collinear A D B /\\  ~Collinear D A B /\\  ~Collinear D B A",
+                  "!Collinear(A, D, B) && !Collinear(D, A, B) && !Collinear(D, B, A)",
                   "ADBncol",
                   @readable.by(
                     @readable.fol,
@@ -14326,7 +14320,7 @@ fn step_349() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ray A D = ray A E  /\\   ray B D = ray B C",
+                  "ray(A, D) == ray(A, E) && ray(B, D) == ray(B, C)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -14339,7 +14333,7 @@ fn step_349() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle D B A === angle B A D",
+                  "op_eq_eq_eq(angle(D, B, A), angle(B, A, D))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -14351,7 +14345,7 @@ fn step_349() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle D A B === angle D B A",
+                  "op_eq_eq_eq(angle(D, A, B), angle(D, B, A))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -14394,13 +14388,13 @@ pub fn isoscelesexists() -> @kernel.Thm {
 /// MidpointExists
 fn step_352() -> Unit raise {
   midpointexists_c.set(@readable.prove(
-    "\n  forall A B. ~(A = B)  ==>  ?M. M IN Open (A, B)  /\\   seg A M === seg M B",
+    "∀ A : Point, ∀ B : Point, !(A == B) → (∃ M : Point, IN(M, Open((A, B))) && op_eq_eq_eq(seg(A, M), seg(M, B)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B, H1"),
         @readable.consider(
           "D",
-          "~Collinear A D B  /\\   seg D A === seg D B    ",
+          "∃ D : Point, !Collinear(A, D, B) && op_eq_eq_eq(seg(D, A), seg(D, B))",
           "Dexists",
           @readable.by(
             @readable.fol,
@@ -14412,7 +14406,7 @@ fn step_352() -> Unit raise {
         ),
         @readable.consider(
           "F",
-          "F IN int_angle A D B  /\\   angle A D F === angle F D B    ",
+          "∃ F : Point, IN(F, int_angle(A, D, B)) && op_eq_eq_eq(angle(A, D, F), angle(F, D, B))",
           "Fexists",
           @readable.by(
             @readable.fol,
@@ -14420,7 +14414,7 @@ fn step_352() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(D = F)",
+          "!(D == F)",
           "notDF",
           @readable.by(
             @readable.fol,
@@ -14429,7 +14423,7 @@ fn step_352() -> Unit raise {
         ),
         @readable.consider(
           "M",
-          "M IN Open (A, B) /\\   M IN ray D F DIFF {D}    ",
+          "∃ M : Point, IN(M, Open((A, B))) && IN(M, DIFF(ray(D, F), {D}))",
           "Mexists",
           @readable.by(
             @readable.fol,
@@ -14440,7 +14434,7 @@ fn step_352() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray D M = ray D F",
+          "ray(D, M) == ray(D, F)",
           "",
           @readable.by(
             @readable.fol,
@@ -14452,7 +14446,7 @@ fn step_352() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A D M === angle M D B",
+          "op_eq_eq_eq(angle(A, D, M), angle(M, D, B))",
           "ADMeqMDB",
           @readable.by(
             @readable.fol,
@@ -14464,7 +14458,7 @@ fn step_352() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    M IN int_angle A D B",
+          "IN(M, int_angle(A, D, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -14476,7 +14470,7 @@ fn step_352() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(D = M) /\\  ~Collinear A D M /\\  ~Collinear B D M",
+          "!(D == M) && !Collinear(A, D, M) && !Collinear(B, D, M)",
           "ADMncol",
           @readable.by(
             @readable.fol,
@@ -14488,7 +14482,7 @@ fn step_352() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg D M === seg D M",
+          "op_eq_eq_eq(seg(D, M), seg(D, M))",
           "",
           @readable.by(
             @readable.fol,
@@ -14500,7 +14494,7 @@ fn step_352() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A,D,M cong B,D,M",
+          "cong((A, D, M), (B, D, M))",
           "",
           @readable.by(
             @readable.fol,
@@ -14541,12 +14535,12 @@ pub fn midpointexists() -> @kernel.Thm {
 /// EuclidPropositionI_7short
 fn step_355() -> Unit raise {
   euclidpropositioni_7short_c.set(@readable.prove(
-    "\n  forall A B C D a.  ~(A = B) /\\  Line a /\\  A IN a /\\  B IN a  ==>\n    ~(C = D) /\\  C NOTIN a /\\  D NOTIN a /\\  C,D same_side a  ==>  seg A C === seg A D\n    ==>  ~(seg B C === seg B D)",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, ∀ a : (Point) -> Bool, !(A == B) && Line(a) && IN(A, a) && IN(B, a) → !(C == D) && NOTIN(C, a) && NOTIN(D, a) && same_side((C, D), a) → op_eq_eq_eq(seg(A, C), seg(A, D)) → !op_eq_eq_eq(seg(B, C), seg(B, D))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D a, a_line, Csim_aD, ACeqAD"),
         @readable.have(
-          "\n    ~(A = C) /\\  ~(A = D)",
+          "!(A == C) && !(A == D)",
           "AnotCD",
           @readable.by(
             @readable.fol,
@@ -14558,12 +14552,12 @@ fn step_355() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "seg B C === seg B D",
+          "op_eq_eq_eq(seg(B, C), seg(B, D))",
           "Con",
           @readable.by(@readable.fol, []),
         ),
         @readable.have(
-          "\n    seg C B === seg D B  /\\   seg A B === seg A B  /\\   seg A D === seg A D",
+          "op_eq_eq_eq(seg(C, B), seg(D, B)) && op_eq_eq_eq(seg(A, B), seg(A, B)) && op_eq_eq_eq(seg(A, D), seg(A, D))",
           "segeqs",
           @readable.by(
             @readable.fol,
@@ -14578,7 +14572,7 @@ fn step_355() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A C B  /\\  ~Collinear A D B",
+          "!Collinear(A, C, B) && !Collinear(A, D, B)",
           "",
           @readable.by(
             @readable.fol,
@@ -14592,7 +14586,7 @@ fn step_355() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A,C,B cong A,D,B",
+          "cong((A, C, B), (A, D, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -14605,7 +14599,7 @@ fn step_355() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B A C === angle B A D",
+          "op_eq_eq_eq(angle(B, A, C), angle(B, A, D))",
           "",
           @readable.by(
             @readable.fol,
@@ -14616,7 +14610,7 @@ fn step_355() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray A D = ray A C",
+          "ray(A, D) == ray(A, C)",
           "",
           @readable.by(
             @readable.fol,
@@ -14629,7 +14623,7 @@ fn step_355() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C IN ray A D DIFF {A}  /\\   D IN ray A D DIFF {A}",
+          "IN(C, DIFF(ray(A, D), {A})) && IN(D, DIFF(ray(A, D), {A}))",
           "",
           @readable.by(
             @readable.fol,
@@ -14643,7 +14637,7 @@ fn step_355() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C = D",
+          "C == D",
           "",
           @readable.by(
             @readable.fol,
@@ -14676,14 +14670,14 @@ pub fn euclidpropositioni_7short() -> @kernel.Thm {
 /// EuclidPropositionI_7Help
 fn step_356() -> Unit raise {
   euclidpropositioni_7help_c.set(@readable.prove(
-    "\n  forall A B C D a.  ~(A = B)  ==>  Line a /\\  A IN a /\\  B IN a  ==>\n    ~(C = D) /\\  C NOTIN a /\\  D NOTIN a /\\  C,D same_side a  ==>  seg A C === seg A D  ==>\n    C IN int_triangle D A B  \\/  ConvexQuadrilateral A B C D\n    ==>  ~(seg B C === seg B D)",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, ∀ a : (Point) -> Bool, !(A == B) → Line(a) && IN(A, a) && IN(B, a) → !(C == D) && NOTIN(C, a) && NOTIN(D, a) && same_side((C, D), a) → op_eq_eq_eq(seg(A, C), seg(A, D)) → IN(C, int_triangle(D, A, B)) || ConvexQuadrilateral(A, B, C, D) → !op_eq_eq_eq(seg(B, C), seg(B, D))",
     @readable.steps_then(
       [
         @readable.intro_tac(
           "forall A B C D a, notAB, a_line, Csim_aD, ACeqAD, Int_ConvQuad",
         ),
         @readable.have(
-          "\n    ~(A = C) /\\  ~(A = D) /\\  ~(B = C) /\\  ~(B = D)",
+          "!(A == C) && !(A == D) && !(B == C) && !(B == D)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -14699,13 +14693,13 @@ fn step_356() -> Unit raise {
       @readable.case_split(
         "convex | CintDAB    ",
         @readable.by(@readable.fol, [@readable.Label("Int_ConvQuad")]),
-        @list.List(["ConvexQuadrilateral A B C D", "C IN int_triangle D A B"]),
+        @list.List(["ConvexQuadrilateral(A, B, C, D)", "IN(C, int_triangle(D, A, B))"]),
         @list.List(
           [
             @readable.steps(
               [
                 @readable.have(
-                  "\n      A IN int_angle B C D  /\\   B IN int_angle C D A  /\\   Tetralateral A B C D",
+                  "IN(A, int_angle(B, C, D)) && IN(B, int_angle(C, D, A)) && Tetralateral(A, B, C, D)",
                   "ABint",
                   @readable.by(
                     @readable.fol,
@@ -14717,7 +14711,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~Collinear B C D /\\  ~Collinear D C B /\\  ~Collinear C B D /\\  ~Collinear C D A /\\  ~Collinear D A C /\\  Angle (angle D C A) /\\  Angle (angle C D B)",
+                  "!Collinear(B, C, D) && !Collinear(D, C, B) && !Collinear(C, B, D) && !Collinear(C, D, A) && !Collinear(D, A, C) && Angle(angle(D, C, A)) && Angle(angle(C, D, B))",
                   "angCDB",
                   @readable.by(
                     @readable.fol,
@@ -14730,7 +14724,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle C D A === angle D C A",
+                  "op_eq_eq_eq(angle(C, D, A), angle(D, C, A))",
                   "CDAeqDCA",
                   @readable.by(
                     @readable.fol,
@@ -14748,7 +14742,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      A IN int_angle D C B  /\\   angle D C A === angle D C A  /\\   angle C D B === angle C D B",
+                  "IN(A, int_angle(D, C, B)) && op_eq_eq_eq(angle(D, C, A), angle(D, C, A)) && op_eq_eq_eq(angle(C, D, B), angle(C, D, B))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -14765,7 +14759,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle D C A <_ang angle D C B  /\\   angle C D B <_ang angle C D A",
+                  "op_lt_us_ang(angle(D, C, A), angle(D, C, B)) && op_lt_us_ang(angle(C, D, B), angle(C, D, A))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -14778,7 +14772,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle C D B <_ang angle D C B",
+                  "op_lt_us_ang(angle(C, D, B), angle(D, C, B))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -14795,7 +14789,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~(angle D C B === angle C D B)",
+                  "!op_eq_eq_eq(angle(D, C, B), angle(C, D, B))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -14824,7 +14818,7 @@ fn step_356() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      C IN int_angle A D B  /\\   C IN int_angle D A B",
+                  "IN(C, int_angle(A, D, B)) && IN(C, int_angle(D, A, B))",
                   "CintADB",
                   @readable.by(
                     @readable.fol,
@@ -14839,7 +14833,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~Collinear A D C /\\  ~Collinear B D C",
+                  "!Collinear(A, D, C) && !Collinear(B, D, C)",
                   "ADCncol",
                   @readable.by(
                     @readable.fol,
@@ -14854,7 +14848,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~Collinear D A C /\\  ~Collinear C D A /\\  ~Collinear A C D /\\  ~Collinear A D C",
+                  "!Collinear(D, A, C) && !Collinear(C, D, A) && !Collinear(A, C, D) && !Collinear(A, D, C)",
                   "DACncol",
                   @readable.by(
                     @readable.fol,
@@ -14865,7 +14859,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~Collinear B C D /\\  Angle (angle D C A) /\\  Angle (angle C D B) /\\  ~Collinear D C B",
+                  "!Collinear(B, C, D) && Angle(angle(D, C, A)) && Angle(angle(C, D, B)) && !Collinear(D, C, B)",
                   "angCDB",
                   @readable.by(
                     @readable.fol,
@@ -14878,7 +14872,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle C D A === angle D C A",
+                  "op_eq_eq_eq(angle(C, D, A), angle(D, C, A))",
                   "CDAeqDCA",
                   @readable.by(
                     @readable.fol,
@@ -14898,7 +14892,7 @@ fn step_356() -> Unit raise {
                 ),
                 @readable.consider(
                   "E",
-                  "D IN Open (A, E) /\\  ~(D = E) /\\  Collinear A D E    ",
+                  "∃ E : Point, IN(D, Open((A, E))) && !(D == E) && Collinear(A, D, E)",
                   "ADE",
                   @readable.by(
                     @readable.fol,
@@ -14910,7 +14904,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      B IN int_angle C D E /\\  Collinear D A E",
+                  "IN(B, int_angle(C, D, E)) && Collinear(D, A, E)",
                   "BintCDE",
                   @readable.by(
                     @readable.fol,
@@ -14926,7 +14920,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~Collinear C D E",
+                  "!Collinear(C, D, E)",
                   "CDEncol",
                   @readable.by(
                     @readable.fol,
@@ -14943,7 +14937,7 @@ fn step_356() -> Unit raise {
                 ),
                 @readable.consider(
                   "F",
-                  "F IN Open (B, D)  /\\   F IN ray A C DIFF {A}    ",
+                  "∃ F : Point, IN(F, Open((B, D))) && IN(F, DIFF(ray(A, C), {A}))",
                   "Fexists",
                   @readable.by(
                     @readable.fol,
@@ -14955,7 +14949,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      F IN int_angle B C D",
+                  "IN(F, int_angle(B, C, D))",
                   "FintBCD",
                   @readable.by(
                     @readable.fol,
@@ -14968,7 +14962,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~Collinear D C F",
+                  "!Collinear(D, C, F)",
                   "DCFncol",
                   @readable.by(
                     @readable.fol,
@@ -14986,7 +14980,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      Collinear A C F  /\\   F IN ray D B DIFF {D}  /\\   C IN int_angle A D F",
+                  "Collinear(A, C, F) && IN(F, DIFF(ray(D, B), {D})) && IN(C, int_angle(A, D, F))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -15003,7 +14997,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      C IN Open (A, F)",
+                  "IN(C, Open((A, F)))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -15017,7 +15011,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle A D C suppl angle C D E  /\\   angle A C D suppl angle D C F",
+                  "suppl(angle(A, D, C), angle(C, D, E)) && suppl(angle(A, C, D), angle(D, C, F))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -15033,7 +15027,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle C D E === angle D C F",
+                  "op_eq_eq_eq(angle(C, D, E), angle(D, C, F))",
                   "CDEeqDCF",
                   @readable.by(
                     @readable.fol,
@@ -15049,7 +15043,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle C D B <_ang angle C D E",
+                  "op_lt_us_ang(angle(C, D, B), angle(C, D, E))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -15063,7 +15057,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle C D B <_ang angle D C F",
+                  "op_lt_us_ang(angle(C, D, B), angle(D, C, F))",
                   "CDBlessDCF",
                   @readable.by(
                     @readable.fol,
@@ -15077,7 +15071,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle D C F <_ang angle D C B",
+                  "op_lt_us_ang(angle(D, C, F), angle(D, C, B))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -15096,7 +15090,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle C D B <_ang angle D C B",
+                  "op_lt_us_ang(angle(C, D, B), angle(D, C, B))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -15111,7 +15105,7 @@ fn step_356() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~(angle D C B === angle C D B)",
+                  "!op_eq_eq_eq(angle(D, C, B), angle(C, D, B))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -15160,12 +15154,12 @@ pub fn euclidpropositioni_7help() -> @kernel.Thm {
 /// EuclidPropositionI_7
 fn step_358() -> Unit raise {
   euclidpropositioni_7_c.set(@readable.prove(
-    "\n  forall A B C D a.  ~(A = B)  ==>  Line a /\\  A IN a /\\  B IN a  ==>\n    ~(C = D) /\\  C NOTIN a /\\  D NOTIN a /\\  C,D same_side a  ==>\n    seg A C === seg A D\n   ==>  ~(seg B C === seg B D)",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, ∀ a : (Point) -> Bool, !(A == B) → Line(a) && IN(A, a) && IN(B, a) → !(C == D) && NOTIN(C, a) && NOTIN(D, a) && same_side((C, D), a) → op_eq_eq_eq(seg(A, C), seg(A, D)) → !op_eq_eq_eq(seg(B, C), seg(B, D))",
     @readable.steps_then(
       [
         @readable.intro_tac("forall A B C D a, notAB, a_line, Csim_aD, ACeqAD"),
         @readable.have(
-          "\n    ~Collinear A B C /\\  ~Collinear D A B",
+          "!Collinear(A, B, C) && !Collinear(D, A, B)",
           "ABCncol",
           @readable.by(
             @readable.fol,
@@ -15179,7 +15173,7 @@ fn step_358() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = C) /\\  ~(A = D) /\\  ~(B = C) /\\  ~(B = D) /\\  A NOTIN Open (C, D)",
+          "!(A == C) && !(A == D) && !(B == C) && !(B == D) && NOTIN(A, Open((C, D)))",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -15192,17 +15186,17 @@ fn step_358() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A D C",
+          "!Collinear(A, D, C)",
           "ADCncol",
           @readable.steps(
             [
               @readable.assuming(
-                "Collinear A D C",
+                "Collinear(A, D, C)",
                 "Con",
                 @readable.by(@readable.fol, []),
               ),
               @readable.have(
-                "\n      C IN ray A D DIFF {A}  /\\   D IN ray A D DIFF {A}  /\\   seg A D === seg A D",
+                "IN(C, DIFF(ray(A, D), {A})) && IN(D, DIFF(ray(A, D), {A})) && op_eq_eq_eq(seg(A, D), seg(A, D))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -15233,7 +15227,7 @@ fn step_358() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D,C same_side a",
+          "same_side((D, C), a)",
           "Dsim_aC",
           @readable.by(
             @readable.fol,
@@ -15245,7 +15239,7 @@ fn step_358() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg A D === seg A C  /\\   seg B D === seg B D",
+          "op_eq_eq_eq(seg(A, D), seg(A, C)) && op_eq_eq_eq(seg(B, D), seg(B, D))",
           "ADeqAC",
           @readable.by(
             @readable.fol,
@@ -15259,7 +15253,7 @@ fn step_358() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear D A C /\\  ~Collinear C D A /\\  ~Collinear A C D /\\  ~Collinear A D C",
+          "!Collinear(D, A, C) && !Collinear(C, D, A) && !Collinear(A, C, D) && !Collinear(A, D, C)",
           "DACncol",
           @readable.by(
             @readable.fol,
@@ -15270,7 +15264,7 @@ fn step_358() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(seg B D === seg B C)  ==>  ~(seg B C === seg B D)",
+          "!op_eq_eq_eq(seg(B, D), seg(B, C)) → !op_eq_eq_eq(seg(B, C), seg(B, D))",
           "BswitchDC",
           @readable.by(
             @readable.fol,
@@ -15285,13 +15279,13 @@ fn step_358() -> Unit raise {
       @readable.case_split(
         "BDCcol | BDCncol    ",
         @readable.by(@readable.fol, [@readable.Prev]),
-        @list.List(["Collinear B D C", "~Collinear B D C"]),
+        @list.List(["Collinear(B, D, C)", "!Collinear(B, D, C)"]),
         @list.List(
           [
             @readable.steps(
               [
                 @readable.have(
-                  "\n      B NOTIN Open (C, D)  /\\   C IN ray B D DIFF {B}  /\\   D IN ray B D DIFF {B}",
+                  "NOTIN(B, Open((C, D))) && IN(C, DIFF(ray(B, D), {B})) && IN(D, DIFF(ray(B, D), {B}))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -15327,7 +15321,7 @@ fn step_358() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      Tetralateral A B C D",
+                  "Tetralateral(A, B, C, D)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -15344,7 +15338,7 @@ fn step_358() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ConvexQuadrilateral A B C D  \\/  C IN int_triangle D A B  \\/\n      ConvexQuadrilateral A B D C  \\/  D IN int_triangle C A B",
+                  "ConvexQuadrilateral(A, B, C, D) || IN(C, int_triangle(D, A, B)) || ConvexQuadrilateral(A, B, D, C) || IN(D, int_triangle(C, A, B))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -15402,13 +15396,13 @@ pub fn euclidpropositioni_7() -> @kernel.Thm {
 /// EuclidPropositionI_11
 fn step_360() -> Unit raise {
   euclidpropositioni_11_c.set(@readable.prove(
-    "\n  forall A B. ~(A = B)  ==>  ?F. Right (angle A B F)",
+    "∀ A : Point, ∀ B : Point, !(A == B) → (∃ F : Point, Right(angle(A, B, F)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B, notAB"),
         @readable.consider(
           "C",
-          "B IN Open (A, C)  /\\   seg B C === seg B A    ",
+          "∃ C : Point, IN(B, Open((A, C))) && op_eq_eq_eq(seg(B, C), seg(B, A))",
           "ABC",
           @readable.by(
             @readable.fol,
@@ -15420,7 +15414,7 @@ fn step_360() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C) /\\  ~(B = C) /\\  Collinear A B C",
+          "!(A == B) && !(A == C) && !(B == C) && Collinear(A, B, C)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -15428,7 +15422,7 @@ fn step_360() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg B A === seg B C",
+          "op_eq_eq_eq(seg(B, A), seg(B, C))",
           "BAeqBC",
           @readable.by(
             @readable.fol,
@@ -15442,7 +15436,7 @@ fn step_360() -> Unit raise {
         ),
         @readable.consider(
           "F",
-          "~Collinear A F C  /\\   seg F A  === seg F C    ",
+          "∃ F : Point, !Collinear(A, F, C) && op_eq_eq_eq(seg(F, A), seg(F, C))",
           "Fexists",
           @readable.by(
             @readable.fol,
@@ -15453,7 +15447,7 @@ fn step_360() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear B F A /\\  ~Collinear B F C",
+          "!Collinear(B, F, A) && !Collinear(B, F, C)",
           "BFAncol",
           @readable.by(
             @readable.fol,
@@ -15469,7 +15463,7 @@ fn step_360() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A B F /\\  Angle (angle A B F)",
+          "!Collinear(A, B, F) && Angle(angle(A, B, F))",
           "angABF",
           @readable.by(
             @readable.fol,
@@ -15481,7 +15475,7 @@ fn step_360() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A B F suppl angle F B C",
+          "suppl(angle(A, B, F), angle(F, B, C))",
           "ABFsuppl",
           @readable.by(
             @readable.fol,
@@ -15493,7 +15487,7 @@ fn step_360() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(B = F)  /\\   seg B F === seg B F",
+          "!(B == F) && op_eq_eq_eq(seg(B, F), seg(B, F))",
           "",
           @readable.by(
             @readable.fol,
@@ -15509,7 +15503,7 @@ fn step_360() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B,F,A cong B,F,C",
+          "cong((B, F, A), (B, F, C))",
           "",
           @readable.by(
             @readable.fol,
@@ -15523,7 +15517,7 @@ fn step_360() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A B F === angle F B C",
+          "op_eq_eq_eq(angle(A, B, F), angle(F, B, C))",
           "",
           @readable.by(
             @readable.fol,
@@ -15561,13 +15555,13 @@ pub fn euclidpropositioni_11() -> @kernel.Thm {
 /// DropPerpendicularToLine
 fn step_361() -> Unit raise {
   dropperpendiculartoline_c.set(@readable.prove(
-    "\n  forall P l.  Line l  /\\   P NOTIN l  ==>  ?E Q. E IN l /\\  Q IN l /\\  Right (angle P Q E)",
+    "∀ P : Point, ∀ l : (Point) -> Bool, Line(l) && NOTIN(P, l) → (∃ E : Point, ∃ Q : Point, IN(E, l) && IN(Q, l) && Right(angle(P, Q, E)))",
     @readable.steps(
       [
         @readable.intro_tac("forall P l, l_line"),
         @readable.consider(
           "A B",
-          "A IN l /\\  B IN l /\\  ~(A = B)    ",
+          "∃ A : Point, ∃ B : Point, IN(A, l) && IN(B, l) && !(A == B)",
           "ABl",
           @readable.by(
             @readable.fol,
@@ -15575,7 +15569,7 @@ fn step_361() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear B A P /\\  ~Collinear P A B /\\  ~(A = P)",
+          "!Collinear(B, A, P) && !Collinear(P, A, B) && !(A == P)",
           "BAPncol",
           @readable.by(
             @readable.fol,
@@ -15589,7 +15583,7 @@ fn step_361() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle (angle B A P) /\\  Angle (angle P A B)",
+          "Angle(angle(B, A, P)) && Angle(angle(P, A, B))",
           "angBAP",
           @readable.by(
             @readable.fol,
@@ -15602,7 +15596,7 @@ fn step_361() -> Unit raise {
         ),
         @readable.consider(
           "P'",
-          "~(A = P') /\\  P' NOTIN l /\\  ~(P,P' same_side l) /\\  seg A P' === seg A P  /\\   angle B A P' === angle B A P    ",
+          "∃ P' : Point, !(A == P') && NOTIN(P', l) && !same_side((P, P'), l) && op_eq_eq_eq(seg(A, P'), seg(A, P)) && op_eq_eq_eq(angle(B, A, P'), angle(B, A, P))",
           "P'exists",
           @readable.by(
             @readable.simplify,
@@ -15617,7 +15611,7 @@ fn step_361() -> Unit raise {
         ),
         @readable.consider(
           "Q",
-          "Q IN l /\\  Q IN Open (P, P') /\\  Collinear A B Q    ",
+          "∃ Q : Point, IN(Q, l) && IN(Q, Open((P, P'))) && Collinear(A, B, Q)",
           "Qexists",
           @readable.by(
             @readable.fol,
@@ -15631,7 +15625,7 @@ fn step_361() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear B A P'",
+          "!Collinear(B, A, P')",
           "BAP'ncol",
           @readable.by(
             @readable.fol,
@@ -15646,7 +15640,7 @@ fn step_361() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B A P === angle B A P'",
+          "op_eq_eq_eq(angle(B, A, P), angle(B, A, P'))",
           "BAPeqBAP'",
           @readable.by(
             @readable.fol,
@@ -15660,12 +15654,12 @@ fn step_361() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ?E. E IN l  /\\   ~Collinear P Q E  /\\   angle P Q E === angle E Q P'",
+          "∃ E : Point, IN(E, l) && !Collinear(P, Q, E) && op_eq_eq_eq(angle(P, Q, E), angle(E, Q, P'))",
           "",
           @readable.steps(
             [
               @readable.assuming(
-                "~(A = Q)",
+                "!(A == Q)",
                 "notAQ",
                 @readable.by(
                   @readable.fol,
@@ -15678,7 +15672,7 @@ fn step_361() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      seg A Q  === seg A Q  /\\   seg A P === seg A P'",
+                "op_eq_eq_eq(seg(A, Q), seg(A, Q)) && op_eq_eq_eq(seg(A, P), seg(A, P'))",
                 "APeqAP'",
                 @readable.by(
                   @readable.fol,
@@ -15693,7 +15687,7 @@ fn step_361() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ~Collinear Q A P' /\\  ~Collinear Q A P",
+                "!Collinear(Q, A, P') && !Collinear(Q, A, P)",
                 "QAP'ncol",
                 @readable.by(
                   @readable.fol,
@@ -15709,7 +15703,7 @@ fn step_361() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle Q A P === angle Q A P'",
+                "op_eq_eq_eq(angle(Q, A, P), angle(Q, A, P'))",
                 "",
                 @readable.case_split(
                   "QAB | notQAB    ",
@@ -15717,13 +15711,13 @@ fn step_361() -> Unit raise {
                     @readable.fol,
                     [@readable.Prev, @readable.Thm("NOTIN", () => notin())],
                   ),
-                  @list.List(["A IN Open (Q, B)", "A NOTIN Open (Q, B)"]),
+                  @list.List(["IN(A, Open((Q, B)))", "NOTIN(A, Open((Q, B)))"]),
                   @list.List(
                     [
                       @readable.steps(
                         [
                           @readable.have(
-                            "\n          angle B A P suppl angle P A Q   /\\   angle B A P' suppl angle P' A Q",
+                            "suppl(angle(B, A, P), angle(P, A, Q)) && suppl(angle(B, A, P'), angle(P', A, Q))",
                             "",
                             @readable.by(
                               @readable.fol,
@@ -15756,7 +15750,7 @@ fn step_361() -> Unit raise {
                       @readable.steps(
                         [
                           @readable.have(
-                            "\n          Q IN ray A B DIFF {A}",
+                            "IN(Q, DIFF(ray(A, B), {A}))",
                             "QrayAB_A",
                             @readable.by(
                               @readable.fol,
@@ -15772,7 +15766,7 @@ fn step_361() -> Unit raise {
                             ),
                           ),
                           @readable.have(
-                            "\n          ray A Q = ray A B",
+                            "ray(A, Q) == ray(A, B)",
                             "",
                             @readable.by(
                               @readable.fol,
@@ -15800,7 +15794,7 @@ fn step_361() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      Q,A,P cong Q,A,P'",
+                "cong((Q, A, P), (Q, A, P'))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -15828,12 +15822,12 @@ fn step_361() -> Unit raise {
         ),
         @readable.consider(
           "E",
-          "E IN l /\\  ~Collinear P Q E /\\  angle P Q E === angle E Q P'    ",
+          "∃ E : Point, IN(E, l) && !Collinear(P, Q, E) && op_eq_eq_eq(angle(P, Q, E), angle(E, Q, P'))",
           "Eexists",
           @readable.by(@readable.fol, [@readable.Prev]),
         ),
         @readable.have(
-          "\n    angle P Q E suppl angle E Q P'  /\\   Right (angle P Q E)",
+          "suppl(angle(P, Q, E), angle(E, Q, P')) && Right(angle(P, Q, E))",
           "",
           @readable.by(
             @readable.fol,
@@ -15867,12 +15861,12 @@ pub fn dropperpendiculartoline() -> @kernel.Thm {
 /// EuclidPropositionI_14
 fn step_362() -> Unit raise {
   euclidpropositioni_14_c.set(@readable.prove(
-    "\n  forall A B C D l.  Line l /\\  A IN l /\\  B IN l /\\  ~(A = B)  ==>\n    C NOTIN l /\\  D NOTIN l /\\  ~(C,D same_side l)  ==> angle C B A suppl angle A B D\n    ==>  B IN Open (C, D)",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, ∀ l : (Point) -> Bool, Line(l) && IN(A, l) && IN(B, l) && !(A == B) → NOTIN(C, l) && NOTIN(D, l) && !same_side((C, D), l) → suppl(angle(C, B, A), angle(A, B, D)) → IN(B, Open((C, D)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D l, l_line, Cnsim_lD, CBAsupplABD"),
         @readable.have(
-          "\n    ~(B = C) /\\  ~(B = D) /\\  ~Collinear C B A",
+          "!(B == C) && !(B == D) && !Collinear(C, B, A)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -15887,7 +15881,7 @@ fn step_362() -> Unit raise {
         ),
         @readable.consider(
           "E",
-          "B IN Open (C, E)    ",
+          "∃ E : Point, IN(B, Open((C, E)))",
           "CBE",
           @readable.by(
             @readable.fol,
@@ -15895,7 +15889,7 @@ fn step_362() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    E NOTIN l /\\  ~(C,E same_side l)",
+          "NOTIN(E, l) && !same_side((C, E), l)",
           "Csim_lE",
           @readable.by(
             @readable.fol,
@@ -15910,7 +15904,7 @@ fn step_362() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D,E same_side l",
+          "same_side((D, E), l)",
           "Dsim_lE",
           @readable.by(
             @readable.fol,
@@ -15923,7 +15917,7 @@ fn step_362() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C B A suppl angle A B E",
+          "suppl(angle(C, B, A), angle(A, B, E))",
           "",
           @readable.by(
             @readable.fol,
@@ -15935,7 +15929,7 @@ fn step_362() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A B D === angle A B E",
+          "op_eq_eq_eq(angle(A, B, D), angle(A, B, E))",
           "",
           @readable.by(
             @readable.fol,
@@ -15947,7 +15941,7 @@ fn step_362() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray B E = ray B D",
+          "ray(B, E) == ray(B, D)",
           "",
           @readable.by(
             @readable.fol,
@@ -15962,7 +15956,7 @@ fn step_362() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D IN ray B E DIFF {B}",
+          "IN(D, DIFF(ray(B, E), {B}))",
           "",
           @readable.by(
             @readable.fol,
@@ -16005,12 +15999,12 @@ pub fn euclidpropositioni_14() -> @kernel.Thm {
 /// VerticalAnglesCong
 fn step_363() -> Unit raise {
   verticalanglescong_c.set(@readable.prove(
-    "\n  forall A B O A' B'.  ~Collinear A O B  ==> O IN Open (A, A')  /\\   O IN Open (B, B')\n    ==>  angle B O A' === angle B' O A",
+    "∀ A : Point, ∀ B : Point, ∀ O : Point, ∀ A' : Point, ∀ B' : Point, !Collinear(A, O, B) → IN(O, Open((A, A'))) && IN(O, Open((B, B'))) → op_eq_eq_eq(angle(B, O, A'), angle(B', O, A))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B O A' B', H1, H2"),
         @readable.have(
-          "\n    angle A O B suppl angle B O A'",
+          "suppl(angle(A, O, B), angle(B, O, A'))",
           "AOBsupplBOA'",
           @readable.by(
             @readable.fol,
@@ -16022,7 +16016,7 @@ fn step_363() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B O A suppl angle A O B'",
+          "suppl(angle(B, O, A), angle(A, O, B'))",
           "",
           @readable.by(
             @readable.fol,
@@ -16061,12 +16055,12 @@ pub fn verticalanglescong() -> @kernel.Thm {
 /// EuclidPropositionI_16
 fn step_364() -> Unit raise {
   euclidpropositioni_16_c.set(@readable.prove(
-    "\n  forall A B C D. ~Collinear A B C  /\\   C IN Open (B, D)\n    ==>  angle B A C <_ang angle D C A",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, !Collinear(A, B, C) && IN(C, Open((B, D))) → op_lt_us_ang(angle(B, A, C), angle(D, C, A))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D, H1 H2"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C) /\\  ~(B = C)",
+          "!(A == B) && !(A == C) && !(B == C)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -16081,7 +16075,7 @@ fn step_364() -> Unit raise {
         ),
         @readable.consider(
           "l",
-          "Line l /\\  A IN l /\\  C IN l    ",
+          "∃ l : (Point) -> Bool, Line(l) && IN(A, l) && IN(C, l)",
           "l_line",
           @readable.by(
             @readable.fol,
@@ -16090,7 +16084,7 @@ fn step_364() -> Unit raise {
         ),
         @readable.consider(
           "m",
-          "Line m /\\  B IN m /\\  C IN m    ",
+          "∃ m : (Point) -> Bool, Line(m) && IN(B, m) && IN(C, m)",
           "m_line",
           @readable.by(
             @readable.fol,
@@ -16098,7 +16092,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D IN m",
+          "IN(D, m)",
           "Dm",
           @readable.by(
             @readable.fol,
@@ -16111,7 +16105,7 @@ fn step_364() -> Unit raise {
         ),
         @readable.consider(
           "E",
-          "E IN Open (A, C) /\\  seg A E === seg E C    ",
+          "∃ E : Point, IN(E, Open((A, C))) && op_eq_eq_eq(seg(A, E), seg(E, C))",
           "AEC",
           @readable.by(
             @readable.fol,
@@ -16122,7 +16116,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = E) /\\  ~(E = C) /\\  Collinear A E C /\\  ~(B = E)",
+          "!(A == E) && !(E == C) && Collinear(A, E, C) && !(B == E)",
           "AECcol",
           @readable.by(
             @readable.fol,
@@ -16130,7 +16124,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    E IN l",
+          "IN(E, l)",
           "El",
           @readable.by(
             @readable.fol,
@@ -16143,7 +16137,7 @@ fn step_364() -> Unit raise {
         ),
         @readable.consider(
           "F",
-          "E IN Open (B, F) /\\  seg E F === seg E B    ",
+          "∃ F : Point, IN(E, Open((B, F))) && op_eq_eq_eq(seg(E, F), seg(E, B))",
           "BEF",
           @readable.by(
             @readable.fol,
@@ -16155,7 +16149,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(B = E) /\\  ~(B = F) /\\  ~(E = F) /\\  Collinear B E F",
+          "!(B == E) && !(B == F) && !(E == F) && Collinear(B, E, F)",
           "BEF'",
           @readable.by(
             @readable.fol,
@@ -16163,7 +16157,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B NOTIN l",
+          "NOTIN(B, l)",
           "notBl",
           @readable.by(
             @readable.fol,
@@ -16178,7 +16172,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A E B /\\  ~Collinear C E B",
+          "!Collinear(A, E, B) && !Collinear(C, E, B)",
           "AEBncol",
           @readable.by(
             @readable.fol,
@@ -16193,7 +16187,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle (angle B A E)",
+          "Angle(angle(B, A, E))",
           "angBAE",
           @readable.by(
             @readable.fol,
@@ -16205,7 +16199,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear C E F",
+          "!Collinear(C, E, F)",
           "CEFncol",
           @readable.by(
             @readable.fol,
@@ -16221,7 +16215,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B E A === angle F E C",
+          "op_eq_eq_eq(angle(B, E, A), angle(F, E, C))",
           "BEAeqFEC",
           @readable.by(
             @readable.fol,
@@ -16235,7 +16229,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg E A === seg E C  /\\   seg E B === seg E F",
+          "op_eq_eq_eq(seg(E, A), seg(E, C)) && op_eq_eq_eq(seg(E, B), seg(E, F))",
           "",
           @readable.by(
             @readable.fol,
@@ -16251,7 +16245,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A,E,B cong C,E,F",
+          "cong((A, E, B), (C, E, F))",
           "",
           @readable.by(
             @readable.fol,
@@ -16266,7 +16260,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B A E === angle F C E",
+          "op_eq_eq_eq(angle(B, A, E), angle(F, C, E))",
           "BAEeqFCE",
           @readable.by(
             @readable.fol,
@@ -16277,7 +16271,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear E C D",
+          "!Collinear(E, C, D)",
           "ECDncol",
           @readable.by(
             @readable.fol,
@@ -16294,7 +16288,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    F NOTIN l /\\  D NOTIN l",
+          "NOTIN(F, l) && NOTIN(D, l)",
           "notFl",
           @readable.by(
             @readable.fol,
@@ -16309,7 +16303,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    F IN ray B E DIFF {B}  /\\   E NOTIN m",
+          "IN(F, DIFF(ray(B, E), {B})) && NOTIN(E, m)",
           "",
           @readable.by(
             @readable.fol,
@@ -16324,7 +16318,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    F NOTIN m  /\\   F,E same_side m",
+          "NOTIN(F, m) && same_side((F, E), m)",
           "Fsim_mE",
           @readable.by(
             @readable.fol,
@@ -16336,7 +16330,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(B,F same_side l)  /\\   ~(B,D same_side l)",
+          "!same_side((B, F), l) && !same_side((B, D), l)",
           "",
           @readable.by(
             @readable.fol,
@@ -16350,7 +16344,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    F,D same_side l",
+          "same_side((F, D), l)",
           "",
           @readable.by(
             @readable.fol,
@@ -16364,7 +16358,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    F IN int_angle E C D",
+          "IN(F, int_angle(E, C, D))",
           "",
           @readable.by(
             @readable.fol,
@@ -16382,7 +16376,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B A E <_ang angle E C D",
+          "op_lt_us_ang(angle(B, A, E), angle(E, C, D))",
           "BAElessECD",
           @readable.by(
             @readable.fol,
@@ -16397,7 +16391,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray A E = ray A C  /\\   ray C E = ray C A",
+          "ray(A, E) == ray(A, C) && ray(C, E) == ray(C, A)",
           "",
           @readable.by(
             @readable.fol,
@@ -16409,7 +16403,7 @@ fn step_364() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B A C <_ang angle A C D",
+          "op_lt_us_ang(angle(B, A, C), angle(A, C, D))",
           "",
           @readable.by(
             @readable.fol,
@@ -16442,12 +16436,12 @@ pub fn euclidpropositioni_16() -> @kernel.Thm {
 /// ExteriorAngle
 fn step_367() -> Unit raise {
   exteriorangle_c.set(@readable.prove(
-    "\n  forall A B C D.  ~Collinear A B C  /\\   C IN Open (B, D)\n    ==>  angle A B C <_ang angle A C D",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, !Collinear(A, B, C) && IN(C, Open((B, D))) → op_lt_us_ang(angle(A, B, C), angle(A, C, D))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D, H1 H2"),
         @readable.have(
-          "\n    ~(C = D) /\\  C IN Open (D, B) /\\  Collinear B C D",
+          "!(C == D) && IN(C, Open((D, B))) && Collinear(B, C, D)",
           "H2'",
           @readable.by(
             @readable.fol,
@@ -16459,7 +16453,7 @@ fn step_367() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear B A C /\\  ~(A = C)",
+          "!Collinear(B, A, C) && !(A == C)",
           "BACncol",
           @readable.by(
             @readable.fol,
@@ -16475,7 +16469,7 @@ fn step_367() -> Unit raise {
         ),
         @readable.consider(
           "E",
-          "C IN Open (A, E)    ",
+          "∃ E : Point, IN(C, Open((A, E)))",
           "ACE",
           @readable.by(
             @readable.fol,
@@ -16483,7 +16477,7 @@ fn step_367() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(C = E) /\\  C IN Open (E, A) /\\  Collinear A C E",
+          "!(C == E) && IN(C, Open((E, A))) && Collinear(A, C, E)",
           "ACE'",
           @readable.by(
             @readable.fol,
@@ -16491,7 +16485,7 @@ fn step_367() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A C D /\\  ~Collinear D C E",
+          "!Collinear(A, C, D) && !Collinear(D, C, E)",
           "DCEncol",
           @readable.by(
             @readable.fol,
@@ -16508,7 +16502,7 @@ fn step_367() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A B C <_ang angle E C B",
+          "op_lt_us_ang(angle(A, B, C), angle(E, C, B))",
           "ABClessECB",
           @readable.by(
             @readable.fol,
@@ -16520,7 +16514,7 @@ fn step_367() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle E C B === angle A C D",
+          "op_eq_eq_eq(angle(E, C, B), angle(A, C, D))",
           "",
           @readable.by(
             @readable.fol,
@@ -16560,12 +16554,12 @@ pub fn exteriorangle() -> @kernel.Thm {
 /// EuclidPropositionI_17
 fn step_369() -> Unit raise {
   euclidpropositioni_17_c.set(@readable.prove(
-    "\n  forall A B C alpha beta gamma.  ~Collinear A B C  /\\   alpha = angle A B C  /\\   beta = angle B C A  ==>\n    beta suppl gamma\n    ==>  alpha <_ang gamma",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ alpha : (Point) -> Bool, ∀ beta : (Point) -> Bool, ∀ gamma : (Point) -> Bool, !Collinear(A, B, C) && alpha == angle(A, B, C) && beta == angle(B, C, A) → suppl(beta, gamma) → op_lt_us_ang(alpha, gamma)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C alpha beta gamma, H1, H2"),
         @readable.have(
-          "\n    Angle gamma",
+          "Angle(gamma)",
           "anggamma",
           @readable.by(
             @readable.fol,
@@ -16576,7 +16570,7 @@ fn step_369() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C) /\\  ~(B = C)",
+          "!(A == B) && !(A == C) && !(B == C)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -16590,7 +16584,7 @@ fn step_369() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear B A C /\\  ~Collinear A C B",
+          "!Collinear(B, A, C) && !Collinear(A, C, B)",
           "BACncol",
           @readable.by(
             @readable.fol,
@@ -16602,7 +16596,7 @@ fn step_369() -> Unit raise {
         ),
         @readable.consider(
           "D",
-          "C IN Open (A, D)    ",
+          "∃ D : Point, IN(C, Open((A, D)))",
           "ACD",
           @readable.by(
             @readable.fol,
@@ -16610,7 +16604,7 @@ fn step_369() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A B C <_ang angle D C B",
+          "op_lt_us_ang(angle(A, B, C), angle(D, C, B))",
           "ABClessDCB",
           @readable.by(
             @readable.fol,
@@ -16622,7 +16616,7 @@ fn step_369() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    beta suppl angle B C D",
+          "suppl(beta, angle(B, C, D))",
           "",
           @readable.by(
             @readable.fol,
@@ -16637,7 +16631,7 @@ fn step_369() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B C D === gamma",
+          "op_eq_eq_eq(angle(B, C, D), gamma)",
           "",
           @readable.by(
             @readable.fol,
@@ -16677,12 +16671,12 @@ pub fn euclidpropositioni_17() -> @kernel.Thm {
 /// EuclidPropositionI_18
 fn step_370() -> Unit raise {
   euclidpropositioni_18_c.set(@readable.prove(
-    "\n  forall A B C.  ~Collinear A B C  /\\   seg A C <__ seg A B\n    ==>  angle A B C <_ang angle B C A",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, !Collinear(A, B, C) && op_lt_us_us(seg(A, C), seg(A, B)) → op_lt_us_ang(angle(A, B, C), angle(B, C, A))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C, H1 H2"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C)",
+          "!(A == B) && !(A == C)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -16697,7 +16691,7 @@ fn step_370() -> Unit raise {
         ),
         @readable.consider(
           "D",
-          "D IN Open (A, B) /\\  seg A C === seg A D    ",
+          "∃ D : Point, IN(D, Open((A, B))) && op_eq_eq_eq(seg(A, C), seg(A, D))",
           "ADB",
           @readable.by(
             @readable.fol,
@@ -16710,7 +16704,7 @@ fn step_370() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(D = A) /\\  ~(D = B) /\\  D IN Open (B, A) /\\  Collinear A D B /\\  ray B D = ray B A",
+          "!(D == A) && !(D == B) && IN(D, Open((B, A))) && Collinear(A, D, B) && ray(B, D) == ray(B, A)",
           "ADB'",
           @readable.by(
             @readable.fol,
@@ -16722,7 +16716,7 @@ fn step_370() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D IN int_angle A C B  /\\  ~Collinear A C B",
+          "IN(D, int_angle(A, C, B)) && !Collinear(A, C, B)",
           "DintACB",
           @readable.by(
             @readable.fol,
@@ -16735,7 +16729,7 @@ fn step_370() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear D A C /\\  ~Collinear C B D /\\  ~Collinear C D A",
+          "!Collinear(D, A, C) && !Collinear(C, B, D) && !Collinear(C, D, A)",
           "DACncol",
           @readable.by(
             @readable.fol,
@@ -16751,7 +16745,7 @@ fn step_370() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg A D === seg A C",
+          "op_eq_eq_eq(seg(A, D), seg(A, C))",
           "",
           @readable.by(
             @readable.fol,
@@ -16765,7 +16759,7 @@ fn step_370() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C D A === angle A C D",
+          "op_eq_eq_eq(angle(C, D, A), angle(A, C, D))",
           "",
           @readable.by(
             @readable.fol,
@@ -16778,7 +16772,7 @@ fn step_370() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C D A <_ang angle A C B",
+          "op_lt_us_ang(angle(C, D, A), angle(A, C, B))",
           "CDAlessACB",
           @readable.by(
             @readable.fol,
@@ -16793,7 +16787,7 @@ fn step_370() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B D C suppl angle C D A",
+          "suppl(angle(B, D, C), angle(C, D, A))",
           "",
           @readable.by(
             @readable.fol,
@@ -16806,7 +16800,7 @@ fn step_370() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C B D <_ang angle C D A",
+          "op_lt_us_ang(angle(C, B, D), angle(C, D, A))",
           "",
           @readable.by(
             @readable.fol,
@@ -16818,7 +16812,7 @@ fn step_370() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C B D <_ang angle A C B",
+          "op_lt_us_ang(angle(C, B, D), angle(A, C, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -16856,12 +16850,12 @@ pub fn euclidpropositioni_18() -> @kernel.Thm {
 /// EuclidPropositionI_19
 fn step_372() -> Unit raise {
   euclidpropositioni_19_c.set(@readable.prove(
-    "\n  forall A B C. ~Collinear A B C  /\\   angle A B C <_ang angle B C A\n    ==>  seg A C  <__ seg A B",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, !Collinear(A, B, C) && op_lt_us_ang(angle(A, B, C), angle(B, C, A)) → op_lt_us_us(seg(A, C), seg(A, B))",
     @readable.steps_then(
       [
         @readable.intro_tac("forall A B C, H1 H2"),
         @readable.have(
-          "\n    ~Collinear B A C /\\  ~Collinear B C A /\\  ~Collinear A C B",
+          "!Collinear(B, A, C) && !Collinear(B, C, A) && !Collinear(A, C, B)",
           "BACncol",
           @readable.by(
             @readable.fol,
@@ -16872,7 +16866,7 @@ fn step_372() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C)",
+          "!(A == B) && !(A == C)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -16886,12 +16880,12 @@ fn step_372() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "~(seg A C  <__ seg A B)",
+          "!op_lt_us_us(seg(A, C), seg(A, B))",
           "Con",
           @readable.by(@readable.fol, []),
         ),
         @readable.have(
-          "\n    seg A B === seg A C   \\/  seg A B  <__ seg A C",
+          "op_eq_eq_eq(seg(A, B), seg(A, C)) || op_lt_us_us(seg(A, B), seg(A, C))",
           "",
           @readable.by(
             @readable.fol,
@@ -16907,13 +16901,13 @@ fn step_372() -> Unit raise {
       @readable.case_split(
         "cong | less    ",
         @readable.by(@readable.fol, [@readable.Prev]),
-        @list.List(["seg A B === seg A C", "seg A B  <__ seg A C"]),
+        @list.List(["op_eq_eq_eq(seg(A, B), seg(A, C))", "op_lt_us_us(seg(A, B), seg(A, C))"]),
         @list.List(
           [
             @readable.steps(
               [
                 @readable.have(
-                  "\n      angle C B A === angle B C A",
+                  "op_eq_eq_eq(angle(C, B, A), angle(B, C, A))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -16941,7 +16935,7 @@ fn step_372() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      angle A C B <_ang angle C B A",
+                  "op_lt_us_ang(angle(A, C, B), angle(C, B, A))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -16989,12 +16983,12 @@ pub fn euclidpropositioni_19() -> @kernel.Thm {
 /// EuclidPropositionI_20
 fn step_375() -> Unit raise {
   euclidpropositioni_20_c.set(@readable.prove(
-    "\n  forall A B C D. ~Collinear A B C  ==>  A IN Open (B, D)  /\\   seg A D === seg A C\n    ==>  seg B C <__ seg B D",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, !Collinear(A, B, C) → IN(A, Open((B, D))) && op_eq_eq_eq(seg(A, D), seg(A, C)) → op_lt_us_us(seg(B, C), seg(B, D))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D, H1, H2"),
         @readable.have(
-          "\n    ~(B = D) /\\  ~(A = D) /\\  A IN Open (D, B) /\\  Collinear B A D /\\  ray D A = ray D B",
+          "!(B == D) && !(A == D) && IN(A, Open((D, B))) && Collinear(B, A, D) && ray(D, A) == ray(D, B)",
           "BAD'",
           @readable.by(
             @readable.fol,
@@ -17006,7 +17000,7 @@ fn step_375() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear C A D",
+          "!Collinear(C, A, D)",
           "CADncol",
           @readable.by(
             @readable.fol,
@@ -17022,7 +17016,7 @@ fn step_375() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear D C B /\\  ~Collinear B D C",
+          "!Collinear(D, C, B) && !Collinear(B, D, C)",
           "DCBncol",
           @readable.by(
             @readable.fol,
@@ -17038,7 +17032,7 @@ fn step_375() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle (angle C D A)",
+          "Angle(angle(C, D, A))",
           "angCDA",
           @readable.by(
             @readable.fol,
@@ -17050,7 +17044,7 @@ fn step_375() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C D A === angle D C A",
+          "op_eq_eq_eq(angle(C, D, A), angle(D, C, A))",
           "CDAeqDCA",
           @readable.by(
             @readable.fol,
@@ -17063,7 +17057,7 @@ fn step_375() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A IN int_angle D C B",
+          "IN(A, int_angle(D, C, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -17075,7 +17069,7 @@ fn step_375() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C D A <_ang angle D C B",
+          "op_lt_us_ang(angle(C, D, A), angle(D, C, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -17089,7 +17083,7 @@ fn step_375() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B D C <_ang angle D C B",
+          "op_lt_us_ang(angle(B, D, C), angle(D, C, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -17127,12 +17121,12 @@ pub fn euclidpropositioni_20() -> @kernel.Thm {
 /// EuclidPropositionI_21
 fn step_377() -> Unit raise {
   euclidpropositioni_21_c.set(@readable.prove(
-    "\n  forall A B C D. ~Collinear A B C  /\\   D IN int_triangle A B C\n    ==>  angle A B C <_ang angle C D A",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, !Collinear(A, B, C) && IN(D, int_triangle(A, B, C)) → op_lt_us_ang(angle(A, B, C), angle(C, D, A))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D, H1 H2"),
         @readable.have(
-          "\n    ~(B = A) /\\  ~(B = C) /\\  ~(A = C)",
+          "!(B == A) && !(B == C) && !(A == C)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -17146,7 +17140,7 @@ fn step_377() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D IN int_angle B A C  /\\   D IN int_angle C B A",
+          "IN(D, int_angle(B, A, C)) && IN(D, int_angle(C, B, A))",
           "DintTri",
           @readable.by(
             @readable.fol,
@@ -17159,7 +17153,7 @@ fn step_377() -> Unit raise {
         ),
         @readable.consider(
           "E",
-          "E IN Open (B, C) /\\  E IN ray A D DIFF {A}    ",
+          "∃ E : Point, IN(E, Open((B, C))) && IN(E, DIFF(ray(A, D), {A}))",
           "BEC",
           @readable.by(
             @readable.fol,
@@ -17167,7 +17161,7 @@ fn step_377() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(B = E) /\\  ~(E = C) /\\  Collinear B E C  /\\   Collinear A D E",
+          "!(B == E) && !(E == C) && Collinear(B, E, C) && Collinear(A, D, E)",
           "BEC'",
           @readable.by(
             @readable.fol,
@@ -17181,7 +17175,7 @@ fn step_377() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray B E = ray B C  /\\   E IN ray B C DIFF {B}",
+          "ray(B, E) == ray(B, C) && IN(E, DIFF(ray(B, C), {B}))",
           "rBErBC",
           @readable.by(
             @readable.fol,
@@ -17193,7 +17187,7 @@ fn step_377() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D IN int_angle A B E",
+          "IN(D, int_angle(A, B, E))",
           "DintABE",
           @readable.by(
             @readable.fol,
@@ -17206,7 +17200,7 @@ fn step_377() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D IN Open (A, E)",
+          "IN(D, Open((A, E)))",
           "ADE",
           @readable.by(
             @readable.fol,
@@ -17221,7 +17215,7 @@ fn step_377() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray E D = ray E A",
+          "ray(E, D) == ray(E, A)",
           "rEDrEA",
           @readable.by(
             @readable.fol,
@@ -17233,7 +17227,7 @@ fn step_377() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A B E /\\  ~Collinear B E A  /\\  ~Collinear C B D /\\  ~(A = D)",
+          "!Collinear(A, B, E) && !Collinear(B, E, A) && !Collinear(C, B, D) && !(A == D)",
           "ABEncol",
           @readable.by(
             @readable.fol,
@@ -17247,7 +17241,7 @@ fn step_377() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear E D C /\\  ~Collinear C E D",
+          "!Collinear(E, D, C) && !Collinear(C, E, D)",
           "EDCncol",
           @readable.by(
             @readable.fol,
@@ -17263,7 +17257,7 @@ fn step_377() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A B E <_ang angle A E C  /\\   angle C E D = angle D E C",
+          "op_lt_us_ang(angle(A, B, E), angle(A, E, C)) && angle(C, E, D) == angle(D, E, C)",
           "",
           @readable.by(
             @readable.fol,
@@ -17276,7 +17270,7 @@ fn step_377() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A B C <_ang angle C E D",
+          "op_lt_us_ang(angle(A, B, C), angle(C, E, D))",
           "ABClessAEC",
           @readable.by(
             @readable.fol,
@@ -17289,7 +17283,7 @@ fn step_377() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C E D  <_ang  angle C D A",
+          "op_lt_us_ang(angle(C, E, D), angle(C, D, A))",
           "",
           @readable.by(
             @readable.fol,
@@ -17327,13 +17321,13 @@ pub fn euclidpropositioni_21() -> @kernel.Thm {
 /// AngleTrichotomy3
 fn step_379() -> Unit raise {
   angletrichotomy3_c.set(@readable.prove(
-    "\n  forall alpha beta gamma.  alpha <_ang beta  /\\   Angle gamma  /\\   gamma === alpha  ==>  gamma <_ang beta",
+    "∀ alpha : (Point) -> Bool, ∀ beta : (Point) -> Bool, ∀ gamma : (Point) -> Bool, op_lt_us_ang(alpha, beta) && Angle(gamma) && op_eq_eq_eq(gamma, alpha) → op_lt_us_ang(gamma, beta)",
     @readable.steps(
       [
         @readable.intro_tac("forall alpha beta gamma, H1"),
         @readable.consider(
           "A O B G",
-          "Angle alpha /\\  ~Collinear A O B /\\  beta = angle A O B /\\  G IN int_angle A O B /\\  alpha === angle A O G    ",
+          "∃ A : Point, ∃ O : Point, ∃ B : Point, ∃ G : Point, Angle(alpha) && !Collinear(A, O, B) && beta == angle(A, O, B) && IN(G, int_angle(A, O, B)) && op_eq_eq_eq(alpha, angle(A, O, G))",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -17344,7 +17338,7 @@ fn step_379() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A O G",
+          "!Collinear(A, O, G)",
           "",
           @readable.by(
             @readable.fol,
@@ -17352,7 +17346,7 @@ fn step_379() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    gamma === angle A O G",
+          "op_eq_eq_eq(gamma, angle(A, O, G))",
           "",
           @readable.by(
             @readable.fol,
@@ -17392,12 +17386,12 @@ pub fn angletrichotomy3() -> @kernel.Thm {
 /// InteriorCircleConvexHelp
 fn step_380() -> Unit raise {
   interiorcircleconvexhelp_c.set(@readable.prove(
-    "\n  forall O A B C. ~Collinear A O C  ==>  B IN Open (A, C)  ==>\n    seg O A <__ seg O C  \\/  seg O A === seg O C\n    ==>  seg O B <__ seg O C",
+    "∀ O : Point, ∀ A : Point, ∀ B : Point, ∀ C : Point, !Collinear(A, O, C) → IN(B, Open((A, C))) → op_lt_us_us(seg(O, A), seg(O, C)) || op_eq_eq_eq(seg(O, A), seg(O, C)) → op_lt_us_us(seg(O, B), seg(O, C))",
     @readable.steps(
       [
         @readable.intro_tac("forall O A B C, H1, H2, H3"),
         @readable.have(
-          "\n    ~Collinear O C A /\\  ~Collinear C O A /\\  ~(O = A) /\\  ~(O = C)",
+          "!Collinear(O, C, A) && !Collinear(C, O, A) && !(O == A) && !(O == C)",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -17412,7 +17406,7 @@ fn step_380() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray A B = ray A C  /\\   ray C B = ray C A",
+          "ray(A, B) == ray(A, C) && ray(C, B) == ray(C, A)",
           "equal_rays",
           @readable.by(
             @readable.fol,
@@ -17424,12 +17418,12 @@ fn step_380() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle O C A <_ang angle C A O  \\/  angle O C A === angle C A O",
+          "op_lt_us_ang(angle(O, C, A), angle(C, A, O)) || op_eq_eq_eq(angle(O, C, A), angle(C, A, O))",
           "",
           @readable.steps(
             [
               @readable.assuming(
-                "seg O A === seg O C",
+                "op_eq_eq_eq(seg(O, A), seg(O, C))",
                 "seg_eq",
                 @readable.by(
                   @readable.fol,
@@ -17444,7 +17438,7 @@ fn step_380() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      seg O C === seg O A",
+                "op_eq_eq_eq(seg(O, C), seg(O, A))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -17472,7 +17466,7 @@ fn step_380() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle O C B <_ang angle B A O  \\/  angle O C B === angle B A O",
+          "op_lt_us_ang(angle(O, C, B), angle(B, A, O)) || op_eq_eq_eq(angle(O, C, B), angle(B, A, O))",
           "",
           @readable.by(
             @readable.fol,
@@ -17484,7 +17478,7 @@ fn step_380() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B C O <_ang angle O A B  \\/  angle B C O === angle O A B",
+          "op_lt_us_ang(angle(B, C, O), angle(O, A, B)) || op_eq_eq_eq(angle(B, C, O), angle(O, A, B))",
           "BCOlessOAB",
           @readable.by(
             @readable.fol,
@@ -17492,7 +17486,7 @@ fn step_380() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear O A B /\\  ~Collinear B C O /\\  ~Collinear O C B",
+          "!Collinear(O, A, B) && !Collinear(B, C, O) && !Collinear(O, C, B)",
           "OABncol",
           @readable.by(
             @readable.fol,
@@ -17509,7 +17503,7 @@ fn step_380() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle O A B <_ang angle O B C",
+          "op_lt_us_ang(angle(O, A, B), angle(O, B, C))",
           "",
           @readable.by(
             @readable.fol,
@@ -17521,7 +17515,7 @@ fn step_380() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B C O <_ang angle O B C",
+          "op_lt_us_ang(angle(B, C, O), angle(O, B, C))",
           "",
           @readable.by(
             @readable.fol,
@@ -17563,12 +17557,12 @@ pub fn interiorcircleconvexhelp() -> @kernel.Thm {
 /// InteriorCircleConvex
 fn step_382() -> Unit raise {
   interiorcircleconvex_c.set(@readable.prove(
-    "\n  forall O R A B C.  ~(O = R)  ==>  B IN Open (A, C)  ==>\n    A IN int_circle O R  /\\   C IN int_circle O R\n    ==>  B IN int_circle O R",
+    "∀ O : Point, ∀ R : Point, ∀ A : Point, ∀ B : Point, ∀ C : Point, !(O == R) → IN(B, Open((A, C))) → IN(A, int_circle(O, R)) && IN(C, int_circle(O, R)) → IN(B, int_circle(O, R))",
     @readable.steps_then(
       [
         @readable.intro_tac("forall O R A B C, H1, H2, H3"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C) /\\  ~(B = C) /\\  B IN Open (C, A)",
+          "!(A == B) && !(A == C) && !(B == C) && IN(B, Open((C, A)))",
           "H2'",
           @readable.by(
             @readable.fol,
@@ -17576,7 +17570,7 @@ fn step_382() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    (A = O  \\/  seg O A <__ seg O R)  /\\   (C = O  \\/  seg O C <__ seg O R)",
+          "(A == O || op_lt_us_us(seg(O, A), seg(O, R))) && (C == O || op_lt_us_us(seg(O, C), seg(O, R)))",
           "ACintOR",
           @readable.by(
             @readable.fol,
@@ -17591,13 +17585,13 @@ fn step_382() -> Unit raise {
       @readable.case_split(
         "OAC | OnotAC    ",
         @readable.by(@readable.fol, [@readable.Prev]),
-        @list.List(["O = A \\/ O = C", "~(O = A) /\\  ~(O = C)"]),
+        @list.List(["(O == A || O == C)", "!(O == A) && !(O == C)"]),
         @list.List(
           [
             @readable.steps(
               [
                 @readable.have(
-                  "\n      B IN Open (O, C)  \\/  B IN Open (O, A)",
+                  "IN(B, Open((O, C))) || IN(B, Open((O, A)))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -17609,7 +17603,7 @@ fn step_382() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      seg O B <__ seg O A /\\  ~(O = A)  \\/  seg O B <__ seg O C /\\  ~(O = C)",
+                  "op_lt_us_us(seg(O, B), seg(O, A)) && !(O == A) || op_lt_us_us(seg(O, B), seg(O, C)) && !(O == C)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -17623,7 +17617,7 @@ fn step_382() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      seg O B <__ seg O R",
+                  "op_lt_us_us(seg(O, B), seg(O, R))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -17650,13 +17644,13 @@ fn step_382() -> Unit raise {
             @readable.case_split(
               "AOCncol | AOCcol    ",
               @readable.by(@readable.fol, [@readable.Prev]),
-              @list.List(["~Collinear A O C", "Collinear A O C"]),
+              @list.List(["!Collinear(A, O, C)", "Collinear(A, O, C)"]),
               @list.List(
                 [
                   @readable.steps(
                     [
                       @readable.have(
-                        "\n        seg O A <__ seg O C  \\/  seg O A === seg O C  \\/  seg O C <__ seg O A",
+                        "op_lt_us_us(seg(O, A), seg(O, C)) || op_eq_eq_eq(seg(O, A), seg(O, C)) || op_lt_us_us(seg(O, C), seg(O, A))",
                         "",
                         @readable.by(
                           @readable.fol,
@@ -17671,7 +17665,7 @@ fn step_382() -> Unit raise {
                         ),
                       ),
                       @readable.have(
-                        "\n        seg O B <__ seg O C  \\/  seg O B <__ seg O A",
+                        "op_lt_us_us(seg(O, B), seg(O, C)) || op_lt_us_us(seg(O, B), seg(O, A))",
                         "",
                         @readable.by(
                           @readable.fol,
@@ -17711,7 +17705,7 @@ fn step_382() -> Unit raise {
                     [
                       @readable.consider(
                         "l",
-                        "Line l /\\  A IN l /\\  C IN l    ",
+                        "∃ l : (Point) -> Bool, Line(l) && IN(A, l) && IN(C, l)",
                         "l_line",
                         @readable.by(
                           @readable.fol,
@@ -17719,7 +17713,7 @@ fn step_382() -> Unit raise {
                         ),
                       ),
                       @readable.have(
-                        "\n        Collinear B A O /\\  Collinear B C O",
+                        "Collinear(B, A, O) && Collinear(B, C, O)",
                         "OABCcol",
                         @readable.by(
                           @readable.fol,
@@ -17735,13 +17729,13 @@ fn step_382() -> Unit raise {
                         ),
                       ),
                       @readable.have(
-                        "\n        B NOTIN Open (O, A) /\\  B NOTIN Open (O, C)  ==>  B = O",
+                        "NOTIN(B, Open((O, A))) && NOTIN(B, Open((O, C))) → B == O",
                         "",
                         @readable.steps(
                           [
                             @readable.intro_tac("Assumption"),
                             @readable.have(
-                              "\n          O IN ray B A INTER ray B C",
+                              "IN(O, INTER(ray(B, A), ray(B, C)))",
                               "",
                               @readable.by(
                                 @readable.fol,
@@ -17770,7 +17764,7 @@ fn step_382() -> Unit raise {
                         ),
                       ),
                       @readable.have(
-                        "\n        B IN Open (O, A)  \\/  B IN Open (O, C)  \\/  B = O",
+                        "IN(B, Open((O, A))) || IN(B, Open((O, C))) || B == O",
                         "",
                         @readable.by(
                           @readable.fol,
@@ -17778,7 +17772,7 @@ fn step_382() -> Unit raise {
                         ),
                       ),
                       @readable.have(
-                        "\n        seg O B <__ seg O A  \\/  seg O B <__ seg O C  \\/  B = O",
+                        "op_lt_us_us(seg(O, B), seg(O, A)) || op_lt_us_us(seg(O, B), seg(O, C)) || B == O",
                         "",
                         @readable.by(
                           @readable.fol,
@@ -17795,7 +17789,7 @@ fn step_382() -> Unit raise {
                         ),
                       ),
                       @readable.have(
-                        "\n        seg O B <__ seg O R  \\/  B = O",
+                        "op_lt_us_us(seg(O, B), seg(O, R)) || B == O",
                         "",
                         @readable.by(
                           @readable.fol,
@@ -17843,13 +17837,13 @@ pub fn interiorcircleconvex() -> @kernel.Thm {
 /// SegmentTrichotomy3
 fn step_386() -> Unit raise {
   segmenttrichotomy3_c.set(@readable.prove(
-    "\n  forall s t u.  s <__ t  /\\   Segment u  /\\   u === s  ==>  u <__ t",
+    "∀ s : (Point) -> Bool, ∀ t : (Point) -> Bool, ∀ u : (Point) -> Bool, op_lt_us_us(s, t) && Segment(u) && op_eq_eq_eq(u, s) → op_lt_us_us(u, t)",
     @readable.steps(
       [
         @readable.intro_tac("forall s t u, H1"),
         @readable.consider(
           "C D X",
-          "Segment s /\\  t = seg C D /\\  X IN Open (C, D) /\\  s === seg C X /\\  ~(C = X)    ",
+          "∃ C : Point, ∃ D : Point, ∃ X : Point, Segment(s) && t == seg(C, D) && IN(X, Open((C, D))) && op_eq_eq_eq(s, seg(C, X)) && !(C == X)",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -17861,7 +17855,7 @@ fn step_386() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    u === seg C X",
+          "op_eq_eq_eq(u, seg(C, X))",
           "",
           @readable.by(
             @readable.fol,
@@ -17900,13 +17894,13 @@ pub fn segmenttrichotomy3() -> @kernel.Thm {
 /// EuclidPropositionI_24Help
 fn step_387() -> Unit raise {
   euclidpropositioni_24help_c.set(@readable.prove(
-    "\n  forall O A C O' D M.  ~Collinear A O C /\\  ~Collinear D O' M  ==>\n    seg O' D === seg O A  /\\   seg O' M === seg O C  ==>  angle D O' M <_ang angle A O C  ==>\n    seg O A <__ seg O C  \\/  seg O A === seg O C\n    ==>  seg D M <__ seg A C",
+    "∀ O : Point, ∀ A : Point, ∀ C : Point, ∀ O' : Point, ∀ D : Point, ∀ M : Point, !Collinear(A, O, C) && !Collinear(D, O', M) → op_eq_eq_eq(seg(O', D), seg(O, A)) && op_eq_eq_eq(seg(O', M), seg(O, C)) → op_lt_us_ang(angle(D, O', M), angle(A, O, C)) → op_lt_us_us(seg(O, A), seg(O, C)) || op_eq_eq_eq(seg(O, A), seg(O, C)) → op_lt_us_us(seg(D, M), seg(A, C))",
     @readable.steps(
       [
         @readable.intro_tac("forall O A C O' D M, H1, H2, H3, H4"),
         @readable.consider(
           "K",
-          "K IN int_angle A O C /\\  angle D O' M === angle A O K    ",
+          "∃ K : Point, IN(K, int_angle(A, O, C)) && op_eq_eq_eq(angle(D, O', M), angle(A, O, K))",
           "KintAOC",
           @readable.by(
             @readable.fol,
@@ -17919,7 +17913,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(O = C) /\\  ~(D = M) /\\  ~(O' = M) /\\  ~(O = K)",
+          "!(O == C) && !(D == M) && !(O' == M) && !(O == K)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -17936,7 +17930,7 @@ fn step_387() -> Unit raise {
         ),
         @readable.consider(
           "B",
-          "B IN ray O K DIFF {O}  /\\   seg O B === seg O C    ",
+          "∃ B : Point, IN(B, DIFF(ray(O, K), {O})) && op_eq_eq_eq(seg(O, B), seg(O, C))",
           "BrOK",
           @readable.by(
             @readable.fol,
@@ -17949,7 +17943,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray O B = ray O K",
+          "ray(O, B) == ray(O, K)",
           "",
           @readable.by(
             @readable.fol,
@@ -17961,7 +17955,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle D O' M === angle A O B",
+          "op_eq_eq_eq(angle(D, O', M), angle(A, O, B))",
           "DO'MeqAOB",
           @readable.by(
             @readable.fol,
@@ -17973,7 +17967,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B IN int_angle A O C",
+          "IN(B, int_angle(A, O, C))",
           "BintAOC",
           @readable.by(
             @readable.fol,
@@ -17985,7 +17979,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(B = O) /\\  ~Collinear A O B",
+          "!(B == O) && !Collinear(A, O, B)",
           "AOBncol",
           @readable.by(
             @readable.fol,
@@ -17993,7 +17987,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg O C === seg O B",
+          "op_eq_eq_eq(seg(O, C), seg(O, B))",
           "OCeqOB",
           @readable.by(
             @readable.fol,
@@ -18007,7 +18001,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg O' M === seg O B",
+          "op_eq_eq_eq(seg(O', M), seg(O, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -18022,7 +18016,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D,O',M cong A,O,B",
+          "cong((D, O', M), (A, O, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -18037,7 +18031,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg D M === seg A B",
+          "op_eq_eq_eq(seg(D, M), seg(A, B))",
           "DMeqAB",
           @readable.by(
             @readable.fol,
@@ -18049,7 +18043,7 @@ fn step_387() -> Unit raise {
         ),
         @readable.consider(
           "G",
-          "G IN Open (A, C)  /\\   G IN ray O B DIFF {O}  /\\   ~(G = O)    ",
+          "∃ G : Point, IN(G, Open((A, C))) && IN(G, DIFF(ray(O, B), {O})) && !(G == O)",
           "AGC",
           @readable.by(
             @readable.fol,
@@ -18063,7 +18057,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Segment (seg O G) /\\  ~(O = B)",
+          "Segment(seg(O, G)) && !(O == B)",
           "notOB",
           @readable.by(
             @readable.fol,
@@ -18077,7 +18071,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg O G <__ seg O C",
+          "op_lt_us_us(seg(O, G), seg(O, C))",
           "",
           @readable.by(
             @readable.fol,
@@ -18093,7 +18087,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg O G <__ seg O B",
+          "op_lt_us_us(seg(O, G), seg(O, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -18110,7 +18104,7 @@ fn step_387() -> Unit raise {
         ),
         @readable.consider(
           "G'",
-          "G' IN Open (O, B)  /\\   seg O G === seg O G'    ",
+          "∃ G' : Point, IN(G', Open((O, B))) && op_eq_eq_eq(seg(O, G), seg(O, G'))",
           "OG'B",
           @readable.by(
             @readable.fol,
@@ -18122,7 +18116,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(G' = O)  /\\   seg O G' === seg O G'  /\\   Segment (seg O G')",
+          "!(G' == O) && op_eq_eq_eq(seg(O, G'), seg(O, G')) && Segment(seg(O, G'))",
           "notG'O",
           @readable.by(
             @readable.fol,
@@ -18136,7 +18130,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G' IN ray O B DIFF {O}",
+          "IN(G', DIFF(ray(O, B), {O}))",
           "",
           @readable.by(
             @readable.fol,
@@ -18147,7 +18141,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G' = G  /\\   G IN Open (B, O)",
+          "G' == G && IN(G, Open((B, O)))",
           "",
           @readable.by(
             @readable.fol,
@@ -18163,7 +18157,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ConvexQuadrilateral B A O C",
+          "ConvexQuadrilateral(B, A, O, C)",
           "",
           @readable.by(
             @readable.fol,
@@ -18179,7 +18173,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A IN int_angle O C B  /\\   O IN int_angle C B A  /\\   Quadrilateral B A O C",
+          "IN(A, int_angle(O, C, B)) && IN(O, int_angle(C, B, A)) && Quadrilateral(B, A, O, C)",
           "OintCBA",
           @readable.by(
             @readable.fol,
@@ -18187,7 +18181,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A IN int_angle B C O",
+          "IN(A, int_angle(B, C, O))",
           "AintBCO",
           @readable.by(
             @readable.fol,
@@ -18198,7 +18192,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Tetralateral B A O C",
+          "Tetralateral(B, A, O, C)",
           "",
           @readable.by(
             @readable.fol,
@@ -18209,7 +18203,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear C B A  /\\  ~Collinear B C O /\\  ~Collinear C O B /\\  ~Collinear C B O",
+          "!Collinear(C, B, A) && !Collinear(B, C, O) && !Collinear(C, O, B) && !Collinear(C, B, O)",
           "BCOncol",
           @readable.by(
             @readable.fol,
@@ -18221,7 +18215,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B C O === angle C B O",
+          "op_eq_eq_eq(angle(B, C, O), angle(C, B, O))",
           "BCOeqCBO",
           @readable.by(
             @readable.fol,
@@ -18233,7 +18227,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear B C A /\\  ~Collinear A C B",
+          "!Collinear(B, C, A) && !Collinear(A, C, B)",
           "ACBncol",
           @readable.by(
             @readable.fol,
@@ -18245,7 +18239,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B C A === angle B C A  /\\   Angle (angle B C A)  /\\   angle C B O === angle C B O",
+          "op_eq_eq_eq(angle(B, C, A), angle(B, C, A)) && Angle(angle(B, C, A)) && op_eq_eq_eq(angle(C, B, O), angle(C, B, O))",
           "CBOref",
           @readable.by(
             @readable.fol,
@@ -18258,7 +18252,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B C A <_ang angle B C O",
+          "op_lt_us_ang(angle(B, C, A), angle(B, C, O))",
           "",
           @readable.by(
             @readable.fol,
@@ -18272,7 +18266,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B C A <_ang angle C B O",
+          "op_lt_us_ang(angle(B, C, A), angle(C, B, O))",
           "BCAlessCBO",
           @readable.by(
             @readable.fol,
@@ -18286,7 +18280,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C B O <_ang angle C B A",
+          "op_lt_us_ang(angle(C, B, O), angle(C, B, A))",
           "",
           @readable.by(
             @readable.fol,
@@ -18300,7 +18294,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A C B <_ang angle C B A",
+          "op_lt_us_ang(angle(A, C, B), angle(C, B, A))",
           "",
           @readable.by(
             @readable.fol,
@@ -18313,7 +18307,7 @@ fn step_387() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg A B <__ seg A C",
+          "op_lt_us_us(seg(A, B), seg(A, C))",
           "",
           @readable.by(
             @readable.fol,
@@ -18352,12 +18346,12 @@ pub fn euclidpropositioni_24help() -> @kernel.Thm {
 /// EuclidPropositionI_24
 fn step_389() -> Unit raise {
   euclidpropositioni_24_c.set(@readable.prove(
-    "\n  forall O A C O' D M. ~Collinear A O C /\\  ~Collinear D O' M  ==>\n    seg O' D === seg O A /\\  seg O' M === seg O C  ==>  angle D O' M <_ang angle A O C\n    ==>  seg D M <__ seg A C",
+    "∀ O : Point, ∀ A : Point, ∀ C : Point, ∀ O' : Point, ∀ D : Point, ∀ M : Point, !Collinear(A, O, C) && !Collinear(D, O', M) → op_eq_eq_eq(seg(O', D), seg(O, A)) && op_eq_eq_eq(seg(O', M), seg(O, C)) → op_lt_us_ang(angle(D, O', M), angle(A, O, C)) → op_lt_us_us(seg(D, M), seg(A, C))",
     @readable.steps(
       [
         @readable.intro_tac("forall O A C O' D M, H1, H2, H3"),
         @readable.have(
-          "\n    ~(O = A) /\\  ~(O = C) /\\  ~Collinear C O A /\\  ~Collinear M O' D",
+          "!(O == A) && !(O == C) && !Collinear(C, O, A) && !Collinear(M, O', D)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -18372,7 +18366,7 @@ fn step_389() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg O A === seg O C  \\/  seg O A <__ seg O C  \\/  seg O C <__ seg O A",
+          "op_eq_eq_eq(seg(O, A), seg(O, C)) || op_lt_us_us(seg(O, A), seg(O, C)) || op_lt_us_us(seg(O, C), seg(O, A))",
           "3pos",
           @readable.by(
             @readable.fol,
@@ -18384,7 +18378,7 @@ fn step_389() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "seg O C <__ seg O A",
+          "op_lt_us_us(seg(O, C), seg(O, A))",
           "H4",
           @readable.by(
             @readable.fol,
@@ -18401,7 +18395,7 @@ fn step_389() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle M O' D <_ang angle C O A",
+          "op_lt_us_ang(angle(M, O', D), angle(C, O, A))",
           "",
           @readable.by(
             @readable.fol,
@@ -18444,12 +18438,12 @@ pub fn euclidpropositioni_24() -> @kernel.Thm {
 /// EuclidPropositionI_25
 fn step_391() -> Unit raise {
   euclidpropositioni_25_c.set(@readable.prove(
-    "\n  forall O A C O' D M.  ~Collinear A O C /\\  ~Collinear D O' M  ==>\n    seg O' D === seg O A /\\  seg O' M === seg O C  ==>  seg D M <__ seg A C\n    ==>  angle D O' M <_ang angle A O C",
+    "∀ O : Point, ∀ A : Point, ∀ C : Point, ∀ O' : Point, ∀ D : Point, ∀ M : Point, !Collinear(A, O, C) && !Collinear(D, O', M) → op_eq_eq_eq(seg(O', D), seg(O, A)) && op_eq_eq_eq(seg(O', M), seg(O, C)) → op_lt_us_us(seg(D, M), seg(A, C)) → op_lt_us_ang(angle(D, O', M), angle(A, O, C))",
     @readable.steps_then(
       [
         @readable.intro_tac("forall O A C O' D M, H1, H2, H3"),
         @readable.have(
-          "\n    ~(O = A) /\\  ~(O = C) /\\  ~(A = C) /\\  ~(D = M) /\\  ~(O' = D) /\\  ~(O' = M)",
+          "!(O == A) && !(O == C) && !(A == C) && !(D == M) && !(O' == D) && !(O' == M)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -18463,12 +18457,12 @@ fn step_391() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "~(angle D O' M <_ang angle A O C)",
+          "!op_lt_us_ang(angle(D, O', M), angle(A, O, C))",
           "Contradiction",
           @readable.by(@readable.fol, []),
         ),
         @readable.have(
-          "\n    angle D O' M === angle A O C  \\/  angle A O C <_ang angle D O' M",
+          "op_eq_eq_eq(angle(D, O', M), angle(A, O, C)) || op_lt_us_ang(angle(A, O, C), angle(D, O', M))",
           "",
           @readable.by(
             @readable.fol,
@@ -18484,13 +18478,13 @@ fn step_391() -> Unit raise {
       @readable.case_split(
         "Cong | Con    ",
         @readable.by(@readable.fol, [@readable.Prev]),
-        @list.List(["angle D O' M === angle A O C", "angle A O C <_ang angle D O' M"]),
+        @list.List(["op_eq_eq_eq(angle(D, O', M), angle(A, O, C))", "op_lt_us_ang(angle(A, O, C), angle(D, O', M))"]),
         @list.List(
           [
             @readable.steps(
               [
                 @readable.have(
-                  "\n      D,O',M cong A,O,C",
+                  "cong((D, O', M), (A, O, C))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -18503,7 +18497,7 @@ fn step_391() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      seg D M === seg A C",
+                  "op_eq_eq_eq(seg(D, M), seg(A, C))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -18528,7 +18522,7 @@ fn step_391() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      seg O A === seg O' D  /\\   seg O C  === seg O' M",
+                  "op_eq_eq_eq(seg(O, A), seg(O', D)) && op_eq_eq_eq(seg(O, C), seg(O', M))",
                   "H2'",
                   @readable.by(
                     @readable.fol,
@@ -18541,7 +18535,7 @@ fn step_391() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      seg A C <__ seg D M",
+                  "op_lt_us_us(seg(A, C), seg(D, M))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -18588,12 +18582,12 @@ pub fn euclidpropositioni_25() -> @kernel.Thm {
 /// AAS
 fn step_393() -> Unit raise {
   aas_c.set(@readable.prove(
-    "\n  forall A B C A' B' C'. ~Collinear A B C /\\  ~Collinear A' B' C'  ==>\n    angle A B C === angle A' B' C'  /\\   angle B C A === angle B' C' A'  ==>  seg A B === seg A' B'\n    ==>  A,B,C cong A',B',C'",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ A' : Point, ∀ B' : Point, ∀ C' : Point, !Collinear(A, B, C) && !Collinear(A', B', C') → op_eq_eq_eq(angle(A, B, C), angle(A', B', C')) && op_eq_eq_eq(angle(B, C, A), angle(B', C', A')) → op_eq_eq_eq(seg(A, B), seg(A', B')) → cong((A, B, C), (A', B', C'))",
     @readable.steps_then(
       [
         @readable.intro_tac("forall A B C A' B' C', H1, H2, H3"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(B = C) /\\  ~(B' = C')",
+          "!(A == B) && !(B == C) && !(B' == C')",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -18608,7 +18602,7 @@ fn step_393() -> Unit raise {
         ),
         @readable.consider(
           "G",
-          "G IN ray B C DIFF {B} /\\  seg B G === seg B' C'    ",
+          "∃ G : Point, IN(G, DIFF(ray(B, C), {B})) && op_eq_eq_eq(seg(B, G), seg(B', C'))",
           "Gexists",
           @readable.by(
             @readable.fol,
@@ -18620,7 +18614,7 @@ fn step_393() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(G = B)  /\\   B NOTIN Open (G, C)  /\\  Collinear G B C",
+          "!(G == B) && NOTIN(B, Open((G, C))) && Collinear(G, B, C)",
           "notGBC",
           @readable.by(
             @readable.fol,
@@ -18634,7 +18628,7 @@ fn step_393() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A B G /\\  ~Collinear B G A",
+          "!Collinear(A, B, G) && !Collinear(B, G, A)",
           "ABGncol",
           @readable.by(
             @readable.fol,
@@ -18650,7 +18644,7 @@ fn step_393() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray B G = ray B C",
+          "ray(B, G) == ray(B, C)",
           "",
           @readable.by(
             @readable.fol,
@@ -18662,7 +18656,7 @@ fn step_393() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A B G = angle A B C",
+          "angle(A, B, G) == angle(A, B, C)",
           "",
           @readable.by(
             @readable.fol,
@@ -18674,7 +18668,7 @@ fn step_393() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A,B,G cong A',B',C'",
+          "cong((A, B, G), (A', B', C'))",
           "ABGcongA'B'C'",
           @readable.by(
             @readable.fol,
@@ -18691,7 +18685,7 @@ fn step_393() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B G A === angle B' C' A'",
+          "op_eq_eq_eq(angle(B, G, A), angle(B', C', A'))",
           "BGAeqB'C'A'",
           @readable.by(
             @readable.fol,
@@ -18702,7 +18696,7 @@ fn step_393() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear B C A  /\\  ~Collinear B' C' A'",
+          "!Collinear(B, C, A) && !Collinear(B', C', A')",
           "BCAncol",
           @readable.by(
             @readable.fol,
@@ -18713,7 +18707,7 @@ fn step_393() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B' C' A' === angle B C A  /\\   angle B C A === angle B C A",
+          "op_eq_eq_eq(angle(B', C', A'), angle(B, C, A)) && op_eq_eq_eq(angle(B, C, A), angle(B, C, A))",
           "BCArefl",
           @readable.by(
             @readable.fol,
@@ -18727,7 +18721,7 @@ fn step_393() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B G A === angle B C A",
+          "op_eq_eq_eq(angle(B, G, A), angle(B, C, A))",
           "BGAeqBCA",
           @readable.by(
             @readable.fol,
@@ -18742,7 +18736,7 @@ fn step_393() -> Unit raise {
           ),
         ),
         @readable.assuming(
-          "~(G = C)",
+          "!(G == C)",
           "notGC",
           @readable.by(
             @readable.fol,
@@ -18750,7 +18744,7 @@ fn step_393() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A C G /\\  ~Collinear A G C",
+          "!Collinear(A, C, G) && !Collinear(A, G, C)",
           "ACGncol",
           @readable.by(
             @readable.fol,
@@ -18767,7 +18761,7 @@ fn step_393() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C IN Open (B, G) \\/ G IN Open (C, B)",
+          "IN(C, Open((B, G))) || IN(G, Open((C, B)))",
           "",
           @readable.by(
             @readable.fol,
@@ -18784,13 +18778,13 @@ fn step_393() -> Unit raise {
       @readable.case_split(
         "BCG |  CGB",
         @readable.by(@readable.fol, [@readable.Prev]),
-        @list.List(["C IN Open (B, G) ", "G IN Open (C, B)"]),
+        @list.List(["IN(C, Open((B, G)))", "IN(G, Open((C, B)))"]),
         @list.List(
           [
             @readable.steps(
               [
                 @readable.have(
-                  "\n      C IN Open (G, B)  /\\  ray G C = ray G B",
+                  "IN(C, Open((G, B))) && ray(G, C) == ray(G, B)",
                   "rGCrBG",
                   @readable.by(
                     @readable.fol,
@@ -18802,7 +18796,7 @@ fn step_393() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle A G C <_ang angle A C B",
+                  "op_lt_us_ang(angle(A, G, C), angle(A, C, B))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -18814,7 +18808,7 @@ fn step_393() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle B G A <_ang angle B C A",
+                  "op_lt_us_ang(angle(B, G, A), angle(B, C, A))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -18844,7 +18838,7 @@ fn step_393() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      ray C G = ray C B  /\\   angle A C G <_ang angle A G B",
+                  "ray(C, G) == ray(C, B) && op_lt_us_ang(angle(A, C, G), angle(A, G, B))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -18857,7 +18851,7 @@ fn step_393() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle A C B <_ang angle B G A",
+                  "op_lt_us_ang(angle(A, C, B), angle(B, G, A))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -18869,7 +18863,7 @@ fn step_393() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      angle B C A <_ang angle B C A",
+                  "op_lt_us_ang(angle(B, C, A), angle(B, C, A))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -18913,7 +18907,7 @@ pub fn aas() -> @kernel.Thm {
 /// ParallelSymmetry
 fn step_394() -> Unit raise {
   parallelsymmetry_c.set(@readable.prove(
-    "\n  forall l k. l parallel k  ==>  k parallel l",
+    "∀ l : (Point) -> Bool, ∀ k : (Point) -> Bool, parallel(l, k) → parallel(k, l)",
     @readable.by(
       @readable.fol,
       [
@@ -18937,14 +18931,14 @@ pub fn parallelsymmetry() -> @kernel.Thm {
 /// AlternateInteriorAngles
 fn step_396() -> Unit raise {
   alternateinteriorangles_c.set(@readable.prove(
-    "\n  forall A B C E l m t.  Line l /\\  A IN l /\\  E IN l  ==>\n    Line m /\\  B IN m /\\  C IN m  ==>  Line t /\\  A IN t /\\  B IN t  ==>\n    ~(A = E) /\\  ~(B = C) /\\  ~(A = B) /\\  E NOTIN t /\\  C NOTIN t  ==>\n    ~(C,E same_side t)  ==>  angle E A B === angle C B A\n    ==>  l parallel m",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ E : Point, ∀ l : (Point) -> Bool, ∀ m : (Point) -> Bool, ∀ t : (Point) -> Bool, Line(l) && IN(A, l) && IN(E, l) → Line(m) && IN(B, m) && IN(C, m) → Line(t) && IN(A, t) && IN(B, t) → !(A == E) && !(B == C) && !(A == B) && NOTIN(E, t) && NOTIN(C, t) → !same_side((C, E), t) → op_eq_eq_eq(angle(E, A, B), angle(C, B, A)) → parallel(l, m)",
     @readable.steps(
       [
         @readable.intro_tac(
           "forall A B C E l m t, l_line, m_line, t_line, Distinct, Cnsim_tE, AltIntAngCong",
         ),
         @readable.have(
-          "\n    ~Collinear E A B /\\  ~Collinear C B A",
+          "!Collinear(E, A, B) && !Collinear(C, B, A)",
           "EABncol",
           @readable.by(
             @readable.fol,
@@ -18957,7 +18951,7 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B NOTIN l /\\  A NOTIN m",
+          "NOTIN(B, l) && NOTIN(A, m)",
           "notAmBl",
           @readable.by(
             @readable.fol,
@@ -18970,9 +18964,9 @@ fn step_396() -> Unit raise {
             ],
           ),
         ),
-        @readable.assuming("~(l parallel m)", "Con", @readable.by(@readable.fol, [])),
+        @readable.assuming("!parallel(l, m)", "Con", @readable.by(@readable.fol, [])),
         @readable.have(
-          "\n    ~(l INTER m = {})",
+          "!(INTER(l, m) == {})",
           "",
           @readable.by(
             @readable.fol,
@@ -18986,7 +18980,7 @@ fn step_396() -> Unit raise {
         ),
         @readable.consider(
           "G",
-          "G IN l /\\  G IN m    ",
+          "∃ G : Point, IN(G, l) && IN(G, m)",
           "Glm",
           @readable.by(
             @readable.fol,
@@ -18998,7 +18992,7 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(G = A) /\\  ~(G = B) /\\  Collinear B G C /\\  Collinear B C G /\\  Collinear A E G /\\  Collinear A G E",
+          "!(G == A) && !(G == B) && Collinear(B, G, C) && Collinear(B, C, G) && Collinear(A, E, G) && Collinear(A, G, E)",
           "GnotAB",
           @readable.by(
             @readable.fol,
@@ -19013,7 +19007,7 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A G B /\\  ~Collinear B G A /\\  G NOTIN t",
+          "!Collinear(A, G, B) && !Collinear(B, G, A) && NOTIN(G, t)",
           "AGBncol",
           @readable.by(
             @readable.fol,
@@ -19032,7 +19026,7 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(E,C same_side t)",
+          "!same_side((E, C), t)",
           "Ensim_tC",
           @readable.by(
             @readable.fol,
@@ -19046,7 +19040,7 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    E IN l DIFF {A}  /\\   G IN l DIFF {A}",
+          "IN(E, DIFF(l, {A})) && IN(G, DIFF(l, {A}))",
           "",
           @readable.by(
             @readable.fol,
@@ -19061,17 +19055,17 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(G,E same_side t)",
+          "!same_side((G, E), t)",
           "",
           @readable.steps(
             [
               @readable.assuming(
-                "G,E same_side t",
+                "same_side((G, E), t)",
                 "Gsim_tE",
                 @readable.by(@readable.fol, []),
               ),
               @readable.have(
-                "\n      A NOTIN Open (G, E)",
+                "NOTIN(A, Open((G, E)))",
                 "notGAE",
                 @readable.by(
                   @readable.fol,
@@ -19084,7 +19078,7 @@ fn step_396() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      G IN ray A E DIFF {A}",
+                "IN(G, DIFF(ray(A, E), {A}))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -19100,7 +19094,7 @@ fn step_396() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ray A G = ray A E",
+                "ray(A, G) == ray(A, E)",
                 "rAGrAE",
                 @readable.by(
                   @readable.fol,
@@ -19112,7 +19106,7 @@ fn step_396() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ~(C,G same_side t)",
+                "!same_side((C, G), t)",
                 "Cnsim_tG",
                 @readable.by(
                   @readable.fol,
@@ -19127,7 +19121,7 @@ fn step_396() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      C NOTIN ray B G",
+                "NOTIN(C, ray(B, G))",
                 "notCrBG",
                 @readable.by(
                   @readable.fol,
@@ -19146,7 +19140,7 @@ fn step_396() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      B IN Open (C, G)",
+                "IN(B, Open((C, G)))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -19159,7 +19153,7 @@ fn step_396() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle G A B <_ang angle C B A",
+                "op_lt_us_ang(angle(G, A, B), angle(C, B, A))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -19176,7 +19170,7 @@ fn step_396() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle E A B <_ang angle C B A",
+                "op_lt_us_ang(angle(E, A, B), angle(C, B, A))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -19201,7 +19195,7 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G,C same_side t",
+          "same_side((G, C), t)",
           "Gsim_tC",
           @readable.by(
             @readable.fol,
@@ -19216,7 +19210,7 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B NOTIN Open (G, C)",
+          "NOTIN(B, Open((G, C)))",
           "notGBC",
           @readable.by(
             @readable.fol,
@@ -19229,7 +19223,7 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G IN ray B C DIFF {B}",
+          "IN(G, DIFF(ray(B, C), {B}))",
           "",
           @readable.by(
             @readable.fol,
@@ -19245,7 +19239,7 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray B G = ray B C",
+          "ray(B, G) == ray(B, C)",
           "rBGrBC",
           @readable.by(
             @readable.fol,
@@ -19257,7 +19251,7 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C B A === angle E A B",
+          "op_eq_eq_eq(angle(C, B, A), angle(E, A, B))",
           "flipAltIntAngCong",
           @readable.by(
             @readable.fol,
@@ -19270,7 +19264,7 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(E,G same_side t)",
+          "!same_side((E, G), t)",
           "Ensim_tG",
           @readable.by(
             @readable.fol,
@@ -19285,7 +19279,7 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    E NOTIN ray A G",
+          "NOTIN(E, ray(A, G))",
           "notErAG",
           @readable.by(
             @readable.fol,
@@ -19304,7 +19298,7 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A IN Open (E, G)",
+          "IN(A, Open((E, G)))",
           "",
           @readable.by(
             @readable.fol,
@@ -19317,7 +19311,7 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle G B A <_ang angle E A B",
+          "op_lt_us_ang(angle(G, B, A), angle(E, A, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -19331,7 +19325,7 @@ fn step_396() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C B A <_ang angle E A B",
+          "op_lt_us_ang(angle(C, B, A), angle(E, A, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -19370,14 +19364,14 @@ pub fn alternateinteriorangles() -> @kernel.Thm {
 /// EuclidPropositionI_28
 fn step_397() -> Unit raise {
   euclidpropositioni_28_c.set(@readable.prove(
-    "\n  forall A B C D E F G H l m t.  Line l /\\  A IN l /\\  B IN l /\\  G IN l  ==>\n    Line m /\\  C IN m /\\  D IN m /\\  H IN m  ==>\n    Line t /\\  G IN t /\\  H IN t  ==>\n    G NOTIN m /\\  H NOTIN l  ==>\n    G IN Open (A, B)  /\\  H IN Open (C, D)  ==>\n    G IN Open (E, H)  /\\   H IN Open (F, G)  ==>\n    ~(D,A same_side t)  ==>\n    angle E G B === angle G H D  \\/  angle B G H suppl angle G H D\n    ==>  l parallel m",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, ∀ E : Point, ∀ F : Point, ∀ G : Point, ∀ H : Point, ∀ l : (Point) -> Bool, ∀ m : (Point) -> Bool, ∀ t : (Point) -> Bool, Line(l) && IN(A, l) && IN(B, l) && IN(G, l) → Line(m) && IN(C, m) && IN(D, m) && IN(H, m) → Line(t) && IN(G, t) && IN(H, t) → NOTIN(G, m) && NOTIN(H, l) → IN(G, Open((A, B))) && IN(H, Open((C, D))) → IN(G, Open((E, H))) && IN(H, Open((F, G))) → !same_side((D, A), t) → op_eq_eq_eq(angle(E, G, B), angle(G, H, D)) || suppl(angle(B, G, H), angle(G, H, D)) → parallel(l, m)",
     @readable.steps(
       [
         @readable.intro_tac(
           "forall A B C D E F G H l m t, l_line, m_line, t_line, notGmHl, H1, H2, H3, H4",
         ),
         @readable.have(
-          "\n    ~(A = G) /\\  ~(G = B) /\\  ~(H = D) /\\  ~(E = G) /\\  ~(G = H) /\\  Collinear A G B /\\  Collinear E G H",
+          "!(A == G) && !(G == B) && !(H == D) && !(E == G) && !(G == H) && Collinear(A, G, B) && Collinear(E, G, H)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -19389,7 +19383,7 @@ fn step_397() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear H G A /\\  ~Collinear G H D /\\  A NOTIN t /\\  D NOTIN t",
+          "!Collinear(H, G, A) && !Collinear(G, H, D) && NOTIN(A, t) && NOTIN(D, t)",
           "HGAncol",
           @readable.by(
             @readable.fol,
@@ -19407,7 +19401,7 @@ fn step_397() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear B G H /\\  ~Collinear A G E /\\  ~Collinear E G B",
+          "!Collinear(B, G, H) && !Collinear(A, G, E) && !Collinear(E, G, B)",
           "BGHncol",
           @readable.by(
             @readable.fol,
@@ -19423,18 +19417,18 @@ fn step_397() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle A G H === angle D H G",
+          "op_eq_eq_eq(angle(A, G, H), angle(D, H, G))",
           "",
           @readable.case_split(
             "EGBeqGHD | BGHeqGHD    ",
             @readable.by(@readable.fol, [@readable.Label("H4")]),
-            @list.List(["angle E G B === angle G H D", "angle B G H suppl angle G H D"]),
+            @list.List(["op_eq_eq_eq(angle(E, G, B), angle(G, H, D))", "suppl(angle(B, G, H), angle(G, H, D))"]),
             @list.List(
               [
                 @readable.steps(
                   [
                     @readable.have(
-                      "\n        angle E G B === angle H G A  /\\ \n        Angle (angle E G B)  /\\   Angle (angle H G A)  /\\   Angle (angle G H D)",
+                      "op_eq_eq_eq(angle(E, G, B), angle(H, G, A)) && Angle(angle(E, G, B)) && Angle(angle(H, G, A)) && Angle(angle(G, H, D))",
                       "boo",
                       @readable.by(
                         @readable.fol,
@@ -19452,7 +19446,7 @@ fn step_397() -> Unit raise {
                       ),
                     ),
                     @readable.have(
-                      "\n        angle H G A === angle E G B",
+                      "op_eq_eq_eq(angle(H, G, A), angle(E, G, B))",
                       "",
                       @readable.by(
                         @readable.fol,
@@ -19463,7 +19457,7 @@ fn step_397() -> Unit raise {
                       ),
                     ),
                     @readable.have(
-                      "\n        angle H G A === angle G H D",
+                      "op_eq_eq_eq(angle(H, G, A), angle(G, H, D))",
                       "",
                       @readable.by(
                         @readable.fol,
@@ -19487,7 +19481,7 @@ fn step_397() -> Unit raise {
                 @readable.steps(
                   [
                     @readable.have(
-                      "\n        angle B G H suppl angle H G A",
+                      "suppl(angle(B, G, H), angle(H, G, A))",
                       "",
                       @readable.by(
                         @readable.fol,
@@ -19549,12 +19543,12 @@ pub fn euclidpropositioni_28() -> @kernel.Thm {
 /// OppositeSidesCongImpliesParallelogram
 fn step_399() -> Unit raise {
   oppositesidescongimpliesparallelogram_c.set(@readable.prove(
-    "\n  forall A B C D.  Quadrilateral A B C D  ==>\n    seg A B === seg C D  /\\   seg B C === seg D A\n    ==>  Parallelogram A B C D",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, Quadrilateral(A, B, C, D) → op_eq_eq_eq(seg(A, B), seg(C, D)) && op_eq_eq_eq(seg(B, C), seg(D, A)) → Parallelogram(A, B, C, D)",
     @readable.steps_then(
       [
         @readable.intro_tac("forall A B C D, H1, H2"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C) /\\  ~(A = D) /\\  ~(B = C) /\\  ~(B = D) /\\  ~(C = D) /\\ \n    ~Collinear A B C /\\  ~Collinear B C D /\\  ~Collinear C D A /\\  ~Collinear D A B",
+          "!(A == B) && !(A == C) && !(A == D) && !(B == C) && !(B == D) && !(C == D) && !Collinear(A, B, C) && !Collinear(B, C, D) && !Collinear(C, D, A) && !Collinear(D, A, B)",
           "TetraABCD",
           @readable.by(
             @readable.fol,
@@ -19567,7 +19561,7 @@ fn step_399() -> Unit raise {
         ),
         @readable.consider(
           "a c",
-          "Line a /\\  A IN a /\\  B IN a   /\\ \n    Line c /\\  C IN c /\\  D IN c    ",
+          "∃ a : (Point) -> Bool, ∃ c : (Point) -> Bool, Line(a) && IN(A, a) && IN(B, a) && Line(c) && IN(C, c) && IN(D, c)",
           "ac_line",
           @readable.by(
             @readable.fol,
@@ -19576,7 +19570,7 @@ fn step_399() -> Unit raise {
         ),
         @readable.consider(
           "b d",
-          "Line b /\\  B IN b /\\  C IN b   /\\ \n    Line d /\\  D IN d /\\  A IN d    ",
+          "∃ b : (Point) -> Bool, ∃ d : (Point) -> Bool, Line(b) && IN(B, b) && IN(C, b) && Line(d) && IN(D, d) && IN(A, d)",
           "bd_line",
           @readable.by(
             @readable.fol,
@@ -19585,7 +19579,7 @@ fn step_399() -> Unit raise {
         ),
         @readable.consider(
           "l",
-          "Line l /\\  A IN l /\\  C IN l    ",
+          "∃ l : (Point) -> Bool, Line(l) && IN(A, l) && IN(C, l)",
           "l_line",
           @readable.by(
             @readable.fol,
@@ -19594,7 +19588,7 @@ fn step_399() -> Unit raise {
         ),
         @readable.consider(
           "m",
-          "Line m /\\  B IN m /\\  D IN m    ",
+          "∃ m : (Point) -> Bool, Line(m) && IN(B, m) && IN(D, m)",
           "m_line",
           @readable.by(
             @readable.fol,
@@ -19602,7 +19596,7 @@ fn step_399() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B NOTIN l /\\  D NOTIN l /\\  A NOTIN m  /\\  C NOTIN m",
+          "NOTIN(B, l) && NOTIN(D, l) && NOTIN(A, m) && NOTIN(C, m)",
           "notBDlACm",
           @readable.by(
             @readable.fol,
@@ -19616,7 +19610,7 @@ fn step_399() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg A C === seg C A  /\\   seg B D === seg D B",
+          "op_eq_eq_eq(seg(A, C), seg(C, A)) && op_eq_eq_eq(seg(B, D), seg(D, B))",
           "seg_refl",
           @readable.by(
             @readable.fol,
@@ -19629,7 +19623,7 @@ fn step_399() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A,B,C cong C,D,A",
+          "cong((A, B, C), (C, D, A))",
           "",
           @readable.by(
             @readable.fol,
@@ -19642,7 +19636,7 @@ fn step_399() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B C A === angle D A C  /\\   angle C A B === angle A C D",
+          "op_eq_eq_eq(angle(B, C, A), angle(D, A, C)) && op_eq_eq_eq(angle(C, A, B), angle(A, C, D))",
           "BCAeqDAC",
           @readable.by(
             @readable.fol,
@@ -19653,7 +19647,7 @@ fn step_399() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    seg C D === seg A B",
+          "op_eq_eq_eq(seg(C, D), seg(A, B))",
           "CDeqAB",
           @readable.by(
             @readable.fol,
@@ -19666,7 +19660,7 @@ fn step_399() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B,C,D cong D,A,B",
+          "cong((B, C, D), (D, A, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -19680,7 +19674,7 @@ fn step_399() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C D B === angle A B D  /\\   angle D B C === angle B D A  /\\   angle C B D === angle A D B",
+          "op_eq_eq_eq(angle(C, D, B), angle(A, B, D)) && op_eq_eq_eq(angle(D, B, C), angle(B, D, A)) && op_eq_eq_eq(angle(C, B, D), angle(A, D, B))",
           "CDBeqABD",
           @readable.by(
             @readable.fol,
@@ -19692,7 +19686,7 @@ fn step_399() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(B,D same_side l)  \\/  ~(A,C same_side m)",
+          "!same_side((B, D), l) || !same_side((A, C), m)",
           "",
           @readable.by(
             @readable.fol,
@@ -19711,13 +19705,13 @@ fn step_399() -> Unit raise {
       @readable.case_split(
         "Case1 | Ansim_mC    ",
         @readable.by(@readable.fol, [@readable.Prev]),
-        @list.List(["~(B,D same_side l)", "~(A,C same_side m)"]),
+        @list.List(["!same_side((B, D), l)", "!same_side((A, C), m)"]),
         @list.List(
           [
             @readable.steps(
               [
                 @readable.have(
-                  "\n      ~(D,B same_side l)",
+                  "!same_side((D, B), l)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -19730,7 +19724,7 @@ fn step_399() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      a parallel c  /\\   b parallel d",
+                  "parallel(a, c) && parallel(b, d)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -19766,7 +19760,7 @@ fn step_399() -> Unit raise {
             @readable.steps(
               [
                 @readable.have(
-                  "\n      b parallel d",
+                  "parallel(b, d)",
                   "bparalleld",
                   @readable.by(
                     @readable.fol,
@@ -19785,7 +19779,7 @@ fn step_399() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      c parallel a",
+                  "parallel(c, a)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -19837,12 +19831,12 @@ pub fn oppositesidescongimpliesparallelogram() -> @kernel.Thm {
 /// OppositeAnglesCongImpliesParallelogramHelp
 fn step_403() -> Unit raise {
   oppositeanglescongimpliesparallelogramhelp_c.set(@readable.prove(
-    "\n  forall A B C D a c.  Quadrilateral A B C D  ==>\n    angle A B C === angle C D A  /\\   angle D A B === angle B C D  ==>\n    Line a /\\  A IN a /\\  B IN a  ==>  Line c  /\\  C IN c /\\  D IN c\n    ==>  a parallel c",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, ∀ a : (Point) -> Bool, ∀ c : (Point) -> Bool, Quadrilateral(A, B, C, D) → op_eq_eq_eq(angle(A, B, C), angle(C, D, A)) && op_eq_eq_eq(angle(D, A, B), angle(B, C, D)) → Line(a) && IN(A, a) && IN(B, a) → Line(c) && IN(C, c) && IN(D, c) → parallel(a, c)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D a c, H1, H2, a_line, c_line"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C) /\\  ~(A = D) /\\  ~(B = C) /\\  ~(B = D) /\\  ~(C = D) /\\ \n    ~Collinear A B C /\\  ~Collinear B C D /\\  ~Collinear C D A /\\  ~Collinear D A B",
+          "!(A == B) && !(A == C) && !(A == D) && !(B == C) && !(B == D) && !(C == D) && !Collinear(A, B, C) && !Collinear(B, C, D) && !Collinear(C, D, A) && !Collinear(D, A, B)",
           "TetraABCD",
           @readable.by(
             @readable.fol,
@@ -19854,7 +19848,7 @@ fn step_403() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle C D A === angle A B C  /\\   angle B C D === angle D A B",
+          "op_eq_eq_eq(angle(C, D, A), angle(A, B, C)) && op_eq_eq_eq(angle(B, C, D), angle(D, A, B))",
           "H2'",
           @readable.by(
             @readable.fol,
@@ -19868,7 +19862,7 @@ fn step_403() -> Unit raise {
         ),
         @readable.consider(
           "l m",
-          "Line l /\\  A IN l /\\  C IN l  /\\ \n    Line m /\\  B IN m /\\  D IN m    ",
+          "∃ l : (Point) -> Bool, ∃ m : (Point) -> Bool, Line(l) && IN(A, l) && IN(C, l) && Line(m) && IN(B, m) && IN(D, m)",
           "lm_line",
           @readable.by(
             @readable.fol,
@@ -19877,7 +19871,7 @@ fn step_403() -> Unit raise {
         ),
         @readable.consider(
           "b d",
-          "Line b /\\  B IN b /\\  C IN b   /\\   Line d /\\  D IN d /\\  A IN d    ",
+          "∃ b : (Point) -> Bool, ∃ d : (Point) -> Bool, Line(b) && IN(B, b) && IN(C, b) && Line(d) && IN(D, d) && IN(A, d)",
           "bd_line",
           @readable.by(
             @readable.fol,
@@ -19885,7 +19879,7 @@ fn step_403() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A NOTIN c /\\  B NOTIN c /\\  A NOTIN b /\\  D NOTIN b /\\  B NOTIN d /\\  C NOTIN d",
+          "NOTIN(A, c) && NOTIN(B, c) && NOTIN(A, b) && NOTIN(D, b) && NOTIN(B, d) && NOTIN(C, d)",
           "point_off_line",
           @readable.by(
             @readable.fol,
@@ -19899,17 +19893,17 @@ fn step_403() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A IN int_triangle B C D  \\/  B IN int_triangle C D A  \\/\n    C IN int_triangle D A B  \\/  D IN int_triangle A B C)",
+          "!(IN(A, int_triangle(B, C, D)) || IN(B, int_triangle(C, D, A)) || IN(C, int_triangle(D, A, B)) || IN(D, int_triangle(A, B, C)))",
           "",
           @readable.steps(
             [
               @readable.assuming(
-                "A IN int_triangle B C D  \\/  B IN int_triangle C D A  \\/\n      C IN int_triangle D A B  \\/  D IN int_triangle A B C",
+                "IN(A, int_triangle(B, C, D)) || IN(B, int_triangle(C, D, A)) || IN(C, int_triangle(D, A, B)) || IN(D, int_triangle(A, B, C))",
                 "Con",
                 @readable.by(@readable.fol, []),
               ),
               @readable.have(
-                "\n      angle B C D <_ang angle D A B  \\/  angle C D A <_ang angle A B C  \\/\n      angle D A B <_ang angle B C D  \\/  angle A B C <_ang angle C D A",
+                "op_lt_us_ang(angle(B, C, D), angle(D, A, B)) || op_lt_us_ang(angle(C, D, A), angle(A, B, C)) || op_lt_us_ang(angle(D, A, B), angle(B, C, D)) || op_lt_us_ang(angle(A, B, C), angle(C, D, A))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -19936,7 +19930,7 @@ fn step_403() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ConvexQuadrilateral A B C D",
+          "ConvexQuadrilateral(A, B, C, D)",
           "",
           @readable.by(
             @readable.fol,
@@ -19952,7 +19946,7 @@ fn step_403() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A IN int_angle B C D  /\\   B IN int_angle C D A  /\\ \n    C IN int_angle D A B  /\\   D IN int_angle A B C",
+          "IN(A, int_angle(B, C, D)) && IN(B, int_angle(C, D, A)) && IN(C, int_angle(D, A, B)) && IN(D, int_angle(A, B, C))",
           "AintBCD",
           @readable.by(
             @readable.fol,
@@ -19960,7 +19954,7 @@ fn step_403() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B,A same_side c  /\\   B,C same_side d",
+          "same_side((B, A), c) && same_side((B, C), d)",
           "Bsim_cA",
           @readable.by(
             @readable.fol,
@@ -19973,7 +19967,7 @@ fn step_403() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A,D same_side b",
+          "same_side((A, D), b)",
           "Asim_bD",
           @readable.by(
             @readable.fol,
@@ -19985,10 +19979,10 @@ fn step_403() -> Unit raise {
             ],
           ),
         ),
-        @readable.assuming("~(a parallel c)", "Con", @readable.by(@readable.fol, [])),
+        @readable.assuming("!parallel(a, c)", "Con", @readable.by(@readable.fol, [])),
         @readable.consider(
           "G",
-          "G IN a /\\  G IN c    ",
+          "∃ G : Point, IN(G, a) && IN(G, c)",
           "Gac",
           @readable.by(
             @readable.fol,
@@ -20003,7 +19997,7 @@ fn step_403() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Collinear A B G /\\  Collinear D G C /\\  Collinear C G D",
+          "Collinear(A, B, G) && Collinear(D, G, C) && Collinear(C, G, D)",
           "ABGcol",
           @readable.by(
             @readable.fol,
@@ -20016,7 +20010,7 @@ fn step_403() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(G = A) /\\  ~(G = B) /\\  ~(G = C) /\\  ~(G = D)",
+          "!(G == A) && !(G == B) && !(G == C) && !(G == D)",
           "GnotABCD",
           @readable.by(
             @readable.fol,
@@ -20030,7 +20024,7 @@ fn step_403() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear B G C /\\  ~Collinear A D G",
+          "!Collinear(B, G, C) && !Collinear(A, D, G)",
           "BGCncol",
           @readable.by(
             @readable.fol,
@@ -20045,7 +20039,7 @@ fn step_403() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear B C G /\\  ~Collinear G B C /\\  ~Collinear G A D /\\  ~Collinear A G D",
+          "!Collinear(B, C, G) && !Collinear(G, B, C) && !Collinear(G, A, D) && !Collinear(A, G, D)",
           "BCGncol",
           @readable.by(
             @readable.fol,
@@ -20056,7 +20050,7 @@ fn step_403() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G NOTIN b /\\  G NOTIN d",
+          "NOTIN(G, b) && NOTIN(G, d)",
           "notGb",
           @readable.by(
             @readable.fol,
@@ -20069,7 +20063,7 @@ fn step_403() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    G NOTIN Open (B, A)",
+          "NOTIN(G, Open((B, A)))",
           "notBGA",
           @readable.by(
             @readable.fol,
@@ -20082,17 +20076,17 @@ fn step_403() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B NOTIN Open (A, G)",
+          "NOTIN(B, Open((A, G)))",
           "notABG",
           @readable.steps(
             [
               @readable.assuming(
-                "~(B NOTIN Open (A, G))",
+                "!NOTIN(B, Open((A, G)))",
                 "Con",
                 @readable.by(@readable.fol, []),
               ),
               @readable.have(
-                "\n      B IN Open (A, G)",
+                "IN(B, Open((A, G)))",
                 "ABG",
                 @readable.by(
                   @readable.fol,
@@ -20100,7 +20094,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ray A B = ray A G",
+                "ray(A, B) == ray(A, G)",
                 "rABrAG",
                 @readable.by(
                   @readable.fol,
@@ -20108,7 +20102,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ~(A,G same_side b)",
+                "!same_side((A, G), b)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -20120,7 +20114,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ~(D,G same_side b)",
+                "!same_side((D, G), b)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -20135,7 +20129,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      D NOTIN ray C G",
+                "NOTIN(D, ray(C, G))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -20152,7 +20146,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      C IN Open (D, G)",
+                "IN(C, Open((D, G)))",
                 "DCG",
                 @readable.by(
                   @readable.fol,
@@ -20167,7 +20161,7 @@ fn step_403() -> Unit raise {
               ),
               @readable.consider(
                 "M",
-                "D IN Open (C, M)    ",
+                "∃ M : Point, IN(D, Open((C, M)))",
                 "CDM",
                 @readable.by(
                   @readable.fol,
@@ -20175,7 +20169,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      D IN Open (G, M)",
+                "IN(D, Open((G, M)))",
                 "GDM",
                 @readable.by(
                   @readable.fol,
@@ -20191,7 +20185,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle C D A suppl angle A D M  /\\   angle A B C suppl angle C B G",
+                "suppl(angle(C, D, A), angle(A, D, M)) && suppl(angle(A, B, C), angle(C, B, G))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -20207,7 +20201,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle M D A === angle G B C",
+                "op_eq_eq_eq(angle(M, D, A), angle(G, B, C))",
                 "MDAeqGBC",
                 @readable.by(
                   @readable.fol,
@@ -20223,7 +20217,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle G A D <_ang angle M D A  /\\   angle G B C <_ang angle D C B",
+                "op_lt_us_ang(angle(G, A, D), angle(M, D, A)) && op_lt_us_ang(angle(G, B, C), angle(D, C, B))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -20241,7 +20235,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle G A D <_ang angle D C B",
+                "op_lt_us_ang(angle(G, A, D), angle(D, C, B))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -20259,7 +20253,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle D A B <_ang angle B C D",
+                "op_lt_us_ang(angle(D, A, B), angle(B, C, D))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -20283,17 +20277,17 @@ fn step_403() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A NOTIN Open (G, B)",
+          "NOTIN(A, Open((G, B)))",
           "",
           @readable.steps(
             [
               @readable.assuming(
-                "~(A NOTIN Open (G, B))",
+                "!NOTIN(A, Open((G, B)))",
                 "Con",
                 @readable.by(@readable.fol, []),
               ),
               @readable.have(
-                "\n      A IN Open (B, G)",
+                "IN(A, Open((B, G)))",
                 "BAG",
                 @readable.by(
                   @readable.fol,
@@ -20305,7 +20299,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ray B A = ray B G",
+                "ray(B, A) == ray(B, G)",
                 "rBArBG",
                 @readable.by(
                   @readable.fol,
@@ -20313,7 +20307,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ~(B,G same_side d)",
+                "!same_side((B, G), d)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -20325,7 +20319,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      ~(C,G same_side d)",
+                "!same_side((C, G), d)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -20340,7 +20334,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      C NOTIN ray D G",
+                "NOTIN(C, ray(D, G))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -20357,7 +20351,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      D IN Open (C, G)",
+                "IN(D, Open((C, G)))",
                 "CDG",
                 @readable.by(
                   @readable.fol,
@@ -20372,7 +20366,7 @@ fn step_403() -> Unit raise {
               ),
               @readable.consider(
                 "M",
-                "C IN Open (D, M)    ",
+                "∃ M : Point, IN(C, Open((D, M)))",
                 "DCM",
                 @readable.by(
                   @readable.fol,
@@ -20380,7 +20374,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      C IN Open (G, M)",
+                "IN(C, Open((G, M)))",
                 "GCM",
                 @readable.by(
                   @readable.fol,
@@ -20396,7 +20390,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle B C D suppl angle M C B  /\\   angle D A B suppl angle G A D",
+                "suppl(angle(B, C, D), angle(M, C, B)) && suppl(angle(D, A, B), angle(G, A, D))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -20414,7 +20408,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle M C B === angle G A D",
+                "op_eq_eq_eq(angle(M, C, B), angle(G, A, D))",
                 "GADeqMCB",
                 @readable.by(
                   @readable.fol,
@@ -20429,7 +20423,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle G B C <_ang angle M C B  /\\   angle G A D <_ang angle C D A",
+                "op_lt_us_ang(angle(G, B, C), angle(M, C, B)) && op_lt_us_ang(angle(G, A, D), angle(C, D, A))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -20447,7 +20441,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle G B C <_ang angle C D A",
+                "op_lt_us_ang(angle(G, B, C), angle(C, D, A))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -20465,7 +20459,7 @@ fn step_403() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      angle A B C <_ang angle C D A",
+                "op_lt_us_ang(angle(A, B, C), angle(C, D, A))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -20518,12 +20512,12 @@ pub fn oppositeanglescongimpliesparallelogramhelp() -> @kernel.Thm {
 /// OppositeAnglesCongImpliesParallelogram
 fn step_405() -> Unit raise {
   oppositeanglescongimpliesparallelogram_c.set(@readable.prove(
-    "\n  forall A B C D. Quadrilateral A B C D  ==>\n    angle A B C === angle C D A  /\\   angle D A B === angle B C D\n    ==>  Parallelogram A B C D",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ D : Point, Quadrilateral(A, B, C, D) → op_eq_eq_eq(angle(A, B, C), angle(C, D, A)) && op_eq_eq_eq(angle(D, A, B), angle(B, C, D)) → Parallelogram(A, B, C, D)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C D, H1, H2"),
         @readable.have(
-          "\n    Quadrilateral B C D A",
+          "Quadrilateral(B, C, D, A)",
           "QuadBCDA",
           @readable.by(
             @readable.fol,
@@ -20534,7 +20528,7 @@ fn step_405() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(B = C) /\\  ~(C = D) /\\  ~(D = A) /\\  ~Collinear B C D /\\  ~Collinear D A B",
+          "!(A == B) && !(B == C) && !(C == D) && !(D == A) && !Collinear(B, C, D) && !Collinear(D, A, B)",
           "TetraABCD",
           @readable.by(
             @readable.fol,
@@ -20546,7 +20540,7 @@ fn step_405() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle B C D === angle D A B",
+          "op_eq_eq_eq(angle(B, C, D), angle(D, A, B))",
           "H2'",
           @readable.by(
             @readable.fol,
@@ -20560,7 +20554,7 @@ fn step_405() -> Unit raise {
         ),
         @readable.consider(
           "a",
-          "Line a /\\  A IN a /\\  B IN a    ",
+          "∃ a : (Point) -> Bool, Line(a) && IN(A, a) && IN(B, a)",
           "a_line",
           @readable.by(
             @readable.fol,
@@ -20569,7 +20563,7 @@ fn step_405() -> Unit raise {
         ),
         @readable.consider(
           "b",
-          "Line b /\\  B IN b /\\  C IN b    ",
+          "∃ b : (Point) -> Bool, Line(b) && IN(B, b) && IN(C, b)",
           "b_line",
           @readable.by(
             @readable.fol,
@@ -20578,7 +20572,7 @@ fn step_405() -> Unit raise {
         ),
         @readable.consider(
           "c",
-          "Line c  /\\  C IN c /\\  D IN c    ",
+          "∃ c : (Point) -> Bool, Line(c) && IN(C, c) && IN(D, c)",
           "c_line",
           @readable.by(
             @readable.fol,
@@ -20587,7 +20581,7 @@ fn step_405() -> Unit raise {
         ),
         @readable.consider(
           "d",
-          "Line d /\\  D IN d /\\  A IN d    ",
+          "∃ d : (Point) -> Bool, Line(d) && IN(D, d) && IN(A, d)",
           "d_line",
           @readable.by(
             @readable.fol,
@@ -20629,7 +20623,7 @@ pub fn oppositeanglescongimpliesparallelogram() -> @kernel.Thm {
 ///|
 /// P
 fn step_407() -> Unit raise {
-  p_c.set(@readable.newaxiom(@readable.parse_qproof(";∀P l. Line l ∧ P ∉ l  ⇒ ∃! m. Line m ∧ P ∈ m ∧ m ∥ l")))
+  p_c.set(@readable.newaxiom("∀ P : Point, ∀ l : (Point) -> Bool, Line(l) && NOTIN(P, l) → existsunique((m : (Point) -> Bool) => Line(m) && IN(P, m) && parallel(m, l))"))
 }
 
 ///|
@@ -20650,7 +20644,7 @@ fn step_408() -> Unit raise {
 ///|
 /// AMa
 fn step_409() -> Unit raise {
-  ama_c.set(@readable.newaxiom(@readable.parse_qproof(";∀α. Angle α  ⇒  &0 < μ α ∧ μ α < &180")))
+  ama_c.set(@readable.newaxiom("∀ alpha : (Point) -> Bool, Angle(alpha) → real_of_num(0) < mu(alpha) && mu(alpha) < real_of_num(180)"))
 }
 
 ///|
@@ -20665,7 +20659,7 @@ pub fn ama() -> @kernel.Thm {
 ///|
 /// AMb
 fn step_410() -> Unit raise {
-  amb_c.set(@readable.newaxiom(@readable.parse_qproof(";∀α. Right α  ⇒  μ α  = &90")))
+  amb_c.set(@readable.newaxiom("∀ alpha : (Point) -> Bool, Right(alpha) → mu(alpha) == real_of_num(90)"))
 }
 
 ///|
@@ -20680,7 +20674,7 @@ pub fn amb() -> @kernel.Thm {
 ///|
 /// AMc
 fn step_411() -> Unit raise {
-  amc_c.set(@readable.newaxiom(@readable.parse_qproof(";∀α β. Angle α ∧ Angle β ∧ α ≡ β  ⇒  μ α = μ β")))
+  amc_c.set(@readable.newaxiom("∀ alpha : (Point) -> Bool, ∀ beta : (Point) -> Bool, Angle(alpha) && Angle(beta) && op_eq_eq_eq(alpha, beta) → mu(alpha) == mu(beta)"))
 }
 
 ///|
@@ -20695,7 +20689,7 @@ pub fn amc() -> @kernel.Thm {
 ///|
 /// AMd
 fn step_412() -> Unit raise {
-  amd_c.set(@readable.newaxiom(@readable.parse_qproof(";∀A O B P. P ∈ int_angle A O B  ⇒  μ (∡ A O B) = μ (∡ A O P) + μ (∡ P O B)")))
+  amd_c.set(@readable.newaxiom("∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ P : Point, IN(P, int_angle(A, O, B)) → mu(angle(A, O, B)) == mu(angle(A, O, P)) + mu(angle(P, O, B))"))
 }
 
 ///|
@@ -20711,14 +20705,14 @@ pub fn amd() -> @kernel.Thm {
 /// ConverseAlternateInteriorAngles
 fn step_413() -> Unit raise {
   conversealternateinteriorangles_c.set(@readable.prove(
-    "\n  forall A B C E l m.  Line l /\\  A IN l /\\  E IN l  ==>\n    Line m /\\  B IN m /\\  C IN m  ==> Line t /\\  A IN t /\\  B IN t  ==>\n    ~(A = E) /\\  ~(B = C) /\\  ~(A = B) /\\  E NOTIN t /\\  C NOTIN t  ==>\n    ~(C,E same_side t)  ==>  l parallel m\n    ==>  angle E A B === angle C B A",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, ∀ E : Point, ∀ l : (Point) -> Bool, ∀ m : (Point) -> Bool, Line(l) && IN(A, l) && IN(E, l) → Line(m) && IN(B, m) && IN(C, m) → Line((t : (Point) -> Bool)) && IN(A, t) && IN(B, t) → !(A == E) && !(B == C) && !(A == B) && NOTIN(E, t) && NOTIN(C, t) → !same_side((C, E), t) → parallel(l, m) → op_eq_eq_eq(angle(E, A, B), angle(C, B, A))",
     @readable.steps(
       [
         @readable.intro_tac(
           "forall A B C E l m, l_line, m_line, t_line, Distinct, Cnsim_tE, para_lm",
         ),
         @readable.have(
-          "\n    ~Collinear C B A",
+          "!Collinear(C, B, A)",
           "",
           @readable.by(
             @readable.fol,
@@ -20731,7 +20725,7 @@ fn step_413() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A NOTIN m /\\  Angle (angle C B A)",
+          "NOTIN(A, m) && Angle(angle(C, B, A))",
           "notAm",
           @readable.by(
             @readable.fol,
@@ -20746,7 +20740,7 @@ fn step_413() -> Unit raise {
         ),
         @readable.consider(
           "D",
-          "~(A = D) /\\  D NOTIN t /\\  ~(C,D same_side t) /\\  seg A D === seg A E  /\\   angle B A D === angle C B A    ",
+          "∃ D : Point, !(A == D) && NOTIN(D, t) && !same_side((C, D), t) && op_eq_eq_eq(seg(A, D), seg(A, E)) && op_eq_eq_eq(angle(B, A, D), angle(C, B, A))",
           "Dexists",
           @readable.by(
             @readable.simplify,
@@ -20760,7 +20754,7 @@ fn step_413() -> Unit raise {
         ),
         @readable.consider(
           "k",
-          "Line k /\\  A IN k /\\  D IN k    ",
+          "∃ k : (Point) -> Bool, Line(k) && IN(A, k) && IN(D, k)",
           "k_line",
           @readable.by(
             @readable.fol,
@@ -20768,7 +20762,7 @@ fn step_413() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    k parallel m",
+          "parallel(k, m)",
           "",
           @readable.by(
             @readable.fol,
@@ -20784,7 +20778,7 @@ fn step_413() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    k = l",
+          "k == l",
           "",
           @readable.by(
             @readable.fol,
@@ -20800,7 +20794,7 @@ fn step_413() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    D,E same_side t  /\\   A NOTIN Open (D, E)  /\\   Collinear A E D",
+          "same_side((D, E), t) && NOTIN(A, Open((D, E))) && Collinear(A, E, D)",
           "",
           @readable.by(
             @readable.fol,
@@ -20820,7 +20814,7 @@ fn step_413() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ray A D = ray A E",
+          "ray(A, D) == ray(A, E)",
           "",
           @readable.by(
             @readable.fol,
@@ -20862,12 +20856,12 @@ pub fn conversealternateinteriorangles() -> @kernel.Thm {
 /// HilbertTriangleSum
 fn step_415() -> Unit raise {
   hilberttrianglesum_c.set(@readable.prove(
-    "\n  forall A B C.  ~Collinear A B C\n    ==>  ?E F. B IN Open (E, F)  /\\   C IN int_angle A B F  /\\ \n           angle E B A === angle C A B  /\\   angle C B F === angle B C A",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, !Collinear(A, B, C) → (∃ E : Point, ∃ F : Point, IN(B, Open((E, F))) && IN(C, int_angle(A, B, F)) && op_eq_eq_eq(angle(E, B, A), angle(C, A, B)) && op_eq_eq_eq(angle(C, B, F), angle(B, C, A)))",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C, ABCncol"),
         @readable.have(
-          "\n    ~(A = B) /\\  ~(A = C) /\\  ~(B = C) /\\  ~Collinear C A B",
+          "!(A == B) && !(A == C) && !(B == C) && !Collinear(C, A, B)",
           "Distinct",
           @readable.by(
             @readable.fol,
@@ -20883,7 +20877,7 @@ fn step_415() -> Unit raise {
         ),
         @readable.consider(
           "l",
-          "Line l /\\  A IN l /\\  C IN l    ",
+          "∃ l : (Point) -> Bool, Line(l) && IN(A, l) && IN(C, l)",
           "l_line",
           @readable.by(
             @readable.fol,
@@ -20892,7 +20886,7 @@ fn step_415() -> Unit raise {
         ),
         @readable.consider(
           "x",
-          "Line x /\\  A IN x /\\  B IN x    ",
+          "∃ x : (Point) -> Bool, Line(x) && IN(A, x) && IN(B, x)",
           "x_line",
           @readable.by(
             @readable.fol,
@@ -20901,7 +20895,7 @@ fn step_415() -> Unit raise {
         ),
         @readable.consider(
           "y",
-          "Line y /\\  B IN y /\\  C IN y    ",
+          "∃ y : (Point) -> Bool, Line(y) && IN(B, y) && IN(C, y)",
           "y_line",
           @readable.by(
             @readable.fol,
@@ -20909,7 +20903,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C NOTIN x",
+          "NOTIN(C, x)",
           "notCx",
           @readable.by(
             @readable.fol,
@@ -20922,7 +20916,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Angle (angle C A B)",
+          "Angle(angle(C, A, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -20935,7 +20929,7 @@ fn step_415() -> Unit raise {
         ),
         @readable.consider(
           "E",
-          "~(B = E) /\\  E NOTIN x /\\  ~(C,E same_side x) /\\  seg B E === seg A B /\\  angle A B E === angle C A B    ",
+          "∃ E : Point, !(B == E) && NOTIN(E, x) && !same_side((C, E), x) && op_eq_eq_eq(seg(B, E), seg(A, B)) && op_eq_eq_eq(angle(A, B, E), angle(C, A, B))",
           "Eexists",
           @readable.by(
             @readable.simplify,
@@ -20950,12 +20944,12 @@ fn step_415() -> Unit raise {
         ),
         @readable.consider(
           "m",
-          "Line m /\\  B IN m /\\  E IN m    ",
+          "∃ m : (Point) -> Bool, Line(m) && IN(B, m) && IN(E, m)",
           "m_line",
           @readable.by(@readable.fol, [@readable.Prev, @readable.Thm("I1", () => i1())]),
         ),
         @readable.have(
-          "\n    angle E B A === angle C A B",
+          "op_eq_eq_eq(angle(E, B, A), angle(C, A, B))",
           "EBAeqCAB",
           @readable.by(
             @readable.fol,
@@ -20966,7 +20960,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    m parallel l",
+          "parallel(m, l)",
           "para_lm",
           @readable.by(
             @readable.fol,
@@ -20983,7 +20977,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    m INTER l = {}",
+          "INTER(m, l) == {}",
           "ml0",
           @readable.by(
             @readable.fol,
@@ -20991,7 +20985,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C NOTIN m /\\  A NOTIN m",
+          "NOTIN(C, m) && NOTIN(A, m)",
           "notACm",
           @readable.by(
             @readable.fol,
@@ -21005,7 +20999,7 @@ fn step_415() -> Unit raise {
         ),
         @readable.consider(
           "F",
-          "B IN Open (E, F)    ",
+          "∃ F : Point, IN(B, Open((E, F)))",
           "EBF",
           @readable.by(
             @readable.fol,
@@ -21013,7 +21007,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(B = F) /\\  F IN m",
+          "!(B == F) && IN(F, m)",
           "EBF'",
           @readable.by(
             @readable.fol,
@@ -21026,7 +21020,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear A B F /\\  F NOTIN x",
+          "!Collinear(A, B, F) && NOTIN(F, x)",
           "ABFncol",
           @readable.by(
             @readable.fol,
@@ -21043,7 +21037,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(E,F same_side x) /\\  ~(E,F same_side y)",
+          "!same_side((E, F), x) && !same_side((E, F), y)",
           "Ensim_yF",
           @readable.by(
             @readable.fol,
@@ -21056,7 +21050,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C,F same_side x",
+          "same_side((C, F), x)",
           "Csim_xF",
           @readable.by(
             @readable.fol,
@@ -21072,7 +21066,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C,A same_side m",
+          "same_side((C, A), m)",
           "",
           @readable.by(
             @readable.fol,
@@ -21088,7 +21082,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    C IN int_angle A B F",
+          "IN(C, int_angle(A, B, F))",
           "CintABF",
           @readable.by(
             @readable.fol,
@@ -21106,7 +21100,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A IN int_angle C B E",
+          "IN(A, int_angle(C, B, E))",
           "",
           @readable.by(
             @readable.fol,
@@ -21123,7 +21117,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    A NOTIN y  /\\   A,E same_side y",
+          "NOTIN(A, y) && same_side((A, E), y)",
           "Asim_yE",
           @readable.by(
             @readable.fol,
@@ -21136,7 +21130,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    E NOTIN y /\\  F NOTIN y",
+          "NOTIN(E, y) && NOTIN(F, y)",
           "notEFy",
           @readable.by(
             @readable.fol,
@@ -21154,7 +21148,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    E,A same_side y",
+          "same_side((E, A), y)",
           "",
           @readable.by(
             @readable.fol,
@@ -21167,7 +21161,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~(A,F same_side y)",
+          "!same_side((A, F), y)",
           "Ansim_yF",
           @readable.by(
             @readable.fol,
@@ -21182,7 +21176,7 @@ fn step_415() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle F B C === angle A C B",
+          "op_eq_eq_eq(angle(F, B, C), angle(A, C, B))",
           "",
           @readable.by(
             @readable.fol,
@@ -21232,19 +21226,19 @@ pub fn hilberttrianglesum() -> @kernel.Thm {
 /// EuclidPropositionI_13
 fn step_417() -> Unit raise {
   euclidpropositioni_13_c.set(@readable.prove(
-    "\n  forall A O B A'.  ~Collinear A O B  /\\   O IN Open (A, A')\n    ==>  mu (angle A O B) + mu (angle B O A') = &180",
+    "∀ A : Point, ∀ O : Point, ∀ B : Point, ∀ A' : Point, !Collinear(A, O, B) && IN(O, Open((A, A'))) → mu(angle(A, O, B)) + mu(angle(B, O, A')) == real_of_num(180)",
     @readable.steps_then(
       [@readable.intro_tac("forall A O B A', H1 H2")],
       @readable.case_split(
         "RightAOB | notRightAOB    ",
         @readable.by(@readable.fol, [@readable.Prev]),
-        @list.List(["Right (angle A O B)", "~Right (angle A O B)"]),
+        @list.List(["Right(angle(A, O, B))", "!Right(angle(A, O, B))"]),
         @list.List(
           [
             @readable.steps(
               [
                 @readable.have(
-                  "\n      Right (angle B O A')  /\\   mu (angle A O B) = &90  /\\   mu (angle B O A') = &90",
+                  "Right(angle(B, O, A')) && mu(angle(A, O, B)) == real_of_num(90) && mu(angle(B, O, A')) == real_of_num(90)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -21266,7 +21260,7 @@ fn step_417() -> Unit raise {
             @readable.steps_then(
               [
                 @readable.have(
-                  "\n      ~(A = O) /\\  ~(O = B)",
+                  "!(A == O) && !(O == B)",
                   "Distinct",
                   @readable.by(
                     @readable.fol,
@@ -21281,7 +21275,7 @@ fn step_417() -> Unit raise {
                 ),
                 @readable.consider(
                   "l",
-                  "Line l /\\  O IN l /\\  A IN l /\\  A' IN l    ",
+                  "∃ l : (Point) -> Bool, Line(l) && IN(O, l) && IN(A, l) && IN(A', l)",
                   "l_line",
                   @readable.by(
                     @readable.fol,
@@ -21294,7 +21288,7 @@ fn step_417() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      B NOTIN l",
+                  "NOTIN(B, l)",
                   "notBl",
                   @readable.by(
                     @readable.fol,
@@ -21310,7 +21304,7 @@ fn step_417() -> Unit raise {
                 ),
                 @readable.consider(
                   "F",
-                  "Right (angle O A F)  /\\   Angle (angle O A F)    ",
+                  "∃ F : Point, Right(angle(O, A, F)) && Angle(angle(O, A, F))",
                   "RightOAF",
                   @readable.by(
                     @readable.fol,
@@ -21325,7 +21319,7 @@ fn step_417() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ?! r. Ray r /\\  ?E. ~(O = E) /\\  r = ray O E /\\  E NOTIN l /\\  E,B same_side l /\\  angle A O E === angle O A F",
+                  "existsunique((r : (Point) -> Bool) => Ray(r) && (∃ E : Point, !(O == E) && r == ray(O, E) && NOTIN(E, l) && same_side((E, B), l) && op_eq_eq_eq(angle(A, O, E), angle(O, A, F))))",
                   "",
                   @readable.by(
                     @readable.simplify,
@@ -21340,12 +21334,12 @@ fn step_417() -> Unit raise {
                 ),
                 @readable.consider(
                   "E",
-                  "~(O = E)  /\\   E NOTIN l  /\\   E,B same_side l  /\\   angle A O E === angle O A F    ",
+                  "∃ E : Point, !(O == E) && NOTIN(E, l) && same_side((E, B), l) && op_eq_eq_eq(angle(A, O, E), angle(O, A, F))",
                   "Eexists",
                   @readable.by(@readable.fol, [@readable.Prev]),
                 ),
                 @readable.have(
-                  "\n      ~Collinear A O E",
+                  "!Collinear(A, O, E)",
                   "AOEncol",
                   @readable.by(
                     @readable.fol,
@@ -21359,7 +21353,7 @@ fn step_417() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      Right (angle A O E)",
+                  "Right(angle(A, O, E))",
                   "RightAOE",
                   @readable.by(
                     @readable.fol,
@@ -21376,7 +21370,7 @@ fn step_417() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      Right (angle E O A')  /\\   mu (angle A O E) = &90  /\\   mu (angle E O A') = &90",
+                  "Right(angle(E, O, A')) && mu(angle(A, O, E)) == real_of_num(90) && mu(angle(E, O, A')) == real_of_num(90)",
                   "RightEOA'",
                   @readable.by(
                     @readable.fol,
@@ -21393,7 +21387,7 @@ fn step_417() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~(angle A O B === angle A O E)",
+                  "!op_eq_eq_eq(angle(A, O, B), angle(A, O, E))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -21410,7 +21404,7 @@ fn step_417() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~(angle A O B = angle A O E)",
+                  "!(angle(A, O, B) == angle(A, O, E))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -21424,7 +21418,7 @@ fn step_417() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~(ray O B = ray O E)",
+                  "!(ray(O, B) == ray(O, E))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -21432,7 +21426,7 @@ fn step_417() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      B NOTIN ray O E  /\\   O NOTIN Open (B, E)",
+                  "NOTIN(B, ray(O, E)) && NOTIN(O, Open((B, E)))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -21451,7 +21445,7 @@ fn step_417() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      ~Collinear O E B",
+                  "!Collinear(O, E, B)",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -21464,7 +21458,7 @@ fn step_417() -> Unit raise {
                   ),
                 ),
                 @readable.have(
-                  "\n      E IN int_angle A O B  \\/  B IN int_angle A O E",
+                  "IN(E, int_angle(A, O, B)) || IN(B, int_angle(A, O, E))",
                   "",
                   @readable.by(
                     @readable.fol,
@@ -21487,13 +21481,13 @@ fn step_417() -> Unit raise {
               @readable.case_split(
                 "EintAOB | BintAOE    ",
                 @readable.by(@readable.fol, [@readable.Prev]),
-                @list.List(["E IN int_angle A O B", "B IN int_angle A O E"]),
+                @list.List(["IN(E, int_angle(A, O, B))", "IN(B, int_angle(A, O, E))"]),
                 @list.List(
                   [
                     @readable.steps(
                       [
                         @readable.have(
-                          "\n        B IN int_angle E O A'",
+                          "IN(B, int_angle(E, O, A'))",
                           "",
                           @readable.by(
                             @readable.fol,
@@ -21508,7 +21502,7 @@ fn step_417() -> Unit raise {
                           ),
                         ),
                         @readable.have(
-                          "\n        mu (angle A O B) = mu (angle A O E) + mu (angle E O B)  /\\ \n        mu (angle E O A') = mu (angle E O B) + mu (angle B O A')",
+                          "mu(angle(A, O, B)) == mu(angle(A, O, E)) + mu(angle(E, O, B)) && mu(angle(E, O, A')) == mu(angle(E, O, B)) + mu(angle(B, O, A'))",
                           "",
                           @readable.by(
                             @readable.fol,
@@ -21528,7 +21522,7 @@ fn step_417() -> Unit raise {
                     @readable.steps(
                       [
                         @readable.have(
-                          "\n        E IN int_angle B O A'",
+                          "IN(E, int_angle(B, O, A'))",
                           "",
                           @readable.by(
                             @readable.fol,
@@ -21543,7 +21537,7 @@ fn step_417() -> Unit raise {
                           ),
                         ),
                         @readable.have(
-                          "\n        mu (angle A O E) = mu (angle A O B) + mu (angle B O E)  /\\ \n        mu (angle B O A') = mu (angle B O E) + mu (angle E O A')",
+                          "mu(angle(A, O, E)) == mu(angle(A, O, B)) + mu(angle(B, O, E)) && mu(angle(B, O, A')) == mu(angle(B, O, E)) + mu(angle(E, O, A'))",
                           "",
                           @readable.by(
                             @readable.fol,
@@ -21584,12 +21578,12 @@ pub fn euclidpropositioni_13() -> @kernel.Thm {
 /// TriangleSum
 fn step_423() -> Unit raise {
   trianglesum_c.set(@readable.prove(
-    "\n  forall A B C. ~Collinear A B C\n    ==>  mu (angle A B C) + mu (angle B C A) + mu (angle C A B) = &180",
+    "∀ A : Point, ∀ B : Point, ∀ C : Point, !Collinear(A, B, C) → mu(angle(A, B, C)) + (mu(angle(B, C, A)) + mu(angle(C, A, B))) == real_of_num(180)",
     @readable.steps(
       [
         @readable.intro_tac("forall A B C, ABCncol"),
         @readable.have(
-          "\n    ~Collinear C A B  /\\   ~Collinear B C A",
+          "!Collinear(C, A, B) && !Collinear(B, C, A)",
           "CABncol",
           @readable.by(
             @readable.fol,
@@ -21601,7 +21595,7 @@ fn step_423() -> Unit raise {
         ),
         @readable.consider(
           "E F",
-          "B IN Open (E, F)  /\\   C IN int_angle A B F  /\\   angle E B A === angle C A B  /\\   angle C B F === angle B C A    ",
+          "∃ E : Point, ∃ F : Point, IN(B, Open((E, F))) && IN(C, int_angle(A, B, F)) && op_eq_eq_eq(angle(E, B, A), angle(C, A, B)) && op_eq_eq_eq(angle(C, B, F), angle(B, C, A))",
           "EBF",
           @readable.by(
             @readable.fol,
@@ -21612,7 +21606,7 @@ fn step_423() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear C B F  /\\   ~Collinear A B F  /\\   Collinear E B F  /\\   ~(B = E)",
+          "!Collinear(C, B, F) && !Collinear(A, B, F) && Collinear(E, B, F) && !(B == E)",
           "CBFncol",
           @readable.by(
             @readable.fol,
@@ -21627,7 +21621,7 @@ fn step_423() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear E B A",
+          "!Collinear(E, B, A)",
           "EBAncol",
           @readable.by(
             @readable.fol,
@@ -21642,7 +21636,7 @@ fn step_423() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    mu (angle A B F) = mu (angle A B C) + mu (angle C B F)",
+          "mu(angle(A, B, F)) == mu(angle(A, B, C)) + mu(angle(C, B, F))",
           "muCintABF",
           @readable.by(
             @readable.fol,
@@ -21650,7 +21644,7 @@ fn step_423() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    mu (angle E B A) + mu (angle A B F) = &180",
+          "mu(angle(E, B, A)) + mu(angle(A, B, F)) == real_of_num(180)",
           "suppl180",
           @readable.by(
             @readable.fol,
@@ -21662,7 +21656,7 @@ fn step_423() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    mu (angle C A B) = mu (angle E B A)  /\\   mu (angle B C A) = mu (angle C B F)",
+          "mu(angle(C, A, B)) == mu(angle(E, B, A)) && mu(angle(B, C, A)) == mu(angle(C, B, F))",
           "",
           @readable.by(
             @readable.fol,
@@ -21698,12 +21692,12 @@ pub fn trianglesum() -> @kernel.Thm {
 /// CircleConvex2_THM
 fn step_427() -> Unit raise {
   circleconvex2_thm_c.set(@readable.prove(
-    "\n  forall O A B C. ~Collinear A O B  ==>  B IN Open (A, C)  ==>\n    seg O A <__ seg O B  \\/  seg O A === seg O B\n    ==>  seg O B <__ seg O C",
+    "∀ O : Point, ∀ A : Point, ∀ B : Point, ∀ C : Point, !Collinear(A, O, B) → IN(B, Open((A, C))) → op_lt_us_us(seg(O, A), seg(O, B)) || op_eq_eq_eq(seg(O, A), seg(O, B)) → op_lt_us_us(seg(O, B), seg(O, C))",
     @readable.steps(
       [
         @readable.intro_tac("forall O A B C, H1, H2, H3"),
         @readable.have(
-          "\n    ~Collinear O B A /\\  ~Collinear B O A /\\  ~Collinear O A B /\\  ~(O = A) /\\  ~(O = B)",
+          "!Collinear(O, B, A) && !Collinear(B, O, A) && !Collinear(O, A, B) && !(O == A) && !(O == B)",
           "H1'",
           @readable.by(
             @readable.fol,
@@ -21718,7 +21712,7 @@ fn step_427() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    B IN Open (C, A) /\\  ~(C = A) /\\  ~(C = B) /\\  Collinear A B C /\\  Collinear B A C",
+          "IN(B, Open((C, A))) && !(C == A) && !(C == B) && Collinear(A, B, C) && Collinear(B, A, C)",
           "H2'",
           @readable.by(
             @readable.fol,
@@ -21730,7 +21724,7 @@ fn step_427() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear O B C /\\  ~Collinear O C B",
+          "!Collinear(O, B, C) && !Collinear(O, C, B)",
           "OBCncol",
           @readable.by(
             @readable.fol,
@@ -21746,7 +21740,7 @@ fn step_427() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    ~Collinear O A C",
+          "!Collinear(O, A, C)",
           "OABncol",
           @readable.by(
             @readable.fol,
@@ -21761,7 +21755,7 @@ fn step_427() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle O C B <_ang angle O B A",
+          "op_lt_us_ang(angle(O, C, B), angle(O, B, A))",
           "OCBlessOBA",
           @readable.by(
             @readable.fol,
@@ -21773,7 +21767,7 @@ fn step_427() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle O A B <_ang angle O B C",
+          "op_lt_us_ang(angle(O, A, B), angle(O, B, C))",
           "OABlessOBC",
           @readable.by(
             @readable.fol,
@@ -21785,12 +21779,12 @@ fn step_427() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle O B A <_ang angle B A O  \\/  angle O B A === angle B A O",
+          "op_lt_us_ang(angle(O, B, A), angle(B, A, O)) || op_eq_eq_eq(angle(O, B, A), angle(B, A, O))",
           "",
           @readable.steps(
             [
               @readable.assuming(
-                "seg O A === seg O B",
+                "op_eq_eq_eq(seg(O, A), seg(O, B))",
                 "Cong",
                 @readable.by(
                   @readable.fol,
@@ -21805,7 +21799,7 @@ fn step_427() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      seg O B === seg O A",
+                "op_eq_eq_eq(seg(O, B), seg(O, A))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -21833,7 +21827,7 @@ fn step_427() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle O B A <_ang angle O A B  \\/  angle O B A === angle O A B",
+          "op_lt_us_ang(angle(O, B, A), angle(O, A, B)) || op_eq_eq_eq(angle(O, B, A), angle(O, A, B))",
           "OBAlessOAB",
           @readable.by(
             @readable.fol,
@@ -21841,7 +21835,7 @@ fn step_427() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    angle O C B <_ang angle O B C",
+          "op_lt_us_ang(angle(O, C, B), angle(O, B, C))",
           "",
           @readable.by(
             @readable.fol,

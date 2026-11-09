@@ -27,7 +27,7 @@ fn step_4() -> Unit raise {
 ///|
 /// NOTIN
 fn step_5() -> Unit raise {
-  notin_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀a l. a ∉ l ⇔ ¬(a ∈ l)")))
+  notin_c.set(@readable.newdefinition("∀ a : _, ∀ l : (_) -> Bool, (NOTIN : (_, (_) -> Bool) -> Bool)(a, l) == !IN(a, l)"))
 }
 
 ///|
@@ -42,7 +42,7 @@ pub fn notin() -> @kernel.Thm {
 ///|
 /// CartesianProduct
 fn step_6() -> Unit raise {
-  cartesianproduct_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀X Y. X ∏ Y = {x,y | x ∈ X ∧ y ∈ Y}")))
+  cartesianproduct_c.set(@readable.newdefinition("∀ X : (_) -> Bool, ∀ Y : (_) -> Bool, (prod : ((_) -> Bool, (_) -> Bool, (_, _)) -> Bool)(X, Y) == {((x : _), (y : _)) | IN(x, X) && IN(y, Y)}"))
 }
 
 ///|
@@ -57,7 +57,7 @@ pub fn cartesianproduct() -> @kernel.Thm {
 ///|
 /// FUNCTION
 fn step_7() -> Unit raise {
-  function_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  FUNCTION α  ⇔  ∃f s t. α = (t, f, s)  ∧\n    (∀x. x IN s ⇒ f x  IN t) ∧ ∀x. x ∉ s ⇒ f x  = @y. T")))
+  function_c.set(@readable.newdefinition("(FUNCTION : (((_) -> Bool, (_) -> _, (_) -> Bool)) -> Bool)((alpha : ((_) -> Bool, (_) -> _, (_) -> Bool))) == (∃ f : (_) -> _, ∃ s : (_) -> Bool, ∃ t : (_) -> Bool, alpha == (t, f, s) && (∀ x : _, IN(x, s) → IN(f(x), t)) && (∀ x : _, NOTIN(x, s) → f(x) == select((y : _) => true)))"))
 }
 
 ///|
@@ -72,7 +72,7 @@ pub fn function() -> @kernel.Thm {
 ///|
 /// SOURCE
 fn step_8() -> Unit raise {
-  source_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  SOURCE α = SND (SND α)")))
+  source_c.set(@readable.newdefinition("(SOURCE : ((_, _, _)) -> _)((alpha : (_, _, _))) == SND(SND(alpha))"))
 }
 
 ///|
@@ -87,7 +87,7 @@ pub fn source() -> @kernel.Thm {
 ///|
 /// FUN
 fn step_9() -> Unit raise {
-  fun_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  FUN α = FST (SND α)")))
+  fun_c.set(@readable.newdefinition("(FUN : ((_, _, _)) -> _)((alpha : (_, _, _))) == FST(SND(alpha))"))
 }
 
 ///|
@@ -102,7 +102,7 @@ pub fn fun() -> @kernel.Thm {
 ///|
 /// TARGET
 fn step_10() -> Unit raise {
-  target_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  TARGET α = FST α")))
+  target_c.set(@readable.newdefinition("(TARGET : ((_, _)) -> _)((alpha : (_, _))) == FST(alpha)"))
 }
 
 ///|
@@ -117,7 +117,7 @@ pub fn target() -> @kernel.Thm {
 ///|
 /// FunctionSpace
 fn step_11() -> Unit raise {
-  functionspace_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀s t. s → t = {α | FUNCTION α  ∧  s = SOURCE α  ∧ t = TARGET α}")))
+  functionspace_c.set(@readable.newdefinition("∀ s : (_) -> Bool, ∀ t : (_) -> Bool, (op_minus_minus_minus_gt : ((_) -> Bool, (_) -> Bool, ((_) -> Bool, (_) -> _, (_) -> Bool)) -> Bool)(s, t) == {(alpha : ((_) -> Bool, (_) -> _, (_) -> Bool)) | FUNCTION(alpha) && s == SOURCE(alpha) && t == TARGET(alpha)}"))
 }
 
 ///|
@@ -132,7 +132,7 @@ pub fn functionspace() -> @kernel.Thm {
 ///|
 /// makeFunction
 fn step_12() -> Unit raise {
-  makefunction_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀t f s. makeFunction t f s = (t, (λx. if x ∈ s then f x else @y. T), s)")))
+  makefunction_c.set(@readable.newdefinition("∀ t : _, ∀ f : (_) -> _, ∀ s : (_) -> Bool, (makeFunction : (_, (_) -> _, (_) -> Bool) -> (_, (_) -> _, (_) -> Bool))(t, f, s) == (t, (x : _) => if IN(x, s) { f(x) } else { select((y : _) => true) }, s)"))
 }
 
 ///|
@@ -147,7 +147,7 @@ pub fn makefunction() -> @kernel.Thm {
 ///|
 /// Projection1Function
 fn step_13() -> Unit raise {
-  projection1function_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  Pi1 X Y = makeFunction X FST (X ∏ Y)")))
+  projection1function_c.set(@readable.newdefinition("(Pi1 : ((_) -> Bool, (_) -> Bool) -> ((_) -> Bool, ((_, _)) -> _, ((_, _)) -> Bool))((X : (_) -> Bool), (Y : (_) -> Bool)) == makeFunction(X, FST, prod(X, Y))"))
 }
 
 ///|
@@ -162,7 +162,7 @@ pub fn projection1function() -> @kernel.Thm {
 ///|
 /// Projection2Function
 fn step_14() -> Unit raise {
-  projection2function_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  Pi2 X Y = makeFunction Y SND (X ∏ Y)")))
+  projection2function_c.set(@readable.newdefinition("(Pi2 : ((_) -> Bool, (_) -> Bool) -> ((_) -> Bool, ((_, _)) -> _, ((_, _)) -> Bool))((X : (_) -> Bool), (Y : (_) -> Bool)) == makeFunction(Y, SND, prod(X, Y))"))
 }
 
 ///|
@@ -177,7 +177,7 @@ pub fn projection2function() -> @kernel.Thm {
 ///|
 /// FunctionComposition
 fn step_15() -> Unit raise {
-  functioncomposition_c.set(@readable.newdefinition(@readable.parse_qproof(";\n  ∀α β.  α ∘ β = makeFunction (TARGET α) (FUN α o FUN β) (SOURCE β)")))
+  functioncomposition_c.set(@readable.newdefinition("∀ alpha : (_, (_) -> _, _), ∀ beta : (_, (_) -> _, (_) -> Bool), (_o_ : ((_, (_) -> _, _), (_, (_) -> _, (_) -> Bool)) -> (_, (_) -> _, (_) -> Bool))(alpha, beta) == makeFunction(TARGET(alpha), o(FUN(alpha), FUN(beta)), SOURCE(beta))"))
 }
 
 ///|
@@ -193,7 +193,7 @@ pub fn functioncomposition() -> @kernel.Thm {
 /// IN_CartesianProduct
 fn step_16() -> Unit raise {
   in_cartesianproduct_v1_c.set(@readable.prove(
-    "\n  forall X Y x y. x,y IN X prod Y  <=>  x IN X /\\  y IN Y",
+    "∀ X : (_) -> Bool, ∀ Y : (_) -> Bool, ∀ x : _, ∀ y : _, IN((x, y), prod(X, Y)) == (IN(x, X) && IN(y, Y))",
     @readable.steps(
       [
         @readable.by(
@@ -222,7 +222,7 @@ pub fn in_cartesianproduct_v1() -> @kernel.Thm {
 /// IN_CartesianProduct
 fn step_22() -> Unit raise {
   in_cartesianproduct_c.set(@readable.prove(
-    "\n  forall X Y x y. x,y IN X prod Y  <=>  x IN X /\\  y IN Y",
+    "∀ X : (_) -> Bool, ∀ Y : (_) -> Bool, ∀ x : _, ∀ y : _, IN((x, y), prod(X, Y)) == (IN(x, X) && IN(y, Y))",
     @readable.steps(
       [
         @readable.by(
@@ -251,7 +251,7 @@ pub fn in_cartesianproduct() -> @kernel.Thm {
 /// CartesianFstSnd
 fn step_23() -> Unit raise {
   cartesianfstsnd_c.set(@readable.prove(
-    "\n  forall pair. pair IN X prod Y  ==>  FST pair IN X /\\  SND pair IN Y",
+    "∀ pair : (_, _), IN(pair, prod((X : (_) -> Bool), (Y : (_) -> Bool))) → IN(FST(pair), X) && IN(SND(pair), Y)",
     @readable.by(
       @readable.rewrite,
       [
@@ -276,7 +276,7 @@ pub fn cartesianfstsnd() -> @kernel.Thm {
 /// FUNCTION_EQ
 fn step_26() -> Unit raise {
   function_eq_c.set(@readable.prove(
-    "\n  forall alpha beta. FUNCTION alpha  /\\   FUNCTION beta  /\\   SOURCE alpha = SOURCE beta  /\\ \n    FUN alpha = FUN beta  /\\   TARGET alpha = TARGET beta\n    ==> alpha = beta",
+    "∀ alpha : ((_) -> Bool, (_) -> _, (_) -> Bool), ∀ beta : ((_) -> Bool, (_) -> _, (_) -> Bool), FUNCTION(alpha) && FUNCTION(beta) && SOURCE(alpha) == SOURCE(beta) && FUN(alpha) == FUN(beta) && TARGET(alpha) == TARGET(beta) → alpha == beta",
     @readable.by(
       @readable.simplify,
       [
@@ -304,7 +304,7 @@ pub fn function_eq() -> @kernel.Thm {
 /// IN_FunctionSpace
 fn step_32() -> Unit raise {
   in_functionspace_c.set(@readable.prove(
-    "\n  forall s t alpha. alpha IN s ---> t\n    <=>  FUNCTION alpha  /\\   s = SOURCE alpha  /\\   t = TARGET alpha",
+    "∀ s : (_) -> Bool, ∀ t : (_) -> Bool, ∀ alpha : ((_) -> Bool, (_) -> _, (_) -> Bool), IN(alpha, op_minus_minus_minus_gt(s, t)) == (FUNCTION(alpha) && s == SOURCE(alpha) && t == TARGET(alpha))",
     @readable.by(
       @readable.rewrite,
       [
@@ -328,7 +328,7 @@ pub fn in_functionspace() -> @kernel.Thm {
 /// makeFunction_EQ
 fn step_34() -> Unit raise {
   makefunction_eq_c.set(@readable.prove(
-    "\n  forall f g s t.  (forall x. x IN s ==> f x = g x)\n    ==>  makeFunction t f s = makeFunction t g s",
+    "∀ f : (_) -> _, ∀ g : (_) -> _, ∀ s : (_) -> Bool, ∀ t : _, (∀ x : _, IN(x, s) → f(x) == g(x)) → makeFunction(t, f, s) == makeFunction(t, g, s)",
     @readable.by(
       @readable.simplify,
       [
@@ -353,7 +353,7 @@ pub fn makefunction_eq() -> @kernel.Thm {
 /// makeFunctionyieldsFUN
 fn step_38() -> Unit raise {
   makefunctionyieldsfun_c.set(@readable.prove(
-    "\n  forall alpha g t f s.  alpha = makeFunction t f s /\\  g = FUN alpha\n    ==> forall x. x IN s ==> f x = g x",
+    "∀ alpha : (_, (_) -> _, (_) -> Bool), ∀ g : (_) -> _, ∀ t : _, ∀ f : (_) -> _, ∀ s : (_) -> Bool, alpha == makeFunction(t, f, s) && g == FUN(alpha) → (∀ x : _, IN(x, s) → f(x) == g(x))",
     @readable.by(
       @readable.simplify,
       [
@@ -379,7 +379,7 @@ pub fn makefunctionyieldsfun() -> @kernel.Thm {
 /// makeFunctionEq
 fn step_39() -> Unit raise {
   makefunctioneq_c.set(@readable.prove(
-    "\n  forall alpha beta f g s t.  alpha = makeFunction t f s  /\\  beta = makeFunction t g s  /\\ \n    (forall x. x IN s ==> f x = g x)  ==>  alpha = beta",
+    "∀ alpha : (_, (_) -> _, (_) -> Bool), ∀ beta : (_, (_) -> _, (_) -> Bool), ∀ f : (_) -> _, ∀ g : (_) -> _, ∀ s : (_) -> Bool, ∀ t : _, alpha == makeFunction(t, f, s) && beta == makeFunction(t, g, s) && (∀ x : _, IN(x, s) → f(x) == g(x)) → alpha == beta",
     @readable.by(
       @readable.simplify,
       [
@@ -404,7 +404,7 @@ pub fn makefunctioneq() -> @kernel.Thm {
 /// FunctionSpaceOnSource
 fn step_40() -> Unit raise {
   functionspaceonsource_c.set(@readable.prove(
-    "\n  forall alpha f s t.  alpha IN s ---> t  /\\   f = FUN alpha\n    ==>  forall x. x IN s ==> f x IN t",
+    "∀ alpha : ((_) -> Bool, (_) -> _, (_) -> Bool), ∀ f : (_) -> _, ∀ s : (_) -> Bool, ∀ t : (_) -> Bool, IN(alpha, op_minus_minus_minus_gt(s, t)) && f == FUN(alpha) → (∀ x : _, IN(x, s) → IN(f(x), t))",
     @readable.steps(
       [
         @readable.by(
@@ -438,7 +438,7 @@ pub fn functionspaceonsource() -> @kernel.Thm {
 /// FunctionSpaceOnOffSource
 fn step_42() -> Unit raise {
   functionspaceonoffsource_c.set(@readable.prove(
-    "\n  forall alpha f s t.  alpha IN s ---> t  /\\   f = FUN alpha\n    ==>  (forall x. x IN s ==> f x IN t) /\\  forall x. x NOTIN s ==> f x = @y. T",
+    "∀ alpha : ((_) -> Bool, (_) -> _, (_) -> Bool), ∀ f : (_) -> _, ∀ s : (_) -> Bool, ∀ t : (_) -> Bool, IN(alpha, op_minus_minus_minus_gt(s, t)) && f == FUN(alpha) → (∀ x : _, IN(x, s) → IN(f(x), t)) && (∀ x : _, NOTIN(x, s) → f(x) == select((y : _) => true))",
     @readable.steps(
       [
         @readable.by(
@@ -472,7 +472,7 @@ pub fn functionspaceonoffsource() -> @kernel.Thm {
 /// ImpliesTruncatedFunctionSpace
 fn step_43() -> Unit raise {
   impliestruncatedfunctionspace_c.set(@readable.prove(
-    "\n  forall alpha s t f.  alpha = makeFunction t f s  /\\   (forall x. x IN s ==> f x IN t)\n    ==> alpha IN s ---> t",
+    "∀ alpha : ((_) -> Bool, (_) -> _, (_) -> Bool), ∀ s : (_) -> Bool, ∀ t : (_) -> Bool, ∀ f : (_) -> _, alpha == makeFunction(t, f, s) && (∀ x : _, IN(x, s) → IN(f(x), t)) → IN(alpha, op_minus_minus_minus_gt(s, t))",
     @readable.steps(
       [
         @readable.by(
@@ -507,7 +507,7 @@ pub fn impliestruncatedfunctionspace() -> @kernel.Thm {
 /// FunFunctionSpaceImplyFunction
 fn step_44() -> Unit raise {
   funfunctionspaceimplyfunction_c.set(@readable.prove(
-    "\n  forall alpha s t f.  alpha IN s ---> t  /\\   f = FUN alpha  ==>  alpha = makeFunction t f s",
+    "∀ alpha : ((_) -> Bool, (_) -> _, (_) -> Bool), ∀ s : (_) -> Bool, ∀ t : (_) -> Bool, ∀ f : (_) -> _, IN(alpha, op_minus_minus_minus_gt(s, t)) && f == FUN(alpha) → alpha == makeFunction(t, f, s)",
     @readable.steps(
       [
         @readable.by(
@@ -546,7 +546,7 @@ pub fn funfunctionspaceimplyfunction() -> @kernel.Thm {
 /// UseFunctionComposition
 fn step_45() -> Unit raise {
   usefunctioncomposition_c.set(@readable.prove(
-    "\n  forall alpha beta u f t g s. alpha = makeFunction u f t  /\\ \n    beta = makeFunction t g s  /\\   beta IN s ---> t\n    ==> alpha _o_ beta = makeFunction u (f o g) s",
+    "∀ alpha : (_, (_) -> _, (_) -> Bool), ∀ beta : ((_) -> Bool, (_) -> _, (_) -> Bool), ∀ u : _, ∀ f : (_) -> _, ∀ t : (_) -> Bool, ∀ g : (_) -> _, ∀ s : (_) -> Bool, alpha == makeFunction(u, f, t) && beta == makeFunction(t, g, s) && IN(beta, op_minus_minus_minus_gt(s, t)) → _o_(alpha, beta) == makeFunction(u, o(f, g), s)",
     @readable.steps(
       [
         @readable.by(
@@ -572,7 +572,7 @@ fn step_45() -> Unit raise {
           "forall [u'] [f'] [t'] [t1] [g1] [s1] [u] [f] [t] [g] [s],\n    Halpha Hbeta Hbeta_st Hs Ht",
         ),
         @readable.have(
-          "\n    (forall x. x IN s ==> g x IN t)",
+          "∀ x : _, IN(x, s) → IN(g(x), t)",
           "g_st",
           @readable.by(
             @readable.fol,
@@ -606,12 +606,12 @@ pub fn usefunctioncomposition() -> @kernel.Thm {
 /// PairProjectionFunctions
 fn step_50() -> Unit raise {
   pairprojectionfunctions_c.set(@readable.prove(
-    "\n  forall X Y. Pi1 X Y IN X prod Y ---> X  /\\   Pi2 X Y IN X prod Y ---> Y",
+    "∀ X : (_) -> Bool, ∀ Y : (_) -> Bool, IN(Pi1(X, Y), op_minus_minus_minus_gt(prod(X, Y), X)) && IN(Pi2(X, Y), op_minus_minus_minus_gt(prod(X, Y), Y))",
     @readable.steps(
       [
         @readable.intro_tac("forall X Y"),
         @readable.have(
-          "\n    forall pair. pair IN X prod Y  ==>  FST pair IN X  /\\  SND pair IN Y",
+          "∀ pair : (_, _), IN(pair, prod(X, Y)) → IN(FST(pair), X) && IN(SND(pair), Y)",
           "",
           @readable.by(
             @readable.fol,
@@ -648,24 +648,24 @@ pub fn pairprojectionfunctions() -> @kernel.Thm {
 /// UniversalPropertyProduct
 fn step_55() -> Unit raise {
   universalpropertyproduct_c.set(@readable.prove(
-    "\n  forall M A B alpha beta.  alpha IN M ---> A  /\\   beta IN M ---> B\n      ==>  ?!gamma.  gamma IN M ---> A prod B  /\\   Pi1 A B _o_ gamma = alpha  /\\   Pi2 A B _o_ gamma = beta",
+    "∀ M : (_) -> Bool, ∀ A : (_) -> Bool, ∀ B : (_) -> Bool, ∀ alpha : ((_) -> Bool, (_) -> _, (_) -> Bool), ∀ beta : ((_) -> Bool, (_) -> _, (_) -> Bool), IN(alpha, op_minus_minus_minus_gt(M, A)) && IN(beta, op_minus_minus_minus_gt(M, B)) → existsunique((gamma : (((_, _)) -> Bool, (_) -> (_, _), (_) -> Bool)) => IN(gamma, op_minus_minus_minus_gt(M, prod(A, B))) && _o_(Pi1(A, B), gamma) == alpha && _o_(Pi2(A, B), gamma) == beta)",
     @readable.steps(
       [
         @readable.intro_tac("forall M A B alpha beta, H1"),
         @readable.consider(
           "f g",
-          "f = FUN alpha /\\  g = FUN beta    ",
+          "∃ f : (_) -> _, ∃ g : (_) -> _, f == FUN(alpha) && g == FUN(beta)",
           "fgExist",
           @readable.by(@readable.fol, []),
         ),
         @readable.consider(
           "h",
-          "h = \\ x. (f x,g x)    ",
+          "∃ h : (_) -> (_, _), h == ((x : _) => (f(x), g(x)))",
           "hExists",
           @readable.by(@readable.fol, []),
         ),
         @readable.have(
-          "\n    forall x. x IN M  ==>  h x IN A prod B",
+          "∀ x : _, IN(x, M) → IN(h(x), prod(A, B))",
           "hProd",
           @readable.by(
             @readable.fol,
@@ -680,12 +680,12 @@ fn step_55() -> Unit raise {
         ),
         @readable.consider(
           "gamma",
-          "gamma = makeFunction (A prod B) h  M    ",
+          "∃ gamma : (((_, _)) -> Bool, (_) -> (_, _), (_) -> Bool), gamma == makeFunction(prod(A, B), h, M)",
           "gammaExists",
           @readable.by(@readable.fol, []),
         ),
         @readable.have(
-          "\n    gamma IN M ---> A prod B",
+          "IN(gamma, op_minus_minus_minus_gt(M, prod(A, B)))",
           "gammaFunSpace",
           @readable.by(
             @readable.fol,
@@ -700,7 +700,7 @@ fn step_55() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    forall x. x IN M  ==>  (FST o h) x = f x  /\\   (SND o h) x = g x",
+          "∀ x : _, IN(x, M) → o(FST, h, x) == f(x) && o(SND, h, x) == g(x)",
           "h_fg",
           @readable.by(
             @readable.simplify,
@@ -712,7 +712,7 @@ fn step_55() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Pi1 A B _o_ gamma = makeFunction A (FST o h) M  /\\ \n    Pi2 A B _o_ gamma = makeFunction B (SND o h) M",
+          "_o_(Pi1(A, B), gamma) == makeFunction(A, o(FST, h), M) && _o_(Pi2(A, B), gamma) == makeFunction(B, o(SND, h), M)",
           "",
           @readable.by(
             @readable.fol,
@@ -726,7 +726,7 @@ fn step_55() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n    Pi1 A B _o_ gamma = alpha  /\\   Pi2 A B _o_ gamma = beta",
+          "_o_(Pi1(A, B), gamma) == alpha && _o_(Pi2(A, B), gamma) == beta",
           "gammaWorks",
           @readable.by(
             @readable.fol,
@@ -744,19 +744,19 @@ fn step_55() -> Unit raise {
           ),
         ),
         @readable.have(
-          "\n   forall theta.  theta IN M ---> A prod B  /\\   Pi1 A B _o_ theta = alpha  /\\   Pi2 A B _o_ theta = beta  ==> theta = gamma",
+          "∀ theta : (((_, _)) -> Bool, (_) -> (_, _), (_) -> Bool), IN(theta, op_minus_minus_minus_gt(M, prod(A, B))) && _o_(Pi1(A, B), theta) == alpha && _o_(Pi2(A, B), theta) == beta → theta == gamma",
           "",
           @readable.steps(
             [
               @readable.intro_tac("forall theta, thetaWorks"),
               @readable.consider(
                 "k",
-                "k = FUN theta    ",
+                "∃ k : (_) -> (_, _), k == FUN(theta)",
                 "kExists",
                 @readable.by(@readable.fol, []),
               ),
               @readable.have(
-                "\n      theta = makeFunction (A prod B) k M",
+                "theta == makeFunction(prod(A, B), k, M)",
                 "thetaFUNk",
                 @readable.by(
                   @readable.fol,
@@ -771,7 +771,7 @@ fn step_55() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      alpha = makeFunction A (FST o k) M  /\\   beta = makeFunction B (SND o k) M",
+                "alpha == makeFunction(A, o(FST, k), M) && beta == makeFunction(B, o(SND, k), M)",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -788,14 +788,14 @@ fn step_55() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      forall x. x IN M  ==>  f x = (FST o k) x /\\  g x = (SND o k) x",
+                "∀ x : _, IN(x, M) → f(x) == o(FST, k, x) && g(x) == o(SND, k, x)",
                 "fg_k",
                 @readable.by(
                   @readable.fol,
                   [
                     @readable.TermsRule(
                       tms => th => @bool.ispecl(tms, th),
-                      ["alpha", " f", " A", " (FST o k)", " M"],
+                      ["alpha", "f", "A", "o(FST, k)", "M"],
                       @readable.Thm(
                         "makeFunctionyieldsFUN",
                         () => makefunctionyieldsfun(),
@@ -803,7 +803,7 @@ fn step_55() -> Unit raise {
                     ),
                     @readable.TermsRule(
                       tms => th => @bool.ispecl(tms, th),
-                      ["beta", " g", " B", " (SND o k)", " M"],
+                      ["beta", "g", "B", "o(SND, k)", "M"],
                       @readable.Thm(
                         "makeFunctionyieldsFUN",
                         () => makefunctionyieldsfun(),
@@ -815,7 +815,7 @@ fn step_55() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      forall x. x IN M ==> k x = ((FST o k) x, (SND o k) x)",
+                "∀ x : _, IN(x, M) → k(x) == (o(FST, k, x), o(SND, k, x))",
                 "",
                 @readable.by(
                   @readable.fol,
@@ -826,7 +826,7 @@ fn step_55() -> Unit raise {
                 ),
               ),
               @readable.have(
-                "\n      forall x. x IN M ==> k x = (f x, g x)",
+                "∀ x : _, IN(x, M) → k(x) == (f(x), g(x))",
                 "",
                 @readable.by(
                   @readable.fol,
