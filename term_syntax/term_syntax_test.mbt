@@ -170,6 +170,20 @@ test "print_term_in_context leaves the context's variables untyped" {
   )
   let f = @term_syntax.parse_term_in_context(env, "∀ m : Num, m == n")
   inspect(@term_syntax.print_term_in_context(env, f), content="∀ m : Num, m == n")
+  // a binder that would capture the context's variable is renamed, which
+  // an exact spelling does not allow
+  let x_num = @kernel.mk_var("x", @kernel.mk_type("num", @list.List([])))
+  let shadow = @kernel.mk_abs(x_num, @kernel.mk_var("x", @kernel.bool_ty))
+  inspect(
+    @term_syntax.print_term_in_context(env, shadow),
+    content="(x' : Num) => x",
+  )
+  inspect(
+    try @term_syntax.print_term_in_context(env, shadow, exact=true) catch {
+      Unprintable(m) => m
+    },
+    content="term whose bound variables would be renamed",
+  )
 }
 
 ///|

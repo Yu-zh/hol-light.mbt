@@ -1200,7 +1200,20 @@ pub fn print_term_in_context(
   t : @kernel.Term,
   exact? : Bool = false,
 ) -> String raise Unprintable {
-  print_term_with(t, sets=true, exact~, context=env)
+  let s = print_term_with(t, sets=true, exact~, context=env)
+  // the printed reading is t up to bound variable names: exactly t, but
+  // for the names of invented type variables
+  if exact {
+    let read = @parser.with_pgen_counter_restored(() => {
+      parse_term_in_context(env, s)
+    }) catch {
+      _ => raise Unprintable("term that does not read back")
+    }
+    if canonical_invented(read) != canonical_invented(t) {
+      raise Unprintable("term whose bound variables would be renamed")
+    }
+  }
+  s
 }
 
 ///|
