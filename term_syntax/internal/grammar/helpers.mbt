@@ -310,7 +310,7 @@ fn finite_type(n : String) -> @preterm.Pretype {
     }
   }
 
-  let n = BigInt::from_string(n)
+  let n = try! @string.parse_bigint(n)
   if n < 1 {
     reject("no type has \{n} elements")
     return @preterm.Ptycon("1", @list.List([]))

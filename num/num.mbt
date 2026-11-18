@@ -145,7 +145,7 @@ pub fn num_of_decimal(s : String) -> Num raise {
   if !ok {
     raise Failure("num_of_string")
   }
-  of_big(@bigint.BigInt::from_string(s))
+  of_big(try! @string.parse_bigint(s))
 }
 
 ///|

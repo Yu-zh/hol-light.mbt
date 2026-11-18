@@ -18,14 +18,14 @@ on:
 
 jobs:
   core:
-    name: core tier (wasm, wasm-gc)
+    name: core tier (${{ matrix.moonbit }}, wasm, wasm-gc)
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
     strategy:
       fail-fast: false
       matrix:
-        moonbit: [pre-release]
+        moonbit: [latest, pre-release]
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v7
@@ -34,9 +34,9 @@ jobs:
         env:
           # the toolchain the committed code is built and tested with
           # (`moonc -v`); update it together with the code
-          MOONBIT_INSTALL_VERSION: pre-release
+          MOONBIT_INSTALL_VERSION: ${{ matrix.moonbit }}
         run: |
-          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s -- pre-release
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s -- "${{ matrix.moonbit }}"
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
 
       - name: Toolchain

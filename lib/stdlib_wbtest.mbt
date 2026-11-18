@@ -153,7 +153,7 @@ test "num hashes like OCaml" {
 ///|
 /// gp's factorint output (values from PARI/GP 2.x).
 test "gp factorint emulation" {
-  let f = (s : String) => gp_factorint(@bigint.BigInt::from_string(s))
+  let f = (s : String) => gp_factorint(try! @string.parse_bigint(s))
   inspect(f("12000000084"), content="[2, 2; 3, 1; 1000000007, 1]")
   inspect(f("65535"), content="[3, 1; 5, 1; 17, 1; 257, 1]")
   inspect(f("2"), content="Mat([2, 1])")

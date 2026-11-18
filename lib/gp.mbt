@@ -212,7 +212,7 @@ fn gp_factorint_command(cmd : String) -> (@bigint.BigInt, String)? {
     Some(j) => file[:j].to_owned()
     None => file
   }
-  Some((@bigint.BigInt::from_string(digits.to_string()), file))
+  Some((try! @string.parse_bigint(digits.to_string()), file))
 }
 
 ///|

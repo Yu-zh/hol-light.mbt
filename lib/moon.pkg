@@ -1,4 +1,5 @@
 import {
+  "moonbitlang/core/string",
   "bobzhang/hol_light/kernel",
   "bobzhang/hol_light/num",
   "moonbitlang/core/list",

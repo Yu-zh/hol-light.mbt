@@ -9,10 +9,10 @@ test "Hashtbl.hash on big_int" {
       "0", "1", "-1", "12345", "4294967296", "-4294967297", "123456789012345678901234567890",
       "-340282366920938463463374607431768211456",
     ] {
-    out.write_string("\{s} \{@lib.hash(@bigint.BigInt::from_string(s))}\n")
+    out.write_string("\{s} \{@lib.hash(try! @string.parse_bigint(s))}\n")
   }
   out.write_string(
-    "pair \{@lib.hash((true, @bigint.BigInt::from_string("12345"), 7L))}\n",
+    "pair \{@lib.hash((true, try! @string.parse_bigint("12345"), 7L))}\n",
   )
   inspect(
     out.to_string(),
@@ -38,7 +38,7 @@ test "compare on big_int of different signs" {
   inspect(@lib.compare(b(0), b(1)), content="-1")
   inspect(
     @lib.compare(
-      @bigint.BigInt::from_string("123456789012345678901234567890"),
+      try! @string.parse_bigint("123456789012345678901234567890"),
       b(-1),
     ),
     content="1",

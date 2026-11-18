@@ -61,7 +61,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        moonbit: [pre-release]
+        moonbit: [latest, pre-release]
         shard: ${{ fromJSON(needs.plan.outputs.shards) }}
 
     steps:
@@ -71,9 +71,9 @@ jobs:
       - name: Install MoonBit
         env:
           # as .github/workflows/ci.yml
-          MOONBIT_INSTALL_VERSION: pre-release
+          MOONBIT_INSTALL_VERSION: ${{ matrix.moonbit }}
         run: |
-          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s -- pre-release
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s -- "${{ matrix.moonbit }}"
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
 
       - name: More swap
