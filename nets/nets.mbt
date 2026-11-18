@@ -303,11 +303,11 @@ fn[A] merge_nets_by(cmp : (A, A) -> Int32?, n1 : Net[A], n2 : Net[A]) -> Net[A] 
   }
   {
     vnet,
-    cnets: n1.cnets.union_with(n2.cnets, (_, a, b) => merge_nets_by(cmp, a, b)),
-    lcnets: n1.lcnets.union_with(n2.lcnets, (_, a, b) => {
+    cnets: n1.cnets.merge_with(n2.cnets, (_, a, b) => merge_nets_by(cmp, a, b)),
+    lcnets: n1.lcnets.merge_with(n2.lcnets, (_, a, b) => {
       merge_nets_by(cmp, a, b)
     }),
-    lnets: n1.lnets.union_with(n2.lnets, (_, a, b) => merge_nets_by(cmp, a, b)),
+    lnets: n1.lnets.merge_with(n2.lnets, (_, a, b) => merge_nets_by(cmp, a, b)),
     tips: set_merge(cmp, n1.tips, n2.tips),
   }
 }
