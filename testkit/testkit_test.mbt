@@ -5,13 +5,9 @@ test "check_axioms rejects an axiom that is not upstream's" {
   let p = @kernel.mk_var("p", @kernel.bool_ty)
   let _ = @kernel.new_axiom(p)
   try @testkit.check_axioms() catch {
-    e =>
-      inspect(
-        e,
-        content=(
-          #|Failure(check_axioms: unexpected axiom |- p:bool)
-        ),
-      )
+    Failure(message) =>
+      assert_eq(message, "check_axioms: unexpected axiom |- p:bool")
+    e => raise e
   } noraise {
     _ => fail("an unknown axiom was accepted")
   }
