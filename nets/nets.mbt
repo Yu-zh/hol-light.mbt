@@ -76,9 +76,9 @@ priv enum Label {
 pub fn[A] empty_net() -> Net[A] {
   {
     vnet: None,
-    cnets: @hashmap.HashMap::new(),
-    lcnets: @hashmap.HashMap::new(),
-    lnets: @hashmap.HashMap::new(),
+    cnets: @hashmap.HashMap::empty(),
+    lcnets: @hashmap.HashMap::empty(),
+    lnets: @hashmap.HashMap::empty(),
     tips: @list.List([]),
   }
 }
@@ -162,15 +162,15 @@ fn[A] net_update(
         }
         Cnet(s, n) => {
           let child0 = net.cnets.get((s, n)).unwrap_or(empty_net())
-          { ..net, cnets: net.cnets.add((s, n), upd(child0)), }
+          { ..net, cnets: net.cnets.insert((s, n), upd(child0)), }
         }
         Lcnet(s, n) => {
           let child0 = net.lcnets.get((s, n)).unwrap_or(empty_net())
-          { ..net, lcnets: net.lcnets.add((s, n), upd(child0)), }
+          { ..net, lcnets: net.lcnets.insert((s, n), upd(child0)), }
         }
         Lnet(n) => {
           let child0 = net.lnets.get(n).unwrap_or(empty_net())
-          { ..net, lnets: net.lnets.add(n, upd(child0)), }
+          { ..net, lnets: net.lnets.insert(n, upd(child0)), }
         }
       }
     }
